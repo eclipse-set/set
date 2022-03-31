@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.set.feature.validation.service.ValidationAnnotationContextFunction">
+   <property name="service.context.key" type="String" value="org.eclipse.set.core.services.validation.ValidationAnnotationService"/>
+   <service>
+      <provide interface="org.eclipse.e4.core.contexts.IContextFunction"/>
+   </service>
+   <implementation class="org.eclipse.set.feature.validation.service.ValidationAnnotationContextFunction"/>
+</scr:component>

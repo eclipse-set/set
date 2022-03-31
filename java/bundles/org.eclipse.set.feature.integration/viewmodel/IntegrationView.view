@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.eclipse.emf.ecp.view.model:View xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.emf.ecp.view.custom.model="http://org/eclipse/emf/ecp/view/custom/model" xmlns:org.eclipse.emf.ecp.view.group.model="http://org/eclipse/emf/ecp/view/group/model" xmlns:org.eclipse.emf.ecp.view.horizontal.model="http://org/eclipse/emf/ecp/view/horizontal/model" xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmlns:org.eclipse.emf.ecp.view.table.model="http://org/eclipse/emf/ecp/view/table/model/150" xmlns:org.eclipse.emf.ecp.view.vertical.model="http://org/eclipse/emf/ecp/view/vertical/model" xmlns:org.eclipse.emfforms.view.annotation.model="http://org/eclipse/emf/emfforms/view/annotation/model" xmi:id="_W3FocH6mEei91txhGY_0CQ" name="IntegrationView">
+  <rootEClass href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//IntegrationView"/>
+  <ecorePaths>/org.eclipse.set.model.integrationview/model/integrationview.ecore</ecorePaths>
+  <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_pGgmsKBaEeigWdsipKCqVA">
+    <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_lurI0O4lEeiNf5uSgZLEUw">
+      <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_oM43sO4lEeiNf5uSgZLEUw" key="ScrollGroupRenderer" value="true"/>
+      <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_AukCEIAaEei9OeHCDjx0qQ">
+        <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_bZG1QIAeEei9OeHCDjx0qQ">
+          <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_lmej0JrbEeinbo3ezJh4PA">
+            <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_7ZbkAH6mEei91txhGY_0CQ" name="%viewmodel.merge.usedfiles">
+              <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_psW0EJrbEeinbo3ezJh4PA">
+                <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_W3YjYH6mEei91txhGY_0CQ" name="Control primaryPlanning" readonly="true">
+                  <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_W3YjYX6mEei91txhGY_0CQ">
+                    <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//IntegrationView/primaryPlanning"/>
+                  </domainModelReference>
+                </children>
+                <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_W3YjYn6mEei91txhGY_0CQ" name="Control secondaryPlanning" readonly="true">
+                  <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_iwaqIIBXEeiZjf3IEXE2_g" key="TextWithButtonControlSWTRenderer" value="true"/>
+                  <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_sKg-EID8EeigAsquEqVRKA" key="buttonActionKey" value="loadFileAction"/>
+                  <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_W3YjY36mEei91txhGY_0CQ">
+                    <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//IntegrationView/secondaryPlanning"/>
+                  </domainModelReference>
+                </children>
+                <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_MfZqkH9kEeiRHJqfptY2Uw" name="Control integrationDirectory" readonly="true">
+                  <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_Fm88MID9EeigAsquEqVRKA" key="TextWithButtonControlSWTRenderer" value="true"/>
+                  <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_F8YZoID9EeigAsquEqVRKA" key="buttonActionKey" value="loadDirectoryAction"/>
+                  <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_5G1BcH9lEeiRHJqfptY2Uw">
+                    <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//IntegrationView/integrationDirectory"/>
+                  </domainModelReference>
+                </children>
+                <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_W3YjZH6mEei91txhGY_0CQ" name="Control compositePlanning" readonly="true">
+                  <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_bqQhwJPJEeiZ7J_bHPbwlA" key="TextWithButtonControlSWTRenderer" value="true"/>
+                  <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_cBLM8JPJEeiZ7J_bHPbwlA" key="buttonActionKey" value="createMergeFileAction"/>
+                  <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_W3YjZX6mEei91txhGY_0CQ">
+                    <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//IntegrationView/compositePlanning"/>
+                  </domainModelReference>
+                </children>
+              </children>
+            </children>
+            <children xsi:type="org.eclipse.emf.ecp.view.table.model:TableControl" xmi:id="_xbO9EH7IEeifFKwlPvkRgw" name="objectQuantities" readonly="true" addRemoveDisabled="true">
+              <domainModelReference xsi:type="org.eclipse.emf.ecp.view.table.model:TableDomainModelReference" xmi:id="_6CtJMH7IEeifFKwlPvkRgw">
+                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_6CtJMX7IEeifFKwlPvkRgw">
+                  <domainModelEFeature xsi:type="ecore:EReference" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//IntegrationView/objectquantities"/>
+                </domainModelReference>
+              </domainModelReference>
+            </children>
+            <children xsi:type="org.eclipse.emf.ecp.view.table.model:TableControl" xmi:id="_TKNLUH-IEeit2t3CKbSoFg" name="conflicts" readonly="true" addRemoveDisabled="true" detailEditing="WithPanel">
+              <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_aOXm8JSXEeiUbNP1ijktIg" key="TableControlDetailCustomSWTRenderer" value="true"/>
+              <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_CIOpMJSeEeiUbNP1ijktIg" key="viewerConsumer" value="conflictsTableAction"/>
+              <domainModelReference xsi:type="org.eclipse.emf.ecp.view.table.model:TableDomainModelReference" xmi:id="_VEwMcH-IEeit2t3CKbSoFg">
+                <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_VEwMcX-IEeit2t3CKbSoFg">
+                  <domainModelEFeature xsi:type="ecore:EReference" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//IntegrationView/conflicts"/>
+                </domainModelReference>
+              </domainModelReference>
+            </children>
+          </children>
+        </children>
+      </children>
+    </children>
+    <children xsi:type="org.eclipse.emf.ecp.view.horizontal.model:HorizontalLayout" xmi:id="_m4isAJsEEeihEMvkpcLJWA">
+      <children xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomControl" xmi:id="_sbnPoJ-9Eei1RJV0rpY_KA" bundleName="org.eclipse.set.emfforms" className="org.eclipse.set.emfforms.controls.ButtonControl">
+        <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_6o7p8J-9Eei1RJV0rpY_KA" key="buttonActionKey" value="saveTemporaryIntegrationAction"/>
+        <domainModelReference xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomDomainModelReference" xmi:id="_5ZCvYJ-9Eei1RJV0rpY_KA" bundleName="org.eclipse.set.feature.integration" className="org.eclipse.set.feature.integration.ExitMergeModeReferences"/>
+      </children>
+      <children xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomControl" xmi:id="_iLFi8JP0EeiKv_H4Z05Aww" bundleName="org.eclipse.set.emfforms" className="org.eclipse.set.emfforms.controls.ButtonControl">
+        <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_2HNy0JP3EeiKv_H4Z05Aww" key="buttonActionKey" value="exitMergeModeAction"/>
+        <domainModelReference xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomDomainModelReference" xmi:id="_8R-MQJP0EeiKv_H4Z05Aww" bundleName="org.eclipse.set.feature.integration" className="org.eclipse.set.feature.integration.ExitMergeModeReferences"/>
+      </children>
+      <children xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomControl" xmi:id="_pWPdgJsEEeihEMvkpcLJWA" bundleName="org.eclipse.set.emfforms" className="org.eclipse.set.emfforms.controls.ButtonControl">
+        <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_Uw24cJsFEeihEMvkpcLJWA" key="buttonActionKey" value="deleteTemporaryIntegrationAction"/>
+        <domainModelReference xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomDomainModelReference" xmi:id="_Rmq0YJsFEeihEMvkpcLJWA" bundleName="org.eclipse.set.feature.integration" className="org.eclipse.set.feature.integration.ExitMergeModeReferences"/>
+      </children>
+    </children>
+  </children>
+</org.eclipse.emf.ecp.view.model:View>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Check Configuration 1.3//EN" "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+    This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+    Checkstyle-Configuration: Set
+    Description: none
+-->
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <module name="TreeWalker">
+    <module name="ImportControl">
+      <property name="file" value="releng/eclipse/import-control.xml"/>
+    </module>
+    <module name="IllegalType">
+      <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
+      <property name="illegalClassNames" value="org.eclipse.jface.dialogs.ErrorDialog,org.eclipse.jface.dialogs.MessageDialog,de.scheidtbachmann.planpro.common.ui.CommonDialogs"/>
+      <property name="memberModifiers" value="LITERAL_STATIC"/>
+    </module>
+    <module name="PackageName">
+      <property name="severity" value="warning"/>
+      <property name="format" value="^org\.eclipse\.set\.[a-z0-9]+(\.[a-z][a-z0-9]*)*$"/>
+    </module>
+  </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="releng/eclipse/suppressions.xml"/>
+  </module>
+  <module name="RegexpHeader">
+    <property name="headerFile" value="releng/eclipse/header.txt"/>
+    <property name="fileExtensions" value="java, xtend"/>
+  </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="\.printStackTrace\(\)"/>
+    <property name="message" value="Die Nutzung von e.printStackTrace() ist verboten. Ausnahmen sollten angemessen behandelt werden."/>
+    <property name="fileExtensions" value="java"/>
+  </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="\.printStackTrace"/>
+    <property name="message" value="Die Nutzung von e.printStackTrace() ist verboten. Ausnahmen sollten angemessen behandelt werden."/>
+    <property name="fileExtensions" value="xtend"/>
+  </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="serialVersionUID"/>
+    <property name="message" value="Die Definition von serialVersionUID ist unerwünscht."/>
+    <property name="fileExtensions" value="java, xtend"/>
+  </module>
+</module>

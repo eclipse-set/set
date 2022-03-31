@@ -1,0 +1,3821 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Table>
+	<Rows>
+		<Row group-number="30">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60A</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<StringContent />
+			</Cell>
+			<Cell column-number="3">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<StringContent />
+			</Cell>
+			<Cell column-number="6">
+				<StringContent />
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>197</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>233</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<StringContent />
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<StringContent />
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<StringContent />
+			</Cell>
+			<Cell column-number="18">
+				<StringContent />
+			</Cell>
+			<Cell column-number="19">
+				<StringContent />
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="29">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60AA</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<StringContent />
+			</Cell>
+			<Cell column-number="3">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<StringContent />
+			</Cell>
+			<Cell column-number="6">
+				<StringContent />
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>197</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>332</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<StringContent />
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<StringContent />
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<StringContent />
+			</Cell>
+			<Cell column-number="18">
+				<StringContent />
+			</Cell>
+			<Cell column-number="19">
+				<StringContent />
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="31">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60B</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<StringContent />
+			</Cell>
+			<Cell column-number="3">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W36</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W36</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<StringContent />
+			</Cell>
+			<Cell column-number="6">
+				<StringContent />
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>300</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>300</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<StringContent />
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​5.4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<StringContent />
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<StringContent />
+			</Cell>
+			<Cell column-number="18">
+				<StringContent />
+			</Cell>
+			<Cell column-number="19">
+				<StringContent />
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="32">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60F</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<StringContent />
+			</Cell>
+			<Cell column-number="3">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<StringContent />
+			</Cell>
+			<Cell column-number="6">
+				<StringContent />
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>280</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>399</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<StringContent />
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​4.0</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<StringContent />
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<StringContent />
+			</Cell>
+			<Cell column-number="18">
+				<StringContent />
+			</Cell>
+			<Cell column-number="19">
+				<StringContent />
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="33">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60FF</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<StringContent />
+			</Cell>
+			<Cell column-number="3">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G221/​60G321</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G221/​60G321</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<StringContent />
+			</Cell>
+			<Cell column-number="6">
+				<StringContent />
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>280</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>399</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<StringContent />
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​4.0</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<StringContent />
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<StringContent />
+			</Cell>
+			<Cell column-number="18">
+				<StringContent />
+			</Cell>
+			<Cell column-number="19">
+				<StringContent />
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="34">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<StringContent />
+			</Cell>
+			<Cell column-number="3">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L123X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L123X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<StringContent />
+			</Cell>
+			<Cell column-number="6">
+				<StringContent />
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>200</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>200</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<StringContent />
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.0</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<StringContent />
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<StringContent />
+			</Cell>
+			<Cell column-number="18">
+				<StringContent />
+			</Cell>
+			<Cell column-number="19">
+				<StringContent />
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="21">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L107Y</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60LW51X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60LW51X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>55</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>82</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​8C84EC1D-​DDFD-​4CD3-​B178-​DA022724AA1B</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​0.9</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W51</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​8C84EC1D-​DDFD-​4CD3-​B178-​DA022724AA1B</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G107</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>668</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>68</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="22">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L108Y</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60LW51X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60LW51X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>55</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>82</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​8B54A3EB-​3C85-​4E3C-​8138-​F4DD27C521B4
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​0.9</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W51</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​8B54A3EB-​3C85-​4E3C-​8138-​F4DD27C521B4
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G108</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>600</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>68</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="9">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L123X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>200</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​06FA1683-​4D6D-​43D1-​A340-​9409AB305488</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.0</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​06FA1683-​4D6D-​43D1-​A340-​9409AB305488</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<StringContent />
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G123</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>766</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>78</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="28">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60N21</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G221/​60G321</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60FF</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>103</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>411</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​DE3D5160-​722E-​4C85-​898B-​5F26EAA58DB3
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​0.3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​DE3D5160-​722E-​4C85-​898B-​5F26EAA58DB3
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G121</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>267</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="25">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60N22</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>103</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>412</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​04CE3108-​5923-​4123-​A0AC-​4C4DFB02DCDA
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​0.3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​04CE3108-​5923-​4123-​A0AC-​4C4DFB02DCDA
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G222</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>162</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="15">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Ra10</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>199</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>234</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​1A3A1363-​C492-​424C-​9EB1-​C7D85C4C83AA</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​1A3A1363-​C492-​424C-​9EB1-​C7D85C4C83AA</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G201</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>610</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>68</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="16">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>100</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>100</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​5A3E20B0-​6C2C-​4D7F-​83E3-​B4A31AB72159
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​5A3E20B0-​6C2C-​4D7F-​83E3-​B4A31AB72159
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G201</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>610</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>68</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="27">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60B114/​60G102/​60W2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60AA</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>200</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>266</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​6407EC64-​C52A-​449E-​AAC8-​61E4A8187451</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.0</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W2&#13;60W3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​6407EC64-​C52A-​449E-​AAC8-​61E4A8187451</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G302</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>561</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="17">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L211X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L211X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>200</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>288</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​66A39E3B-​82DE-​4528-​AD99-​F4A107F3030D
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.0</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W1&#13;60W2&#13;60W3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​66A39E3B-​82DE-​4528-​AD99-​F4A107F3030D
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G302</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>561</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="18">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>100</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>115</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​B9305A32-​0898-​42EC-​B65B-​8B9964469437
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.0</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​B9305A32-​0898-​42EC-​B65B-​8B9964469437
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G302</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>561</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="19">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>101</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>119</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​A7BC660D-​C2F8-​4908-​852B-​4A4200860A0C</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​0.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​A7BC660D-​C2F8-​4908-​852B-​4A4200860A0C</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G103</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>492</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="20">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>51</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>64</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​BFB42F58-​D132-​4775-​ADF0-​83D4E3DED7CE
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​0.2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W6</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​BFB42F58-​D132-​4775-​ADF0-​83D4E3DED7CE
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G104</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>405</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="24">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P13</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60LW3X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60LW3X</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>100</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>113</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​1C3548E8-​1AD4-​482F-​858C-​400A1837C74B
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W3&#13;60W4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​1C3548E8-​1AD4-​482F-​858C-​400A1837C74B
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G113</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="23">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60P13</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gleisabschluß ​60W4R</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gleisabschluß ​60W4R</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>68</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​F052C28A-​7DEA-​41EA-​8BE4-​325B507D4192
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>0.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​F052C28A-​7DEA-​41EA-​8BE4-​325B507D4192
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G113</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="1">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W33</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W33</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>226</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>228</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​56F90141-​66F0-​4705-​8541-​CA84CA03BE32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​56F90141-​66F0-​4705-​8541-​CA84CA03BE32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G201</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>610</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>68</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<DiffContent>
+					<OldValue />
+					<NewValue>*1, *2, *3</NewValue>
+				</DiffContent>
+			</Cell>
+		</Row>
+		<Row group-number="3">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU22</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU22</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>230</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>375</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​5CCA9CC2-​6058-​404A-​96CB-​9B7D7D25CB34</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W31&#13;60W32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​5CCA9CC2-​6058-​404A-​96CB-​9B7D7D25CB34</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G302</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>561</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="2">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU21</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU21</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>230</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>270</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​D8034DBE-​C3DB-​4B8A-​826B-​C8BDB891F1EB</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W31&#13;60W32&#13;60W33&#13;60W35</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​D8034DBE-​C3DB-​4B8A-​826B-​C8BDB891F1EB</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G302</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>561</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="4">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W31</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W31</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>64</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​E1D38102-​29C8-​4E66-​A355-​997A202D900B
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​E1D38102-​29C8-​4E66-​A355-​997A202D900B
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G302</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>561</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>58</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="5">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W34</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W34</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>115</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>163</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​FD34EAA6-​3418-​49FF-​AA60-​362BDCE6B58E</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W29&#13;60W30</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​FD34EAA6-​3418-​49FF-​AA60-​362BDCE6B58E</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G103</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>492</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="6">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>115</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>154</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​B22B61C3-​05A8-​48E5-​B80B-​F35E851C5DFF
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W29&#13;60W30&#13;60W31</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​B22B61C3-​05A8-​48E5-​B80B-​F35E851C5DFF
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G103</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>492</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="7">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L124Y</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60L124Y</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>57</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>92</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"" ​for ​leading ​object
+						​4DF8C90B-​2122-​4F2E-​808E-​560D72430F17</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W28AB&#13;60W28CD</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​NullPointerException: ​"contained ​object ​must
+						​not ​be ​null" ​for ​leading ​object
+						​4DF8C90B-​2122-​4F2E-​808E-​560D72430F17</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G104</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>405</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="8">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W30</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W30</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>40</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>57</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>103</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​92FDE982-​007E-​4A2B-​A242-​1FE0847DF712
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​1.4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W28AB&#13;60W28CD&#13;60W29</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​92FDE982-​007E-​4A2B-​A242-​1FE0847DF712
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G104</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>405</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>50</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="10">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU21</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>242</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>341</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​1A4644D0-​A061-​472D-​9DF6-​63292E29DDF7
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​2.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W33&#13;60W35</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​1A4644D0-​A061-​472D-​9DF6-​63292E29DDF7
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G121</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>267</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="11">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU21</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>242</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>270</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​72896247-​AFD6-​41A7-​BFC1-​EC94616FD1D9
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​2.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W31&#13;60W32&#13;60W33&#13;60W35</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​72896247-​AFD6-​41A7-​BFC1-​EC94616FD1D9
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G121</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>267</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="12">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU21</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZR3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D3</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>242</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>294</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​0B3A46E3-​75A0-​43E6-​8D68-​393A2F6D50F0
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​2.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W29&#13;60W30&#13;60W31&#13;60W32&#13;60W33&#13;60W35
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​0B3A46E3-​75A0-​43E6-​8D68-​393A2F6D50F0
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G121</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>267</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="26">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU21</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W28CD</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W28CD</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D4</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>242</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>268</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​5D5ABC9D-​1BA3-​4FD6-​AB41-​5BC934497F0D
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​2.1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W28AB&#13;60W29&#13;60W30&#13;60W31&#13;60W32&#13;60W33&#13;60W35
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​5D5ABC9D-​1BA3-​4FD6-​AB41-​5BC934497F0D
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G121</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>267</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="13">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU22</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W31</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>WA ​60W31</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D1</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>160</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>250</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>253</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​5103EA87-​7AAE-​41D8-​9405-​30E6F32F1916
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​2.5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60W32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​5103EA87-​7AAE-​41D8-​9405-​30E6F32F1916
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G222</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>162</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+		<Row group-number="14">
+			<Cell column-number="1">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60ZU22</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="2">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="3">
+				<StringContent />
+			</Cell>
+			<Cell column-number="4">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Gz ​60W32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="5">
+				<DiffContent>
+					<OldValue />
+					<NewValue>D2</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="6">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="7">
+				<DiffContent>
+					<OldValue />
+					<NewValue>125</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="8">
+				<DiffContent>
+					<OldValue />
+					<NewValue>195</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="9">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​AE8C0D51-​6965-​49AD-​95F2-​458F433B01B7
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="10">
+				<DiffContent>
+					<OldValue />
+					<NewValue>-​2.5</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="11">
+				<StringContent />
+			</Cell>
+			<Cell column-number="12">
+				<StringContent />
+			</Cell>
+			<Cell column-number="13">
+				<DiffContent>
+					<OldValue />
+					<NewValue>Error: ​ClassCastException:
+						​"de.scheidtbachmann.planpro.model.model190.Gleis.impl.Gleis_​AbschnittImpl
+						​cannot ​be ​cast ​to
+						​de.scheidtbachmann.planpro.model.model190.Ortung.FMA_​Anlage"
+						​for ​leading ​object ​AE8C0D51-​6965-​49AD-​95F2-​458F433B01B7
+					</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="14">
+				<DiffContent>
+					<OldValue />
+					<NewValue>o</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="15">
+				<StringContent />
+			</Cell>
+			<Cell column-number="16">
+				<StringContent />
+			</Cell>
+			<Cell column-number="17">
+				<DiffContent>
+					<OldValue />
+					<NewValue>60G222</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="18">
+				<DiffContent>
+					<OldValue />
+					<NewValue>162</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="19">
+				<DiffContent>
+					<OldValue />
+					<NewValue>32</NewValue>
+				</DiffContent>
+			</Cell>
+			<Cell column-number="20">
+				<StringContent />
+			</Cell>
+		</Row>
+	</Rows>
+	<Footnotes>
+		<Footnote footnote-number="1">Testvermerk 1</Footnote>
+		<Footnote footnote-number="2">Testvermerk 2</Footnote>
+		<Footnote footnote-number="3">Testvermerk 3</Footnote>
+	</Footnotes>
+	<TitleBox>
+		<Field address="1" />
+		<Field address="2" />
+		<Field address="3" />
+		<Field address="4">Geplant ​mit ​Werkzeugkoffer ​-​&#13;
+			Visualisiert ​mit ​Werkzeugkoffer ​-​</Field>
+		<Field address="5" />
+		<Field address="6" />
+		<Field address="7" />
+		<Field address="8" />
+		<Field address="9" />
+		<Field address="10" />
+		<Field address="11" />
+		<Field address="12" />
+		<Field address="13" />
+		<Field address="14" />
+		<Field address="15" />
+		<Field address="16" />
+		<Field address="17" />
+		<Field address="18">E</Field>
+		<Field address="19" />
+		<Field address="20" />
+		<Field address="21" />
+		<Field address="22" />
+		<Field address="23" />
+		<Field address="24" />
+		<Field address="25" />
+		<Field address="26" />
+		<Field address="27" />
+		<Field address="28" />
+		<Field address="29" />
+		<Field address="30" />
+		<Field address="31" />
+		<Field address="32" />
+		<Field address="33" />
+		<Field address="34" />
+		<Field address="35" />
+		<Field address="36" />
+		<Field address="37" />
+		<Field address="38" />
+		<Field address="39" />
+		<Field address="40" />
+		<Field address="41" />
+		<Field address="42" />
+		<Field address="43" />
+		<Field address="44" />
+		<Field address="45" />
+		<Field address="46" />
+		<Field address="47" />
+		<Field address="48">00.01</Field>
+		<Field address="49" />
+		<Field address="50" />
+		<Field address="51" />
+		<Field address="52" />
+		<Field address="53" />
+		<Field address="54" />
+		<Field address="55" />
+		<Field address="56">00</Field>
+		<Field address="57">00&#13;sonstige</Field>
+		<Field address="58">S</Field>
+		<Field address="59" />
+		<Field address="60" />
+		<Field address="61" />
+		<Field address="62">16.04.19</Field>
+		<Field address="63" />
+		<Field address="64" />
+		<Field address="65" />
+		<Field address="66" />
+		<Field address="67" />
+		<Field address="68" />
+		<Field address="69" />
+		<Field address="70">04/​19</Field>
+		<Field address="71" />
+		<Field address="72" />
+		<Field address="73" />
+		<Field address="74">BV_​_​_​.10/​20 ​Ssld</Field>
+		<Field address="75">Index</Field>
+		<Field address="76">Änderung</Field>
+		<Field address="77">Bear/​Dat</Field>
+		<Field address="78">Gepr/​Dat</Field>
+		<Field address="79">Abnah/​Dat</Field>
+		<Field address="80">Übern/​Dat</Field>
+		<Field address="81" />
+		<Field address="82">Erstellt</Field>
+		<Field address="83">16.04.2019</Field>
+		<Field address="84">Schaefer</Field>
+		<Field address="85">Durchrutschweg-​ ​und ​Gefahrpunkttabelle&#13;
+		</Field>
+		<Field address="86" />
+		<Field address="87">Geprüft</Field>
+		<Field address="88" />
+		<Field address="89" />
+		<Field address="90">Freigegeben</Field>
+		<Field address="91" />
+		<Field address="92" />
+		<Field address="93" />
+		<Field address="94">Datum</Field>
+		<Field address="95">Name</Field>
+		<Field address="96" />
+		<Field address="97" />
+		<Field address="98" />
+		<Field address="99">00.01</Field>
+		<Field address="100" />
+	</TitleBox>
+	<Freefield>
+		<SignificantInformation>BV_00_01_00.ppxml 16.04.2019 11:30:52
+		</SignificantInformation>
+	</Freefield>
+</Table>

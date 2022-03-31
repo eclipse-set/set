@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.eclipse.set</groupId>
+	<artifactId>org.eclipse.set.i18n.nl_de.feature</artifactId>
+	<version>1.0.323-SNAPSHOT</version>
+	<packaging>eclipse-feature</packaging>
+
+	<parent>
+		<relativePath>../org.eclipse.set.releng.parent</relativePath>
+		<groupId>org.eclipse.set</groupId>
+		<artifactId>org.eclipse.set.releng.parent</artifactId>
+		<version>0.30.0.1</version>
+	</parent>
+
+
+	<build>
+		<plugins>
+
+			<!-- This plugin-configuration ensures the filtering of all files in "rootdir_to_be_filtered" 
+				to the output directory "rootdir_filtered" for example to enable version 
+				numbers in readme files -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/rootdir_filtered</outputDirectory>
+							<resources>
+								<resource>
+									<directory>rootdir_to_be_filtered</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- clean the filtered output folder because contents get deprecated 
+				each build -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>rootdir_filtered</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

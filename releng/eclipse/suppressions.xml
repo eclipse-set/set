@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suppressions PUBLIC
+  "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+  "suppressions_1_2.dtd">
+<suppressions>
+	<suppress checks="ImportControl" files="NewProjectHandler.java" />
+	<suppress checks="IllegalType" files="DialogServiceImpl.java" />
+	<suppress checks="ImportControl|PackageName|RegexpHeader|RegexpSingleline" files=".*[\\/]org[\\/]geotools[\\/]swt[\\/].*"/>	
+	<suppress checks="ImportControl|PackageName|RegexpHeader|RegexpSingleline" files=".*[\\/]org[\\/]jdesktop[\\/]swtworker[\\/].*"/>	
+</suppressions>

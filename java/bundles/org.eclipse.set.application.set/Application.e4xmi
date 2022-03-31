@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_D9x1kB5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ide.application" bindingContexts="_D9x1mR5jEeW1jPyxhgRGUg">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_D9x1kR5jEeW1jPyxhgRGUg" elementId="planpro.mainwindow" selectedElement="_D9x1sB5jEeW1jPyxhgRGUg" label="%trimmedwindow.title" iconURI="">
+    <persistedState/>
+    <children xsi:type="advanced:PerspectiveStack" xmi:id="_D9x1sB5jEeW1jPyxhgRGUg">
+      <children xsi:type="advanced:Perspective" xmi:id="_D9x1sR5jEeW1jPyxhgRGUg">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_D9x1sh5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.document.partsashcontainer" horizontal="true">
+          <children xsi:type="basic:PartStack" xmi:id="_YhAg0IWJEeuLqbE6aUm8jA" elementId="org.eclipse.set.application.set.partstack.actions" containerData="28" selectedElement="_O_ls0ED3EeWFs8tMi0g-ww">
+            <children xsi:type="basic:Part" xmi:id="_O_ls0ED3EeWFs8tMi0g-ww" elementId="org.eclipse.set.application.part.actions" containerData="" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.parts.DocumentActionsPart" label="%org.eclipse.set.application.part.actions.label" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_view_sidebar_black_24dp.png"/>
+          </children>
+          <children xsi:type="basic:Part" xmi:id="_VFLSYFbtEeWyiOzgMwe9aw" elementId="org.eclipse.set.application.part.nosessionpart" containerData="72" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.parts.NoSessionPart" label="Kein Dokument geladen"/>
+        </children>
+      </children>
+    </children>
+    <mainMenu xmi:id="_D9x1qR5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu">
+      <children xsi:type="menu:Menu" xmi:id="_D9x1qh5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu.file" label="%menu.label.file">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1qx5jEeW1jPyxhgRGUg" elementId="item:org.eclipse.set.planpro.menu.file.openproject" label="%menu.label.file.open" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_R4SaoMB4EeaWZ76dmA8Scw" elementId="item:org.eclipse.set.planpro.menu.file.newproject" label="%menu.label.file.newproject" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_create_black_18dp_1x.png" command="_oWU2QMEuEea6HfDE-VF0AQ"/>
+        <children xsi:type="menu:Menu" xmi:id="_gV-b8Bq8Eee8665UL49_kA" elementId="org.eclipse.set.planpro.application.menu.testmenu" label="%menu.label.file.exampleproject" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_lightbulb_outline_black_18dp_1x.png">
+          <children xsi:type="menu:DynamicMenuContribution" xmi:id="_u-8UoBq1Eee8665UL49_kA" elementId="org.eclipse.set.planpro.application.dynamicmenucontribution.0" label="TestContribution" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.LoadExampleContribution"/>
+        </children>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Y2PVIMCBEeaWZ76dmA8Scw" elementId="org.eclipse.set.application.menu.save" label="%menu.label.file.save" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_save_black_18dp.png" command="_D9x1ox5jEeW1jPyxhgRGUg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_J6mwUCiOEemmpqOXtBHImg" elementId="org.eclipse.set.application.menu.revert" label="%menu.label.file.revert" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_undo_black_18dp.png" command="_jy488CiOEemmpqOXtBHImg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_EbsT8IYvEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.handledmenuitem.restoreactionarea" label="%menu.label.file.restoreactionarea" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_view_sidebar_black_18dp.png" command="_HBip8IYxEeuNU-GyWYwVKw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_1EE20FYPEeWj9J5PLz_yfw" label="%menu.label.file.close" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_close_black_18dp_1x.png" command="_k_djsFYPEeWj9J5PLz_yfw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1rR5jEeW1jPyxhgRGUg" label="%menu.label.file.quit" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_exit_to_app_black_18dp_1x.png" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
+      </children>
+      <children xsi:type="menu:Menu" xmi:id="_D9x1rh5jEeW1jPyxhgRGUg" label="%menu.label.help">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_6mUoYBJcEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handledmenuitem.help.news" label="%menu.label.help.toolboxnews" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png" command="_cHSywBJfEem7h5-_uEYOFw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1rx5jEeW1jPyxhgRGUg" label="%menu.label.help.about" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_info_outline_black_24dp_1x.png" command="_D9x1ph5jEeW1jPyxhgRGUg"/>
+      </children>
+    </mainMenu>
+    <trimBars xmi:id="_D9x1tR5jEeW1jPyxhgRGUg">
+      <children xsi:type="menu:ToolBar" xmi:id="_D9x1th5jEeW1jPyxhgRGUg" elementId="toolbar:org.eclipse.ui.main.toolbar">
+        <tags>NoMove</tags>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_D9x1tx5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.planpro.toolbar.item.openPlanpro" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_24dp_1x.png" tooltip="%toolbar.file.open.tooltip" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_1H4GAClCEemkzbGe08D9Gw" elementId="org.eclipse.set.toolbar.item.save" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_save_black_24dp.png" tooltip="%toolbar.file.save.tooltip" command="_D9x1ox5jEeW1jPyxhgRGUg"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_ZtRwUIYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.handledtoolitem.restoreactionarea" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_view_sidebar_black_24dp.png" tooltip="%toolbar.file.save.restoreactionarea" command="_HBip8IYxEeuNU-GyWYwVKw"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_1jGpcClCEemkzbGe08D9Gw" elementId="org.eclipse.set.toolbar.item.revert" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_undo_black_24dp.png" tooltip="%toolbar.file.revert.tooltip" command="_jy488CiOEemmpqOXtBHImg"/>
+      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_2Zwu4JUHEeaIWMhdmiTbdQ" elementId="org.eclipse.set.application.toolcontrol.0" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.toolcontrol.ToolbarSpacerControl">
+        <tags>stretch</tags>
+      </children>
+      <children xsi:type="menu:ToolBar" xmi:id="_0pAi8JUHEeaIWMhdmiTbdQ" elementId="org.eclipse.set.application.toolbar.right">
+        <tags>NoMove</tags>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_tTtUgCVwEemX_vEX0JOa1A" elementId="org.eclipse.set.application.handledtoolitem.0" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png" tooltip="%toolbar.view.news" command="_cHSywBJfEem7h5-_uEYOFw"/>
+      </children>
+    </trimBars>
+  </children>
+  <handlers xmi:id="_D9x1nR5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.handler.quitCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.QuitHandler" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
+  <handlers xmi:id="_D9x1oR5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.handler.openPlanproCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.OpenPlanProHandler" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
+  <handlers xmi:id="_D9x1pB5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.handler.saveCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.SaveHandler" command="_D9x1ox5jEeW1jPyxhgRGUg"/>
+  <handlers xmi:id="_D9x1px5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.handler.aboutCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.AboutHandler" command="_D9x1ph5jEeW1jPyxhgRGUg"/>
+  <handlers xmi:id="_g4oRMFYPEeWj9J5PLz_yfw" elementId="org.eclipse.set.application.handler.closeSessionCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.CloseHandler" command="_k_djsFYPEeWj9J5PLz_yfw"/>
+  <handlers xmi:id="__qlzgJUnEeaxG6q_hAfBDQ" elementId="org.eclipse.set.application.handler.details" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.DetailsHandler" command="_xcZPcJUnEeaxG6q_hAfBDQ"/>
+  <handlers xmi:id="_J7u3oMHUEea6HfDE-VF0AQ" elementId="org.eclipse.set.application.handler.newProjectCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.NewProjectHandler" command="_oWU2QMEuEea6HfDE-VF0AQ"/>
+  <handlers xmi:id="_PrAmUBJhEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handler.toolboxnews" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.ToolboxNews" command="_cHSywBJfEem7h5-_uEYOFw"/>
+  <handlers xmi:id="_ot2bECiOEemmpqOXtBHImg" elementId="org.eclipse.set.application.handler.revert" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.RevertHandler" command="_jy488CiOEemmpqOXtBHImg"/>
+  <handlers xmi:id="_tJU5UIYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.handler.restoreactionarea" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.RestoreActionAreaHandler" command="_HBip8IYxEeuNU-GyWYwVKw"/>
+  <bindingTables xmi:id="_D9x1nh5jEeW1jPyxhgRGUg" bindingContext="_D9x1mR5jEeW1jPyxhgRGUg">
+    <bindings xmi:id="_D9x1nx5jEeW1jPyxhgRGUg" keySequence="M1+Q" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
+    <bindings xmi:id="_D9x1oh5jEeW1jPyxhgRGUg" keySequence="M1+O" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
+    <bindings xmi:id="_D9x1pR5jEeW1jPyxhgRGUg" keySequence="M1+S" command="_D9x1ox5jEeW1jPyxhgRGUg"/>
+    <bindings xmi:id="_D9x1qB5jEeW1jPyxhgRGUg" keySequence="M1+A" command="_D9x1ph5jEeW1jPyxhgRGUg"/>
+  </bindingTables>
+  <rootContext xmi:id="_D9x1mR5jEeW1jPyxhgRGUg" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
+    <children xmi:id="_D9x1mh5jEeW1jPyxhgRGUg" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
+    <children xmi:id="_D9x1mx5jEeW1jPyxhgRGUg" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
+  </rootContext>
+  <commands xmi:id="_D9x1nB5jEeW1jPyxhgRGUg" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
+  <commands xmi:id="_oWU2QMEuEea6HfDE-VF0AQ" elementId="org.eclipse.set.application.newproject" commandName="newProjectCommand"/>
+  <commands xmi:id="_D9x1oB5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.openPlanpro" commandName="openPlanproCommand"/>
+  <commands xmi:id="_D9x1ox5jEeW1jPyxhgRGUg" elementId="org.eclipse.ui.file.save" commandName="saveCommand"/>
+  <commands xmi:id="_k_djsFYPEeWj9J5PLz_yfw" elementId="org.eclipse.set.application.closeSession" commandName="closeSessionCommand"/>
+  <commands xmi:id="_D9x1ph5jEeW1jPyxhgRGUg" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
+  <commands xmi:id="_xcZPcJUnEeaxG6q_hAfBDQ" elementId="org.eclipse.set.application.command.details" commandName="%toolbar.details"/>
+  <commands xmi:id="_cHSywBJfEem7h5-_uEYOFw" elementId="org.eclipse.set.application.command.toolboxnews" commandName="Toolboxnews"/>
+  <commands xmi:id="_jy488CiOEemmpqOXtBHImg" elementId="org.eclipse.set.application.command.revert" commandName="Revert"/>
+  <commands xmi:id="_HBip8IYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.command.restoreactionarea" commandName="RestoreActionArea"/>
+  <addons xmi:id="_D9x1kh5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
+  <addons xmi:id="_D9x1kx5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
+  <addons xmi:id="_D9x1lB5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
+  <addons xmi:id="_D9x1lR5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.workbench.commands.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.CommandProcessingAddon"/>
+  <addons xmi:id="_D9x1lh5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
+  <addons xmi:id="_D9x1lx5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
+  <addons xmi:id="_D9x1mB5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+  <addons xmi:id="_ek3ecJzrEeadnJ99v2sZSg" elementId="org.eclipse.set.application.addon.closewindow" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.WindowCloseAddon"/>
+  <addons xmi:id="_UJbCsKpyEeavLOHBdudxmg" elementId="org.eclipse.set.application.addon.toolboxlog" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.ToolboxLogAddon"/>
+  <addons xmi:id="_CnQawIdSEemabpnghX93Xg" elementId="org.eclipse.set.application.addons.SystemInfoAddon" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.SystemInfoAddon"/>
+  <addons xmi:id="_WC1yYG3QEeqdgIhQWrDmdw" elementId="org.eclipse.set.application.addon.osgiwithapplication" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.OsgiWithApplicationAddon"/>
+  <addons xmi:id="_rIUKEK8qEey6T-ivCLAWAQ" elementId="org.eclipse.set.application.set.addon.GuidToObjectCacheAddon" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.GuidToObjectCacheAddon"/>
+</application:Application>

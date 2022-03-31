@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="format" nsURI="tag:scheidt-bachmann-st.de,2017-10-18:planpro/tf"
+    nsPrefix="tf">
+  <eClassifiers xsi:type="ecore:EClass" name="CellFormat" eSuperTypes="tablemodel.ecore#//CellAnnotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="textAlignment" lowerBound="1"
+        eType="#//TextAlignment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TextAlignment">
+    <eLiterals name="CENTER" literal="center"/>
+    <eLiterals name="LEFT" value="1" literal="left"/>
+    <eLiterals name="RIGHT" value="2" literal="right"/>
+  </eClassifiers>
+</ecore:EPackage>

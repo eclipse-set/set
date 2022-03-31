@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.eclipse.emf.ecp.view.model:View xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.emf.ecp.view.label.model="http://org/eclipse/emf/ecp/view/label/model" xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmlns:org.eclipse.emf.ecp.view.table.model="http://org/eclipse/emf/ecp/view/table/model/150" xmlns:org.eclipse.emf.ecp.view.vertical.model="http://org/eclipse/emf/ecp/view/vertical/model" xmlns:org.eclipse.emfforms.view.annotation.model="http://org/eclipse/emf/emfforms/view/annotation/model" xmi:id="_ymAzAIAZEei9OeHCDjx0qQ" name="Conflict">
+  <rootEClass href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//Conflict"/>
+  <ecorePaths>/org.eclipse.set.model.integrationview/model/integrationview.ecore</ecorePaths>
+  <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_Mr9goMunEeiGieuSTMJf2A">
+    <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_N0a9gMunEeiGieuSTMJf2A" name="%viewmodel.conflict.header" style="H4"/>
+    <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_HxS8MLZYEeiVCaSH8mvl0w" name="ConflictId" readonly="true">
+      <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_KgrTkLZYEeiVCaSH8mvl0w">
+        <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//Conflict/id"/>
+      </domainModelReference>
+    </children>
+    <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_K1WjELZYEeiVCaSH8mvl0w" name="ConflictName" readonly="true">
+      <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_MQFbsLZYEeiVCaSH8mvl0w">
+        <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//Conflict/name"/>
+      </domainModelReference>
+    </children>
+    <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_N9BZ8N6tEeihRdFljPyAjg" name="%viewmodel.conflict.comment"/>
+    <children xsi:type="org.eclipse.emf.ecp.view.table.model:TableControl" xmi:id="_eCotYIBMEeiZjf3IEXE2_g" name="details" labelAlignment="None" addRemoveDisabled="true">
+      <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_BRT70LZqEeiVCaSH8mvl0w" key="TableControlCustomSWTRenderer" value="true"/>
+      <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_E9aaILZqEeiVCaSH8mvl0w" key="viewerConsumer" value="showAttachmentAction"/>
+      <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_H7DgAN53EeiZfZqSmaddfw" key="properties" value="hideHeading"/>
+      <domainModelReference xsi:type="org.eclipse.emf.ecp.view.table.model:TableDomainModelReference" xmi:id="_iUb5wIBMEeiZjf3IEXE2_g">
+        <columnDomainModelReferences xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_YCilIM1ZEeiJm_iV4X6ndQ">
+          <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//Details/attributePath"/>
+        </columnDomainModelReferences>
+        <columnDomainModelReferences xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_ZOkTYM1ZEeiJm_iV4X6ndQ">
+          <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//Details/valuePrimaryPlanning"/>
+        </columnDomainModelReferences>
+        <columnDomainModelReferences xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_aWuOQM1ZEeiJm_iV4X6ndQ">
+          <domainModelEFeature xsi:type="ecore:EAttribute" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//Details/valueSecondaryPlanning"/>
+        </columnDomainModelReferences>
+        <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_iUb5wYBMEeiZjf3IEXE2_g">
+          <domainModelEFeature xsi:type="ecore:EReference" href="http://scheidt-bachmann-st.de/2018-06-29/planpro/integrationview#//Conflict/details"/>
+        </domainModelReference>
+      </domainModelReference>
+      <columnConfigurations xsi:type="org.eclipse.emf.ecp.view.table.model:ReadOnlyColumnConfiguration" xmi:id="_bHXoEM1ZEeiJm_iV4X6ndQ" columnDomainReferences="_YCilIM1ZEeiJm_iV4X6ndQ _ZOkTYM1ZEeiJm_iV4X6ndQ _aWuOQM1ZEeiJm_iV4X6ndQ"/>
+    </children>
+  </children>
+</org.eclipse.emf.ecp.view.model:View>

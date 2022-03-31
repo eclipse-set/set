@@ -1,0 +1,211 @@
+/**
+ * Copyright (c) 2022 DB Netz AG and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.model.tablemodel.impl;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
+import org.eclipse.set.model.tablemodel.*;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Factory</b>.
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFactory {
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static TablemodelFactory init() {
+		try {
+			TablemodelFactory theTablemodelFactory = (TablemodelFactory)EPackage.Registry.INSTANCE.getEFactory(TablemodelPackage.eNS_URI);
+			if (theTablemodelFactory != null) {
+				return theTablemodelFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new TablemodelFactoryImpl();
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TablemodelFactoryImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EObject create(EClass eClass) {
+		switch (eClass.getClassifierID()) {
+			case TablemodelPackage.TABLE: return createTable();
+			case TablemodelPackage.COLUMN_DESCRIPTOR: return createColumnDescriptor();
+			case TablemodelPackage.TABLE_CONTENT: return createTableContent();
+			case TablemodelPackage.ROW_GROUP: return createRowGroup();
+			case TablemodelPackage.TABLE_ROW: return createTableRow();
+			case TablemodelPackage.TABLE_CELL: return createTableCell();
+			case TablemodelPackage.STRING_CELL_CONTENT: return createStringCellContent();
+			case TablemodelPackage.COMPARE_CELL_CONTENT: return createCompareCellContent();
+			case TablemodelPackage.CELL_ANNOTATION: return createCellAnnotation();
+			case TablemodelPackage.FOOTNOTE: return createFootnote();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Table createTable() {
+		TableImpl table = new TableImpl();
+		return table;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ColumnDescriptor createColumnDescriptor() {
+		ColumnDescriptorImpl columnDescriptor = new ColumnDescriptorImpl();
+		return columnDescriptor;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public TableContent createTableContent() {
+		TableContentImpl tableContent = new TableContentImpl();
+		return tableContent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public RowGroup createRowGroup() {
+		RowGroupImpl rowGroup = new RowGroupImpl();
+		return rowGroup;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public TableRow createTableRow() {
+		TableRowImpl tableRow = new TableRowImpl();
+		return tableRow;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public TableCell createTableCell() {
+		TableCellImpl tableCell = new TableCellImpl();
+		return tableCell;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public StringCellContent createStringCellContent() {
+		StringCellContentImpl stringCellContent = new StringCellContentImpl();
+		return stringCellContent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public CompareCellContent createCompareCellContent() {
+		CompareCellContentImpl compareCellContent = new CompareCellContentImpl();
+		return compareCellContent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public CellAnnotation createCellAnnotation() {
+		CellAnnotationImpl cellAnnotation = new CellAnnotationImpl();
+		return cellAnnotation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Footnote createFootnote() {
+		FootnoteImpl footnote = new FootnoteImpl();
+		return footnote;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public TablemodelPackage getTablemodelPackage() {
+		return (TablemodelPackage)getEPackage();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @deprecated
+	 * @generated
+	 */
+	@Deprecated
+	public static TablemodelPackage getPackage() {
+		return TablemodelPackage.eINSTANCE;
+	}
+
+} //TablemodelFactoryImpl

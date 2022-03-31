@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_j468oNP2EeWZnaY-39-FvA">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_oyhI0NP2EeWZnaY-39-FvA" featurename="commands" parentElementId="org.eclipse.e4.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_pyW1MNP2EeWZnaY-39-FvA" elementId="org.eclipse.set.application.command.viewpdf" commandName="viewpdf">
+      <parameters xmi:id="_ovK_0NR4EeWGuuW6lHW-Gg" elementId="org.eclipse.set.application.commandparameter.file" name="file" optional="false"/>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_3Js0UNP3EeWZnaY-39-FvA" featurename="handlers" parentElementId="org.eclipse.e4.ide.application">
+    <elements xsi:type="commands:Handler" xmi:id="_8JdS4NP3EeWZnaY-39-FvA" elementId="org.eclipse.set.application.handler.viewpdf" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.ViewPdfHandler" command="_pyW1MNP2EeWZnaY-39-FvA"/>
+  </fragments>
+</fragment:ModelFragments>

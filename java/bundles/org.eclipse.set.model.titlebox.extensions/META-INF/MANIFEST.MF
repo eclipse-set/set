@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Titleboxmodel Extensions
+Bundle-SymbolicName: org.eclipse.set.model.titlebox.extensions
+Bundle-Version: 1.0.323.qualifier
+Bundle-Vendor: Eclipse Technology Project
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro
+Import-Package: org.eclipse.set.model.titlebox
+Export-Package: org.eclipse.set.model.titlebox.extensions
+

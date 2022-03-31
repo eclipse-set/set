@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) {Jahr} DB Netz AG and others.&#xA;&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v2.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v20.html"
+    modelDirectory="/org.eclipse.set.model.zipmanifest/src" modelPluginID="org.eclipse.set.model.zipmanifest"
+    modelName="Zipmanifest" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0" suppressGenModelAnnotations="false"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>zipmanifest.ecore</foreignModel>
+  <genPackages prefix="Zipmanifest" basePackage="org.eclipse.set.model" resource="XML"
+      disposableProviderFactory="true" ecorePackage="zipmanifest.ecore#/">
+    <genClasses ecoreClass="zipmanifest.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute zipmanifest.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference zipmanifest.ecore#//DocumentRoot/manifest"/>
+    </genClasses>
+    <genClasses ecoreClass="zipmanifest.ecore#//Manifest">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference zipmanifest.ecore#//Manifest/contentList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference zipmanifest.ecore#//Manifest/mediaList"/>
+    </genClasses>
+    <genClasses ecoreClass="zipmanifest.ecore#//Content">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute zipmanifest.ecore#//Content/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute zipmanifest.ecore#//Content/type"/>
+    </genClasses>
+    <genClasses ecoreClass="zipmanifest.ecore#//ContentList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference zipmanifest.ecore#//ContentList/content"/>
+    </genClasses>
+    <genClasses ecoreClass="zipmanifest.ecore#//MediaList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference zipmanifest.ecore#//MediaList/media"/>
+    </genClasses>
+    <genClasses ecoreClass="zipmanifest.ecore#//Media">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute zipmanifest.ecore#//Media/guid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute zipmanifest.ecore#//Media/type"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

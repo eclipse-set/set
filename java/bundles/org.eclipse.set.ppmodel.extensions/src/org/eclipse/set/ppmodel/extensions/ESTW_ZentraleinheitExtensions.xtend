@@ -1,0 +1,66 @@
+/**
+ * Copyright (c) 2016 DB Netz AG and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.ppmodel.extensions
+
+import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
+import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.ESTW_Zentraleinheit;
+import java.util.List
+import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Platz
+import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Bezirk
+import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
+
+/**
+ * Extensions for {@link ESTW_Zentraleinheit}.
+ */
+class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
+
+	/**
+	 * @param estw_zentraleinheit this ESTW_Zentraleinheit
+	 * 
+	 * @return the Unterbringung
+	 */
+	def static Unterbringung getUnterbringung(
+		ESTW_Zentraleinheit estw_zentraleinheit) {
+		return estw_zentraleinheit?.IDUnterbringung?.resolve(Unterbringung)
+	}
+
+	/**
+	 * @param estw_zentraleinheit this ESTW_Zentraleinheit
+	 * 
+	 * @return the List of Bedien_Plaetze
+	 */
+	def static List<Bedien_Platz> getBedienPlaetze(
+		ESTW_Zentraleinheit estw_zentraleinheit) {
+
+		return estw_zentraleinheit.container.bedienPlatz.filter [ b |
+			b.IDESTWZentraleinheit.wert == estw_zentraleinheit.identitaet.wert
+		].toList;
+	}
+
+	/**
+	 * @param estw_zentraleinheit this ESTW_Zentraleinheit
+	 * 
+	 * @return the Bedien_Bezirk as defined by ID_Bedien_Bezirk_Zentral
+	 */
+	def static Bedien_Bezirk getBedienBezirkZentral(
+		ESTW_Zentraleinheit estw_zentraleinheit) {
+		return estw_zentraleinheit.IDBedienBezirkZentral.resolve(Bedien_Bezirk)
+	}
+
+	/**
+	 * @param estw_zentraleinheit this ESTW_Zentraleinheit
+	 * 
+	 * @return the Bedien_Bezirk as defined by ID_Bedien_Bezirk_Virtuell
+	 */
+	def static Bedien_Bezirk getBedienBezirkVirtuell(
+		ESTW_Zentraleinheit estw_zentraleinheit) {
+		return estw_zentraleinheit.IDBedienBezirkVirtuell.resolve(Bedien_Bezirk)
+	}
+
+}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<relativePath>../org.eclipse.set.releng.parent</relativePath>
+		<groupId>org.eclipse.set</groupId>
+		<artifactId>org.eclipse.set.releng.parent</artifactId>
+		<version>0.30.0.1</version>
+	</parent>
+
+	<groupId>org.eclipse.set</groupId>
+	<artifactId>org.eclipse.set.releng.product</artifactId>
+	<version>1.0.323-SNAPSHOT</version>
+	<packaging>eclipse-repository</packaging>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-director-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<id>materialize-products</id>
+						<goals>
+							<goal>materialize-products</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>archive-products</id>
+						<goals>
+							<goal>archive-products</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<products>
+						<product>
+							<id>SET</id>
+							<archiveFileName>${archiveFileName}</archiveFileName>
+							 <rootFolders>
+								<macosx>Werkzeugkoffer.app</macosx>
+        					</rootFolders>
+						</product>
+					</products>
+				</configuration>
+			</plugin>
+			
+			<!-- ANT actions -->
+<!-- 	        <plugin>
+	            <artifactId>maven-antrun-plugin</artifactId>
+	            <version>1.6</version>
+	            <executions>
+	                Entferne das Postfix für 64bit
+	                <execution>
+	                    <id>update-zip-files</id>
+	                    <phase>package</phase>
+	                    <configuration>
+	                        <target>
+	                            <move todir="${project.build.directory}/products" verbose="true">
+	                               <mapper from="^(.*)-win32.win32.x86_64.zip$$" to="\1.zip" type="regexp"/>
+	                                <fileset dir="${project.build.directory}/products">
+	                                    <include name="*.zip"/>
+	                                </fileset>
+	                            </move>
+	                        </target>
+	                    </configuration>
+	                    <goals>
+	                        <goal>run</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
+ -->		</plugins>
+	</build>
+</project>

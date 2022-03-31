@@ -1,0 +1,4 @@
+/**
+ * Copyright (c) 2016 Scheidt & Bachmann System Technik GmbH.
+ * All rights reserved.
+ */

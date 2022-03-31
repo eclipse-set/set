@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.set.model.test.site;singleton:=true
+Automatic-Module-Name: org.eclipse.set.model.test.site
+Bundle-Version: 1.0.323.qualifier
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.eclipse.set.model.test.site,
+ org.eclipse.set.model.test.site.impl,
+ org.eclipse.set.model.test.site.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Eclipse Technology Project
+Bundle-Localization: plugin

@@ -1,0 +1,11 @@
+<configuration scan="true" scanPeriod="30 seconds">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{20} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<root>
+		<level value="info"/>
+		<appender-ref ref="CONSOLE"/>
+	</root>
+</configuration>

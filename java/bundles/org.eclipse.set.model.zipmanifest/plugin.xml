@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ Copyright (c) 2018 DB Netz AG and others....
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated zipmanifest -->
+      <package
+            uri="tag:org.eclipse.set,2020-02-21:planpro/ppzipmanifest"
+            class="org.eclipse.set.model.zipmanifest.ZipmanifestPackage"
+            genModel="model/zipmanifest.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated zipmanifest -->
+      <parser
+            type="zipmanifest"
+            class="org.eclipse.set.model.zipmanifest.util.ZipmanifestResourceFactoryImpl"/>
+   </extension>
+
+</plugin>

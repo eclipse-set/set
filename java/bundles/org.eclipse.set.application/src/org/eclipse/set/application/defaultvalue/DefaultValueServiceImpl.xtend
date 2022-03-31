@@ -1,0 +1,107 @@
+/**
+ * Copyright (c) 2017 DB Netz AG and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.application.defaultvalue
+
+import de.scheidtbachmann.planpro.model.model1902.PlanPro.ENUMUntergewerkArt
+import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory
+import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
+import javax.inject.Inject
+import org.eclipse.core.runtime.Assert
+import org.eclipse.set.core.services.defaultvalue.DefaultValueService
+import org.eclipse.set.core.services.version.PlanProVersionService
+
+import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
+
+/**
+ * Implementation of {@link DefaultValueService}.
+ * 
+ * @author Schaefer
+ */
+class DefaultValueServiceImpl implements DefaultValueService {
+
+	@Inject
+	PlanProVersionService versionService
+
+	override setDefaultValues(PlanPro_Schnittstelle planProSchnittstelle) {
+		Assert.isNotNull(planProSchnittstelle)
+
+		if (planProSchnittstelle.LSTPlanung === null) {
+			planProSchnittstelle.LSTPlanung = PlanProFactory.eINSTANCE.
+				createLST_Planung_AttributeGroup
+		}
+
+		if (planProSchnittstelle.LSTPlanungProjekt.LSTPlanungGruppe === null) {
+			planProSchnittstelle.
+				LSTPlanungProjekt.LSTPlanungGruppe = PlanProFactory.eINSTANCE.
+				createPlanung_Gruppe
+		}
+
+		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			LSTPlanungEinzel === null) {
+			planProSchnittstelle.LSTPlanungProjekt.
+				planungGruppe.LSTPlanungEinzel = PlanProFactory.eINSTANCE.
+				createPlanung_Einzel
+		}
+
+		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			LSTPlanungEinzel.planungEAllg === null) {
+			planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+				LSTPlanungEinzel.planungEAllg = PlanProFactory.eINSTANCE.
+				createPlanung_E_Allg_AttributeGroup
+		}
+
+		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			LSTPlanungEinzel.planungEAllg.informativ === null) {
+			planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+				LSTPlanungEinzel.planungEAllg.informativ = PlanProFactory.
+				eINSTANCE.createInformativ_TypeClass
+		}
+
+		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			LSTPlanungEinzel.planungEAllg.informativ.wert === null) {
+			planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+				LSTPlanungEinzel.planungEAllg.informativ.wert = false
+		}
+
+		if (planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			planungGAllg === null) {
+			planProSchnittstelle.LSTPlanungProjekt.
+				planungGruppe.planungGAllg = PlanProFactory.eINSTANCE.
+				createPlanung_G_Allg_AttributeGroup
+		}
+		val planungGAllg = planProSchnittstelle.LSTPlanungProjekt.planungGruppe.
+			planungGAllg
+		if (planungGAllg.verantwortlicheStelleDB === null) {
+			planungGAllg.verantwortlicheStelleDB = PlanProFactory.eINSTANCE.
+				createVerantwortliche_Stelle_DB_TypeClass
+		}
+
+		if (planungGAllg.verantwortlicheStelleDB.wert === null) {
+			planungGAllg.verantwortlicheStelleDB.wert = "DB Netze"
+		}
+
+		if (planungGAllg.planProXSDVersion === null) {
+			planungGAllg.planProXSDVersion = PlanProFactory.eINSTANCE.
+				createPlanPro_XSD_Version_TypeClass
+		}
+
+		if (planungGAllg.planProXSDVersion.wert === null) {
+			val versionInfo = versionService.createSupportedVersion()
+			planungGAllg.planProXSDVersion.wert = versionInfo.planPro
+		}
+
+		if (planungGAllg.untergewerkArt === null) {
+			planungGAllg.untergewerkArt = PlanProFactory.eINSTANCE.
+				createUntergewerk_Art_TypeClass
+			planungGAllg.untergewerkArt.wert = ENUMUntergewerkArt.
+				ENUM_UNTERGEWERK_ART_ESTW
+		}
+	}
+}

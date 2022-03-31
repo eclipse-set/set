@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<extension id="org.eclipse.set.application.toolcontrol"
+		point="org.eclipse.e4.workbench.model">
+		<fragment uri="toolcontrol.e4xmi">
+		</fragment>
+	</extension>
+	<extension id="org.eclipse.set.application.viewpdf"
+		point="org.eclipse.e4.workbench.model">
+		<fragment uri="viewpdf.e4xmi">
+		</fragment>
+	</extension>
+	<extension point="org.eclipse.emf.ecp.view.template">
+		<viewTemplate xmi="viewmodel/toolbox.template" />
+	</extension>
+</plugin>

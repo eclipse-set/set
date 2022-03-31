@@ -1,0 +1,332 @@
+/**
+ * The target platform for the PlanPro toolbox application (PPT).
+ */
+// IMPROVE: rename target and release engineering project accordingly
+// (e.g. org.eclipse.set.ppt.releng.target)
+// IMPROVE: use include to provide common parts (if necessary)
+target "org.eclipse.set.releng.target"
+
+with source
+
+/**
+ * Eclipse platform.
+ * 
+ * Provides SWT, EMF and many other eclipse libraries.  
+ */
+location "https://download.eclipse.org/releases/2020-12/" {
+	javax.annotation
+	javax.annotation.source
+	org.eclipse.emf.sdk.feature.group
+	org.eclipse.net4j.util.feature.group
+}
+
+/**
+ * Eclipse platform updates.
+ * 
+ * Provides updates for eclipse libraries.  
+ */
+location "https://download.eclipse.org/eclipse/updates/4.17/" {
+	org.eclipse.e4.rcp.feature.group
+	org.eclipse.e4.tools
+	org.eclipse.e4.tools.emf.ui
+	org.eclipse.e4.tools.services
+	org.eclipse.emf.ecore.feature.group
+	org.eclipse.equinox.sdk.feature.group
+	org.eclipse.jdt.feature.group
+	org.eclipse.pde.build
+	org.eclipse.pde.core
+	org.eclipse.pde.launching
+	org.eclipse.pde.ui
+	org.eclipse.platform.sdk
+	org.eclipse.rcp.sdk.id
+	org.eclipse.ui.editors
+	org.eclipse.ui.trace
+	org.eclipse.ui.views.log
+}
+
+/**
+ * Babel language pack.
+ * 
+ * Provides translations for eclipse libraries.
+ */
+location "https://archive.eclipse.org/technology/babel/update-site/R0.18.3/2020-12/" {
+	org.eclipse.babel.nls_eclipse_de.feature.group
+	org.eclipse.babel.nls_modeling.emf_de.feature.group
+}
+
+/**
+ * Jetty Webserver.
+ * 
+ * Provides web services for siteplan web view.
+ */	
+location "https://download.eclipse.org/releases/2020-12/" {
+	org.eclipse.jetty.http
+	org.eclipse.jetty.io
+	org.eclipse.jetty.security
+	org.eclipse.jetty.server
+	org.eclipse.jetty.servlet
+	org.eclipse.jetty.util
+	org.eclipse.jetty.util.ajax
+	org.eclipse.jetty.webapp
+	org.eclipse.jetty.xml
+}
+
+/**
+ * Xtend/Xbase.
+ * 
+ * Provides Xtend IDE and runtime libraries.
+ */
+location "https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.24.0/" {
+	org.eclipse.xtend.lib
+	org.eclipse.xtend.lib.macro
+	org.eclipse.xtend.lib.macro.source
+	org.eclipse.xtend.lib.source
+	org.eclipse.xtend.sdk.feature.group
+	org.eclipse.xtext.xbase.lib
+	org.eclipse.xtext.xbase.lib.source
+}
+
+
+/**
+ * Geotools.
+ * 
+ * Provides geotools libraries for siteplan views.
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/geotools/org.geotools.gt/21.2.0-21/org.geotools.gt-21.2.0-21.zip-unzip/" {
+	com.conversantmedia.disruptor
+	com.sun.istack.commons-runtime
+	com.sun.xml.fastinfoset.FastInfoset
+	it.geosolutions.imageio-ext.geocore
+	it.geosolutions.imageio-ext.streams
+	it.geosolutions.imageio-ext.tiff
+	it.geosolutions.imageio-ext.utilities
+	it.geosolutions.jaiext.affine.jt-affine
+	it.geosolutions.jaiext.algebra.jt-algebra
+	it.geosolutions.jaiext.bandcombine.jt-bandcombine
+	it.geosolutions.jaiext.bandmerge.jt-bandmerge
+	it.geosolutions.jaiext.bandselect.jt-bandselect
+	it.geosolutions.jaiext.binarize.jt-binarize
+	it.geosolutions.jaiext.border.jt-border
+	it.geosolutions.jaiext.buffer.jt-buffer
+	it.geosolutions.jaiext.classifier.jt-classifier
+	it.geosolutions.jaiext.colorconvert.jt-colorconvert
+	it.geosolutions.jaiext.colorindexer.jt-colorindexer
+	it.geosolutions.jaiext.crop.jt-crop
+	it.geosolutions.jaiext.errordiffusion.jt-errordiffusion
+	it.geosolutions.jaiext.format.jt-format
+	it.geosolutions.jaiext.imagefunction.jt-imagefunction
+	it.geosolutions.jaiext.iterators.jt-iterators
+	it.geosolutions.jaiext.lookup.jt-lookup
+	it.geosolutions.jaiext.mosaic.jt-mosaic
+	it.geosolutions.jaiext.nullop.jt-nullop
+	it.geosolutions.jaiext.orderdither.jt-orderdither
+	it.geosolutions.jaiext.piecewise.jt-piecewise
+	it.geosolutions.jaiext.rescale.jt-rescale
+	it.geosolutions.jaiext.rlookup.jt-rlookup
+	it.geosolutions.jaiext.scale.jt-scale
+	it.geosolutions.jaiext.scale2.jt-scale2
+	it.geosolutions.jaiext.shadedrelief.jt-shadedrelief
+	it.geosolutions.jaiext.stats.jt-stats
+	it.geosolutions.jaiext.translate.jt-translate
+	it.geosolutions.jaiext.utilities.jt-utilities
+	it.geosolutions.jaiext.vectorbin.jt-vectorbin
+	it.geosolutions.jaiext.warp.jt-warp
+	it.geosolutions.jaiext.zonal.jt-zonal
+	javax.media.jai_codec
+	javax.media.jai_core
+	javax.media.jai_imageio
+	net.sf.geographiclib.GeographicLib-Java
+	org.ejml.core
+	org.ejml.ddense
+	org.geotools.gt-coverage
+	org.geotools.gt-cql
+	org.geotools.gt-epsg-hsql
+	org.geotools.gt-geometry
+	org.geotools.gt-geotiff
+	org.geotools.gt-image
+	org.geotools.gt-main
+	org.geotools.gt-metadata
+	org.geotools.gt-opengis
+	org.geotools.gt-referencing
+	org.geotools.gt-render
+	org.geotools.gt-shapefile
+	org.geotools.gt-svg
+	org.geotools.gt-swing
+	org.geotools.gt-xml
+	org.hsqldb.hsqldb
+	org.locationtech.jts.jts-core
+	si.uom.si-quantity
+	si.uom.si-units-java8
+	systems.uom.systems-common-java8
+	systems.uom.systems-quantity
+	tec.uom.lib.uom-lib-common
+	tec.uom.se
+}
+
+/**
+ * Batik Java SVG Toolkit.
+ * 
+ * Library for rendering, generating, and manipulating SVG graphics. This
+ * special selection is meant to complement the batik libraries shipped with
+ * eclipse platform features.
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/batik/batik-selection/1.13.0-19/batik-selection-1.13.0-19.zip-unzip/" {
+	org.apache.xmlgraphics.batik-anim
+	org.apache.xmlgraphics.batik-awt-util
+	org.apache.xmlgraphics.batik-bridge
+	org.apache.xmlgraphics.batik-dom
+	org.apache.xmlgraphics.batik-ext
+	org.apache.xmlgraphics.batik-gvt
+	org.apache.xmlgraphics.batik-parser
+	org.apache.xmlgraphics.batik-script
+	org.apache.xmlgraphics.batik-svg-dom
+	org.apache.xmlgraphics.batik-transcoder
+	org.apache.xmlgraphics.batik-xml
+}
+
+/**
+ * Apache Formatting Objects Processor.
+ * 
+ * Provides functions for PDF export.
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org/apache/xmlgraphics/fop/2.5.0-4/fop-2.5.0-4.zip-unzip/" {
+	org.apache.xmlgraphics.fop
+}
+
+/**
+ * Apache POI.
+ * 
+ * Java API to access Microsoft format files.
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org/apache/poi/poi/4.1.2-2/poi-4.1.2-2.zip-unzip/" {
+	org.apache.commons.commons-collections4 [4.4.0,4.4.0]
+	org.apache.commons.commons-compress [1.21.0,1.21.0]
+	org.apache.commons.math3 [3.6.1,3.6.1]
+	org.apache.servicemix.bundles.poi [4.1.2.2,4.1.2.2]
+	org.apache.servicemix.bundles.xmlbeans [3.1.0.1,3.1.0.1]
+	org.apache.servicemix.bundles.xmlresolver [1.2.0.5,1.2.0.5]
+}
+
+/**
+ * Nattable features.
+ * 
+ * Provides core libraries for displaying table views.
+ * 
+ */
+ //IMPROVE: Neue Version verfügbar 2.0.0. {@link http://download.eclipse.org/nattable/releases/2.0.0/repository/}
+location "https://download.eclipse.org/nattable/releases/1.6.0/repository/" {
+	org.eclipse.nebula.widgets.nattable.core.feature.feature.group
+	org.eclipse.nebula.widgets.nattable.core.source.feature.feature.group
+	org.eclipse.nebula.widgets.nattable.extension.e4.feature.feature.group
+	org.eclipse.nebula.widgets.nattable.extension.e4.source.feature.feature.group
+	org.eclipse.nebula.widgets.nattable.extension.glazedlists.feature.feature.group
+	org.eclipse.nebula.widgets.nattable.extension.glazedlists.source.feature.feature.group
+	org.eclipse.nebula.widgets.nattable.extension.nebula.feature.feature.group
+	org.eclipse.nebula.widgets.nattable.extension.nebula.source.feature.feature.group
+}
+
+/**
+ * Nebula rich text feature.
+ * 
+ * Provides rich text cell painter for table views.
+ */
+location "https://download.eclipse.org/nebula/releases/2.1.0" {
+	org.eclipse.nebula.widgets.richtext.feature.feature.group
+}
+
+/**
+ * Orbit project.
+ * 
+ * Repository of bundled third party libraries.
+ */
+location "https://download.eclipse.org/tools/orbit/downloads/drops/R20201130205003/repository" {
+	ch.qos.logback.classic
+	ch.qos.logback.core
+	ch.qos.logback.slf4j
+	com.google.guava
+	com.google.inject
+	com.google.inject.assistedinject
+	com.google.inject.multibindings
+	javax.activation [1.1.0,1.2.0)
+	javax.mail
+	javax.measure.unit-api
+	javax.transaction
+	javax.xml
+	javax.xml.bind
+	javax.xml.stream
+	net.bytebuddy.byte-buddy
+	net.bytebuddy.byte-buddy-agent
+	org.apache.commons.codec
+	org.apache.commons.io
+	org.apache.commons.lang3
+	org.apache.xalan
+	org.apache.xml.resolver
+	org.apache.xml.serializer
+	org.hamcrest.core
+	org.mockito
+	org.objenesis
+	org.slf4j.api
+	org.slf4j.jcl
+}
+
+// We need org.dom4j from this old repository. The bundle from the new repository causes
+// a missing constraint message: 
+// org.dom4j: Missing Constraint: Import-Package: javax.xml.bind; version="[2.2.0, 3.0.0)"
+// see also PLANPRO-4417
+location "https://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/" {
+	org.dom4j
+	org.dom4j.source
+}
+
+/**
+ * EMF Client platform.
+ * 
+ * Provides libraries for form based views.
+ */
+location "https://download.eclipse.org/ecp/releases/releases_125/" {
+	org.eclipse.emf.ecp.sdk.feature.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emf.ecp.view.custom.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emf.ecp.view.group.swt.collapsable [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emf.ecp.view.group.swt.collapsable.source [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emf.ecp.view.table.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emf.ecp.view.treemasterdetail.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emf.ecp.view.validation.initial.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.core.bazaar.feature.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.core.bazaar.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.swt.control.text.autocomplete.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.swt.controlgrid.feature.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.swt.controlgrid.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.view.annotation.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.view.controlgrid.model.edit.source [1.25.0.20200602-1726,1.25.0.20200602-1726]
+	org.eclipse.emfforms.view.controlgrid.model.source [1.25.0.20200602-1726,1.25.0.20200602-1726]
+}
+
+/**
+ * PlanPro model.
+ * 
+ * Provides libraries for the PlanPro model.
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/de/scheidtbachmann/planpro/de.scheidtbachmann.planpro.model.repository/5.14.11/de.scheidtbachmann.planpro.model.repository-5.14.11.zip-unzip/" {
+	de.scheidtbachmann.planpro.model.model1902.feature.feature.group
+	de.scheidtbachmann.planpro.model.model1902.feature.source.feature.group
+}
+
+/**
+ * Saxon HE.
+ * 
+ * XSLT and XQuery Processor for generating PlaZ reports. 
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/net/sf/saxon/saxon/9.6.0-7002/saxon-9.6.0-7002.zip-unzip/" {
+	net.sf.saxon.Saxon-HE
+}
+
+/**
+ * Jackson.
+ * 
+ * Provides libraries to handle JSON data
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/com/fasterxml/com.fasterxml.jackson/2.12.2-4/com.fasterxml.jackson-2.12.2-4.zip-unzip/" {
+	com.fasterxml.jackson.core.jackson-core
+	com.fasterxml.jackson.core.jackson-databind
+	com.fasterxml.jackson.core.jackson-annotations
+}

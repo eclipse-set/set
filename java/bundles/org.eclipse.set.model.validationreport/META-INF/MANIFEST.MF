@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.set.model.validationreport;singleton:=true
+Bundle-Version: 1.0.323.qualifier
+Bundle-ClassPath: .
+Automatic-Module-Name: org.eclipse.set.model.validationreport
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.eclipse.set.model.validationreport,
+ org.eclipse.set.model.validationreport.impl,
+ org.eclipse.set.model.validationreport.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin

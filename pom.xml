@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.set</groupId>
+	<artifactId>org.eclipse.set.releng.multimod</artifactId>
+	<version>1.0.323-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<parent>
+		<relativePath>java/bundles/org.eclipse.set.releng.parent</relativePath>
+		<groupId>org.eclipse.set</groupId>
+		<artifactId>org.eclipse.set.releng.parent</artifactId>
+		<version>0.30.0.1</version>
+	</parent>
+	
+	<!-- common modules -->
+	<modules>
+		<!-- ############################################################### -->
+		<!-- Releng -->
+		<!-- ############################################################### -->
+		<module>java/bundles/org.eclipse.set.releng.logging</module>
+		<module>java/bundles/org.eclipse.set.releng.set.product</module>
+		<module>java/bundles/org.eclipse.set.releng.repository</module>
+		<module>java/bundles/org.eclipse.set.releng.target</module>
+				
+		<!-- ############################################################### -->
+		<!-- Feature -->
+		<!-- ############################################################### -->
+		<module>java/bundles/org.eclipse.set.feature</module>
+		<module>java/bundles/org.eclipse.set.test.feature</module>
+		<module>java/bundles/org.eclipse.set.i18n.nl_de.feature</module>
+		<module>java/bundles/org.eclipse.set.sessionservice.feature</module>
+
+		<!-- ############################################################### -->
+		<!-- Bundles -->
+		<!-- ############################################################### -->
+		<module>java/bundles/org.eclipse.set.application.set</module>
+		<module>java/bundles/org.eclipse.set.application</module>
+		<module>java/bundles/org.eclipse.set.application.test</module>
+		<module>java/bundles/org.eclipse.set.basis</module>
+		<module>java/bundles/org.eclipse.set.basis.test</module>
+		<module>java/bundles/org.eclipse.set.core.rcp.dialogService</module>
+				  
+		<module>java/bundles/org.eclipse.set.core.services</module>
+		<module>java/bundles/org.eclipse.set.core.test</module>
+		<module>java/bundles/org.eclipse.set.core</module>
+		<module>java/bundles/org.eclipse.set.emfforms</module>
+		
+		<module>java/bundles/org.eclipse.set.feature.integration.test</module>
+		<module>java/bundles/org.eclipse.set.feature.integration</module>
+		<module>java/bundles/org.eclipse.set.feature.table.test</module>
+		<module>java/bundles/org.eclipse.set.feature.table</module>
+		<module>java/bundles/org.eclipse.set.feature.export.test</module>
+		<module>java/bundles/org.eclipse.set.feature.export</module>
+		<module>java/bundles/org.eclipse.set.feature.projectdata</module>
+		<module>java/bundles/org.eclipse.set.feature.validation</module>
+		<module>java/bundles/org.eclipse.set.i18n.ecore.nl_de</module>
+		<module>java/bundles/org.eclipse.set.i18n.ecp.categorization.nl_de</module>
+		<module>java/bundles/org.eclipse.set.i18n.ecp.core.nl_de</module>
+		<module>java/bundles/org.eclipse.set.i18n.ecp.table.nl_de</module>
+		<module>java/bundles/org.eclipse.set.i18n.integrationview.nl_de</module>
+		<module>java/bundles/org.eclipse.set.i18n.model.nl_de</module>
+		<module>java/bundles/org.eclipse.set.i18n.validationreport.nl_de</module>
+		
+		<module>java/bundles/org.eclipse.set.model.integrationview.edit</module>
+		<module>java/bundles/org.eclipse.set.model.integrationview</module>
+		<module>java/bundles/org.eclipse.set.model.simplemerge.edit</module>
+		<module>java/bundles/org.eclipse.set.model.simplemerge.extensions</module>
+		<module>java/bundles/org.eclipse.set.model.simplemerge</module>
+		<module>java/bundles/org.eclipse.set.model.tablemodel.extensions.test</module>
+		<module>java/bundles/org.eclipse.set.model.tablemodel.extensions</module>
+		<module>java/bundles/org.eclipse.set.model.tablemodel</module>
+		<module>java/bundles/org.eclipse.set.model.temporaryintegration.extensions</module>
+		<module>java/bundles/org.eclipse.set.model.temporaryintegration</module>
+		<module>java/bundles/org.eclipse.set.model.test.site.extensions</module>
+		<module>java/bundles/org.eclipse.set.model.test.site</module>
+		<module>java/bundles/org.eclipse.set.model.titlebox.extensions</module>
+		<module>java/bundles/org.eclipse.set.model.titlebox</module>
+		<module>java/bundles/org.eclipse.set.model.validationreport.edit</module>
+		<module>java/bundles/org.eclipse.set.model.validationreport.extensions</module>
+		<module>java/bundles/org.eclipse.set.model.validationreport</module>
+		<module>java/bundles/org.eclipse.set.model.zipmanifest</module>
+		
+		<module>java/bundles/org.eclipse.set.nattable.utils</module>
+		<module>java/bundles/org.eclipse.set.pdf.utils</module>
+		<module>java/bundles/org.eclipse.set.ppmodel.extensions.test</module>
+		<module>java/bundles/org.eclipse.set.ppmodel.extensions</module>
+		<module>java/bundles/org.eclipse.set.ppmodel.extensions.container</module>
+		<module>java/bundles/org.eclipse.set.services</module>
+		<module>java/bundles/org.eclipse.set.sessionservice.test</module>
+		<module>java/bundles/org.eclipse.set.sessionservice</module>
+		<module>java/bundles/org.eclipse.set.test.utils</module>
+		<module>java/bundles/org.eclipse.set.unittest.utils</module>
+		<module>java/bundles/org.eclipse.set.utils</module>
+		<module>java/bundles/org.eclipse.set.rcp.application</module>
+		<module>java/bundles/org.eclipse.set.rcp.compatibility</module>
+		<module>java/bundles/org.eclipse.set.rcp.extensions</module>
+		<module>java/bundles/org.eclipse.set.utils.rcp</module>
+		<module>java/bundles/org.eclipse.set.utils.table</module>
+		<module>java/bundles/org.eclipse.set.utils.test</module>
+  </modules>
+</project>

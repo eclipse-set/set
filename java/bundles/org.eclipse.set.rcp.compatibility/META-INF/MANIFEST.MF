@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RCP Compatibility
+Bundle-SymbolicName: org.eclipse.set.rcp.compatibility;singleton:=true
+Bundle-Version: 1.0.323.qualifier
+Automatic-Module-Name: org.eclipse.set.rcp.compatibility
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.eclipse.swt;bundle-version="3.107.0";visibility:=reexport,
+ org.eclipse.jface;bundle-version="3.14.0";visibility:=reexport,
+ org.eclipse.jface.databinding;bundle-version="1.8.200";visibility:=reexport
+Bundle-Vendor: Eclipse Technology Project
+Bundle-ActivationPolicy: lazy

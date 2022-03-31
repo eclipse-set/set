@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) {Jahr} DB Netz AG and others.&#xA;&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v2.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v20.html"
+    modelDirectory="/org.eclipse.set.model.test.site/src" modelPluginID="org.eclipse.set.model.test.site"
+    modelName="Site" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>site.ecore</foreignModel>
+  <genPackages prefix="Site" basePackage="org.eclipse.set.model.test" disposableProviderFactory="true"
+      ecorePackage="site.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="site.ecore#//WindowType">
+      <genEnumLiterals ecoreEnumLiteral="site.ecore#//WindowType/SIMPLE"/>
+      <genEnumLiterals ecoreEnumLiteral="site.ecore#//WindowType/TOP_HUNG"/>
+      <genEnumLiterals ecoreEnumLiteral="site.ecore#//WindowType/BOTTOM_HUNG"/>
+      <genEnumLiterals ecoreEnumLiteral="site.ecore#//WindowType/BARRED"/>
+      <genEnumLiterals ecoreEnumLiteral="site.ecore#//WindowType/MOSAIC"/>
+    </genEnums>
+    <genClasses ecoreClass="site.ecore#//Site">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference site.ecore#//Site/allBuildings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference site.ecore#//Site/allRooms"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference site.ecore#//Site/allFloors"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference site.ecore#//Site/allPassages"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//Building">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference site.ecore#//Building/names"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference site.ecore#//Building/buildingsInTheSameStreet"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Building/data"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//Room">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference site.ecore#//Room/names"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Room/floorID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference site.ecore#//Room/windows"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//Identified">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Identified/guid"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//Floor">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference site.ecore#//Floor/names"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Floor/buildingID"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//BuildingNames">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//BuildingNames/address"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//BuildingNames/entrance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//BuildingNames/sitePlan"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//FloorNames">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//FloorNames/elevator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//FloorNames/floorPlanTitle"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//RoomNames">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//RoomNames/doorSign"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//RoomNames/floorPlan"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//Passage">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Passage/roomID_A"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Passage/roomID_B"/>
+    </genClasses>
+    <genClasses ecoreClass="site.ecore#//Window">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Window/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute site.ecore#//Window/type"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

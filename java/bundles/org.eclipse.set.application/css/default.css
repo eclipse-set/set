@@ -1,0 +1,10 @@
+/* example for CSS styling
+.MPart {
+	background-color: red;
+}
+*/
+
+.MPartStack {
+	swt-maximize-visible: false;
+	swt-minimize-visible: true;
+}

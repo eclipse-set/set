@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.set.model.validationreport.edit;singleton:=true
+Automatic-Module-Name: org.eclipse.set.model.validationreport.edit
+Bundle-Version: 1.0.323.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.set.model.validationreport.provider.ValidationreportEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.eclipse.set.model.validationreport.provider
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.set.model.validationreport;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,4470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
+	font-family="Open Sans Condensed" font-size="8" font-style="normal"
+	font-weight="normal" linefeed-treatment="preserve" language="de">
+	<fo:layout-master-set>
+		<fo:simple-page-master margin-left="20mm"
+			margin-right="10mm" margin-top="5mm" margin-bottom="5mm" page-height="297mm"
+			page-width="420mm" master-name="table-master">
+			<fo:region-body margin-bottom="85mm" overflow="hidden" />
+			<fo:region-after extent="85mm" region-name="title-box-region" />
+		</fo:simple-page-master>
+	</fo:layout-master-set>
+	<fo:page-sequence master-reference="table-master">
+		<fo:static-content flow-name="title-box-region">
+			<fo:table width="100%" table-layout="fixed">
+				<fo:table-column column-width="proportional-column-width(1)" />
+				<fo:table-column column-width="181mm" />
+				<fo:table-body end-indent="-1mm" start-indent="1mm">
+					<fo:table-row>
+						<fo:table-cell padding-top="5mm" column-number="2">
+							<fo:table width="100%" table-layout="fixed">
+								<fo:table-column column-width="100%" />
+								<fo:table-body>
+									<fo:table-row max-height="75mm">
+										<fo:table-cell>
+											<fo:table width="18.08cm" margin="0mm" padding="0mm"
+												start-indent="0mm" end-indent="0mm" text-align="center"
+												linefeed-treatment="preserve" table-layout="fixed">
+												<fo:table-column column-width="56mm"
+													column-number="1" />
+												<fo:table-column column-width="124mm"
+													column-number="2" />
+												<fo:table-body>
+													<fo:table-row border="0.25mm solid black">
+														<fo:table-cell border="0.5mm solid black"
+															number-rows-spanned="2" column-number="1">
+															<fo:block>
+																<fo:table display-align="center" width="100%"
+																	table-layout="fixed">
+																	<fo:table-column column-width="7.75mm"
+																		column-number="1" />
+																	<fo:table-column column-width="11mm"
+																		column-number="2" />
+																	<fo:table-column column-width="9.25mm"
+																		column-number="3" />
+																	<fo:table-column column-width="9.25mm"
+																		column-number="4" />
+																	<fo:table-column column-width="9.25mm"
+																		column-number="5" />
+																	<fo:table-column column-width="9mm"
+																		column-number="6" />
+																	<fo:table-body>
+																		<fo:table-row height="5.5mm">
+																			<fo:table-cell border-width="0px"
+																				number-columns-spanned="6" column-number="1"
+																				border-style="solid" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.625mm">
+																			<fo:table-cell border-top="0.5mm solid black"
+																				border-left-width="0px" number-rows-spanned="2"
+																				column-number="1" border="0.25mm solid black"
+																				height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell font-size="70%"
+																				border-top="0.5mm solid black" number-rows-spanned="2"
+																				column-number="2" border="0.25mm solid black"
+																				height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top="0.5mm solid black"
+																				column-number="3" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top="0.5mm solid black"
+																				column-number="4" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top="0.5mm solid black"
+																				column-number="5" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				border-top="0.5mm solid black" column-number="6"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.75mm">
+																			<fo:table-cell border-top-width="0px"
+																				column-number="3" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="4" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="5" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				border-top-width="0px" column-number="6"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.75mm">
+																			<fo:table-cell border-left-width="0px"
+																				number-rows-spanned="2" column-number="1"
+																				border="0.25mm solid black" height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell font-size="70%"
+																				number-rows-spanned="2" column-number="2"
+																				border="0.25mm solid black" height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="3"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="4"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="5"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				column-number="6" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.75mm">
+																			<fo:table-cell border-top-width="0px"
+																				column-number="3" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="4" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="5" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				border-top-width="0px" column-number="6"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.75mm">
+																			<fo:table-cell border-left-width="0px"
+																				number-rows-spanned="2" column-number="1"
+																				border="0.25mm solid black" height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell font-size="70%"
+																				number-rows-spanned="2" column-number="2"
+																				border="0.25mm solid black" height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="3"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="4"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="5"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				column-number="6" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.75mm">
+																			<fo:table-cell border-top-width="0px"
+																				column-number="3" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="4" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="5" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				border-top-width="0px" column-number="6"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.75mm">
+																			<fo:table-cell border-left-width="0px"
+																				number-rows-spanned="2" column-number="1"
+																				border="0.25mm solid black" height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell font-size="70%"
+																				number-rows-spanned="2" column-number="2"
+																				border="0.25mm solid black" height="7.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="3"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="4"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell column-number="5"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				column-number="6" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.625mm">
+																			<fo:table-cell border-top-width="0px"
+																				column-number="3" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="4" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				column-number="5" border="0.25mm solid black"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				border-top-width="0px" column-number="6"
+																				border="0.25mm solid black" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row font-size="55%" height="3.5mm">
+																			<fo:table-cell border-right="0.25mm solid black"
+																				border-top="0.5mm solid black" border-width="0px"
+																				column-number="1" border-style="solid" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Index</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right="0.25mm solid black"
+																				border-top="0.5mm solid black" border-width="0px"
+																				column-number="2" border-style="solid" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Änderung</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right="0.25mm solid black"
+																				border-top="0.5mm solid black" border-width="0px"
+																				column-number="3" border-style="solid" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Bear/Dat</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right="0.25mm solid black"
+																				border-top="0.5mm solid black" border-width="0px"
+																				column-number="4" border-style="solid" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Gepr/Dat</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right="0.25mm solid black"
+																				border-top="0.5mm solid black" border-width="0px"
+																				column-number="5" border-style="solid" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Abnah/Dat</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top="0.5mm solid black"
+																				border-width="0px" column-number="6" border-style="solid"
+																				height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Überm/Dat</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																	</fo:table-body>
+																</fo:table>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell border-bottom-width="0px"
+															border="0.5mm solid black" column-number="2">
+															<fo:block>
+																<fo:table display-align="center" width="100%"
+																	table-layout="fixed">
+																	<fo:table-column column-width="41.75mm"
+																		column-number="1" />
+																	<fo:table-column column-width="17mm"
+																		column-number="2" />
+																	<fo:table-column column-width="11mm"
+																		column-number="3" />
+																	<fo:table-column column-width="18mm"
+																		column-number="4" />
+																	<fo:table-column column-width="12mm"
+																		column-number="5" />
+																	<fo:table-column column-width="21mm"
+																		column-number="6" />
+																	<fo:table-column column-width="2.75mm"
+																		column-number="7" />
+																	<fo:table-body>
+																		<fo:table-row height="3.5mm">
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				number-rows-spanned="3" column-number="1" height="19.25mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				number-columns-spanned="2" column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="6" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="7" font-size="50%" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.625mm">
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-top="0.5mm solid black" border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				number-rows-spanned="2" number-columns-spanned="3"
+																				column-number="2" height="15.5mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top="0.5mm solid black"
+																				border-left="0.5mm solid black" border-width="0px"
+																				border-style="solid" number-columns-spanned="3"
+																				column-number="5" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="11.625mm">
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-top="0.25mm solid black" border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				number-columns-spanned="3" column-number="5" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																	</fo:table-body>
+																</fo:table>
+															</fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+													<fo:table-row border="0.25mm solid black">
+														<fo:table-cell border-top-width="0px"
+															border="0.5mm solid black" column-number="2">
+															<fo:block>
+																<fo:table display-align="center" width="100%"
+																	table-layout="fixed">
+																	<fo:table-column column-width="41.75mm"
+																		column-number="1" />
+																	<fo:table-column column-width="10.25mm"
+																		column-number="2" />
+																	<fo:table-column column-width="10.25mm"
+																		column-number="3" />
+																	<fo:table-column column-width="10.25mm"
+																		column-number="4" />
+																	<fo:table-column column-width="10.25mm"
+																		column-number="5" />
+																	<fo:table-column column-width="10.25mm"
+																		column-number="6" />
+																	<fo:table-column column-width="10.25mm"
+																		column-number="7" />
+																	<fo:table-column column-width="10.25mm"
+																		column-number="8" />
+																	<fo:table-column column-width="10mm"
+																		column-number="9" />
+																	<fo:table-body>
+																		<fo:table-row text-align="left" height="3.5mm">
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="1" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border="0.5mm solid black" number-columns-spanned="4"
+																				column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-right-width="0px"
+																				border-top-width="0px" border="0.5mm solid black"
+																				number-columns-spanned="4" column-number="6" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.5mm">
+																			<fo:table-cell border-width="0px"
+																				border-style="solid" number-rows-spanned="3"
+																				column-number="1" height="17.25mm">
+																				<fo:block>
+																					<fo:external-graphic
+																						content-width="3cm" fox:alt-text="DB Netze"
+																						src="pictures/dbnetze_120px.png" />
+																				</fo:block>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border="0.5mm solid black" column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="5" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="6" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="7" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="8" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="9" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.5mm">
+																			<fo:table-cell border-top-width="0px"
+																				border="0.5mm solid black" column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="5" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="6" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="7" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left-width="0px" border="0.5mm solid black"
+																				column-number="8" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="9" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="9.5mm">
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				number-columns-spanned="8" column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>&lt;Plannummer DB AG&gt;</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																	</fo:table-body>
+																</fo:table>
+															</fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+													<fo:table-row>
+														<fo:table-cell border="0.5mm solid black"
+															number-columns-spanned="2" column-number="1">
+															<fo:block>
+																<fo:table display-align="center" width="100%"
+																	table-layout="fixed">
+																	<fo:table-column column-width="20.75mm"
+																		column-number="1" />
+																	<fo:table-column column-width="14mm"
+																		column-number="2" />
+																	<fo:table-column column-width="21mm"
+																		column-number="3" />
+																	<fo:table-column column-width="21mm"
+																		column-number="4" />
+																	<fo:table-column column-width="61mm"
+																		column-number="5" />
+																	<fo:table-column column-width="15mm"
+																		column-number="6" />
+																	<fo:table-column column-width="26.75mm"
+																		column-number="7" />
+																	<fo:table-body>
+																		<fo:table-row height="3.955mm">
+																			<fo:table-cell display-align="before"
+																				border-top-width="0px" border-left-width="0px"
+																				border="0.5mm solid black" number-rows-spanned="3"
+																				column-number="1">
+																				<fo:block>
+																					<fo:table display-align="center" width="100%"
+																						table-layout="fixed">
+																						<fo:table-body>
+																							<fo:table-row height="4.5mm">
+																								<fo:table-cell border-bottom="0.5mm solid black"
+																									border-width="0px" border-style="solid" height="inherit">
+																									<fo:block-container
+																										overflow="hidden" height="inherit">
+																										<fo:block />
+																									</fo:block-container>
+																								</fo:table-cell>
+																							</fo:table-row>
+																							<fo:table-row height="7.5mm">
+																								<fo:table-cell border-width="0px"
+																									border-style="solid" height="inherit">
+																									<fo:block-container
+																										overflow="hidden" height="inherit">
+																										<fo:block />
+																									</fo:block-container>
+																								</fo:table-cell>
+																							</fo:table-row>
+																						</fo:table-body>
+																					</fo:table>
+																				</fo:block>
+																			</fo:table-cell>
+																			<fo:table-cell font-size="60%"
+																				text-align="left" border-bottom="0.25mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Erstellt</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-bottom="0.25mm solid black"
+																				border-left="0.5mm solid black" border-width="0px"
+																				border-style="solid" column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-right="0.5mm solid black" border="0.25mm solid black"
+																				column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				number-rows-spanned="5" number-columns-spanned="3"
+																				column-number="5" height="21.740000000000002mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>&lt;Planart&gt;&#13;&lt;Erweiterte Angabe
+																						Planart&gt;&#13;</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="4.08mm">
+																			<fo:table-cell font-size="60%"
+																				text-align="left" border-bottom="0.25mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Geprüft</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-bottom="0.25mm solid black"
+																				border-left="0.5mm solid black" border-width="0px"
+																				border-style="solid" column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-right="0.5mm solid black" border="0.25mm solid black"
+																				column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="3.955mm">
+																			<fo:table-cell font-size="60%"
+																				text-align="left" border-bottom="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="2" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Freigegeben</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-bottom="0.25mm solid black"
+																				border-left="0.5mm solid black" border-width="0px"
+																				border-style="solid" column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-right="0.5mm solid black" border="0.25mm solid black"
+																				column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="4.625mm">
+																			<fo:table-cell border-width="0px"
+																				border-style="solid" number-rows-spanned="3"
+																				number-columns-spanned="2" column-number="1" height="19.25mm">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-left="0.5mm solid black" border-width="0px"
+																				border-style="solid" column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Datum</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left="0.25mm solid black" border="0.5mm solid black"
+																				column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block>Name</fo:block>
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="4.5mm">
+																			<fo:table-cell border-bottom="0.5mm solid black"
+																				border-left="0.5mm solid black" border-width="0px"
+																				border-style="solid" column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-top-width="0px"
+																				border-left="0.25mm solid black" border="0.5mm solid black"
+																				column-number="4" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																		</fo:table-row>
+																		<fo:table-row height="9.5mm">
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				number-columns-spanned="3" column-number="3" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="6" height="inherit">
+																				<fo:block-container overflow="hidden"
+																					height="inherit">
+																					<fo:block />
+																				</fo:block-container>
+																			</fo:table-cell>
+																			<fo:table-cell border-left="0.5mm solid black"
+																				border-width="0px" border-style="solid"
+																				column-number="7" height="inherit">
+																				<fo:block>
+																					<fo:page-number />
+																				</fo:block>
+																			</fo:table-cell>
+																		</fo:table-row>
+																	</fo:table-body>
+																</fo:table>
+															</fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+												</fo:table-body>
+											</fo:table>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:static-content>
+		<fo:flow flow-name="xsl-region-body">
+			<fo:table width="100%" table-layout="fixed">
+				<fo:table-column column-width="0.61cm"
+					column-number="1" />
+				<fo:table-column column-width="1.27cm"
+					column-number="2" />
+				<fo:table-column column-width="1.59cm"
+					column-number="3" />
+				<fo:table-column column-width="1.59cm"
+					column-number="4" />
+				<fo:table-column column-width="1.59cm"
+					column-number="5" />
+				<fo:table-column column-width="1.69cm"
+					column-number="6" />
+				<fo:table-column column-width="2.51cm"
+					column-number="7" />
+				<fo:table-column column-width="0.64cm"
+					column-number="8" />
+				<fo:table-column column-width="0.64cm"
+					column-number="9" />
+				<fo:table-column column-width="1.75cm"
+					column-number="10" />
+				<fo:table-column column-width="5.78cm"
+					column-number="11" />
+				<fo:table-column column-width="1.53cm"
+					column-number="12" />
+				<fo:table-column column-width="1.53cm"
+					column-number="13" />
+				<fo:table-column column-width="1.27cm"
+					column-number="14" />
+				<fo:table-column column-width="1.51cm"
+					column-number="15" />
+				<fo:table-column column-width="1.38cm"
+					column-number="16" />
+				<fo:table-column column-width="1.11cm"
+					column-number="17" />
+				<fo:table-column column-width="2.2cm" column-number="18" />
+				<fo:table-column column-width="2.2cm" column-number="19" />
+				<fo:table-column column-width="2.28cm"
+					column-number="20" />
+				<fo:table-column column-width="proportional-column-width(1)"
+					column-number="21" />
+				<fo:table-header text-align="center" display-align="center"
+					border="0.25mm solid black">
+					<fo:table-row>
+						<fo:table-cell border="none">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>A</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>B</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>C</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>D</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>E</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>F</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>G</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>H</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>I</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>J</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>K</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>L</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>M</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>N</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>O</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>P</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>Q</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>R</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>S</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black">
+							<fo:block>T</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row display-align="before" font-weight="bold">
+						<fo:table-cell border="none" border-right="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-top="0.5mm solid black" number-columns-spanned="5"
+							border-right="0.5mm solid black">
+							<fo:block>Grundsatzangaben</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="5" border-top="0.5mm solid black"
+							border-right="0.5mm solid black">
+							<fo:block>Eigenschaften</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="5" border-top="0.5mm solid black"
+							border-right="0.5mm solid black">
+							<fo:block>Abhängigkeiten</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="4" border-top="0.5mm solid black"
+							border-right="0.5mm solid black">
+							<fo:block>Auflösung</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="3" border-top="0.5mm solid black"
+							border-right="0.5mm solid black" text-align="left">
+							<fo:block>Bemerkungen</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell border="none" border-right="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="2" text-align="left">
+							<fo:block>von (Signal)</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="2" text-align="left">
+							<fo:block>bis (markanter Punkt)</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="left" number-rows-spanned="2">
+							<fo:block>Gefahrpunkt</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="2">
+							<fo:block>PZB- Schutzpunkt</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" number-rows-spanned="2">
+							<fo:block>Bezeichnung</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="2">
+							<fo:block>Zielgeschwindigkeit möglich</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="3">
+							<fo:block>Länge</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" number-rows-spanned="2">
+							<fo:block>Maßgebende Neigung</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="2">
+							<fo:block>Weichen, Kreuzungen</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="2">
+							<fo:block>relevante FmA</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="2">
+							<fo:block>v- Aufwertung Verzicht</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" number-rows-spanned="2">
+							<fo:block>Erlaubnis- abhängig</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="2">
+							<fo:block>Manuell</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="2">
+							<fo:block>Zielgleisabschnitt</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" number-rows-spanned="2">
+							<fo:block>Auflöseverzögerung bzw. Kennlicht- verzögerungszeit
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell border="none" border-right="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="1">
+							<fo:block>Soll</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="1">
+							<fo:block>Ist</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-columns-spanned="1">
+							<fo:block>Frei- gemeldet</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="1">
+							<fo:block>mit Verschluss</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="1">
+							<fo:block>ohne Verschluss</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="1">
+							<fo:block>Bezeichnung</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							number-rows-spanned="1">
+							<fo:block>Länge</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell border="none" border-right="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black" border-right="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block>km/h</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block>m</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block>m</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block>m</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.5mm solid black">
+							<fo:block>‰</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black" border-right="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black">
+							<fo:block>m</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black" border-right="0.5mm solid black">
+							<fo:block>s</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							border-bottom="0.5mm solid black" border-right="0.5mm solid black">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-header>
+				<fo:table-body>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>1</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​A​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​9​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​3​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>E​r​r​o​r​:​
+								​I​l​l​e​g​a​l​A​r​g​u​m​e​n​t​E​x​c​e​p​t​i​o​n​:​
+								​M​i​s​s​i​n​g​
+								​I​D​F​M​A​A​n​l​a​g​e​F​r​e​i​m​e​l​d​u​n​g​
+								​f​o​r​
+								​D​W​E​G​=​F​s​t​r​_​D​W​e​g​
+								​(​A​E​8​5​E​7​6​A​-​C​B​B​8​-​4​A​4​C​-​A​B​9​0​-​9​0​1​1​E​9​E​8​B​2​A​E​)​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>2</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​A​A​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​9​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>E​r​r​o​r​:​
+								​I​l​l​e​g​a​l​A​r​g​u​m​e​n​t​E​x​c​e​p​t​i​o​n​:​
+								​M​i​s​s​i​n​g​
+								​I​D​F​M​A​A​n​l​a​g​e​F​r​e​i​m​e​l​d​u​n​g​
+								​f​o​r​
+								​D​W​E​G​=​F​s​t​r​_​D​W​e​g​
+								​(​9​A​3​C​6​4​6​2​-​3​D​2​D​-​4​0​A​F​-​A​6​0​5​-​6​6​7​B​3​C​F​C​B​B​5​8​)​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>3</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​B​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​6​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​6​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>E​r​r​o​r​:​
+								​I​l​l​e​g​a​l​A​r​g​u​m​e​n​t​E​x​c​e​p​t​i​o​n​:​
+								​M​i​s​s​i​n​g​
+								​I​D​F​M​A​A​n​l​a​g​e​F​r​e​i​m​e​l​d​u​n​g​
+								​f​o​r​
+								​D​W​E​G​=​F​s​t​r​_​D​W​e​g​
+								​(​4​4​3​E​4​2​2​6​-​7​8​3​E​-​4​8​0​2​-​B​3​6​5​-​0​A​E​6​9​8​D​C​6​1​E​9​)​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>4</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​F​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​8​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​9​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>E​r​r​o​r​:​
+								​I​l​l​e​g​a​l​A​r​g​u​m​e​n​t​E​x​c​e​p​t​i​o​n​:​
+								​M​i​s​s​i​n​g​
+								​I​D​F​M​A​A​n​l​a​g​e​F​r​e​i​m​e​l​d​u​n​g​
+								​f​o​r​
+								​D​W​E​G​=​F​s​t​r​_​D​W​e​g​
+								​(​C​3​5​3​D​4​9​B​-​0​3​0​F​-​4​F​8​4​-​9​C​8​B​-​8​D​1​3​3​3​7​A​E​3​0​B​)​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>5</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​F​F​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​1​/​6​0​G​3​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​1​/​6​0​G​3​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​8​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​9​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>E​r​r​o​r​:​
+								​I​l​l​e​g​a​l​A​r​g​u​m​e​n​t​E​x​c​e​p​t​i​o​n​:​
+								​M​i​s​s​i​n​g​
+								​I​D​F​M​A​A​n​l​a​g​e​F​r​e​i​m​e​l​d​u​n​g​
+								​f​o​r​
+								​D​W​E​G​=​F​s​t​r​_​D​W​e​g​
+								​(​D​3​D​0​1​3​5​D​-​3​2​F​4​-​4​5​C​2​-​A​0​4​8​-​3​4​E​C​9​7​F​1​8​8​6​A​)​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>6</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​1​2​3​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​1​2​3​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​9​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>E​r​r​o​r​:​
+								​I​l​l​e​g​a​l​A​r​g​u​m​e​n​t​E​x​c​e​p​t​i​o​n​:​
+								​M​i​s​s​i​n​g​
+								​I​D​F​M​A​A​n​l​a​g​e​F​r​e​i​m​e​l​d​u​n​g​
+								​f​o​r​
+								​D​W​E​G​=​F​s​t​r​_​D​W​e​g​
+								​(​8​5​E​8​3​8​8​4​-​1​7​0​8​-​4​D​9​6​-​9​0​5​7​-​7​4​D​2​9​4​7​E​7​7​D​0​)​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>7</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​1​0​7​Y​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​W​5​1​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​W​5​1​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>8​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>8​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​5​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​5​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​7​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>8</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​1​0​8​Y​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​W​5​1​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​W​5​1​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>8​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>8​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​5​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​5​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​8​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>9</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​1​2​3​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​9​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>7​6​6​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>7​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>10</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​N​2​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​1​/​6​0​G​3​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​F​F​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​1​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>8​1​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​1​&#13;6​0​G​3​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>11</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​N​2​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​1​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​1​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>12</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>R​a​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​9​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​3​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​3​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​1​&#13;6​0​G​2​1​1​&#13;6​0​W​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​0​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>13</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>9​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​0​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>14</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​1​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​W​3​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​W​3​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​1​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​1​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​4​&#13;6​0​W​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​&#13;6​0​W​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​1​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>15</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​1​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​l​e​i​s​a​b​s​c​h​l​u​ß​
+								​6​0​W​4​R​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​l​e​i​s​a​b​s​c​h​l​u​ß​
+								​6​0​W​4​R​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​1​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>16</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​B​1​1​4​/​6​0​G​1​0​2​/​6​0​W​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​A​A​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​6​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​6​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​&#13;6​0​W​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​0​2​&#13;6​0​W​2​&#13;6​0​W​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>17</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​2​1​1​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​2​1​1​X​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​8​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​8​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​&#13;6​0​W​2​&#13;6​0​W​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​0​2​&#13;6​0​W​1​&#13;6​0​W​2​&#13;6​0​W​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>18</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​1​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>19</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​1​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>E​r​r​o​r​:​
+								​I​l​l​e​g​a​l​A​r​g​u​m​e​n​t​E​x​c​e​p​t​i​o​n​:​ ​n​o​
+								​p​a​t​h​
+								​f​o​u​n​d​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​B​1​1​3​.​1​&#13;6​0​G​1​1​3​&#13;6​0​W​5​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​9​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>20</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​P​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​5​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​5​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​6​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​6​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>21</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​2​6​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​2​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​1​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​0​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​1​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>
+								*1, *2, *3
+								<!-- TODO: footnotes -->
+								<fo:footnote>
+									<fo:inline></fo:inline>
+									<fo:footnote-body>
+										<fo:block text-align="left">
+											*1: Testvermerk 1
+										</fo:block>
+									</fo:footnote-body>
+								</fo:footnote>
+								<fo:footnote>
+									<fo:inline></fo:inline>
+									<fo:footnote-body>
+										<fo:block text-align="left">
+											*2: Testvermerk 2
+										</fo:block>
+									</fo:footnote-body>
+								</fo:footnote>
+								<fo:footnote>
+									<fo:inline></fo:inline>
+									<fo:footnote-body>
+										<fo:block text-align="left">
+											*3: Testvermerk 3
+										</fo:block>
+									</fo:footnote-body>
+								</fo:footnote>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>22</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​3​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​7​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​7​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​2​&#13;6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​2​&#13;6​0​G​4​0​2​&#13;6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>23</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​3​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​7​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​7​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​5​&#13;6​0​W​3​2​&#13;6​0​W​3​3​&#13;6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​4​0​2​&#13;6​0​W​3​1​&#13;6​0​W​3​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>24</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​4​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>25</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​1​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​5​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​3​0​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​3​0​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​9​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>26</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​3​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​3​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​1​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​5​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​1​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​3​1​&#13;6​0​W​3​0​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​3​0​&#13;6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​9​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>27</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​1​2​4​Y​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​L​1​2​4​Y​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>9​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>9​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​8​A​B​&#13;6​0​W​2​8​C​D​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>28</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​3​0​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​3​0​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​0​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>9​9​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​2​8​A​B​&#13;6​0​W​2​8​C​D​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​8​&#13;6​0​W​2​9​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>o​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​0​4​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>4​0​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>29</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​4​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​4​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​4​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​3​&#13;6​0​W​3​5​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​3​0​1​&#13;6​0​W​3​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>30</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​4​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​7​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​7​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​5​&#13;6​0​W​3​2​&#13;6​0​W​3​3​&#13;6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​4​0​2​&#13;6​0​W​3​1​&#13;6​0​W​3​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>31</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​R​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​4​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​9​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​9​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​5​&#13;6​0​W​3​2​&#13;6​0​W​3​3​&#13;6​0​W​2​9​&#13;6​0​W​3​1​&#13;6​0​W​3​0​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​3​0​&#13;6​0​W​3​1​&#13;6​0​W​3​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>32</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​2​8​C​D​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​2​8​C​D​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​4​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​8​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​9​4​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​3​5​&#13;6​0​W​3​2​&#13;6​0​W​3​3​&#13;6​0​W​3​1​&#13;6​0​W​3​0​&#13;6​0​W​2​8​A​B​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​2​9​&#13;6​0​W​3​0​&#13;6​0​W​3​1​&#13;6​0​W​3​3​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​6​7​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" border-bottom="0.25mm solid black"
+							text-align="center">
+							<fo:block>33</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>W​A​ ​6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​5​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>2​5​3​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​1​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​W​3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​2​&#13;6​0​W​3​1​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row border-right="0.5mm solid black"
+						border-bottom="0.5mm solid black">
+						<fo:table-cell border="0.25mm solid black"
+							border-right="0.5mm solid black" text-align="center">
+							<fo:block>34</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​Z​U​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>G​z​ ​6​0​W​3​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>D​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​2​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​9​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​8​5​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>-​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​1​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>x​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>6​0​G​2​2​2​
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>1​6​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block>3​2​</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border="0.25mm solid black"
+							text-align="center">
+							<fo:block />
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:flow>
+	</fo:page-sequence>
+</fo:root>

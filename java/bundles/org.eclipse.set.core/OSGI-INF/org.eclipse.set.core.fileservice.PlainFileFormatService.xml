@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" immediate="true" name="org.eclipse.set.core.fileservice.PlainFileFormatService">
+   <service>
+      <provide interface="org.eclipse.set.core.services.files.ToolboxFileFormatService"/>
+   </service>
+   <reference cardinality="1..1" field="sessionService" interface="org.eclipse.set.core.services.session.SessionService" name="sessionService"/>
+   <implementation class="org.eclipse.set.core.fileservice.PlainFileFormatService"/>
+</scr:component>

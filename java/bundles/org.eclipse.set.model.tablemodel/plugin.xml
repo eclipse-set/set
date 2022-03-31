@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated tableformat -->
+      <package
+            uri="tag:scheidt-bachmann-st.de,2017-10-18:planpro/tf"
+            class="org.eclipse.set.model.tablemodel.format.TableformatPackage"
+            genModel="model/tableformat.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated tablemodel -->
+      <package
+            uri="tag:scheidt-bachmann-st.de,2016-10-11:planpro/tm"
+            class="org.eclipse.set.model.tablemodel.TablemodelPackage"
+            genModel="model/tablemodel.genmodel"/>
+   </extension>
+
+</plugin>

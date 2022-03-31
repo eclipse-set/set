@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PlanPro Model extensions test
+Bundle-SymbolicName: org.eclipse.set.ppmodel.extensions.test
+Bundle-Version: 1.0.323.qualifier
+Fragment-Host: org.eclipse.set.ppmodel.extensions
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-Vendor: Eclipse Technology Project
+Require-Bundle: org.junit.platform.commons;bundle-version="1.6.0",
+ org.junit.platform.launcher;bundle-version="1.6.0",
+ org.junit.platform.runner;bundle-version="1.6.0",
+ org.hamcrest.core;bundle-version="1.3.0"
+Import-Package: org.eclipse.set.core.services.cache,
+ org.eclipse.set.test.utils,
+ org.junit.jupiter.api;version="5.6.0",
+ org.junit.jupiter.api.function;version="5.6.0",
+ org.junit.jupiter.params;version="5.6.0",
+ org.junit.jupiter.params.provider;version="5.6.0",
+ org.locationtech.jts.geom

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.set.application.actionservice.ActionServiceImpl">
+   <service>
+      <provide interface="org.eclipse.set.core.services.action.ActionService"/>
+   </service>
+   <implementation class="org.eclipse.set.application.actionservice.ActionServiceImpl"/>
+</scr:component>

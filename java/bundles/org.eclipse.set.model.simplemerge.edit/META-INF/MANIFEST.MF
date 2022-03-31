@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.set.model.simplemerge.edit;singleton:=true
+Automatic-Module-Name: org.eclipse.set.model.simplemerge.edit
+Bundle-Version: 1.0.323.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.eclipse.set.model.simplemerge.provider.SimplemergeEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.eclipse.set.model.simplemerge.provider,
+ org.eclipse.set.model.simplemerge.provider
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.set.model.simplemerge;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

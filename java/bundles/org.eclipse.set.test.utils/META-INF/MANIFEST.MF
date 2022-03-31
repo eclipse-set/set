@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test Utils
+Bundle-SymbolicName: org.eclipse.set.test.utils
+Bundle-Version: 1.0.323.qualifier
+Automatic-Module-Name: org.eclipse.set.test.utils
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro
+Import-Package: org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.resource.impl,
+ org.eclipse.emf.ecore.util,
+ org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.set.basis.files,
+ org.eclipse.set.basis.guid,
+ org.eclipse.set.core.services.session,
+ org.eclipse.set.model.test.site
+Export-Package: org.eclipse.set.test.utils,
+ org.eclipse.set.test.utils.session
+Bundle-Vendor: Eclipse Technology Project
+

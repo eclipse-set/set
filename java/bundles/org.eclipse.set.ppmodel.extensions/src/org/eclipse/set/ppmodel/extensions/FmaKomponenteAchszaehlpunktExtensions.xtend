@@ -1,0 +1,39 @@
+/**
+ * Copyright (c) 2017 DB Netz AG and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.ppmodel.extensions
+
+import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
+import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup
+import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
+
+/**
+ * Diese Klasse erweitert {@link FMA_Komponente_Achszaehlpunkt_AttributeGroup}.
+ */
+class FmaKomponenteAchszaehlpunktExtensions extends BasisObjektExtensions {
+
+	/**
+	 * @param komp the component
+	 * 
+	 * @returns the Aussenelementansteuerung of the given id
+	 */
+	def static Aussenelementansteuerung getAussenelementEnergie(
+		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
+		return komp?.IDEnergie?.resolve(Aussenelementansteuerung)
+	}
+
+	/**
+	 * @param komp the component
+	 * 
+	 * @returns the Aussenelementansteuerung of the given id
+	 */
+	def static Aussenelementansteuerung getAussenelementInformation(
+		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
+		return komp?.IDInformation?.resolve(Aussenelementansteuerung)
+	}
+}

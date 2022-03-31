@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sessionservice Test
+Bundle-SymbolicName: org.eclipse.set.sessionservice.test;singleton:=true
+Bundle-Version: 1.0.323.qualifier
+Fragment-Host: org.eclipse.set.sessionservice;bundle-version="0.2.17"
+Automatic-Module-Name: org.eclipse.set.sessionservice.test
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-Vendor: Eclipse Technology Project
+Require-Bundle: org.junit.platform.commons;bundle-version="1.6.0",
+ org.junit.platform.launcher;bundle-version="1.6.0",
+ org.junit.platform.runner;bundle-version="1.6.0",
+ org.hamcrest.core;bundle-version="1.3.0"
+Import-Package: de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren,
+ org.eclipse.set.basis.files,
+ org.eclipse.set.test.utils.session,
+ org.eclipse.set.unittest.utils.session,
+ org.junit.jupiter.api;version="5.6.0",
+ org.junit.jupiter.api.function;version="5.6.0",
+ org.junit.jupiter.params;version="5.6.0",
+ org.junit.jupiter.params.provider;version="5.6.0"

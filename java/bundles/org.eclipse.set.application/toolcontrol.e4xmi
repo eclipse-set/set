@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_98vjsJT9Eeab7aDdHDboRg">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_P159oJT-Eeab7aDdHDboRg" featurename="children" parentElementId="org.eclipse.set.application.toolbar.right">
+    <elements xsi:type="menu:ToolControl" xmi:id="_-BymUJT-Eeab7aDdHDboRg" elementId="org.eclipse.set.modelservice.toolcontrol.containerselection" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.tabletype.TableTypeSelectionControl"/>
+  </fragments>
+</fragment:ModelFragments>

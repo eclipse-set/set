@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ppzipmanifest:manifest xmlns:ppzipmanifest="tag:scheidt-bachmann-st.de,2020-02-21:planpro/ppzipmanifest">
+  <contentList>
+    <content name="content.xml" type="text/xml"/>
+  </contentList>
+  <mediaList>
+    <media guid="f55a9129-37ee-432f-815b-a670f9885f91" type="application/pdf"/>
+  </mediaList>
+</ppzipmanifest:manifest>

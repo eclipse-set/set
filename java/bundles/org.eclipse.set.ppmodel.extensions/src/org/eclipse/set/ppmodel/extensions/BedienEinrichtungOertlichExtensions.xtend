@@ -1,0 +1,54 @@
+/**
+ * Copyright (c) 2018 DB Netz AG and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.ppmodel.extensions;
+
+import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
+import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
+import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Anzeige_Element
+import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Einrichtung_Oertlich
+import java.util.List
+
+import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
+
+/**
+ * Extensions for {@link Bedien_Einrichtung_Oertlich}.
+ * 
+ * @author Schaefer
+ */
+class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
+
+	/**
+	 * @param einrichtung this örtliche Bedieneinrichtung
+	 * 
+	 * @return the Bedienanzeigeelemente of this örtliche Bedieneinrichtung
+	 */
+	static def List<Bedien_Anzeige_Element> getBedienAnzeigeElemente(
+		Bedien_Einrichtung_Oertlich einrichtung) {
+		return einrichtung.container.bedienAnzeigeElement.filter [
+			IDBedienEinrichtungOertlich?.wert == einrichtung.identitaet.wert
+		].toList
+	}
+
+	/**
+	 * @param einrichtung this örtliche Bedieneinrichtung
+	 * 
+	 * @return the Unterbringung of this örtliche Bedieneinrichtung
+	 */
+	static def Unterbringung getUnterbringung(
+		Bedien_Einrichtung_Oertlich einrichtung) {
+		return einrichtung?.IDUnterbringung.resolve(Unterbringung)
+	}
+
+	static def Aussenelementansteuerung getAussenelementansteuerung(
+		Bedien_Einrichtung_Oertlich einrichtung
+	) {
+		return einrichtung?.IDAussenelementansteuerung.resolve(
+			Aussenelementansteuerung)
+	}
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) {Jahr} DB Netz AG and others.&#xA;&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v2.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v20.html"
+    modelDirectory="/org.eclipse.set.model.validationreport/src" editorDirectory=""
+    modelPluginID="org.eclipse.set.model.validationreport" modelName="Validationreport"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory=""
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>validationreport.ecore</foreignModel>
+  <genPackages prefix="Validationreport" basePackage="org.eclipse.set.model" disposableProviderFactory="true"
+      ecorePackage="validationreport.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ValidationSeverity">
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ValidationSeverity/ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ValidationSeverity/WARNING"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ObjectScope">
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Betrachtung"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Plan"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Unknown"/>
+    </genEnums>
+    <genClasses ecoreClass="validationreport.ecore#//ValidationReport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/fileName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/modelLoaded"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/valid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/xsdValid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/emfValid"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//ValidationReport/problems"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//ValidationReport/supportedVersion"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//ValidationReport/usedVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/toolboxVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/subworkCount"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/subworkTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="validationreport.ecore#//ValidationProblem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/severityText"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/lineNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectArt"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/attributeName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectScope"/>
+    </genClasses>
+    <genClasses ecoreClass="validationreport.ecore#//VersionInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/planPro"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/signals"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

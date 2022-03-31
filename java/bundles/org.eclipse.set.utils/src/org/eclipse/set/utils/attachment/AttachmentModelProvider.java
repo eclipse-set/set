@@ -1,0 +1,113 @@
+/**
+ * Copyright (c) 2016 DB Netz AG and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.utils.attachment;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+
+import com.google.common.collect.Iterables;
+
+import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
+import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
+
+/**
+ * Provides a list of attachments as model for the tableviewer.
+ * 
+ * @author bleidiessel
+ *
+ */
+public class AttachmentModelProvider {
+	private final List<Anhang> domainAttachmentsFinal;
+	private final List<Anhang> domainAttachmentsInitial;
+	private final List<Anhang> domainAttachmentsSingle;
+	private final List<Anhang> objectManagementAttachments;
+
+	/**
+	 * Construct the provider.
+	 * 
+	 * @param session
+	 *            the current session
+	 */
+	public AttachmentModelProvider(final IModelSession session) {
+		objectManagementAttachments = new ArrayList<>();
+		domainAttachmentsInitial = new ArrayList<>();
+		domainAttachmentsFinal = new ArrayList<>();
+		domainAttachmentsSingle = new ArrayList<>();
+		final MultiContainer_AttributeGroup initialContainer = session
+				.getContainer(ContainerType.INITIAL);
+		final MultiContainer_AttributeGroup finalContainer = session
+				.getContainer(ContainerType.FINAL);
+		final MultiContainer_AttributeGroup singleContainer = session
+				.getContainer(ContainerType.SINGLE);
+
+		final Iterator<EObject> allContents = session.getPlanProSchnittstelle()
+				.eAllContents();
+
+		for (EObject eObject = allContents.next(); allContents
+				.hasNext(); eObject = allContents.next()) {
+			if (!(eObject instanceof Anhang)) {
+				continue;
+			}
+			final Anhang attachment = (Anhang) eObject;
+			final EObject parent = attachment.eContainer();
+
+			// if a attachment is part of a container, then it is a domain
+			// attachment
+			if (parent instanceof Container_AttributeGroup) {
+				if (Iterables.contains(initialContainer.getContainers(),
+						parent)) {
+					domainAttachmentsInitial.add(attachment);
+				} else if (Iterables.contains(finalContainer.getContainers(),
+						parent)) {
+					domainAttachmentsFinal.add(attachment);
+				} else if (Iterables.contains(singleContainer.getContainers(),
+						parent)) {
+					domainAttachmentsSingle.add(attachment);
+				}
+			} else {
+				objectManagementAttachments.add(attachment);
+			}
+		}
+
+	}
+
+	/**
+	 * @return the list of all domain attachments (final)
+	 */
+	public List<Anhang> getDomainAttachmentsFinal() {
+		return domainAttachmentsFinal;
+	}
+
+	/**
+	 * @return the list of all domain attachments (initial)
+	 */
+	public List<Anhang> getDomainAttachmentsInitial() {
+		return domainAttachmentsInitial;
+	}
+
+	/**
+	 * @return the list of all domain attachments (single)
+	 */
+	public List<Anhang> getDomainAttachmentsSingle() {
+		return domainAttachmentsSingle;
+	}
+
+	/**
+	 * @return the list of all object management attachments
+	 */
+	public List<Anhang> getObjectManagementAttachments() {
+		return objectManagementAttachments;
+	}
+}

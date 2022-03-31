@@ -1,0 +1,48 @@
+<!--
+Diese Vorlage wird zum Einstellen des Log-Levels in der IDE verwendet:
+1. Datei von "logback-test-template.xml" in "logback-test.xml" kopieren
+2. Konfiguration des Log-Systems in "logback-test.xml" vornehmen
+
+Hinweis:
+- Die Datei "logback-test.xml" wird von SVN ignoriert und soll nicht geliefert
+  werden.
+- Anpassungen an der Vorlage werden in "logback-test-template.xml" vorgenommen.
+- Anpassungen an der Produktivkonfiguration werden in "logback.xml" vorgenommen.
+-->
+<!-- Beispiel 1: Alles ab Stufe "debug" loggen -->
+<configuration scan="true" scanPeriod="30 seconds">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{20} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<root>
+		<level value="debug"/>
+		<appender-ref ref="CONSOLE"/>
+	</root>
+</configuration>
+
+<!-- Beispiel 2: Logging abschalten
+<configuration scan="true" scanPeriod="30 seconds">
+	<root>
+		<level value="off"/>
+	</root>
+</configuration>
+-->
+
+<!--  Beispiel 3: Nur Log-Meldungen vom ServerPublisher ab Stufe "info"
+<configuration scan="true" scanPeriod="30 seconds">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{20} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<logger name="de.scheidtbachmann.planpro.server.common.publisher.ServerPublisher">
+		<level value="info"/>
+	</logger>
+	<root>
+		<level value="off"/>
+		<appender-ref ref="CONSOLE"/>
+	</root>
+</configuration>
+-->

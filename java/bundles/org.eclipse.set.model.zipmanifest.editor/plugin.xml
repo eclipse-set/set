@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ Copyright (c) 2018 DB Netz AG and others....
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated zipmanifest -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.eclipse.set.model.zipmanifest.presentation.ZipmanifestModelWizardID"
+            name="%_UI_ZipmanifestModelWizard_label"
+            class="org.eclipse.set.model.zipmanifest.presentation.ZipmanifestModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ZipmanifestModelFile.gif">
+         <description>%_UI_ZipmanifestModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated zipmanifest -->
+      <editor
+            id="org.eclipse.set.model.zipmanifest.presentation.ZipmanifestEditorID"
+            name="%_UI_ZipmanifestEditor_label"
+            icon="icons/full/obj16/ZipmanifestModelFile.gif"
+            extensions="zipmanifest"
+            class="org.eclipse.set.model.zipmanifest.presentation.ZipmanifestEditor"
+            contributorClass="org.eclipse.set.model.zipmanifest.presentation.ZipmanifestActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>
