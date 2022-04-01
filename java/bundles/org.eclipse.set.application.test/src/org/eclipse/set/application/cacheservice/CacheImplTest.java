@@ -36,8 +36,7 @@ public class CacheImplTest {
 		givenCache();
 		givenMissingSupplier();
 
-		whenRetrievingValue(CACHE_KEY);
-		whenRetrievingValue(CACHE_KEY);
+		whenRetrievingValueTwice(CACHE_KEY);
 
 		thenMissingSupplierIsCalledOnce();
 		thenValueMatchesSupplied();
@@ -51,8 +50,7 @@ public class CacheImplTest {
 		givenCache();
 		givenNullMissingSupplier();
 
-		whenRetrievingValue(CACHE_KEY);
-		whenRetrievingValue(CACHE_KEY);
+		whenRetrievingValueTwice(CACHE_KEY);
 
 		thenMissingSupplierIsCalledTwice();
 		thenCacheIsEmpty();
@@ -65,8 +63,8 @@ public class CacheImplTest {
 	void setCacheWorks() {
 		givenCache();
 		givenNullMissingSupplier();
+		givenSetCacheValue();
 
-		whenSettingCacheValue();
 		whenRetrievingValue(CACHE_KEY);
 
 		thenMissingSupplierIsNotCalled();
@@ -80,9 +78,8 @@ public class CacheImplTest {
 	@Test
 	void invalidatedCacheIsEmpty() {
 		givenCache();
-		givenMissingSupplier();
+		givenSetCacheValue();
 
-		whenSettingCacheValue();
 		whenInvalidatingCache();
 
 		thenCacheIsEmpty();
@@ -112,7 +109,12 @@ public class CacheImplTest {
 		retrievedValue = testee.get(cacheKey, missingSupplier);
 	}
 
-	private void whenSettingCacheValue() {
+	private void whenRetrievingValueTwice(final String cacheKey) {
+		whenRetrievingValue(cacheKey);
+		whenRetrievingValue(cacheKey);
+	}
+
+	private void givenSetCacheValue() {
 		testee.set(CACHE_KEY, CACHE_VALUE);
 	}
 

@@ -21,14 +21,14 @@ import org.junit.jupiter.api.Test;
  */
 @SuppressWarnings("nls")
 public class CacheServiceImplTest {
-	private static String CACHE_ID_1 = "cacheID 1";
-	private static String CACHE_ID_2 = "cacheID 2";
-	private static String CONTAINER_ID_1 = "containerID 1";
-	private static String CONTAINER_ID_2 = "containerID 2";
+	private static final String CACHE_ID_1 = "cacheID 1";
+	private static final String CACHE_ID_2 = "cacheID 2";
+	private static final String CONTAINER_ID_1 = "containerID 1";
+	private static final String CONTAINER_ID_2 = "containerID 2";
 
-	CacheServiceImpl testee;
-	Cache givenCache;
-	Cache requestedCache;
+	private CacheServiceImpl testee;
+	private Cache givenCache;
+	private Cache requestedCache;
 
 	/**
 	 * Tests whether getCache serves the same cache for the same cache id
@@ -36,7 +36,7 @@ public class CacheServiceImplTest {
 	@Test
 	void cacheIdIdentical() {
 		givenCacheService();
-		givenCache1();
+		givenCache(CACHE_ID_1);
 		whenRequestingCache(CACHE_ID_1);
 		thenIdenticalCachesArePresent();
 	}
@@ -47,7 +47,7 @@ public class CacheServiceImplTest {
 	@Test
 	void cacheIdDifferent() {
 		givenCacheService();
-		givenCache1();
+		givenCache(CACHE_ID_1);
 		whenRequestingCache(CACHE_ID_2);
 		thenDifferentCachesArePresent();
 	}
@@ -59,7 +59,7 @@ public class CacheServiceImplTest {
 	@Test
 	void containerCacheIdentical() {
 		givenCacheService();
-		givenContainerCache1();
+		givenContainerCache(CACHE_ID_1, CONTAINER_ID_1);
 		whenRequestingContainerCache(CACHE_ID_1, CONTAINER_ID_1);
 		thenIdenticalCachesArePresent();
 	}
@@ -71,7 +71,7 @@ public class CacheServiceImplTest {
 	@Test
 	void containerCacheDifferentContainerId() {
 		givenCacheService();
-		givenContainerCache1();
+		givenContainerCache(CACHE_ID_1, CONTAINER_ID_1);
 		whenRequestingContainerCache(CACHE_ID_1, CONTAINER_ID_2);
 		thenDifferentCachesArePresent();
 	}
@@ -83,7 +83,7 @@ public class CacheServiceImplTest {
 	@Test
 	void containerCacheDifferentCacheId() {
 		givenCacheService();
-		givenContainerCache1();
+		givenContainerCache(CACHE_ID_1, CONTAINER_ID_1);
 		whenRequestingContainerCache(CACHE_ID_2, CONTAINER_ID_1);
 		thenDifferentCachesArePresent();
 	}
@@ -92,12 +92,13 @@ public class CacheServiceImplTest {
 		testee = new CacheServiceImpl();
 	}
 
-	private void givenCache1() {
-		givenCache = testee.getCache(CACHE_ID_1);
+	private void givenCache(final String cacheId) {
+		givenCache = testee.getCache(cacheId);
 	}
 
-	private void givenContainerCache1() {
-		givenCache = testee.getCache(CACHE_ID_1, CONTAINER_ID_1);
+	private void givenContainerCache(final String cacheId,
+			final String containerId) {
+		givenCache = testee.getCache(cacheId, containerId);
 	}
 
 	private void whenRequestingCache(final String cacheId) {
