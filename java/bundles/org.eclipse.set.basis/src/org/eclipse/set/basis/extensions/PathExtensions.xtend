@@ -85,7 +85,7 @@ class PathExtensions {
 	static def String getExtension(Path path) {
 		val parts = path.fileName.toString.split("\\.")
 		if (parts.size > 1) {
-			return parts.last
+			return parts.last.toLowerCase
 		}
 		return ""
 	}
