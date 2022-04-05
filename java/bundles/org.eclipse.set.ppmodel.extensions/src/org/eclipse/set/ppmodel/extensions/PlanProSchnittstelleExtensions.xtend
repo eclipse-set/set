@@ -544,7 +544,7 @@ class PlanProSchnittstelleExtensions {
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(schnittstelle?.LSTPlanung?.objektmanagement?.LSTPlanungProjekt?.map [
 			LSTPlanungGruppe
-		].flatten)
+		]?.flatten)
 	}
 
 	static def Optional<String> getLSTPlanungProjektIdentitaet(
