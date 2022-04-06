@@ -102,7 +102,18 @@ class PathExtensions {
 		return Paths.get(
 			path.parent?.toString ?: "", '''«path.baseFileName».«fileExtension»''');
 	}
-
+	
+	/**
+	 * Returns a new path with lower case extension.
+	 * 
+	 * @param path this path
+	 * 
+	 * @reutnr a new path with lower extension
+	 */
+	static def Path toLowerCaseExtension(Path path) {
+		val ex = path.extension
+		return path.replaceExtension(ex.toLowerCase)
+	}
 	/**
 	 * @param path this path
 	 * 

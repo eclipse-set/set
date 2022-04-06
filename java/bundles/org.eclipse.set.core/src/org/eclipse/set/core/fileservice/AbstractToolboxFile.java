@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.ppmodel.extensions.PlanProResourceImplExtensions;
 import org.w3c.dom.Document;
@@ -68,8 +69,8 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		final ResourceSet resourceSet = editingDomain.getResourceSet();
 
 		// Allow file extesion with Uppercase
-		final URI resourceUri = URI
-				.createFileURI(path.toString().toLowerCase());
+		final URI resourceUri = URI.createFileURI(
+				PathExtensions.toLowerCaseExtension(path).toString());
 		XMLResource newResource = (XMLResource) resourceSet
 				.getResource(resourceUri, false);
 		if (newResource == null) {
@@ -108,5 +109,4 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			resource.setURI(URI.createFileURI(path.toString()));
 		}
 	}
-
 }
