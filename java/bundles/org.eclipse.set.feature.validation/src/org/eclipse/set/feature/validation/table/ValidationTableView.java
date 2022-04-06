@@ -194,7 +194,7 @@ public class ValidationTableView {
 					toolboxPartService.showPart(SOURCE_TEXT_VIEWER_PART_ID);
 					ToolboxEvents.send(broker,
 							new JumpToSourceLineEvent(validationReport
-									.getProblems().get(row - 1).getLineNumber(),
+									.getProblems().get(row).getLineNumber(),
 									part));
 				}
 
