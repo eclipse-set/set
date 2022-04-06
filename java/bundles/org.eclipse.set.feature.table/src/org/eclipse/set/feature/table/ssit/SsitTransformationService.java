@@ -58,7 +58,7 @@ public class SsitTransformationService
 
 		final GroupBuilder Grundsatzangaben = root
 				.addGroup(messages.SsitTableView_Grundsatzangaben);
-		Grundsatzangaben.add(columns.Bezeichnung).width(3.62f);
+		Grundsatzangaben.add(columns.Bezeichnung).width(2.38f);
 		Grundsatzangaben.add(columns.Zug_AEA).width(2.22f);
 		Grundsatzangaben.add(columns.Bauart).width(2.33f);
 
@@ -66,13 +66,13 @@ public class SsitTransformationService
 				.addGroup(messages.SsitTableView_Befestigung);
 		Befestigung.add(columns.Art).width(1.9f);
 		Befestigung.add(columns.Strecke).width(1.31f);
-		Befestigung.add(columns.km).width(1.74f);
+		Befestigung.add(columns.km).width(1.24f);
 
 		final GroupBuilder Bedien_Anz_Elemente = root
 				.addGroup(messages.SsitTableView_Bedien_Anz_Elemente);
-		Bedien_Anz_Elemente.add(columns.Melder).width(2.12f);
-		Bedien_Anz_Elemente.add(columns.Schalter).width(2.12f);
-		Bedien_Anz_Elemente.add(columns.Taste).width(2.12f);
+		Bedien_Anz_Elemente.add(columns.Melder).width(2.70f);
+		Bedien_Anz_Elemente.add(columns.Schalter).width(2.70f);
+		Bedien_Anz_Elemente.add(columns.Taste).width(2.70f);
 
 		final GroupBuilder Nahbedienbereich = Bedien_Anz_Elemente
 				.addGroup(messages.SsitTableView_Nahstellbereich);

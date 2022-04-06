@@ -89,15 +89,15 @@ http://www.eclipse.org/legal/epl-v20.html
 			<!-- CUSTOMIZE: Adjust number of used columns and insert column width 
 				from excel template. -->
 			<fo:table-column column-number="1" column-width="0.66cm" /> <!--  -->
-			<fo:table-column column-number="2" column-width="3.60cm" /> <!-- A -->
+			<fo:table-column column-number="2" column-width="2.38cm" /> <!-- A -->
 			<fo:table-column column-number="3" column-width="2.22cm" /> <!-- B -->
 			<fo:table-column column-number="4" column-width="2.33cm" /> <!-- C -->
 			<fo:table-column column-number="5" column-width="1.91cm" /> <!-- D -->
 			<fo:table-column column-number="6" column-width="1.30cm" /> <!-- E -->
-			<fo:table-column column-number="7" column-width="1.72cm" /> <!-- F -->
-			<fo:table-column column-number="8" column-width="2.12cm" /> <!-- G -->
-			<fo:table-column column-number="9" column-width="2.12cm" /> <!-- H -->
-			<fo:table-column column-number="10" column-width="2.12cm" /> <!-- I -->
+			<fo:table-column column-number="7" column-width="1.24cm" /> <!-- F -->
+			<fo:table-column column-number="8" column-width="2.70cm" /> <!-- G -->
+			<fo:table-column column-number="9" column-width="2.70cm" /> <!-- H -->
+			<fo:table-column column-number="10" column-width="2.70cm" /> <!-- I -->
 			<fo:table-column column-number="11" column-width="1.85cm" /> <!-- J -->
 			<fo:table-column column-number="12" column-width="1.53cm" /> <!-- K -->
 			<fo:table-column column-number="13" column-width="1.43cm" /> <!-- L -->
