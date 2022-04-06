@@ -8,13 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.basis.guid.Guid
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjekteFactory
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Daten_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory
+import org.eclipse.set.toolboxmodel.Basisobjekte.Daten_TypeClass
 import java.io.IOException
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 
 /**
  * Extensions for {@link Anhang}.

@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

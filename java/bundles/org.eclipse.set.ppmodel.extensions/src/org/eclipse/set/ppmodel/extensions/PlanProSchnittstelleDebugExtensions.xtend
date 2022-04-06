@@ -9,9 +9,9 @@
 
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import java.util.List
 import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante

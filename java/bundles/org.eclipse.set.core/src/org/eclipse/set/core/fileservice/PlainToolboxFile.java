@@ -42,12 +42,14 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	 *            the original toolbox file
 	 */
 	public PlainToolboxFile(final PlainToolboxFile toolboxFile) {
+		super(toolboxFile);
 		this.sessionService = toolboxFile.sessionService;
 		this.commonPath = toolboxFile.commonPath;
 		this.format = toolboxFile.format;
 		this.editingDomain = toolboxFile.editingDomain;
 		setResource(toolboxFile.getResource());
 		this.loadable = false;
+
 	}
 
 	// Initialize toolbox file and create resource
@@ -161,7 +163,7 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
-	public void save() throws IOException {
+	public void saveResource() throws IOException {
 		final XMLResource resource = getResource();
 		if (resource.getURI().isFile()) {
 			resource.save(null);

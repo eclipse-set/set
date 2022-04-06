@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Anrueckabschnitt
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anrueckabschnitt
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

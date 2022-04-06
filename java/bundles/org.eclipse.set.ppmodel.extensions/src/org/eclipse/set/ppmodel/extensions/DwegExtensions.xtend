@@ -8,12 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_DWeg
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_DWeg_W_Kr
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Fahrweg
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Markanter_Punkt
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg_W_Kr
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
 import java.util.LinkedList
 import java.util.List
 
@@ -46,7 +46,7 @@ class DwegExtensions extends BasisObjektExtensions {
 		val result = new LinkedList<Fstr_DWeg_W_Kr>
 		val zuordnungen = dweg.container.fstrDWegWKr
 		for (zuordnung : zuordnungen) {
-			if (zuordnung.IDFstrDWeg.wert == dweg.identitaet.wert) {
+			if (zuordnung.IDFstrDWeg.identitaet?.wert == dweg.identitaet.wert) {
 				result.add(zuordnung)
 			}
 		}
@@ -63,7 +63,7 @@ class DwegExtensions extends BasisObjektExtensions {
 		val fstrList = dweg.container.fstrZugRangier
 		for (fstr : fstrList) {
 			if (fstr.fstrZug?.fstrZugDWeg !== null) {
-				if (fstr.fstrZug.fstrZugDWeg.IDFstrDWeg.wert ==
+				if (fstr.fstrZug.fstrZugDWeg.IDFstrDWeg.identitaet?.wert ==
 					dweg.identitaet.wert) {
 					result.add(fstr)
 				}

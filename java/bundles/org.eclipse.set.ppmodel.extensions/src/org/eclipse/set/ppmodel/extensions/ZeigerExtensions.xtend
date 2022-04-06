@@ -8,26 +8,27 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.Zeiger_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
-
-import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
+import org.eclipse.set.toolboxmodel.BasisTypen.Zeiger_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 
 /**
  * Extensions for {@link Zeiger_TypeClass}.
  */
-class ZeigerExtensions extends BasisObjektExtensions {
-
+class ZeigerExtensions extends BasisObjektExtensions {	
 	/**
+	 * // TODO: Remove this
+	 * 
 	 * @param pointer the Zeiger_TypeClass
 	 * @param type the type to resolve as
 	 * 
 	 * @returns the object pointed to by the pointer
 	 */
-	static def <T extends Ur_Objekt> T resolve(Zeiger_TypeClass pointer,
+	@Deprecated
+	static def <T extends Ur_Objekt> T resolve(Ur_Objekt pointer,
 		Class<T> type) {
 		if (pointer === null)
 			return null
-		return pointer.container.getObject(type, pointer)
+		return pointer as T
 	}
+	
 }

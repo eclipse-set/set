@@ -32,8 +32,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.model.zipmanifest.Manifest;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Toolbox file support for zipped *.planpro files.
@@ -114,6 +113,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	}
 
 	ZippedPlanProToolboxFile(final ZippedPlanProToolboxFile toolboxFile) {
+		super(toolboxFile);
 		this.path = toolboxFile.path;
 		this.format = toolboxFile.format;
 		this.editingDomain = toolboxFile.editingDomain;
@@ -260,7 +260,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
-	public void save() throws IOException {
+	public void saveResource() throws IOException {
 		final XMLResource resource = getResource();
 		if (resource.getURI().isFile()) {
 			resource.save(null);

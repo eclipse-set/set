@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Rahmen
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Signalbegriff
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
+import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
 import java.util.Collection
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 /**

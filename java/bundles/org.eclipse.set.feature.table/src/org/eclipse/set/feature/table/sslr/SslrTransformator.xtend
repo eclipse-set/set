@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.sslr
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.math.BigInteger
 import java.util.Collections
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
@@ -21,7 +21,7 @@ import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 
-import static de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
+import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
@@ -257,7 +257,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZugRangier,
 			[
 				(fstrFahrweg?.zielSignal?.signalFstr?.
-					IDRaZielErlaubnisabhaengig?.wert !== null).translate
+					IDRaZielErlaubnisabhaengig?.identitaet?.wert !== null).translate
 			]
 		)
 

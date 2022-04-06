@@ -8,17 +8,15 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.Zeiger_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Schaltgruppe
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Komponente
-import de.scheidtbachmann.planpro.model.model1902.Ortung.Schaltmittel_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Gleis_Abschluss
 import java.util.List
 import java.util.Set
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Gleis_Abschluss
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
@@ -86,17 +84,6 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 
 	/**
 	 * @param anlage this FMA Anlage
-	 * @param id of one associated Aussenelementansteuerung 
-	 * 
-	 * @returns the Aussenelementansteuerung of the given id
-	 */
-	def static Aussenelementansteuerung getAussenelementById(FMA_Anlage anlage,
-		Zeiger_TypeClass id) {
-		return id?.resolve(Aussenelementansteuerung)
-	}
-
-	/**
-	 * @param anlage this FMA Anlage
 	 * 
 	 * @returns the BZ-Bezeichner of this FMA Anlage
 	 */
@@ -119,7 +106,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	def static List<Schaltmittel_Zuordnung> getSchaltmittelZuordnungen(
 		FMA_Anlage anlage) {
 		return anlage.container.schaltmittelZuordnung.filter [
-			IDSchalter.wert == anlage.identitaet.wert
+			IDSchalter.identitaet.wert == anlage.identitaet.wert
 		].toList
 	}
 

@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Freimelde_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Schutz
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Freimelde_Zuordnung
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.List
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
@@ -109,8 +109,8 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	def static List<Fla_Freimelde_Zuordnung> getFreimeldeZuordnungen(
 		Fla_Schutz flaSchutz) {
 		return flaSchutz.container.flaFreimeldeZuordnung.filter [
-			it?.IDFlaSchutz?.wert == flaSchutz?.identitaet?.wert &&
-				it?.IDFlaSchutz?.wert !== null
+			it?.IDFlaSchutz?.identitaet?.wert == flaSchutz?.identitaet?.wert &&
+				it?.IDFlaSchutz?.identitaet?.wert !== null
 		].toList
 	}
 

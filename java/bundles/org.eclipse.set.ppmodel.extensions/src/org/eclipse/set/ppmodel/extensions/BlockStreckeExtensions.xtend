@@ -9,9 +9,9 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
-import de.scheidtbachmann.planpro.model.model1902.Block.Block_Strecke
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Strecke
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Oertlichkeit
+import org.eclipse.set.toolboxmodel.Block.Block_Strecke
+import org.eclipse.set.toolboxmodel.Geodaten.Strecke
+import org.eclipse.set.toolboxmodel.Geodaten.Oertlichkeit
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Gruppe
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe
 import org.eclipse.set.core.services.Services
 
 /** 

@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.ENUMUnterbringungArt
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Punkt
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Strecke
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMUnterbringungArt
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
+import org.eclipse.set.toolboxmodel.Geodaten.Strecke
 import java.util.List
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 

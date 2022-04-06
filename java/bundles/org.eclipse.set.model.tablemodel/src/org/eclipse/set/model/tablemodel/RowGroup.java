@@ -8,11 +8,10 @@
  */
 package org.eclipse.set.model.tablemodel;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 
 /**
  * <!-- begin-user-doc -->

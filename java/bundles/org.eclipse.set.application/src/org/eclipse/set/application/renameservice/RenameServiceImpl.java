@@ -25,7 +25,7 @@ import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.swt.widgets.Shell;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * Implementation for {@link RenameService}.

@@ -69,4 +69,4 @@ Require-Bundle: org.eclipse.set.rap.compatibility;bundle-version="48.5.0";resolu
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- de.scheidtbachmann.planpro.model.model1902
+ org.eclipse.set.toolboxmodel

@@ -28,7 +28,7 @@ import org.eclipse.set.utils.text.LineTextViewer;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 
 /**
  * Displays PlanPro model as text.

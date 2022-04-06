@@ -8,21 +8,21 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Block.Block_Element
-import de.scheidtbachmann.planpro.model.model1902.Block.Block_Strecke
-import de.scheidtbachmann.planpro.model.model1902.Block.Block_Anlage
+import org.eclipse.set.toolboxmodel.Block.Block_Element
+import org.eclipse.set.toolboxmodel.Block.Block_Strecke
+import org.eclipse.set.toolboxmodel.Block.Block_Anlage
 import java.util.Set
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
-import de.scheidtbachmann.planpro.model.model1902.Ortung.Zugeinwirkung
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Komponente
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
 
 /**
  * Extensions for {@link Block_Element}.
@@ -46,7 +46,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenStart(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it.IDBlockElementA.wert == blockElement.identitaet.wert
+			it.IDBlockElementA.identitaet?.wert == blockElement.identitaet.wert
 		].toSet;
 	}
 
@@ -58,7 +58,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenZiel(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it?.IDBlockElementB?.wert == blockElement.identitaet.wert
+			it?.IDBlockElementB?.identitaet?.wert == blockElement.identitaet.wert
 		].toSet;
 	}
 
@@ -71,7 +71,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 		val schaltmittel = blockElement.IDRaeumungspruefung.resolve(
 			Schaltmittel_Zuordnung)
 
-		if (schaltmittel !== null && schaltmittel.IDSchalter.wert !== null) {
+		if (schaltmittel !== null && schaltmittel.IDSchalter.identitaet?.wert !== null) {
 
 			try {
 				val fmaAnlage = schaltmittel.IDSchalter.resolve(FMA_Anlage)
@@ -124,7 +124,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 
 		try {
 			for (Signal signal : blockElement.container.signal) {
-				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.wert ==
+				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.identitaet?.wert ==
 					blockElement?.identitaet?.wert) {
 					return signal
 				}
@@ -144,7 +144,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 			for (Fstr_Zug_Rangier zugRangier : blockElement.container.
 				fstrZugRangier) {
 				if (zugRangier?.fstrFahrweg?.zielPunkt?.
-					IDDWegErlaubnisabhaengig?.wert ==
+					IDDWegErlaubnisabhaengig?.identitaet?.wert ==
 					blockElement?.identitaet?.wert) {
 					return zugRangier
 				}

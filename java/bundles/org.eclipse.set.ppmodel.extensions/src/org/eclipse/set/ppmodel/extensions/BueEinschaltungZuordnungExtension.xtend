@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Einschaltung
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Einschaltung_Zuordnung
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung_Zuordnung
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

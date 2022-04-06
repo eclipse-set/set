@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 /**
  * A {@link W_Kr_Gsp_Element} with a Lage.

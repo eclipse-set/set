@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.model.tablemodel.Footnote
 import org.eclipse.set.model.tablemodel.TableRow

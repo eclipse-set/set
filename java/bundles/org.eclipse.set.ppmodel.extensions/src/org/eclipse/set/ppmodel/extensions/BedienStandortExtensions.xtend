@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Standort
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /** 

@@ -29,6 +29,10 @@ import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel;
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -37,11 +41,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Einzel;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceFactoryImpl;
 
 /**
  * Common functions for importing and merging.

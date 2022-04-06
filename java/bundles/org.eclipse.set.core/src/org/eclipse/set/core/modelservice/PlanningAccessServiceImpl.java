@@ -15,14 +15,13 @@ import java.util.Optional;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
+import org.eclipse.set.toolboxmodel.PlanPro.Untergewerk_Art_TypeClass;
 import org.osgi.service.component.annotations.Component;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.ENUMUntergewerkArt;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Gruppe;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Untergewerk_Art_TypeClass;
 
 /**
  * Implementation of {@link PlanningAccessService}.

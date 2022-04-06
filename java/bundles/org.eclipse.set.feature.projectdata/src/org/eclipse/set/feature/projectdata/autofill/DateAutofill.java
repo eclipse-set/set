@@ -19,12 +19,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.set.basis.autofill.CopyValue;
 import org.eclipse.set.basis.autofill.DefaultAutofill;
 import org.eclipse.set.basis.autofill.FillPathSetting;
+import org.eclipse.set.core.services.Services;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt;
 
 /**
  * PlanPro specific auto filling.

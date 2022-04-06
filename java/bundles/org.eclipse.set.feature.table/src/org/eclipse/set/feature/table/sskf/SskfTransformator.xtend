@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2016 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,9 +9,9 @@
 package org.eclipse.set.feature.table.sskf
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Schaltgruppe
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.List
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
@@ -21,8 +21,8 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 
-import static de.scheidtbachmann.planpro.model.model1902.Ortung.ENUMFMAArt.*
-import static de.scheidtbachmann.planpro.model.model1902.Ortung.ENUMUebertragungFMinfoRichtung.*
+import static org.eclipse.set.toolboxmodel.Ortung.ENUMFMAArt.*
+import static org.eclipse.set.toolboxmodel.Ortung.ENUMUebertragungFMinfoRichtung.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
@@ -93,7 +93,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			// F: Auswertung.AeA
 			fill(instance, cols.aea, fmaAnlage, [
-				getAussenelementById(IDGleisfreimeldeInnenanlage)?.bezeichnung?.
+				IDGleisfreimeldeInnenanlage?.bezeichnung?.
 					bezeichnungAEA?.wert ?: ""
 			])
 
@@ -107,8 +107,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 						wert === ENUM_UEBERTRAGUNG_FMINFO_RICHTUNG_KOMMEND
 				],
 				[
-					getAussenelementById(
-						FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo).
+					FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo?.
 						oertlichkeitNamensgebend?.bezeichnung?.
 						oertlichkeitAbkuerzung?.wert
 				]
@@ -124,8 +123,8 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 						wert === ENUM_UEBERTRAGUNG_FMINFO_RICHTUNG_GEHEND
 				],
 				[
-					getAussenelementById(
-						FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo).
+
+					FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo?.
 						oertlichkeitNamensgebend?.bezeichnung?.
 						oertlichkeitAbkuerzung?.wert
 				]

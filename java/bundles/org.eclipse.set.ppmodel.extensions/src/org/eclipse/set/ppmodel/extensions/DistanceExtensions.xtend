@@ -9,10 +9,10 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.basis.geometry.GeometryException
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Punkt
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.emf.ecore.EObject
 

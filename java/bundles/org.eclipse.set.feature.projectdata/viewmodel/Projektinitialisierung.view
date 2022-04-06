@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="ASCII"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <org.eclipse.emf.ecp.view.model:View xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmi:id="_X_InsJbmEeicd46lsKefNw" name="Planung_Gruppe">
-  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Gruppe"/>
-  <ecorePaths>/de.scheidtbachmann.planpro.model.model1902/model/PlanPro.ecore</ecorePaths>
-  <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_X_SYspbmEeicd46lsKefNw" name="F&#xfc;hrende &#xd6;rtlichkeit">
+  <rootEClass href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Gruppe"/>
+  <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_X_SYspbmEeicd46lsKefNw" name="Führende Örtlichkeit">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_tJdxAJoTEei-34UiH8MhdQ">
-      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Fuehrende_Oertlichkeit_TypeClass/wert"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Gruppe/fuehrendeOertlichkeit"/>
+      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Fuehrende_Oertlichkeit_TypeClass/wert"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Gruppe/fuehrendeOertlichkeit"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_e_uVkJbmEeicd46lsKefNw" name="Laufende Nummer der Ausgabe">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_lAovIJbmEeicd46lsKefNw">
-      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Laufende_Nummer_Ausgabe_TypeClass/wert"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Gruppe/lSTPlanungEinzel"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Einzel/planungEAllg"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_E_Allg_AttributeGroup/laufendeNummerAusgabe"/>
+      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Laufende_Nummer_Ausgabe_TypeClass/wert"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Gruppe/lSTPlanungEinzel"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Einzel/planungEAllg"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_E_Allg_AttributeGroup/laufendeNummerAusgabe"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_nbrOMJbmEeicd46lsKefNw" name="Index">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_rlZcoJbmEeicd46lsKefNw">
-      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Index_Ausgabe_TypeClass/wert"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Gruppe/lSTPlanungEinzel"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Einzel/planungEAllg"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_E_Allg_AttributeGroup/indexAusgabe"/>
+      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Index_Ausgabe_TypeClass/wert"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Gruppe/lSTPlanungEinzel"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Einzel/planungEAllg"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_E_Allg_AttributeGroup/indexAusgabe"/>
     </domainModelReference>
   </children>
   <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_s_kUkJbmEeicd46lsKefNw" name="Bauzustand Kurzbezeichnung">
     <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_wcgVgJbmEeicd46lsKefNw">
-      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Bauzustand_Kurzbezeichnung_TypeClass/wert"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Gruppe/lSTPlanungEinzel"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_Einzel/planungEAllg"/>
-      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/1.9.0.2#//Planung_E_Allg_AttributeGroup/bauzustandKurzbezeichnung"/>
+      <domainModelEFeature xsi:type="ecore:EAttribute" href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Bauzustand_Kurzbezeichnung_TypeClass/wert"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Gruppe/lSTPlanungEinzel"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Einzel/planungEAllg"/>
+      <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_E_Allg_AttributeGroup/bauzustandKurzbezeichnung"/>
     </domainModelReference>
   </children>
+  <ecorePaths>/org.eclipse.set.toolboxmodel/model/PlanPro.ecore</ecorePaths>
 </org.eclipse.emf.ecp.view.model:View>

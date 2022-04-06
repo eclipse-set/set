@@ -25,8 +25,8 @@ import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.table.TableDiffService;
 import org.osgi.service.component.annotations.Component;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Identitaet_TypeClass;
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 
 /**
  * Custom implementation of {@link TableDiffService}.

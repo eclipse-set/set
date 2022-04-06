@@ -85,5 +85,5 @@ class EObjectExtensions {
 				return attr.replace("\"", "\"\"")
 			return attr.toString
 		]) + System.lineSeparator
-	}	
+	}
 }

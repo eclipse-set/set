@@ -9,11 +9,11 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Sets
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Befestigung
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Rahmen
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Signalbegriff
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
+import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
 import java.util.Iterator
 import java.util.List
 import java.util.NoSuchElementException
@@ -21,7 +21,7 @@ import java.util.Set
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMBefestigungArt.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMBefestigungArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*

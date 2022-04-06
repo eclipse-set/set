@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2016 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.ssla
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Aneinander
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Aneinander_Zuordnung
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander_Zuordnung
 import java.util.LinkedList
 import java.util.List
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator

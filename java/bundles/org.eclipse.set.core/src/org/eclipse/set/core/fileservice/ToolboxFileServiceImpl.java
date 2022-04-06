@@ -25,17 +25,16 @@ import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 
 import com.google.common.collect.Lists;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * Implementation of the {@link ToolboxFileService}

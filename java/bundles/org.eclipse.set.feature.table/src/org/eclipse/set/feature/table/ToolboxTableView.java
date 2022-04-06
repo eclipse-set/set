@@ -76,6 +76,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -98,8 +99,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
 
 /**
  * View class for all toolbox table views. This class is responsible for

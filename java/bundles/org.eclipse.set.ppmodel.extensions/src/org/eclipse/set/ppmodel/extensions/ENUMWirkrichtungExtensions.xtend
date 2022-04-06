@@ -9,9 +9,9 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.basis.graph.DirectedEdge
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
 
-import static de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMWirkrichtung.*
+import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
 
 /**
  * Extensions for {@link ENUMWirkrichtung}.

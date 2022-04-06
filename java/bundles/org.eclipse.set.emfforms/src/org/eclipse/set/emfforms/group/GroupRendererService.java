@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emfforms.spi.swt.core.di.EMFFormsDIRendererService;
 import org.osgi.service.component.annotations.Component;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.emfforms.utils.DomainModelTypeRendererService;
 
 /**

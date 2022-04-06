@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Oertlichkeit
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.Oertlichkeit
 import java.util.List
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 

@@ -8,56 +8,6 @@
  */
 package org.eclipse.set.model.temporaryintegration.impl;
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Ansteuerung_ElementPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Bahnsteig.BahnsteigPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BahnuebergangPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Balisentechnik_ETCS.Balisentechnik_ETCSPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisTypenPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjektePackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.BedienungPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Block.BlockPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.FahrstrassePackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.FlankenschutzPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GeodatenPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Gleis.GleisPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Medien_und_Trassen.Medien_und_TrassenPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NahbedienbereichPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Ortung.OrtungPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.PZB.PZBPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Regelzeichnung.RegelzeichnungPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Signale.SignalePackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Verweise.VerweisePackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Zuglenkung.ZuglenkungPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -133,32 +83,32 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		isInited = true;
 
 		// Initialize simple dependencies
-		PlanProPackage.eINSTANCE.eClass();
-		BasisobjektePackage.eINSTANCE.eClass();
-		BasisTypenPackage.eINSTANCE.eClass();
-		VerweisePackage.eINSTANCE.eClass();
-		Ansteuerung_ElementPackage.eINSTANCE.eClass();
-		BahnsteigPackage.eINSTANCE.eClass();
-		BedienungPackage.eINSTANCE.eClass();
-		BlockPackage.eINSTANCE.eClass();
-		BahnuebergangPackage.eINSTANCE.eClass();
-		FlankenschutzPackage.eINSTANCE.eClass();
-		OrtungPackage.eINSTANCE.eClass();
-		FahrstrassePackage.eINSTANCE.eClass();
-		GeodatenPackage.eINSTANCE.eClass();
-		GleisPackage.eINSTANCE.eClass();
-		NahbedienbereichPackage.eINSTANCE.eClass();
-		PZBPackage.eINSTANCE.eClass();
-		RegelzeichnungPackage.eINSTANCE.eClass();
-		SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
-		SignalePackage.eINSTANCE.eClass();
-		Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
-		Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
-		ZuglenkungPackage.eINSTANCE.eClass();
-		ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.BasisTypen.BasisTypenPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Verweise.VerweisePackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Ansteuerung_Element.Ansteuerung_ElementPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Bahnsteig.BahnsteigPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Bedienung.BedienungPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Block.BlockPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Bahnuebergang.BahnuebergangPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Flankenschutz.FlankenschutzPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Ortung.OrtungPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Fahrstrasse.FahrstrassePackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Geodaten.GeodatenPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Gleis.GleisPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Nahbedienbereich.NahbedienbereichPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.PZB.PZBPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Regelzeichnung.RegelzeichnungPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Signale.SignalePackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Zuglenkung.ZuglenkungPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
 		SimplemergePackage.eINSTANCE.eClass();
-		Balisentechnik_ETCSPackage.eINSTANCE.eClass();
-		Medien_und_TrassenPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Balisentechnik_ETCS.Balisentechnik_ETCSPackage.eINSTANCE.eClass();
+		org.eclipse.set.toolboxmodel.Medien_und_Trassen.Medien_und_TrassenPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theTemporaryintegrationPackage.createPackageContents();
@@ -350,7 +300,7 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		PlanProPackage thePlanProPackage = (PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(PlanProPackage.eNS_URI);
+		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage thePlanProPackage = (org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eNS_URI);
 		SimplemergePackage theSimplemergePackage = (SimplemergePackage)EPackage.Registry.INSTANCE.getEPackage(SimplemergePackage.eNS_URI);
 
 		// Create type parameters

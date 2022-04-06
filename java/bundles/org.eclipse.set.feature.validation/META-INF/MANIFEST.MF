@@ -8,9 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
 Bundle-ActivationPolicy: lazy
 Import-Package: com.google.common.base;version="15.0.0",
- de.scheidtbachmann.planpro.model.model1902.Basisobjekte,
  de.scheidtbachmann.planpro.model.model1902.PlanPro,
- de.scheidtbachmann.planpro.model.model1902.PlanPro.util,
  javax.annotation,
  javax.inject;version="1.0.0",
  org.apache.commons.io;version="2.2.0",
@@ -93,7 +91,9 @@ Require-Bundle: com.google.guava,
  org.eclipse.set.feature.table,
  org.eclipse.nebula.widgets.nattable.extension.nebula,
  org.eclipse.set.utils.table,
- org.eclipse.set.ppmodel.extensions
+ org.eclipse.set.ppmodel.extensions,
+ org.eclipse.set.toolboxmodel,
+ org.eclipse.set.toolboxmodel.transform
 Service-Component: OSGI-INF/org.eclipse.set.feature.validation.modelloader.ModelLoaderContextFunction.xml,
  OSGI-INF/org.eclipse.set.feature.validation.service.ValidationServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.feature.validation.attachmenttest.AttachmentTest.xml,

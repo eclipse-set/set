@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Zwieschutz
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Zwieschutz
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

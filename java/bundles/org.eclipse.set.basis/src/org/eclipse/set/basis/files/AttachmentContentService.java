@@ -10,7 +10,7 @@ package org.eclipse.set.basis.files;
 
 import java.io.IOException;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
 import org.eclipse.set.basis.attachments.Attachment;
 
 /**

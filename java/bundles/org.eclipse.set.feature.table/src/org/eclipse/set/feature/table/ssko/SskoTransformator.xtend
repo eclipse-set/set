@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.table.ssko;
 
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schloss
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schloss
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper
@@ -26,8 +26,8 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluesselsperre
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 
 /**
  * Table transformation for a Schlosstabelle Entwurf (Ssko).
@@ -343,12 +343,12 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		Schluesselsperre schluesselsperre) {
 		val c = schluesselsperre.container
 		return c.fstrAbhaengigkeit.filter [
-			it.fstrAbhaengigkeitSsp?.IDSchluesselsperre?.wert ==
+			it.fstrAbhaengigkeitSsp?.IDSchluesselsperre?.identitaet?.wert ==
 				schluesselsperre?.identitaet?.wert
 		].map [
 			val fahrweg = it.fstrFahrweg
 			c.fstrZugRangier.filter [
-				it.IDFstrFahrweg?.wert == fahrweg?.identitaet?.wert
+				it.IDFstrFahrweg?.identitaet?.wert == fahrweg?.identitaet?.wert
 			].head
 		].head
 	}

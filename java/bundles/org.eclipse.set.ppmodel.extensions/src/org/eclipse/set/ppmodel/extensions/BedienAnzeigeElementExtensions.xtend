@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Einrichtung_Oertlich
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
 import java.util.List
 import org.eclipse.emf.common.util.Enumerator
 
@@ -44,7 +44,7 @@ class BedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	def static List<NB_Bedien_Anzeige_Element> getNbBedienAnzeigeElemente(
 		Bedien_Anzeige_Element bedienAnzeigeElement) {
 		return bedienAnzeigeElement.container.NBBedienAnzeigeElement.filter [
-			IDBedienAnzeigeElement?.wert == bedienAnzeigeElement.identitaet.wert
+			IDBedienAnzeigeElement?.identitaet?.wert == bedienAnzeigeElement.identitaet.wert
 		].toList
 	}
 
@@ -67,7 +67,7 @@ class BedienAnzeigeElementExtensions extends BasisObjektExtensions {
 		Bedien_Anzeige_Element bedienAnzeigeElement
 	) {
 		return bedienAnzeigeElement.container.BUEBedienAnzeigeElement.filter [
-			BUEBedienAnzElementAllg?.IDBedienAnzeigeElement?.wert ==
+			BUEBedienAnzElementAllg?.IDBedienAnzeigeElement?.identitaet?.wert ==
 				bedienAnzeigeElement.identitaet.wert
 		].toList
 	}

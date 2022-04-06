@@ -11,8 +11,10 @@ package org.eclipse.set.core.fileservice;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
@@ -20,6 +22,8 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.ppmodel.extensions.PlanProResourceImplExtensions;
+import org.eclipse.set.toolboxmodel.transform.ToolboxModelService;
+import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.w3c.dom.Document;
 
 import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceImpl;
@@ -30,7 +34,7 @@ import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceIm
  * @author Schaefer
  */
 public abstract class AbstractToolboxFile implements ToolboxFile {
-
+	protected final ToolboxModelService toolboxModelService;
 	private static final String NO = "no"; //$NON-NLS-1$
 
 	protected static final String ENCODING = StandardCharsets.UTF_8.name();
@@ -40,6 +44,14 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	// IMPROVE: this Resource and Resource of EditingDomain have same content.
 	// Should we this Resouce here remove ?
 	private XMLResource resource;
+
+	protected AbstractToolboxFile() {
+		this.toolboxModelService = new ToolboxModelServiceImpl();
+	}
+
+	protected AbstractToolboxFile(final AbstractToolboxFile toolboxFile) {
+		this.toolboxModelService = toolboxFile.toolboxModelService;
+	}
 
 	@Override
 	public XMLResource getResource() {
@@ -57,9 +69,8 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	}
 
 	private void modifyXmlDeclaration() {
-		if (resource instanceof PlanProResourceImpl) {
-			PlanProResourceImplExtensions
-					.setStandalone((PlanProResourceImpl) resource, NO);
+		if (resource instanceof final PlanProResourceImpl planproResource) {
+			PlanProResourceImplExtensions.setStandalone(planproResource, NO);
 		}
 	}
 
@@ -82,7 +93,9 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 				}
 			}
 		}
+
 		setResource(newResource);
+		loadModel();
 	}
 
 	protected void setResource(final XMLResource resource) {
@@ -106,4 +119,39 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		}
 	}
 
+	private void loadModel() {
+		final List<EObject> contents = resource.getContents();
+		if (contents.isEmpty()) {
+			return;
+		}
+		final EObject root = contents.get(0);
+		if (root instanceof final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot ppDocumentRoot) {
+			toolboxModelService.loadPlanProModel(ppDocumentRoot);
+
+			// Replace the PlanPro model in the resource
+			contents.remove(0);
+			contents.add(toolboxModelService.getToolboxModel());
+		}
+	}
+
+	@Override
+	public void save() throws IOException {
+		final List<EObject> contents = resource.getContents();
+		if (!contents.isEmpty()) {
+			final EObject root = contents.get(0);
+			if (root instanceof final org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot toolboxDocumentRoot) {
+				// Replace the Toolbox model in the resource
+				contents.remove(0);
+				contents.add(toolboxModelService.savePlanProModel());
+			}
+		}
+		saveResource();
+	}
+
+	/**
+	 * Saves the resource
+	 * 
+	 * @throws IOException
+	 */
+	protected abstract void saveResource() throws IOException;
 }

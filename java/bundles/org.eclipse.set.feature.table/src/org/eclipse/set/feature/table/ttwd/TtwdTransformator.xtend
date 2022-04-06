@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.table.ttwd
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Einzel
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper

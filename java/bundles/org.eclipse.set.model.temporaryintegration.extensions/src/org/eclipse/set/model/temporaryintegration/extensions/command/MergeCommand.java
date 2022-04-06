@@ -19,12 +19,11 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt;
-import org.eclipse.set.model.simplemerge.extensions.ResolutionExtensions;
 import org.eclipse.set.model.simplemerge.Resolution;
 import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.simplemerge.SimplemergePackage;
+import org.eclipse.set.model.simplemerge.extensions.ResolutionExtensions;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 
 /**
  * Describes a manual merge of a single match.
@@ -83,9 +82,8 @@ public class MergeCommand extends CompoundCommand {
 		this.domain = domain;
 	}
 
-	private void add(final Ur_Objekt newElement,
-			final EObject destination, final EStructuralFeature listFeature,
-			final int index) {
+	private void add(final Ur_Objekt newElement, final EObject destination,
+			final EStructuralFeature listFeature, final int index) {
 		if (newElement != null) {
 			if (index >= 0) {
 				final Command add = AddCommand.create(domain, destination,

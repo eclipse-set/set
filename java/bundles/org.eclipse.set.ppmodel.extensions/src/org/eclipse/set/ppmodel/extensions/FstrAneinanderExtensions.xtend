@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Aneinander
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Aneinander_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_DWeg
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander_Zuordnung
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Signale.Signal
 import java.util.LinkedList
 import java.util.List
 
@@ -57,7 +57,7 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 		Fstr_Aneinander fstrAneinander) {
 		val result = new LinkedList<Fstr_Aneinander_Zuordnung>
 		for (zuordnung : fstrAneinander.container.fstrAneinanderZuordnung) {
-			if (zuordnung.IDFstrAneinander.wert ==
+			if (zuordnung.IDFstrAneinander.identitaet.wert ==
 				fstrAneinander.identitaet.wert) {
 				result.add(zuordnung)
 			}
@@ -104,9 +104,9 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 		val List<Fstr_Aneinander_Zuordnung> zuordnungen = fstrAneinander.
 			zuordnungen
 		for (zuordnung : zuordnungen) {
-			if (!zuordnungen?.map[fstrZugRangier?.fstrFahrweg?.IDStart?.wert].
+			if (!zuordnungen?.map[fstrZugRangier?.fstrFahrweg?.IDStart?.identitaet?.wert].
 				contains(
-					zuordnung?.fstrZugRangier?.fstrFahrweg?.IDZiel?.wert)) {
+					zuordnung?.fstrZugRangier?.fstrFahrweg?.IDZiel?.identitaet?.wert)) {
 				return zuordnung
 			}
 		}
@@ -123,9 +123,9 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 	static def Fstr_Aneinander_Zuordnung getFstrStartZuordnung(
 		List<Fstr_Aneinander_Zuordnung> zuordnungen) {
 		for (zuordnung : zuordnungen) {
-			if (!zuordnungen.map[fstrZugRangier?.fstrFahrweg?.IDZiel?.wert].
+			if (!zuordnungen.map[fstrZugRangier?.fstrFahrweg?.IDZiel?.identitaet?.wert].
 				contains(
-					zuordnung?.fstrZugRangier?.fstrFahrweg?.IDStart?.wert)) {
+					zuordnung?.fstrZugRangier?.fstrFahrweg?.IDStart?.identitaet?.wert)) {
 				return zuordnung
 			}
 		}

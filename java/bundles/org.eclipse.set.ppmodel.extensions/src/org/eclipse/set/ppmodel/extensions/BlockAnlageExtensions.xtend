@@ -9,8 +9,8 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Bezeichnung
-import de.scheidtbachmann.planpro.model.model1902.Block.Block_Anlage
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.toolboxmodel.Block.Block_Anlage
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

@@ -14,13 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Set;
 
 import org.eclipse.set.ppmodel.extensions.utils.ModelBaseTest;
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg;
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_DWeg;
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage;
 
 /**
  * Tests for {@link DwegExtensions}.

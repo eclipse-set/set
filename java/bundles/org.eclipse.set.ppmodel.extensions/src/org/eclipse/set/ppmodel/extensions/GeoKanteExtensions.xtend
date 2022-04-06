@@ -8,12 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMWirkrichtung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.ENUMGEOForm
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import java.util.List
 import org.eclipse.set.basis.geometry.Chord
 import org.eclipse.set.basis.geometry.Circle

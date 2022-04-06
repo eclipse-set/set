@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Nichthaltfall
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Nichthaltfall
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

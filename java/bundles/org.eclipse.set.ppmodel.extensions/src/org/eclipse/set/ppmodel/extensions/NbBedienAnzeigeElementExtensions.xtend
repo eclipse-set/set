@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

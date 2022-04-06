@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.application.defaultvalue
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.ENUMUntergewerkArt
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import javax.inject.Inject
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService

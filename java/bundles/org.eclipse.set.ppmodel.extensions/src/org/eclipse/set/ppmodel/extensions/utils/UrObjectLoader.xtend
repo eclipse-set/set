@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 import org.eclipse.set.basis.MissingSupplier
 
 /**

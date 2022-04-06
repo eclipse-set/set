@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Strecke_Punkt
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.Strecke_Punkt
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

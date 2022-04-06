@@ -8,40 +8,33 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Abstand_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjekteFactory
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Identitaet_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.FahrstrasseFactory
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Fahrweg
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.ENUMGEOForm
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GeodatenFactory
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante_Allg_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Laenge_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Zustand
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Signale.SignaleFactory
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_GEO_Art_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_GEO_Knoten_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_Signal_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_TOP_Kante_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_TOP_Knoten_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_Ziel_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Verweise.VerweiseFactory
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Weichen_und_GleissperrenFactory
 import java.math.BigDecimal
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.cache.NoCacheService
 import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
+import org.eclipse.set.toolboxmodel.Basisobjekte.Abstand_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory
+import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Fahrstrasse.FahrstrasseFactory
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.GeodatenFactory
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante_Allg_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Laenge_TypeClass
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Signale.SignaleFactory
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Weichen_und_GleissperrenFactory
 import org.junit.jupiter.api.Test
 import org.locationtech.jts.geom.LineSegment
 
@@ -59,16 +52,9 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 class FahrwegExtensionsCrossingTest {
 
 	def private static void connect(TOP_Kante topEdge, GEO_Kante geoEdge) {
-		topEdge.TOPKnotenA.IDGEOKnoten = geoEdge.geoKnotenA.createId
-		topEdge.TOPKnotenB.IDGEOKnoten = geoEdge.geoKnotenB.createId
-		geoEdge.IDGEOArt = topEdge.createArtId
-	}
-
-	def private static ID_GEO_Art_TypeClass createArtId(TOP_Kante edge) {
-		val ID_GEO_Art_TypeClass id = VerweiseFactory.eINSTANCE.
-			createID_GEO_Art_TypeClass
-		id.setWert(edge.getIdentitaet().getWert())
-		return id
+		topEdge.TOPKnotenA.IDGEOKnoten = geoEdge.geoKnotenA
+		topEdge.TOPKnotenB.IDGEOKnoten = geoEdge.geoKnotenB
+		geoEdge.IDGEOArt = topEdge
 	}
 
 	def private static GEO_Kante createGeoEdge(int x1, int y1, int x2, int y2,
@@ -82,8 +68,8 @@ class FahrwegExtensionsCrossingTest {
 		// create nodes
 		val GEO_Knoten nodeA = createGeoNode(x1, y1, container)
 		val GEO_Knoten nodeB = createGeoNode(x2, y2, container)
-		geoEdge.setIDGEOKnotenA(createId(nodeA))
-		geoEdge.setIDGEOKnotenB(createId(nodeB))
+		geoEdge.setIDGEOKnotenA(nodeA)
+		geoEdge.setIDGEOKnotenB(nodeB)
 
 		// create edge common
 		val geoEdgeCommon = GeodatenFactory.eINSTANCE.
@@ -107,7 +93,7 @@ class FahrwegExtensionsCrossingTest {
 
 		// create GEO point
 		val geoPoint = GeodatenFactory.eINSTANCE.createGEO_Punkt
-		geoPoint.IDGEOKnoten = createId(geoNode)
+		geoPoint.IDGEOKnoten = geoNode
 		val geoPointCommon = GeodatenFactory.eINSTANCE.
 			createGEO_Punkt_Allg_AttributeGroup
 		val gkX = GeodatenFactory.eINSTANCE.createGK_X_TypeClass
@@ -122,45 +108,10 @@ class FahrwegExtensionsCrossingTest {
 		return geoNode
 	}
 
-	def private static ID_GEO_Knoten_TypeClass createId(GEO_Knoten node) {
-		val ID_GEO_Knoten_TypeClass id = VerweiseFactory.eINSTANCE.
-			createID_GEO_Knoten_TypeClass
-		id.setWert(node.identitaet.wert)
-		return id
-	}
-
-	def private static ID_Signal_TypeClass createId(Signal signal) {
-		val ID_Signal_TypeClass id = VerweiseFactory.eINSTANCE.
-			createID_Signal_TypeClass
-		id.setWert(signal.identitaet.wert)
-		return id
-	}
-
 	def private static Identitaet_TypeClass createId(String edgeName) {
 		val Identitaet_TypeClass id = BasisobjekteFactory.eINSTANCE.
 			createIdentitaet_TypeClass()
 		id.setWert(edgeName)
-		return id
-	}
-
-	def private static ID_TOP_Kante_TypeClass createId(TOP_Kante edge) {
-		val ID_TOP_Kante_TypeClass id = VerweiseFactory.eINSTANCE.
-			createID_TOP_Kante_TypeClass()
-		id.setWert(edge.getIdentitaet().getWert())
-		return id
-	}
-
-	def private static ID_TOP_Knoten_TypeClass createId(TOP_Knoten node) {
-		val ID_TOP_Knoten_TypeClass id = VerweiseFactory.eINSTANCE.
-			createID_TOP_Knoten_TypeClass()
-		id.setWert(node.getIdentitaet().getWert())
-		return id
-	}
-
-	def private static ID_Ziel_TypeClass createIdZiel(Signal signal) {
-		val ID_Ziel_TypeClass id = VerweiseFactory.eINSTANCE.
-			createID_Ziel_TypeClass
-		id.setWert(signal.identitaet.wert)
 		return id
 	}
 
@@ -185,8 +136,8 @@ class FahrwegExtensionsCrossingTest {
 		// create nodes
 		val TOP_Knoten nodeA = createTopNode(x1, y1, container)
 		val TOP_Knoten nodeB = createTopNode(x2, y2, container)
-		topEdge.setIDTOPKnotenA(createId(nodeA))
-		topEdge.setIDTOPKnotenB(createId(nodeB))
+		topEdge.setIDTOPKnotenA(nodeA)
+		topEdge.setIDTOPKnotenB(nodeB)
 
 		// create length
 		val TOP_Kante_Allg_AttributeGroup topEdgeCommon = GeodatenFactory.
@@ -276,8 +227,8 @@ class FahrwegExtensionsCrossingTest {
 		container.fstrFahrweg.add(testee)
 		val start = createSignal("startSignal", container)
 		val destination = createSignal("destinationSignal", container)
-		testee.IDStart = createId(start)
-		testee.IDZiel = createIdZiel(destination)
+		testee.IDStart = start
+		testee.IDZiel = destination
 
 		// create state
 		val LST_Zustand state = PlanProFactory.eINSTANCE.createLST_Zustand
@@ -335,14 +286,14 @@ class FahrwegExtensionsCrossingTest {
 			createAbstand_TypeClass()
 		distance.setWert(BigDecimal.valueOf(edge.laenge / 2))
 		singlePoint.setAbstand(distance)
-		singlePoint.setIDTOPKante(createId(edge))
+		singlePoint.setIDTOPKante(edge)
 		pointObject.getPunktObjektTOPKante().add(singlePoint)
 	}
 
 	def private void mount(Signal signal, TOP_Kante edge, TOP_Knoten node) {
 		val Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint = BasisobjekteFactory.
 			eINSTANCE.createPunkt_Objekt_TOP_Kante_AttributeGroup()
-		singlePoint.IDTOPKante = createId(edge)
+		singlePoint.IDTOPKante = edge
 		val Abstand_TypeClass distance = BasisobjekteFactory.eINSTANCE.
 			createAbstand_TypeClass
 		switch (node) {
@@ -363,7 +314,7 @@ class FahrwegExtensionsCrossingTest {
 	def private void place(TOP_Kante edge, Fstr_Fahrweg fahrweg) {
 		val area = BasisobjekteFactory.eINSTANCE.
 			createBereich_Objekt_Teilbereich_AttributeGroup
-		area.IDTOPKante = createId(edge)
+		area.IDTOPKante = edge
 		val a = BasisobjekteFactory.eINSTANCE.createBegrenzung_A_TypeClass
 		a.wert = BigDecimal.ZERO
 		area.begrenzungA = a

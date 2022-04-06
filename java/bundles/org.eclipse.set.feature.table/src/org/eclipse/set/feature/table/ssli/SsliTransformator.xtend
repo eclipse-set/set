@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.feature.table.ssli
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.ENUMRangierGegenfahrtausschluss
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Bezeichnung
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
+import org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.toolboxmodel.Signale.Signal
 import java.util.ArrayList
 import java.util.HashMap
 import java.util.HashSet
@@ -27,7 +27,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
-import static de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
+import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
@@ -35,7 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
-import de.scheidtbachmann.planpro.model.model1902.Signale.ENUMSignalArt
+import org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -244,10 +244,10 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		Signal signal
 	) {
 		addAll(container.fstrFahrweg.filter [
-			IDZiel.wert == signal.identitaet.wert
+			IDZiel.identitaet?.wert == signal.identitaet.wert
 		].map [ fw |
 			container.fstrZugRangier.filter [
-				IDFstrFahrweg.wert == fw.identitaet.wert
+				IDFstrFahrweg.identitaet?.wert == fw.identitaet.wert
 			]
 		].flatten.toSet.map[fstrRangier?.rangierGegenfahrtausschluss?.wert])
 		return
@@ -274,13 +274,13 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		signals.forEach [ signal |
 			val rafahrt = signal?.signalFstrAusInselgleis?.
 				IDRaFahrtGleichzeitigVerbot
-			rafahrt?.filter[gl|result.containsKey(gl.wert)]?.forEach [ gl |
-				result.get(gl.wert).raFahrtVerbot.add(signal)
+			rafahrt?.filter[gl|result.containsKey(gl.identitaet?.wert)]?.forEach [ gl |
+				result.get(gl.identitaet?.wert).raFahrtVerbot.add(signal)
 			]
 			val zgfahrt = signal?.signalFstrAusInselgleis?.
 				IDZgFahrtGleichzeitigVerbot
-			zgfahrt?.filter[gl|result.containsKey(gl.wert)]?.forEach [ gl |
-				result.get(gl.wert).zgFahrtVerbot.add(signal)
+			zgfahrt?.filter[gl|result.containsKey(gl.identitaet?.wert)]?.forEach [ gl |
+				result.get(gl.identitaet?.wert).zgFahrtVerbot.add(signal)
 			]
 		]
 

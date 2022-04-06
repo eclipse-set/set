@@ -29,7 +29,7 @@ import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResou
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
 
 /**
  * Toolbox file support for *.planpro files.

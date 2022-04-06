@@ -8,12 +8,6 @@
  */
 package org.eclipse.set.model.tablemodel.impl;
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisTypenPackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjektePackage;
-
-import de.scheidtbachmann.planpro.model.model1902.Verweise.VerweisePackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -34,6 +28,10 @@ import org.eclipse.set.model.tablemodel.TableContent;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisTypenPackage;
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage;
+import org.eclipse.set.toolboxmodel.Geodaten.GeodatenPackage;
+import org.eclipse.set.toolboxmodel.Verweise.VerweisePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -168,8 +166,9 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		// Initialize simple dependencies
 		BasisobjektePackage.eINSTANCE.eClass();
-		BasisTypenPackage.eINSTANCE.eClass();
 		VerweisePackage.eINSTANCE.eClass();
+		BasisTypenPackage.eINSTANCE.eClass();
+		GeodatenPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theTablemodelPackage.createPackageContents();

@@ -9,13 +9,13 @@
 package org.eclipse.set.feature.table.sskp;
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Komponente
-import de.scheidtbachmann.planpro.model.model1902.PZB.PZB_Element
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.toolboxmodel.PZB.PZB_Element
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.List
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator

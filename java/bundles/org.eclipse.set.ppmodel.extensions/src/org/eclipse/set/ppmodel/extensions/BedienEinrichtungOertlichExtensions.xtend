@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Einrichtung_Oertlich
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
 import java.util.List
 
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
@@ -31,7 +31,7 @@ class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
 	static def List<Bedien_Anzeige_Element> getBedienAnzeigeElemente(
 		Bedien_Einrichtung_Oertlich einrichtung) {
 		return einrichtung.container.bedienAnzeigeElement.filter [
-			IDBedienEinrichtungOertlich?.wert == einrichtung.identitaet.wert
+			IDBedienEinrichtungOertlich?.identitaet?.wert == einrichtung.identitaet.wert
 		].toList
 	}
 

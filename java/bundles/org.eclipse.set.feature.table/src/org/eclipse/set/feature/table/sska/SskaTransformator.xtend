@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.feature.table.sska
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.ESTW_Zentraleinheit
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import java.util.Collections
 import java.util.LinkedList
 import org.eclipse.emf.common.util.BasicEList
@@ -24,7 +24,7 @@ import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions
 import org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 
-import static de.scheidtbachmann.planpro.model.model1902.Bedienung.ENUMBedienPlatzArt.*
+import static org.eclipse.set.toolboxmodel.Bedienung.ENUMBedienPlatzArt.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
@@ -330,7 +330,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		elementList.addAll(element.container.ESTWZentraleinheit)
 
 		return elementList.filter [
-			element.IDInformationPrimaer.map[wert].contains(identitaet.wert)
+			element.IDInformationPrimaer.map[identitaet?.wert].contains(identitaet.wert)
 		].map[bezeichner].toList.getIterableFilling(MIXED_STRING_COMPARATOR)
 	}
 
@@ -509,7 +509,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		for (el : elementList) {
 			if (el.identitaet.wert ==
-				element.AEAEnergieversorgung.IDEnergiePrimaer.wert) {
+				element.AEAEnergieversorgung.IDEnergiePrimaer.identitaet?.wert) {
 				return el;
 			}
 		}
@@ -526,7 +526,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		for (el : elementList) {
 			if (el.identitaet.wert ==
-				element.AEAEnergieversorgung.IDEnergieSekundaer.wert) {
+				element.AEAEnergieversorgung.IDEnergieSekundaer.identitaet?.wert) {
 				return el;
 			}
 		}

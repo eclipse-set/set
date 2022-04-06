@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.utils.events;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 
 /**
  * The data within a container have changed.

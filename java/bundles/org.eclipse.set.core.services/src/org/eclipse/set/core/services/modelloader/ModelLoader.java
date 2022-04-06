@@ -10,11 +10,10 @@ package org.eclipse.set.core.services.modelloader;
 
 import java.util.function.Consumer;
 
-import org.eclipse.swt.widgets.Shell;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Manage UI oriented loading of a PlanPro Model.

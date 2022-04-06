@@ -4,7 +4,7 @@
     modelDirectory="/org.eclipse.set.model.tablemodel/src" editorDirectory="" modelPluginID="org.eclipse.set.model.tablemodel"
     modelName="Tableformat" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0"
-    copyrightFields="false" usedGenPackages="tablemodel.genmodel#//tablemodel ../../de.scheidtbachmann.planpro.model.model1902/model/PlanPro.genmodel#//Basisobjekte ../../de.scheidtbachmann.planpro.model.model1902/model/PlanPro.genmodel#//BasisTypen ../../de.scheidtbachmann.planpro.model.model1902/model/PlanPro.genmodel#//Verweise"
+    copyrightFields="false" usedGenPackages="tablemodel.genmodel#//tablemodel ../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//Basisobjekte ../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//BasisTypen ../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//Verweise ../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//Geodaten"
     operationReflection="true" importOrganizing="true">
   <foreignModel>tableformat.ecore</foreignModel>
   <genPackages prefix="Tableformat" basePackage="org.eclipse.set.model.tablemodel"

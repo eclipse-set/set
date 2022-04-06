@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisAttribut_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
 import java.util.List
 import org.eclipse.set.ppmodel.extensions.utils.LstObjectAttribute
 

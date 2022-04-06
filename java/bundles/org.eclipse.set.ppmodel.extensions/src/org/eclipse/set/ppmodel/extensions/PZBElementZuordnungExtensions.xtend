@@ -8,12 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.Bezeichnung_Element_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.PZB.PZB_Element_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.BasisTypen.Bezeichnung_Element_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.PZB.PZB_Element_Zuordnung
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

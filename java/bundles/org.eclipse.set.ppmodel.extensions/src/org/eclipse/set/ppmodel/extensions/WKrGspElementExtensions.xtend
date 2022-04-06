@@ -8,22 +8,22 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Stellelement
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.ENUMTOPAnschluss
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Regelzeichnung.Regelzeichnung
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.GZ_Freimeldung_L_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.GZ_Freimeldung_R_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.GZ_Freimeldung_L_AttributeGroup
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.GZ_Freimeldung_R_AttributeGroup
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import java.util.Collections
 import java.util.List
 import org.eclipse.core.runtime.Assert
 
-import static de.scheidtbachmann.planpro.model.model1902.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
@@ -57,7 +57,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 			return Collections.emptyList
 		}
 		return wKrGspElement.container.WKrGspKomponente.filter [
-			IDWKrGspElement.wert == wKrGspElement.identitaet.wert
+			IDWKrGspElement.identitaet?.wert == wKrGspElement.identitaet.wert
 		].toList
 	}
 

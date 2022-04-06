@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Strecke
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.Strecke
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

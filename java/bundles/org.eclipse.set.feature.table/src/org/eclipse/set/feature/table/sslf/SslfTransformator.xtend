@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.feature.table.sslf
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Schutz
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone_Grenze
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper
@@ -19,7 +19,7 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 
-import static de.scheidtbachmann.planpro.model.model1902.Flankenschutz.ENUMFahrtUeber.*
+import static org.eclipse.set.toolboxmodel.Flankenschutz.ENUMFahrtUeber.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*

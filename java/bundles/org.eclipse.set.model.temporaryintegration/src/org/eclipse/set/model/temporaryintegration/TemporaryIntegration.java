@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.model.temporaryintegration;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
-
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.set.model.simplemerge.SComparison;
@@ -49,12 +47,12 @@ public interface TemporaryIntegration extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Primary Planning</em>' containment reference.
-	 * @see #setPrimaryPlanning(PlanPro_Schnittstelle)
+	 * @see #setPrimaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)
 	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration_PrimaryPlanning()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	PlanPro_Schnittstelle getPrimaryPlanning();
+	org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle getPrimaryPlanning();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getPrimaryPlanning <em>Primary Planning</em>}' containment reference.
@@ -64,7 +62,7 @@ public interface TemporaryIntegration extends EObject {
 	 * @see #getPrimaryPlanning()
 	 * @generated
 	 */
-	void setPrimaryPlanning(PlanPro_Schnittstelle value);
+	void setPrimaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle value);
 
 	/**
 	 * Returns the value of the '<em><b>Primary Planning Filename</b></em>' attribute.
@@ -127,12 +125,12 @@ public interface TemporaryIntegration extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Secondary Planning</em>' containment reference.
-	 * @see #setSecondaryPlanning(PlanPro_Schnittstelle)
+	 * @see #setSecondaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)
 	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration_SecondaryPlanning()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	PlanPro_Schnittstelle getSecondaryPlanning();
+	org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle getSecondaryPlanning();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getSecondaryPlanning <em>Secondary Planning</em>}' containment reference.
@@ -142,7 +140,7 @@ public interface TemporaryIntegration extends EObject {
 	 * @see #getSecondaryPlanning()
 	 * @generated
 	 */
-	void setSecondaryPlanning(PlanPro_Schnittstelle value);
+	void setSecondaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle value);
 
 	/**
 	 * Returns the value of the '<em><b>Secondary Planning Filename</b></em>' attribute.
@@ -201,12 +199,12 @@ public interface TemporaryIntegration extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Composite Planning</em>' containment reference.
-	 * @see #setCompositePlanning(PlanPro_Schnittstelle)
+	 * @see #setCompositePlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)
 	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getTemporaryIntegration_CompositePlanning()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	PlanPro_Schnittstelle getCompositePlanning();
+	org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle getCompositePlanning();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration#getCompositePlanning <em>Composite Planning</em>}' containment reference.
@@ -216,7 +214,7 @@ public interface TemporaryIntegration extends EObject {
 	 * @see #getCompositePlanning()
 	 * @generated
 	 */
-	void setCompositePlanning(PlanPro_Schnittstelle value);
+	void setCompositePlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle value);
 
 	/**
 	 * Returns the value of the '<em><b>Integration Directory</b></em>' attribute.

@@ -26,9 +26,9 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.junit.jupiter.api.BeforeEach;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceFactoryImpl;
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
 
 /**
  * Common toolboxfile test

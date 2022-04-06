@@ -8,11 +8,10 @@
  */
 package org.eclipse.set.model.tablemodel.provider;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.provider.PlanProEditPlugin;
-
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.set.toolboxmodel.PlanPro.provider.PlanProEditPlugin;
 
 /**
  * This is the central singleton for the Tablemodel edit plugin.

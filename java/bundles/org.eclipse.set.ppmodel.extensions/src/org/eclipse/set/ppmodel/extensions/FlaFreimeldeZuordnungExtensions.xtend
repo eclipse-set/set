@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Freimelde_Zuordnung
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Freimelde_Zuordnung
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

@@ -41,6 +41,7 @@ import org.eclipse.set.feature.validation.report.ValidationProblemTableViewerCon
 import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.extensions.ValidationReportExtension;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.StatefulButtonAction;
@@ -56,8 +57,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
 
 /**
  * This part can display status and validation details about the current model

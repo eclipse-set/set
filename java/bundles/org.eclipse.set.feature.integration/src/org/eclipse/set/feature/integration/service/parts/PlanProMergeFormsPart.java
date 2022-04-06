@@ -56,6 +56,8 @@ import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.StatefulButtonAction;
@@ -72,9 +74,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
 import com.google.common.base.Strings;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * The merge part using EMF Forms.

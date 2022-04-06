@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone_Element
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone_Grenze
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Element
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
 import java.util.List
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
@@ -48,7 +48,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 */
 	def static List<NB_Zone_Element> getNBZoneElemente(NB_Zone nbZone) {
 		return nbZone.container.NBZoneElement.filter [
-			IDNBZone.wert == nbZone.identitaet.wert
+			IDNBZone.identitaet.wert == nbZone.identitaet.wert
 		].toList
 	}
 
@@ -59,7 +59,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 */
 	def static List<NB_Zone_Grenze> getNBZoneGrenzen(NB_Zone nbZone) {
 		return nbZone.container.NBZoneGrenze.filter [
-			IDNBZone.wert == nbZone.identitaet.wert
+			IDNBZone.identitaet.wert == nbZone.identitaet.wert
 		].toList
 	}
 
@@ -71,7 +71,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	def static List<NB_Bedien_Anzeige_Element> getNBBedienAnzeigeElemente(
 		NB_Zone nbZone) {
 		return nbZone.container.NBBedienAnzeigeElement.filter [
-			IDNBZone.wert == nbZone.identitaet.wert
+			IDNBZone.identitaet.wert == nbZone.identitaet.wert
 		].toList
 	}
 

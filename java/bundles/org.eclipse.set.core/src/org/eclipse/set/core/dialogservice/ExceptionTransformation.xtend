@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.core.dialogservice
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.Zeiger_TypeClass
+import org.eclipse.set.toolboxmodel.BasisTypen.Zeiger_TypeClass
 import org.eclipse.set.basis.exceptions.ErrorStatus
 import org.eclipse.set.basis.exceptions.FileExportException
 import org.eclipse.set.basis.exceptions.IllegalReference

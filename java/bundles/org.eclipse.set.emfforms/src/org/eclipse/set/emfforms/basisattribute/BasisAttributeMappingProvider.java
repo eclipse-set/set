@@ -24,7 +24,7 @@ import org.eclipse.emfforms.spi.core.services.mappingprovider.EMFFormsMappingPro
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * This implementation of the {@link EMFFormsMappingProvider} links the Wert

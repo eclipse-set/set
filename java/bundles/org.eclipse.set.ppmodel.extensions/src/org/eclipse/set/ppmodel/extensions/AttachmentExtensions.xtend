@@ -8,15 +8,15 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang_Art_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjekteFactory
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Dateiname_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Dateityp_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Daten_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.ENUMAnhangArt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.ENUMDateityp
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Identitaet_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang_Art_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory
+import org.eclipse.set.toolboxmodel.Basisobjekte.Dateiname_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.Dateityp_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.Daten_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMAnhangArt
+import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp
+import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass
 import org.eclipse.set.basis.attachments.Attachment
 import org.eclipse.set.basis.attachments.AttachmentInfo
 import org.eclipse.set.basis.guid.Guid

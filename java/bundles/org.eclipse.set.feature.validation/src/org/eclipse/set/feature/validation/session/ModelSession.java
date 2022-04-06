@@ -74,6 +74,11 @@ import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.transform.ToolboxModelService;
+import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
@@ -85,10 +90,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * Implementation of model session.
@@ -164,7 +165,7 @@ public class ModelSession implements IModelSession {
 	private final DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
-	private final PlanProSchemaDir<PlanPro_Schnittstelle> schemaDir;
+	private final PlanProSchemaDir<de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle> schemaDir;
 	private final SessionService sessionService;
 	private double symbolRotation;
 	private TemporaryIntegration temporaryIntegration;
@@ -211,7 +212,8 @@ public class ModelSession implements IModelSession {
 						checkForDirtyEvent();
 					}
 				});
-		schemaDir = new PlanProSchemaDir<>(PlanPro_Schnittstelle.class);
+		schemaDir = new PlanProSchemaDir<>(
+				de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
 		guid = Guid.create();
 		createTempDir();
 		toolboxFile.setTemporaryDirectory(getTempDir());

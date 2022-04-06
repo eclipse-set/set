@@ -8,64 +8,64 @@
  */
 package org.eclipse.set.feature.table.ssks;
 
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl10
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl11
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl12a
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl12b
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl2
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl3a
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl3b
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl4
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl5
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl6a
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl6b
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl7
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl8
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl9a
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hl9b
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hp0
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hp02Lp
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hp1
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hp2
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Kl
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Ks1
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Ks2
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.MsGeD
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.MsRt
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.MsWs2swP
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.MsWsGeWs
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.MsWsRtWs
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.MsWsSwWs
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Ne2
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Sh1
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Vr0
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Vr1
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Vr2
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.ZlO
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.ZlU
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zp10
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zp10Ls
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zp9
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zp9Ls
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs1
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs12
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs13
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs1A
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs2
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs2v
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs3
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs3v
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs6
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs7
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs8
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs8A
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Signale.ENUMAutoEinstellung
-import de.scheidtbachmann.planpro.model.model1902.Signale.ENUMGeltungsbereich
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Befestigung
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Rahmen
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Signalbegriff
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl10
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl11
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl12a
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl12b
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl3a
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl3b
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl4
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl5
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl6a
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl6b
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl7
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl8
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl9a
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl9b
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hp0
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hp02Lp
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hp1
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hp2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Kl
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Ks1
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Ks2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsGeD
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsRt
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsWs2swP
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsWsGeWs
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsWsRtWs
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsWsSwWs
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Ne2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Sh1
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Vr0
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Vr1
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Vr2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.ZlO
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.ZlU
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zp10
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zp10Ls
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zp9
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zp9Ls
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs1
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs12
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs13
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs1A
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2v
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs6
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs7
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs8
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs8A
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.toolboxmodel.Signale.ENUMAutoEinstellung
+import org.eclipse.set.toolboxmodel.Signale.ENUMGeltungsbereich
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
+import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
 import java.util.Collections
 import java.util.HashSet
 import java.util.LinkedList
@@ -84,15 +84,15 @@ import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
-import static de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMWirkrichtung.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMAnschaltdauer.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMBefestigungArt.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMBeleuchtet.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMRahmenArt.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMSignalArt.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMSignalFunktion.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMTunnelsignal.*
+import static org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
+import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMAnschaltdauer.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMBefestigungArt.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMBeleuchtet.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMRahmenArt.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMTunnelsignal.*
 import static org.eclipse.set.ppmodel.extensions.DistanceExtensions.MeasuringStrategy.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
@@ -613,7 +613,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 										r.signalNachordnung.bezeichnung.
 											bezeichnungTabelle.wert
 									] + container.signalRahmen.filter [ r |
-										r?.IDSignalNachordnung?.wert ==
+										r?.IDSignalNachordnung?.identitaet?.wert ==
 											signal.identitaet.wert
 									].map [ r |
 										r.signal.bezeichnung.bezeichnungTabelle.
@@ -889,7 +889,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		val stellelement = signal.stellelement
 		return stellelement?.information?.AEAAllg?.aussenelementansteuerungArt?.
 			wert == ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER &&
-			stellelement?.IDInformation?.wert != stellelement?.IDEnergie?.wert
+			stellelement?.IDInformation?.identitaet?.wert != stellelement?.IDEnergie?.identitaet?.wert
 	}
 
 	private static def List<String> fillSignalisierungHpHl(

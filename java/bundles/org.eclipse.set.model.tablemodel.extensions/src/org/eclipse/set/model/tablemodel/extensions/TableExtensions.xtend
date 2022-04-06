@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.model.tablemodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.Table

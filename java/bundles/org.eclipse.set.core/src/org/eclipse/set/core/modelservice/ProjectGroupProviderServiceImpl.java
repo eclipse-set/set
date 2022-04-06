@@ -13,7 +13,7 @@ import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
 import de.scheidtbachmann.planpro.model.modelservice.ProjectGroupProviderService;
 
 /**

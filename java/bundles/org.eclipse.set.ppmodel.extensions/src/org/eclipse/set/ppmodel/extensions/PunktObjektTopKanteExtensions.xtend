@@ -9,12 +9,12 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMWirkrichtung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import java.math.BigDecimal
 import java.util.HashSet
 import java.util.List

@@ -10,12 +10,12 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.DirectedEdgePath
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Bereich_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.eclipse.set.ppmodel.extensions.utils.TopKantePath
 import java.math.BigDecimal
@@ -326,8 +326,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
-		val sameTopKante = teilbereich.IDTOPKante.wert ==
-			singlePoint.IDTOPKante.wert
+		val sameTopKante = teilbereich.IDTOPKante.identitaet?.wert ==
+			singlePoint.IDTOPKante.identitaet?.wert
 
 		if (sameTopKante) {
 			val A = teilbereich.begrenzungA.wert.doubleValue
@@ -488,7 +488,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		TOP_Kante topKante,
 		double distance
 	) {
-		if (teilbereich.IDTOPKante.wert != topKante.identitaet.wert)
+		if (teilbereich.IDTOPKante.identitaet?.wert != topKante.identitaet.wert)
 			return false;
 
 		val A = teilbereich.begrenzungA.wert.doubleValue

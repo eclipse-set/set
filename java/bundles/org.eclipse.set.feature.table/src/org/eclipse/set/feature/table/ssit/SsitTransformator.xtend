@@ -9,11 +9,11 @@
 package org.eclipse.set.feature.table.ssit
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Einrichtung_Oertlich
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluesselsperre
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.feature.table.messages.MessagesWrapper
 import org.eclipse.set.model.tablemodel.Table
