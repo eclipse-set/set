@@ -66,7 +66,10 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	protected void loadResource(final Path path,
 			final EditingDomain editingDomain) throws IOException {
 		final ResourceSet resourceSet = editingDomain.getResourceSet();
-		final URI resourceUri = URI.createFileURI(path.toString());
+
+		// Allow file extesion with Uppercase
+		final URI resourceUri = URI
+				.createFileURI(path.toString().toLowerCase());
 		XMLResource newResource = (XMLResource) resourceSet
 				.getResource(resourceUri, false);
 		if (newResource == null) {
