@@ -91,6 +91,28 @@ class IterableExtensions {
 			return knownSet.add(predicate.apply(it))
 		]
 	}
+	
+		
+	/**
+	 * Filters an iterable so that it only contains values which are distinct by a given predicate. 
+	 * If two values are not distinct, the first value found is returned 
+	 * 
+	 * For example 
+	 * 	distinctBy(#["one", "two", "three", "four"], [str | str.size]
+	 * returns
+	 *  #["one", "three", "four"]
+	 * since "two" is the same size as "one".
+	 * 
+	 * @param iterable the iterable <T>
+	 * @param predicate a predicate to apply before matching the values
+	 * @return an iterable distinct by the predicate   
+	 */
+	static def <T, U> Iterable<T> notDistinctBy(Iterable<T> iterable, (T)=>U predicate) {
+		val knownSet = newHashSet
+		return iterable.filter [
+			return !knownSet.add(predicate.apply(it))
+		]
+	}
 
 	/**
 	 * Maps an iterable with the iteration index as a second parameter to the mapping function 

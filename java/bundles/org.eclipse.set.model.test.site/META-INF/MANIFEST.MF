@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.test.site;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.test.site
-Bundle-Version: 1.0.325.qualifier
+Bundle-Version: 1.0.326.qualifier
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.set.model.test.site,
