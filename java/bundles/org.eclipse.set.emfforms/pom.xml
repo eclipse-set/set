@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.emfforms</artifactId>
-	<version>1.0.327-SNAPSHOT</version>
+	<version>1.0.329-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>
