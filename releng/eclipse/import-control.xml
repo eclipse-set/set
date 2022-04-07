@@ -8,7 +8,7 @@
 	<disallow class="org.eclipse.jface.dialogs.ErrorDialog" />
 	<disallow
 		class="de.scheidtbachmann.planpro.common.ui.CommonDialogs" />
-	<allow pkg="org.eclipse.set.toolboxmodel\..*"/>
+	<allow pkg="org.eclipse.set.toolboxmodel\..*" regex="true"/>
 	<disallow pkg="org.eclipse.set\..*"
 		regex="true" />
 	<allow pkg="org.eclipse.set.ppmodel.extensions.container"
