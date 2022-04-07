@@ -14,7 +14,6 @@ import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schlosskombination
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluessel
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Schloss}.
@@ -27,8 +26,7 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 * @returns the Schlosskombination
 	 */
 	def static Schlosskombination getSchlossKombination(Schloss schloss) {
-		return schloss.schlossSk.IDSchlosskombination.resolve(
-			Schlosskombination)
+		return schloss.schlossSk.IDSchlosskombination
 	}
 
 	/**
@@ -37,7 +35,7 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 * @returns the Schluesselsperre
 	 */
 	def static Schluesselsperre getSchluesselsperre(Schloss schloss) {
-		return schloss?.schlossSsp?.IDSchluesselsperre.resolve(Schluesselsperre)
+		return schloss?.schlossSsp?.IDSchluesselsperre
 	}
 
 	/**
@@ -46,7 +44,7 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 * @returns the Schluessel
 	 */
 	def static Schluessel getSchluesel(Schloss schloss) {
-		return schloss.IDSchluessel.resolve(Schluessel)
+		return schloss.IDSchluessel
 	}
 
 	/**
@@ -55,7 +53,7 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 * @returns the BUE_Anlage
 	 */
 	def static BUE_Anlage getBueAnlage(Schloss schloss) {
-		return schloss.schlossBUE.IDBUEAnlage.resolve(BUE_Anlage)
+		return schloss.schlossBUE.IDBUEAnlage
 	}
 
 	/**
@@ -64,7 +62,7 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 * @returns the W_Kr_Gsp_Element (W)
 	 */
 	def static W_Kr_Gsp_Element getGspElement(Schloss schloss) {
-		return schloss.schlossGsp.IDGspElement.resolve(W_Kr_Gsp_Element)
+		return schloss.schlossGsp.IDGspElement
 	}
 
 	/**
@@ -73,7 +71,7 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 * @returns the W_Kr_Gsp_Element (W-Kr)
 	 */
 	def static W_Kr_Gsp_Element getWKrElement(Schloss schloss) {
-		return schloss?.schlossW?.IDWKrElement.resolve(W_Kr_Gsp_Element)
+		return schloss?.schlossW?.IDWKrElement
 	}
 
 	/**
@@ -82,7 +80,6 @@ class SchlossExtensions extends BasisObjektExtensions {
 	 * @returns the Sonderanlage
 	 */
 	def static W_Kr_Gsp_Element getSonderanlage(Schloss schloss) {
-		return schloss?.schlossSonderanlage?.IDSonderanlage.resolve(
-			W_Kr_Gsp_Element)
+		return schloss?.schlossSonderanlage?.IDSonderanlage
 	}
 }

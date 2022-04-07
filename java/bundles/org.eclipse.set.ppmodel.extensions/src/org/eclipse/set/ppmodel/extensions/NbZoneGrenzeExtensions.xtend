@@ -13,7 +13,6 @@ import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
 import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
 import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
 import java.util.List
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link NB_Zone}.
@@ -26,7 +25,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 	 * @return the Nahbedienbereichszone this Bereichsgrenze is defined for
 	 */
 	def static NB_Zone getNbZone(NB_Zone_Grenze nbZoneGrenze) {
-		return nbZoneGrenze.IDNBZone.resolve(NB_Zone)
+		return nbZoneGrenze.IDNBZone
 	}
 
 	/**
@@ -35,7 +34,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 	 * @return the Markanter Punkt of this Bereichsgrenze
 	 */
 	def static Markanter_Punkt getMarkanterPunkt(NB_Zone_Grenze nbZoneGrenze) {
-		return nbZoneGrenze.IDMarkanterPunkt.resolve(Markanter_Punkt)
+		return nbZoneGrenze.IDMarkanterPunkt
 	}
 
 	/**

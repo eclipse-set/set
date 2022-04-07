@@ -15,8 +15,6 @@ import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
 import java.util.List
 import org.eclipse.set.ppmodel.extensions.utils.LstObjectAttribute
 
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
-
 /**
  * Diese Klasse erweitert {@link Basis_Objekt}.
  */
@@ -28,9 +26,7 @@ class BasisObjektExtensions extends UrObjectExtensions {
 	 * @returns Liste der Bearbeitungsvermerke
 	 */
 	def static List<Bearbeitungsvermerk> comments(Basis_Objekt object) {
-		return object.IDBearbeitungsvermerk.map [
-			resolve(Bearbeitungsvermerk)
-		]
+		return object.IDBearbeitungsvermerk
 	}
 
 	/**

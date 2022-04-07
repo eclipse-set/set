@@ -8,15 +8,14 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Freimelde_Zuordnung
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
 import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import java.util.List
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Fla_Schutz}.
@@ -29,8 +28,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Anforderer of this Flankenschutz
 	 */
 	def static Basis_Objekt getAnforderer(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzAnforderer.IDAnfordererElement.resolve(
-			Basis_Objekt)
+		return flaSchutz.flaSchutzAnforderer.IDAnfordererElement
 	}
 
 	/**
@@ -40,8 +38,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWeicheGleissperreElement(
 		Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzWGsp.IDFlaWGspElement.resolve(
-			W_Kr_Gsp_Element)
+		return flaSchutz.flaSchutzWGsp.IDFlaWGspElement
 	}
 
 	/**
@@ -69,7 +66,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Signal providing Flankenschutz
 	 */
 	def static Signal getSignal(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzSignal.IDFlaSignal.resolve(Signal)
+		return flaSchutz.flaSchutzSignal.IDFlaSignal
 	}
 
 	/**
@@ -78,8 +75,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Flankenschutzmaßnahme of the left Weitergabe
 	 */
 	def static Fla_Schutz getWeitergabeL(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzWeitergabe.IDFlaWeitergabeL.resolve(
-			Fla_Schutz)
+		return flaSchutz.flaSchutzWeitergabe.IDFlaWeitergabeL
 	}
 
 	/**
@@ -88,8 +84,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Flankenschutzmaßnahme of the right Weitergabe
 	 */
 	def static Fla_Schutz getWeitergabeR(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzWeitergabe.IDFlaWeitergabeR.resolve(
-			Fla_Schutz)
+		return flaSchutz.flaSchutzWeitergabe.IDFlaWeitergabeR
 	}
 
 	/**
@@ -98,7 +93,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return additional Flankenschutzmaßnahme for Flankenschutzweitergabe of EKW or <code>null</code>
 	 */
 	def static Fla_Schutz getWeitergabeEKW(Fla_Schutz flaSchutz) {
-		return flaSchutz?.IDFlaWeitergabeEKW?.resolve(Fla_Schutz)
+		return flaSchutz?.IDFlaWeitergabeEKW
 	}
 
 	/**

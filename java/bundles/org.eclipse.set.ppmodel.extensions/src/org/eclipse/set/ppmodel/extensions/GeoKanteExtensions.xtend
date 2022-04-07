@@ -39,7 +39,6 @@ import org.eclipse.set.utils.math.Clothoid
 import org.eclipse.set.utils.math.Bloss
 import java.util.ArrayList
 import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.CRS
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -294,7 +293,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static GEO_Knoten getGeoKnotenA(
 		GEO_Kante kante
 	) {
-		return kante.IDGEOKnotenA.resolve(GEO_Knoten)
+		return kante.IDGEOKnotenA
 	}
 
 	/**
@@ -305,7 +304,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static GEO_Knoten getGeoKnotenB(
 		GEO_Kante kante
 	) {
-		return kante.IDGEOKnotenB.resolve(GEO_Knoten)
+		return kante.IDGEOKnotenB
 	}
 
 	/**
@@ -339,7 +338,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static Basis_Objekt getGeoArt(
 		GEO_Kante kante
 	) {
-		return kante.IDGEOArt.resolve(Basis_Objekt)
+		return kante.IDGEOArt
 	}
 
 	/**

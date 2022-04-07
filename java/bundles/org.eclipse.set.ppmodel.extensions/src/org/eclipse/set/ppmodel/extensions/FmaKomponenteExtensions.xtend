@@ -14,8 +14,6 @@ import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
 import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
 
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
-
 /**
  * This class extends {@link FMA_Komponente}.
  * 
@@ -30,8 +28,9 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 	 * @return whether the FMA Komponente belongs to the given FMA Anlage
 	 */
 	def static boolean belongsTo(FMA_Komponente komp, FMA_Anlage anlage) {
-		return !komp?.IDFMAgrenze?.filter[it.identitaet.wert == anlage?.identitaet?.wert].
-			nullOrEmpty
+		return !komp?.IDFMAgrenze?.filter [
+			it.identitaet.wert == anlage?.identitaet?.wert
+		].nullOrEmpty
 	}
 
 	/**
@@ -46,7 +45,7 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 	}
 
 	def static Markanter_Punkt getMarkanterPunkt(FMA_Komponente komp) {
-		return komp.IDBezugspunkt.resolve(Markanter_Punkt)
+		return komp.IDBezugspunkt
 	}
 
 	def static Schaltmittel_Zuordnung getSchaltmittelZuordnung(
@@ -54,7 +53,8 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 		for (Schaltmittel_Zuordnung zuord : komp.container.
 			schaltmittelZuordnung) {
 			if (zuord?.IDSchalter?.identitaet?.wert !== null &&
-				zuord?.IDSchalter?.identitaet?.wert.equals(komp.identitaet.wert)) {
+				zuord?.IDSchalter?.identitaet?.wert.equals(
+					komp.identitaet.wert)) {
 				return zuord;
 			}
 		}

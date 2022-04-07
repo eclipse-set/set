@@ -11,7 +11,6 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
 import java.util.List
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Signal_Befestigung}.
@@ -25,9 +24,7 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Regelzeichnung> getRegelzeichnungen(
 		Signal_Befestigung befestigung) {
-		return befestigung.IDRegelzeichnung.map [
-			resolve(Regelzeichnung)
-		]
+		return befestigung.IDRegelzeichnung
 	}
 
 	/**
@@ -37,7 +34,7 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 	 */
 	def static Regelzeichnung getRegelzeichnungenVsigTafel(
 		Signal_Befestigung befestigung) {
-		return befestigung.IDRegelzeichnungVsigTafel.resolve(Regelzeichnung)
+		return befestigung.IDRegelzeichnungVsigTafel
 	}
 
 	/**
@@ -47,7 +44,7 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 	 */
 	def static Signal_Befestigung getSignalBefestigung(
 		Signal_Befestigung befestigung) {
-		return befestigung.IDSignalBefestigung.resolve(Signal_Befestigung)
+		return befestigung.IDSignalBefestigung
 	}
 
 	/**

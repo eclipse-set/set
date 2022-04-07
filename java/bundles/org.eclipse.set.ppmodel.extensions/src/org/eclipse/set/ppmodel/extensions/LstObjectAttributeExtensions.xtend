@@ -16,7 +16,6 @@ import org.eclipse.set.ppmodel.extensions.utils.LstObjectAttribute
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisObjektExtensions.*
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link LstObjectAttribute}.
@@ -44,8 +43,6 @@ class LstObjectAttributeExtensions {
 		BasisAttribut_AttributeGroup attribute,
 		MultiContainer_AttributeGroup container
 	) {
-		return attribute.IDBearbeitungsvermerk.map [
-			resolve(Bearbeitungsvermerk)
-		]
+		return attribute.IDBearbeitungsvermerk
 	}
 }

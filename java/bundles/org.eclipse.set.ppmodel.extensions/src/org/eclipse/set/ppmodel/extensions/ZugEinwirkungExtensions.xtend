@@ -12,14 +12,13 @@ import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
 import java.util.List
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Zugeinwirkung}.
  */
 class ZugEinwirkungExtensions extends BasisObjektExtensions {
 	def static Markanter_Punkt getMarkanterPunkt(Zugeinwirkung einwirkung) {
-		return einwirkung.IDBezugspunkt.resolve(Markanter_Punkt)
+		return einwirkung.IDBezugspunkt
 	}
 
 	def static List<Schaltmittel_Zuordnung> getSchaltMittelZuordnung(

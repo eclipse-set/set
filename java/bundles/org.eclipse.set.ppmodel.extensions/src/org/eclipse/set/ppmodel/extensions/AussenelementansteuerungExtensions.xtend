@@ -13,7 +13,6 @@ import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Geodaten.Oertlichkeit
 import java.util.List
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Aussenelementansteuerung}.
@@ -27,7 +26,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Unterbringung getUnterbringung(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.IDUnterbringung.resolve(Unterbringung)
+		return aussenelementansteuerung.IDUnterbringung
 	}
 
 	/**
@@ -38,9 +37,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static List<Aussenelementansteuerung> getAussenelementansteuerungInformationSekundaer(
 		Aussenelementansteuerung aussenelementansteuerung
 	) {
-		return aussenelementansteuerung.IDInformationSekundaer.map [
-			resolve(Aussenelementansteuerung)
-		]
+		return aussenelementansteuerung.IDInformationSekundaer
 	}
 
 	/**
@@ -50,8 +47,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Basis_Objekt getAussenelementansteuerungEnergiePrimaer(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergiePrimaer.
-			resolve(Basis_Objekt)
+		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergiePrimaer
 	}
 
 	/**
@@ -61,8 +57,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Aussenelementansteuerung getAussenelementansteuerungEnergieSekundaer(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergieSekundaer.
-			resolve(Aussenelementansteuerung)
+		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergieSekundaer
 	}
 
 	/**
@@ -72,7 +67,6 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Oertlichkeit getOertlichkeitNamensgebend(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.IDOertlichkeitNamensgebend.resolve(
-			Oertlichkeit)
+		return aussenelementansteuerung.IDOertlichkeitNamensgebend
 	}
 }

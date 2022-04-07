@@ -8,11 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
 import org.eclipse.set.toolboxmodel.Block.Block_Strecke
-import org.eclipse.set.toolboxmodel.Geodaten.Strecke
 import org.eclipse.set.toolboxmodel.Geodaten.Oertlichkeit
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
+import org.eclipse.set.toolboxmodel.Geodaten.Strecke
 
 /**
  * Extensions for {@link Block_Strecke}.
@@ -25,7 +23,7 @@ class BlockStreckeExtensions extends BasisObjektExtensions {
 	 * @returns the strecke
 	 */
 	def static Strecke getStrecke(Block_Strecke blockStrecke) {
-		return blockStrecke.IDStrecke.resolve(Strecke)
+		return blockStrecke.IDStrecke
 	}
 
 	/**
@@ -34,7 +32,7 @@ class BlockStreckeExtensions extends BasisObjektExtensions {
 	 * @returns the oertlichkeit
 	 */
 	def static Oertlichkeit getOertlichkeit(Block_Strecke blockStrecke) {
-		return blockStrecke.IDBetriebsstelleNachbar.resolve(Oertlichkeit)
+		return blockStrecke.IDBetriebsstelleNachbar
 	}
 
 }

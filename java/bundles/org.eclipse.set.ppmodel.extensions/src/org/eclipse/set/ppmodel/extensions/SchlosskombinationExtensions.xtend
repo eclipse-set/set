@@ -11,7 +11,6 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schlosskombination
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Schlosskombination}.
@@ -25,7 +24,7 @@ class SchlosskombinationExtensions extends BasisObjektExtensions {
 	 */
 	def static Unterbringung getUnterbringung(
 		Schlosskombination schlosskombination) {
-		return schlosskombination.IDUnterbringung.resolve(Unterbringung)
+		return schlosskombination.IDUnterbringung
 	}
 
 }

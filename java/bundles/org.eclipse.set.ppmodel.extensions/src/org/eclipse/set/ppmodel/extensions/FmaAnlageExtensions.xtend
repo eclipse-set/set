@@ -20,7 +20,6 @@ import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Gleis_Abschluss
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Diese Klasse erweitert {@link FMA_Anlage}.
@@ -33,7 +32,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	 * @returns the observed Gleisabschnitt of this FMA Anlage
 	 */
 	def static Gleis_Abschnitt getGleisabschnitt(FMA_Anlage anlage) {
-		return anlage.IDGleisAbschnitt.resolve(Gleis_Abschnitt)
+		return anlage.IDGleisAbschnitt
 	}
 
 	/** 

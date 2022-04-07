@@ -59,7 +59,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
@@ -83,7 +82,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Startsignal
 	 */
 	def static Signal getStart(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDStart.resolve(Signal)
+		return fahrweg.IDStart
 	}
 
 	/**
@@ -92,7 +91,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Zielobjekt
 	 */
 	def static Basis_Objekt getZielObjekt(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDZiel.resolve(Basis_Objekt)
+		return fahrweg.IDZiel
 	}
 
 	/**
@@ -101,7 +100,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Zielpunkt
 	 */
 	def static Markanter_Punkt getZielPunkt(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDZiel.resolve(Markanter_Punkt)
+		return fahrweg.IDZiel as Markanter_Punkt
 	}
 
 	/**
@@ -134,7 +133,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Zielsignal
 	 */
 	def static Signal getZielSignal(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDZiel.resolve(Signal)
+		return fahrweg.IDZiel as Signal
 	}
 
 	/**
@@ -146,7 +145,8 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		Fstr_Fahrweg fahrweg) {
 		val result = new LinkedList<Fstr_Abhaengigkeit>
 		for (abhaengigkeit : fahrweg.container.fstrAbhaengigkeit) {
-			if (abhaengigkeit.IDFstrFahrweg.identitaet?.wert == fahrweg.identitaet.wert) {
+			if (abhaengigkeit.IDFstrFahrweg.identitaet?.wert ==
+				fahrweg.identitaet.wert) {
 				result.add(abhaengigkeit)
 			}
 		}

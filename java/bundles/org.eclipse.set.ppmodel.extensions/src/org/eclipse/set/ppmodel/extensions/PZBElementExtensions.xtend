@@ -27,7 +27,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link PZB_Element}.
@@ -43,7 +42,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	 * @return the PZB_Element_Zuordnung
 	 */
 	def static PZB_Element_Zuordnung getPZBElementZuordnung(PZB_Element pzb) {
-		return pzb.IDPZBElementZuordnung.resolve(PZB_Element_Zuordnung)
+		return pzb.IDPZBElementZuordnung
 	}
 
 	/**
@@ -52,7 +51,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	 * @return the Unterbringung
 	 */
 	def static Unterbringung getUnterbringung(PZB_Element pzb) {
-		return pzb.IDUnterbringung.resolve(Unterbringung)
+		return pzb.IDUnterbringung
 	}
 
 	/**
@@ -61,8 +60,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	 * @return the Bezugspunkt of this PZB Element
 	 */
 	static def Basis_Objekt getBezugspunkt(PZB_Element pzb) {
-		return pzb.PZBElementZuordnung?.IDPZBElementBezugspunkt.resolve(
-			Basis_Objekt)
+		return pzb.PZBElementZuordnung?.IDPZBElementBezugspunkt
 	}
 
 	/**

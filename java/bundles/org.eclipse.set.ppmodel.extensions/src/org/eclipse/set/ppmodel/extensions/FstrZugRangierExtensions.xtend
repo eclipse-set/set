@@ -49,7 +49,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
@@ -68,7 +67,8 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		val result = new LinkedList<Fstr_Signalisierung>
 		val signalisierungen = fstr.container.fstrSignalisierung
 		for (signalisierung : signalisierungen) {
-			if (signalisierung.IDFstrZugRangier.identitaet?.wert == fstr.identitaet.wert) {
+			if (signalisierung.IDFstrZugRangier.identitaet?.wert ==
+				fstr.identitaet.wert) {
 				result.add(signalisierung)
 			}
 		}
@@ -83,7 +83,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Fstr_DWeg getFstrDWeg(
 		Fstr_Zug_Rangier zugRangier
 	) {
-		return zugRangier?.fstrZug?.fstrZugDWeg?.IDFstrDWeg?.resolve(Fstr_DWeg)
+		return zugRangier?.fstrZug?.fstrZugDWeg?.IDFstrDWeg
 	}
 
 	/**
@@ -94,7 +94,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Fstr_Fahrweg getFstrFahrweg(
 		Fstr_Zug_Rangier zugRangier
 	) {
-		return zugRangier.IDFstrFahrweg.resolve(Fstr_Fahrweg)
+		return zugRangier.IDFstrFahrweg
 	}
 
 	/**
@@ -123,7 +123,8 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static List<Fstr_Nichthaltfall> getFstrNichthaltfall(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier.container.fstrNichthaltfall.filter [
-			it.IDFstrFahrweg.identitaet?.wert == fstrZugRangier.IDFstrFahrweg.identitaet?.wert
+			it.IDFstrFahrweg.identitaet?.wert ==
+				fstrZugRangier.IDFstrFahrweg.identitaet?.wert
 		].toList
 	}
 
@@ -193,9 +194,10 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			gleisbezogeneGefahrraeume.map [
 				einschaltungZuordnungen
 			].flatten.toSet.map[einschaltung].exists [
-				fstrZugRangier.fstrZug.IDBUEEinschaltung.map[identitaet.wert].contains(
-					identitaet.wert
-				)
+				fstrZugRangier.fstrZug.IDBUEEinschaltung.map[identitaet.wert].
+					contains(
+						identitaet.wert
+					)
 			]
 		].toSet
 	}
@@ -237,9 +239,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Set<FMA_Anlage> getFmaAnlageRangierFrei(
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
-		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.map [
-			resolve(FMA_Anlage)
-		].toSet
+		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.toSet
 	}
 
 	private def static boolean isVorsignalisierung(

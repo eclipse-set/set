@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Schaltmittel_Zuordnung}.
@@ -23,6 +22,6 @@ class SchaltmittelZuordnungExtensions extends BasisObjektExtensions {
 	 * @return the object operating the Schaltanforderung
 	 */
 	static def Basis_Objekt getSchalter(Schaltmittel_Zuordnung zuordnung) {
-		return zuordnung.IDSchalter.resolve(Basis_Objekt)
+		return zuordnung.IDSchalter
 	}
 }

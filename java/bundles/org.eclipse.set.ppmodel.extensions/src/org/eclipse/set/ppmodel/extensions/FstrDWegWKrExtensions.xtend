@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg_W_Kr
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Diese Klasse erweitert {@link Fstr_DWeg_W_Kr}.
@@ -23,6 +22,6 @@ class FstrDWegWKrExtensions extends BasisObjektExtensions {
 	 * @returns das stellbare Element
 	 */
 	def static W_Kr_Gsp_Element getWKrGspElement(Fstr_DWeg_W_Kr z) {
-		return z.IDWKrGspElement.resolve(W_Kr_Gsp_Element)
+		return z.IDWKrGspElement
 	}
 }

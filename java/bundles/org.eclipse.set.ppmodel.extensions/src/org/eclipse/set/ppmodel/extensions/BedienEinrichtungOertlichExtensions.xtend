@@ -14,8 +14,6 @@ import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
 import java.util.List
 
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
-
 /**
  * Extensions for {@link Bedien_Einrichtung_Oertlich}.
  * 
@@ -31,7 +29,8 @@ class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
 	static def List<Bedien_Anzeige_Element> getBedienAnzeigeElemente(
 		Bedien_Einrichtung_Oertlich einrichtung) {
 		return einrichtung.container.bedienAnzeigeElement.filter [
-			IDBedienEinrichtungOertlich?.identitaet?.wert == einrichtung.identitaet.wert
+			IDBedienEinrichtungOertlich?.identitaet?.wert ==
+				einrichtung.identitaet.wert
 		].toList
 	}
 
@@ -42,13 +41,12 @@ class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
 	 */
 	static def Unterbringung getUnterbringung(
 		Bedien_Einrichtung_Oertlich einrichtung) {
-		return einrichtung?.IDUnterbringung.resolve(Unterbringung)
+		return einrichtung?.IDUnterbringung
 	}
 
 	static def Aussenelementansteuerung getAussenelementansteuerung(
 		Bedien_Einrichtung_Oertlich einrichtung
 	) {
-		return einrichtung?.IDAussenelementansteuerung.resolve(
-			Aussenelementansteuerung)
+		return einrichtung?.IDAussenelementansteuerung
 	}
 }

@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Element
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link NB_Zone_Element}.
@@ -25,6 +24,6 @@ class NbZoneElementExtensions extends BasisObjektExtensions {
 	 * @return the NB Element
 	 */
 	def static Basis_Objekt getNbElement(NB_Zone_Element nbZoneElement) {
-		return nbZoneElement.IDNBElement.resolve(Basis_Objekt)
+		return nbZoneElement.IDNBElement
 	}
 }

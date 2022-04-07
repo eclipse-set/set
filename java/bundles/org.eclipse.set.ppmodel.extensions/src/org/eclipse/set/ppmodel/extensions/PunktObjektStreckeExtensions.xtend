@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.toolboxmodel.Geodaten.Strecke
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Punkt_Objekt_Strecke_AttributeGroup}.
@@ -25,6 +24,6 @@ class PunktObjektStreckeExtensions extends BasisObjektExtensions {
 	 * @returns the Strecke of the Punkt Objekt
 	 */
 	def static Strecke getStrecke(Punkt_Objekt_Strecke_AttributeGroup p) {
-		return p.IDStrecke.resolve(Strecke)
+		return p.IDStrecke
 	}
 }

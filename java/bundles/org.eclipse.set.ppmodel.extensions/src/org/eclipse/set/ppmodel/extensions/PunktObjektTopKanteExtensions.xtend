@@ -24,7 +24,6 @@ import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
 import org.locationtech.jts.geom.Coordinate
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Punkt_Objekt_TOP_Kante_AttributeGroup} aka single
@@ -59,7 +58,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	def static TOP_Kante getTopKante(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
-		return singlePoint.IDTOPKante.resolve(TOP_Kante)
+		return singlePoint.IDTOPKante
 	}
 
 	/**

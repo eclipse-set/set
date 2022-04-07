@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anrueckabschnitt
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Bedien_Anrueckabschnitt}.
@@ -24,8 +23,7 @@ class BedienAnrueckabschnittExtensions extends BasisObjektExtensions {
 	 */
 	static def Gleis_Abschnitt getGleisAbschnittPosition(
 		Bedien_Anrueckabschnitt bedienAnrueckabschnitt) {
-		return bedienAnrueckabschnitt.IDGleisAbschnittPosition.resolve(
-			Gleis_Abschnitt)
+		return bedienAnrueckabschnitt.IDGleisAbschnittPosition
 	}
 
 	/**
@@ -35,7 +33,6 @@ class BedienAnrueckabschnittExtensions extends BasisObjektExtensions {
 	 */
 	static def Gleis_Abschnitt getGleisAbschnittDarstellen(
 		Bedien_Anrueckabschnitt bedienAnrueckabschnitt) {
-		return bedienAnrueckabschnitt.IDGleisAbschnittDarstellen.resolve(
-			Gleis_Abschnitt)
+		return bedienAnrueckabschnitt.IDGleisAbschnittDarstellen
 	}
 }

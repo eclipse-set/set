@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Markanter_Punkt}.
@@ -23,6 +22,6 @@ class MarkanterPunktExtensions extends BasisObjektExtensions {
 	 * @return the markante Stelle of this markanter Punkt
 	 */
 	def static Punkt_Objekt getMarkanteStelle(Markanter_Punkt markanterPunkt) {
-		return markanterPunkt.IDMarkanteStelle.resolve(Punkt_Objekt)
+		return markanterPunkt.IDMarkanteStelle as Punkt_Objekt
 	}
 }

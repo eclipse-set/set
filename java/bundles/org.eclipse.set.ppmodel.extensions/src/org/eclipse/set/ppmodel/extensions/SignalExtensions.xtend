@@ -49,7 +49,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Signal}.
@@ -72,7 +71,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	) {
 		return signal.container.flaSchutz.filter [
 			flaSchutzSignal !== null &&
-				flaSchutzSignal.IDFlaSignal.identitaet.wert == signal.identitaet.wert
+				flaSchutzSignal.IDFlaSignal.identitaet.wert ==
+					signal.identitaet.wert
 		].toList
 	}
 
@@ -136,7 +136,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static List<Signal_Rahmen> signalRahmenForBefestigung(Signal signal,
 		List<Signal_Befestigung> gruppe) {
 		return signal.signalRahmen.filter [
-			gruppe.map[identitaet.wert].contains(IDSignalBefestigung.identitaet?.wert)
+			gruppe.map[identitaet.wert].contains(
+				IDSignalBefestigung.identitaet?.wert)
 		].toList
 	}
 
@@ -223,9 +224,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static List<Schaltmittel_Zuordnung> getAnrueckverschluss(
 		Signal signal
 	) {
-		return signal?.signalFstrS?.IDAnrueckverschluss?.map [
-			resolve(Schaltmittel_Zuordnung)
-		] ?: Collections.emptyList
+		return signal?.signalFstrS?.IDAnrueckverschluss ?: Collections.emptyList
 	}
 
 	/**
@@ -296,8 +295,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @return the Signal Real Aktiv Stellelement
 	 */
 	def static Stellelement getRealAktivStellelement(Signal signal) {
-		return signal.signalReal?.signalRealAktiv?.IDStellelement.resolve(
-			Stellelement)
+		return signal.signalReal?.signalRealAktiv?.IDStellelement
 	}
 
 	/**
@@ -309,7 +307,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		val signalRealAktiv = signal.signalReal?.signalRealAktiv
-		return signalRealAktiv?.IDStellelement?.resolve(Stellelement)
+		return signalRealAktiv?.IDStellelement
 	}
 
 	/**
@@ -319,7 +317,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWKrGspElement(Signal signal) {
 		val weichenElemente = signal.container.WKrGspElement.filter [
-			weicheElement?.IDGrenzzeichen?.identitaet?.wert == signal.identitaet.wert
+			weicheElement?.IDGrenzzeichen?.identitaet?.wert ==
+				signal.identitaet.wert
 		]
 		if (weichenElemente.empty) {
 			logger.
@@ -369,9 +368,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		return (
 			signal?.signalFstrAusInselgleis?.IDRaFahrtGleichzeitigVerbot ?:
 			Collections.emptySet
-		).map [
-			resolve(Gleis_Bezeichnung)
-		].toSet
+		).toSet
 	}
 
 	/**
@@ -386,9 +383,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		return (
 			signal?.signalFstrAusInselgleis?.IDZgFahrtGleichzeitigVerbot ?:
 			Collections.emptySet
-		).map [
-			resolve(Gleis_Bezeichnung)
-		].toSet
+		).toSet
 	}
 
 	/**
@@ -399,8 +394,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	static def Schaltmittel_Zuordnung getZweitesHaltfallkriterium(
 		Signal signal
 	) {
-		return signal?.signalFstrS?.IDZweitesHaltfallkriterium.resolve(
-			Schaltmittel_Zuordnung)
+		return signal?.signalFstrS?.IDZweitesHaltfallkriterium
 	}
 
 	/**

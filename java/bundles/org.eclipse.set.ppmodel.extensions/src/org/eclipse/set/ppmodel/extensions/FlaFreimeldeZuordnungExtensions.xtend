@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Freimelde_Zuordnung
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Fla_Freimelde_Zuordnung}.
@@ -23,6 +22,6 @@ class FlaFreimeldeZuordnungExtensions extends BasisObjektExtensions {
 	 * @return the freizuprüfende Flankenschutzraum 
 	 */
 	def static FMA_Anlage getFmaAnlage(Fla_Freimelde_Zuordnung zuordnung) {
-		return zuordnung.IDFMAAnlage.resolve(FMA_Anlage)
+		return zuordnung.IDFMAAnlage
 	}
 }

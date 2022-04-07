@@ -17,7 +17,6 @@ import java.util.Set
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link W_Kr_Gsp_Komponente}.
@@ -33,7 +32,7 @@ class WKrGspKomponenteExtensions extends PunktObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWKrGspElement(
 		W_Kr_Gsp_Komponente komponente) {
-		return komponente?.IDWKrGspElement.resolve(W_Kr_Gsp_Element)
+		return komponente?.IDWKrGspElement
 	}
 
 	/**
@@ -43,9 +42,7 @@ class WKrGspKomponenteExtensions extends PunktObjektExtensions {
 	 */
 	def static List<Regelzeichnung> getRegelzeichnungen(
 		W_Kr_Gsp_Komponente komponente) {
-		return komponente?.IDRegelzeichnung?.map [
-			resolve(Regelzeichnung)
-		]
+		return komponente?.IDRegelzeichnung
 	}
 
 	/**

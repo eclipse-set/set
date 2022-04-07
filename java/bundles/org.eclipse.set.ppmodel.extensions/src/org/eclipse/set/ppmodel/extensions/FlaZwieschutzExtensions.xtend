@@ -8,10 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Zwieschutz
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Fla_Zwieschutz}.
@@ -24,7 +23,7 @@ class FlaZwieschutzExtensions extends BasisObjektExtensions {
 	 * @return the Zwieschutzweiche
 	 */
 	def static W_Kr_Gsp_Element getZwieschutzweiche(Fla_Zwieschutz zwieschutz) {
-		return zwieschutz.IDWElement.resolve(W_Kr_Gsp_Element)
+		return zwieschutz.IDWElement
 	}
 
 	/**
@@ -33,7 +32,7 @@ class FlaZwieschutzExtensions extends BasisObjektExtensions {
 	 * @return the left Flankenschutz of the Zwieschutzelement
 	 */
 	def static Fla_Schutz getFlaSchutzL(Fla_Zwieschutz zwieschutz) {
-		return zwieschutz.flaZwieschutzElement.IDFlaSchutzL.resolve(Fla_Schutz)
+		return zwieschutz.flaZwieschutzElement.IDFlaSchutzL
 	}
 
 	/**
@@ -51,7 +50,7 @@ class FlaZwieschutzExtensions extends BasisObjektExtensions {
 	 * @return the right Flankenschutz of the Zwieschutzelement
 	 */
 	def static Fla_Schutz getFlaSchutzR(Fla_Zwieschutz zwieschutz) {
-		return zwieschutz.flaZwieschutzElement.IDFlaSchutzR.resolve(Fla_Schutz)
+		return zwieschutz.flaZwieschutzElement.IDFlaSchutzR
 	}
 
 	/**

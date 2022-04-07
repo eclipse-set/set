@@ -18,7 +18,6 @@ import org.eclipse.set.toolboxmodel.PlanPro.impl.LST_ZustandImpl
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link BasisAttribut_AttributeGroup}.
@@ -104,9 +103,7 @@ class BasisAttributExtensions {
 	def static List<Bearbeitungsvermerk> getBearbeitungsvermerke(
 		BasisAttribut_AttributeGroup basisAttribut
 	) {
-		return basisAttribut.IDBearbeitungsvermerk.map [
-			resolve(Bearbeitungsvermerk)
-		]
+		return basisAttribut.IDBearbeitungsvermerk
 	}
 
 }

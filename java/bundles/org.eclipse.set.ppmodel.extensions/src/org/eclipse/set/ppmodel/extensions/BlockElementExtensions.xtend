@@ -8,21 +8,20 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Block.Block_Element
-import org.eclipse.set.toolboxmodel.Block.Block_Strecke
-import org.eclipse.set.toolboxmodel.Block.Block_Anlage
 import java.util.Set
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Block.Block_Anlage
+import org.eclipse.set.toolboxmodel.Block.Block_Element
+import org.eclipse.set.toolboxmodel.Block.Block_Strecke
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
+import org.eclipse.set.toolboxmodel.Signale.Signal
+
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
-import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
+import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 
 /**
  * Extensions for {@link Block_Element}.
@@ -35,7 +34,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	 * @returns the Block_Strecke
 	 */
 	def static Block_Strecke getBlockStrecke(Block_Element blockElement) {
-		return blockElement.IDBlockStrecke.resolve(Block_Strecke)
+		return blockElement.IDBlockStrecke
 	}
 
 	/**
@@ -58,7 +57,8 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenZiel(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it?.IDBlockElementB?.identitaet?.wert == blockElement.identitaet.wert
+			it?.IDBlockElementB?.identitaet?.wert ==
+				blockElement.identitaet.wert
 		].toSet;
 	}
 
@@ -68,13 +68,13 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	 * @returns Name of the "Raeumungspruefung"
 	 */
 	def static String getRaeumungspruefung(Block_Element blockElement) {
-		val schaltmittel = blockElement.IDRaeumungspruefung.resolve(
-			Schaltmittel_Zuordnung)
+		val schaltmittel = blockElement.IDRaeumungspruefung
 
-		if (schaltmittel !== null && schaltmittel.IDSchalter.identitaet?.wert !== null) {
+		if (schaltmittel !== null &&
+			schaltmittel.IDSchalter.identitaet?.wert !== null) {
 
 			try {
-				val fmaAnlage = schaltmittel.IDSchalter.resolve(FMA_Anlage)
+				val fmaAnlage = schaltmittel.IDSchalter as FMA_Anlage
 				if (fmaAnlage !== null) {
 					return fmaAnlage.bzBezeichner
 				}
@@ -82,8 +82,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 				// nothing to do
 			}
 			try {
-				val fmaKomponente = schaltmittel.IDSchalter.resolve(
-					FMA_Komponente)
+				val fmaKomponente = schaltmittel.IDSchalter as FMA_Komponente
 				if (fmaKomponente !== null) {
 					return fmaKomponente.bezeichnung?.bezeichnungTabelle?.wert
 				}
@@ -91,8 +90,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 				// nothing to do
 			}
 			try {
-				val zugeinwirkung = schaltmittel.IDSchalter.resolve(
-					Zugeinwirkung)
+				val zugeinwirkung = schaltmittel.IDSchalter as Zugeinwirkung
 
 				if (zugeinwirkung !== null) {
 					return zugeinwirkung.bezeichnung?.bezeichnungTabelle?.wert
@@ -112,7 +110,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	 */
 	def static Bedien_Anzeige_Element getBedienanzeigeElement(
 		Block_Element blockElement) {
-		return blockElement.IDZugschlussmeldung.resolve(Bedien_Anzeige_Element)
+		return blockElement.IDZugschlussmeldung
 	}
 
 	/**
@@ -124,8 +122,8 @@ class BlockElementExtensions extends BasisObjektExtensions {
 
 		try {
 			for (Signal signal : blockElement.container.signal) {
-				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.identitaet?.wert ==
-					blockElement?.identitaet?.wert) {
+				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.identitaet?.
+					wert == blockElement?.identitaet?.wert) {
 					return signal
 				}
 			}

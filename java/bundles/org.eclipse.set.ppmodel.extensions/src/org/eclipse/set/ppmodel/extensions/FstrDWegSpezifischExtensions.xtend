@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg_Spezifisch_AttributeGroup
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Diese Klasse erweitert {@link Fstr_DWeg_Spezifisch_AttributeGroup}.
@@ -25,6 +24,6 @@ class FstrDWegSpezifischExtensions extends BasisObjektExtensions {
 	def static FMA_Anlage fmaAnlageZielgleis(
 		Fstr_DWeg_Spezifisch_AttributeGroup dwegSp
 	) {
-		return dwegSp.IDFMAAnlageZielgleis.resolve(FMA_Anlage)
+		return dwegSp.IDFMAAnlageZielgleis
 	}
 }

@@ -14,7 +14,6 @@ import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.PZB.PZB_Element_Zuordnung
 import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link PZB_Element_Zuordnung}.
@@ -28,7 +27,7 @@ class PZBElementZuordnungExtensions extends BasisObjektExtensions {
 	 */
 	def static Ur_Objekt getPZBElementBezugspunkt(
 		PZB_Element_Zuordnung pzbZuordnung) {
-		return pzbZuordnung.IDPZBElementBezugspunkt.resolve(Ur_Objekt)
+		return pzbZuordnung.IDPZBElementBezugspunkt
 	}
 
 	/**
@@ -38,7 +37,7 @@ class PZBElementZuordnungExtensions extends BasisObjektExtensions {
 	 */
 	def static Fstr_Zug_Rangier getFstrZugRangier(
 		PZB_Element_Zuordnung pzbZuordnung) {
-		return pzbZuordnung.IDFstrZugRangier.resolve(Fstr_Zug_Rangier)
+		return pzbZuordnung.IDFstrZugRangier
 	}
 
 	/**

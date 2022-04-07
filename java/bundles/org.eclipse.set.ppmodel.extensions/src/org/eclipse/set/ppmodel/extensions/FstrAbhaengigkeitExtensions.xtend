@@ -12,7 +12,6 @@ import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Fstr_Abhaengigkeit}.
@@ -27,8 +26,7 @@ class FstrAbhaengigkeitExtensions extends BasisObjektExtensions {
 	def static Schluesselsperre schluesselsperre(
 		Fstr_Abhaengigkeit abhaengigkeit
 	) {
-		return abhaengigkeit?.fstrAbhaengigkeitSsp?.IDSchluesselsperre.resolve(
-			Schluesselsperre)
+		return abhaengigkeit?.fstrAbhaengigkeitSsp?.IDSchluesselsperre
 	}
 
 	/**
@@ -39,7 +37,7 @@ class FstrAbhaengigkeitExtensions extends BasisObjektExtensions {
 	def static Fstr_Fahrweg getFstrFahrweg(
 		Fstr_Abhaengigkeit abhaengigkeit
 	) {
-		return abhaengigkeit?.IDFstrFahrweg.resolve(Fstr_Fahrweg)
+		return abhaengigkeit?.IDFstrFahrweg
 	}
 
 	/**
@@ -50,7 +48,6 @@ class FstrAbhaengigkeitExtensions extends BasisObjektExtensions {
 	def static Bedien_Anzeige_Element getBedienAnzeigeElement(
 		Fstr_Abhaengigkeit abhaengigkeit
 	) {
-		return abhaengigkeit.IDBedienAnzeigeElement.resolve(
-			Bedien_Anzeige_Element)
+		return abhaengigkeit.IDBedienAnzeigeElement
 	}
 }

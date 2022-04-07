@@ -12,7 +12,6 @@ import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
 import java.util.List
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Technik_Standort}.
@@ -29,9 +28,7 @@ class TechnikStandortExtensions extends BasisObjektExtensions {
 	static def List<Bedien_Standort> getBedienStandort(
 		Technik_Standort standort
 	) {
-		return standort.IDBedienStandort.map [
-			resolve(Bedien_Standort)
-		]
+		return standort.IDBedienStandort
 	}
 
 	/**
@@ -40,7 +37,7 @@ class TechnikStandortExtensions extends BasisObjektExtensions {
 	 * @return the Unterbringung this Technikstandort is installed in
 	 */
 	static def Unterbringung getUnterbringung(Technik_Standort standort) {
-		return standort?.IDUnterbringung.resolve(Unterbringung)
+		return standort?.IDUnterbringung
 
 	}
 }

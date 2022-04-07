@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung
 import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung_Zuordnung
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link BUE_Einschaltung_Zuordnung}.
@@ -26,6 +25,6 @@ class BueEinschaltungZuordnungExtension extends BasisObjektExtensions {
 	 */
 	static def BUE_Einschaltung getEinschaltung(
 		BUE_Einschaltung_Zuordnung zuordnung) {
-		return zuordnung.IDBUEEinschaltung.resolve(BUE_Einschaltung)
+		return zuordnung.IDBUEEinschaltung
 	}
 }

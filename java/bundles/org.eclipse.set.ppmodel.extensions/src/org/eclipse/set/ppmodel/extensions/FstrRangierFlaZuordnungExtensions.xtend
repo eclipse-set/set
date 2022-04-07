@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Fstr_Rangier_Fla_Zuordnung}.
@@ -24,6 +23,6 @@ class FstrRangierFlaZuordnungExtensions extends BasisObjektExtensions {
 	 */
 	def static Fla_Schutz getFlaSchutz(
 		Fstr_Rangier_Fla_Zuordnung fstrRangierFlaZuordnung) {
-		return fstrRangierFlaZuordnung.IDFlaSchutz.resolve(Fla_Schutz)
+		return fstrRangierFlaZuordnung.IDFlaSchutz
 	}
 }

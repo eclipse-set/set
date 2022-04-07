@@ -12,7 +12,7 @@ import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_Typ
 import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
 import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
 import java.util.Collection
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
+
 /**
  * This class extends {@link Signal_Signalbegriff}.
  */
@@ -24,7 +24,7 @@ class SignalbegriffExtensions extends BasisObjektExtensions {
 	 * @return the Signalrahmen containing this Signalbegriff
 	 */
 	def static Signal_Rahmen signalRahmen(Signal_Signalbegriff signalBegriff) {
-		return signalBegriff.IDSignalRahmen.resolve(Signal_Rahmen)
+		return signalBegriff.IDSignalRahmen
 	}
 
 	/**

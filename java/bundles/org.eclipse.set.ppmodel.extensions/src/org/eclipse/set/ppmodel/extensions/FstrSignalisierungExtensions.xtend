@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
 import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Fstr_Signalisierung}.
@@ -31,7 +30,7 @@ class FstrSignalisierungExtensions extends BasisObjektExtensions {
 				'''Fstr_Signalisierung «sig.identitaet.wert» has not the required IDSignalSignalbegriff value'''
 			)
 		}
-		return sig.IDSignalSignalbegriff.resolve(Signal_Signalbegriff)
+		return sig.IDSignalSignalbegriff
 	}
 
 	/**
@@ -41,6 +40,6 @@ class FstrSignalisierungExtensions extends BasisObjektExtensions {
 	 */
 	def static Signal_Signalbegriff getSignalSignalbegriffZiel(
 		Fstr_Signalisierung sig) {
-		return sig.IDSignalSignalbegriffZiel.resolve(Signal_Signalbegriff)
+		return sig.IDSignalSignalbegriffZiel
 	}
 }

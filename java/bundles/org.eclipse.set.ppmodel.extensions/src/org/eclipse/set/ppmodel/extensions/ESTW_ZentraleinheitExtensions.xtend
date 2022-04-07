@@ -13,7 +13,6 @@ import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit;
 import java.util.List
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Platz
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Bezirk
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link ESTW_Zentraleinheit}.
@@ -27,7 +26,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 	 */
 	def static Unterbringung getUnterbringung(
 		ESTW_Zentraleinheit estw_zentraleinheit) {
-		return estw_zentraleinheit?.IDUnterbringung?.resolve(Unterbringung)
+		return estw_zentraleinheit?.IDUnterbringung as Unterbringung
 	}
 
 	/**
@@ -39,7 +38,8 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 
 		return estw_zentraleinheit.container.bedienPlatz.filter [ b |
-			b.IDESTWZentraleinheit.identitaet?.wert == estw_zentraleinheit.identitaet.wert
+			b.IDESTWZentraleinheit.identitaet?.wert ==
+				estw_zentraleinheit.identitaet.wert
 		].toList;
 	}
 
@@ -50,7 +50,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 	 */
 	def static Bedien_Bezirk getBedienBezirkZentral(
 		ESTW_Zentraleinheit estw_zentraleinheit) {
-		return estw_zentraleinheit.IDBedienBezirkZentral.resolve(Bedien_Bezirk)
+		return estw_zentraleinheit.IDBedienBezirkZentral
 	}
 
 	/**
@@ -60,7 +60,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 	 */
 	def static Bedien_Bezirk getBedienBezirkVirtuell(
 		ESTW_Zentraleinheit estw_zentraleinheit) {
-		return estw_zentraleinheit.IDBedienBezirkVirtuell.resolve(Bedien_Bezirk)
+		return estw_zentraleinheit.IDBedienBezirkVirtuell
 	}
 
 }

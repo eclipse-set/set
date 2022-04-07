@@ -28,7 +28,6 @@ import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link W_Kr_Gsp_Element}.
@@ -43,7 +42,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * @return the Weiche/Kreuzung Anlage this element is part of
 	 */
 	def static W_Kr_Anlage getWKrAnlage(W_Kr_Gsp_Element wKrGspElement) {
-		return wKrGspElement.IDWKrAnlage.resolve(W_Kr_Anlage)
+		return wKrGspElement.IDWKrAnlage
 	}
 
 	/**
@@ -68,7 +67,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 */
 	def static Regelzeichnung getRegelzeichnung(
 		W_Kr_Gsp_Element wKrGspElement) {
-		return wKrGspElement.IDRegelzeichnung.resolve(Regelzeichnung)
+		return wKrGspElement.IDRegelzeichnung
 	}
 
 	/**
@@ -78,7 +77,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * Grenzzeichenfreiheit of the left or right Weichenschenkel 
 	 */
 	def static Basis_Objekt getElement(GZ_Freimeldung_R_AttributeGroup group) {
-		return group.IDElement.resolve(Basis_Objekt)
+		return group.IDElement
 	}
 
 	/**
@@ -88,7 +87,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * Grenzzeichenfreiheit of the left or right Weichenschenkel 
 	 */
 	def static Basis_Objekt getElement(GZ_Freimeldung_L_AttributeGroup group) {
-		return group.IDElement.resolve(Basis_Objekt)
+		return group.IDElement
 	}
 
 	/**
@@ -135,7 +134,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * @return the Stellelement of this Weiche, Kreuzung oder Gleissperre
 	 */
 	static def Stellelement getStellelement(W_Kr_Gsp_Element wKrGspElement) {
-		return wKrGspElement.IDStellelement.resolve(Stellelement)
+		return wKrGspElement.IDStellelement
 	}
 
 	private def static TOP_Kante getTopKanteWithAnschluss(

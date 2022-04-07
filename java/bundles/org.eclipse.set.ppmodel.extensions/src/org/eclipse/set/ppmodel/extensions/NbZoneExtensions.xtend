@@ -14,7 +14,6 @@ import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
 import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Element
 import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
 import java.util.List
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link NB_Zone}.
@@ -29,7 +28,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 * @return the associated Nahbedienbereich
 	 */
 	def static NB getNb(NB_Zone nbZone) {
-		return nbZone.IDNB.resolve(NB)
+		return nbZone.IDNB
 	}
 
 	/**
@@ -38,7 +37,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 * @return the übergeordnete Nahbedienbereichszone
 	 */
 	def static NB_Zone getNBZone(NB_Zone nbZone) {
-		return nbZone.IDNBZone.resolve(NB_Zone)
+		return nbZone.IDNBZone
 	}
 
 	/**

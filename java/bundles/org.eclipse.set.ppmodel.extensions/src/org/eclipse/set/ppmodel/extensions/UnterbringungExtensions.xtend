@@ -13,7 +13,6 @@ import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
 import org.eclipse.set.toolboxmodel.Geodaten.Strecke
 import java.util.List
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Unterbringung}.
@@ -35,7 +34,7 @@ class UnterbringungExtensions extends BasisObjektExtensions {
 	 * @return the GEO Punkt of this Unterbringung
 	 */
 	def static GEO_Punkt getGeoPunkt(Unterbringung unterbringung) {
-		return unterbringung.IDGEOPunkt.resolve(GEO_Punkt)
+		return unterbringung.IDGEOPunkt
 
 	}
 
@@ -64,7 +63,7 @@ class UnterbringungExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Strecke> getStrecken(Unterbringung unterbringung) {
 		return unterbringung?.punktObjektStrecke?.map [
-			IDStrecke.resolve(Strecke)
+			IDStrecke
 		];
 	}
 }

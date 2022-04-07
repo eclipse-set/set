@@ -25,7 +25,6 @@ import static org.eclipse.set.toolboxmodel.Signale.ENUMBefestigungArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Signal_Rahmen}.
@@ -113,7 +112,7 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	 * @returns the Signal for this Signalrahmen
 	 */
 	def static Signal getSignal(Signal_Rahmen signalRahmen) {
-		return signalRahmen.IDSignal.resolve(Signal)
+		return signalRahmen.IDSignal
 	}
 
 	/**
@@ -122,7 +121,7 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	 * @returns the Signal for this Signalrahmen
 	 */
 	def static Signal getSignalNachordnung(Signal_Rahmen signalRahmen) {
-		return signalRahmen.IDSignalNachordnung.resolve(Signal)
+		return signalRahmen.IDSignalNachordnung
 	}
 
 	/**
@@ -132,7 +131,7 @@ class SignalRahmenExtensions extends BasisObjektExtensions {
 	 */
 	def static Signal_Befestigung getSignalBefestigung(
 		Signal_Rahmen signalRahmen) {
-		return signalRahmen.IDSignalBefestigung.resolve(Signal_Befestigung)
+		return signalRahmen.IDSignalBefestigung
 	}
 
 	/**

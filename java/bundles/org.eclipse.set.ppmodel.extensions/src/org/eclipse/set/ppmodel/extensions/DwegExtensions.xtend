@@ -19,7 +19,6 @@ import java.util.List
 
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import java.util.Set
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Fstr_DWeg}.
@@ -34,7 +33,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	def static Fstr_Fahrweg getFstrFahrweg(
 		Fstr_DWeg dweg
 	) {
-		return dweg.IDFstrFahrweg.resolve(Fstr_Fahrweg)
+		return dweg.IDFstrFahrweg
 	}
 
 	/**
@@ -78,9 +77,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @returns the FMA Anlage Freimeldung set of this Durchrutschweg
 	 */
 	def static Set<FMA_Anlage> getFmaAnlageFreimeldung(Fstr_DWeg dweg) {
-		return dweg.IDFMAAnlageFreimeldung.map [
-			resolve(FMA_Anlage)
-		].toSet
+		return dweg.IDFMAAnlageFreimeldung.toSet
 	}
 
 	/**
@@ -89,7 +86,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @returns the PZB Gefahrpunkt
 	 */
 	def static Markanter_Punkt getPZBGefahrpunkt(Fstr_DWeg dweg) {
-		return dweg.IDPZBGefahrpunkt.resolve(Markanter_Punkt)
+		return dweg.IDPZBGefahrpunkt
 	}
 
 	/**

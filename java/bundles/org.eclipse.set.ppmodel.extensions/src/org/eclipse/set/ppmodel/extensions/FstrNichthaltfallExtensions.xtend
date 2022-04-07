@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Nichthaltfall
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Diese Klasse erweitert {@link Fstr_Nichthaltfall}.
@@ -25,6 +24,6 @@ class FstrNichthaltfallExtensions extends BasisObjektExtensions {
 	def static FMA_Anlage getFmaAnlage(
 		Fstr_Nichthaltfall fstrNichthaltfall
 	) {
-		return fstrNichthaltfall.IDFMAAnlage.resolve(FMA_Anlage)
+		return fstrNichthaltfall.IDFMAAnlage
 	}
 }

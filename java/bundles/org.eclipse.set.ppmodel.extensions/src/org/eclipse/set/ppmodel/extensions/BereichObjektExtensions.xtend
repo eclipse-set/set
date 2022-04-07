@@ -32,7 +32,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Bereich_Objekt}.
@@ -364,7 +363,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	def static TOP_Kante getTopKante(
 		Bereich_Objekt_Teilbereich_AttributeGroup portion
 	) {
-		return portion.IDTOPKante.resolve(TOP_Kante)
+		return portion.IDTOPKante
 	}
 
 	/**

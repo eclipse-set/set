@@ -48,7 +48,6 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
 
@@ -87,7 +86,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static TOP_Knoten getTOPKnotenA(
 		TOP_Kante topKante
 	) {
-		return topKante.IDTOPKnotenA.resolve(TOP_Knoten)
+		return topKante.IDTOPKnotenA
 	}
 
 	/**
@@ -98,7 +97,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static TOP_Knoten getTOPKnotenB(
 		TOP_Kante topKante
 	) {
-		return topKante.IDTOPKnotenB.resolve(TOP_Knoten)
+		return topKante.IDTOPKnotenB
 	}
 
 	def static List<GEO_Kante> getGeoKanten(

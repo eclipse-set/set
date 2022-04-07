@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
 import org.eclipse.set.toolboxmodel.Geodaten.Strecke_Punkt
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Strecke_Punkt}.
@@ -23,7 +22,7 @@ class StreckePunktExtensions extends BasisObjektExtensions {
 	 * @returns the GEO_Knoten for the route point
 	 */
 	static def GEO_Knoten getGeoKnoten(Strecke_Punkt routePoint) {
-		return routePoint.IDGEOKnoten.resolve(GEO_Knoten)
+		return routePoint.IDGEOKnoten
 	}
 
 }

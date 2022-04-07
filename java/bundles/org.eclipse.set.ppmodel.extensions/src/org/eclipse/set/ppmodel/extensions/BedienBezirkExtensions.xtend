@@ -11,8 +11,6 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Bezirk
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Zentrale
 
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
-
 /**
  * Extensions for {@link Bedien_Bezirk}.
  * 
@@ -25,6 +23,6 @@ class BedienBezirkExtensions extends BasisObjektExtensions {
 	 * @return the Bedien_Zentrale
 	 */
 	def static Bedien_Zentrale getBedienZentrale(Bedien_Bezirk bedienBezirk) {
-		return bedienBezirk.IDBedienZentrale.resolve(Bedien_Zentrale)
+		return bedienBezirk.IDBedienZentrale
 	}
 }

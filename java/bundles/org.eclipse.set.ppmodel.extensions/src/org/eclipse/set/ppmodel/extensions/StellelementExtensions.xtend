@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * This class extends {@link Stellelement}.
@@ -24,7 +23,7 @@ class StellelementExtensions extends BasisObjektExtensions {
 	 * Stellelement 
 	 */
 	def static Aussenelementansteuerung getEnergie(Stellelement stellelement) {
-		return stellelement.IDEnergie.resolve(Aussenelementansteuerung)
+		return stellelement.IDEnergie
 	}
 
 	/**
@@ -35,6 +34,6 @@ class StellelementExtensions extends BasisObjektExtensions {
 	 */
 	def static Aussenelementansteuerung getInformation(
 		Stellelement stellelement) {
-		return stellelement.IDInformation.resolve(Aussenelementansteuerung)
+		return stellelement.IDInformation
 	}
 }

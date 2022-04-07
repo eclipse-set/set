@@ -122,8 +122,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			resource.setURI(URI.createFileURI(path.toString()));
 		}
 	}
-<<<<<<< HEAD
-=======
 
 	private void loadModel() {
 		final List<EObject> contents = resource.getContents();
@@ -160,5 +158,4 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	 * @throws IOException
 	 */
 	protected abstract void saveResource() throws IOException;
->>>>>>> dev/stuecker/PLANPRO-5035
 }

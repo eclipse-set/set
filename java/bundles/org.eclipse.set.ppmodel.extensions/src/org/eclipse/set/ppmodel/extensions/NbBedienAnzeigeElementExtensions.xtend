@@ -11,7 +11,6 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
 import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
 import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link NB_Bedien_Anzeige_Element}.
@@ -26,8 +25,7 @@ class NbBedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 */
 	static def Bedien_Anzeige_Element getBedienAnzeigeElement(
 		NB_Bedien_Anzeige_Element nbBedienAnzeigeElement) {
-		return nbBedienAnzeigeElement.IDBedienAnzeigeElement.resolve(
-			Bedien_Anzeige_Element)
+		return nbBedienAnzeigeElement.IDBedienAnzeigeElement
 	}
 
 	/**
@@ -37,6 +35,6 @@ class NbBedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 */
 	static def NB_Zone getNbZone(
 		NB_Bedien_Anzeige_Element nbBedienAnzeigeElement) {
-		return nbBedienAnzeigeElement.IDNBZone.resolve(NB_Zone)
+		return nbBedienAnzeigeElement.IDNBZone
 	}
 }

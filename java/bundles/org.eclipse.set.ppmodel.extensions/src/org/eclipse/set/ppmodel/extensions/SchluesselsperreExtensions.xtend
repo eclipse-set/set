@@ -11,7 +11,6 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Extensions for {@link Schluesselsperre}.
@@ -24,6 +23,6 @@ class SchluesselsperreExtensions extends BasisObjektExtensions {
 	 * @returns the Unterbringung
 	 */
 	def static Unterbringung getUnterbringung(Schluesselsperre ssp) {
-		return ssp.IDUnterbringung.resolve(Unterbringung)
+		return ssp.IDUnterbringung
 	}
 }

@@ -16,8 +16,6 @@ import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
 import java.util.List
 import org.eclipse.emf.common.util.Enumerator
 
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
-
 /**
  * Extensions for {@link Bedien_Anzeige_Element}.
  * 
@@ -32,8 +30,7 @@ class BedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 */
 	def static Bedien_Einrichtung_Oertlich getBedienEinrichtungOertlich(
 		Bedien_Anzeige_Element bedienAnzeigeElement) {
-		return bedienAnzeigeElement.IDBedienEinrichtungOertlich.resolve(
-			Bedien_Einrichtung_Oertlich)
+		return bedienAnzeigeElement.IDBedienEinrichtungOertlich
 	}
 
 	/**
@@ -44,7 +41,8 @@ class BedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	def static List<NB_Bedien_Anzeige_Element> getNbBedienAnzeigeElemente(
 		Bedien_Anzeige_Element bedienAnzeigeElement) {
 		return bedienAnzeigeElement.container.NBBedienAnzeigeElement.filter [
-			IDBedienAnzeigeElement?.identitaet?.wert == bedienAnzeigeElement.identitaet.wert
+			IDBedienAnzeigeElement?.identitaet?.wert ==
+				bedienAnzeigeElement.identitaet.wert
 		].toList
 	}
 
@@ -55,7 +53,7 @@ class BedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 */
 	def static Basis_Objekt getVerknuepftesElement(
 		Bedien_Anzeige_Element bedienAnzeigeElement) {
-		return bedienAnzeigeElement.IDVerknuepftesElement.resolve(Basis_Objekt)
+		return bedienAnzeigeElement.IDVerknuepftesElement
 	}
 
 	/**

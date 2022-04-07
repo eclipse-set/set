@@ -10,7 +10,6 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup
-import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
  * Diese Klasse erweitert {@link FMA_Komponente_Achszaehlpunkt_AttributeGroup}.
@@ -24,7 +23,7 @@ class FmaKomponenteAchszaehlpunktExtensions extends BasisObjektExtensions {
 	 */
 	def static Aussenelementansteuerung getAussenelementEnergie(
 		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
-		return komp?.IDEnergie?.resolve(Aussenelementansteuerung)
+		return komp?.IDEnergie
 	}
 
 	/**
@@ -34,6 +33,6 @@ class FmaKomponenteAchszaehlpunktExtensions extends BasisObjektExtensions {
 	 */
 	def static Aussenelementansteuerung getAussenelementInformation(
 		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
-		return komp?.IDInformation?.resolve(Aussenelementansteuerung)
+		return komp?.IDInformation
 	}
 }
