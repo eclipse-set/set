@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

@@ -8,25 +8,25 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_DWeg
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Fahrweg
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Nichthaltfall
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Signalisierung
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Gleis.ENUMGleisart
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Kl
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Signalbegriff
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Nichthaltfall
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Kl
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
 import java.math.BigInteger
 import java.util.LinkedList
 import java.util.List
@@ -36,7 +36,7 @@ import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
 import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche
 import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
 
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMSignalArt.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueEinschaltungZuordnungExtension.*
@@ -68,7 +68,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		val result = new LinkedList<Fstr_Signalisierung>
 		val signalisierungen = fstr.container.fstrSignalisierung
 		for (signalisierung : signalisierungen) {
-			if (signalisierung.IDFstrZugRangier.wert == fstr.identitaet.wert) {
+			if (signalisierung.IDFstrZugRangier.identitaet?.wert == fstr.identitaet.wert) {
 				result.add(signalisierung)
 			}
 		}
@@ -107,7 +107,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 
 		for (fstrRangierFla : fstrZugRangier.container.
 			fstrRangierFlaZuordnung) {
-			if (fstrRangierFla?.IDFstrRangier?.wert ==
+			if (fstrRangierFla?.IDFstrRangier?.identitaet?.wert ==
 				fstrZugRangier.identitaet.wert) {
 				return fstrRangierFla;
 			}
@@ -123,7 +123,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static List<Fstr_Nichthaltfall> getFstrNichthaltfall(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier.container.fstrNichthaltfall.filter [
-			it.IDFstrFahrweg.wert == fstrZugRangier.IDFstrFahrweg.wert
+			it.IDFstrFahrweg.identitaet?.wert == fstrZugRangier.IDFstrFahrweg.identitaet?.wert
 		].toList
 	}
 
@@ -193,7 +193,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			gleisbezogeneGefahrraeume.map [
 				einschaltungZuordnungen
 			].flatten.toSet.map[einschaltung].exists [
-				fstrZugRangier.fstrZug.IDBUEEinschaltung.map[wert].contains(
+				fstrZugRangier.fstrZug.IDBUEEinschaltung.map[identitaet.wert].contains(
 					identitaet.wert
 				)
 			]

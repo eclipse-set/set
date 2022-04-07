@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Ausgabe_Fachdaten
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Planung_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Zustand
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Einzel
+import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Planung_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel
 import org.eclipse.set.basis.exceptions.IllegalReference
 import org.eclipse.emf.ecore.EObject
 
@@ -51,7 +51,7 @@ class PlanungEinzelExtensions {
 	) {
 		val result = einzelplanung.LSTPlanung.fachdaten.ausgabeFachdaten.filter [
 			identitaet?.wert !== null &&
-				identitaet?.wert == einzelplanung?.IDAusgabeFachdaten?.wert
+				identitaet?.wert == einzelplanung?.IDAusgabeFachdaten?.identitaet?.wert
 		]
 		if (result.size !== 1) {
 			throw new IllegalReference(

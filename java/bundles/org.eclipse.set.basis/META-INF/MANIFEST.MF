@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Basis
 Bundle-SymbolicName: org.eclipse.set.basis
-Bundle-Version: 1.0.326.qualifier
+Bundle-Version: 1.0.327.qualifier
 Automatic-Module-Name: org.eclipse.set.basis
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
@@ -33,8 +33,6 @@ Export-Package: org.eclipse.set.basis,
  org.eclipse.set.basis.ui,
  org.eclipse.set.basis.viewgroups
 Import-Package: com.google.common.collect;version="15.0.0",
- de.scheidtbachmann.planpro.model.model1902.Basisobjekte,
- de.scheidtbachmann.planpro.model.model1902.PlanPro,
  org.apache.commons.lang3;version="3.1.0",
  org.eclipse.core.runtime;version="3.5.0",
  org.eclipse.e4.core.contexts;version="1.7.0",
@@ -70,4 +68,5 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional
+ org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
+ org.eclipse.set.toolboxmodel

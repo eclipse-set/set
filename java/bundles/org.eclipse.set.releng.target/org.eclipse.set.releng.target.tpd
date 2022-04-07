@@ -330,3 +330,13 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 	com.fasterxml.jackson.core.jackson-databind
 	com.fasterxml.jackson.core.jackson-annotations
 }
+
+/**
+ * Toolbox Model
+ * 
+ * Bundle for the Toolbox Model
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.5/org.eclipse.set.toolboxmodel.repository-1.0.5.zip-unzip/" {
+	org.eclipse.set.toolboxmodel.feature.feature.group
+	org.eclipse.set.toolboxmodel.feature.source.feature.group
+}

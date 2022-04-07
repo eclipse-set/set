@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Stellelement
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

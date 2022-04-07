@@ -9,15 +9,15 @@
 package org.eclipse.set.feature.integration
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Ueberhoehung
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.core.services.name.NameService
 import org.eclipse.set.utils.AbstractDiffLabelProvider
 import java.util.List

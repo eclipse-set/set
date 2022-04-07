@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Core Services
 Bundle-SymbolicName: org.eclipse.set.core.services;singleton:=true
-Bundle-Version: 1.0.326.qualifier
+Bundle-Version: 1.0.327.qualifier
 Automatic-Module-Name: org.eclipse.set.core.services
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
@@ -69,4 +69,4 @@ Require-Bundle: org.eclipse.set.rap.compatibility;bundle-version="48.5.0";resolu
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- de.scheidtbachmann.planpro.model.model1902
+ org.eclipse.set.toolboxmodel

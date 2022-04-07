@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.feature.table.sskt
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Technik_Standort
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Standort
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
 import java.util.Collections
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.utils.table.TMFactory

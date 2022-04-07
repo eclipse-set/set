@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.basis.PlanProSchemaDir
 
 import static extension org.eclipse.set.basis.extensions.PathExtensions.*

@@ -9,23 +9,23 @@
 package org.eclipse.set.feature.table.sslz
 
 import com.google.common.base.Stopwatch
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Art_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Gleis.ENUMGleisart
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Bezeichnung
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Ortung.Zugeinwirkung
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Hp0
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Kl
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.ZlO
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs13
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs2
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs2v
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs3
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs3v
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs6
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Art_TypeClass
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hp0
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Kl
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.ZlO
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs13
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2v
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs6
 import java.math.BigInteger
 import java.time.Duration
 import java.util.Collection
@@ -45,8 +45,8 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.ENUMBUESicherungsart.*
-import static de.scheidtbachmann.planpro.model.model1902.Gleis.ENUMGleisart.*
+import static org.eclipse.set.toolboxmodel.Bahnuebergang.ENUMBUESicherungsart.*
+import static org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*

@@ -14,10 +14,10 @@ import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.DirectedEdgePath
 import org.eclipse.set.basis.graph.Routing
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Ueberhoehung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.eclipse.set.ppmodel.extensions.utils.TopKantePath

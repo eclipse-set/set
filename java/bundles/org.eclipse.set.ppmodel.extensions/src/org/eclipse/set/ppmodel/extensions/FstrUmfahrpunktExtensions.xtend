@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Umfahrpunkt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Umfahrpunkt
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 /**
  * This class extends {@link Fstr_Umfahrpunkt}.

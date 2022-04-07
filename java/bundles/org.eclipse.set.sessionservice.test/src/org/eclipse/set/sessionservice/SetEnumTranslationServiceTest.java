@@ -19,7 +19,7 @@ import org.eclipse.set.core.enumtranslation.Enumerators;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslation;
 import org.junit.jupiter.api.Test;
 
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.ENUMBesonderesFahrwegelement;
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMBesonderesFahrwegelement;
 
 /**
  * Tests for {@link SetEnumTranslationService}.

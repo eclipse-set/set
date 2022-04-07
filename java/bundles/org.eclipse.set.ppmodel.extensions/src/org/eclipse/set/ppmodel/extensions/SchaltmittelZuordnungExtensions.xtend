@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

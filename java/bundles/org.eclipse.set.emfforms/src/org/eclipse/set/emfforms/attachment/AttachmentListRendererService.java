@@ -14,8 +14,8 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.emfforms.utils.DomainModelTypeRendererService;
 
 /**

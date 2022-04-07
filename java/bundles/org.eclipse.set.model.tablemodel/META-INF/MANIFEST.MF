@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.tablemodel;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.tablemodel
-Bundle-Version: 1.0.326.qualifier
+Bundle-Version: 1.0.327.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -16,6 +16,7 @@ Export-Package: org.eclipse.set.model.tablemodel,
  org.eclipse.set.model.tablemodel.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.set.toolboxmodel;visibility:=reexport,
  de.scheidtbachmann.planpro.model.model1902;visibility:=reexport,
  org.eclipse.set.model.tablemodel;visibility:=reexport
 Bundle-ActivationPolicy: lazy

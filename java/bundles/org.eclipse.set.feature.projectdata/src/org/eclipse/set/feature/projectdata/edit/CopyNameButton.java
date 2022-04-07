@@ -13,6 +13,14 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.view.spi.model.VControl;
 import org.eclipse.emf.ecp.view.spi.model.VFeaturePathDomainModelReference;
+import org.eclipse.set.basis.emfforms.RendererContext;
+import org.eclipse.set.feature.projectdata.Messages;
+import org.eclipse.set.ppmodel.extensions.utils.NameAkteurTransformation;
+import org.eclipse.set.toolboxmodel.PlanPro.Akteur_Allg_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_10_TypeClass;
+import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_5_TypeClass;
+import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_TypeClass;
+import org.eclipse.set.utils.ButtonAction;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,15 +28,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
 
 import com.google.common.collect.Maps;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Akteur_Allg_AttributeGroup;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Name_Akteur_10_TypeClass;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Name_Akteur_5_TypeClass;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Name_Akteur_TypeClass;
-import org.eclipse.set.basis.emfforms.RendererContext;
-import org.eclipse.set.feature.projectdata.Messages;
-import org.eclipse.set.ppmodel.extensions.utils.NameAkteurTransformation;
-import org.eclipse.set.utils.ButtonAction;
 
 /**
  * The {@link ButtonAction} for copy name to name5/name10.

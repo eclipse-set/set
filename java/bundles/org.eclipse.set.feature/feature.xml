@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.set.feature"
       label="Toolbox Feature"
-      version="1.0.326.qualifier"
+      version="1.0.327.qualifier"
       provider-name="Scheidt &amp; Bachmann System Technik GmbH">
 
    <description url="http://www.example.com/description">
@@ -2532,6 +2532,34 @@
 
    <plugin
          id="org.eclipse.set.utils.table"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.set.toolboxmodel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.set.toolboxmodel.transform"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.set.toolboxmodel.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.set.toolboxmodel.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"

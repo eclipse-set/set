@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.model.temporaryintegration.impl;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -55,7 +53,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 * @ordered
 	 */
-	protected PlanPro_Schnittstelle primaryPlanning;
+	protected org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle primaryPlanning;
 
 	/**
 	 * The default value of the '{@link #getPrimaryPlanningFilename() <em>Primary Planning Filename</em>}' attribute.
@@ -105,7 +103,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 * @ordered
 	 */
-	protected PlanPro_Schnittstelle secondaryPlanning;
+	protected org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle secondaryPlanning;
 
 	/**
 	 * The default value of the '{@link #getSecondaryPlanningFilename() <em>Secondary Planning Filename</em>}' attribute.
@@ -155,7 +153,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 * @ordered
 	 */
-	protected PlanPro_Schnittstelle compositePlanning;
+	protected org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle compositePlanning;
 
 	/**
 	 * The default value of the '{@link #getIntegrationDirectory() <em>Integration Directory</em>}' attribute.
@@ -222,7 +220,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
-	public PlanPro_Schnittstelle getPrimaryPlanning() {
+	public org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle getPrimaryPlanning() {
 		return primaryPlanning;
 	}
 
@@ -231,8 +229,8 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetPrimaryPlanning(PlanPro_Schnittstelle newPrimaryPlanning, NotificationChain msgs) {
-		PlanPro_Schnittstelle oldPrimaryPlanning = primaryPlanning;
+	public NotificationChain basicSetPrimaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle newPrimaryPlanning, NotificationChain msgs) {
+		org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle oldPrimaryPlanning = primaryPlanning;
 		primaryPlanning = newPrimaryPlanning;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING, oldPrimaryPlanning, newPrimaryPlanning);
@@ -247,7 +245,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
-	public void setPrimaryPlanning(PlanPro_Schnittstelle newPrimaryPlanning) {
+	public void setPrimaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle newPrimaryPlanning) {
 		if (newPrimaryPlanning != primaryPlanning) {
 			NotificationChain msgs = null;
 			if (primaryPlanning != null)
@@ -313,7 +311,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
-	public PlanPro_Schnittstelle getSecondaryPlanning() {
+	public org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle getSecondaryPlanning() {
 		return secondaryPlanning;
 	}
 
@@ -322,8 +320,8 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSecondaryPlanning(PlanPro_Schnittstelle newSecondaryPlanning, NotificationChain msgs) {
-		PlanPro_Schnittstelle oldSecondaryPlanning = secondaryPlanning;
+	public NotificationChain basicSetSecondaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle newSecondaryPlanning, NotificationChain msgs) {
+		org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle oldSecondaryPlanning = secondaryPlanning;
 		secondaryPlanning = newSecondaryPlanning;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING, oldSecondaryPlanning, newSecondaryPlanning);
@@ -338,7 +336,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
-	public void setSecondaryPlanning(PlanPro_Schnittstelle newSecondaryPlanning) {
+	public void setSecondaryPlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle newSecondaryPlanning) {
 		if (newSecondaryPlanning != secondaryPlanning) {
 			NotificationChain msgs = null;
 			if (secondaryPlanning != null)
@@ -404,7 +402,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
-	public PlanPro_Schnittstelle getCompositePlanning() {
+	public org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle getCompositePlanning() {
 		return compositePlanning;
 	}
 
@@ -413,8 +411,8 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetCompositePlanning(PlanPro_Schnittstelle newCompositePlanning, NotificationChain msgs) {
-		PlanPro_Schnittstelle oldCompositePlanning = compositePlanning;
+	public NotificationChain basicSetCompositePlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle newCompositePlanning, NotificationChain msgs) {
+		org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle oldCompositePlanning = compositePlanning;
 		compositePlanning = newCompositePlanning;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING, oldCompositePlanning, newCompositePlanning);
@@ -429,7 +427,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	 * @generated
 	 */
 	@Override
-	public void setCompositePlanning(PlanPro_Schnittstelle newCompositePlanning) {
+	public void setCompositePlanning(org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle newCompositePlanning) {
 		if (newCompositePlanning != compositePlanning) {
 			NotificationChain msgs = null;
 			if (compositePlanning != null)
@@ -619,7 +617,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING:
-				setPrimaryPlanning((PlanPro_Schnittstelle)newValue);
+				setPrimaryPlanning((org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)newValue);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
 				setPrimaryPlanningFilename((String)newValue);
@@ -628,7 +626,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				setPrimaryPlanningWasValid((Boolean)newValue);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
-				setSecondaryPlanning((PlanPro_Schnittstelle)newValue);
+				setSecondaryPlanning((org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)newValue);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				setSecondaryPlanningFilename((String)newValue);
@@ -637,7 +635,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				setSecondaryPlanningWasValid((Boolean)newValue);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
-				setCompositePlanning((PlanPro_Schnittstelle)newValue);
+				setCompositePlanning((org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)newValue);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				setIntegrationDirectory((String)newValue);
@@ -661,7 +659,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING:
-				setPrimaryPlanning((PlanPro_Schnittstelle)null);
+				setPrimaryPlanning((org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)null);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
 				setPrimaryPlanningFilename(PRIMARY_PLANNING_FILENAME_EDEFAULT);
@@ -670,7 +668,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				setPrimaryPlanningWasValid(PRIMARY_PLANNING_WAS_VALID_EDEFAULT);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
-				setSecondaryPlanning((PlanPro_Schnittstelle)null);
+				setSecondaryPlanning((org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)null);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				setSecondaryPlanningFilename(SECONDARY_PLANNING_FILENAME_EDEFAULT);
@@ -679,7 +677,7 @@ public class TemporaryIntegrationImpl extends MinimalEObjectImpl.Container imple
 				setSecondaryPlanningWasValid(SECONDARY_PLANNING_WAS_VALID_EDEFAULT);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
-				setCompositePlanning((PlanPro_Schnittstelle)null);
+				setCompositePlanning((org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle)null);
 				return;
 			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				setIntegrationDirectory(INTEGRATION_DIRECTORY_EDEFAULT);

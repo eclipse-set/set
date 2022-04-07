@@ -9,9 +9,9 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisAttribut_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
 import java.util.List
 import org.eclipse.set.ppmodel.extensions.utils.LstObjectAttribute
 

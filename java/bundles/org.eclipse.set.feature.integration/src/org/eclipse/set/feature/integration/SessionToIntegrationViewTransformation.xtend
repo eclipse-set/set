@@ -9,7 +9,7 @@
 package org.eclipse.set.feature.integration
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.basis.integration.DiffLabelProvider

@@ -8,14 +8,14 @@
  */
 package org.eclipse.set.feature.table.sskw
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMLinksRechts
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
-import de.scheidtbachmann.planpro.model.model1902.Regelzeichnung.Regelzeichnung
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.ENUMElementLage
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
+import org.eclipse.set.toolboxmodel.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMElementLage
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
 import java.math.BigInteger
 import java.util.LinkedList
 import java.util.List
@@ -30,9 +30,9 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMLinksRechts.*
-import static de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.ENUMWKrArt.*
-import static de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.ENUMWKrGspStellart.*
+import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMLinksRechts.*
+import static org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt.*
+import static org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrGspStellart.*
 import static java.lang.Boolean.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
@@ -242,7 +242,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			// J: Weiche.Antriebe
 			val elementKomponenten = element.container.WKrGspKomponente.filter [
-				IDWKrGspElement.wert == element.identitaet.wert &&
+				IDWKrGspElement?.identitaet?.wert == element.identitaet.wert &&
 					zungenpaar !== null
 			]
 			fill(

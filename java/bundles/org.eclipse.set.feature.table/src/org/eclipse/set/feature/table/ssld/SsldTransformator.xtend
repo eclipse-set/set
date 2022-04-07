@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.feature.table.ssld
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_DWeg
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.toolboxmodel.Signale.Signal
 import java.math.RoundingMode
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
@@ -22,7 +22,7 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMSignalFunktion.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*

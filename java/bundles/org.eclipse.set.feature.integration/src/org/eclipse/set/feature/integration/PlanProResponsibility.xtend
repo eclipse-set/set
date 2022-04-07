@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.integration;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
 import org.eclipse.set.core.services.merge.MergeService.Authority
 import org.eclipse.set.core.services.merge.MergeService.Responsibility
 import java.util.Collections
@@ -32,10 +32,10 @@ class PlanProResponsibility implements Responsibility {
 		val primaryPlanning = primaryContainer.planungEinzel
 		val secondaryPlanning = secondaryContainer.planungEinzel
 		primaryPlanningArea = (primaryPlanning.LSTObjektePlanungsbereich?.
-			IDLSTObjektPlanungsbereich?.map[wert] ?: Collections.emptyList).
+			IDLSTObjektPlanungsbereich?.map[identitaet?.wert] ?: Collections.emptyList).
 			filterNull.toSet
 		secondaryPlanningArea = (secondaryPlanning.LSTObjektePlanungsbereich?.
-			IDLSTObjektPlanungsbereich?.map[wert] ?: Collections.emptyList).
+			IDLSTObjektPlanungsbereich?.map[identitaet?.wert] ?: Collections.emptyList).
 			filterNull.toSet
 	}
 

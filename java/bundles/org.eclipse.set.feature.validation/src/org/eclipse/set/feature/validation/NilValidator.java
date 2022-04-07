@@ -19,8 +19,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EObjectValidator;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Extra validator to report EMF errors if an unset value is present in the

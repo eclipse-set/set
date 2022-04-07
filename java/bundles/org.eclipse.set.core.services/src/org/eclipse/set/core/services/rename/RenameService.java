@@ -10,11 +10,10 @@ package org.eclipse.set.core.services.rename;
 
 import java.io.IOException;
 
-import org.eclipse.swt.widgets.Shell;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Rename a PlanPro file.

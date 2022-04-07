@@ -8,22 +8,6 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjekteFactory
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjektePackage
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Identitaet_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Akteur_Allg_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Akteur_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.ENUMPlanungEArt
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.ENUMPlanungPhase
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Organisation
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_E_Allg_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt
-import de.scheidtbachmann.planpro.model.model1902.Verweise.VerweiseFactory
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.Collections
@@ -46,15 +30,30 @@ import org.eclipse.set.basis.constants.ExportType
 import org.eclipse.set.basis.guid.Guid
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage
+import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass
+import org.eclipse.set.toolboxmodel.PlanPro.Akteur_Allg_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.Akteur_Zuordnung
+import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot
+import org.eclipse.set.toolboxmodel.PlanPro.ENUMPlanungEArt
+import org.eclipse.set.toolboxmodel.PlanPro.ENUMPlanungPhase
+import org.eclipse.set.toolboxmodel.PlanPro.Organisation
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_E_Allg_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Gruppe
 
 /**
  * Extensions for {@link PlanPro_Schnittstelle}.
@@ -281,9 +280,7 @@ class PlanProSchnittstelleExtensions {
 		val fachdaten = factory.createFachdaten_AttributeGroup
 		val ausgabeFachdaten = factory.createAusgabe_Fachdaten
 		ausgabeFachdaten.fixGuids
-		planungEinzel.IDAusgabeFachdaten = VerweiseFactory.eINSTANCE.
-			createID_Ausgabe_Fachdaten_ohne_Proxy_TypeClass
-		planungEinzel.IDAusgabeFachdaten.wert = ausgabeFachdaten.identitaet.wert
+		planungEinzel.IDAusgabeFachdaten = ausgabeFachdaten
 		fachdaten.ausgabeFachdaten.add(ausgabeFachdaten)
 		planungEinzel.LSTPlanung.fachdaten = fachdaten
 		planungEinzel.planungEHandlung = factory.

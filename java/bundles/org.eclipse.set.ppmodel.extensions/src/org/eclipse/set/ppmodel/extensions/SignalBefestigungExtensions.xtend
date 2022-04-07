@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Regelzeichnung.Regelzeichnung
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Befestigung
+import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
+import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
 import java.util.List
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 

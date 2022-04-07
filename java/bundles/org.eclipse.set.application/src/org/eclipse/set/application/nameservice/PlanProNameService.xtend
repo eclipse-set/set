@@ -8,19 +8,19 @@
  */
 package org.eclipse.set.application.nameservice
 
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Anlage
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisAttribut_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.ENUMFstrArt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_DWeg
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Markanter_Punkt
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.Ueberhoehung
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMFstrArt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.Collections
 import javax.inject.Inject
 import org.eclipse.emf.ecore.EObject

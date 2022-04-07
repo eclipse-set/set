@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Akteur_Zuordnung
+import org.eclipse.set.toolboxmodel.PlanPro.Akteur_Zuordnung
 import java.util.Optional
 import javax.xml.datatype.XMLGregorianCalendar
 

@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.utils.table
 
-import de.scheidtbachmann.planpro.model.model1902.Regelzeichnung.Regelzeichnung
+import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
 import java.util.Comparator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table

@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB
 import java.util.List
 
 /**

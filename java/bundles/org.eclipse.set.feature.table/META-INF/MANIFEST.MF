@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Table
 Bundle-SymbolicName: org.eclipse.set.feature.table;singleton:=true
-Bundle-Version: 1.0.326.qualifier
+Bundle-Version: 1.0.327.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Export-Package: org.eclipse.set.feature.table,
  org.eclipse.set.feature.table.abstracttableview,
@@ -12,32 +12,11 @@ Require-Bundle: org.eclipse.set.core.services;bundle-version="0.0.0",
  org.eclipse.nebula.widgets.nattable.core;bundle-version="1.3.0",
  org.eclipse.xtend.lib,
  org.eclipse.xtext.xbase.lib,
- org.eclipse.jface
+ org.eclipse.jface,
+ org.eclipse.set.toolboxmodel
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.google.common.base,
  com.google.common.collect,
- de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element,
- de.scheidtbachmann.planpro.model.model1902.Bahnuebergang,
- de.scheidtbachmann.planpro.model.model1902.BasisTypen,
- de.scheidtbachmann.planpro.model.model1902.Basisobjekte,
- de.scheidtbachmann.planpro.model.model1902.Bedienung,
- de.scheidtbachmann.planpro.model.model1902.Block,
- de.scheidtbachmann.planpro.model.model1902.Fahrstrasse,
- de.scheidtbachmann.planpro.model.model1902.Flankenschutz,
- de.scheidtbachmann.planpro.model.model1902.Geodaten,
- de.scheidtbachmann.planpro.model.model1902.Gleis,
- de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich,
- de.scheidtbachmann.planpro.model.model1902.Ortung,
- de.scheidtbachmann.planpro.model.model1902.PZB,
- de.scheidtbachmann.planpro.model.model1902.PlanPro,
- de.scheidtbachmann.planpro.model.model1902.PlanPro.impl,
- de.scheidtbachmann.planpro.model.model1902.Regelzeichnung,
- de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten,
- de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301,
- de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Struktur,
- de.scheidtbachmann.planpro.model.model1902.Signale,
- de.scheidtbachmann.planpro.model.model1902.Verweise,
- de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren,
  javax.annotation;version="1.2.0",
  javax.inject;version="1.0.0",
  org.eclipse.e4.core.contexts,

@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Akteur_Allg_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Akteur
+import org.eclipse.set.toolboxmodel.PlanPro.Akteur_Allg_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.Akteur
 import java.util.Optional
 
 /**

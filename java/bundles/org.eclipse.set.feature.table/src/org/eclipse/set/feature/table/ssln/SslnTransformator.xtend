@@ -9,16 +9,16 @@
 package org.eclipse.set.feature.table.ssln
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone_Element
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone_Grenze
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Komponente
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluesselsperre
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Element
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import java.util.List
 import org.eclipse.set.basis.Pair
 import org.eclipse.set.basis.constants.ToolboxConstants

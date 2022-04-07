@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

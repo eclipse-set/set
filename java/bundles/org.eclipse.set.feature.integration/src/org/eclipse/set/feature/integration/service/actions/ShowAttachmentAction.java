@@ -23,10 +23,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Table;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.files.AttachmentContentService;
 import org.eclipse.set.core.services.merge.MergeService.Context;
@@ -42,6 +38,9 @@ import org.eclipse.set.model.simplemerge.extensions.SMatchExtensions;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
 import org.eclipse.set.ppmodel.extensions.AnhangExtensions;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Table;
 
 /**
  * Show attachments in the conflict detail view.

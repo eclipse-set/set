@@ -9,8 +9,6 @@
 package org.eclipse.set.model.temporaryintegration.provider;
 
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -295,17 +293,17 @@ public class TemporaryIntegrationItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING,
-				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
+				 org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING,
-				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
+				 org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING,
-				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
+				 org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
 
 		newChildDescriptors.add
 			(createChildParameter

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Integration
 Bundle-SymbolicName: org.eclipse.set.feature.integration;singleton:=true
-Bundle-Version: 1.0.326.qualifier
+Bundle-Version: 1.0.327.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
 Require-Bundle: com.google.guava,
@@ -15,19 +15,9 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- org.eclipse.jface
-Import-Package: de.scheidtbachmann.planpro.model.model1902.Bahnuebergang,
- de.scheidtbachmann.planpro.model.model1902.BasisTypen,
- de.scheidtbachmann.planpro.model.model1902.Basisobjekte,
- de.scheidtbachmann.planpro.model.model1902.Fahrstrasse,
- de.scheidtbachmann.planpro.model.model1902.Geodaten,
- de.scheidtbachmann.planpro.model.model1902.Gleis,
- de.scheidtbachmann.planpro.model.model1902.PlanPro,
- de.scheidtbachmann.planpro.model.model1902.PlanPro.util,
- de.scheidtbachmann.planpro.model.model1902.Signale,
- de.scheidtbachmann.planpro.model.model1902.Verweise,
- de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren,
- javax.inject;version="1.0.0",
+ org.eclipse.jface,
+ org.eclipse.set.toolboxmodel
+Import-Package: javax.inject;version="1.0.0",
  org.eclipse.core.runtime;version="3.5.0",
  org.eclipse.e4.core.contexts;version="1.7.0",
  org.eclipse.e4.core.di;version="1.7.0",

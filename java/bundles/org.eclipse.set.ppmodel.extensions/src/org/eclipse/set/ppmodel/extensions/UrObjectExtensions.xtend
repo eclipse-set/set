@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 import org.eclipse.emf.ecore.EObject
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Zustand
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand
 
 /**
  * Diese Klasse erweitert {@link Ur_Objekt}.

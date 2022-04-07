@@ -11,8 +11,8 @@ package org.eclipse.set.emfforms.basisattribute;
 import org.eclipse.emfforms.spi.swt.core.di.EMFFormsDIRendererService;
 import org.osgi.service.component.annotations.Component;
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisAttribut_AttributeGroup;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.emfforms.utils.DomainModelTypeRendererService;
 
 /**

@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.ESTW_Zentraleinheit;
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit;
 import java.util.List
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Platz
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Bezirk
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Platz
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Bezirk
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
@@ -39,7 +39,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 
 		return estw_zentraleinheit.container.bedienPlatz.filter [ b |
-			b.IDESTWZentraleinheit.wert == estw_zentraleinheit.identitaet.wert
+			b.IDESTWZentraleinheit.identitaet?.wert == estw_zentraleinheit.identitaet.wert
 		].toList;
 	}
 

@@ -8,13 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisAttribut_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Bearbeitungsvermerk
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Zustand
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.impl.Ausgabe_FachdatenImpl
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.impl.Fachdaten_AttributeGroupImpl
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.impl.LST_ZustandImpl
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand
+import org.eclipse.set.toolboxmodel.PlanPro.impl.Ausgabe_FachdatenImpl
+import org.eclipse.set.toolboxmodel.PlanPro.impl.Fachdaten_AttributeGroupImpl
+import org.eclipse.set.toolboxmodel.PlanPro.impl.LST_ZustandImpl
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup

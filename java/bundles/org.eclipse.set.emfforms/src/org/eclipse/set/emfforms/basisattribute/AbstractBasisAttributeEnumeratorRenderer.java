@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Control;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisAttribut_AttributeGroup;
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup;
 
 /**
  * Render a {@link BasisAttribut_AttributeGroup} enum element.

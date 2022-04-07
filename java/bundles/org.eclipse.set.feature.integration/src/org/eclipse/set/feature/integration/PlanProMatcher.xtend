@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.integration;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 import org.eclipse.set.utils.AbstractMatcher
 import org.eclipse.set.basis.integration.DiffLabelProvider
 import org.eclipse.set.basis.integration.Matcher

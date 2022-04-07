@@ -9,11 +9,10 @@
 package org.eclipse.set.feature.integration;
 
 import org.eclipse.emf.ecore.EObject;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.core.services.merge.MergeService.Configuration;
 import org.eclipse.set.core.services.merge.MergeService.Context;
 import org.eclipse.set.core.services.merge.MergeService.Responsibility;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 
 /**
  * The PlanPro merge context.

@@ -27,6 +27,12 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.core.Messages;
 import org.eclipse.set.core.services.dialog.DialogService;
+import org.eclipse.set.toolboxmodel.PlanPro.Index_Ausgabe_TypeClass;
+import org.eclipse.set.toolboxmodel.PlanPro.Laufende_Nummer_Ausgabe_TypeClass;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_E_Allg_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.widgets.FolderField;
 import org.eclipse.swt.SWT;
@@ -39,13 +45,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Index_Ausgabe_TypeClass;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Laufende_Nummer_Ausgabe_TypeClass;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_E_Allg_AttributeGroup;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Einzel;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Gruppe;
 
 /**
  * Dialog for project initialization.

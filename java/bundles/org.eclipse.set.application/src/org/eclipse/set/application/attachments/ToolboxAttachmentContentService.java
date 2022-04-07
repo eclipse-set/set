@@ -18,8 +18,7 @@ import org.eclipse.set.basis.attachments.Attachment;
 import org.eclipse.set.basis.files.AttachmentContentService;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.guid.Guid;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
 
 /**
  * Implementation for {@link AttachmentContentService}.

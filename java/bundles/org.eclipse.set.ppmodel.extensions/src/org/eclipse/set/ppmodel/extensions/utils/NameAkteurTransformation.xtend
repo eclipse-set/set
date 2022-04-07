@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Name_Akteur_10_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Name_Akteur_5_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Name_Akteur_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory
+import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_10_TypeClass
+import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_5_TypeClass
+import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_TypeClass
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory
 
 /** 
  * Transform Name Akteur elements.

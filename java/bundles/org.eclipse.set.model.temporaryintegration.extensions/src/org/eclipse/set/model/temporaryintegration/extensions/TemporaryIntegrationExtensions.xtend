@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.model.temporaryintegration.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.model.simplemerge.Resolution
 import org.eclipse.set.model.simplemerge.SComparison

@@ -31,6 +31,10 @@ import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
@@ -48,11 +52,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Zustand;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * Import PlanPro models.

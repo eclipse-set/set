@@ -40,8 +40,8 @@ import org.eclipse.swt.widgets.Label;
 
 import com.google.common.collect.Lists;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 
 /**
  * This parts lists all attachments available in the document and offers the

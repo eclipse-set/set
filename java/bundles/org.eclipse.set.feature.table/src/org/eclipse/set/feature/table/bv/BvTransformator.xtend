@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.table.bv
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.core.services.name.NameService
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.utils.table.TMFactory

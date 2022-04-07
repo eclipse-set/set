@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Anzeige_Element
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Abhaengigkeit
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluesselsperre
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

@@ -8,13 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Ausgabe_Fachdaten
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Zustand
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Einzel
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel
 import java.util.LinkedList
 import java.util.List
 import org.eclipse.emf.ecore.EObject
@@ -107,7 +107,7 @@ class ContainerExtensions {
 	) {
 		val planning = container.planProSchnittstelle.LSTPlanung.
 			objektmanagement.eAllContents.filter(Planung_Einzel).filter [
-				IDAusgabeFachdaten.wert ==
+				IDAusgabeFachdaten.identitaet.wert ==
 					container.ausgabeFachdaten.identitaet.wert
 			].toSet
 

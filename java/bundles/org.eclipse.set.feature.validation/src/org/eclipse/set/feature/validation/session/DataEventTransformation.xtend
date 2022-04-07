@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.validation.session
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt
 import org.eclipse.set.utils.events.ContainerDataChanged
 import org.eclipse.set.utils.events.DataEvent
 import java.util.Set

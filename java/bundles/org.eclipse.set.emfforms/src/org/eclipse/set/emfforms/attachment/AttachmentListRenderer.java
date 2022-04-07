@@ -56,10 +56,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.ENUMAnhangArt;
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.ENUMDateityp;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMAnhangArt;
+import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Renders a list of attachments.

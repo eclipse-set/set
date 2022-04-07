@@ -19,8 +19,8 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 
 import com.google.common.collect.Iterables;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Anhang;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 
 /**
  * Provides a list of attachments as model for the tableviewer.

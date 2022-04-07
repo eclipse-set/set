@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
 import java.util.List
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Abschnitt
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
 
 /**
  * This class extends {@link Gleis_Abschnitt}.
@@ -25,6 +25,6 @@ class GleisAbschnittExtensions extends BereichObjektExtensions {
 	 * @returns the FMA Anlagen monitoring this Gleisabschnitt
 	 */
 	def static List<FMA_Anlage> getFmaAnlagen(Gleis_Abschnitt abschnitt) {
-		return abschnitt.container.FMAAnlage.filter[IDGleisAbschnitt.wert == abschnitt.identitaet.wert].toList
+		return abschnitt.container.FMAAnlage.filter[IDGleisAbschnitt.identitaet.wert == abschnitt.identitaet.wert].toList
 	}
 }

@@ -41,7 +41,7 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
 import com.google.common.collect.Lists;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 
 /**
  * Viewpart for the export of documents.

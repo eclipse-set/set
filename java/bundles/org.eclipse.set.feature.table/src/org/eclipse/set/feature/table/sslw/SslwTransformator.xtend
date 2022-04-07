@@ -8,22 +8,21 @@
  */
 package org.eclipse.set.feature.table.sslw
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.ENUMMassnahme
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Schutz
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Zwieschutz
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_Fla_Schutz_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Flankenschutz.ENUMMassnahme
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Zwieschutz
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.utils.table.TMFactory
 
-import static de.scheidtbachmann.planpro.model.model1902.Flankenschutz.ENUMMassnahme.*
-import static de.scheidtbachmann.planpro.model.model1902.Flankenschutz.ENUMZwieschutzArt.*
+import static org.eclipse.set.toolboxmodel.Flankenschutz.ENUMMassnahme.*
+import static org.eclipse.set.toolboxmodel.Flankenschutz.ENUMZwieschutzArt.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
@@ -452,15 +451,15 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	 * 
 	 * @return the current opposite (left or right )Weitergabe ID of Flankenschutzmaßnahme or null 
 	 */
-	private def ID_Fla_Schutz_TypeClass getCurrentOppositeWeitergabeId(
+	private def String getCurrentOppositeWeitergabeId(
 		Fla_Schutz flaSchutz,
 		boolean isLeft
 	) {
 		if (flaSchutz !== null && flaSchutz?.flaSchutzWeitergabe !== null) {
 			if (true === isLeft) {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR?.identitaet?.wert;
 			} else {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL?.identitaet?.wert;
 			}
 		}
 
@@ -473,15 +472,15 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	 * 
 	 * @return the current (left or right )Weitergabe ID of Flankenschutzmaßnahme or null 
 	 */
-	private def ID_Fla_Schutz_TypeClass getCurrentWeitergabeId(
+	private def String getCurrentWeitergabeId(
 		Fla_Schutz flaSchutz,
 		boolean isLeft
 	) {
 		if (flaSchutz !== null && flaSchutz?.flaSchutzWeitergabe !== null) {
 			if (true === isLeft) {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL?.identitaet?.wert;
 			} else {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR?.identitaet?.wert;
 			}
 		}
 

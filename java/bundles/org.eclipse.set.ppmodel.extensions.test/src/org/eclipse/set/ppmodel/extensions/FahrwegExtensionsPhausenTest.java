@@ -17,15 +17,14 @@ import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.ppmodel.extensions.utils.ModelBaseTest;
 import org.eclipse.set.ppmodel.extensions.utils.TeilFahrweg;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit;
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg;
+import org.eclipse.set.toolboxmodel.Signale.Signal;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt;
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Abhaengigkeit;
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Fahrweg;
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal;
 
 /**
  * Tests for {@link FahrwegExtensions}.

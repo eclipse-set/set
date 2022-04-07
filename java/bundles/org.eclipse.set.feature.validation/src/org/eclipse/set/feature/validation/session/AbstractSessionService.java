@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Basic service functionality.

@@ -9,8 +9,8 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluesselsperre
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

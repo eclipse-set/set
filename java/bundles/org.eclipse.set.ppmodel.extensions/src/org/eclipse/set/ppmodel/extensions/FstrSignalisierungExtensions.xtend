@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Signalisierung
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Signalbegriff
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
+import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**

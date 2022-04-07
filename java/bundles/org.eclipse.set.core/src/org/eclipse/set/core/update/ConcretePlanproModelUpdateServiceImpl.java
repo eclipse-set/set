@@ -17,20 +17,19 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.update.ConcreteModelUpdateService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten;
+import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
+import org.eclipse.set.toolboxmodel.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.service.component.annotations.Component;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Ausgabe_Fachdaten;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.ENUMUntergewerkArt;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Einzel;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Gruppe;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Untergewerk_Art_TypeClass;
-import de.scheidtbachmann.planpro.model.model1902.Verweise.ID_Ausgabe_Fachdaten_ohne_Proxy_TypeClass;
 
 /**
  * create and add adapter(which listen to the change of the session) into

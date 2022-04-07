@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Markanter_Punkt
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Schutz
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone
-import de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NB_Zone_Grenze
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
 import java.util.List
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
@@ -45,7 +45,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Fla_Schutz> getFlaSchutz(NB_Zone_Grenze nbZoneGrenze) {
 		return nbZoneGrenze.container.flaSchutz.filter [
-			flaSchutzAnforderer.IDAnfordererElement.wert ==
+			flaSchutzAnforderer.IDAnfordererElement.identitaet.wert ==
 				nbZoneGrenze.identitaet.wert
 		].toList
 	}

@@ -9,17 +9,17 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
-import de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMWirkrichtung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.ENUMTOPAnschluss
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.GEO_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Lichtraum
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Lichtraum
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.Collection
 import java.util.Collections
 import java.util.LinkedList
@@ -39,7 +39,7 @@ import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static de.scheidtbachmann.planpro.model.model1902.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ContainerExtensions.*
@@ -543,7 +543,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		Collection<Punkt_Objekt_TOP_Kante_AttributeGroup> singlePoints
 	) {
 		return singlePoints.filter [
-			IDTOPKante.wert == topKante.identitaet.wert
+			IDTOPKante.identitaet?.wert == topKante.identitaet.wert
 		].toSet
 	}
 
@@ -558,11 +558,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val idA = topKante.IDTOPKnotenA
 		val idB = topKante.IDTOPKnotenB
 
-		if (topKnoten.identitaet.wert == idA.wert) {
+		if (topKnoten.identitaet.wert == idA.identitaet?.wert) {
 			return topKante.TOPKanteAllg.TOPAnschlussA.wert
 		}
 
-		if (topKnoten.identitaet.wert == idB.wert) {
+		if (topKnoten.identitaet.wert == idB.identitaet?.wert) {
 			return topKante.TOPKanteAllg.TOPAnschlussB.wert
 		}
 
@@ -579,11 +579,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val idA = topKante.IDTOPKnotenA
 		val idB = topKante.IDTOPKnotenB
 
-		if (topKnoten.identitaet.wert == idA.wert) {
+		if (topKnoten.identitaet.wert == idA.identitaet?.wert) {
 			return topKante.TOPKnotenB
 		}
 
-		if (topKnoten.identitaet.wert == idB.wert) {
+		if (topKnoten.identitaet.wert == idB.identitaet?.wert) {
 			return topKante.TOPKnotenA
 		}
 

@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.table;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 
 /**
  * A backward reference was not found.

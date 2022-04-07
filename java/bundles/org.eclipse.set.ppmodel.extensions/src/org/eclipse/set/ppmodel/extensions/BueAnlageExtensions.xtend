@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Gleisbezogener_Gefahrraum
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Gleisbezogener_Gefahrraum
 import java.util.List
 
 /**
@@ -27,7 +27,7 @@ class BueAnlageExtensions extends PunktObjektExtensions {
 	static def List<BUE_Gleisbezogener_Gefahrraum> getGleisbezogeneGefahrraeume(
 		BUE_Anlage anlage) {
 		return anlage.container.BUEGleisbezogenerGefahrraum.filter [
-			IDBUEAnlage.wert == anlage.identitaet.wert
+			IDBUEAnlage.identitaet?.wert == anlage.identitaet.wert
 		].toList
 	}
 }

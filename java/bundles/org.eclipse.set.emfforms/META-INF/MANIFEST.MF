@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Emfforms
 Bundle-SymbolicName: org.eclipse.set.emfforms;singleton:=true
-Bundle-Version: 1.0.326.qualifier
+Bundle-Version: 1.0.327.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Require-Bundle: org.eclipse.e4.ui.workbench,
  org.eclipse.emf.ecp.ui;bundle-version="1.17.1",
@@ -18,13 +18,11 @@ Require-Bundle: org.eclipse.e4.ui.workbench,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
  org.eclipse.set.rap.compatibility;bundle-version="48.2.0";resolution:=optional,
- org.eclipse.core.databinding.beans;bundle-version="1.4.100"
+ org.eclipse.core.databinding.beans;bundle-version="1.4.100",
+ org.eclipse.set.toolboxmodel
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.google.common.base;version="15.0.0",
  com.google.common.collect;version="15.0.0",
- de.scheidtbachmann.planpro.model.model1902.BasisTypen,
- de.scheidtbachmann.planpro.model.model1902.Basisobjekte,
- de.scheidtbachmann.planpro.model.model1902.PlanPro,
  javax.inject;version="1.0.0",
  org.eclipse.core.databinding,
  org.eclipse.core.runtime;version="3.5.0",

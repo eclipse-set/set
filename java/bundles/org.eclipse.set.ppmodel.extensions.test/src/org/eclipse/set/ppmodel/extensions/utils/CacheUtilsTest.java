@@ -19,18 +19,17 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.test.utils.TestData;
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.Signale.SignaleFactory;
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Weichen_und_GleissperrenFactory;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjekteFactory;
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Identitaet_TypeClass;
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Container_AttributeGroup;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.LST_Zustand;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage;
-import de.scheidtbachmann.planpro.model.model1902.Signale.SignaleFactory;
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Weichen_und_GleissperrenFactory;
 
 /**
  * Tests für {@link UrObjectExtensions}.

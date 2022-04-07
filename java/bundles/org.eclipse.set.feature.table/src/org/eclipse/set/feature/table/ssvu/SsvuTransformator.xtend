@@ -8,17 +8,17 @@
  */
 package org.eclipse.set.feature.table.ssvu
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Aussenelementansteuerung
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.ESTW_Zentraleinheit
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Uebertragungsweg
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Schnittstelle
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Basis_Objekt
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Bezirk
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Zentrale
-import de.scheidtbachmann.planpro.model.model1902.PZB.PZB_Element
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluesselsperre
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Uebertragungsweg
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Schnittstelle
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Bezirk
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Zentrale
+import org.eclipse.set.toolboxmodel.PZB.PZB_Element
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
@@ -110,13 +110,13 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		return
 	}
 
-	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegVon?.wert) transformToVon(
+	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegVon?.identitaet?.wert) transformToVon(
 		Uebertragungsweg uebertragungsweg
 	) {
 		return
 	}
 
-	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegNach?.wert) transformToNach(
+	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegNach?.identitaet?.wert) transformToNach(
 		Uebertragungsweg uebertragungsweg
 	) {
 		return
@@ -216,23 +216,23 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def dispatch String getIdStellelement(Signal element) {
-		return element?.signalReal?.signalRealAktiv?.IDStellelement?.wert;
+		return element?.signalReal?.signalRealAktiv?.IDStellelement?.identitaet?.wert;
 	}
 
 	private def dispatch String getIdStellelement(W_Kr_Gsp_Element element) {
-		return element?.IDStellelement?.wert
+		return element?.IDStellelement?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(Schluesselsperre element) {
-		return element?.IDStellelement?.wert
+		return element?.IDStellelement?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(PZB_Element element) {
-		return element?.IDStellelement?.wert
+		return element?.IDStellelement?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(BUE_Schnittstelle element) {
-		return element?.IDStellelement?.wert
+		return element?.IDStellelement?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(Bedien_Bezirk element) {
@@ -272,17 +272,17 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getElementBezeichnung(PZB_Element element) {
 		val pzbZuordnungSignal = container?.PZBZuordnungSignal.findFirst [
-			identitaet?.wert == element?.IDPZBElementZuordnung?.wert
+			identitaet?.wert == element?.IDPZBElementZuordnung?.identitaet?.wert
 		]
 		return container?.signal.findFirst [
-			identitaet?.wert == pzbZuordnungSignal?.IDSignal?.wert
+			identitaet?.wert == pzbZuordnungSignal?.IDSignal?.identitaet?.wert
 		]?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private def dispatch String getElementBezeichnung(BUE_Schnittstelle element) {
 		// IMPROVE use cache
 		val bueAnlage = container?.BUEAnlage.findFirst [
-			IDBUESchnittstelle?.wert == element?.identitaet?.wert
+			IDBUESchnittstelle?.identitaet?.wert == element?.identitaet?.wert
 		]
 		return bueAnlage?.bezeichnung?.bezeichnungTabelle?.wert
 	}

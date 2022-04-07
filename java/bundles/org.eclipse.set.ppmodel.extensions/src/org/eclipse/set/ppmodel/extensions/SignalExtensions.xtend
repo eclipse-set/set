@@ -8,22 +8,22 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Stellelement
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Unterbringung
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.Fstr_Zug_Rangier
-import de.scheidtbachmann.planpro.model.model1902.Flankenschutz.Fla_Schutz
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Kante
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.TOP_Knoten
-import de.scheidtbachmann.planpro.model.model1902.Gleis.Gleis_Bezeichnung
-import de.scheidtbachmann.planpro.model.model1902.Ortung.Schaltmittel_Zuordnung
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Zs3v
-import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Befestigung
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Rahmen
-import de.scheidtbachmann.planpro.model.model1902.Signale.Signal_Signalbegriff
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
+import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.math.BigDecimal
 import java.util.Collections
 import java.util.List
@@ -36,9 +36,9 @@ import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
-import static de.scheidtbachmann.planpro.model.model1902.BasisTypen.ENUMWirkrichtung.*
-import static de.scheidtbachmann.planpro.model.model1902.Signale.ENUMSignalFunktion.*
+import static org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
+import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
@@ -72,7 +72,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	) {
 		return signal.container.flaSchutz.filter [
 			flaSchutzSignal !== null &&
-				flaSchutzSignal.IDFlaSignal.wert == signal.identitaet.wert
+				flaSchutzSignal.IDFlaSignal.identitaet.wert == signal.identitaet.wert
 		].toList
 	}
 
@@ -105,9 +105,9 @@ class SignalExtensions extends PunktObjektExtensions {
 		for (Fstr_Zug_Rangier zugRangier : signal.container.fstrZugRangier) {
 			var String IDEnd
 			if (isStart) {
-				IDEnd = zugRangier?.fstrFahrweg?.IDStart?.wert
+				IDEnd = zugRangier?.fstrFahrweg?.IDStart?.identitaet?.wert
 			} else {
-				IDEnd = zugRangier?.fstrFahrweg?.IDZiel?.wert
+				IDEnd = zugRangier?.fstrFahrweg?.IDZiel?.identitaet?.wert
 			}
 			if (zugRangier?.fstrRangier !== null &&
 				signal.identitaet.wert.equals(IDEnd)) {
@@ -136,7 +136,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static List<Signal_Rahmen> signalRahmenForBefestigung(Signal signal,
 		List<Signal_Befestigung> gruppe) {
 		return signal.signalRahmen.filter [
-			gruppe.map[identitaet.wert].contains(IDSignalBefestigung.wert)
+			gruppe.map[identitaet.wert].contains(IDSignalBefestigung.identitaet?.wert)
 		].toList
 	}
 
@@ -319,7 +319,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWKrGspElement(Signal signal) {
 		val weichenElemente = signal.container.WKrGspElement.filter [
-			weicheElement?.IDGrenzzeichen?.wert == signal.identitaet.wert
+			weicheElement?.IDGrenzzeichen?.identitaet?.wert == signal.identitaet.wert
 		]
 		if (weichenElemente.empty) {
 			logger.

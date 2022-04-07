@@ -21,14 +21,13 @@ import org.eclipse.set.feature.table.messages.ToolboxTableName;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort;
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.GroupBuilder;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Technik_Standort;
-import de.scheidtbachmann.planpro.model.model1902.Bedienung.Bedien_Standort;
 
 /**
  * Service for creating the sskt table model.

@@ -10,6 +10,7 @@ package org.eclipse.set.feature.projectdata.edit;
 
 import java.util.EventObject;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,7 @@ import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.feature.projectdata.Messages;
 import org.eclipse.set.feature.projectdata.autofill.DateAutofill;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.widgets.ButtonRow;
@@ -36,10 +38,9 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.Planung_Projekt;
 
 /**
  * This part can display project information.

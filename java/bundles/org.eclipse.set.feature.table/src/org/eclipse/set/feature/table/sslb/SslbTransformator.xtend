@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.sslb
 
-import de.scheidtbachmann.planpro.model.model1902.Block.Block_Element
-import de.scheidtbachmann.planpro.model.model1902.Geodaten.ENUMOertlichkeitArt
+import org.eclipse.set.toolboxmodel.Block.Block_Element
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMOertlichkeitArt
 import org.eclipse.set.basis.Pair
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.feature.table.messages.MessagesWrapper

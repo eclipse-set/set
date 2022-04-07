@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.sskg
 
-import de.scheidtbachmann.planpro.model.model1902.Ortung.FMA_Komponente
-import de.scheidtbachmann.planpro.model.model1902.Ortung.Zugeinwirkung
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
 import java.util.ArrayList
 import java.util.NoSuchElementException
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator

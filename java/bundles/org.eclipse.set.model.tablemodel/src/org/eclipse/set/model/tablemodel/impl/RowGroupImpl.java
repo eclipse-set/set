@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.model.tablemodel.impl;
 
-import de.scheidtbachmann.planpro.model.model1902.Basisobjekte.Ur_Objekt;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -29,6 +27,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 
 /**
  * <!-- begin-user-doc -->

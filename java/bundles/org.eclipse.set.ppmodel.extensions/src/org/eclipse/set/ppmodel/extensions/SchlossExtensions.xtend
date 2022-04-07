@@ -8,12 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BUE_Anlage
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schloss
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schlosskombination
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluessel
-import de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.Schluesselsperre
-import de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schloss
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schlosskombination
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluessel
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import static extension org.eclipse.set.ppmodel.extensions.ZeigerExtensions.*
 
 /**
