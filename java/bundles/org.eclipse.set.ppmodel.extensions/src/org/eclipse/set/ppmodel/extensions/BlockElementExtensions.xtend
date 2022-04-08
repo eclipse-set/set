@@ -71,7 +71,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 		val schaltmittel = blockElement.IDRaeumungspruefung
 
 		if (schaltmittel !== null &&
-			schaltmittel.IDSchalter.identitaet?.wert !== null) {
+			schaltmittel.IDSchalter?.identitaet?.wert !== null) {
 
 			try {
 				val fmaAnlage = schaltmittel.IDSchalter as FMA_Anlage

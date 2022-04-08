@@ -25,7 +25,7 @@ class ZugEinwirkungExtensions extends BasisObjektExtensions {
 		Zugeinwirkung einwirkung
 	) {
 		return einwirkung.container.schaltmittelZuordnung.filter [
-			einwirkung.identitaet.wert == IDSchalter.identitaet.wert
+			einwirkung?.identitaet?.wert == IDSchalter?.identitaet?.wert
 		].toList
 	}
 }

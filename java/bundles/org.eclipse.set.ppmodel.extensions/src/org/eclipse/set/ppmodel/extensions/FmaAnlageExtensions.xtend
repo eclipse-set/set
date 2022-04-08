@@ -105,7 +105,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	def static List<Schaltmittel_Zuordnung> getSchaltmittelZuordnungen(
 		FMA_Anlage anlage) {
 		return anlage.container.schaltmittelZuordnung.filter [
-			IDSchalter.identitaet.wert == anlage.identitaet.wert
+			IDSchalter?.identitaet?.wert == anlage?.identitaet?.wert
 		].toList
 	}
 
