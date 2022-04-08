@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Emfforms
 Bundle-SymbolicName: org.eclipse.set.emfforms;singleton:=true
-Bundle-Version: 1.0.330.qualifier
+Bundle-Version: 1.0.331.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Require-Bundle: org.eclipse.e4.ui.workbench,
  org.eclipse.emf.ecp.ui;bundle-version="1.17.1",
@@ -80,20 +80,20 @@ Import-Package: com.google.common.base;version="15.0.0",
  org.osgi.service.component.annotations;version="1.2.0",
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeMappingProvider.xml,
- OSGI-INF/org.eclipse.set.emfforms.radiocontrol.RadioControlService.xml,
- OSGI-INF/org.eclipse.set.emfforms.text.TextWithButtonControlSWTRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.table.TableControlCustomSWTRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.text.TextFieldService.xml,
- OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeTextRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.attachment.AttachmentListRendererService.xml,
+Service-Component: OSGI-INF/org.eclipse.set.emfforms.attachment.AttachmentListRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeBooleanRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeEnumeratorRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.group.ScrollGroupRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.table.TableControlDetailCustomSWTRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.group.GroupRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeDateRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeEnumeratorRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeMappingProvider.xml,
+ OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeTextRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.group.EmbeddedGroupRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.group.GroupRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.group.ScrollGroupRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.labelservice.ToolboxLabelProvider.xml,
- OSGI-INF/org.eclipse.set.emfforms.view.ViewRendererService.xml,
- OSGI-INF/org.eclipse.set.emfforms.group.EmbeddedGroupRendererService.xml
+ OSGI-INF/org.eclipse.set.emfforms.radiocontrol.RadioControlService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.table.TableControlCustomSWTRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.table.TableControlDetailCustomSWTRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.text.TextFieldService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.text.TextWithButtonControlSWTRendererService.xml,
+ OSGI-INF/org.eclipse.set.emfforms.view.ViewRendererService.xml
 Export-Package: org.eclipse.set.emfforms.utils

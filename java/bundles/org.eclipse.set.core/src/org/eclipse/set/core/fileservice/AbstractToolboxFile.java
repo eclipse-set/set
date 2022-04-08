@@ -133,11 +133,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		final EObject root = contents.get(0);
 		if (root instanceof final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot ppDocumentRoot) {
 			planProSourceModel = ppDocumentRoot;
-			toolboxModelService.loadPlanProModel(ppDocumentRoot);
-
-			// Replace the PlanPro model in the resource
-			contents.remove(0);
-			contents.add(toolboxModelService.getToolboxModel());
+			toolboxModelService.loadPlanProModel(resource);
 		}
 	}
 
@@ -147,10 +143,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		if (!contents.isEmpty()) {
 			final EObject root = contents.get(0);
 			if (root instanceof org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot) {
-				planProSourceModel = toolboxModelService.savePlanProModel();
-				// Replace the Toolbox model in the resource
-				contents.remove(0);
-				contents.add(planProSourceModel);
+				toolboxModelService.savePlanProModel(resource);
 			}
 		}
 		saveResource();

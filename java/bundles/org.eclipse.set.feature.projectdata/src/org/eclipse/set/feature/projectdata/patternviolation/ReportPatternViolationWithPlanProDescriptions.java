@@ -25,14 +25,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EValidator.PatternMatcher;
 import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.set.toolboxmodel.modelservice.ReportDataValuePatternViolation;
+import org.eclipse.set.utils.emfforms.Annotations;
 import org.osgi.service.component.annotations.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import de.scheidtbachmann.planpro.model.modelservice.ReportDataValuePatternViolation;
-import org.eclipse.set.utils.emfforms.Annotations;
 
 /**
  * Look up pattern descriptions in the PlanPro model.
