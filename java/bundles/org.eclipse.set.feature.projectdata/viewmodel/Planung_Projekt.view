@@ -42,7 +42,7 @@
           <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_mzcAYJZgEeieb-yRuNO3BQ">
             <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_oFihcJZgEeieb-yRuNO3BQ" name="%AllgemeineMerkmale" style="H4"/>
             <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_r8K0wJZgEeieb-yRuNO3BQ" name="Führende Örtlichkeit">
-              <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_uur_sJZgEeieb-yRuNO3BQ">
+              <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_QovkcLcAEeyY0-RWD_xDEQ">
                 <domainModelEFeature xsi:type="ecore:EReference" href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Gruppe/fuehrendeOertlichkeit"/>
                 <domainModelEReferencePath href="http://www.plan-pro.org/modell/PlanPro/toolbox#//Planung_Projekt/lstPlanungErsteGruppe"/>
               </domainModelReference>

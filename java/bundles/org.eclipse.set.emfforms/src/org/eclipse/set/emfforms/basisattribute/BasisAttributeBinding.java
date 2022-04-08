@@ -8,16 +8,11 @@
  */
 package org.eclipse.set.emfforms.basisattribute;
 
-import java.util.EventObject;
-
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
@@ -49,41 +44,26 @@ public class BasisAttributeBinding<T> {
 	public void bind() {
 		// UI to model
 		renderer.updateControl();
-		controlListener = new Listener() {
-
-			@Override
-			public void handleEvent(final Event event) {
-				renderer.updateModel();
-			}
-		};
+		controlListener = event -> renderer.updateModel();
 		final Control control = renderer.getControl();
 		control.addListener(SWT.Modify, controlListener);
 
 		// model to UI
-		editingDomain = AdapterFactoryEditingDomain
-				.getEditingDomainFor(renderer.getParent());
-		commandStackListener = new CommandStackListener() {
-			@Override
-			public void commandStackChanged(final EventObject event) {
-				if (!renderer.isDisposed()) {
-					// IMPROVE This globally updates all basis attribute
-					// controls. We had problems with this behavior and auto
-					// filling. It would be helpful to restrict updates to
-					// affected controls.
-					renderer.updateControl();
-				}
+		commandStackListener = event -> {
+			if (!renderer.isDisposed()) {
+				// IMPROVE This globally updates all basis attribute
+				// controls. We had problems with this behavior and auto
+				// filling. It would be helpful to restrict updates to
+				// affected controls.
+				renderer.updateControl();
 			}
 		};
+		editingDomain = AdapterFactoryEditingDomain
+				.getEditingDomainFor(renderer.getParent());
 		editingDomain.getCommandStack()
 				.addCommandStackListener(commandStackListener);
-		control.addDisposeListener(new DisposeListener() {
-
-			@Override
-			public void widgetDisposed(final DisposeEvent e) {
-				editingDomain.getCommandStack()
-						.removeCommandStackListener(commandStackListener);
-			}
-		});
+		control.addDisposeListener(e -> editingDomain.getCommandStack()
+				.removeCommandStackListener(commandStackListener));
 	}
 
 	/**
