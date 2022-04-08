@@ -31,7 +31,6 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -39,7 +38,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.PlanProSchemaDir;
 import org.eclipse.set.basis.ProjectInitializationData;
-import org.eclipse.set.basis.ResourceLoader;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.Wrapper;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -657,18 +655,15 @@ public class ModelSession implements IModelSession {
 	private void readPlanProModel() {
 		validationResult = new ValidationResult();
 		setPlanProSchnittstelle(serviceProvider.validationService
-				.checkLoad(getToolboxFile(), new ResourceLoader() {
-					@Override
-					public Resource load(final Path path) throws IOException {
-						getToolboxFile().open();
-						return getToolboxFile().getResource();
-					}
-				}, resource -> PlanProSchnittstelleExtensions
-						.readFrom(resource), validationResult));
+				.checkLoad(getToolboxFile(), path -> {
+					getToolboxFile().open();
+					return getToolboxFile().getResource();
+				}, PlanProSchnittstelleExtensions::readFrom, validationResult));
 		validationResult = serviceProvider.validationService
 				.xsdValidation(getToolboxFile(), schemaDir, validationResult);
-		validationResult = serviceProvider.validationService
-				.emfValidation(getPlanProSchnittstelle(), validationResult);
+		validationResult = serviceProvider.validationService.emfValidation(
+				getToolboxFile().getSourceModel().getPlanProSchnittstelle(),
+				validationResult);
 		validationResult = serviceProvider.validationService
 				.customValidation(getToolboxFile(), validationResult);
 	}

@@ -223,4 +223,13 @@ public interface ToolboxFile {
 	 *            the temporary directory for provisional data
 	 */
 	void setTemporaryDirectory(Path path);
+
+	/**
+	 * Returns the loaded PlanPro model. Note that this model is *not* the
+	 * toolbox model and should only be used if access to the plain model is
+	 * required
+	 * 
+	 * @return the planpro model
+	 */
+	de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot getSourceModel();
 }

@@ -27,6 +27,7 @@ import org.eclipse.set.toolboxmodel.transform.ToolboxModelService;
 import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.w3c.dom.Document;
 
+import de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot;
 import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceImpl;
 
 /**
@@ -45,6 +46,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	// IMPROVE: this Resource and Resource of EditingDomain have same content.
 	// Should we this Resouce here remove ?
 	private XMLResource resource;
+	private DocumentRoot planProSourceModel;
 
 	protected AbstractToolboxFile() {
 		this.toolboxModelService = new ToolboxModelServiceImpl();
@@ -130,6 +132,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		}
 		final EObject root = contents.get(0);
 		if (root instanceof final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot ppDocumentRoot) {
+			planProSourceModel = ppDocumentRoot;
 			toolboxModelService.loadPlanProModel(ppDocumentRoot);
 
 			// Replace the PlanPro model in the resource
@@ -143,13 +146,19 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		final List<EObject> contents = resource.getContents();
 		if (!contents.isEmpty()) {
 			final EObject root = contents.get(0);
-			if (root instanceof final org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot toolboxDocumentRoot) {
+			if (root instanceof final org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot) {
+				planProSourceModel = toolboxModelService.savePlanProModel();
 				// Replace the Toolbox model in the resource
 				contents.remove(0);
-				contents.add(toolboxModelService.savePlanProModel());
+				contents.add(planProSourceModel);
 			}
 		}
 		saveResource();
+	}
+
+	@Override
+	public DocumentRoot getSourceModel() {
+		return planProSourceModel;
 	}
 
 	/**

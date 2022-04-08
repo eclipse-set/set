@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package
+import de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package
 
 /**
  * This class extends {@link Signalbegriffe_Ril_301Package}.

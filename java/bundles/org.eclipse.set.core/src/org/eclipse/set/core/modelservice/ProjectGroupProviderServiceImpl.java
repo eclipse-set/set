@@ -10,11 +10,10 @@
 package org.eclipse.set.core.modelservice;
 
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
+import org.eclipse.set.toolboxmodel.modelservice.ProjectGroupProviderService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
-import de.scheidtbachmann.planpro.model.modelservice.ProjectGroupProviderService;
 
 /**
  * Implementation of {@link ProjectGroupProviderService}.
