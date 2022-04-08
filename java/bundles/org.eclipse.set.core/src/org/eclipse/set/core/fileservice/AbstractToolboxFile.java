@@ -146,7 +146,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		final List<EObject> contents = resource.getContents();
 		if (!contents.isEmpty()) {
 			final EObject root = contents.get(0);
-			if (root instanceof final org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot) {
+			if (root instanceof org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot) {
 				planProSourceModel = toolboxModelService.savePlanProModel();
 				// Replace the Toolbox model in the resource
 				contents.remove(0);
