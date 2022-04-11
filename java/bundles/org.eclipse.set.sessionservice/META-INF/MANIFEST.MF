@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sessionservice
 Bundle-SymbolicName: org.eclipse.set.sessionservice;singleton:=true
-Bundle-Version: 1.0.333.qualifier
+Bundle-Version: 1.0.334.qualifier
 Automatic-Module-Name: org.eclipse.set.sessionservice
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
