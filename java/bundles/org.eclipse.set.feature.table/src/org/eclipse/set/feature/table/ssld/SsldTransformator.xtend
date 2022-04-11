@@ -198,7 +198,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[fstrDWegSpezifisch !== null],
 				[
-					zuordnungen.filter[elementVerschluss.wert].map [
+					zuordnungen.filter[elementVerschluss?.wert].map [
 						WKrGspElement.bezeichnung.bezeichnungTabelle.wert
 					]
 				],
@@ -214,7 +214,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[fstrDWegSpezifisch !== null],
 				[
-					zuordnungen.filter[!elementVerschluss.wert].map [
+					zuordnungen.filter[!elementVerschluss?.wert].map [
 						WKrGspElement.bezeichnung.bezeichnungTabelle.wert
 					]
 				],

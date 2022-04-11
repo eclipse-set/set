@@ -661,9 +661,12 @@ public class ModelSession implements IModelSession {
 				}, PlanProSchnittstelleExtensions::readFrom, validationResult));
 		validationResult = serviceProvider.validationService
 				.xsdValidation(getToolboxFile(), schemaDir, validationResult);
-		validationResult = serviceProvider.validationService.emfValidation(
-				getToolboxFile().getSourceModel().getPlanProSchnittstelle(),
-				validationResult);
+		final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot sourceRoot = getToolboxFile()
+				.getSourceModel();
+		if (sourceRoot != null) {
+			validationResult = serviceProvider.validationService.emfValidation(
+					sourceRoot.getPlanProSchnittstelle(), validationResult);
+		}
 		validationResult = serviceProvider.validationService
 				.customValidation(getToolboxFile(), validationResult);
 	}

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
+import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.extensions.PathExtensions;
@@ -94,7 +95,8 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			try {
 				newResource.load(resourceSet.getLoadOptions());
 			} catch (final Resource.IOWrappedException e) {
-				if (!(e.getCause() instanceof FeatureNotFoundException)) {
+				if (!(e.getCause() instanceof FeatureNotFoundException
+						|| e.getCause() instanceof IllegalValueException)) {
 					throw e;
 				}
 			}

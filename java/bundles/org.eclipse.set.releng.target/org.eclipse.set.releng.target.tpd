@@ -336,7 +336,7 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
  * 
  * Bundle for the Toolbox Model
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.11/org.eclipse.set.toolboxmodel.repository-1.0.11.zip-unzip/" {
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.12/org.eclipse.set.toolboxmodel.repository-1.0.12.zip-unzip/" {	
 	org.eclipse.set.toolboxmodel.feature.feature.group
 	org.eclipse.set.toolboxmodel.feature.source.feature.group
 }
