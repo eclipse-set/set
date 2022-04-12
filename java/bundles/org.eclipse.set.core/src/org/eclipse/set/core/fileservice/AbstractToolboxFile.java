@@ -24,8 +24,6 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.ppmodel.extensions.PlanProResourceImplExtensions;
-import org.eclipse.set.toolboxmodel.transform.ToolboxModelService;
-import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.w3c.dom.Document;
 
 import de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot;
@@ -37,7 +35,6 @@ import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceIm
  * @author Schaefer
  */
 public abstract class AbstractToolboxFile implements ToolboxFile {
-	protected final ToolboxModelService toolboxModelService;
 	private static final String NO = "no"; //$NON-NLS-1$
 
 	protected static final String ENCODING = StandardCharsets.UTF_8.name();
@@ -48,14 +45,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	// Should we this Resouce here remove ?
 	private XMLResource resource;
 	private DocumentRoot planProSourceModel;
-
-	protected AbstractToolboxFile() {
-		this.toolboxModelService = new ToolboxModelServiceImpl();
-	}
-
-	protected AbstractToolboxFile(final AbstractToolboxFile toolboxFile) {
-		this.toolboxModelService = toolboxFile.toolboxModelService;
-	}
 
 	@Override
 	public XMLResource getResource() {
@@ -88,8 +77,13 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		XMLResource newResource = (XMLResource) resourceSet
 				.getResource(resourceUri, false);
 		if (newResource == null) {
+			// Use the file extension as content type
+			// This may not be the same as the extension of path if path is a
+			// temporary file (e.g. for zipped planpro files)
+			final String contentType = PathExtensions.getExtension(getPath());
 			// Load the resource
-			newResource = (XMLResource) resourceSet.createResource(resourceUri);
+			newResource = (XMLResource) resourceSet.createResource(resourceUri,
+					contentType);
 			// Allow ppxml files with unknown features to be loaded
 			// by ignoring wrapped FeatureNotFoundExceptions
 			try {
@@ -132,22 +126,10 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		if (contents.isEmpty()) {
 			return;
 		}
-		final EObject root = contents.get(0);
-		if (root instanceof final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot ppDocumentRoot) {
-			planProSourceModel = ppDocumentRoot;
-			toolboxModelService.loadPlanProModel(resource);
-		}
 	}
 
 	@Override
 	public void save() throws IOException {
-		final List<EObject> contents = resource.getContents();
-		if (!contents.isEmpty()) {
-			final EObject root = contents.get(0);
-			if (root instanceof org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot) {
-				toolboxModelService.savePlanProModel(resource);
-			}
-		}
 		saveResource();
 	}
 

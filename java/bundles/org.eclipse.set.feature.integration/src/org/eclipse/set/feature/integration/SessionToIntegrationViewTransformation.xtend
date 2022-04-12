@@ -35,6 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.utils.UriExtensions.*
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 
 /**
  * Transforms a {@link TemporaryIntegration} into a {@link IntegrationView}.
@@ -209,7 +210,7 @@ class SessionToIntegrationViewTransformation {
 	private def Conflict transformToConflict(
 		SMatch match,
 		ContainerType type,
-		TemporaryIntegration integration
+		ToolboxTemporaryIntegration integration
 	) {
 		val conflict = transformToConflictCreate(match, type, integration)
 
@@ -293,7 +294,7 @@ class SessionToIntegrationViewTransformation {
 	transformToConflictCreate(
 		SMatch match,
 		ContainerType type,
-		TemporaryIntegration integration
+		ToolboxTemporaryIntegration integration
 	) {
 	}
 

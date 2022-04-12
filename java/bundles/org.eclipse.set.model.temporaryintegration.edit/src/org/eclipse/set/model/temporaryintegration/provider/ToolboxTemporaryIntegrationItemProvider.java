@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 DB Netz AG and others.
+ * Copyright (c) {Jahr} DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -9,7 +9,6 @@
 package org.eclipse.set.model.temporaryintegration.provider;
 
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,16 +32,17 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.eclipse.set.model.simplemerge.SimplemergeFactory;
 
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.set.model.temporaryintegration.TemporaryIntegration} object.
+ * This is the item provider adapter for a {@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class TemporaryIntegrationItemProvider 
+public class ToolboxTemporaryIntegrationItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -56,7 +56,7 @@ public class TemporaryIntegrationItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TemporaryIntegrationItemProvider(AdapterFactory adapterFactory) {
+	public ToolboxTemporaryIntegrationItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -91,9 +91,9 @@ public class TemporaryIntegrationItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TemporaryIntegration_primaryPlanningFilename_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TemporaryIntegration_primaryPlanningFilename_feature", "_UI_TemporaryIntegration_type"),
-				 TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME,
+				 getString("_UI_ToolboxTemporaryIntegration_primaryPlanningFilename_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_primaryPlanningFilename_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME,
 				 true,
 				 false,
 				 false,
@@ -113,9 +113,9 @@ public class TemporaryIntegrationItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TemporaryIntegration_primaryPlanningWasValid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TemporaryIntegration_primaryPlanningWasValid_feature", "_UI_TemporaryIntegration_type"),
-				 TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID,
+				 getString("_UI_ToolboxTemporaryIntegration_primaryPlanningWasValid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_primaryPlanningWasValid_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID,
 				 true,
 				 false,
 				 false,
@@ -135,9 +135,9 @@ public class TemporaryIntegrationItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TemporaryIntegration_secondaryPlanningFilename_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TemporaryIntegration_secondaryPlanningFilename_feature", "_UI_TemporaryIntegration_type"),
-				 TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME,
+				 getString("_UI_ToolboxTemporaryIntegration_secondaryPlanningFilename_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_secondaryPlanningFilename_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME,
 				 true,
 				 false,
 				 false,
@@ -157,9 +157,9 @@ public class TemporaryIntegrationItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TemporaryIntegration_secondaryPlanningWasValid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TemporaryIntegration_secondaryPlanningWasValid_feature", "_UI_TemporaryIntegration_type"),
-				 TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID,
+				 getString("_UI_ToolboxTemporaryIntegration_secondaryPlanningWasValid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_secondaryPlanningWasValid_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID,
 				 true,
 				 false,
 				 false,
@@ -179,9 +179,9 @@ public class TemporaryIntegrationItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TemporaryIntegration_integrationDirectory_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TemporaryIntegration_integrationDirectory_feature", "_UI_TemporaryIntegration_type"),
-				 TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY,
+				 getString("_UI_ToolboxTemporaryIntegration_integrationDirectory_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_integrationDirectory_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY,
 				 true,
 				 false,
 				 false,
@@ -202,11 +202,11 @@ public class TemporaryIntegrationItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING);
-			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING);
-			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING);
-			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE);
-			childrenFeatures.add(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE);
+			childrenFeatures.add(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE);
 		}
 		return childrenFeatures;
 	}
@@ -225,14 +225,14 @@ public class TemporaryIntegrationItemProvider
 	}
 
 	/**
-	 * This returns TemporaryIntegration.gif.
+	 * This returns ToolboxTemporaryIntegration.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/TemporaryIntegration"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ToolboxTemporaryIntegration"));
 	}
 
 	/**
@@ -243,10 +243,10 @@ public class TemporaryIntegrationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((TemporaryIntegration)object).getPrimaryPlanningFilename();
+		String label = ((ToolboxTemporaryIntegration)object).getPrimaryPlanningFilename();
 		return label == null || label.length() == 0 ?
-			getString("_UI_TemporaryIntegration_type") :
-			getString("_UI_TemporaryIntegration_type") + " " + label;
+			getString("_UI_ToolboxTemporaryIntegration_type") :
+			getString("_UI_ToolboxTemporaryIntegration_type") + " " + label;
 	}
 
 
@@ -261,19 +261,19 @@ public class TemporaryIntegrationItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(TemporaryIntegration.class)) {
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
+		switch (notification.getFeatureID(ToolboxTemporaryIntegration.class)) {
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__PRIMARY_PLANNING:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
-			case TemporaryintegrationPackage.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -293,27 +293,27 @@ public class TemporaryIntegrationItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING,
+				(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING,
 				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING,
+				(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING,
 				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING,
+				(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING,
 				 PlanProFactory.eINSTANCE.createPlanPro_Schnittstelle()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE,
+				(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE,
 				 SimplemergeFactory.eINSTANCE.createSComparison()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE,
+				(TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE,
 				 SimplemergeFactory.eINSTANCE.createSComparison()));
 	}
 
@@ -329,11 +329,11 @@ public class TemporaryIntegrationItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__PRIMARY_PLANNING ||
-			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__SECONDARY_PLANNING ||
-			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPOSITE_PLANNING ||
-			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE ||
-			childFeature == TemporaryintegrationPackage.Literals.TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE;
+			childFeature == TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING ||
+			childFeature == TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING ||
+			childFeature == TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING ||
+			childFeature == TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE ||
+			childFeature == TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE;
 
 		if (qualify) {
 			return getString

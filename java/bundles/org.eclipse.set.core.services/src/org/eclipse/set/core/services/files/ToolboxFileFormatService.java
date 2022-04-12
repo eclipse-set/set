@@ -89,9 +89,4 @@ public interface ToolboxFileFormatService {
 	 * @return the toolbox file for the path
 	 */
 	ToolboxFile load(Path path, ToolboxFileRole role);
-
-	/**
-	 * Register necessary resource factories.
-	 */
-	void registerResourceFactories();
 }

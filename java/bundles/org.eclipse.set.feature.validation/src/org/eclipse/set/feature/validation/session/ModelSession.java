@@ -66,7 +66,7 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationAnnotationService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
@@ -164,7 +164,7 @@ public class ModelSession implements IModelSession {
 	private final PlanProSchemaDir<de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle> schemaDir;
 	private final SessionService sessionService;
 	private double symbolRotation;
-	private TemporaryIntegration temporaryIntegration;
+	private ToolboxTemporaryIntegration temporaryIntegration;
 	private final ToolboxPaths toolboxPaths;
 	private boolean wasDirty = false;
 	protected final Shell mainWindow;
@@ -429,7 +429,7 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public Optional<TemporaryIntegration> getTemporaryIntegration() {
+	public Optional<ToolboxTemporaryIntegration> getTemporaryIntegration() {
 		return Optional.ofNullable(temporaryIntegration);
 	}
 
@@ -569,7 +569,7 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public void switchToMergeMode(
-			final TemporaryIntegration newTemporaryIntegration,
+			final ToolboxTemporaryIntegration newTemporaryIntegration,
 			final String mergeDir, final Shell shell,
 			final ToolboxFile temporaryToolboxFile)
 			throws IOException, UserAbortion {
@@ -646,8 +646,8 @@ public class ModelSession implements IModelSession {
 
 	private void readMergeModel() throws IOException {
 		toolboxFile.open();
-		temporaryIntegration = (TemporaryIntegration) toolboxFile.getResource()
-				.getContents().get(0);
+		temporaryIntegration = (ToolboxTemporaryIntegration) toolboxFile
+				.getResource().getContents().get(0);
 		setPlanProSchnittstelle(temporaryIntegration.getCompositePlanning());
 		validationResult.setValidationSupported(false);
 	}

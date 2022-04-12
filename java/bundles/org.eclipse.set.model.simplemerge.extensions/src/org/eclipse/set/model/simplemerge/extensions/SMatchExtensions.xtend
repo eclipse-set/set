@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2018 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -9,13 +9,13 @@
 package org.eclipse.set.model.simplemerge.extensions
 
 import org.eclipse.set.basis.constants.ContainerType
-import org.eclipse.set.model.simplemerge.SMatch
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage
 import org.eclipse.set.core.services.merge.MergeService.Context
 import java.util.List
 import java.util.Optional
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
+import org.eclipse.set.model.simplemerge.SMatch
 
 /**
  * Extensions for {@link SMatch}.
@@ -85,17 +85,17 @@ class SMatchExtensions {
 		throw new IllegalArgumentException(match.toString)
 	}
 
-	static def TemporaryIntegration getIntegration(SMatch match) {
+	static def ToolboxTemporaryIntegration getIntegration(SMatch match) {
 		return getIntegrationDispatch(match)
 	}
 
-	private static def dispatch TemporaryIntegration getIntegrationDispatch(
-		TemporaryIntegration object
+	private static def dispatch ToolboxTemporaryIntegration getIntegrationDispatch(
+		ToolboxTemporaryIntegration object
 	) {
 		return object
 	}
 
-	private static def dispatch TemporaryIntegration getIntegrationDispatch(
+	private static def dispatch ToolboxTemporaryIntegration getIntegrationDispatch(
 		EObject object
 	) {
 		return object.eContainer.integrationDispatch

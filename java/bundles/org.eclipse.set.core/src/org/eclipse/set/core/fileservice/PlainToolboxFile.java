@@ -42,7 +42,6 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	 *            the original toolbox file
 	 */
 	public PlainToolboxFile(final PlainToolboxFile toolboxFile) {
-		super(toolboxFile);
 		this.sessionService = toolboxFile.sessionService;
 		this.commonPath = toolboxFile.commonPath;
 		this.format = toolboxFile.format;

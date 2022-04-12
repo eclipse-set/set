@@ -71,7 +71,6 @@ class PlainToolboxFileTest extends AbstractToolboxFileTest {
 	def ToolboxFileFormatService setUpFormatService() {
 		val formatService = new PlainFileFormatService
 		formatService.sessionService = new SetSessionService
-		formatService.registerResourceFactories
 		return formatService
 	}
 

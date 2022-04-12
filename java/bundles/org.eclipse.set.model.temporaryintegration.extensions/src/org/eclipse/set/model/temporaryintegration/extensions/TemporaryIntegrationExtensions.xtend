@@ -15,7 +15,7 @@ import org.eclipse.set.basis.constants.ContainerType
 import org.eclipse.set.model.simplemerge.Resolution
 import org.eclipse.set.model.simplemerge.SComparison
 import org.eclipse.set.model.simplemerge.SMatch
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationFactory
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage
 import org.eclipse.set.model.temporaryintegration.extensions.command.MergeCommand
@@ -35,7 +35,7 @@ import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.emf.ecore.util.EcoreUtil
 
 /**
- * Extensions for {@link TemporaryIntegration}.
+ * Extensions for {@link ToolboxTemporaryIntegration}.
  * 
  * @author Schaefer
  */
@@ -49,7 +49,7 @@ class TemporaryIntegrationExtensions {
 	 * @param contextProvider provides merge context for primary container, secondary container
 	 */
 	static def void automaticMerge(
-		TemporaryIntegration integration,
+		ToolboxTemporaryIntegration integration,
 		MergeService<SComparison> service,
 		ContextProvider contextProvider
 	) {
@@ -86,7 +86,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	static def void manualMerge(
-		TemporaryIntegration integration,
+		ToolboxTemporaryIntegration integration,
 		EditingDomain editingDomain,
 		SMatch match,
 		Resolution resolution,
@@ -173,7 +173,7 @@ class TemporaryIntegrationExtensions {
 	 * @return the conflicts of the initial containers
 	 */
 	static def List<SMatch> getConflictsInitial(
-		TemporaryIntegration integration) {
+		ToolboxTemporaryIntegration integration) {
 		if (!integration.merged) {
 			throw new IllegalStateException("Session not yet merged.")
 		}
@@ -183,7 +183,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	static def List<SMatch> getConflictsFinal(
-		TemporaryIntegration integration) {
+		ToolboxTemporaryIntegration integration) {
 		if (!integration.merged) {
 			throw new IllegalStateException("Session not yet merged.")
 		}
@@ -199,7 +199,7 @@ class TemporaryIntegrationExtensions {
 	 * 
 	 * @return the merge context
 	 */
-	static def Context getMergeContext(TemporaryIntegration integration,
+	static def Context getMergeContext(ToolboxTemporaryIntegration integration,
 		ContextProvider contextProvider, ContainerType type) {
 		switch (type) {
 			case INITIAL: {
@@ -215,7 +215,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	private static def Context getInitialMergeContext(
-		TemporaryIntegration integration, ContextProvider contextProvider) {
+		ToolboxTemporaryIntegration integration, ContextProvider contextProvider) {
 		val primaryContainer = integration.compositePlanning.LSTPlanungProjekt.
 			planungGruppe.LSTPlanungEinzel.LSTZustandStart.container
 		val secondaryContainer = integration.secondaryPlanning.
@@ -225,7 +225,7 @@ class TemporaryIntegrationExtensions {
 	}
 
 	private static def Context getFinalMergeContext(
-		TemporaryIntegration integration, ContextProvider contextProvider) {
+		ToolboxTemporaryIntegration integration, ContextProvider contextProvider) {
 		val primaryContainer = integration.compositePlanning.LSTPlanungProjekt.
 			planungGruppe.LSTPlanungEinzel.LSTZustandZiel.container
 		val secondaryContainer = integration.secondaryPlanning.
@@ -239,7 +239,7 @@ class TemporaryIntegrationExtensions {
 	 * 
 	 * @return whether the session was merged
 	 */
-	static def boolean isMerged(TemporaryIntegration integration) {
+	static def boolean isMerged(ToolboxTemporaryIntegration integration) {
 		if (integration.comparisonInitialState !== null &&
 			integration.comparisonFinalState !== null) {
 			return true
@@ -257,7 +257,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final automatic matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getAutomaticMatches(
-		TemporaryIntegration integration
+		ToolboxTemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -277,7 +277,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final conflict matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getConflictMatches(
-		TemporaryIntegration integration
+		ToolboxTemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -297,7 +297,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final open conflict matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getOpenConflictMatches(
-		TemporaryIntegration integration
+		ToolboxTemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -317,7 +317,7 @@ class TemporaryIntegrationExtensions {
 	 * @return a map of initial and final manual resolved matches
 	 */
 	static def Map<ContainerType, List<SMatch>> getManualResolvedMatches(
-		TemporaryIntegration integration
+		ToolboxTemporaryIntegration integration
 	) {
 		return #{
 			ContainerType.INITIAL ->
@@ -331,7 +331,7 @@ class TemporaryIntegrationExtensions {
 		}
 	}
 
-	static def TemporaryIntegration create(
+	static def ToolboxTemporaryIntegration create(
 		ToolboxFile primaryPlanningToolboxFile,
 		boolean primaryPlanningWasValid,
 		ToolboxFile secondaryPlanningToolboxFile,
@@ -340,7 +340,7 @@ class TemporaryIntegrationExtensions {
 	) {
 		// content
 		val temporaryIntegration = TemporaryintegrationFactory.eINSTANCE.
-			createTemporaryIntegration
+			createToolboxTemporaryIntegration
 		val primaryPlanning = readFrom(primaryPlanningToolboxFile.resource)
 		temporaryIntegration.primaryPlanning = EcoreUtil.copy(primaryPlanning)
 		temporaryIntegration.primaryPlanningFilename = primaryPlanningToolboxFile.path.fileName.toString

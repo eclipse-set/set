@@ -11,11 +11,9 @@ package org.eclipse.set.core.fileservice;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
@@ -25,10 +23,10 @@ import org.eclipse.set.basis.files.ToolboxFileExtension;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
 
 /**
  * Toolbox file support for plain files.
@@ -91,34 +89,24 @@ public class PlainFileFormatService implements ToolboxFileFormatService {
 				createEditingDomain(), true);
 	}
 
-	@Override
-	public void registerResourceFactories() {
-		// get registry with all supported file types
-		final Map<String, Object> registeredExtensions = Resource.Factory.Registry.INSTANCE
-				.getExtensionToFactoryMap();
+	private EditingDomain createEditingDomain() {
+		final EditingDomain ed = sessionService.createEditingDomain();
 
-		{ // default extension
-			final String extension = Resource.Factory.Registry.DEFAULT_EXTENSION;
-			if (!registeredExtensions.containsKey(extension)) {
-				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
-						.put(extension, new XMIResourceFactoryImpl());
-			}
-		}
-
-		// register PlanPro model extensions
+		// Register PlanPro model extensions by content type
+		final Registry registry = ed.getResourceSet()
+				.getResourceFactoryRegistry();
 		for (final ToolboxFileExtension toolboxExtension : extensionsForCategory(
 				ToolboxConstants.EXTENSION_CATEGORY_PPFILE)) {
 			final String extension = toolboxExtension.getExtension();
-			if (extension.length() > 0
-					&& !registeredExtensions.containsKey(extension)) {
-				Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
-						.put(extension, new PlanProResourceFactoryImpl());
+			if (extension.length() > 0) {
+				final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
+				registry.getContentTypeToFactoryMap().put(extension,
+						resourceFactory);
+				resourceFactory.setToolboxModelServiceProvider(
+						ToolboxModelServiceImpl::new);
 			}
 		}
-	}
-
-	private EditingDomain createEditingDomain() {
-		return sessionService.createEditingDomain();
+		return ed;
 	}
 
 }

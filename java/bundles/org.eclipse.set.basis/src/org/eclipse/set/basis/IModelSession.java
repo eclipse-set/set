@@ -22,7 +22,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
@@ -146,7 +146,7 @@ public interface IModelSession {
 	 * 
 	 * @return the optional temporary integration
 	 */
-	Optional<TemporaryIntegration> getTemporaryIntegration();
+	Optional<ToolboxTemporaryIntegration> getTemporaryIntegration();
 
 	/**
 	 * @return the toolbox file
@@ -268,7 +268,7 @@ public interface IModelSession {
 	 * @throws UserAbortion
 	 *             if the user aborts saving
 	 */
-	void switchToMergeMode(TemporaryIntegration temporaryIntegration,
+	void switchToMergeMode(ToolboxTemporaryIntegration temporaryIntegration,
 			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
 			throws IOException, UserAbortion;
 

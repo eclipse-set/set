@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 DB Netz AG and others.
+ * Copyright (c) {Jahr} DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -20,6 +20,57 @@ import org.eclipse.set.model.simplemerge.SimplemergePackage;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationFactory;
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
+
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Ansteuerung_ElementPackage;
+
+import org.eclipse.set.toolboxmodel.Bahnsteig.BahnsteigPackage;
+
+import org.eclipse.set.toolboxmodel.Bahnuebergang.BahnuebergangPackage;
+
+import org.eclipse.set.toolboxmodel.Balisentechnik_ETCS.Balisentechnik_ETCSPackage;
+
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisTypenPackage;
+
+import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage;
+
+import org.eclipse.set.toolboxmodel.Bedienung.BedienungPackage;
+
+import org.eclipse.set.toolboxmodel.Block.BlockPackage;
+
+import org.eclipse.set.toolboxmodel.Fahrstrasse.FahrstrassePackage;
+
+import org.eclipse.set.toolboxmodel.Flankenschutz.FlankenschutzPackage;
+
+import org.eclipse.set.toolboxmodel.Geodaten.GeodatenPackage;
+
+import org.eclipse.set.toolboxmodel.Gleis.GleisPackage;
+
+import org.eclipse.set.toolboxmodel.Medien_und_Trassen.Medien_und_TrassenPackage;
+
+import org.eclipse.set.toolboxmodel.Nahbedienbereich.NahbedienbereichPackage;
+
+import org.eclipse.set.toolboxmodel.Ortung.OrtungPackage;
+
+import org.eclipse.set.toolboxmodel.PZB.PZBPackage;
+
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+
+import org.eclipse.set.toolboxmodel.Regelzeichnung.RegelzeichnungPackage;
+
+import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage;
+
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage;
+
+import org.eclipse.set.toolboxmodel.Signale.SignalePackage;
+
+import org.eclipse.set.toolboxmodel.Verweise.VerweisePackage;
+
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage;
+
+import org.eclipse.set.toolboxmodel.Zuglenkung.ZuglenkungPackage;
+
+import org.eclipse.set.toolboxmodel.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +85,13 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 	 * @generated
 	 */
 	private EClass temporaryIntegrationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass toolboxTemporaryIntegrationEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -83,32 +141,84 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		isInited = true;
 
 		// Initialize simple dependencies
-		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.BasisTypen.BasisTypenPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Verweise.VerweisePackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Ansteuerung_Element.Ansteuerung_ElementPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Bahnsteig.BahnsteigPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Bedienung.BedienungPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Block.BlockPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Bahnuebergang.BahnuebergangPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Flankenschutz.FlankenschutzPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Ortung.OrtungPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Fahrstrasse.FahrstrassePackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Geodaten.GeodatenPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Gleis.GleisPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Nahbedienbereich.NahbedienbereichPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.PZB.PZBPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Regelzeichnung.RegelzeichnungPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Signale.SignalePackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Zuglenkung.ZuglenkungPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
+		PlanProPackage.eINSTANCE.eClass();
+		BasisobjektePackage.eINSTANCE.eClass();
+		BasisTypenPackage.eINSTANCE.eClass();
+		VerweisePackage.eINSTANCE.eClass();
+		Ansteuerung_ElementPackage.eINSTANCE.eClass();
+		BahnsteigPackage.eINSTANCE.eClass();
+		BedienungPackage.eINSTANCE.eClass();
+		BlockPackage.eINSTANCE.eClass();
+		BahnuebergangPackage.eINSTANCE.eClass();
+		FlankenschutzPackage.eINSTANCE.eClass();
+		OrtungPackage.eINSTANCE.eClass();
+		FahrstrassePackage.eINSTANCE.eClass();
+		GeodatenPackage.eINSTANCE.eClass();
+		GleisPackage.eINSTANCE.eClass();
+		NahbedienbereichPackage.eINSTANCE.eClass();
+		PZBPackage.eINSTANCE.eClass();
+		RegelzeichnungPackage.eINSTANCE.eClass();
+		SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
+		SignalePackage.eINSTANCE.eClass();
+		Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
+		Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
+		ZuglenkungPackage.eINSTANCE.eClass();
+		ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
 		SimplemergePackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Balisentechnik_ETCS.Balisentechnik_ETCSPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Medien_und_Trassen.Medien_und_TrassenPackage.eINSTANCE.eClass();
+		Balisentechnik_ETCSPackage.eINSTANCE.eClass();
+		Medien_und_TrassenPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Basisobjekte.BasisobjektePackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.BasisTypen.BasisTypenPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Verweise.VerweisePackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Ansteuerung_Element.Ansteuerung_ElementPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Bahnsteig.BahnsteigPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Bedienung.BedienungPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Block.BlockPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Bahnuebergang.BahnuebergangPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Flankenschutz.FlankenschutzPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Ortung.OrtungPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Fahrstrasse.FahrstrassePackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Geodaten.GeodatenPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Gleis.GleisPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Nahbedienbereich.NahbedienbereichPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.PZB.PZBPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Regelzeichnung.RegelzeichnungPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Signale.SignalePackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Zuglenkung.ZuglenkungPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
+		SimplemergePackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Balisentechnik_ETCS.Balisentechnik_ETCSPackage.eINSTANCE.eClass();
+		de.scheidtbachmann.planpro.model.model1902.Medien_und_Trassen.Medien_und_TrassenPackage.eINSTANCE.eClass();
+		PlanProPackage.eINSTANCE.eClass();
+		BasisobjektePackage.eINSTANCE.eClass();
+		BasisTypenPackage.eINSTANCE.eClass();
+		VerweisePackage.eINSTANCE.eClass();
+		Ansteuerung_ElementPackage.eINSTANCE.eClass();
+		BahnsteigPackage.eINSTANCE.eClass();
+		BedienungPackage.eINSTANCE.eClass();
+		BlockPackage.eINSTANCE.eClass();
+		BahnuebergangPackage.eINSTANCE.eClass();
+		FlankenschutzPackage.eINSTANCE.eClass();
+		OrtungPackage.eINSTANCE.eClass();
+		FahrstrassePackage.eINSTANCE.eClass();
+		GeodatenPackage.eINSTANCE.eClass();
+		GleisPackage.eINSTANCE.eClass();
+		NahbedienbereichPackage.eINSTANCE.eClass();
+		PZBPackage.eINSTANCE.eClass();
+		RegelzeichnungPackage.eINSTANCE.eClass();
+		SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
+		SignalePackage.eINSTANCE.eClass();
+		Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
+		Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
+		ZuglenkungPackage.eINSTANCE.eClass();
+		ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
+		SimplemergePackage.eINSTANCE.eClass();
+		Balisentechnik_ETCSPackage.eINSTANCE.eClass();
+		Medien_und_TrassenPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theTemporaryintegrationPackage.createPackageContents();
@@ -240,6 +350,116 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 	 * @generated
 	 */
 	@Override
+	public EClass getToolboxTemporaryIntegration() {
+		return toolboxTemporaryIntegrationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getToolboxTemporaryIntegration_PrimaryPlanning() {
+		return (EReference)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getToolboxTemporaryIntegration_PrimaryPlanningFilename() {
+		return (EAttribute)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getToolboxTemporaryIntegration_PrimaryPlanningWasValid() {
+		return (EAttribute)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getToolboxTemporaryIntegration_SecondaryPlanning() {
+		return (EReference)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getToolboxTemporaryIntegration_SecondaryPlanningFilename() {
+		return (EAttribute)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getToolboxTemporaryIntegration_SecondaryPlanningWasValid() {
+		return (EAttribute)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getToolboxTemporaryIntegration_CompositePlanning() {
+		return (EReference)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getToolboxTemporaryIntegration_IntegrationDirectory() {
+		return (EAttribute)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getToolboxTemporaryIntegration_ComparisonInitialState() {
+		return (EReference)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getToolboxTemporaryIntegration_ComparisonFinalState() {
+		return (EReference)toolboxTemporaryIntegrationEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public TemporaryintegrationFactory getTemporaryintegrationFactory() {
 		return (TemporaryintegrationFactory)getEFactoryInstance();
 	}
@@ -274,6 +494,18 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		createEAttribute(temporaryIntegrationEClass, TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY);
 		createEReference(temporaryIntegrationEClass, TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE);
 		createEReference(temporaryIntegrationEClass, TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE);
+
+		toolboxTemporaryIntegrationEClass = createEClass(TOOLBOX_TEMPORARY_INTEGRATION);
+		createEReference(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING);
+		createEAttribute(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME);
+		createEAttribute(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID);
+		createEReference(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING);
+		createEAttribute(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME);
+		createEAttribute(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID);
+		createEReference(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING);
+		createEAttribute(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY);
+		createEReference(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE);
+		createEReference(toolboxTemporaryIntegrationEClass, TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE);
 	}
 
 	/**
@@ -300,8 +532,9 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage thePlanProPackage = (org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eNS_URI);
+		de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage thePlanProPackage_1 = (de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProPackage.eNS_URI);
 		SimplemergePackage theSimplemergePackage = (SimplemergePackage)EPackage.Registry.INSTANCE.getEPackage(SimplemergePackage.eNS_URI);
+		PlanProPackage thePlanProPackage = (PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(PlanProPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -311,16 +544,28 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(temporaryIntegrationEClass, TemporaryIntegration.class, "TemporaryIntegration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTemporaryIntegration_PrimaryPlanning(), thePlanProPackage.getPlanPro_Schnittstelle(), null, "primaryPlanning", null, 1, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTemporaryIntegration_PrimaryPlanning(), thePlanProPackage_1.getPlanPro_Schnittstelle(), null, "primaryPlanning", null, 1, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTemporaryIntegration_PrimaryPlanningFilename(), ecorePackage.getEString(), "primaryPlanningFilename", null, 0, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTemporaryIntegration_PrimaryPlanningWasValid(), ecorePackage.getEBoolean(), "primaryPlanningWasValid", null, 0, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTemporaryIntegration_SecondaryPlanning(), thePlanProPackage.getPlanPro_Schnittstelle(), null, "secondaryPlanning", null, 1, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTemporaryIntegration_SecondaryPlanning(), thePlanProPackage_1.getPlanPro_Schnittstelle(), null, "secondaryPlanning", null, 1, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTemporaryIntegration_SecondaryPlanningFilename(), ecorePackage.getEString(), "secondaryPlanningFilename", null, 0, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTemporaryIntegration_SecondaryPlanningWasValid(), ecorePackage.getEBoolean(), "secondaryPlanningWasValid", null, 0, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTemporaryIntegration_CompositePlanning(), thePlanProPackage.getPlanPro_Schnittstelle(), null, "compositePlanning", null, 1, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTemporaryIntegration_CompositePlanning(), thePlanProPackage_1.getPlanPro_Schnittstelle(), null, "compositePlanning", null, 1, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTemporaryIntegration_IntegrationDirectory(), ecorePackage.getEString(), "integrationDirectory", null, 0, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTemporaryIntegration_ComparisonInitialState(), theSimplemergePackage.getSComparison(), null, "comparisonInitialState", null, 0, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTemporaryIntegration_ComparisonFinalState(), theSimplemergePackage.getSComparison(), null, "comparisonFinalState", null, 0, 1, TemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(toolboxTemporaryIntegrationEClass, ToolboxTemporaryIntegration.class, "ToolboxTemporaryIntegration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getToolboxTemporaryIntegration_PrimaryPlanning(), thePlanProPackage.getPlanPro_Schnittstelle(), null, "primaryPlanning", null, 1, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getToolboxTemporaryIntegration_PrimaryPlanningFilename(), ecorePackage.getEString(), "primaryPlanningFilename", null, 0, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getToolboxTemporaryIntegration_PrimaryPlanningWasValid(), ecorePackage.getEBoolean(), "primaryPlanningWasValid", null, 0, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getToolboxTemporaryIntegration_SecondaryPlanning(), thePlanProPackage.getPlanPro_Schnittstelle(), null, "secondaryPlanning", null, 1, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getToolboxTemporaryIntegration_SecondaryPlanningFilename(), ecorePackage.getEString(), "secondaryPlanningFilename", null, 0, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getToolboxTemporaryIntegration_SecondaryPlanningWasValid(), ecorePackage.getEBoolean(), "secondaryPlanningWasValid", null, 0, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getToolboxTemporaryIntegration_CompositePlanning(), thePlanProPackage.getPlanPro_Schnittstelle(), null, "compositePlanning", null, 1, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getToolboxTemporaryIntegration_IntegrationDirectory(), ecorePackage.getEString(), "integrationDirectory", null, 0, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getToolboxTemporaryIntegration_ComparisonInitialState(), theSimplemergePackage.getSComparison(), null, "comparisonInitialState", null, 0, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getToolboxTemporaryIntegration_ComparisonFinalState(), theSimplemergePackage.getSComparison(), null, "comparisonFinalState", null, 0, 1, ToolboxTemporaryIntegration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

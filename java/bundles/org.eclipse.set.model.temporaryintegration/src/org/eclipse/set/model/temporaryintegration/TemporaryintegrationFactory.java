@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 DB Netz AG and others.
+ * Copyright (c) {Jahr} DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -35,6 +35,15 @@ public interface TemporaryintegrationFactory extends EFactory {
 	 * @generated
 	 */
 	TemporaryIntegration createTemporaryIntegration();
+
+	/**
+	 * Returns a new object of class '<em>Toolbox Temporary Integration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Toolbox Temporary Integration</em>'.
+	 * @generated
+	 */
+	ToolboxTemporaryIntegration createToolboxTemporaryIntegration();
 
 	/**
 	 * Returns the package supported by this factory.

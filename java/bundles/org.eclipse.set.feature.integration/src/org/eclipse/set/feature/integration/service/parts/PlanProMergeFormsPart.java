@@ -53,7 +53,7 @@ import org.eclipse.set.feature.integration.service.actions.ShowAttachmentAction;
 import org.eclipse.set.model.integrationview.IntegrationView;
 import org.eclipse.set.model.simplemerge.SComparison;
 import org.eclipse.set.model.simplemerge.SMatch;
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
@@ -176,7 +176,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 	}
 
 	private ToolboxFile createTemporaryToolboxFile(final String mergeDir,
-			final TemporaryIntegration newTemporaryIntegration) {
+			final ToolboxTemporaryIntegration newTemporaryIntegration) {
 		final Path mergeDirFileName = Paths.get(mergeDir,
 				session.getToolboxFile().getPath().getFileName().toString());
 		final Path mergeDirFileNameExtension = PathExtensions
@@ -211,7 +211,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 		monitor.beginTask(messages.PlanProMergePart_TaskName,
 				IProgressMonitor.UNKNOWN);
 		final String mergeDir = mergeView.getIntegrationDirectory();
-		final TemporaryIntegration temporaryIntegration = TemporaryIntegrationExtensions
+		final ToolboxTemporaryIntegration temporaryIntegration = TemporaryIntegrationExtensions
 				.create(getConvertedPrimaryPlanning(),
 						session.getValidationResult()
 								.getOutcome() == Outcome.VALID,

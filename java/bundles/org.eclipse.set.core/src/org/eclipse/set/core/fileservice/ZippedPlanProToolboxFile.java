@@ -113,7 +113,6 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	}
 
 	ZippedPlanProToolboxFile(final ZippedPlanProToolboxFile toolboxFile) {
-		super(toolboxFile);
 		this.path = toolboxFile.path;
 		this.format = toolboxFile.format;
 		this.editingDomain = toolboxFile.editingDomain;

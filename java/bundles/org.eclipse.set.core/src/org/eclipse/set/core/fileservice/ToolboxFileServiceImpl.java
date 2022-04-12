@@ -54,7 +54,6 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addFormat(final ToolboxFileFormatService format) {
 		formats.add(format);
-		format.registerResourceFactories();
 	}
 
 	@Override

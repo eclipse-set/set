@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 DB Netz AG and others.
+ * Copyright (c) {Jahr} DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -78,6 +78,10 @@ public class TemporaryintegrationAdapterFactory extends AdapterFactoryImpl {
 				return createTemporaryIntegrationAdapter();
 			}
 			@Override
+			public Adapter caseToolboxTemporaryIntegration(ToolboxTemporaryIntegration object) {
+				return createToolboxTemporaryIntegrationAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -108,6 +112,20 @@ public class TemporaryintegrationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTemporaryIntegrationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration <em>Toolbox Temporary Integration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
+	 * @generated
+	 */
+	public Adapter createToolboxTemporaryIntegrationAdapter() {
 		return null;
 	}
 

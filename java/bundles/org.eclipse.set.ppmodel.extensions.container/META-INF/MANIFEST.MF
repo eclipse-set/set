@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Container
 Bundle-SymbolicName: org.eclipse.set.ppmodel.extensions.container
-Bundle-Version: 1.0.334.qualifier
+Bundle-Version: 1.0.335.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Automatic-Module-Name: org.eclipse.set.ppmodel.extensions.container
 Bundle-RequiredExecutionEnvironment: JavaSE-17

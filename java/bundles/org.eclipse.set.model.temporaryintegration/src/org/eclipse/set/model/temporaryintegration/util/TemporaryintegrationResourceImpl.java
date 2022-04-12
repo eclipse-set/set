@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 DB Netz AG and others.
+ * Copyright (c) 2022 DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -8,27 +8,143 @@
  */
 package org.eclipse.set.model.temporaryintegration.util;
 
-import org.eclipse.emf.common.util.URI;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.TemporaryintegrationFactory;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
+import org.eclipse.set.toolboxmodel.PlanPro.util.ToolboxModelService;
+import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 
 /**
- * <!-- begin-user-doc -->
- * The <b>Resource </b> associated with the package.
+ * <!-- begin-user-doc --> The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceFactoryImpl
- * @generated
+ * @generated NOT
  */
 public class TemporaryintegrationResourceImpl extends XMLResourceImpl {
+	private final ToolboxModelService compositeToolboxModelService;
+	private final ToolboxModelService primaryToolboxModelService;
+	private final ToolboxModelService secondaryToolboxModelService;
+
 	/**
-	 * Creates an instance of the resource.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param uri the URI of the new resource.
-	 * @generated
+	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param uri
+	 *            the URI of the new resource.
+	 * @generated NOT
 	 */
-	public TemporaryintegrationResourceImpl(URI uri) {
+	public TemporaryintegrationResourceImpl(final URI uri) {
 		super(uri);
+		getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA,
+				Boolean.TRUE);
+		getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA,
+				Boolean.TRUE);
+
+		getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION,
+				Boolean.TRUE);
+
+		getDefaultLoadOptions().put(
+				XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+		getDefaultSaveOptions().put(
+				XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+		getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER,
+				Boolean.TRUE);
+
+		compositeToolboxModelService = new ToolboxModelServiceImpl();
+		primaryToolboxModelService = new ToolboxModelServiceImpl();
+		secondaryToolboxModelService = new ToolboxModelServiceImpl();
 	}
 
-} //TemporaryintegrationResourceImpl
+	@Override
+	public void doLoad(final InputStream inputStream, final Map<?, ?> options)
+			throws IOException {
+		try {
+			super.doLoad(inputStream, options);
+		} finally {
+			// After loading, transform the loaded contents (if any)
+			if (!getContents().isEmpty()) {
+				final EObject content = getContents().get(0);
+				if (content instanceof final TemporaryIntegration tmpInt) {
+					final ToolboxTemporaryIntegration toolboxInt = TemporaryintegrationFactory.eINSTANCE
+							.createToolboxTemporaryIntegration();
+					// Transform Planpro Models
+					toolboxInt.setPrimaryPlanning(primaryToolboxModelService
+							.loadPlanProModel(tmpInt.getPrimaryPlanning()));
+					toolboxInt.setSecondaryPlanning(secondaryToolboxModelService
+							.loadPlanProModel(tmpInt.getSecondaryPlanning()));
+					toolboxInt.setCompositePlanning(compositeToolboxModelService
+							.loadPlanProModel(tmpInt.getCompositePlanning()));
+
+					// Copy other attributes
+					toolboxInt.setPrimaryPlanningFilename(
+							tmpInt.getPrimaryPlanningFilename());
+					toolboxInt.setPrimaryPlanningWasValid(
+							tmpInt.isPrimaryPlanningWasValid());
+					toolboxInt.setSecondaryPlanningFilename(
+							tmpInt.getSecondaryPlanningFilename());
+					toolboxInt.setSecondaryPlanningWasValid(
+							tmpInt.isSecondaryPlanningWasValid());
+					toolboxInt.setIntegrationDirectory(
+							tmpInt.getIntegrationDirectory());
+					toolboxInt.setComparisonInitialState(
+							EcoreUtil.copy(tmpInt.getComparisonInitialState()));
+					toolboxInt.setComparisonFinalState(
+							EcoreUtil.copy(tmpInt.getComparisonFinalState()));
+
+					EcoreUtil.replace(tmpInt, toolboxInt);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void doSave(final OutputStream outputStream, final Map<?, ?> options)
+			throws IOException {
+		if (!getContents().isEmpty()) {
+			final EObject content = getContents().get(0);
+			if (content instanceof final ToolboxTemporaryIntegration toolboxInt) {
+				final TemporaryIntegration tmpInt = TemporaryintegrationFactory.eINSTANCE
+						.createTemporaryIntegration();
+				// Transform Planpro Models
+				tmpInt.setPrimaryPlanning(primaryToolboxModelService
+						.savePlanProModel(toolboxInt.getPrimaryPlanning()));
+				tmpInt.setSecondaryPlanning(secondaryToolboxModelService
+						.savePlanProModel(toolboxInt.getSecondaryPlanning()));
+				tmpInt.setCompositePlanning(compositeToolboxModelService
+						.savePlanProModel(toolboxInt.getCompositePlanning()));
+
+				// Copy other attributes
+				tmpInt.setPrimaryPlanningFilename(
+						toolboxInt.getPrimaryPlanningFilename());
+				tmpInt.setPrimaryPlanningWasValid(
+						toolboxInt.isPrimaryPlanningWasValid());
+				tmpInt.setSecondaryPlanningFilename(
+						toolboxInt.getSecondaryPlanningFilename());
+				tmpInt.setSecondaryPlanningWasValid(
+						toolboxInt.isSecondaryPlanningWasValid());
+				tmpInt.setIntegrationDirectory(
+						toolboxInt.getIntegrationDirectory());
+				tmpInt.setComparisonInitialState(
+						EcoreUtil.copy(toolboxInt.getComparisonInitialState()));
+				tmpInt.setComparisonFinalState(
+						EcoreUtil.copy(toolboxInt.getComparisonFinalState()));
+
+				EcoreUtil.replace(toolboxInt, tmpInt);
+			}
+		}
+
+		// Save
+		super.doSave(outputStream, options);
+	}
+} // TemporaryintegrationResourceImpl

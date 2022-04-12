@@ -101,6 +101,29 @@ public class TemporaryintegrationItemProviderAdapterFactory extends Temporaryint
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ToolboxTemporaryIntegrationItemProvider toolboxTemporaryIntegrationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createToolboxTemporaryIntegrationAdapter() {
+		if (toolboxTemporaryIntegrationItemProvider == null) {
+			toolboxTemporaryIntegrationItemProvider = new ToolboxTemporaryIntegrationItemProvider(this);
+		}
+
+		return toolboxTemporaryIntegrationItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -206,6 +229,7 @@ public class TemporaryintegrationItemProviderAdapterFactory extends Temporaryint
 	@Override
 	public void dispose() {
 		if (temporaryIntegrationItemProvider != null) temporaryIntegrationItemProvider.dispose();
+		if (toolboxTemporaryIntegrationItemProvider != null) toolboxTemporaryIntegrationItemProvider.dispose();
 	}
 
 }

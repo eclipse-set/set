@@ -30,7 +30,7 @@ import org.eclipse.set.feature.integration.SessionToIntegrationViewTransformatio
 import org.eclipse.set.model.integrationview.Conflict;
 import org.eclipse.set.model.simplemerge.Resolution;
 import org.eclipse.set.model.simplemerge.SMatch;
-import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
@@ -63,7 +63,7 @@ public class ConflictsTableAction implements Consumer<ColumnViewer> {
 
 		@Override
 		public void run() {
-			final TemporaryIntegration temporaryIntegration = session
+			final ToolboxTemporaryIntegration temporaryIntegration = session
 					.getTemporaryIntegration().get();
 			final StructuredSelection selection = (StructuredSelection) tableViewer
 					.getSelection();
@@ -106,7 +106,7 @@ public class ConflictsTableAction implements Consumer<ColumnViewer> {
 
 		@Override
 		public void run() {
-			final TemporaryIntegration temporaryIntegration = session
+			final ToolboxTemporaryIntegration temporaryIntegration = session
 					.getTemporaryIntegration().get();
 			final Map<ContainerType, List<SMatch>> selection = TemporaryIntegrationExtensions
 					.getOpenConflictMatches(temporaryIntegration);
