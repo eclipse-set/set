@@ -29,9 +29,9 @@ import org.eclipse.set.core.services.modelloader.ModelLoader;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
 
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 /**
  * Implementation of {@link ModelLoader}.
  * 
@@ -39,8 +39,8 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
  */
 public class ModelLoaderImpl implements ModelLoader {
 
-	private static final PlanProSchemaDir<PlanPro_Schnittstelle> SCHEMA_DIR = new PlanProSchemaDir<>(
-			PlanPro_Schnittstelle.class);
+	private static final PlanProSchemaDir<de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle> SCHEMA_DIR = new PlanProSchemaDir<>(
+			de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
 
 	@Inject
 	private DialogService dialogService;

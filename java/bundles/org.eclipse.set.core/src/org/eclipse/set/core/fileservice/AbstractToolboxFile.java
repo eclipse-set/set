@@ -11,10 +11,8 @@ package org.eclipse.set.core.fileservice;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
@@ -44,7 +42,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	// IMPROVE: this Resource and Resource of EditingDomain have same content.
 	// Should we this Resouce here remove ?
 	private XMLResource resource;
-	private DocumentRoot planProSourceModel;
 
 	@Override
 	public XMLResource getResource() {
@@ -97,7 +94,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		}
 
 		setResource(newResource);
-		loadModel();
 	}
 
 	protected void setResource(final XMLResource resource) {
@@ -121,13 +117,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		}
 	}
 
-	private void loadModel() {
-		final List<EObject> contents = resource.getContents();
-		if (contents.isEmpty()) {
-			return;
-		}
-	}
-
 	@Override
 	public void save() throws IOException {
 		saveResource();
@@ -135,7 +124,10 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	@Override
 	public DocumentRoot getSourceModel() {
-		return planProSourceModel;
+		if (getResource() instanceof final org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl ppresource) {
+			return ppresource.getSourceModel();
+		}
+		return null;
 	}
 
 	/**

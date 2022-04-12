@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Testmodel Site Extensions
 Bundle-SymbolicName: org.eclipse.set.model.test.site.extensions
-Bundle-Version: 1.0.335.qualifier
+Bundle-Version: 1.0.336.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
 Require-Bundle: com.google.guava,

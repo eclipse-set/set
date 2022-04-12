@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.set.feature"
       label="Toolbox Feature"
-      version="1.0.335.qualifier"
+      version="1.0.336.qualifier"
       provider-name="Scheidt &amp; Bachmann System Technik GmbH">
 
    <description url="http://www.example.com/description">
