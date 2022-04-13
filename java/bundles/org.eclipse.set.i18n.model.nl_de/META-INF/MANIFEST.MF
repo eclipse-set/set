@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PlanPro Edit Support Toolbox nl_de
 Bundle-SymbolicName: org.eclipse.set.i18n.model.nl_de
-Bundle-Version: 1.0.336.qualifier
+Bundle-Version: 1.0.337.qualifier
 Fragment-Host: de.scheidtbachmann.planpro.model.model1902.edit;bundle-version="[5.4.0,5.15.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project

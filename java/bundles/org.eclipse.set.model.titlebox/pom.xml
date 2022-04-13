@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.model.titlebox</artifactId>
-	<version>1.0.336-SNAPSHOT</version>
+	<version>1.0.337-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

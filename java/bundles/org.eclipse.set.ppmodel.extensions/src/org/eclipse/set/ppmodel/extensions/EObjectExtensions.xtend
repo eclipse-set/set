@@ -10,6 +10,7 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.EStructuralFeature
 
 /**
  * Extensions for {@link EObject}.
@@ -74,14 +75,38 @@ class EObjectExtensions {
 			a || b
 		])
 	}
-	
+	/**
+	 * Returns all missing required values in an EObject
+	 * 
+	 * Recurses into subobjects 
+	 * 
+	 * @param EObject the EObject
+	 */
+	static def Iterable<Pair<EStructuralFeature, EObject>> getUnfilledValues(
+		EObject object) {
+		// Does the object contain an unset reference?
+		val unsetReferences = object.eClass.EReferences.filter [
+			lowerBound == 1 && upperBound == 1
+		].filter[!object.eIsSet(it)]
+
+		// Does the object contain an unset attribute? 
+		val unsetAttributes = object.eClass.EAttributes.filter[isUnsettable].
+			filter [
+				!object.eIsSet(it)
+			]
+
+		// Recurse into contained objects
+		return (unsetReferences + unsetAttributes).map[it -> object] +
+			object.eContents.flatMap[getUnfilledValues]
+	}
+
 	/**
 	 * Serializes all attributes of an EObject into a CSV string
 	 */
 	static def String toCSV(EObject object) {
-		return String.join(";", object.eClass.EAttributes.map[
+		return String.join(";", object.eClass.EAttributes.map [
 			val attr = object.eGet(it)
-			if(attr instanceof String)
+			if (attr instanceof String)
 				return attr.replace("\"", "\"\"")
 			return attr.toString
 		]) + System.lineSeparator

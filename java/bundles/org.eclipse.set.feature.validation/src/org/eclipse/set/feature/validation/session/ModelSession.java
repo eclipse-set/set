@@ -68,7 +68,6 @@ import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
-import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -728,16 +727,16 @@ public class ModelSession implements IModelSession {
 			}
 			PlanProSchnittstelleExtensions.fix(getPlanProSchnittstelle());
 			saveFixResult = SaveFixResult.NONE;
-			if (PlanProSchnittstelleExtensions
-					.fixManagementDefaults(getPlanProSchnittstelle())) {
+			if (PlanProSchnittstelleExtensions.fixManagementDefaults(
+					getPlanProSchnittstelle(), toolboxFile.getResource())) {
 				saveFixResult = SaveFixResult.OBJEKTMANAGEMENT;
 			}
 			PlanProSchnittstelleExtensions.updateErzeugung(
 					getPlanProSchnittstelle(), APPLICATION_NAME,
 					getToolboxFile().getEditingDomain());
 			// Ask user if all missing values should be filled
-			if (EObjectExtensions
-					.containsUnfilledValues(getPlanProSchnittstelle())
+			if (PlanProSchnittstelleExtensions.containsUnfilledValues(
+					getPlanProSchnittstelle(), toolboxFile.getResource())
 					&& serviceProvider.dialogService
 							.confirmSetDefaultsGlobally(shell)) {
 				PlanProSchnittstelleExtensions

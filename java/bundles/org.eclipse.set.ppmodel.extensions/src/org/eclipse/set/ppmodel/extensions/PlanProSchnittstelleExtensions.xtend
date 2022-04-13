@@ -20,9 +20,11 @@ import javax.xml.datatype.DatatypeFactory
 import javax.xml.datatype.XMLGregorianCalendar
 import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.edit.command.SetCommand
 import org.eclipse.emf.edit.domain.EditingDomain
 import org.eclipse.set.basis.constants.ContainerType
@@ -46,6 +48,7 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.toolboxmodel.PlanPro.Planung_E_Allg_AttributeGroup
 import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe
 import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -94,21 +97,45 @@ class PlanProSchnittstelleExtensions {
 	 * @return whether fixes have been applied
 	 */
 	static def boolean fixManagementDefaults(
-		PlanPro_Schnittstelle schnittstelle) {
+		PlanPro_Schnittstelle schnittstelle, XMLResource resource) {
 		val objman = schnittstelle?.LSTPlanung?.objektmanagement
-		val requiresDefaults = objman.containsUnfilledValues
+		val Iterable<Pair<EStructuralFeature, EObject>> unfilledValues = objman.
+			unfilledValues
+		var requiresDefaults = !unfilledValues.empty
+		if (resource instanceof PlanProResourceImpl) {
+			// Ignore references that couldn't be resolved during load
+			requiresDefaults = !unfilledValues.filter [ unfilled |
+				resource.invalidIDReferences.findFirst [
+					it.target == unfilled.value && it.targetRef == unfilled.key
+				] !== null
+			].empty
+
+		}
+
 		if (requiresDefaults)
 			objman.fillDefaults
 		return requiresDefaults
 	}
 
-	static def boolean containsMissingLSTValues(
-		PlanPro_Schnittstelle schnittstelle) {
-		val objman = schnittstelle?.LSTPlanung?.objektmanagement
-		val requiresDefaults = objman.containsUnfilledValues
-		if (requiresDefaults)
-			objman.fillDefaults
-		return requiresDefaults
+	/**
+	 * Fills default values for the given PlanPro Schnittstelle's Objektmanagement if required.
+	 * 
+	 * @param schnittstelle this PlanPro Schnittstelle
+	 * @return whether fixes have been applied
+	 */
+	static def boolean containsUnfilledValues(
+		PlanPro_Schnittstelle schnittstelle, XMLResource resource) {
+		val unfilledValues = schnittstelle.
+			unfilledValues.toList
+
+		if (resource instanceof PlanProResourceImpl) {
+			return !unfilledValues.filter [ unfilled |
+				resource.invalidIDReferences.findFirst [
+					it.target == unfilled.value && it.targetRef == unfilled.key
+				] === null
+			].empty
+		}
+		return !unfilledValues.empty
 	}
 
 	/**
@@ -522,7 +549,7 @@ class PlanProSchnittstelleExtensions {
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(schnittstelle?.identitaet?.wert)
 	}
-	
+
 	static def Optional<String> getLSTPlanungEinzelIdentitaet(
 		PlanPro_Schnittstelle schnittstelle) {
 		return Optional.ofNullable(
@@ -536,12 +563,13 @@ class PlanProSchnittstelleExtensions {
 			wert
 		return Optional.ofNullable(wert)
 	}
-	
+
 	static def Optional<Iterable<Planung_Gruppe>> getLSTPlanungGruppe(
 		PlanPro_Schnittstelle schnittstelle) {
-		return Optional.ofNullable(schnittstelle?.LSTPlanung?.objektmanagement?.LSTPlanungProjekt?.map [
-			LSTPlanungGruppe
-		]?.flatten)
+		return Optional.ofNullable(
+			schnittstelle?.LSTPlanung?.objektmanagement?.LSTPlanungProjekt?.map [
+				LSTPlanungGruppe
+			]?.flatten)
 	}
 
 	static def Optional<String> getLSTPlanungProjektIdentitaet(
