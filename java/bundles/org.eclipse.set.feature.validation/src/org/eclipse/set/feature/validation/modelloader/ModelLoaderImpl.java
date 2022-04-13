@@ -8,20 +8,16 @@
  */
 package org.eclipse.set.feature.validation.modelloader;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Path;
 import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.PlanProSchemaDir;
-import org.eclipse.set.basis.ResourceLoader;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -61,18 +57,17 @@ public class ModelLoaderImpl implements ModelLoader {
 			monitor.beginTask(messages.ModelLoaderImpl_loadMsg,
 					IProgressMonitor.UNKNOWN);
 			final PlanPro_Schnittstelle schnittstelle = validationService
-					.checkLoad(toolboxFile, new ResourceLoader() {
-
-						@Override
-						public Resource load(final Path location)
-								throws IOException {
-							toolboxFile.open();
-							return toolboxFile.getResource();
-						}
-					}, resource -> PlanProSchnittstelleExtensions
-							.readFrom(resource), result);
+					.checkLoad(toolboxFile, location -> {
+						toolboxFile.open();
+						return toolboxFile.getResource();
+					}, PlanProSchnittstelleExtensions::readFrom, result);
 			validationService.xsdValidation(toolboxFile, SCHEMA_DIR, result);
-			validationService.emfValidation(schnittstelle, result);
+			final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot sourceRoot = toolboxFile
+					.getSourceModel();
+			if (sourceRoot != null) {
+				validationService.emfValidation(
+						sourceRoot.getPlanProSchnittstelle(), result);
+			}
 			validationService.customValidation(toolboxFile, result);
 			storeModel.accept(schnittstelle);
 		};

@@ -62,6 +62,8 @@ public class ValidationTableView {
 	private final Messages messages;
 	private final IEventBroker broker;
 	private final BasePart<? extends IModelSession> part;
+	private NatTable natTable;
+	private TableDataProvider bodyDataProvider;
 
 	/**
 	 * @param toolboxPartService
@@ -84,13 +86,13 @@ public class ValidationTableView {
 
 	class BodyLayerStack extends AbstractLayerTransform {
 
-		private final IDataProvider bodyDataProvider;
+		private final IDataProvider stackBodyDataProvider;
 
 		private final SelectionLayer selectionLayer;
 		private final ViewportLayer viewportLayer;
 
 		public BodyLayerStack(final DataLayer bodyDataLayer) {
-			this.bodyDataProvider = bodyDataLayer.getDataProvider();
+			this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
 			this.selectionLayer = new SelectionLayer(bodyDataLayer);
 			this.viewportLayer = new ViewportLayer(this.selectionLayer);
 
@@ -108,7 +110,7 @@ public class ValidationTableView {
 		}
 
 		public IDataProvider getBodyDataProvider() {
-			return this.bodyDataProvider;
+			return this.stackBodyDataProvider;
 		}
 
 		public SelectionLayer getSelectionLayer() {
@@ -138,7 +140,7 @@ public class ValidationTableView {
 		final ColumnDescriptor rootColumnDescriptor = table
 				.getColumndescriptors().get(0);
 
-		final IDataProvider bodyDataProvider = new TableDataProvider(table);
+		bodyDataProvider = new TableDataProvider(table);
 		final DataLayer bodyDataLayer = new DataLayer(bodyDataProvider);
 
 		final BodyLayerStack bodyLayerStack = new BodyLayerStack(bodyDataLayer);
@@ -172,8 +174,8 @@ public class ValidationTableView {
 		// gridlayer
 		final GridLayer gridLayer = new GridLayer(bodyLayerStack,
 				columnHeaderLayer, rowHeaderLayer, cornerLayer);
-		final NatTable natTable = new NatTable(parent, SWT.NO_BACKGROUND
-				| SWT.DOUBLE_BUFFERED | SWT.V_SCROLL | SWT.H_SCROLL, gridLayer);
+		natTable = new NatTable(parent, SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED
+				| SWT.V_SCROLL | SWT.H_SCROLL, gridLayer);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(natTable);
 		// set style
 		natTable.setTheme(new PlanProTableThemeConfiguration(natTable,
@@ -204,5 +206,18 @@ public class ValidationTableView {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		return natTable;
+	}
+
+	/**
+	 * Updates the table view
+	 * 
+	 * @param validationReport
+	 *            the new report
+	 */
+	public void updateView(final ValidationReport validationReport) {
+		final ValidationTableTransformationService service = new ValidationTableTransformationService(
+				messages);
+		bodyDataProvider.refresh(service.transform(validationReport));
+		natTable.refresh();
 	}
 }

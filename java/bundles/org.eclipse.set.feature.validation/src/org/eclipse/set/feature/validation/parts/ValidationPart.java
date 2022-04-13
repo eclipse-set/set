@@ -91,6 +91,8 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	private ValidationReport validationReport;
 
+	private ValidationTableView tableView;
+
 	@Inject
 	private PlanProVersionService versionService;
 
@@ -176,9 +178,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 					showValidationTableAction);
 
 			// Register nattable injector
+			tableView = new ValidationTableView(toolboxPartService, this,
+					messages, broker);
 			final Function<Composite, Control> func = innerParent -> {
-				final ValidationTableView tableView = new ValidationTableView(
-						toolboxPartService, this, messages, broker);
 				final Control natTable = tableView.create(innerParent,
 						validationReport);
 				// Set height
@@ -261,6 +263,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 			// update buttons
 			updateButtonStates();
+
+			// update table
+			tableView.updateView(validationReport);
 		}
 	}
 
