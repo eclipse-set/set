@@ -29,6 +29,8 @@ import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
 import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl;
+import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -64,9 +66,10 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 		if (toolboxFile.getFormat() == format) {
 			return toolboxFile;
 		}
+		final PlanPro_Schnittstelle oldschnittstelle = PlanProSchnittstelleExtensions
+				.readFrom(toolboxFile.getResource());
 		final PlanPro_Schnittstelle newschnittstelle = EcoreUtil
-				.copy(PlanProSchnittstelleExtensions
-						.readFrom(toolboxFile.getResource()));
+				.copy(oldschnittstelle);
 
 		ToolboxFile newToolboxFile = toolboxFile;
 		if (format.isZippedPlanPro()) {
@@ -83,6 +86,12 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 		documentRoot.setPlanProSchnittstelle(newschnittstelle);
 		newToolboxFile.getResource().getContents().add(documentRoot);
 		newToolboxFile.setPath(toolboxFile.getPath());
+		IDReferenceUtils.retargetIDReferences(oldschnittstelle,
+				newschnittstelle,
+				((PlanProResourceImpl) toolboxFile.getResource())
+						.getInvalidIDReferences(),
+				((PlanProResourceImpl) newToolboxFile.getResource())
+						.getInvalidIDReferences());
 		return newToolboxFile;
 	}
 

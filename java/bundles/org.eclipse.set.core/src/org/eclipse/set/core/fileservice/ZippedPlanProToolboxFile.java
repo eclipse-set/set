@@ -47,13 +47,17 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final String MODEL_FILE = "content.xml"; //$NON-NLS-1$
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
+	private static final String INTEGRATION_FORMAT = "mplanpro"; //$NON-NLS-1$
 	private static final String INTERNAL_FORMAT = "planpro"; //$NON-NLS-1$
 
 	private XMLResource createResource() {
-		// Load the resource
+		// Load the resource with the required type
+		final String contentType = role == ToolboxFileRole.TEMPORARY_INTEGRATION
+				? INTEGRATION_FORMAT
+				: INTERNAL_FORMAT;
 		final XMLResource newResource = (XMLResource) editingDomain
 				.getResourceSet().createResource(
-						URI.createURI(PlanProPackage.eNS_URI), INTERNAL_FORMAT);
+						URI.createURI(PlanProPackage.eNS_URI), contentType);
 		newResource.setEncoding(ENCODING);
 		return newResource;
 	}

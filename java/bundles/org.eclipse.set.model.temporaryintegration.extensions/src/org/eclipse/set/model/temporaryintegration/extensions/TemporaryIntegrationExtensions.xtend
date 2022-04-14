@@ -357,11 +357,11 @@ class TemporaryIntegrationExtensions {
 	private static def ContainerType getType(SMatch match) {
 		switch (match.eContainer.eContainingFeature) {
 			case TemporaryintegrationPackage.eINSTANCE.
-				temporaryIntegration_ComparisonInitialState: {
+				toolboxTemporaryIntegration_ComparisonInitialState: {
 				return ContainerType.INITIAL
 			}
 			case TemporaryintegrationPackage.eINSTANCE.
-				temporaryIntegration_ComparisonFinalState: {
+				toolboxTemporaryIntegration_ComparisonFinalState: {
 				return ContainerType.FINAL
 			}
 			default: {

@@ -11,6 +11,7 @@ package org.eclipse.set.model.temporaryintegration.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.set.model.temporaryintegration.TemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationFactory;
 import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
+import org.eclipse.set.toolboxmodel.PlanPro.util.IDReference;
 import org.eclipse.set.toolboxmodel.PlanPro.util.ToolboxModelService;
 import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 
@@ -140,11 +142,27 @@ public class TemporaryintegrationResourceImpl extends XMLResourceImpl {
 				tmpInt.setComparisonFinalState(
 						EcoreUtil.copy(toolboxInt.getComparisonFinalState()));
 
+				// Swap, save and restore
 				EcoreUtil.replace(toolboxInt, tmpInt);
+				super.doSave(outputStream, options);
+				EcoreUtil.replace(tmpInt, toolboxInt);
+				return;
 			}
 		}
 
 		// Save
 		super.doSave(outputStream, options);
+	}
+
+	public List<IDReference> getCompositeInvalidIDReferences() {
+		return compositeToolboxModelService.getInvalidIDReferences();
+	}
+
+	public List<IDReference> getPrimaryInvalidIDReferences() {
+		return primaryToolboxModelService.getInvalidIDReferences();
+	}
+
+	public List<IDReference> getSecondaryInvalidIDReferences() {
+		return secondaryToolboxModelService.getInvalidIDReferences();
 	}
 } // TemporaryintegrationResourceImpl

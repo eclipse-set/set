@@ -73,12 +73,12 @@ class SMatchExtensions {
 		val containingFeature = match.eContainer.eContainingFeature
 
 		if (containingFeature === TemporaryintegrationPackage.eINSTANCE.
-			temporaryIntegration_ComparisonInitialState) {
+			toolboxTemporaryIntegration_ComparisonInitialState) {
 			return ContainerType.INITIAL
 		}
 
 		if (containingFeature === TemporaryintegrationPackage.eINSTANCE.
-			temporaryIntegration_ComparisonFinalState) {
+			toolboxTemporaryIntegration_ComparisonFinalState) {
 			return ContainerType.FINAL
 		}
 

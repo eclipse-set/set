@@ -55,9 +55,12 @@ import org.eclipse.set.model.simplemerge.SComparison;
 import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.model.temporaryintegration.extensions.TemporaryIntegrationExtensions;
+import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceImpl;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl;
+import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.StatefulButtonAction;
@@ -211,8 +214,9 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 		monitor.beginTask(messages.PlanProMergePart_TaskName,
 				IProgressMonitor.UNKNOWN);
 		final String mergeDir = mergeView.getIntegrationDirectory();
+		final ToolboxFile primaryPlanningToolboxFile = getConvertedPrimaryPlanning();
 		final ToolboxTemporaryIntegration temporaryIntegration = TemporaryIntegrationExtensions
-				.create(getConvertedPrimaryPlanning(),
+				.create(primaryPlanningToolboxFile,
 						session.getValidationResult()
 								.getOutcome() == Outcome.VALID,
 						secondaryPlanningToolboxfile, secondaryPlanningWasValid,
@@ -228,14 +232,58 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 		try {
 			// IMPROVE move function createTemporaryToolboxFile to File Service
 			// or Extension
+			final ToolboxFile toolboxFile = createTemporaryToolboxFile(mergeDir,
+					temporaryIntegration);
+			updateIDReferences(toolboxFile, primaryPlanningToolboxFile,
+					secondaryPlanningToolboxfile);
 			session.switchToMergeMode(temporaryIntegration, mergeDir, shell,
-					createTemporaryToolboxFile(mergeDir, temporaryIntegration));
+					toolboxFile);
 			secondaryPlanningToolboxfile.close();
 		} catch (final IOException | UserAbortion e) {
 			throw new InvocationTargetException(e);
 		}
 
 		monitor.done();
+	}
+
+	private static void updateIDReferences(final ToolboxFile toolboxFile,
+			final ToolboxFile primaryPlanningToolboxFile,
+			final ToolboxFile secondaryPlanningToolboxfile) {
+		final PlanProResourceImpl primaryResource = (PlanProResourceImpl) primaryPlanningToolboxFile
+				.getResource();
+		final PlanProResourceImpl secondaryResource = (PlanProResourceImpl) secondaryPlanningToolboxfile
+				.getResource();
+		final TemporaryintegrationResourceImpl integrationResource = (TemporaryintegrationResourceImpl) toolboxFile
+				.getResource();
+
+		final PlanPro_Schnittstelle primaryPlanPro = PlanProSchnittstelleExtensions
+				.readFrom(primaryResource);
+		final PlanPro_Schnittstelle secondaryPlanPro = PlanProSchnittstelleExtensions
+				.readFrom(secondaryResource);
+		final ToolboxTemporaryIntegration ti = (ToolboxTemporaryIntegration) integrationResource
+				.getContents().get(0);
+
+		// TI.primaryPlanning -> Primary Resource
+		IDReferenceUtils.retargetIDReferences(primaryPlanPro,
+				ti.getPrimaryPlanning(),
+				primaryResource.getInvalidIDReferences(),
+				integrationResource.getPrimaryInvalidIDReferences());
+
+		// TI.secondaryPlanning -> Secondary Resource
+		IDReferenceUtils.retargetIDReferences(secondaryPlanPro,
+				ti.getSecondaryPlanning(),
+				secondaryResource.getInvalidIDReferences(),
+				integrationResource.getSecondaryInvalidIDReferences());
+
+		// TI.compositePlanning -> Both Resources
+		IDReferenceUtils.retargetIDReferences(primaryPlanPro,
+				ti.getCompositePlanning(),
+				primaryResource.getInvalidIDReferences(),
+				integrationResource.getCompositeInvalidIDReferences());
+		IDReferenceUtils.retargetIDReferences(secondaryPlanPro,
+				ti.getCompositePlanning(),
+				secondaryResource.getInvalidIDReferences(),
+				integrationResource.getCompositeInvalidIDReferences());
 	}
 
 	private void update() {

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2018 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,12 +8,16 @@
  */
 package org.eclipse.set.utils
 
-import org.eclipse.set.basis.integration.DiffLabelProvider
-import org.eclipse.set.basis.integration.Matcher
 import java.util.Arrays
 import java.util.List
+import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.set.basis.integration.DiffLabelProvider
+import org.eclipse.set.basis.integration.Matcher
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 
 import static com.google.common.base.Strings.*
 
@@ -71,10 +75,15 @@ abstract class AbstractMatcher implements Matcher {
 		}
 		val type = types.head
 		if (typeof(List).isAssignableFrom(type)) {
-			return equalLists(firstValue as List<?>, secondValue as List<?>)
+			return equal(firstValue as List<?>, secondValue as List<?>)
 		}
 		if (type.array) {
 			return equalArrays(firstValue, secondValue)
+		}
+		if (firstValue instanceof Ur_Objekt &&
+			secondValue instanceof Ur_Objekt) {
+			return (firstValue as Ur_Objekt).identitaet?.wert ==
+				(secondValue as Ur_Objekt).identitaet?.wert
 		}
 		return firstValue.equals(secondValue)
 	}
@@ -127,7 +136,13 @@ abstract class AbstractMatcher implements Matcher {
 		}
 	}
 
-	private def boolean equalLists(List<?> firstValue, List<?> secondValue) {
+	private dispatch def boolean equal(List<?> firstValue,
+		List<?> secondValue) {
+		return equal(firstValue, secondValue, false)
+	}
+
+	private def boolean equal(List<?> firstValue, List<?> secondValue,
+		boolean containmentList) {
 		if (firstValue.size !== secondValue.size) {
 			return false
 		}
@@ -136,10 +151,16 @@ abstract class AbstractMatcher implements Matcher {
 			val firstObject = firstValue.get(i)
 			val secondObject = secondValue.get(i)
 
-			if (firstObject instanceof EObject &&
+			if (!containmentList && firstObject instanceof Ur_Objekt &&
+				secondObject instanceof Ur_Objekt) {
+				if ((firstObject as Ur_Objekt).identitaet?.wert !=
+					(secondObject as Ur_Objekt).identitaet?.wert) {
+					return false
+				}
+			} else if (firstObject instanceof EObject &&
 				secondObject instanceof EObject) {
 				// we compare EObject's structurally
-				if (!EcoreUtil.equals(
+				if (!equal(
 					firstObject as EObject,
 					secondObject as EObject
 				)) {
@@ -154,4 +175,60 @@ abstract class AbstractMatcher implements Matcher {
 		}
 		return true
 	}
+
+	private dispatch def boolean equal(EObject firstObject,
+		EObject secondObject) {
+		// Reference-equality?
+		if (firstObject === secondObject)
+			return true
+		// If the objects are not of the same class, they cannot be equal
+		if (firstObject.eClass !== secondObject.eClass)
+			return false
+
+		// Compare features
+		for (EStructuralFeature feature : firstObject.eClass.
+			EStructuralFeatures.filter[!isDerived]) {
+			if (firstObject.eIsSet(feature) != secondObject.eIsSet(feature))
+				return false
+			if (feature instanceof EReference) {
+				if (!equalReference(firstObject, secondObject, feature)) {
+					return false
+				}
+			} else if (feature instanceof EAttribute) {
+				if (!equalAttribute(firstObject, secondObject, feature)) {
+					return false
+				}
+			}
+		}
+
+		// No features
+		return true
+	}
+
+	private def boolean equalReference(EObject firstObject,
+		EObject secondObject, EReference reference) {
+		val firstValue = firstObject.eGet(reference)
+		val secondValue = secondObject.eGet(reference)
+		if (firstValue === null) {
+			return secondValue === null
+		}
+
+		// If this is a non-containment reference of Ur_Objekt, it is an ID reference
+		// hence only compare the target guids
+		if (!reference.isContainment && firstValue instanceof Ur_Objekt &&
+			secondValue instanceof Ur_Objekt) {
+			return (firstValue as Ur_Objekt).identitaet?.wert ==
+				(secondValue as Ur_Objekt).identitaet?.wert
+		} else if (reference.isMany) {
+			return equal(firstValue as EList<?>, secondValue as EList<?>,
+				reference.isContainment)
+		}
+		return equal(firstValue, secondValue)
+	}
+
+	private def boolean equalAttribute(EObject firstObject,
+		EObject secondObject, EAttribute attribute) {
+		return firstObject.eGet(attribute) == secondObject.eGet(attribute)
+	}
+
 }

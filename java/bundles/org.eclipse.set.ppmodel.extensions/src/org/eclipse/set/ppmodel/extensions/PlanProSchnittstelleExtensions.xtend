@@ -57,6 +57,7 @@ import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceImpl
 
 /**
  * Extensions for {@link PlanPro_Schnittstelle}.
@@ -131,6 +132,15 @@ class PlanProSchnittstelleExtensions {
 		if (resource instanceof PlanProResourceImpl) {
 			return !unfilledValues.filter [ unfilled |
 				resource.invalidIDReferences.findFirst [
+					it.target == unfilled.value && it.targetRef == unfilled.key
+				] === null
+			].empty
+		}
+		else if (resource instanceof TemporaryintegrationResourceImpl) {
+			return !unfilledValues.filter [ unfilled |
+				(resource.primaryInvalidIDReferences + 
+				resource.secondaryInvalidIDReferences + 
+				resource.compositeInvalidIDReferences).findFirst [
 					it.target == unfilled.value && it.targetRef == unfilled.key
 				] === null
 			].empty

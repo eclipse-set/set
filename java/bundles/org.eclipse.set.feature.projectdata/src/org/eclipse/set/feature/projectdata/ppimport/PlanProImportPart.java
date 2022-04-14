@@ -17,9 +17,6 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -35,13 +32,13 @@ import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.toolboxmodel.PlanPro.util.IDReference;
 import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl;
+import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
@@ -257,58 +254,10 @@ public class PlanProImportPart extends ImportMergePart<IModelSession> {
 				PlanProPackage.eINSTANCE.getLST_Zustand_Container(),
 				containerCopy);
 		editingDomain.getCommandStack().execute(command);
-		retargetIDReferences(container, containerCopy, references,
-				(PlanProResourceImpl) containerCopy.eResource());
+		IDReferenceUtils.retargetIDReferences(container, containerCopy,
+				references, ((PlanProResourceImpl) containerCopy.eResource())
+						.getInvalidIDReferences());
 		return true;
-	}
-
-	private void retargetIDReferences(final EObject source,
-			final EObject target, final Iterable<IDReference> references,
-			final PlanProResourceImpl targetResource) {
-		if (source == null || target == null) {
-			return;
-		}
-
-		references.forEach(ref -> {
-			if (ref.target() == source) {
-				targetResource.getInvalidIDReferences()
-						.add(new IDReference(ref.guid(), ref.source(),
-								ref.sourceRef(), target, ref.targetRef()));
-			}
-		});
-
-		// Recurse into contained subobjects
-		source.eClass().getEStructuralFeatures().forEach(feature -> {
-			if (feature instanceof final EReference ref
-					&& ref.isContainment()) {
-				if (ref.isMany()) {
-					final EList<?> sourceChildren = (EList<?>) source.eGet(ref);
-					final EList<?> targetChildren = (EList<?>) target.eGet(ref);
-					sourceChildren.forEach(sc -> {
-						if (sc instanceof final Ur_Objekt sourceChild) {
-							targetChildren.forEach(tc -> {
-								if (tc instanceof final Ur_Objekt targetChild) {
-									if (sourceChild.getIdentitaet().getWert()
-											.equals(targetChild.getIdentitaet()
-													.getWert())) {
-
-										retargetIDReferences(sourceChild,
-												targetChild, references,
-												targetResource);
-									}
-								}
-							});
-						}
-					});
-				} else {
-					final EObject sourceChild = (EObject) source.eGet(ref);
-					final EObject targetChild = (EObject) target.eGet(ref);
-					retargetIDReferences(sourceChild, targetChild, references,
-							targetResource);
-				}
-			}
-		});
-
 	}
 
 	private void resetImportGroup() {

@@ -120,6 +120,13 @@ class PlanProLabelProvider extends AbstractDiffLabelProvider {
 	) {
 		return value.toString
 	}
+	
+	private def dispatch String getAttributeLabelDispatch(
+		Ur_Objekt value,
+		Container_AttributeGroup container
+	) {
+		return value?.identitaet?.wert
+	}
 
 	private def dispatch String getAttributeLabelDispatch(
 		List<?> value,
