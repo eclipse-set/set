@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Integration
 Bundle-SymbolicName: org.eclipse.set.feature.integration;singleton:=true
-Bundle-Version: 1.0.339.qualifier
+Bundle-Version: 1.0.341.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
 Require-Bundle: com.google.guava,

@@ -78,7 +78,7 @@ public class ReportPatternViolationWithPlanProDescriptions
 
 		// we use the first variant if present
 		final NodeList descriptionNodesVariant = root
-				.getElementsByTagName("ppi:Patternbeschreibung_Abweichend"); //$NON-NLS-1$
+				.getElementsByTagName("Patternbeschreibung_Abweichend"); //$NON-NLS-1$
 		if (descriptionNodesVariant.getLength() > 0) {
 			return descriptionNodesVariant.item(0).getTextContent();
 		}
@@ -86,7 +86,7 @@ public class ReportPatternViolationWithPlanProDescriptions
 		// if we have no variant, we use the first pattern description if
 		// present
 		final NodeList descriptionNodes = root
-				.getElementsByTagName("ppi:Patternbeschreibung"); //$NON-NLS-1$
+				.getElementsByTagName("Patternbeschreibung"); //$NON-NLS-1$
 		if (descriptionNodes.getLength() > 0) {
 			return descriptionNodes.item(0).getTextContent();
 		}
