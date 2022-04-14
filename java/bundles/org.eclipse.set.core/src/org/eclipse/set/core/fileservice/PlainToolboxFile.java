@@ -19,6 +19,7 @@ import java.util.Optional;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
@@ -194,8 +195,13 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	private XMLResource createResource() {
 		// IMPROVE Do we need this ?
 		final URI packageUri = sessionService.getPackageUri(format);
+		// Use the file extension as content type
+		// This may not be the same as the extension of path if path is a
+		// temporary file (e.g. for zipped planpro files)
+		final String contentType = PathExtensions.getExtension(getPath());
+		// Load the resource
 		final XMLResource newResource = (XMLResource) editingDomain
-				.getResourceSet().createResource(packageUri);
+				.getResourceSet().createResource(packageUri, contentType);
 		newResource.setEncoding(StandardCharsets.UTF_8.name());
 		return newResource;
 	}

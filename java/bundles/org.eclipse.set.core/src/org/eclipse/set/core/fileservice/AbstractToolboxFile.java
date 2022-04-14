@@ -103,9 +103,14 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	protected void setResourcePath(final Path path) {
 		if (!resource.getURI().isFile()) {
+			// Use the file extension as content type
+			// This may not be the same as the extension of path if path is a
+			// temporary file (e.g. for zipped planpro files)
+			final String contentType = PathExtensions.getExtension(getPath());
+
 			final XMLResource newResource = (XMLResource) getEditingDomain()
-					.getResourceSet()
-					.createResource(URI.createFileURI(path.toString()));
+					.getResourceSet().createResource(
+							URI.createFileURI(path.toString()), contentType);
 			newResource.setEncoding(ENCODING);
 			if (!resource.getContents().isEmpty()) {
 				newResource.getContents().addAll(resource.getContents());

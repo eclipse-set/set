@@ -47,12 +47,13 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final String MODEL_FILE = "content.xml"; //$NON-NLS-1$
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
+	private static final String INTERNAL_FORMAT = "planpro"; //$NON-NLS-1$
 
-	private static XMLResource createResource(
-			final EditingDomain editingDomain) {
+	private XMLResource createResource() {
+		// Load the resource
 		final XMLResource newResource = (XMLResource) editingDomain
-				.getResourceSet()
-				.createResource(URI.createURI(PlanProPackage.eNS_URI));
+				.getResourceSet().createResource(
+						URI.createURI(PlanProPackage.eNS_URI), INTERNAL_FORMAT);
 		newResource.setEncoding(ENCODING);
 		return newResource;
 	}
@@ -97,7 +98,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.loadable = false;
 		this.temporaryDirectory = null;
 		this.role = role;
-		setResource(createResource(editingDomain));
+		setResource(createResource());
 	}
 
 	ZippedPlanProToolboxFile(final Path path, final Format format,
@@ -109,7 +110,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.loadable = loadable;
 		this.temporaryDirectory = null;
 		this.role = role;
-		setResource(createResource(editingDomain));
+		setResource(createResource());
 	}
 
 	ZippedPlanProToolboxFile(final ZippedPlanProToolboxFile toolboxFile) {
