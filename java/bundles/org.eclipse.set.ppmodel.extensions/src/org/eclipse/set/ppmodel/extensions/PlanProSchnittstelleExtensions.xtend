@@ -108,7 +108,7 @@ class PlanProSchnittstelleExtensions {
 			requiresDefaults = !unfilledValues.filter [ unfilled |
 				resource.invalidIDReferences.findFirst [
 					it.target == unfilled.value && it.targetRef == unfilled.key
-				] !== null
+				] === null
 			].empty
 
 		}

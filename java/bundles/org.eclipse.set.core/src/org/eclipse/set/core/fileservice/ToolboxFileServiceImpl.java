@@ -15,6 +15,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.SetFormat;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
@@ -72,12 +74,16 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 				.copy(oldschnittstelle);
 
 		ToolboxFile newToolboxFile = toolboxFile;
+		Path newPath = toolboxFile.getPath();
 		if (format.isZippedPlanPro()) {
 			newToolboxFile = convertToZipped(newschnittstelle, role, tempDir);
-
+			newPath = PathExtensions.replaceExtension(newPath,
+					ToolboxConstants.EXTENSION_PLANPRO);
 		} else if (format.isPlain()) {
 			newToolboxFile = convertToPlain(toolboxFile, newschnittstelle,
 					role);
+			newPath = PathExtensions.replaceExtension(newPath,
+					ToolboxConstants.EXTENSION_PPXML);
 		}
 
 		final DocumentRoot documentRoot = PlanProFactory.eINSTANCE
@@ -85,7 +91,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 		DocumentRootExtensions.fix(documentRoot);
 		documentRoot.setPlanProSchnittstelle(newschnittstelle);
 		newToolboxFile.getResource().getContents().add(documentRoot);
-		newToolboxFile.setPath(toolboxFile.getPath());
+		newToolboxFile.setPath(newPath);
 		IDReferenceUtils.retargetIDReferences(oldschnittstelle,
 				newschnittstelle,
 				((PlanProResourceImpl) toolboxFile.getResource())
