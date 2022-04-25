@@ -137,13 +137,8 @@ class PlanProSchnittstelleExtensions {
 			].empty
 		}
 		else if (resource instanceof TemporaryintegrationResourceImpl) {
-			return !unfilledValues.filter [ unfilled |
-				(resource.primaryInvalidIDReferences + 
-				resource.secondaryInvalidIDReferences + 
-				resource.compositeInvalidIDReferences).findFirst [
-					it.target == unfilled.value && it.targetRef == unfilled.key
-				] === null
-			].empty
+			// Do not fill for integrations
+			return false
 		}
 		return !unfilledValues.empty
 	}

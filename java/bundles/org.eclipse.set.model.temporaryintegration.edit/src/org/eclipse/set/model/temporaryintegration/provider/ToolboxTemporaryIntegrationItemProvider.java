@@ -73,8 +73,11 @@ public class ToolboxTemporaryIntegrationItemProvider
 
 			addPrimaryPlanningFilenamePropertyDescriptor(object);
 			addPrimaryPlanningWasValidPropertyDescriptor(object);
+			addPrimaryPlanningIDReferencesPropertyDescriptor(object);
 			addSecondaryPlanningFilenamePropertyDescriptor(object);
 			addSecondaryPlanningWasValidPropertyDescriptor(object);
+			addSecondaryPlanningIDReferencesPropertyDescriptor(object);
+			addCompositePlanningIDReferencesPropertyDescriptor(object);
 			addIntegrationDirectoryPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -125,6 +128,28 @@ public class ToolboxTemporaryIntegrationItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Primary Planning ID References feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPrimaryPlanningIDReferencesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ToolboxTemporaryIntegration_primaryPlanningIDReferences_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_primaryPlanningIDReferences_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Secondary Planning Filename feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -164,6 +189,50 @@ public class ToolboxTemporaryIntegrationItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Secondary Planning ID References feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSecondaryPlanningIDReferencesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ToolboxTemporaryIntegration_secondaryPlanningIDReferences_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_secondaryPlanningIDReferences_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Composite Planning ID References feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCompositePlanningIDReferencesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ToolboxTemporaryIntegration_compositePlanningIDReferences_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ToolboxTemporaryIntegration_compositePlanningIDReferences_feature", "_UI_ToolboxTemporaryIntegration_type"),
+				 TemporaryintegrationPackage.Literals.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -264,8 +333,11 @@ public class ToolboxTemporaryIntegrationItemProvider
 		switch (notification.getFeatureID(ToolboxTemporaryIntegration.class)) {
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_FILENAME:
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES:
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES:
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

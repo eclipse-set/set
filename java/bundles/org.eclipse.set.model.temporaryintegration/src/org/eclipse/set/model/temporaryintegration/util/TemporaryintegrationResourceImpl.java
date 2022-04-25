@@ -88,6 +88,17 @@ public class TemporaryintegrationResourceImpl extends XMLResourceImpl {
 					toolboxInt.setCompositePlanning(compositeToolboxModelService
 							.loadPlanProModel(tmpInt.getCompositePlanning()));
 
+					// Add ID references to model
+					toolboxInt.getPrimaryPlanningIDReferences()
+							.addAll(primaryToolboxModelService
+									.getInvalidIDReferences());
+					toolboxInt.getSecondaryPlanningIDReferences()
+							.addAll(secondaryToolboxModelService
+									.getInvalidIDReferences());
+					toolboxInt.getCompositePlanningIDReferences()
+							.addAll(compositeToolboxModelService
+									.getInvalidIDReferences());
+
 					// Copy other attributes
 					toolboxInt.setPrimaryPlanningFilename(
 							tmpInt.getPrimaryPlanningFilename());
@@ -155,14 +166,38 @@ public class TemporaryintegrationResourceImpl extends XMLResourceImpl {
 	}
 
 	public List<IDReference> getCompositeInvalidIDReferences() {
-		return compositeToolboxModelService.getInvalidIDReferences();
+		final EObject content = getContents().get(0);
+		if (content instanceof final ToolboxTemporaryIntegration tmpInt) {
+			return tmpInt.getCompositePlanningIDReferences();
+		}
+		return List.of();
 	}
 
 	public List<IDReference> getPrimaryInvalidIDReferences() {
-		return primaryToolboxModelService.getInvalidIDReferences();
+		final EObject content = getContents().get(0);
+		if (content instanceof final ToolboxTemporaryIntegration tmpInt) {
+			return tmpInt.getPrimaryPlanningIDReferences();
+		}
+		return List.of();
 	}
 
 	public List<IDReference> getSecondaryInvalidIDReferences() {
+		final EObject content = getContents().get(0);
+		if (content instanceof final ToolboxTemporaryIntegration tmpInt) {
+			return tmpInt.getSecondaryPlanningIDReferences();
+		}
+		return List.of();
+	}
+
+	public List<IDReference> getTransformCompositeInvalidIDReferences() {
+		return compositeToolboxModelService.getInvalidIDReferences();
+	}
+
+	public List<IDReference> getTransformPrimaryInvalidIDReferences() {
+		return primaryToolboxModelService.getInvalidIDReferences();
+	}
+
+	public List<IDReference> getTransformSecondaryInvalidIDReferences() {
 		return secondaryToolboxModelService.getInvalidIDReferences();
 	}
 } // TemporaryintegrationResourceImpl

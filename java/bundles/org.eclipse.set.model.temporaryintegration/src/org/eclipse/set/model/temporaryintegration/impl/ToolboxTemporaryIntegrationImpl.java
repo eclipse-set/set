@@ -8,21 +8,25 @@
  */
 package org.eclipse.set.model.temporaryintegration.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.set.model.simplemerge.SComparison;
 
 import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
 import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.util.IDReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,10 +39,13 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getPrimaryPlanning <em>Primary Planning</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getPrimaryPlanningFilename <em>Primary Planning Filename</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#isPrimaryPlanningWasValid <em>Primary Planning Was Valid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getPrimaryPlanningIDReferences <em>Primary Planning ID References</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getSecondaryPlanning <em>Secondary Planning</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getSecondaryPlanningFilename <em>Secondary Planning Filename</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#isSecondaryPlanningWasValid <em>Secondary Planning Was Valid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getSecondaryPlanningIDReferences <em>Secondary Planning ID References</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getCompositePlanning <em>Composite Planning</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getCompositePlanningIDReferences <em>Composite Planning ID References</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getIntegrationDirectory <em>Integration Directory</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getComparisonInitialState <em>Comparison Initial State</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.impl.ToolboxTemporaryIntegrationImpl#getComparisonFinalState <em>Comparison Final State</em>}</li>
@@ -98,6 +105,16 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 	protected boolean primaryPlanningWasValid = PRIMARY_PLANNING_WAS_VALID_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getPrimaryPlanningIDReferences() <em>Primary Planning ID References</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrimaryPlanningIDReferences()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<IDReference> primaryPlanningIDReferences;
+
+	/**
 	 * The cached value of the '{@link #getSecondaryPlanning() <em>Secondary Planning</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -148,6 +165,16 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 	protected boolean secondaryPlanningWasValid = SECONDARY_PLANNING_WAS_VALID_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getSecondaryPlanningIDReferences() <em>Secondary Planning ID References</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSecondaryPlanningIDReferences()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<IDReference> secondaryPlanningIDReferences;
+
+	/**
 	 * The cached value of the '{@link #getCompositePlanning() <em>Composite Planning</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -156,6 +183,16 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 	 * @ordered
 	 */
 	protected PlanPro_Schnittstelle compositePlanning;
+
+	/**
+	 * The cached value of the '{@link #getCompositePlanningIDReferences() <em>Composite Planning ID References</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCompositePlanningIDReferences()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<IDReference> compositePlanningIDReferences;
 
 	/**
 	 * The default value of the '{@link #getIntegrationDirectory() <em>Integration Directory</em>}' attribute.
@@ -313,6 +350,19 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 	 * @generated
 	 */
 	@Override
+	public EList<IDReference> getPrimaryPlanningIDReferences() {
+		if (primaryPlanningIDReferences == null) {
+			primaryPlanningIDReferences = new EDataTypeUniqueEList<IDReference>(IDReference.class, this, TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES);
+		}
+		return primaryPlanningIDReferences;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public PlanPro_Schnittstelle getSecondaryPlanning() {
 		return secondaryPlanning;
 	}
@@ -404,6 +454,19 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 	 * @generated
 	 */
 	@Override
+	public EList<IDReference> getSecondaryPlanningIDReferences() {
+		if (secondaryPlanningIDReferences == null) {
+			secondaryPlanningIDReferences = new EDataTypeUniqueEList<IDReference>(IDReference.class, this, TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES);
+		}
+		return secondaryPlanningIDReferences;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public PlanPro_Schnittstelle getCompositePlanning() {
 		return compositePlanning;
 	}
@@ -441,6 +504,19 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING, newCompositePlanning, newCompositePlanning));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<IDReference> getCompositePlanningIDReferences() {
+		if (compositePlanningIDReferences == null) {
+			compositePlanningIDReferences = new EDataTypeUniqueEList<IDReference>(IDReference.class, this, TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES);
+		}
+		return compositePlanningIDReferences;
 	}
 
 	/**
@@ -592,14 +668,20 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 				return getPrimaryPlanningFilename();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				return isPrimaryPlanningWasValid();
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
+				return getPrimaryPlanningIDReferences();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				return getSecondaryPlanning();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				return getSecondaryPlanningFilename();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
 				return isSecondaryPlanningWasValid();
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES:
+				return getSecondaryPlanningIDReferences();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				return getCompositePlanning();
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES:
+				return getCompositePlanningIDReferences();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				return getIntegrationDirectory();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
@@ -615,6 +697,7 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -627,6 +710,10 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				setPrimaryPlanningWasValid((Boolean)newValue);
 				return;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
+				getPrimaryPlanningIDReferences().clear();
+				getPrimaryPlanningIDReferences().addAll((Collection<? extends IDReference>)newValue);
+				return;
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				setSecondaryPlanning((PlanPro_Schnittstelle)newValue);
 				return;
@@ -636,8 +723,16 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
 				setSecondaryPlanningWasValid((Boolean)newValue);
 				return;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES:
+				getSecondaryPlanningIDReferences().clear();
+				getSecondaryPlanningIDReferences().addAll((Collection<? extends IDReference>)newValue);
+				return;
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				setCompositePlanning((PlanPro_Schnittstelle)newValue);
+				return;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES:
+				getCompositePlanningIDReferences().clear();
+				getCompositePlanningIDReferences().addAll((Collection<? extends IDReference>)newValue);
 				return;
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				setIntegrationDirectory((String)newValue);
@@ -669,6 +764,9 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				setPrimaryPlanningWasValid(PRIMARY_PLANNING_WAS_VALID_EDEFAULT);
 				return;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
+				getPrimaryPlanningIDReferences().clear();
+				return;
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				setSecondaryPlanning((PlanPro_Schnittstelle)null);
 				return;
@@ -678,8 +776,14 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
 				setSecondaryPlanningWasValid(SECONDARY_PLANNING_WAS_VALID_EDEFAULT);
 				return;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES:
+				getSecondaryPlanningIDReferences().clear();
+				return;
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				setCompositePlanning((PlanPro_Schnittstelle)null);
+				return;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES:
+				getCompositePlanningIDReferences().clear();
 				return;
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				setIntegrationDirectory(INTEGRATION_DIRECTORY_EDEFAULT);
@@ -708,14 +812,20 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 				return PRIMARY_PLANNING_FILENAME_EDEFAULT == null ? primaryPlanningFilename != null : !PRIMARY_PLANNING_FILENAME_EDEFAULT.equals(primaryPlanningFilename);
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID:
 				return primaryPlanningWasValid != PRIMARY_PLANNING_WAS_VALID_EDEFAULT;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES:
+				return primaryPlanningIDReferences != null && !primaryPlanningIDReferences.isEmpty();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING:
 				return secondaryPlanning != null;
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME:
 				return SECONDARY_PLANNING_FILENAME_EDEFAULT == null ? secondaryPlanningFilename != null : !SECONDARY_PLANNING_FILENAME_EDEFAULT.equals(secondaryPlanningFilename);
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID:
 				return secondaryPlanningWasValid != SECONDARY_PLANNING_WAS_VALID_EDEFAULT;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES:
+				return secondaryPlanningIDReferences != null && !secondaryPlanningIDReferences.isEmpty();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING:
 				return compositePlanning != null;
+			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES:
+				return compositePlanningIDReferences != null && !compositePlanningIDReferences.isEmpty();
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY:
 				return INTEGRATION_DIRECTORY_EDEFAULT == null ? integrationDirectory != null : !INTEGRATION_DIRECTORY_EDEFAULT.equals(integrationDirectory);
 			case TemporaryintegrationPackage.TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE:
@@ -740,10 +850,16 @@ public class ToolboxTemporaryIntegrationImpl extends MinimalEObjectImpl.Containe
 		result.append(primaryPlanningFilename);
 		result.append(", primaryPlanningWasValid: ");
 		result.append(primaryPlanningWasValid);
+		result.append(", primaryPlanningIDReferences: ");
+		result.append(primaryPlanningIDReferences);
 		result.append(", secondaryPlanningFilename: ");
 		result.append(secondaryPlanningFilename);
 		result.append(", secondaryPlanningWasValid: ");
 		result.append(secondaryPlanningWasValid);
+		result.append(", secondaryPlanningIDReferences: ");
+		result.append(secondaryPlanningIDReferences);
+		result.append(", compositePlanningIDReferences: ");
+		result.append(compositePlanningIDReferences);
 		result.append(", integrationDirectory: ");
 		result.append(integrationDirectory);
 		result.append(')');

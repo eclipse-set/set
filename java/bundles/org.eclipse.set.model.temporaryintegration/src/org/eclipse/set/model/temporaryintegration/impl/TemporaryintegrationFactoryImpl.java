@@ -9,6 +9,7 @@
 package org.eclipse.set.model.temporaryintegration.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.set.model.temporaryintegration.*;
+import org.eclipse.set.toolboxmodel.PlanPro.util.IDReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -75,6 +77,36 @@ public class TemporaryintegrationFactoryImpl extends EFactoryImpl implements Tem
 	 * @generated
 	 */
 	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case TemporaryintegrationPackage.ID_REFERENCE:
+				return createIDReferenceFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case TemporaryintegrationPackage.ID_REFERENCE:
+				return convertIDReferenceToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public TemporaryIntegration createTemporaryIntegration() {
 		TemporaryIntegrationImpl temporaryIntegration = new TemporaryIntegrationImpl();
 		return temporaryIntegration;
@@ -89,6 +121,24 @@ public class TemporaryintegrationFactoryImpl extends EFactoryImpl implements Tem
 	public ToolboxTemporaryIntegration createToolboxTemporaryIntegration() {
 		ToolboxTemporaryIntegrationImpl toolboxTemporaryIntegration = new ToolboxTemporaryIntegrationImpl();
 		return toolboxTemporaryIntegration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IDReference createIDReferenceFromString(EDataType eDataType, String initialValue) {
+		return (IDReference)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertIDReferenceToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
 	}
 
 	/**

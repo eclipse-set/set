@@ -35,6 +35,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryPlanningWasValid"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryPlanningIDReferences"
+        upperBound="-1" eType="#//IDReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryPlanning" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.set.toolboxmodel/model/PlanPro.ecore#//PlanPro_Schnittstelle"
         containment="true"/>
@@ -42,9 +44,13 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="secondaryPlanningWasValid"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="secondaryPlanningIDReferences"
+        upperBound="-1" eType="#//IDReference"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="compositePlanning" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.set.toolboxmodel/model/PlanPro.ecore#//PlanPro_Schnittstelle"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compositePlanningIDReferences"
+        upperBound="-1" eType="#//IDReference"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="integrationDirectory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="comparisonInitialState"
         eType="ecore:EClass ../../org.eclipse.set.model.simplemerge/model/simplemerge.ecore#//SComparison"
@@ -52,4 +58,5 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="comparisonFinalState" eType="ecore:EClass ../../org.eclipse.set.model.simplemerge/model/simplemerge.ecore#//SComparison"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="IDReference" instanceClassName="org.eclipse.set.toolboxmodel.PlanPro.util.IDReference"/>
 </ecore:EPackage>

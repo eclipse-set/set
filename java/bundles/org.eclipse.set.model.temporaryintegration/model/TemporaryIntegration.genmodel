@@ -10,6 +10,7 @@
   <foreignModel>TemporaryIntegration.ecore</foreignModel>
   <genPackages prefix="Temporaryintegration" basePackage="org.eclipse.set.model" resource="XML"
       disposableProviderFactory="true" ecorePackage="TemporaryIntegration.ecore#/">
+    <genDataTypes ecoreDataType="TemporaryIntegration.ecore#//IDReference"/>
     <genClasses ecoreClass="TemporaryIntegration.ecore#//TemporaryIntegration">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TemporaryIntegration.ecore#//TemporaryIntegration/primaryPlanning"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//TemporaryIntegration/primaryPlanningFilename"/>
@@ -26,10 +27,13 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/primaryPlanning"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/primaryPlanningFilename"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/primaryPlanningWasValid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/primaryPlanningIDReferences"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/secondaryPlanning"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/secondaryPlanningFilename"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/secondaryPlanningWasValid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/secondaryPlanningIDReferences"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/compositePlanning"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/compositePlanningIDReferences"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/integrationDirectory"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/comparisonInitialState"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference TemporaryIntegration.ecore#//ToolboxTemporaryIntegration/comparisonFinalState"/>

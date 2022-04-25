@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.i18n.validationreport.nl_de</artifactId>
-	<version>1.0.344-SNAPSHOT</version>
+	<version>1.0.345-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

@@ -59,8 +59,6 @@ import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResou
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl;
-import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.StatefulButtonAction;
@@ -192,6 +190,15 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 				ToolboxFileRole.TEMPORARY_INTEGRATION);
 		temporaryFile.setTemporaryDirectory(session.getTempDir());
 		temporaryFile.getResource().getContents().add(newTemporaryIntegration);
+		if (temporaryFile
+				.getResource() instanceof final TemporaryintegrationResourceImpl resource) {
+			resource.getTransformPrimaryInvalidIDReferences().addAll(
+					newTemporaryIntegration.getPrimaryPlanningIDReferences());
+			resource.getTransformSecondaryInvalidIDReferences().addAll(
+					newTemporaryIntegration.getSecondaryPlanningIDReferences());
+			resource.getTransformCompositeInvalidIDReferences().addAll(
+					newTemporaryIntegration.getCompositePlanningIDReferences());
+		}
 
 		try {
 			temporaryFile.copyAllMedia(getConvertedPrimaryPlanning());
@@ -234,8 +241,6 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 			// or Extension
 			final ToolboxFile toolboxFile = createTemporaryToolboxFile(mergeDir,
 					temporaryIntegration);
-			updateIDReferences(toolboxFile, primaryPlanningToolboxFile,
-					secondaryPlanningToolboxfile);
 			session.switchToMergeMode(temporaryIntegration, mergeDir, shell,
 					toolboxFile);
 			secondaryPlanningToolboxfile.close();
@@ -244,46 +249,6 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 		}
 
 		monitor.done();
-	}
-
-	private static void updateIDReferences(final ToolboxFile toolboxFile,
-			final ToolboxFile primaryPlanningToolboxFile,
-			final ToolboxFile secondaryPlanningToolboxfile) {
-		final PlanProResourceImpl primaryResource = (PlanProResourceImpl) primaryPlanningToolboxFile
-				.getResource();
-		final PlanProResourceImpl secondaryResource = (PlanProResourceImpl) secondaryPlanningToolboxfile
-				.getResource();
-		final TemporaryintegrationResourceImpl integrationResource = (TemporaryintegrationResourceImpl) toolboxFile
-				.getResource();
-
-		final PlanPro_Schnittstelle primaryPlanPro = PlanProSchnittstelleExtensions
-				.readFrom(primaryResource);
-		final PlanPro_Schnittstelle secondaryPlanPro = PlanProSchnittstelleExtensions
-				.readFrom(secondaryResource);
-		final ToolboxTemporaryIntegration ti = (ToolboxTemporaryIntegration) integrationResource
-				.getContents().get(0);
-
-		// TI.primaryPlanning -> Primary Resource
-		IDReferenceUtils.retargetIDReferences(primaryPlanPro,
-				ti.getPrimaryPlanning(),
-				primaryResource.getInvalidIDReferences(),
-				integrationResource.getPrimaryInvalidIDReferences());
-
-		// TI.secondaryPlanning -> Secondary Resource
-		IDReferenceUtils.retargetIDReferences(secondaryPlanPro,
-				ti.getSecondaryPlanning(),
-				secondaryResource.getInvalidIDReferences(),
-				integrationResource.getSecondaryInvalidIDReferences());
-
-		// TI.compositePlanning -> Both Resources
-		IDReferenceUtils.retargetIDReferences(primaryPlanPro,
-				ti.getCompositePlanning(),
-				primaryResource.getInvalidIDReferences(),
-				integrationResource.getCompositeInvalidIDReferences());
-		IDReferenceUtils.retargetIDReferences(secondaryPlanPro,
-				ti.getCompositePlanning(),
-				secondaryResource.getInvalidIDReferences(),
-				integrationResource.getCompositeInvalidIDReferences());
 	}
 
 	private void update() {

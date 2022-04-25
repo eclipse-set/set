@@ -8,11 +8,13 @@
  */
 package org.eclipse.set.model.temporaryintegration;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.set.model.simplemerge.SComparison;
 
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.toolboxmodel.PlanPro.util.IDReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,10 +28,13 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanning <em>Primary Planning</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanningFilename <em>Primary Planning Filename</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#isPrimaryPlanningWasValid <em>Primary Planning Was Valid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanningIDReferences <em>Primary Planning ID References</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanning <em>Secondary Planning</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningFilename <em>Secondary Planning Filename</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#isSecondaryPlanningWasValid <em>Secondary Planning Was Valid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningIDReferences <em>Secondary Planning ID References</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanning <em>Composite Planning</em>}</li>
+ *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanningIDReferences <em>Composite Planning ID References</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getIntegrationDirectory <em>Integration Directory</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getComparisonInitialState <em>Comparison Initial State</em>}</li>
  *   <li>{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getComparisonFinalState <em>Comparison Final State</em>}</li>
@@ -107,6 +112,18 @@ public interface ToolboxTemporaryIntegration extends EObject {
 	void setPrimaryPlanningWasValid(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Primary Planning ID References</b></em>' attribute list.
+	 * The list contents are of type {@link org.eclipse.set.toolboxmodel.PlanPro.util.IDReference}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Primary Planning ID References</em>' attribute list.
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getToolboxTemporaryIntegration_PrimaryPlanningIDReferences()
+	 * @model dataType="org.eclipse.set.model.temporaryintegration.IDReference"
+	 * @generated
+	 */
+	EList<IDReference> getPrimaryPlanningIDReferences();
+
+	/**
 	 * Returns the value of the '<em><b>Secondary Planning</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -173,6 +190,18 @@ public interface ToolboxTemporaryIntegration extends EObject {
 	void setSecondaryPlanningWasValid(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Secondary Planning ID References</b></em>' attribute list.
+	 * The list contents are of type {@link org.eclipse.set.toolboxmodel.PlanPro.util.IDReference}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Secondary Planning ID References</em>' attribute list.
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getToolboxTemporaryIntegration_SecondaryPlanningIDReferences()
+	 * @model dataType="org.eclipse.set.model.temporaryintegration.IDReference"
+	 * @generated
+	 */
+	EList<IDReference> getSecondaryPlanningIDReferences();
+
+	/**
 	 * Returns the value of the '<em><b>Composite Planning</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -193,6 +222,18 @@ public interface ToolboxTemporaryIntegration extends EObject {
 	 * @generated
 	 */
 	void setCompositePlanning(PlanPro_Schnittstelle value);
+
+	/**
+	 * Returns the value of the '<em><b>Composite Planning ID References</b></em>' attribute list.
+	 * The list contents are of type {@link org.eclipse.set.toolboxmodel.PlanPro.util.IDReference}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Composite Planning ID References</em>' attribute list.
+	 * @see org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage#getToolboxTemporaryIntegration_CompositePlanningIDReferences()
+	 * @model dataType="org.eclipse.set.model.temporaryintegration.IDReference"
+	 * @generated
+	 */
+	EList<IDReference> getCompositePlanningIDReferences();
 
 	/**
 	 * Returns the value of the '<em><b>Integration Directory</b></em>' attribute.

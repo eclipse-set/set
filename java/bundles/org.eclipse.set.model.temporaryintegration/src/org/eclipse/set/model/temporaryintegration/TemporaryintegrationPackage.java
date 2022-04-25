@@ -10,6 +10,7 @@ package org.eclipse.set.model.temporaryintegration;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -218,13 +219,22 @@ public interface TemporaryintegrationPackage extends EPackage {
 	int TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID = 2;
 
 	/**
+	 * The feature id for the '<em><b>Primary Planning ID References</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES = 3;
+
+	/**
 	 * The feature id for the '<em><b>Secondary Planning</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING = 3;
+	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING = 4;
 
 	/**
 	 * The feature id for the '<em><b>Secondary Planning Filename</b></em>' attribute.
@@ -233,7 +243,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME = 4;
+	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_FILENAME = 5;
 
 	/**
 	 * The feature id for the '<em><b>Secondary Planning Was Valid</b></em>' attribute.
@@ -242,7 +252,16 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID = 5;
+	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID = 6;
+
+	/**
+	 * The feature id for the '<em><b>Secondary Planning ID References</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES = 7;
 
 	/**
 	 * The feature id for the '<em><b>Composite Planning</b></em>' containment reference.
@@ -251,7 +270,16 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = 6;
+	int TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = 8;
+
+	/**
+	 * The feature id for the '<em><b>Composite Planning ID References</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES = 9;
 
 	/**
 	 * The feature id for the '<em><b>Integration Directory</b></em>' attribute.
@@ -260,7 +288,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY = 7;
+	int TOOLBOX_TEMPORARY_INTEGRATION__INTEGRATION_DIRECTORY = 10;
 
 	/**
 	 * The feature id for the '<em><b>Comparison Initial State</b></em>' containment reference.
@@ -269,7 +297,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE = 8;
+	int TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_INITIAL_STATE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Comparison Final State</b></em>' containment reference.
@@ -278,7 +306,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = 9;
+	int TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = 12;
 
 	/**
 	 * The number of structural features of the '<em>Toolbox Temporary Integration</em>' class.
@@ -287,7 +315,7 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOOLBOX_TEMPORARY_INTEGRATION_FEATURE_COUNT = 10;
+	int TOOLBOX_TEMPORARY_INTEGRATION_FEATURE_COUNT = 13;
 
 	/**
 	 * The number of operations of the '<em>Toolbox Temporary Integration</em>' class.
@@ -297,6 +325,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @ordered
 	 */
 	int TOOLBOX_TEMPORARY_INTEGRATION_OPERATION_COUNT = 0;
+
+
+	/**
+	 * The meta object id for the '<em>ID Reference</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.toolboxmodel.PlanPro.util.IDReference
+	 * @see org.eclipse.set.model.temporaryintegration.impl.TemporaryintegrationPackageImpl#getIDReference()
+	 * @generated
+	 */
+	int ID_REFERENCE = 2;
 
 
 	/**
@@ -463,6 +502,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	EAttribute getToolboxTemporaryIntegration_PrimaryPlanningWasValid();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanningIDReferences <em>Primary Planning ID References</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Primary Planning ID References</em>'.
+	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getPrimaryPlanningIDReferences()
+	 * @see #getToolboxTemporaryIntegration()
+	 * @generated
+	 */
+	EAttribute getToolboxTemporaryIntegration_PrimaryPlanningIDReferences();
+
+	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanning <em>Secondary Planning</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -496,6 +546,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	EAttribute getToolboxTemporaryIntegration_SecondaryPlanningWasValid();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningIDReferences <em>Secondary Planning ID References</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Secondary Planning ID References</em>'.
+	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getSecondaryPlanningIDReferences()
+	 * @see #getToolboxTemporaryIntegration()
+	 * @generated
+	 */
+	EAttribute getToolboxTemporaryIntegration_SecondaryPlanningIDReferences();
+
+	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanning <em>Composite Planning</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -505,6 +566,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getToolboxTemporaryIntegration_CompositePlanning();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanningIDReferences <em>Composite Planning ID References</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Composite Planning ID References</em>'.
+	 * @see org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getCompositePlanningIDReferences()
+	 * @see #getToolboxTemporaryIntegration()
+	 * @generated
+	 */
+	EAttribute getToolboxTemporaryIntegration_CompositePlanningIDReferences();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration#getIntegrationDirectory <em>Integration Directory</em>}'.
@@ -538,6 +610,17 @@ public interface TemporaryintegrationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getToolboxTemporaryIntegration_ComparisonFinalState();
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.set.toolboxmodel.PlanPro.util.IDReference <em>ID Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>ID Reference</em>'.
+	 * @see org.eclipse.set.toolboxmodel.PlanPro.util.IDReference
+	 * @model instanceClass="org.eclipse.set.toolboxmodel.PlanPro.util.IDReference"
+	 * @generated
+	 */
+	EDataType getIDReference();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -687,6 +770,14 @@ public interface TemporaryintegrationPackage extends EPackage {
 		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_WAS_VALID = eINSTANCE.getToolboxTemporaryIntegration_PrimaryPlanningWasValid();
 
 		/**
+		 * The meta object literal for the '<em><b>Primary Planning ID References</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__PRIMARY_PLANNING_ID_REFERENCES = eINSTANCE.getToolboxTemporaryIntegration_PrimaryPlanningIDReferences();
+
+		/**
 		 * The meta object literal for the '<em><b>Secondary Planning</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -711,12 +802,28 @@ public interface TemporaryintegrationPackage extends EPackage {
 		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_WAS_VALID = eINSTANCE.getToolboxTemporaryIntegration_SecondaryPlanningWasValid();
 
 		/**
+		 * The meta object literal for the '<em><b>Secondary Planning ID References</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__SECONDARY_PLANNING_ID_REFERENCES = eINSTANCE.getToolboxTemporaryIntegration_SecondaryPlanningIDReferences();
+
+		/**
 		 * The meta object literal for the '<em><b>Composite Planning</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING = eINSTANCE.getToolboxTemporaryIntegration_CompositePlanning();
+
+		/**
+		 * The meta object literal for the '<em><b>Composite Planning ID References</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TOOLBOX_TEMPORARY_INTEGRATION__COMPOSITE_PLANNING_ID_REFERENCES = eINSTANCE.getToolboxTemporaryIntegration_CompositePlanningIDReferences();
 
 		/**
 		 * The meta object literal for the '<em><b>Integration Directory</b></em>' attribute feature.
@@ -741,6 +848,16 @@ public interface TemporaryintegrationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TOOLBOX_TEMPORARY_INTEGRATION__COMPARISON_FINAL_STATE = eINSTANCE.getToolboxTemporaryIntegration_ComparisonFinalState();
+
+		/**
+		 * The meta object literal for the '<em>ID Reference</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.toolboxmodel.PlanPro.util.IDReference
+		 * @see org.eclipse.set.model.temporaryintegration.impl.TemporaryintegrationPackageImpl#getIDReference()
+		 * @generated
+		 */
+		EDataType ID_REFERENCE = eINSTANCE.getIDReference();
 
 	}
 
