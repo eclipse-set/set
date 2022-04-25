@@ -17,15 +17,14 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.set.basis.integration.DiffLabelProvider
 import org.eclipse.set.basis.integration.Matcher
+import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 
 import static com.google.common.base.Strings.*
 
 import static extension org.eclipse.set.utils.EClassExtensions.*
 import static extension org.eclipse.set.utils.EObjectExtensions.*
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 
 /**
  * Abstract implementation for {@link Matcher}.
