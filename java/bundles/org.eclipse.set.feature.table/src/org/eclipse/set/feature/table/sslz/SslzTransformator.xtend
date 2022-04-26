@@ -126,30 +126,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					columns.grundsatzangaben_bezeichnung,
 					fstrZugRangier,
 					new Case<Fstr_Zug_Rangier>([
-						fstrZugRangier?.fstrZug?.fstrZugDWeg !== null &&
-							fstrZugRangier?.fstrZugRangierAllg?.
-								fstrReihenfolge?.wert == BigInteger.ZERO
-					], [
-						'''
-						«fstrZugRangier?.fstrFahrweg?.start?.bezeichnung?.
-							bezeichnungTabelle?.wert»/«fstrZugRangier?.fstrFahrweg?.zielSignal?.bezeichnung?.
-								bezeichnungTabelle?.wert» («fstrZugRangier?.fstrDWeg?.bezeichnung?.
-								bezeichnungFstrDWeg?.wert»)'''
-					]),
-					new Case<Fstr_Zug_Rangier>([
-						fstrZugRangier?.fstrZug?.fstrZugDWeg !== null &&
-							fstrZugRangier?.fstrZugRangierAllg?.
-								fstrReihenfolge?.wert.
-								isNotNullAndGreater(BigInteger.ZERO)
-					], [
-						'''
-						«fstrZugRangier?.fstrFahrweg?.start?.bezeichnung?.
-							bezeichnungTabelle?.wert»/«fstrZugRangier?.fstrFahrweg?.zielSignal?.bezeichnung?.
-								bezeichnungTabelle?.wert» [U«fstrZugRangier?.fstrZugRangierAllg?.
-								fstrReihenfolge?.wert»] («fstrZugRangier?.fstrDWeg?.bezeichnung?.
-								bezeichnungFstrDWeg?.wert»)'''
-					]),
-					new Case<Fstr_Zug_Rangier>([
 						(fstrZugRangier?.fstrZug?.fstrZugDWeg === null ||
 							fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch ===
 								null) &&
@@ -173,6 +149,30 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							bezeichnungTabelle?.wert»/«fstrZugRangier?.fstrFahrweg?.zielSignal?.bezeichnung?.
 								bezeichnungTabelle?.wert» [U«fstrZugRangier?.fstrZugRangierAllg?.
 								fstrReihenfolge?.wert»]'''
+					]),
+					new Case<Fstr_Zug_Rangier>([
+						fstrZugRangier?.fstrZug?.fstrZugDWeg !== null &&
+							fstrZugRangier?.fstrZugRangierAllg?.
+								fstrReihenfolge?.wert == BigInteger.ZERO
+					], [
+						'''
+						«fstrZugRangier?.fstrFahrweg?.start?.bezeichnung?.
+							bezeichnungTabelle?.wert»/«fstrZugRangier?.fstrFahrweg?.zielSignal?.bezeichnung?.
+								bezeichnungTabelle?.wert» («fstrZugRangier?.fstrDWeg?.bezeichnung?.
+								bezeichnungFstrDWeg?.wert»)'''
+					]),
+					new Case<Fstr_Zug_Rangier>([
+						fstrZugRangier?.fstrZug?.fstrZugDWeg !== null &&
+							fstrZugRangier?.fstrZugRangierAllg?.
+								fstrReihenfolge?.wert.
+								isNotNullAndGreater(BigInteger.ZERO)
+					], [
+						'''
+						«fstrZugRangier?.fstrFahrweg?.start?.bezeichnung?.
+							bezeichnungTabelle?.wert»/«fstrZugRangier?.fstrFahrweg?.zielSignal?.bezeichnung?.
+								bezeichnungTabelle?.wert» [U«fstrZugRangier?.fstrZugRangierAllg?.
+								fstrReihenfolge?.wert»] («fstrZugRangier?.fstrDWeg?.bezeichnung?.
+								bezeichnungFstrDWeg?.wert»)'''
 					])
 				)
 
