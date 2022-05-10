@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.rcp.compatibility</artifactId>
-	<version>1.0.346-SNAPSHOT</version>
+	<version>1.0.347-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

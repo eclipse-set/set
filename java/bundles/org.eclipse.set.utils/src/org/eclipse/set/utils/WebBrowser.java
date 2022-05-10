@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.eclipse.set.browser.Browser;
+import org.eclipse.set.browser.BrowserFunction;
+import org.eclipse.set.browser.WindowEvent;
+import org.eclipse.set.browser.cef.CEFResourceProvider;
+import org.eclipse.set.browser.lib.CEFLibrary;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;
-import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -43,6 +45,7 @@ public class WebBrowser {
 	 *            The SWT parent object
 	 */
 	public WebBrowser(final Composite parent) {
+		CEFLibrary.init(CEFResourceProvider.class);
 		browser = createBrowser(parent);
 	}
 
