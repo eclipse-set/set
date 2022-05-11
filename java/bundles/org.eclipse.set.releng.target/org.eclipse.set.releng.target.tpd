@@ -344,7 +344,7 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 /**
  * Browser bundle
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.3/org.eclipse.set.browser.releng.repository-1.0.3.zip-unzip/" {
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.7/org.eclipse.set.browser.releng.repository-1.0.7.zip-unzip/" {
 	org.eclipse.set.browser.feature.feature.group
 }
 
