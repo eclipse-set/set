@@ -8,23 +8,15 @@
  */
 package org.eclipse.set.core.dialogservice;
 
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.set.core.Messages;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * Warning before loading invalid model files.
  * 
  * @author Schaefer
  */
-class LoadInvalidFileDialog extends Dialog {
+class LoadInvalidFileDialog extends AbstractFileDialog {
 
 	protected final String filename;
 
@@ -46,41 +38,23 @@ class LoadInvalidFileDialog extends Dialog {
 	}
 
 	@Override
-	public int open() {
-		create();
-
-		final Shell shell = getShell();
-		final Point size = shell.getSize();
-		final int width = size.x / 3;
-		final int height = size.y * 2;
-		shell.setSize(width, height);
-
-		final Shell parentShell = getParentShell();
-		final Point parentSize = parentShell.getSize();
-		final Point parentLocation = parentShell.getLocation();
-		shell.setLocation(parentLocation.x + (parentSize.x - width) / 2,
-				parentLocation.y + (parentSize.y - height) / 2);
-
-		return super.open();
+	protected String getDialogTitle() {
+		return messages.LoadInvalidFileDialog_Title;
 	}
 
 	@Override
-	protected void createButtonsForButtonBar(final Composite parent) {
-		createButton(parent, IDialogConstants.CANCEL_ID,
-				messages.LoadInvalidFileDialog_CloseLabel, true);
-		createButton(parent, IDialogConstants.OK_ID,
-				messages.LoadInvalidFileDialog_OpenLabel, false);
+	protected String getDialogMessage() {
+		return String.format(messages.LoadInvalidFileDialog_MessagePattern,
+				filename);
 	}
 
 	@Override
-	protected Control createDialogArea(final Composite parent) {
-		parent.getShell().setText(messages.LoadInvalidFileDialog_Title);
-		final Composite container = (Composite) super.createDialogArea(parent);
-		final Text text = new Text(container,
-				SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
-		text.setLayoutData(new GridData(GridData.FILL_BOTH));
-		text.setText(String.format(
-				messages.LoadInvalidFileDialog_MessagePattern, filename));
-		return container;
+	protected String getOpenLabel() {
+		return messages.LoadInvalidFileDialog_OpenLabel;
+	}
+
+	@Override
+	protected String getCloseLabel() {
+		return messages.LoadInvalidFileDialog_CloseLabel;
 	}
 }
