@@ -6283,7 +6283,7 @@ public class Enumerators {
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Sorting;
 
 	/**
-	 * ZZS 
+	 * ZZS
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Alternative;
 
@@ -20146,5 +20146,15 @@ public class Enumerators {
 	 * x
 	 */
 	public String XSBoolean_true_Alternative;
+
+	/**
+	 * Fehler
+	 */
+	public String ERROR_Alternative;
+
+	/**
+	 * Warnung
+	 */
+	public String WARNING_Alternative;
 
 }

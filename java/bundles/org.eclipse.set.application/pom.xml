@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.application</artifactId>
-	<version>1.0.348-SNAPSHOT</version>
+	<version>1.0.349-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>
