@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.releng.repository</artifactId>
-	<version>1.0.347-SNAPSHOT</version>
+	<version>1.0.348-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 
 	<parent>

@@ -341,16 +341,21 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 	org.eclipse.set.toolboxmodel.feature.source.feature.group
 }
 
+
 /**
- * Browser bundle
+ * CEF Binaries
+ * 
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.7/org.eclipse.set.browser.releng.repository-1.0.7.zip-unzip/" {
-	org.eclipse.set.browser.feature.feature.group
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.cef.releng.repository/101.0.1/org.eclipse.set.browser.cef.releng.repository-101.0.1.zip-unzip/" {
+	org.eclipse.set.browser.cef.feature.feature.group
+	org.eclipse.set.browser.cef.feature.source.feature.group
 }
 
 /**
- * CEF bundle
+ * Browser Component
+ * 
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.cef.releng.repository/101.0.0/org.eclipse.set.browser.cef.releng.repository-101.0.0.zip-unzip/" {
-	org.eclipse.set.browser.cef.feature.feature.group
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.9/org.eclipse.set.browser.releng.repository-1.0.9.zip-unzip/" {
+	org.eclipse.set.browser.feature.feature.group
+	org.eclipse.set.browser.feature.source.feature.group
 }
