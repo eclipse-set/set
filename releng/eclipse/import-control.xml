@@ -2,23 +2,20 @@
 <!DOCTYPE import-control PUBLIC
     "-//Checkstyle//DTD ImportControl Configuration 1.4//EN"
     "import_control_1_4.dtd">
-<import-control pkg="org.eclipse.set"
-	strategyOnMismatch="allowed">
+<import-control pkg="org.eclipse.set" strategyOnMismatch="allowed">
 	<disallow class="org.eclipse.jface.dialogs.MessageDialog" />
 	<disallow class="org.eclipse.jface.dialogs.ErrorDialog" />
-	<disallow
-		class="de.scheidtbachmann.planpro.common.ui.CommonDialogs" />
+	<disallow class="de.scheidtbachmann.planpro.common.ui.CommonDialogs" />
 	<allow pkg="org.eclipse.set.toolboxmodel\..*" regex="true"/>
-	<disallow pkg="org.eclipse.set\..*"
-		regex="true" />
-	<allow pkg="org.eclipse.set.ppmodel.extensions.container"
-			exact-match="true" />
+	<allow pkg="org.eclipse.set.browser\..*" regex="true"/>
+	<allow pkg="org.eclipse.set.browser" exact-match="true"/>
+	<disallow pkg="org.eclipse.set\..*" regex="true" />
+	<allow pkg="org.eclipse.set.ppmodel.extensions.container" exact-match="true" />
 	<subpackage name=".*\.dialogservice.*" regex="true">
 		<allow pkg="org.eclipse.set\..*" regex="true" />
 		<allow class="org.eclipse.jface.dialogs.MessageDialog" />
 		<allow class="org.eclipse.jface.dialogs.ErrorDialog" />
-		<allow
-			class="de.scheidtbachmann.planpro.common.ui.CommonDialogs" />
+		<allow class="de.scheidtbachmann.planpro.common.ui.CommonDialogs" />
 	</subpackage>
 	<subpackage name="model\..*\.presentation" regex="true">
 		<allow class="org.eclipse.jface.dialogs.MessageDialog" />
@@ -31,73 +28,39 @@
 		<allow class="org.eclipse.set\..*" regex="true" />
 	</subpackage>
 	<subpackage name="application.*" regex="true">
-		<allow pkg="org.eclipse.set.application\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.services\.?.*"
-			regex="true" />
-		<allow
-			pkg="org.eclipse.set.core.services\.?.*"
-			regex="true" />
-		<allow pkg="org\.eclipse\.set(\..*)?.utils\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.basis\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.model\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.ppmodel\.?.*"
-			regex="true" />
-		<allow
-			pkg="org.eclipse.set.core.modelservice\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.feature.validation\.?.*"
-			regex="true" />
+		<allow pkg="org.eclipse.set.application\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.services\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.core.services\.?.*" regex="true" />
+		<allow pkg="org\.eclipse\.set(\..*)?.utils\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.basis\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.model\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.ppmodel\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.core.modelservice\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.feature.validation\.?.*" regex="true" />
 	</subpackage>
 	<subpackage name="basis.*" regex="true">
-		<allow pkg="org.eclipse.set.test.utils"
-			exact-match="true" />
-		<allow pkg="org.eclipse.set.basis\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.model\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.ppmodel.extensions.container"
-			exact-match="true" />
-		<disallow
-			pkg="org.eclipse.set.model\..*\.extensions"
-			regex="true" />
+		<allow pkg="org.eclipse.set.test.utils" exact-match="true" />
+		<allow pkg="org.eclipse.set.basis\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.model\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.ppmodel.extensions.container" exact-match="true" />
+		<disallow pkg="org.eclipse.set.model\..*\.extensions" regex="true" />
 	</subpackage>
 	<subpackage name="utils.*" regex="true">
-		<allow pkg="org.eclipse.set.test.utils"
-			exact-match="true" />
-		<allow pkg="org.eclipse.set.ppmodel.extensions.container"
-			exact-match="true" />
-		<allow
-			pkg="org.eclipse.set.core.services\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.utils\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.basis\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.model\.?.*"
-			regex="true" />
-		<disallow
-			pkg="org.eclipse.set.model\..*\.extensions"
-			regex="true" />
+		<allow pkg="org.eclipse.set.test.utils" exact-match="true" />
+		<allow pkg="org.eclipse.set.ppmodel.extensions.container" exact-match="true" />
+		<allow pkg="org.eclipse.set.core.services\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.utils\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.basis\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.model\.?.*" regex="true" />
+		<disallow pkg="org.eclipse.set.model\..*\.extensions" regex="true" />
 	</subpackage>
 	<subpackage name="test.utils">
-		<allow pkg="org.eclipse.set.ppmodel.extensions.container"
-			exact-match="true" />
-		<allow pkg="org.eclipse.set.basis\.?.*"
-			regex="true" />
-		<allow pkg="org.eclipse.set.test.utils"
-			exact-match="true" />
-		<allow pkg="org.eclipse.set.model\.?.*"
-			regex="true" />
-		<allow
-			pkg="org.eclipse.set.core.services\.?.*"
-			regex="true" />
-		<disallow
-			pkg="org.eclipse.set.model\..*\.extensions"
-			regex="true" />
+		<allow pkg="org.eclipse.set.ppmodel.extensions.container" exact-match="true" />
+		<allow pkg="org.eclipse.set.basis\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.test.utils" exact-match="true" />
+		<allow pkg="org.eclipse.set.model\.?.*" regex="true" />
+		<allow pkg="org.eclipse.set.core.services\.?.*" regex="true" />
+		<disallow pkg="org.eclipse.set.model\..*\.extensions" regex="true" />
 	</subpackage>
 	<subpackage name=".+" regex="true">
 		<allow pkg="org.eclipse.set\..*" regex="true" />
