@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.feature.integration.test</artifactId>
-	<version>1.0.349-SNAPSHOT</version>
+	<version>1.0.350-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<parent>
