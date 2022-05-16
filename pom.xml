@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.releng.multimod</artifactId>
@@ -11,7 +13,7 @@
 		<artifactId>org.eclipse.set.releng.parent</artifactId>
 		<version>0.30.0.1</version>
 	</parent>
-	
+
 	<!-- common modules -->
 	<modules>
 		<!-- ############################################################### -->
@@ -21,7 +23,7 @@
 		<module>java/bundles/org.eclipse.set.releng.set.product</module>
 		<module>java/bundles/org.eclipse.set.releng.repository</module>
 		<module>java/bundles/org.eclipse.set.releng.target</module>
-				
+
 		<!-- ############################################################### -->
 		<!-- Feature -->
 		<!-- ############################################################### -->
@@ -39,12 +41,12 @@
 		<module>java/bundles/org.eclipse.set.basis</module>
 		<module>java/bundles/org.eclipse.set.basis.test</module>
 		<module>java/bundles/org.eclipse.set.core.rcp.dialogService</module>
-				  
+
 		<module>java/bundles/org.eclipse.set.core.services</module>
 		<module>java/bundles/org.eclipse.set.core.test</module>
 		<module>java/bundles/org.eclipse.set.core</module>
 		<module>java/bundles/org.eclipse.set.emfforms</module>
-		
+
 		<module>java/bundles/org.eclipse.set.feature.integration.test</module>
 		<module>java/bundles/org.eclipse.set.feature.integration</module>
 		<module>java/bundles/org.eclipse.set.feature.table.test</module>
@@ -60,7 +62,7 @@
 		<module>java/bundles/org.eclipse.set.i18n.integrationview.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.model.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.validationreport.nl_de</module>
-		
+
 		<module>java/bundles/org.eclipse.set.model.integrationview.edit</module>
 		<module>java/bundles/org.eclipse.set.model.integrationview</module>
 		<module>java/bundles/org.eclipse.set.model.simplemerge.edit</module>
@@ -72,14 +74,13 @@
 		<module>java/bundles/org.eclipse.set.model.temporaryintegration.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.temporaryintegration</module>
 		<module>java/bundles/org.eclipse.set.model.test.site.extensions</module>
-		<module>java/bundles/org.eclipse.set.model.test.site</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport.edit</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport</module>
 		<module>java/bundles/org.eclipse.set.model.zipmanifest</module>
-		
+
 		<module>java/bundles/org.eclipse.set.nattable.utils</module>
 		<module>java/bundles/org.eclipse.set.pdf.utils</module>
 		<module>java/bundles/org.eclipse.set.ppmodel.extensions.test</module>
@@ -97,5 +98,5 @@
 		<module>java/bundles/org.eclipse.set.utils.rcp</module>
 		<module>java/bundles/org.eclipse.set.utils.table</module>
 		<module>java/bundles/org.eclipse.set.utils.test</module>
-  </modules>
+	</modules>
 </project>
