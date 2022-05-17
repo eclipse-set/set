@@ -28,7 +28,6 @@ class EObjectExtensions {
 			return null
 		if (clazz.isInstance(object))
 			return object as T
-		else
-			return object.eContainer.getParentByType(clazz)
+		return object.eContainer.getParentByType(clazz)
 	}
 }

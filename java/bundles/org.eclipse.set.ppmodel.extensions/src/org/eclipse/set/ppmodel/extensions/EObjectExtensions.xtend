@@ -78,7 +78,7 @@ class EObjectExtensions {
 	/**
 	 * Returns all missing required values in an EObject
 	 * 
-	 * Recurses into subobjects 
+	 * Recurses into subobjects, but does not fill ELists
 	 * 
 	 * @param EObject the EObject
 	 */
@@ -86,7 +86,7 @@ class EObjectExtensions {
 		EObject object) {
 		// Does the object contain an unset reference?
 		val unsetReferences = object.eClass.EReferences.filter [
-			lowerBound == 1 && upperBound == 1
+			lowerBound == 1 && !isMany
 		].filter[!object.eIsSet(it)]
 
 		// Does the object contain an unset attribute? 

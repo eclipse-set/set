@@ -119,7 +119,7 @@ class PlanProSchnittstelleExtensions {
 	}
 
 	/**
-	 * Fills default values for the given PlanPro Schnittstelle's Objektmanagement if required.
+	 * Returns whether the given PlanPro Schnittstelle contains required but not set values.
 	 * 
 	 * @param schnittstelle this PlanPro Schnittstelle
 	 * @return whether fixes have been applied

@@ -40,7 +40,6 @@ public class CacheServiceContextFunction extends ContextFunction {
 
 		// IMPROVE Injection into the CacheService does not work for an unknown
 		// reason, see also PLANPRO-3270
-		// see also: GuidToObjectCacheAddon
 		final IEventBroker broker = applicationContext.get(IEventBroker.class);
 		cacheService.setEventBroker(broker);
 		return cacheService;
