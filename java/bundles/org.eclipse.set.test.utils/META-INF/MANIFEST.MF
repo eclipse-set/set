@@ -17,8 +17,7 @@ Import-Package: org.eclipse.emf.common.util,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.set.basis.files,
  org.eclipse.set.basis.guid,
- org.eclipse.set.core.services.session,
- org.eclipse.set.model.test.site
+ org.eclipse.set.core.services.session
 Export-Package: org.eclipse.set.test.utils,
  org.eclipse.set.test.utils.session
 Bundle-Vendor: Eclipse Technology Project
