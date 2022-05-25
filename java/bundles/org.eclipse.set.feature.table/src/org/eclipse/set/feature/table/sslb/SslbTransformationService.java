@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.sslb;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
-import static org.eclipse.set.utils.table.sorting.SortDirection.ASCENDING;
 
 import java.util.Comparator;
 
@@ -124,9 +124,8 @@ public final class SslbTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("D", LEXICOGRAPHICAL, ASCENDING) //$NON-NLS-1$
-				.sort("F", LEXICOGRAPHICAL, ASCENDING).build(); //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sort("D", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort("F", LEXICOGRAPHICAL, ASC).build(); //$NON-NLS-1$
 	}
 
 	@Override

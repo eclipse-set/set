@@ -61,6 +61,19 @@ public final class TableRowGroupComparator implements Comparator<RowGroup> {
 				cellComparator));
 	}
 
+	/**
+	 * Add a sort criterion for comparing cells of a given column index.
+	 * 
+	 * @param columnIndex
+	 *            the column index
+	 * @param cellComparator
+	 *            the cell comparator
+	 */
+	public void addCriterion(final int columnIndex,
+			final Comparator<TableCell> cellComparator) {
+		criteria.add(new CompareColumnCriterion(columnIndex, cellComparator));
+	}
+
 	@Override
 	public int compare(final RowGroup group1, final RowGroup group2) {
 		if (group1.getRows().isEmpty()) {

@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.sska;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
-import static org.eclipse.set.utils.table.sorting.SortDirection.ASCENDING;
 
 import java.util.Comparator;
 
@@ -125,7 +125,7 @@ public final class SskaTransformationService
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
 				.sort(ESTW_Zentraleinheit.class, Aussenelementansteuerung.class)
-				.sort("A", LEXICOGRAPHICAL, ASCENDING).build(); //$NON-NLS-1$
+				.sort("A", LEXICOGRAPHICAL, ASC).build(); //$NON-NLS-1$
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import org.eclipse.set.nattable.utils.AbstractColumns
  * @author Stuecker
  */
 class ValidationTableColumns extends AbstractColumns {
+	public final ColumnDescriptor RowIndex;
 	public final ColumnDescriptor Severity;
 	public final ColumnDescriptor ProblemType;
 	public final ColumnDescriptor LineNumber;
@@ -33,6 +34,7 @@ class ValidationTableColumns extends AbstractColumns {
 	 */
 	new(Messages messages) {
 		super()
+		RowIndex = createNew(messages.ValidationTableColumns_Index)
 		Severity = createNew(messages.ValidationTableColumns_Severity)
 		ProblemType = createNew(messages.ValidationTableColumns_ProblemType)
 		LineNumber = createNew(messages.ValidationTableColumns_LineNumber)
@@ -46,9 +48,10 @@ class ValidationTableColumns extends AbstractColumns {
 	def ColumnDescriptor fillHeaderDescriptions(
 		ColumnDescriptorModelBuilder builder) {
 		val GroupBuilder root = builder.createRootColumn()
-		root.add(Severity).width(1.8f)
-		root.add(ProblemType).width(4)
-		root.add(LineNumber).width(1.9f)
+		root.add(RowIndex).width(0.75f)
+		root.add(Severity).width(2.1f)
+		root.add(ProblemType).width(3.5f)
+		root.add(LineNumber).width(2.2f)
 		root.add(ObjectType).width(3)
 		root.add(AttributeGroup).width(3)
 		root.add(ObjectScope).width(2)

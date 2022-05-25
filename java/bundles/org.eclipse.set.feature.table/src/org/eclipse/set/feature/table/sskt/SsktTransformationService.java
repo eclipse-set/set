@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.sskt;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
-import static org.eclipse.set.utils.table.sorting.SortDirection.ASCENDING;
 
 import java.util.Comparator;
 
@@ -66,7 +66,7 @@ public class SsktTransformationService
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
 				.sort(Technik_Standort.class, Bedien_Standort.class)
-				.sort("A", MIXED_STRING, ASCENDING).build(); //$NON-NLS-1$
+				.sort("A", MIXED_STRING, ASC).build(); //$NON-NLS-1$
 	}
 
 	@Override

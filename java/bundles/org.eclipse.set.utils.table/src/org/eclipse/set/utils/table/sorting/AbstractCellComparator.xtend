@@ -13,12 +13,21 @@ import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
 import java.util.Comparator
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 
 /**
  * Comparator for TableCells
  */
 package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
+	protected SortDirectionEnum direction
+	/**
+	 * @param direction the sort direction
+	 */
+	new(SortDirectionEnum direction) {
+		this.direction = direction
+	}
+	
 	override int compare(TableCell cell1, TableCell cell2) {
 		return cell1.content.compareDispatch(cell2.content)
 	}
@@ -43,37 +52,56 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		StringCellContent c1,
 		StringCellContent c2
 	) {
-		return c1.value.compareString(c2.value)
+		return c1.value.compareCell(c2.value)
 	}
 
 	private def dispatch int compareDispatch(
 		CompareCellContent c1,
 		CompareCellContent c2
 	) {
-		val newResult = c1.newValue.compareString(c2.newValue);
+		val newResult = c1.newValue.compareCell(c2.newValue);
+		
 		if (newResult != 0){
 			return newResult
 		}
-		return c1.oldValue.compareString(c2.oldValue)
+		return c1.oldValue.compareCell(c2.oldValue)
 	}
 
 	private def dispatch int compareDispatch(
 		StringCellContent c1,
 		CompareCellContent c2
 	) {
-		return c1.value.compareString(c2.compareCellContentString)
+		return c1.value.compareCell(c2.compareCellContentString)
 	}
 
 	private def dispatch int compareDispatch(
 		CompareCellContent c1,
 		StringCellContent c2
 	) {
-		return c1.compareCellContentString.compareString(c2.value)
+		return c1.compareCellContentString.compareCell(c2.value)
 	}
 
 	private def String compareCellContentString(CompareCellContent content) {
 		return '''«content.newValue»«content.oldValue»'''
 	}
+	
+	def int compareCell(String text1, String text2) {
+		try {
+			val number1 = Integer.parseInt(text1)
+			val number2 = Integer.parseInt(text2)
+			return number1.compareInt(number2)
+		} catch (NumberFormatException e) {
+			return text1.compareString(text2)
+		}
+	}
 
 	def int compareString(String text1, String text2)
+	
+	def compareInt(int number1, int number2) {
+		if (direction == SortDirectionEnum.ASC) {
+			return number1.compareTo(number2)
+		}
+		return number2.compareTo(number1)
+	}
+	
 }

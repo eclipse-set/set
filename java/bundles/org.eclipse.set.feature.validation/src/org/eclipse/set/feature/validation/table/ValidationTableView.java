@@ -11,40 +11,18 @@ package org.eclipse.set.feature.validation.table;
 import java.util.Collection;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
-import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
-import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
-import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnCommand;
-import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
-import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
-import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
-import org.eclipse.nebula.widgets.nattable.grid.layer.ColumnHeaderLayer;
-import org.eclipse.nebula.widgets.nattable.grid.layer.CornerLayer;
-import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
-import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
-import org.eclipse.nebula.widgets.nattable.layer.AbstractLayerTransform;
-import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
-import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
-import org.eclipse.nebula.widgets.nattable.selection.config.DefaultMoveSelectionConfiguration;
-import org.eclipse.nebula.widgets.nattable.selection.config.DefaultRowSelectionLayerConfiguration;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
-import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.validation.Messages;
-import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.validationreport.ValidationReport;
-import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
-import org.eclipse.set.utils.table.TableDataProvider;
-import org.eclipse.swt.SWT;
+import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -55,7 +33,7 @@ import org.eclipse.swt.widgets.Control;
  * @author Stuecker
  *
  */
-public class ValidationTableView {
+public class ValidationTableView extends AbstractSortByColumnTables {
 	private static final String SOURCE_TEXT_VIEWER_PART_ID = "org.eclipse.set.application.descriptions.SourceTextViewDescriptionService"; //$NON-NLS-1$
 
 	private final ToolboxPartService toolboxPartService;
@@ -63,7 +41,6 @@ public class ValidationTableView {
 	private final IEventBroker broker;
 	private final BasePart<? extends IModelSession> part;
 	private NatTable natTable;
-	private TableDataProvider bodyDataProvider;
 
 	/**
 	 * @param toolboxPartService
@@ -84,44 +61,6 @@ public class ValidationTableView {
 		this.broker = broker;
 	}
 
-	class BodyLayerStack extends AbstractLayerTransform {
-
-		private final IDataProvider stackBodyDataProvider;
-
-		private final SelectionLayer selectionLayer;
-		private final ViewportLayer viewportLayer;
-
-		public BodyLayerStack(final DataLayer bodyDataLayer) {
-			this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
-			this.selectionLayer = new SelectionLayer(bodyDataLayer);
-			this.viewportLayer = new ViewportLayer(this.selectionLayer);
-
-			this.selectionLayer.addConfiguration(
-					new DefaultRowSelectionLayerConfiguration());
-			this.selectionLayer
-					.addConfiguration(new DefaultMoveSelectionConfiguration());
-
-			final FreezeLayer freezeLayer = new FreezeLayer(
-					this.selectionLayer);
-			final CompositeFreezeLayer compositeFreezeLayer = new CompositeFreezeLayer(
-					freezeLayer, viewportLayer, this.selectionLayer);
-			setUnderlyingLayer(compositeFreezeLayer);
-
-		}
-
-		public IDataProvider getBodyDataProvider() {
-			return this.stackBodyDataProvider;
-		}
-
-		public SelectionLayer getSelectionLayer() {
-			return this.selectionLayer;
-		}
-
-		public ViewportLayer getViewportLayer() {
-			return viewportLayer;
-		}
-	}
-
 	/**
 	 * Creates the table view
 	 * 
@@ -137,50 +76,7 @@ public class ValidationTableView {
 				messages);
 
 		final Table table = service.transform(validationReport);
-		final ColumnDescriptor rootColumnDescriptor = table
-				.getColumndescriptors().get(0);
-
-		bodyDataProvider = new TableDataProvider(table);
-		final DataLayer bodyDataLayer = new DataLayer(bodyDataProvider);
-
-		final BodyLayerStack bodyLayerStack = new BodyLayerStack(bodyDataLayer);
-
-		// column header stack
-		final IDataProvider columnHeaderDataProvider = new DefaultColumnHeaderDataProvider(
-				ColumnDescriptorExtensions
-						.getColumnLabels(rootColumnDescriptor));
-		final DataLayer columnHeaderDataLayer = new DataLayer(
-				columnHeaderDataProvider);
-		final ColumnHeaderLayer columnHeaderLayer = new ColumnHeaderLayer(
-				columnHeaderDataLayer, bodyLayerStack,
-				bodyLayerStack.getSelectionLayer());
-
-		// row header stack
-		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(
-				bodyDataProvider);
-		final DataLayer rowHeaderDataLayer = new DataLayer(
-				rowHeaderDataProvider, 40, 20);
-		final RowHeaderLayer rowHeaderLayer = new RowHeaderLayer(
-				rowHeaderDataLayer, bodyLayerStack,
-				bodyLayerStack.getSelectionLayer());
-
-		// Corner Layer stack
-		final DefaultCornerDataProvider cornerDataProvider = new DefaultCornerDataProvider(
-				columnHeaderDataProvider, rowHeaderDataProvider);
-		final DataLayer cornerDataLayer = new DataLayer(cornerDataProvider);
-		final CornerLayer cornerLayer = new CornerLayer(cornerDataLayer,
-				rowHeaderLayer, columnHeaderLayer);
-
-		// gridlayer
-		final GridLayer gridLayer = new GridLayer(bodyLayerStack,
-				columnHeaderLayer, rowHeaderLayer, cornerLayer);
-		natTable = new NatTable(parent, SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED
-				| SWT.V_SCROLL | SWT.H_SCROLL, gridLayer);
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(natTable);
-		// set style
-		natTable.setTheme(new PlanProTableThemeConfiguration(natTable,
-				columnHeaderDataLayer, bodyDataLayer, gridLayer,
-				rootColumnDescriptor, bodyLayerStack, bodyDataProvider));
+		natTable = createTable(parent, table);
 
 		natTable.getUiBindingRegistry().registerFirstDoubleClickBinding(
 				MouseEventMatcher.bodyLeftClick(0),
@@ -201,9 +97,6 @@ public class ValidationTableView {
 				}
 
 		);
-
-		natTable.doCommand(new FreezeColumnCommand(bodyLayerStack, 0));
-		bodyLayerStack.getSelectionLayer().clear();
 
 		return natTable;
 	}

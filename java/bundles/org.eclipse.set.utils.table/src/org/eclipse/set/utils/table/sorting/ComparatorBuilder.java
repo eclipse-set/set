@@ -11,6 +11,7 @@ package org.eclipse.set.utils.table.sorting;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.TableCell;
 
@@ -77,7 +78,7 @@ public class ComparatorBuilder {
 	 */
 	public ComparatorBuilder sort(final String columnId,
 			final CellComparatorType cellComparatorType,
-			final SortDirection direction) {
+			final SortDirectionEnum direction) {
 		Comparator<TableCell> cellComparator;
 		switch (cellComparatorType) {
 		case LEXICOGRAPHICAL:
@@ -89,7 +90,12 @@ public class ComparatorBuilder {
 		default:
 			throw new IllegalArgumentException(cellComparatorType.toString());
 		}
-		tableRowGroupComparator.addCriterion(columnId, cellComparator);
+		try {
+			final int index = Integer.parseInt(columnId);
+			tableRowGroupComparator.addCriterion(index, cellComparator);
+		} catch (final NumberFormatException e) {
+			tableRowGroupComparator.addCriterion(columnId, cellComparator);
+		}
 		return this;
 	}
 
@@ -106,4 +112,5 @@ public class ComparatorBuilder {
 		tableRowGroupComparator.addCriterion(columnId, cellComparator);
 		return this;
 	}
+
 }

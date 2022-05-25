@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.ssit;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
-import static org.eclipse.set.utils.table.sorting.SortDirection.ASCENDING;
 
 import java.util.Comparator;
 
@@ -94,8 +94,8 @@ public class SsitTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASCENDING).build(); //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.build();
 	}
 
 	@Override

@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.utils.table.sorting
 
-import static org.eclipse.set.utils.table.sorting.SortDirection.*
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 
 /** 
  * Compares cell content lexicographical.
@@ -17,17 +17,15 @@ import static org.eclipse.set.utils.table.sorting.SortDirection.*
  */
 package class LexicographicalCellComparator extends AbstractCellComparator {
 
-	val SortDirection direction
-
 	/**
 	 * @param direction the sort direction
 	 */
-	new(SortDirection direction) {
-		this.direction = direction
+	new(SortDirectionEnum direction) {
+		super(direction)
 	}
 
 	override int compareString(String text1, String text2) {
-		if (direction == ASCENDING) {
+		if (direction == SortDirectionEnum.ASC) {
 			return (text1 ?: "").compareTo(text2 ?: "")
 		}
 		return (text2 ?: "").compareTo(text1 ?: "")

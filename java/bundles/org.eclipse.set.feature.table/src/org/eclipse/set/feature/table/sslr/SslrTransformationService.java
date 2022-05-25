@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.table.sslr;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
-import static org.eclipse.set.utils.table.sorting.SortDirection.ASCENDING;
 
 import java.util.Comparator;
 
@@ -64,10 +64,9 @@ public class SslrTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("B", MIXED_STRING, ASCENDING) //$NON-NLS-1$
-				.sort("C", MIXED_STRING, ASCENDING) //$NON-NLS-1$
-				.sort("D", MIXED_STRING, ASCENDING).build(); //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sort("B", MIXED_STRING, ASC) //$NON-NLS-1$
+				.sort("C", MIXED_STRING, ASC) //$NON-NLS-1$
+				.sort("D", MIXED_STRING, ASC).build(); //$NON-NLS-1$
 	}
 
 	@Override

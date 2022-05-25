@@ -19,6 +19,10 @@ Require-Bundle: org.eclipse.set.model.tablemodel,
  org.eclipse.e4.core.services
 Export-Package: org.eclipse.set.utils.table,
  org.eclipse.set.utils.table.sorting
-Import-Package: org.eclipse.set.basis.constants,
+Import-Package: org.eclipse.jface.layout,
+ org.eclipse.set.basis.constants,
  org.eclipse.set.basis.tables,
- org.eclipse.swt.events
+ org.eclipse.set.nattable.utils,
+ org.eclipse.swt,
+ org.eclipse.swt.events,
+ org.eclipse.swt.widgets

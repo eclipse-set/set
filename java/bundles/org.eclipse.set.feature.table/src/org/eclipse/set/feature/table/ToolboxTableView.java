@@ -31,8 +31,6 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
-import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
-import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnCommand;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
@@ -44,12 +42,8 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
-import org.eclipse.nebula.widgets.nattable.layer.AbstractLayerTransform;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
-import org.eclipse.nebula.widgets.nattable.selection.config.DefaultMoveSelectionConfiguration;
-import org.eclipse.nebula.widgets.nattable.selection.config.DefaultRowSelectionLayerConfiguration;
-import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -88,6 +82,7 @@ import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
+import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.RowSelectionListener;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.swt.SWT;
@@ -107,51 +102,6 @@ import com.google.common.collect.Lists;
  * @author rumpf
  */
 public final class ToolboxTableView extends BasePart<IModelSession> {
-	/**
-	 * Always encapsulate the body layer stack in an AbstractLayerTransform to
-	 * ensure that the index transformations are performed in later commands.
-	 *
-	 * @param
-	 */
-	class BodyLayerStack extends AbstractLayerTransform {
-
-		private final IDataProvider bodyDataProvider;
-
-		private final SelectionLayer selectionLayer;
-		private final ViewportLayer viewportLayer;
-
-		public BodyLayerStack(final DataLayer bodyDataLayer) {
-			this.bodyDataProvider = bodyDataLayer.getDataProvider();
-			this.selectionLayer = new SelectionLayer(bodyDataLayer);
-			this.viewportLayer = new ViewportLayer(this.selectionLayer);
-			this.selectionLayer.addConfiguration(
-					new RowSelectionListener(getToolboxPart().getElementId(),
-							selectionLayer, tableInstances, getBroker()));
-			this.selectionLayer.addConfiguration(
-					new DefaultRowSelectionLayerConfiguration());
-			this.selectionLayer
-					.addConfiguration(new DefaultMoveSelectionConfiguration());
-
-			final FreezeLayer freezeLayer = new FreezeLayer(
-					this.selectionLayer);
-			final CompositeFreezeLayer compositeFreezeLayer = new CompositeFreezeLayer(
-					freezeLayer, viewportLayer, this.selectionLayer);
-			setUnderlyingLayer(compositeFreezeLayer);
-
-		}
-
-		public IDataProvider getBodyDataProvider() {
-			return this.bodyDataProvider;
-		}
-
-		public SelectionLayer getSelectionLayer() {
-			return this.selectionLayer;
-		}
-
-		public ViewportLayer getViewportLayer() {
-			return viewportLayer;
-		}
-	}
 
 	protected static final int DEBUG_WIDTH_CORRECTION = 0;
 
@@ -367,6 +317,12 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 		final DataLayer bodyDataLayer = new DataLayer(bodyDataProvider);
 
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
+		final SelectionLayer selectionLayer = bodyLayerStack
+				.getSelectionLayer();
+		selectionLayer.addConfiguration(
+				new RowSelectionListener(getToolboxPart().getElementId(),
+						selectionLayer, tableInstances, getBroker()));
+
 		// column header stack
 		final IDataProvider columnHeaderDataProvider = new DefaultColumnHeaderDataProvider(
 				ColumnDescriptorExtensions

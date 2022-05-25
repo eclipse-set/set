@@ -23,6 +23,7 @@ class ValidationReportTableTransformator extends AbstractTableModelTransformator
 	override transformTableContent(ValidationReport report, TMFactory factory) {
 		for (problem : report.problems) {
 			val instance = factory.newTableRow(null, problem.id)
+			fill(instance, columns.RowIndex, problem, [problem.id.toString])
 			fill(instance, columns.Severity, problem, [severityText])
 			fill(instance, columns.ProblemType, problem, [type])
 			fillNumeric(instance, columns.LineNumber, problem, [lineNumber])

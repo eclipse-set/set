@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.utils.table.sorting;
 
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 
 /**
@@ -18,19 +19,17 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
  */
 public class MixedStringCellComparator extends AbstractCellComparator {
 
-	private final SortDirection direction;
-
 	/**
 	 * @param direction
 	 *            the direction to sort in
 	 */
-	public MixedStringCellComparator(final SortDirection direction) {
-		this.direction = direction;
+	public MixedStringCellComparator(final SortDirectionEnum direction) {
+		super(direction);
 	}
 
 	@Override
 	public int compareString(final String text1, final String text2) {
-		if (direction == SortDirection.ASCENDING) {
+		if (direction == SortDirectionEnum.ASC) {
 			return ToolboxConstants.LST_OBJECT_NAME_COMPARATOR.compare(text1,
 					text2);
 		}
