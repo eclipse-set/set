@@ -9,6 +9,7 @@
 	<allow pkg="org.eclipse.set.toolboxmodel\..*" regex="true"/>
 	<allow pkg="org.eclipse.set.browser\..*" regex="true"/>
 	<allow pkg="org.eclipse.set.browser" exact-match="true"/>
+	<allow pkg="org.eclipse.set.nattable.utils" exact-match="true"/>
 	<disallow pkg="org.eclipse.set\..*" regex="true" />
 	<allow pkg="org.eclipse.set.ppmodel.extensions.container" exact-match="true" />
 	<subpackage name=".*\.dialogservice.*" regex="true">
