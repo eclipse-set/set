@@ -10,13 +10,13 @@ package org.eclipse.set.feature.table.sorting
 
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.utils.table.sorting.MixedStringCellComparator
-import org.eclipse.set.utils.table.sorting.SortDirection
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.Is.*
 import static org.junit.jupiter.api.Assertions.*
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 
 /**
  * Tests for {@link MixedStringCellComparator}.
@@ -29,7 +29,7 @@ class MixedStringCellComparatorTest {
 
 	@BeforeEach
 	def void setUp() {
-		comparator = new MixedStringCellComparator(SortDirection.ASCENDING)
+		comparator = new MixedStringCellComparator(SortDirectionEnum.ASC)
 	}
 
 	@Test
