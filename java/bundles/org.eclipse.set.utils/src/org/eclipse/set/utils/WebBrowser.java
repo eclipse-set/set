@@ -11,14 +11,15 @@ package org.eclipse.set.utils;
 
 import java.awt.Desktop;
 import java.net.URI;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.eclipse.set.browser.Browser;
 import org.eclipse.set.browser.BrowserFunction;
 import org.eclipse.set.browser.WindowEvent;
-import org.eclipse.set.browser.cef.CEFResourceProvider;
 import org.eclipse.set.browser.lib.CEFLibrary;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.LocationEvent;
@@ -45,7 +46,10 @@ public class WebBrowser {
 	 *            The SWT parent object
 	 */
 	public WebBrowser(final Composite parent) {
-		CEFLibrary.init(CEFResourceProvider.class);
+		final Optional<Path> cefPath = ToolboxConfiguration.getCEFPath();
+		if (cefPath.isPresent()) {
+			CEFLibrary.init(cefPath.get());
+		}
 		browser = createBrowser(parent);
 	}
 

@@ -85,4 +85,9 @@ public interface ToolboxProperties {
 	 * Property key for the default NatTable line height.
 	 */
 	public static final String TOOLBOX_DEFAULT_LINE_HEIGHT = "toolbox.default.line.height";
+
+	/**
+	 * Property key for the CEF binary directory.
+	 */
+	public static final String CEF_DIR = "toolbox.cefdir";
 }

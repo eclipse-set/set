@@ -11,6 +11,7 @@ package org.eclipse.set.utils;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.TextType;
@@ -141,5 +142,17 @@ public class ToolboxConfiguration {
 		properties.setProperty(ToolboxProperties.SHOW_NEWS,
 				Boolean.valueOf(value).toString());
 		properties.store();
+	}
+
+	/**
+	 * @return the path to the CEF binaries
+	 */
+	public static Optional<Path> getCEFPath() {
+		final String path = new ConfigProperties()
+				.getProperty(ToolboxProperties.CEF_DIR);
+		if (path != null) {
+			return Optional.of(Paths.get(path));
+		}
+		return Optional.empty();
 	}
 }

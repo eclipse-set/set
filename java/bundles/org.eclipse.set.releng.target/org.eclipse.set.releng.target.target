@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="org.eclipse.set.releng.target" sequenceNumber="1652949207">
+<target name="org.eclipse.set.releng.target" sequenceNumber="1653906873">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.e4.rcp.feature.group" version="4.17.0.v20200831-1002"/>
@@ -240,14 +240,9 @@
       <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.19/org.eclipse.set.toolboxmodel.repository-1.0.19.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.set.browser.cef.feature.feature.group" version="101.1.0"/>
-      <unit id="org.eclipse.set.browser.cef.feature.source.feature.group" version="101.1.0"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.cef.releng.repository/101.1.0/org.eclipse.set.browser.cef.releng.repository-101.1.0.zip-unzip/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.10"/>
-      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.10"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.10/org.eclipse.set.browser.releng.repository-1.0.10.zip-unzip/"/>
+      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.11"/>
+      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.11"/>
+      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.11/org.eclipse.set.browser.releng.repository-1.0.11.zip-unzip/"/>
     </location>
   </locations>
 </target>
