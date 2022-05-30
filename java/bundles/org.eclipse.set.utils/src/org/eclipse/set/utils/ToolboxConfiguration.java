@@ -148,8 +148,7 @@ public class ToolboxConfiguration {
 	 * @return the path to the CEF binaries
 	 */
 	public static Optional<Path> getCEFPath() {
-		final String path = new ConfigProperties()
-				.getProperty(ToolboxProperties.CEF_DIR);
+		final String path = System.getProperty(ToolboxProperties.CEF_DIR);
 		if (path != null) {
 			return Optional.of(Paths.get(path));
 		}

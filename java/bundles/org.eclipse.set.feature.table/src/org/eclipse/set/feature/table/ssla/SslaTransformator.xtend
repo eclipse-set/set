@@ -40,7 +40,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
-		val fstrAneinanderList = container.fstrAneinander.toList
+		val fstrAneinanderList = container.fstrAneinander
 
 		// Basis_Objekt
 		for (fstrAneinander : fstrAneinanderList) {
@@ -124,9 +124,9 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		while (zuordnungen.size > 0) {
 			var zu = zuordnungen.fstrStartZuordnung
-			if(zu === null)
-			{
-				throw new IllegalArgumentException("Unable to find fstrStartZuordnung");
+			if (zu === null) {
+				throw new IllegalArgumentException(
+					"Unable to find fstrStartZuordnung");
 			}
 			zuordnungenUnterwegs.add(zu)
 			zuordnungen.remove(zu)

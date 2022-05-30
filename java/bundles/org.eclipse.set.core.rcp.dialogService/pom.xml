@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.core.rcp.dialogservice</artifactId>
-	<version>1.0.350-SNAPSHOT</version>
+	<version>1.0.352-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>
