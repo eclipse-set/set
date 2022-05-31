@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.i18n.ecp.table.nl_de</artifactId>
-	<version>1.0.356-SNAPSHOT</version>
+	<version>1.0.357-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

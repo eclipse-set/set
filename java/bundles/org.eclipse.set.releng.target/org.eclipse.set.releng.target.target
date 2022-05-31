@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="org.eclipse.set.releng.target" sequenceNumber="1653978519">
+<target name="org.eclipse.set.releng.target" sequenceNumber="1653999384">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.e4.rcp.feature.group" version="4.17.0.v20200831-1002"/>
@@ -240,9 +240,9 @@
       <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.19/org.eclipse.set.toolboxmodel.repository-1.0.19.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.12"/>
-      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.12"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.12/org.eclipse.set.browser.releng.repository-1.0.12.zip-unzip/"/>
+      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.13"/>
+      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.13"/>
+      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.13/org.eclipse.set.browser.releng.repository-1.0.13.zip-unzip/"/>
     </location>
   </locations>
 </target>
