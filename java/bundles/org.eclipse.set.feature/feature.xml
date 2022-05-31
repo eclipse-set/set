@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.set.feature"
       label="Toolbox Feature"
-      version="1.0.353.qualifier"
+      version="1.0.354.qualifier"
       provider-name="Scheidt &amp; Bachmann System Technik GmbH">
 
    <description url="http://www.example.com/description">
@@ -19,6 +19,14 @@
 
    <includes
          id="org.eclipse.set.toolboxmodel.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="de.scheidtbachmann.planpro.model.model1902.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.set.browser.feature"
          version="0.0.0"/>
 
    <requires>
