@@ -48,14 +48,14 @@ class ValidationTableColumns extends AbstractColumns {
 	def ColumnDescriptor fillHeaderDescriptions(
 		ColumnDescriptorModelBuilder builder) {
 		val GroupBuilder root = builder.createRootColumn()
-		root.add(RowIndex).width(0.75f)
+		root.add(RowIndex).width(1.25f)
 		root.add(Severity).width(2.1f)
 		root.add(ProblemType).width(3.5f)
 		root.add(LineNumber).width(2.2f)
 		root.add(ObjectType).width(3)
 		root.add(AttributeGroup).width(3)
 		root.add(ObjectScope).width(2)
-		root.add(Message).width(9)
+		root.add(Message).width(8.5f)
 		return root.getGroupRoot()
 	}
 }

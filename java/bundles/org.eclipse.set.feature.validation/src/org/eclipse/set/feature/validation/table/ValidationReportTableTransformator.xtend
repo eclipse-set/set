@@ -11,6 +11,7 @@ package org.eclipse.set.feature.validation.table
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
+import org.eclipse.set.model.tablemodel.Table
 
 class ValidationReportTableTransformator extends AbstractTableModelTransformator<ValidationReport> {	
 	ValidationTableColumns columns;
@@ -35,4 +36,8 @@ class ValidationReportTableTransformator extends AbstractTableModelTransformator
 		
 		return factory.table
 	}
+	
+	override formatTableContent(Table table) {
+	}
+	
 }
