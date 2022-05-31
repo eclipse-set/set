@@ -101,6 +101,9 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 		val result = new HashSet
 
 		val topKante = singlePoint.topKante
+		if (topKante === null) {
+			return result
+		}
 		val abstand = topKante.getAbstand(singlePoint)
 		val length = topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue
 
