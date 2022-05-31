@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.feature.export</artifactId>
-	<version>1.0.354-SNAPSHOT</version>
+	<version>1.0.355-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

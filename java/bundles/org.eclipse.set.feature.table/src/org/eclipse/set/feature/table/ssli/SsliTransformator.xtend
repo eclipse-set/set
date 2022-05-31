@@ -244,10 +244,10 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		Signal signal
 	) {
 		addAll(container.fstrFahrweg.filter [
-			IDZiel.identitaet?.wert == signal.identitaet.wert
+			IDZiel?.identitaet?.wert == signal?.identitaet?.wert
 		].map [ fw |
 			container.fstrZugRangier.filter [
-				IDFstrFahrweg.identitaet?.wert == fw.identitaet.wert
+				IDFstrFahrweg?.identitaet?.wert == fw?.identitaet?.wert
 			]
 		].flatten.toSet.map[fstrRangier?.rangierGegenfahrtausschluss?.wert])
 		return
