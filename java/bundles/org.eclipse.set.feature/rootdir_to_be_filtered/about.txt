@@ -1,6 +1,6 @@
 PlanPro Werkzeugkoffer 
 
-Copyright (c) 2015 - 2017, DB Netz AG - Zentrale und andere Beitragende 
+Copyright (c) 2015 - ${build.year}, DB Netz AG - Zentrale und andere Beitragende 
 Technologiemanagement LST, Mainzer Landstraße 201, 60326 Frankfurt a.M.  
 
 Die Veröffentlichung des PlanPro Werkzeugkoffer erfolgt ohne jede 
@@ -15,8 +15,7 @@ bitte an:
 Christoph Klaus 
 planpro@deutschebahn.com 
 
-Technik- und Anlagenmanagement STE 
-LST und Elektrotechnik 50 Hz 
+Grundsätze Stellwerkstechnik
 
 DB Netz AG 
 Zentrale 
