@@ -8,6 +8,6 @@
   </parent>
   <groupId>org.eclipse.set</groupId>
   <artifactId>org.eclipse.set.model.simplemerge.extensions</artifactId>
-  <version>1.0.358-SNAPSHOT</version>
+  <version>1.0.359-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>
