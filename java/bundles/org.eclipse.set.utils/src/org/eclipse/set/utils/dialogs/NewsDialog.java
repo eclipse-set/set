@@ -20,6 +20,9 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class NewsDialog extends BrowserDialog {
 
+	private static String NEWS_DIRECTORY = "./web/news"; //$NON-NLS-1$
+	private static String NEWS_FILENAME = "index.html"; //$NON-NLS-1$
+
 	/**
 	 * @param parentShell
 	 *            the parent shell
@@ -33,6 +36,6 @@ public class NewsDialog extends BrowserDialog {
 
 	@Override
 	protected Path getHtmlLocation() {
-		return Paths.get(".", "news", "index.html"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return Paths.get(NEWS_DIRECTORY, NEWS_FILENAME);
 	}
 }
