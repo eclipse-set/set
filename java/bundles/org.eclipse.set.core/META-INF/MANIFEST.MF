@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Core
 Bundle-SymbolicName: org.eclipse.set.core;singleton:=true
-Bundle-Version: 1.0.361.qualifier
+Bundle-Version: 1.0.362.qualifier
 Automatic-Module-Name: org.eclipse.set.core
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
