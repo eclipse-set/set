@@ -54,7 +54,7 @@ public class ExcelExportBuilder implements TableExport {
 	private static final Logger logger = LoggerFactory
 			.getLogger(ExcelExportBuilder.class);
 
-	private static final String TEMPLATE_DIR = "./excel"; //$NON-NLS-1$
+	private static final String TEMPLATE_DIR = "./data/export/excel"; //$NON-NLS-1$
 
 	private static int getFirstRowForContent(final Sheet sheet) {
 		int index = 0;

@@ -29,8 +29,8 @@ import org.eclipse.set.utils.server.AbstractWebServer;
  *
  */
 public class PdfViewerServer extends AbstractWebServer {
-	private static final String WEBAPPLICATION_DIRECTORY = "./webapplication/pdf"; //$NON-NLS-1$
-	private static final String PDF_FILE_DIR = "/pdffile/"; //$NON-NLS-1$
+	private static final String PDF_VIEWER_PATH = "./web/pdf"; //$NON-NLS-1$
+	private static final String PDF_FILE_PATH_PREFIX = "/pdffile/"; //$NON-NLS-1$
 	private final ArrayList<Handler> handlers = new ArrayList<>();
 
 	/**
@@ -63,8 +63,8 @@ public class PdfViewerServer extends AbstractWebServer {
 		handlers.add(new DefaultHandler());
 		final ServletContextHandler context = createDefaultContextHandler("/"); //$NON-NLS-1$
 
-		final Path webDirPath = Paths.get(WEBAPPLICATION_DIRECTORY);
-		final Resource baseResource = Resource.newResource(webDirPath);
+		final Path pdfViewerPath = Paths.get(PDF_VIEWER_PATH);
+		final Resource baseResource = Resource.newResource(pdfViewerPath);
 		context.setBaseResource(baseResource);
 		handlers.add(0, context);
 		updateHandlers();
@@ -105,7 +105,8 @@ public class PdfViewerServer extends AbstractWebServer {
 	 */
 	@SuppressWarnings("resource")
 	public String serveFile(final Path file) throws Exception {
-		final String serverPath = PDF_FILE_DIR + file.getFileName().toString();
+		final String serverPath = PDF_FILE_PATH_PREFIX
+				+ file.getFileName().toString();
 		final ServletContextHandler fileContext = createDefaultContextHandler(
 				serverPath);
 		final Resource fileResource = Resource.newResource(file);

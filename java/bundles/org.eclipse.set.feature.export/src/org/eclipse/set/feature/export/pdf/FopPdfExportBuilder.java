@@ -139,7 +139,7 @@ public class FopPdfExportBuilder implements TableExport {
 
 	private FopService fopService;
 
-	private String templateDir = "pdf-export"; //$NON-NLS-1$
+	private String templateDir = "./data/export/pdf"; //$NON-NLS-1$
 
 	@Override
 	public void export(final Map<TableType, Table> tables,
@@ -201,7 +201,7 @@ public class FopPdfExportBuilder implements TableExport {
 	}
 
 	/**
-	 * @return the template dir
+	 * @return the template directory
 	 */
 	public String getTemplateDir() {
 		return templateDir;
@@ -261,6 +261,6 @@ public class FopPdfExportBuilder implements TableExport {
 	}
 
 	private Path getTemplateFilename(final String shortcut) {
-		return Paths.get(templateDir, shortcut + "_vorlage.xsl"); //$NON-NLS-1$
+		return Paths.get(getTemplateDir(), shortcut + "_vorlage.xsl"); //$NON-NLS-1$
 	}
 }
