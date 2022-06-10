@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class NewsDialog extends BrowserDialog {
 
-	private static String NEWS_DIRECTORY = "./web/news"; //$NON-NLS-1$
-	private static String NEWS_FILENAME = "index.html"; //$NON-NLS-1$
+	private static final String NEWS_DIRECTORY = "./web/news"; //$NON-NLS-1$
+	private static final String NEWS_FILENAME = "index.html"; //$NON-NLS-1$
 
 	/**
 	 * @param parentShell

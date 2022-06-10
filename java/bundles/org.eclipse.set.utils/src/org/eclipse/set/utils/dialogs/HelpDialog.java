@@ -21,8 +21,8 @@ import org.eclipse.swt.widgets.Shell;
  */
 public final class HelpDialog extends BrowserDialog {
 
-	private static String HELP_DIRECTORY = "./web/help"; //$NON-NLS-1$
-	private static String HELP_FILENAME = "index.html"; //$NON-NLS-1$
+	private static final String HELP_DIRECTORY = "./web/help"; //$NON-NLS-1$
+	private static final String HELP_FILENAME = "index.html"; //$NON-NLS-1$
 
 	/**
 	 * creates the dialog
