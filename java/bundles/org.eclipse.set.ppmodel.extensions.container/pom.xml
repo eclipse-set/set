@@ -8,6 +8,6 @@
   </parent>
   <groupId>org.eclipse.set</groupId>
   <artifactId>org.eclipse.set.ppmodel.extensions.container</artifactId>
-  <version>1.0.363-SNAPSHOT</version>
+  <version>1.0.364-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>
