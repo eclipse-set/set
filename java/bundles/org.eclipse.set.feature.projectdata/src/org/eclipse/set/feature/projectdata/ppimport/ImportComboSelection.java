@@ -58,6 +58,9 @@ public enum ImportComboSelection {
 
 		@Override
 		public int getDefault() {
+			if (fileNature == PlanProFileNature.INFORMATION_STATE) {
+				return getIndex(ZUSTAND_INFORMATION);
+			}
 			return getIndex(NOT_SELECTED);
 		}
 

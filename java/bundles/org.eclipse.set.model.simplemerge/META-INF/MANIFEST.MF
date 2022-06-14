@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.simplemerge;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.simplemerge
-Bundle-Version: 1.0.364.qualifier
+Bundle-Version: 1.0.365.qualifier
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.set.model.simplemerge,
