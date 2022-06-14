@@ -282,13 +282,22 @@ public interface ValidationreportPackage extends EPackage {
 	int VALIDATION_PROBLEM__OBJECT_SCOPE = 8;
 
 	/**
+	 * The feature id for the '<em><b>Object State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_PROBLEM__OBJECT_STATE = 9;
+
+	/**
 	 * The number of structural features of the '<em>Validation Problem</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_PROBLEM_FEATURE_COUNT = 9;
+	int VALIDATION_PROBLEM_FEATURE_COUNT = 10;
 
 	/**
 	 * The number of operations of the '<em>Validation Problem</em>' class.
@@ -608,6 +617,17 @@ public interface ValidationreportPackage extends EPackage {
 	EAttribute getValidationProblem_ObjectScope();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectState <em>Object State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object State</em>'.
+	 * @see org.eclipse.set.model.validationreport.ValidationProblem#getObjectState()
+	 * @see #getValidationProblem()
+	 * @generated
+	 */
+	EAttribute getValidationProblem_ObjectState();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.validationreport.VersionInfo <em>Version Info</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -861,6 +881,14 @@ public interface ValidationreportPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VALIDATION_PROBLEM__OBJECT_SCOPE = eINSTANCE.getValidationProblem_ObjectScope();
+
+		/**
+		 * The meta object literal for the '<em><b>Object State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALIDATION_PROBLEM__OBJECT_STATE = eINSTANCE.getValidationProblem_ObjectState();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl <em>Version Info</em>}' class.

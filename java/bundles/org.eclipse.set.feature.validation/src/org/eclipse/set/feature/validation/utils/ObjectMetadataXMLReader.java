@@ -32,6 +32,7 @@ public class ObjectMetadataXMLReader {
 	private final Path documentPath;
 	private final ValidationObjectTypeProvider validationObjectTypeProvider;
 	private final ValidationObjectScopeProvider validationObjectScopeProvider;
+	private final ValidationObjectStateProvider validationObjectStateProvider;
 	private final ValidationAttributeNameProvider validationAttributeNameProvider;
 
 	/**
@@ -73,12 +74,13 @@ public class ObjectMetadataXMLReader {
 	private ObjectMetadataXMLReader(final Path path) {
 		documentPath = path;
 		validationObjectScopeProvider = new ValidationObjectScopeProvider();
+		validationObjectStateProvider = new ValidationObjectStateProvider();
 		validationObjectTypeProvider = new ValidationObjectTypeProvider();
 		validationAttributeNameProvider = new ValidationAttributeNameProvider();
 	}
 
 	/**
-	 * Returns the scope of a object represented by a XML node
+	 * Returns the scope of an object represented by a XML node
 	 * 
 	 * @param node
 	 *            the node
@@ -90,7 +92,7 @@ public class ObjectMetadataXMLReader {
 	}
 
 	/**
-	 * Returns the scope of a object represented by a XML node
+	 * Returns the scope of an object represented by a XML node
 	 * 
 	 * @param node
 	 *            the node
@@ -101,7 +103,7 @@ public class ObjectMetadataXMLReader {
 	}
 
 	/**
-	 * Returns the type of a object represented by a XML node
+	 * Returns the type of an object represented by a XML node
 	 * 
 	 * @param node
 	 *            the node
@@ -110,6 +112,18 @@ public class ObjectMetadataXMLReader {
 	public static String getObjectType(final Node node) {
 		final ObjectMetadataXMLReader metadata = getMetadataReader(node);
 		return metadata.validationObjectTypeProvider.getObjectType(node);
+	}
+
+	/**
+	 * Returns the containing state of an object represented by a XML node
+	 * 
+	 * @param node
+	 *            the node
+	 * @return the state of the object or null
+	 */
+	public static String getObjectState(final Node node) {
+		final ObjectMetadataXMLReader metadata = getMetadataReader(node);
+		return metadata.validationObjectStateProvider.getObjectState(node);
 	}
 
 	/**

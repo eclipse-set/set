@@ -37,6 +37,7 @@ import org.eclipse.set.model.validationreport.ValidationreportPackage;
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectArt <em>Object Art</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getAttributeName <em>Attribute Name</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectScope <em>Object Scope</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectState <em>Object State</em>}</li>
  * </ul>
  *
  * @generated
@@ -221,6 +222,26 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @ordered
 	 */
 	protected ObjectScope objectScope = OBJECT_SCOPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getObjectState() <em>Object State</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectState()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String OBJECT_STATE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getObjectState() <em>Object State</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getObjectState()
+	 * @generated
+	 * @ordered
+	 */
+	protected String objectState = OBJECT_STATE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -454,6 +475,29 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 */
 	@Override
+	public String getObjectState() {
+		return objectState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setObjectState(String newObjectState) {
+		String oldObjectState = objectState;
+		objectState = newObjectState;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE, oldObjectState, objectState));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ValidationreportPackage.VALIDATION_PROBLEM__ID:
@@ -474,6 +518,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 				return getAttributeName();
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 				return getObjectScope();
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
+				return getObjectState();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -512,6 +558,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 				setObjectScope((ObjectScope)newValue);
+				return;
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
+				setObjectState((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -552,6 +601,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 				setObjectScope(OBJECT_SCOPE_EDEFAULT);
 				return;
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
+				setObjectState(OBJECT_STATE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -561,6 +613,7 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("null")
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
@@ -582,6 +635,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 				return ATTRIBUTE_NAME_EDEFAULT == null ? attributeName != null : !ATTRIBUTE_NAME_EDEFAULT.equals(attributeName);
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 				return objectScope != OBJECT_SCOPE_EDEFAULT;
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
+				return OBJECT_STATE_EDEFAULT == null ? objectState != null : !OBJECT_STATE_EDEFAULT.equals(objectState);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -614,6 +669,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		result.append(attributeName);
 		result.append(", objectScope: ");
 		result.append(objectScope);
+		result.append(", objectState: ");
+		result.append(objectState);
 		result.append(')');
 		return result.toString();
 	}

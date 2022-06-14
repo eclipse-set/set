@@ -75,6 +75,7 @@ public class ValidationProblemItemProvider
 			addObjectArtPropertyDescriptor(object);
 			addAttributeNamePropertyDescriptor(object);
 			addObjectScopePropertyDescriptor(object);
+			addObjectStatePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -278,6 +279,28 @@ public class ValidationProblemItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Object State feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addObjectStatePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationProblem_objectState_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationProblem_objectState_feature", "_UI_ValidationProblem_type"),
+				 ValidationreportPackage.Literals.VALIDATION_PROBLEM__OBJECT_STATE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns ValidationProblem.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -322,6 +345,7 @@ public class ValidationProblemItemProvider
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
+			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

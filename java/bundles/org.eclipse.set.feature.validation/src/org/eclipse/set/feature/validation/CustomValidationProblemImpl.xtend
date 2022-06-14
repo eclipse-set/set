@@ -24,12 +24,13 @@ class CustomValidationProblemImpl implements CustomValidationProblem {
 	new() {
 	}
 
-	new(String message, ValidationSeverity severity, String type, String objectArt, ObjectScope objectScope) {
+	new(String message, ValidationSeverity severity, String type, String objectArt, ObjectScope objectScope, String objectState) {
 		setMessage(message)
 		setSeverity(severity)
 		setType(type)
 		setObjectArt(objectArt)
 		setObjectScope(objectScope)
+		setObjectState(objectState)
 	}
 
 	int lineNumber = 0
@@ -38,5 +39,6 @@ class CustomValidationProblemImpl implements CustomValidationProblem {
 	String type
 	String objectArt
 	ObjectScope objectScope
+	String objectState
 	String attributeName
 }

@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.feature.validation</artifactId>
-	<version>1.0.365-SNAPSHOT</version>
+	<version>1.0.366-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

@@ -27,6 +27,7 @@ class ValidationTableColumns extends AbstractColumns {
 	public final ColumnDescriptor ObjectType;
 	public final ColumnDescriptor AttributeGroup;
 	public final ColumnDescriptor ObjectScope;
+	public final ColumnDescriptor ObjectState;
 	public final ColumnDescriptor Message;
 
 	/** 
@@ -42,6 +43,7 @@ class ValidationTableColumns extends AbstractColumns {
 		AttributeGroup = createNew(
 			messages.ValidationTableColumns_AttributeGroup)
 		ObjectScope = createNew(messages.ValidationTableColumns_ObjectScope)
+		ObjectState = createNew(messages.ValidationTableColumns_ObjectState)
 		Message = createNew(messages.ValidationTableColumns_Message)
 	}
 
@@ -55,7 +57,8 @@ class ValidationTableColumns extends AbstractColumns {
 		root.add(ObjectType).width(3)
 		root.add(AttributeGroup).width(3)
 		root.add(ObjectScope).width(2)
-		root.add(Message).width(8.5f)
+		root.add(ObjectState).width(1.5f)
+		root.add(Message).width(8f)
 		return root.getGroupRoot()
 	}
 }

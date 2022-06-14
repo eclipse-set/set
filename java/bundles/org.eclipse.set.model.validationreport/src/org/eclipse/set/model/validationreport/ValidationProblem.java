@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectArt <em>Object Art</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getAttributeName <em>Attribute Name</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectScope <em>Object Scope</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectState <em>Object State</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationProblem()
@@ -263,5 +264,28 @@ public interface ValidationProblem extends EObject {
 	 * @generated
 	 */
 	void setObjectScope(ObjectScope value);
+
+	/**
+	 * Returns the value of the '<em><b>Object State</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Object State</em>' attribute.
+	 * @see #setObjectState(String)
+	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationProblem_ObjectState()
+	 * @model default=""
+	 * @generated
+	 */
+	String getObjectState();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectState <em>Object State</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Object State</em>' attribute.
+	 * @see #getObjectState()
+	 * @generated
+	 */
+	void setObjectState(String value);
 
 } // ValidationProblem

@@ -95,6 +95,7 @@ class NilTest implements CustomValidator {
 		type = messages.NilTestProblem_Type
 		objectArt = node.objectType
 		objectScope = node.objectScope
+		objectState = node.objectState
 		attributeName = node.attributeName
 		return
 	}

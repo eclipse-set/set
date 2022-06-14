@@ -165,6 +165,7 @@ class SessionToValidationReportTransformation {
 		if (xmlNode !== null) {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
+			objectState = xmlNode.objectState
 		}
 		return
 	}
@@ -187,6 +188,7 @@ class SessionToValidationReportTransformation {
 		if (xmlNode !== null) {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
+			objectState = xmlNode.objectState
 		}
 		return
 	}
@@ -224,6 +226,7 @@ class SessionToValidationReportTransformation {
 		message = problem.message
 		objectArt = problem.objectArt
 		objectScope = problem.objectScope
+		objectState = problem.objectState
 		attributeName = problem.attributeName
 		return
 	}

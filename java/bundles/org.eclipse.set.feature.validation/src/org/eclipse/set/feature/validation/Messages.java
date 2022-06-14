@@ -186,6 +186,11 @@ public class Messages {
 	public String ValidationTableColumns_ObjectScope;
 
 	/**
+	 * Zustand
+	 */
+	public String ValidationTableColumns_ObjectState;
+
+	/**
 	 * Meldung
 	 */
 	public String ValidationTableColumns_Message;

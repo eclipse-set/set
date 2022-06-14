@@ -39,6 +39,11 @@ public interface CustomValidationProblem {
 	ObjectScope getObjectScope();
 
 	/**
+	 * @return the Object State
+	 */
+	String getObjectState();
+
+	/**
 	 * @return the validation severity
 	 */
 	ValidationSeverity getSeverity();

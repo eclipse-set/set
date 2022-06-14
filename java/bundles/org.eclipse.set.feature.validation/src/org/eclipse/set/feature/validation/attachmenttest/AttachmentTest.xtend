@@ -148,6 +148,7 @@ class AttachmentTest implements CustomValidator {
 		type = messagesProvider.messages.AttachmentTestProblem_Type
 		objectArt = node.objectType
 		objectScope = node.objectScope
+		objectState = node.objectState
 		attributeName = node.attributeName
 		return
 	}
