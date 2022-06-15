@@ -9,11 +9,15 @@
 
 package org.eclipse.set.utils.table.sorting;
 
+import java.util.Map;
+
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.config.DefaultNatTableStyleConfiguration;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
+import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnCommand;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
@@ -23,9 +27,9 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.CornerLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
-import org.eclipse.nebula.widgets.nattable.layer.ILayerListener;
-import org.eclipse.nebula.widgets.nattable.layer.event.ILayerEvent;
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
+import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
 import org.eclipse.nebula.widgets.nattable.sort.event.SortColumnEvent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -47,6 +51,24 @@ public class AbstractSortByColumnTables {
 
 	protected TableDataProvider bodyDataProvider;
 	protected BodyLayerStack bodyLayerStack;
+
+	class FilterStrategy<T> implements IFilterStrategy<T> {
+		private final TableDataProvider tableDataProvider;
+		private final Table tableModel;
+
+		public FilterStrategy(final TableDataProvider tableDataProvider,
+				final Table tableModel) {
+			this.tableDataProvider = tableDataProvider;
+			this.tableModel = tableModel;
+		}
+
+		@Override
+		public void applyFilter(
+				final Map<Integer, Object> filterIndexToObjectMap) {
+			tableDataProvider.applyFilter(filterIndexToObjectMap, tableModel);
+		}
+
+	}
 
 	protected NatTable createTable(final Composite parent,
 			final Table tableModel) {
@@ -71,14 +93,17 @@ public class AbstractSortByColumnTables {
 				new TableSortModel(tableModel.getTablecontent().getRowgroups(),
 						tableModel.getColumndescriptors().size()),
 				true);
-		sortHeaderLayer.addLayerListener(new ILayerListener() {
-			@Override
-			public void handleLayerEvent(final ILayerEvent event) {
-				if (event instanceof SortColumnEvent) {
-					bodyDataProvider.refresh(tableModel);
-				}
+		sortHeaderLayer.addLayerListener(event -> {
+			if (event instanceof SortColumnEvent) {
+				bodyDataProvider.refresh(tableModel);
 			}
 		});
+
+		final ConfigRegistry configRegistry = new ConfigRegistry();
+		final FilterRowHeaderComposite<Object> filterRowHeaderLayer = new FilterRowHeaderComposite<>(
+				new FilterStrategy<>(bodyDataProvider, tableModel),
+				sortHeaderLayer, columnHeaderDataLayer.getDataProvider(),
+				configRegistry);
 
 		// row header stack
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(
@@ -94,18 +119,18 @@ public class AbstractSortByColumnTables {
 				columnHeaderDataProvider, rowHeaderDataProvider);
 		final DataLayer cornerDataLayer = new DataLayer(cornerDataProvider);
 		final CornerLayer cornerLayer = new CornerLayer(cornerDataLayer,
-				rowHeaderLayer, columnHeaderLayer);
+				rowHeaderLayer, filterRowHeaderLayer);
 
 		// gridlayer
 		final GridLayer gridLayer = new GridLayer(bodyLayerStack,
-				sortHeaderLayer, rowHeaderLayer, cornerLayer);
+				filterRowHeaderLayer, rowHeaderLayer, cornerLayer);
 
 		final NatTable natTable = new NatTable(parent, SWT.NO_BACKGROUND
 				| SWT.DOUBLE_BUFFERED | SWT.V_SCROLL | SWT.H_SCROLL, gridLayer,
 				false);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(natTable);
 
-		natTable.setConfigRegistry(new ConfigRegistry());
+		natTable.setConfigRegistry(configRegistry);
 		natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
 		natTable.addConfiguration(new SingleClickSortConfiguration());
 		natTable.configure();
@@ -117,6 +142,10 @@ public class AbstractSortByColumnTables {
 
 		natTable.doCommand(new FreezeColumnCommand(bodyLayerStack, 0));
 		bodyLayerStack.getSelectionLayer().clear();
+
+		// Sort by first column (Ascending)
+		natTable.doCommand(new SortColumnCommand(sortHeaderLayer, 0,
+				SortDirectionEnum.ASC));
 
 		return natTable;
 	}
