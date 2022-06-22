@@ -9,9 +9,11 @@
 package org.eclipse.set.pdf.utils;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 import org.eclipse.jetty.util.URIUtil;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.set.browser.DownloadListener;
 import org.eclipse.set.core.services.pdf.PdfViewer;
 import org.eclipse.set.pdf.utils.server.PdfViewerServer;
 import org.eclipse.set.utils.WebBrowser;
@@ -25,11 +27,12 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Stuecker
  */
-public class BrowserPdfViewer implements PdfViewer {
+public class BrowserPdfViewer implements PdfViewer, DownloadListener {
 	private static final String HTML_PDF_VIEWER_PATH = "web/viewer.modified.html"; //$NON-NLS-1$
 
 	private WebBrowser browser;
 	private PdfViewerServer server;
+	private SaveListener saveListener;
 	private final Composite parent;
 
 	private static final Logger logger = LoggerFactory
@@ -41,9 +44,7 @@ public class BrowserPdfViewer implements PdfViewer {
 	 */
 	public BrowserPdfViewer(final Composite parent) {
 		this.parent = parent;
-		parent.addDisposeListener(e -> {
-			stopServer();
-		});
+		parent.addDisposeListener(e -> stopServer());
 	}
 
 	/**
@@ -71,6 +72,7 @@ public class BrowserPdfViewer implements PdfViewer {
 
 			if (this.browser == null) {
 				browser = new WebBrowser(parent);
+				browser.getBrowser().setDownloadListener(this);
 				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
 						.grab(true, true).span(2, 1)
 						.applyTo(browser.getControl());
@@ -98,5 +100,26 @@ public class BrowserPdfViewer implements PdfViewer {
 				logger.error("Server termination failed.", e); //$NON-NLS-1$
 			}
 		}
+	}
+
+	@Override
+	public Optional<Path> beforeDownload(final String suggestedName,
+			final String url) {
+		if (saveListener != null) {
+			return saveListener.saveFile(suggestedName);
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public void downloadFinished(final boolean success, final Path path) {
+		if (saveListener != null) {
+			saveListener.saveCompleted(path);
+		}
+	}
+
+	@Override
+	public void setSaveListener(final SaveListener saveListener) {
+		this.saveListener = saveListener;
 	}
 }

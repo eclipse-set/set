@@ -18,9 +18,9 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.eclipse.set.browser.Browser;
-import org.eclipse.set.browser.BrowserFunction;
-import org.eclipse.set.browser.WindowEvent;
 import org.eclipse.set.browser.lib.CEFLibrary;
+import org.eclipse.set.browser.swt.BrowserFunction;
+import org.eclipse.set.browser.swt.WindowEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;

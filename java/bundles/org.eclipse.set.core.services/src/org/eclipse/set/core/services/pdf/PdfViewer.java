@@ -9,6 +9,7 @@
 package org.eclipse.set.core.services.pdf;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * A pdf viewer can render a pdf document and set different view modes.
@@ -16,6 +17,28 @@ import java.nio.file.Path;
  * @author Schaefer
  */
 public interface PdfViewer {
+	/**
+	 * Interface for user requested saves
+	 */
+	public interface SaveListener {
+		/**
+		 * Called when the user requests to save the file
+		 * 
+		 * @param filename
+		 *            the raw filename
+		 * @return Optional.empty if the file should not be saved or A path to
+		 *         the storage location to save or
+		 */
+		Optional<Path> saveFile(String filename);
+
+		/**
+		 * Called when the file was saved
+		 * 
+		 * @param path
+		 *            the file location
+		 */
+		void saveCompleted(Path path);
+	}
 
 	/**
 	 * Refresh the view.
@@ -29,4 +52,10 @@ public interface PdfViewer {
 	 *            the path
 	 */
 	void show(Path path);
+
+	/**
+	 * @param saveListener
+	 *            the save listener
+	 */
+	void setSaveListener(SaveListener saveListener);
 }

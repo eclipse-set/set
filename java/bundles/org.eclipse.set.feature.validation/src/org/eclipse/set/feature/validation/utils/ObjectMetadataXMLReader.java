@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  *
  */
 public class ObjectMetadataXMLReader {
-	private final static String METADATA_READER_KEY = "metadataReader"; //$NON-NLS-1$
+	private static final String METADATA_READER_KEY = "metadataReader"; //$NON-NLS-1$
 
 	private final Path documentPath;
 	private final ValidationObjectTypeProvider validationObjectTypeProvider;

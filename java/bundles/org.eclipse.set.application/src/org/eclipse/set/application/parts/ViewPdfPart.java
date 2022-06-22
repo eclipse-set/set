@@ -21,14 +21,17 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
 import org.eclipse.set.core.services.pdf.PdfViewer;
+import org.eclipse.set.core.services.pdf.PdfViewer.SaveListener;
 import org.eclipse.set.core.services.pdf.PdfViewerPart;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Display a pdf file.
@@ -36,7 +39,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Schaefer
  */
 public class ViewPdfPart extends BasePart<IModelSession>
-		implements PdfViewerPart {
+		implements PdfViewerPart, SaveListener {
 
 	@Optional
 	@Inject
@@ -82,7 +85,27 @@ public class ViewPdfPart extends BasePart<IModelSession>
 		if (rendererService != null) {
 			viewer = rendererService.createViewer(parent);
 			viewer.show(path);
+			viewer.setSaveListener(this);
 		}
+	}
+
+	@Override
+	public java.util.Optional<Path> saveFile(final String filename) {
+		final Shell shell = getToolboxShell();
+		final Path location = getModelSession().getToolboxFile().getPath();
+		final Path parent = location.getParent();
+		final String defaultPath = parent == null ? "" : parent.toString(); //$NON-NLS-1$
+		final String defaultFileName = String.format(filename,
+				PathExtensions.getBaseFileName(location));
+
+		return getDialogService().saveFileDialog(shell,
+				getDialogService().getDokumentFileFilters(),
+				Paths.get(defaultPath, defaultFileName));
+	}
+
+	@Override
+	public void saveCompleted(final Path path) {
+		getDialogService().reportSavedFile(getToolboxShell(), path);
 	}
 
 	/**

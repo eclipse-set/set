@@ -9,8 +9,10 @@
 package org.eclipse.set.feature.export.parts;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -21,12 +23,15 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
 import org.eclipse.set.core.services.pdf.PdfViewer;
+import org.eclipse.set.core.services.pdf.PdfViewer.SaveListener;
 import org.eclipse.set.feature.export.Messages;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -34,15 +39,15 @@ import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * This part renders the titlebox as an PDF-File.
  * 
  * @author Schaefer
  */
-public class TitleBoxPdfPart extends BasePart<IModelSession> {
+public class TitleBoxPdfPart extends BasePart<IModelSession>
+		implements SaveListener {
 
 	private static final String TITLEBOX_PDF = "titlebox.pdf"; //$NON-NLS-1$
 
@@ -70,6 +75,7 @@ public class TitleBoxPdfPart extends BasePart<IModelSession> {
 		parent.setLayout(new FillLayout());
 		viewer = rendererService.createViewer(parent);
 		viewer.show(Paths.get(TITLEBOX_PDF));
+		viewer.setSaveListener(this);
 	}
 
 	private void createTitleboxPdfMonitor() {
@@ -139,5 +145,24 @@ public class TitleBoxPdfPart extends BasePart<IModelSession> {
 		createTitleboxPdfMonitor();
 		viewer.refresh();
 		setOutdated(false);
+	}
+
+	@Override
+	public Optional<Path> saveFile(final String filename) {
+		final Shell shell = getToolboxShell();
+		final Path location = getModelSession().getToolboxFile().getPath();
+		final Path parent = location.getParent();
+		final String defaultPath = parent == null ? "" : parent.toString(); //$NON-NLS-1$
+		final String defaultFileName = String.format(filename,
+				PathExtensions.getBaseFileName(location));
+
+		return getDialogService().saveFileDialog(shell,
+				getDialogService().getDokumentFileFilters(),
+				Paths.get(defaultPath, defaultFileName));
+	}
+
+	@Override
+	public void saveCompleted(final Path path) {
+		getDialogService().reportSavedFile(getToolboxShell(), path);
 	}
 }

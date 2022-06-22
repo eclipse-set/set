@@ -35,11 +35,7 @@ Modified lines are marked with the keyword MODIFIED.
     <link rel="stylesheet" href="viewer.css">
 
 <!-- This snippet is used in production (included from viewer.html) -->
-<!-- MODIFIED
-Only include German localization
-IMPROVE:
-This is a workaround for the embedded Chromium falsely reporting en-US locale -->
-<link rel="resource" type="application/l10n" href="locale/de/viewer.properties">
+<link rel="resource" type="application/l10n" href="locale/locale.properties">
 <script src="../build/pdf.js"></script>
 
   <script src="viewer.js"></script>
@@ -256,9 +252,7 @@ This is a workaround for the embedded Chromium falsely reporting en-US locale --
                   <span data-l10n-id="print_label">Print</span>
                 </button>
 
-                <!-- MODIFIED
-                  Hide download button -->
-                <button hidden="true" id="download" class="toolbarButton hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download">
+                <button id="download" class="toolbarButton hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download">
                   <span data-l10n-id="download_label">Download</span>
                 </button>
 
