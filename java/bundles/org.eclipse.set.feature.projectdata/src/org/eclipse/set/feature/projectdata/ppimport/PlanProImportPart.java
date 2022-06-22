@@ -199,8 +199,8 @@ public class PlanProImportPart extends ImportMergePart<IModelSession> {
 
 		// connect file field with import button and combo
 		fileFieldCombo.getText().addModifyListener(e -> {
-			updateImportButton();
 			updateCombo(fileFieldCombo, modelProvider);
+			updateImportButton();
 		});
 		fileFieldCombo.getCombo().addSelectionListener(new SelectionListener() {
 
