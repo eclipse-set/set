@@ -242,6 +242,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 			directedLineSegment.getElement)
 		var double rotation = Geometries.getRotationToVertical(direction);
 		switch (wirkrichtung) {
+			case ENUM_WIRKRICHTUNG_BEIDE,
 			case ENUM_WIRKRICHTUNG_IN: {
 			}
 			case ENUM_WIRKRICHTUNG_GEGEN: {
