@@ -332,6 +332,16 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 }
 
 /**
+ * emfjson-jackson.
+ * 
+ * Allows exporting of emf models to JSON via Jackson
+ */
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/emfjson/emfjson-jackson/1.3.0-4/emfjson-jackson-1.3.0-4.zip-unzip/" {
+	org.emfjson.jackson
+}
+
+
+/**
  * Toolbox Model
  * 
  * Bundle for the Toolbox Model

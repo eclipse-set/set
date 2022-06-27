@@ -34,8 +34,8 @@ Require-Bundle: javax.inject;bundle-version="1.0.0",
  org.eclipse.jetty.servlet,
  javax.servlet,
  com.fasterxml.jackson.core.jackson-databind,
- org.emfjson.jackson,
- com.fasterxml.jackson.core.jackson-core;bundle-version="2.12.2"
+ com.fasterxml.jackson.core.jackson-core,
+ org.emfjson.jackson
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Import-Package: ch.qos.logback.classic;version="1.0.7",

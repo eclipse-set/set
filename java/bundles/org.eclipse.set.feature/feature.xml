@@ -87,6 +87,7 @@
       <import plugin="org.eclipse.e4.ui.workbench.addons.swt" version="0.10.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecore" version="2.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.set.services" version="0.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.set.services" version="0.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -2565,6 +2566,20 @@
 
    <plugin
          id="org.eclipse.set.toolboxmodel.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.fasterxml.jackson.core.jackson-databind"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.emfjson.jackson"
          download-size="0"
          install-size="0"
          version="0.0.0"
