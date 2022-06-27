@@ -1,0 +1,32 @@
+/**
+ * Copyright (c) 2022 DB Netz AG and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+ package org.eclipse.set.basis;
+
+/**
+ * A problem message indicating an issue with the supplied planning
+ * 
+ * @param message
+ *            the message
+ * @param type
+ *            the source of the problem
+ * @param lineStart
+ *            the starting line
+ * @param lineEnd
+ *            the ending line
+ * @param columnStart
+ *            the starting column
+ * @param columnEnd
+ *            the ending column
+ * @param severity
+ *            the severity (1-4) of the problem
+ */
+public record ProblemMessage(String message, String type, int lineStart,
+		int lineEnd, int columnStart, int columnEnd, int severity) {
+	//
+}

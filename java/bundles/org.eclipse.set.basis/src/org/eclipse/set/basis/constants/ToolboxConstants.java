@@ -62,6 +62,11 @@ public final class ToolboxConstants {
 		 */
 		public static final String BANKING_INTERVAL = "toolbox.cache.banking-interval";
 
+		/**
+		 * The id of the problem message cache.
+		 */
+		public static final String PROBLEM_MESSAGE = "toolbox.cache.problem-message";
+
 	}
 
 	/**

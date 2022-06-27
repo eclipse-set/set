@@ -13,6 +13,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -27,10 +28,13 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.ProblemMessage;
+import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.validation.ValidationAnnotationService;
@@ -151,6 +155,19 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 					getBroker(), this, toolboxPartService);
 			modelService.put(VALIDATION_PROBLEM_TABLE_EVENT_LINK,
 					validationProblemTableEventLink);
+
+			// record in cache service
+			final Cache cache = Services.getCacheService()
+					.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
+			final List<ProblemMessage> problems = cache.get("validationReport", //$NON-NLS-1$
+					ArrayList::new);
+			problems.clear();
+			// IMPROVE: Record full line and column indices
+			validationReport.getProblems()
+					.forEach(problem -> problems
+							.add(new ProblemMessage(problem.getMessage(),
+									problem.getType(), problem.getLineNumber(),
+									problem.getLineNumber(), 0, 99999, 3)));
 
 			// export control
 			exportValidationAction = new StatefulButtonAction(
