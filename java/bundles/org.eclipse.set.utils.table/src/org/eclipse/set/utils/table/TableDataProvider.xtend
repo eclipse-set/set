@@ -50,8 +50,8 @@ class TableDataProvider implements IDataProvider {
 	private def boolean filterMatch(TableRow row) {
 		for (var i = 0; i < columnCount; i++) {
 			if (filters.containsKey(i)) {
-				val content = row.cells.get(i).content.plainStringValue
-				if (!content.contains(filters.get(i).toString)) {
+				val content = row.cells.get(i).content.plainStringValue.toLowerCase
+				if (!content.contains(filters.get(i).toString.toLowerCase)) {
 					return false
 				}
 			}
