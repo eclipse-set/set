@@ -2,23 +2,22 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Application
 Bundle-SymbolicName: org.eclipse.set.application;singleton:=true
-Bundle-Version: 1.0.369.qualifier
+Bundle-Version: 1.0.371.qualifier
 Bundle-Activator: org.eclipse.set.application.Activator
 Bundle-Vendor: Eclipse Technology Project
 Export-Package: org.eclipse.set.application,
  org.eclipse.set.application.handler,
  org.eclipse.set.application.nameservice
-Require-Bundle: javax.inject;bundle-version="1.0.0",
- org.eclipse.core.runtime;bundle-version="3.10.0",
- org.eclipse.e4.ui.model.workbench;bundle-version="1.1.0",
- org.eclipse.e4.ui.services;bundle-version="1.1.0",
- org.eclipse.e4.core.di;bundle-version="1.4.0",
- org.eclipse.e4.ui.di;bundle-version="1.0.0",
- org.eclipse.e4.core.contexts;bundle-version="1.3.100",
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.e4.ui.model.workbench,
+ org.eclipse.e4.ui.services,
+ org.eclipse.e4.core.di,
+ org.eclipse.e4.ui.di,
+ org.eclipse.e4.core.contexts,
  javax.annotation,
- org.eclipse.core.databinding;bundle-version="1.5.0",
- org.eclipse.core.databinding.beans;bundle-version="1.3.0",
- org.eclipse.core.databinding.property;bundle-version="1.5.0",
+ org.eclipse.core.databinding,
+ org.eclipse.core.databinding.beans,
+ org.eclipse.core.databinding.property,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
@@ -32,7 +31,6 @@ Require-Bundle: javax.inject;bundle-version="1.0.0",
  org.eclipse.jetty.server,
  org.eclipse.jetty.util,
  org.eclipse.jetty.servlet,
- javax.servlet,
  com.fasterxml.jackson.core.jackson-databind,
  com.fasterxml.jackson.core.jackson-core,
  org.emfjson.jackson
@@ -46,7 +44,9 @@ Import-Package: ch.qos.logback.classic;version="1.0.7",
  com.google.common.base;version="15.0.0",
  com.google.common.cache;version="15.0.0",
  com.google.common.collect;version="12.0.0",
- javax.inject;version="1.0.0",
+ javax.inject,
+ javax.servlet,
+ javax.servlet.http,
  org.apache.commons.io;version="2.2.0",
  org.eclipse.e4.core.commands,
  org.eclipse.e4.core.services.events,

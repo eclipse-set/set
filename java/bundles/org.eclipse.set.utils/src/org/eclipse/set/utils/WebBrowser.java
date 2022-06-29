@@ -54,7 +54,7 @@ public class WebBrowser {
 	}
 
 	private static Browser createBrowser(final Composite parent) {
-		final Browser browser = new Browser(parent, SWT.CHROMIUM);
+		final Browser browser = new Browser(parent, SWT.DEFAULT);
 
 		// Enable Javascript
 		browser.setJavascriptEnabled(true);

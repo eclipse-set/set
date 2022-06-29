@@ -13,11 +13,76 @@ with source
  * 
  * Provides SWT, EMF and many other eclipse libraries.  
  */
-location "https://download.eclipse.org/releases/2020-12/" {
+location "https://download.eclipse.org/releases/2022-06/" {
+	org.apache.batik.anim
+	org.apache.batik.awt.util
+	org.apache.batik.bridge
+	org.apache.batik.dom
+	org.apache.batik.dom.svg
+	org.apache.batik.ext
+	org.apache.batik.gvt
+	org.apache.batik.parser
+	org.apache.batik.script
+	org.apache.batik.transcoder
+	org.apache.batik.xml
+	org.apache.batik.svggen	
+	org.apache.commons.lang3
+	org.bouncycastle.bcpg
+	org.bouncycastle.bcutil
+	org.eclipse.emf.sdk.feature.group
+	org.eclipse.equinox.ds
+	org.eclipse.jetty.http
+	org.eclipse.jetty.io
+	org.eclipse.jetty.security
+	org.eclipse.jetty.server
+	org.eclipse.jetty.servlet
+	org.eclipse.jetty.util
+	org.eclipse.jetty.util.ajax
+	org.eclipse.jetty.webapp
+	org.eclipse.jetty.xml
+	org.eclipse.net4j.util.feature.group
+	org.osgi.service.prefs
+	jakarta.servlet-api
+	jakarta.transaction-api
+	jakarta.xml.bind
 	javax.annotation
 	javax.annotation.source
-	org.eclipse.emf.sdk.feature.group
-	org.eclipse.net4j.util.feature.group
+	javax.activation [1.1.0,1.2.0)
+	javax.mail
+}
+
+/**
+ * Orbit project.
+ * 
+ * Repository of bundled third party libraries.
+ */
+location "https://download.eclipse.org/tools/orbit/downloads/2022-06" {
+	ch.qos.logback.classic
+	ch.qos.logback.core
+	ch.qos.logback.slf4j
+	com.google.guava
+	com.google.inject
+	com.google.inject.assistedinject
+	javax.measure.unit-api
+	javax.xml
+	net.bytebuddy.byte-buddy
+	net.bytebuddy.byte-buddy-agent
+	org.apache.commons.codec
+	org.apache.commons.io
+	org.apache.xalan
+	org.apache.xml.resolver
+	org.apache.xml.serializer
+	org.hamcrest.core
+	org.mockito
+	org.objenesis
+	org.slf4j.api
+	org.dom4j
+	org.apache.xmlbeans
+	org.apache.poi
+	org.apache.poi.ooxml
+	org.apache.commons.math3
+	org.apache.commons.collections4
+	org.apache.commons.compress
 }
 
 /**
@@ -25,7 +90,7 @@ location "https://download.eclipse.org/releases/2020-12/" {
  * 
  * Provides updates for eclipse libraries.  
  */
-location "https://download.eclipse.org/eclipse/updates/4.17/" {
+location "https://download.eclipse.org/eclipse/updates/4.24/" {
 	org.eclipse.e4.rcp.feature.group
 	org.eclipse.e4.tools
 	org.eclipse.e4.tools.emf.ui
@@ -49,34 +114,18 @@ location "https://download.eclipse.org/eclipse/updates/4.17/" {
  * 
  * Provides translations for eclipse libraries.
  */
-location "https://archive.eclipse.org/technology/babel/update-site/R0.18.3/2020-12/" {
+location "https://download.eclipse.org/technology/babel/update-site/R0.19.2/2021-12/" {
 	org.eclipse.babel.nls_eclipse_de.feature.group
 	org.eclipse.babel.nls_modeling.emf_de.feature.group
 }
 
-/**
- * Jetty Webserver.
- * 
- * Provides web services for siteplan web view.
- */	
-location "https://download.eclipse.org/releases/2020-12/" {
-	org.eclipse.jetty.http
-	org.eclipse.jetty.io
-	org.eclipse.jetty.security
-	org.eclipse.jetty.server
-	org.eclipse.jetty.servlet
-	org.eclipse.jetty.util
-	org.eclipse.jetty.util.ajax
-	org.eclipse.jetty.webapp
-	org.eclipse.jetty.xml
-}
 
 /**
  * Xtend/Xbase.
  * 
  * Provides Xtend IDE and runtime libraries.
  */
-location "https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.24.0/" {
+location "https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.27.0/" {
 	org.eclipse.xtend.lib
 	org.eclipse.xtend.lib.macro
 	org.eclipse.xtend.lib.macro.source
@@ -164,27 +213,6 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 }
 
 /**
- * Batik Java SVG Toolkit.
- * 
- * Library for rendering, generating, and manipulating SVG graphics. This
- * special selection is meant to complement the batik libraries shipped with
- * eclipse platform features.
- */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/batik/batik-selection/1.13.0-19/batik-selection-1.13.0-19.zip-unzip/" {
-	org.apache.xmlgraphics.batik-anim
-	org.apache.xmlgraphics.batik-awt-util
-	org.apache.xmlgraphics.batik-bridge
-	org.apache.xmlgraphics.batik-dom
-	org.apache.xmlgraphics.batik-ext
-	org.apache.xmlgraphics.batik-gvt
-	org.apache.xmlgraphics.batik-parser
-	org.apache.xmlgraphics.batik-script
-	org.apache.xmlgraphics.batik-svg-dom
-	org.apache.xmlgraphics.batik-transcoder
-	org.apache.xmlgraphics.batik-xml
-}
-
-/**
  * Apache Formatting Objects Processor.
  * 
  * Provides functions for PDF export.
@@ -193,19 +221,6 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 	org.apache.xmlgraphics.fop
 }
 
-/**
- * Apache POI.
- * 
- * Java API to access Microsoft format files.
- */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org/apache/poi/poi/4.1.2-2/poi-4.1.2-2.zip-unzip/" {
-	org.apache.commons.commons-collections4 [4.4.0,4.4.0]
-	org.apache.commons.commons-compress [1.21.0,1.21.0]
-	org.apache.commons.math3 [3.6.1,3.6.1]
-	org.apache.servicemix.bundles.poi [4.1.2.2,4.1.2.2]
-	org.apache.servicemix.bundles.xmlbeans [3.1.0.1,3.1.0.1]
-	org.apache.servicemix.bundles.xmlresolver [1.2.0.5,1.2.0.5]
-}
 
 /**
  * Nattable features.
@@ -234,82 +249,34 @@ location "https://download.eclipse.org/nebula/releases/2.1.0" {
 	org.eclipse.nebula.widgets.richtext.feature.feature.group
 }
 
-/**
- * Orbit project.
- * 
- * Repository of bundled third party libraries.
- */
-location "https://download.eclipse.org/tools/orbit/downloads/drops/R20201130205003/repository" {
-	ch.qos.logback.classic
-	ch.qos.logback.core
-	ch.qos.logback.slf4j
-	com.google.guava
-	com.google.inject
-	com.google.inject.assistedinject
-	com.google.inject.multibindings
-	javax.activation [1.1.0,1.2.0)
-	javax.mail
-	javax.measure.unit-api
-	javax.transaction
-	javax.xml
-	javax.xml.bind
-	javax.xml.stream
-	net.bytebuddy.byte-buddy
-	net.bytebuddy.byte-buddy-agent
-	org.apache.commons.codec
-	org.apache.commons.io
-	org.apache.commons.lang3
-	org.apache.xalan
-	org.apache.xml.resolver
-	org.apache.xml.serializer
-	org.hamcrest.core
-	org.mockito
-	org.objenesis
-	org.slf4j.api
-	org.slf4j.jcl
-}
-
-// We need org.dom4j from this old repository. The bundle from the new repository causes
-// a missing constraint message: 
-// org.dom4j: Missing Constraint: Import-Package: javax.xml.bind; version="[2.2.0, 3.0.0)"
-// see also PLANPRO-4417
-location "https://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/" {
-	org.dom4j
-	org.dom4j.source
-}
 
 /**
  * EMF Client platform.
  * 
  * Provides libraries for form based views.
  */
-location "https://download.eclipse.org/ecp/releases/releases_125/" {
-	org.eclipse.emf.ecp.sdk.feature.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emf.ecp.view.custom.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emf.ecp.view.group.swt.collapsable [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emf.ecp.view.group.swt.collapsable.source [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emf.ecp.view.table.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emf.ecp.view.treemasterdetail.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emf.ecp.view.validation.initial.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.core.bazaar.feature.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.core.bazaar.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.swt.control.text.autocomplete.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.swt.controlgrid.feature.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.swt.controlgrid.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.view.annotation.feature.source.feature.group [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.view.controlgrid.model.edit.source [1.25.0.20200602-1726,1.25.0.20200602-1726]
-	org.eclipse.emfforms.view.controlgrid.model.source [1.25.0.20200602-1726,1.25.0.20200602-1726]
+location "https://download.eclipse.org/ecp/releases/releases_126/" {
+	org.eclipse.emf.ecp.core
+	org.eclipse.emf.ecp.ui
+	org.eclipse.emf.ecp.ui.rcp
+	org.eclipse.emf.ecp.workspace.core
+	org.eclipse.emf.ecp.emfforms.sdk.feature.feature.group 
+	org.eclipse.emf.ecp.view.custom.feature.source.feature.group 
+	org.eclipse.emf.ecp.view.group.swt.collapsable 
+	org.eclipse.emf.ecp.view.group.swt.collapsable.source 
+	org.eclipse.emf.ecp.view.table.feature.source.feature.group 
+	org.eclipse.emf.ecp.view.treemasterdetail.feature.source.feature.group 
+	org.eclipse.emf.ecp.view.validation.initial.feature.source.feature.group
+	org.eclipse.emfforms.core.bazaar.feature.feature.group 
+	org.eclipse.emfforms.core.bazaar.feature.source.feature.group 
+	org.eclipse.emfforms.swt.control.text.autocomplete.feature.source.feature.group
+	org.eclipse.emfforms.swt.controlgrid.feature.feature.group 
+	org.eclipse.emfforms.swt.controlgrid.feature.source.feature.group 
+	org.eclipse.emfforms.view.annotation.feature.source.feature.group 
+	org.eclipse.emfforms.view.controlgrid.model.edit.source 
+	org.eclipse.emfforms.view.controlgrid.model.source 
 }
 
-/**
- * PlanPro model.
- * 
- * Provides libraries for the PlanPro model.
- */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/de/scheidtbachmann/planpro/de.scheidtbachmann.planpro.model.repository/5.14.11/de.scheidtbachmann.planpro.model.repository-5.14.11.zip-unzip/" {
-	de.scheidtbachmann.planpro.model.model1902.feature.feature.group
-	de.scheidtbachmann.planpro.model.model1902.feature.source.feature.group
-}
 
 /**
  * Saxon HE.
@@ -342,20 +309,20 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 
 
 /**
- * Toolbox Model
- * 
- * Bundle for the Toolbox Model
+ * PlanPro Model including the derived Toolbox Model
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.19/org.eclipse.set.toolboxmodel.repository-1.0.19.zip-unzip/" {	
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.20/org.eclipse.set.toolboxmodel.repository-1.0.20.zip-unzip/" {		
 	org.eclipse.set.toolboxmodel.feature.feature.group
 	org.eclipse.set.toolboxmodel.feature.source.feature.group
+	de.scheidtbachmann.planpro.model.model1902.feature.feature.group
+	de.scheidtbachmann.planpro.model.model1902.feature.source.feature.group
 }
 
 /**
  * Browser Component
  * 
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.16/org.eclipse.set.browser.releng.repository-1.0.16.zip-unzip/" {
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.17/org.eclipse.set.browser.releng.repository-1.0.17.zip-unzip/" {
 	org.eclipse.set.browser.feature.feature.group
 	org.eclipse.set.browser.feature.source.feature.group
 }

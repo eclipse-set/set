@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Core Services
 Bundle-SymbolicName: org.eclipse.set.core.services;singleton:=true
-Bundle-Version: 1.0.369.qualifier
+Bundle-Version: 1.0.371.qualifier
 Automatic-Module-Name: org.eclipse.set.core.services
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
@@ -33,11 +33,11 @@ Export-Package: org.eclipse.set.core.services,
  org.eclipse.set.core.services.validation,
  org.eclipse.set.core.services.version,
  org.eclipse.set.core.services.viewmodel
-Import-Package: com.google.common.cache;version="15.0.0",
- com.google.common.collect;version="15.0.0",
- javax.inject;version="1.0.0",
- org.eclipse.core.runtime;version="3.5.0",
- org.eclipse.e4.core.contexts;version="1.7.0",
+Import-Package: com.google.common.cache,
+ com.google.common.collect,
+ javax.inject,
+ org.eclipse.core.runtime,
+ org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.services.events,
  org.eclipse.e4.ui.model.application,
  org.eclipse.e4.ui.model.application.ui.basic,
@@ -63,8 +63,7 @@ Import-Package: com.google.common.cache;version="15.0.0",
  org.eclipse.set.model.validationreport,
  org.eclipse.set.ppmodel.extensions.container
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.set.rap.compatibility;bundle-version="48.5.0";resolution:=optional,
- org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
+Require-Bundle: org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,

@@ -1,57 +1,108 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="org.eclipse.set.releng.target" sequenceNumber="1656330999">
+<target name="org.eclipse.set.releng.target" sequenceNumber="1656494353">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.e4.rcp.feature.group" version="4.17.0.v20200831-1002"/>
-      <unit id="org.eclipse.e4.tools" version="4.8.700.v20200109-1634"/>
-      <unit id="org.eclipse.e4.tools.emf.ui" version="4.6.900.v20200828-0909"/>
-      <unit id="org.eclipse.e4.tools.services" version="4.8.400.v20200217-1142"/>
-      <unit id="org.eclipse.emf.ecore.feature.group" version="2.23.0.v20200630-0516"/>
-      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.20.300.v20200828-1034"/>
-      <unit id="org.eclipse.jdt.feature.group" version="3.18.500.v20200902-1800"/>
-      <unit id="org.eclipse.pde.build" version="3.10.800.v20200410-1419"/>
-      <unit id="org.eclipse.pde.core" version="3.14.0.v20200817-1143"/>
-      <unit id="org.eclipse.pde.launching" version="3.9.0.v20200812-1037"/>
-      <unit id="org.eclipse.pde.ui" version="3.12.0.v20200824-1258"/>
-      <unit id="org.eclipse.platform.sdk" version="4.17.0.I20200902-1800"/>
-      <unit id="org.eclipse.rcp.sdk.id" version="4.17.0.I20200902-1800"/>
-      <unit id="org.eclipse.ui.editors" version="3.13.300.v20200812-2334"/>
-      <unit id="org.eclipse.ui.trace" version="1.1.800.v20200106-1301"/>
-      <unit id="org.eclipse.ui.views.log" version="1.2.1200.v20200828-0938"/>
-      <repository location="https://download.eclipse.org/eclipse/updates/4.17/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="4.18.0.v20210327075149"/>
-      <unit id="org.eclipse.babel.nls_modeling.emf_de.feature.group" version="4.18.0.v20210327075149"/>
-      <repository location="https://archive.eclipse.org/technology/babel/update-site/R0.18.3/2020-12/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.jetty.http" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.io" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.security" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.server" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.servlet" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.util" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.util.ajax" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.webapp" version="9.4.35.v20201120"/>
-      <unit id="org.eclipse.jetty.xml" version="9.4.35.v20201120"/>
+      <unit id="org.apache.batik.anim" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.awt.util" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.bridge" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.dom" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.dom.svg" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.ext" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.gvt" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.parser" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.script" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.transcoder" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.xml" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.batik.svggen" version="1.14.0.v20210324-0332"/>
+      <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
+      <unit id="org.bouncycastle.bcpg" version="1.70.0.v20220507-1208"/>
+      <unit id="org.bouncycastle.bcutil" version="1.70.0.v20220105-1522"/>
+      <unit id="org.eclipse.emf.sdk.feature.group" version="2.30.0.v20220516-1117"/>
+      <unit id="org.eclipse.equinox.ds" version="1.6.100.v20191001-1333"/>
+      <unit id="org.eclipse.jetty.http" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.io" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.security" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.server" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.servlet" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.util" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.util.ajax" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.webapp" version="10.0.9"/>
+      <unit id="org.eclipse.jetty.xml" version="10.0.9"/>
+      <unit id="org.eclipse.net4j.util.feature.group" version="4.18.0.v20220608-1505"/>
+      <unit id="org.osgi.service.prefs" version="1.1.2.202109301733"/>
+      <unit id="jakarta.servlet-api" version="4.0.0"/>
+      <unit id="jakarta.transaction-api" version="1.3.3"/>
+      <unit id="jakarta.xml.bind" version="2.3.3.v20201118-1818"/>
       <unit id="javax.annotation" version="1.3.5.v20200909-1856"/>
       <unit id="javax.annotation.source" version="1.3.5.v20200909-1856"/>
-      <unit id="org.eclipse.emf.sdk.feature.group" version="2.24.0.v20200917-1439"/>
-      <unit id="org.eclipse.net4j.util.feature.group" version="4.12.0.v20201209-0820"/>
-      <repository location="https://download.eclipse.org/releases/2020-12/"/>
+      <unit id="javax.activation" version="1.1.0.v201211130549"/>
+      <unit id="javax.mail" version="1.4.0.v201005080615"/>
+      <repository location="https://download.eclipse.org/releases/2022-06/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.xtend.lib" version="2.24.0.v20201130-0911"/>
-      <unit id="org.eclipse.xtend.lib.macro" version="2.24.0.v20201130-0911"/>
-      <unit id="org.eclipse.xtend.lib.macro.source" version="2.24.0.v20201130-0911"/>
-      <unit id="org.eclipse.xtend.lib.source" version="2.24.0.v20201130-0911"/>
-      <unit id="org.eclipse.xtend.sdk.feature.group" version="2.24.0.v20201130-1016"/>
-      <unit id="org.eclipse.xtext.xbase.lib" version="2.24.0.v20201130-0911"/>
-      <unit id="org.eclipse.xtext.xbase.lib.source" version="2.24.0.v20201130-0911"/>
-      <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.24.0/"/>
+      <unit id="ch.qos.logback.classic" version="1.2.3.v20200428-2012"/>
+      <unit id="ch.qos.logback.core" version="1.2.3.v20200428-2012"/>
+      <unit id="ch.qos.logback.slf4j" version="1.2.3.v20200428-2012"/>
+      <unit id="com.google.guava" version="30.1.0.v20210127-2300"/>
+      <unit id="com.google.inject" version="5.0.1.v20210324-2015"/>
+      <unit id="com.google.inject.assistedinject" version="5.0.1.v20210324-2015"/>
+      <unit id="javax.measure.unit-api" version="1.0.0.v20170818-1538"/>
+      <unit id="javax.xml" version="1.4.1.v20220503-2331"/>
+      <unit id="net.bytebuddy.byte-buddy" version="1.9.0.v20181107-1410"/>
+      <unit id="net.bytebuddy.byte-buddy-agent" version="1.9.0.v20181106-1534"/>
+      <unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
+      <unit id="org.apache.commons.io" version="2.8.0.v20210415-0900"/>
+      <unit id="org.apache.xalan" version="2.7.2.v20201124-1837"/>
+      <unit id="org.apache.xml.resolver" version="1.2.0.v20220401-1849"/>
+      <unit id="org.apache.xml.serializer" version="2.7.2.v20220406-0601"/>
+      <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
+      <unit id="org.mockito" version="2.23.0.v20200310-1642"/>
+      <unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
+      <unit id="org.slf4j.api" version="1.7.30.v20200204-2150"/>
+      <unit id="org.dom4j" version="2.1.1.v20190321-1528"/>
+      <unit id="org.apache.xmlbeans" version="3.1.0.v20200922-1359"/>
+      <unit id="org.apache.poi" version="4.1.1.v20200604-1524"/>
+      <unit id="org.apache.poi.ooxml" version="4.1.1.v20200820-1148"/>
+      <unit id="org.apache.commons.math3" version="3.6.1.v20200817-1830"/>
+      <unit id="org.apache.commons.collections4" version="4.4.0.v20200420-1700"/>
+      <unit id="org.apache.commons.compress" version="1.21.0.v20211103-2100"/>
+      <repository location="https://download.eclipse.org/tools/orbit/downloads/2022-06"/>
+    </location>
+    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="org.eclipse.e4.rcp.feature.group" version="4.24.0.v20220530-1036"/>
+      <unit id="org.eclipse.e4.tools" version="4.9.100.v20211020-1255"/>
+      <unit id="org.eclipse.e4.tools.emf.ui" version="4.7.300.v20220420-0901"/>
+      <unit id="org.eclipse.e4.tools.services" version="4.9.0.v20210427-1802"/>
+      <unit id="org.eclipse.emf.ecore.feature.group" version="2.28.0.v20220426-0617"/>
+      <unit id="org.eclipse.equinox.sdk.feature.group" version="3.23.400.v20220516-2155"/>
+      <unit id="org.eclipse.jdt.feature.group" version="3.18.1200.v20220607-0700"/>
+      <unit id="org.eclipse.pde.build" version="3.11.200.v20220503-0921"/>
+      <unit id="org.eclipse.pde.core" version="3.15.200.v20220527-1237"/>
+      <unit id="org.eclipse.pde.launching" version="3.10.0.v20220515-1944"/>
+      <unit id="org.eclipse.pde.ui" version="3.13.500.v20220531-1442"/>
+      <unit id="org.eclipse.platform.sdk" version="4.24.0.I20220607-0700"/>
+      <unit id="org.eclipse.rcp.sdk.id" version="4.24.0.I20220607-0700"/>
+      <unit id="org.eclipse.ui.editors" version="3.14.300.v20210913-0815"/>
+      <unit id="org.eclipse.ui.trace" version="1.2.200.v20220310-2159"/>
+      <unit id="org.eclipse.ui.views.log" version="1.3.200.v20220310-1555"/>
+      <repository location="https://download.eclipse.org/eclipse/updates/4.24/"/>
+    </location>
+    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="4.22.0.v20211218020001"/>
+      <unit id="org.eclipse.babel.nls_modeling.emf_de.feature.group" version="4.22.0.v20211218020001"/>
+      <repository location="https://download.eclipse.org/technology/babel/update-site/R0.19.2/2021-12/"/>
+    </location>
+    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="org.eclipse.xtend.lib" version="2.27.0.v20220530-0353"/>
+      <unit id="org.eclipse.xtend.lib.macro" version="2.27.0.v20220530-0353"/>
+      <unit id="org.eclipse.xtend.lib.macro.source" version="2.27.0.v20220530-0353"/>
+      <unit id="org.eclipse.xtend.lib.source" version="2.27.0.v20220530-0353"/>
+      <unit id="org.eclipse.xtend.sdk.feature.group" version="2.27.0.v20220530-0508"/>
+      <unit id="org.eclipse.xtext.xbase.lib" version="2.27.0.v20220530-0353"/>
+      <unit id="org.eclipse.xtext.xbase.lib.source" version="2.27.0.v20220530-0353"/>
+      <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.27.0/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="com.conversantmedia.disruptor" version="1.2.13"/>
@@ -125,31 +176,8 @@
       <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/geotools/org.geotools.gt/21.2.0-21/org.geotools.gt-21.2.0-21.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.apache.xmlgraphics.batik-anim" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-awt-util" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-bridge" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-dom" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-ext" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-gvt" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-parser" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-script" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-svg-dom" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-transcoder" version="1.13.0.19"/>
-      <unit id="org.apache.xmlgraphics.batik-xml" version="1.13.0.19"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/batik/batik-selection/1.13.0-19/batik-selection-1.13.0-19.zip-unzip/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.apache.xmlgraphics.fop" version="2.5.0.4"/>
       <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org/apache/xmlgraphics/fop/2.5.0-4/fop-2.5.0-4.zip-unzip/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.apache.commons.commons-collections4" version="4.4.0"/>
-      <unit id="org.apache.commons.commons-compress" version="1.21.0"/>
-      <unit id="org.apache.commons.math3" version="3.6.1"/>
-      <unit id="org.apache.servicemix.bundles.poi" version="4.1.2.2"/>
-      <unit id="org.apache.servicemix.bundles.xmlbeans" version="3.1.0.1"/>
-      <unit id="org.apache.servicemix.bundles.xmlresolver" version="1.2.0.5"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org/apache/poi/poi/4.1.2-2/poi-4.1.2-2.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="1.6.0.201909181823"/>
@@ -167,62 +195,26 @@
       <repository location="https://download.eclipse.org/nebula/releases/2.1.0"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="ch.qos.logback.classic" version="1.2.3.v20200428-2012"/>
-      <unit id="ch.qos.logback.core" version="1.2.3.v20200428-2012"/>
-      <unit id="ch.qos.logback.slf4j" version="1.2.3.v20200428-2012"/>
-      <unit id="com.google.guava" version="27.1.0.v20190517-1946"/>
-      <unit id="com.google.inject" version="3.0.0.v201605172100"/>
-      <unit id="com.google.inject.assistedinject" version="3.0.0.v201402270930"/>
-      <unit id="com.google.inject.multibindings" version="3.0.0.v201605172100"/>
-      <unit id="javax.activation" version="1.1.0.v201211130549"/>
-      <unit id="javax.mail" version="1.4.0.v201005080615"/>
-      <unit id="javax.measure.unit-api" version="1.0.0.v20170818-1538"/>
-      <unit id="javax.transaction" version="1.1.1.v201105210645"/>
-      <unit id="javax.xml" version="1.3.4.v201005080400"/>
-      <unit id="javax.xml.bind" version="2.2.0.v201105210648"/>
-      <unit id="javax.xml.stream" version="1.0.1.v201004272200"/>
-      <unit id="net.bytebuddy.byte-buddy" version="1.9.0.v20181107-1410"/>
-      <unit id="net.bytebuddy.byte-buddy-agent" version="1.9.0.v20181106-1534"/>
-      <unit id="org.apache.commons.codec" version="1.14.0.v20200818-1422"/>
-      <unit id="org.apache.commons.io" version="2.6.0.v20190123-2029"/>
-      <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
-      <unit id="org.apache.xalan" version="2.7.2.v20201124-1837"/>
-      <unit id="org.apache.xml.resolver" version="1.2.0.v201005080400"/>
-      <unit id="org.apache.xml.serializer" version="2.7.1.v201005080400"/>
-      <unit id="org.hamcrest.core" version="1.3.0.v20180420-1519"/>
-      <unit id="org.mockito" version="2.23.0.v20200310-1642"/>
-      <unit id="org.objenesis" version="2.6.0.v20180420-1519"/>
-      <unit id="org.slf4j.api" version="1.7.30.v20200204-2150"/>
-      <unit id="org.slf4j.jcl" version="1.7.2.v20130115-1340"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20201130205003/repository"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.dom4j" version="1.6.1.v201312101416"/>
-      <unit id="org.dom4j.source" version="1.6.1.v201312101416"/>
-      <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.emf.ecp.sdk.feature.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emf.ecp.view.custom.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emf.ecp.view.group.swt.collapsable" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emf.ecp.view.group.swt.collapsable.source" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emf.ecp.view.table.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emf.ecp.view.treemasterdetail.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emf.ecp.view.validation.initial.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.core.bazaar.feature.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.core.bazaar.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.swt.control.text.autocomplete.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.swt.controlgrid.feature.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.swt.controlgrid.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.view.annotation.feature.source.feature.group" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.view.controlgrid.model.edit.source" version="1.25.0.20200602-1726"/>
-      <unit id="org.eclipse.emfforms.view.controlgrid.model.source" version="1.25.0.20200602-1726"/>
-      <repository location="https://download.eclipse.org/ecp/releases/releases_125/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="de.scheidtbachmann.planpro.model.model1902.feature.feature.group" version="5.14.11"/>
-      <unit id="de.scheidtbachmann.planpro.model.model1902.feature.source.feature.group" version="5.14.11"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/de/scheidtbachmann/planpro/de.scheidtbachmann.planpro.model.repository/5.14.11/de.scheidtbachmann.planpro.model.repository-5.14.11.zip-unzip/"/>
+      <unit id="org.eclipse.emf.ecp.core" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.ui" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.ui.rcp" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.workspace.core" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.emfforms.sdk.feature.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.view.custom.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.view.group.swt.collapsable" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.view.group.swt.collapsable.source" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.view.table.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.view.treemasterdetail.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emf.ecp.view.validation.initial.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.core.bazaar.feature.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.core.bazaar.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.swt.control.text.autocomplete.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.swt.controlgrid.feature.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.swt.controlgrid.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.view.annotation.feature.source.feature.group" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.view.controlgrid.model.edit.source" version="1.26.2.20220523-0845"/>
+      <unit id="org.eclipse.emfforms.view.controlgrid.model.source" version="1.26.2.20220523-0845"/>
+      <repository location="https://download.eclipse.org/ecp/releases/releases_126/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="net.sf.saxon.Saxon-HE" version="9.6.0.10"/>
@@ -239,14 +231,16 @@
       <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/emfjson/emfjson-jackson/1.3.0-4/emfjson-jackson-1.3.0-4.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.set.toolboxmodel.feature.feature.group" version="1.0.19"/>
-      <unit id="org.eclipse.set.toolboxmodel.feature.source.feature.group" version="1.0.19"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.19/org.eclipse.set.toolboxmodel.repository-1.0.19.zip-unzip/"/>
+      <unit id="org.eclipse.set.toolboxmodel.feature.feature.group" version="1.0.20"/>
+      <unit id="org.eclipse.set.toolboxmodel.feature.source.feature.group" version="1.0.20"/>
+      <unit id="de.scheidtbachmann.planpro.model.model1902.feature.feature.group" version="5.14.11"/>
+      <unit id="de.scheidtbachmann.planpro.model.model1902.feature.source.feature.group" version="5.14.11"/>
+      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.20/org.eclipse.set.toolboxmodel.repository-1.0.20.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.16"/>
-      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.16"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.16/org.eclipse.set.browser.releng.repository-1.0.16.zip-unzip/"/>
+      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.17"/>
+      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.17"/>
+      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.17/org.eclipse.set.browser.releng.repository-1.0.17.zip-unzip/"/>
     </location>
   </locations>
 </target>
