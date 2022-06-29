@@ -9,8 +9,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>2.7.0</tycho-version>
-		<tycho-extras-version>2.7.0</tycho-extras-version>
+		<tycho-version>2.7.3</tycho-version>
+		<tycho-extras-version>2.7.3</tycho-extras-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -116,7 +116,7 @@
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
-				<version>2.26.0</version>
+				<version>2.27.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -425,126 +425,6 @@
 										<plugin id="jakarta.xml.bind"/>
 										<plugin id="org.eclipse.equinox.p2.artifact.repository.nl_de"/>
 										<plugin id="org.eclipse.equinox.p2.jarprocessor.nl_de"/>
-									</excludes>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>client-rap</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-				<property>
-					<name>maven.profile</name>
-					<value>client-rap</value>
-				</property>
-			</activation>
-			<distributionManagement>
-				<repository>
-					<id>planpro-toolbox_rap</id>
-					<url>http://nexus:8081/nexus/content/repositories/planpro</url>
-				</repository>
-			</distributionManagement>
-			<build>
-				<plugins>
-					<!-- Target platform setzen -->
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-						<version>${tycho-version}</version>
-						<configuration>
-
-							<target>
-								<artifact>
-									<groupId>org.eclipse.set</groupId>
-									<artifactId>org.eclipse.set.releng.rap.target</artifactId>
-									<version>${project.version}</version>
-								</artifact>
-							</target>
-
-							<environments>
-								<environment>
-									<os>win32</os>
-									<ws>win32</ws>
-									<arch>x86_64</arch>
-								</environment>
-							</environments>
-							<dependency-resolution>
-								<optionalDependencies>ignore</optionalDependencies>
-								<extraRequirements>
-									<requirement>
-										<type>eclipse-plugin</type>
-										<id>org.eclipse.set.rap.compatibility</id>
-										<versionRange>0.0.0</versionRange>
-									</requirement>
-								</extraRequirements>
-							</dependency-resolution>
-						</configuration>
-					</plugin>
-
-					<!-- Erzeuge ein source-Feature für die Source-Bundles -->
-					<plugin>
-						<groupId>org.eclipse.tycho.extras</groupId>
-						<artifactId>tycho-source-feature-plugin</artifactId>
-						<version>${tycho-extras-version}</version>
-						<executions>
-							<execution>
-								<id>source-feature</id>
-								<phase>package</phase>
-								<goals>
-									<goal>source-feature</goal>
-								</goals>
-								<configuration>
-									<excludes>
-										<!-- IMPROVE PLANPRO-2176 -->
-										<feature id="org.eclipse.babel.nls_modeling.ecp_de" />
-										<feature id="org.eclipse.babel.nls_modeling.emf_de" />
-										<plugin id="de.scheidtbachmann.planpro.v1801.viewmodel" />
-										<plugin id="edu.umd.cs.findbugs.annotations" />
-										<plugin id="javax.xml" />
-										<plugin id="javax.mail" />
-										<plugin id="javax.activation" />
-										<plugin id="javax.transaction" />
-										<plugin id="org.eclipse.jetty.webapp" />
-										<plugin id="org.eclipse.jetty.xml" />
-										<plugin id="org.apache.log4j" />
-										<plugin id="org.eclipse.core.commands.nl_de" />
-										<plugin id="org.eclipse.core.databinding.beans.nl_de" />
-										<plugin id="org.eclipse.core.databinding.nl_de" />
-										<plugin id="org.eclipse.core.databinding.observable.nl_de" />
-										<plugin id="org.eclipse.core.databinding.property.nl_de" />
-										<plugin id="org.eclipse.e4.core.commands.nl_de" />
-										<plugin id="org.eclipse.e4.ui.di.nl_de" />
-										<plugin id="org.eclipse.e4.ui.model.workbench.nl_de" />
-										<plugin id="org.eclipse.e4.ui.services.nl_de" />
-										<plugin id="org.eclipse.e4.ui.widgets.nl_de" />
-										<plugin id="org.eclipse.e4.ui.workbench.renderers.swt.nl_de" />
-										<plugin id="org.eclipse.e4.ui.workbench3.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.table.validation" />
-										<plugin id="org.eclipse.emfforms.view.controlgrid.model.edit.nl_de" />
-										<plugin id="org.eclipse.emfforms.view.controlgrid.model.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.core.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.engine.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.metadata.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.metadata.repository.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.repository.nl_de" />
-										<plugin id="org.eclipse.jface.databinding.nl_de" />
-										<plugin id="org.eclipse.jface.text.nl_de" />
-										<plugin id="org.eclipse.nebula.cwt" />
-										<plugin id="org.eclipse.nebula.widgets.cdatetime" />
-										<plugin id="org.eclipse.net4j.util" />
-										<plugin id="org.eclipse.swt" />
-										<plugin id="org.eclipse.text.nl_de" />
-										<plugin id="org.eclipse.ui.forms.nl_de" />
-										<plugin id="org.eclipse.ui.ide.nl_de" />
-										<plugin id="org.eclipse.ui.views.nl_de" />
-										<plugin id="org.eclipse.ui.win32.nl_de" />
-										<plugin id="org.eclipse.ui.workbench.nl_de" />
-										<plugin id="org.eclipse.ui.editors.nl_de" />
 									</excludes>
 								</configuration>
 							</execution>
