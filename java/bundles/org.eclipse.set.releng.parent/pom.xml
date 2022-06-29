@@ -204,27 +204,7 @@
 					<linkXRef>false</linkXRef>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
 
-	<profiles>
-		<profile>
-			<id>client-rcp</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<property>
-					<name>maven.profile</name>
-					<value>client-rcp</value>
-				</property>
-			</activation>
-			<distributionManagement>
-				<repository>
-					<id>planpro-model</id>
-					<url>http://nexus:8081/nexus/content/repositories/planpro-repo</url>
-				</repository>
-			</distributionManagement>
-			<build>
-				<plugins>
 					<!-- Target platform setzen -->
 					<plugin>
 						<groupId>org.eclipse.tycho</groupId>
@@ -432,9 +412,12 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-	</profiles>
-
+			<distributionManagement>
+				<repository>
+					<id>planpro-model</id>
+					<url>http://nexus:8081/nexus/content/repositories/planpro-repo</url>
+				</repository>
+			</distributionManagement>
 	<reporting>
 		<plugins>
 			<plugin>
