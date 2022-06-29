@@ -93,8 +93,7 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 		try {
 			server.stop();
 		} catch (final Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Ignore exception
 		}
 	}
 
