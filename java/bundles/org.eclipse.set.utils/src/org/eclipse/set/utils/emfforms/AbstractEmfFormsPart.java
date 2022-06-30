@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.utils.emfforms;
 
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.core.runtime.Assert;
@@ -87,6 +88,16 @@ public abstract class AbstractEmfFormsPart<S extends IModelSession>
 		return view;
 	}
 
+	/**
+	 * Disposes the object
+	 */
+	@PreDestroy
+	public void dispose() {
+		if (view != null) {
+			view.dispose();
+		}
+	}
+
 	protected void createEmfFormsPart(final Composite parent,
 			final EObject element) throws ECPRendererException {
 		createEmfFormsPart(parent, element, null);
@@ -102,6 +113,11 @@ public abstract class AbstractEmfFormsPart<S extends IModelSession>
 				getProperties(property));
 		final ViewModelContext viewModelContext = ViewModelContextFactory.INSTANCE
 				.createViewModelContext(vElement, element);
+
+		// Make sure to dispose the old view if one already exists
+		if (view != null) {
+			view.dispose();
+		}
 
 		// renderer call
 		view = ECPSWTViewRenderer.INSTANCE.render(parent, viewModelContext);

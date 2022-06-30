@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.integrationview;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.integrationview
-Bundle-Version: 1.0.377.qualifier
+Bundle-Version: 1.0.378.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
