@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.set.sessionservice.feature"
       label="SET Session Service Feature"
-      version="1.0.371.qualifier"
+      version="1.0.375.qualifier"
       provider-name="Scheidt &amp; Bachmann System Technik GmbH">
 
    <description url="http://www.example.com/description">

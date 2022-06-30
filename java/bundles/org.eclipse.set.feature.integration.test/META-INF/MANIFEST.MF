@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Simple Mergeservice Test
 Bundle-SymbolicName: org.eclipse.set.feature.integration.test
-Bundle-Version: 1.0.371.qualifier
+Bundle-Version: 1.0.375.qualifier
 Fragment-Host: org.eclipse.set.feature.integration;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
