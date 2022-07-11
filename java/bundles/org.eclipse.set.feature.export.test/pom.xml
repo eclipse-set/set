@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.feature.export.test</artifactId>
-	<version>1.0.378-SNAPSHOT</version>
+	<version>1.0.379-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<parent>

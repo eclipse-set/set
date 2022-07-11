@@ -156,6 +156,14 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 		Punkt_Objekt_TOP_Kante_AttributeGroup connection,
 		Set<TOP_Kante> topKanten
 	) {
+		// Is the point directly located on a TOP_Kante?
+		for (topKante : topKanten) {
+			if (connection.IDTOPKante === topKante) {
+				return topKante
+			}
+		}
+
+		// Is the point located on the end of an adjacent TOP_Kante?
 		for (topKante : topKanten) {
 			if (topKante.isConnectedTo(connection)) {
 				return topKante
