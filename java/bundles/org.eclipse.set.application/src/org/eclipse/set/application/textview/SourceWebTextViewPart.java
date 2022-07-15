@@ -64,7 +64,7 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 		browser = new WebBrowser(parent);
 		try {
 			server.configure();
-			server.serveFile(session.getToolboxFile().getModelPath());
+			server.serveModel(session.getToolboxFile().getModelPath());
 			server.start();
 			browser.setUrl(server.getRootUrl() + "index.html"); //$NON-NLS-1$
 		} catch (final Exception e) {

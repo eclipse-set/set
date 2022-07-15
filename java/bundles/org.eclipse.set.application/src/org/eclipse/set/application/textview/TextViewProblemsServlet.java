@@ -26,15 +26,13 @@ import org.emfjson.jackson.module.EMFModule.Feature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Provides the siteplan data model as a json response
+ * Provides the problem data model as a json response
  * 
  * @author Stuecker
- *
- *         We do not plan to serialize this class
  */
 public class TextViewProblemsServlet extends HttpServlet {
 	/**
-	 * Send the siteplan model as a response to HTTP GET requests
+	 * Send the problem model as a response to HTTP GET requests
 	 * 
 	 * Note: This will be executed in a worker thread rather than the main
 	 * thread

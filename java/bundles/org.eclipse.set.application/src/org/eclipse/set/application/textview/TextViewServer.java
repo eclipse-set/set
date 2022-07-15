@@ -23,10 +23,9 @@ import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.set.utils.server.AbstractWebServer;
 
 /**
- * Web server to provide the PDF files and viewer files to a browser
+ * Web server to provide the ppxml and error lists for the browser text view
  * 
- * @author Peters
- *
+ * @author Stuecker
  */
 public class TextViewServer extends AbstractWebServer {
 	private static final String TEXT_VIEWER_PATH = "./web/textview"; //$NON-NLS-1$
@@ -97,7 +96,7 @@ public class TextViewServer extends AbstractWebServer {
 	 *             if the underlying call to the jetty server fails
 	 */
 	@SuppressWarnings("resource")
-	public String serveFile(final Path file) throws Exception {
+	public String serveModel(final Path file) throws Exception {
 		final String serverPath = MODEL_PPXML;
 		final ServletContextHandler fileContext = createDefaultContextHandler(
 				serverPath);
