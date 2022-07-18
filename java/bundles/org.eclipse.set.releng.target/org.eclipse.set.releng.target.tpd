@@ -322,7 +322,7 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
  * Browser Component
  * 
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.17/org.eclipse.set.browser.releng.repository-1.0.17.zip-unzip/" {
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.18/org.eclipse.set.browser.releng.repository-1.0.18.zip-unzip/" {
 	org.eclipse.set.browser.feature.feature.group
 	org.eclipse.set.browser.feature.source.feature.group
 }

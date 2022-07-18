@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="org.eclipse.set.releng.target" sequenceNumber="1656494353">
+<target name="org.eclipse.set.releng.target" sequenceNumber="1658144824">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.apache.batik.anim" version="1.14.0.v20210324-0332"/>
@@ -238,9 +238,9 @@
       <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.20/org.eclipse.set.toolboxmodel.repository-1.0.20.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.17"/>
-      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.17"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.17/org.eclipse.set.browser.releng.repository-1.0.17.zip-unzip/"/>
+      <unit id="org.eclipse.set.browser.feature.feature.group" version="1.0.18"/>
+      <unit id="org.eclipse.set.browser.feature.source.feature.group" version="1.0.18"/>
+      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.browser.releng.repository/1.0.18/org.eclipse.set.browser.releng.repository-1.0.18.zip-unzip/"/>
     </location>
   </locations>
 </target>
