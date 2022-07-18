@@ -1,13 +1,14 @@
-PlanPro Werkzeugkoffer 
+Eclipse Signalling Engineering Toolbox
 
 Copyright (c) 2015 - ${build.year}, DB Netz AG - Zentrale und andere Beitragende 
 Technologiemanagement LST, Mainzer Landstraße 201, 60326 Frankfurt a.M.  
 
-Die Veröffentlichung des PlanPro Werkzeugkoffer erfolgt ohne jede 
+Die Veröffentlichung der Eclipse Signalling Engineering Toolbox erfolgt ohne jede 
 Gewährleistung.
 
 Weitere Informationen unter
-http://www.dbnetze.com/planpro
+https://www.dbnetze.com/planpro
+https://projects.eclipse.org/projects/technology.set
 
 Für Hinweise, Kritik, Informationen und Anfragen zum Quellcode wenden Sie sich
 bitte an:
@@ -24,11 +25,8 @@ Caroline-Michaelis-Straße 5-11, 10115 Berlin
 
 --------------------------------------------------------------------------------
 - Hinweise zur Lizenz
---------------------------------------------------------------------------------
-Für die Logos der DB und die Schrift DB Office gelten die entsprechenden 
-Bedingungen.
 
-Die für den Werkzeugkoffer entwickelten Komponenten werden, wenn nicht anders 
+Die für die Eclipse Signalling Engineering Toolbox entwickelten Komponenten werden, wenn nicht anders 
 angegeben, unter der Eclipse Public License 2.0 (siehe Anhang [EPL2.0]) zur 
 Verfügung gestellt.
 

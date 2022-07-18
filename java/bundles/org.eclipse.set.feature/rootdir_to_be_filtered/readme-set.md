@@ -1,4 +1,4 @@
-# Werkzeugkoffer-Readme
+# Eclipse SET Readme
 Archivname: ${archiveFileName}
 
 Details
