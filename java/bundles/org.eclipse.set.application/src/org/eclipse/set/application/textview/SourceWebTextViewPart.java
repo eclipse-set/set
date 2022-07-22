@@ -17,6 +17,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
@@ -28,6 +29,7 @@ import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.osgi.service.event.EventHandler;
 
 /**
  * Displays PlanPro model as source text via the monaco editor.
@@ -36,6 +38,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	private static final String JUMP_TO_LINE_FUNCTION = "window.planproJumpToLine"; //$NON-NLS-1$
+	private static final String UPDATE_PROBLEMS_FUNCTION = "window.planproUpdateProblems"; //$NON-NLS-1$
+
 	@Inject
 	@Translation
 	private Messages messages;
@@ -50,12 +54,18 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	private EventRegistration eventRegistration;
 
 	private final TextViewServer server = new TextViewServer();
+	private final EventHandler problemsChangeEventHandler = event -> onProblemsChange();
 
 	/**
-	 * Create View.
+	 * Constructor
 	 */
 	public SourceWebTextViewPart() {
 		super(IModelSession.class);
+	}
+
+	private void onProblemsChange() {
+		browser.executeJavascript(
+				String.format("%s()", UPDATE_PROBLEMS_FUNCTION)); //$NON-NLS-1$
 	}
 
 	@Override
@@ -78,6 +88,9 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 		eventRegistration = new EventRegistration(getBroker());
 		eventRegistration.registerHandler(JumpToSourceLineEvent.class,
 				this::handleJumpToSourceLineEvent);
+
+		getBroker().subscribe(Events.PROBLEMS_CHANGED,
+				problemsChangeEventHandler);
 	}
 
 	@SuppressWarnings("boxing")
@@ -90,6 +103,7 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	@PreDestroy
 	private void preDestroy() {
 		eventRegistration.unsubscribeAll();
+		getBroker().unsubscribe(problemsChangeEventHandler);
 		try {
 			server.stop();
 		} catch (final Exception e) {

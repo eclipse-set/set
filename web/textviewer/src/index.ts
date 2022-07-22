@@ -17,3 +17,7 @@ let app : App | null = null;
 (window as any).planproJumpToLine = (line: number) => {
   app?.jumpToLine(line)
 }
+
+(window as any).planproUpdateProblems = () => {
+  app?.updateProblems()
+}

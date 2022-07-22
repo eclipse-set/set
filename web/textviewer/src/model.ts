@@ -15,10 +15,7 @@ export interface ProblemMessage {
   severity: number
   type: string
   message: string
-  lineStart: number
-  lineEnd: number
-  columnStart: number
-  columnEnd: number
+  line: number
 }
 
 /**

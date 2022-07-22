@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
- package org.eclipse.set.basis;
+package org.eclipse.set.basis;
 
 /**
  * A problem message indicating an issue with the supplied planning
@@ -15,18 +15,12 @@
  *            the message
  * @param type
  *            the source of the problem
- * @param lineStart
- *            the starting line
- * @param lineEnd
- *            the ending line
- * @param columnStart
- *            the starting column
- * @param columnEnd
- *            the ending column
+ * @param line
+ *            the line
  * @param severity
  *            the severity (1-4) of the problem
  */
-public record ProblemMessage(String message, String type, int lineStart,
-		int lineEnd, int columnStart, int columnEnd, int severity) {
+public record ProblemMessage(String message, String type, int line,
+		int severity) {
 	//
 }

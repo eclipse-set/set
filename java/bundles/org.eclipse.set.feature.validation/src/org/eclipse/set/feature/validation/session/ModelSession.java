@@ -63,7 +63,6 @@ import org.eclipse.set.core.services.initialization.InitializationStep.Configura
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.core.services.validation.ValidationAnnotationService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
@@ -138,9 +137,6 @@ public class ModelSession implements IModelSession {
 
 		@Inject
 		public ValidationService validationService;
-
-		@Inject
-		public ValidationAnnotationService validationAnnotationService;
 
 	}
 

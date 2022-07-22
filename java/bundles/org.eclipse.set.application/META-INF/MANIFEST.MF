@@ -135,7 +135,6 @@ Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServ
  OSGI-INF/org.eclipse.set.application.cacheservice.CacheServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.defaultvalue.DefaultValueServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.AttachmentPartDescriptionService.xml,
- OSGI-INF/org.eclipse.set.application.descriptions.SourceTextViewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.ViewPdfPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.exampleservice.ExampleServiceImpl.xml,

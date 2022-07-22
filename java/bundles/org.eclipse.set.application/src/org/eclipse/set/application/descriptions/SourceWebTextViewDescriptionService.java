@@ -77,7 +77,7 @@ public class SourceWebTextViewDescriptionService
 
 	@Override
 	public ToolboxViewGroup getToolboxViewGroup() {
-		return SetViewGroups.getDevelopment();
+		return SetViewGroups.getInformation();
 	}
 
 	private static String getViewName(final IEclipseContext context) {

@@ -37,7 +37,7 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 public class ValidationProblemTableViewerConsumer<S extends IModelSession>
 		implements ISelectionChangedListener, Consumer<ColumnViewer>,
 		IDoubleClickListener {
-	private final static String SOURCE_TEXT_VIEWER_PART_ID = "org.eclipse.set.application.descriptions.SourceTextViewDescriptionService"; //$NON-NLS-1$
+	private final static String SOURCE_TEXT_VIEWER_PART_ID = "org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService"; //$NON-NLS-1$
 	private final IEventBroker broker;
 	private final BasePart<S> source;
 	private final ToolboxPartService toolboxPartService;

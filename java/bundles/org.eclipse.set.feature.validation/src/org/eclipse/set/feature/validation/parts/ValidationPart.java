@@ -30,6 +30,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
@@ -37,7 +38,6 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
-import org.eclipse.set.core.services.validation.ValidationAnnotationService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
@@ -108,9 +108,6 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 	UISynchronize sync;
 
 	@Inject
-	private ValidationAnnotationService annotationModelService;
-
-	@Inject
 	private IEventBroker broker;
 
 	/**
@@ -145,11 +142,6 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 					messages, versionService);
 			validationReport = transformation.transform(getModelSession());
 
-			// create annotation model
-			annotationModelService.createModel(
-					getModelSession().getToolboxFile().getModelPath(),
-					validationReport);
-
 			// link table to source viewer
 			final ValidationProblemTableViewerConsumer<IModelSession> validationProblemTableEventLink = new ValidationProblemTableViewerConsumer<>(
 					getBroker(), this, toolboxPartService);
@@ -162,12 +154,13 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 			final List<ProblemMessage> problems = cache.get("validationReport", //$NON-NLS-1$
 					ArrayList::new);
 			problems.clear();
-			// IMPROVE: Record full line and column indices
+
+			// Add problems
 			validationReport.getProblems()
-					.forEach(problem -> problems
-							.add(new ProblemMessage(problem.getMessage(),
-									problem.getType(), problem.getLineNumber(),
-									problem.getLineNumber(), 0, 99999, 3)));
+					.forEach(problem -> problems.add(new ProblemMessage(
+							problem.getMessage(), problem.getType(),
+							problem.getLineNumber(), 3)));
+			getBroker().post(Events.PROBLEMS_CHANGED, null);
 
 			// export control
 			exportValidationAction = new StatefulButtonAction(

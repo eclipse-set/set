@@ -13,9 +13,6 @@ package org.eclipse.set.basis.constants;
  * 
  * @author Schaefer
  */
-// Idea: Use map as data. Compare
-// http://www.vogella.com/tutorials/Eclipse4EventSystem/article.html
-// 2.7. Which objects should be send out?
 @SuppressWarnings("nls")
 public interface Events {
 
@@ -26,6 +23,11 @@ public interface Events {
 	 * </ul>
 	 */
 	String MODEL_CHANGED = "modelsession/change/model";
+
+	/**
+	 * The cache of problems changed.
+	 */
+	String PROBLEMS_CHANGED = "modelsession/change/problems";
 
 	/**
 	 * The model session changed.

@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Control;
  *
  */
 public class ValidationTableView extends AbstractSortByColumnTables {
-	private static final String SOURCE_TEXT_VIEWER_PART_ID = "org.eclipse.set.application.descriptions.SourceTextViewDescriptionService"; //$NON-NLS-1$
+	private static final String SOURCE_TEXT_VIEWER_PART_ID = "org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService"; //$NON-NLS-1$
 
 	private final ToolboxPartService toolboxPartService;
 	private final Messages messages;

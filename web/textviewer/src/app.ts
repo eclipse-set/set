@@ -8,6 +8,7 @@
  */
 import { Model, ProblemMessage } from './model'
 import * as monaco from 'monaco-editor'
+import jumpToDefinition from './jumpToGuid'
 
 /**
  * Implementation of the text view
@@ -18,8 +19,23 @@ export class App {
   model: Model = new Model()
   editor: monaco.editor.IStandaloneCodeEditor
   problems: ProblemMessage[]
+  xml!: Document
 
   init () {
+    // Set up a custom theme to recolor warnings to blue
+    monaco.editor.defineTheme('set', {
+      base: 'vs',
+      inherit: true,
+      rules: [],
+      colors: {
+        'minimap.warningHighlight': '#1f1fff',
+        'editorOverviewRuler.warningForeground': '#1a85ff',
+        'editorWarning.foreground': '#1a85ff',
+        'problemsWarningIcon.foreground': '#1a85ff'
+      }
+    })
+    monaco.editor.setTheme('set')
+
     this.editor = monaco.editor.create(document.body, {
       value: 'Wird geladen...',
       language: 'xml',
@@ -47,6 +63,18 @@ export class App {
         bottom: 0
       }
     })
+
+    this.editor.addAction({
+      id: 'jump-to-reference',
+      label: 'Verweis folgen',
+      keybindings: [monaco.KeyCode.F12],
+      precondition: null,
+      keybindingContext: null,
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: () => jumpToDefinition(this.editor, this.xml)
+    })
+
     this.editor.focus();
 
     // Set sort order for problems
@@ -56,9 +84,13 @@ export class App {
 
     model.onDidChangeContent(() => this.updateErrors())
     model.onDidChangeContent(() => this.editor.focus())
+    model.onDidChangeContent(() => {
+      const rawText = this.editor.getValue()
+      this.xml = new DOMParser().parseFromString(rawText, 'text/xml')
+    })
 
     this.model.fetchFile().then(value => this.editor.setValue(value))
-    this.model.fetchProblems().then(value => { this.problems = value; this.updateErrors() })
+    this.updateProblems()
   }
 
   jumpToLine (line: number) {
@@ -74,6 +106,10 @@ export class App {
     this.editor.trigger('', 'editor.action.marker.next', {})
   }
 
+  updateProblems () {
+    this.model.fetchProblems().then(value => { this.problems = value; this.updateErrors() })
+  }
+
   updateErrors () {
     const model = this.editor.getModel()
     if (!model || !this.problems) {
@@ -82,10 +118,10 @@ export class App {
     const markers = this.problems.map(entry => {
       return {
         severity: (1 << entry.severity) as monaco.MarkerSeverity,
-        startLineNumber: entry.lineStart,
-        startColumn: entry.columnStart,
-        endLineNumber: entry.lineEnd,
-        endColumn: entry.columnEnd,
+        startLineNumber: entry.line,
+        startColumn: 0,
+        endLineNumber: entry.line,
+        endColumn: 99999,
         message: entry.message,
         source: entry.type
       }
