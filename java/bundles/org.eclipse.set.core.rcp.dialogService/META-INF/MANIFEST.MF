@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RCP DialogService
 Bundle-SymbolicName: org.eclipse.set.core.rcp.dialogservice
-Bundle-Version: 1.0.381.qualifier
+Bundle-Version: 1.0.382.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Automatic-Module-Name: org.eclipse.set.core.rcp.dialogservice
 Bundle-RequiredExecutionEnvironment: JavaSE-17

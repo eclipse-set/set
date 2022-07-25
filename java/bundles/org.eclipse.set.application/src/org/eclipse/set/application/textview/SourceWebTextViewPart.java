@@ -96,8 +96,18 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	@SuppressWarnings("boxing")
 	private void handleJumpToSourceLineEvent(
 			final JumpToSourceLineEvent event) {
-		browser.executeJavascript(String.format("%s(%d)", JUMP_TO_LINE_FUNCTION, //$NON-NLS-1$
-				event.getLineNumber()));
+		final String js = String.format("""
+				let intervalId = 0
+				const jumpToLineWrapper = () => {
+					if(%s) {
+						%s(%d);
+						clearInterval(intervalId);
+					}
+				}
+				intervalId = setInterval(jumpToLineWrapper, 100);
+				""", JUMP_TO_LINE_FUNCTION, JUMP_TO_LINE_FUNCTION,
+				event.getLineNumber());
+		browser.executeJavascript(js);
 	}
 
 	@PreDestroy

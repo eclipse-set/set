@@ -20,6 +20,7 @@ export class App {
   editor: monaco.editor.IStandaloneCodeEditor
   problems: ProblemMessage[]
   xml!: Document
+  pendingSetLine: number | null = null
 
   init () {
     // Set up a custom theme to recolor warnings to blue
@@ -84,9 +85,19 @@ export class App {
 
     model.onDidChangeContent(() => this.updateErrors())
     model.onDidChangeContent(() => this.editor.focus())
+
+    // Allow access to a parsed XML
     model.onDidChangeContent(() => {
       const rawText = this.editor.getValue()
       this.xml = new DOMParser().parseFromString(rawText, 'text/xml')
+    })
+
+    // Handle delayed set lines
+    model.onDidChangeContent(() => {
+      if (this.pendingSetLine) {
+        this.jumpToLine(this.pendingSetLine)
+        this.pendingSetLine = null
+      }
     })
 
     this.model.fetchFile().then(value => this.editor.setValue(value))
@@ -94,6 +105,12 @@ export class App {
   }
 
   jumpToLine (line: number) {
+    // If the model is not loaded yet, delay the jump
+    if (this.editor.getModel().getLineCount() <= 1) {
+      this.pendingSetLine = line
+      return
+    }
+
     // Move screen to line
     this.editor.revealLineInCenter(line)
     // Move cursor to line
