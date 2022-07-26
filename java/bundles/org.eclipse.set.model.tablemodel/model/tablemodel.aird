@@ -6,32 +6,32 @@
     <semanticResources>tableformat.ecore</semanticResources>
     <semanticResources>tableformat.genmodel</semanticResources>
     <semanticResources>http://www.eclipse.org/emf/2002/Ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Basisobjekte.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/BasisTypen.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Verweise.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/PlanPro.genmodel</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/PlanPro.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Ansteuerung_Element.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Bahnsteig.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Balisentechnik_ETCS.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Bedienung.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Block.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Bahnuebergang.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Flankenschutz.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Ortung.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Fahrstrasse.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Geodaten.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Weichen_und_Gleissperren.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Gleis.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Medien_und_Trassen.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Nahbedienbereich.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/PZB.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Regelzeichnung.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Schluesselabhaengigkeiten.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Signale.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Signalbegriffe_Struktur.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Zuglenkung.ecore</semanticResources>
-    <semanticResources>platform:/resource/de.scheidtbachmann.planpro.model.model1902/model/Zugnummernmeldeanlage.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Basisobjekte.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/BasisTypen.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Verweise.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/PlanPro.genmodel</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/PlanPro.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Ansteuerung_Element.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Bahnsteig.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Balisentechnik_ETCS.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Bedienung.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Block.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Bahnuebergang.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Flankenschutz.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Ortung.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Fahrstrasse.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Geodaten.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Weichen_und_Gleissperren.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Gleis.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Medien_und_Trassen.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Nahbedienbereich.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/PZB.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Regelzeichnung.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Schluesselabhaengigkeiten.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Signale.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Signalbegriffe_Struktur.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Zuglenkung.ecore</semanticResources>
+    <semanticResources>platform:/resource/org.eclipse.set.model.model1902/model/Zugnummernmeldeanlage.ecore</semanticResources>
     <semanticResources>platform:/resource/org.eclipse.set.toolboxmodel/model/Basisobjekte.ecore</semanticResources>
     <semanticResources>platform:/resource/org.eclipse.set.toolboxmodel/model/BasisTypen.ecore</semanticResources>
     <semanticResources>platform:/resource/org.eclipse.set.toolboxmodel/model/Geodaten.ecore</semanticResources>

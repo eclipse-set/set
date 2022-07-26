@@ -15,9 +15,9 @@ Require-Bundle: org.eclipse.xtend.lib,
  org.eclipse.set.toolboxmodel,
  org.eclipse.set.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Import-Package: de.scheidtbachmann.planpro.model.model1902.PlanPro,
- de.scheidtbachmann.planpro.model.model1902.PlanPro.util,
- de.scheidtbachmann.planpro.model.model1902.Signalbegriffe_Ril_301,
+Import-Package: org.eclipse.set.model.model1902.PlanPro,
+ org.eclipse.set.model.model1902.PlanPro.util,
+ org.eclipse.set.model.model1902.Signalbegriffe_Ril_301,
  javax.inject;version="1.0.0",
  org.eclipse.core.runtime;version="3.5.0",
  org.eclipse.e4.core.services.events,

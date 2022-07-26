@@ -9,7 +9,7 @@
 package org.eclipse.set.model.temporaryintegration.provider;
 
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanProFactory;
+import org.eclipse.set.model.model1902.PlanPro.PlanProFactory;
 import java.util.Collection;
 import java.util.List;
 

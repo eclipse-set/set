@@ -24,8 +24,8 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.ppmodel.extensions.PlanProResourceImplExtensions;
 import org.w3c.dom.Document;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot;
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceImpl;
+import org.eclipse.set.model.model1902.PlanPro.DocumentRoot;
+import org.eclipse.set.model.model1902.PlanPro.util.PlanProResourceImpl;
 
 /**
  * Common functionality for toolbox files.

@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.model.temporaryintegration.provider;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.provider.PlanProEditPlugin;
+import org.eclipse.set.model.model1902.PlanPro.provider.PlanProEditPlugin;
 import org.eclipse.emf.common.EMFPlugin;
 
 import org.eclipse.emf.common.util.ResourceLocator;

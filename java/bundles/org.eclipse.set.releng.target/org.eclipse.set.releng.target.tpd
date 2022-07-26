@@ -311,11 +311,11 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 /**
  * PlanPro Model including the derived Toolbox Model
  */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.20/org.eclipse.set.toolboxmodel.repository-1.0.20.zip-unzip/" {		
+location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org.eclipse.set.toolboxmodel.repository/1.0.21/org.eclipse.set.toolboxmodel.repository-1.0.21.zip-unzip/" {		
 	org.eclipse.set.toolboxmodel.feature.feature.group
 	org.eclipse.set.toolboxmodel.feature.source.feature.group
-	de.scheidtbachmann.planpro.model.model1902.feature.feature.group
-	de.scheidtbachmann.planpro.model.model1902.feature.source.feature.group
+	org.eclipse.set.model.model1902.feature.feature.group
+	org.eclipse.set.model.model1902.feature.source.feature.group
 }
 
 /**

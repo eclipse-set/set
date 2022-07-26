@@ -26,7 +26,7 @@ class DocumentRootExtensions {
 	 * The PlanPro schema dir 
 	 */
 	public static val PlanProSchemaDir<PlanPro_Schnittstelle> SCHEMA_DIR = new PlanProSchemaDir(
-		typeof(de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle));
+		typeof(org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle));
 
 	static val String DEFAULT_LOCATION = "model location not found"
 

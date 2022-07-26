@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.model.temporaryintegration.impl;
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;

@@ -9,10 +9,10 @@
    <feature id="org.eclipse.set.i18n.nl_de.feature" version="0.0.0">
       <category name="de.scheidtbachmann.planpro.set.category"/>
    </feature>
-   <feature id="de.scheidtbachmann.planpro.model.model1902.feature">
+   <feature id="org.eclipse.set.model.model1902.feature">
       <category name="de.scheidtbachmann.planpro.set.utils.category"/>
    </feature>
-   <feature id="de.scheidtbachmann.planpro.model.model1902.feature.source">
+   <feature id="org.eclipse.set.model.model1902.feature.source">
       <category name="de.scheidtbachmann.planpro.set.utils.category"/>
    </feature>
    <feature id="org.eclipse.set.browser.feature">

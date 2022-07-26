@@ -9,7 +9,7 @@
 
 package org.eclipse.set.ppmodel.extensions
 
-import de.scheidtbachmann.planpro.model.model1902.PlanPro.util.PlanProResourceImpl
+import org.eclipse.set.model.model1902.PlanPro.util.PlanProResourceImpl
 import org.eclipse.set.basis.files.PlanProXmlSave
 
 /**

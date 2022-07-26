@@ -33,7 +33,7 @@ Export-Package: org.eclipse.set.basis,
  org.eclipse.set.basis.ui,
  org.eclipse.set.basis.viewgroups
 Import-Package: com.google.common.collect,
- de.scheidtbachmann.planpro.model.model1902.PlanPro,
+ org.eclipse.set.model.model1902.PlanPro,
  org.apache.commons.lang3,
  org.eclipse.core.runtime,
  org.eclipse.e4.core.contexts,

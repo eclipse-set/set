@@ -17,6 +17,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.set.toolboxmodel.edit;visibility:=reexport,
  org.eclipse.set.model.simplemerge;visibility:=reexport,
  org.eclipse.set.model.simplemerge.edit;visibility:=reexport,
- de.scheidtbachmann.planpro.model.model1902;visibility:=reexport,
- de.scheidtbachmann.planpro.model.model1902.edit;visibility:=reexport
+ org.eclipse.set.model.model1902;visibility:=reexport,
+ org.eclipse.set.model.model1902.edit;visibility:=reexport
 Bundle-ActivationPolicy: lazy

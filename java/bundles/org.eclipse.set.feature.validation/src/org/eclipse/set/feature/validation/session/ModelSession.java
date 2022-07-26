@@ -156,7 +156,7 @@ public class ModelSession implements IModelSession {
 	private final DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
-	private final PlanProSchemaDir<de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle> schemaDir;
+	private final PlanProSchemaDir<org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle> schemaDir;
 	private final SessionService sessionService;
 	private double symbolRotation;
 	private ToolboxTemporaryIntegration temporaryIntegration;
@@ -204,7 +204,7 @@ public class ModelSession implements IModelSession {
 					}
 				});
 		schemaDir = new PlanProSchemaDir<>(
-				de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
+				org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
 		guid = Guid.create();
 		createTempDir();
 		toolboxFile.setTemporaryDirectory(getTempDir());
@@ -656,7 +656,7 @@ public class ModelSession implements IModelSession {
 				}, PlanProSchnittstelleExtensions::readFrom, validationResult));
 		validationResult = serviceProvider.validationService
 				.xsdValidation(getToolboxFile(), schemaDir, validationResult);
-		final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot sourceRoot = getToolboxFile()
+		final org.eclipse.set.model.model1902.PlanPro.DocumentRoot sourceRoot = getToolboxFile()
 				.getSourceModel();
 		if (sourceRoot != null) {
 			validationResult = serviceProvider.validationService.emfValidation(

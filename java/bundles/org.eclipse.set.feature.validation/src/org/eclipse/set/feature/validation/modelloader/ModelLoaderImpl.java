@@ -35,8 +35,8 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class ModelLoaderImpl implements ModelLoader {
 
-	private static final PlanProSchemaDir<de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle> SCHEMA_DIR = new PlanProSchemaDir<>(
-			de.scheidtbachmann.planpro.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
+	private static final PlanProSchemaDir<org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle> SCHEMA_DIR = new PlanProSchemaDir<>(
+			org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
 
 	@Inject
 	private DialogService dialogService;
@@ -62,7 +62,7 @@ public class ModelLoaderImpl implements ModelLoader {
 						return toolboxFile.getResource();
 					}, PlanProSchnittstelleExtensions::readFrom, result);
 			validationService.xsdValidation(toolboxFile, SCHEMA_DIR, result);
-			final de.scheidtbachmann.planpro.model.model1902.PlanPro.DocumentRoot sourceRoot = toolboxFile
+			final org.eclipse.set.model.model1902.PlanPro.DocumentRoot sourceRoot = toolboxFile
 					.getSourceModel();
 			if (sourceRoot != null) {
 				validationService.emfValidation(
