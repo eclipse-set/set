@@ -13,12 +13,17 @@ import java.util.Map;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.config.DefaultNatTableStyleConfiguration;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterIconPainter;
 import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowPainter;
 import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
+import org.eclipse.nebula.widgets.nattable.filterrow.config.DefaultFilterRowConfiguration;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnCommand;
+import org.eclipse.nebula.widgets.nattable.grid.GridRegion;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
@@ -27,11 +32,14 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.CornerLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
+import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.PaddingDecorator;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
 import org.eclipse.nebula.widgets.nattable.sort.event.SortColumnEvent;
+import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
+import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
@@ -70,6 +78,13 @@ public class AbstractSortByColumnTables {
 
 	}
 
+	class FilterRowCustomConfiguration extends DefaultFilterRowConfiguration {
+		public FilterRowCustomConfiguration() {
+			this.cellPainter = new FilterRowPainter(
+					new FilterIconPainter(GUIHelper.getImage("filter"))); //$NON-NLS-1$
+		}
+	}
+
 	protected NatTable createTable(final Composite parent,
 			final Table tableModel) {
 		final ColumnDescriptor rootColumnDescriptor = tableModel
@@ -100,10 +115,19 @@ public class AbstractSortByColumnTables {
 		});
 
 		final ConfigRegistry configRegistry = new ConfigRegistry();
+		configRegistry.registerConfigAttribute(
+				CellConfigAttributes.CELL_PAINTER,
+				new PaddingDecorator(
+						new FilterRowPainter(new FilterIconPainter(
+								GUIHelper.getImage("remove-filter"))), //$NON-NLS-1$
+						0, 0, 0, 5),
+				DisplayMode.NORMAL, GridRegion.FILTER_ROW);
 		final FilterRowHeaderComposite<Object> filterRowHeaderLayer = new FilterRowHeaderComposite<>(
 				new FilterStrategy<>(bodyDataProvider, tableModel),
 				sortHeaderLayer, columnHeaderDataLayer.getDataProvider(),
 				configRegistry);
+		filterRowHeaderLayer
+				.addConfiguration(new FilterRowCustomConfiguration());
 
 		// row header stack
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(
@@ -113,7 +137,6 @@ public class AbstractSortByColumnTables {
 		final RowHeaderLayer rowHeaderLayer = new RowHeaderLayer(
 				rowHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
-
 		// Corner Layer stack
 		final DefaultCornerDataProvider cornerDataProvider = new DefaultCornerDataProvider(
 				columnHeaderDataProvider, rowHeaderDataProvider);
