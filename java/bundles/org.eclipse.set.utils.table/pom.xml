@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.utils.table</artifactId>
-	<version>1.0.383-SNAPSHOT</version>
+	<version>1.0.384-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 	<parent>
 		<relativePath>../org.eclipse.set.releng.parent</relativePath>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Utils Tests
 Bundle-SymbolicName: org.eclipse.set.utils.test
-Bundle-Version: 1.0.383.qualifier
+Bundle-Version: 1.0.384.qualifier
 Fragment-Host: org.eclipse.set.utils;bundle-version="0.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
