@@ -126,8 +126,6 @@ public class AbstractSortByColumnTables {
 				new FilterStrategy<>(bodyDataProvider, tableModel),
 				sortHeaderLayer, columnHeaderDataLayer.getDataProvider(),
 				configRegistry);
-		filterRowHeaderLayer
-				.addConfiguration(new FilterRowCustomConfiguration());
 
 		// row header stack
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(
@@ -156,6 +154,7 @@ public class AbstractSortByColumnTables {
 		natTable.setConfigRegistry(configRegistry);
 		natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
 		natTable.addConfiguration(new SingleClickSortConfiguration());
+		natTable.addConfiguration(new FilterRowCustomConfiguration());
 		natTable.configure();
 
 		// set style
