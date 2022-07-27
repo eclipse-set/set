@@ -97,14 +97,16 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	private void handleJumpToSourceLineEvent(
 			final JumpToSourceLineEvent event) {
 		final String js = String.format("""
-				let intervalId = 0
-				const jumpToLineWrapper = () => {
-					if(%s) {
-						%s(%d);
-						clearInterval(intervalId);
+				{
+					let intervalId = 0
+					const jumpToLineWrapper = () => {
+						if(%s) {
+							%s(%d);
+							clearInterval(intervalId);
+						}
 					}
+					intervalId = setInterval(jumpToLineWrapper, 100);
 				}
-				intervalId = setInterval(jumpToLineWrapper, 100);
 				""", JUMP_TO_LINE_FUNCTION, JUMP_TO_LINE_FUNCTION,
 				event.getLineNumber());
 		browser.executeJavascript(js);
