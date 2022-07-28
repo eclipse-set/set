@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Core Services
 Bundle-SymbolicName: org.eclipse.set.core.services;singleton:=true
-Bundle-Version: 1.0.386.qualifier
+Bundle-Version: 1.0.387.qualifier
 Automatic-Module-Name: org.eclipse.set.core.services
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project

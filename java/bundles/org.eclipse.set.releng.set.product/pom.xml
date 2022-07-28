@@ -10,7 +10,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.releng.product</artifactId>
-	<version>1.0.386-SNAPSHOT</version>
+	<version>1.0.387-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 	
 	<build>
