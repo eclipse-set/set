@@ -120,6 +120,7 @@ export class App {
     })
 
     // Open the next error view
+    this.editor.trigger('', 'closeMarkersNavigation', {})
     this.editor.trigger('', 'editor.action.marker.next', {})
   }
 
