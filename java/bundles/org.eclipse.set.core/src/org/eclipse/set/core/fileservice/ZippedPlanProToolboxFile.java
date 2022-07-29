@@ -190,6 +190,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public List<String> getAllMedia() throws IOException {
 		final List<String> listMedia = new LinkedList<>();
+		if (!Files.isDirectory(getMediaDirectory())) {
+			return List.of();
+		}
+
 		try (final Stream<Path> listFiles = Files.list(getMediaDirectory())) {
 			listFiles.forEach(media -> {
 				listMedia.add(media.getFileName().toString());
