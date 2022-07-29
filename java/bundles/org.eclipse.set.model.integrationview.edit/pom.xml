@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.model.integrationview.edit</artifactId>
-	<version>1.0.387-SNAPSHOT</version>
+	<version>1.0.388-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>
