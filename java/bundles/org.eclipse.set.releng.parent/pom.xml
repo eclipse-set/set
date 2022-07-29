@@ -129,6 +129,25 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${project.basedir}/xtend-gen/</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+							<excludes>
+								<exclude>**/.gitkeep</exclude>
+							</excludes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
 			<!-- Buildnumber Plugin, um die Revision für z.B. Dateinamen/Readme verwenden 
 				zu können -->
 			<plugin>
