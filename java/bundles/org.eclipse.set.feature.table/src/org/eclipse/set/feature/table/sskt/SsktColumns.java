@@ -126,5 +126,19 @@ public class SsktColumns extends AbstractTableColumns {
 				messages.Sskt_IP_Adressangaben_Teilsystem_Art);
 		TS_Blau = createNew(messages.Sskt_IP_Adressangaben_Teilsystem_TS_Blau);
 		TS_Grau = createNew(messages.Sskt_IP_Adressangaben_Teilsystem_TS_Grau);
+
+		// Allow merging cells
+		Bezeichnung.setMergeCommonValues(true);
+		Grundsatzangaben_Art.setMergeCommonValues(true);
+		Bedien_Standort.setMergeCommonValues(true);
+		Unterbringung_Art.setMergeCommonValues(true);
+		Ort.setMergeCommonValues(true);
+		Strecke.setMergeCommonValues(true);
+		km.setMergeCommonValues(true);
+		Regionalbereich.setMergeCommonValues(true);
+		IPv4_Blau.setMergeCommonValues(true);
+		IPv6_Blau.setMergeCommonValues(true);
+		IPv4_Grau.setMergeCommonValues(true);
+		IPv6_Grau.setMergeCommonValues(true);
 	}
 }

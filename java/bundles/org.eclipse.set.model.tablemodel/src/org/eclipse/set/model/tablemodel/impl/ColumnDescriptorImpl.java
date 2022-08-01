@@ -42,6 +42,7 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getHeight <em>Height</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isMergeCommonValues <em>Merge Common Values</em>}</li>
  * </ul>
  *
  * @generated
@@ -166,6 +167,26 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	 * @ordered
 	 */
 	protected double height = HEIGHT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isMergeCommonValues() <em>Merge Common Values</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isMergeCommonValues()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean MERGE_COMMON_VALUES_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isMergeCommonValues() <em>Merge Common Values</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isMergeCommonValues()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean mergeCommonValues = MERGE_COMMON_VALUES_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -381,6 +402,29 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public boolean isMergeCommonValues() {
+		return mergeCommonValues;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setMergeCommonValues(boolean newMergeCommonValues) {
+		boolean oldMergeCommonValues = mergeCommonValues;
+		mergeCommonValues = newMergeCommonValues;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES, oldMergeCommonValues, mergeCommonValues));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -434,6 +478,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 				return basicGetParent();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 				return getHeight();
+			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
+				return isMergeCommonValues();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -469,6 +515,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 				setHeight((Double)newValue);
 				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
+				setMergeCommonValues((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -502,6 +551,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 				setHeight(HEIGHT_EDEFAULT);
 				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
+				setMergeCommonValues(MERGE_COMMON_VALUES_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -528,6 +580,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 				return parent != null;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 				return height != HEIGHT_EDEFAULT;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
+				return mergeCommonValues != MERGE_COMMON_VALUES_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -552,6 +606,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 		result.append(unit);
 		result.append(", height: ");
 		result.append(height);
+		result.append(", mergeCommonValues: ");
+		result.append(mergeCommonValues);
 		result.append(')');
 		return result.toString();
 	}

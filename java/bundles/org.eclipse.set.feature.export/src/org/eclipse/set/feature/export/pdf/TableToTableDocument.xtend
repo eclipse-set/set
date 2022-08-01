@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -33,6 +33,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.utils.table.TableSpanUtils
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -48,6 +49,7 @@ class TableToTableDocument {
 	var String tablename
 	var int groupNumber
 	val Map<Integer, Footnote> footnotes = Maps.newHashMap
+	var TableSpanUtils spanUtils
 
 	private new() throws ParserConfigurationException {
 		val docFactory = DocumentBuilderFactory.newInstance
@@ -100,6 +102,7 @@ class TableToTableDocument {
 		TableContent content) {
 		val rowsElement = it
 		val rows = content.table.tableRows
+		spanUtils = new TableSpanUtils(rows)
 		rows.forEach[rowsElement.appendChild(transform(rows))]
 		if (ToolboxConfiguration.pdfExportTestFilling &&
 			content.rowgroups.empty) {
@@ -130,13 +133,35 @@ class TableToTableDocument {
 
 		// cells
 		val rowElement = it
+		val rowIndex = rows.indexOf(row) 
 		val cells = row.content
+
 		logger.
 			debug('''groupNumber=«groupNumber» («FOR c : cells SEPARATOR " "»«c.plainStringValue»«ENDFOR»)''')
+
 		cells.indexed.forEach [
 			logger.debug('''column=«key»''')
 			val isRemarkColumn = value.isRemarkColumn(cells)
-			rowElement.appendChild(value.createCell(key + 1, isRemarkColumn))
+
+			// Check for required span merges
+			var rowSpan = 1
+			if (spanUtils.isMergeAllowed(key, rowIndex)) {
+				val spanUp = spanUtils.getRowSpanUp(key, rowIndex);
+				val spanDown = spanUtils.getRowSpanDown(key, rowIndex);
+
+				// If spanUp > 0, we have already merged this span
+				// in a previous iteration. Otherwise adjust the rowSpan
+				if (spanUp == 0 && spanDown > 0) {
+					rowSpan = spanDown + 1;
+				} else if (spanUp > 0) {
+					rowSpan = 0
+				}
+			}
+
+			if (rowSpan > 0) {
+				rowElement.appendChild(
+					value.createCell(key + 1, rowSpan, isRemarkColumn))
+			}
 		]
 
 		// remember footnotes for later
@@ -153,21 +178,23 @@ class TableToTableDocument {
 	}
 
 	private def dispatch Element createCell(CellContent content,
-		int columnNumber, boolean isRemarkColumn) {
+		int columnNumber, int rowSpan, boolean isRemarkColumn) {
 		val cellElement = doc.createElement("Cell")
 
 		cellElement.attributeNode = createColumnAttribute(columnNumber)
+		cellElement.attributeNode = createRowSpanAttribute(rowSpan)
 		cellElement.appendChild(
 			content.createContent(columnNumber, isRemarkColumn))
 
 		return cellElement
 	}
 
-	private def dispatch Element createCell(Void content, int columnNumber,
+	private def dispatch Element createCell(Void content, int columnNumber, int rowSpan,
 		boolean isRemarkColumn) {
 		val cellElement = doc.createElement("Cell")
 
 		cellElement.attributeNode = createColumnAttribute(columnNumber)
+		cellElement.attributeNode = createRowSpanAttribute(rowSpan)
 		cellElement.appendChild(
 			null.createContent(columnNumber, isRemarkColumn))
 
@@ -251,6 +278,14 @@ class TableToTableDocument {
 		columnAttr.value = Integer.toString(columnNumber)
 		return columnAttr
 	}
+	
+	
+	private def Attr createRowSpanAttribute(int rowSpan) {
+		val attr = doc.createAttribute("number-rows-spanned")
+		attr.value = Integer.toString(rowSpan)
+		return attr
+	}
+	
 
 	private def Element createDiffComponent(String content, String elementName,
 		boolean isRemarkColumn) {

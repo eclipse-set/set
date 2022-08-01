@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Export
 Bundle-SymbolicName: org.eclipse.set.feature.export;singleton:=true
-Bundle-Version: 1.0.389.qualifier
+Bundle-Version: 1.0.390.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Export-Package: org.eclipse.set.feature.export.checkboxmodel,
  org.eclipse.set.feature.export.parts
@@ -25,6 +25,7 @@ Import-Package: javax.inject;version="1.0.0",
  org.apache.poi,
  org.apache.poi.hssf.usermodel;version="4.1.1",
  org.apache.poi.ss.usermodel,
+ org.apache.poi.ss.util,
  org.apache.xmlgraphics.image.loader.spi;version="2.4.0",
  org.apache.xmlgraphics.io;version="2.4.0",
  org.eclipse.core.runtime;version="3.5.0",
@@ -65,6 +66,7 @@ Import-Package: javax.inject;version="1.0.0",
  org.eclipse.set.utils,
  org.eclipse.set.utils.events,
  org.eclipse.set.utils.exception,
+ org.eclipse.set.utils.table,
  org.eclipse.set.utils.viewgroups,
  org.eclipse.set.utils.widgets,
  org.osgi.service.component.annotations;version="1.2.0",

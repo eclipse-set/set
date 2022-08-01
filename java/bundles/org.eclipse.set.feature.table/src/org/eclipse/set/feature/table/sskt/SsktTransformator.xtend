@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2019 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,18 +8,20 @@
  */
 package org.eclipse.set.feature.table.sskt
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
-import java.util.Collections
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.TSO_IP_AB_Teilsystem_AttributeGroup
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Bedienung.BSO_IP_AB_Teilsystem_AttributeGroup
+import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
+import org.eclipse.set.utils.table.RowFactory
+import org.eclipse.set.utils.table.TMFactory
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienStandortExtensions.*
@@ -51,22 +53,46 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		MultiContainer_AttributeGroup container) {
 		(container.technikStandort + container.bedienStandort).filter [
 			generalbedingung
-		].forEach[it|
+		].forEach [
 			if (Thread.currentThread.interrupted) {
 				return
 			}
-			it.transformToRow
+			transformToRow
 		]
 		return
 	}
 
-	private def dispatch TableRow create factory.newTableRow(standort) transformToRow(
+	private def dispatch void transformToRow(
 		Basis_Objekt standort) {
 		throw new IllegalArgumentException(standort.toString)
 	}
 
-	private def dispatch TableRow create factory.newTableRow(standort) transformToRow(
+	private def dispatch void transformToRow(
 		Technik_Standort standort) {
+		val rg = factory.newRowGroup(standort)
+		val teilsysteme = standort.TSOIPAdressblock?.TSOIPABTeilsystem
+		if (teilsysteme !== null && !teilsysteme.empty) {
+			teilsysteme.forEach[transformToRow(rg, standort, it)]
+		} else {
+			transformToRow(rg, standort, null)
+		}
+	}
+
+	private def dispatch void transformToRow(
+		Bedien_Standort standort) {
+
+		val rg = factory.newRowGroup(standort)	
+		val teilsysteme = standort.BSOIPAdressblock?.BSOIPABTeilsystem
+		if (teilsysteme !== null && !teilsysteme.empty) {
+			teilsysteme.forEach[transformToRow(rg, standort, it)]
+		} else {
+			transformToRow(rg, standort, null)
+		}
+	}
+
+	private def TableRow create rg.newTableRow
+		transformToRow(RowFactory rg, Technik_Standort standort,
+		TSO_IP_AB_Teilsystem_AttributeGroup ts) {
 
 		fill(
 			columns.Bezeichnung,
@@ -128,37 +154,24 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 			[TSOIPAdressblock?.IPAdressblockGrauV6?.wert]
 		)
 
-		fillIterable(
+		fill(
 			columns.Teilsystem_Art,
 			standort,
-			[
-				TSOIPAdressblock?.TSOIPABTeilsystem?.map [
-					TSOTeilsystemArt?.wert?.translate
-				] ?: Collections.emptyList
-			],
-			MIXED_STRING_COMPARATOR
+			[ts?.TSOTeilsystemArt?.wert?.translate]
 		)
 
-		fillIterable(
+		fill(
 			columns.TS_Blau,
 			standort,
-			[
-				TSOIPAdressblock?.TSOIPABTeilsystem?.map [
-					IPAdressblockBlau?.wert
-				] ?: Collections.emptyList
-			],
-			MIXED_STRING_COMPARATOR
+			[ts?.IPAdressblockBlau?.wert]
 		)
 
-		fillIterable(
+		fill(
 			columns.TS_Grau,
 			standort,
 			[
-				TSOIPAdressblock?.TSOIPABTeilsystem?.map [
-					IPAdressblockGrau?.wert
-				] ?: Collections.emptyList
-			],
-			MIXED_STRING_COMPARATOR
+				ts?.IPAdressblockGrau?.wert
+			]
 		)
 
 		val row = it
@@ -168,11 +181,11 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 			[footnoteTransformation.transform(it, row)]
 		)
 
-		return
 	}
 
-	private def dispatch TableRow create factory.newTableRow(standort) transformToRow(
-		Bedien_Standort standort) {
+	private def TableRow create rg.newTableRow transformToRow(
+		RowFactory rg, Bedien_Standort standort,
+		BSO_IP_AB_Teilsystem_AttributeGroup bs) {
 
 		fill(
 			columns.Bezeichnung,
@@ -227,37 +240,22 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 			[BSOIPAdressblock?.IPAdressblockGrauV6?.wert]
 		)
 
-		fillIterable(
+		fill(
 			columns.Teilsystem_Art,
 			standort,
-			[
-				BSOIPAdressblock?.BSOIPABTeilsystem?.map [
-					BSOTeilsystemArt?.wert?.translate
-				] ?: Collections.emptyList
-			],
-			MIXED_STRING_COMPARATOR
+			[bs?.BSOTeilsystemArt?.wert?.translate]
 		)
 
-		fillIterable(
+		fill(
 			columns.TS_Blau,
 			standort,
-			[
-				BSOIPAdressblock?.BSOIPABTeilsystem?.map [
-					IPAdressblockBlau?.wert
-				] ?: Collections.emptyList
-			],
-			MIXED_STRING_COMPARATOR
+			[bs?.IPAdressblockBlau?.wert]
 		)
 
-		fillIterable(
+		fill(
 			columns.TS_Grau,
 			standort,
-			[
-				BSOIPAdressblock?.BSOIPABTeilsystem?.map [
-					IPAdressblockGrau?.wert
-				] ?: Collections.emptyList
-			],
-			MIXED_STRING_COMPARATOR
+			[bs?.IPAdressblockGrau?.wert]
 		)
 
 		val row = it
@@ -312,7 +310,6 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override void formatTableContent(Table table) {
 		// IMPROVE: Use column descriptor instead of index
-		
 		// A: Sskt.Grundsatzangaben.Bezeichnung
 		table.setTextAlignment(0, TextAlignment.LEFT);
 

@@ -10,7 +10,8 @@ package org.eclipse.set.utils.table;
 
 import java.util.List;
 
-import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
+import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.slf4j.Logger;
@@ -21,7 +22,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Bleidiessel
  */
-public class TableModelInstanceBodyDataProvider implements IDataProvider {
+public class TableModelInstanceBodyDataProvider
+		implements ISpanningDataProvider {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(TableModelInstanceBodyDataProvider.class);
@@ -30,6 +32,7 @@ public class TableModelInstanceBodyDataProvider implements IDataProvider {
 
 	private final List<TableRow> instances;
 	private final int propertyCount;
+	private final TableSpanUtils spanUtils;
 
 	/**
 	 * @param propertyCount
@@ -41,7 +44,7 @@ public class TableModelInstanceBodyDataProvider implements IDataProvider {
 			final List<TableRow> instances) {
 		this.instances = instances;
 		this.propertyCount = propertyCount;
-
+		this.spanUtils = new TableSpanUtils(instances);
 	}
 
 	@Override
@@ -72,4 +75,19 @@ public class TableModelInstanceBodyDataProvider implements IDataProvider {
 		// does nothing atm
 	}
 
+	@Override
+	public DataCell getCellByPosition(final int column, final int row) {
+		if (!spanUtils.isMergeAllowed(column, row)) {
+			return new DataCell(column, row, 1, 1);
+		}
+
+		// Calculate the span
+		final int spanUp = spanUtils.getRowSpanUp(column, row);
+		final int spanDown = spanUtils.getRowSpanDown(column, row);
+
+		final int startRow = row - spanUp;
+		final int spanSize = spanUp + spanDown + 1;
+
+		return new DataCell(column, startRow, 1, spanSize);
+	}
 }

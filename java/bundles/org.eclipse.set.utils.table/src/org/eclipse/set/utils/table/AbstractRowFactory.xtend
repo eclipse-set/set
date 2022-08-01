@@ -9,7 +9,6 @@
 package org.eclipse.set.utils.table
 
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
@@ -24,9 +23,6 @@ import org.eclipse.set.utils.table.RowFactory
  * @author Schaefer
  */
 abstract class AbstractRowFactory implements RowFactory {
-
-	def RowGroup getRowGroup()
-
 	override TableRow newTableRow() {
 		val rowGroup = getRowGroup()
 		val newTableRow = TablemodelFactory.eINSTANCE.createTableRow

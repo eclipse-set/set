@@ -61,6 +61,7 @@
         <details key="documentation" value="The height of the row in cm."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mergeCommonValues" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TableContent">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

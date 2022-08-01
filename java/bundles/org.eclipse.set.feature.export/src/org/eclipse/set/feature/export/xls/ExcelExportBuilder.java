@@ -24,6 +24,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -37,6 +38,7 @@ import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.TableExport;
+import org.eclipse.set.utils.table.TableSpanUtils;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -156,25 +158,11 @@ public class ExcelExportBuilder implements TableExport {
 			logger.info("exporting table = {}", templatePath); //$NON-NLS-1$
 			final List<TableRow> rows = TableExtensions.getTableRows(table);
 
-			// excel-Tabelle erstellen:
-			int sheetRowIndex = rowIndex;
-			for (final TableRow row : rows) {
-				for (int i = 0; i < columnCount; i++) {
-					final String content = TableRowExtensions
-							.getPlainStringValue(row, i);
-					Row sheetRow = sheet.getRow(sheetRowIndex);
-					if (sheetRow == null) {
-						// wenn nicht vorhanden, dann neu machen
-						sheetRow = sheet.createRow(sheetRowIndex);
-					}
-					Cell cell = sheetRow.getCell(i + 1);
-					if (cell == null) {
-						cell = sheetRow.createCell(i + 1);
-					}
-					cell.setCellValue(content);
-				}
-				sheetRowIndex++;
-			}
+			// Fill sheet
+			fillSheet(sheet, rows, rowIndex, columnCount);
+
+			// Create spans
+			addTableSpans(sheet, rows, rowIndex, columnCount);
 
 			// Improve: Kompletter Wechsel auf Apache FileUtils,
 			// vllt bei Erweiterung des Feature-Umfangs
@@ -194,6 +182,62 @@ public class ExcelExportBuilder implements TableExport {
 		} catch (final IOException e) {
 			throw new FileExportException(outputPath, e);
 		}
+	}
+
+	private static void fillSheet(final Sheet sheet, final List<TableRow> rows,
+			final int rowIndex, final int columnCount) {
+		int sheetRowIndex = rowIndex;
+		for (final TableRow row : rows) {
+			for (int i = 0; i < columnCount; i++) {
+				final String content = TableRowExtensions
+						.getPlainStringValue(row, i);
+				Row sheetRow = sheet.getRow(sheetRowIndex);
+				if (sheetRow == null) {
+					// wenn nicht vorhanden, dann neu machen
+					sheetRow = sheet.createRow(sheetRowIndex);
+				}
+				Cell cell = sheetRow.getCell(i + 1);
+				if (cell == null) {
+					cell = sheetRow.createCell(i + 1);
+				}
+				cell.setCellValue(content);
+			}
+			sheetRowIndex++;
+		}
+	}
+
+	private static void addTableSpans(final Sheet sheet,
+			final List<TableRow> rows, final int rowIndex,
+			final int columnCount) {
+		int sheetRowIndex = rowIndex;
+		final TableSpanUtils spanUtils = new TableSpanUtils(rows);
+		for (int row = 0; row < rows.size(); row++) {
+			for (int column = 0; column < columnCount; column++) {
+				if (!spanUtils.isMergeAllowed(column, row)) {
+					continue;
+				}
+
+				final int spanUp = spanUtils.getRowSpanUp(column, row);
+				final int spanDown = spanUtils.getRowSpanDown(column, row);
+
+				// If spanUp > 0, we have already merged this span
+				// in a previous iteration
+				if (spanUp > 0) {
+					continue;
+				}
+
+				// Nothing to merge?
+				if (spanDown == 0) {
+					continue;
+				}
+
+				sheet.addMergedRegion(new CellRangeAddress(sheetRowIndex + row,
+						sheetRowIndex + row + spanDown, column, column));
+			}
+
+			sheetRowIndex++;
+		}
+
 	}
 
 	@Override

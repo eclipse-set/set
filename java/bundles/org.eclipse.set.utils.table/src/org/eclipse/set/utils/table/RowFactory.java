@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.utils.table;
 
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.TableRow;
 
 /**
@@ -21,4 +22,9 @@ public interface RowFactory {
 	 * @return the new table row
 	 */
 	TableRow newTableRow();
+
+	/**
+	 * @return the row group
+	 */
+	RowGroup getRowGroup();
 }

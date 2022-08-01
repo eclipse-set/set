@@ -73,6 +73,7 @@ public class ColumnDescriptorItemProvider
 			addUnitPropertyDescriptor(object);
 			addParentPropertyDescriptor(object);
 			addHeightPropertyDescriptor(object);
+			addMergeCommonValuesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -232,6 +233,28 @@ public class ColumnDescriptorItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Merge Common Values feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addMergeCommonValuesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ColumnDescriptor_mergeCommonValues_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ColumnDescriptor_mergeCommonValues_feature", "_UI_ColumnDescriptor_type"),
+				 TablemodelPackage.Literals.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns ColumnDescriptor.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -275,6 +298,7 @@ public class ColumnDescriptorItemProvider
 			case TablemodelPackage.COLUMN_DESCRIPTOR__GREYED:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__UNIT:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
+			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

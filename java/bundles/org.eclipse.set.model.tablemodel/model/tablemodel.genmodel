@@ -21,6 +21,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//ColumnDescriptor/unit"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//ColumnDescriptor/parent"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//ColumnDescriptor/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//ColumnDescriptor/mergeCommonValues"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//TableContent">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableContent/rowgroups"/>

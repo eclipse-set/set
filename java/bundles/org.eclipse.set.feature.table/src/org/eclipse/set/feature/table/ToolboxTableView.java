@@ -31,6 +31,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnCommand;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
@@ -43,6 +44,7 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
@@ -312,9 +314,10 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 		// is called
 		Assert.isNotNull(tableInstances);
 
-		final IDataProvider bodyDataProvider = new TableModelInstanceBodyDataProvider(
+		final ISpanningDataProvider bodyDataProvider = new TableModelInstanceBodyDataProvider(
 				TableExtensions.getPropertyCount(table), tableInstances);
-		final DataLayer bodyDataLayer = new DataLayer(bodyDataProvider);
+		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
+				bodyDataProvider);
 
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
 		final SelectionLayer selectionLayer = bodyLayerStack

@@ -300,6 +300,16 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EAttribute getColumnDescriptor_MergeCommonValues() {
+		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getTableContent() {
 		return tableContentEClass;
 	}
@@ -565,6 +575,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		createEAttribute(columnDescriptorEClass, COLUMN_DESCRIPTOR__UNIT);
 		createEReference(columnDescriptorEClass, COLUMN_DESCRIPTOR__PARENT);
 		createEAttribute(columnDescriptorEClass, COLUMN_DESCRIPTOR__HEIGHT);
+		createEAttribute(columnDescriptorEClass, COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES);
 
 		tableContentEClass = createEClass(TABLE_CONTENT);
 		createEReference(tableContentEClass, TABLE_CONTENT__ROWGROUPS);
@@ -646,6 +657,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEAttribute(getColumnDescriptor_Unit(), ecorePackage.getEBoolean(), "unit", null, 1, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getColumnDescriptor_Parent(), this.getColumnDescriptor(), this.getColumnDescriptor_Children(), "parent", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColumnDescriptor_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getColumnDescriptor_MergeCommonValues(), ecorePackage.getEBoolean(), "mergeCommonValues", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableContentEClass, TableContent.class, "TableContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTableContent_Rowgroups(), this.getRowGroup(), null, "rowgroups", null, 0, -1, TableContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

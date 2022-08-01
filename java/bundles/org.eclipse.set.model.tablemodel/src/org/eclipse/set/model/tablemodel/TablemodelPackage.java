@@ -182,13 +182,22 @@ public interface TablemodelPackage extends EPackage {
 	int COLUMN_DESCRIPTOR__HEIGHT = 6;
 
 	/**
+	 * The feature id for the '<em><b>Merge Common Values</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES = 7;
+
+	/**
 	 * The number of structural features of the '<em>Column Descriptor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR_FEATURE_COUNT = 7;
+	int COLUMN_DESCRIPTOR_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Column Descriptor</em>' class.
@@ -698,6 +707,17 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_Height();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues <em>Merge Common Values</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Merge Common Values</em>'.
+	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues()
+	 * @see #getColumnDescriptor()
+	 * @generated
+	 */
+	EAttribute getColumnDescriptor_MergeCommonValues();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.TableContent <em>Table Content</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1055,6 +1075,14 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COLUMN_DESCRIPTOR__HEIGHT = eINSTANCE.getColumnDescriptor_Height();
+
+		/**
+		 * The meta object literal for the '<em><b>Merge Common Values</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES = eINSTANCE.getColumnDescriptor_MergeCommonValues();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.TableContentImpl <em>Table Content</em>}' class.

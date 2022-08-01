@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight <em>Height</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues <em>Merge Common Values</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor()
@@ -207,5 +208,27 @@ public interface ColumnDescriptor extends EObject {
 	 * @generated
 	 */
 	void setHeight(double value);
+
+	/**
+	 * Returns the value of the '<em><b>Merge Common Values</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Merge Common Values</em>' attribute.
+	 * @see #setMergeCommonValues(boolean)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_MergeCommonValues()
+	 * @model
+	 * @generated
+	 */
+	boolean isMergeCommonValues();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues <em>Merge Common Values</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Merge Common Values</em>' attribute.
+	 * @see #isMergeCommonValues()
+	 * @generated
+	 */
+	void setMergeCommonValues(boolean value);
 
 } // ColumnDescriptor
