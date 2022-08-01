@@ -19,6 +19,7 @@ import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.handler.AbstractOpenHandler;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
@@ -106,6 +107,14 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 						|| emfOutcome == Outcome.NOT_SUPPORTED)) {
 			// Invalid, but only due to custom validations
 			// as a result, consider this an incomplete file
+
+			// Skip user questioning in development mode
+			if (ToolboxConfiguration.isDevelopmentMode()) {
+				logger.info("user dialog for loading of invalid file skipped" //$NON-NLS-1$
+						+ " due to development mode being enabled"); //$NON-NLS-1$
+				return modelSession;
+			}
+
 			if (!getDialogService().loadIncompleteModel(shell,
 					path.toString())) {
 				modelSession.close();
