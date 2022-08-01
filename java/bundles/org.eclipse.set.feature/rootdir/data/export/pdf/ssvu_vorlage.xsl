@@ -8,8 +8,8 @@ which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v20.html
 -->
 <xsl:stylesheet version="2.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	exclude-result-prefixes="fo">
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" exclude-result-prefixes="fo">
 
 	<xsl:include href="common.xsl" />
 	<xsl:include href="titlebox.xsl" />
@@ -20,37 +20,38 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:attribute-set name="table-header-style">
 		<xsl:attribute name="text-align">center</xsl:attribute>
 		<xsl:attribute name="display-align">center</xsl:attribute>
-		<xsl:attribute name="border"><xsl:value-of select="$small-border-style" /></xsl:attribute>
+		<xsl:attribute name="border">
+			<xsl:value-of select="$small-border-style" />
+		</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="no-border-style">
 		<xsl:attribute name="border">none</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="thin-border-style">
-		<xsl:attribute name="border"><xsl:value-of select="$small-border-style" /></xsl:attribute>
+		<xsl:attribute name="border">
+			<xsl:value-of select="$small-border-style" />
+		</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="wide-border-style">
-		<xsl:attribute name="border"><xsl:value-of select="$wide-border-style" /></xsl:attribute>
+		<xsl:attribute name="border">
+			<xsl:value-of select="$wide-border-style" />
+		</xsl:attribute>
 	</xsl:attribute-set>
 
 	<!-- Main page layout -->
 	<xsl:template match="/">
-		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
+		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format"
+			xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
 			<fo:layout-master-set>
-				<fo:simple-page-master xsl:use-attribute-sets="table-master-style"
-					master-name="table-master">
+				<fo:simple-page-master xsl:use-attribute-sets="table-master-style" master-name="table-master">
 					<fo:region-body xsl:use-attribute-sets="region-body-style"/>
-					<fo:region-before region-name="folding-mark-region"
-						xsl:use-attribute-sets="folding-mark-region-style"/>
-					<fo:region-after region-name="title-box-region"
-						xsl:use-attribute-sets="title-box-region-style" />
+					<fo:region-before region-name="folding-mark-region" xsl:use-attribute-sets="folding-mark-region-style"/>
+					<fo:region-after region-name="title-box-region" xsl:use-attribute-sets="title-box-region-style" />
 				</fo:simple-page-master>
-				<fo:simple-page-master xsl:use-attribute-sets="table-master-style"
-					master-name="table-master-last">
+				<fo:simple-page-master xsl:use-attribute-sets="table-master-style" master-name="table-master-last">
 					<fo:region-body xsl:use-attribute-sets="region-body-style"/>
-					<fo:region-before region-name="folding-mark-region"
-						xsl:use-attribute-sets="folding-mark-region-style"/>
-					<fo:region-after region-name="title-box-region-last"
-						xsl:use-attribute-sets="title-box-region-style" />
+					<fo:region-before region-name="folding-mark-region" xsl:use-attribute-sets="folding-mark-region-style"/>
+					<fo:region-after region-name="title-box-region-last" xsl:use-attribute-sets="title-box-region-style" />
 				</fo:simple-page-master>
 				<fo:page-sequence-master master-name="page-sequence-master">
 					<fo:repeatable-page-master-alternatives>
@@ -76,7 +77,7 @@ http://www.eclipse.org/legal/epl-v20.html
 					<xsl:call-template name="FoldingMarksBottom"/>
 				</fo:static-content>
 				<fo:flow flow-name="xsl-region-body">
- 					<xsl:apply-templates />
+					<xsl:apply-templates />
 				</fo:flow>
 			</fo:page-sequence>
 		</fo:root>
@@ -88,15 +89,24 @@ http://www.eclipse.org/legal/epl-v20.html
 
 			<!-- CUSTOMIZE: Adjust number of used columns and insert column width 
 				from excel template. -->
-			<fo:table-column column-number="1" column-width="0.49cm" /> <!-- group number -->
-			<fo:table-column column-number="2" column-width="2.92cm" /> <!-- A -->
-			<fo:table-column column-number="3" column-width="2.92cm" /> <!-- B -->
-			<fo:table-column column-number="4" column-width="2.92cm" /> <!-- C -->
-			<fo:table-column column-number="5" column-width="2.92cm" /> <!-- D -->
-			<fo:table-column column-number="6" column-width="2.92cm" /> <!-- E -->
-			<fo:table-column column-number="7" column-width="2.92cm" /> <!-- F -->
-			<fo:table-column column-number="8" column-width="2.92cm" /> <!-- G -->
-			<fo:table-column column-number="9" column-width="18.05cm" /> <!-- H -->
+			<fo:table-column column-number="1" column-width="0.49cm" />
+			<!-- group number -->
+			<fo:table-column column-number="2" column-width="2.92cm" />
+			<!-- A -->
+			<fo:table-column column-number="3" column-width="2.92cm" />
+			<!-- B -->
+			<fo:table-column column-number="4" column-width="2.92cm" />
+			<!-- C -->
+			<fo:table-column column-number="5" column-width="2.92cm" />
+			<!-- D -->
+			<fo:table-column column-number="6" column-width="2.92cm" />
+			<!-- E -->
+			<fo:table-column column-number="7" column-width="2.92cm" />
+			<!-- F -->
+			<fo:table-column column-number="8" column-width="2.92cm" />
+			<!-- G -->
+			<fo:table-column column-number="9" column-width="18.05cm" />
+			<!-- H -->
 
 			<!-- CUSTOMIZE: Create the header row by row from top to bottom. Verify 
 				the result after each row (or cell) with a batch-export. Row span can only 
@@ -138,45 +148,36 @@ http://www.eclipse.org/legal/epl-v20.html
 					<fo:table-cell xsl:use-attribute-sets="thin-border-style" border-right="{$wide-border-style}" border-top="{$wide-border-style}" number-columns-spanned="3">
 						<fo:block>Grundsatzangaben</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="thin-border-style" border-right="{$wide-border-style}" border-top="{$wide-border-style}"
-						number-columns-spanned="4">
+					<fo:table-cell xsl:use-attribute-sets="thin-border-style" border-right="{$wide-border-style}" border-top="{$wide-border-style}" number-columns-spanned="4">
 						<fo:block>Technik</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="thin-border-style" border-top="{$wide-border-style}" border-right="{$wide-border-style}" 
-						 number-rows-spanned="2">
+					<fo:table-cell xsl:use-attribute-sets="thin-border-style" border-top="{$wide-border-style}" border-right="{$wide-border-style}" number-rows-spanned="2">
 						<fo:block>Bemerkung</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
 				<fo:table-row>
-					<fo:table-cell xsl:use-attribute-sets="no-border-style" border-right="{$wide-border-style}" >
+					<fo:table-cell xsl:use-attribute-sets="no-border-style" border-right="{$wide-border-style}">
 						<fo:block></fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="thin-border-style" 
-						number-rows-spanned="1">
+					<fo:table-cell xsl:use-attribute-sets="thin-border-style" number-rows-spanned="1">
 						<fo:block>von</fo:block>
 					</fo:table-cell>
-					<fo:table-cell xsl:use-attribute-sets="thin-border-style" 
-						number-rows-spanned="1">
+					<fo:table-cell xsl:use-attribute-sets="thin-border-style" number-rows-spanned="1">
 						<fo:block>nach</fo:block>
 					</fo:table-cell>
-					<fo:table-cell
-						 number-rows-spanned="1"  xsl:use-attribute-sets="thin-border-style" border-right="{$wide-border-style}">
+					<fo:table-cell number-rows-spanned="1" xsl:use-attribute-sets="thin-border-style" border-right="{$wide-border-style}">
 						<fo:block>Verwendung</fo:block>
 					</fo:table-cell>
-					<fo:table-cell 
-						 number-rows-spanned="1"  xsl:use-attribute-sets="thin-border-style" >
+					<fo:table-cell number-rows-spanned="1" xsl:use-attribute-sets="thin-border-style">
 						<fo:block>Netzart</fo:block>
 					</fo:table-cell>
-					<fo:table-cell 
-						 number-rows-spanned="1"  xsl:use-attribute-sets="thin-border-style" >
+					<fo:table-cell number-rows-spanned="1" xsl:use-attribute-sets="thin-border-style">
 						<fo:block>Technikart</fo:block>
 					</fo:table-cell>
-					<fo:table-cell 
-						 number-rows-spanned="1"  xsl:use-attribute-sets="thin-border-style" >
+					<fo:table-cell number-rows-spanned="1" xsl:use-attribute-sets="thin-border-style">
 						<fo:block>Schnittstelle</fo:block>
 					</fo:table-cell>
-					<fo:table-cell 
-						 number-rows-spanned="1"  xsl:use-attribute-sets="thin-border-style"  border-right="{$wide-border-style}">
+					<fo:table-cell number-rows-spanned="1" xsl:use-attribute-sets="thin-border-style" border-right="{$wide-border-style}">
 						<fo:block>Bandbreite</fo:block>
 					</fo:table-cell>
 				</fo:table-row>
@@ -185,7 +186,7 @@ http://www.eclipse.org/legal/epl-v20.html
 						<fo:block />
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="thin-border-style" border-bottom="{$wide-border-style}">
-						<fo:block color="white">.</fo:block>							<!--Ohne Zeichen wird die gesamte Spalte nicht angezeigt-->
+						<fo:block color="white">.</fo:block>						<!--Ohne Zeichen wird die gesamte Spalte nicht angezeigt-->
 					</fo:table-cell>
 					<fo:table-cell xsl:use-attribute-sets="thin-border-style" border-bottom="{$wide-border-style}">
 						<fo:block></fo:block>
@@ -216,48 +217,48 @@ http://www.eclipse.org/legal/epl-v20.html
 				<xsl:apply-templates select="Rows/Row" />
 			</fo:table-body>
 		</fo:table>
-		
+
 		<!-- Fill footnotes -->
 		<xsl:apply-templates select="Footnotes" />
-		
+
 	</xsl:template>
 
 	<!-- table without rows -->
 	<xsl:template match="Table[not(Rows/Row)]">
 		<fo:block>Die Tabelle ist leer.</fo:block>
 	</xsl:template>
-	
+
 	<xsl:template match="Cell[contains(' 3 7 ', concat(' ', @column-number, ' '))]" priority="1">
-		<fo:table-cell xsl:use-attribute-sets="default-cell-style" border-right="{$wide-border-style}">
+		<fo:table-cell xsl:use-attribute-sets="default-cell-style" border-right="{$wide-border-style}" number-rows-spanned="{@number-rows-spanned}">
 			<xsl:apply-templates />
 		</fo:table-cell>
 	</xsl:template>
-		
+
 	<xsl:template match="Cell[contains(' 3 7 ', concat(' ', @column-number, ' ')) and ../@group-number = count(/Table/Rows/Row)]" priority="2">
-		<fo:table-cell xsl:use-attribute-sets="last-row-cell-style" border-right="{$wide-border-style}">
+		<fo:table-cell xsl:use-attribute-sets="last-row-cell-style" border-right="{$wide-border-style}" number-rows-spanned="{@number-rows-spanned}">
 			<xsl:apply-templates />
 		</fo:table-cell>
 	</xsl:template>
-	
+
 	<xsl:template match="Cell[contains(' 8 ', concat(' ', @column-number, ' '))]" priority="3">
-		<fo:table-cell xsl:use-attribute-sets="default-cell-style" text-align="left">
+		<fo:table-cell xsl:use-attribute-sets="default-cell-style" text-align="left" number-rows-spanned="{@number-rows-spanned}">
 			<xsl:apply-templates />
 		</fo:table-cell>
 	</xsl:template>
-		
+
 	<xsl:template match="Cell[contains(' 8 ', concat(' ', @column-number, ' ')) and ../@group-number = count(/Table/Rows/Row)]" priority="3">
-		<fo:table-cell xsl:use-attribute-sets="last-row-cell-style" text-align="left">
+		<fo:table-cell xsl:use-attribute-sets="last-row-cell-style" text-align="left" number-rows-spanned="{@number-rows-spanned}">
 			<xsl:apply-templates />
 		</fo:table-cell>
 	</xsl:template>
 	<xsl:template match="Cell[contains(' 1 ', concat(' ', @column-number, ' '))]" priority="3">
-		<fo:table-cell xsl:use-attribute-sets="default-cell-style" text-align="center">
+		<fo:table-cell xsl:use-attribute-sets="default-cell-style" text-align="center" number-rows-spanned="{@number-rows-spanned}">
 			<xsl:apply-templates />
 		</fo:table-cell>
 	</xsl:template>
-		
+
 	<xsl:template match="Cell[contains(' 1 ', concat(' ', @column-number, ' ')) and ../@group-number = count(/Table/Rows/Row)]" priority="3">
-		<fo:table-cell xsl:use-attribute-sets="last-row-cell-style" text-align="center">
+		<fo:table-cell xsl:use-attribute-sets="last-row-cell-style" text-align="center" number-rows-spanned="{@number-rows-spanned}">
 			<xsl:apply-templates />
 		</fo:table-cell>
 	</xsl:template>
