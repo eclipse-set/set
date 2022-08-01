@@ -494,29 +494,4 @@ public class ToolboxTableName {
 	 * Ssvu
 	 */
 	public String ToolboxTableNameSsvuShort;
-
-	/**
-	 * Ttwd (Testtabelle Warndreieck)
-	 */
-	public String ToolboxTableNameTtwdButtonLabel;
-
-	/**
-	 * Testtabelle Warndreieck
-	 */
-	public String ToolboxTableNameTtwdButtonTooltip;
-
-	/**
-	 * Testtabelle Warndreieck
-	 */
-	public String ToolboxTableNameTtwdLong;
-
-	/**
-	 * n/a
-	 */
-	public String ToolboxTableNameTtwdPlanningNumber;
-
-	/**
-	 * Ttwd
-	 */
-	public String ToolboxTableNameTtwdShort;
 }

@@ -3431,31 +3431,6 @@ public class Messages {
 	public String ToolboxTableView_ExportTable;
 
 	/**
-	 * Testtabelle Warndreieck
-	 */
-	public String TtwdTableView_Heading;
-
-	/**
-	 * Kein Warndreieck/Kein Warndreieck
-	 */
-	public String TtwdTableView_Kwd_Kwd;
-
-	/**
-	 * Kein Warndreieck/Warndreieck
-	 */
-	public String TtwdTableView_Kwd_Wd;
-
-	/**
-	 * Warndreieck/Kein Warndreieck
-	 */
-	public String TtwdTableView_Wd_Kwd;
-
-	/**
-	 * Warndreieck/Warndreieck
-	 */
-	public String TtwdTableView_Wd_Wd;
-
-	/**
 	 * Zugstraßentabelle (alt)
 	 */
 	public String ZstTableView_Heading;
