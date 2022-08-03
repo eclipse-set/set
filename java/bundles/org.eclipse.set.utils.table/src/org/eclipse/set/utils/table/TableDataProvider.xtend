@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2022 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -24,7 +24,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescri
  */
 class TableDataProvider implements IDataProvider {
 	int columnCount
-	List<List<String>> tableContents
+	List<Pair<Integer, List<String>>> tableContents
 	Map<Integer, Object> filters = newHashMap
 
 	new(Table table) {
@@ -35,11 +35,10 @@ class TableDataProvider implements IDataProvider {
 		// The number of actual columns is the number of leaf column descriptors
 		// as each defines a single column in the table (rather than a heading)
 		this.columnCount = table.columndescriptors.flatMap[leaves].toSet.size
-		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].filter [
-			filterMatch
-		].map [
-			it.cells.map[content.richTextValue].toList
-		].toList
+		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].indexed.
+			filter[value.filterMatch].map [
+				key -> value.cells.map[content.richTextValue].toList
+			].toList
 	}
 
 	/**
@@ -50,7 +49,8 @@ class TableDataProvider implements IDataProvider {
 	private def boolean filterMatch(TableRow row) {
 		for (var i = 0; i < columnCount; i++) {
 			if (filters.containsKey(i)) {
-				val content = row.cells.get(i).content.plainStringValue.toLowerCase
+				val content = row.cells.get(i).content.plainStringValue.
+					toLowerCase
 				if (!content.contains(filters.get(i).toString.toLowerCase)) {
 					return false
 				}
@@ -59,12 +59,20 @@ class TableDataProvider implements IDataProvider {
 		return true
 	}
 
+	/** 
+	 * @param row the current table row (after filters are applied)
+	 * @return the original row (before filters were applied)
+	 */
+	def int getOriginalRow(int row) {
+		return tableContents.get(row).key
+	}
+
 	override int getColumnCount() {
 		return columnCount
 	}
 
 	override Object getDataValue(int columnIndex, int rowIndex) {
-		return tableContents.get(rowIndex).get(columnIndex)
+		return tableContents.get(rowIndex).value.get(columnIndex)
 	}
 
 	override int getRowCount() {

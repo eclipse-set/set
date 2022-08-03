@@ -89,10 +89,13 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 
 					final int row = selectedCells.iterator().next()
 							.getRowPosition();
+					final int originalRow = bodyDataProvider
+							.getOriginalRow(row);
 					toolboxPartService.showPart(SOURCE_TEXT_VIEWER_PART_ID);
 					ToolboxEvents.send(broker,
-							new JumpToSourceLineEvent(validationReport
-									.getProblems().get(row).getLineNumber(),
+							new JumpToSourceLineEvent(
+									validationReport.getProblems()
+											.get(originalRow).getLineNumber(),
 									part));
 				}
 
