@@ -39,10 +39,15 @@ class PlanProSchnittstelleDebugExtensions {
 	 */
 	static def void validateTopKanten(PlanPro_Schnittstelle planning) {
 		val statistics = new Statistics
-		planning.eAllContents.filter(TOP_Kante).forEach[validate(statistics)]
-
-		println
-		println('''Total edges = «statistics.total» failed to cover TOP-Kante = «statistics.topCoverfailed»''')
+		try {
+			planning.eAllContents.filter(TOP_Kante).forEach[validate(statistics)]
+			println
+			println('''Total edges = «statistics.total» failed to cover TOP-Kante = «statistics.topCoverfailed»''')
+		}
+		catch(Exception e)
+		{
+			println('''validateTopKanten failed with exception''')
+		}
 	}
 
 	private static def void validate(TOP_Kante edge, Statistics statistics) {
