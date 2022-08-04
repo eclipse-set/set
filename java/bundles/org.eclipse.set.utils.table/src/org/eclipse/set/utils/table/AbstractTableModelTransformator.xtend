@@ -416,7 +416,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		TableRow row,
 		ColumnDescriptor column
 	) {
-		var errorMsg = '''Error: «e.message» for leading object «row.group.leadingObject?.identitaet?.wert»'''
+		var errorMsg = '''«e.message» for leading object «row.group.leadingObject?.identitaet?.wert»'''
 		tableErrors.add(
 			new TableError(row.group.leadingObject?.identitaet?.wert, "",
 				errorMsg))
