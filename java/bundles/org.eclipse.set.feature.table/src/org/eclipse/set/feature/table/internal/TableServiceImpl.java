@@ -163,11 +163,7 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Collection<String> getAvailableTables() {
-		final ArrayList<String> available = new ArrayList<>(
-				modelServiceMap.keySet());
-		// sskp is currently not available
-		available.remove("sskp"); //$NON-NLS-1$
-		return available;
+		return new ArrayList<>(modelServiceMap.keySet());
 	}
 
 	@Override

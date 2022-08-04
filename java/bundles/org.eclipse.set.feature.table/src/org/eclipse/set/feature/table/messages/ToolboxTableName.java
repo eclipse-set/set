@@ -161,31 +161,6 @@ public class ToolboxTableName {
 	public String ToolboxTableNameSskoShort;
 
 	/**
-	 * Sskp (Gleismagnettabelle)
-	 */
-	public String ToolboxTableNameSskpButtonLabel;
-
-	/**
-	 * Gleismagnettabelle
-	 */
-	public String ToolboxTableNameSskpButtonTooltip;
-
-	/**
-	 * Gleismagnettabelle (Stw)
-	 */
-	public String ToolboxTableNameSskpLong;
-
-	/**
-	 * 10/38
-	 */
-	public String ToolboxTableNameSskpPlanningNumber;
-
-	/**
-	 * Sskp
-	 */
-	public String ToolboxTableNameSskpShort;
-
-	/**
 	 * Signaltabelle
 	 */
 	public String ToolboxTableNameSsksButtonTooltip;
