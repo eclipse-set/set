@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.basis.cache;
 
+import java.util.Collection;
+
 import org.eclipse.set.basis.MissingSupplier;
 
 /**
@@ -41,6 +43,11 @@ public interface Cache {
 	 * @return all values present in the cache
 	 */
 	public Iterable<Object> values();
+
+	/**
+	 * @return all keys present in the cache
+	 */
+	public Collection<String> getKeys();
 
 	/**
 	 * @return a string representation of cache statistics (if recorded)

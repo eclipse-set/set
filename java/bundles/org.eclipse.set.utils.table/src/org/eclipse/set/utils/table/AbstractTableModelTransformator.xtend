@@ -9,7 +9,9 @@
 package org.eclipse.set.utils.table
 
 import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
+import java.util.Collection
 import java.util.Comparator
+import java.util.List
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
@@ -44,6 +46,15 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	val static boolean DEVELOPMENT_MODE = ToolboxConfiguration.developmentMode
 
 	val static String BLANK = ""
+
+	val List<TableError> tableErrors = newArrayList
+
+	/**
+	 * Errors that occurred during transformation
+	 */
+	override Collection<TableError> getTableErrors() {
+		return tableErrors
+	}
 
 	/**
 	 * Place holder for pending implementations.
@@ -391,10 +402,13 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		TableRow row,
 		ColumnDescriptor column
 	) {
+		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object «row.group.leadingObject?.identitaet?.wert»'''
+		tableErrors.add(
+			new TableError(row.group.leadingObject?.identitaet?.wert, "",
+				errorMsg))
+		row.set(column, '''Error: «errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object «row.group.leadingObject?.identitaet?.wert». «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
-		row.set(
-			column, '''Error: «e.class.simpleName»: "«e.message»" for leading object «row.group.leadingObject?.identitaet?.wert»''')
 	}
 
 	def dispatch private handleFillingException(
@@ -402,10 +416,13 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		TableRow row,
 		ColumnDescriptor column
 	) {
+		var errorMsg = '''Error: «e.message» for leading object «row.group.leadingObject?.identitaet?.wert»'''
+		tableErrors.add(
+			new TableError(row.group.leadingObject?.identitaet?.wert, "",
+				errorMsg))
+		row.set(column, '''Error: «errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»". «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
-		row.set(
-			column, '''Error: «e.message» for leading object «row.group.leadingObject?.identitaet?.wert»''')
 	}
 
 	/**

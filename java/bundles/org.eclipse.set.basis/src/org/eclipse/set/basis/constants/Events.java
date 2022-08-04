@@ -41,4 +41,9 @@ public interface Events {
 	 * </ul>
 	 */
 	String TABLETYPE_CHANGED = "modelsession/change/tabletype";
+
+	/**
+	 * The collected table errrors changed.
+	 */
+	String TABLEERROR_CHANGED = "modelsession/change/tableerror";
 }

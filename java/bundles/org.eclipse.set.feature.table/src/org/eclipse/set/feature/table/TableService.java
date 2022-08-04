@@ -8,11 +8,15 @@
  */
 package org.eclipse.set.feature.table;
 
+import java.util.Collection;
+import java.util.Map;
+
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.TableError;
 
 /**
  * service for managing model services.
@@ -48,6 +52,20 @@ public interface TableService {
 	 * @return the name info
 	 */
 	TableNameInfo getTableNameInfo(String shortcut);
+
+	/**
+	 * Gets information about all available tables.
+	 * 
+	 * @return the table information
+	 */
+	Collection<String> getAvailableTables();
+
+	/**
+	 * Get all collected table errors.
+	 * 
+	 * @return collected table errors
+	 */
+	Map<String, Collection<TableError>> getTableErrors();
 
 	/**
 	 * Transform the selected container to a string with CSV format.

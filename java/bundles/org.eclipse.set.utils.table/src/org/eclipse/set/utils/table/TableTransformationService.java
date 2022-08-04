@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.utils.table;
 
+import java.util.Collection;
 import java.util.Comparator;
 
 import org.eclipse.set.model.tablemodel.RowGroup;
@@ -46,4 +47,11 @@ public interface TableTransformationService<T> {
 	 * @return the transformed table
 	 */
 	Table transform(T model);
+
+	/**
+	 * Errors that occurred during transformation
+	 * 
+	 * @return the errors
+	 */
+	Collection<TableError> getTableErrors();
 }

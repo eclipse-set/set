@@ -9,13 +9,13 @@
 
 package org.eclipse.set.feature.table.internal;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.cache.CacheService;
-
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 
 /**
@@ -104,5 +104,10 @@ public class EdgeToPointsCacheProxy implements Cache {
 	@Override
 	public void invalidate() {
 		directedEdgeToSinglepointsCache.invalidate();
+	}
+
+	@Override
+	public Collection<String> getKeys() {
+		return directedEdgeToSinglepointsCache.getKeys();
 	}
 }

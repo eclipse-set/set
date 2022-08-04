@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.utils.table;
 
+import java.util.Collection;
+
 import org.eclipse.set.model.tablemodel.Table;
 
 /**
@@ -39,4 +41,11 @@ public interface TableModelTransformator<T> {
 	 * @return the table model
 	 */
 	public Table transformTableContent(T model, TMFactory factory);
+
+	/**
+	 * Errors that occurred during transformation
+	 * 
+	 * @return the errors
+	 */
+	Collection<TableError> getTableErrors();
 }

@@ -11,6 +11,8 @@ package org.eclipse.set.utils.table;
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -30,6 +32,8 @@ public abstract class AbstractTableTransformationService<T>
 		implements TableTransformationService<T> {
 
 	protected static final float LINE_HEIGHT = 0.6f;
+
+	private TableModelTransformator<T> transformator;
 
 	/**
 	 * constructor.
@@ -61,8 +65,8 @@ public abstract class AbstractTableTransformationService<T>
 		if (table == null) {
 			return;
 		}
-		final TableModelTransformator<?> transformer = createTransformator();
-		transformer.formatTableContent(table);
+		transformator = createTransformator();
+		transformator.formatTableContent(table);
 	}
 
 	@Override
@@ -77,10 +81,18 @@ public abstract class AbstractTableTransformationService<T>
 		final Table table = TablemodelFactory.eINSTANCE.createTable();
 		buildColumns();
 		buildHeading(table);
-		final TableModelTransformator<T> transformer = createTransformator();
-		transformer.transformTableContent(model, new TMFactory(table));
-		transformer.formatTableContent(table);
+		transformator = createTransformator();
+		transformator.transformTableContent(model, new TMFactory(table));
+		transformator.formatTableContent(table);
 		return table;
+	}
+
+	@Override
+	public Collection<TableError> getTableErrors() {
+		if (transformator != null) {
+			return transformator.getTableErrors();
+		}
+		return new ArrayList<>();
 	}
 
 	/**

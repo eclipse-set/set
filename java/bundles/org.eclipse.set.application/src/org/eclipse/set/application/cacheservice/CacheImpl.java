@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.application.cacheservice;
 
+import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 
 import org.eclipse.set.basis.MissingSupplier;
@@ -86,5 +87,10 @@ public class CacheImpl implements Cache {
 	@Override
 	public void invalidate() {
 		cache.invalidateAll();
+	}
+
+	@Override
+	public Collection<String> getKeys() {
+		return cache.asMap().keySet();
 	}
 }

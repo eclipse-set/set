@@ -16,6 +16,11 @@ package org.eclipse.set.feature.table.messages;
 public class Messages {
 
 	/**
+	 * Überprüfe Tabellen...
+	 */
+	public String TableOverviewPart_CalculateMissingTask;
+
+	/**
 	 * Tabelle wird erzeugt
 	 */
 	public String Abstracttableview_transformation_progress;
@@ -3480,4 +3485,59 @@ public class Messages {
 	 */
 	public String ZstTableView_HeadingTurnStopPrevention;
 
+	/**
+	 * Tabellenübersicht
+	 */
+	public String TableOverviewDescriptionService_ViewName;
+
+	/**
+	 * Es wurden noch nicht alle Tabellen auf Fehler überprüft, diese Ansicht
+	 * ist möglicherweise nicht vollständig.
+	 */
+	public String TableOverviewPart_CompletenessHint;
+
+	/**
+	 * Tabellen
+	 */
+	public String TableOverviewPart_TableSectionHeader;
+
+	/**
+	 * Nicht überprüft:
+	 */
+	public String TableOverviewPart_MissingTablesDesc;
+
+	/**
+	 * Überprüfen
+	 */
+	public String TableOverviewPart_CalculateMissing;
+
+	/**
+	 * Enthalten Fehler:
+	 */
+	public String TableOverviewPart_WithErrorsDesc;
+
+	/**
+	 * <keine>
+	 */
+	public String TableOverviewPart_EmptyListText;
+
+	/**
+	 * Alle öffnen
+	 */
+	public String TableOverviewPart_OpenAllWithErrors;
+
+	/**
+	 * Führendes Objekt
+	 */
+	public String TableErrorTableColumns_LeadingObject;
+
+	/**
+	 * Quelle
+	 */
+	public String TableErrorTableColumns_Source;
+
+	/**
+	 * Fehlertext
+	 */
+	public String TableErrorTableColumns_Message;
 }

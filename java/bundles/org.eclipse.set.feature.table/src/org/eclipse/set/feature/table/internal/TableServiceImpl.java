@@ -8,17 +8,21 @@
  */
 package org.eclipse.set.feature.table.internal;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
@@ -36,6 +40,7 @@ import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableTransformationService;
 
 import com.google.common.base.Strings;
@@ -64,6 +69,9 @@ public final class TableServiceImpl implements TableService {
 
 	@Inject
 	private TableDiffService diffService;
+
+	@Inject
+	private IEventBroker broker;
 
 	private final Map<String, AbstractPlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
@@ -113,8 +121,7 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public String extractShortcut(final PartDescription element) {
-		final String name = element.getToolboxViewName().substring(0, 4);
-		return name;
+		return element.getToolboxViewName().substring(0, 4);
 	}
 
 	@Override
@@ -154,6 +161,66 @@ public final class TableServiceImpl implements TableService {
 		return getModelService(shortcut).getTableNameInfo();
 	}
 
+	@Override
+	public Collection<String> getAvailableTables() {
+		final ArrayList<String> available = new ArrayList<>(
+				modelServiceMap.keySet());
+		// sskp is currently not available
+		available.remove("sskp"); //$NON-NLS-1$
+		return available;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Map<String, Collection<TableError>> getTableErrors() {
+		final HashMap<String, Collection<TableError>> map = new HashMap<>();
+		final Cache cache = cacheService
+				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS);
+		final Collection<String> tableShortcuts = cache.getKeys();
+		tableShortcuts.forEach(shortCut -> map.put(shortCut,
+				(Collection<TableError>) cache.getIfPresent(shortCut)));
+		return map;
+	}
+
+	@SuppressWarnings("unchecked")
+	private boolean combineTableErrors(final String shortCut) {
+		final Collection<TableError> initialErrors = (Collection<TableError>) cacheService
+				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+				.getIfPresent(shortCut);
+		final Collection<TableError> finalErrors = (Collection<TableError>) cacheService
+				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+				.getIfPresent(shortCut);
+		if (initialErrors == null || finalErrors == null) {
+			return false;
+		}
+		final Collection<TableError> combined = new ArrayList<>();
+		combined.addAll(initialErrors);
+		combined.addAll(finalErrors);
+		cacheService.getCache(ToolboxConstants.CacheId.TABLE_ERRORS)
+				.set(shortCut, combined);
+		broker.post(Events.TABLEERROR_CHANGED, null);
+		return true;
+	}
+
+	private void saveTableError(final String shortCut,
+			final TableType tableType, final Collection<TableError> errors) {
+		final String shortName = getTableNameInfo(shortCut).getShortName();
+		errors.forEach(error -> error.setSource(shortName));
+		switch (tableType) {
+		case INITIAL:
+			cacheService.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+					.set(shortCut, errors);
+			break;
+		case FINAL:
+			cacheService.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+					.set(shortCut, errors);
+			break;
+		default:
+			return;
+		}
+		combineTableErrors(shortCut);
+	}
+
 	private Object loadTransform(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
 			final String shortCut) {
@@ -166,6 +233,7 @@ public final class TableServiceImpl implements TableService {
 		} else {
 			transformedTable = modelService.transform(modelSession
 					.getContainer(tableType.getContainerForTable()));
+			saveTableError(shortCut, tableType, modelService.getTableErrors());
 		}
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
@@ -218,7 +286,7 @@ public final class TableServiceImpl implements TableService {
 				.stream() //
 				.filter(descriptor -> !Strings
 						.isNullOrEmpty(descriptor.getLabel())) //
-				.collect(Collectors.toList());
+				.toList();
 		final String delimeter = ";"; //$NON-NLS-1$
 		String result = ""; //$NON-NLS-1$
 		for (final ColumnDescriptor colName : colNames) {

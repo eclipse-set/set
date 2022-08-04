@@ -9,6 +9,7 @@
 package org.eclipse.set.basis.cache;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.set.basis.MissingSupplier;
 
@@ -47,5 +48,10 @@ public class NoCache implements Cache {
 	@Override
 	public void invalidate() {
 		// do nothing
+	}
+
+	@Override
+	public Collection<String> getKeys() {
+		return new ArrayList<>();
 	}
 }
