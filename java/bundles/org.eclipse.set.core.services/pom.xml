@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.core.services</artifactId>
-	<version>1.0.392-SNAPSHOT</version>
+	<version>1.0.393-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

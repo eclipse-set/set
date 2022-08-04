@@ -834,7 +834,7 @@ Nr. (Bild)</fo:block>
 		</fo:table-cell>
 
 		<!-- number column -->
-		<fo:table-cell xsl:use-attribute-sets="body-row-cell-style" number-rows-spanned="{@number-rows-spanned}" number-rows-spanned="{@number-rows-spanned}">
+		<fo:table-cell xsl:use-attribute-sets="body-row-cell-style" number-rows-spanned="{@number-rows-spanned}">
 			<fo:block>
 				<xsl:value-of select="../@group-number" />
 			</fo:block>
