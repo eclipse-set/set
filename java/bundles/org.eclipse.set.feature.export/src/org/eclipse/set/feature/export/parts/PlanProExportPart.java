@@ -8,9 +8,8 @@
  */
 package org.eclipse.set.feature.export.parts;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,6 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -32,16 +30,12 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.exception.ExceptionHandler;
-import org.eclipse.set.utils.viewgroups.SetViewGroups;
-
-import com.google.common.collect.Lists;
-
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 
 /**
  * Viewpart for the export of documents.
@@ -54,8 +48,6 @@ public abstract class PlanProExportPart
 	@Inject
 	@Optional
 	private AdditionalExportService additionalExportService;
-
-	final Map<String, PartDescription> configurations = new HashMap<>();
 
 	@Inject
 	ToolboxPartService toolboxPartService;
@@ -70,34 +62,23 @@ public abstract class PlanProExportPart
 
 	@Override
 	protected CheckboxModelElement[] createCheckboxModelElements() {
-		final List<PartDescription> tableDescriptions = toolboxPartService
-				.getRegisteredDescriptions(SetViewGroups.getTable());
+		final List<String> shortCuts = new ArrayList<>(
+				tableService.getAvailableTables());
+		Collections.sort(shortCuts);
 
-		// sort lexicographically
-		Collections.sort(tableDescriptions, new Comparator<PartDescription>() {
-			@Override
-			public int compare(final PartDescription o1,
-					final PartDescription o2) {
-				final String toolboxViewName1 = o1.getToolboxViewName();
-				final String toolboxViewName2 = o2.getToolboxViewName();
-				return toolboxViewName1.compareTo(toolboxViewName2);
-			}
-		});
+		final List<CheckboxModelElement> elements = new ArrayList<>(
+				shortCuts.stream().map(tableService::getTableNameInfo)
+						.map(info -> new CheckboxModelElement(
+								info.getShortName().toLowerCase(),
+								info.getFullDisplayName()))
+						.toList());
 
-		final List<CheckboxModelElement> result = Lists.newArrayList();
-
-		for (final PartDescription description : tableDescriptions) {
-			final String name = description.getToolboxViewName();
-			final String id = description.getId();
-			result.add(new CheckboxModelElement(id, name));
-			configurations.put(id, description);
-		}
 		if (additionalExportService != null) {
 			additionalExportService
-					.createAdditionalCheckboxModelElements(result);
+					.createAdditionalCheckboxModelElements(elements);
 		}
 
-		return result.toArray(new CheckboxModelElement[0]);
+		return elements.toArray(new CheckboxModelElement[0]);
 	}
 
 	@Override
@@ -113,22 +94,20 @@ public abstract class PlanProExportPart
 					monitor, getSelectedDirectory(), getExportType(),
 					overwriteHandling);
 		} else {
-			final PartDescription description = configurations.get(id);
-			final String shortcut = tableService.extractShortcut(description);
-			final Map<TableType, Table> tables = compileService
-					.compile(shortcut, modelSession);
+			final Map<TableType, Table> tables = compileService.compile(id,
+					modelSession);
 			final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 					.create();
 			final Titlebox titlebox = planProToTitlebox.transform(
 					modelSession.getPlanProSchnittstelle(),
-					tableService.getTableNameInfo(shortcut));
+					tableService.getTableNameInfo(id));
 			updateTitlebox(titlebox);
 			final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
 					.create();
 			final FreeFieldInfo freeFieldInfo = planProToFreeField
 					.transform(modelSession);
 			exportService.export(tables, getExportType(), titlebox,
-					freeFieldInfo, shortcut, getSelectedDirectory().toString(),
+					freeFieldInfo, id, getSelectedDirectory().toString(),
 					modelSession.getToolboxPaths(), overwriteHandling,
 					new ExceptionHandler(getToolboxShell(),
 							getDialogService()));

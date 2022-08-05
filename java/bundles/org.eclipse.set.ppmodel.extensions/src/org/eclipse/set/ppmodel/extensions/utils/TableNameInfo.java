@@ -57,6 +57,13 @@ public class TableNameInfo {
 	}
 
 	/**
+	 * @return the full display name
+	 */
+	public String getFullDisplayName() {
+		return getShortName() + " (" + getLongName() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
 	 * @param longName
 	 *            the long name to set
 	 */

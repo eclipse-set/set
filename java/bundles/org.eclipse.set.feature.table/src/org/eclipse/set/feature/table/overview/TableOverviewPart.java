@@ -182,8 +182,7 @@ public class TableOverviewPart extends BasePart<IModelSession> {
 				missingTables.size());
 		for (final String table : missingTables) {
 			final TableNameInfo info = tableService.getTableNameInfo(table);
-			monitor.subTask(
-					info.getShortName() + " (" + info.getLongName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+			monitor.subTask(info.getFullDisplayName());
 			tableService.transformToTable(table, TableType.DIFF,
 					getModelSession());
 			monitor.worked(1);
