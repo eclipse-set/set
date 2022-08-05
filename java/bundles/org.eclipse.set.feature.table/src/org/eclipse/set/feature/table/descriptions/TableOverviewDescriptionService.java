@@ -58,7 +58,7 @@ public class TableOverviewDescriptionService implements PartDescriptionService {
 				// defaultForNature
 				null,
 				// toolboxViewNeedsLoadedModel
-				false,
+				true,
 				// toolboxViewNeedsXsdValidation
 				false,
 				// toolboxViewNeedsEmfValidation
@@ -70,7 +70,7 @@ public class TableOverviewDescriptionService implements PartDescriptionService {
 				// toolboxViewProcessIntegration
 				true,
 				// toolboxViewProcessInvalid
-				true,
+				false,
 				// toolboxViewNeedsCleanSession
 				false,
 				// toolboxViewExclusiveEditor
