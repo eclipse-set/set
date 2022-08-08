@@ -34,6 +34,7 @@ public class PartDescription {
 	private final boolean toolboxViewProcessState;
 	private final String toolboxViewToolTip;
 	private final ToolboxViewGroup toolboxViewType;
+	private final int partOrderPriority;
 
 	/**
 	 * Create the part description.
@@ -84,6 +85,67 @@ public class PartDescription {
 			final boolean toolboxViewProcessInvalid,
 			final boolean toolboxViewNeedsCleanSession,
 			final boolean toolboxViewExclusiveEditor) {
+		this(id, contributionUri, toolboxViewName, toolboxViewToolTip,
+				toolboxViewType, defaultForNature, toolboxViewNeedsLoadedModel,
+				toolboxViewNeedsXsdValidation, toolboxViewNeedsEmfValidation,
+				toolboxViewProcessState, toolboxViewProcessPlanning,
+				toolboxViewProcessIntegration, toolboxViewProcessInvalid,
+				toolboxViewNeedsCleanSession, toolboxViewExclusiveEditor, 0);
+	}
+
+	/**
+	 * Create the part description.
+	 * 
+	 * @param id
+	 *            view id
+	 * @param contributionUri
+	 *            contribution URI of the class implementing the part
+	 * @param toolboxViewName
+	 *            the view name
+	 * @param toolboxViewToolTip
+	 *            the tool tip text
+	 * @param toolboxViewType
+	 *            the type of the view
+	 * @param defaultForNature
+	 *            the file nature using this view as the default (may be
+	 *            <code>null</code>, if this part is not the default for any
+	 *            file nature)
+	 * @param toolboxViewProcessState
+	 *            whether the view can process a state model
+	 * @param toolboxViewProcessPlanning
+	 *            whether the view can process a planning model
+	 * @param toolboxViewProcessIntegration
+	 *            whether the view can process an integration model
+	 * @param toolboxViewProcessInvalid
+	 *            whether the view can process an invalid model
+	 * @param toolboxViewNeedsLoadedModel
+	 *            whether the view need a loaded model
+	 * @param toolboxViewNeedsXsdValidation
+	 *            whether the view need an XSD valid model
+	 * @param toolboxViewNeedsEmfValidation
+	 *            whether the view need an EMF valid model
+	 * @param toolboxViewNeedsCleanSession
+	 *            whether the view needs a clean session
+	 * @param toolboxViewExclusiveEditor
+	 *            whether the view is an exclusive editor
+	 * @param partOrderPriority
+	 *            the priority of the view for ordering
+	 *            the lowest priority will be listed first
+	 */
+	public PartDescription(final String id, final String contributionUri,
+			final String toolboxViewName, final String toolboxViewToolTip,
+			final ToolboxViewGroup toolboxViewType,
+			final PlanProFileNature defaultForNature,
+			final boolean toolboxViewNeedsLoadedModel,
+			final boolean toolboxViewNeedsXsdValidation,
+			final boolean toolboxViewNeedsEmfValidation,
+			final boolean toolboxViewProcessState,
+			final boolean toolboxViewProcessPlanning,
+			final boolean toolboxViewProcessIntegration,
+			final boolean toolboxViewProcessInvalid,
+			final boolean toolboxViewNeedsCleanSession,
+			final boolean toolboxViewExclusiveEditor,
+			final int partOrderPriority) {
 		this.id = id;
 		this.contributionUri = contributionUri;
 		this.toolboxViewName = toolboxViewName;
@@ -99,6 +161,7 @@ public class PartDescription {
 		this.toolboxViewProcessInvalid = toolboxViewProcessInvalid;
 		this.toolboxViewNeedsCleanSession = toolboxViewNeedsCleanSession;
 		this.toolboxViewExclusiveEditor = toolboxViewExclusiveEditor;
+		this.partOrderPriority = partOrderPriority;
 	}
 
 	/**
@@ -201,5 +264,12 @@ public class PartDescription {
 	 */
 	public boolean needsXsdValidation() {
 		return toolboxViewNeedsXsdValidation;
+	}
+
+	/**
+	 * @return the priority of the view for ordering
+	 */
+	public int getOrderPriority() {
+		return partOrderPriority;
 	}
 }

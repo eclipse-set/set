@@ -109,10 +109,8 @@ public class DocumentActionsPart implements ActionProvider {
 			.getLogger(DocumentActionsPart.class);
 
 	private static final Comparator<? super PartDescription> PART_DESCRIPTION_COMPARATOR = //
-			(pd1, pd2) -> {
-				return pd1.getToolboxViewName()
-						.compareTo(pd2.getToolboxViewName());
-			};
+			Comparator.comparing(PartDescription::getOrderPriority)
+					.thenComparing(PartDescription::getToolboxViewName);
 
 	private static void highlightButton(
 			final Entry<String, HighlightButton> entry,
