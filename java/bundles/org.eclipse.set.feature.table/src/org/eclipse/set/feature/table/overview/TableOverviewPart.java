@@ -149,7 +149,8 @@ public class TableOverviewPart extends BasePart<IModelSession> {
 		});
 
 		// Create table problem table view
-		tableErrorTableView = new TableErrorTableView(messages);
+		tableErrorTableView = new TableErrorTableView(messages, getBroker(),
+				toolboxPartService);
 		tableErrorTableView.create(parent);
 
 		getBroker().subscribe(Events.TABLEERROR_CHANGED,
