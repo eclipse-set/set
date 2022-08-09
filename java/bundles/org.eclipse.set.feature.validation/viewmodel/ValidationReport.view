@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<org.eclipse.emf.ecp.view.model:View xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.emf.ecp.view.custom.model="http://org/eclipse/emf/ecp/view/custom/model" xmlns:org.eclipse.emf.ecp.view.group.model="http://org/eclipse/emf/ecp/view/group/model" xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmlns:org.eclipse.emf.ecp.view.vertical.model="http://org/eclipse/emf/ecp/view/vertical/model" xmlns:org.eclipse.emfforms.view.annotation.model="http://org/eclipse/emf/emfforms/view/annotation/model" xmi:id="_vTggwF06Eeq_crrvnIYcyQ" name="ValidationReport">
+<org.eclipse.emf.ecp.view.model:View xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.emf.ecp.view.custom.model="http://org/eclipse/emf/ecp/view/custom/model" xmlns:org.eclipse.emf.ecp.view.group.model="http://org/eclipse/emf/ecp/view/group/model" xmlns:org.eclipse.emf.ecp.view.label.model="http://org/eclipse/emf/ecp/view/label/model" xmlns:org.eclipse.emf.ecp.view.model="http://org/eclipse/emf/ecp/view/model/1180" xmlns:org.eclipse.emf.ecp.view.vertical.model="http://org/eclipse/emf/ecp/view/vertical/model" xmlns:org.eclipse.emfforms.view.annotation.model="http://org/eclipse/emf/emfforms/view/annotation/model" xmi:id="_vTggwF06Eeq_crrvnIYcyQ" name="ValidationReport">
   <rootEClass href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//ValidationReport"/>
   <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_05HeYF06Eeq_crrvnIYcyQ">
     <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_6tURoF06Eeq_crrvnIYcyQ" name="%ValidationReport.ModelInfo" groupType="Collapsible">
@@ -76,17 +76,9 @@
         </children>
       </children>
     </children>
-    <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="__yZfoF07Eeq_crrvnIYcyQ" name="%ValidationReport.Messages" groupType="Collapsible">
-      <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_RxwfQJ94Eey9QckejN3NfQ">
-        <children xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomControl" xmi:id="_vMtDQF08Eeq_crrvnIYcyQ" bundleName="org.eclipse.set.emfforms" className="org.eclipse.set.emfforms.controls.ButtonControlBar">
-          <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_3-5RoF08Eeq_crrvnIYcyQ" key="buttonActionKey" value="exportValidationAction"/>
-          <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_4LQ5sF08Eeq_crrvnIYcyQ" key="buttonActionKey" value="showValidationTableAction"/>
-          <domainModelReference xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomDomainModelReference" xmi:id="_dG438F09Eeq_crrvnIYcyQ" bundleName="org.eclipse.set.feature.validation" className="org.eclipse.set.feature.validation.report.RefreshActionReferences"/>
-        </children>
-        <children xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomControl" xmi:id="_uwtZoJ3-EeyzdsS6gzdtxg" bundleName="org.eclipse.set.emfforms" className="org.eclipse.set.emfforms.controls.InjectedControl">
-          <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_0Bc6gJ3-EeyzdsS6gzdtxg" key="injectedControlKey" value="validationTableNattable"/>
-        </children>
-      </children>
+    <children xsi:type="org.eclipse.emf.ecp.view.label.model:Label" xmi:id="_k26lQBeoEe25itjAGf1Ygg" name="%ValidationReport.Messages" style="H4"/>
+    <children xsi:type="org.eclipse.emf.ecp.view.custom.model:CustomControl" xmi:id="_uwtZoJ3-EeyzdsS6gzdtxg" bundleName="org.eclipse.set.emfforms" className="org.eclipse.set.emfforms.controls.InjectedControl">
+      <attachments xsi:type="org.eclipse.emfforms.view.annotation.model:Annotation" xmi:id="_0Bc6gJ3-EeyzdsS6gzdtxg" key="injectedControlKey" value="validationTableNattable"/>
     </children>
   </children>
   <ecorePaths>/org.eclipse.set.model.validationreport/model/validationreport.ecore</ecorePaths>

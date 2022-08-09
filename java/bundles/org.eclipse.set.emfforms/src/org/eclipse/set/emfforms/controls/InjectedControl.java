@@ -69,13 +69,15 @@ public class InjectedControl extends ECPAbstractCustomControlSWT {
 		@SuppressWarnings("unchecked")
 		final Function<Composite, Control> createFunction = (Function<Composite, Control>) toolboxViewModelService
 				.get(injectionKey);
+
 		final Control control = createFunction.apply(parent);
 
 		// Apply layout from GridData to the GridCell (if present)
 		final Object layoutData = control.getLayoutData();
-		if (layoutData instanceof GridData) {
-			applyGridDataLayout((GridData) layoutData);
+		if (layoutData instanceof final GridData gridData) {
+			applyGridDataLayout(gridData);
 		}
+
 		return control;
 	}
 

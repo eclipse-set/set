@@ -27,6 +27,7 @@ import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.cache.Cache;
@@ -48,7 +49,6 @@ import org.eclipse.set.model.validationreport.extensions.ValidationReportExtensi
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.StatefulButtonAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
@@ -56,10 +56,14 @@ import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -72,10 +76,6 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	private static final int BUTTON_WIDTH_EXPORT_VALIDATION = 30;
 
-	private static final String EXPORT_VALIDATION_ACTION = "exportValidationAction"; //$NON-NLS-1$
-
-	private static final String SHOW_VALIDATION_TABLE_ACTION = "showValidationTableAction"; //$NON-NLS-1$
-
 	private static final String VALIDATION_PROBLEM_TABLE_EVENT_LINK = "validationProblemTableEventLink"; //$NON-NLS-1$
 
 	private static final String VIEW_VALIDATION_REPORT = "validationReport"; //$NON-NLS-1$
@@ -83,8 +83,6 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 	private static final String INJECT_VIEW_VALIDATION_NATTABLE = "validationTableNattable"; //$NON-NLS-1$
 
 	private Exception createException;
-
-	private StatefulButtonAction exportValidationAction;
 
 	@Inject
 	private ToolboxPartService toolboxPartService;
@@ -110,6 +108,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 	@Inject
 	private IEventBroker broker;
 
+	private Listener resizeListener;
+	private Composite resizeListenerObject;
+	
 	/**
 	 * Create the part.
 	 */
@@ -134,6 +135,7 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 			setOutdated(true);
 		}
 	}
+
 
 	private void create(final Composite parent) {
 		try {
@@ -162,54 +164,69 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 							problem.getLineNumber(), 3)));
 			getBroker().post(Events.PROBLEMS_CHANGED, null);
 
-			// export control
-			exportValidationAction = new StatefulButtonAction(
-					messages.ExportValidationMsg,
-					BUTTON_WIDTH_EXPORT_VALIDATION) {
-
-				@Override
-				public void selected(final SelectionEvent e) {
-					exportValidation();
-				}
-			};
-			modelService.put(EXPORT_VALIDATION_ACTION, exportValidationAction);
-
-			// show validation table control
-			final StatefulButtonAction showValidationTableAction = new StatefulButtonAction(
-					messages.ShowValidationTableMsg,
-					BUTTON_WIDTH_EXPORT_VALIDATION) {
-
-				@Override
-				public void selected(final SelectionEvent e) {
-					showValidationTable();
-				}
-			};
-			modelService.put(SHOW_VALIDATION_TABLE_ACTION,
-					showValidationTableAction);
-
 			// Register nattable injector
 			tableView = new ValidationTableView(toolboxPartService, this,
 					messages, broker);
 			final Function<Composite, Control> func = innerParent -> {
+
+				final Composite composite = new Composite(innerParent,
+						SWT.NONE);
+				GridLayoutFactory.fillDefaults().numColumns(3)
+						.applyTo(composite);
+
+				// create the button
+				final Button exportButton = new Button(composite, SWT.PUSH);
+				exportButton.setText(messages.ExportValidationMsg);
+				exportButton.addListener(SWT.Selection,
+						event -> exportValidation());
+				exportButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+				final Button showTableButton = new Button(composite, SWT.PUSH);
+				showTableButton.setText(messages.ShowValidationTableMsg);
+				showTableButton.addListener(SWT.Selection,
+						event -> showValidationTable());
+				showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
 				final Control natTable = tableView.create(innerParent,
 						validationReport);
-				// Set height
-				GridDataFactory.fillDefaults().grab(true, false)
-						.hint(SWT.DEFAULT, 200).applyTo(natTable);
+
+				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
+						.grab(true, true).hint(SWT.DEFAULT, 600)
+						.applyTo(natTable);
 				return natTable;
 			};
 			modelService.put(INJECT_VIEW_VALIDATION_NATTABLE, func);
 
 			// create form content
-			createEmfFormsPart(parent, validationReport,
-					VIEW_VALIDATION_REPORT);
-			final Control formsControl = getView().getSWTControl();
-			GridDataFactory.createFrom((GridData) formsControl.getLayoutData())
-					.grab(true, false).align(SWT.FILL, SWT.TOP)
-					.applyTo(formsControl);
+			final ScrolledComposite viewComposite = new ScrolledComposite(
+					parent, SWT.V_SCROLL);
+			viewComposite.setLayout(new GridLayout());
+			GridDataFactory.fillDefaults().grab(true, true)
+					.applyTo(viewComposite);
 
-			// initial update of button states
-			updateButtonStates();
+			createEmfFormsPart(viewComposite, validationReport,
+					VIEW_VALIDATION_REPORT);
+			viewComposite.setContent(getView().getSWTControl());
+
+			// Resize the EMF Forms view according to the outside area to update
+			// the scroll view size when the window is resized
+			resizeListenerObject = parent;
+			resizeListener = event -> {
+				final Point size = getView().getSWTControl()
+						.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				final Rectangle bounds = parent.getBounds();
+				// No offset from parent
+				bounds.x = 0;
+				bounds.y = 0;
+				// Keep some width at the right side for the scroll bar
+				bounds.width = (int) (bounds.width * 0.98 - 25);
+				// Use internal height or the parent height
+				bounds.height = (int) Math.max(bounds.height - 25.0,
+						size.y * 0.9);
+
+				getView().getSWTControl().setBounds(bounds);
+			};
+			parent.addListener(SWT.Resize, resizeListener);
 
 			createException = null;
 		} catch (final Exception e) {
@@ -271,17 +288,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 			// reset outdated mark
 			setOutdated(false);
 
-			// update buttons
-			updateButtonStates();
-
 			// update table
 			tableView.updateView(validationReport);
 		}
-	}
-
-	private void updateButtonStates() {
-		exportValidationAction
-				.setEnabled(!validationReport.getProblems().isEmpty());
 	}
 
 	@Override
@@ -303,5 +312,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 	private void preDestroy() {
 		ToolboxEvents.unsubscribe(getBroker(),
 				validationProblemSelectedHandler);
+		if (resizeListenerObject != null) {
+			resizeListenerObject.removeListener(SWT.RESIZE, resizeListener);
+		}
+		this.dispose();
 	}
 }
