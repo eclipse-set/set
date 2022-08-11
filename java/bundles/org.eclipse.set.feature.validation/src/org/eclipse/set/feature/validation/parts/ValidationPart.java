@@ -95,6 +95,8 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	private ValidationTableView tableView;
 
+	private Button exportValidationButton;
+
 	@Inject
 	private PlanProVersionService versionService;
 
@@ -110,7 +112,7 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	private Listener resizeListener;
 	private Composite resizeListenerObject;
-	
+
 	/**
 	 * Create the part.
 	 */
@@ -135,7 +137,6 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 			setOutdated(true);
 		}
 	}
-
 
 	private void create(final Composite parent) {
 		try {
@@ -175,11 +176,12 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 						.applyTo(composite);
 
 				// create the button
-				final Button exportButton = new Button(composite, SWT.PUSH);
-				exportButton.setText(messages.ExportValidationMsg);
-				exportButton.addListener(SWT.Selection,
+				exportValidationButton = new Button(composite, SWT.PUSH);
+				exportValidationButton.setText(messages.ExportValidationMsg);
+				exportValidationButton.addListener(SWT.Selection,
 						event -> exportValidation());
-				exportButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
+						0);
 
 				final Button showTableButton = new Button(composite, SWT.PUSH);
 				showTableButton.setText(messages.ShowValidationTableMsg);
@@ -288,9 +290,17 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 			// reset outdated mark
 			setOutdated(false);
 
+			// update buttons
+			updateButtonStates();
+
 			// update table
 			tableView.updateView(validationReport);
 		}
+	}
+
+	private void updateButtonStates() {
+		exportValidationButton
+				.setEnabled(!validationReport.getProblems().isEmpty());
 	}
 
 	@Override
