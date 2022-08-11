@@ -46,6 +46,7 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
+import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -124,6 +125,8 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
 	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
+
+	private int scrollToPositionRequested = -1;
 
 	@Inject
 	@Translation
@@ -245,6 +248,7 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 
 		// Select the row
 		bodyLayerStack.getSelectionLayer().selectRow(0, rowIndex, false, false);
+		scrollToPositionRequested = rowIndex;
 	}
 
 	/**
@@ -440,6 +444,15 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 		natTable.addDisposeListener(
 				event -> getModelSession().getEditingDomain().getCommandStack()
 						.removeCommandStackListener(commandStackListener));
+
+		natTable.addPaintListener(e -> {
+			if (scrollToPositionRequested != -1) {
+				natTable.doCommand(new ShowRowInViewportCommand(
+						scrollToPositionRequested));
+				scrollToPositionRequested = -1;
+			}
+		});
+
 		updateButtons();
 	}
 

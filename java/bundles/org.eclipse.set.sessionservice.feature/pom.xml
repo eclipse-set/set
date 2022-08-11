@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.sessionservice.feature</artifactId>
-	<version>1.0.397-SNAPSHOT</version>
+	<version>1.0.398-SNAPSHOT</version>
 	<packaging>eclipse-feature</packaging>
 
 	<parent>
