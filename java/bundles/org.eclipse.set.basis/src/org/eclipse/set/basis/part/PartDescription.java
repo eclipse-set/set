@@ -129,8 +129,8 @@ public class PartDescription {
 	 * @param toolboxViewExclusiveEditor
 	 *            whether the view is an exclusive editor
 	 * @param partOrderPriority
-	 *            the priority of the view for ordering
-	 *            the lowest priority will be listed first
+	 *            the priority of the view for ordering. the highest priority
+	 *            will be listed first
 	 */
 	public PartDescription(final String id, final String contributionUri,
 			final String toolboxViewName, final String toolboxViewToolTip,

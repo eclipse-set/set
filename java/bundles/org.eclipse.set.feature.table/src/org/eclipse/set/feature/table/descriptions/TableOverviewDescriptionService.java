@@ -76,7 +76,7 @@ public class TableOverviewDescriptionService implements PartDescriptionService {
 				// toolboxViewExclusiveEditor
 				false,
 				// Priority: Show first
-				-100);
+				100);
 	}
 
 	@Override
