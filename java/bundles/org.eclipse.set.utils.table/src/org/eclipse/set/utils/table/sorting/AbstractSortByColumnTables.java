@@ -37,7 +37,6 @@ import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
-import org.eclipse.nebula.widgets.nattable.sort.event.SortColumnEvent;
 import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
 import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -62,18 +61,15 @@ public class AbstractSortByColumnTables {
 
 	class FilterStrategy<T> implements IFilterStrategy<T> {
 		private final TableDataProvider tableDataProvider;
-		private final Table tableModel;
 
-		public FilterStrategy(final TableDataProvider tableDataProvider,
-				final Table tableModel) {
+		public FilterStrategy(final TableDataProvider tableDataProvider) {
 			this.tableDataProvider = tableDataProvider;
-			this.tableModel = tableModel;
 		}
 
 		@Override
 		public void applyFilter(
 				final Map<Integer, Object> filterIndexToObjectMap) {
-			tableDataProvider.applyFilter(filterIndexToObjectMap, tableModel);
+			tableDataProvider.applyFilter(filterIndexToObjectMap);
 		}
 
 	}
@@ -105,15 +101,7 @@ public class AbstractSortByColumnTables {
 				columnHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
 		final SortHeaderLayer<BodyLayerStack> sortHeaderLayer = new SortHeaderLayer<>(
-				columnHeaderLayer,
-				new TableSortModel(tableModel.getTablecontent().getRowgroups(),
-						tableModel.getColumndescriptors().size()),
-				true);
-		sortHeaderLayer.addLayerListener(event -> {
-			if (event instanceof SortColumnEvent) {
-				bodyDataProvider.refresh(tableModel);
-			}
-		});
+				columnHeaderLayer, new TableSortModel(bodyDataProvider), true);
 
 		final ConfigRegistry configRegistry = new ConfigRegistry();
 		configRegistry.registerConfigAttribute(
@@ -124,9 +112,8 @@ public class AbstractSortByColumnTables {
 						0, 0, 0, 5),
 				DisplayMode.NORMAL, GridRegion.FILTER_ROW);
 		final FilterRowHeaderComposite<Object> filterRowHeaderLayer = new FilterRowHeaderComposite<>(
-				new FilterStrategy<>(bodyDataProvider, tableModel),
-				sortHeaderLayer, columnHeaderDataLayer.getDataProvider(),
-				configRegistry);
+				new FilterStrategy<>(bodyDataProvider), sortHeaderLayer,
+				columnHeaderDataLayer.getDataProvider(), configRegistry);
 
 		// row header stack
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(

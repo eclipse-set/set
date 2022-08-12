@@ -14,13 +14,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.nebula.widgets.nattable.sort.ISortModel;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
-import org.eclipse.set.model.tablemodel.RowGroup;
-import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
+import org.eclipse.set.utils.table.TableDataProvider;
 
 /**
  * Sort table by Column
@@ -29,23 +25,19 @@ import org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType;
  *
  */
 public class TableSortModel implements ISortModel {
-
-	private final EList<RowGroup> sortData;
-	protected Table table;
+	protected TableDataProvider dataProvider;
 	protected SortDirectionEnum[] sortDirections;
 	protected boolean[] sorted;
 	protected SortDirectionEnum currentSortDirection = SortDirectionEnum.ASC;
 	protected int currentSortColumn = -1;
 
 	/**
-	 * @param sortData
-	 *            table Data
-	 * @param columnCount
-	 *            column number of the tabele
+	 * @param dataProvider
+	 *            table data provider
 	 */
-	public TableSortModel(final EList<RowGroup> sortData,
-			final int columnCount) {
-		this.sortData = sortData;
+	public TableSortModel(final TableDataProvider dataProvider) {
+		this.dataProvider = dataProvider;
+		final int columnCount = dataProvider.getColumnCount();
 		this.sortDirections = new SortDirectionEnum[columnCount];
 		Arrays.fill(this.sortDirections, SortDirectionEnum.NONE);
 		this.sorted = new boolean[columnCount];
@@ -93,7 +85,7 @@ public class TableSortModel implements ISortModel {
 				? SortDirectionEnum.ASC
 				: sortDirection;
 
-		ECollections.sort(sortData, getColumnComparator(columnIndex));
+		dataProvider.sort(columnIndex, getColumnComparator(columnIndex));
 		sortDirections[columnIndex] = currentSortDirection;
 		sorted[columnIndex] = true;
 		currentSortColumn = columnIndex;
@@ -108,12 +100,23 @@ public class TableSortModel implements ISortModel {
 	}
 
 	@Override
-	public Comparator<RowGroup> getColumnComparator(final int columnIndex) {
-		return TableRowGroupComparator.builder()
-				.sort(String.valueOf(columnIndex),
-						CellComparatorType.LEXICOGRAPHICAL,
-						currentSortDirection)
-				.build();
+	public Comparator<String> getColumnComparator(final int columnIndex) {
+		return (text1, text2) -> {
+			// Attempt to sort as integers first
+			try {
+				final int number1 = Integer.parseInt(text1);
+				final int number2 = Integer.parseInt(text2);
+				if (currentSortDirection == SortDirectionEnum.ASC) {
+					return Integer.compare(number1, number2);
+				}
+				return Integer.compare(number2, number1);
+			} catch (final Exception ex) {
+				if (currentSortDirection == SortDirectionEnum.ASC) {
+					return text1.compareTo(text2);
+				}
+				return text2.compareTo(text1);
+			}
+		};
 	}
 
 }

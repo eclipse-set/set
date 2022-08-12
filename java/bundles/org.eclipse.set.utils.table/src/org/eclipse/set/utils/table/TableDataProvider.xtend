@@ -16,6 +16,8 @@ import org.eclipse.set.model.tablemodel.TableRow
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import java.util.Comparator
+import org.eclipse.set.model.tablemodel.CellContent
 
 /**
  * IDataProvider implementation for Table
@@ -24,23 +26,37 @@ import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescri
  */
 class TableDataProvider implements IDataProvider {
 	int columnCount
-	List<Pair<Integer, List<String>>> tableContents
+	List<Pair<Integer, List<CellContent>>> tableContents
 	Map<Integer, Object> filters = newHashMap
-
+	Table table
+	
 	new(Table table) {
-		refresh(table)
+		this.table = table
+		refresh()
+	}
+	
+	/**
+	 * Update the table model and refresh the table content
+	 */
+	def void refresh(Table table) {
+		this.table = table
+		refresh()
 	}
 
-	def void refresh(Table table) {
+	/**
+	 * Update the table content 
+	 */
+	def void refresh() {
 		// The number of actual columns is the number of leaf column descriptors
 		// as each defines a single column in the table (rather than a heading)
 		this.columnCount = table.columndescriptors.flatMap[leaves].toSet.size
-		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].indexed.
-			filter[value.filterMatch].map [
-				key -> value.cells.map[content.richTextValue].toList
-			].toList
+		this.tableContents = table.tablecontent.rowgroups
+			.flatMap[rows]
+			.indexed
+			.filter[value.filterMatch]
+			.map [key -> value.cells.map[content].toList]
+			.toList
 	}
-
 	/**
 	 * Checks whether a row fulfils the applied filters
 	 * 
@@ -72,7 +88,7 @@ class TableDataProvider implements IDataProvider {
 	}
 
 	override Object getDataValue(int columnIndex, int rowIndex) {
-		return tableContents.get(rowIndex).value.get(columnIndex)
+		return tableContents.get(rowIndex).value.get(columnIndex).richTextValue
 	}
 
 	override int getRowCount() {
@@ -90,10 +106,15 @@ class TableDataProvider implements IDataProvider {
 	 * @param filterIndexToObjectMap A map<columnIndex, filterValue> of filters to apply
 	 * @param table the raw table data
 	 */
-	def void applyFilter(Map<Integer, Object> filterIndexToObjectMap,
-		Table table) {
-		this.filters = filterIndexToObjectMap;
-		refresh(table)
+	def void applyFilter(Map<Integer, Object> filterIndexToObjectMap) {
+		this.filters = filterIndexToObjectMap
+		refresh()
 	}
-
+	
+	def void sort(int column, Comparator<? super String> comparator)
+	{
+		val Comparator<CellContent> cellComparator = [cell1, cell2 | comparator.compare(cell1.plainStringValue, cell2.plainStringValue)]
+		val Comparator<List<CellContent>> rowComparator = [cells1, cells2 | cellComparator.compare(cells1.get(column), cells2.get(column))] 
+		tableContents = tableContents.sortWith[p1, p2 | rowComparator.compare(p1.value, p2.value)]
+	}
 }
