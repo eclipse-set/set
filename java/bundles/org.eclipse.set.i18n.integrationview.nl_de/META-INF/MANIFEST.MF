@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Integrationview Edit Support nl_de
 Bundle-SymbolicName: org.eclipse.set.i18n.integrationview.nl_de
-Bundle-Version: 1.0.398.qualifier
+Bundle-Version: 1.0.399.qualifier
 Fragment-Host: org.eclipse.set.model.integrationview.edit;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project

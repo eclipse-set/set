@@ -88,7 +88,6 @@ public class AbstractSortByColumnTables {
 		bodyDataProvider = new TableDataProvider(tableModel);
 
 		final DataLayer bodyDataLayer = new DataLayer(bodyDataProvider);
-		bodyDataLayer.setColumnPercentageSizing(true);
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
 
 		// column header stack

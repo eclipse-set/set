@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PlanPro Model extensions
 Bundle-SymbolicName: org.eclipse.set.ppmodel.extensions;singleton:=true
-Bundle-Version: 1.0.398.qualifier
+Bundle-Version: 1.0.399.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Export-Package: org.eclipse.set.ppmodel.extensions.exception,
  org.eclipse.set.ppmodel.extensions.utils,
