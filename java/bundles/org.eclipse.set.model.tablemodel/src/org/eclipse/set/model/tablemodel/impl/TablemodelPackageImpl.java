@@ -10,6 +10,7 @@ package org.eclipse.set.model.tablemodel.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.set.model.tablemodel.CellAnnotation;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.RowGroup;
@@ -116,6 +118,13 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	private EClass footnoteEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum columnWidthModeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -240,8 +249,18 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EAttribute getColumnDescriptor_WidthMode() {
+		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EReference getColumnDescriptor_Children() {
-		return (EReference)columnDescriptorEClass.getEStructuralFeatures().get(1);
+		return (EReference)columnDescriptorEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -251,16 +270,6 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 */
 	@Override
 	public EAttribute getColumnDescriptor_Label() {
-		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getColumnDescriptor_Greyed() {
 		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -270,7 +279,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
-	public EAttribute getColumnDescriptor_Unit() {
+	public EAttribute getColumnDescriptor_Greyed() {
 		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -280,8 +289,18 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EAttribute getColumnDescriptor_Unit() {
+		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EReference getColumnDescriptor_Parent() {
-		return (EReference)columnDescriptorEClass.getEStructuralFeatures().get(5);
+		return (EReference)columnDescriptorEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -291,7 +310,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 */
 	@Override
 	public EAttribute getColumnDescriptor_Height() {
-		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -301,7 +320,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 */
 	@Override
 	public EAttribute getColumnDescriptor_MergeCommonValues() {
-		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(7);
+		return (EAttribute)columnDescriptorEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -540,6 +559,16 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EEnum getColumnWidthMode() {
+		return columnWidthModeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public TablemodelFactory getTablemodelFactory() {
 		return (TablemodelFactory)getEFactoryInstance();
 	}
@@ -569,6 +598,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		columnDescriptorEClass = createEClass(COLUMN_DESCRIPTOR);
 		createEAttribute(columnDescriptorEClass, COLUMN_DESCRIPTOR__WIDTH);
+		createEAttribute(columnDescriptorEClass, COLUMN_DESCRIPTOR__WIDTH_MODE);
 		createEReference(columnDescriptorEClass, COLUMN_DESCRIPTOR__CHILDREN);
 		createEAttribute(columnDescriptorEClass, COLUMN_DESCRIPTOR__LABEL);
 		createEAttribute(columnDescriptorEClass, COLUMN_DESCRIPTOR__GREYED);
@@ -608,6 +638,9 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		footnoteEClass = createEClass(FOOTNOTE);
 		createEAttribute(footnoteEClass, FOOTNOTE__NUMBER);
 		createEAttribute(footnoteEClass, FOOTNOTE__TEXT);
+
+		// Create enums
+		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
 	}
 
 	/**
@@ -651,6 +684,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		initEClass(columnDescriptorEClass, ColumnDescriptor.class, "ColumnDescriptor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getColumnDescriptor_Width(), ecorePackage.getEFloatObject(), "width", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getColumnDescriptor_WidthMode(), this.getColumnWidthMode(), "widthMode", "0", 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getColumnDescriptor_Children(), this.getColumnDescriptor(), this.getColumnDescriptor_Parent(), "children", null, 0, -1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColumnDescriptor_Label(), ecorePackage.getEString(), "label", null, 1, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColumnDescriptor_Greyed(), ecorePackage.getEBoolean(), "greyed", null, 1, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -690,6 +724,11 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEClass(footnoteEClass, Footnote.class, "Footnote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFootnote_Number(), ecorePackage.getEInt(), "number", null, 1, 1, Footnote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFootnote_Text(), ecorePackage.getEString(), "text", null, 0, 1, Footnote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class, "ColumnWidthMode");
+		addEEnumLiteral(columnWidthModeEEnum, ColumnWidthMode.WIDTH_CM);
+		addEEnumLiteral(columnWidthModeEEnum, ColumnWidthMode.WIDTH_PERCENT);
 
 		// Create resource
 		createResource(eNS_URI);

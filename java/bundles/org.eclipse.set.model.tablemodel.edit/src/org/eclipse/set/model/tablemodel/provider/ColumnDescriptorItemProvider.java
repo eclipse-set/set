@@ -67,6 +67,7 @@ public class ColumnDescriptorItemProvider
 			super.getPropertyDescriptors(object);
 
 			addWidthPropertyDescriptor(object);
+			addWidthModePropertyDescriptor(object);
 			addChildrenPropertyDescriptor(object);
 			addLabelPropertyDescriptor(object);
 			addGreyedPropertyDescriptor(object);
@@ -92,6 +93,28 @@ public class ColumnDescriptorItemProvider
 				 getString("_UI_ColumnDescriptor_width_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_ColumnDescriptor_width_feature", "_UI_ColumnDescriptor_type"),
 				 TablemodelPackage.Literals.COLUMN_DESCRIPTOR__WIDTH,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Width Mode feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addWidthModePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ColumnDescriptor_widthMode_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ColumnDescriptor_widthMode_feature", "_UI_ColumnDescriptor_type"),
+				 TablemodelPackage.Literals.COLUMN_DESCRIPTOR__WIDTH_MODE,
 				 true,
 				 false,
 				 false,
@@ -294,6 +317,7 @@ public class ColumnDescriptorItemProvider
 
 		switch (notification.getFeatureID(ColumnDescriptor.class)) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH:
+			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__LABEL:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__GREYED:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__UNIT:

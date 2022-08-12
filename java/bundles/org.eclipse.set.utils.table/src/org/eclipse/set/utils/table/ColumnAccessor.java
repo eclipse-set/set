@@ -9,6 +9,7 @@
 package org.eclipse.set.utils.table;
 
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 
 /**
  * convenience access for column properties.
@@ -76,7 +77,7 @@ public final class ColumnAccessor {
 	}
 
 	/**
-	 * sets the width of the column
+	 * sets the width of the column in centimeters
 	 * 
 	 * @param width
 	 *            the width
@@ -84,6 +85,20 @@ public final class ColumnAccessor {
 	 */
 	public ColumnAccessor width(final float width) {
 		column.setWidth(Float.valueOf(width));
+		column.setWidthMode(ColumnWidthMode.WIDTH_CM);
+		return this;
+	}
+
+	/**
+	 * sets the width of the column in percent of the full table width
+	 * 
+	 * @param width
+	 *            the width
+	 * @return this
+	 */
+	public ColumnAccessor widthPercent(final float width) {
+		column.setWidth(Float.valueOf(width));
+		column.setWidthMode(ColumnWidthMode.WIDTH_PERCENT);
 		return this;
 	}
 }

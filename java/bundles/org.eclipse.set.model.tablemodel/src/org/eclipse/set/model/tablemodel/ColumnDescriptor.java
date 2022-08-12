@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode <em>Width Mode</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed <em>Greyed</em>}</li>
@@ -64,6 +65,32 @@ public interface ColumnDescriptor extends EObject {
 	 * @generated
 	 */
 	void setWidth(Float value);
+
+	/**
+	 * Returns the value of the '<em><b>Width Mode</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.set.model.tablemodel.ColumnWidthMode}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Width Mode</em>' attribute.
+	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
+	 * @see #setWidthMode(ColumnWidthMode)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_WidthMode()
+	 * @model default="0"
+	 * @generated
+	 */
+	ColumnWidthMode getWidthMode();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode <em>Width Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Width Mode</em>' attribute.
+	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
+	 * @see #getWidthMode()
+	 * @generated
+	 */
+	void setWidthMode(ColumnWidthMode value);
 
 	/**
 	 * Returns the value of the '<em><b>Children</b></em>' reference list.

@@ -309,12 +309,27 @@ public class PlanProTableThemeConfiguration
 		final int[] columns = ColumnDescriptorExtensions
 				.getColumnIndices(heading);
 		for (final int column : columns) {
+
 			final Float width = ColumnDescriptorExtensions
 					.getColumnWidth(heading, column);
 			if (width != null) {
-				dataLayer.setColumnWidthByPosition(column,
-						toPixel(width.floatValue()));
+				switch (ColumnDescriptorExtensions.getColumnWidthMode(heading,
+						column)) {
+				case WIDTH_CM:
+					dataLayer.setColumnPercentageSizing(column, false);
+					dataLayer.setColumnWidthByPosition(column,
+							toPixel(width.floatValue()));
+					break;
+				case WIDTH_PERCENT:
+					dataLayer.setColumnPercentageSizing(column, true);
+					dataLayer.setColumnWidthPercentageByPosition(column,
+							(int) width.floatValue());
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid width mode"); //$NON-NLS-1$
+				}
 			}
+
 		}
 	}
 }

@@ -18,6 +18,7 @@ import java.util.Set
 
 import static extension org.eclipse.set.utils.math.IntegerExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
+import org.eclipse.set.model.tablemodel.ColumnWidthMode
 
 /**
  * Extensions for {@link ColumnDescriptor}.
@@ -398,6 +399,34 @@ class ColumnDescriptorExtensions {
 		int columnIdx) {
 		return descriptor.columns.get(columnIdx).columnWidth
 	}
+	
+	/**
+	 * The width mode of a column is the width mode of the column with a non 
+	 * <code>null</code> width in the heading path form the leaf to the root 
+	 * or <code>null</code>, if there are no non <code>null</code> widths in 
+	 * the path.
+	 * 
+	 * @param descriptor this descriptor
+	 * @param columnIdx the column index
+	 * 
+	 * @return the width mode of the column
+	 */
+	def static ColumnWidthMode getColumnWidthMode(ColumnDescriptor descriptor,
+		int columnIdx) {
+		return descriptor.columns.get(columnIdx).columnWidthMode
+	}
+	
+	private def static ColumnWidthMode getColumnWidthMode(ColumnDescriptor descriptor) {
+		if (descriptor === null) {
+			return null
+		}
+		val result = descriptor.width
+		if (result !== null) {
+			return descriptor.widthMode
+		}
+		return descriptor.parent.columnWidthMode
+	}
+	
 
 	/**
 	 * The width of a descriptor is the first non <code>null</code> width in

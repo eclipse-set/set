@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
@@ -36,6 +37,7 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getWidthMode <em>Width Mode</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getChildren <em>Children</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isGreyed <em>Greyed</em>}</li>
@@ -67,6 +69,26 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	 * @ordered
 	 */
 	protected Float width = WIDTH_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getWidthMode() <em>Width Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWidthMode()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ColumnWidthMode WIDTH_MODE_EDEFAULT = ColumnWidthMode.WIDTH_CM;
+
+	/**
+	 * The cached value of the '{@link #getWidthMode() <em>Width Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWidthMode()
+	 * @generated
+	 * @ordered
+	 */
+	protected ColumnWidthMode widthMode = WIDTH_MODE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getChildren() <em>Children</em>}' reference list.
@@ -228,6 +250,29 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 		width = newWidth;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH, oldWidth, width));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ColumnWidthMode getWidthMode() {
+		return widthMode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setWidthMode(ColumnWidthMode newWidthMode) {
+		ColumnWidthMode oldWidthMode = widthMode;
+		widthMode = newWidthMode == null ? WIDTH_MODE_EDEFAULT : newWidthMode;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE, oldWidthMode, widthMode));
 	}
 
 	/**
@@ -465,6 +510,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 		switch (featureID) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH:
 				return getWidth();
+			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE:
+				return getWidthMode();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
 				return getChildren();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__LABEL:
@@ -495,6 +542,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 		switch (featureID) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH:
 				setWidth((Float)newValue);
+				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE:
+				setWidthMode((ColumnWidthMode)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
 				getChildren().clear();
@@ -533,6 +583,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH:
 				setWidth(WIDTH_EDEFAULT);
 				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE:
+				setWidthMode(WIDTH_MODE_EDEFAULT);
+				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
 				getChildren().clear();
 				return;
@@ -568,6 +621,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 		switch (featureID) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH:
 				return WIDTH_EDEFAULT == null ? width != null : !WIDTH_EDEFAULT.equals(width);
+			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE:
+				return widthMode != WIDTH_MODE_EDEFAULT;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
 				return children != null && !children.isEmpty();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__LABEL:
@@ -598,6 +653,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (width: ");
 		result.append(width);
+		result.append(", widthMode: ");
+		result.append(widthMode);
 		result.append(", label: ");
 		result.append(label);
 		result.append(", greyed: ");

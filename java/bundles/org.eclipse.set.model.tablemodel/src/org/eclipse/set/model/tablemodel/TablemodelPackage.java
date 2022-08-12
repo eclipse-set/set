@@ -10,6 +10,7 @@ package org.eclipse.set.model.tablemodel;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -128,13 +129,22 @@ public interface TablemodelPackage extends EPackage {
 	int COLUMN_DESCRIPTOR__WIDTH = 0;
 
 	/**
+	 * The feature id for the '<em><b>Width Mode</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLUMN_DESCRIPTOR__WIDTH_MODE = 1;
+
+	/**
 	 * The feature id for the '<em><b>Children</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR__CHILDREN = 1;
+	int COLUMN_DESCRIPTOR__CHILDREN = 2;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' attribute.
@@ -143,7 +153,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR__LABEL = 2;
+	int COLUMN_DESCRIPTOR__LABEL = 3;
 
 	/**
 	 * The feature id for the '<em><b>Greyed</b></em>' attribute.
@@ -152,7 +162,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR__GREYED = 3;
+	int COLUMN_DESCRIPTOR__GREYED = 4;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' attribute.
@@ -161,7 +171,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR__UNIT = 4;
+	int COLUMN_DESCRIPTOR__UNIT = 5;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' reference.
@@ -170,7 +180,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR__PARENT = 5;
+	int COLUMN_DESCRIPTOR__PARENT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Height</b></em>' attribute.
@@ -179,7 +189,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR__HEIGHT = 6;
+	int COLUMN_DESCRIPTOR__HEIGHT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Merge Common Values</b></em>' attribute.
@@ -188,7 +198,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES = 7;
+	int COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES = 8;
 
 	/**
 	 * The number of structural features of the '<em>Column Descriptor</em>' class.
@@ -197,7 +207,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLUMN_DESCRIPTOR_FEATURE_COUNT = 8;
+	int COLUMN_DESCRIPTOR_FEATURE_COUNT = 9;
 
 	/**
 	 * The number of operations of the '<em>Column Descriptor</em>' class.
@@ -588,6 +598,17 @@ public interface TablemodelPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
+	 * @generated
+	 */
+	int COLUMN_WIDTH_MODE = 11;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.Table <em>Table</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -639,6 +660,17 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getColumnDescriptor_Width();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode <em>Width Mode</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Width Mode</em>'.
+	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode()
+	 * @see #getColumnDescriptor()
+	 * @generated
+	 */
+	EAttribute getColumnDescriptor_WidthMode();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren <em>Children</em>}'.
@@ -962,6 +994,16 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getFootnote_Text();
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Column Width Mode</em>'.
+	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
+	 * @generated
+	 */
+	EEnum getColumnWidthMode();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1027,6 +1069,14 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COLUMN_DESCRIPTOR__WIDTH = eINSTANCE.getColumnDescriptor_Width();
+
+		/**
+		 * The meta object literal for the '<em><b>Width Mode</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COLUMN_DESCRIPTOR__WIDTH_MODE = eINSTANCE.getColumnDescriptor_WidthMode();
 
 		/**
 		 * The meta object literal for the '<em><b>Children</b></em>' reference list feature.
@@ -1285,6 +1335,16 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FOOTNOTE__TEXT = eINSTANCE.getFootnote_Text();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
+		 * @generated
+		 */
+		EEnum COLUMN_WIDTH_MODE = eINSTANCE.getColumnWidthMode();
 
 	}
 

@@ -19,6 +19,10 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ColumnWidthMode">
+    <eLiterals name="WIDTH_CM"/>
+    <eLiterals name="WIDTH_PERCENT" value="1"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ColumnDescriptor">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Header column description."/>
@@ -28,6 +32,8 @@
         <details key="documentation" value="The width of the column in cm."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="widthMode" eType="#//ColumnWidthMode"
+        defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//ColumnDescriptor" eOpposite="#//ColumnDescriptor/parent">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
