@@ -210,6 +210,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 					VIEW_VALIDATION_REPORT);
 			viewComposite.setContent(getView().getSWTControl());
 
+			// initial update of button states
+			updateButtonStates();
+
 			// Resize the EMF Forms view according to the outside area to update
 			// the scroll view size when the window is resized
 			resizeListenerObject = parent;
