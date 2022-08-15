@@ -420,8 +420,7 @@ class ColumnDescriptorExtensions {
 		if (descriptor === null) {
 			return null
 		}
-		val result = descriptor.width
-		if (result !== null) {
+		if (descriptor.width !== null) {
 			return descriptor.widthMode
 		}
 		return descriptor.parent.columnWidthMode
