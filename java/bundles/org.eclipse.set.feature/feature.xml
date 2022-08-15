@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.set.feature"
       label="Toolbox Feature"
-      version="1.0.399.qualifier"
+      version="1.0.400.qualifier"
       provider-name="Scheidt &amp; Bachmann System Technik GmbH">
 
    <description url="http://www.example.com/description">
@@ -2041,13 +2041,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.xmlgraphics.fop"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.geotools.gt-coverage"
          download-size="0"
          install-size="0"
@@ -2273,13 +2266,6 @@
 
    <plugin
          id="javax.xml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.sf.saxon.Saxon-HE"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -2605,6 +2591,13 @@
 
    <plugin
          id="org.hsqldb.hsqldb"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wrapped.org.apache.xmlgraphics.fop"
          download-size="0"
          install-size="0"
          version="0.0.0"

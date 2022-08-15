@@ -412,7 +412,7 @@
 										<plugin id="org.eclipse.emf.ecore.xmi.nl_de" />
 										<plugin id="org.eclipse.emf.edit.nl_de" />
 										<plugin id="org.eclipse.emf.edit.ui.nl_de" />
-										<plugin id="org.apache.xmlgraphics.fop" />
+										<plugin id="wrapped.org.apache.xmlgraphics.fop" />
 										<plugin id="javax.media.jai_codec" />
 										<plugin id="javax.media.jai_core" />
 										<plugin id="javax.media.jai_imageio" />

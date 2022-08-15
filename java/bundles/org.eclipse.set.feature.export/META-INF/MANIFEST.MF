@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Export
 Bundle-SymbolicName: org.eclipse.set.feature.export;singleton:=true
-Bundle-Version: 1.0.399.qualifier
+Bundle-Version: 1.0.400.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Export-Package: org.eclipse.set.feature.export.checkboxmodel,
  org.eclipse.set.feature.export.parts
@@ -13,14 +13,18 @@ Require-Bundle: org.eclipse.set.model.tablemodel,
  org.eclipse.xtend.lib.macro,
  org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
  org.eclipse.e4.ui.model.workbench;bundle-version="2.1.800.v20200828-0938",
- org.apache.xmlgraphics.fop,
  org.eclipse.set.toolboxmodel
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: javax.inject;version="1.0.0",
  org.apache.commons.io;version="2.2.0",
+ org.apache.fop,
  org.apache.fop.apps,
+ org.apache.fop.apps.io,
  org.apache.fop.configuration,
+ org.apache.fop.fonts,
  org.apache.fop.image.loader.batik,
+ org.apache.fop.render,
+ org.apache.fop.render.intermediate,
  org.apache.fop.render.pdf,
  org.apache.poi,
  org.apache.poi.hssf.usermodel;version="4.1.1",
@@ -71,14 +75,14 @@ Import-Package: javax.inject;version="1.0.0",
  org.eclipse.set.utils.widgets,
  org.osgi.service.component.annotations;version="1.2.0",
  org.slf4j;version="1.7.2"
-Service-Component: OSGI-INF/org.eclipse.set.feature.export.tm.TableModelExport.xml,
- OSGI-INF/org.eclipse.set.feature.export.exportservice.ExportServiceImpl.xml,
- OSGI-INF/org.eclipse.set.feature.export.pdf.FopPdfExportBuilder.xml,
- OSGI-INF/org.eclipse.set.feature.export.fop.FopServiceImpl.xml,
- OSGI-INF/org.eclipse.set.feature.export.compileservice.TableCompileServiceContextFunction.xml,
- OSGI-INF/org.eclipse.set.feature.export.tablediff.CustomTableDiffService.xml,
- OSGI-INF/org.eclipse.set.feature.export.xls.ExcelExportBuilder.xml,
- OSGI-INF/org.eclipse.set.feature.export.descriptions.TitleBoxPdfDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.export.descriptions.ExportInventoryDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.export.descriptions.ExportPlanningRecordsDescriptionService.xml
 Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/org.eclipse.set.feature.export.compileservice.TableCompileServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.feature.export.descriptions.ExportInventoryDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.export.descriptions.ExportPlanningRecordsDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.export.descriptions.TitleBoxPdfDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.export.exportservice.ExportServiceImpl.xml,
+ OSGI-INF/org.eclipse.set.feature.export.fop.FopServiceImpl.xml,
+ OSGI-INF/org.eclipse.set.feature.export.pdf.FopPdfExportBuilder.xml,
+ OSGI-INF/org.eclipse.set.feature.export.tablediff.CustomTableDiffService.xml,
+ OSGI-INF/org.eclipse.set.feature.export.tm.TableModelExport.xml,
+ OSGI-INF/org.eclipse.set.feature.export.xls.ExcelExportBuilder.xml

@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.tablemodel;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.tablemodel
-Bundle-Version: 1.0.399.qualifier
+Bundle-Version: 1.0.400.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin

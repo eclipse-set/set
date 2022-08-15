@@ -77,8 +77,8 @@ public class FopPDFRendererConfigurator extends PDFRendererConfigurator {
 			final List<FontTriplet> fontTriplets = List.of(new FontTriplet(
 					font.name, font.style, toFontWeight(font.weight)));
 			fontList.add(new EmbedFontInfo(fontUri, true, false, fontTriplets,
-					null, EncodingMode.AUTO, EmbeddingMode.SUBSET, false,
-					false));
+					null, EncodingMode.AUTO, EmbeddingMode.SUBSET, false, false,
+					true));
 		});
 
 		return createCollectionFromFontList(resolver, fontList);

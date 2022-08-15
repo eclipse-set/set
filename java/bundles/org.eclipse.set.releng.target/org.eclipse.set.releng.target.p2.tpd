@@ -4,7 +4,7 @@
 // IMPROVE: rename target and release engineering project accordingly
 // (e.g. org.eclipse.set.ppt.releng.target)
 // IMPROVE: use include to provide common parts (if necessary)
-target "org.eclipse.set.releng.target"
+target "org.eclipse.set.releng.target.p2"
 
 with source
 
@@ -213,16 +213,6 @@ location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/conte
 }
 
 /**
- * Apache Formatting Objects Processor.
- * 
- * Provides functions for PDF export.
- */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/org/apache/xmlgraphics/fop/2.5.0-4/fop-2.5.0-4.zip-unzip/" {
-	org.apache.xmlgraphics.fop
-}
-
-
-/**
  * Nattable features.
  * 
  * Provides core libraries for displaying table views.
@@ -276,37 +266,6 @@ location "https://download.eclipse.org/ecp/releases/releases_126/" {
 	org.eclipse.emfforms.view.controlgrid.model.edit.source 
 	org.eclipse.emfforms.view.controlgrid.model.source 
 }
-
-
-/**
- * Saxon HE.
- * 
- * XSLT and XQuery Processor for generating PlaZ reports. 
- */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/eclipse/set/net/sf/saxon/saxon/9.6.0-7002/saxon-9.6.0-7002.zip-unzip/" {
-	net.sf.saxon.Saxon-HE
-}
-
-/**
- * Jackson.
- * 
- * Provides libraries to handle JSON data
- */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/com/fasterxml/com.fasterxml.jackson/2.12.2-4/com.fasterxml.jackson-2.12.2-4.zip-unzip/" {
-	com.fasterxml.jackson.core.jackson-core
-	com.fasterxml.jackson.core.jackson-databind
-	com.fasterxml.jackson.core.jackson-annotations
-}
-
-/**
- * emfjson-jackson.
- * 
- * Allows exporting of emf models to JSON via Jackson
- */
-location "http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/emfjson/emfjson-jackson/1.3.0-4/emfjson-jackson-1.3.0-4.zip-unzip/" {
-	org.emfjson.jackson
-}
-
 
 /**
  * PlanPro Model including the derived Toolbox Model
