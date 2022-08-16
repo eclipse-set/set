@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.model.tablemodel.extensions</artifactId>
-	<version>1.0.402-SNAPSHOT</version>
+	<version>1.0.403-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>

@@ -37,7 +37,6 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExten
 import org.eclipse.set.utils.math.Clothoid
 import org.eclipse.set.utils.math.Bloss
 import java.util.ArrayList
-import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.CRS
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -545,21 +544,5 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		}
 
 		return result
-	}
-
-	/**
-	 * Returns the CRS for a GEO_Kante
-	 * 
-	 * @param geoKante a GEO_Kante
-	 * @return the CRS of the GEO_Kante or null
-	 */
-	static def CRS getCRS(GEO_Kante geoKante) {
-		val crsA = geoKante.geoKnotenA.CRS
-		val crsB = geoKante.geoKnotenB.CRS
-
-		if (crsA !== crsB)
-			throw new RuntimeException("Ambiguous CRS for GEO_Kante")
-
-		return crsA
 	}
 }

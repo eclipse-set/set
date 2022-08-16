@@ -26,7 +26,6 @@ import static org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 
 /**
@@ -240,39 +239,4 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		]
 	}
 
-	/**
-	 * The coordinate reference system used to position objects
-	 */
-	enum CRS {
-		CR0,
-		DR0,
-		ER0,
-		FR0,
-		OTHER
-	}
-
-	/**
-	 * Returns the CoordinateReferenceSystem for a GEO_Knoten
-	 * 
-	 * @param node a GEO_Knoten
-	 * @return the CRS of the GEO_Knoten
-	 */
-	static def CRS getCRS(GEO_Knoten node) {
-		val crs = node.geoPunkte.map [
-			GEOPunktAllg?.GEOKoordinatenSystemLSys?.wert
-		].toSet.uniqueOrNull;
-		if (crs === null)
-			return CRS.OTHER
-
-		// Always use ?R0 as format
-		val lsys = crs.charAt(0) + "R0"
-		switch (lsys) {
-			case "CR0": return CRS.CR0
-			case "DR0": return CRS.DR0
-			case "ER0": return CRS.ER0
-			case "FR0": return CRS.FR0
-		}
-
-		return CRS.OTHER
-	}
 }
