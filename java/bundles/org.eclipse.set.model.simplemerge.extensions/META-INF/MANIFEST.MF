@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Simple Merge Model Extensions
 Bundle-SymbolicName: org.eclipse.set.model.simplemerge.extensions
-Bundle-Version: 1.0.401.qualifier
+Bundle-Version: 1.0.402.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
