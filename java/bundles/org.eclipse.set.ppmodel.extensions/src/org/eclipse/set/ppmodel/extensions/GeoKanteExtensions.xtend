@@ -22,7 +22,6 @@ import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.basis.geometry.SegmentPosition
 import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
-import org.geotools.geometry.jts.JTSFactoryFinder
 import org.locationtech.jts.algorithm.distance.DistanceToPoint
 import org.locationtech.jts.algorithm.distance.PointPairDistance
 import org.locationtech.jts.geom.Coordinate
@@ -410,8 +409,9 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		}
 	}
 
+	static val geoFactory = new GeometryFactory()
 	private def static GeometryFactory getGeometryFactory() {
-		return JTSFactoryFinder.geometryFactory
+		return geoFactory
 	}
 
 	/**
@@ -454,7 +454,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		if (directedEdge.isForwards) {
 			return geometry
 		} else {
-			return geometry.reverse as LineString
+			return geometry.reverse
 		}
 	}
 

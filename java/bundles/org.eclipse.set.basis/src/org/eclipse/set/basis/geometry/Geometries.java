@@ -13,8 +13,6 @@ import java.util.List;
 
 import org.eclipse.set.basis.Lists;
 import org.eclipse.set.basis.graph.DirectedElementImpl;
-import org.geotools.geometry.jts.CurvedGeometryFactory;
-import org.geotools.geometry.jts.LiteCoordinateSequenceFactory;
 import org.locationtech.jts.algorithm.Angle;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
@@ -32,7 +30,6 @@ import org.locationtech.jts.geom.util.AffineTransformationFactory;
 public class Geometries {
 
 	private static final double ACCURACY = 0.1;
-	private static double curvedGeometryTolerance = 0.1;
 
 	/**
 	 * @param original
@@ -57,24 +54,16 @@ public class Geometries {
 	 */
 	public static LineString createArc(final GeometryFactory geometryFactory,
 			final Chord chord) {
-		final LineSegment sagitta = chord.getSagitta();
 
-		final CoordinateSequence coords = new LiteCoordinateSequenceFactory()
-				.create(new double[] { chord.getStart().x, chord.getStart().y,
-						sagitta.p1.x, sagitta.p1.y, chord.getEnd().x,
-						chord.getEnd().y }, 2);
+		final double[] data = chord.linearize();
 
-		final CurvedGeometryFactory factory = new CurvedGeometryFactory(
-				geometryFactory, curvedGeometryTolerance);
-
-		return factory.createCurvedGeometry(coords);
-	}
-
-	/**
-	 * @return the curved geometry tolerance
-	 */
-	public static double getCurvedGeometryTolerance() {
-		return curvedGeometryTolerance;
+		final CoordinateSequence cs = geometryFactory
+				.getCoordinateSequenceFactory().create(data.length / 2, 2);
+		for (int i = 0; i < cs.size(); i++) {
+			cs.setOrdinate(i, 0, data[i * 2]);
+			cs.setOrdinate(i, 1, data[i * 2 + 1]);
+		}
+		return new LineString(cs, geometryFactory);
 	}
 
 	/**
@@ -154,15 +143,6 @@ public class Geometries {
 	}
 
 	/**
-	 * @param curvedGeometryTolerance
-	 *            the curved geometry tolerance
-	 */
-	public static void setCurvedGeometryTolerance(
-			final double curvedGeometryTolerance) {
-		Geometries.curvedGeometryTolerance = curvedGeometryTolerance;
-	}
-
-	/**
 	 * Translates the segment by a vector given by the source and destination
 	 * coordinates.
 	 * 
@@ -212,7 +192,7 @@ public class Geometries {
 		if (lineStringStart.distance(start) < ACCURACY) {
 			return directedLineString;
 		}
-		final LineString reverseLineString = (LineString) lineString.reverse();
+		final LineString reverseLineString = lineString.reverse();
 		// reverseLineStringStart = lineStringEnd
 		final Coordinate lineStringEnd = reverseLineString.getCoordinateN(0);
 		if (lineStringEnd.distance(start) < ACCURACY) {

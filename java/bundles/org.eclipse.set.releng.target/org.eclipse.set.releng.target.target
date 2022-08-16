@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
-<target name="org.eclipse.set.releng.target" sequenceNumber="1660124026">
+<target name="org.eclipse.set.releng.target" sequenceNumber="1660124027">
 	<locations>
-		<location type="Target" uri="file:${project_loc:/org.eclipse.set.releng.target}/org.eclipse.set.releng.target.p2.target"/>
 		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="emfjson-jackson" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
@@ -55,6 +54,17 @@ Require-Bundle:        org.apache.batik.util
 Eclipse-BuddyPolicy:   registered, ext
 DynamicImport-Package: *
 ]]></instructions>
+		</location>
+		<location type="Target" uri="file:${project_loc:/org.eclipse.set.releng.target}/org.eclipse.set.releng.target.p2.target"/>
+		<location includeDependencyDepth="none" includeSource="true" label="JTS" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.locationtech.jts</groupId>
+					<artifactId>jts-core</artifactId>
+					<version>1.19.0</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
 		</location>
 	</locations>
 </target>

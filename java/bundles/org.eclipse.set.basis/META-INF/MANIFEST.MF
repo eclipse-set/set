@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Basis
 Bundle-SymbolicName: org.eclipse.set.basis
-Bundle-Version: 1.0.400.qualifier
+Bundle-Version: 1.0.401.qualifier
 Automatic-Module-Name: org.eclipse.set.basis
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
@@ -33,7 +33,6 @@ Export-Package: org.eclipse.set.basis,
  org.eclipse.set.basis.ui,
  org.eclipse.set.basis.viewgroups
 Import-Package: com.google.common.collect,
- org.eclipse.set.model.model1902.PlanPro,
  org.apache.commons.lang3,
  org.eclipse.core.runtime,
  org.eclipse.e4.core.contexts,
@@ -54,15 +53,15 @@ Import-Package: com.google.common.collect,
  org.eclipse.jface.text,
  org.eclipse.jface.text.rules,
  org.eclipse.osgi.util,
+ org.eclipse.set.model.model1902.PlanPro,
  org.eclipse.set.model.temporaryintegration,
  org.eclipse.set.model.validationreport,
  org.eclipse.set.model.zipmanifest,
  org.eclipse.set.ppmodel.extensions.container,
- org.geotools.geometry.jts,
  org.locationtech.jts.algorithm,
  org.locationtech.jts.geom,
+ org.locationtech.jts.geom.impl,
  org.locationtech.jts.geom.util,
- org.opengis.referencing.crs,
  org.osgi.framework,
  org.slf4j
 Require-Bundle: com.google.guava,

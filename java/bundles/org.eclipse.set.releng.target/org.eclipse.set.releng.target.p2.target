@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="org.eclipse.set.releng.target.p2" sequenceNumber="1660543554">
+<target name="org.eclipse.set.releng.target.p2" sequenceNumber="1660548134">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.apache.batik.anim" version="1.14.0.v20210324-0332"/>
@@ -103,77 +103,6 @@
       <unit id="org.eclipse.xtext.xbase.lib" version="2.27.0.v20220530-0353"/>
       <unit id="org.eclipse.xtext.xbase.lib.source" version="2.27.0.v20220530-0353"/>
       <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.27.0/"/>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="com.conversantmedia.disruptor" version="1.2.13"/>
-      <unit id="com.sun.istack.commons-runtime" version="3.0.7"/>
-      <unit id="com.sun.xml.fastinfoset.FastInfoset" version="1.2.15"/>
-      <unit id="it.geosolutions.imageio-ext.geocore" version="1.2.2"/>
-      <unit id="it.geosolutions.imageio-ext.streams" version="1.2.2"/>
-      <unit id="it.geosolutions.imageio-ext.tiff" version="1.2.2"/>
-      <unit id="it.geosolutions.imageio-ext.utilities" version="1.2.2"/>
-      <unit id="it.geosolutions.jaiext.affine.jt-affine" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.algebra.jt-algebra" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.bandcombine.jt-bandcombine" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.bandmerge.jt-bandmerge" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.bandselect.jt-bandselect" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.binarize.jt-binarize" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.border.jt-border" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.buffer.jt-buffer" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.classifier.jt-classifier" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.colorconvert.jt-colorconvert" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.colorindexer.jt-colorindexer" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.crop.jt-crop" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.errordiffusion.jt-errordiffusion" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.format.jt-format" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.imagefunction.jt-imagefunction" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.iterators.jt-iterators" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.lookup.jt-lookup" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.mosaic.jt-mosaic" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.nullop.jt-nullop" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.orderdither.jt-orderdither" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.piecewise.jt-piecewise" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.rescale.jt-rescale" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.rlookup.jt-rlookup" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.scale.jt-scale" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.scale2.jt-scale2" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.shadedrelief.jt-shadedrelief" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.stats.jt-stats" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.translate.jt-translate" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.utilities.jt-utilities" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.vectorbin.jt-vectorbin" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.warp.jt-warp" version="1.1.10"/>
-      <unit id="it.geosolutions.jaiext.zonal.jt-zonal" version="1.1.10"/>
-      <unit id="javax.media.jai_codec" version="1.1.3"/>
-      <unit id="javax.media.jai_core" version="1.1.3"/>
-      <unit id="javax.media.jai_imageio" version="1.1.0"/>
-      <unit id="net.sf.geographiclib.GeographicLib-Java" version="1.49.0"/>
-      <unit id="org.ejml.core" version="0.34.0"/>
-      <unit id="org.ejml.ddense" version="0.34.0"/>
-      <unit id="org.geotools.gt-coverage" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-cql" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-epsg-hsql" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-geometry" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-geotiff" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-image" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-main" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-metadata" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-opengis" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-referencing" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-render" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-shapefile" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-svg" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-swing" version="21.2.0.21"/>
-      <unit id="org.geotools.gt-xml" version="21.2.0"/>
-      <unit id="org.hsqldb.hsqldb" version="2.5.1"/>
-      <unit id="org.locationtech.jts.jts-core" version="1.16.0.1"/>
-      <unit id="si.uom.si-quantity" version="0.7.1"/>
-      <unit id="si.uom.si-units-java8" version="0.7.1"/>
-      <unit id="systems.uom.systems-common-java8" version="0.7.2"/>
-      <unit id="systems.uom.systems-quantity" version="0.7.2"/>
-      <unit id="tec.uom.lib.uom-lib-common" version="1.0.2"/>
-      <unit id="tec.uom.se" version="1.0.8"/>
-      <repository location="http://nexus/nexus/service/local/repositories/planpro-repo.unzip/content/org/geotools/org.geotools.gt/21.2.0-21/org.geotools.gt-21.2.0-21.zip-unzip/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="1.6.0.201909181823"/>

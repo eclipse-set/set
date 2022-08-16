@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.core.test</artifactId>
-	<version>1.0.400-SNAPSHOT</version>
+	<version>1.0.401-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 
 	<parent>

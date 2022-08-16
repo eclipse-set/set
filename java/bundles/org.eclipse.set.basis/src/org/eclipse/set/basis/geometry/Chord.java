@@ -8,8 +8,11 @@
  */
 package org.eclipse.set.basis.geometry;
 
-import org.eclipse.core.runtime.Assert;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
+import org.eclipse.core.runtime.Assert;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineSegment;
 
@@ -20,6 +23,10 @@ import org.locationtech.jts.geom.LineSegment;
  * @author Schaefer
  */
 public class Chord {
+	/**
+	 * Step size for linearization
+	 */
+	private static final double STEP_SIZE = PI / 100;
 
 	/**
 	 * Describes the orientation of the chord.
@@ -138,5 +145,76 @@ public class Chord {
 	 */
 	public Coordinate getStart() {
 		return lineSegment.p0;
+	}
+
+	/**
+	 * Linearizes this chord into linear segments
+	 
+	 * @return an array of xy-coordinates representing this chord
+	 */
+	public double[] linearize() {
+		// Shift all coordinates to the origin (= circle center)
+		final Coordinate center = getMidpoint();
+		final double startX = lineSegment.p0.x - center.x;
+		final double startY = lineSegment.p0.y - center.y;
+		final double endX = lineSegment.p1.x - center.x;
+		final double endY = lineSegment.p1.y - center.y;
+
+		// Always consider a right arc. If this is a left arc, flip start
+		// and end to get a right arc.
+		final CoordinateArray array;
+		if (orientation == Orientation.ARC_LEFT) {
+			array = linearizeArc(endX, endY, startX, startY);
+			array.reverse();
+		} else {
+			array = linearizeArc(startX, startY, endX, endY);
+		}
+
+		// Move back to original location
+		array.offsetBy(center.x, center.y);
+		return array.getData();
+	}
+
+	/**
+	 * Linearizes an arc
+	 * 
+	 * @param startX
+	 *            start of the arc
+	 * @param startY
+	 *            end of the arc
+	 * @param endX
+	 *            end of the arc (x)
+	 * @param endY
+	 *            end of the arc (y)
+	 * @return a list of coordinates approximating the arc
+	 */
+	private CoordinateArray linearizeArc(final double startX,
+			final double startY, final double endX, final double endY) {
+		// Find angles
+		final double startAngle = Math.atan2(startY, startX);
+		final double endAngle = Math.atan2(endY, endX);
+
+		// Ensure end > startAngle. Also subtract epsilon to avoid overshoots
+		final double epsilon = 1.0e-10;
+		double end = endAngle - epsilon;
+		if (end < startAngle) {
+			end += 2 * Math.PI;
+		}
+
+		// Find length of output array (+2 for start/end)
+		double angle = (Math.floor(startAngle / STEP_SIZE) + 1) * STEP_SIZE;
+		final int count = 2 + (int) Math.ceil((end - angle) / STEP_SIZE);
+
+		final CoordinateArray array = new CoordinateArray(count);
+		// Move across the arc recording points
+		array.add(startX, startY);
+		while (angle < end) {
+			final double x = radius * cos(angle);
+			final double y = radius * sin(angle);
+			array.add(x, y);
+			angle += STEP_SIZE;
+		}
+		array.add(endX, endY);
+		return array;
 	}
 }
