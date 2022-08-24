@@ -8,6 +8,10 @@
  */
 package org.eclipse.set.sessionservice;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -24,7 +28,7 @@ import org.eclipse.set.utils.SetImages;
  * @author Schaefer
  */
 public class SetBrandingService implements BrandingService, Names {
-
+	private static final String LICENSE_FILE = "about.txt"; //$NON-NLS-1$
 	@Inject
 	@Translation
 	private Messages messages;
@@ -57,5 +61,11 @@ public class SetBrandingService implements BrandingService, Names {
 	@Override
 	public Optional<ImageDescriptor> getVendorLogo() {
 		return Optional.empty();
+	}
+
+	@Override
+	public String getLicense() throws IOException {
+		return String.join(System.lineSeparator(), Files
+				.readAllLines(Paths.get(LICENSE_FILE), StandardCharsets.UTF_8));
 	}
 }

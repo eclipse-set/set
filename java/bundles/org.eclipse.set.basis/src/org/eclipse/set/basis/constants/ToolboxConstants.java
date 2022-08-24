@@ -215,6 +215,16 @@ public final class ToolboxConstants {
 
 	private static final String DEFAULT_HOME_DIR;
 
+	/**
+	 * The id of the news part
+	 */
+	public static final String WEB_NEWS_PART_ID = "org.eclipse.set.application.nosessionpart.WebNewsPart";
+
+	/**
+	 * The id of the about part
+	 */
+	public static final String ABOUT_PART_ID = "org.eclipse.set.application.nosessionpart.AboutPart";
+
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,

@@ -11,9 +11,8 @@ package org.eclipse.set.application.handler;
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.di.annotations.Execute;
-import org.eclipse.swt.widgets.Shell;
-
-import org.eclipse.set.core.services.dialog.DialogService;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.core.services.part.ToolboxPartService;
 
 /**
  * News and release notes.
@@ -23,10 +22,10 @@ import org.eclipse.set.core.services.dialog.DialogService;
 public class ToolboxNews {
 
 	@Inject
-	private DialogService dialogService;
+	private ToolboxPartService partService;
 
 	@Execute
-	private void execute(final Shell shell) {
-		dialogService.toolboxNews(shell);
+	private void execute() {
+		partService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
 	}
 }

@@ -135,4 +135,14 @@ public class Messages {
 	 * Export PDF File Error Title
 	 */
 	public String ViewPdfPart_ExportErrorTitle;
+
+	/**
+	 * Versions- und Lizenz-Informationen
+	 */
+	public String AboutPartDescriptionService_ViewName;
+
+	/**
+	 * Neuigkeiten
+	 */
+	public String WebNewsPartDescriptionService_ViewName;
 }

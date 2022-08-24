@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.basis.ui;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.set.basis.ui.dialogs.AboutDialog;
 import org.eclipse.set.basis.ui.dialogs.InformationDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
@@ -51,58 +49,6 @@ public class CommonDialogs {
 	 * represents a warning.
 	 */
 	public static final int WARNING = 0x02;
-
-	/**
-	 * Displays an about dialog.
-	 * 
-	 * @param shell
-	 *            the shell
-	 * @param title
-	 *            the dialog title
-	 * @param info
-	 *            the about info
-	 * @param versionInfo
-	 *            the version info
-	 * @param license
-	 *            the license text
-	 */
-	public static void openAbout(final Shell shell, final String title,
-			final String info, final VersionInfo[] versionInfo,
-			final String license) {
-		openAbout(shell, title, info, versionInfo, license, null, null);
-	}
-
-	/**
-	 * Displays an about dialog.
-	 * 
-	 * @param shell
-	 *            the shell
-	 * @param title
-	 *            the dialog title
-	 * @param info
-	 *            the about info
-	 * @param versionInfo
-	 *            the version info
-	 * @param license
-	 *            the license text
-	 * @param leftImage
-	 *            the left image
-	 * @param rightImage
-	 *            the right image
-	 */
-	public static void openAbout(final Shell shell, final String title,
-			final String info, final VersionInfo[] versionInfo,
-			final String license, final ImageDescriptor leftImage,
-			final ImageDescriptor rightImage) {
-		final AboutDialog aboutDialog = new AboutDialog(shell, title, info,
-				versionInfo, license, leftImage, rightImage);
-		aboutDialog.create();
-		final Shell aboutShell = aboutDialog.getShell();
-		final Point size = aboutShell.getSize();
-		aboutShell.setSize(size.x + 1, size.y + 1);
-		aboutShell.setSize(size.x, size.y);
-		aboutDialog.open();
-	}
 
 	/**
 	 * Displays an information dialog.

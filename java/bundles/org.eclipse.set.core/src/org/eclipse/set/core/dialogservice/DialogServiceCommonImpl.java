@@ -34,13 +34,9 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.basis.files.ToolboxFileFilterBuilder;
 import org.eclipse.set.basis.rename.RenameConfirmation;
-import org.eclipse.set.basis.ui.CommonDialogs;
-import org.eclipse.set.basis.ui.VersionInfo;
 import org.eclipse.set.core.Messages;
-import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
-import org.eclipse.set.utils.dialogs.NewsDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
@@ -57,9 +53,6 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DialogService.class);
-
-	@Inject
-	private BrandingService brandingService;
 
 	private List<ToolboxFileFilter> csvFileFilters;
 
@@ -289,15 +282,6 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 	}
 
 	@Override
-	public void openAbout(final Shell shell, final VersionInfo[] versionInfo,
-			final String licenseText) {
-		CommonDialogs.openAbout(shell, messages.AboutHandler_Title,
-				brandingService.getNames().getApplicationTitle(), versionInfo,
-				licenseText, brandingService.getActionLogo().orElse(null),
-				brandingService.getVendorLogo().orElse(null));
-	}
-
-	@Override
 	public void openInformation(final Shell shell, final String title,
 			final String message) {
 		MessageDialog.openInformation(shell, title, message);
@@ -371,13 +355,6 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 		dialog.open();
 		sync.syncExec(runnable);
 		dialog.close();
-	}
-
-	@Override
-	public void toolboxNews(final Shell shell) {
-		final NewsDialog dialog = new NewsDialog(shell,
-				messages.NewsDialog_Title);
-		dialog.open();
 	}
 
 	@PostConstruct

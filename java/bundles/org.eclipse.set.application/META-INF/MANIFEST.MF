@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Application
 Bundle-SymbolicName: org.eclipse.set.application;singleton:=true
-Bundle-Version: 1.0.403.qualifier
+Bundle-Version: 1.0.404.qualifier
 Bundle-Activator: org.eclipse.set.application.Activator
 Bundle-Vendor: Eclipse Technology Project
 Export-Package: org.eclipse.set.application,
@@ -134,9 +134,11 @@ Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServ
  OSGI-INF/org.eclipse.set.application.attachments.AttachmentContentServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.cacheservice.CacheServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.defaultvalue.DefaultValueServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.application.descriptions.AboutPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.AttachmentPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.ViewPdfPartDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.application.descriptions.WebNewsPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.exampleservice.ExampleServiceImpl.xml,
  OSGI-INF/org.eclipse.set.application.initializationservice.CommonPlanProInitialization.xml,
  OSGI-INF/org.eclipse.set.application.initializationservice.InitializationServiceImpl.xml,

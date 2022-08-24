@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Merge Session Extensions
 Bundle-SymbolicName: org.eclipse.set.model.temporaryintegration.extensions
-Bundle-Version: 1.0.403.qualifier
+Bundle-Version: 1.0.404.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,

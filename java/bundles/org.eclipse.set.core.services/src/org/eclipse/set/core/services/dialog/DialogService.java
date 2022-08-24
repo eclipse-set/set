@@ -19,7 +19,6 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.basis.rename.RenameConfirmation;
-import org.eclipse.set.basis.ui.VersionInfo;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -250,16 +249,6 @@ public interface DialogService {
 
 	/**
 	 * @param shell
-	 *            the shell for the dialog
-	 * @param versionInfo
-	 *            the version info
-	 * @param licenseText
-	 *            the license text
-	 */
-	void openAbout(Shell shell, VersionInfo[] versionInfo, String licenseText);
-
-	/**
-	 * @param shell
 	 *            the shell, used to center the dialog
 	 * @param path
 	 *            the path for the directory
@@ -424,12 +413,6 @@ public interface DialogService {
 	 *            the runnable
 	 */
 	void showProgressUISync(Shell shell, String message, Runnable runnable);
-
-	/**
-	 * @param shell
-	 *            the shell
-	 */
-	void toolboxNews(Shell shell);
 
 	/**
 	 * @param shell

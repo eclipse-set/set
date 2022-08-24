@@ -36,13 +36,13 @@ import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.ActionProvider;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.IModelSessionExtensions;
 import org.eclipse.set.basis.extensions.PartDescriptionExtensions;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.action.ActionService;
 import org.eclipse.set.core.services.branding.BrandingService;
-import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.utils.ToolboxConfiguration;
@@ -129,8 +129,6 @@ public class DocumentActionsPart implements ActionProvider {
 	@Inject
 	private IEventBroker broker;
 
-	@Inject
-	private DialogService dialogService;
 	private LocalResourceManager localResourceManager;
 
 	@Inject
@@ -268,7 +266,7 @@ public class DocumentActionsPart implements ActionProvider {
 
 		// test for opening toolbox news dialog
 		if (ToolboxConfiguration.isShowNews()) {
-			dialogService.toolboxNews(shell);
+			toolboxPartService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
 			ToolboxConfiguration.setShowNews(false);
 		}
 	}
