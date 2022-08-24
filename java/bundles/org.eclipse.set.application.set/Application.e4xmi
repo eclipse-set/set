@@ -88,4 +88,5 @@
   <addons xmi:id="_UJbCsKpyEeavLOHBdudxmg" elementId="org.eclipse.set.application.addon.toolboxlog" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.ToolboxLogAddon"/>
   <addons xmi:id="_CnQawIdSEemabpnghX93Xg" elementId="org.eclipse.set.application.addons.SystemInfoAddon" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.SystemInfoAddon"/>
   <addons xmi:id="_WC1yYG3QEeqdgIhQWrDmdw" elementId="org.eclipse.set.application.addon.osgiwithapplication" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.OsgiWithApplicationAddon"/>
+  <addons xmi:id="_EQmjkCOfEe2UToXAtAdf7A" elementId="org.eclipse.set.application.set.addon.shownews" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.addons.ShowNewsAddon"/>
 </application:Application>

@@ -36,7 +36,6 @@ import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.ActionProvider;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.IModelSessionExtensions;
 import org.eclipse.set.basis.extensions.PartDescriptionExtensions;
 import org.eclipse.set.basis.part.PartDescription;
@@ -263,12 +262,6 @@ public class DocumentActionsPart implements ActionProvider {
 					}
 				});
 		actionService.setActionProvider(this);
-
-		// test for opening toolbox news dialog
-		if (ToolboxConfiguration.isShowNews()) {
-			toolboxPartService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
-			ToolboxConfiguration.setShowNews(false);
-		}
 	}
 
 	@Override
