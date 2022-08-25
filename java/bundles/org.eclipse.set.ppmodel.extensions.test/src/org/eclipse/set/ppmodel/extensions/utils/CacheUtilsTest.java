@@ -18,7 +18,6 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
-import org.eclipse.set.test.utils.TestData;
 import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory;
 import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass;
 import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
@@ -28,6 +27,7 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.toolboxmodel.Signale.SignaleFactory;
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Weichen_und_GleissperrenFactory;
+import org.eclipse.set.unittest.utils.TestData;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 

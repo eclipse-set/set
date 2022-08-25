@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Validation
 Bundle-SymbolicName: org.eclipse.set.feature.validation;singleton:=true
-Bundle-Version: 1.0.405.qualifier
+Bundle-Version: 1.0.406.qualifier
 Automatic-Module-Name: org.eclipse.set.feature.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
@@ -94,14 +94,14 @@ Require-Bundle: com.google.guava,
  org.eclipse.set.ppmodel.extensions,
  org.eclipse.set.toolboxmodel,
  org.eclipse.set.toolboxmodel.transform
+Export-Package: org.eclipse.set.feature.validation,
+ org.eclipse.set.feature.validation.report,
+ org.eclipse.set.feature.validation.service,
+ org.eclipse.set.feature.validation.session,
+ org.eclipse.set.feature.validation.utils
 Service-Component: OSGI-INF/org.eclipse.set.feature.validation.attachmenttest.AttachmentTest.xml,
  OSGI-INF/org.eclipse.set.feature.validation.descriptions.ValidationTableDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.validation.descriptions.ValidationViewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.validation.modelloader.ModelLoaderContextFunction.xml,
  OSGI-INF/org.eclipse.set.feature.validation.niltest.NilTest.xml,
  OSGI-INF/org.eclipse.set.feature.validation.service.ValidationServiceContextFunction.xml
-Export-Package: org.eclipse.set.feature.validation,
- org.eclipse.set.feature.validation.report,
- org.eclipse.set.feature.validation.service,
- org.eclipse.set.feature.validation.session,
- org.eclipse.set.feature.validation.utils

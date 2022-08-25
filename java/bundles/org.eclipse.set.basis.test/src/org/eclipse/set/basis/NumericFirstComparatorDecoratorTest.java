@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import org.eclipse.set.test.utils.TestData;
+import org.eclipse.set.unittest.utils.TestData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

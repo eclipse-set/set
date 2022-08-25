@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test
  * Test for {@link PlainToolboxFile}
  */
 class PlainToolboxFileTest extends AbstractToolboxFileTest {
-	static val TESTPATH = "testResource/ABC_01_01_Ibn-Zustand_DT.ppxml"
+	static val TESTPATH = PHausen_ABC_01_01_PPXML
 
 	/**
 	 * Test method for {@link PlainToolboxFile#open()}

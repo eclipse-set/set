@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test
  * Test for {@link ZippedPlanProToolboxFile}
  */
 class ZippedToolboxFileTest extends AbstractToolboxFileTest {
-	static val TESTPATH = "testResource/ABC_01_01_Ibn-Zustand_DT.planpro"
+	static val TESTPATH = PHausen_ABC_01_01_PLANPRO
 
 	/**
 	 * Test method for {@link ZippedPlanProToolboxFile#open()}
@@ -63,6 +63,11 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	 */
 	@Test
 	def void testAutoclose() throws IOException {
+		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eINSTANCE
+					.eClass();
+		org.eclipse.set.model.model1902.PlanPro.PlanProPackage.eINSTANCE
+					.eClass();
+					
 		ToolboxFileRole.SESSION.whenOpenAndAutoclose
 		thenExpectZippedDirectoryNotExist
 	}

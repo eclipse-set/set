@@ -24,11 +24,11 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
-import org.junit.jupiter.api.BeforeEach;
-
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
+import org.eclipse.set.unittest.utils.AbstractToolboxTest;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Common toolboxfile test
@@ -37,7 +37,7 @@ import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_30
  *
  */
 @SuppressWarnings("nls")
-public abstract class AbstractToolboxFileTest {
+public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 
 	protected static final String TMP_PATH = "testToolboxFile";
 

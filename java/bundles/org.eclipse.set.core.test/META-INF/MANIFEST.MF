@@ -2,13 +2,19 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Core Test
 Bundle-SymbolicName: org.eclipse.set.core.test
-Bundle-Version: 1.0.405.qualifier
+Bundle-Version: 1.0.406.qualifier
 Fragment-Host: org.eclipse.set.core;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.core.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project
 Import-Package: org.eclipse.set.feature.validation.session,
+ org.eclipse.set.model.model1902.PlanPro,
+ org.eclipse.set.model.model1902.Signalbegriffe_Ril_301,
  org.eclipse.set.sessionservice,
+ org.eclipse.set.test.utils,
+ org.eclipse.set.toolboxmodel.PlanPro,
+ org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301,
+ org.eclipse.set.unittest.utils,
  org.eclipse.set.unittest.utils.toolboxfile,
  org.junit,
  org.junit.jupiter.api
