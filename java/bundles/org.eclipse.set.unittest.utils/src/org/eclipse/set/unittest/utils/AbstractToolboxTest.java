@@ -21,11 +21,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.toolboxmodel.PlanPro.util.ToolboxModelService;
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
 import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,9 +95,6 @@ public class AbstractToolboxTest {
 	 */
 	protected void givenPlanProFile(final String filename) {
 		initPackages();
-		Services.setCacheService(new NoCacheService());
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
-				.put("ppxml", new PlanProResourceFactoryImpl()); //$NON-NLS-1$
 		final ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(PlanProPackage.eNS_URI,
 				PlanProPackage.eINSTANCE);
@@ -102,14 +102,16 @@ public class AbstractToolboxTest {
 				Signalbegriffe_Ril_301Package.eNS_URI,
 				Signalbegriffe_Ril_301Package.eINSTANCE);
 
-		final Resource resource = resourceSet
-				.getResource(URI.createFileURI(filename), true);
+		final XMLResource resource = (XMLResource) resourceSet
+				.createResource(URI.createFileURI(filename), "ppxml"); //$NON-NLS-1$
+		try {
+			resource.load(resourceSet.getLoadOptions());
+		} catch (final Exception e) {
+			/* do nothing */
+		}
 		final EObject root = resource.getContents().get(0);
-		if (root instanceof final org.eclipse.set.model.model1902.PlanPro.DocumentRoot docRoot) {
-			// Transform the model
-			final ToolboxModelServiceImpl toolboxModelService = new ToolboxModelServiceImpl();
-			planProSchnittstelle = toolboxModelService.loadPlanProModel(docRoot)
-					.getPlanProSchnittstelle();
+		if (root instanceof final org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot docRoot) {
+			planProSchnittstelle = docRoot.getPlanProSchnittstelle();
 		} else {
 			throw new IllegalArgumentException(
 					"Resurce contains no PlanPro model with the requested version."); //$NON-NLS-1$
@@ -133,6 +135,16 @@ public class AbstractToolboxTest {
 				.eClass();
 		org.eclipse.set.model.model1902.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
 				.eClass();
+
+		Services.setCacheService(new NoCacheService());
+		Services.setPlanningAccessService(new PlanningAccessServiceImpl());
+
+		final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
+		final ToolboxModelService toolboxModelService = new ToolboxModelServiceImpl();
+		resourceFactory
+				.setToolboxModelServiceProvider(() -> toolboxModelService);
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
+				.put("ppxml", resourceFactory); //$NON-NLS-1$
 
 	}
 }
