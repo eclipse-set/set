@@ -73,15 +73,6 @@ public class AbstractToolboxTest {
 
 		}
 
-		System.err.println(res);
-		System.err.flush();
-		try {
-			Thread.sleep(500);
-		} catch (final InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		try {
 			return Paths.get(res.toURI()).toAbsolutePath().toString();
 		} catch (final URISyntaxException e) {
