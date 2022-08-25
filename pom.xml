@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.releng.multimod</artifactId>
@@ -45,7 +47,6 @@
 		<module>java/bundles/org.eclipse.set.core</module>
 		<module>java/bundles/org.eclipse.set.emfforms</module>
 
-		<module>java/bundles/org.eclipse.set.feature.integration.test</module>
 		<module>java/bundles/org.eclipse.set.feature.integration</module>
 		<module>java/bundles/org.eclipse.set.feature.table.test</module>
 		<module>java/bundles/org.eclipse.set.feature.table</module>
@@ -71,7 +72,6 @@
 		<module>java/bundles/org.eclipse.set.model.tablemodel</module>
 		<module>java/bundles/org.eclipse.set.model.temporaryintegration.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.temporaryintegration</module>
-		<module>java/bundles/org.eclipse.set.model.test.site.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport.edit</module>
@@ -87,7 +87,6 @@
 		<module>java/bundles/org.eclipse.set.services</module>
 		<module>java/bundles/org.eclipse.set.sessionservice.test</module>
 		<module>java/bundles/org.eclipse.set.sessionservice</module>
-		<module>java/bundles/org.eclipse.set.test.utils</module>
 		<module>java/bundles/org.eclipse.set.unittest.utils</module>
 		<module>java/bundles/org.eclipse.set.utils</module>
 		<module>java/bundles/org.eclipse.set.rcp.application</module>

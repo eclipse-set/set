@@ -8,8 +8,12 @@
  */
 package org.eclipse.set.unittest.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.emf.common.util.URI;
@@ -53,6 +57,30 @@ public class AbstractToolboxTest {
 
 	protected static String getModel(final Class<?> clazz, final String name) {
 		final URL res = clazz.getClassLoader().getResource(name);
+
+		// If the resource is inside an OSGi bundle, we need to extract it first
+		if (res.toString().startsWith("bundleresource://")) { //$NON-NLS-1$
+			try {
+				final Path path = Files.createTempFile("set-test", name); //$NON-NLS-1$
+				Files.deleteIfExists(path);
+				try (InputStream stream = res.openStream()) {
+					Files.copy(stream, path);
+				}
+				return path.toAbsolutePath().toString();
+			} catch (final IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		System.err.println(res);
+		System.err.flush();
+		try {
+			Thread.sleep(500);
+		} catch (final InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			return Paths.get(res.toURI()).toAbsolutePath().toString();
