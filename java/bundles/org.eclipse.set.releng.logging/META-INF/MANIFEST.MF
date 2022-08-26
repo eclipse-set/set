@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Log Configuration
 Bundle-SymbolicName: org.eclipse.set.releng.logging
-Bundle-Version: 1.0.408.qualifier
+Bundle-Version: 1.0.409.qualifier
 Fragment-Host: ch.qos.logback.classic;bundle-version="1.0.7"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project

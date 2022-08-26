@@ -4,7 +4,7 @@
 	<artifactId>org.eclipse.set.releng.target</artifactId>
 	<groupId>org.eclipse.set</groupId>
 	<packaging>eclipse-target-definition</packaging>
-	<version>1.0.408-SNAPSHOT</version>
+	<version>1.0.409-SNAPSHOT</version>
 
 	<parent>
 	    <relativePath>../org.eclipse.set.releng.parent/pom.xml</relativePath>

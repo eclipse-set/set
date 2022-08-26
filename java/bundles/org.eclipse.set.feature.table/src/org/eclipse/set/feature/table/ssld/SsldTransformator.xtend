@@ -71,7 +71,12 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (fmaAnlagen.contains(null)) {
 			throw new IllegalArgumentException('''«dweg?.bezeichnung?.bezeichnungFstrDWeg?.wert» contains non-FMA-Anlagen within ID_FMA_Anlage''')
 		}
-		val distance = fmaAnlagen?.map[fmaGrenzen]?.flatten?.fold(
+		val topDWeg = dweg.IDFstrFahrweg.bereichObjektTeilbereich.map[IDTOPKante]
+		val distance = fmaAnlagen?.map[fmaGrenzen]?.flatten?.
+			filter[
+				// Only consider FMA borders which are located on the DWeg
+				punktObjektTOPKante.map[IDTOPKante].exists[topDWeg.contains(it)]				
+			].fold(
 			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
 				Math.max(current,
 					getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
