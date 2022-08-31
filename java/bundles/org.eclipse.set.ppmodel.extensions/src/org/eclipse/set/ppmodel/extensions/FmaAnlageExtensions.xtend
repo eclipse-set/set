@@ -118,7 +118,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 		FMA_Anlage anlage) {
 		val gleisabschnitt = anlage.gleisabschnitt
 		return anlage.container.gleisSchaltgruppe.filter [
-			intersects(gleisabschnitt)
+			intersectsStrictly(gleisabschnitt)
 		].toList
 	}
 }

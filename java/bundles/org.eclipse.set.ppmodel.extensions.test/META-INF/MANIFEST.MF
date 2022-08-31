@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PlanPro Model extensions test
 Bundle-SymbolicName: org.eclipse.set.ppmodel.extensions.test
-Bundle-Version: 1.0.409.qualifier
+Bundle-Version: 1.0.410.qualifier
 Fragment-Host: org.eclipse.set.ppmodel.extensions
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Technology Project

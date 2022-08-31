@@ -8,18 +8,17 @@
  */
 package org.eclipse.set.feature.table.sskf
 
-import com.google.common.collect.Lists
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.List
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.toolboxmodel.Ortung.ENUMFMAArt.*
 import static org.eclipse.set.toolboxmodel.Ortung.ENUMUebertragungFMinfoRichtung.*
@@ -226,7 +225,8 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			val List<Gleis_Schaltgruppe> schaltgruppen = Lists.newLinkedList
+			val List<Gleis_Schaltgruppe> schaltgruppen = fmaAnlage.
+				gleisSchaltgruppen
 
 			// Q: Sonstiges.OlA.Schaltgruppe
 			fillIterable(
@@ -234,8 +234,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.schaltgruppe,
 				fmaAnlage,
 				[
-					schaltgruppen.addAll(gleisSchaltgruppen)
-					return schaltgruppen.map [
+					schaltgruppen.map [
 						bezeichnung?.bezeichnungAussenanlage?.wert ?: ""
 					]
 				],

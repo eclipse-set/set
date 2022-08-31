@@ -233,7 +233,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		val tA = teilbereich.begrenzungA.wert.doubleValue
 		val tB = teilbereich.begrenzungB.wert.doubleValue
 		val oA = other.begrenzungA.wert.doubleValue
-		val oB = other.begrenzungA.wert.doubleValue
+		val oB = other.begrenzungB.wert.doubleValue
 
 		return intersects(tA, tB, oA, oB)
 	}
@@ -254,6 +254,86 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 
 		return true
+	}
+
+	/**
+	 * @param bereich this Bereichsobjekt
+	 * @param other another Bereichsobjekt
+	 * 
+	 * @return whether this Bereichsobjekt strictly intersects with the other
+	 * Bereichobjekt
+	 */
+	def static boolean intersectsStrictly(
+		Bereich_Objekt bereich,
+		Bereich_Objekt other
+	) {
+		return bereich.bereichObjektTeilbereich.exists[other.intersectsStrictly(it)]
+	}
+
+	/**
+	 * @param bereich this Bereichsobjekt
+	 * @param teilbereich a Teilbereich
+	 * 
+	 * @return whether this Bereichsobjekt strictly intersects with the given
+	 * Teilbereich
+	 */
+	def static boolean intersectsStrictly(
+		Bereich_Objekt bereich,
+		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich
+	) {
+		return bereich.bereichObjektTeilbereich.exists[intersectsStrictly(teilbereich)]
+	}
+	/**
+	 * @param teilbereich a Teilbereich
+	 * @param other another Teilbereich
+	 * 
+	 * @return whether this Teilbereich strictly intersects with the other
+	 * Teilbereich 
+	 */
+	def static boolean intersectsStrictly(
+		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich,
+		Bereich_Objekt_Teilbereich_AttributeGroup other
+	) {
+		if (teilbereich.topKante.identitaet.wert !=
+			other.topKante.identitaet.wert) {
+			return false
+		}
+
+		val tA = teilbereich.begrenzungA.wert.doubleValue
+		val tB = teilbereich.begrenzungB.wert.doubleValue
+		val oA = other.begrenzungA.wert.doubleValue
+		val oB = other.begrenzungB.wert.doubleValue
+
+		return intersectsStrictly(tA, tB, oA, oB)
+	}
+
+	protected def static boolean intersectsStrictly(double a1, double a2,
+		double b1, double b2) {
+		Assert.isTrue(Distance.compare(a1, a2) <= 0)
+		Assert.isTrue(Distance.compare(b1, b2) <= 0)
+
+		// If the second tb starts after the first tb ends, there is no intersection
+		val aEndBStart = Distance.compare(a2, b1)
+		if (aEndBStart < 0) {
+			return false
+		}
+
+		// If the first tb starts after the second tb ends, there is no intersection
+		val bEndAStart = Distance.compare(b2, a1)
+		if (bEndAStart < 0) {
+			return false
+		}
+		
+		// If the two TBs are equal, they intersect
+		if(aEndBStart === 0)
+		{
+			return bEndAStart === 0
+		}
+		
+		// Intersection as either
+		// - a starts before b ends
+		// - b starts before a ends
+		return true 
 	}
 
 	/**
