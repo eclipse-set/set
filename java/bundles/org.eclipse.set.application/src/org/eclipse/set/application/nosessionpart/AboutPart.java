@@ -31,11 +31,9 @@ import org.eclipse.set.utils.ToolboxVersion;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 import com.google.common.collect.Lists;
@@ -129,8 +127,7 @@ public class AboutPart {
 				new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
 		composite.setLayout(new GridLayout(2, false));
 
-		final Composite versionInfoComposite = createVersionInfoComposite(
-				composite, versionInfo);
+		createVersionInfoComposite(composite, versionInfo);
 
 		final Label rightImageLabel = new Label(container, SWT.NONE);
 		rightImageLabel.setLayoutData(
@@ -150,10 +147,6 @@ public class AboutPart {
 		licenseText.setLayoutData(gd_licenseText);
 		licenseText.setText(license);
 		licenseText.setEditable(false);
-
-		final Point size = computeControls(infoLabel, versionInfoComposite);
-		container.getShell().setSize((int) Math.round(size.x * 1.5),
-				size.y * 7);
 	}
 
 	private static Composite createVersionInfoComposite(final Composite parent,
@@ -184,18 +177,5 @@ public class AboutPart {
 			return localResourceManager.createImage(imageDescriptor);
 		}
 		return null;
-	}
-
-	private static Point computeControl(final Control control) {
-		return control.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-	}
-
-	private static Point computeControls(final Control... controls) {
-		final Point result = new Point(0, 0);
-		for (final Control control : controls) {
-			result.x = result.x + computeControl(control).x;
-			result.y = result.y + computeControl(control).y;
-		}
-		return result;
 	}
 }
