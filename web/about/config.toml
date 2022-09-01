@@ -1,0 +1,42 @@
+baseURL = ""
+languageCode = "de-de"
+title = "Werkzeugkoffer Version- und Lizenz- Informationen"
+theme = "kraiklyn"
+
+# Disable sitemaps, 404 pages and RSS feeds
+disableKinds = ["sitemap", "404", "RSS"]
+
+# Avoid pluarlization of section titles
+pluralizelisttitles = false
+
+sidebarColor = "default"
+
+# Use common directory for themes
+themesDir = "../hugothemes/themes"
+
+# Use common directories for layouts, CSS and fonts
+[module]
+
+  [[module.mounts]]
+    source = "../hugothemes/layouts"
+    target = "layouts"
+
+  [[module.mounts]]
+    source = "../hugothemes/static/css"
+    target = "static/css"
+    
+  [[module.mounts]]
+    source = "../hugothemes/static/fonts"
+    target = "static/fonts"
+
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+
+[params]
+  customCss = ["css/font.css"]
+
+# Update security policy to allow asciidoctor
+[security]
+  [security.exec]
+    allow = ['asciidoctor']

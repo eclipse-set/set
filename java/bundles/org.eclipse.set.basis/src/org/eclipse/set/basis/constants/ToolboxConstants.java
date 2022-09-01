@@ -223,7 +223,7 @@ public final class ToolboxConstants {
 	/**
 	 * The id of the about part
 	 */
-	public static final String ABOUT_PART_ID = "org.eclipse.set.application.nosessionpart.AboutPart";
+	public static final String ABOUT_PART_ID = "org.eclipse.set.application.about.AboutPart";
 
 	static {
 		DEFAULT_HOME_DIR = "./";

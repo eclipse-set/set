@@ -48,7 +48,7 @@ public class AboutPartDescriptionService implements PartDescriptionService {
 				// ID
 				ToolboxConstants.ABOUT_PART_ID,
 				// contributionURI
-				"bundleclass://org.eclipse.set.application/org.eclipse.set.application.nosessionpart.AboutPart", //$NON-NLS-1$
+				"bundleclass://org.eclipse.set.application/org.eclipse.set.application.about.AboutPart", //$NON-NLS-1$
 				// toolboxViewName
 				injectionHelper.messages.AboutPartDescriptionService_ViewName,
 				// toolboxViewToolTip

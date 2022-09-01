@@ -9,7 +9,6 @@
 
 package org.eclipse.set.core.services.branding;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -57,11 +56,4 @@ public interface BrandingService {
 	 * @return an optional logo for the vendor
 	 */
 	Optional<ImageDescriptor> getVendorLogo();
-
-	/**
-	 * @return the License of the application
-	 * @throws IOException
-	 */
-	String getLicense() throws IOException;
-
 }

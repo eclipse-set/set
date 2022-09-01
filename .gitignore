@@ -44,3 +44,6 @@ org.moreunit.prefs
 java/bundles/org.eclipse.set.feature/rootdir_filtered/
 node_modules/
 dist/
+
+# Hugo documentation
+web/about/public
