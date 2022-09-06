@@ -241,7 +241,11 @@ class SessionToValidationReportTransformation {
 			ausgabeFachdaten
 		if (fachdaten === null)
 			return #[]
-		return fachdaten.map[untergewerkArt?.wert?.toString].filter [ x |
+		val subtypes = newLinkedList
+		for (i : 0 ..<fachdaten.size) {
+			subtypes.add(fachdaten.get(i).untergewerkArt?.wert?.toString + ''' («i + 1»)''')
+		}
+		return subtypes.filter [ x |
 			x !== null
 		]
 	}
