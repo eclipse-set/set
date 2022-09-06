@@ -71,11 +71,10 @@ public class TitleBoxPdfPart extends BasePart<IModelSession>
 		super(IModelSession.class);
 	}
 
-	private void createTitlebox(final Composite parent) {
-		parent.setLayout(new FillLayout());
-		viewer = rendererService.createViewer(parent);
-		viewer.show(Paths.get(TITLEBOX_PDF));
-		viewer.setSaveListener(this);
+	@Override
+	protected void createView(final Composite parent) {
+		createTitleboxPdfMonitor();
+		createTitlebox(parent);
 	}
 
 	private void createTitleboxPdfMonitor() {
@@ -106,10 +105,27 @@ public class TitleBoxPdfPart extends BasePart<IModelSession>
 		}
 	}
 
-	@Override
-	protected void createView(final Composite parent) {
-		createTitleboxPdfMonitor();
-		createTitlebox(parent);
+	void createTitleboxPdf(final PlanPro_Schnittstelle planProSchnittstelle)
+			throws Exception {
+		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
+				.create();
+		final Titlebox titlebox = planProToTitlebox
+				.transform(planProSchnittstelle, null);
+		exportService.exportTitleboxPdf(titlebox, getTitleBoxPath(),
+				OverwriteHandling.forCheckbox(true),
+				new ExceptionHandler(getToolboxShell(), getDialogService()));
+	}
+
+	private void createTitlebox(final Composite parent) {
+		parent.setLayout(new FillLayout());
+		viewer = rendererService.createViewer(parent);
+		viewer.show(getTitleBoxPath());
+		viewer.setSaveListener(this);
+	}
+
+	private Path getTitleBoxPath() {
+		final String tmpDir = getModelSession().getTempDir().toString();
+		return Paths.get(tmpDir, TITLEBOX_PDF);
 	}
 
 	@Override
@@ -128,17 +144,6 @@ public class TitleBoxPdfPart extends BasePart<IModelSession>
 		if (isOutdated()) {
 			updatePdfView();
 		}
-	}
-
-	void createTitleboxPdf(final PlanPro_Schnittstelle planProSchnittstelle)
-			throws Exception {
-		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
-				.create();
-		final Titlebox titlebox = planProToTitlebox
-				.transform(planProSchnittstelle, null);
-		exportService.exportTitleboxPdf(titlebox, Paths.get(TITLEBOX_PDF),
-				OverwriteHandling.forCheckbox(true),
-				new ExceptionHandler(getToolboxShell(), getDialogService()));
 	}
 
 	void updatePdfView() {

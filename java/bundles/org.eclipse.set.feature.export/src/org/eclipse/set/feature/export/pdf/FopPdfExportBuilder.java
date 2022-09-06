@@ -176,7 +176,8 @@ public class FopPdfExportBuilder implements TableExport {
 		final String tableDocumentText = createTitleboxDocumentText(titlebox);
 		if (ToolboxConfiguration.isDevelopmentMode()) {
 			exportTableDocument(
-					Paths.get(getFilename(TITLEBOX_SHORTCUT, "xml")), //$NON-NLS-1$
+					Paths.get(imagePath.getParent().toString(),
+							TITLEBOX_SHORTCUT, "xml"), //$NON-NLS-1$
 					tableDocumentText);
 		}
 		createImageFile(tableDocumentText, imagePath, overwriteHandling);
@@ -190,7 +191,8 @@ public class FopPdfExportBuilder implements TableExport {
 					titlebox);
 			if (ToolboxConfiguration.isDevelopmentMode()) {
 				exportTableDocument(
-						Paths.get(getFilename(TITLEBOX_SHORTCUT, "xml")), //$NON-NLS-1$
+						Paths.get(pdfPath.getParent().toString(),
+								getFilename(TITLEBOX_SHORTCUT, "xml")), //$NON-NLS-1$
 						tableDocumentText);
 			}
 			createPdf(tableDocumentText, pdfPath, TITLEBOX_SHORTCUT,

@@ -20,6 +20,7 @@ import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.swt.SWT;
@@ -27,8 +28,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * This part renders the titlebox as an image.
@@ -71,7 +70,9 @@ public class TitleBoxImagePart extends BasePart<IModelSession> {
 				.create();
 		final Titlebox titlebox = planProToTitlebox
 				.transform(planProSchnittstelle, null);
-		exportService.exportTitleboxImage(titlebox, Paths.get(TITLEBOX_IMAGE),
+		exportService.exportTitleboxImage(titlebox,
+				Paths.get(getModelSession().getTempDir().toString(),
+						TITLEBOX_IMAGE),
 				OverwriteHandling.forCheckbox(true),
 				new ExceptionHandler(getToolboxShell(), getDialogService()));
 	}
