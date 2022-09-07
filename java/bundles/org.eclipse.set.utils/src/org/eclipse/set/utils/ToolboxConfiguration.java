@@ -127,37 +127,37 @@ public class ToolboxConfiguration {
 
 	/**
 	 * @param versionNumber
-	 *            toolbox version number
-	 * @return true, if current version is same store version
+	 *            current version
+	 * @return true, if store version older than current version
 	 */
 	public static boolean isShowNews(final String versionNumber) {
 		final String storeVersion = new ConfigNewsProperties()
 				.getProperty(ToolboxProperties.VERSION);
-		final String[] splitVersionNumber = versionNumber.split("."); //$NON-NLS-1$
-		final String[] splitStoreVersion = storeVersion.split("."); //$NON-NLS-1$
-		return splitStoreVersion[0].equals(splitVersionNumber[0])
-				&& splitStoreVersion[1].equals(splitVersionNumber[1]);
+		final String[] splitVersionNumber = versionNumber.split("\\."); //$NON-NLS-1$
+		// If Development Version, then return false
+		if (splitVersionNumber.length > 3) {
+			return false;
+		}
+
+		final String[] splitStoreVersion = storeVersion.split("\\."); //$NON-NLS-1$
+		for (int i = 0; i < splitStoreVersion.length; i++) {
+			if (Integer.parseInt(splitStoreVersion[i]) < Integer
+					.parseInt(splitVersionNumber[i])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
 	 * Set next version number for config news properties
+	 * 
+	 * @param newVersionNumber
+	 *            current version of Toolbox
 	 */
-	public static void setNextVersion() {
+	public static void setNextVersion(final String newVersionNumber) {
 		final ConfigNewsProperties properties = new ConfigNewsProperties();
-		final String versionNumber = properties
-				.getProperty(ToolboxProperties.VERSION);
-
-		final String[] split = versionNumber.split("."); //$NON-NLS-1$
-		int mainVersion = Integer.parseInt(split[0]);
-		int sideVersion = Integer.parseInt(split[1]);
-		if (sideVersion == 99) {
-			mainVersion += 1;
-			sideVersion = 0;
-		} else {
-			sideVersion += 1;
-		}
-		properties.setProperty(ToolboxProperties.VERSION,
-				mainVersion + "." + sideVersion); //$NON-NLS-1$
+		properties.setProperty(ToolboxProperties.VERSION, newVersionNumber);
 		properties.store();
 	}
 
