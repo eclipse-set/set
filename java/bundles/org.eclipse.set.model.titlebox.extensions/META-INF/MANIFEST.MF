@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Titleboxmodel Extensions
 Bundle-SymbolicName: org.eclipse.set.model.titlebox.extensions
-Bundle-Version: 1.0.412.qualifier
+Bundle-Version: 1.0.413.qualifier
 Bundle-Vendor: Eclipse Technology Project
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: com.google.guava,

@@ -33,10 +33,12 @@ public class ShowNewsAddon {
 	@Optional
 	private void startUpComplete(
 			@UIEventTopic(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE) final MApplication application) {
+		if (ToolboxConfiguration.isDevelopmentMode()) {
+			return;
+		}
 		final String versionNumber = ToolboxConfiguration.getToolboxVersion()
 				.getShortVersion();
-		if (ToolboxConfiguration.isShowNews(versionNumber)
-				&& !ToolboxConfiguration.isDevelopmentMode()) {
+		if (ToolboxConfiguration.isShowNews(versionNumber)) {
 			partService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
 			ToolboxConfiguration.setNextVersion();
 		}

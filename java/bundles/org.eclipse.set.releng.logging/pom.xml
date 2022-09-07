@@ -3,7 +3,7 @@
 
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.releng.logging</artifactId>
-	<version>1.0.412-SNAPSHOT</version>
+	<version>1.0.413-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<parent>
