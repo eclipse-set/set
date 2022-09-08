@@ -54,6 +54,9 @@ public class ConfigNewsProperties extends Properties {
 	public void create() {
 		final File config = new File(getFilePath());
 		try {
+			if (!config.getParentFile().exists()) {
+				config.getParentFile().mkdirs();
+			}
 			if (!config.createNewFile()) {
 				LOGGER.error("Cannot create File: ", FILENAME); //$NON-NLS-1$
 				return;
