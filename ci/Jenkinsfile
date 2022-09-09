@@ -1,0 +1,49 @@
+pipeline {
+  agent {
+    kubernetes {
+      yamlFile 'ci/kubernetes.yaml'
+    }
+  }
+
+  options {
+    timeout(time: 20, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+  }
+
+  stages {
+    stage('Build NodeJS') {
+      steps {
+        container('nodejs') {
+          dir('web/textviewer') {
+            sh 'npm ci'
+            sh 'npm run build-prod'
+            sh 'rm -rf ../../java/bundles/org.eclipse.set.feature/rootdir/web/textview/'
+            sh 'mkdir -p ../../java/bundles/org.eclipse.set.feature/rootdir/web/textview/'
+            sh 'cp -r dist/* ../../java/bundles/org.eclipse.set.feature/rootdir/web/textview/'
+          }
+        }
+      }
+    }
+
+    stage('Build Java') {
+      steps {
+        container('maven') {
+          mvn goal: 'clean integration-test'
+        }
+      }
+    }
+
+    stage('Deploy Snapshot')
+    {
+      when {
+        anyOf {
+          buildingTag()
+          branch 'main'
+        }
+      }
+      steps {
+        deployP2Site name: 'set', path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
+      }
+    }
+  }
+}
