@@ -43,6 +43,7 @@ pipeline {
       }
       steps {
         deployP2Site name: 'set', path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
+        deployProduct name: 'set', path: 'java/bundles/org.eclipse.set.releng.product/target/org.eclipse.set.releng.product-1.1.0-SNAPSHOT.zip'
       }
     }
   }
