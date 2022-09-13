@@ -47,4 +47,16 @@ pipeline {
       }
     }
   }
+  post {
+    always {
+      // Publish JUnit test result
+      junit testResults: 'java/bundles/*/target/surefire-reports/*.xml', allowEmptyResults: true
+      recordIssues aggregatingResults: true, 
+        enabledForFailure: true, 
+        tools: [
+          checkStyle(), 
+          mavenConsole()],
+        qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+    }
+  }
 }
