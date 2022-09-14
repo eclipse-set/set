@@ -1,10 +1,10 @@
 ---
-title: "1. Version Informationen"
+title: "1. Versionsinformationen"
 anchor: "version_informationen"
 ---
 
 [#versionList]
-- Es kann nicht die Version Informationen gefunden.
+- Die Versionsinformationen konnten nicht gefunden werden.
 
 ++++
 <script>

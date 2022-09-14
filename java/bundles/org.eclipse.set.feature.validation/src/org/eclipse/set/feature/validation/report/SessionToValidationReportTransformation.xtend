@@ -241,13 +241,18 @@ class SessionToValidationReportTransformation {
 			ausgabeFachdaten
 		if (fachdaten === null)
 			return #[]
-		val subtypes = newLinkedList
-		for (i : 0 ..<fachdaten.size) {
-			subtypes.add(fachdaten.get(i).untergewerkArt?.wert?.toString + ''' («i + 1»)''')
-		}
-		return subtypes.filter [ x |
-			x !== null
+		val subtypes = newHashMap
+		fachdaten.map[untergewerkArt?.wert?.toString].forEach[
+			if (!subtypes.containsKey(it)) {
+				subtypes.put(it, 1)
+			} else {
+				val count = subtypes.get(it)
+				subtypes.put(it, count + 1)
+			}
 		]
+		val result = newLinkedList
+		subtypes.forEach[type, count|result.add('''«type» («count»)''')]
+		return result
 	}
 	
 	private def String transformToText(ValidationSeverity severity) {
