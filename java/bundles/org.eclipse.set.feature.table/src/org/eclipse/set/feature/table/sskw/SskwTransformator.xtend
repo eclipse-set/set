@@ -462,7 +462,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[""]
 				),
 				new Case<W_Kr_Gsp_Element>(
-					[art_ekw && exKrRechtsKomponenten],
+					[art_ekw && !exKrRechtsKomponenten],
 					[
 						WKrAnlage.WKrGspElemente.filter [
 							identitaet.wert != element.identitaet.wert
@@ -471,7 +471,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				),
 				new Case<W_Kr_Gsp_Element>(
-					[art_ekw && !exKrRechtsKomponenten],
+					[art_ekw && exKrRechtsKomponenten],
 					[
 						krRechtsKomponenten.map[zungenpaar].toList.
 							printGeschwindingkeitR
