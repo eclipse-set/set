@@ -359,11 +359,35 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					fstrZugRangier?.fstrZugRangierAllg?.fstrV?.wert?.toString
 				])
 
-				fill(
+				fillSwitch(
 					instance,
 					columns.signalisierung_zs3,
 					fstrZugRangier,
-					[
+					new Case<Fstr_Zug_Rangier>(
+						[
+							(fstrZugRangierAllg.fstrArt == "ZM" ||
+								fstrZugRangierAllg.fstrArt == "ZUM") &&
+								!fstrSignalisierung.filter [
+									signalSignalbegriff.
+										hasSignalbegriffID(typeof(Zs3)) &&
+										signalSignalbegriff.signalRahmen.
+											signal ==
+											fstrZugRangier.fstrFahrweg.IDZiel
+								].empty
+						],
+						[
+							val signals = fstrSignalisierung.map [
+								signalSignalbegriff
+							].filter [
+								hasSignalbegriffID(typeof(Zs3)) &&
+									signalRahmen.signal ==
+										fstrZugRangier.fstrFahrweg.IDZiel
+							].sortBy [signalbegriffID?.symbol]
+							'''«FOR signal : signals SEPARATOR String.format("%n")»«signal?.signalbegriffID?.symbol»«ENDFOR»'''
+						]
+					),
+					new Case<Fstr_Zug_Rangier>(
+					[true /* condition handled within filling */], [
 						val zs3Start = fstrZugRangier.fstrSignalisierung.filter [
 							signalSignalbegriff !== null &&
 								signalSignalbegriffZiel === null &&
@@ -398,7 +422,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							«signal?.signalSignalbegriff?.signalbegriffID?.symbol»(«
 							»«IF signal?.signalSignalbegriffZiel.hasSignalbegriffID(typeof(Hp0))»0«ELSE»«
 							»«signal?.signalSignalbegriffZiel?.signalbegriffID?.symbol»«ENDIF»)«ENDFOR»'''
-					]
+					])
+					
 				)
 
 				fill(
