@@ -39,7 +39,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 
@@ -413,18 +412,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[""]
 				),
 				new Case<W_Kr_Gsp_Element>(
-					[art_ekw && exKrLinksKomponenten],
+					[art_ekw],
 					[
 						krLinksKomponenten.map[zungenpaar].toList.
-							printGeschwindingkeitL
-					]
-				),
-				new Case<W_Kr_Gsp_Element>(
-					[art_ekw && !exKrLinksKomponenten],
-					[
-						WKrAnlage.WKrGspElemente.filter [
-							identitaet.wert != element.identitaet.wert
-						].map[WKrGspKomponenten].flatten.map[zungenpaar].toList.
 							printGeschwindingkeitL
 					]
 				),
@@ -460,15 +450,6 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<W_Kr_Gsp_Element>(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
 					[""]
-				),
-				new Case<W_Kr_Gsp_Element>(
-					[art_ekw && !exKrRechtsKomponenten],
-					[
-						WKrAnlage.WKrGspElemente.filter [
-							identitaet.wert != element.identitaet.wert
-						].map[WKrGspKomponenten].flatten.map[zungenpaar].toList.
-							printGeschwindingkeitR
-					]
 				),
 				new Case<W_Kr_Gsp_Element>(
 					[art_ekw && exKrRechtsKomponenten],
@@ -673,7 +654,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def dispatch String printGeschwindingkeitR(
-		Zungenpaar_AttributeGroup group) {		
+		Zungenpaar_AttributeGroup group) {
 		return '''«group?.geschwindigkeitR?.wert»'''
 	}
 
