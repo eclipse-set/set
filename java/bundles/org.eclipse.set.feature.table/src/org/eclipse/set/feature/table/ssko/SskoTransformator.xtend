@@ -107,15 +107,15 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 			])
 
 			// G: Ssko.Fahrweg.Bezeichnung.Zug
-			fillConditional(instance, cols.fahrwegZug, schloss, [
-				schluesselsperre?.fstrZugRangier?.fstrZug !== null
-			], [schluesselsperre?.fstrZugRangier?.fstrName])
+			fillIterable(instance, cols.fahrwegZug, schloss, [
+				schluesselsperre?.fstrZugRangier.filter[fstrZug !== null].map[fstrName].toSet
+			], null)
 
 			// H: Ssko.Fahrweg.Bezeichnung.Rangier
-			fillConditional(instance, cols.fahrwegRangier, schloss, [
-				schluesselsperre?.fstrZugRangier?.fstrRangier !== null
-			], [schluesselsperre?.fstrZugRangier?.fstrName])
-
+			fillIterable(instance, cols.fahrwegRangier, schloss, [
+				schluesselsperre?.fstrZugRangier.filter[fstrRangier !== null].map[fstrName].toSet
+			], null)
+			
 			// I: Ssko.W_Gsp_Bue.Verschl_Element.Bezeichnung
 			fillSwitch(
 				instance,
@@ -304,15 +304,16 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// S: Ssko.Sonderanlage
-			fillSwitch(instance, cols.sonderanlage, schloss, 
+			fillSwitch(
+				instance,
+				cols.sonderanlage,
+				schloss,
 				new Case<Schloss>(
-				[schloss?.schlossSonderanlage !== null],
-				[
+				[schloss?.schlossSonderanlage !== null], [
 					schloss?.sonderanlage?.bezeichnung?.bezeichnungTabelle?.wert
 				]),
 				new Case<Schloss>(
-				[schloss?.schlossSonderanlage?.beschreibungSonderanlage !== null],
-				[
+				[schloss?.schlossSonderanlage?.beschreibungSonderanlage !== null], [
 					schlossSonderanlage?.beschreibungSonderanlage?.wert
 				])
 			)
@@ -339,18 +340,15 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
-	private def Fstr_Zug_Rangier getFstrZugRangier(
+	private def Iterable<Fstr_Zug_Rangier> getFstrZugRangier(
 		Schluesselsperre schluesselsperre) {
 		val c = schluesselsperre.container
 		return c.fstrAbhaengigkeit.filter [
-			it.fstrAbhaengigkeitSsp?.IDSchluesselsperre?.identitaet?.wert ==
-				schluesselsperre?.identitaet?.wert
-		].map [
+			fstrAbhaengigkeitSsp?.IDSchluesselsperre === schluesselsperre
+		].flatMap [
 			val fahrweg = it.fstrFahrweg
-			c.fstrZugRangier.filter [
-				it.IDFstrFahrweg?.identitaet?.wert == fahrweg?.identitaet?.wert
-			].head
-		].head
+			c.fstrZugRangier.filter[IDFstrFahrweg === fahrweg]
+		].toSet
 	}
 
 	private def String fstrName(
