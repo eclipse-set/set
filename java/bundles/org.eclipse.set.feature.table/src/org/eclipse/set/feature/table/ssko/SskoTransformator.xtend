@@ -108,12 +108,12 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			// G: Ssko.Fahrweg.Bezeichnung.Zug
 			fillIterable(instance, cols.fahrwegZug, schloss, [
-				schluesselsperre?.fstrZugRangier.filter[fstrZug !== null].map[fstrName].toSet
+				schluesselsperre?.fstrZugRangier?.filter[fstrZug !== null]?.map[fstrName]?.toSet ?: #[]
 			], null)
 
 			// H: Ssko.Fahrweg.Bezeichnung.Rangier
 			fillIterable(instance, cols.fahrwegRangier, schloss, [
-				schluesselsperre?.fstrZugRangier.filter[fstrRangier !== null].map[fstrName].toSet
+				schluesselsperre?.fstrZugRangier?.filter[fstrRangier !== null]?.map[fstrName]?.toSet ?: #[]
 			], null)
 			
 			// I: Ssko.W_Gsp_Bue.Verschl_Element.Bezeichnung
