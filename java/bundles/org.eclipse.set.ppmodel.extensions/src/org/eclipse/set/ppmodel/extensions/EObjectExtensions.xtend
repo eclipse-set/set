@@ -106,6 +106,8 @@ class EObjectExtensions {
 	static def String toCSV(EObject object) {
 		return String.join(";", object.eClass.EAttributes.map [
 			val attr = object.eGet(it)
+			if(attr === null)
+				return "";
 			if (attr instanceof String)
 				return attr.replace("\"", "\"\"")
 			return attr.toString
