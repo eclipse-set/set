@@ -16,6 +16,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.cache.NoCacheService;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -32,12 +33,13 @@ public class CacheServiceContextFunction extends ContextFunction {
 			final String contextKey) {
 		final CacheServiceImpl cacheService = ContextInjectionFactory
 				.make(CacheServiceImpl.class, context);
-
+		final NoCacheService noCacheService = ContextInjectionFactory
+				.make(NoCacheService.class, context);
 		final MApplication application = context.get(MApplication.class);
 		final IEclipseContext applicationContext = application.getContext();
 		applicationContext.set(CacheService.class, cacheService);
 		Services.setCacheService(cacheService);
-
+		Services.setNoCacheService(noCacheService);
 		// IMPROVE Injection into the CacheService does not work for an unknown
 		// reason, see also PLANPRO-3270
 		final IEventBroker broker = applicationContext.get(IEventBroker.class);

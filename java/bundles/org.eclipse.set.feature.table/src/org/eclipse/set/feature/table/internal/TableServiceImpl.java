@@ -28,6 +28,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
 import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.basis.part.PartDescription;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.feature.table.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.TableService;
@@ -40,6 +41,7 @@ import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableTransformationService;
 
@@ -63,9 +65,7 @@ import com.google.common.base.Strings;
  *
  */
 public final class TableServiceImpl implements TableService {
-
-	@Inject
-	private CacheService cacheService;
+	private final CacheService cacheService;
 
 	@Inject
 	private TableDiffService diffService;
@@ -80,6 +80,9 @@ public final class TableServiceImpl implements TableService {
 	 */
 	public TableServiceImpl() {
 		super();
+		this.cacheService = ToolboxConfiguration.isDebugMode()
+				? Services.getNoCacheService()
+				: Services.getCacheService();
 	}
 
 	/**

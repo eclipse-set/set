@@ -9,6 +9,7 @@
 package org.eclipse.set.utils;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -170,5 +171,14 @@ public class ToolboxConfiguration {
 			return Optional.of(Paths.get(path));
 		}
 		return Optional.empty();
+	}
+
+	/**
+	 * @return whether the toolbox is in debug mode
+	 */
+	public static boolean isDebugMode() {
+		// Check if, Java Debug Wire Protocol(jdwp) is running
+		return ManagementFactory.getRuntimeMXBean().getInputArguments()
+				.toString().indexOf("jdwp") > -1; //$NON-NLS-1$
 	}
 }
