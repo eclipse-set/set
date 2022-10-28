@@ -104,8 +104,8 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	}
 
 	private def static LineString clothoid(GEO_Kante kante) {
-		val radiusA = kante.GEOKanteAllg.GEORadiusA.wert.doubleValue
-		val radiusB = kante.GEOKanteAllg.GEORadiusB.wert.doubleValue
+		val radiusA = (kante.GEOKanteAllg?.GEORadiusA?.wert ?: 0).doubleValue
+		val radiusB = (kante.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
 		val angle = kante.GEOKanteAllg.GEORichtungswinkel.wert.doubleValue
 		val coordinateA = kante.geoKnotenA.coordinate
 		val coordinateB = kante.geoKnotenB.coordinate
@@ -169,8 +169,8 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	}
 
 	private def static LineString blosscurve(GEO_Kante kante) {
-		val radiusA = kante.GEOKanteAllg.GEORadiusA.wert.doubleValue
-		val radiusB = kante.GEOKanteAllg.GEORadiusB.wert.doubleValue
+		val radiusA = (kante.GEOKanteAllg?.GEORadiusA?.wert ?: 0).doubleValue
+		val radiusB = (kante.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
 		val coordinateA = kante.geoKnotenA.coordinate
 		val coordinateB = kante.geoKnotenB.coordinate
 		val length = kante.GEOKanteAllg.GEOLaenge.wert.doubleValue
