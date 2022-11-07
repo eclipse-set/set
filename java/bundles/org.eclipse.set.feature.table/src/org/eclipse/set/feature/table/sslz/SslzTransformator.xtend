@@ -549,39 +549,15 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						logger.error(e.message)
 					}
 				}
-
-				fillSwitch(
-					instance,
-					columns.im_fahrweg_zs6,
-					fstrZugRangier,
-					new Case<Fstr_Zug_Rangier>(
-						[
-							fstrFahrweg.signalbegriffeImFahrweg.exists [ b1 |
-								b1.hasSignalbegriffID(typeof(Zs6)) &&
-									fstrZugRangier.fstrSignalisierung.exists [ b2 |
-										b2.signalSignalbegriff.identitaet.
-											wert == b1.identitaet.wert
-									]
+				
+				fill(instance, columns.im_fahrweg_zs6, fstrZugRangier, [
+					fstrFahrweg.signalbegriffeImFahrweg.findFirst[ b1 |
+						b1.hasSignalbegriffID(typeof(Zs6)) &&
+							fstrZugRangier.fstrSignalisierung.exists[ b2 |
+								b2.signalSignalbegriff === b1
 							]
-						],
-						["x"]
-					),
-					new Case<Fstr_Zug_Rangier>(
-						[
-							fstrFahrweg.signalbegriffeImFahrweg.exists [ b1 |
-								b1.hasSignalbegriffID(
-									typeof(Zs6)
-								) && !fstrZugRangier.fstrSignalisierung.exists [ b2 |
-									b2.signalSignalbegriff.identitaet.wert ==
-										b1.identitaet.wert
-								]
-							]
-						],
-						[
-							"o"
-						]
-					)
-				)
+					].signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert
+				])
 
 				fillIterable(
 					instance,
