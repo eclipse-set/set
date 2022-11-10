@@ -556,7 +556,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							fstrZugRangier.fstrSignalisierung.exists[ b2 |
 								b2.signalSignalbegriff === b1
 							]
-					].signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert
+					]?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert
 				])
 
 				fillIterable(
