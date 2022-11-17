@@ -11,15 +11,18 @@ pipeline {
   }
 
   stages {
-    stage('Build NodeJS') {
+    stage('Build NodeJS') {    
+      environment {
+        GITHUB_TOKEN = credentials('github-bot-token')
+      }
+
       steps {
         container('nodejs') {
           dir('web/textviewer') {
-            sh 'npm ci'
-            sh 'npm run build-prod'
-            sh 'rm -rf ../../java/bundles/org.eclipse.set.feature/rootdir/web/textview/'
-            sh 'mkdir -p ../../java/bundles/org.eclipse.set.feature/rootdir/web/textview/'
-            sh 'cp -r dist/* ../../java/bundles/org.eclipse.set.feature/rootdir/web/textview/'
+            npmBuildTo target: '../../java/bundles/org.eclipse.set.feature/rootdir/web/textviewer/'
+          }
+           dir('web/pdf') {
+            npmBuildTo target: '../../java/bundles/org.eclipse.set.feature/rootdir/web/pdf/'
           }
         }
       }
@@ -28,10 +31,19 @@ pipeline {
     stage('Build Java') {
       steps {
         container('maven') {
-          mvn goal: 'clean integration-test'
+          mvn goal: 'clean integration-test', dependencies: 'maven.deps'
+          archiveArtifacts artifacts: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
         }
       }
     }
+    stage('Process Licenses') {
+      steps {
+        container('maven') {
+          collectDependencies()
+        }
+      }
+    }
+
 
     stage('Deploy Snapshot')
     {

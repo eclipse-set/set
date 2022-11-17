@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @author Stuecker
  */
 public class BrowserPdfViewer implements PdfViewer, DownloadListener {
-	private static final String HTML_PDF_VIEWER_PATH = "web/viewer.modified.html"; //$NON-NLS-1$
+	private static final String HTML_PDF_VIEWER_PATH = "viewer.html"; //$NON-NLS-1$
 
 	private WebBrowser browser;
 	private PdfViewerServer server;

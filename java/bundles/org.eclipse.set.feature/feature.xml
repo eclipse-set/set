@@ -2174,7 +2174,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.emfjson.jackson"
+         id="org.eclipse.emfcloud.emfjson-jackson"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -2387,7 +2387,7 @@
          unpack="false"/>
 
    <plugin
-         id="wrapped.org.apache.xmlgraphics.fop"
+         id="maven.org.apache.xmlgraphics.artifact.fop"
          download-size="0"
          install-size="0"
          version="0.0.0"

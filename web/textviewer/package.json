@@ -12,7 +12,7 @@
   "license": "",
   "dependencies": {
     "axios": "^0.27.2",
-    "monaco-editor": "^0.33.0"
+    "monaco-editor": "^0.34.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.29.0",

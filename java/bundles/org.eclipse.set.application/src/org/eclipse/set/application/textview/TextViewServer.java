@@ -28,7 +28,7 @@ import org.eclipse.set.utils.server.AbstractWebServer;
  * @author Stuecker
  */
 public class TextViewServer extends AbstractWebServer {
-	private static final String TEXT_VIEWER_PATH = "./web/textview"; //$NON-NLS-1$
+	private static final String TEXT_VIEWER_PATH = "./web/textviewer"; //$NON-NLS-1$
 	private static final String PROBLEMS_JSON = "/problems.json"; //$NON-NLS-1$
 	private static final String MODEL_PPXML = "/model.ppxml"; //$NON-NLS-1$
 	private final ArrayList<Handler> handlers = new ArrayList<>();

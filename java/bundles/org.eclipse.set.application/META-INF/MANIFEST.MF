@@ -33,7 +33,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jetty.servlet,
  com.fasterxml.jackson.core.jackson-databind,
  com.fasterxml.jackson.core.jackson-core,
- org.emfjson.jackson
+ org.eclipse.emfcloud.emfjson-jackson
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
 Import-Package: ch.qos.logback.classic;version="1.0.7",

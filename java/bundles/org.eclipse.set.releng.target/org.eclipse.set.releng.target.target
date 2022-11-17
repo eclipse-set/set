@@ -2,70 +2,7 @@
 <?pde?>
 <target name="org.eclipse.set.releng.target" sequenceNumber="1660124027">
   <locations>
-    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="emfjson-jackson" missingManifest="generate" type="Maven">
-      <dependencies>
-        <dependency>
-          <groupId>org.emfjson</groupId>
-          <artifactId>emfjson-jackson</artifactId>
-          <version>1.3.0</version>
-          <type>jar</type>
-        </dependency>
-      </dependencies>
-    </location>
-    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Fasterxml Jackson" missingManifest="generate" type="Maven">
-      <dependencies>
-        <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-annotations</artifactId>
-          <version>2.13.3</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-core</artifactId>
-          <version>2.13.3</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-databind</artifactId>
-          <version>2.13.3</version>
-          <type>jar</type>
-        </dependency>
-      </dependencies>
-    </location>
-    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache FOP" missingManifest="generate" type="Maven">
-      <dependencies>
-        <dependency>
-          <groupId>org.apache.xmlgraphics</groupId>
-          <artifactId>fop</artifactId>
-          <version>2.6</version>
-          <type>jar</type>
-        </dependency>
-      </dependencies>
-      <instructions><![CDATA[
-Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
-version:               ${version_cleanup;${mvnVersion}}
-Bundle-SymbolicName:   wrapped.${mvnGroupId}.${mvnArtifactId}
-Bundle-Version:        ${version}
-Import-Package:        *;resolution:=optional
-Export-Package:        *;version="${version}";-noimport:=true
-Require-Bundle:        org.apache.batik.util
-Eclipse-BuddyPolicy:   registered, ext
-DynamicImport-Package: *
-]]>      </instructions>
-    </location>
-    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JTS" missingManifest="generate" type="Maven">
-      <dependencies>
-        <dependency>
-          <groupId>org.locationtech.jts</groupId>
-          <artifactId>jts-core</artifactId>
-          <version>1.19.0</version>
-          <type>jar</type>
-        </dependency>
-      </dependencies>
-    </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.apache.batik.anim" version="1.14.0.v20210324-0332"/>
       <unit id="org.apache.batik.awt.util" version="1.14.0.v20210324-0332"/>
       <unit id="org.apache.batik.bridge" version="1.14.0.v20210324-0332"/>
@@ -103,7 +40,7 @@ DynamicImport-Package: *
       <unit id="javax.mail" version="1.4.0.v201005080615"/>
       <repository location="https://download.eclipse.org/releases/2022-06/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="ch.qos.logback.classic" version="1.2.3.v20200428-2012"/>
       <unit id="ch.qos.logback.core" version="1.2.3.v20200428-2012"/>
       <unit id="ch.qos.logback.slf4j" version="1.2.3.v20200428-2012"/>
@@ -132,7 +69,7 @@ DynamicImport-Package: *
       <unit id="org.apache.commons.compress" version="1.21.0.v20211103-2100"/>
       <repository location="https://download.eclipse.org/tools/orbit/downloads/2022-06"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.e4.rcp.feature.group" version="4.24.0.v20220530-1036"/>
       <unit id="org.eclipse.e4.tools" version="4.9.100.v20211020-1255"/>
       <unit id="org.eclipse.e4.tools.emf.ui" version="4.7.300.v20220420-0901"/>
@@ -151,12 +88,12 @@ DynamicImport-Package: *
       <unit id="org.eclipse.ui.views.log" version="1.3.200.v20220310-1555"/>
       <repository location="https://download.eclipse.org/eclipse/updates/4.24/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.babel.nls_eclipse_de.feature.group" version="4.22.0.v20211218020001"/>
       <unit id="org.eclipse.babel.nls_modeling.emf_de.feature.group" version="4.22.0.v20211218020001"/>
       <repository location="https://download.eclipse.org/technology/babel/update-site/R0.19.2/2021-12/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.xtend.lib" version="2.27.0.v20220530-0353"/>
       <unit id="org.eclipse.xtend.lib.macro" version="2.27.0.v20220530-0353"/>
       <unit id="org.eclipse.xtend.lib.macro.source" version="2.27.0.v20220530-0353"/>
@@ -166,7 +103,7 @@ DynamicImport-Package: *
       <unit id="org.eclipse.xtext.xbase.lib.source" version="2.27.0.v20220530-0353"/>
       <repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.27.0/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.nebula.widgets.nattable.core.feature.feature.group" version="1.6.0.201909181823"/>
       <unit id="org.eclipse.nebula.widgets.nattable.core.source.feature.feature.group" version="1.6.0.201909181823"/>
       <unit id="org.eclipse.nebula.widgets.nattable.extension.e4.feature.feature.group" version="1.2.0.201909181823"/>
@@ -177,11 +114,11 @@ DynamicImport-Package: *
       <unit id="org.eclipse.nebula.widgets.nattable.extension.nebula.source.feature.feature.group" version="1.2.0.201909181823"/>
       <repository location="https://download.eclipse.org/nattable/releases/1.6.0/repository/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.nebula.widgets.richtext.feature.feature.group" version="1.2.1.201812241324"/>
       <repository location="https://download.eclipse.org/nebula/releases/2.1.0"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.emf.ecp.core" version="1.26.2.20220523-0845"/>
       <unit id="org.eclipse.emf.ecp.ui" version="1.26.2.20220523-0845"/>
       <unit id="org.eclipse.emf.ecp.ui.rcp" version="1.26.2.20220523-0845"/>
@@ -203,20 +140,62 @@ DynamicImport-Package: *
       <unit id="org.eclipse.emfforms.view.controlgrid.model.source" version="1.26.2.20220523-0845"/>
       <repository location="https://download.eclipse.org/ecp/releases/releases_126/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.model.model1902.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.model.model1902.feature.source.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/set/snapshots/model/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.toolboxmodel.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.toolboxmodel.feature.source.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/set/snapshots/toolboxmodel/"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.browser.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.browser.feature.source.feature.group" version="0.0.0"/>
       <repository location="https://download.eclipse.org/set/snapshots/browser/"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.eclipse.org/set/snapshots/browser-cef"/>
+      <unit id="org.eclipse.set.browser.cef.feature.feature.group" version="0.0.0"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+      <repository location="https://download.eclipse.org/emfcloud/emfjson-jackson/p2/releases/2.2.0/"/>
+      <unit id="com.fasterxml.jackson.core.jackson-annotations" version="0.0.0"/>
+      <unit id="com.fasterxml.jackson.core.jackson-core" version="0.0.0"/>
+      <unit id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
+      <unit id="org.eclipse.emfcloud.emfjson-jackson" version="0.0.0"/>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache FOP" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.xmlgraphics</groupId>
+          <artifactId>fop</artifactId>
+          <version>2.6</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
+      <instructions><![CDATA[
+Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
+version:               ${version_cleanup;${mvnVersion}}
+Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
+Bundle-Version:        2.6
+Import-Package:        *;resolution:=optional
+Export-Package:        *;version="${version}";-noimport:=true
+Require-Bundle:        org.apache.batik.util
+Eclipse-BuddyPolicy:   registered, ext
+DynamicImport-Package: *
+]]>      </instructions>
+    </location>
+    <location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JTS" missingManifest="generate" type="Maven">
+      <dependencies>
+        <dependency>
+          <groupId>org.locationtech.jts</groupId>
+          <artifactId>jts-core</artifactId>
+          <version>1.19.0</version>
+          <type>jar</type>
+        </dependency>
+      </dependencies>
     </location>
   </locations>
 </target>

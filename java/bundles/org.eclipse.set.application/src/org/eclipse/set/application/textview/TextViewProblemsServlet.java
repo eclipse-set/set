@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.emfcloud.jackson.module.EMFModule;
+import org.eclipse.emfcloud.jackson.module.EMFModule.Feature;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.Services;
-import org.emfjson.jackson.module.EMFModule;
-import org.emfjson.jackson.module.EMFModule.Feature;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
