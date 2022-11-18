@@ -53,14 +53,14 @@ public class WebBrowser {
 		browser = createBrowser(parent);
 	}
 
-	private static Browser createBrowser(final Composite parent) {
-		final Browser browser = new Browser(parent, SWT.NONE);
+	private Browser createBrowser(final Composite parent) {
+		final Browser browserInstance = new Browser(parent, SWT.NONE);
 
 		// Enable Javascript
-		browser.setJavascriptEnabled(true);
+		browserInstance.setJavascriptEnabled(true);
 
 		// Listen to location changes
-		browser.addLocationListener(new LocationListener() {
+		browserInstance.addLocationListener(new LocationListener() {
 			@Override
 			public void changing(final LocationEvent event) {
 				onLocationChange(event);
@@ -74,12 +74,12 @@ public class WebBrowser {
 
 		// Also apply the configuration to any sub browser created in a new
 		// window
-		browser.addOpenWindowListener((final WindowEvent event) -> {
+		browserInstance.addOpenWindowListener((final WindowEvent event) -> {
 			if (event.browser == null) {
 				event.browser = createBrowser(parent);
 			}
 		});
-		return browser;
+		return browserInstance;
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class WebBrowser {
 	 * @param event
 	 *            the location event
 	 */
-	private static void onLocationChange(final LocationEvent event) {
+	private void onLocationChange(final LocationEvent event) {
 		event.doit = isURLAllowed(event.location);
 
 		if (!event.doit) {
@@ -105,6 +105,13 @@ public class WebBrowser {
 		}
 	}
 
+	@SuppressWarnings({ "nls", "static-method" })
+	protected List<String> getAllowedPrefixes() {
+		// URLs must start with one of the allowed prefixes in order to be
+		// opened
+		return List.of("file://", "http://localhost:", "http://localhost/");
+	}
+
 	/**
 	 * Checks whether the browser should be allowed to open a given URL
 	 * 
@@ -112,12 +119,8 @@ public class WebBrowser {
 	 *            the url to check
 	 * @return whether opening the URL is allowed
 	 */
-	private static boolean isURLAllowed(final String url) {
-		// URLs must start with one of the allowed prefixes in order to be
-		// opened
-		@SuppressWarnings("nls")
-		final List<String> allowedPrefixes = List.of("file://",
-				"http://localhost:", "http://localhost/");
+	private boolean isURLAllowed(final String url) {
+		final List<String> allowedPrefixes = getAllowedPrefixes();
 
 		return allowedPrefixes.stream().anyMatch(url::startsWith);
 	}

@@ -9,9 +9,11 @@
 
 package org.eclipse.set.application.nosessionpart;
 
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
+import org.eclipse.set.utils.PartInitializationException;
 import org.eclipse.set.utils.WebNoSessionBasePart;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * News Web Part
@@ -23,8 +25,19 @@ public class WebNewsPart extends WebNoSessionBasePart {
 	private static final String NEWS_DIRECTORY = "./web/news"; //$NON-NLS-1$
 	private static final String NEWS_FILENAME = "index.html"; //$NON-NLS-1$
 
+	private void setupRouteHandler() {
+		try {
+			browser.serveRootDirectory(Path.of(NEWS_DIRECTORY));
+		} catch (final Exception e) {
+			throw new PartInitializationException(
+					"Failed to setup about route handler"); //$NON-NLS-1$
+		}
+	}
+
 	@Override
-	protected String getURL() {
-		return Paths.get(NEWS_DIRECTORY, NEWS_FILENAME).toUri().toString();
+	protected void createView(final Composite parent) {
+		super.createView(parent);
+		setupRouteHandler();
+		browser.setToolboxUrl(NEWS_FILENAME);
 	}
 }

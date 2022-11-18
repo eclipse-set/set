@@ -325,7 +325,8 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 	private void preDestroy() {
 		ToolboxEvents.unsubscribe(getBroker(),
 				validationProblemSelectedHandler);
-		if (resizeListenerObject != null) {
+		if (resizeListenerObject != null
+				&& !resizeListenerObject.isDisposed()) {
 			resizeListenerObject.removeListener(SWT.RESIZE, resizeListener);
 		}
 		this.dispose();

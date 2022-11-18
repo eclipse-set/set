@@ -46,7 +46,7 @@ public class SourceWebTextViewDescriptionService
 				// ID
 				this.getClass().getName(),
 				// contributionURI
-				"bundleclass://org.eclipse.set.application/org.eclipse.set.application.textview.SourceWebTextViewPart", //$NON-NLS-1$
+				"bundleclass://org.eclipse.set.application/org.eclipse.set.application.parts.SourceWebTextViewPart", //$NON-NLS-1$
 				// toolboxViewName
 				getViewName(context),
 				// toolboxViewToolTip

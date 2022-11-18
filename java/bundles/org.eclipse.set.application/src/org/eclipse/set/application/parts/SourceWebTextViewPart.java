@@ -6,23 +6,31 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.application.textview;
+package org.eclipse.set.application.parts;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.browser.RequestHandler.Request;
+import org.eclipse.set.browser.RequestHandler.Response;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.FileWebBrowser;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.WebBrowser;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.EventRegistration;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
@@ -30,6 +38,9 @@ import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.service.event.EventHandler;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Displays PlanPro model as source text via the monaco editor.
@@ -50,11 +61,13 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	@Translation
 	org.eclipse.set.utils.Messages utilMessages;
 
-	private WebBrowser browser;
+	private FileWebBrowser browser;
 	private EventRegistration eventRegistration;
 
-	private final TextViewServer server = new TextViewServer();
 	private final EventHandler problemsChangeEventHandler = event -> onProblemsChange();
+	private static final String TEXT_VIEWER_PATH = "./web/textview"; //$NON-NLS-1$
+	private static final String PROBLEMS_JSON = "problems.json"; //$NON-NLS-1$
+	private static final String MODEL_PPXML = "model.ppxml"; //$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -71,12 +84,14 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	@Override
 	protected void createView(final Composite parent) {
 		parent.setLayout(new FillLayout());
-		browser = new WebBrowser(parent);
+		browser = new FileWebBrowser(parent);
 		try {
-			server.configure();
-			server.serveModel(session.getToolboxFile().getModelPath());
-			server.start();
-			browser.setUrl(server.getRootUrl() + "index.html"); //$NON-NLS-1$
+			browser.serveRootDirectory(Path.of(TEXT_VIEWER_PATH));
+			browser.serveFile(MODEL_PPXML, "text/plain", //$NON-NLS-1$
+					session.getToolboxFile().getModelPath());
+			browser.serveUri(PROBLEMS_JSON,
+					SourceWebTextViewPart::serveProblems);
+			browser.setToolboxUrl("index.html"); //$NON-NLS-1$
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -91,6 +106,25 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 
 		getBroker().subscribe(Events.PROBLEMS_CHANGED,
 				problemsChangeEventHandler);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static void serveProblems(
+			@SuppressWarnings("unused") final Request request,
+			final Response response) throws JsonProcessingException {
+		// Get the list of validation problems
+		final Iterable<Object> problems = Services.getCacheService()
+				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE).values();
+		final List<ProblemMessage> problemMessages = new ArrayList<>();
+		problems.forEach(problemContainer -> problemMessages
+				.addAll((List<ProblemMessage>) problemContainer));
+
+		response.setMimeType("application/json;charset=UTF-8"); //$NON-NLS-1$
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setResponseData(
+				new ObjectMapper().writerWithDefaultPrettyPrinter()
+						.writeValueAsString(problemMessages));
+
 	}
 
 	@SuppressWarnings("boxing")
@@ -116,11 +150,6 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	private void preDestroy() {
 		eventRegistration.unsubscribeAll();
 		getBroker().unsubscribe(problemsChangeEventHandler);
-		try {
-			server.stop();
-		} catch (final Exception e) {
-			// Ignore exception
-		}
 	}
 
 	@Override

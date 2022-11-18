@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public abstract class WebNoSessionBasePart {
-	protected WebBrowser browser;
+	protected FileWebBrowser browser;
 	static final Logger LOGGER = LoggerFactory
 			.getLogger(WebNoSessionBasePart.class);
 
@@ -49,7 +49,7 @@ public abstract class WebNoSessionBasePart {
 		} catch (final Exception e) {
 			parent.setLayout(new FillLayout());
 			final Text text = new Text(parent, SWT.READ_ONLY | SWT.WRAP);
-			text.setText(e.getMessage());
+			text.setText(e.toString());
 		}
 	}
 
@@ -59,11 +59,10 @@ public abstract class WebNoSessionBasePart {
 	}
 
 	protected void createView(final Composite parent) {
-		browser = new WebBrowser(parent);
+		browser = new FileWebBrowser(parent);
 		try {
 			browser.setLayoutData(
 					new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-			browser.setUrl(getURL());
 		} catch (final Exception e) {
 			parent.setLayout(new FillLayout());
 			final Text text = new Text(parent, SWT.READ_ONLY | SWT.WRAP);
@@ -71,5 +70,4 @@ public abstract class WebNoSessionBasePart {
 		}
 	}
 
-	protected abstract String getURL();
 }

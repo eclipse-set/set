@@ -9,7 +9,7 @@
 
 package org.eclipse.set.application.about;
 
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
 /**
@@ -37,7 +38,7 @@ import com.google.common.collect.Lists;
  */
 public class AboutPart extends WebNoSessionBasePart {
 
-	private static final String ABOUT_DIRECTORY = "./web/about"; //$NON-NLS-1$
+	private static final String ABOUT_DIRECTORY = "web/about"; //$NON-NLS-1$
 	private static final String ABOUT_FILENAME = "index.html"; //$NON-NLS-1$
 
 	@Inject
@@ -50,31 +51,28 @@ public class AboutPart extends WebNoSessionBasePart {
 
 	static final Logger LOGGER = LoggerFactory.getLogger(AboutPart.class);
 
-	AboutServer server;
-
-	@Override
-	protected String getURL() {
-		return server.getRootUrl() + ABOUT_FILENAME;
-	}
-
-	private void startServer() {
+	private void setupRouteHandler() {
 		try {
-			server = new AboutServer();
-			server.configure(Paths.get(ABOUT_DIRECTORY),
-					getVersionInformation());
-			server.start();
+			browser.serveUri("version.json", (request, response) -> { //$NON-NLS-1$
+				response.setMimeType("application/json"); //$NON-NLS-1$
+				response.setStatus(200);
+				response.setResponseData(
+						new ObjectMapper().writerWithDefaultPrettyPrinter()
+								.writeValueAsString(getVersionInformation()));
+			});
+
+			browser.serveRootDirectory(Path.of(ABOUT_DIRECTORY));
 		} catch (final Exception e) {
 			throw new PartInitializationException(
-					"Faild to start About Web Server"); //$NON-NLS-1$
+					"Failed to setup about route handler"); //$NON-NLS-1$
 		}
-		LOGGER.info("Web server started at: " + server.getRootUrl()); //$NON-NLS-1$
 	}
 
 	@Override
 	protected void createView(final Composite parent) {
-		startServer();
 		super.createView(parent);
-
+		setupRouteHandler();
+		browser.setToolboxUrl(ABOUT_FILENAME);
 	}
 
 	private VersionInfo[] getVersionInformation() {

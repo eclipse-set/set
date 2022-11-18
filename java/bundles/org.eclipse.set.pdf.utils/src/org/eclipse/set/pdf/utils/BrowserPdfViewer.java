@@ -11,16 +11,12 @@ package org.eclipse.set.pdf.utils;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import org.eclipse.jetty.util.URIUtil;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.browser.DownloadListener;
 import org.eclipse.set.core.services.pdf.PdfViewer;
-import org.eclipse.set.pdf.utils.server.PdfViewerServer;
-import org.eclipse.set.utils.WebBrowser;
+import org.eclipse.set.utils.FileWebBrowser;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides simplified API for displaying PDF files in an embedded browser.
@@ -28,15 +24,13 @@ import org.slf4j.LoggerFactory;
  * @author Stuecker
  */
 public class BrowserPdfViewer implements PdfViewer, DownloadListener {
+	private static final String PDF_VIEWER_PATH = "./web/pdf"; //$NON-NLS-1$
+	private static final String PDF_FILE_PATH_PREFIX = "pdffile/"; //$NON-NLS-1$
 	private static final String HTML_PDF_VIEWER_PATH = "viewer.html"; //$NON-NLS-1$
 
-	private WebBrowser browser;
-	private PdfViewerServer server;
+	private FileWebBrowser browser;
 	private SaveListener saveListener;
 	private final Composite parent;
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(BrowserPdfViewer.class);
 
 	/**
 	 * @param parent
@@ -44,7 +38,6 @@ public class BrowserPdfViewer implements PdfViewer, DownloadListener {
 	 */
 	public BrowserPdfViewer(final Composite parent) {
 		this.parent = parent;
-		parent.addDisposeListener(e -> stopServer());
 	}
 
 	/**
@@ -65,40 +58,27 @@ public class BrowserPdfViewer implements PdfViewer, DownloadListener {
 	@Override
 	public void show(final Path path) {
 		try {
-			if (this.server == null) {
-				server = new PdfViewerServer();
-				server.configure();
-			}
-
 			if (this.browser == null) {
-				browser = new WebBrowser(parent);
+				browser = new FileWebBrowser(parent);
 				browser.getBrowser().setDownloadListener(this);
+				browser.serveRootDirectory(Path.of(PDF_VIEWER_PATH));
+
 				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
 						.grab(true, true).span(2, 1)
 						.applyTo(browser.getControl());
 			}
 
-			final String serverPath = server.serveFile(path);
-			if (!server.isRunning()) {
-				server.start();
-			}
-			final String viewerUrl = server.getRootUrl() + HTML_PDF_VIEWER_PATH
-					+ "?file=" //$NON-NLS-1$
-					+ URIUtil.encodePath(serverPath);
+			final String serverPath = PDF_FILE_PATH_PREFIX
+					+ path.getFileName().toString();
+			browser.serveFile(serverPath, "application/pdf", path); //$NON-NLS-1$
+
+			final String viewerUrl = "https://toolbox/" + HTML_PDF_VIEWER_PATH //$NON-NLS-1$
+					+ "?file=/" //$NON-NLS-1$
+					+ serverPath;
 			browser.setUrl(viewerUrl);
 		} catch (final Exception e) {
 			throw new RuntimeException("Fehler beim Anzeigen der PDF-Datei.", //$NON-NLS-1$
 					e);
-		}
-	}
-
-	private void stopServer() {
-		if (server != null && server.isRunning()) {
-			try {
-				server.stop();
-			} catch (final Exception e) {
-				logger.error("Server termination failed.", e); //$NON-NLS-1$
-			}
 		}
 	}
 
