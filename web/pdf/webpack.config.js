@@ -10,36 +10,48 @@ const { Octokit } = require("@octokit/rest");
 // The pdfjs-prod package does not contain the viewer component, but the main release on Github does.
 // As a result we need to fetch the release. For easier versioning, we use the version defined in package.json
 class DownloadPDFJSPlugin {
+  async downloadFromGithub(version) {
+    const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+    const release = await octokit.rest.repos.getReleaseByTag({
+      owner: "mozilla",
+      repo: "pdf.js",
+      tag: `v${version}`
+    })
+
+    return await octokit.rest.repos.getReleaseAsset({
+      owner: "mozilla",
+      repo: "pdf.js",
+      asset_id: release.data.assets[0].id,
+      headers: {
+        Accept: "application/octet-stream"
+      },
+    })
+  }
+
+  async downloadFromGithubWithRetry(version, retries) {
+    try {
+      return await this.downloadFromGithub(version)
+    }
+    catch (e) {
+      if (retries > 0) {
+        return await this.downloadFromGithubWithRetry(version, retries - 1)
+      }
+      else {
+        throw e
+      }
+    }
+  }
+
   async downloadPdfJS(version) {
     if (existsSync(`pdfjs/pdfjs-${version}-dist.zip`))
       return
 
-    try {
-      const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-      const release = await octokit.rest.repos.getReleaseByTag({
-        owner: "mozilla",
-        repo: "pdf.js",
-        tag: `v${version}`
-      })
-
-      const data = await octokit.rest.repos.getReleaseAsset({
-        owner: "mozilla",
-        repo: "pdf.js",
-        asset_id: release.data.assets[0].id,
-        headers: {
-          Accept: "application/octet-stream"
-        },
-      })
-
-      await fs.mkdir('pdfjs', { recursive: true })
-      await fs.writeFile(`./pdfjs/pdfjs-${version}-dist.zip`, Buffer.from(data.data))
-      const zip = new StreamZip.async({ file: `./pdfjs/pdfjs-${version}-dist.zip` });
-      await zip.extract(null, './pdfjs')
-      await zip.close()
-    }
-    catch (e) {
-      console.log(e)
-    }
+    const data = await this.downloadFromGithubWithRetry(version, 5)
+    await fs.mkdir('pdfjs', { recursive: true })
+    await fs.writeFile(`./pdfjs/pdfjs-${version}-dist.zip`, Buffer.from(data.data))
+    const zip = new StreamZip.async({ file: `./pdfjs/pdfjs-${version}-dist.zip` });
+    await zip.extract(null, './pdfjs')
+    await zip.close()
   }
 
   apply(compiler) {
