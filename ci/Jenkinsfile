@@ -10,7 +10,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '10'))
   }
 
-  stages {
+  stages { 
     stage('Build NodeJS') {    
       environment {
         GITHUB_TOKEN = credentials('github-bot-token')
@@ -44,6 +44,14 @@ pipeline {
       }
     }
 
+    stage('Remove Old Snapshot') {
+      when {
+        branch 'main'
+      }
+      steps {
+        removeOldSnapshot repo: 'set'
+      }
+    }
 
     stage('Deploy Snapshot')
     {
@@ -51,11 +59,12 @@ pipeline {
         anyOf {
           buildingTag()
           branch 'main'
+          branch pattern: "feature/\\w+", comparator: "REGEXP"
         }
       }
       steps {
-        deployP2Site name: 'set', path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
-        deployProduct name: 'set', path: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
+        deployP2Site name: "set/${BRANCH_NAME}", path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
+        deployProduct name: "set", path: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
       }
     }
   }
