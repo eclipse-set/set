@@ -47,6 +47,20 @@ public class FileWebBrowser extends WebBrowser implements RequestHandler {
 		void accept(Request request, Response response) throws Exception;
 	}
 
+	/**
+	 * Functional helper for a response-only consumer
+	 */
+	@FunctionalInterface
+	public interface SimpleRequestCallback {
+		/**
+		 * @param response
+		 *            response
+		 * @throws Exception
+		 *             on failure
+		 */
+		void accept(Response response) throws Exception;
+	}
+
 	private static final String HOSTNAME = "toolbox"; //$NON-NLS-1$
 	private static final String BASE_URI = "https://" + HOSTNAME + "/"; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -108,7 +122,7 @@ public class FileWebBrowser extends WebBrowser implements RequestHandler {
 	 */
 	public void serveFile(final String uri, final String mime,
 			final Path file) {
-		serveUri(uri, (request, response) -> {
+		serveUri(uri, response -> {
 			response.setMimeType(mime);
 			response.setStatus(200);
 			// Response takes ownership of the resource
@@ -126,6 +140,17 @@ public class FileWebBrowser extends WebBrowser implements RequestHandler {
 	 */
 	public void serveUri(final String uri, final RequestCallback callback) {
 		prefixUrlHandler.put(uri, callback);
+	}
+
+	/**
+	 * @param uri
+	 *            uri to serve
+	 * @param callback
+	 *            callback to serve with
+	 */
+	public void serveUri(final String uri,
+			final SimpleRequestCallback callback) {
+		prefixUrlHandler.put(uri, (req, resp) -> callback.accept(resp));
 	}
 
 	/**
