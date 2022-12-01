@@ -187,9 +187,8 @@ class PlanProToTitleboxTransformation {
 
 	private def String getBauzustandPlanungAllgemein(
 		Planung_E_Allg_AttributeGroup planung) {
-		return String.format("%s%n%s", // $NON-NLS-1$
-		planung?.getBauzustandKurzbezeichnung()?.getWert() ?: "",
-			planung?.getPlanungEArt()?.getWert()?.toString() ?: "");
+		return String.format("%s", // $NON-NLS-1$
+		planung?.getBauzustandKurzbezeichnung()?.getWert() ?: "");
 	}
 
 	private def String getBauzustandPlanungEinzel(Planung_Einzel planung) {
