@@ -25,6 +25,7 @@ import org.xml.sax.SAXParseException
 
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
+import java.util.List
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -74,25 +75,15 @@ class SessionToValidationReportTransformation {
 		report.toolboxVersion = ToolboxConfiguration.toolboxVersion.longVersion
 
 		report.problems.clear
+		
 		// transform the IO problems
-		session.validationResult.ioErrors.forEach [
-			report.problems.add(transform(createId, messages.IoProblemMsg,
-				ValidationSeverity.ERROR))
-		]
-
+		session.validationResult.xsdErrors.addProblems(messages.XsdProblemMsg, ValidationSeverity.ERROR)
+		
 		// transform the XSD problems
-		session.validationResult.xsdErrors.forEach [
-			report.problems.add(
-				transform(createId, messages.XsdProblemMsg,
-					ValidationSeverity.ERROR))
-		]
-		session.validationResult.xsdWarnings.forEach [
-			report.problems.add(
-				transform(createId, messages.XsdWarningMsg,
-					ValidationSeverity.WARNING)
-			)
-
-		]
+		session.validationResult.xsdWarnings.addProblems(messages.XsdWarningMsg, ValidationSeverity.WARNING)
+		session.validationResult.ioErrors.addProblems(messages.IoProblemMsg, ValidationSeverity.ERROR)
+		
+		
 		// transform custom problems
 		session.validationResult.customProblems.forEach [
 			report.problems.add(
@@ -112,6 +103,20 @@ class SessionToValidationReportTransformation {
 		return report
 	}
 	
+	private def <T extends Exception> void addProblems(List<T> errors, String type, ValidationSeverity severtiy) {
+		if (errors.length === 0) {
+			report.problems.add(
+				type.transformSuccess(createId)
+			)
+		} else {
+			errors.forEach[
+				report.problems.add(
+					transform(createId, type, severtiy)
+				)
+			]
+		}
+	}
+	
 	private def ValidationReport create ValidationreportFactory.eINSTANCE.createValidationReport
 	transformCreate(IModelSession session) {
 	}
@@ -129,7 +134,6 @@ class SessionToValidationReportTransformation {
 			}
 		}
 	}
-	
 	
 	private def ValidationProblem transform(
 		Exception exception,
@@ -158,7 +162,6 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		it.type = type
 		it.severity = severity
-		severityText = severity.transformToText
 		lineNumber = exception.line
 		message = exception.transformToMessage
 		val xmlNode = xmlNodeFinder.findNodeByLineNumber(lineNumber)
@@ -181,7 +184,6 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		it.type = type
 		it.severity = severity
-		severityText = severity.transformToText
 		lineNumber = exception.lineNumber
 		message = exception.transformToMessage
 		val xmlNode = xmlNodeFinder.findNodeByLineNumber(lineNumber)
@@ -203,7 +205,6 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		it.type = type
 		it.severity = severity
-		severityText = severity.transformToText
 		lineNumber = 0
 		message = exception.transformToMessage
 		objectArt = ""
@@ -221,7 +222,6 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		type = problem.type
 		severity = problem.severity
-		severityText = severity.transformToText
 		lineNumber = problem.lineNumber
 		message = problem.message
 		objectArt = problem.objectArt
@@ -229,6 +229,17 @@ class SessionToValidationReportTransformation {
 		objectState = problem.objectState
 		attributeName = problem.attributeName
 		return
+	}
+	
+	private def ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
+	 transformSuccess(
+		String errorType,
+		int id
+	) {
+		it.id = id
+		type = errorType
+		severity = ValidationSeverity.SUCCESS
+		message = '''«errorType» validation'''
 	}
 	
 	private def int createId() {
@@ -253,20 +264,6 @@ class SessionToValidationReportTransformation {
 		val result = newLinkedList
 		subtypes.forEach[type, count|result.add('''«type» («count»)''')]
 		return result
-	}
-	
-	private def String transformToText(ValidationSeverity severity) {
-		switch (severity) {
-			case ERROR: {
-				return messages.ErrorMsg
-			}
-			case WARNING: {
-				return messages.WarningMsg
-			}
-			default: {
-				throw new IllegalArgumentException(severity.toString)
-			}
-		}
 	}
 
 	private def dispatch String transformToMessage(Exception exception) {

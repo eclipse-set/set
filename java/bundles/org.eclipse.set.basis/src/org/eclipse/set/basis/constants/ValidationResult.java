@@ -10,11 +10,13 @@ package org.eclipse.set.basis.constants;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.set.basis.exceptions.CustomValidationProblem;
+import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.xml.sax.SAXParseException;
 
 import com.google.common.collect.Lists;
@@ -104,7 +106,9 @@ public class ValidationResult {
 		if (!validationSupported) {
 			return Outcome.NOT_SUPPORTED;
 		}
-		if (customProblems.isEmpty()) {
+		final Stream<CustomValidationProblem> errors = customProblems.stream()
+				.filter(x -> x.getSeverity() != ValidationSeverity.SUCCESS);
+		if (errors.toList().isEmpty()) {
 			return Outcome.VALID;
 		}
 		return Outcome.INVALID;

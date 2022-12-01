@@ -14,6 +14,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.ecp.ui.view.ECPRendererException;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
@@ -43,6 +44,9 @@ public class ValidationTablePart extends AbstractEmfFormsPart<IModelSession> {
 	@Inject
 	private IEventBroker broker;
 
+	@Inject
+	EnumTranslationService enumTranslationService;
+
 	/**
 	 * Create the part.
 	 */
@@ -60,7 +64,8 @@ public class ValidationTablePart extends AbstractEmfFormsPart<IModelSession> {
 		final ValidationReport validationReport = transformation
 				.transform(getModelSession());
 		final ValidationTableView tableView = new ValidationTableView(
-				toolboxPartService, this, messages, broker);
+				toolboxPartService, this, messages, broker,
+				enumTranslationService);
 		tableView.create(parent, validationReport);
 	}
 }

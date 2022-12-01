@@ -38,6 +38,7 @@ import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.dialog.DialogService;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
@@ -99,6 +100,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	@Inject
 	private PlanProVersionService versionService;
+
+	@Inject
+	EnumTranslationService enumTranslationService;
 
 	@Inject
 	@Translation
@@ -167,7 +171,7 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 			// Register nattable injector
 			tableView = new ValidationTableView(toolboxPartService, this,
-					messages, broker);
+					messages, broker, enumTranslationService);
 			final Function<Composite, Control> func = innerParent -> {
 
 				final Composite composite = new Composite(innerParent,

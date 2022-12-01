@@ -42,7 +42,15 @@ public enum ValidationSeverity implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	WARNING(1, "WARNING", "WARNING");
+	WARNING(1, "WARNING", "WARNING"), /**
+	 * The '<em><b>SUCCESS</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #SUCCESS_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	SUCCESS(2, "SUCCESS", "SUCCESS");
 
 	/**
 	 * The '<em><b>ERROR</b></em>' literal value.
@@ -75,6 +83,17 @@ public enum ValidationSeverity implements Enumerator {
 	public static final int WARNING_VALUE = 1;
 
 	/**
+	 * The '<em><b>SUCCESS</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #SUCCESS
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SUCCESS_VALUE = 2;
+
+	/**
 	 * An array of all the '<em><b>Validation Severity</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -84,6 +103,7 @@ public enum ValidationSeverity implements Enumerator {
 		new ValidationSeverity[] {
 			ERROR,
 			WARNING,
+			SUCCESS,
 		};
 
 	/**
@@ -142,6 +162,7 @@ public enum ValidationSeverity implements Enumerator {
 		switch (value) {
 			case ERROR_VALUE: return ERROR;
 			case WARNING_VALUE: return WARNING;
+			case SUCCESS_VALUE: return SUCCESS;
 		}
 		return null;
 	}

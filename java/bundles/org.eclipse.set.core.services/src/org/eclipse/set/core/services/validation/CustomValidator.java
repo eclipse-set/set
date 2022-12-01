@@ -38,4 +38,10 @@ public interface CustomValidator {
 	 *            a prototype for creating custom validation problems
 	 */
 	void validate(ToolboxFile toolboxFile, ValidationResult result);
+
+	/**
+	 * @return type of validation
+	 */
+	String validationType();
+
 }

@@ -12,20 +12,25 @@ import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.emf.common.util.Enumerator
 
 class ValidationReportTableTransformator extends AbstractTableModelTransformator<ValidationReport> {	
 	ValidationTableColumns columns;
+	
+	EnumTranslationService enumTranslationService
 
-	new(ValidationTableColumns columns) {
+	new(ValidationTableColumns columns, EnumTranslationService enumTranslationService) {
 		super()
 		this.columns = columns;
+		this.enumTranslationService = enumTranslationService;
 	}
 	
 	override transformTableContent(ValidationReport report, TMFactory factory) {
 		for (problem : report.problems) {
 			val instance = factory.newTableRow(null, problem.id)
 			fill(instance, columns.RowIndex, problem, [problem.id.toString])
-			fill(instance, columns.Severity, problem, [severityText])
+			fill(instance, columns.Severity, problem, [severity.translate])
 			fill(instance, columns.ProblemType, problem, [type])
 			fillNumeric(instance, columns.LineNumber, problem, [lineNumber])
 			fill(instance, columns.ObjectType, problem, [objectArt])
@@ -36,6 +41,20 @@ class ValidationReportTableTransformator extends AbstractTableModelTransformator
 		}
 		
 		return factory.table
+	}
+	
+		/**
+	 * Translates the enum via the enum translation service.
+	 * 
+	 * @param enumerator the enumerator
+	 * 
+	 * @return the translation or <code>null</code>, if the enumerator is <code>null</code>
+	 */
+	def String translate(Enumerator enumerator) {
+		if (enumerator === null) {
+			return null
+		}
+		return enumTranslationService.translate(enumerator).alternative
 	}
 	
 	override formatTableContent(Table table) {

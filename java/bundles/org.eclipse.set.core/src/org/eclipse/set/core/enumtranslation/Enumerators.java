@@ -20157,4 +20157,9 @@ public class Enumerators {
 	 */
 	public String WARNING_Alternative;
 
+	/**
+	 * Erfolg
+	 */
+	public String SUCCESS_Alternative;
+
 }

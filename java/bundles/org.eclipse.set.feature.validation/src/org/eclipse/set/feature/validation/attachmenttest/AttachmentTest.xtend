@@ -9,15 +9,15 @@
 package org.eclipse.set.feature.validation.attachmenttest
 
 import com.google.common.collect.Sets
+import java.util.Collection
+import java.util.HashSet
 import java.util.Set
-import javax.inject.Inject
-import org.eclipse.e4.core.services.nls.Translation
 import org.eclipse.set.basis.constants.ValidationResult
 import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.basis.files.ToolboxFile
-import org.eclipse.set.core.services.validation.CustomValidator
+import org.eclipse.set.feature.validation.AbstractCustomValidator
 import org.eclipse.set.feature.validation.CustomValidationProblemImpl
-import org.eclipse.set.feature.validation.Messages
+import org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.osgi.service.component.annotations.Component
 import org.w3c.dom.Element
@@ -25,27 +25,19 @@ import org.w3c.dom.Node
 
 import static extension org.eclipse.set.basis.extensions.NodeExtensions.*
 import static extension org.eclipse.set.basis.extensions.NodeListExtensions.*
-import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
-import org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader
+import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
+import org.eclipse.set.core.services.validation.CustomValidator
 
 /** 
  * Test for consistent use of attachment integration.
  * 
  * @author Schaefer
  */
-@Component(immediate=true)
-class AttachmentTest implements CustomValidator {
-
-	static class MessagesProvider {
-
-		@Inject
-		@Translation
-		Messages messages
-	}
+@Component(immediate=true, service=CustomValidator)
+class AttachmentTest extends AbstractCustomValidator {
 
 	var ValidationResult result
-	var MessagesProvider messagesProvider
 	var Boolean globalHasData
 
 	static val Set<String> ATTACHMENT_TAGS = #{
@@ -80,6 +72,7 @@ class AttachmentTest implements CustomValidator {
 		try {
 			val document = ObjectMetadataXMLReader.read(toolboxFile)
 			val Set<Node> noDataAttachments = document.validate
+			
 			noDataAttachments.validate(toolboxFile)
 		} catch (Exception e) {
 			result.addCustomProblem(e.transform)
@@ -88,20 +81,23 @@ class AttachmentTest implements CustomValidator {
 
 	private def Set<Node> validate(Node node) {
 		val result = Sets.newHashSet
-		result.validate(node)
+		val problems = <CustomValidationProblem> newHashSet
+		result.validate(node, problems)
+		problems.addCustomProblems(messages
+			.AttachmentTest_Inconsistency_Validation_Description
+		)
 		return result
 	}
 
-	private def void validate(Set<Node> result, Node node) {
+	private def void validate(Set<Node> result, Node node, HashSet<CustomValidationProblem> problems) {
 		if (node.isAttachment) {
 			val hasData = node.hasData
 			if (globalHasData === null) {
 				globalHasData = hasData
 			} else {
 				if (globalHasData != hasData) {
-					this.result.addCustomProblem(
-						node.transform(
-							messagesProvider.messages.
+					problems.add(
+						node.transform(messages.
 								AttachmentTest_InconsistencyMessage
 						)
 					)
@@ -111,7 +107,7 @@ class AttachmentTest implements CustomValidator {
 				result.add(node)
 			}
 		}
-		node.childNodes.iterable.forEach[result.validate(it)]
+		node.childNodes.iterable.forEach[result.validate(it, problems)]
 	}
 
 	private static def boolean isAttachment(Node node) {
@@ -129,13 +125,21 @@ class AttachmentTest implements CustomValidator {
 		return node?.getFirstChildWithTagName(IDENTITY_TAG)?.
 			getFirstChildWithTagName(VALUE_TAG)?.textContent
 	}
+	
+	private def addCustomProblems(Collection<CustomValidationProblem> problems, String msg) {
+		if (problems.length === 0) {
+			this.result.addCustomProblem(msg.successValidationReport)
+		} else {
+			problems.forEach[this.result.addCustomProblem(it)]
+		}
+	}
 
 	private def CustomValidationProblem create new CustomValidationProblemImpl
 	transform(Exception exception) {
 		lineNumber = 0
 		message = exception.message
 		severity = ValidationSeverity.ERROR
-		type = messagesProvider.messages.AttachmentTestProblem_Type
+		type = validationType
 
 		return
 	}
@@ -145,7 +149,7 @@ class AttachmentTest implements CustomValidator {
 		lineNumber = node.lineNumber
 		it.message = message
 		severity = ValidationSeverity.ERROR
-		type = messagesProvider.messages.AttachmentTestProblem_Type
+		type = validationType
 		objectArt = node.objectType
 		objectScope = node.objectScope
 		objectState = node.objectState
@@ -157,7 +161,12 @@ class AttachmentTest implements CustomValidator {
 		Set<Node> noDataAttachments,
 		ToolboxFile toolboxFile
 	) {
-		noDataAttachments.forEach[it.validate(toolboxFile)]
+		noDataAttachments.map[it.validate(toolboxFile)]
+			.filterNull
+			.toList
+			.addCustomProblems(messages
+				.AttachmentTest_MissingMedia_Validation_Description
+			)
 	}
 
 	private def validate(
@@ -165,19 +174,15 @@ class AttachmentTest implements CustomValidator {
 		ToolboxFile toolboxFile
 	) {
 		if (!toolboxFile.hasMedia(node.guid)) {
-			this.result.addCustomProblem(
-				node.transform(
-					messagesProvider.messages.AttachmentTest_MissingMediaMessage
-				)
+			return node.transform(
+				messages.AttachmentTest_MissingMediaMessage
 			)
 		}
+		return null
 	}
-
-	override getMessageProviderClass() {
-		return typeof(MessagesProvider)
+	
+	override validationType() {
+		return messages.AttachmentTestProblem_Type
 	}
-
-	override setMessagesProvider(Object messagesProvider) {
-		this.messagesProvider = messagesProvider as MessagesProvider
-	}
+	
 }

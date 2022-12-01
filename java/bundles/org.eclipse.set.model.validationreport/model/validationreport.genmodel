@@ -12,6 +12,7 @@
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ValidationSeverity">
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ValidationSeverity/ERROR"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ValidationSeverity/WARNING"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ValidationSeverity/SUCCESS"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ObjectScope">
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Betrachtung"/>

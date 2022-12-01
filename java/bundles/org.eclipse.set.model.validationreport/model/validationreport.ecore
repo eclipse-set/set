@@ -35,6 +35,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="ValidationSeverity">
     <eLiterals name="ERROR"/>
     <eLiterals name="WARNING" value="1"/>
+    <eLiterals name="SUCCESS" value="2" literal="SUCCESS"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VersionInfo">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="planPro" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

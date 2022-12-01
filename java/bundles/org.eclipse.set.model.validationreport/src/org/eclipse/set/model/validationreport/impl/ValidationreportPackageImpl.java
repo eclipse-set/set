@@ -533,6 +533,7 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		initEEnum(validationSeverityEEnum, ValidationSeverity.class, "ValidationSeverity");
 		addEEnumLiteral(validationSeverityEEnum, ValidationSeverity.ERROR);
 		addEEnumLiteral(validationSeverityEEnum, ValidationSeverity.WARNING);
+		addEEnumLiteral(validationSeverityEEnum, ValidationSeverity.SUCCESS);
 
 		initEEnum(objectScopeEEnum, ObjectScope.class, "ObjectScope");
 		addEEnumLiteral(objectScopeEEnum, ObjectScope.BETRACHTUNG);

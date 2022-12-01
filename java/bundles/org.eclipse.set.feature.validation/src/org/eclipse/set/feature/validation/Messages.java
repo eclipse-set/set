@@ -21,12 +21,23 @@ public class Messages {
 	public String AttachmentTest_InconsistencyMessage;
 
 	/**
+	 * Validiert, dass die Anhängen in der .planpro Dateistruktur einheitliche
+	 * Benuztung sind
+	 */
+	public String AttachmentTest_Inconsistency_Validation_Description;
+
+	/**
 	 * Mediendatei für Anhang fehlt.
 	 */
 	public String AttachmentTest_MissingMediaMessage;
 
 	/**
-	 * Fehlerhafte Nutzung von Anhängen in der .planpro-Dateistruktur
+	 * Überprüfen, ob die Mediendatei für Anhang fehlt ist.
+	 */
+	public String AttachmentTest_MissingMedia_Validation_Description;
+
+	/**
+	 * Anhängen
 	 */
 	public String AttachmentTestProblem_Type;
 
@@ -74,6 +85,11 @@ public class Messages {
 	 * Die nach Datenmodell erforderliche Angabe ist nicht vorhanden.
 	 */
 	public String NilTestProblem_Message;
+
+	/**
+	 * Validiert, dass die nach Datenmodell erforderliche Angabe vorhanden ist.
+	 */
+	public String NilTestProblem_Description;
 
 	/**
 	 * Fachliche Vollständigkeit
@@ -129,6 +145,11 @@ public class Messages {
 	 * Warnung
 	 */
 	public String WarningMsg;
+
+	/**
+	 * Erfolg
+	 */
+	public String SuccessMsg;
 
 	/**
 	 * Schema Problem

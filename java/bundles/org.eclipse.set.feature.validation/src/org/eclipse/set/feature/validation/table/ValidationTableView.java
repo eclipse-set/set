@@ -15,6 +15,7 @@ import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.Table;
@@ -41,6 +42,7 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	private final IEventBroker broker;
 	private final BasePart<? extends IModelSession> part;
 	private NatTable natTable;
+	private final EnumTranslationService enumTranslationService;
 
 	/**
 	 * @param toolboxPartService
@@ -51,14 +53,18 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	 *            The messages
 	 * @param broker
 	 *            The event broker
+	 * @param enumService
+	 *            The enum translation service
 	 */
 	public ValidationTableView(final ToolboxPartService toolboxPartService,
 			final BasePart<? extends IModelSession> part,
-			final Messages messages, final IEventBroker broker) {
+			final Messages messages, final IEventBroker broker,
+			final EnumTranslationService enumService) {
 		this.toolboxPartService = toolboxPartService;
 		this.part = part;
 		this.messages = messages;
 		this.broker = broker;
+		this.enumTranslationService = enumService;
 	}
 
 	/**
@@ -73,7 +79,7 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	public Control create(final Composite parent,
 			final ValidationReport validationReport) {
 		final ValidationTableTransformationService service = new ValidationTableTransformationService(
-				messages);
+				messages, enumTranslationService);
 
 		final Table table = service.transform(validationReport);
 		natTable = createTable(parent, table);
@@ -112,7 +118,7 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	 */
 	public void updateView(final ValidationReport validationReport) {
 		final ValidationTableTransformationService service = new ValidationTableTransformationService(
-				messages);
+				messages, enumTranslationService);
 		bodyDataProvider.refresh(service.transform(validationReport));
 		natTable.refresh();
 	}
