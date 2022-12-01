@@ -50,7 +50,7 @@ public interface BrandingService {
 	/**
 	 * @return image descriptor for splash image
 	 */
-	ImageDescriptor getSplashImage();
+	Optional<ImageDescriptor> getSplashImage();
 
 	/**
 	 * @return an optional logo for the vendor

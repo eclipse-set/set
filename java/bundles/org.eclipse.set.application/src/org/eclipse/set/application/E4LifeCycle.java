@@ -8,10 +8,13 @@
  */
 package org.eclipse.set.application;
 
+import java.util.Optional;
+
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessRemovals;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.splash.SplashScreenService;
 import org.slf4j.Logger;
@@ -33,7 +36,12 @@ public class E4LifeCycle {
 			final SplashScreenService splashScreenService,
 			final BrandingService brandingService) {
 		logger.debug(workbenchContext.toString());
-		splashScreenService.show(brandingService.getSplashImage());
+		final Optional<ImageDescriptor> splashImage = brandingService
+				.getSplashImage();
+		if (splashImage.isPresent()) {
+			splashScreenService.show(splashImage.get());
+		}
+
 	}
 
 	@PreSave

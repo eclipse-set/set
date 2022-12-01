@@ -21,11 +21,6 @@ import org.osgi.framework.FrameworkUtil;
 public class SetImages extends Images {
 
 	/**
-	 * Default dynamic splash
-	 */
-	public static final ImageDescriptor DEFAULT_DYNAMIC_SPLASH;
-
-	/**
 	 * ic_build_black_18dp_1x
 	 */
 	public static final ImageDescriptor IC_BUILD_BLACK_18DP_1X;
@@ -98,8 +93,6 @@ public class SetImages extends Images {
 			.getBundle(SetImages.class);
 
 	static {
-		DEFAULT_DYNAMIC_SPLASH = createDescriptor(BUNDLE,
-				"/logos/default-dynamic-splash.bmp");
 		IC_GRID_ON_BLACK_18DP_1X = createDescriptor(BUNDLE,
 				"/icons/ic_grid_on_black_18dp_1x.png");
 		IC_INFO_OUTLINE_BLACK_18DP_1X = createDescriptor(BUNDLE,

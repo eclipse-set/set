@@ -16,7 +16,6 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.branding.BrandingService.Names;
-import org.eclipse.set.utils.SetImages;
 
 /**
  * SET implementation of {@link BrandingService}.
@@ -44,8 +43,8 @@ public class SetBrandingService implements BrandingService, Names {
 	}
 
 	@Override
-	public ImageDescriptor getSplashImage() {
-		return SetImages.DEFAULT_DYNAMIC_SPLASH;
+	public Optional<ImageDescriptor> getSplashImage() {
+		return Optional.empty();
 	}
 
 	@Override

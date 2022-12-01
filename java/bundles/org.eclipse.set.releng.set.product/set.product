@@ -23,8 +23,6 @@
 
    <windowImages/>
 
-   <splash
-      location="org.eclipse.set.application" />
    <launcher name="set">
       <win useIco="true">
          <bmp/>
