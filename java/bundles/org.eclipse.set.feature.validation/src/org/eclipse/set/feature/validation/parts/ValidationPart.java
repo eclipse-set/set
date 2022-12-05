@@ -21,7 +21,6 @@ import java.util.function.Function;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -37,25 +36,27 @@ import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
-import org.eclipse.set.feature.validation.report.ValidationProblemTableViewerConsumer;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.extensions.ValidationReportExtension;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
@@ -77,8 +78,6 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	private static final int BUTTON_WIDTH_EXPORT_VALIDATION = 30;
 
-	private static final String VALIDATION_PROBLEM_TABLE_EVENT_LINK = "validationProblemTableEventLink"; //$NON-NLS-1$
-
 	private static final String VIEW_VALIDATION_REPORT = "validationReport"; //$NON-NLS-1$
 
 	private static final String INJECT_VIEW_VALIDATION_NATTABLE = "validationTableNattable"; //$NON-NLS-1$
@@ -87,6 +86,9 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	@Inject
 	private ToolboxPartService toolboxPartService;
+
+	@Inject
+	private TableMenuService tableMenuService;
 
 	private SessionToValidationReportTransformation transformation;
 
@@ -110,9 +112,6 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 	@Inject
 	UISynchronize sync;
-
-	@Inject
-	private IEventBroker broker;
 
 	private Listener resizeListener;
 	private Composite resizeListenerObject;
@@ -149,14 +148,10 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 					messages, versionService);
 			validationReport = transformation.transform(getModelSession());
 
-			// link table to source viewer
-			final ValidationProblemTableViewerConsumer<IModelSession> validationProblemTableEventLink = new ValidationProblemTableViewerConsumer<>(
-					getBroker(), this, toolboxPartService);
-			modelService.put(VALIDATION_PROBLEM_TABLE_EVENT_LINK,
-					validationProblemTableEventLink);
-
-			// record in cache service
-			final Cache cache = Services.getCacheService()
+			final CacheService cacheService = ToolboxConfiguration.isDebugMode()
+					? Services.getCacheService()
+					: Services.getNoCacheService();
+			final Cache cache = cacheService
 					.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
 			final List<ProblemMessage> problems = cache.get("validationReport", //$NON-NLS-1$
 					ArrayList::new);
@@ -170,8 +165,8 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 			getBroker().post(Events.PROBLEMS_CHANGED, null);
 
 			// Register nattable injector
-			tableView = new ValidationTableView(toolboxPartService, this,
-					messages, broker, enumTranslationService);
+			tableView = new ValidationTableView(this, messages,
+					tableMenuService, enumTranslationService);
 			final Function<Composite, Control> func = innerParent -> {
 
 				final Composite composite = new Composite(innerParent,

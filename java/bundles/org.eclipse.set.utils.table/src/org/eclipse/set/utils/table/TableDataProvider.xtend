@@ -18,6 +18,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.CellContentE
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import java.util.Comparator
 import org.eclipse.set.model.tablemodel.CellContent
+import java.util.function.Function
 
 /**
  * IDataProvider implementation for Table
@@ -27,10 +28,12 @@ import org.eclipse.set.model.tablemodel.CellContent
 class TableDataProvider implements IDataProvider {
 	int columnCount
 	List<Pair<Integer, List<CellContent>>> tableContents
+	Function<Integer, Integer> getSourceLine
 	Map<Integer, Object> filters = newHashMap
 	Table table
 	
-	new(Table table) {
+	new(Table table, Function<Integer, Integer> getSourceLine) {
+		this.getSourceLine = getSourceLine;
 		this.table = table
 		refresh()
 	}
@@ -81,6 +84,10 @@ class TableDataProvider implements IDataProvider {
 	 */
 	def int getOriginalRow(int row) {
 		return tableContents.get(row).key
+	}
+	
+	def int getObjectSourceLine(int row) {
+		return getSourceLine === null ? -1 : getSourceLine.apply(row)
 	}
 
 	override int getColumnCount() {

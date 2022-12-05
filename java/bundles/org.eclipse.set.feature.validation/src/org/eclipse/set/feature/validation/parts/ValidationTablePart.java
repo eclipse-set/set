@@ -10,18 +10,17 @@ package org.eclipse.set.feature.validation.parts;
 
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.ecp.ui.view.ECPRendererException;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
+import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -39,13 +38,9 @@ public class ValidationTablePart extends AbstractEmfFormsPart<IModelSession> {
 	private PlanProVersionService versionService;
 
 	@Inject
-	private ToolboxPartService toolboxPartService;
-
+	private TableMenuService tableMenuService;
 	@Inject
-	private IEventBroker broker;
-
-	@Inject
-	EnumTranslationService enumTranslationService;
+	private EnumTranslationService enumTranslationService;
 
 	/**
 	 * Create the part.
@@ -63,9 +58,8 @@ public class ValidationTablePart extends AbstractEmfFormsPart<IModelSession> {
 				messages, versionService);
 		final ValidationReport validationReport = transformation
 				.transform(getModelSession());
-		final ValidationTableView tableView = new ValidationTableView(
-				toolboxPartService, this, messages, broker,
-				enumTranslationService);
+		final ValidationTableView tableView = new ValidationTableView(this,
+				messages, tableMenuService, enumTranslationService);
 		tableView.create(parent, validationReport);
 	}
 }

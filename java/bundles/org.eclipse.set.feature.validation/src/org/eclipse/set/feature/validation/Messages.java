@@ -215,4 +215,9 @@ public class Messages {
 	 * Meldung
 	 */
 	public String ValidationTableColumns_Message;
+
+	/**
+	 * Zeige in Textsicht
+	 */
+	public String ValidationTableItem_JumpToTextView;
 }

@@ -10,6 +10,7 @@
 package org.eclipse.set.utils.table.sorting;
 
 import java.util.Map;
+import java.util.function.Function;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
@@ -45,6 +46,7 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
+import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -54,10 +56,24 @@ import org.eclipse.swt.widgets.Composite;
  * @author Truong
  *
  */
-public class AbstractSortByColumnTables {
+public abstract class AbstractSortByColumnTables {
 
-	protected TableDataProvider bodyDataProvider;
-	protected BodyLayerStack bodyLayerStack;
+	/**
+	 * The table data provider
+	 */
+	public TableDataProvider bodyDataProvider;
+	/**
+	 * The table body layer
+	 */
+	public BodyLayerStack bodyLayerStack;
+	protected DataLayer bodyDataLayer;
+
+	protected void createTableBodyData(final Table table,
+			final Function<Integer, Integer> getSourceLine) {
+		bodyDataProvider = new TableDataProvider(table, getSourceLine);
+		bodyDataLayer = new DataLayer(bodyDataProvider);
+		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
+	}
 
 	class FilterStrategy<T> implements IFilterStrategy<T> {
 		private final TableDataProvider tableDataProvider;
@@ -82,14 +98,12 @@ public class AbstractSortByColumnTables {
 	}
 
 	protected NatTable createTable(final Composite parent,
-			final Table tableModel) {
+			final Table tableModel, final TableMenuService tableMenuService) {
 		final ColumnDescriptor rootColumnDescriptor = tableModel
 				.getColumndescriptors().get(0);
-		bodyDataProvider = new TableDataProvider(tableModel);
-
-		final DataLayer bodyDataLayer = new DataLayer(bodyDataProvider);
-		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
-
+		if (bodyDataProvider == null || bodyLayerStack == null) {
+			this.createTableBodyData(tableModel, null);
+		}
 		// column header stack
 		final IDataProvider columnHeaderDataProvider = new DefaultColumnHeaderDataProvider(
 				ColumnDescriptorExtensions
@@ -137,11 +151,16 @@ public class AbstractSortByColumnTables {
 				| SWT.DOUBLE_BUFFERED | SWT.V_SCROLL | SWT.H_SCROLL, gridLayer,
 				false);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(natTable);
-
 		natTable.setConfigRegistry(configRegistry);
 		natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
 		natTable.addConfiguration(new SingleClickSortConfiguration());
 		natTable.addConfiguration(new FilterRowCustomConfiguration());
+
+		if (tableMenuService != null) {
+			natTable.addConfiguration(tableMenuService.createMenuConfiguration(
+					natTable, bodyLayerStack.getSelectionLayer()));
+		}
+
 		natTable.configure();
 
 		// set style

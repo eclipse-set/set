@@ -69,7 +69,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 	 */
 	public Control create(final Composite parent) {
 		final Table table = getTable();
-		natTable = createTable(parent, table);
+		natTable = createTable(parent, table, null);
 		natTable.getUiBindingRegistry().registerFirstDoubleClickBinding(
 				MouseEventMatcher.bodyLeftClick(0),
 				(final NatTable natTable2, final MouseEvent event) -> {

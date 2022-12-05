@@ -88,6 +88,7 @@ import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.RowSelectionListener;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
+import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -139,6 +140,9 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 
 	@Inject
 	TableService tableService;
+
+	@Inject
+	TableMenuService tableMenuService;
 
 	TableType tableType;
 
@@ -404,10 +408,15 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 		// gridlayer
 		final GridLayer gridLayer = new GridLayer(bodyLayerStack,
 				columnGroup4HeaderLayer, rowHeaderLayer, cornerLayer);
-		natTable = new NatTable(parent, gridLayer);
+		natTable = new NatTable(parent, gridLayer, false);
 		GridDataFactory.fillDefaults().grab(true, true).minSize(-1, 500)
 				.applyTo(natTable);
+		tableMenuService.createDefaultMenuItems(this, table, bodyDataProvider,
+				selectionLayer);
+		natTable.addConfiguration(tableMenuService
+				.createMenuConfiguration(natTable, selectionLayer));
 
+		natTable.configure();
 		// set style
 		natTable.setTheme(new ToolboxTableModelThemeConfiguration(natTable,
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,

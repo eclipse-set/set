@@ -24,11 +24,24 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 
 	private final int lineNumber;
 
+	private final String objectGuid;
+
 	/**
 	 * Default event.
 	 */
 	public JumpToSourceLineEvent() {
 		this(0, null);
+	}
+
+	/**
+	 * @param source
+	 *            the source
+	 */
+	public JumpToSourceLineEvent(
+			final BasePart<? extends IModelSession> source) {
+		this.lineNumber = -1;
+		this.source = source;
+		this.objectGuid = null;
 	}
 
 	/**
@@ -41,6 +54,20 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 			final BasePart<? extends IModelSession> source) {
 		this.lineNumber = lineNumber;
 		this.source = source;
+		this.objectGuid = null;
+	}
+
+	/**
+	 * @param objectGuid
+	 *            the object id
+	 * @param source
+	 *            the source
+	 */
+	public JumpToSourceLineEvent(final String objectGuid,
+			final BasePart<? extends IModelSession> source) {
+		this.lineNumber = -1;
+		this.source = source;
+		this.objectGuid = objectGuid;
 	}
 
 	/**
@@ -48,6 +75,13 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 	 */
 	public int getLineNumber() {
 		return lineNumber;
+	}
+
+	/**
+	 * @return the object id
+	 */
+	public String getObjectGuid() {
+		return objectGuid;
 	}
 
 	/**
