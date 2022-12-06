@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.validation.table;
 
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.validationreport.ValidationReport;
@@ -29,24 +28,17 @@ public class ValidationTableTransformationService
 
 	private final Messages messages;
 
-	private final EnumTranslationService enumTranslationService;
-
 	/**
 	 * @param messages
 	 *            the messages
-	 * @param enumTranslationService
-	 *            the enum translation service
 	 */
-	public ValidationTableTransformationService(final Messages messages,
-			final EnumTranslationService enumTranslationService) {
+	public ValidationTableTransformationService(final Messages messages) {
 		this.messages = messages;
-		this.enumTranslationService = enumTranslationService;
 	}
 
 	@Override
 	public TableModelTransformator<ValidationReport> createTransformator() {
-		return new ValidationReportTableTransformator(columns,
-				enumTranslationService);
+		return new ValidationReportTableTransformator(columns);
 	}
 
 	@Override

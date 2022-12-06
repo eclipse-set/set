@@ -145,7 +145,7 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 		try {
 			// create validation report
 			transformation = new SessionToValidationReportTransformation(
-					messages, versionService);
+					messages, versionService, enumTranslationService);
 			validationReport = transformation.transform(getModelSession());
 
 			final CacheService cacheService = ToolboxConfiguration.isDebugMode()
@@ -166,7 +166,7 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 
 			// Register nattable injector
 			tableView = new ValidationTableView(this, messages,
-					tableMenuService, enumTranslationService);
+					tableMenuService);
 			final Function<Composite, Control> func = innerParent -> {
 
 				final Composite composite = new Composite(innerParent,

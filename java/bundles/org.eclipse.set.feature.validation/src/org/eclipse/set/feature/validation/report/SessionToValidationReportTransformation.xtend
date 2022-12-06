@@ -26,6 +26,8 @@ import org.xml.sax.SAXParseException
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
 import java.util.List
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.emf.common.util.Enumerator
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -41,10 +43,12 @@ class SessionToValidationReportTransformation {
 	val PlanProVersionService versionService
 	var ValidationReport report
 	val XMLNodeFinder xmlNodeFinder = new XMLNodeFinder();
+	val EnumTranslationService enumService
 
-	new(Messages messages, PlanProVersionService versionService) {
+	new(Messages messages, PlanProVersionService versionService, EnumTranslationService enumService) {
 		this.messages = messages
 		this.versionService = versionService
+		this.enumService = enumService
 	}
 
 	/**
@@ -64,7 +68,6 @@ class SessionToValidationReportTransformation {
 		} else {
 			messages.NoMsg
 		}
-
 		report.valid = session?.validationResult?.outcome?.transform
 		report.xsdValid = session?.validationResult?.xsdOutcome?.transform
 		report.emfValid = session?.validationResult?.emfOutcome?.transform
@@ -162,6 +165,7 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		it.type = type
 		it.severity = severity
+		it.severityText = severity.translate
 		lineNumber = exception.line
 		message = exception.transformToMessage
 		val xmlNode = xmlNodeFinder.findNodeByLineNumber(lineNumber)
@@ -184,6 +188,7 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		it.type = type
 		it.severity = severity
+		it.severityText = severity.translate
 		lineNumber = exception.lineNumber
 		message = exception.transformToMessage
 		val xmlNode = xmlNodeFinder.findNodeByLineNumber(lineNumber)
@@ -205,6 +210,7 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		it.type = type
 		it.severity = severity
+		it.severityText = severity.translate
 		lineNumber = 0
 		message = exception.transformToMessage
 		objectArt = ""
@@ -222,6 +228,7 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		type = problem.type
 		severity = problem.severity
+		severityText = problem.severity.translate
 		lineNumber = problem.lineNumber
 		message = problem.message
 		objectArt = problem.objectArt
@@ -239,6 +246,7 @@ class SessionToValidationReportTransformation {
 		it.id = id
 		type = errorType
 		severity = ValidationSeverity.SUCCESS
+		severityText = severity.translate
 		message = '''«errorType» validation'''
 	}
 	
@@ -274,6 +282,13 @@ class SessionToValidationReportTransformation {
 		SAXParseException exception) {
 		val original = exception.message
 		return original.replaceFirst("cvc[^:]+: ", "")
+	}
+	
+	private def String translate(Enumerator enumerator) {
+		if (enumerator === null) {
+			return null
+		}
+		return enumService.translate(enumerator).alternative
 	}
 
 

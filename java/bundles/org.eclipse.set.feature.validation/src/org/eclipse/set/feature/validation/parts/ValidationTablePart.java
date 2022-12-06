@@ -55,11 +55,11 @@ public class ValidationTablePart extends AbstractEmfFormsPart<IModelSession> {
 			throws ECPRendererException {
 		// create validation report
 		final SessionToValidationReportTransformation transformation = new SessionToValidationReportTransformation(
-				messages, versionService);
+				messages, versionService, enumTranslationService);
 		final ValidationReport validationReport = transformation
 				.transform(getModelSession());
 		final ValidationTableView tableView = new ValidationTableView(this,
-				messages, tableMenuService, enumTranslationService);
+				messages, tableMenuService);
 		tableView.create(parent, validationReport);
 	}
 }

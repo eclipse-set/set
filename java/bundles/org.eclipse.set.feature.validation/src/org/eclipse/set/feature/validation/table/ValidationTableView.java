@@ -10,7 +10,6 @@ package org.eclipse.set.feature.validation.table;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.validationreport.ValidationReport;
@@ -30,7 +29,6 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	private final Messages messages;
 	private final BasePart<? extends IModelSession> part;
 	private NatTable natTable;
-	private final EnumTranslationService enumTranslationService;
 
 	private final TableMenuService tableMenuService;
 
@@ -41,16 +39,11 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	 *            The messages
 	 * @param tableMenuService
 	 *            The table menu service
-	 * @param enumService
-	 *            The enum translation service
-
 	 */
 	public ValidationTableView(final BasePart<? extends IModelSession> part,
-			final Messages messages, final TableMenuService tableMenuService,
-			final EnumTranslationService enumTranslationService) {
+			final Messages messages, final TableMenuService tableMenuService) {
 		this.part = part;
 		this.messages = messages;
-		this.enumTranslationService = enumTranslationService;
 		this.tableMenuService = tableMenuService;
 	}
 
@@ -66,7 +59,7 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	public Control create(final Composite parent,
 			final ValidationReport validationReport) {
 		final ValidationTableTransformationService service = new ValidationTableTransformationService(
-				messages, enumTranslationService);
+				messages);
 
 		final Table table = service.transform(validationReport);
 		this.createTableBodyData(table,
@@ -86,7 +79,7 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	 */
 	public void updateView(final ValidationReport validationReport) {
 		final ValidationTableTransformationService service = new ValidationTableTransformationService(
-				messages, enumTranslationService);
+				messages);
 		bodyDataProvider.refresh(service.transform(validationReport));
 		natTable.refresh();
 	}
