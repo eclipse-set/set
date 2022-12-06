@@ -8,10 +8,9 @@
  */
 package org.eclipse.set.utils.attachment;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.set.basis.attachments.Attachment;
@@ -85,7 +84,7 @@ public abstract class Attachments {
 
 		@Override
 		public boolean isPdf() {
-			return getFileExtension().toLowerCase().equals(PDF_EXTENSION);
+			return getFileExtension().equalsIgnoreCase(PDF_EXTENSION);
 		}
 
 		@Override
@@ -94,7 +93,7 @@ public abstract class Attachments {
 		}
 	}
 
-	private final static Attachments IMPL;
+	private static final Attachments IMPL;
 
 	static {
 		IMPL = (Attachments) ImplementationLoader
@@ -124,26 +123,8 @@ public abstract class Attachments {
 	 * @return content of file stored @path
 	 */
 	public static byte[] getContent(final Path path) {
-		try (final FileInputStream input = new FileInputStream(path.toFile())) {
-			final List<byte[]> arrays = new LinkedList<>();
-			for (int available = input
-					.available(); available > 0; available = input
-							.available()) {
-				final byte[] b = new byte[available];
-				input.read(b);
-				arrays.add(b);
-			}
-			int size = 0;
-			for (final byte[] a : arrays) {
-				size = size + a.length;
-			}
-			final byte[] content = new byte[size];
-			int position = 0;
-			for (final byte[] a : arrays) {
-				copyArray(a, content, position);
-				position = position + a.length;
-			}
-			return content;
+		try {
+			return Files.readAllBytes(path);
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -172,13 +153,6 @@ public abstract class Attachments {
 			final List<ToolboxFileFilter> extensions)
 			throws InvalidFilterFilename {
 		return IMPL.loadInternal(shell, fileKind, dialogService, extensions);
-	}
-
-	private static void copyArray(final byte[] from, final byte[] to,
-			final int position) {
-		for (int i = 0; i < from.length; i++) {
-			to[position + i] = from[i];
-		}
 	}
 
 	abstract void exportInternal(final Shell shell, final Attachment attachment,
