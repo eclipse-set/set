@@ -27,7 +27,9 @@ class ValidationReportTableTransformator extends AbstractTableModelTransformator
 			fill(instance, columns.RowIndex, problem, [problem.id.toString])
 			fill(instance, columns.Severity, problem, [severityText])
 			fill(instance, columns.ProblemType, problem, [type])
-			fillNumeric(instance, columns.LineNumber, problem, [lineNumber])
+			if (problem.lineNumber != 0) {
+				fillNumeric(instance, columns.LineNumber, problem, [lineNumber])				
+			}
 			fill(instance, columns.ObjectType, problem, [objectArt])
 			fill(instance, columns.AttributeGroup, problem, [attributeName])
 			fill(instance, columns.ObjectScope, problem, [objectScope.toString])
