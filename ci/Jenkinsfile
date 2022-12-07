@@ -10,7 +10,18 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '10'))
   }
 
-  stages { 
+  stages {
+    stage('Build About') {
+      steps {
+        container('hugo') {
+          dir('web/about') {
+            sh 'hugo'
+            deployFolder src: 'public', dest: '../../java/bundles/org.eclipse.set.feature/rootdir/web/about/'
+          }
+        }
+      }
+    }
+    
     stage('Build NodeJS') {    
       environment {
         GITHUB_TOKEN = credentials('github-bot-token')

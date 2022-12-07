@@ -46,6 +46,18 @@ spec:
     volumeMounts:
     - name: volume-known-hosts
       mountPath: /home/jenkins/.ssh        
+  - name: hugo
+    image: klakegg/hugo:0.101.0-asciidoctor-ci
+    command:
+    - cat
+    tty: true
+    resources:
+      limits:
+        memory: "1Gi"
+        cpu: "1"
+      requests:
+        memory: "1Gi"
+        cpu: "1"
   volumes:
   - name: settings-xml
     secret:
@@ -59,4 +71,5 @@ spec:
     emptyDir: {}     
   - name: volume-known-hosts
     configMap:
-      name: known-hosts           
+      name: known-hosts
+  
