@@ -65,7 +65,7 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	private EventRegistration eventRegistration;
 
 	private final EventHandler problemsChangeEventHandler = event -> onProblemsChange();
-	private static final String TEXT_VIEWER_PATH = "./web/textview"; //$NON-NLS-1$
+	private static final String TEXT_VIEWER_PATH = "./web/textviewer"; //$NON-NLS-1$
 	private static final String PROBLEMS_JSON = "problems.json"; //$NON-NLS-1$
 	private static final String MODEL_PPXML = "model.ppxml"; //$NON-NLS-1$
 
