@@ -127,9 +127,17 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 
 	}
 
-	@SuppressWarnings("boxing")
 	private void handleJumpToSourceLineEvent(
 			final JumpToSourceLineEvent event) {
+		if (event.getLineNumber() != -1) {
+			this.jumpToLine(event);
+		} else if (!event.getObjectGuid().isEmpty()) {
+			this.jumpToGUID(event);
+		}
+	}
+
+	@SuppressWarnings("boxing")
+	private void jumpToLine(final JumpToSourceLineEvent event) {
 		final String js = String.format("""
 				{
 					let intervalId = 0
@@ -144,6 +152,43 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 				""", JUMP_TO_LINE_FUNCTION, JUMP_TO_LINE_FUNCTION,
 				event.getLineNumber());
 		browser.executeJavascript(js);
+	}
+
+	private void jumpToGUID(final JumpToSourceLineEvent event) {
+		final TableType tableTyle = getModelSession().getTableType();
+		String tableState = ""; //$NON-NLS-1$
+		switch (tableTyle) {
+		case INITIAL: {
+			tableState = "initial"; //$NON-NLS-1$
+			break;
+		}
+		case FINAL: {
+			tableState = "final"; //$NON-NLS-1$
+			break;
+		}
+		case DIFF: {
+			tableState = "diff"; //$NON-NLS-1$
+			break;
+		}
+		default:
+			break;
+		}
+
+		final String js = String.format("""
+				{
+					let intervalId = 0
+					const jumpToLineWrapper = () => {
+						if(%s) {
+							%s('%s', '%s');
+							clearInterval(intervalId);
+						}
+					}
+					intervalId = setInterval(jumpToLineWrapper, 100);
+				}
+				""", JUMP_TO_GUID_FUNCTION, JUMP_TO_GUID_FUNCTION,
+				event.getObjectGuid(), tableState);
+		browser.executeJavascript(js);
+
 	}
 
 	@PreDestroy
