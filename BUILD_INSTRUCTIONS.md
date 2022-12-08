@@ -1,0 +1,58 @@
+# Build instructions
+
+Due to the multitude of technologies used by Eclipse SET, building the entirety of the Signalling Engineering Toolbox entirely from scratch is non-trivial, and rarely required. 
+
+As a result, this document contains two sets of instructions. First, instructions on how to work on the main SET application relying on prebuilt components (e.g. for development) and secondly how to do a full production build locally.
+
+## Operating Systems
+
+Eclipse SET currently supports Windows x64 for execution, and either a Windows x64 or a Linux x64 machine for building the code. Other operating systems or processor architectures may work, but are generally not supported.
+
+## Prerequisites
+
+- A Java Development Kit 17 (or higher)
+- node.js 18 (or higher)
+- Maven (3.8+) 
+- Eclipse IDE (2022-06+)
+- hugo
+
+# Development build
+
+This is the recommended way to build and debug for development. 
+
+1. Clone this repository or download a source archive.
+2. Create a new workspace in the Eclipse IDE
+3. Import projects from `java/` via File -> Import -> Existing Projects into Workspace
+4. Import the Checkstyle configuration from `releng/eclipse/CheckstyleEclipse.xml` via Window -> Preferences -> Checkstyle
+5. Set the target platform in `org.eclipse.set.releng.target`
+6. Launch the product in `org.eclipse.set.releng.set.product`
+7. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a snapshot). 
+
+If you want to work on the embedded web components (e.g. the textviewer or the pdf viewer), you need to: 
+
+1. Browse to the appropriate subfolder in `web/`
+2. Install npm dependencies via `npm install`
+3. Build via `npm run build`
+4. Copy the contents of the resulting `build`-directory to the unpacked Eclipse SET build (in the matching `web/` subdirectory). 
+
+# Production build
+
+This is the recommended way if you want a production-style build. This is also what we have implemented on the Jenkins instance. If you want to develop SET, this is not recommended as the subcomponents are relatively stable and are easy to aquire from our download site.
+
+1. Follow the build instructions for the [model subcomponent](https://gitlab.eclipse.org/eclipse/set/model). 
+2. Follow the build instructions for the [toolboxmodel subcomponent](https://gitlab.eclipse.org/eclipse/set/toolbox-model). While doing so, make sure to follow the steps outlined for adapting to a local model build.
+3. Follow the build instructions for the [browser subcomponent](https://gitlab.eclipse.org/eclipse/set/browser).
+4. Build web components
+    1. In `web/pdf` and `web/textviewer`:
+        1. Download dependencies via `npm ci` (or `npm install` if you changed the package.json)
+        2. Build via `npm run build`
+        4. Copy the contents of the resulting `build`-directory to the matching Eclipse SET directory in `java/bundles/org.eclipse.set.feature/rootdir`. 
+    2. In `web/about`: 
+        1. Run `hugo` to build the license dialog
+        2. Copy the contents of the resulting `public`-directory to `java/bundles/org.eclipse.set.feature/rootdir/about`. 
+5. Adapt target platform 
+    1. Replace the target locations in `org.eclipse.set.releng.target` pointing to `download.eclipse.org/set` with your locally built p2 repositories. 
+    2. e.g. replace `https://download.eclipse.org/set/snapshots/browser/main/` with a path to `(browser build location)/java/org.eclipse.set.browser.releng.repository/target/repository`
+6. Build via maven: `mvn clean verify`
+
+The p2 site for Eclipse SET (for reuse in another product) is now located in `java\bundles\org.eclipse.set.releng.repository\target\repository`. The SET product is located under `java/bundles/org.eclipse.set.releng.set.product/target/products`. 

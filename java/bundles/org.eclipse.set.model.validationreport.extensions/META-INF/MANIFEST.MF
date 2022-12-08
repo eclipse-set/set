@@ -15,5 +15,5 @@ Import-Package: org.eclipse.set.basis,
  org.eclipse.set.model.validationreport,
  org.eclipse.set.utils,
  org.eclipse.emf.common.util
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 

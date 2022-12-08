@@ -8,5 +8,5 @@ Automatic-Module-Name: org.eclipse.set.utils.rcp
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.set.utils.attachment,
  org.eclipse.set.utils.dialogs
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: org.eclipse.set.basis.attachments

@@ -6,7 +6,7 @@ Automatic-Module-Name: org.eclipse.set.model.zipmanifest.edit
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.zipmanifest.provider.ZipmanifestEditPlugin$Implementation
-Bundle-Vendor: %providerName
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.set.model.zipmanifest.provider

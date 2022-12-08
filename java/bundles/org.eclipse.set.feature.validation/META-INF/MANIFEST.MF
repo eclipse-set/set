@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.feature.validation;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Automatic-Module-Name: org.eclipse.set.feature.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
 Import-Package: com.google.common.base;version="15.0.0",
  org.eclipse.set.model.model1902.PlanPro,

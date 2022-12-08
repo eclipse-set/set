@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.model.integrationview;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.integrationview
 Bundle-Version: 1.1.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: %providerName
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.set.model.integrationview,

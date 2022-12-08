@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Table Test
+Bundle-Name: Toolbox Table Test
 Bundle-SymbolicName: org.eclipse.set.feature.table.test
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: org.eclipse.set.feature.table;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.feature.table.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.hamcrest.core;bundle-version="1.3.0"
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: org.eclipse.set.utils.table.sorting,
  org.junit.jupiter.api;version="5.6.0",
  org.junit.jupiter.api.function;version="5.6.0",

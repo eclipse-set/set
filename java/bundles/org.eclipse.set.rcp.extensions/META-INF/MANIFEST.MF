@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: RCP Extensions
 Bundle-SymbolicName: org.eclipse.set.rcp.extensions
 Bundle-Version: 1.1.0.qualifier
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Automatic-Module-Name: org.eclipse.set.custom.extensions
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: com.google.guava,

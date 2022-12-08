@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.nattable.utils;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Automatic-Module-Name: org.eclipse.set.nattable.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.set.nattable.utils
 Import-Package: org.eclipse.nebula.widgets.nattable.config;version="1.5.0",

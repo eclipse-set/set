@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Basis Test
+Bundle-Name: Toolbox Basis Test
 Bundle-SymbolicName: org.eclipse.set.basis.test
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: org.eclipse.set.basis;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.basis.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: org.eclipse.set.unittest.utils,
  org.eclipse.set.utils,
  org.junit,

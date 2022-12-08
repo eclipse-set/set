@@ -4,7 +4,7 @@ Bundle-Name: Toolbox Application
 Bundle-SymbolicName: org.eclipse.set.application;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Bundle-Activator: org.eclipse.set.application.Activator
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.application,
  org.eclipse.set.application.handler,
  org.eclipse.set.application.nameservice

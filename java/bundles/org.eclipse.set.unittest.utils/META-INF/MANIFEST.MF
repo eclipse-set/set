@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.unittest.utils;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Automatic-Module-Name: org.eclipse.set.unittest.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.junit.platform.commons;bundle-version="1.6.0",
  org.junit.platform.launcher;bundle-version="1.6.0",
  org.junit.platform.runner;bundle-version="1.6.0",

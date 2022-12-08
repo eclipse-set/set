@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.core;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Automatic-Module-Name: org.eclipse.set.core
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation,
  javax.inject,

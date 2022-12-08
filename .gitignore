@@ -47,3 +47,4 @@ dist/
 
 # Hugo documentation
 web/about/public
+.vscode/settings.json

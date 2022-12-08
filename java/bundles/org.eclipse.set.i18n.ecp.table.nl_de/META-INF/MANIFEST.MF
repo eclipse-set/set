@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.eclipse.set.i18n.ecp.table.nl_de
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: org.eclipse.emf.ecp.view.table.ui.swt;bundle-version="1.10.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Localization: OSGI-INF/l10n/bundle

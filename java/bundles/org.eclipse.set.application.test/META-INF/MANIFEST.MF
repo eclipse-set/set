@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Toolbox Export Tests
+Bundle-Name: Toolbox Application Tests
 Bundle-SymbolicName: org.eclipse.set.application.test
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: org.eclipse.set.application
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: org.junit;version="4.13.2",
  org.junit.jupiter.api;version="5.8.1"

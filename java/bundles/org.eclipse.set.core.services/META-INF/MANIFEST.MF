@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.core.services;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Automatic-Module-Name: org.eclipse.set.core.services
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.core.services,
  org.eclipse.set.core.services.action,
  org.eclipse.set.core.services.branding,

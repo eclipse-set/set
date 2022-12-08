@@ -6,7 +6,7 @@ Bundle-Version: 1.1.0.qualifier
 Fragment-Host: org.eclipse.set.core;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.core.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: org.eclipse.set.feature.validation.session,
  org.eclipse.set.model.model1902.PlanPro,
  org.eclipse.set.model.model1902.Signalbegriffe_Ril_301,

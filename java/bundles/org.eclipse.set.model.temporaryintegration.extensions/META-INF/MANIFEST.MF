@@ -28,5 +28,5 @@ Import-Package: org.eclipse.emf.common.command,
  org.eclipse.set.ppmodel.extensions,
  org.eclipse.set.utils
 Export-Package: org.eclipse.set.model.temporaryintegration.extensions
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 

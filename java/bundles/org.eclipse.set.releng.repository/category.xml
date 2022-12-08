@@ -4,7 +4,7 @@
       <category name="de.scheidtbachmann.planpro.set.category"/>
    </feature>
    <feature id="org.eclipse.set.test.feature" version="0.0.0">
-      <category name="de.scheidtbachmann.planpro.set.category"/>
+      <category name="de.scheidtbachmann.planpro.set.utils.category"/>
    </feature>
    <feature id="org.eclipse.set.i18n.nl_de.feature" version="0.0.0">
       <category name="de.scheidtbachmann.planpro.set.category"/>
@@ -27,6 +27,14 @@
    <feature id="org.eclipse.set.toolboxmodel.feature.source">
       <category name="de.scheidtbachmann.planpro.set.utils.category"/>
    </feature>
-   <category-def name="de.scheidtbachmann.planpro.set.category" label="Eclipse Signalling Engineering Toolbox"/>
-   <category-def name="de.scheidtbachmann.planpro.set.utils.category" label="Eclipse Signalling Engineering Toolbox Utilities"/>
+   <category-def name="de.scheidtbachmann.planpro.set.category" label="Eclipse Signalling Engineering Toolbox">
+      <description>
+         This feature contains the base toolbox implementation of the Eclipse Signalling Engineering Toolbox.
+      </description>
+   </category-def>
+   <category-def name="de.scheidtbachmann.planpro.set.utils.category" label="Eclipse Signalling Engineering Toolbox Utilities">
+      <description>
+         This feature contains additional utilities for the Eclipse Signalling Engineering Toolbox, which may be useful when extending functionality.
+      </description>
+   </category-def>
 </site>

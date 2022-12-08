@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.eclipse.set.i18n.model.nl_de
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: org.eclipse.set.toolboxmodel.edit
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-Vendor: Eclipse Technology Project
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
