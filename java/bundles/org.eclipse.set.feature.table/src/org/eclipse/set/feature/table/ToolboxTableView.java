@@ -105,7 +105,7 @@ import com.google.common.collect.Lists;
  * 
  * @author rumpf
  */
-public final class ToolboxTableView extends BasePart<IModelSession> {
+public final class ToolboxTableView extends BasePart {
 
 	protected static final int DEBUG_WIDTH_CORRECTION = 0;
 
@@ -158,7 +158,7 @@ public final class ToolboxTableView extends BasePart<IModelSession> {
 	 * constructor
 	 */
 	public ToolboxTableView() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

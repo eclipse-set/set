@@ -45,13 +45,9 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Common functions for importing and merging.
  * 
- * @param <S>
- *            the session type
- * 
  * @author Schaefer
  */
-public abstract class ImportMergePart<S extends IModelSession>
-		extends BasePart<S> {
+public abstract class ImportMergePart extends BasePart {
 
 	private static Label createCountInfo(final Composite parent,
 			final String text, final int size) {
@@ -99,11 +95,10 @@ public abstract class ImportMergePart<S extends IModelSession>
 	IModelSession session;
 
 	/**
-	 * @param sessionType
-	 *            the session type
+	 * Constructor
 	 */
-	public ImportMergePart(final Class<S> sessionType) {
-		super(sessionType);
+	public ImportMergePart() {
+		super();
 	}
 
 	protected void createInfoGroup(final Composite parent) {

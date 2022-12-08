@@ -39,7 +39,7 @@ public class ValidationProblemTableViewerConsumer<S extends IModelSession>
 		IDoubleClickListener {
 	private final static String SOURCE_TEXT_VIEWER_PART_ID = "org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService"; //$NON-NLS-1$
 	private final IEventBroker broker;
-	private final BasePart<S> source;
+	private final BasePart source;
 	private final ToolboxPartService toolboxPartService;
 	private ValidationProblem lastSelectedProblem;
 
@@ -52,7 +52,7 @@ public class ValidationProblemTableViewerConsumer<S extends IModelSession>
 	 *            the toolbox part service
 	 */
 	public ValidationProblemTableViewerConsumer(final IEventBroker broker,
-			final BasePart<S> source,
+			final BasePart source,
 			final ToolboxPartService toolboxPartService) {
 		this.broker = broker;
 		this.source = source;

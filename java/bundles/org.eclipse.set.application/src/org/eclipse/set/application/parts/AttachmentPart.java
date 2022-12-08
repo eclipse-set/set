@@ -17,7 +17,6 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.application.Messages;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.files.AttachmentContentService;
@@ -25,6 +24,8 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
 import org.eclipse.set.ppmodel.extensions.AnhangTransformation;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -40,9 +41,6 @@ import org.eclipse.swt.widgets.Label;
 
 import com.google.common.collect.Lists;
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
-
 /**
  * This parts lists all attachments available in the document and offers the
  * possibility to open the attachments.
@@ -50,7 +48,7 @@ import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
  * @author bleidiessel
  *
  */
-public class AttachmentPart extends BasePart<IModelSession> {
+public class AttachmentPart extends BasePart {
 
 	private static final String HEADING_PATTERN = "%s (%s)"; //$NON-NLS-1$
 
@@ -88,7 +86,7 @@ public class AttachmentPart extends BasePart<IModelSession> {
 	 */
 	@Inject
 	public AttachmentPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	// every call creates a tableviewer-instance for attachments

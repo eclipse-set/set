@@ -51,6 +51,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.part.PartDescription;
+import org.eclipse.set.basis.part.ToolboxPart;
 import org.eclipse.set.basis.part.ViewVisibility;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
@@ -96,7 +97,7 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 				throw new IllegalArgumentException(uri.toString());
 			}
 			final Class<?> type = bundle.loadClass(typeName);
-			if (!BasePart.class.isAssignableFrom(type)) {
+			if (!ToolboxPart.class.isAssignableFrom(type)) {
 				LOGGER.warn("Contribution " + type.getSimpleName() //$NON-NLS-1$
 						+ " for view " + description.getToolboxViewName() //$NON-NLS-1$
 						+ " is no subclass of " //$NON-NLS-1$

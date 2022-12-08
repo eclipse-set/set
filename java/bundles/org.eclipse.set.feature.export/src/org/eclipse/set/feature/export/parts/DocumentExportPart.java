@@ -58,13 +58,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Viewpart for the export of documents.
  * 
- * @param <S>
- *            the session type
- * 
  * @author rumpf
  */
-public abstract class DocumentExportPart<S extends IModelSession>
-		extends BasePart<S> {
+public abstract class DocumentExportPart extends BasePart {
 
 	private static final int SECTION_FONT_HEIGHT = 16;
 
@@ -102,11 +98,10 @@ public abstract class DocumentExportPart<S extends IModelSession>
 	MessagesWrapper wrapper;
 
 	/**
-	 * @param sessionType
-	 *            the session type
+	 * Constructor
 	 */
-	public DocumentExportPart(final Class<S> sessionType) {
-		super(sessionType);
+	protected DocumentExportPart() {
+		super();
 	}
 
 	/**
@@ -262,7 +257,8 @@ public abstract class DocumentExportPart<S extends IModelSession>
 		return section;
 	}
 
-	private void startExport(final Shell shell, final S modelSession) {
+	private void startExport(final Shell shell,
+			final IModelSession modelSession) {
 		final OverwriteHandling overwriteHandling = OverwriteHandling
 				.forCheckbox(checkOverrideButton.getSelection());
 		final Object[] checkedElements = viewer.getCheckedElements();
@@ -323,8 +319,9 @@ public abstract class DocumentExportPart<S extends IModelSession>
 		setOutdated(getModelSession().isDirty());
 	}
 
-	protected abstract void export(CheckboxModelElement element, S modelSession,
-			OverwriteHandling overwriteHandling, IProgressMonitor monitor);
+	protected abstract void export(CheckboxModelElement element,
+			IModelSession modelSession, OverwriteHandling overwriteHandling,
+			IProgressMonitor monitor);
 
 	protected abstract String getDescription();
 

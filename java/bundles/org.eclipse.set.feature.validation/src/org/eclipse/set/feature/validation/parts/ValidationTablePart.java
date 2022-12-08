@@ -12,7 +12,6 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.ecp.ui.view.ECPRendererException;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
@@ -28,7 +27,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  * @author Schaefer
  */
-public class ValidationTablePart extends AbstractEmfFormsPart<IModelSession> {
+public class ValidationTablePart extends AbstractEmfFormsPart {
 
 	@Inject
 	@Translation
@@ -47,7 +46,7 @@ public class ValidationTablePart extends AbstractEmfFormsPart<IModelSession> {
 	 */
 	@Inject
 	public ValidationTablePart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

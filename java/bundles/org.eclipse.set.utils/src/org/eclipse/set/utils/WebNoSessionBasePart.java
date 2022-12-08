@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.set.basis.part.ToolboxPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -28,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * @author Truong
  *
  */
-public abstract class WebNoSessionBasePart {
+public abstract class WebNoSessionBasePart implements ToolboxPart {
 	protected FileWebBrowser browser;
 	static final Logger LOGGER = LoggerFactory
 			.getLogger(WebNoSessionBasePart.class);

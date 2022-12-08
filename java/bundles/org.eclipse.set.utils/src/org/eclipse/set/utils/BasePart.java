@@ -57,12 +57,9 @@ import com.google.common.collect.Lists;
 /**
  * A toolbox specific part with a title.
  * 
- * @param <S>
- *            the type of the model session
- * 
  * @author Schaefer
  */
-public abstract class BasePart<S extends IModelSession> implements ToolboxPart {
+public abstract class BasePart implements ToolboxPart {
 
 	static final Logger LOGGER = LoggerFactory.getLogger(BasePart.class);
 	private MApplication application;
@@ -94,14 +91,12 @@ public abstract class BasePart<S extends IModelSession> implements ToolboxPart {
 
 	private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 
-	private S session;
+	private IModelSession session;
 
 	private DefaultToolboxEventHandler<SessionDirtyChanged> sessionDirtyHandler;
 
 	@Inject
 	private SessionService sessionService;
-
-	private final Class<S> sessionType;
 
 	private Shell toolboxShell;
 
@@ -113,14 +108,6 @@ public abstract class BasePart<S extends IModelSession> implements ToolboxPart {
 
 	boolean active;
 	MPart toolboxPart;
-
-	/**
-	 * @param sessionType
-	 *            the session type
-	 */
-	public BasePart(final Class<S> sessionType) {
-		this.sessionType = sessionType;
-	}
 
 	/**
 	 * @return the application
@@ -161,7 +148,7 @@ public abstract class BasePart<S extends IModelSession> implements ToolboxPart {
 	/**
 	 * @return the session
 	 */
-	public S getModelSession() {
+	public IModelSession getModelSession() {
 		return session;
 	}
 
@@ -239,7 +226,7 @@ public abstract class BasePart<S extends IModelSession> implements ToolboxPart {
 			toolboxPart = part;
 			viewTitle = part.getLabel();
 			application = pApplication;
-			session = sessionType.cast(modelSession);
+			session = modelSession;
 
 			// parent layout
 			parent.setLayout(new GridLayout());

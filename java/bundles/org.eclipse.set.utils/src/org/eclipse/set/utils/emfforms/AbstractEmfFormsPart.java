@@ -24,7 +24,6 @@ import org.eclipse.emf.ecp.view.spi.model.VViewFactory;
 import org.eclipse.emf.ecp.view.spi.model.VViewModelLoadingProperties;
 import org.eclipse.emf.ecp.view.spi.model.VViewModelProperties;
 import org.eclipse.emf.ecp.view.spi.provider.ViewProviderHelper;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.EditingCompleted;
@@ -35,12 +34,9 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Renders EMF Forms view.
  * 
- * @param <S>
- *            the session type
  * @author Schaefer
  */
-public abstract class AbstractEmfFormsPart<S extends IModelSession>
-		extends BasePart<S> {
+public abstract class AbstractEmfFormsPart extends BasePart {
 
 	private static VViewModelProperties getProperties(final String property) {
 		if (property == null) {
@@ -58,11 +54,10 @@ public abstract class AbstractEmfFormsPart<S extends IModelSession>
 	protected ToolboxViewModelService modelService;
 
 	/**
-	 * @param sessionType
-	 *            the session type
+	 * Constructor
 	 */
-	public AbstractEmfFormsPart(final Class<S> sessionType) {
-		super(sessionType);
+	protected AbstractEmfFormsPart() {
+		super();
 	}
 
 	/**

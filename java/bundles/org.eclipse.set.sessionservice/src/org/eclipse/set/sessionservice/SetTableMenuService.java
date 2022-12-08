@@ -20,7 +20,6 @@ import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.ui.menu.IMenuItemProvider;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
@@ -48,8 +47,7 @@ public class SetTableMenuService extends AbstractTableMenuService {
 	}
 
 	@Override
-	public void createDefaultMenuItems(
-			final BasePart<? extends IModelSession> part, final Table table,
+	public void createDefaultMenuItems(final BasePart part, final Table table,
 			final IDataProvider dataProvider,
 			final SelectionLayer selectionLayer) {
 

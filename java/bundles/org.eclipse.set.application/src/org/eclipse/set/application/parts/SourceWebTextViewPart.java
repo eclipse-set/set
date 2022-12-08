@@ -48,7 +48,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  * @author Stuecker
  */
-public class SourceWebTextViewPart extends BasePart<IModelSession> {
+public class SourceWebTextViewPart extends BasePart {
 	private static final String JUMP_TO_LINE_FUNCTION = "window.planproJumpToLine"; //$NON-NLS-1$
 	private static final String JUMP_TO_GUID_FUNCTION = "window.planproJumpToGuid"; //$NON-NLS-1$
 	private static final String UPDATE_PROBLEMS_FUNCTION = "window.planproUpdateProblems"; //$NON-NLS-1$
@@ -75,7 +75,7 @@ public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	 * Constructor
 	 */
 	public SourceWebTextViewPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	private void onProblemsChange() {

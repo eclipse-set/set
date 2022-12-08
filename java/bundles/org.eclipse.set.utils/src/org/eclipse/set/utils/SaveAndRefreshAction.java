@@ -28,7 +28,7 @@ public class SaveAndRefreshAction implements SelectableAction {
 	 * @param source
 	 *            the source
 	 */
-	public SaveAndRefreshAction(final BasePart<?> source) {
+	public SaveAndRefreshAction(final BasePart source) {
 		this.shell = source.getToolboxShell();
 		this.session = source.getModelSession();
 		this.messages = source.getUtilMessages();

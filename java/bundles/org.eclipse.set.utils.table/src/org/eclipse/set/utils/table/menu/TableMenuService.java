@@ -15,7 +15,6 @@ import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.ui.menu.IMenuItemProvider;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.swt.events.SelectionListener;
@@ -49,8 +48,8 @@ public interface TableMenuService {
 	 * @param selectionLayer
 	 *            selection layer
 	 */
-	void createDefaultMenuItems(BasePart<? extends IModelSession> part,
-			Table table, final IDataProvider tableDataProvider,
+	void createDefaultMenuItems(BasePart part, Table table,
+			final IDataProvider tableDataProvider,
 			SelectionLayer selectionLayer);
 
 	/**

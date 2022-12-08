@@ -24,7 +24,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -56,7 +55,7 @@ import org.osgi.service.event.EventHandler;
  * @author Peters
  *
  */
-public class TableOverviewPart extends BasePart<IModelSession> {
+public class TableOverviewPart extends BasePart {
 
 	private static final String TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table."; //$NON-NLS-1$
 
@@ -261,7 +260,7 @@ public class TableOverviewPart extends BasePart<IModelSession> {
 	 */
 	@Inject
 	public TableOverviewPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.exceptions.UserAbortion;
@@ -62,7 +61,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author Schaefer
  */
-public class PlanProImportPart extends ImportMergePart<IModelSession> {
+public class PlanProImportPart extends ImportMergePart {
 
 	private static Container_AttributeGroup getContainer(
 			final FileFieldCombo<ImportComboSelection> fileFieldCombo,
@@ -127,7 +126,7 @@ public class PlanProImportPart extends ImportMergePart<IModelSession> {
 	 */
 	@Inject
 	public PlanProImportPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	private void createImportButton(final Composite parent) {

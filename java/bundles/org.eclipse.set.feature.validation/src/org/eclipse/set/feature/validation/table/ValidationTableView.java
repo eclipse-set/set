@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.validation.table;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.validationreport.ValidationReport;
@@ -27,7 +26,7 @@ import org.eclipse.swt.widgets.Control;
  */
 public class ValidationTableView extends AbstractSortByColumnTables {
 	private final Messages messages;
-	private final BasePart<? extends IModelSession> part;
+	private final BasePart part;
 	private NatTable natTable;
 
 	private final TableMenuService tableMenuService;
@@ -40,8 +39,8 @@ public class ValidationTableView extends AbstractSortByColumnTables {
 	 * @param tableMenuService
 	 *            The table menu service
 	 */
-	public ValidationTableView(final BasePart<? extends IModelSession> part,
-			final Messages messages, final TableMenuService tableMenuService) {
+	public ValidationTableView(final BasePart part, final Messages messages,
+			final TableMenuService tableMenuService) {
 		this.part = part;
 		this.messages = messages;
 		this.tableMenuService = tableMenuService;

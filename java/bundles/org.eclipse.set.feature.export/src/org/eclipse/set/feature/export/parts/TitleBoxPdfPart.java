@@ -21,7 +21,6 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
@@ -46,8 +45,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author Schaefer
  */
-public class TitleBoxPdfPart extends BasePart<IModelSession>
-		implements SaveListener {
+public class TitleBoxPdfPart extends BasePart implements SaveListener {
 
 	private static final String TITLEBOX_PDF = "titlebox.pdf"; //$NON-NLS-1$
 
@@ -68,7 +66,7 @@ public class TitleBoxPdfPart extends BasePart<IModelSession>
 	 */
 	@Inject
 	public TitleBoxPdfPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

@@ -27,7 +27,6 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
@@ -74,7 +73,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author Bleidiessel / Schaefer
  */
-public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
+public class ValidationPart extends AbstractEmfFormsPart {
 
 	private static final int BUTTON_WIDTH_EXPORT_VALIDATION = 30;
 
@@ -121,7 +120,7 @@ public class ValidationPart extends AbstractEmfFormsPart<IModelSession> {
 	 */
 	@Inject
 	public ValidationPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

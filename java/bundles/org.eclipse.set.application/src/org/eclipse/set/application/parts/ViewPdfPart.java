@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.application.Messages;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
@@ -38,7 +37,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author Schaefer
  */
-public class ViewPdfPart extends BasePart<IModelSession>
+public class ViewPdfPart extends BasePart
 		implements PdfViewerPart, SaveListener {
 
 	@Optional
@@ -56,7 +55,7 @@ public class ViewPdfPart extends BasePart<IModelSession>
 	 */
 	@Inject
 	public ViewPdfPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

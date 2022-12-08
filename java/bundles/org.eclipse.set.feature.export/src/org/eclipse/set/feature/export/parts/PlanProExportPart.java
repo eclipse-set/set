@@ -42,8 +42,7 @@ import org.eclipse.set.utils.exception.ExceptionHandler;
  * 
  * @author rumpf
  */
-public abstract class PlanProExportPart
-		extends DocumentExportPart<IModelSession> {
+public abstract class PlanProExportPart extends DocumentExportPart {
 
 	@Inject
 	@Optional
@@ -57,7 +56,7 @@ public abstract class PlanProExportPart
 	 */
 	@Inject
 	public PlanProExportPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

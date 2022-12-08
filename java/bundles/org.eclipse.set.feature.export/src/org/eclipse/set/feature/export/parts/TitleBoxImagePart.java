@@ -15,7 +15,6 @@ import javax.inject.Inject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
@@ -34,7 +33,7 @@ import org.eclipse.swt.widgets.Label;
  * 
  * @author Schaefer
  */
-public class TitleBoxImagePart extends BasePart<IModelSession> {
+public class TitleBoxImagePart extends BasePart {
 
 	private static final String TITLEBOX_IMAGE = "titlebox.png"; //$NON-NLS-1$
 
@@ -61,7 +60,7 @@ public class TitleBoxImagePart extends BasePart<IModelSession> {
 	 */
 	@Inject
 	public TitleBoxImagePart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	private void createTitleboxImage(

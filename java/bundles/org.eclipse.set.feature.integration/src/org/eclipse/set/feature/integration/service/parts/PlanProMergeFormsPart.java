@@ -81,7 +81,7 @@ import com.google.common.base.Strings;
  * 
  * @author Schaefer
  */
-public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
+public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 
 	private static final String CONFLICTS_TABLE_ACTION = "conflictsTableAction"; //$NON-NLS-1$
 
@@ -162,7 +162,7 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart<IModelSession> {
 	 */
 	@Inject
 	public PlanProMergeFormsPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	private boolean allConflictsResolved() {

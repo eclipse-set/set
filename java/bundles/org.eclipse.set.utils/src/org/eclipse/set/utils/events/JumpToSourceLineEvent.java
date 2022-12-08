@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.utils.events;
 
-import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.utils.BasePart;
 
 /**
@@ -20,7 +19,7 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 
 	private static final String TOPIC = "tooboxevents/source/line/jump"; //$NON-NLS-1$
 
-	private final BasePart<? extends IModelSession> source;
+	private final BasePart source;
 
 	private final int lineNumber;
 
@@ -37,11 +36,8 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 	 * @param source
 	 *            the source
 	 */
-	public JumpToSourceLineEvent(
-			final BasePart<? extends IModelSession> source) {
-		this.lineNumber = -1;
-		this.source = source;
-		this.objectGuid = null;
+	public JumpToSourceLineEvent(final BasePart source) {
+		this(-1, source);
 	}
 
 	/**
@@ -50,8 +46,7 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 	 * @param source
 	 *            the source
 	 */
-	public JumpToSourceLineEvent(final int lineNumber,
-			final BasePart<? extends IModelSession> source) {
+	public JumpToSourceLineEvent(final int lineNumber, final BasePart source) {
 		this.lineNumber = lineNumber;
 		this.source = source;
 		this.objectGuid = null;
@@ -64,7 +59,7 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 	 *            the source
 	 */
 	public JumpToSourceLineEvent(final String objectGuid,
-			final BasePart<? extends IModelSession> source) {
+			final BasePart source) {
 		this.lineNumber = -1;
 		this.source = source;
 		this.objectGuid = objectGuid;
@@ -87,7 +82,7 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 	/**
 	 * @return the source
 	 */
-	public BasePart<? extends IModelSession> getSource() {
+	public BasePart getSource() {
 		return source;
 	}
 

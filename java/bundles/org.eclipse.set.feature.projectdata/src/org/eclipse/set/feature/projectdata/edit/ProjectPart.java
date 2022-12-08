@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Text;
  * 
  * @author Schaefer
  */
-public class ProjectPart extends AbstractEmfFormsPart<IModelSession> {
+public class ProjectPart extends AbstractEmfFormsPart {
 
 	private static final String COPY_DATE_TRIGGER = "copyDateTrigger"; //$NON-NLS-1$
 
@@ -69,7 +69,7 @@ public class ProjectPart extends AbstractEmfFormsPart<IModelSession> {
 	 */
 	@Inject
 	public ProjectPart() {
-		super(IModelSession.class);
+		super();
 	}
 
 	@Override

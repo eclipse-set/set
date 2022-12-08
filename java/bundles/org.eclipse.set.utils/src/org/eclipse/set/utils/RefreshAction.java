@@ -28,7 +28,7 @@ public class RefreshAction implements SelectableAction {
 	 * @param update
 	 *            the update function
 	 */
-	public RefreshAction(final BasePart<?> source,
+	public RefreshAction(final BasePart source,
 			final Consumer<SelectionEvent> update) {
 		messages = source.getUtilMessages();
 		this.update = update;
