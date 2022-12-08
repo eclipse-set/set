@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Copyright (c) 2022 DB Netz AG and others.
  *
@@ -8,6 +9,13 @@
  */
 import { App } from './app'
 
+export enum TableType
+{
+  INITIAL = 'initial',
+  FINAL = 'final',
+  DIFF = 'diff'
+}
+
 let app : App | null = null;
 (window as any).initApp = () => {
   app = new App()
@@ -16,6 +24,10 @@ let app : App | null = null;
 
 (window as any).planproJumpToLine = (line: number) => {
   app?.jumpToLine(line)
+}
+
+(window as any).planproJumpToGuid = (guid: string, sessionState: TableType) => {
+  app?.jumpToGuid(guid, sessionState)
 }
 
 (window as any).planproUpdateProblems = () => {

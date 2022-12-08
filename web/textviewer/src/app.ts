@@ -8,7 +8,8 @@
  */
 import { Model, ProblemMessage } from './model'
 import * as monaco from 'monaco-editor'
-import jumpToDefinition from './jumpToGuid'
+import jumpToDefinition, { findObjectDefinitionLineByGUID, isInStartContainer } from './jumpToGuid'
+import { TableType } from '.'
 
 /**
  * Implementation of the text view
@@ -122,6 +123,22 @@ export class App {
     // Open the next error view
     this.editor.trigger('', 'closeMarkersNavigation', {})
     this.editor.trigger('', 'editor.action.marker.next', {})
+  }
+
+  jumpToGuid (guid: string, sessionState: TableType) {
+    let isInitialState = false
+    switch (sessionState) {
+      case TableType.INITIAL:
+        isInitialState = true
+        break
+      case TableType.DIFF:
+        isInitialState = isInStartContainer(this.editor, this.editor.getPosition())
+        break
+      default:
+        break
+    }
+    const line = findObjectDefinitionLineByGUID(guid, this.editor, this.xml, isInitialState)
+    this.jumpToLine(line)
   }
 
   updateProblems () {

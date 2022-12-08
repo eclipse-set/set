@@ -40,10 +40,10 @@ export default function jumpToDefinition (editor: monaco.editor.IStandaloneCodeE
  * @param pos the position of the cursor
  * @returns whether the position is contained within a LST_Zustand_Start
  */
-function isInStartContainer (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Position) {
+export function isInStartContainer (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Position) {
   const lstState = editor.getModel().findPreviousMatch('<LST_Zustand_(Start|Ziel)>', pos, true, false, null, true)
   if (lstState) {
-    return lstState.matches[1] === '<LST_Zustand_Start>'
+    return lstState.matches[1] === 'Start'
   }
 }
 
@@ -108,7 +108,7 @@ function getGUIDAt (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Pos
  * @param startContainer whether to look in LST_Zustand_Start or LST_Zustand_Ziel
  * @returns the line of the object definition or null
  */
-function findObjectDefinitionLineByGUID (guid: string, editor: monaco.editor.IStandaloneCodeEditor, xml: Document, startContainer: boolean) {
+export function findObjectDefinitionLineByGUID (guid: string, editor: monaco.editor.IStandaloneCodeEditor, xml: Document, startContainer: boolean) {
   // Find the XML node via XPath
   const xpath = startContainer
     ? `.//LST_Zustand_Start/Container/*/Identitaet/Wert[text()="${guid}"]`

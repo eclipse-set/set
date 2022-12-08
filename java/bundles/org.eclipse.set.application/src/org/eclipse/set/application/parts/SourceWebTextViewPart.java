@@ -22,6 +22,7 @@ import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.browser.RequestHandler.Request;
 import org.eclipse.set.browser.RequestHandler.Response;
@@ -49,6 +50,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class SourceWebTextViewPart extends BasePart<IModelSession> {
 	private static final String JUMP_TO_LINE_FUNCTION = "window.planproJumpToLine"; //$NON-NLS-1$
+	private static final String JUMP_TO_GUID_FUNCTION = "window.planproJumpToGuid"; //$NON-NLS-1$
 	private static final String UPDATE_PROBLEMS_FUNCTION = "window.planproUpdateProblems"; //$NON-NLS-1$
 
 	@Inject
