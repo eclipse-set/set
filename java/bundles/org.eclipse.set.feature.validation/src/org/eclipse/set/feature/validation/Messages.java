@@ -220,4 +220,19 @@ public class Messages {
 	 * Zeige in Textsicht
 	 */
 	public String ValidationTableItem_JumpToTextView;
+
+	/**
+	 * Es sind keine Schemafehler aufgetreten.
+	 */
+	public String XsdErrorSuccessMsg;
+
+	/**
+	 * Es sind keine Schemawarnungen aufgetreten.
+	 */
+	public String XsdSuccessMsg;
+
+	/**
+	 * Es sind keine Ein/Ausgabefehler aufgetreten.
+	 */
+	public String IoSuccessMsg;
 }

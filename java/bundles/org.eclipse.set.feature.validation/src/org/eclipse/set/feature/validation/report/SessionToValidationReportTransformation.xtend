@@ -45,7 +45,8 @@ class SessionToValidationReportTransformation {
 	val XMLNodeFinder xmlNodeFinder = new XMLNodeFinder();
 	val EnumTranslationService enumService
 
-	new(Messages messages, PlanProVersionService versionService, EnumTranslationService enumService) {
+	new(Messages messages, PlanProVersionService versionService,
+		EnumTranslationService enumService) {
 		this.messages = messages
 		this.versionService = versionService
 		this.enumService = enumService
@@ -78,15 +79,17 @@ class SessionToValidationReportTransformation {
 		report.toolboxVersion = ToolboxConfiguration.toolboxVersion.longVersion
 
 		report.problems.clear
-		
+
 		// transform the IO problems
-		session.validationResult.xsdErrors.addProblems(messages.XsdProblemMsg, ValidationSeverity.ERROR)
-		
+		session.validationResult.xsdErrors.addProblems(messages.XsdProblemMsg,
+			ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg)
+
 		// transform the XSD problems
-		session.validationResult.xsdWarnings.addProblems(messages.XsdWarningMsg, ValidationSeverity.WARNING)
-		session.validationResult.ioErrors.addProblems(messages.IoProblemMsg, ValidationSeverity.ERROR)
-		
-		
+		session.validationResult.xsdWarnings.addProblems(messages.XsdWarningMsg,
+			ValidationSeverity.WARNING, messages.XsdSuccessMsg)
+		session.validationResult.ioErrors.addProblems(messages.IoProblemMsg,
+			ValidationSeverity.ERROR, messages.IoSuccessMsg)
+
 		// transform custom problems
 		session.validationResult.customProblems.forEach [
 			report.problems.add(
@@ -105,25 +108,26 @@ class SessionToValidationReportTransformation {
 
 		return report
 	}
-	
-	private def <T extends Exception> void addProblems(List<T> errors, String type, ValidationSeverity severtiy) {
-		if (errors.length === 0) {
+
+	private def <T extends Exception> void addProblems(List<T> errors,
+		String type, ValidationSeverity severity, String successMessage) {
+		if (errors.empty) {
 			report.problems.add(
-				type.transformSuccess(createId)
+				type.transform(createId, successMessage)
 			)
 		} else {
-			errors.forEach[
+			errors.forEach [
 				report.problems.add(
-					transform(createId, type, severtiy)
+					transform(createId, type, severity)
 				)
 			]
 		}
 	}
-	
+
 	private def ValidationReport create ValidationreportFactory.eINSTANCE.createValidationReport
 	transformCreate(IModelSession session) {
 	}
-	
+
 	private def String transform(Outcome outcome) {
 		switch (outcome) {
 			case VALID: {
@@ -137,7 +141,7 @@ class SessionToValidationReportTransformation {
 			}
 		}
 	}
-	
+
 	private def ValidationProblem transform(
 		Exception exception,
 		int id,
@@ -154,7 +158,7 @@ class SessionToValidationReportTransformation {
 		}
 		return exception.transformException(id, type, severity)
 	}
-	
+
 	private def dispatch ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transformException(
 		XMIException exception,
@@ -176,8 +180,7 @@ class SessionToValidationReportTransformation {
 		}
 		return
 	}
-	
-	
+
 	private def dispatch ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transformException(
 		SAXParseException exception,
@@ -199,7 +202,7 @@ class SessionToValidationReportTransformation {
 		}
 		return
 	}
-	
+
 	private def dispatch ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transformException(
 		Exception exception,
@@ -219,7 +222,6 @@ class SessionToValidationReportTransformation {
 		return
 	}
 
-
 	private def ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transform(
 		CustomValidationProblem problem,
@@ -237,31 +239,32 @@ class SessionToValidationReportTransformation {
 		attributeName = problem.attributeName
 		return
 	}
-	
+
 	private def ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
-	 transformSuccess(
+	transform(
 		String errorType,
-		int id
+		int id,
+		String message
 	) {
 		it.id = id
 		type = errorType
 		severity = ValidationSeverity.SUCCESS
 		severityText = severity.translate
-		message = '''«errorType» validation'''
+		it.message = message
 	}
-	
+
 	private def int createId() {
 		id++
 		return id
 	}
-	
+
 	private def Iterable<String> getSubworkTypes(IModelSession session) {
 		val fachdaten = session.planProSchnittstelle?.LSTPlanung?.fachdaten?.
 			ausgabeFachdaten
 		if (fachdaten === null)
 			return #[]
 		val subtypes = newHashMap
-		fachdaten.map[untergewerkArt?.wert?.toString].forEach[
+		fachdaten.map[untergewerkArt?.wert?.toString].forEach [
 			if (!subtypes.containsKey(it)) {
 				subtypes.put(it, 1)
 			} else {
@@ -283,7 +286,7 @@ class SessionToValidationReportTransformation {
 		val original = exception.message
 		return original.replaceFirst("cvc[^:]+: ", "")
 	}
-	
+
 	private def String translate(Enumerator enumerator) {
 		if (enumerator === null) {
 			return null
@@ -291,6 +294,4 @@ class SessionToValidationReportTransformation {
 		return enumService.translate(enumerator).alternative
 	}
 
-
-	
 }
