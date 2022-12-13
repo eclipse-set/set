@@ -13,7 +13,7 @@
       <programArgsWin>-data
 @user.home/.toolbox
       </programArgsWin>
-      <vmArgs>-Xmx4096M -Dorg.eclipse.set.browser.locale=de-DE
+      <vmArgs>-Xmx4096M -Dorg.eclipse.set.browser.locale=de-DE -Dfile.encoding=UTF8
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -62,26 +62,26 @@
       <plugin id="org.eclipse.set.feature.integration" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.feature.table" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.sessionservice" autoStart="true" startLevel="2" />
-      <property name="toolbox.logfile" value="" />
-      <property name="toolbox.tmpdir" value="$user.home$/.toolbox/" os="win32" />
-      <property name="toolbox.text.font" value="Courier New,10,normal" />
-      <property name="toolbox.viewer.defaults" value="black,white,bold" />
-      <property name="toolbox.curved.geometry.tolerance" value="0.001" />
-      <property name="toolbox.detailversion" value="${qualifiedVersion}R${buildNumber}" />
-      <property name="toolbox.greyedoutstyle.background" value="242,242,242" />
-      <property name="toolbox.defaultdir" value="$USERPROFILE$\planpro" />
-      <property name="toolbox.greyedoutstyle.foreground" value="128,128,128" />
-      <property name="toolbox.cefdir" value="bin/cef" />
-      <property name="toolbox.buildNumber" value="${buildNumber}" />
       <property name="toolbox.viewer.attributes" value="red,white,normal" />
+      <property name="toolbox.curved.geometry.tolerance" value="0.001" />
+      <property name="toolbox.buildNumber" value="${buildNumber}" />
+      <property name="toolbox.defaultdir" value="$USERPROFILE$\planpro" />
       <property name="toolbox.default.line.height" value="0.6" />
       <property name="toolbox.tables.scale" value="50.0" />
-      <property name="toolbox.viewer.strings" value="dark_magenta,white,bold" />
-      <property name="toolbox.development.mode" value="false" />
-      <property name="logback.configurationFile" value="logback-runtime.xml" />
-      <property name="toolbox.version" value="${qualifiedVersion}" />
+      <property name="toolbox.greyedoutstyle.background" value="242,242,242" />
+      <property name="toolbox.text.font" value="Courier New,10,normal" />
       <property name="toolbox.viewer.tags" value="dark_blue,white,normal" />
+      <property name="toolbox.development.mode" value="false" />
+      <property name="toolbox.detailversion" value="${qualifiedVersion}R${buildNumber}" />
+      <property name="toolbox.viewer.strings" value="dark_magenta,white,bold" />
+      <property name="toolbox.viewer.defaults" value="black,white,bold" />
+      <property name="toolbox.version" value="${qualifiedVersion}" />
+      <property name="logback.configurationFile" value="logback-runtime.xml" />
+      <property name="toolbox.greyedoutstyle.foreground" value="128,128,128" />
       <property name="toolbox.export.pdf.test.filling" value="false" />
+      <property name="toolbox.logfile" value="" />
+      <property name="toolbox.tmpdir" value="$user.home$/.toolbox/" os="win32" />
+      <property name="toolbox.cefdir" value="bin/cef" />
    </configurations>
 
    <preferencesInfo>
