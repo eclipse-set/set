@@ -2,11 +2,13 @@
 
 Due to the multitude of technologies used by Eclipse SET, building the entirety of the Signalling Engineering Toolbox entirely from scratch is non-trivial, and rarely required. 
 
-As a result, this document contains two sets of instructions. First, instructions on how to work on the main SET application relying on prebuilt components (e.g. for development) and secondly how to do a full production build locally.
+As a result, this document contains two sets of instructions.
+First, instructions on how to work on the main SET application relying on prebuilt components (e.g. for development) and secondly instructions on how to do a full production build locally are provided. 
 
 ## Operating Systems
 
-Eclipse SET currently supports Windows x64 for execution, and either a Windows x64 or a Linux x64 machine for building the code. Other operating systems or processor architectures may work, but are generally not supported.
+Eclipse SET currently supports Windows x64 for execution and either Windows x64 or Linux x64 machine for building the code.
+Other operating systems or processor architectures may work, but are generally not supported.
 
 ## Prerequisites
 
@@ -14,7 +16,7 @@ Eclipse SET currently supports Windows x64 for execution, and either a Windows x
 - node.js 18 (or higher)
 - Maven (3.8+) 
 - Eclipse IDE (2022-06+)
-- hugo
+- [hugo](https://gohugo.io/) (v0.101.0+)
 
 # Development build
 
@@ -37,7 +39,8 @@ If you want to work on the embedded web components (e.g. the textviewer or the p
 
 # Production build
 
-This is the recommended way if you want a production-style build. This is also what we have implemented on the Jenkins instance. If you want to develop SET, this is not recommended as the subcomponents are relatively stable and are easy to aquire from our download site.
+This is the recommended way if you want a production-style build. This is also what we have implemented on the Jenkins instance.
+If you want to develop SET, this is not recommended as the subcomponents are relatively stable and are easy to aquire from our download site.
 
 1. Follow the build instructions for the [model subcomponent](https://gitlab.eclipse.org/eclipse/set/model). 
 2. Follow the build instructions for the [toolboxmodel subcomponent](https://gitlab.eclipse.org/eclipse/set/toolbox-model). While doing so, make sure to follow the steps outlined for adapting to a local model build.

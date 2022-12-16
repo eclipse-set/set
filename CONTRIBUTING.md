@@ -25,7 +25,7 @@ Please file all issues and feature requests under the main SET repository, even 
 
 If you intend to contribute code changes, please use a GitLab Merge Request 
 
-* https://gitlab.eclipse.org/eclipse/set/set/-/merge_requests
+* https://gitlab.eclipse.org/groups/eclipse/set/-/merge_requests
 
 Before contributing significant changes, please file an issue first. This allows us to discuss the merit of the contribution before you spend time on a feature that ends up being out of scope for the project. 
 
@@ -33,7 +33,7 @@ Before contributing significant changes, please file an issue first. This allows
 
 This repository is subject to the Terms of Use of the Eclipse Foundation
 
-* http://www.eclipse.org/legal/termsofuse.php
+* https://www.eclipse.org/legal/termsofuse.php
 
 ## Eclipse Development Process
 
@@ -48,7 +48,7 @@ Development Process and operates under the terms of the Eclipse IP Policy.
 In order to be able to contribute to Eclipse Foundation projects you must
 electronically sign the Eclipse Contributor Agreement (ECA).
 
-* http://www.eclipse.org/legal/ECA.php
+* https://www.eclipse.org/legal/ECA.php
 
 The ECA provides the Eclipse Foundation with a permanent record that you agree
 that each of your contributions will comply with the commitments documented in
