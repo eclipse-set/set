@@ -131,15 +131,17 @@ public class SourceWebTextViewPart extends BasePart {
 
 	private void handleJumpToSourceLineEvent(
 			final JumpToSourceLineEvent event) {
-		if (event.getLineNumber() != -1) {
-			this.jumpToLine(event);
-		} else if (!event.getObjectGuid().isEmpty()) {
-			this.jumpToGUID(event);
+		final int lineNumber = event.getLineNumber();
+		final String objectGuid = event.getObjectGuid();
+		if (lineNumber != -1) {
+			this.jumpToLine(lineNumber);
+		} else if (!objectGuid.isEmpty()) {
+			this.jumpToGUID(objectGuid);
 		}
 	}
 
 	@SuppressWarnings("boxing")
-	private void jumpToLine(final JumpToSourceLineEvent event) {
+	private void jumpToLine(final int lineNumber) {
 		final String js = String.format("""
 				{
 					let intervalId = 0
@@ -151,15 +153,18 @@ public class SourceWebTextViewPart extends BasePart {
 					}
 					intervalId = setInterval(jumpToLineWrapper, 100);
 				}
-				""", JUMP_TO_LINE_FUNCTION, JUMP_TO_LINE_FUNCTION,
-				event.getLineNumber());
+				""", JUMP_TO_LINE_FUNCTION, JUMP_TO_LINE_FUNCTION, lineNumber);
 		browser.executeJavascript(js);
 	}
 
-	private void jumpToGUID(final JumpToSourceLineEvent event) {
-		final TableType tableTyle = getModelSession().getTableType();
+	private void jumpToGUID(final String guid) {
+		TableType tableType = getModelSession().getTableType();
+		if (tableType == null) {
+			tableType = getModelSession().getNature().getDefaultContainer()
+					.getTableTypeForTables();
+		}
 		String tableState = ""; //$NON-NLS-1$
-		switch (tableTyle) {
+		switch (tableType) {
 		case INITIAL: {
 			tableState = "initial"; //$NON-NLS-1$
 			break;
@@ -187,8 +192,8 @@ public class SourceWebTextViewPart extends BasePart {
 					}
 					intervalId = setInterval(jumpToLineWrapper, 100);
 				}
-				""", JUMP_TO_GUID_FUNCTION, JUMP_TO_GUID_FUNCTION,
-				event.getObjectGuid(), tableState);
+				""", JUMP_TO_GUID_FUNCTION, JUMP_TO_GUID_FUNCTION, guid,
+				tableState);
 		browser.executeJavascript(js);
 
 	}

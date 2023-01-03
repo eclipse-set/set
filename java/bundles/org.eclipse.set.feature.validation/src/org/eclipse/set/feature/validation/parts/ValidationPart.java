@@ -35,7 +35,6 @@ import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.Services;
-import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -48,7 +47,6 @@ import org.eclipse.set.model.validationreport.extensions.ValidationReportExtensi
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
@@ -147,10 +145,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 					messages, versionService, enumTranslationService);
 			validationReport = transformation.transform(getModelSession());
 
-			final CacheService cacheService = ToolboxConfiguration.isDebugMode()
-					? Services.getCacheService()
-					: Services.getNoCacheService();
-			final Cache cache = cacheService
+			final Cache cache = Services.getCacheService()
 					.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
 			final List<ProblemMessage> problems = cache.get("validationReport", //$NON-NLS-1$
 					ArrayList::new);

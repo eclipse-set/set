@@ -103,7 +103,6 @@ public class FopServiceImpl implements FopService {
 			throws IOException, SAXException, ConfigurationException {
 		final FopFactoryBuilder fopFactoryBuilder = new FopFactoryBuilder(
 				URI.create(""), proxyResourceResolver); //$NON-NLS-1$
-
 		fopFactory = fopFactoryBuilder.build();
 		fopFactory.getRendererFactory().addDocumentHandlerMaker(
 				new FopPDFDocumentHandlerMaker(fontService));

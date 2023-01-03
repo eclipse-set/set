@@ -138,7 +138,14 @@ export class App {
         break
     }
     const line = findObjectDefinitionLineByGUID(guid, this.editor, this.xml, isInitialState)
-    this.jumpToLine(line)
+    if (line) {
+      // Jump to the line
+      this.editor.revealLineInCenter(line)
+      this.editor.setPosition({
+        lineNumber: line,
+        column: 0
+      })
+    }
   }
 
   updateProblems () {

@@ -168,7 +168,7 @@ public class ModelSession implements IModelSession {
 	protected ValidationResult validationResult = new ValidationResult();
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
-	TableType tableType = TableType.DIFF;
+	TableType tableType = null;
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 
 	/**
