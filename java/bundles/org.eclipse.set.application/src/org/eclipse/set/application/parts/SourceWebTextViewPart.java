@@ -39,6 +39,8 @@ import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.service.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,6 +54,9 @@ public class SourceWebTextViewPart extends BasePart {
 	private static final String JUMP_TO_LINE_FUNCTION = "window.planproJumpToLine"; //$NON-NLS-1$
 	private static final String JUMP_TO_GUID_FUNCTION = "window.planproJumpToGuid"; //$NON-NLS-1$
 	private static final String UPDATE_PROBLEMS_FUNCTION = "window.planproUpdateProblems"; //$NON-NLS-1$
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(SourceWebTextViewPart.class);
 
 	@Inject
 	@Translation
@@ -135,8 +140,10 @@ public class SourceWebTextViewPart extends BasePart {
 		final String objectGuid = event.getObjectGuid();
 		if (lineNumber != -1) {
 			this.jumpToLine(lineNumber);
-		} else if (!objectGuid.isEmpty()) {
+		} else if (objectGuid != null && !objectGuid.isEmpty()) {
 			this.jumpToGUID(objectGuid);
+		} else {
+			LOGGER.warn("Invalid jump to line event ignored."); //$NON-NLS-1$
 		}
 	}
 
