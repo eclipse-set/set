@@ -21,8 +21,8 @@ pipeline {
         }
       }
     }
-    
-    stage('Build NodeJS') {    
+
+    stage('Build NodeJS') {
       environment {
         GITHUB_TOKEN = credentials('github-bot-token')
       }
@@ -32,7 +32,7 @@ pipeline {
           dir('web/textviewer') {
             npmBuildTo target: '../../java/bundles/org.eclipse.set.feature/rootdir/web/textviewer/'
           }
-           dir('web/pdf') {
+          dir('web/pdf') {
             npmBuildTo target: '../../java/bundles/org.eclipse.set.feature/rootdir/web/pdf/'
           }
         }
@@ -70,12 +70,12 @@ pipeline {
         anyOf {
           buildingTag()
           branch 'main'
-          branch pattern: "feature/\\w+", comparator: "REGEXP"
+          branch pattern: 'feature/\\w+', comparator: 'REGEXP'
         }
       }
       steps {
         deployP2Site name: "set/${BRANCH_NAME}", path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
-        deployProduct name: "set", path: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
+        deployProduct name: 'set', path: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
       }
     }
   }
@@ -83,10 +83,10 @@ pipeline {
     always {
       // Publish JUnit test result
       junit testResults: 'java/bundles/*/target/surefire-reports/*.xml', allowEmptyResults: true
-      recordIssues aggregatingResults: true, 
-        enabledForFailure: true, 
+      recordIssues aggregatingResults: true,
+        enabledForFailure: true,
         tools: [
-          checkStyle(), 
+          checkStyle(),
           mavenConsole()],
         qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
     }
