@@ -64,8 +64,7 @@ pipeline {
       }
     }
 
-    stage('Deploy Snapshot')
-    {
+    stage('Deploy Snapshot') {
       when {
         anyOf {
           buildingTag()
