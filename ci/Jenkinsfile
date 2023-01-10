@@ -33,7 +33,11 @@ pipeline {
             npmBuildTo target: '../../java/bundles/org.eclipse.set.feature/rootdir/web/textviewer/'
           }
           dir('web/pdf') {
-            npmBuildTo target: '../../java/bundles/org.eclipse.set.feature/rootdir/web/pdf/'
+            script {
+              def version = sh(returnStdout: true, script: 'node getVersion.js').trim()
+              downloadFile file: "pdfjs.zip", url: "https://ci.eclipse.org/set/job/pdfjs-cache/lastSuccessfulBuild/artifact/pdfjs-${version}-dist.zip"
+              npmBuildTo target: '../../java/bundles/org.eclipse.set.feature/rootdir/web/pdf/'
+            }
           }
         }
       }
