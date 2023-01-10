@@ -180,11 +180,15 @@ public class TableOverviewPart extends BasePart {
 		final Collection<String> missingTables = getMissingTables();
 		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
 				missingTables.size());
+		final TableType tableType = getModelSession().isSingleState()
+				? TableType.SINGLE
+				: TableType.DIFF;
+
 		for (final String table : missingTables) {
 			final TableNameInfo info = tableService.getTableNameInfo(table);
 			monitor.subTask(info.getFullDisplayName());
-			tableService.transformToTable(table, TableType.DIFF,
-					getModelSession());
+
+			tableService.transformToTable(table, tableType, getModelSession());
 			monitor.worked(1);
 		}
 	}

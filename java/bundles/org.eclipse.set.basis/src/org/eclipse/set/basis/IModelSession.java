@@ -253,6 +253,12 @@ public interface IModelSession {
 	void setReportSavedDialogSuppressed(int kind, boolean value);
 
 	/**
+	 * @return whether the loaded data is a single state. Returns false if no
+	 *         data is loaded
+	 */
+	boolean isSingleState();
+
+	/**
 	 * Switch the session to merge mode.
 	 * 
 	 * @param temporaryIntegration

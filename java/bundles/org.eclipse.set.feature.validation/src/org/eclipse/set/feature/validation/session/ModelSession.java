@@ -895,4 +895,12 @@ public class ModelSession implements IModelSession {
 	public SaveFixResult getSaveFixResult() {
 		return saveFixResult;
 	}
+
+	@Override
+	public boolean isSingleState() {
+		if (!isLoaded()) {
+			return false;
+		}
+		return getPlanProSchnittstelle().getLSTZustand() != null;
+	}
 }

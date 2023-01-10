@@ -16,11 +16,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-
-import com.google.common.collect.Iterables;
-
 import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+
+import com.google.common.collect.Iterables;
 
 /**
  * Provides a list of attachments as model for the tableviewer.
@@ -66,14 +65,14 @@ public class AttachmentModelProvider {
 			// if a attachment is part of a container, then it is a domain
 			// attachment
 			if (parent instanceof Container_AttributeGroup) {
-				if (Iterables.contains(initialContainer.getContainers(),
-						parent)) {
+				if (initialContainer != null && Iterables
+						.contains(initialContainer.getContainers(), parent)) {
 					domainAttachmentsInitial.add(attachment);
-				} else if (Iterables.contains(finalContainer.getContainers(),
-						parent)) {
+				} else if (finalContainer != null && Iterables
+						.contains(finalContainer.getContainers(), parent)) {
 					domainAttachmentsFinal.add(attachment);
-				} else if (Iterables.contains(singleContainer.getContainers(),
-						parent)) {
+				} else if (singleContainer != null && Iterables
+						.contains(singleContainer.getContainers(), parent)) {
 					domainAttachmentsSingle.add(attachment);
 				}
 			} else {
