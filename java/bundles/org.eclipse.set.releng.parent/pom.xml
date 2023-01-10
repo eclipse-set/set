@@ -9,6 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<cbi-version>1.3.2</cbi-version>
 		<tycho-version>2.7.3</tycho-version>
 		<tycho-extras-version>2.7.3</tycho-extras-version>
 		<assembly.version>2.4</assembly.version>
@@ -196,225 +197,219 @@
 				</configuration>
 			</plugin>
 
-					<!-- Target platform setzen -->
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>target-platform-configuration</artifactId>
-						<version>${tycho-version}</version>
+			<!-- Target platform setzen -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+
+					<target>
+						<artifact>
+							<groupId>org.eclipse.set</groupId>
+							<artifactId>org.eclipse.set.releng.target</artifactId>
+							<version>${project.version}</version>
+						</artifact>
+					</target>
+
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+					<dependency-resolution>
+						<optionalDependencies>ignore</optionalDependencies>
+						<extraRequirements>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.set.rcp.compatibility</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+						</extraRequirements>
+					</dependency-resolution>
+				</configuration>
+			</plugin>
+
+			<!-- Erzeuge ein source-Feature für die Source-Bundles -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-source-plugin</artifactId>
+				<version>${tycho-extras-version}</version>
+				<executions>
+					<execution>
+						<id>plugin-source</id>
+						<goals>
+							<goal>plugin-source</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>feature-source</id>
+						<phase>package</phase>
+						<goals>
+							<goal>feature-source</goal>
+						</goals>
 						<configuration>
-
-							<target>
-								<artifact>
-									<groupId>org.eclipse.set</groupId>
-									<artifactId>org.eclipse.set.releng.target</artifactId>
-									<version>${project.version}</version>
-								</artifact>
-							</target>
-
-							<environments>
-								<environment>
-									<os>win32</os>
-									<ws>win32</ws>
-									<arch>x86_64</arch>
-								</environment>
-							</environments>
-							<dependency-resolution>
-								<optionalDependencies>ignore</optionalDependencies>
-								<extraRequirements>
-									<requirement>
-										<type>eclipse-plugin</type>
-										<id>org.eclipse.set.rcp.compatibility</id>
-										<versionRange>0.0.0</versionRange>
-									</requirement>
-								</extraRequirements>
-							</dependency-resolution>
+							<excludes>
+								<!-- IMPROVE PLANPRO-2176 -->
+								<feature id="org.eclipse.babel.nls_modeling.ecp_de" />
+								<feature id="org.eclipse.babel.nls_modeling.emf_de" />
+								<plugin id="de.scheidtbachmann.planpro.v1801.viewmodel" />
+								<plugin id="edu.umd.cs.findbugs.annotations" />
+								<plugin id="javax.xml" />
+								<plugin id="javax.mail" />
+								<plugin id="javax.activation" />
+								<plugin id="org.eclipse.jetty.webapp" />
+								<plugin id="org.eclipse.jetty.xml" />
+								<plugin id="org.apache.log4j" />
+								<plugin id="org.apache.xalan" />
+								<plugin id="org.apache.xerces" />
+								<plugin id="org.apache.xml.resolver" />
+								<plugin id="org.apache.xml.serializer" />
+								<plugin id="org.eclipse.core.commands.nl_de" />
+								<plugin id="org.eclipse.core.databinding.beans.nl_de" />
+								<plugin id="org.eclipse.core.databinding.nl_de" />
+								<plugin id="org.eclipse.core.databinding.observable.nl_de" />
+								<plugin id="org.eclipse.core.databinding.property.nl_de" />
+								<plugin id="org.eclipse.e4.core.commands.nl_de" />
+								<plugin id="org.eclipse.e4.ui.di.nl_de" />
+								<plugin id="org.eclipse.e4.ui.model.workbench.nl_de" />
+								<plugin id="org.eclipse.e4.ui.services.nl_de" />
+								<plugin id="org.eclipse.e4.ui.widgets.nl_de" />
+								<plugin id="org.eclipse.e4.ui.workbench.renderers.swt.nl_de" />
+								<plugin id="org.eclipse.e4.ui.workbench3.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.table.validation" />
+								<plugin id="org.eclipse.emfforms.view.controlgrid.model.edit.nl_de" />
+								<plugin id="org.eclipse.emfforms.view.controlgrid.model.nl_de" />
+								<plugin id="org.eclipse.equinox.p2.core.nl_de" />
+								<plugin id="org.eclipse.equinox.p2.engine.nl_de" />
+								<plugin id="org.eclipse.equinox.p2.metadata.nl_de" />
+								<plugin id="org.eclipse.equinox.p2.metadata.repository.nl_de" />
+								<plugin id="org.eclipse.equinox.p2.repository.nl_de" />
+								<plugin id="org.eclipse.jface.databinding.nl_de" />
+								<plugin id="org.eclipse.jface.text.nl_de" />
+								<plugin id="org.eclipse.nebula.cwt" />
+								<plugin id="org.eclipse.nebula.widgets.cdatetime" />
+								<plugin id="org.eclipse.net4j.util" />
+								<plugin id="org.eclipse.swt" />
+								<plugin id="org.eclipse.text.nl_de" />
+								<plugin id="org.eclipse.ui.forms.nl_de" />
+								<plugin id="org.eclipse.ui.ide.nl_de" />
+								<plugin id="org.eclipse.ui.views.nl_de" />
+								<plugin id="org.eclipse.ui.win32.nl_de" />
+								<plugin id="org.eclipse.ui.workbench.nl_de" />
+								<plugin id="org.eclipse.ui.editors.nl_de" />
+								<plugin id="org.apache.servicemix.bundles.xmlresolver" />
+								<plugin id="org.apache.servicemix.bundles.sb.saxon" />
+								<plugin id="de.scheidtbachmann.fop" />
+								<plugin id="org.apache.servicemix.bundles.poi" />
+								<plugin id="org.apache.commons.commons-collections4" />
+								<plugin id="org.apache.commons.commons-compress" />
+								<plugin id="org.apache.commons.math3" />
+								<plugin id="org.apache.servicemix.bundles.xmlbeans" />
+								<plugin id="org.eclipse.compare.core.nl_de" />
+								<plugin id="org.eclipse.core.contenttype.nl_de" />
+								<plugin id="org.eclipse.core.expressions.nl_de" />
+								<plugin id="org.eclipse.core.filebuffers.nl_de" />
+								<plugin id="org.eclipse.core.filesystem.nl_de" />
+								<plugin id="org.eclipse.core.filesystem.win32.x86_64.nl_de" />
+								<plugin id="org.eclipse.core.jobs.nl_de" />
+								<plugin id="org.eclipse.core.resources.nl_de" />
+								<plugin id="org.eclipse.core.runtime.nl_de" />
+								<plugin id="org.eclipse.e4.core.contexts.nl_de" />
+								<plugin id="org.eclipse.e4.core.di.annotations.nl_de" />
+								<plugin id="org.eclipse.e4.core.di.extensions.nl_de" />
+								<plugin id="org.eclipse.e4.core.di.extensions.supplier.nl_de" />
+								<plugin id="org.eclipse.e4.core.di.nl_de" />
+								<plugin id="org.eclipse.e4.core.services.nl_de" />
+								<plugin id="org.eclipse.e4.emf.xpath.nl_de" />
+								<plugin id="org.eclipse.e4.ui.bindings.nl_de" />
+								<plugin id="org.eclipse.e4.ui.css.core.nl_de" />
+								<plugin id="org.eclipse.e4.ui.css.swt.nl_de" />
+								<plugin id="org.eclipse.e4.ui.css.swt.theme.nl_de" />
+								<plugin id="org.eclipse.e4.ui.workbench.addons.swt.nl_de" />
+								<plugin id="org.eclipse.e4.ui.workbench.nl_de" />
+								<plugin id="org.eclipse.e4.ui.workbench.swt.nl_de" />
+								<plugin id="org.eclipse.equinox.simpleconfigurator.nl_de" />
+								<plugin id="org.eclipse.help.nl_de" />
+								<plugin id="org.eclipse.jface.nl_de" />
+								<plugin id="org.eclipse.osgi.nl_de" />
+								<plugin id="org.eclipse.osgi.services.nl_de" />
+								<plugin id="org.eclipse.osgi.util.nl_de" />
+								<plugin id="org.eclipse.swt.nl_de" />
+								<plugin id="org.eclipse.ui.nl_de" />
+								<plugin id="org.eclipse.ui.workbench.texteditor.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.common.ui.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.core.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.edit.swt.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.ide.editor.view.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.ui.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.ui.view.editor.controls.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.ui.view.swt.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.categorization.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.categorization.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.control.multireference.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.custom.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.custom.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.group.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.group.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.horizontal.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.horizontal.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.label.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.label.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.model.editor.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.rule.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.rule.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.rule.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.stack.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.table.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.table.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.template.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.template.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.treemasterdetail.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.treemasterdetail.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.unset.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.validation.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.vertical.model.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.view.vertical.model.nl_de" />
+								<plugin id="org.eclipse.emf.ecp.workspace.core.nl_de" />
+								<plugin id="org.eclipse.emfforms.swt.control.multiattribute.nl_de" />
+								<plugin id="org.eclipse.emfforms.swt.table.nl_de" />
+								<plugin id="org.eclipse.emfforms.view.annotation.model.edit.nl_de" />
+								<plugin id="org.eclipse.emfforms.view.annotation.model.nl_de" />
+								<plugin id="org.eclipse.emf.common.nl_de" />
+								<plugin id="org.eclipse.emf.common.ui.nl_de" />
+								<plugin id="org.eclipse.emf.databinding.edit.nl_de" />
+								<plugin id="org.eclipse.emf.databinding.nl_de" />
+								<plugin id="org.eclipse.emf.ecore.change.nl_de" />
+								<plugin id="org.eclipse.emf.ecore.edit.nl_de" />
+								<plugin id="org.eclipse.emf.ecore.nl_de" />
+								<plugin id="org.eclipse.emf.ecore.xmi.nl_de" />
+								<plugin id="org.eclipse.emf.edit.nl_de" />
+								<plugin id="org.eclipse.emf.edit.ui.nl_de" />
+								<plugin id="maven.org.apache.xmlgraphics.artifact.fop" />
+								<plugin id="javax.media.jai_codec" />
+								<plugin id="javax.media.jai_core" />
+								<plugin id="javax.media.jai_imageio" />
+								<plugin id="javax.xml.stream" />
+								<plugin id="org.bouncycastle.bcpg"/>
+								<plugin id="org.bouncycastle.bcprov"/>
+								<plugin id="org.eclipse.equinox.ds"/>
+								<plugin id="org.apache.commons.lang3"/>
+								<plugin id="jakarta.xml.bind"/>
+								<plugin id="org.eclipse.equinox.p2.artifact.repository.nl_de"/>
+								<plugin id="org.eclipse.equinox.p2.jarprocessor.nl_de"/>
+							</excludes>
 						</configuration>
-					</plugin>
-
-					<!-- Erzeuge ein source-Feature für die Source-Bundles -->
-					<plugin>
-						<groupId>org.eclipse.tycho</groupId>
-						<artifactId>tycho-source-plugin</artifactId>
-						<version>${tycho-extras-version}</version>
-						<executions>
-							<execution>
-								<id>plugin-source</id>
-								<goals>
-									<goal>plugin-source</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>feature-source</id>
-								<phase>package</phase>
-								<goals>
-									<goal>feature-source</goal>
-								</goals>
-								<configuration>
-									<excludes>
-										<!-- IMPROVE PLANPRO-2176 -->
-										<feature id="org.eclipse.babel.nls_modeling.ecp_de" />
-										<feature id="org.eclipse.babel.nls_modeling.emf_de" />
-										<plugin id="de.scheidtbachmann.planpro.v1801.viewmodel" />
-										<plugin id="edu.umd.cs.findbugs.annotations" />
-										<plugin id="javax.xml" />
-										<plugin id="javax.mail" />
-										<plugin id="javax.activation" />
-										<plugin id="org.eclipse.jetty.webapp" />
-										<plugin id="org.eclipse.jetty.xml" />
-										<plugin id="org.apache.log4j" />
-										<plugin id="org.apache.xalan" />
-										<plugin id="org.apache.xerces" />
-										<plugin id="org.apache.xml.resolver" />
-										<plugin id="org.apache.xml.serializer" />
-										<plugin id="org.eclipse.core.commands.nl_de" />
-										<plugin id="org.eclipse.core.databinding.beans.nl_de" />
-										<plugin id="org.eclipse.core.databinding.nl_de" />
-										<plugin id="org.eclipse.core.databinding.observable.nl_de" />
-										<plugin id="org.eclipse.core.databinding.property.nl_de" />
-										<plugin id="org.eclipse.e4.core.commands.nl_de" />
-										<plugin id="org.eclipse.e4.ui.di.nl_de" />
-										<plugin id="org.eclipse.e4.ui.model.workbench.nl_de" />
-										<plugin id="org.eclipse.e4.ui.services.nl_de" />
-										<plugin id="org.eclipse.e4.ui.widgets.nl_de" />
-										<plugin id="org.eclipse.e4.ui.workbench.renderers.swt.nl_de" />
-										<plugin id="org.eclipse.e4.ui.workbench3.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.table.validation" />
-										<plugin id="org.eclipse.emfforms.view.controlgrid.model.edit.nl_de" />
-										<plugin id="org.eclipse.emfforms.view.controlgrid.model.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.core.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.engine.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.metadata.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.metadata.repository.nl_de" />
-										<plugin id="org.eclipse.equinox.p2.repository.nl_de" />
-										<plugin id="org.eclipse.jface.databinding.nl_de" />
-										<plugin id="org.eclipse.jface.text.nl_de" />
-										<plugin id="org.eclipse.nebula.cwt" />
-										<plugin id="org.eclipse.nebula.widgets.cdatetime" />
-										<plugin id="org.eclipse.net4j.util" />
-										<plugin id="org.eclipse.swt" />
-										<plugin id="org.eclipse.text.nl_de" />
-										<plugin id="org.eclipse.ui.forms.nl_de" />
-										<plugin id="org.eclipse.ui.ide.nl_de" />
-										<plugin id="org.eclipse.ui.views.nl_de" />
-										<plugin id="org.eclipse.ui.win32.nl_de" />
-										<plugin id="org.eclipse.ui.workbench.nl_de" />
-										<plugin id="org.eclipse.ui.editors.nl_de" />
-										<plugin id="org.apache.servicemix.bundles.xmlresolver" />
-										<plugin id="org.apache.servicemix.bundles.sb.saxon" />
-										<plugin id="de.scheidtbachmann.fop" />
-										<plugin id="org.apache.servicemix.bundles.poi" />
-										<plugin id="org.apache.commons.commons-collections4" />
-										<plugin id="org.apache.commons.commons-compress" />
-										<plugin id="org.apache.commons.math3" />
-										<plugin id="org.apache.servicemix.bundles.xmlbeans" />
-										<plugin id="org.eclipse.compare.core.nl_de" />
-										<plugin id="org.eclipse.core.contenttype.nl_de" />
-										<plugin id="org.eclipse.core.expressions.nl_de" />
-										<plugin id="org.eclipse.core.filebuffers.nl_de" />
-										<plugin id="org.eclipse.core.filesystem.nl_de" />
-										<plugin id="org.eclipse.core.filesystem.win32.x86_64.nl_de" />
-										<plugin id="org.eclipse.core.jobs.nl_de" />
-										<plugin id="org.eclipse.core.resources.nl_de" />
-										<plugin id="org.eclipse.core.runtime.nl_de" />
-										<plugin id="org.eclipse.e4.core.contexts.nl_de" />
-										<plugin id="org.eclipse.e4.core.di.annotations.nl_de" />
-										<plugin id="org.eclipse.e4.core.di.extensions.nl_de" />
-										<plugin id="org.eclipse.e4.core.di.extensions.supplier.nl_de" />
-										<plugin id="org.eclipse.e4.core.di.nl_de" />
-										<plugin id="org.eclipse.e4.core.services.nl_de" />
-										<plugin id="org.eclipse.e4.emf.xpath.nl_de" />
-										<plugin id="org.eclipse.e4.ui.bindings.nl_de" />
-										<plugin id="org.eclipse.e4.ui.css.core.nl_de" />
-										<plugin id="org.eclipse.e4.ui.css.swt.nl_de" />
-										<plugin id="org.eclipse.e4.ui.css.swt.theme.nl_de" />
-										<plugin id="org.eclipse.e4.ui.workbench.addons.swt.nl_de" />
-										<plugin id="org.eclipse.e4.ui.workbench.nl_de" />
-										<plugin id="org.eclipse.e4.ui.workbench.swt.nl_de" />
-										<plugin id="org.eclipse.equinox.simpleconfigurator.nl_de" />
-										<plugin id="org.eclipse.help.nl_de" />
-										<plugin id="org.eclipse.jface.nl_de" />
-										<plugin id="org.eclipse.osgi.nl_de" />
-										<plugin id="org.eclipse.osgi.services.nl_de" />
-										<plugin id="org.eclipse.osgi.util.nl_de" />
-										<plugin id="org.eclipse.swt.nl_de" />
-										<plugin id="org.eclipse.ui.nl_de" />
-										<plugin id="org.eclipse.ui.workbench.texteditor.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.common.ui.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.core.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.edit.swt.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.ide.editor.view.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.ui.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.ui.view.editor.controls.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.ui.view.swt.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.categorization.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.categorization.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.control.multireference.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.custom.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.custom.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.group.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.group.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.horizontal.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.horizontal.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.label.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.label.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.model.editor.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.rule.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.rule.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.rule.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.stack.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.table.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.table.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.template.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.template.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.treemasterdetail.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.treemasterdetail.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.unset.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.validation.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.vertical.model.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.view.vertical.model.nl_de" />
-										<plugin id="org.eclipse.emf.ecp.workspace.core.nl_de" />
-										<plugin id="org.eclipse.emfforms.swt.control.multiattribute.nl_de" />
-										<plugin id="org.eclipse.emfforms.swt.table.nl_de" />
-										<plugin id="org.eclipse.emfforms.view.annotation.model.edit.nl_de" />
-										<plugin id="org.eclipse.emfforms.view.annotation.model.nl_de" />
-										<plugin id="org.eclipse.emf.common.nl_de" />
-										<plugin id="org.eclipse.emf.common.ui.nl_de" />
-										<plugin id="org.eclipse.emf.databinding.edit.nl_de" />
-										<plugin id="org.eclipse.emf.databinding.nl_de" />
-										<plugin id="org.eclipse.emf.ecore.change.nl_de" />
-										<plugin id="org.eclipse.emf.ecore.edit.nl_de" />
-										<plugin id="org.eclipse.emf.ecore.nl_de" />
-										<plugin id="org.eclipse.emf.ecore.xmi.nl_de" />
-										<plugin id="org.eclipse.emf.edit.nl_de" />
-										<plugin id="org.eclipse.emf.edit.ui.nl_de" />
-										<plugin id="maven.org.apache.xmlgraphics.artifact.fop" />
-										<plugin id="javax.media.jai_codec" />
-										<plugin id="javax.media.jai_core" />
-										<plugin id="javax.media.jai_imageio" />
-										<plugin id="javax.xml.stream" />
-										<plugin id="org.bouncycastle.bcpg"/>
-										<plugin id="org.bouncycastle.bcprov"/>
-										<plugin id="org.eclipse.equinox.ds"/>
-										<plugin id="org.apache.commons.lang3"/>
-										<plugin id="jakarta.xml.bind"/>
-										<plugin id="org.eclipse.equinox.p2.artifact.repository.nl_de"/>
-										<plugin id="org.eclipse.equinox.p2.jarprocessor.nl_de"/>
-									</excludes>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-			<distributionManagement>
-				<repository>
-					<id>planpro-model</id>
-					<url>http://nexus:8081/nexus/content/repositories/planpro-repo</url>
-				</repository>
-			</distributionManagement>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<reporting>
 		<plugins>
 			<plugin>
@@ -426,8 +421,37 @@
 	</reporting>
 
 	<scm>
-		<connection>scm:git:http://git/PlanPro/set.git</connection>
-		<developerConnection>scm:git:http://git/PlanPro/set.git</developerConnection>
+		<connection>scm:git:https://gitlab.eclipse.org/eclipse/set/set</connection>
+		<developerConnection>scm:git:https://gitlab.eclipse.org/eclipse/set/set</developerConnection>
 	</scm>
 
+	<profiles>
+		<profile>
+			<id>sign</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.cbi.maven.plugins</groupId>
+						<artifactId>eclipse-jarsigner-plugin</artifactId>
+						<version>${cbi-version}</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>cbi</id>
+			<url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>

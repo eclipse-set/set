@@ -46,7 +46,7 @@ pipeline {
     stage('Build Java') {
       steps {
         container('maven') {
-          mvn goal: 'clean integration-test', dependencies: 'maven.deps'
+          mvn goal: 'clean verify -P sign,signexe', dependencies: 'maven.deps'
           archiveArtifacts artifacts: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
         }
       }

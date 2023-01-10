@@ -47,32 +47,35 @@
 					</products>
 				</configuration>
 			</plugin>
-
-			<!-- ANT actions -->
-			<!-- 	        <plugin>
-	            <artifactId>maven-antrun-plugin</artifactId>
-	            <version>1.6</version>
-	            <executions>
-	                Entferne das Postfix für 64bit
-	                <execution>
-	                    <id>update-zip-files</id>
-	                    <phase>package</phase>
-	                    <configuration>
-	                        <target>
-	                            <move todir="${project.build.directory}/products" verbose="true">
-	                               <mapper from="^(.*)-win32.win32.x86_64.zip$$" to="\1.zip" type="regexp"/>
-	                                <fileset dir="${project.build.directory}/products">
-	                                    <include name="*.zip"/>
-	                                </fileset>
-	                            </move>
-	                        </target>
-	                    </configuration>
-	                    <goals>
-	                        <goal>run</goal>
-	                    </goals>
-	                </execution>
-	            </executions>
-	        </plugin>
- -->		</plugins>
+		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>signexe</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.cbi.maven.plugins</groupId>
+						<artifactId>eclipse-winsigner-plugin</artifactId>
+						<version>${cbi-version}</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<phase>package</phase>
+								<configuration>
+									<signFiles>
+										<signFile>${project.build.directory}/products/SET/win32/win32/x86_64/set.exe</signFile>
+										<signFile>${project.build.directory}/products/SET/win32/win32/x86_64/setc.exe</signFile>
+									</signFiles>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
