@@ -139,15 +139,15 @@
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.toolboxmodel.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.toolboxmodel.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/snapshots/toolboxmodel/main/"/>
+      <repository location="https://download.eclipse.org/set/snapshots/toolboxmodel/release/1.1"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.browser.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.browser.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/snapshots/browser/main/"/>
+      <repository location="https://download.eclipse.org/set/snapshots/browser/release/1.1"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-      <repository location="https://download.eclipse.org/set/snapshots/browser-cef/main/"/>
+      <repository location="https://download.eclipse.org/set/snapshots/browser-cef/release/1.1/"/>
       <unit id="org.eclipse.set.browser.cef.feature.feature.group" version="0.0.0"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
