@@ -73,6 +73,7 @@ pipeline {
         anyOf {
           buildingTag()
           branch 'main'
+          branch pattern: 'release/[0-9.]+', comparator: 'REGEXP'
           branch pattern: 'feature/\\w+', comparator: 'REGEXP'
         }
       }
