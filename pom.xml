@@ -47,12 +47,6 @@
 		<module>java/bundles/org.eclipse.set.core</module>
 		<module>java/bundles/org.eclipse.set.emfforms</module>
 
-		<module>java/bundles/org.eclipse.set.feature.integration</module>
-		<module>java/bundles/org.eclipse.set.feature.table.test</module>
-		<module>java/bundles/org.eclipse.set.feature.table</module>
-		<module>java/bundles/org.eclipse.set.feature.export.test</module>
-		<module>java/bundles/org.eclipse.set.feature.export</module>
-		<module>java/bundles/org.eclipse.set.feature.projectdata</module>
 		<module>java/bundles/org.eclipse.set.feature.validation</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecore.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.categorization.nl_de</module>
