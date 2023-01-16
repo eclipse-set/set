@@ -214,9 +214,9 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.0.0.202301111449, EPL-2
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.0.0.202301111449, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model1902/1.1.0.202301101204, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice/1.1.0.202301101204, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/1.1.0.202301101216, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/1.1.0.202301101216, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/1.1.0.202301101216, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/2.0.0.202301130654, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/2.0.0.202301130654, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/2.0.0.202301130654, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.win32.win32.x86_64/3.120.0.v20220530-1036, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt/3.120.0.v20220530-1036, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.team.core/3.9.400.v20220511-1440, EPL-2.0, approved, eclipse.platform
