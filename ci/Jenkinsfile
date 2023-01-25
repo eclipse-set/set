@@ -5,6 +5,10 @@ pipeline {
     }
   }
 
+  triggers {
+    upstream threshold: hudson.model.Result.UNSTABLE, upstreamProjects: (BRANCH_NAME == 'main' ? 'toolboxmodel/main, browser/main' : '')
+  }
+
   options {
     timeout(time: 30, unit: 'MINUTES')
     buildDiscarder(logRotator(numToKeepStr: '10'))
