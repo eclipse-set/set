@@ -17,14 +17,11 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.set.basis.integration.DiffLabelProvider
 import org.eclipse.set.basis.integration.Matcher
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 
 import static com.google.common.base.Strings.*
 
 import static extension org.eclipse.set.utils.EClassExtensions.*
-import static extension org.eclipse.set.utils.EObjectExtensions.*
 
 /**
  * Abstract implementation for {@link Matcher}.
@@ -267,32 +264,37 @@ abstract class AbstractMatcher implements Matcher {
 			return null
 
 		// Check unresolved ID References
+		/* TODO(1.10.0.1): Readd once temporary integrations are reenabled
 		val schnittstelle = container.getParentByType(PlanPro_Schnittstelle)
 		val parent = schnittstelle.eContainer
-		if (parent instanceof ToolboxTemporaryIntegration) {
-			val idref = parent.getIDReferences(schnittstelle).filter [
-				target === container && targetRef === reference
-			].head
+		
+		 * if (parent instanceof ToolboxTemporaryIntegration) {
+		 * 	val idref = parent.getIDReferences(schnittstelle).filter [
+		 * 		target === container && targetRef === reference
+		 * 	].head
 
-			if (idref !== null) {
-				return idref.guid
+		 * 	if (idref !== null) {
+		 * 		return idref.guid
 
-			}
-		}
+		 * 	}
+		 * }
+		 */
 		return null;
 	}
 
-	private def getIDReferences(ToolboxTemporaryIntegration tmpInt,
-		PlanPro_Schnittstelle schnittstelle) {
-		if (tmpInt.primaryPlanning === schnittstelle)
-			return tmpInt.primaryPlanningIDReferences
-		if (tmpInt.secondaryPlanning === schnittstelle)
-			return tmpInt.secondaryPlanningIDReferences
-		if (tmpInt.compositePlanning === schnittstelle)
-			return tmpInt.compositePlanningIDReferences
-		return null
-	}
-
+	/* TODO(1.10.0.1): Readd once temporary integrations are reenabled
+	 * 	private def getIDReferences(ToolboxTemporaryIntegration tmpInt,
+	 * PlanPro_Schnittstelle schnittstelle) {
+	 * if (tmpInt.primaryPlanning === schnittstelle)
+	 * 	return tmpInt.primaryPlanningIDReferences
+	 * if (tmpInt.secondaryPlanning === schnittstelle)
+	 * 	return tmpInt.secondaryPlanningIDReferences
+	 * if (tmpInt.compositePlanning === schnittstelle)
+	 * 	return tmpInt.compositePlanningIDReferences
+	 * return null
+	 * 	}
+	 * 
+	 */
 	private def String getEObjectGuidFromPath(EObject container,
 		List<String> path) {
 		val feature = getFeatureFromPath(container, path)

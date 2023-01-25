@@ -34,7 +34,8 @@ class UnterbringungExtensions extends BasisObjektExtensions {
 	 * @return the GEO Punkt of this Unterbringung
 	 */
 	def static GEO_Punkt getGeoPunkt(Unterbringung unterbringung) {
-		return unterbringung.IDGEOPunkt
+		// TODO(1.10.0.1): There are now multiple ID_GEO_Punkt
+		return unterbringung.IDGEOPunkt.get(0)
 
 	}
 

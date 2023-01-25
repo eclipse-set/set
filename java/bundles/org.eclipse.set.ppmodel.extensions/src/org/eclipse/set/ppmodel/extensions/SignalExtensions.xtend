@@ -8,22 +8,6 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
-import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
-import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
-import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.math.BigDecimal
 import java.util.Collections
 import java.util.List
@@ -33,12 +17,26 @@ import org.eclipse.set.basis.graph.Digraph
 import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
 import org.eclipse.set.ppmodel.extensions.utils.TopRouting
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
+import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
 import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
-import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
@@ -227,19 +225,6 @@ class SignalExtensions extends PunktObjektExtensions {
 		return signal?.signalFstrS?.IDAnrueckverschluss ?: Collections.emptyList
 	}
 
-	/**
-	 * @param signal this signal
-	 * 
-	 * @return whether this signal is an alleinstehendes Zusatzsignal
-	 */
-	def static boolean isAlleinstehendesZusatzsignal(Signal signal) {
-		val signalFunktion = signal.signalReal?.signalRealAktiv?.
-			signalFunktion?.wert
-		val signalbegriffe = signal.signalbegriffe
-		return signalFunktion ===
-			ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL &&
-			signalbegriffe.containsSignalbegriffID(Zs3v)
-	}
 
 	/**
 	 * @param signal this signal

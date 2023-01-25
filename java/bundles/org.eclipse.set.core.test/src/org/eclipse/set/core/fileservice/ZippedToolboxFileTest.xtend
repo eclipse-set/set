@@ -17,10 +17,14 @@ import org.eclipse.set.core.services.files.ToolboxFileFormatService
 import org.eclipse.set.sessionservice.SetSessionService
 import org.eclipse.set.unittest.utils.toolboxfile.AbstractToolboxFileTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 
 /**
  * Test for {@link ZippedPlanProToolboxFile}
+ * 
+ * TODO(1.10.0.1) Disabled as no test data is available
  */
+@Disabled
 class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	static val TESTPATH = PHausen_ABC_01_01_PLANPRO
 
@@ -65,7 +69,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	def void testAutoclose() throws IOException {
 		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eINSTANCE
 					.eClass();
-		org.eclipse.set.model.model1902.PlanPro.PlanProPackage.eINSTANCE
+		org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eINSTANCE
 					.eClass();
 					
 		ToolboxFileRole.SESSION.whenOpenAndAutoclose

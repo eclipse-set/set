@@ -23,7 +23,6 @@ import org.eclipse.set.basis.files.ToolboxFileExtension;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceFactoryImpl;
 import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
 import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.osgi.service.component.annotations.Component;
@@ -105,6 +104,7 @@ public class ZippedPlanProFileFormatService
 		}
 
 		// Register merge model extensions by content type
+		/* TODO(1.10.0.1): Readd once temporary integrations are reenabled
 		for (final ToolboxFileExtension toolboxExtension : extensionsForCategory(
 				ToolboxConstants.EXTENSION_CATEGORY_PPMERGE)) {
 			final String extension = toolboxExtension.getExtension();
@@ -113,6 +113,7 @@ public class ZippedPlanProFileFormatService
 						new TemporaryintegrationResourceFactoryImpl());
 			}
 		}
+		*/
 		return ed;
 	}
 

@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -36,10 +35,8 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.PlanProSchemaDir;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.basis.ToolboxPaths;
-import org.eclipse.set.basis.Wrapper;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
@@ -65,7 +62,6 @@ import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -156,10 +152,12 @@ public class ModelSession implements IModelSession {
 	private final DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
-	private final PlanProSchemaDir<org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle> schemaDir;
 	private final SessionService sessionService;
 	private double symbolRotation;
-	private ToolboxTemporaryIntegration temporaryIntegration;
+	/*
+	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled private
+	 * ToolboxTemporaryIntegration temporaryIntegration;
+	 */
 	private final ToolboxPaths toolboxPaths;
 	private boolean wasDirty = false;
 	protected final Shell mainWindow;
@@ -203,8 +201,6 @@ public class ModelSession implements IModelSession {
 						checkForDirtyEvent();
 					}
 				});
-		schemaDir = new PlanProSchemaDir<>(
-				org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
 		guid = Guid.create();
 		createTempDir();
 		toolboxFile.setTemporaryDirectory(getTempDir());
@@ -247,7 +243,10 @@ public class ModelSession implements IModelSession {
 		close();
 
 		// delete temporary integration
-		temporaryIntegration = null;
+		/*
+		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
+		 * temporaryIntegration = null;
+		 */
 		toolboxFile.delete(true);
 	}
 
@@ -301,18 +300,17 @@ public class ModelSession implements IModelSession {
 		if (!isMergeMode()) {
 			throw new IllegalStateException("Session not in merge mode."); //$NON-NLS-1$
 		}
-
-		// warning, if there were some invalid input plannings
-		if (!temporaryIntegration.isPrimaryPlanningWasValid()
-				|| !temporaryIntegration.isSecondaryPlanningWasValid()) {
-			if (!serviceProvider.dialogService
-					.createCompositePlanningWithInvalidInput(shell,
-							temporaryIntegration.isPrimaryPlanningWasValid(),
-							temporaryIntegration
-									.isSecondaryPlanningWasValid())) {
-				throw new UserAbortion();
-			}
-		}
+		/*
+		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled //
+		 * warning, if there were some invalid input plannings if
+		 * (!temporaryIntegration.isPrimaryPlanningWasValid() ||
+		 * !temporaryIntegration.isSecondaryPlanningWasValid()) { if
+		 * (!serviceProvider.dialogService
+		 * .createCompositePlanningWithInvalidInput(shell,
+		 * temporaryIntegration.isPrimaryPlanningWasValid(),
+		 * temporaryIntegration .isSecondaryPlanningWasValid())) { throw new
+		 * UserAbortion(); } }
+		 */
 
 		// find model path
 		final Format mergedFileFormat = sessionService.getMergedFileFormat();
@@ -355,7 +353,10 @@ public class ModelSession implements IModelSession {
 		save(shell);
 
 		// delete temporary integration
-		temporaryIntegration = null;
+		/*
+		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
+		 * temporaryIntegration = null;
+		 */
 		mergeFile.delete(true);
 
 		// change role of composite planning file to session
@@ -423,11 +424,13 @@ public class ModelSession implements IModelSession {
 		return Paths.get(getSessionsSubDir(), getGuid());
 	}
 
-	@Override
-	public Optional<ToolboxTemporaryIntegration> getTemporaryIntegration() {
-		return Optional.ofNullable(temporaryIntegration);
-	}
-
+	/*
+	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
+	 * 
+	 * @Override public Optional<ToolboxTemporaryIntegration>
+	 * getTemporaryIntegration() { return
+	 * Optional.ofNullable(temporaryIntegration); }
+	 */
 	@Override
 	public ToolboxFile getToolboxFile() {
 		return toolboxFile;
@@ -482,7 +485,11 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public boolean isMergeMode() {
-		return temporaryIntegration != null;
+		/*
+		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
+		 * return temporaryIntegration != null;
+		 */
+		return false;
 	}
 
 	@Override
@@ -562,53 +569,36 @@ public class ModelSession implements IModelSession {
 				Boolean.valueOf(value));
 	}
 
-	@Override
-	public void switchToMergeMode(
-			final ToolboxTemporaryIntegration newTemporaryIntegration,
-			final String mergeDir, final Shell shell,
-			final ToolboxFile temporaryToolboxFile)
-			throws IOException, UserAbortion {
-		if (isMergeMode()) {
-			throw new IllegalStateException("Session already in merge mode."); //$NON-NLS-1$
-		}
-
-		// remember the original planning
-		final PlanPro_Schnittstelle originalPlanning = getPlanProSchnittstelle();
-		final ToolboxFile originalFile = getToolboxFile();
-		toolboxFile = temporaryToolboxFile;
-
-		// save
-		temporaryIntegration = newTemporaryIntegration;
-		setPlanProSchnittstelle(newTemporaryIntegration.getCompositePlanning());
-		final Wrapper<UserAbortion> userAbortion = new Wrapper<>();
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					save(shell, false);
-				} catch (final UserAbortion e) {
-					userAbortion.setValue(e);
-				}
-			}
-		});
-
-		// test for abortion
-		if (userAbortion.getValue() != null) {
-			temporaryIntegration = null;
-			setPlanProSchnittstelle(originalPlanning);
-			toolboxFile.close();
-			toolboxFile = originalFile;
-			revert();
-			throw userAbortion.getValue();
-		}
-
-		// change role of temporary integration to session file
-		originalFile.close();
-		toolboxFile.close();
-		toolboxFile.setRole(ToolboxFileRole.SESSION);
-		init();
-	}
-
+	/*
+	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
+	 * 
+	 * @Override public void switchToMergeMode( final
+	 * ToolboxTemporaryIntegration newTemporaryIntegration, final String
+	 * mergeDir, final Shell shell, final ToolboxFile temporaryToolboxFile)
+	 * throws IOException, UserAbortion { if (isMergeMode()) { throw new
+	 * IllegalStateException("Session already in merge mode."); //$NON-NLS-1$ }
+	 * 
+	 * // remember the original planning final PlanPro_Schnittstelle
+	 * originalPlanning = getPlanProSchnittstelle(); final ToolboxFile
+	 * originalFile = getToolboxFile(); toolboxFile = temporaryToolboxFile;
+	 * 
+	 * // save temporaryIntegration = newTemporaryIntegration;
+	 * setPlanProSchnittstelle(newTemporaryIntegration.getCompositePlanning());
+	 * final Wrapper<UserAbortion> userAbortion = new Wrapper<>();
+	 * Display.getDefault().syncExec(new Runnable() {
+	 * 
+	 * @Override public void run() { try { save(shell, false); } catch (final
+	 * UserAbortion e) { userAbortion.setValue(e); } } });
+	 * 
+	 * // test for abortion if (userAbortion.getValue() != null) {
+	 * temporaryIntegration = null; setPlanProSchnittstelle(originalPlanning);
+	 * toolboxFile.close(); toolboxFile = originalFile; revert(); throw
+	 * userAbortion.getValue(); }
+	 * 
+	 * // change role of temporary integration to session file
+	 * originalFile.close(); toolboxFile.close();
+	 * toolboxFile.setRole(ToolboxFileRole.SESSION); init(); }
+	 */
 	@Override
 	public String toString() {
 		return String.format("%s {guid=%s location=%s}", super.toString(), //$NON-NLS-1$
@@ -641,10 +631,13 @@ public class ModelSession implements IModelSession {
 
 	private void readMergeModel() throws IOException {
 		toolboxFile.open();
-		temporaryIntegration = (ToolboxTemporaryIntegration) toolboxFile
-				.getResource().getContents().get(0);
-		setPlanProSchnittstelle(temporaryIntegration.getCompositePlanning());
-		validationResult.setValidationSupported(false);
+		/*
+		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
+		 * temporaryIntegration = (ToolboxTemporaryIntegration) toolboxFile
+		 * .getResource().getContents().get(0);
+		 * setPlanProSchnittstelle(temporaryIntegration.getCompositePlanning());
+		 * validationResult.setValidationSupported(false);
+		 */
 	}
 
 	private void readPlanProModel() {
@@ -655,8 +648,8 @@ public class ModelSession implements IModelSession {
 					return getToolboxFile().getResource();
 				}, PlanProSchnittstelleExtensions::readFrom, validationResult));
 		validationResult = serviceProvider.validationService
-				.xsdValidation(getToolboxFile(), schemaDir, validationResult);
-		final org.eclipse.set.model.model1902.PlanPro.DocumentRoot sourceRoot = getToolboxFile()
+				.xsdValidation(getToolboxFile(), validationResult);
+		final org.eclipse.set.model.model11001.PlanPro.DocumentRoot sourceRoot = getToolboxFile()
 				.getSourceModel();
 		if (sourceRoot != null) {
 			validationResult = serviceProvider.validationService.emfValidation(

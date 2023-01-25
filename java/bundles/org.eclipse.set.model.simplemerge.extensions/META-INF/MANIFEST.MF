@@ -8,13 +8,12 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro
-Import-Package: org.eclipse.set.basis.constants,
+Import-Package: org.eclipse.emf.ecore,
+ org.eclipse.set.basis.constants,
  org.eclipse.set.basis.integration,
  org.eclipse.set.core.services.merge,
  org.eclipse.set.model.simplemerge,
- org.eclipse.set.model.temporaryintegration,
- org.eclipse.set.utils,
- org.eclipse.emf.ecore
+ org.eclipse.set.utils
 Export-Package: org.eclipse.set.model.simplemerge.extensions
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 

@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.set.model.tablemodel;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,
  org.eclipse.set.toolboxmodel;visibility:=reexport,
- org.eclipse.set.toolboxmodel.edit;visibility:=reexport,
- org.eclipse.set.model.tablemodel.edit;visibility:=reexport
+ org.eclipse.set.model.tablemodel.edit;visibility:=reexport,
+ org.eclipse.set.toolboxmodel.edit
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.set.toolboxmodel.PlanPro.provider

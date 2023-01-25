@@ -64,8 +64,6 @@
 		<module>java/bundles/org.eclipse.set.model.tablemodel.extensions.test</module>
 		<module>java/bundles/org.eclipse.set.model.tablemodel.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.tablemodel</module>
-		<module>java/bundles/org.eclipse.set.model.temporaryintegration.extensions</module>
-		<module>java/bundles/org.eclipse.set.model.temporaryintegration</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport.edit</module>

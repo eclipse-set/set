@@ -53,16 +53,6 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	/**
 	 * @param aussenelementansteuerung this Aussenelementansteuerung
 	 * 
-	 * @return the Aussenelementansteuerung information sekundaer
-	 */
-	def static Aussenelementansteuerung getAussenelementansteuerungEnergieSekundaer(
-		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergieSekundaer
-	}
-
-	/**
-	 * @param aussenelementansteuerung this Aussenelementansteuerung
-	 * 
 	 * @return the Oertlichkeit
 	 */
 	def static Oertlichkeit getOertlichkeitNamensgebend(

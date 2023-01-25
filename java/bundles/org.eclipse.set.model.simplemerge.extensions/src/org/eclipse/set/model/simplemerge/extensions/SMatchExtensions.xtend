@@ -9,12 +9,10 @@
 package org.eclipse.set.model.simplemerge.extensions
 
 import org.eclipse.set.basis.constants.ContainerType
-import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage
 import org.eclipse.set.core.services.merge.MergeService.Context
 import java.util.List
 import java.util.Optional
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration
 import org.eclipse.set.model.simplemerge.SMatch
 
 /**
@@ -70,8 +68,8 @@ class SMatchExtensions {
 	}
 
 	static def ContainerType getContainerType(SMatch match) {
-		val containingFeature = match.eContainer.eContainingFeature
-
+/*		val containingFeature = match.eContainer.eContainingFeature
+ TODO(1.10.0.1): Readd once temporary integrations are reenabled
 		if (containingFeature === TemporaryintegrationPackage.eINSTANCE.
 			toolboxTemporaryIntegration_ComparisonInitialState) {
 			return ContainerType.INITIAL
@@ -81,10 +79,10 @@ class SMatchExtensions {
 			toolboxTemporaryIntegration_ComparisonFinalState) {
 			return ContainerType.FINAL
 		}
-
+*/
 		throw new IllegalArgumentException(match.toString)
 	}
-
+/* TODO(1.10.0.1): Readd once temporary integrations are reenabled
 	static def ToolboxTemporaryIntegration getIntegration(SMatch match) {
 		return getIntegrationDispatch(match)
 	}
@@ -100,7 +98,7 @@ class SMatchExtensions {
 	) {
 		return object.eContainer.integrationDispatch
 	}
-
+*/
 	static def Optional<EObject> getPrimaryElement(SMatch match,
 		Context context) {
 		return context.configuration.elementProvider.getElement(

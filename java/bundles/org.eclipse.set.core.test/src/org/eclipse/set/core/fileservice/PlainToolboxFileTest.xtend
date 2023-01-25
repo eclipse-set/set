@@ -16,10 +16,14 @@ import org.eclipse.set.core.services.files.ToolboxFileFormatService
 import org.eclipse.set.sessionservice.SetSessionService
 import org.eclipse.set.unittest.utils.toolboxfile.AbstractToolboxFileTest
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 
 /**
  * Test for {@link PlainToolboxFile}
+ * 
+ * TODO(1.10.0.1) Disabled as no test data is available
  */
+@Disabled
 class PlainToolboxFileTest extends AbstractToolboxFileTest {
 	static val TESTPATH = PHausen_ABC_01_01_PPXML
 

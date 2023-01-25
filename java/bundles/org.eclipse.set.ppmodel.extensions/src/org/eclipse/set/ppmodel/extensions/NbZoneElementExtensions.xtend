@@ -9,7 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Element
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Element
 
 /**
  * Extensions for {@link NB_Zone_Element}.

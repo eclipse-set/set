@@ -21,11 +21,10 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.model.model11001.PlanPro.DocumentRoot;
+import org.eclipse.set.model.model11001.PlanPro.util.PlanProResourceImpl;
 import org.eclipse.set.ppmodel.extensions.PlanProResourceImplExtensions;
 import org.w3c.dom.Document;
-
-import org.eclipse.set.model.model1902.PlanPro.DocumentRoot;
-import org.eclipse.set.model.model1902.PlanPro.util.PlanProResourceImpl;
 
 /**
  * Common functionality for toolbox files.

@@ -13,7 +13,6 @@ import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang_Art_TypeClass
 import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory
 import org.eclipse.set.toolboxmodel.Basisobjekte.Dateiname_TypeClass
 import org.eclipse.set.toolboxmodel.Basisobjekte.Dateityp_TypeClass
-import org.eclipse.set.toolboxmodel.Basisobjekte.Daten_TypeClass
 import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMAnhangArt
 import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp
 import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass
@@ -43,9 +42,7 @@ class AttachmentExtensions {
 		val info = new AttachmentInfo
 		if (attachmentInfo.toolboxFile.hasDetachedAttachments) {
 			info.data = attachment.data
-		} else {
-			anhangAllg.daten = attachment.transformToDaten
-		}
+		} 
 		info.toolboxFile = attachmentInfo.toolboxFile
 		info.guidProvider = [Anhang a|Guid.create(a.identitaet.wert)]
 
@@ -102,12 +99,6 @@ class AttachmentExtensions {
 		val dateityp = BasisobjekteFactory.eINSTANCE.createDateityp_TypeClass
 		dateityp.wert = attachment.transformToDateitypWert
 		return dateityp
-	}
-
-	private def static Daten_TypeClass transformToDaten(Attachment attachment) {
-		val daten = BasisobjekteFactory.eINSTANCE.createDaten_TypeClass
-		daten.wert = attachment.data
-		return daten
 	}
 
 	private def static Identitaet_TypeClass transformToIdentitaet(

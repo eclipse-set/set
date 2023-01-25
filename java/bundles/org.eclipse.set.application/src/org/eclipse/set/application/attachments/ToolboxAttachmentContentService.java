@@ -16,7 +16,6 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.attachments.Attachment;
 import org.eclipse.set.basis.files.AttachmentContentService;
-import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
 
@@ -33,11 +32,6 @@ class ToolboxAttachmentContentService implements AttachmentContentService {
 	@Override
 	public byte[] getContent(final Anhang attachment) throws IOException {
 		final IModelSession modelSession = getModelSession();
-		final Format format = modelSession.getToolboxFile().getFormat();
-
-		if (format.isPlain()) {
-			return attachment.getAnhangAllg().getDaten().getWert();
-		}
 
 		return modelSession.getToolboxFile()
 				.getMedia(Guid.create(attachment.getIdentitaet().getWert()));

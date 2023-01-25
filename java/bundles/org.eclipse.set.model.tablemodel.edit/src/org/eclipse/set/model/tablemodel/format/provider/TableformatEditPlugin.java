@@ -11,7 +11,7 @@ package org.eclipse.set.model.tablemodel.format.provider;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.set.model.tablemodel.provider.TablemodelEditPlugin;
-import org.eclipse.set.toolboxmodel.PlanPro.provider.PlanProEditPlugin;
+import org.eclipse.set.toolboxmodel.Layoutinformationen.provider.PlanProEditPlugin;
 
 /**
  * This is the central singleton for the Tableformat edit plugin. <!--

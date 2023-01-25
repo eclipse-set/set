@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.core.fileservice;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -22,16 +21,13 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
 import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl;
 import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -76,12 +72,11 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 		ToolboxFile newToolboxFile = toolboxFile;
 		Path newPath = toolboxFile.getPath();
 		if (format.isZippedPlanPro()) {
-			newToolboxFile = convertToZipped(newschnittstelle, role, tempDir);
+			newToolboxFile = convertToZipped(role);
 			newPath = PathExtensions.replaceExtension(newPath,
 					ToolboxConstants.EXTENSION_PLANPRO);
 		} else if (format.isPlain()) {
-			newToolboxFile = convertToPlain(toolboxFile, newschnittstelle,
-					role);
+			newToolboxFile = convertToPlain(role);
 			newPath = PathExtensions.replaceExtension(newPath,
 					ToolboxConstants.EXTENSION_PPXML);
 		}
@@ -93,11 +88,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 		newToolboxFile.getResource().getContents().add(documentRoot);
 		newToolboxFile.setPath(newPath);
 		IDReferenceUtils.retargetIDReferences(oldschnittstelle,
-				newschnittstelle,
-				((PlanProResourceImpl) toolboxFile.getResource())
-						.getInvalidIDReferences(),
-				((PlanProResourceImpl) newToolboxFile.getResource())
-						.getInvalidIDReferences());
+				newschnittstelle);
 		return newToolboxFile;
 	}
 
@@ -162,54 +153,11 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 		formats.remove(format);
 	}
 
-	private ToolboxFile convertToPlain(final ToolboxFile toolboxFile,
-			final PlanPro_Schnittstelle schnittstelle,
-			final ToolboxFileRole role) {
-		final List<Anhang> attachments = PlanProSchnittstelleExtensions
-				.getAttachments(schnittstelle);
-		for (final Anhang anhang : attachments) {
-			final String uid = anhang.getIdentitaet().getWert();
-			byte[] daten;
-			try {
-				daten = toolboxFile.getMedia(Guid.create(uid));
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-			if (daten != null) {
-				anhang.getAnhangAllg().getDaten().setWert(daten);
-			}
-		}
+	private ToolboxFile convertToPlain(final ToolboxFileRole role) {
 		return create(SetFormat.createPlainPlanPro(), role);
 	}
 
-	private ToolboxFile convertToZipped(
-			final PlanPro_Schnittstelle schnittstelle,
-			final ToolboxFileRole role, final Path tempDir) {
-		final ToolboxFile zippedToolboxFile = create(
-				SetFormat.createZippedPlanPro(), role);
-		zippedToolboxFile.setTemporaryDirectory(tempDir);
-		final List<Anhang> attachments = PlanProSchnittstelleExtensions
-				.getAttachments(schnittstelle);
-
-		for (final Anhang anhang : attachments) {
-			final String anhangID = anhang.getIdentitaet().getWert();
-			if (anhang.getAnhangAllg().getDaten() != null) {
-				final byte[] anhangDaten = anhang.getAnhangAllg().getDaten()
-						.getWert();
-				if (!zippedToolboxFile.hasMedia(anhangID)
-						&& anhangDaten != null) {
-					try {
-						zippedToolboxFile.createMedia(Guid.create(anhangID),
-								anhangDaten);
-
-					} catch (final IOException e) {
-						throw new RuntimeException(e);
-					}
-
-				}
-				anhang.getAnhangAllg().setDaten(null);
-			}
-		}
-		return zippedToolboxFile;
+	private ToolboxFile convertToZipped(final ToolboxFileRole role) {
+		return create(SetFormat.createZippedPlanPro(), role);
 	}
 }

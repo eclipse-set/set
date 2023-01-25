@@ -10,8 +10,8 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Grenze
 import java.util.List
 
 /**

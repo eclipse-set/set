@@ -54,11 +54,11 @@ import org.eclipse.set.toolboxmodel.Gleis.Gleis_Art
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Lichtraum
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Element
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Element
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Grenze
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
 import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
@@ -149,7 +149,6 @@ import org.eclipse.set.toolboxmodel.Balisentechnik_ETCS.ETCS_Kante
 import org.eclipse.set.toolboxmodel.Balisentechnik_ETCS.Datenpunkt_Link
 import org.eclipse.set.toolboxmodel.Balisentechnik_ETCS.Datenpunkt
 import org.eclipse.set.toolboxmodel.Block.Block_Element
-import org.eclipse.set.toolboxmodel.Balisentechnik_ETCS.Binaerdatei
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Zentrale
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Oertlichkeit
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Oberflaeche_Bild
@@ -656,10 +655,6 @@ class MultiContainer_AttributeGroup {
 
 	def Iterable<Bedien_Zentrale> getBedienZentrale() {
 		return containers.flatMap[getBedienZentrale]
-	}
-
-	def Iterable<Binaerdatei> getBinaerdatei() {
-		return containers.flatMap[getBinaerdatei]
 	}
 
 	def Iterable<Block_Element> getBlockElement() {

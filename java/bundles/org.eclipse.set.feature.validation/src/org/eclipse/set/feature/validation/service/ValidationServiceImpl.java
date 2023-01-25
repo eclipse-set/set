@@ -96,15 +96,15 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	@Override
-	public <T extends EObject> ValidationResult xsdValidation(
-			final ToolboxFile toolboxFile, final PlanProSchemaDir<T> schemaDir,
+	public ValidationResult xsdValidation(final ToolboxFile toolboxFile,
 			final ValidationResult result) {
 		final SchemaFactory factory = SchemaFactory
 				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		factory.setResourceResolver(schemaDir.getResourceResolver());
+		factory.setResourceResolver(PlanProSchemaDir.getResourceResolver());
 		final File file = new File(toolboxFile.getModelPath().toString());
 		try {
-			final Schema schema = factory.newSchema(schemaDir.getSchemas());
+			final Schema schema = factory
+					.newSchema(PlanProSchemaDir.getSchemas());
 			final Validator validator = schema.newValidator();
 			validator.setErrorHandler(new ErrorHandler() {
 				@Override

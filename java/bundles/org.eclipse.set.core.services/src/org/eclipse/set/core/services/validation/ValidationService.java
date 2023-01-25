@@ -12,8 +12,6 @@ import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-
-import org.eclipse.set.basis.PlanProSchemaDir;
 import org.eclipse.set.basis.ResourceLoader;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
@@ -70,8 +68,6 @@ public interface ValidationService {
 			ValidationResult result);
 
 	/**
-	 * @param <T>
-	 *            the type of the object to be validated
 	 * @param toolboxFile
 	 *            the toolbox file
 	 * @param schemaDir
@@ -81,6 +77,6 @@ public interface ValidationService {
 	 * 
 	 * @return the validation result
 	 */
-	<T extends EObject> ValidationResult xsdValidation(ToolboxFile toolboxFile,
-			PlanProSchemaDir<T> schemaDir, ValidationResult result);
+	ValidationResult xsdValidation(ToolboxFile toolboxFile,
+			ValidationResult result);
 }

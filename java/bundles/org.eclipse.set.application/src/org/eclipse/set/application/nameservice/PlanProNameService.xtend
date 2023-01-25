@@ -8,33 +8,22 @@
  */
 package org.eclipse.set.application.nameservice
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.core.services.name.NameService
+import org.eclipse.set.ppmodel.extensions.UrObjectExtensions
 import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
 import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMFstrArt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
 import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import java.util.Collections
-import javax.inject.Inject
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.set.basis.constants.ToolboxConstants
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
-import org.eclipse.set.core.services.name.NameService
-import org.eclipse.set.ppmodel.extensions.UrObjectExtensions
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static extension org.eclipse.set.ppmodel.extensions.DwegExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FstrUmfahrpunktExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 
 /**
  * Implementation of {@link NameService} for the PlanPro model.
@@ -43,8 +32,11 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
  */
 class PlanProNameService implements NameService {
 
+	/* TODO(1.10.0.1): Naming Fstr_Zug_Rangier changed
 	@Inject
 	EnumTranslationService enumTranslationService
+	* 
+	*/
 
 	static final Logger LOGGER = LoggerFactory.getLogger(
 		typeof(PlanProNameService));
@@ -106,6 +98,8 @@ class PlanProNameService implements NameService {
 	}
 
 	private def dispatch String nameDispatch(Fstr_Zug_Rangier fstr) {
+		return "TODO(1.10.0.1): Naming Fstr_Zug_Rangier changed"
+		/*
 		val fstrArt = fstr?.fstrZugRangierAllg?.fstrArt?.wert?.translate ?: "?"
 		val start = fstr?.fstrFahrweg?.start?.bezeichnung?.bezeichnungTabelle?.
 			wert ?: "?"
@@ -128,6 +122,8 @@ class PlanProNameService implements NameService {
 		val umfahrpunkt = '''«FOR u : umfahrpunktList SEPARATOR ", "»«u»«ENDFOR»'''
 		val dweg = fstr?.fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert
 		return '''«fstrArt» "«start»/«ziel»«IF !umfahrpunktList.empty» [«umfahrpunkt»]«ENDIF»«IF dweg !==null» («dweg»)«ENDIF»"'''
+		* 
+		*/
 	}
 
 	private def dispatch String nameDispatch(Fstr_DWeg dweg) {
@@ -139,10 +135,11 @@ class PlanProNameService implements NameService {
 			"(ohne Tabellenbezeichnung)"
 	}
 
+/* TODO(1.10.0.1) 
 	private def String translate(ENUMFstrArt fstrArt) {
 		return enumTranslationService.translate(fstrArt).presentation
 	}
-
+*/
 	private def dispatch String valueDispatch(EObject object) {
 		throw new IllegalArgumentException(object.toString)
 	}
@@ -165,6 +162,7 @@ class PlanProNameService implements NameService {
 		}
 	}
 
+/* TODO(1.10.0.1) 
 	private def dispatch String umfahrpunktName(Basis_Objekt objekt) {
 		throw new IllegalArgumentException(objekt.toString)
 	}
@@ -180,4 +178,6 @@ class PlanProNameService implements NameService {
 	private def dispatch String umfahrpunktName(W_Kr_Gsp_Element element) {
 		return element?.bezeichnung?.bezeichnungTabelle?.wert ?: "?"
 	}
+	* 
+	*/
 }

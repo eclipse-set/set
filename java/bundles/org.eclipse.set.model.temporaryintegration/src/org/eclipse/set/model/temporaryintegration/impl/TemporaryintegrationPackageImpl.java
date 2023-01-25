@@ -48,8 +48,7 @@ import org.eclipse.set.toolboxmodel.Geodaten.GeodatenPackage;
 import org.eclipse.set.toolboxmodel.Gleis.GleisPackage;
 
 import org.eclipse.set.toolboxmodel.Medien_und_Trassen.Medien_und_TrassenPackage;
-
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NahbedienbereichPackage;
+import org.eclipse.set.toolboxmodel.Nahbedienung.NahbedienungPackage;
 
 import org.eclipse.set.toolboxmodel.Ortung.OrtungPackage;
 
@@ -57,7 +56,6 @@ import org.eclipse.set.toolboxmodel.PZB.PZBPackage;
 
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
-import org.eclipse.set.toolboxmodel.PlanPro.util.IDReference;
 import org.eclipse.set.toolboxmodel.Regelzeichnung.RegelzeichnungPackage;
 
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage;
@@ -164,7 +162,7 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		FahrstrassePackage.eINSTANCE.eClass();
 		GeodatenPackage.eINSTANCE.eClass();
 		GleisPackage.eINSTANCE.eClass();
-		NahbedienbereichPackage.eINSTANCE.eClass();
+		NahbedienungPackage.eINSTANCE.eClass();
 		PZBPackage.eINSTANCE.eClass();
 		RegelzeichnungPackage.eINSTANCE.eClass();
 		SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
@@ -176,32 +174,32 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		SimplemergePackage.eINSTANCE.eClass();
 		Balisentechnik_ETCSPackage.eINSTANCE.eClass();
 		Medien_und_TrassenPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.PlanPro.PlanProPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Basisobjekte.BasisobjektePackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.BasisTypen.BasisTypenPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Verweise.VerweisePackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Ansteuerung_Element.Ansteuerung_ElementPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Bahnsteig.BahnsteigPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Bedienung.BedienungPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Block.BlockPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Bahnuebergang.BahnuebergangPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Flankenschutz.FlankenschutzPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Ortung.OrtungPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Fahrstrasse.FahrstrassePackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Geodaten.GeodatenPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Gleis.GleisPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Nahbedienbereich.NahbedienbereichPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.PZB.PZBPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Regelzeichnung.RegelzeichnungPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Signale.SignalePackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Zuglenkung.ZuglenkungPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Basisobjekte.BasisobjektePackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.BasisTypen.BasisTypenPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Verweise.VerweisePackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Ansteuerung_Element.Ansteuerung_ElementPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Bahnsteig.BahnsteigPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Bedienung.BedienungPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Block.BlockPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Bahnuebergang.BahnuebergangPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Flankenschutz.FlankenschutzPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Ortung.OrtungPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Fahrstrasse.FahrstrassePackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Geodaten.GeodatenPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Gleis.GleisPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Nahbedienung.NahbedienungPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.PZB.PZBPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Regelzeichnung.RegelzeichnungPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Signale.SignalePackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Zuglenkung.ZuglenkungPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
 		SimplemergePackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Balisentechnik_ETCS.Balisentechnik_ETCSPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model1902.Medien_und_Trassen.Medien_und_TrassenPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Balisentechnik_ETCS.Balisentechnik_ETCSPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.Medien_und_Trassen.Medien_und_TrassenPackage.eINSTANCE.eClass();
 		PlanProPackage.eINSTANCE.eClass();
 		BasisobjektePackage.eINSTANCE.eClass();
 		BasisTypenPackage.eINSTANCE.eClass();
@@ -216,7 +214,7 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		FahrstrassePackage.eINSTANCE.eClass();
 		GeodatenPackage.eINSTANCE.eClass();
 		GleisPackage.eINSTANCE.eClass();
-		NahbedienbereichPackage.eINSTANCE.eClass();
+		NahbedienungPackage.eINSTANCE.eClass();
 		PZBPackage.eINSTANCE.eClass();
 		RegelzeichnungPackage.eINSTANCE.eClass();
 		SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
@@ -587,7 +585,7 @@ public class TemporaryintegrationPackageImpl extends EPackageImpl implements Tem
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		org.eclipse.set.model.model1902.PlanPro.PlanProPackage thePlanProPackage_1 = (org.eclipse.set.model.model1902.PlanPro.PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(org.eclipse.set.model.model1902.PlanPro.PlanProPackage.eNS_URI);
+		org.eclipse.set.model.model11001.PlanPro.PlanProPackage thePlanProPackage_1 = (org.eclipse.set.model.model11001.PlanPro.PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eNS_URI);
 		SimplemergePackage theSimplemergePackage = (SimplemergePackage)EPackage.Registry.INSTANCE.getEPackage(SimplemergePackage.eNS_URI);
 		PlanProPackage thePlanProPackage = (PlanProPackage)EPackage.Registry.INSTANCE.getEPackage(PlanProPackage.eNS_URI);
 

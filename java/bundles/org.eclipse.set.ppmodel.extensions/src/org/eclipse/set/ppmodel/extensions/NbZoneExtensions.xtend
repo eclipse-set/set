@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Element
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone_Grenze
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Element
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Grenze
 import java.util.List
 
 /**
@@ -81,6 +81,6 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 */
 	def static String getBezeichnung(NB_Zone nbZone) {
 		val nb = nbZone.nb
-		return '''«nb?.bezeichnung?.kennzahl?.wert ?: ""»NB«nb?.NBAllg?.NBBezeichnung?.wert ?: ""»«nbZone.NBZoneAllg?.NBZoneBezeichnung?.wert ?: ""»'''
+		return '''«nb?.bezeichnung?.kennzahl?.wert ?: ""»NB«nb?.bezeichnung.bezeichnungNB?.wert ?: ""»«nbZone.bezeichnung?.bezeichnungNBZone?.wert ?: ""»'''
 	}
 }

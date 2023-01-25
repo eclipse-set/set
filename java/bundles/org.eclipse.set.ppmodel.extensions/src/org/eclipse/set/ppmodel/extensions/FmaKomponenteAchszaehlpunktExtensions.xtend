@@ -26,13 +26,5 @@ class FmaKomponenteAchszaehlpunktExtensions extends BasisObjektExtensions {
 		return komp?.IDEnergie
 	}
 
-	/**
-	 * @param komp the component
-	 * 
-	 * @returns the Aussenelementansteuerung of the given id
-	 */
-	def static Aussenelementansteuerung getAussenelementInformation(
-		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
-		return komp?.IDInformation
-	}
+
 }

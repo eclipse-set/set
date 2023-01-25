@@ -22,9 +22,9 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.extensions.SourceExtensions;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.w3c.dom.ls.LSInput;
@@ -33,18 +33,17 @@ import org.w3c.dom.ls.LSResourceResolver;
 /**
  * A directory with PlanPro schemas.
  * 
- * @param <T>
- *            package type for the class context with the schema resources
- * 
  * @author Schaefer
  */
-public class PlanProSchemaDir<T extends EObject> {
+public class PlanProSchemaDir {
 
-	private class LSInputImpl implements LSInput {
+	private static class LSInputImpl implements LSInput {
 
 		private final String baseURI;
 		private final String publicId;
 		private final String systemId;
+		private final Bundle bundle = FrameworkUtil
+				.getBundle(PlanPro_Schnittstelle.class);
 
 		LSInputImpl(final String publicId, final String systemId,
 				final String baseURI) {
@@ -60,7 +59,8 @@ public class PlanProSchemaDir<T extends EObject> {
 
 		@Override
 		public InputStream getByteStream() {
-			return classContext.getResourceAsStream(getSchemaPath());
+			return PlanPro_Schnittstelle.class
+					.getResourceAsStream(getSchemaPath());
 		}
 
 		@Override
@@ -143,7 +143,7 @@ public class PlanProSchemaDir<T extends EObject> {
 
 	}
 
-	private class ResourceResolver implements LSResourceResolver {
+	private static class ResourceResolver implements LSResourceResolver {
 
 		public ResourceResolver() {
 			// avoid synthetic access
@@ -159,35 +159,21 @@ public class PlanProSchemaDir<T extends EObject> {
 
 	private static final String PLANPRO_SCHEMA_NAME = "PlanPro.xsd"; //$NON-NLS-1$
 
-	private static final String SCHEMA_DIR = "schema"; //$NON-NLS-1$
+	private static final String SCHEMA_DIR = "schema-planpro"; //$NON-NLS-1$
 
 	private static final String SCHEMA_PATTERN = "*.xsd"; //$NON-NLS-1$
 
 	private static final String SEPARATOR = "/"; //$NON-NLS-1$
 
 	private static boolean isPlanProPath(final Path path) {
-		return path.getFileName().toString().toLowerCase()
-				.equals(PLANPRO_SCHEMA_NAME.toLowerCase());
-	}
-
-	final Bundle bundle;
-
-	final Class<T> classContext;
-
-	/**
-	 * @param classContext
-	 *            the class context with the schema resources
-	 */
-	public PlanProSchemaDir(final Class<T> classContext) {
-		this.classContext = classContext;
-		bundle = FrameworkUtil.getBundle(classContext);
-
+		return path.getFileName().toString()
+				.equalsIgnoreCase(PLANPRO_SCHEMA_NAME);
 	}
 
 	/**
 	 * @return the optional PlanPro schema path
 	 */
-	public Optional<Path> getPlanProSchemaPath() {
+	public static Optional<Path> getPlanProSchemaPath() {
 		return getSchemaPaths().stream().filter(PlanProSchemaDir::isPlanProPath)
 				.findFirst();
 	}
@@ -195,15 +181,17 @@ public class PlanProSchemaDir<T extends EObject> {
 	/**
 	 * @return resource resolver for schemas of this directory
 	 */
-	public LSResourceResolver getResourceResolver() {
+	public static LSResourceResolver getResourceResolver() {
 		return new ResourceResolver();
 	}
 
 	/**
 	 * @return the schema paths
 	 */
-	public List<Path> getSchemaPaths() {
+	public static List<Path> getSchemaPaths() {
 		final List<Path> result = new LinkedList<>();
+		final Bundle bundle = FrameworkUtil
+				.getBundle(PlanPro_Schnittstelle.class);
 		final Enumeration<URL> entries = bundle.findEntries(SCHEMA_DIR,
 				SCHEMA_PATTERN, true);
 		while (entries.hasMoreElements()) {
@@ -216,13 +204,13 @@ public class PlanProSchemaDir<T extends EObject> {
 	/**
 	 * @return the schemas of this directory
 	 */
-	public Source[] getSchemas() {
+	public static Source[] getSchemas() {
 		final List<Source> result = new LinkedList<>();
 		for (final Path schemaPath : getSchemaPaths()) {
 			final String pathString = PathExtensions.toString(schemaPath,
 					SEPARATOR);
-			final StreamSource source = SourceExtensions
-					.getResourceAsSource(classContext, pathString);
+			final StreamSource source = SourceExtensions.getResourceAsSource(
+					PlanPro_Schnittstelle.class, pathString);
 			result.add(source);
 		}
 		return result.toArray(new Source[0]);

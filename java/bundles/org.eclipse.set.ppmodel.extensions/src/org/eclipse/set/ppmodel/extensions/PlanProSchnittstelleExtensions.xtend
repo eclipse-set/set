@@ -57,7 +57,6 @@ import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.temporaryintegration.util.TemporaryintegrationResourceImpl
 
 /**
  * Extensions for {@link PlanPro_Schnittstelle}.
@@ -106,7 +105,7 @@ class PlanProSchnittstelleExtensions {
 		if (resource instanceof PlanProResourceImpl) {
 			// Ignore references that couldn't be resolved during load
 			requiresDefaults = !unfilledValues.filter [ unfilled |
-				resource.invalidIDReferences.findFirst [
+				schnittstelle.wzkInvalidIDReferences.findFirst [
 					it.target == unfilled.value && it.targetRef == unfilled.key
 				] === null
 			].empty
@@ -131,15 +130,18 @@ class PlanProSchnittstelleExtensions {
 
 		if (resource instanceof PlanProResourceImpl) {
 			return !unfilledValues.filter [ unfilled |
-				resource.invalidIDReferences.findFirst [
+				schnittstelle.wzkInvalidIDReferences.findFirst [
 					it.target == unfilled.value && it.targetRef == unfilled.key
 				] === null
 			].empty
 		}
-		else if (resource instanceof TemporaryintegrationResourceImpl) {
+		else 
+		/* TODO(1.10.0.1): Readd when temporary integartion is readded 
+		if (resource instanceof TemporaryintegrationResourceImpl) {
 			// Do not fill for integrations
 			return false
 		}
+		*/
 		return !unfilledValues.empty
 	}
 

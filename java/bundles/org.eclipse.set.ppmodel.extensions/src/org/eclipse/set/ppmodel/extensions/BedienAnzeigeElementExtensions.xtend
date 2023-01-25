@@ -12,7 +12,7 @@ import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Bedien_Anzeige_Element
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Bedien_Anzeige_Element
 import java.util.List
 import org.eclipse.emf.common.util.Enumerator
 

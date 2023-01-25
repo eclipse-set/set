@@ -231,5 +231,5 @@ public interface ToolboxFile {
 	 * 
 	 * @return the planpro model
 	 */
-	org.eclipse.set.model.model1902.PlanPro.DocumentRoot getSourceModel();
+	org.eclipse.set.model.model11001.PlanPro.DocumentRoot getSourceModel();
 }

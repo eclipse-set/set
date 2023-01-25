@@ -9,25 +9,16 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
 import java.util.List
 import org.eclipse.set.ppmodel.extensions.utils.LstObjectAttribute
+import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 
 /**
  * Diese Klasse erweitert {@link Basis_Objekt}.
  */
 class BasisObjektExtensions extends UrObjectExtensions {
 
-	/**
-	 * @param object dieses Basis-Objekt
-	 * 
-	 * @returns Liste der Bearbeitungsvermerke
-	 */
-	def static List<Bearbeitungsvermerk> comments(Basis_Objekt object) {
-		return object.IDBearbeitungsvermerk
-	}
 
 	/**
 	 * @param object this {@link Basis_Objekt}

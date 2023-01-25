@@ -10,7 +10,6 @@ package org.eclipse.set.basis;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -22,7 +21,6 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.model.temporaryintegration.ToolboxTemporaryIntegration;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
@@ -146,8 +144,10 @@ public interface IModelSession {
 	 * 
 	 * @return the optional temporary integration
 	 */
-	Optional<ToolboxTemporaryIntegration> getTemporaryIntegration();
-
+	/*
+	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
+	 * Optional<ToolboxTemporaryIntegration> getTemporaryIntegration();
+	 */
 	/**
 	 * @return the toolbox file
 	 */
@@ -257,7 +257,7 @@ public interface IModelSession {
 	 *         data is loaded
 	 */
 	boolean isSingleState();
-
+	
 	/**
 	 * Switch the session to merge mode.
 	 * 
@@ -274,10 +274,11 @@ public interface IModelSession {
 	 * @throws UserAbortion
 	 *             if the user aborts saving
 	 */
+	/* TODO(1.10.0.1): Readd once temporary integrations are reenabled
 	void switchToMergeMode(ToolboxTemporaryIntegration temporaryIntegration,
 			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
 			throws IOException, UserAbortion;
-
+	*/
 	/**
 	 * The applied level of save fixes
 	 */

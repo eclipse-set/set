@@ -87,14 +87,6 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 		return flaSchutz.flaSchutzWeitergabe.IDFlaWeitergabeR
 	}
 
-	/**
-	 * @param flaSchutz this Flankenschutz
-	 * 
-	 * @return additional Flankenschutzmaßnahme for Flankenschutzweitergabe of EKW or <code>null</code>
-	 */
-	def static Fla_Schutz getWeitergabeEKW(Fla_Schutz flaSchutz) {
-		return flaSchutz?.IDFlaWeitergabeEKW
-	}
 
 	/**
 	 * @param flaSchutz this Flankenschutz

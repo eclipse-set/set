@@ -8,7 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
 Import-Package: com.google.common.base;version="15.0.0",
- org.eclipse.set.model.model1902.PlanPro,
  javax.annotation,
  javax.inject;version="1.0.0",
  org.apache.commons.io;version="2.2.0",
@@ -59,9 +58,9 @@ Import-Package: com.google.common.base;version="15.0.0",
  org.eclipse.set.core.services.validation,
  org.eclipse.set.core.services.version,
  org.eclipse.set.core.services.viewmodel,
+ org.eclipse.set.model.model11001.PlanPro,
  org.eclipse.set.model.tablemodel,
  org.eclipse.set.model.tablemodel.extensions,
- org.eclipse.set.model.temporaryintegration,
  org.eclipse.set.model.validationreport,
  org.eclipse.set.model.validationreport.extensions,
  org.eclipse.set.nattable.utils,

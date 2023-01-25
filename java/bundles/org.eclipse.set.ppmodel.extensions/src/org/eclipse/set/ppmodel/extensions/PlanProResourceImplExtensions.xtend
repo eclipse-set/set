@@ -9,7 +9,7 @@
 
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.model.model1902.PlanPro.util.PlanProResourceImpl
+import org.eclipse.set.model.model11001.PlanPro.util.PlanProResourceImpl
 import org.eclipse.set.basis.files.PlanProXmlSave
 
 /**
@@ -26,7 +26,7 @@ class PlanProResourceImplExtensions {
 		// we replace the XMLSave implementation to manipulate the XML declaration
 		resource.xmlSaveCreator = [ helper |
 			new PlanProXmlSave(helper, #{STANDALONE -> value})
-		]
+		] 
 	}
 
 	/**

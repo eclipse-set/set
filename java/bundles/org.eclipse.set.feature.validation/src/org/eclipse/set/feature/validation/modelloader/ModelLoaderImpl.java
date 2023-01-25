@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.set.basis.PlanProSchemaDir;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -34,10 +33,6 @@ import org.eclipse.swt.widgets.Shell;
  * @author Schaefer
  */
 public class ModelLoaderImpl implements ModelLoader {
-
-	private static final PlanProSchemaDir<org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle> SCHEMA_DIR = new PlanProSchemaDir<>(
-			org.eclipse.set.model.model1902.PlanPro.PlanPro_Schnittstelle.class);
-
 	@Inject
 	private DialogService dialogService;
 
@@ -61,8 +56,8 @@ public class ModelLoaderImpl implements ModelLoader {
 						toolboxFile.open();
 						return toolboxFile.getResource();
 					}, PlanProSchnittstelleExtensions::readFrom, result);
-			validationService.xsdValidation(toolboxFile, SCHEMA_DIR, result);
-			final org.eclipse.set.model.model1902.PlanPro.DocumentRoot sourceRoot = toolboxFile
+			validationService.xsdValidation(toolboxFile, result);
+			final org.eclipse.set.model.model11001.PlanPro.DocumentRoot sourceRoot = toolboxFile
 					.getSourceModel();
 			if (sourceRoot != null) {
 				validationService.emfValidation(

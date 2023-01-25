@@ -8,16 +8,20 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigInteger
+import java.util.LinkedList
+import java.util.List
+import java.util.Set
+import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
+import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche
+import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
 import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Nichthaltfall
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
@@ -27,25 +31,13 @@ import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
-import java.math.BigInteger
-import java.util.LinkedList
-import java.util.List
-import java.util.Set
-import org.eclipse.set.basis.graph.DirectedEdgePoint
-import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
-import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche
-import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
-
-import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueEinschaltungZuordnungExtension.*
 import static extension org.eclipse.set.ppmodel.extensions.BueGleisbezogenerGefahrraumExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrSignalisierungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
@@ -202,17 +194,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		].toSet
 	}
 
-	/**
-	 * @param fstrZugRangier this Fstr Zug Rangier
-	 * 
-	 * @return the Vorsignalisierung of this Fstr Zug Rangier
-	 */
-	def static List<Signal> getVorsignalisierung(
-		Fstr_Zug_Rangier fstrZugRangier) {
-		return fstrZugRangier.fstrFahrweg.path.edgePointIterator.filter [
-			fstrZugRangier.isVorsignalisierung(it)
-		].map[point].map[punktObjekt].filter(Signal).toList
-	}
 
 	/**
 	 * @param fstrZugRangier this Fstr Zug Rangier
@@ -240,41 +221,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
 		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.toSet
-	}
-
-	private def static boolean isVorsignalisierung(
-		Fstr_Zug_Rangier fstrZugRangier,
-		DirectedEdgePoint<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> edgePoint) {
-
-		// has the point the same Wirkrichtung than the Fahrstraße?
-		if (!edgePoint.edge.contains(edgePoint.point)) {
-			return false
-		}
-		if (!edgePoint.point?.wirkrichtung?.wert.
-			isInWirkrichtung(edgePoint.edge)) {
-			return false
-		}
-
-		// test the correct type of the point
-		val punktObjekt = edgePoint.point.punktObjekt
-		if (!(punktObjekt instanceof Signal)) {
-			return false
-		}
-		val signal = punktObjekt as Signal
-		val signalArt = signal.signalReal?.signalRealAktivSchirm?.signalArt?.
-			wert
-		if (signalArt !== ENUM_SIGNAL_ART_VORSIGNAL &&
-			signalArt !== ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER &&
-			!signal.isAlleinstehendesZusatzsignal) {
-			return false
-		}
-
-		// test whether the signal has Kennlicht for the Fahrstraße
-		if (fstrZugRangier.isKennlichtSignalisierung(signal)) {
-			return false
-		}
-
-		return true
 	}
 
 	private def static dispatch int getVmax(Object object, Fstr_Fahrweg fw) {

@@ -8,16 +8,14 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
 import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand
 import org.eclipse.set.toolboxmodel.PlanPro.impl.Ausgabe_FachdatenImpl
 import org.eclipse.set.toolboxmodel.PlanPro.impl.Fachdaten_AttributeGroupImpl
 import org.eclipse.set.toolboxmodel.PlanPro.impl.LST_ZustandImpl
-import java.util.List
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 
 /**
  * Extensions for {@link BasisAttribut_AttributeGroup}.
@@ -95,15 +93,5 @@ class BasisAttributExtensions {
 		throw new RuntimeException("unable to find LST_ZustandImpl container")
 	}
 
-	/**
-	 * @param befestigung the Signalbefestigung
-	 * 
-	 * @returns the list of Bearbeitungsvermerke
-	 */
-	def static List<Bearbeitungsvermerk> getBearbeitungsvermerke(
-		BasisAttribut_AttributeGroup basisAttribut
-	) {
-		return basisAttribut.IDBearbeitungsvermerk
-	}
 
 }

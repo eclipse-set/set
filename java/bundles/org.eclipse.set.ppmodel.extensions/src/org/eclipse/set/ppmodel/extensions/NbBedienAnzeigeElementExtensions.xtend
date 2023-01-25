@@ -9,8 +9,8 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Nahbedienbereich.NB_Zone
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Bedien_Anzeige_Element
+import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone
 
 /**
  * Extensions for {@link NB_Bedien_Anzeige_Element}.

@@ -27,15 +27,6 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 		return befestigung.IDRegelzeichnung
 	}
 
-	/**
-	 * @param befestigung the Signalbefestigung
-	 * 
-	 * @returns the list of Vorsignalregelzeichnungen
-	 */
-	def static Regelzeichnung getRegelzeichnungenVsigTafel(
-		Signal_Befestigung befestigung) {
-		return befestigung.IDRegelzeichnungVsigTafel
-	}
 
 	/**
 	 * @param befestigung the Signalbefestigung

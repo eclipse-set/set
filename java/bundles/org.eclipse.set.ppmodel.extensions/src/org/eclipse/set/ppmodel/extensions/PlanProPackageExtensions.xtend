@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.model.model1902.PlanPro.PlanProPackage
+import org.eclipse.set.model.model11001.PlanPro.PlanProPackage
 
 /**
  * This class extends {@link PlanProPackage}.

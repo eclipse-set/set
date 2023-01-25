@@ -79,7 +79,7 @@
       <import plugin="org.eclipse.emf.ecp.view.core.swt" version="1.17.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecp.view.table.ui.swt" version="1.10.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.set.model.integrationview.edit" version="0.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.set.model.model1902.edit" version="5.4.0"/>
+      <import plugin="org.eclipse.set.model.model11001.edit" version="0.0.0"/>
       <import plugin="org.eclipse.set.model.validationreport.edit" version="0.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecp.common.ui"/>
       <import plugin="org.eclipse.emf.ecp.core"/>
