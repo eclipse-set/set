@@ -8,12 +8,23 @@
  */
 package org.eclipse.set.core;
 
+import org.eclipse.osgi.service.localization.BundleLocalization;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * Translations.
  * 
  * @author Schaefer
  */
-public class Messages {
+@Component(service = Messages.class)
+public class Messages extends AbstractMessageService {
+	@Reference
+	private void bindBundleLocalization(
+			final BundleLocalization bundleLocalization)
+			throws IllegalArgumentException, IllegalAccessException {
+		super.setupLocalization(bundleLocalization);
+	}
 
 	/**
 	 * Titel der Anwendungsinfo

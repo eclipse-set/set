@@ -16,7 +16,7 @@ import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.set.feature.table.AbstractPlanPro2TableTransformationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.TableService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -53,7 +53,7 @@ public class TableServiceContextFunction extends ContextFunction {
 				"table.shortcut missing in properties"); //$NON-NLS-1$
 	}
 
-	private final Map<String, AbstractPlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
+	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private TableServiceImpl tableService;
 
@@ -70,7 +70,7 @@ public class TableServiceContextFunction extends ContextFunction {
 	 */
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void addModelService(
-			final AbstractPlanPro2TableTransformationService service,
+			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final String elementId = getElementId(properties);
@@ -107,7 +107,7 @@ public class TableServiceContextFunction extends ContextFunction {
 	 *             if the table.shortcut property is not set
 	 */
 	public void removeModelService(
-			final AbstractPlanPro2TableTransformationService service,
+			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final String elementId = getElementId(properties);

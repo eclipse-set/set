@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.feature.table.ssli.SsliTransformationService">
-   <property name="table.shortcut" value="ssli"/>
-   <service>
-      <provide interface="org.eclipse.set.feature.table.AbstractPlanPro2TableTransformationService"/>
-   </service>
-   <reference bind="setMessages" interface="org.eclipse.set.feature.table.messages.MessagesWrapper" name="Messages"/>
-   <implementation class="org.eclipse.set.feature.table.ssli.SsliTransformationService"/>
-</scr:component>

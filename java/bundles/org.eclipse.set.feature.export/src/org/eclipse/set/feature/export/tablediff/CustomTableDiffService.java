@@ -23,10 +23,9 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.table.TableDiffService;
-import org.osgi.service.component.annotations.Component;
-
 import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass;
 import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * Custom implementation of {@link TableDiffService}.
@@ -37,7 +36,6 @@ import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
  */
 @Component(immediate = true)
 public class CustomTableDiffService implements TableDiffService {
-
 	private static final String EMPTY_VALUE = ""; //$NON-NLS-1$
 
 	private static void addEmptyValue(final TableRow row,

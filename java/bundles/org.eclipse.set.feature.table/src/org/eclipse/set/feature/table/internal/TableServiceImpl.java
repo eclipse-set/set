@@ -30,7 +30,7 @@ import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.feature.table.AbstractPlanPro2TableTransformationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
@@ -73,7 +73,7 @@ public final class TableServiceImpl implements TableService {
 	@Inject
 	private IEventBroker broker;
 
-	private final Map<String, AbstractPlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
+	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	/**
 	 * constructor.
@@ -96,8 +96,7 @@ public final class TableServiceImpl implements TableService {
 	 * @throws IllegalAccessException
 	 *             if the table.shortcut property is not set
 	 */
-	void addModelService(
-			final AbstractPlanPro2TableTransformationService service,
+	void addModelService(final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final String elementId = TableServiceContextFunction
@@ -106,7 +105,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	void addModelServiceById(final String elementId,
-			final AbstractPlanPro2TableTransformationService service) {
+			final PlanPro2TableTransformationService service) {
 		modelServiceMap.put(elementId, service);
 	}
 
@@ -148,9 +147,9 @@ public final class TableServiceImpl implements TableService {
 						.getContainer(tableType.getContainerForTable()));
 	}
 
-	private AbstractPlanPro2TableTransformationService getModelService(
+	private PlanPro2TableTransformationService getModelService(
 			final String elementId) {
-		final AbstractPlanPro2TableTransformationService modelService = modelServiceMap
+		final PlanPro2TableTransformationService modelService = modelServiceMap
 				.get(elementId.toLowerCase());
 		if (modelService == null) {
 			throw new IllegalArgumentException(
@@ -223,7 +222,7 @@ public final class TableServiceImpl implements TableService {
 	private Object loadTransform(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
 			final String shortCut) {
-		final AbstractPlanPro2TableTransformationService modelService = getModelService(
+		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
 		final Table transformedTable;
 		if (tableType == TableType.DIFF) {
@@ -256,7 +255,7 @@ public final class TableServiceImpl implements TableService {
 	 *             if the table.shortcut property is not set
 	 */
 	public void removeModelService(
-			final AbstractPlanPro2TableTransformationService service,
+			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final String elementId = TableServiceContextFunction

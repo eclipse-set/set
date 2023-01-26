@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -56,7 +57,11 @@ public class ConcretePlanproModelUpdateServiceImpl
 				.LSTPlanungProjekt(schnittstelle);
 		Planung_Gruppe planungGruppe = null;
 		if (lstPlanungProjekt != null) {
-			planungGruppe = lstPlanungProjekt.getLstPlanungErsteGruppe();
+			final EList<Planung_Gruppe> groups = lstPlanungProjekt
+					.getLSTPlanungGruppe();
+			if (!groups.isEmpty()) {
+				planungGruppe = groups.get(0);
+			}
 		}
 		Planung_Einzel planungEinzel = null;
 		if (planungGruppe != null) {

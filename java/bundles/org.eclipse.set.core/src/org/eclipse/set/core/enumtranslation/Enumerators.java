@@ -8,15 +8,22 @@
  */
 package org.eclipse.set.core.enumtranslation;
 
-import org.eclipse.e4.core.services.nls.Message;
+import org.eclipse.set.core.AbstractMessageService;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * Translations for enumerators.
- * 
- * @generated
  */
-@Message(contributionURI = "platform:/plugin/org.eclipse.set.core/translation/Enumerators")
-public class Enumerators {
+@Component(service = Enumerators.class)
+public class Enumerators extends AbstractMessageService {
+	@Activate
+	private void setupLocalization()
+			throws IllegalArgumentException, IllegalAccessException {
+		super.setupLocalization(
+				"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
+	}
+
 	/**
 	 * 112
 	 */

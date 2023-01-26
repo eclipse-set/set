@@ -4,6 +4,6 @@
    <service>
       <provide interface="org.eclipse.e4.core.contexts.IContextFunction"/>
    </service>
-   <reference bind="addModelService" cardinality="0..n" interface="org.eclipse.set.feature.table.AbstractPlanPro2TableTransformationService" name="ModelService" policy="dynamic" unbind="removeModelService"/>
+   <reference bind="addModelService" cardinality="0..n" interface="org.eclipse.set.feature.table.PlanPro2TableTransformationService" name="ModelService" policy="dynamic" unbind="removeModelService"/>
    <implementation class="org.eclipse.set.feature.table.internal.TableServiceContextFunction"/>
 </scr:component>

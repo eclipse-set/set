@@ -11,15 +11,10 @@ package org.eclipse.set.feature.table;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
-
-import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
 /**
@@ -29,21 +24,8 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
  */
 public abstract class AbstractTableDescription
 		implements PartDescriptionService {
-	private static class InjectionHelper {
-
-		@Inject
-		@Translation
-		Messages messages;
-
-		@SuppressWarnings("unused")
-		public InjectionHelper() {
-		}
-	}
-
 	@Override
 	public PartDescription getDescription(final IEclipseContext context) {
-		final InjectionHelper injectionHelper = ContextInjectionFactory
-				.make(InjectionHelper.class, context);
 		return new PartDescription(
 				// ID
 				getOptionalTableId().orElse(
@@ -51,9 +33,9 @@ public abstract class AbstractTableDescription
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.ToolboxTableView", //$NON-NLS-1$
 				// toolboxViewName
-				getToolboxViewName(injectionHelper.messages),
+				getToolboxViewName(),
 				// toolboxViewToolTip
-				getToolboxViewTooltip(injectionHelper.messages),
+				getToolboxViewTooltip(),
 				// toolboxViewType
 				getToolboxViewGroup(),
 				// defaultForNature
@@ -93,7 +75,7 @@ public abstract class AbstractTableDescription
 		return Optional.empty();
 	}
 
-	protected abstract String getToolboxViewName(final Messages messages);
+	protected abstract String getToolboxViewName();
 
-	protected abstract String getToolboxViewTooltip(Messages messages);
+	protected abstract String getToolboxViewTooltip();
 }
