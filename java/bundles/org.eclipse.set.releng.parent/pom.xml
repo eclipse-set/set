@@ -31,6 +31,7 @@
 					<useProjectSettings>true</useProjectSettings>
 					<compilerVersion>17</compilerVersion>
 					<release>17</release>
+					<log>plain</log>
 				</configuration>
 			</plugin>
 
