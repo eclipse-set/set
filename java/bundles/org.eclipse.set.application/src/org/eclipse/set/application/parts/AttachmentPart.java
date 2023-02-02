@@ -34,6 +34,7 @@ import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.widgets.AttachmentTable;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -113,11 +114,40 @@ public class AttachmentPart extends BasePart {
 	 * @param parent
 	 *            the parent composite
 	 */
+
 	@Override
 	protected void createView(final Composite parent) {
+		// To avoid individual scroll bars on each table, we use a single
+		// scrolled composite and tables scaled to the exact height
+		final ScrolledComposite scrolledComposite = new ScrolledComposite(
+				parent, SWT.V_SCROLL);
+		scrolledComposite.setLayout(new GridLayout());
+		GridDataFactory.fillDefaults().grab(true, true)
+				.applyTo(scrolledComposite);
+		scrolledComposite.setExpandVertical(true);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setAlwaysShowScrollBars(false);
+
+		// the view composite
+		final Composite viewComposite = new Composite(scrolledComposite,
+				SWT.NONE);
+		viewComposite.setLayout(new GridLayout());
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(viewComposite);
+		scrolledComposite.setContent(viewComposite);
+		createViewContent(viewComposite);
+
+		// This sets the size to the default size of the table, extra size is
+		// allocated by the tables on-demand
+		scrolledComposite.setMinSize(objectTable.getTableParent()
+				.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+	}
+
+	private void createViewContent(final Composite parent) {
 		// define the layout of the part
 		final GridLayout layout = new GridLayout(2, false);
 		parent.setLayout(layout);
+		parent.setLayoutData(new GridData(SWT.BEGINNING, GridData.BEGINNING,
+				true, false, 3, 2));
 
 		// the shared model provider
 		final AttachmentModelProvider modelProvider = new AttachmentModelProvider(
@@ -126,13 +156,12 @@ public class AttachmentPart extends BasePart {
 		// objectmanagement
 		final Label objectMgmtHeader = new Label(parent, SWT.NONE);
 		final GridData gridData = new GridData(SWT.BEGINNING,
-				GridData.BEGINNING, true, false, 2, 1);
+				GridData.BEGINNING, true, false, 3, 1);
 		objectMgmtHeader.setLayoutData(gridData);
 		objectMgmtHeader
 				.setText(messages.AttachmentPart_AttachmentsInObjectmanagement);
 		objectTable = createAttachmentTableViewerWidget(parent,
 				modelProvider.getObjectManagementAttachments());
-
 		if (Lists
 				.newArrayList(PlanProFileNature.INTEGRATION,
 						PlanProFileNature.PLANNING)

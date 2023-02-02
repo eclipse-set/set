@@ -93,7 +93,7 @@ public class AttachmentTable {
 	List<FileKind> fileKinds = null;
 	final Messages messages;
 	ObservableValue<Attachment> selectedAttachment = new ObservableValue<>();
-	final Composite tableParent;
+	Composite tableParent;
 	TableViewer viewer;
 
 	/**
@@ -124,7 +124,7 @@ public class AttachmentTable {
 	 * @return the control for this attachment table
 	 */
 	public Control createControl() {
-		createControl(tableParent);
+		createControl(getTableParent());
 		return viewer.getControl();
 	}
 
@@ -242,8 +242,11 @@ public class AttachmentTable {
 		// table
 		final Table table = new Table(tableComposite,
 				SWT.BORDER | SWT.FULL_SELECTION);
-		final GridData gdTable = new GridData(SWT.FILL, SWT.CENTER, true, true);
-		gdTable.minimumHeight = 150;
+
+		final int tableHeight = table.getItemHeight() * (attachments.size() + 1)
+				+ table.getHeaderHeight();
+		final GridData gdTable = new GridData(SWT.DEFAULT, tableHeight);
+		gdTable.grabExcessHorizontalSpace = true;
 		table.setLayoutData(gdTable);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -335,7 +338,7 @@ public class AttachmentTable {
 		createButton(buttonRow, messages.AttachmentTable_export,
 				(Void) -> getSelectedAttachment()
 						.ifPresent((attachment) -> Attachments
-								.export(tableParent.getShell(), attachment,
+								.export(getTableParent().getShell(), attachment,
 										dialogService, toolboxFile.getPath()
 												.getParent().toString())),
 				() -> true);
@@ -427,5 +430,12 @@ public class AttachmentTable {
 				attachment.getFullFilename());
 		savePdf(attachment, path);
 		startPdfViewer(path);
+	}
+
+	/**
+	 * @return the table parent
+	 */
+	public Composite getTableParent() {
+		return tableParent;
 	}
 }
