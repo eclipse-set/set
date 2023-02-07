@@ -43,6 +43,7 @@ import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
+import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.model.validationreport.extensions.ValidationReportExtension;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
@@ -152,7 +153,9 @@ public class ValidationPart extends AbstractEmfFormsPart {
 			problems.clear();
 
 			// Add problems
-			validationReport.getProblems()
+			validationReport.getProblems().stream()
+					.filter(problem -> problem
+							.getSeverity() != ValidationSeverity.SUCCESS)
 					.forEach(problem -> problems.add(new ProblemMessage(
 							problem.getMessage(), problem.getType(),
 							problem.getLineNumber(), 3)));
