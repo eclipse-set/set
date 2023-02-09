@@ -31,7 +31,7 @@ import org.osgi.service.component.annotations.Reference;
  * @usage production
  */
 @Component(service = {
-		AbstractPlanPro2TableTransformationService.class }, immediate = true, property = {
+		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.shortcut=sslw" })
 public final class SslwTransformationService
 		extends AbstractPlanPro2TableTransformationService<SslwColumns> {

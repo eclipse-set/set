@@ -8,12 +8,10 @@
  */
 package org.eclipse.set.feature.table.pt1;
 
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
-import org.eclipse.set.utils.table.AbstractTableTransformationService;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 
 /**
@@ -23,8 +21,7 @@ import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
  *            Columns type
  */
 public abstract class AbstractPlanPro2TableTransformationService<C extends AbstractTableColumns>
-		extends
-		AbstractTableTransformationService<MultiContainer_AttributeGroup> {
+		extends PlanPro2TableTransformationService {
 	@Override
 	protected ColumnDescriptor buildHeading(final Table table) {
 		// Add missing heading units
@@ -40,9 +37,4 @@ public abstract class AbstractPlanPro2TableTransformationService<C extends Abstr
 			final ColumnDescriptorModelBuilder builder) {
 		return columns.fillHeaderDescriptions(builder);
 	}
-
-	/**
-	 * @return the table name info
-	 */
-	public abstract TableNameInfo getTableNameInfo();
 }
