@@ -626,7 +626,7 @@ npm/npmjs/-/imurmurhash/0.1.4, MIT, approved, clearlydefined
 npm/npmjs/-/inflight/1.0.6, ISC, approved, clearlydefined
 npm/npmjs/-/inherits/2.0.3, ISC, approved, clearlydefined
 npm/npmjs/-/inherits/2.0.4, ISC, approved, clearlydefined
-npm/npmjs/-/internal-slot/1.0.3, MIT, approved, clearlydefined
+npm/npmjs/-/internal-slot/1.0.3, MIT, approved, #7118
 npm/npmjs/-/interpret/2.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/ipaddr.js/1.9.1, MIT, approved, clearlydefined
 npm/npmjs/-/ipaddr.js/2.0.1, MIT, approved, clearlydefined
