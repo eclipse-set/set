@@ -130,7 +130,7 @@ class PlanProToTitleboxTransformation {
 
 		it.set(
 			23, '''Geplant mit «schnittstelle?.planProSchnittstelleAllg?.werkzeugName?.wert ?: ""» «schnittstelle?.planProSchnittstelleAllg?.werkzeugVersion?.wert ?: ""»
-		Visualisiert mit Werkzeugkoffer «version.shortVersion»''')
+		Visualisiert mit «ToolboxConfiguration.shortName» «version.shortVersion»''')
 		it.set(56, planungAllgemein?.indexAusgabe?.wert)
 		it.set(57, planungAllgemein?.bauzustandPlanungAllgemein)
 		it.set(58,

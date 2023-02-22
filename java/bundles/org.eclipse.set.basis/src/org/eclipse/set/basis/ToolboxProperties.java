@@ -27,6 +27,11 @@ public interface ToolboxProperties {
 	public static final String CURVED_GEOMETRY_TOLERANCE = "toolbox.curved.geometry.tolerance";
 
 	/**
+	 * Property key for the toolbox short name.
+	 */
+	public static final String SHORT_NAME = "toolbox.shortname";
+
+	/**
 	 * Property key for the toolbox detail version.
 	 */
 	public static final String DETAIL_VERSION = "toolbox.detailversion";
