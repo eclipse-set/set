@@ -10,7 +10,8 @@ http://www.eclipse.org/legal/epl-v20.html
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" exclude-result-prefixes="fo">
+	xmlns:fox="http://xmlgraphics.apache.org/fop/extensions"
+	xmlns:str="http://exslt.org/strings" exclude-result-prefixes="fo">
 
 	<xsl:variable name="titlebox-small-border-width" select="0.25"/>
 	<xsl:variable name="titlebox-wide-border-width" select="0.5"/>
@@ -290,12 +291,12 @@ http://www.eclipse.org/legal/epl-v20.html
 									<fo:table-row height="{4 - $titlebox-WB - $titlebox-WB}mm" font-size="55%">
 										<fo:table-cell height="inherit" border-style="solid" column-number="1" border-width="0px" border-top="{$titlebox-wide-border-style}" border-right="{$titlebox-small-border-style}">
 											<xsl:apply-templates select="Field[@address=75]">
-												<xsl:with-param name="fontSize" select="'3.5mm'"/>
+												<xsl:with-param name="fontSize" select="'2mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" border-style="solid" column-number="2" border-width="0px" border-top="{$titlebox-wide-border-style}" border-right="{$titlebox-small-border-style}">
 											<xsl:apply-templates select="Field[@address=76]">
-												<xsl:with-param name="fontSize" select="'2.5mm'"/>
+												<xsl:with-param name="fontSize" select="'2mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" border-style="solid" column-number="3" border-width="0px" border-top="{$titlebox-wide-border-style}" border-right="{$titlebox-small-border-style}">
@@ -436,42 +437,42 @@ http://www.eclipse.org/legal/epl-v20.html
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="2" border="{$titlebox-wide-border-style}" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=48]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="3" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=49]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="4" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=50]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="5" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=51]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="6" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=52]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="7" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=53]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="8" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=54]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="9" border-style="solid" border-width="0px" border-bottom="{$titlebox-wide-border-style}">
 											<xsl:apply-templates select="Field[@address=55]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 									</fo:table-row>
@@ -479,42 +480,42 @@ http://www.eclipse.org/legal/epl-v20.html
 									<fo:table-row height="{4 - $titlebox-WB - $titlebox-WB}mm">
 										<fo:table-cell height="inherit" column-number="2" border="{$titlebox-wide-border-style}" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=62]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="3" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=63]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="4" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=64]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="5" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=65]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="6" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=66]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="7" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=67]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="8" border="{$titlebox-wide-border-style}" border-left-width="0px" border-top-width="0px">
 											<xsl:apply-templates select="Field[@address=68]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 										<fo:table-cell height="inherit" column-number="9" border-style="solid" border-width="0px" border-bottom="{$titlebox-wide-border-style}">
 											<xsl:apply-templates select="Field[@address=69]">
-												<xsl:with-param name="fontSize" select="'1.6mm'"/>
+												<xsl:with-param name="fontSize" select="'2.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 									</fo:table-row>
@@ -586,7 +587,8 @@ http://www.eclipse.org/legal/epl-v20.html
 										</fo:table-cell>
 										<fo:table-cell height="{4.33*3+5*2-5*$titlebox-WB}mm" column-number="5" number-columns-spanned="3" number-rows-spanned="5" border-style="solid" border-width="0px" border-bottom="{$titlebox-wide-border-style}">
 											<xsl:apply-templates select="Field[@address=85]">
-												<xsl:with-param name="fontSize" select="'4mm'"/>
+												<xsl:with-param name="firstLineFontSize" select="'5mm'"/>
+												<xsl:with-param name="fontSize" select="'3.5mm'"/>
 											</xsl:apply-templates>
 										</fo:table-cell>
 									</fo:table-row>
@@ -687,9 +689,30 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<xsl:template match="Field">
 		<xsl:param name="fontSize" select="'0.5mm'" />
+		<xsl:param name="firstLineFontSize" select="$fontSize" />
 		<fo:block-container xsl:use-attribute-sets="cell-block-container-style">
-			<fo:block font-size="{$fontSize}">
-				<xsl:value-of select="." />
+			<fo:block>
+				<xsl:for-each select="str:tokenize(., '&#xA;')">
+					<xsl:choose>
+						<xsl:when test="position()=1">
+							<fo:inline font-size="{$firstLineFontSize}">
+								<xsl:value-of select="." />
+								<xsl:text>&#xA;</xsl:text>
+							</fo:inline>
+						</xsl:when>
+						<xsl:when test="position()=last()">
+							<fo:inline font-size="{$fontSize}">
+								<xsl:value-of select="." />
+							</fo:inline>
+						</xsl:when>
+						<xsl:otherwise>
+							<fo:inline font-size="{$fontSize}">
+								<xsl:value-of select="." />
+							</fo:inline>
+							<xsl:text>&#xA;</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:for-each>
 			</fo:block>
 		</fo:block-container>
 	</xsl:template>

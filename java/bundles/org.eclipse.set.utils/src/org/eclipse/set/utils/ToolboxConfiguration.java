@@ -110,6 +110,13 @@ public class ToolboxConfiguration {
 	}
 
 	/**
+	 * @return the toolbox short name
+	 */
+	public static String getShortName() {
+		return System.getProperty(ToolboxProperties.SHORT_NAME);
+	}
+
+	/**
 	 * @return whether the toolbox is in development mode
 	 */
 	public static boolean isDevelopmentMode() {
