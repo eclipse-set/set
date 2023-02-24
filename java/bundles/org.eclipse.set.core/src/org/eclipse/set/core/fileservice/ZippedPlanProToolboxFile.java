@@ -222,7 +222,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	public Path getModelPath() {
 		if (temporaryDirectory != null) {
 			return Paths.get(temporaryDirectory.toString(),
-					role.toDirectoryName(), MODEL_FILE);
+					role.toDirectoryName(), MODEL_FILE).toAbsolutePath();
 		}
 		throw new IllegalStateException("No temporary directory set."); //$NON-NLS-1$
 	}
@@ -322,13 +322,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	private void unzip() throws IOException {
 		final Path unzipDir = getUnzipDirectory();
-
 		// delete an existing zip dir
 		deleteDir(unzipDir);
-
 		// create zip dir
 		Files.createDirectories(unzipDir);
-
 		// unzip the archive
 		final byte[] buffer = new byte[BUFFER_SIZE];
 		try (final ZipInputStream zipIn = new ZipInputStream(
