@@ -102,17 +102,11 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	 * 
 	 * @returns the Fstr_Rangier_Fla_Zuordnung
 	 */
-	def static Fstr_Rangier_Fla_Zuordnung getFstrRangierFlaZuordnung(
+	def static Iterable<Fstr_Rangier_Fla_Zuordnung> getFstrRangierFlaZuordnung(
 		Fstr_Zug_Rangier fstrZugRangier) {
-
-		for (fstrRangierFla : fstrZugRangier.container.
-			fstrRangierFlaZuordnung) {
-			if (fstrRangierFla?.IDFstrRangier?.identitaet?.wert ==
-				fstrZugRangier.identitaet.wert) {
-				return fstrRangierFla;
-			}
-		}
-		return null;
+		return fstrZugRangier.container.fstrRangierFlaZuordnung.filter [
+			IDFstrRangier === fstrZugRangier
+		]
 	}
 
 	/**

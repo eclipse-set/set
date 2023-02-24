@@ -299,7 +299,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[dweg.fstrDWegSpezifisch !== null],
 				[
-					fstrDWegSpezifisch.fmaAnlageZielgleis.gleisabschnitt.
+					fstrDWegSpezifisch.fmaAnlageZielgleis.IDGleisAbschnitt.
 						bezeichnung.bezeichnungTabelle.wert
 				]
 			)

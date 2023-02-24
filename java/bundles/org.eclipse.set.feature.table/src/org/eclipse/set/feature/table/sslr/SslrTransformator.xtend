@@ -8,18 +8,18 @@
  */
 package org.eclipse.set.feature.table.sslr
 
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.math.BigInteger
 import java.util.Collections
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
@@ -29,7 +29,6 @@ import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementE
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrRangierFlaZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
@@ -209,21 +208,23 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZugRangier,
 			[
 				fmaAnlageRangierFrei?.map [
-					gleisabschnitt?.bezeichnung?.bezeichnungTabelle?.wert
+					IDGleisAbschnitt?.bezeichnung?.bezeichnungTabelle?.wert
 				].toSet
 			],
 			MIXED_STRING_COMPARATOR
 		)
 
 		// L: Sslr.Abhaengigkeiten.FwWeichen_mit_Fla
-		fill(
+		fillIterable(
 			columns.FwWeichen_mit_Fla,
 			fstrZugRangier,
 			[
-				(fstrRangierFlaZuordnung?.flaSchutz?.
-					anforderer as W_Kr_Gsp_Element)?.bezeichnung?.
-					bezeichnungTabelle?.wert
-			]
+				fstrRangierFlaZuordnung?.map [
+					(flaSchutz?.anforderer as W_Kr_Gsp_Element)?.bezeichnung?.
+						bezeichnungTabelle?.wert
+				]
+			],
+			MIXED_STRING_COMPARATOR
 		)
 
 		// M: Sslr.Abhaengigkeiten.Ueberwachte_Ssp
@@ -257,7 +258,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZugRangier,
 			[
 				(fstrFahrweg?.zielSignal?.signalFstr?.
-					IDRaZielErlaubnisabhaengig?.identitaet?.wert !== null).translate
+					IDRaZielErlaubnisabhaengig?.identitaet?.wert !== null).
+					translate
 			]
 		)
 

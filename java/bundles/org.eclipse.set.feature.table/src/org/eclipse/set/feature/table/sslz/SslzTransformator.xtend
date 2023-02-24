@@ -9,6 +9,21 @@
 package org.eclipse.set.feature.table.sslz
 
 import com.google.common.base.Stopwatch
+import java.math.BigInteger
+import java.time.Duration
+import java.util.Collection
+import java.util.Collections
+import java.util.List
+import java.util.Set
+import org.eclipse.set.basis.MixedStringComparator
+import org.eclipse.set.basis.Wrapper
+import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.feature.table.messages.MessagesWrapper
+import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.extensions.Utils
+import org.eclipse.set.model.tablemodel.format.TextAlignment
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Art_TypeClass
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
@@ -26,22 +41,7 @@ import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2v
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs6
-import java.math.BigInteger
-import java.time.Duration
-import java.util.Collection
-import java.util.Collections
-import java.util.List
-import java.util.Set
-import org.eclipse.set.basis.MixedStringComparator
-import org.eclipse.set.basis.Wrapper
-import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
-import org.eclipse.set.feature.table.messages.MessagesWrapper
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.extensions.Utils
-import org.eclipse.set.model.tablemodel.format.TextAlignment
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -51,7 +51,6 @@ import static org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrNichthaltfallExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrSignalisierungExtensions.*
@@ -286,7 +285,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					fstrZugRangier,
 					[
 						fstrNichthaltfall.map [
-							fmaAnlage?.gleisabschnitt?.bezeichnung?.
+							fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
 								bezeichnungTabelle?.wert
 						]
 					],
@@ -317,7 +316,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								anrueckverschluss?.map[schalter]?.toSet ?:
 								Collections.emptySet
 							gleisabschnitte.value = schaltmittel.value.filter(
-								FMA_Anlage).map[gleisabschnitt].toSet
+								FMA_Anlage).map[IDGleisAbschnitt].toSet
 							!gleisabschnitte.value.empty
 						],
 						[

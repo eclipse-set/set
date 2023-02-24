@@ -28,7 +28,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 
 /**
  * Table transformation for a Zwieschutzweichentabelle (SSLW).
@@ -287,7 +286,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 						(currentFlaSchutz?.freimeldeZuordnungen?.filter [
 							flaRaumFreimeldung.wert
 						] ?: newLinkedList()).map [
-							fmaAnlage?.gleisabschnitt?.bezeichnung?.
+							fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
 								bezeichnungTabelle?.wert
 						]
 					],
@@ -303,7 +302,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 						(	currentFlaSchutz?.freimeldeZuordnungen?.filter [
 							!flaRaumFreimeldung.wert
 						] ?: newLinkedList()).map [
-							fmaAnlage?.gleisabschnitt?.bezeichnung?.
+							fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
 								bezeichnungTabelle?.wert
 						]
 					],

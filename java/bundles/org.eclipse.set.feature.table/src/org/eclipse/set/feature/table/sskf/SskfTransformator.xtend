@@ -207,7 +207,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.Weiche,
 				fmaAnlage,
 				[
-					weichen.value = gleisabschnitt.filterContained(
+					weichen.value = IDGleisAbschnitt.filterContained(
 						container.WKrGspKomponente
 					).map[WKrGspElement]
 
