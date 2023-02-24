@@ -161,18 +161,10 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		if (!vmax.empty) {
 			vmin = vmax.min
 		}
-		val hg = fstrZugRangier?.fstrFahrweg?.fstrVHg?.wert;
 		if (vmin < 0) {
-			if (hg !== null)
-				return hg.intValue
-			else
-				return Integer.MAX_VALUE
+			return Integer.MAX_VALUE
 		} else {
-			if (hg !== null) {
-				return Math.min(hg.intValue, vmin)
-			} else {
-				return vmin;
-			}
+			return vmin;
 		}
 	}
 
