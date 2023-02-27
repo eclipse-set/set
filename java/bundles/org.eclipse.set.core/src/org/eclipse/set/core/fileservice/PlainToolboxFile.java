@@ -156,6 +156,7 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	@Override
 	public void open() throws IOException {
 		if (isLoadable()) {
+			generateMD5CheckSum();
 			loadResource(getModelPath(), editingDomain);
 		} else {
 			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$

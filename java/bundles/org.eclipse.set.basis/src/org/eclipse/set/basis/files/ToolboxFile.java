@@ -119,6 +119,13 @@ public interface ToolboxFile {
 	List<String> getAllMedia() throws IOException;
 
 	/**
+	 * Get MD5 checksum of file
+	 * 
+	 * @return md5 hash
+	 */
+	String getChecksum();
+
+	/**
 	 * @return the editing domain
 	 */
 	EditingDomain getEditingDomain();

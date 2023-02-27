@@ -38,7 +38,7 @@ Werkzeugkofferversion: %s
 
 	private static class HeaderInfo {
 		new(ValidationReport report) {
-			file = Paths.get(report.fileName).fileName.toString
+			file = Paths.get(report.fileInfo.fileName).fileName.toString
 			time = LocalDateTime.now.format(
 				DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
 			version = ToolboxConfiguration.toolboxVersion.longVersion

@@ -20,17 +20,16 @@
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Unknown"/>
     </genEnums>
     <genClasses ecoreClass="validationreport.ecore#//ValidationReport">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/fileName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/modelLoaded"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/valid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/xsdValid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/emfValid"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//ValidationReport/problems"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//ValidationReport/supportedVersion"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//ValidationReport/usedVersion"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/toolboxVersion"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/subworkCount"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/subworkTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//ValidationReport/fileInfo"/>
     </genClasses>
     <genClasses ecoreClass="validationreport.ecore#//ValidationProblem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/id"/>
@@ -47,6 +46,13 @@
     <genClasses ecoreClass="validationreport.ecore#//VersionInfo">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/planPro"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/signals"/>
+    </genClasses>
+    <genClasses ecoreClass="validationreport.ecore#//FileInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/fileName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference validationreport.ecore#//FileInfo/usedVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/checksum"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/guid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/timeStamp"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -3,7 +3,6 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="validationreport" nsURI="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr"
     nsPrefix="vr">
   <eClassifiers xsi:type="ecore:EClass" name="ValidationReport">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelLoaded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="valid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="xsdValid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -12,11 +11,11 @@
         eType="#//ValidationProblem" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="supportedVersion" lowerBound="1"
         eType="#//VersionInfo" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="usedVersion" lowerBound="1"
-        eType="#//VersionInfo" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="toolboxVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="subworkCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="subworkTypes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fileInfo" eType="#//FileInfo"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValidationProblem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -45,5 +44,13 @@
     <eLiterals name="Betrachtung" value="2" literal="Betrachtung"/>
     <eLiterals name="Plan" value="1" literal="Planung"/>
     <eLiterals name="Unknown" literal=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FileInfo">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="usedVersion" lowerBound="1"
+        eType="#//VersionInfo" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="checksum" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

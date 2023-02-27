@@ -9,6 +9,7 @@ Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation,
  javax.inject,
+ org.apache.commons.codec.digest,
  org.eclipse.core.runtime,
  org.eclipse.e4.core.commands,
  org.eclipse.e4.core.contexts,

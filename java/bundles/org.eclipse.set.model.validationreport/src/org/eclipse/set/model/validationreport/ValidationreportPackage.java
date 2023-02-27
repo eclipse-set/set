@@ -74,22 +74,13 @@ public interface ValidationreportPackage extends EPackage {
 	int VALIDATION_REPORT = 0;
 
 	/**
-	 * The feature id for the '<em><b>File Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATION_REPORT__FILE_NAME = 0;
-
-	/**
 	 * The feature id for the '<em><b>Model Loaded</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__MODEL_LOADED = 1;
+	int VALIDATION_REPORT__MODEL_LOADED = 0;
 
 	/**
 	 * The feature id for the '<em><b>Valid</b></em>' attribute.
@@ -98,7 +89,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__VALID = 2;
+	int VALIDATION_REPORT__VALID = 1;
 
 	/**
 	 * The feature id for the '<em><b>Xsd Valid</b></em>' attribute.
@@ -107,7 +98,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__XSD_VALID = 3;
+	int VALIDATION_REPORT__XSD_VALID = 2;
 
 	/**
 	 * The feature id for the '<em><b>Emf Valid</b></em>' attribute.
@@ -116,7 +107,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__EMF_VALID = 4;
+	int VALIDATION_REPORT__EMF_VALID = 3;
 
 	/**
 	 * The feature id for the '<em><b>Problems</b></em>' containment reference list.
@@ -125,7 +116,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__PROBLEMS = 5;
+	int VALIDATION_REPORT__PROBLEMS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Supported Version</b></em>' containment reference.
@@ -134,16 +125,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__SUPPORTED_VERSION = 6;
-
-	/**
-	 * The feature id for the '<em><b>Used Version</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALIDATION_REPORT__USED_VERSION = 7;
+	int VALIDATION_REPORT__SUPPORTED_VERSION = 5;
 
 	/**
 	 * The feature id for the '<em><b>Toolbox Version</b></em>' attribute.
@@ -152,7 +134,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__TOOLBOX_VERSION = 8;
+	int VALIDATION_REPORT__TOOLBOX_VERSION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Subwork Count</b></em>' attribute.
@@ -161,7 +143,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__SUBWORK_COUNT = 9;
+	int VALIDATION_REPORT__SUBWORK_COUNT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Subwork Types</b></em>' attribute.
@@ -170,7 +152,16 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT__SUBWORK_TYPES = 10;
+	int VALIDATION_REPORT__SUBWORK_TYPES = 8;
+
+	/**
+	 * The feature id for the '<em><b>File Info</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALIDATION_REPORT__FILE_INFO = 9;
 
 	/**
 	 * The number of structural features of the '<em>Validation Report</em>' class.
@@ -179,7 +170,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALIDATION_REPORT_FEATURE_COUNT = 11;
+	int VALIDATION_REPORT_FEATURE_COUNT = 10;
 
 	/**
 	 * The number of operations of the '<em>Validation Report</em>' class.
@@ -355,6 +346,79 @@ public interface ValidationreportPackage extends EPackage {
 	int VERSION_INFO_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl <em>File Info</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.validationreport.impl.FileInfoImpl
+	 * @see org.eclipse.set.model.validationreport.impl.ValidationreportPackageImpl#getFileInfo()
+	 * @generated
+	 */
+	int FILE_INFO = 3;
+
+	/**
+	 * The feature id for the '<em><b>File Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO__FILE_NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Used Version</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO__USED_VERSION = 1;
+
+	/**
+	 * The feature id for the '<em><b>Checksum</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO__CHECKSUM = 2;
+
+	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO__GUID = 3;
+
+	/**
+	 * The feature id for the '<em><b>Time Stamp</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO__TIME_STAMP = 4;
+
+	/**
+	 * The number of structural features of the '<em>File Info</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO_FEATURE_COUNT = 5;
+
+	/**
+	 * The number of operations of the '<em>File Info</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FILE_INFO_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.validationreport.ValidationSeverity <em>Validation Severity</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -362,7 +426,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @see org.eclipse.set.model.validationreport.impl.ValidationreportPackageImpl#getValidationSeverity()
 	 * @generated
 	 */
-	int VALIDATION_SEVERITY = 3;
+	int VALIDATION_SEVERITY = 4;
 
 
 	/**
@@ -373,7 +437,7 @@ public interface ValidationreportPackage extends EPackage {
 	 * @see org.eclipse.set.model.validationreport.impl.ValidationreportPackageImpl#getObjectScope()
 	 * @generated
 	 */
-	int OBJECT_SCOPE = 4;
+	int OBJECT_SCOPE = 5;
 
 
 	/**
@@ -385,17 +449,6 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getValidationReport();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.ValidationReport#getFileName <em>File Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>File Name</em>'.
-	 * @see org.eclipse.set.model.validationreport.ValidationReport#getFileName()
-	 * @see #getValidationReport()
-	 * @generated
-	 */
-	EAttribute getValidationReport_FileName();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.ValidationReport#getModelLoaded <em>Model Loaded</em>}'.
@@ -464,17 +517,6 @@ public interface ValidationreportPackage extends EPackage {
 	EReference getValidationReport_SupportedVersion();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.validationreport.ValidationReport#getUsedVersion <em>Used Version</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Used Version</em>'.
-	 * @see org.eclipse.set.model.validationreport.ValidationReport#getUsedVersion()
-	 * @see #getValidationReport()
-	 * @generated
-	 */
-	EReference getValidationReport_UsedVersion();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.ValidationReport#getToolboxVersion <em>Toolbox Version</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -506,6 +548,17 @@ public interface ValidationreportPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getValidationReport_SubworkTypes();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.validationreport.ValidationReport#getFileInfo <em>File Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>File Info</em>'.
+	 * @see org.eclipse.set.model.validationreport.ValidationReport#getFileInfo()
+	 * @see #getValidationReport()
+	 * @generated
+	 */
+	EReference getValidationReport_FileInfo();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.validationreport.ValidationProblem <em>Validation Problem</em>}'.
@@ -660,6 +713,71 @@ public interface ValidationreportPackage extends EPackage {
 	EAttribute getVersionInfo_Signals();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.validationreport.FileInfo <em>File Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>File Info</em>'.
+	 * @see org.eclipse.set.model.validationreport.FileInfo
+	 * @generated
+	 */
+	EClass getFileInfo();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.FileInfo#getFileName <em>File Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File Name</em>'.
+	 * @see org.eclipse.set.model.validationreport.FileInfo#getFileName()
+	 * @see #getFileInfo()
+	 * @generated
+	 */
+	EAttribute getFileInfo_FileName();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.validationreport.FileInfo#getUsedVersion <em>Used Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Used Version</em>'.
+	 * @see org.eclipse.set.model.validationreport.FileInfo#getUsedVersion()
+	 * @see #getFileInfo()
+	 * @generated
+	 */
+	EReference getFileInfo_UsedVersion();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.FileInfo#getChecksum <em>Checksum</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Checksum</em>'.
+	 * @see org.eclipse.set.model.validationreport.FileInfo#getChecksum()
+	 * @see #getFileInfo()
+	 * @generated
+	 */
+	EAttribute getFileInfo_Checksum();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.FileInfo#getGuid <em>Guid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Guid</em>'.
+	 * @see org.eclipse.set.model.validationreport.FileInfo#getGuid()
+	 * @see #getFileInfo()
+	 * @generated
+	 */
+	EAttribute getFileInfo_Guid();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.validationreport.FileInfo#getTimeStamp <em>Time Stamp</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Time Stamp</em>'.
+	 * @see org.eclipse.set.model.validationreport.FileInfo#getTimeStamp()
+	 * @see #getFileInfo()
+	 * @generated
+	 */
+	EAttribute getFileInfo_TimeStamp();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.set.model.validationreport.ValidationSeverity <em>Validation Severity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -713,14 +831,6 @@ public interface ValidationreportPackage extends EPackage {
 		EClass VALIDATION_REPORT = eINSTANCE.getValidationReport();
 
 		/**
-		 * The meta object literal for the '<em><b>File Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VALIDATION_REPORT__FILE_NAME = eINSTANCE.getValidationReport_FileName();
-
-		/**
 		 * The meta object literal for the '<em><b>Model Loaded</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -769,14 +879,6 @@ public interface ValidationreportPackage extends EPackage {
 		EReference VALIDATION_REPORT__SUPPORTED_VERSION = eINSTANCE.getValidationReport_SupportedVersion();
 
 		/**
-		 * The meta object literal for the '<em><b>Used Version</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference VALIDATION_REPORT__USED_VERSION = eINSTANCE.getValidationReport_UsedVersion();
-
-		/**
 		 * The meta object literal for the '<em><b>Toolbox Version</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -799,6 +901,14 @@ public interface ValidationreportPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VALIDATION_REPORT__SUBWORK_TYPES = eINSTANCE.getValidationReport_SubworkTypes();
+
+		/**
+		 * The meta object literal for the '<em><b>File Info</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALIDATION_REPORT__FILE_INFO = eINSTANCE.getValidationReport_FileInfo();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl <em>Validation Problem</em>}' class.
@@ -915,6 +1025,56 @@ public interface ValidationreportPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute VERSION_INFO__SIGNALS = eINSTANCE.getVersionInfo_Signals();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl <em>File Info</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.validationreport.impl.FileInfoImpl
+		 * @see org.eclipse.set.model.validationreport.impl.ValidationreportPackageImpl#getFileInfo()
+		 * @generated
+		 */
+		EClass FILE_INFO = eINSTANCE.getFileInfo();
+
+		/**
+		 * The meta object literal for the '<em><b>File Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FILE_INFO__FILE_NAME = eINSTANCE.getFileInfo_FileName();
+
+		/**
+		 * The meta object literal for the '<em><b>Used Version</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FILE_INFO__USED_VERSION = eINSTANCE.getFileInfo_UsedVersion();
+
+		/**
+		 * The meta object literal for the '<em><b>Checksum</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FILE_INFO__CHECKSUM = eINSTANCE.getFileInfo_Checksum();
+
+		/**
+		 * The meta object literal for the '<em><b>Guid</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FILE_INFO__GUID = eINSTANCE.getFileInfo_Guid();
+
+		/**
+		 * The meta object literal for the '<em><b>Time Stamp</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FILE_INFO__TIME_STAMP = eINSTANCE.getFileInfo_TimeStamp();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.validationreport.ValidationSeverity <em>Validation Severity</em>}' enum.

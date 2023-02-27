@@ -90,6 +90,12 @@ public class ValidationreportSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ValidationreportPackage.FILE_INFO: {
+				FileInfo fileInfo = (FileInfo)theEObject;
+				T result = caseFileInfo(fileInfo);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -136,6 +142,21 @@ public class ValidationreportSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseVersionInfo(VersionInfo object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>File Info</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>File Info</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFileInfo(FileInfo object) {
 		return null;
 	}
 
