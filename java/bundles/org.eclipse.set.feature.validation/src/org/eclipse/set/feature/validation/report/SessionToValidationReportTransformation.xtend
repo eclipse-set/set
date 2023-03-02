@@ -8,10 +8,14 @@
  */
 package org.eclipse.set.feature.validation.report
 
+import java.util.Comparator
+import java.util.List
+import org.eclipse.emf.common.util.Enumerator
 import org.eclipse.emf.ecore.xmi.XMIException
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.basis.constants.ValidationResult.Outcome
 import org.eclipse.set.basis.exceptions.CustomValidationProblem
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.version.PlanProVersionService
 import org.eclipse.set.feature.validation.Messages
 import org.eclipse.set.feature.validation.utils.XMLNodeFinder
@@ -25,9 +29,6 @@ import org.xml.sax.SAXParseException
 
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
-import java.util.List
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
-import org.eclipse.emf.common.util.Enumerator
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -36,14 +37,14 @@ import org.eclipse.emf.common.util.Enumerator
  */
 class SessionToValidationReportTransformation {
 
-	var int id = 0
-
 	val Messages messages
 
 	val PlanProVersionService versionService
 	var ValidationReport report
 	val XMLNodeFinder xmlNodeFinder = new XMLNodeFinder();
 	val EnumTranslationService enumService
+	val severityOrder = newLinkedList(ValidationSeverity.ERROR,
+		ValidationSeverity.WARNING, ValidationSeverity.SUCCESS)
 
 	new(Messages messages, PlanProVersionService versionService,
 		EnumTranslationService enumService) {
@@ -59,7 +60,6 @@ class SessionToValidationReportTransformation {
 	 */
 	def ValidationReport transform(IModelSession session) {
 		xmlNodeFinder.read(session?.toolboxFile);
-		id = 0
 
 		report = session.transformCreate
 		val filePath = session?.toolboxFile?.path
@@ -79,24 +79,30 @@ class SessionToValidationReportTransformation {
 		report.toolboxVersion = ToolboxConfiguration.toolboxVersion.longVersion
 
 		report.problems.clear
+		val problems = <ValidationProblem>newLinkedList
 
 		// transform the IO problems
-		session.validationResult.xsdErrors.addProblems(messages.XsdProblemMsg,
-			ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg)
+		problems.addAll(
+			session.validationResult.xsdErrors.transform(messages.XsdProblemMsg,
+				ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg))
 
 		// transform the XSD problems
-		session.validationResult.xsdWarnings.addProblems(messages.XsdWarningMsg,
-			ValidationSeverity.WARNING, messages.XsdSuccessMsg)
-		session.validationResult.ioErrors.addProblems(messages.IoProblemMsg,
-			ValidationSeverity.ERROR, messages.IoSuccessMsg)
+		problems.addAll(
+			session.validationResult.xsdWarnings.transform(
+				messages.XsdWarningMsg, ValidationSeverity.WARNING,
+				messages.XsdSuccessMsg))
+		problems.addAll(
+			session.validationResult.ioErrors.transform(messages.IoProblemMsg,
+				ValidationSeverity.ERROR, messages.IoSuccessMsg))
 
 		// transform custom problems
 		session.validationResult.customProblems.forEach [
-			report.problems.add(
-				transform(createId)
+			problems.add(
+				transform
 			)
 		]
-
+		problems.sortProblem
+		report.problems.addAll(problems)
 		// Add subwork information
 		val subworkTypes = session.subworkTypes
 		val subworkCount = subworkTypes.length
@@ -109,19 +115,22 @@ class SessionToValidationReportTransformation {
 		return report
 	}
 
-	private def <T extends Exception> void addProblems(List<T> errors,
-		String type, ValidationSeverity severity, String successMessage) {
+	private def <T extends Exception> List<ValidationProblem> transform(
+		List<T> errors, String type, ValidationSeverity severity,
+		String successMessage) {
+		val result = <ValidationProblem>newLinkedList
 		if (errors.empty) {
-			report.problems.add(
-				type.transform(createId, successMessage)
+			result.add(
+				type.transform(successMessage)
 			)
 		} else {
 			errors.forEach [
-				report.problems.add(
-					transform(createId, type, severity)
+				result.add(
+					transform(type, severity)
 				)
 			]
 		}
+		return result
 	}
 
 	private def ValidationReport create ValidationreportFactory.eINSTANCE.createValidationReport
@@ -144,29 +153,26 @@ class SessionToValidationReportTransformation {
 
 	private def ValidationProblem transform(
 		Exception exception,
-		int id,
 		String type,
 		ValidationSeverity severity
 	) {
 		val cause = exception.cause
 
 		if (cause instanceof XMIException) {
-			return cause.transformException(id, type, severity)
+			return cause.transformException(type, severity)
 		}
 		if (cause instanceof SAXParseException) {
-			return cause.transformException(id, type, severity)
+			return cause.transformException(type, severity)
 		}
-		return exception.transformException(id, type, severity)
+		return exception.transformException(type, severity)
 	}
 
 	private def dispatch ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transformException(
 		XMIException exception,
-		int id,
 		String type,
 		ValidationSeverity severity
 	) {
-		it.id = id
 		it.type = type
 		it.severity = severity
 		it.severityText = severity.translate
@@ -184,11 +190,9 @@ class SessionToValidationReportTransformation {
 	private def dispatch ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transformException(
 		SAXParseException exception,
-		int id,
 		String type,
 		ValidationSeverity severity
 	) {
-		it.id = id
 		it.type = type
 		it.severity = severity
 		it.severityText = severity.translate
@@ -206,11 +210,9 @@ class SessionToValidationReportTransformation {
 	private def dispatch ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transformException(
 		Exception exception,
-		int id,
 		String type,
 		ValidationSeverity severity
 	) {
-		it.id = id
 		it.type = type
 		it.severity = severity
 		it.severityText = severity.translate
@@ -224,10 +226,8 @@ class SessionToValidationReportTransformation {
 
 	private def ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transform(
-		CustomValidationProblem problem,
-		int id
+		CustomValidationProblem problem
 	) {
-		it.id = id
 		type = problem.type
 		severity = problem.severity
 		severityText = problem.severity.translate
@@ -243,19 +243,12 @@ class SessionToValidationReportTransformation {
 	private def ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
 	transform(
 		String errorType,
-		int id,
 		String message
 	) {
-		it.id = id
 		type = errorType
 		severity = ValidationSeverity.SUCCESS
 		severityText = severity.translate
 		it.message = message
-	}
-
-	private def int createId() {
-		id++
-		return id
 	}
 
 	private def Iterable<String> getSubworkTypes(IModelSession session) {
@@ -275,6 +268,26 @@ class SessionToValidationReportTransformation {
 		val result = newLinkedList
 		subtypes.forEach[type, count|result.add('''«type» («count»)''')]
 		return result
+	}
+
+	/**
+	 * Sort problems by severity and line number, then set
+	 * id
+	 * @param problems the list of problems
+	 */
+	private def void sortProblem(List<ValidationProblem> problems) {
+		problems.sort(new Comparator<ValidationProblem>() {
+			override compare(ValidationProblem o1, ValidationProblem o2) {
+				val compareSeverity = severityOrder.indexOf(o1.severity).
+					compareTo(severityOrder.indexOf(o2.severity))
+				if (compareSeverity === 0) {
+					return o1.lineNumber.compareTo(o2.lineNumber)
+				}
+				return compareSeverity
+			}
+
+		})
+		problems.forEach[it, index|id = index + 1]
 	}
 
 	private def dispatch String transformToMessage(Exception exception) {
