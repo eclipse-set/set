@@ -64,8 +64,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
-			Files.walk(directory).sorted(Comparator.reverseOrder())
-					.map(Path::toFile).forEach(File::delete);
+			try (Stream<Path> files = Files.walk(directory)) {
+				files.sorted(Comparator.reverseOrder()).map(Path::toFile)
+						.forEach(File::delete);
+			}
 		}
 	}
 
