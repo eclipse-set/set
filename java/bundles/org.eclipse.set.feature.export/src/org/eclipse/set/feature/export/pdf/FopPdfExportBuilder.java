@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -76,6 +77,10 @@ public class FopPdfExportBuilder implements TableExport {
 				titlebox, freeFieldInfo);
 		final TransformerFactory transformerFactory = TransformerFactory
 				.newInstance();
+		// Disallow external entity access
+		transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); //$NON-NLS-1$
+		transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET,
+				""); //$NON-NLS-1$
 		final Transformer documentToString = transformerFactory
 				.newTransformer();
 		final DOMSource source = new DOMSource(document);

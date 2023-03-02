@@ -34,6 +34,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import org.eclipse.set.utils.table.TableSpanUtils
+import javax.xml.XMLConstants
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -53,6 +54,9 @@ class TableToTableDocument {
 
 	private new() throws ParserConfigurationException {
 		val docFactory = DocumentBuilderFactory.newInstance
+		// Disallow external entity access
+		docFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // $NON-NLS-1$
+		docFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, ""); // $NON-NLS-1$
 		val docBuilder = docFactory.newDocumentBuilder
 		doc = docBuilder.newDocument
 	}
@@ -133,7 +137,7 @@ class TableToTableDocument {
 
 		// cells
 		val rowElement = it
-		val rowIndex = rows.indexOf(row) 
+		val rowIndex = rows.indexOf(row)
 		val cells = row.content
 
 		logger.
@@ -189,8 +193,8 @@ class TableToTableDocument {
 		return cellElement
 	}
 
-	private def dispatch Element createCell(Void content, int columnNumber, int rowSpan,
-		boolean isRemarkColumn) {
+	private def dispatch Element createCell(Void content, int columnNumber,
+		int rowSpan, boolean isRemarkColumn) {
 		val cellElement = doc.createElement("Cell")
 
 		cellElement.attributeNode = createColumnAttribute(columnNumber)
@@ -278,14 +282,12 @@ class TableToTableDocument {
 		columnAttr.value = Integer.toString(columnNumber)
 		return columnAttr
 	}
-	
-	
+
 	private def Attr createRowSpanAttribute(int rowSpan) {
 		val attr = doc.createAttribute("number-rows-spanned")
 		attr.value = Integer.toString(rowSpan)
 		return attr
 	}
-	
 
 	private def Element createDiffComponent(String content, String elementName,
 		boolean isRemarkColumn) {
