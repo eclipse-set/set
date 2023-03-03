@@ -262,6 +262,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public void open() throws IOException {
 		if (isLoadable()) {
+			generateMD5CheckSum();
 			unzip();
 			loadResource(getModelPath(), editingDomain);
 		} else {

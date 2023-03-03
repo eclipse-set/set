@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 DB Netz AG and others.
+ * Copyright (c) {Jahr} DB Netz AG and others.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -30,17 +30,17 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.set.model.validationreport.ValidationReport;
+import org.eclipse.set.model.validationreport.FileInfo;
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.eclipse.set.model.validationreport.ValidationreportPackage;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.set.model.validationreport.ValidationReport} object.
+ * This is the item provider adapter for a {@link org.eclipse.set.model.validationreport.FileInfo} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ValidationReportItemProvider 
+public class FileInfoItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -54,7 +54,7 @@ public class ValidationReportItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ValidationReportItemProvider(AdapterFactory adapterFactory) {
+	public FileInfoItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -69,31 +69,28 @@ public class ValidationReportItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addModelLoadedPropertyDescriptor(object);
-			addValidPropertyDescriptor(object);
-			addXsdValidPropertyDescriptor(object);
-			addEmfValidPropertyDescriptor(object);
-			addToolboxVersionPropertyDescriptor(object);
-			addSubworkCountPropertyDescriptor(object);
-			addSubworkTypesPropertyDescriptor(object);
+			addFileNamePropertyDescriptor(object);
+			addChecksumPropertyDescriptor(object);
+			addGuidPropertyDescriptor(object);
+			addTimeStampPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Model Loaded feature.
+	 * This adds a property descriptor for the File Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addModelLoadedPropertyDescriptor(Object object) {
+	protected void addFileNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ValidationReport_modelLoaded_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_modelLoaded_feature", "_UI_ValidationReport_type"),
-				 ValidationreportPackage.Literals.VALIDATION_REPORT__MODEL_LOADED,
+				 getString("_UI_FileInfo_fileName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_fileName_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__FILE_NAME,
 				 true,
 				 false,
 				 false,
@@ -103,19 +100,19 @@ public class ValidationReportItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Valid feature.
+	 * This adds a property descriptor for the Checksum feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addValidPropertyDescriptor(Object object) {
+	protected void addChecksumPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ValidationReport_valid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_valid_feature", "_UI_ValidationReport_type"),
-				 ValidationreportPackage.Literals.VALIDATION_REPORT__VALID,
+				 getString("_UI_FileInfo_checksum_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_checksum_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__CHECKSUM,
 				 true,
 				 false,
 				 false,
@@ -125,19 +122,19 @@ public class ValidationReportItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Xsd Valid feature.
+	 * This adds a property descriptor for the Guid feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addXsdValidPropertyDescriptor(Object object) {
+	protected void addGuidPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ValidationReport_xsdValid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_xsdValid_feature", "_UI_ValidationReport_type"),
-				 ValidationreportPackage.Literals.VALIDATION_REPORT__XSD_VALID,
+				 getString("_UI_FileInfo_guid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_guid_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__GUID,
 				 true,
 				 false,
 				 false,
@@ -147,85 +144,19 @@ public class ValidationReportItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Emf Valid feature.
+	 * This adds a property descriptor for the Time Stamp feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addEmfValidPropertyDescriptor(Object object) {
+	protected void addTimeStampPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ValidationReport_emfValid_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_emfValid_feature", "_UI_ValidationReport_type"),
-				 ValidationreportPackage.Literals.VALIDATION_REPORT__EMF_VALID,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Toolbox Version feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addToolboxVersionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ValidationReport_toolboxVersion_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_toolboxVersion_feature", "_UI_ValidationReport_type"),
-				 ValidationreportPackage.Literals.VALIDATION_REPORT__TOOLBOX_VERSION,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Subwork Count feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSubworkCountPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ValidationReport_subworkCount_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_subworkCount_feature", "_UI_ValidationReport_type"),
-				 ValidationreportPackage.Literals.VALIDATION_REPORT__SUBWORK_COUNT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Subwork Types feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSubworkTypesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_ValidationReport_subworkTypes_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_subworkTypes_feature", "_UI_ValidationReport_type"),
-				 ValidationreportPackage.Literals.VALIDATION_REPORT__SUBWORK_TYPES,
+				 getString("_UI_FileInfo_timeStamp_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_timeStamp_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__TIME_STAMP,
 				 true,
 				 false,
 				 false,
@@ -246,9 +177,7 @@ public class ValidationReportItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ValidationreportPackage.Literals.VALIDATION_REPORT__PROBLEMS);
-			childrenFeatures.add(ValidationreportPackage.Literals.VALIDATION_REPORT__SUPPORTED_VERSION);
-			childrenFeatures.add(ValidationreportPackage.Literals.VALIDATION_REPORT__FILE_INFO);
+			childrenFeatures.add(ValidationreportPackage.Literals.FILE_INFO__USED_VERSION);
 		}
 		return childrenFeatures;
 	}
@@ -267,14 +196,14 @@ public class ValidationReportItemProvider
 	}
 
 	/**
-	 * This returns ValidationReport.gif.
+	 * This returns FileInfo.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ValidationReport"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/FileInfo"));
 	}
 
 	/**
@@ -285,10 +214,10 @@ public class ValidationReportItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ValidationReport)object).getModelLoaded();
+		String label = ((FileInfo)object).getFileName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_ValidationReport_type") :
-			getString("_UI_ValidationReport_type") + " " + label;
+			getString("_UI_FileInfo_type") :
+			getString("_UI_FileInfo_type") + " " + label;
 	}
 
 
@@ -303,19 +232,14 @@ public class ValidationReportItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ValidationReport.class)) {
-			case ValidationreportPackage.VALIDATION_REPORT__MODEL_LOADED:
-			case ValidationreportPackage.VALIDATION_REPORT__VALID:
-			case ValidationreportPackage.VALIDATION_REPORT__XSD_VALID:
-			case ValidationreportPackage.VALIDATION_REPORT__EMF_VALID:
-			case ValidationreportPackage.VALIDATION_REPORT__TOOLBOX_VERSION:
-			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_COUNT:
-			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_TYPES:
+		switch (notification.getFeatureID(FileInfo.class)) {
+			case ValidationreportPackage.FILE_INFO__FILE_NAME:
+			case ValidationreportPackage.FILE_INFO__CHECKSUM:
+			case ValidationreportPackage.FILE_INFO__GUID:
+			case ValidationreportPackage.FILE_INFO__TIME_STAMP:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case ValidationreportPackage.VALIDATION_REPORT__PROBLEMS:
-			case ValidationreportPackage.VALIDATION_REPORT__SUPPORTED_VERSION:
-			case ValidationreportPackage.VALIDATION_REPORT__FILE_INFO:
+			case ValidationreportPackage.FILE_INFO__USED_VERSION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -335,18 +259,8 @@ public class ValidationReportItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ValidationreportPackage.Literals.VALIDATION_REPORT__PROBLEMS,
-				 ValidationreportFactory.eINSTANCE.createValidationProblem()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ValidationreportPackage.Literals.VALIDATION_REPORT__SUPPORTED_VERSION,
+				(ValidationreportPackage.Literals.FILE_INFO__USED_VERSION,
 				 ValidationreportFactory.eINSTANCE.createVersionInfo()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(ValidationreportPackage.Literals.VALIDATION_REPORT__FILE_INFO,
-				 ValidationreportFactory.eINSTANCE.createFileInfo()));
 	}
 
 	/**

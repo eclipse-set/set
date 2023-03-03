@@ -36,7 +36,8 @@ class PlanProToFreeFieldTransformation {
 		IModelSession session) {
 		val filename = session.toolboxFile.path.fileName.toString
 		val timestamp = session.planProSchnittstelle.timestamp
-		significantInformation = '''«filename» «timestamp»'''
+		val checksum = session.toolboxFile.checksum
+		significantInformation = '''«filename» «timestamp» MD5: «checksum»'''
 		return
 	}
 

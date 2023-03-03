@@ -21,17 +21,16 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getFileName <em>File Name</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getModelLoaded <em>Model Loaded</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getValid <em>Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getXsdValid <em>Xsd Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getEmfValid <em>Emf Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getProblems <em>Problems</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSupportedVersion <em>Supported Version</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getUsedVersion <em>Used Version</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getToolboxVersion <em>Toolbox Version</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkCount <em>Subwork Count</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkTypes <em>Subwork Types</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getFileInfo <em>File Info</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport()
@@ -39,32 +38,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface ValidationReport extends EObject {
-	/**
-	 * Returns the value of the '<em><b>File Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>File Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>File Name</em>' attribute.
-	 * @see #setFileName(String)
-	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_FileName()
-	 * @model
-	 * @generated
-	 */
-	String getFileName();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getFileName <em>File Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>File Name</em>' attribute.
-	 * @see #getFileName()
-	 * @generated
-	 */
-	void setFileName(String value);
-
 	/**
 	 * Returns the value of the '<em><b>Model Loaded</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -208,32 +181,6 @@ public interface ValidationReport extends EObject {
 	void setSupportedVersion(VersionInfo value);
 
 	/**
-	 * Returns the value of the '<em><b>Used Version</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Used Version</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Used Version</em>' containment reference.
-	 * @see #setUsedVersion(VersionInfo)
-	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_UsedVersion()
-	 * @model containment="true" required="true"
-	 * @generated
-	 */
-	VersionInfo getUsedVersion();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getUsedVersion <em>Used Version</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Used Version</em>' containment reference.
-	 * @see #getUsedVersion()
-	 * @generated
-	 */
-	void setUsedVersion(VersionInfo value);
-
-	/**
 	 * Returns the value of the '<em><b>Toolbox Version</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -298,5 +245,27 @@ public interface ValidationReport extends EObject {
 	 * @generated
 	 */
 	void setSubworkTypes(String value);
+
+	/**
+	 * Returns the value of the '<em><b>File Info</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>File Info</em>' containment reference.
+	 * @see #setFileInfo(FileInfo)
+	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_FileInfo()
+	 * @model containment="true"
+	 * @generated
+	 */
+	FileInfo getFileInfo();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getFileInfo <em>File Info</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>File Info</em>' containment reference.
+	 * @see #getFileInfo()
+	 * @generated
+	 */
+	void setFileInfo(FileInfo value);
 
 } // ValidationReport

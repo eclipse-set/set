@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.set.model.validationreport.FileInfo;
 import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationreportPackage;
@@ -37,42 +38,21 @@ import org.eclipse.set.model.validationreport.VersionInfo;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getFileName <em>File Name</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getModelLoaded <em>Model Loaded</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getValid <em>Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getXsdValid <em>Xsd Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getEmfValid <em>Emf Valid</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getProblems <em>Problems</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getSupportedVersion <em>Supported Version</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getUsedVersion <em>Used Version</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getToolboxVersion <em>Toolbox Version</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getSubworkCount <em>Subwork Count</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getSubworkTypes <em>Subwork Types</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationReportImpl#getFileInfo <em>File Info</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class ValidationReportImpl extends MinimalEObjectImpl.Container implements ValidationReport {
-	/**
-	 * The default value of the '{@link #getFileName() <em>File Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFileName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String FILE_NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getFileName() <em>File Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFileName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String fileName = FILE_NAME_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getModelLoaded() <em>Model Loaded</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -174,16 +154,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	protected VersionInfo supportedVersion;
 
 	/**
-	 * The cached value of the '{@link #getUsedVersion() <em>Used Version</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUsedVersion()
-	 * @generated
-	 * @ordered
-	 */
-	protected VersionInfo usedVersion;
-
-	/**
 	 * The default value of the '{@link #getToolboxVersion() <em>Toolbox Version</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -244,6 +214,16 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	protected String subworkTypes = SUBWORK_TYPES_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getFileInfo() <em>File Info</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFileInfo()
+	 * @generated
+	 * @ordered
+	 */
+	protected FileInfo fileInfo;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -260,29 +240,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	protected EClass eStaticClass() {
 		return ValidationreportPackage.Literals.VALIDATION_REPORT;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getFileName() {
-		return fileName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setFileName(String newFileName) {
-		String oldFileName = fileName;
-		fileName = newFileName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_REPORT__FILE_NAME, oldFileName, fileName));
 	}
 
 	/**
@@ -441,51 +398,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 */
 	@Override
-	public VersionInfo getUsedVersion() {
-		return usedVersion;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetUsedVersion(VersionInfo newUsedVersion, NotificationChain msgs) {
-		VersionInfo oldUsedVersion = usedVersion;
-		usedVersion = newUsedVersion;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_REPORT__USED_VERSION, oldUsedVersion, newUsedVersion);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setUsedVersion(VersionInfo newUsedVersion) {
-		if (newUsedVersion != usedVersion) {
-			NotificationChain msgs = null;
-			if (usedVersion != null)
-				msgs = ((InternalEObject)usedVersion).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ValidationreportPackage.VALIDATION_REPORT__USED_VERSION, null, msgs);
-			if (newUsedVersion != null)
-				msgs = ((InternalEObject)newUsedVersion).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ValidationreportPackage.VALIDATION_REPORT__USED_VERSION, null, msgs);
-			msgs = basicSetUsedVersion(newUsedVersion, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_REPORT__USED_VERSION, newUsedVersion, newUsedVersion));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public String getToolboxVersion() {
 		return toolboxVersion;
 	}
@@ -555,14 +467,59 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 */
 	@Override
+	public FileInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFileInfo(FileInfo newFileInfo, NotificationChain msgs) {
+		FileInfo oldFileInfo = fileInfo;
+		fileInfo = newFileInfo;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_REPORT__FILE_INFO, oldFileInfo, newFileInfo);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setFileInfo(FileInfo newFileInfo) {
+		if (newFileInfo != fileInfo) {
+			NotificationChain msgs = null;
+			if (fileInfo != null)
+				msgs = ((InternalEObject)fileInfo).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ValidationreportPackage.VALIDATION_REPORT__FILE_INFO, null, msgs);
+			if (newFileInfo != null)
+				msgs = ((InternalEObject)newFileInfo).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ValidationreportPackage.VALIDATION_REPORT__FILE_INFO, null, msgs);
+			msgs = basicSetFileInfo(newFileInfo, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_REPORT__FILE_INFO, newFileInfo, newFileInfo));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ValidationreportPackage.VALIDATION_REPORT__PROBLEMS:
 				return ((InternalEList<?>)getProblems()).basicRemove(otherEnd, msgs);
 			case ValidationreportPackage.VALIDATION_REPORT__SUPPORTED_VERSION:
 				return basicSetSupportedVersion(null, msgs);
-			case ValidationreportPackage.VALIDATION_REPORT__USED_VERSION:
-				return basicSetUsedVersion(null, msgs);
+			case ValidationreportPackage.VALIDATION_REPORT__FILE_INFO:
+				return basicSetFileInfo(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -575,8 +532,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ValidationreportPackage.VALIDATION_REPORT__FILE_NAME:
-				return getFileName();
 			case ValidationreportPackage.VALIDATION_REPORT__MODEL_LOADED:
 				return getModelLoaded();
 			case ValidationreportPackage.VALIDATION_REPORT__VALID:
@@ -589,14 +544,14 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 				return getProblems();
 			case ValidationreportPackage.VALIDATION_REPORT__SUPPORTED_VERSION:
 				return getSupportedVersion();
-			case ValidationreportPackage.VALIDATION_REPORT__USED_VERSION:
-				return getUsedVersion();
 			case ValidationreportPackage.VALIDATION_REPORT__TOOLBOX_VERSION:
 				return getToolboxVersion();
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_COUNT:
 				return getSubworkCount();
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_TYPES:
 				return getSubworkTypes();
+			case ValidationreportPackage.VALIDATION_REPORT__FILE_INFO:
+				return getFileInfo();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -610,9 +565,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ValidationreportPackage.VALIDATION_REPORT__FILE_NAME:
-				setFileName((String)newValue);
-				return;
 			case ValidationreportPackage.VALIDATION_REPORT__MODEL_LOADED:
 				setModelLoaded((String)newValue);
 				return;
@@ -632,9 +584,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 			case ValidationreportPackage.VALIDATION_REPORT__SUPPORTED_VERSION:
 				setSupportedVersion((VersionInfo)newValue);
 				return;
-			case ValidationreportPackage.VALIDATION_REPORT__USED_VERSION:
-				setUsedVersion((VersionInfo)newValue);
-				return;
 			case ValidationreportPackage.VALIDATION_REPORT__TOOLBOX_VERSION:
 				setToolboxVersion((String)newValue);
 				return;
@@ -643,6 +592,9 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 				return;
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_TYPES:
 				setSubworkTypes((String)newValue);
+				return;
+			case ValidationreportPackage.VALIDATION_REPORT__FILE_INFO:
+				setFileInfo((FileInfo)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -656,9 +608,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ValidationreportPackage.VALIDATION_REPORT__FILE_NAME:
-				setFileName(FILE_NAME_EDEFAULT);
-				return;
 			case ValidationreportPackage.VALIDATION_REPORT__MODEL_LOADED:
 				setModelLoaded(MODEL_LOADED_EDEFAULT);
 				return;
@@ -677,9 +626,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 			case ValidationreportPackage.VALIDATION_REPORT__SUPPORTED_VERSION:
 				setSupportedVersion((VersionInfo)null);
 				return;
-			case ValidationreportPackage.VALIDATION_REPORT__USED_VERSION:
-				setUsedVersion((VersionInfo)null);
-				return;
 			case ValidationreportPackage.VALIDATION_REPORT__TOOLBOX_VERSION:
 				setToolboxVersion(TOOLBOX_VERSION_EDEFAULT);
 				return;
@@ -688,6 +634,9 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 				return;
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_TYPES:
 				setSubworkTypes(SUBWORK_TYPES_EDEFAULT);
+				return;
+			case ValidationreportPackage.VALIDATION_REPORT__FILE_INFO:
+				setFileInfo((FileInfo)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -701,8 +650,6 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ValidationreportPackage.VALIDATION_REPORT__FILE_NAME:
-				return FILE_NAME_EDEFAULT == null ? fileName != null : !FILE_NAME_EDEFAULT.equals(fileName);
 			case ValidationreportPackage.VALIDATION_REPORT__MODEL_LOADED:
 				return MODEL_LOADED_EDEFAULT == null ? modelLoaded != null : !MODEL_LOADED_EDEFAULT.equals(modelLoaded);
 			case ValidationreportPackage.VALIDATION_REPORT__VALID:
@@ -715,14 +662,14 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 				return problems != null && !problems.isEmpty();
 			case ValidationreportPackage.VALIDATION_REPORT__SUPPORTED_VERSION:
 				return supportedVersion != null;
-			case ValidationreportPackage.VALIDATION_REPORT__USED_VERSION:
-				return usedVersion != null;
 			case ValidationreportPackage.VALIDATION_REPORT__TOOLBOX_VERSION:
 				return TOOLBOX_VERSION_EDEFAULT == null ? toolboxVersion != null : !TOOLBOX_VERSION_EDEFAULT.equals(toolboxVersion);
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_COUNT:
 				return SUBWORK_COUNT_EDEFAULT == null ? subworkCount != null : !SUBWORK_COUNT_EDEFAULT.equals(subworkCount);
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_TYPES:
 				return SUBWORK_TYPES_EDEFAULT == null ? subworkTypes != null : !SUBWORK_TYPES_EDEFAULT.equals(subworkTypes);
+			case ValidationreportPackage.VALIDATION_REPORT__FILE_INFO:
+				return fileInfo != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -737,9 +684,7 @@ public class ValidationReportImpl extends MinimalEObjectImpl.Container implement
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (fileName: ");
-		result.append(fileName);
-		result.append(", modelLoaded: ");
+		result.append(" (modelLoaded: ");
 		result.append(modelLoaded);
 		result.append(", valid: ");
 		result.append(valid);

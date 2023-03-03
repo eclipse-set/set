@@ -86,6 +86,10 @@ public class ValidationreportAdapterFactory extends AdapterFactoryImpl {
 				return createVersionInfoAdapter();
 			}
 			@Override
+			public Adapter caseFileInfo(FileInfo object) {
+				return createFileInfoAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -144,6 +148,20 @@ public class ValidationreportAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createVersionInfoAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.validationreport.FileInfo <em>File Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.validationreport.FileInfo
+	 * @generated
+	 */
+	public Adapter createFileInfoAdapter() {
 		return null;
 	}
 

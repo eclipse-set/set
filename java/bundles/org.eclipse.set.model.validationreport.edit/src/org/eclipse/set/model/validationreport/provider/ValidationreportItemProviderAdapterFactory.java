@@ -147,6 +147,29 @@ public class ValidationreportItemProviderAdapterFactory extends Validationreport
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.set.model.validationreport.FileInfo} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected FileInfoItemProvider fileInfoItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.set.model.validationreport.FileInfo}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createFileInfoAdapter() {
+		if (fileInfoItemProvider == null) {
+			fileInfoItemProvider = new FileInfoItemProvider(this);
+		}
+
+		return fileInfoItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -254,6 +277,7 @@ public class ValidationreportItemProviderAdapterFactory extends Validationreport
 		if (validationReportItemProvider != null) validationReportItemProvider.dispose();
 		if (validationProblemItemProvider != null) validationProblemItemProvider.dispose();
 		if (versionInfoItemProvider != null) versionInfoItemProvider.dispose();
+		if (fileInfoItemProvider != null) fileInfoItemProvider.dispose();
 	}
 
 }

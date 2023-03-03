@@ -66,6 +66,7 @@ public class ValidationreportFactoryImpl extends EFactoryImpl implements Validat
 			case ValidationreportPackage.VALIDATION_REPORT: return createValidationReport();
 			case ValidationreportPackage.VALIDATION_PROBLEM: return createValidationProblem();
 			case ValidationreportPackage.VERSION_INFO: return createVersionInfo();
+			case ValidationreportPackage.FILE_INFO: return createFileInfo();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -136,6 +137,17 @@ public class ValidationreportFactoryImpl extends EFactoryImpl implements Validat
 	public VersionInfo createVersionInfo() {
 		VersionInfoImpl versionInfo = new VersionInfoImpl();
 		return versionInfo;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public FileInfo createFileInfo() {
+		FileInfoImpl fileInfo = new FileInfoImpl();
+		return fileInfo;
 	}
 
 	/**

@@ -8,10 +8,12 @@
  */
 package org.eclipse.set.core.fileservice;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -38,6 +40,8 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	private Document domDocument = null;
 
+	private String md5checksum = null;
+
 	// IMPROVE: this Resource and Resource of EditingDomain have same content.
 	// Should we this Resouce here remove ?
 	private XMLResource resource;
@@ -55,6 +59,19 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	@Override
 	public Document getXMLDocument() {
 		return domDocument;
+	}
+
+	@Override
+	public String getChecksum() {
+		return md5checksum;
+	}
+
+	protected void generateMD5CheckSum() throws IOException {
+		try (final FileInputStream input = new FileInputStream(
+				this.getPath().toFile())) {
+			this.md5checksum = DigestUtils.md5Hex(input).toUpperCase();
+		}
+
 	}
 
 	private void modifyXmlDeclaration() {
