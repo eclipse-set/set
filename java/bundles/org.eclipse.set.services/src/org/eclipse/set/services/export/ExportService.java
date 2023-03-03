@@ -46,6 +46,8 @@ public interface ExportService {
 	 *            the output directory for the export
 	 * @param toolboxPaths
 	 *            the toolbox paths
+	 * @param tableTye
+	 *            the type of table
 	 * @param overwriteHandling
 	 *            what to do when overwriting files
 	 * @param errorHandler
@@ -53,7 +55,7 @@ public interface ExportService {
 	 */
 	void export(Map<TableType, Table> tables, ExportType exportType,
 			Titlebox titlebox, FreeFieldInfo freeFieldInfo, String shortcut,
-			String outputDir, ToolboxPaths toolboxPaths,
+			String outputDir, ToolboxPaths toolboxPaths, TableType tableTye,
 			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);
 

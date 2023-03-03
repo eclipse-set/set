@@ -23,6 +23,9 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAneinanderExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a aneinandergereihte Fahrstraßen (Ssla).
@@ -31,11 +34,9 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
  */
 class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	SslaColumns cols
-
-	new(SslaColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -52,7 +53,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// A: Ssla.Grundsatzangaben.Bezeichnung
 			fill(
 				instance,
-				cols.basis_bezeichnung,
+				cols.getColumn(Bezeichnung),
 				fstrAneinander,
 				[tableDescription]
 			)
@@ -60,7 +61,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// B: Ssla.Grundsatzangaben.Fahrweg.Start
 			fill(
 				instance,
-				cols.start,
+				cols.getColumn(Fahrweg_Start),
 				fstrAneinander,
 				[startSignal?.bezeichnung?.bezeichnungTabelle?.wert ?: ""]
 			)
@@ -68,7 +69,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// C: Ssla.Grundsatzangaben.Fahrweg.Ziel
 			fill(
 				instance,
-				cols.ziel,
+				cols.getColumn(Fahrweg_Ziel),
 				fstrAneinander,
 				[zielSignal?.bezeichnung?.bezeichnungTabelle?.wert ?: ""]
 			)
@@ -76,7 +77,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// D: Ssla.Grundsatzangaben.Durchrutschweg_Ziel
 			fill(
 				instance,
-				cols.durchrutschweg_ziel,
+				cols.getColumn(Durchrutschweg_Ziel),
 				fstrAneinander,
 				[zielDweg?.bezeichnung?.bezeichnungFstrDWeg?.wert ?: ""]
 			)
@@ -84,7 +85,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// E: Ssla.Grundsatzangaben.Art
 			fill(
 				instance,
-				cols.art,
+				cols.getColumn(Art),
 				fstrAneinander,
 				[
 					fstrZielZuordnung?.fstrZugRangier?.fstrZugRangierAllg?.
@@ -95,7 +96,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// F: Ssla.Unterwegssignal
 			fill(
 				instance,
-				cols.unterwegssignal,
+				cols.getColumn(Unterwegssignal),
 				fstrAneinander,
 				[fstrUnterwegsSignalString]
 			)
@@ -103,7 +104,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// G: Ssla.Bemerkung
 			fill(
 				instance,
-				cols.basis_bemerkung,
+				cols.getColumn(Bemerkung),
 				fstrAneinander,
 				[footnoteTransformation.transform(it, instance)]
 			)

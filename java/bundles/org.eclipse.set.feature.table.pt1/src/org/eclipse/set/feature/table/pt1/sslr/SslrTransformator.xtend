@@ -34,6 +34,9 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExte
 import static extension org.eclipse.set.ppmodel.extensions.FstrRangierFlaZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Rangierstraßentabelle (Sslr).
@@ -42,12 +45,11 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
  */
 class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	val SslrColumns columns
 	var TMFactory factory = null
 
-	new(SslrColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.columns = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -77,7 +79,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// A: Sslr.Grundsatzangaben.Bezeichnung
 		fillSwitch(
-			columns.Bezeichnung,
+			cols.getColumn(Bezeichnung),
 			fstrZugRangier,
 			new Case<Fstr_Zug_Rangier>(
 				[
@@ -101,21 +103,21 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// B: Sslr.Grundsatzangaben.Fahrweg.Start
 		fill(
-			columns.Start,
+			cols.getColumn(Fahrweg_Start),
 			fstrZugRangier,
 			[fstrFahrwegStartSignalBezeichnung]
 		)
 
 		// C: Sslr.Grundsatzangaben.Fahrweg.Ziel
 		fill(
-			columns.Ziel,
+			cols.getColumn(Fahrweg_Ziel),
 			fstrZugRangier,
 			[fstrFahrwegZielSignalBezeichnung]
 		)
 
 		// D: Sslr.Grundsatzangaben.Fahrweg.Nummer
 		fillConditional(
-			columns.Nummer,
+			cols.getColumn(Fahrweg_Nummer),
 			fstrZugRangier,
 			[
 				fstrZugRangierAllg?.fstrReihenfolge?.wert.compareTo(
@@ -126,7 +128,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// E: Sslr.Grundsatzangaben.Fahrweg.Entscheidungsweiche
 		fillIterable(
-			columns.Entscheidungsweiche,
+			cols.getColumn(Fahrweg_Entscheidungsweiche),
 			fstrZugRangier,
 			[getEntscheidungsweichen(newLinkedList()).map[bezeichnung]],
 			MIXED_STRING_COMPARATOR,
@@ -135,7 +137,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// F: Sslr.Grundsatzangaben.Art
 		fill(
-			columns.Art,
+			cols.getColumn(Art),
 			fstrZugRangier,
 			[
 				fstrZugRangierAllg?.fstrArt?.wert?.translate?.substring(0, 1)
@@ -144,14 +146,14 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// G: Sslr.Einstellung.Autom_Einstellung
 		fill(
-			columns.Autom_Einstellung,
+			cols.getColumn(Autom_Einstellung),
 			fstrZugRangier,
 			[fstrZug?.automatischeEinstellung?.wert?.translate]
 		)
 
 		// H: Sslr.Einstellung.F_Bedienung
 		fill(
-			columns.F_Bedienung,
+			cols.getColumn(F_Bedienung),
 			fstrZugRangier,
 			[fstrZugRangierAllg?.FBedienung?.wert?.translate]
 		)
@@ -160,7 +162,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		val raFahrtGleichzeitigVerbot = fstrZugRangier?.fstrFahrweg?.
 			zielSignal?.raFahrtGleichzeitigVerbot ?: Collections.emptySet
 		fillSwitch(
-			columns.InselgleisBezeichnung,
+			cols.getColumn(Inselgleis_Bezeichnung),
 			fstrZugRangier,
 			new Case<Fstr_Zug_Rangier>(
 				[!raFahrtGleichzeitigVerbot.empty],
@@ -188,7 +190,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// J: Sslr.Abhaengigkeiten.Inselgleis.Gegenfahrtausschluss
 		fill(
-			columns.Gegenfahrtausschluss,
+			cols.getColumn(Inselgleis_Gegenfahrtausschluss),
 			fstrZugRangier,
 			[
 				val gegenfahrtausschluss = fstrRangier?.
@@ -205,7 +207,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// K: Sslr.Abhaengigkeiten.Gleisfreimeldung
 		fillIterable(
-			columns.Gleisfreimeldung,
+			cols.getColumn(Gleisfreimeldung),
 			fstrZugRangier,
 			[
 				fmaAnlageRangierFrei?.map [
@@ -217,7 +219,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// L: Sslr.Abhaengigkeiten.FwWeichen_mit_Fla
 		fill(
-			columns.FwWeichen_mit_Fla,
+			cols.getColumn(FwWeichen_mit_Fla),
 			fstrZugRangier,
 			[
 				(fstrRangierFlaZuordnung?.flaSchutz?.
@@ -228,7 +230,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// M: Sslr.Abhaengigkeiten.Ueberwachte_Ssp
 		fillIterable(
-			columns.Ueberwachte_Ssp,
+			cols.getColumn(Ueberwachte_Ssp),
 			fstrZugRangier,
 			[
 				fstrFahrweg?.abhaengigkeiten.map [
@@ -244,7 +246,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// N: Sslr.Abhaengigkeiten.Abhaengiger_BUe
 		fillIterable(
-			columns.Abhaengiger_BUe,
+			cols.getColumn(Abhaengiger_BUe),
 			fstrZugRangier,
 			[fstrFahrweg.BUes.map[bezeichnung.bezeichnungTabelle.wert]],
 			MIXED_STRING_COMPARATOR,
@@ -253,17 +255,18 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// O: Sslr.Abhaengigkeiten.Ziel_erlaubnisabh
 		fill(
-			columns.Ziel_erlaubnisabh,
+			cols.getColumn(Ziel_erlaubnisabh),
 			fstrZugRangier,
 			[
 				(fstrFahrweg?.zielSignal?.signalFstr?.
-					IDRaZielErlaubnisabhaengig?.identitaet?.wert !== null).translate
+					IDRaZielErlaubnisabhaengig?.identitaet?.wert !== null).
+					translate
 			]
 		)
 
 		// P: Sslr.Abhaengigkeiten.Aufloes_Fstr
 		fill(
-			columns.Aufloes_Fstr,
+			cols.getColumn(Aufloes_Fstr),
 			fstrZugRangier,
 			[
 				fstrFahrweg?.start?.signalFstr?.rangierstrasseRestaufloesung?.
@@ -273,7 +276,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// Q: Sslr.Bemerkung
 		fill(
-			columns.basis_bemerkung,
+			cols.getColumn(Bemerkung),
 			fstrZugRangier,
 			[
 				val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.map [

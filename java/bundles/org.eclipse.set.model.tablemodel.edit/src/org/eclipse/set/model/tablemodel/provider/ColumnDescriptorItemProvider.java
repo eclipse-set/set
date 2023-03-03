@@ -75,6 +75,7 @@ public class ColumnDescriptorItemProvider
 			addParentPropertyDescriptor(object);
 			addHeightPropertyDescriptor(object);
 			addMergeCommonValuesPropertyDescriptor(object);
+			addColumnPositionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -278,6 +279,28 @@ public class ColumnDescriptorItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Column Position feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addColumnPositionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ColumnDescriptor_columnPosition_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ColumnDescriptor_columnPosition_feature", "_UI_ColumnDescriptor_type"),
+				 TablemodelPackage.Literals.COLUMN_DESCRIPTOR__COLUMN_POSITION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns ColumnDescriptor.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -323,6 +346,7 @@ public class ColumnDescriptorItemProvider
 			case TablemodelPackage.COLUMN_DESCRIPTOR__UNIT:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
+			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

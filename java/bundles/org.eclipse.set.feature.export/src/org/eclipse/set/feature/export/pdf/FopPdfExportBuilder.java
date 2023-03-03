@@ -42,6 +42,7 @@ import org.eclipse.set.services.fop.FopService;
 import org.eclipse.set.services.fop.FopService.OutputFormat;
 import org.eclipse.set.services.fop.FopService.PdfAMode;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.utils.table.transform.TransformTable;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -139,13 +140,14 @@ public class FopPdfExportBuilder implements TableExport {
 
 	private FopService fopService;
 
-	private String templateDir = "./data/export/pdf"; //$NON-NLS-1$
+	private String templateDir = "./data/export/pdf/"; //$NON-NLS-1$
 
 	@Override
 	public void export(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
 			final FreeFieldInfo freeFieldInfo, final String shortcut,
 			final String outputDir, final ToolboxPaths toolboxPaths,
+			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
@@ -161,12 +163,34 @@ public class FopPdfExportBuilder implements TableExport {
 						Paths.get(outputDir, getFilename(shortcut, "xml")), //$NON-NLS-1$
 						tableDocumentText);
 			}
-			createPdf(tableDocumentText, outputPath, shortcut,
+			createTablePdf(tableDocumentText, outputPath, shortcut, tableType,
 					PdfAMode.PDF_A_1a, overwriteHandling);
 		} catch (final ParserConfigurationException | TransformerException
 				| IOException | SAXException e) {
 			throw new FileExportException(outputPath, e);
 		}
+	}
+
+	private void createTablePdf(final String tableDocumentText,
+			final Path outputPath, final String shortcut,
+			final TableType tableType, final PdfAMode pdfAMode,
+			final OverwriteHandling overwriteHandling) throws IOException,
+			SAXException, TransformerException, ParserConfigurationException {
+		final TransformTable transformTable = new TransformTable(shortcut,
+				translationTableType(tableType));
+		final Document xslDoc = transformTable.transform();
+		if (xslDoc != null) {
+			final ByteArrayInputStream tableDocumentStream = new ByteArrayInputStream(
+					tableDocumentText.getBytes(UTF_8));
+			final StreamSource tableDocumentSource = new StreamSource(
+					tableDocumentStream);
+			fopService.fop(OutputFormat.PDF,
+					TransformTable.toStreamSource(xslDoc), tableDocumentSource,
+					outputPath, pdfAMode, overwriteHandling, null);
+		} else {
+			logger.error("Cant export table: " + shortcut); //$NON-NLS-1$
+		}
+
 	}
 
 	@Override
@@ -264,5 +288,21 @@ public class FopPdfExportBuilder implements TableExport {
 
 	private Path getTemplateFilename(final String shortcut) {
 		return Paths.get(getTemplateDir(), shortcut + "_vorlage.xsl"); //$NON-NLS-1$
+	}
+
+	// IMPROVE: This translation should replace by EnumTranslationService in 2.0
+	// version.
+	private static String translationTableType(final TableType tableType) {
+                if (tableType == null) {
+                   return null;
+                }
+		switch (tableType) {
+		case INITIAL:
+			return "Startzustand"; //$NON-NLS-1$
+		case FINAL:
+			return "Zielzustand"; //$NON-NLS-1$
+		default:
+			return null;
+		}
 	}
 }

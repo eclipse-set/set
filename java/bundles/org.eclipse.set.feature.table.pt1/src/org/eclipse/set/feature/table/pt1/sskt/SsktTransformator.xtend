@@ -27,6 +27,9 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.ppmodel.extensions.BedienStandortExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TechnikStandortExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
+import static org.eclipse.set.feature.table.pt1.sskt.SsktColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for Sskt.
@@ -35,12 +38,11 @@ import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensio
  */
 class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	val SsktColumns columns
 	var TMFactory factory = null
 
-	new(SsktColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.columns = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -62,13 +64,11 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		return
 	}
 
-	private def dispatch void transformToRow(
-		Basis_Objekt standort) {
+	private def dispatch void transformToRow(Basis_Objekt standort) {
 		throw new IllegalArgumentException(standort.toString)
 	}
 
-	private def dispatch void transformToRow(
-		Technik_Standort standort) {
+	private def dispatch void transformToRow(Technik_Standort standort) {
 		val rg = factory.newRowGroup(standort)
 		val teilsysteme = standort.TSOIPAdressblock?.TSOIPABTeilsystem
 		if (teilsysteme !== null && !teilsysteme.empty) {
@@ -78,10 +78,9 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 	}
 
-	private def dispatch void transformToRow(
-		Bedien_Standort standort) {
+	private def dispatch void transformToRow(Bedien_Standort standort) {
 
-		val rg = factory.newRowGroup(standort)	
+		val rg = factory.newRowGroup(standort)
 		val teilsysteme = standort.BSOIPAdressblock?.BSOIPABTeilsystem
 		if (teilsysteme !== null && !teilsysteme.empty) {
 			teilsysteme.forEach[transformToRow(rg, standort, it)]
@@ -94,20 +93,23 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		transformToRow(RowFactory rg, Technik_Standort standort,
 		TSO_IP_AB_Teilsystem_AttributeGroup ts) {
 
+		// A: Sskt.Grundsatzangaben.Bezeichnung
 		fill(
-			columns.Bezeichnung,
+			cols.getColumn(Bezeichnung),
 			standort,
 			[bezeichnung?.bezeichnungTSO?.wert]
 		)
 
+		// B: Sskt.Grundsatzangaben.Art
 		fill(
-			columns.Grundsatzangaben_Art,
+			cols.getColumn(Art),
 			standort,
 			["TSO"]
 		)
 
+		// C: Sskt.Grundsatzangaben.Bedien_Standort
 		fillIterable(
-			columns.Bedien_Standort,
+			cols.getColumn(Bedien_Standort),
 			standort,
 			[bedienStandort.map[bezeichnung?.bezeichnungBSO?.wert]],
 			MIXED_STRING_COMPARATOR
@@ -118,89 +120,94 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 			standort.unterbringung
 		)
 
+		// H: Sskt.IP_Adressangaben.Regionalbereich
 		fill(
-			columns.Unterbringung_Art,
-			standort,
-			[unterbringung?.unterbringungAllg?.unterbringungArt?.wert?.translate]
-		)
-
-		fill(
-			columns.Regionalbereich,
+			cols.getColumn(IP_Regionalbereich),
 			standort,
 			[TSOIPAdressblock?.regionalbereich?.wert?.translate]
 		)
 
+		// I: Sskt.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
 		fill(
-			columns.IPv4_Blau,
+			cols.getColumn(IPv4_Blau),
 			standort,
 			[TSOIPAdressblock?.IPAdressblockBlauV4?.wert]
 		)
 
+		// J: Sskt.IP_Adressangaben.Adressblock_Blau.IPv6_Blau
 		fill(
-			columns.IPv6_Blau,
+			cols.getColumn(IPv6_Blau),
 			standort,
 			[TSOIPAdressblock?.IPAdressblockBlauV6?.wert]
 		)
 
+		// K: Sskt.IP_Adressangaben.Adressblock_Grau.IPv4_Grau
 		fill(
-			columns.IPv4_Grau,
+			cols.getColumn(IPv4_Grau),
 			standort,
 			[TSOIPAdressblock?.IPAdressblockGrauV4?.wert]
 		)
 
+		// L: Sskt.IP_Adressangaben.Adressblock_Grau.IPv6_Grau
 		fill(
-			columns.IPv6_Grau,
+			cols.getColumn(IPv6_Grau),
 			standort,
 			[TSOIPAdressblock?.IPAdressblockGrauV6?.wert]
 		)
 
+		// M: Sskt.IP_Adressangaben.Teilsystem.Art
 		fill(
-			columns.Teilsystem_Art,
+			cols.getColumn(IP_Teilsystem_Art),
 			standort,
 			[ts?.TSOTeilsystemArt?.wert?.translate]
 		)
 
+		// N: Sskt.IP_Adressangaben.Teilsystem.TS_Blau
 		fill(
-			columns.TS_Blau,
+			cols.getColumn(Teilsystem_TS_Blau),
 			standort,
 			[ts?.IPAdressblockBlau?.wert]
 		)
 
+		// O: Sskt.IP_Adressangaben.Teilsystem.TS_Grau
 		fill(
-			columns.TS_Grau,
+			cols.getColumn(Teilsystem_TS_Grau),
 			standort,
 			[
 				ts?.IPAdressblockGrau?.wert
 			]
 		)
 
+		// P: Sskt.Bemerkung
 		val row = it
 		fill(
-			columns.basis_bemerkung,
+			cols.getColumn(Bemerkung),
 			standort,
 			[footnoteTransformation.transform(it, row)]
 		)
 
 	}
 
-	private def TableRow create rg.newTableRow transformToRow(
-		RowFactory rg, Bedien_Standort standort,
-		BSO_IP_AB_Teilsystem_AttributeGroup bs) {
+	private def TableRow create rg.newTableRow transformToRow(RowFactory rg,
+		Bedien_Standort standort, BSO_IP_AB_Teilsystem_AttributeGroup bs) {
 
+		// A: Sskt.Grundsatzangaben.Bezeichnung
 		fill(
-			columns.Bezeichnung,
+			cols.getColumn(Bezeichnung),
 			standort,
 			[bezeichnung?.bezeichnungBSO?.wert]
 		)
 
+		// B: Sskt.Grundsatzangaben.Art
 		fill(
-			columns.Grundsatzangaben_Art,
+			cols.getColumn(Art),
 			standort,
 			["BSO"]
 		)
 
+		// C: Sskt.Grundsatzangaben.Bedien_Standort
 		fill(
-			columns.Bedien_Standort,
+			cols.getColumn(Bedien_Standort),
 			standort,
 			[""]
 		)
@@ -210,57 +217,66 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 			standort.unterbringung
 		)
 
+		// H: Sskt.IP_Adressangaben.Regionalbereich
 		fill(
-			columns.Regionalbereich,
+			cols.getColumn(IP_Regionalbereich),
 			standort,
 			[BSOIPAdressblock?.regionalbereich?.wert?.translate]
 		)
 
+		// I: Sskt.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
 		fill(
-			columns.IPv4_Blau,
+			cols.getColumn(IPv4_Blau),
 			standort,
 			[BSOIPAdressblock?.IPAdressblockBlauV4?.wert]
 		)
 
+		// J: Sskt.IP_Adressangaben.Adressblock_Blau.IPv6_Blau
 		fill(
-			columns.IPv6_Blau,
+			cols.getColumn(IPv6_Blau),
 			standort,
 			[BSOIPAdressblock?.IPAdressblockBlauV6?.wert]
 		)
 
+		// K: Sskt.IP_Adressangaben.Adressblock_Grau.IPv4_Grau
 		fill(
-			columns.IPv4_Grau,
+			cols.getColumn(IPv4_Grau),
 			standort,
 			[BSOIPAdressblock?.IPAdressblockGrauV4?.wert]
 		)
 
+		// L: Sskt.IP_Adressangaben.Adressblock_Grau.IPv6_Grau
 		fill(
-			columns.IPv6_Grau,
+			cols.getColumn(IPv6_Grau),
 			standort,
 			[BSOIPAdressblock?.IPAdressblockGrauV6?.wert]
 		)
 
+		// M: Sskt.IP_Adressangaben.Teilsystem.Art
 		fill(
-			columns.Teilsystem_Art,
+			cols.getColumn(IP_Teilsystem_Art),
 			standort,
 			[bs?.BSOTeilsystemArt?.wert?.translate]
 		)
 
+		// N: Sskt.IP_Adressangaben.Teilsystem.TS_Blau
 		fill(
-			columns.TS_Blau,
+			cols.getColumn(Teilsystem_TS_Blau),
 			standort,
 			[bs?.IPAdressblockBlau?.wert]
 		)
 
+		// O: Sskt.IP_Adressangaben.Teilsystem.TS_Grau
 		fill(
-			columns.TS_Grau,
+			cols.getColumn(Teilsystem_TS_Grau),
 			standort,
 			[bs?.IPAdressblockGrau?.wert]
 		)
 
+		// P: Sskt.Bemerkung
 		val row = it
 		fill(
-			columns.basis_bemerkung,
+			cols.getColumn(Bemerkung),
 			standort,
 			[footnoteTransformation.transform(it, row)]
 		)
@@ -273,31 +289,35 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		Basis_Objekt standort,
 		Unterbringung unterbringung
 	) {
+		// D: Sskt.Grundsatzangaben.Unterbringung.Art
 		fill(
 			row,
-			columns.Unterbringung_Art,
+			cols.getColumn(Unterbringung_Art),
 			standort,
 			[unterbringung?.unterbringungAllg?.unterbringungArt?.wert?.translate]
 		)
 
+		// E: Sskt.Grundsatzangaben.Unterbringung.Ort
 		fill(
 			row,
-			columns.Ort,
+			cols.getColumn(Unterbringung_Ort),
 			standort,
 			[unterbringung?.standortBeschreibung?.wert]
 		)
 
+		// F: Sskt.Grundsatzangaben.Unterbringung.Strecke
 		fillIterable(
 			row,
-			columns.Strecke,
+			cols.getColumn(Unterbringung_Strecke),
 			standort,
 			[unterbringung?.strecken?.map[bezeichnung?.bezeichnungStrecke?.wert]],
 			MIXED_STRING_COMPARATOR
 		)
 
+		// G: Sskt.Grundsatzangaben.Unterbringung.km
 		fillIterable(
 			row,
-			columns.km,
+			cols.getColumn(Unterbringung_km),
 			standort,
 			[unterbringung?.punktObjektStrecke?.map[streckeKm?.wert]],
 			MIXED_STRING_COMPARATOR

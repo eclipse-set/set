@@ -34,6 +34,9 @@ import static extension org.eclipse.set.ppmodel.extensions.BedienBezirkExtension
 import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import static org.eclipse.set.feature.table.pt1.sska.SskaColumns.*
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import java.util.Set
 
 /**
  * Table transformation for a Elementansteuertabelle (Sska).
@@ -42,11 +45,9 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExten
  */
 class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	SskaColumns cols
-
-	new(SskaColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -69,7 +70,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// A: Sska.Grundsatzangaben.Bezeichnung
 			fill(
 				instance,
-				cols.zentraleinheit_bezeichnung,
+				cols.getColumn(Bezeichnung),
 				element,
 				[elementBezeichnung]
 			)
@@ -77,7 +78,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// B: Sska.Grundsatzangaben.Art
 			fill(
 				instance,
-				cols.art,
+				cols.getColumn(Art),
 				element,
 				[elementArt]
 			)
@@ -85,7 +86,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// C: Sska.Grundsatzangaben.Bauart
 			fill(
 				instance,
-				cols.bauart,
+				cols.getColumn(Bauart),
 				element,
 				[elementBauart]
 			)
@@ -93,7 +94,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// D: Sska.Grundsatzangaben.Unterbringung.Art
 			fill(
 				instance,
-				cols.unterbringung_art,
+				cols.getColumn(Unterbringung_Art),
 				element,
 				[unterbringung.art.translate ?: ""]
 			)
@@ -101,7 +102,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// E: Sska.Grundsatzangaben.Unterbringung.Ort
 			fill(
 				instance,
-				cols.ort,
+				cols.getColumn(Unterbringung_Ort),
 				element,
 				[unterbringung.ort ?: ""]
 			)
@@ -109,7 +110,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// F: Sska.Grundsatzangaben.Unterbringung.Strecke
 			fillIterable(
 				instance,
-				cols.strecke,
+				cols.getColumn(Unterbringung_Strecke),
 				element,
 				[
 					unterbringung.strecken?.map [
@@ -122,7 +123,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// G: Sska.Grundsatzangaben.Unterbringung.km
 			fill(
 				instance,
-				cols.km,
+				cols.getColumn(Unterbringung_km),
 				element,
 				[unterbringung.streckeKm ?: ""]
 			)
@@ -130,7 +131,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// H: Sska.Verknüpfungen.Information.primaer
 			fill(
 				instance,
-				cols.information_primaer,
+				cols.getColumn(Information_primaer),
 				element,
 				[elementVerknuepfungenInformationPrimaer]
 			)
@@ -138,7 +139,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// I: Sska.Verknüpfungen.Information.sekundaer
 			fill(
 				instance,
-				cols.information_sekundaer,
+				cols.getColumn(Information_sekundaer),
 				element,
 				[elementVerknuepfungenInformationSekundaer]
 			)
@@ -146,7 +147,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// J: Sska.Verknüpfungen.Energie.primaer
 			fill(
 				instance,
-				cols.energie_primaer,
+				cols.getColumn(Energie_primaer),
 				element,
 				[elementVerknuepfungenEnergiePrimaer]
 			)
@@ -154,7 +155,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// K: Sska.Verknüpfungen.Energie.sekundaer
 			fill(
 				instance,
-				cols.energie_sekundaer,
+				cols.getColumn(Energie_sekundaer),
 				element,
 				[elementVerknuepfungenEnergieSekundaer]
 			)
@@ -162,7 +163,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// L: Sska.Verknüpfungen.Bedienung.lokal
 			fill(
 				instance,
-				cols.lokal,
+				cols.getColumn(Bedienung_lokal),
 				element,
 				[elementVerknuepfungenBedienungLokal]
 			)
@@ -170,7 +171,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// M: Sska.Verknüpfungen.Bedienung.bezirk
 			fill(
 				instance,
-				cols.bezirk,
+				cols.getColumn(Bedienung_bezirk),
 				element,
 				[elementVerknuepfungenBedienungBezirk]
 			)
@@ -178,7 +179,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// N: Sska.Verknüpfungen.Bedienung.zentrale
 			fill(
 				instance,
-				cols.zentrale,
+				cols.getColumn(Verknuepfungen_Bedienung_zentrale),
 				element,
 				[elementVerknuepfungenBedienungZentrale]
 			)
@@ -186,7 +187,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// O: Sska.Verknüpfungen.Bedienung.NotBP
 			fill(
 				instance,
-				cols.notbp,
+				cols.getColumn(Bedienung_NotBP),
 				element,
 				[elementVerknuepfungenBedienungNotBP]
 			)
@@ -194,7 +195,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// P: Sska.IP_Adressangaben.GFK_Kategorie
 			fill(
 				instance,
-				cols.GFK_Kategorie,
+				cols.getColumn(IP_GFK_Kategorie),
 				element,
 				[ipAdressangabenGFKKategorie]
 			)
@@ -202,7 +203,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// Q: Sska.IP_Adressangaben.Regionalbereich
 			fill(
 				instance,
-				cols.Regionalbereich,
+				cols.getColumn(IP_Regionalbereich),
 				element,
 				[ipAdressangabenRegionalbereich]
 			)
@@ -210,7 +211,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// R: Sska.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
 			fill(
 				instance,
-				cols.IPv4_Blau,
+				cols.getColumn(IPv4_Blau),
 				element,
 				[ipAdressangabenIPv4Blau]
 			)
@@ -218,23 +219,23 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// S: Sska.IP_Adressangaben.Adressblock_Blau.IPv6_Blau
 			fill(
 				instance,
-				cols.IPv6_Blau,
+				cols.getColumn(IPv6_Blau),
 				element,
 				[ipAdressangabenIPv6Blau]
 			)
 
-			// T: Sska.IP_Adressangaben.Adressblock_Blau.IPv4_Grau
+			// T: Sska.IP_Adressangaben.Adressblock_Grau.IPv4_Grau
 			fill(
 				instance,
-				cols.IPv4_Grau,
+				cols.getColumn(IPv4_Grau),
 				element,
 				[ipAdressangabenIPv4Grau]
 			)
 
-			// U: Sska.IP_Adressangaben.Adressblock_Blau.IPv6_Grau
+			// U: Sska.IP_Adressangaben.Adressblock_Grau.IPv6_Grau
 			fill(
 				instance,
-				cols.IPv6_Grau,
+				cols.getColumn(IPv6_Grau),
 				element,
 				[ipAdressangabenIPv6Grau]
 			)
@@ -242,7 +243,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			// V: Bemerkung
 			fill(
 				instance,
-				cols.basis_bemerkung,
+				cols.getColumn(Bemerkung),
 				element,
 				[footnoteTransformation.transform(it, instance)]
 			)
@@ -330,7 +331,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		elementList.addAll(element.container.ESTWZentraleinheit)
 
 		return elementList.filter [
-			element.IDInformationPrimaer.map[identitaet?.wert].contains(identitaet.wert)
+			element.IDInformationPrimaer.map[identitaet?.wert].contains(
+				identitaet.wert)
 		].map[bezeichner].toList.getIterableFilling(MIXED_STRING_COMPARATOR)
 	}
 
@@ -509,7 +511,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		for (el : elementList) {
 			if (el.identitaet.wert ==
-				element.AEAEnergieversorgung.IDEnergiePrimaer.identitaet?.wert) {
+				element.AEAEnergieversorgung.IDEnergiePrimaer.identitaet?.
+					wert) {
 				return el;
 			}
 		}
@@ -526,7 +529,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		for (el : elementList) {
 			if (el.identitaet.wert ==
-				element.AEAEnergieversorgung.IDEnergieSekundaer.identitaet?.wert) {
+				element.AEAEnergieversorgung.IDEnergieSekundaer.identitaet?.
+					wert) {
 				return el;
 			}
 		}

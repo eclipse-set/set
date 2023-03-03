@@ -36,6 +36,8 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssli.SsliColumns.*
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -44,13 +46,12 @@ import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
  */
 class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	val SsliColumns columns
 	var TMFactory factory = null
 	var MultiContainer_AttributeGroup container = null
 
-	new(SsliColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.columns = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -92,13 +93,17 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			gleisBezeichnungBegrenzung.raFahrtVerbot +
 			gleisBezeichnungBegrenzung.raGegenfahrtausschluss
 
-		fill(columns.Bezeichnung_Inselgleis, gleisBezeichnung, [
-			transformToBezeichnung
-		])
+		// A: Ssli.Grundsatzangaben.Bezeichnung_Inselgleis
+		fill(
+			cols.getColumn(Bezeichnung_Inselgleis),
+			gleisBezeichnung,
+			[transformToBezeichnung]
+		)
 
 		val laengenBegrenzung = gleisBezeichnungBegrenzung.laengenBegrenzung
+		// B: Ssli.Grundsatzangaben.Laenge
 		fillIterable(
-			columns.Laenge,
+			cols.getColumn(Laenge),
 			gleisBezeichnung,
 			[
 				laengenBegrenzung.map [
@@ -109,8 +114,9 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// C: Ssli.Grundsatzangaben.Begrenzende_Signale.PY_Richtung
 		fillIterable(
-			columns.PY_Richtung,
+			cols.getColumn(PY_Richtung),
 			gleisBezeichnung,
 			[
 				begrenzungen.filter[lageplanKurzContains("POUVWY", true)].map [
@@ -121,8 +127,9 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// D: Ssli.Grundsatzangaben.Begrenzende_Signale.NX_Richtung
 		fillIterable(
-			columns.NX_Richtung,
+			cols.getColumn(NX_Richtung),
 			gleisBezeichnung,
 			[
 				begrenzungen.filter[lageplanKurzContains("NQRSTX", false)].map [
@@ -133,8 +140,9 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// E: Ssli.Ausschluss_Fahrten.Zugausfahrt
 		fillSwitch(
-			columns.Zugausfahrt,
+			cols.getColumn(Zugausfahrt),
 			gleisBezeichnung,
 			new Case<Gleis_Bezeichnung>([
 				begrenzungen.exists [
@@ -149,8 +157,9 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			], ["o"])
 		)
 
+		// F: Ssli.Ausschluss_Fahrten.Rangierfahrt.Einfahrt
 		fillSwitch(
-			columns.Einfahrt,
+			cols.getColumn(Rangierfahrt_Einfahrt),
 			gleisBezeichnung,
 			new Case<Gleis_Bezeichnung>([
 				begrenzungen.exists [
@@ -167,8 +176,9 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			], ["o"])
 		)
 
+		// G: Ssli.Ausschluss_Fahrten.Rangierfahrt.Ausfahrt
 		fillSwitch(
-			columns.Ausfahrt,
+			cols.getColumn(Rangierfahrt_Ausfahrt),
 			gleisBezeichnung,
 			new Case<Gleis_Bezeichnung>([
 				begrenzungen.exists [
@@ -185,8 +195,9 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			], ["o"])
 		)
 
+		// H: Ssli.Bemerkung
 		fill(
-			columns.basis_bemerkung,
+			cols.getColumn(Bemerkung),
 			gleisBezeichnung,
 			[footnoteTransformation.transform(it, row)]
 		)
@@ -322,9 +333,8 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			} else {
 				return bezeichnungsNummer % 2 != 0
 			}
+		} catch (NumberFormatException ex) {
 		}
-		catch(NumberFormatException ex)
-		{}
 		return false
 	}
 

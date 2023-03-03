@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssko;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
@@ -27,7 +28,7 @@ import org.osgi.service.component.annotations.Reference;
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.shortcut=ssko" })
 public final class SskoTransformationService
-		extends AbstractPlanPro2TableTransformationService<SskoColumns> {
+		extends AbstractPlanPro2TableTransformationService {
 
 	@Reference
 	private Messages messages;
@@ -42,13 +43,8 @@ public final class SskoTransformationService
 	}
 
 	@Override
-	public void buildColumns() {
-		this.columns = new SskoColumns(this.messages);
-	}
-
-	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SskoTransformator(columns, enumTranslationService);
+		return new SskoTransformator(cols, enumTranslationService);
 	}
 
 	@Override
@@ -56,5 +52,10 @@ public final class SskoTransformationService
 		return new TableNameInfo(messages.ToolboxTableNameSskoLong,
 				messages.ToolboxTableNameSskoPlanningNumber,
 				messages.ToolboxTableNameSskoShort);
+	}
+
+	@Override
+	protected String getTableHeading() {
+		return messages.SskoTableView_Heading;
 	}
 }

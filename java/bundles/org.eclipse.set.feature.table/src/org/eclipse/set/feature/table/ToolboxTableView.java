@@ -500,6 +500,7 @@ public final class ToolboxTableView extends BasePart {
 								getTitlebox(shortcut), getFreeFieldInfo(),
 								shortcut, outputDir,
 								getModelSession().getToolboxPaths(),
+								getModelSession().getTableType(),
 								OverwriteHandling
 										.forUserConfirmation(path -> Boolean
 												.valueOf(getDialogService()

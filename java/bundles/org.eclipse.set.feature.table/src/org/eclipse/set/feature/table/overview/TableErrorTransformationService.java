@@ -46,12 +46,7 @@ public class TableErrorTransformationService
 	@Override
 	public ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder) {
+		columns = new TableErrorTableColumns(messages);
 		return columns.fillHeaderDescriptions(builder);
 	}
-
-	@Override
-	protected void buildColumns() {
-		columns = new TableErrorTableColumns(messages);
-	}
-
 }

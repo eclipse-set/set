@@ -31,6 +31,9 @@ import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssit.SsitColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Bedieneinrichtungstabelle ESTW (Ssit).
@@ -39,13 +42,11 @@ import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
  */
 class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	val SsitColumns columns
-
 	var TMFactory factory
 
-	new(SsitColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.columns = columns
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -76,20 +77,23 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			nbBedienAnzeigeElemente
 		].flatten
 
+		// A: Ssit.Grundsatzangaben.Bezeichnung
 		fill(
-			columns.Bezeichnung,
+			cols.getColumn(Bezeichnung),
 			einrichtung,
 			[bezeichnung?.bedienEinrichtOertlBez?.wert ?: ""]
 		)
 
+		// B: Ssit.Grundsatzangaben.Zug_AEA
 		fill(
-			columns.Zug_AEA,
+			cols.getColumn(Zug_AEA),
 			einrichtung,
 			[aussenelementansteuerung?.bezeichnung?.bezeichnungAEA?.wert ?: ""]
 		)
 
+		// C: Ssit.Grundsatzangaben.Bauart
 		fill(
-			columns.Bauart,
+			cols.getColumn(Bauart),
 			einrichtung,
 			[
 				bedienEinrichtOertlichAllg?.bedienEinrichtBauart?.wert?.
@@ -97,8 +101,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
+		// D: Ssit.Grundsatzangaben.Befestigung.Art
 		fill(
-			columns.Art,
+			cols.getColumn(Befestigung_Art),
 			einrichtung,
 			[
 				unterbringung?.unterbringungAllg?.unterbringungBefestigung?.
@@ -106,8 +111,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
+		// E: Ssit.Grundsatzangaben.Befestigung.Strecke
 		fillIterable(
-			columns.Strecke,
+			cols.getColumn(Befestigung_Strecke),
 			einrichtung,
 			[
 				((unterbringung?.punktObjektStrecke) ?: Lists.newLinkedList).map [
@@ -118,8 +124,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// F: Ssit.Grundsatzangaben.Befestigung.km
 		fillIterable(
-			columns.km,
+			cols.getColumn(Befestigung_km),
 			einrichtung,
 			[
 				((unterbringung?.punktObjektStrecke) ?: Lists.newLinkedList).map [
@@ -130,11 +137,12 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// G: Ssit.Bedien_Anz_Elemente.Melder
 		val lBedienAnzeigeElementAllg = lBedienAnzeigeElemente.map [
 			bedienAnzeigeElementAllg
 		].filterNull
 		fillIterable(
-			columns.Melder,
+			cols.getColumn(Melder),
 			einrichtung,
 			[
 				lBedienAnzeigeElementAllg.map[melder?.wert?.translate].toSet.
@@ -144,8 +152,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// H: Ssit.Bedien_Anz_Elemente.Schalter
 		fillIterable(
-			columns.Schalter,
+			cols.getColumn(Schalter),
 			einrichtung,
 			[
 				lBedienAnzeigeElementAllg.map[schalter?.wert?.translate].toSet.
@@ -155,8 +164,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// I: Ssit.Bedien_Anz_Elemente.Taste
 		fillIterable(
-			columns.Taste,
+			cols.getColumn(Taste),
 			einrichtung,
 			[
 				lBedienAnzeigeElementAllg.map[taste?.wert?.translate].toSet.
@@ -166,8 +176,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// J: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.Anf_NB
 		fillConditional(
-			columns.Anf_NB,
+			cols.getColumn(Anf_NB),
 			einrichtung,
 			[
 				lNbBedienAnzeigeElemente.map [
@@ -177,8 +188,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			["x"]
 		)
 
+		// K: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.Fertigmeldung
 		fillConditional(
-			columns.Fertigmeldung,
+			cols.getColumn(Fertigmeldung),
 			einrichtung,
 			[
 				lNbBedienAnzeigeElemente.map [
@@ -188,8 +200,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			["x"]
 		)
 
+		// L: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.Weichengruppe
 		fillConditional(
-			columns.Weichengruppe,
+			cols.getColumn(Weichengruppe),
 			einrichtung,
 			[
 				lNbBedienAnzeigeElemente.map [
@@ -199,8 +212,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			["x"]
 		)
 
+		// M: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.Umst_Weiche
 		fillIterable(
-			columns.Umst_Weiche,
+			cols.getColumn(Umst_Weiche),
 			einrichtung,
 			[
 				lNbBedienAnzeigeElemente.map [
@@ -217,8 +231,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// N: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.Umst_Gs
 		fillIterable(
-			columns.Umst_Gs,
+			cols.getColumn(Umst_Gs),
 			einrichtung,
 			[
 				lNbBedienAnzeigeElemente.map [
@@ -235,8 +250,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// O: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.Umst_Sig
 		fillIterable(
-			columns.Umst_Sig,
+			cols.getColumn(Umst_Sig),
 			einrichtung,
 			[
 				lNbBedienAnzeigeElemente.map [
@@ -252,8 +268,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// P: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.Freigabe_Ssp
 		fillIterable(
-			columns.Freigabe_Ssp,
+			cols.getColumn(Freigabe_Ssp),
 			einrichtung,
 			[
 				lNbBedienAnzeigeElemente.map [
@@ -270,14 +287,16 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// Q: Ssit.Bedien_Anz_Elemente.Nahbedienbereich.An_Zeit_Hupe
 		fill(
-			columns.An_Zeit_Hupe,
+			cols.getColumn(An_Zeit_Hupe),
 			einrichtung,
 			[bedienEinrichtOertlichAllg?.hupeAnschaltzeit?.wert?.toTableInteger]
 		)
 
+		// R: Bemerkung
 		fill(
-			columns.basis_bemerkung,
+			cols.getColumn(Bemerkung),
 			einrichtung,
 			[footnoteTransformation.transform(it, row)]
 		)

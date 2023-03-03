@@ -39,5 +39,4 @@ class ValidationReportTableTransformator extends AbstractTableModelTransformator
 		
 		return factory.table
 	}
-	
 }

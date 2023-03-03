@@ -14,10 +14,12 @@ import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
- 
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import java.util.Set
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
 	protected val FootnoteTransformation footnoteTransformation = new FootnoteTransformation()
 	protected val EnumTranslationService enumTranslationService
+	protected val Set<ColumnDescriptor> cols = newHashSet
 
 	/**
 	 * Compares mixed strings groupwise.
@@ -25,9 +27,10 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	protected static val Comparator<String> MIXED_STRING_COMPARATOR = ToolboxConstants.
 		LST_OBJECT_NAME_COMPARATOR
 		
-	new(EnumTranslationService enumTranslationService) {
+	new(Set<ColumnDescriptor> cols, EnumTranslationService enumTranslationService) {
 		super()
 		this.enumTranslationService = enumTranslationService
+		this.cols.addAll(cols)
 	}
 
 	/**
@@ -56,5 +59,9 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			return null
 		}
 		return enumTranslationService.translate(value).alternative
+	}
+	
+	def ColumnDescriptor getColumn(Set<ColumnDescriptor> columns, String pos) {
+		return columns.findFirst[columnPosition !== null && columnPosition.equals(pos)]
 	}
 }

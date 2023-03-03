@@ -87,5 +87,5 @@ Import-Package: javax.inject;version="1.0.0",
  org.osgi.service.component.annotations;version="1.3.0",
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.eclipse.set.feature.integration.service.SimpleMergeService.xml,
- OSGI-INF/org.eclipse.set.feature.integration.descriptions.PlanProMergeFormsDescriptionService.xml
+Service-Component: OSGI-INF/org.eclipse.set.feature.integration.descriptions.PlanProMergeFormsDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.integration.service.SimpleMergeService.xml

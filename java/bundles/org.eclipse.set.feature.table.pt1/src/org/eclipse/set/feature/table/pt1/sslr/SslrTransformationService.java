@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Comparator;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
@@ -34,7 +35,7 @@ import org.osgi.service.component.annotations.Reference;
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.shortcut=sslr" })
 public class SslrTransformationService
-		extends AbstractPlanPro2TableTransformationService<SslrColumns> {
+		extends AbstractPlanPro2TableTransformationService {
 	@Reference
 	private Messages messages;
 	@Reference
@@ -42,7 +43,7 @@ public class SslrTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SslrTransformator(columns, enumTranslationService);
+		return new SslrTransformator(cols, enumTranslationService);
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class SslrTransformationService
 	}
 
 	@Override
-	protected void buildColumns() {
-		columns = new SslrColumns(messages);
+	protected String getTableHeading() {
+		return messages.Sslr_Heading;
 	}
 }

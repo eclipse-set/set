@@ -29,6 +29,9 @@ import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnung
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
+import static org.eclipse.set.feature.table.pt1.sslw.SslwColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Zwieschutzweichentabelle (SSLW).
@@ -37,11 +40,9 @@ import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
  */
 class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	SslwColumns cols
-
-	new(SslwColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(
@@ -78,7 +79,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// A: Sslw.W_Kr_Stellung
 				fill(
 					instance,
-					cols.w_kr_stellung,
+					cols.getColumn(W_Kr_Stellung),
 					flaZwieSchutz,
 					[
 						zwieschutzweiche?.bezeichnung?.bezeichnungTabelle?.
@@ -89,7 +90,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// B: Sslw.Art.Eigen
 				fillConditional(
 					instance,
-					cols.eigen,
+					cols.getColumn(Art_Eigen),
 					flaZwieSchutz,
 					[
 						zwieschutzArt?.wert === ENUM_ZWIESCHUTZ_ART_EIGEN ||
@@ -102,7 +103,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// C: Sslw.Art.Echt
 				fillConditional(
 					instance,
-					cols.echt,
+					cols.getColumn(Art_Echt),
 					flaZwieSchutz,
 					[
 						zwieschutzArt?.wert === ENUM_ZWIESCHUTZ_ART_ECHT ||
@@ -115,7 +116,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// D: Sslw.Verschluss
 				fillConditional(
 					instance,
-					cols.verschluss,
+					cols.getColumn(Verschluss),
 					flaZwieSchutz,
 					[
 						#{ENUM_MASSNAHME_VERSCHLUSS,
@@ -128,7 +129,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// E: Sslw.Ersatzschutz_unmittelbar.Weiche_Gleissperre.Bezeichnung_W
 				fillConditional(
 					instance,
-					cols.bezeichnung_w,
+					cols.getColumn(Bezeichnung_W),
 					flaZwieSchutz,
 					[
 						currentFlaSchutz?.flaSchutzWGsp !== null
@@ -142,7 +143,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// F: Sslw.Ersatzschutz_unmittelbar.Weiche_Gleissperre.Lage
 				fillConditional(
 					instance,
-					cols.lage,
+					cols.getColumn(Weiche_Gleissperre_Lage),
 					flaZwieSchutz,
 					[
 						currentFlaSchutz?.flaSchutzWGsp !== null
@@ -156,7 +157,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// G: Sslw.Ersatzschutz_unmittelbar.Weiche_Gleissperre.Zwieschutz
 				fillConditional(
 					instance,
-					cols.zwieschutz,
+					cols.getColumn(Weiche_Gleissperre_Zwieschutz),
 					flaZwieSchutz,
 					[
 						currentFlaSchutz?.flaSchutzWGsp !== null
@@ -169,7 +170,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// H: Sslw.Ersatzschutz_unmittelbar.Signal.Bezeichnung_Sig
 				fillConditional(
 					instance,
-					cols.bezeichnung_sig,
+					cols.getColumn(Bezeichnung_Sig),
 					flaZwieSchutz,
 					[
 						currentFlaSchutz?.flaSchutzSignal !== null
@@ -183,7 +184,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// I: Sslw.Ersatzschutz_unmittelbar.Signal.Zielsperrung
 				fillConditional(
 					instance,
-					cols.rangierzielsperre,
+					cols.getColumn(Signal_Zielsperrung),
 					flaZwieSchutz,
 					[
 						currentFlaSchutz?.flaSchutzSignal !== null
@@ -196,7 +197,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// J: Sslw.Ersatzschutz_Weitergabe.Weiche_Kreuzung.Bezeichnung_W_Kr
 				fillSwitch(
 					instance,
-					cols.bezeichnung_w_kr,
+					cols.getColumn(Weiche_Kreuzung_Bezeichnung_W_Kr),
 					flaZwieSchutz,
 					new Case<Fla_Zwieschutz>([
 						currentFlaSchutz?.flaSchutzWeitergabe !== null &&
@@ -218,7 +219,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// K: Sslw.Ersatzschutz_Weitergabe.Weiche_Kreuzung.wie_Fahrt_ueber
 				fillSwitch(
 					instance,
-					cols.wie_fahrt_ueber,
+					cols.getColumn(Weiche_Kreuzung_wie_Fahrt_ueber),
 					flaZwieSchutz,
 					new Case<Fla_Zwieschutz>([
 						currentFlaSchutz?.flaSchutzWeitergabe !== null &&
@@ -246,7 +247,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// L: Sslw.Ersatzschutz_Weitergabe.Zusaetzlich_EKW.Bezeichnung_W_Kr
 				fill(
 					instance,
-					cols.ekw_bezeichnung_w_kr,
+					cols.getColumn(Zusaetzlich_EKW_Bezeichnung_W_Kr),
 					flaZwieSchutz,
 					[
 						currentFlaSchutz?.weitergabeEKW?.anforderer?.
@@ -257,7 +258,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// M: Sslw.Ersatzschutz_Weitergabe.Zusaetzlich_EKW.wie_Fahrt_ueber
 				fill(
 					instance,
-					cols.ekw_wie_fahrt_ueber,
+					cols.getColumn(Zusaetzlich_EKW_wie_Fahrt_ueber),
 					flaZwieSchutz,
 					[
 						currentFlaSchutz?.weitergabeEKW?.flaSchutzAnforderer?.
@@ -268,7 +269,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// N: Sslw.Technischer_Verzicht
 				fillConditional(
 					instance,
-					cols.technischer_verzicht,
+					cols.getColumn(Technischer_Verzicht),
 					flaZwieSchutz,
 					[
 						currentMassnahme === ENUM_MASSNAHME_VERZICHT
@@ -281,7 +282,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// O: Sslw.Schutzraumueberwachung.freigemeldet
 				fillIterable(
 					instance,
-					cols.freigemeldet,
+					cols.getColumn(freigemeldet),
 					flaZwieSchutz,
 					[
 						(currentFlaSchutz?.freimeldeZuordnungen?.filter [
@@ -297,7 +298,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// P: Sslw.Schutzraumueberwachung.nicht_freigemeldet
 				fillIterable(
 					instance,
-					cols.nicht_freigemeldet,
+					cols.getColumn(nicht_freigemeldet),
 					flaZwieSchutz,
 					[
 						(	currentFlaSchutz?.freimeldeZuordnungen?.filter [
@@ -313,7 +314,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// Q: Sslw.Nachlaufverhinderung		
 				fill(
 					instance,
-					cols.nachlaufverhinderung,
+					cols.getColumn(Nachlaufverhinderung),
 					flaZwieSchutz,
 					[flaZwieschutzElement.nachlaufverhinderung.wert.translate]
 				)
@@ -321,7 +322,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				// R: Sslw.Bemerkung		
 				fill(
 					instance,
-					cols.basis_bemerkung,
+					cols.getColumn(Bemerkung),
 					flaZwieSchutz,
 					[footnoteTransformation.transform(it, instance)]
 				)
@@ -457,9 +458,11 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	) {
 		if (flaSchutz !== null && flaSchutz?.flaSchutzWeitergabe !== null) {
 			if (true === isLeft) {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR?.identitaet?.wert;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR?.
+					identitaet?.wert;
 			} else {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL?.identitaet?.wert;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL?.
+					identitaet?.wert;
 			}
 		}
 
@@ -478,9 +481,11 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	) {
 		if (flaSchutz !== null && flaSchutz?.flaSchutzWeitergabe !== null) {
 			if (true === isLeft) {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL?.identitaet?.wert;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL?.
+					identitaet?.wert;
 			} else {
-				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR?.identitaet?.wert;
+				return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR?.
+					identitaet?.wert;
 			}
 		}
 

@@ -25,6 +25,9 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
+import static org.eclipse.set.feature.table.pt1.sslf.SslfColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Flankenschutztabelle (SSLF).
@@ -33,11 +36,9 @@ import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
  */
 class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	SslfColumns cols
-
-	new(SslfColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(
@@ -55,31 +56,39 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 			val instance = factory.newTableRow(flaSchutz)
 
 			// A: Sslf.Flankenschutzanforderer.Bezeichnung_W_Nb
-			fill(instance, cols.bezeichnung_w_nb, flaSchutz, [
-				anforderer.bezeichnungTabelle
-			])
+			fill(
+				instance,
+				cols.getColumn(Bezeichnung_W_Nb),
+				flaSchutz,
+				[anforderer.bezeichnungTabelle]
+			)
 
 			// B: Sslf.Flankenschutzanforderer.WLage_NbGrenze
-			fill(instance, cols.wlage_nbgrenze, flaSchutz, [wLageNbGrenze])
+			fill(instance, cols.getColumn(WLage_NbGrenze), flaSchutz, [
+				wLageNbGrenze
+			])
 
 			// C: Sslf.Unmittelbarer_Flankenschutz.Weiche_Gleissperre.Bezeichnung_W
 			fillConditional(
 				instance,
-				cols.bezeichnung_w,
+				cols.getColumn(Bezeichnung_W),
 				flaSchutz,
 				[flaSchutz.flaSchutzWGsp !== null],
 				[weicheGleissperreElement.bezeichnung.bezeichnungTabelle.wert]
 			)
 
 			// D: Sslf.Unmittelbarer_Flankenschutz.Weiche_Gleissperre.Lage
-			fill(instance, cols.lage, flaSchutz, [
-				flaSchutzWGsp?.flaWLage?.wert?.translate ?: ""
-			])
+			fill(
+				instance,
+				cols.getColumn(Weiche_Gleissperre_Lage),
+				flaSchutz,
+				[flaSchutzWGsp?.flaWLage?.wert?.translate ?: ""]
+			)
 
 			// E: Sslf.Unmittelbarer_Flankenschutz.Weiche_Gleissperre.Zwieschutz
 			fillConditional(
 				instance,
-				cols.zwieschutz,
+				cols.getColumn(Weiche_Gleissperre_Zwieschutz),
 				flaSchutz,
 				[flaSchutzWGsp !== null],
 				[if (hasZwieschutz) "x" else "o"]
@@ -88,7 +97,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// F: Sslf.Unmittelbarer_Flankenschutz.Signal.Bezeichnung_Sig
 			fillConditional(
 				instance,
-				cols.bezeichnung_sig,
+				cols.getColumn(Bezeichung_Sig),
 				flaSchutz,
 				[flaSchutzSignal !== null],
 				[signal.bezeichnung.bezeichnungTabelle.wert]
@@ -97,26 +106,32 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// G: Sslf.Unmittelbarer_Flankenschutz.Signal.Zielsperrung
 			fillConditional(
 				instance,
-				cols.rangierzielsperre,
+				cols.getColumn(Signal_Zielsperrung),
 				flaSchutz,
 				[flaSchutzSignal !== null],
 				[hasZielsperrung.translate]
 			)
 
 			// H: Sslf.Weitergabe.Weiche_Kreuzung.Bezeichnung_W_Kr
-			fill(instance, cols.bezeichnung_w_kr, flaSchutz, [
-				weitergabeWKrBezeichnung
-			])
+			fill(
+				instance,
+				cols.getColumn(Weiche_Kreuzung_Bezeichnung_W_Kr),
+				flaSchutz,
+				[weitergabeWKrBezeichnung]
+			)
 
 			// I: Sslf.Weitergabe.Weiche_Kreuzung.wie_Fahrt_ueber
-			fill(instance, cols.wie_Fahrt_ueber, flaSchutz, [
-				weitergabeWKrWieFahrtUeber
-			])
+			fill(
+				instance,
+				cols.getColumn(Weiche_Kreuzung_wie_Fahrt_ueber),
+				flaSchutz,
+				[weitergabeWKrWieFahrtUeber]
+			)
 
 			// J: Sslf.Weitergabe.Zusaetzlich_EKW.Bezeichnung_W_Kr
 			fillConditional(
 				instance,
-				cols.ekw_bezeichnung_w_kr,
+				cols.getColumn(Zusaetzlich_EKW_Bezeichnung_W_Kr),
 				flaSchutz,
 				[IDFlaWeitergabeEKW !== null],
 				[
@@ -128,7 +143,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// K: Sslf.Weitergabe.Zusaetzlich_EKW.wie_Fahrt_ueber
 			fill(
 				instance,
-				cols.ekw_wie_Fahrt_ueber,
+				cols.getColumn(Zusaetzlich_EKW_wie_Fahrt_ueber),
 				flaSchutz,
 				[
 					weitergabeEKW?.flaSchutzAnforderer?.fahrtUeber?.wert?.
@@ -137,14 +152,17 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// L: Sslf.Technischer_Verzicht
-			fill(instance, cols.technischer_verzicht, flaSchutz, [
-				flaVerzicht?.wert?.translate ?: ""
-			])
+			fill(
+				instance,
+				cols.getColumn(Technischer_Verzicht),
+				flaSchutz,
+				[flaVerzicht?.wert?.translate ?: ""]
+			)
 
 			// M: Sslf.Schutzraumueberwachung.freigemeldet
 			fillIterable(
 				instance,
-				cols.freigemeldet,
+				cols.getColumn(freigemeldet),
 				flaSchutz,
 				[
 					freimeldeZuordnungen.filter[flaRaumFreimeldung.wert].map [
@@ -159,7 +177,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// N: Sslf.Schutzraumueberwachung.nicht_freigemeldet
 			fillIterable(
 				instance,
-				cols.nicht_freigemeldet,
+				cols.getColumn(nicht_freigemeldet),
 				flaSchutz,
 				[
 					freimeldeZuordnungen.filter[!flaRaumFreimeldung.wert].map [
@@ -171,10 +189,10 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 				MIXED_STRING_COMPARATOR
 			)
 
-			// O: Bemerkung
+			// O: Sslf.Bemerkung
 			fill(
 				instance,
-				cols.basis_bemerkung,
+				cols.getColumn(Bemerkung),
 				flaSchutz,
 				[footnoteTransformation.transform(it, instance)]
 			)

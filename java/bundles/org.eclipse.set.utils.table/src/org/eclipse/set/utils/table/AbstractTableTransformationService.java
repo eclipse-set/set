@@ -38,7 +38,7 @@ public abstract class AbstractTableTransformationService<T>
 	/**
 	 * constructor.
 	 */
-	public AbstractTableTransformationService() {
+	protected AbstractTableTransformationService() {
 		super();
 	}
 
@@ -79,7 +79,6 @@ public abstract class AbstractTableTransformationService<T>
 	@Override
 	public Table transform(final T model) {
 		final Table table = TablemodelFactory.eINSTANCE.createTable();
-		buildColumns();
 		buildHeading(table);
 		transformator = createTransformator();
 		transformator.transformTableContent(model, new TMFactory(table));
@@ -95,14 +94,10 @@ public abstract class AbstractTableTransformationService<T>
 		return new ArrayList<>();
 	}
 
-	/**
-	 * creates the columns.
-	 */
-	protected abstract void buildColumns();
-
 	protected ColumnDescriptor buildHeading(final Table table) {
 		final ColumnDescriptorModelBuilder builder = new ColumnDescriptorModelBuilder(
 				table);
 		return fillHeaderDescriptions(builder);
 	}
+
 }

@@ -129,6 +129,7 @@ public class ExcelExportBuilder implements TableExport {
 			final ExportType exportType, final Titlebox titlebox,
 			final FreeFieldInfo freeFieldInfo, final String shortcut,
 			final String outputDir, final ToolboxPaths toolboxPaths,
+			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		final Table table = getTableToBeExported(tables);

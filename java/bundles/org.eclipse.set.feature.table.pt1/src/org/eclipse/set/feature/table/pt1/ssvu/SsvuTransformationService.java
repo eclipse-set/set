@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Comparator;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
@@ -34,7 +35,7 @@ import org.osgi.service.component.annotations.Reference;
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.shortcut=ssvu" })
 public final class SsvuTransformationService
-		extends AbstractPlanPro2TableTransformationService<SsvuColumns> {
+		extends AbstractPlanPro2TableTransformationService {
 
 	@Reference
 	private Messages messages;
@@ -49,13 +50,8 @@ public final class SsvuTransformationService
 	}
 
 	@Override
-	public void buildColumns() {
-		this.columns = new SsvuColumns(this.messages);
-	}
-
-	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SsvuTransformator(columns, enumTranslationService);
+		return new SsvuTransformator(cols, enumTranslationService);
 	}
 
 	@Override
@@ -69,6 +65,11 @@ public final class SsvuTransformationService
 		return new TableNameInfo(messages.ToolboxTableNameSsvuLong,
 				messages.ToolboxTableNameSsvuPlanningNumber,
 				messages.ToolboxTableNameSsvuShort);
+	}
+
+	@Override
+	protected String getTableHeading() {
+		return messages.SsvuTableView_Heading;
 	}
 
 }

@@ -1,482 +1,266 @@
 /**
- * Copyright (c) 2017 DB Netz AG and others.
+ * Copyright (c) 2023 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+
 package org.eclipse.set.feature.table.pt1.ssks;
 
-import org.eclipse.set.feature.table.pt1.AbstractTableColumns;
-import org.eclipse.set.feature.table.pt1.messages.Messages;
-import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
-import org.eclipse.set.utils.table.GroupBuilder;
-
 /**
- * Ssls-Columns.<br>
- * see {@link ColumnDescriptor}
+ * Symbolic addressing for Ssks columns.
  * 
- * @author rumpf
+ * @author truong
  *
  */
-public final class SsksColumns extends AbstractTableColumns {
+@SuppressWarnings("nls")
+public class SsksColumns {
 
 	/**
-	 * Q: Ssks.konstruktive_Merkmale.Anordnung.Regelzeichnung
+	 * Ssks.Bezeichnung_Signal
 	 */
-	public final ColumnDescriptor anordnung_regelzeichnung;
+	public static final String Bezeichnung = "A";
 
 	/**
-	 * AP: Ssks.Sonstiges.automatischer_Betrieb
+	 * Ssks.Signal_Art.Reales_Signal
 	 */
-	public final ColumnDescriptor automatischer_betrieb;
+	public static final String Reales_Signal = "B";
 
 	/**
-	 * P: Ssks.konstruktive_Merkmale.Anordnung.Befestigung
+	 * Ssks.Signal_Art.Fiktives_Signal
 	 */
-	public final ColumnDescriptor befestigung;
+	public static final String Fiktives_Signal = "C";
 
 	/**
-	 * AS: Ssks.Sonstiges.Besetzte_Ausfahrt
+	 * Ssks.Standortmerkmale.Standort.Strecke
 	 */
-	public final ColumnDescriptor Besetzte_Ausfahrt;
+	public static final String Standort_Strecke = "D";
 
 	/**
-	 * A: Ssks.Bezeichnung_Signal
+	 * Ssks.Standortmerkmale.Standort.km
 	 */
-	public final ColumnDescriptor bezeichnung_signal;
+	public static final String Standort_km = "E";
 
 	/**
-	 * Z: Ssks.Anschluss.Dauerhaft_Nacht
+	 * Ssks.Standortmerkmale.Sonstige_zulaessige_Anordnung
 	 */
-	public final ColumnDescriptor dauerhaft_nacht;
+	public static final String Sonstige_zulaessige_Anordnung = "F";
 
 	/**
-	 * AQ: Ssks.Sonstiges.Dunkelschaltung
+	 * Ssks.Standortmerkmale.Lichtraumprofil
 	 */
-	public final ColumnDescriptor dunkelschaltung;
+	public static final String Lichtraumprofil = "G";
 
 	/**
-	 * AR: Ssks.Sonstiges.Durchfahrt_erlaubt
+	 * Ssks.Standortmerkmale.Ueberhoehung
 	 */
-	public final ColumnDescriptor durchfahrt_erlaubt;
+	public static final String Ueberhoehung = "H";
 
 	/**
-	 * N: Ssks.Standortmerkmale.Ausrichtung.Entfernung
+	 * Ssks.Standortmerkmale.Abstand_Mastmitte.links
 	 */
-	public final ColumnDescriptor entfernung;
+	public static final String Abstand_Mastmitte_links = "I";
 
 	/**
-	 * C: Ssks.Signal_Art.Fiktives_Signal
+	 * Ssks.Standortmerkmale.Abstand_Mastmitte.rechts
 	 */
-	public final ColumnDescriptor fiktives_Signal;
+
+	public static final String Abstand_Mastmitte_rechts = "J";
 
 	/**
-	 * V: Ssks.konstruktive_Merkmale.Fundament.Hoehe
+	 * Ssks.Standortmerkmale.Sichtbarkeit.Soll
 	 */
-	public final ColumnDescriptor fundament_hoehe;
+	public static final String Sichtbarkeit_Soll = "K";
 
 	/**
-	 * U: Ssks.konstruktive_Merkmale.Fundament.Regelzeichnung
+	 * Ssks.Standortmerkmale.Sichtbarkeit.Mindest
 	 */
-	public final ColumnDescriptor fundament_regelzeichnung;
+	public static final String Sichtbarkeit_Mindest = "L";
 
 	/**
-	 * E: Ssks.Standortmerkmale.Standort.km
+	 * Ssks.Standortmerkmale.Sichtbarkeit.Ist
 	 */
-	public final ColumnDescriptor km;
+	public static final String Sichtbarkeit_Ist = "M";
 
 	/**
-	 * G: Ssks.Standortmerkmale.Lichtraumprofil
+	 * SsksStandortmerkmale.Ausrichtung.Entfernung
 	 */
-	public final ColumnDescriptor lichtraumprofil;
+	public static final String Ausrichtung_Entfernung = "N";
 
 	/**
-	 * AT: Ssks.Sonstiges.Loeschung_Zs_1__Zs_7
+	 * Ssks.Standortmerkmale.Ausrichtung.Richtpunkt
 	 */
-	public final ColumnDescriptor loeschung_Zs_1__Zs_7;
+	public static final String Ausrichtung_Richtpunkt = "O";
 
 	/**
-	 * I: Ssks.Standortmerkmale.Abstand_Mastmitte.links
+	 * Ssks.konstruktive_Merkmale.Anordnung.Befestigung
 	 */
-	public final ColumnDescriptor mastmitte_links;
+	public static final String Anordnung_Befestigung = "P";
 
 	/**
-	 * J: Ssks.Standortmerkmale.Abstand_Mastmitte.rechts
+	 * Ssks.konstruktive_Merkmale.Anordnung.Regelzeichnung
 	 */
-	public final ColumnDescriptor mastmitte_rechts;
+	public static final String Anordnung_Regelzeichnung = "Q";
 
 	/**
-	 * AN: Ssks.Signalisierung.Mastschild
+	 * Ssks.konstruktive_Merkmale.Obere_Lichtpunkthoehe
 	 */
-	public final ColumnDescriptor mastschild;
+	public static final String Obere_Lichtpunkthoehe = "R";
 
 	/**
-	 * AM: Ssks.Signalisierung.Nachgeordnetes_Signal
+	 * Ssks.konstruktive_Merkmale.Streuscheibe.Art
 	 */
-	public final ColumnDescriptor nachgeordnetes_Signal;
+	public static final String Streuscheibe_Art = "S";
 
 	/**
-	 * R: Ssks.konstruktive_Merkmale.Obere_Lichtpunkthoehe
+	 * Ssks.konstruktive_Merkmale.Streuscheibe.Stellung
 	 */
-	public final ColumnDescriptor obere_lichtpunkthoehe;
+	public static final String Streuscheibe_Stellung = "T";
 
 	/**
-	 * B: Ssks.Signal_Art.Reales_Signal
+	 * Ssks.konstruktive_Merkmale.Fundament.Regelzeichnung
 	 */
-	public final ColumnDescriptor reales_Signal;
+	public static final String Fundament_Regelzeichnung = "U";
 
 	/**
-	 * O: Ssks.Standortmerkmale.Ausrichtung.Richtpunkt
+	 * Ssks.konstruktive_Merkmale.Fundament.Hoehe
 	 */
-	public final ColumnDescriptor richtpunkt;
+	public static final String Fundament_Hoehe = "V";
 
 	/**
-	 * W: Ssks.Anschluss.Schaltkasten.Bezeichnung
+	 * Ssks.Anschluss.Schaltkasten.Bezeichnung
 	 */
-	public final ColumnDescriptor schaltkasten_bezeichnung;
+	public static final String Schaltkasten_Bezeichnung = "W";
 
 	/**
-	 * X: Ssks.Anschluss.Schaltkasten.Entfernung
+	 * Ssks.Anschluss.Schaltkasten.Entfernung
 	 */
-	public final ColumnDescriptor schaltkasten_entfernung;
+	public static final String Schaltkasten_Entfernung = "X";
 
 	/**
-	 * Y: Ssks.Anschluss.Schaltkasten_separat.Bezeichnung
+	 * Ssks.Anschluss.Schaltkasten_separat.Bezeichnung
 	 */
-	public final ColumnDescriptor schaltkasten_separat_bezeichnung;
+	public static final String Schaltkasten_separat_Bezeichnung = "Y";
 
 	/**
-	 * AA: Ssks.Signalisierung.Signalbegriffe_Schirm.Hp_Hl
+	 * Ssks.Anschluss.Dauerhaft_Nacht
 	 */
-	public final ColumnDescriptor schirm_hp_hl;
+	public static final String Dauerhaft_Nacht = "Z";
 
 	/**
-	 * AB: Ssks.Signalisierung.Signalbegriffe_Schirm.Ks_Vr
+	 * Ssks.Signalisierung.Signalbegriffe_Schirm.Hp_Hl
 	 */
-	public final ColumnDescriptor schirm_ks_vr;
+	public static final String Schirm_Hp_Hl = "AA";
 
 	/**
-	 * AD: Ssks.Signalisierung.Signalbegriffe_Schirm.Ra_Sh
+	 * Ssks.Signalisierung.Signalbegriffe_Schirm.Ks_Vr
 	 */
-	public final ColumnDescriptor schirm_ra_sh;
+	public static final String Schirm_Ks_Vr = "AB";
 
 	/**
-	 * AC: Ssks.Signalisierung.Signalbegriffe_Schirm.Zl_Kl
+	 * Ssks.Signalisierung.Signalbegriffe_Schirm.Zl_Kl
 	 */
-	public final ColumnDescriptor schirm_zl_kl;
+	public static final String Schirm_Zl_Kl = "AC";
 
 	/**
-	 * AE: Ssks.Signalisierung.Signalbegriffe_Schirm.Zs
+	 * Ssks.Signalisierung.Signalbegriffe_Schirm.Ra_Sh
 	 */
-	public final ColumnDescriptor schirm_zs;
+	public static final String Schirm_Ra_Sh = "AD";
 
 	/**
-	 * M: Ssks.Standortmerkmale.Sichtbarkeit.Ist
+	 * Ssks.Signalisierung.Signalbegriffe_Schirm.Zs
 	 */
-	public final ColumnDescriptor sichtbarkeit_ist;
+	public static final String Schirm_Zs = "AE";
 
 	/**
-	 * L: Ssks.Standortmerkmale.Sichtbarkeit.Mindest
+	 * Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2
 	 */
-	public final ColumnDescriptor sichtbarkeit_mindest;
+	public static final String Zusatzanzeiger_Zs_2 = "AF";
 
 	/**
-	 * K: Ssks.Standortmerkmale.Sichtbarkeit.Soll
+	 * Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2v
 	 */
-	public final ColumnDescriptor sichtbarkeit_soll;
+	public static final String Zusatzanzeiger_Zs_2v = "AG";
 
 	/**
-	 * F: Ssks.Standortmerkmale.Sonstige_zulaessige_Anordnung
+	 * Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3
 	 */
-	public final ColumnDescriptor sonstige_zulaessige_anordnung;
+	public static final String Zusatzanzeiger_Zs_3 = "AH";
 
 	/**
-	 * D: Ssks.Standortmerkmale.Standort.Strecke
+	 * Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3v
 	 */
-	public final ColumnDescriptor strecke;
+	public static final String Zusatzanzeiger_Zs_3v = "AI";
 
 	/**
-	 * S: Ssks.konstruktive_Merkmale.Streuscheibe.Art
+	 * Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs
 	 */
-	public final ColumnDescriptor streuscheibe_art;
+	public static final String Zusatzanzeiger_Zs = "AJ";
 
 	/**
-	 * T: Ssks.konstruktive_Merkmale.Streuscheibe.Stellung
+	 * Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zp
 	 */
-	public final ColumnDescriptor streuscheibe_stellung;
+	public static final String Zusatzanzeiger_Zp = "AK";
 
 	/**
-	 * H: Ssks.Standortmerkmale.Ueberhoehung
+	 * Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Kombination
 	 */
-	public final ColumnDescriptor ueberhoehung;
+	public static final String Zusatzanzeiger_Kombination = "AL";
 
 	/**
-	 * AU: Ssks.Sonstiges.Ueberwachung.Zs_2
+	 * Ssks.Signalisierung.Nachgeordnetes_Signal
 	 */
-	public final ColumnDescriptor ueberwachung_zs_2;
+	public static final String Nachgeordnetes_Signal = "AM";
 
 	/**
-	 * AV: Ssks.Sonstiges.Ueberwachung.Zs_2v
+	 * Ssks.Signalisierung.Mastschild
 	 */
-	public final ColumnDescriptor ueberwachung_zs_2v;
+	public static final String Mastschild = "AN";
 
 	/**
-	 * AO: Ssks.Signalisierung.Vorsignaltafel.Regelzeichnung
+	 * Ssks.Signalisierung.Vorsignaltafel.Regelzeichnung
 	 */
-	public final ColumnDescriptor vorsignaltafel_regelzeichnung;
+	public static final String Vorsignaltafel_Regelzeichnung = "AO";
 
 	/**
-	 * AL: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Kombination
+	 * Ssks.Sonstiges.automatischer_Betrieb
 	 */
-	public final ColumnDescriptor zusatzanzeiger_kombination;
+	public static final String automatischer_Betrieb = "AP";
 
 	/**
-	 * AK: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zp
+	 * Ssks.Sonstiges.Dunkelschaltung
 	 */
-	public final ColumnDescriptor zusatzanzeiger_zp;
+	public static final String Dunkelschaltung = "AQ";
 
 	/**
-	 * AJ: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs
+	 * Ssks.Sonstiges.Durchfahrt_erlaubt
 	 */
-	public final ColumnDescriptor zusatzanzeiger_zs;
+	public static final String Durchfahrt_erlaubt = "AR";
 
 	/**
-	 * AF: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2
+	 * Ssks.Sonstiges.Besetzte_Ausfahrt
 	 */
-	public final ColumnDescriptor zusatzanzeiger_zs_2;
+	public static final String Besetzte_Ausfahrt = "AS";
 
 	/**
-	 * AG: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2v
+	 * Ssks.Sonstiges.Loeschung_Zs_1__Zs_7
 	 */
-	public final ColumnDescriptor zusatzanzeiger_zs_2v;
+	public static final String Loeschung_Zs_1__Zs_7 = "AT";
 
 	/**
-	 * AH: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3
+	 * Ssks.Sonstiges.Ueberwachung.Zs_2
 	 */
-	public final ColumnDescriptor zusatzanzeiger_zs_3;
+	public static final String Ueberwachung_Zs_2 = "AU";
 
 	/**
-	 * AI: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3v
+	 * Ssks.Sonstiges.Ueberwachung.Zs_2v
 	 */
-	public final ColumnDescriptor zusatzanzeiger_zs_3v;
+	public static final String Ueberwachung_Zs_2v = "AV";
 
 	/**
-	 * @param messages
-	 *            the i8n messages
+	 * Ssks.Bemerkung
 	 */
-	public SsksColumns(final Messages messages) {
-		super(messages);
-		bezeichnung_signal = createNew(
-				messages.SsksTableView_HeadingBezeichnungSignal);
-		reales_Signal = createNew(
-				messages.SsksTableView_HeadingSignalArtRealesSignal);
-		fiktives_Signal = createNew(
-				messages.SsksTableView_HeadingSignalArtFiktivesSignal);
-		strecke = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleStrecke);
-		km = createNew(messages.Common_UnitKilometer);
-		sonstige_zulaessige_anordnung = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleSonstigeZulaessigeAnordnung);
-		lichtraumprofil = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleLichtraumprofil);
-		ueberhoehung = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleUeberhoehung);
-		mastmitte_links = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleAbstandGleismitteMastmitteLinks);
-		mastmitte_rechts = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleAbstandGleismitteMastmitteRechts);
-		sichtbarkeit_soll = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleSichtbarkeitSoll);
-		sichtbarkeit_mindest = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleSichtbarkeitMindest);
-		sichtbarkeit_ist = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleSichtbarkeitIst);
-		entfernung = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleAusrichtungEntfernung);
-		richtpunkt = createNew(
-				messages.SsksTableView_HeadingStandortmerkmaleRichtpunkt);
-		befestigung = createNew(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleAnordnungBefestigung);
-		anordnung_regelzeichnung = createNew(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleAnordnungRegelzeichnung);
-		obere_lichtpunkthoehe = createNew(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleObereLichtpunkthoehe);
-		streuscheibe_art = createNew(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleStreuscheibeArt);
-		streuscheibe_stellung = createNew(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleStreuscheibeStellung);
-		fundament_regelzeichnung = createNew(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleFundamentRegelzeichnung);
-		fundament_hoehe = createNew(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleFundamentHoeheUSO);
-		schaltkasten_bezeichnung = createNew(
-				messages.SsksTableView_HeadingAnschlussSchaltkastenBezeichnung);
-		schaltkasten_entfernung = createNew(
-				messages.SsksTableView_HeadingAnschlussSchaltkastenEntfernung);
-		schaltkasten_separat_bezeichnung = createNew(
-				messages.SsksTableView_HeadingAnschlussSeparaterSchaltkastenBezeichnung);
-		dauerhaft_nacht = createNew(
-				messages.SsksTableView_HeadingAnschlussDauerhaftNachtschaltung);
-		schirm_hp_hl = createNew(
-				messages.SsksTableView_HeadingSignalisierungSchirmHpHl);
-		schirm_ks_vr = createNew(
-				messages.SsksTableView_HeadingSignalisierungSchirmKsVr);
-		schirm_zl_kl = createNew(
-				messages.SsksTableView_HeadingSignalisierungSchirmZlKl);
-		schirm_ra_sh = createNew(
-				messages.SsksTableView_HeadingSignalisierungSchirmRaSh);
-		schirm_zs = createNew(
-				messages.SsksTableView_HeadingSignalisierungSchirmZs);
-		zusatzanzeiger_zs_2 = createNew(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeigerZs2);
-		zusatzanzeiger_zs_2v = createNew(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeigerZs2v);
-		zusatzanzeiger_zs_3 = createNew(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeigerZs3);
-		zusatzanzeiger_zs_3v = createNew(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeigerZs3v);
-		zusatzanzeiger_zs = createNew(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeigerZs);
-		zusatzanzeiger_zp = createNew(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeigerZp);
-		zusatzanzeiger_kombination = createNew(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeigerKombination);
-		nachgeordnetes_Signal = createNew(
-				messages.SsksTableView_HeadingNachgeordnetesSignal);
-		mastschild = createNew(messages.SsksTableView_HeadingMastschild);
-		vorsignaltafel_regelzeichnung = createNew(
-				messages.SsksTableView_HeadingVorsignaltafelRegelzeichnung);
-
-		automatischer_betrieb = createNew(
-				messages.SsksTableView_HeadingSonstigesAutomatischeFahrtstellung);
-		dunkelschaltung = createNew(
-				messages.SsksTableView_HeadingSonstigesDunkelschaltung);
-		durchfahrt_erlaubt = createNew(
-				messages.SsksTableView_HeadingSonstigesDurchfahrtErlaubt);
-		loeschung_Zs_1__Zs_7 = createNew(
-				messages.SsksTableView_HeadingSonstigesLoeschungZs1Zs7);
-		ueberwachung_zs_2 = createNew(
-				messages.SsksTableView_HeadingSonstigesUeberwachungZs2);
-		ueberwachung_zs_2v = createNew(
-				messages.SsksTableView_HeadingSonstigesUeberwachungZs2v);
-
-		Besetzte_Ausfahrt = createNew(
-				messages.SsksTableView_Sonstiges_Besetzte_Ausfahrt);
-	}
-
-	@Override
-	public ColumnDescriptor fillHeaderDescriptions(
-			final ColumnDescriptorModelBuilder builder) {
-		final GroupBuilder root = builder
-				.createRootColumn(messages.SsksTableView_Heading);
-		root.add(bezeichnung_signal).width(1.73f);
-		final GroupBuilder signalart = root
-				.addGroup(messages.SsksTableView_HeadingSignalArt, 1.04f);
-		signalart.add(reales_Signal).height(LINE_HEIGHT * 2);
-		signalart.add(fiktives_Signal);
-
-		final GroupBuilder standortmerkmale = root
-				.addGroup(messages.SsksTableView_HeadingStandortmerkmale);
-		final GroupBuilder standort = standortmerkmale.addGroup(
-				messages.SsksTableView_HeadingStandortmerkmaleStandort, 1.32f);
-		standort.add(strecke);
-		standort.add(km);
-
-		standortmerkmale.add(sonstige_zulaessige_anordnung).width(1.32f);
-		standortmerkmale.add(lichtraumprofil).width(1.32f);
-		standortmerkmale.add(ueberhoehung, messages.Common_UnitMillimeter)
-				.width(1.32f);
-		final GroupBuilder abstand = standortmerkmale.addGroup(
-				messages.SsksTableView_HeadingStandortmerkmaleAbstandGleismitteMastmitte)
-				.height(LINE_HEIGHT * 2);
-		abstand.add(mastmitte_links, messages.Common_UnitMillimeter)
-				.width(1.32f);
-		abstand.add(mastmitte_rechts, messages.Common_UnitMillimeter)
-				.width(1.32f);
-
-		final GroupBuilder sichtbarkeit = standortmerkmale.addGroup(
-				messages.SsksTableView_HeadingStandortmerkmaleSichtbarkeit);
-		sichtbarkeit.add(sichtbarkeit_soll, messages.Common_UnitMeter)
-				.width(1.32f);
-		sichtbarkeit.add(sichtbarkeit_mindest, messages.Common_UnitMeter)
-				.width(1.32f);
-		sichtbarkeit.add(sichtbarkeit_ist, messages.Common_UnitMeter)
-				.width(1.32f);
-
-		final GroupBuilder ausrichtung = standortmerkmale.addGroup(
-				messages.SsksTableView_HeadingStandortmerkmaleAusrichtung);
-		ausrichtung.add(entfernung, messages.Common_UnitMeter).width(1.32f);
-		ausrichtung.add(richtpunkt).width(1.32f);
-
-		final GroupBuilder konstruktiveMerkmale = root
-				.addGroup(messages.SsksTableView_HeadingKonstruktivmerkmale);
-		final GroupBuilder anordnung = konstruktiveMerkmale.addGroup(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleAnordnung);
-		anordnung.add(befestigung).width(2.4f);
-		anordnung.add(anordnung_regelzeichnung).width(2.4f);
-
-		konstruktiveMerkmale
-				.add(obere_lichtpunkthoehe, messages.Common_UnitMillimeter)
-				.width(1.32f);
-
-		final GroupBuilder streuscheibe = konstruktiveMerkmale.addGroup(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleStreuscheibe);
-		streuscheibe.add(streuscheibe_art).width(0.65f);
-		streuscheibe.add(streuscheibe_stellung).width(1.14f);
-
-		final GroupBuilder fundament = konstruktiveMerkmale.addGroup(
-				messages.SsksTableView_HeadingKonstruktivmerkmaleFundament);
-		fundament.add(fundament_regelzeichnung).width(2.4f);
-		fundament.add(fundament_hoehe, messages.Common_UnitMillimeter)
-				.width(1.04f);
-
-		final GroupBuilder anschluss = root
-				.addGroup(messages.SsksTableView_HeadingAnschluss);
-		final GroupBuilder schaltkasten = anschluss
-				.addGroup(messages.SsksTableView_HeadingAnschlussSchaltkasten);
-		schaltkasten.add(schaltkasten_bezeichnung).width(1.59f);
-		schaltkasten.add(schaltkasten_entfernung, messages.Common_UnitMeter)
-				.width(1.32f);
-
-		final GroupBuilder separaterSchaltkasten = anschluss.addGroup(
-				messages.SsksTableView_HeadingAnschlussSeparaterSchaltkasten);
-		separaterSchaltkasten.add(schaltkasten_separat_bezeichnung)
-				.width(1.59f);
-
-		anschluss.add(dauerhaft_nacht).width(1.32f);
-
-		final GroupBuilder signalisierung = root
-				.addGroup(messages.SsksTableView_HeadingSignalisierung);
-		final GroupBuilder schirm = signalisierung.addGroup(
-				messages.SsksTableView_HeadingSignalisierungSchirm, 0.81f);
-		schirm.add(schirm_hp_hl, schirm_ks_vr, schirm_zl_kl, schirm_ra_sh,
-				schirm_zs);
-
-		final GroupBuilder zusatzanzeiger = signalisierung.addGroup(
-				messages.SsksTableView_HeadingSignalisierungZusatzanzeiger);
-		zusatzanzeiger.add(0.81f, zusatzanzeiger_zs_2, zusatzanzeiger_zs_2v,
-				zusatzanzeiger_zs_3, zusatzanzeiger_zs_3v, zusatzanzeiger_zs,
-				zusatzanzeiger_zp);
-		zusatzanzeiger.add(zusatzanzeiger_kombination).width(1.59f);
-
-		signalisierung.add(nachgeordnetes_Signal).width(1.59f);
-		signalisierung.add(mastschild).width(1.32f);
-		final GroupBuilder vorsignaltafel = signalisierung
-				.addGroup(messages.SsksTableView_HeadingVorsignaltafel);
-		vorsignaltafel.add(vorsignaltafel_regelzeichnung).width(2.4f);
-
-		final GroupBuilder sonstiges = root
-				.addGroup(messages.SsksTableView_HeadingSonstiges);
-		sonstiges.add(1.32f, automatischer_betrieb, dunkelschaltung,
-				durchfahrt_erlaubt, Besetzte_Ausfahrt, loeschung_Zs_1__Zs_7);
-		final GroupBuilder ueberwachung = sonstiges.addGroup(
-				messages.SsksTableView_HeadingSonstigesUeberwachung, 0.65f);
-		ueberwachung.add(ueberwachung_zs_2, ueberwachung_zs_2v);
-
-		root.add(basis_bemerkung).width(8.88f);
-		return root.getGroupRoot();
-	}
+	public static final String Bemerkung = "AW";
 }

@@ -14,13 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
@@ -30,6 +23,12 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableExport;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of {@link ExportService} via delegation to registered
@@ -61,6 +60,7 @@ public class ExportServiceImpl implements ExportService {
 			final ExportType exportType, final Titlebox titlebox,
 			final FreeFieldInfo freeFieldInfo, final String shortcut,
 			final String outputDir, final ToolboxPaths toolboxPaths,
+			final TableType tableType,
 			final OverwriteHandling overwriteHandling,
 			final Consumer<Exception> errorHandler) {
 		if (builders.isEmpty()) {
@@ -70,7 +70,8 @@ public class ExportServiceImpl implements ExportService {
 		for (final TableExport builder : builders) {
 			try {
 				builder.export(tables, exportType, titlebox, freeFieldInfo,
-						shortcut, outputDir, toolboxPaths, overwriteHandling);
+						shortcut, outputDir, toolboxPaths, tableType,
+						overwriteHandling);
 			} catch (final Exception e) {
 				errorHandler.accept(e);
 			}

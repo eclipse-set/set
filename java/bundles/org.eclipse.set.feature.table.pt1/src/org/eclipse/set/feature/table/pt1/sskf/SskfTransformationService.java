@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Comparator;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
@@ -34,7 +35,7 @@ import org.osgi.service.component.annotations.Reference;
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.shortcut=sskf" })
 public final class SskfTransformationService
-		extends AbstractPlanPro2TableTransformationService<SskfColumns> {
+		extends AbstractPlanPro2TableTransformationService {
 
 	@Reference
 	private Messages messages;
@@ -49,13 +50,8 @@ public final class SskfTransformationService
 	}
 
 	@Override
-	public void buildColumns() {
-		this.columns = new SskfColumns(this.messages);
-	}
-
-	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SskfTransformator(columns, enumTranslationService);
+		return new SskfTransformator(cols, enumTranslationService);
 	}
 
 	@Override
@@ -69,5 +65,10 @@ public final class SskfTransformationService
 		return new TableNameInfo(messages.ToolboxTableNameSskfLong,
 				messages.ToolboxTableNameSskfPlanningNumber,
 				messages.ToolboxTableNameSskfShort);
+	}
+
+	@Override
+	protected String getTableHeading() {
+		return messages.SskfTableView_Heading;
 	}
 }

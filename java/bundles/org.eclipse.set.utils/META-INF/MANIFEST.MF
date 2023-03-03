@@ -12,6 +12,7 @@ Export-Package: org.eclipse.set.utils,
  org.eclipse.set.utils.emfforms,
  org.eclipse.set.utils.enums,
  org.eclipse.set.utils.events,
+ org.eclipse.set.utils.excel,
  org.eclipse.set.utils.exception,
  org.eclipse.set.utils.files,
  org.eclipse.set.utils.graph,
@@ -34,7 +35,8 @@ Require-Bundle: com.google.guava,
  org.eclipse.set.rcp.compatibility;resolution:=optional,
  org.eclipse.set.toolboxmodel,
  org.eclipse.set.browser,
- org.eclipse.set.browser.lib
+ org.eclipse.set.browser.lib,
+ org.apache.poi;bundle-version="4.1.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.google.common.base;version="15.0.0",
  javax.annotation,

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2016 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,9 @@ import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssvu.SsvuColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Übertragungswegtabelle (Ssvu).
@@ -38,14 +41,12 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
  */
 class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	val SsvuColumns cols
-
 	var TMFactory factory = null
 	var MultiContainer_AttributeGroup container = null
 
-	new(SsvuColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -57,7 +58,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
-		container.uebertragungsweg.forEach[it|
+		container.uebertragungsweg.forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}
@@ -71,39 +72,37 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val row = it
 
-		fill(cols.von, uebertragungsweg, [
-			transformToVon
-		])
+		// A: Ssvu.Grundsatzangaben.von	
+		fill(cols.getColumn(von), uebertragungsweg, [transformToVon])
 
-		fill(cols.nach, uebertragungsweg, [
-			transformToNach
-		])
+		// B: Ssvu.Grundsatzangaben.nach
+		fill(cols.getColumn(nach), uebertragungsweg, [transformToNach])
 
-		fill(cols.verwendung, uebertragungsweg, [
-			transformToNach
-		])
-
-		fill(cols.verwendung, uebertragungsweg, [
+		// C: Ssvu.Grundsatzangaben.Verwendung
+		fill(cols.getColumn(Verwendung), uebertragungsweg, [
 			transformToVerwendung
 		])
 
-		fill(cols.netzart, uebertragungsweg, [
-			transformToNetzart
-		])
+		// D: Ssvu.Technik.Netzart
+		fill(cols.getColumn(Netzart), uebertragungsweg, [transformToNetzart])
 
-		fill(cols.technikart, uebertragungsweg, [
+		// E: Ssvu.Technik.Technikart
+		fill(cols.getColumn(Technikart), uebertragungsweg, [
 			transformToTechnikart
 		])
 
-		fill(cols.schnittstelle, uebertragungsweg, [
+		// F: Ssvu.Technik.Schnittstelle
+		fill(cols.getColumn(Schnittstelle), uebertragungsweg, [
 			transformToSchnitstelle
 		])
 
-		fill(cols.bandbreite, uebertragungsweg, [
+		// G: Ssvu.Technik.BranBreite
+		fill(cols.getColumn(BranBreite), uebertragungsweg, [
 			transformToBandbreite
 		])
 
-		fill(cols.bemerkung, uebertragungsweg, [
+		// H: Ssvu.Bemerkung
+		fill(cols.getColumn(Bemerkung), uebertragungsweg, [
 			transformToBemerkung(row)
 		])
 
@@ -216,7 +215,8 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def dispatch String getIdStellelement(Signal element) {
-		return element?.signalReal?.signalRealAktiv?.IDStellelement?.identitaet?.wert;
+		return element?.signalReal?.signalRealAktiv?.IDStellelement?.
+			identitaet?.wert;
 	}
 
 	private def dispatch String getIdStellelement(W_Kr_Gsp_Element element) {
@@ -279,7 +279,8 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		]?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
-	private def dispatch String getElementBezeichnung(BUE_Schnittstelle element) {
+	private def dispatch String getElementBezeichnung(
+		BUE_Schnittstelle element) {
 		// IMPROVE use cache
 		val bueAnlage = container?.BUEAnlage.findFirst [
 			IDBUESchnittstelle?.identitaet?.wert == element?.identitaet?.wert

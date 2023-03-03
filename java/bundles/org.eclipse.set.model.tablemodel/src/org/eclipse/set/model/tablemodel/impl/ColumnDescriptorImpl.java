@@ -45,6 +45,7 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getHeight <em>Height</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isMergeCommonValues <em>Merge Common Values</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getColumnPosition <em>Column Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -209,6 +210,26 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	 * @ordered
 	 */
 	protected boolean mergeCommonValues = MERGE_COMMON_VALUES_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getColumnPosition() <em>Column Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getColumnPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String COLUMN_POSITION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getColumnPosition() <em>Column Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getColumnPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected String columnPosition = COLUMN_POSITION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -470,6 +491,29 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public String getColumnPosition() {
+		return columnPosition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setColumnPosition(String newColumnPosition) {
+		String oldColumnPosition = columnPosition;
+		columnPosition = newColumnPosition;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION, oldColumnPosition, columnPosition));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -527,6 +571,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 				return getHeight();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
 				return isMergeCommonValues();
+			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
+				return getColumnPosition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -568,6 +614,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
 				setMergeCommonValues((Boolean)newValue);
 				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
+				setColumnPosition((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -607,6 +656,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
 				setMergeCommonValues(MERGE_COMMON_VALUES_EDEFAULT);
 				return;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
+				setColumnPosition(COLUMN_POSITION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -637,6 +689,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 				return height != HEIGHT_EDEFAULT;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
 				return mergeCommonValues != MERGE_COMMON_VALUES_EDEFAULT;
+			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
+				return COLUMN_POSITION_EDEFAULT == null ? columnPosition != null : !COLUMN_POSITION_EDEFAULT.equals(columnPosition);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -665,6 +719,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 		result.append(height);
 		result.append(", mergeCommonValues: ");
 		result.append(mergeCommonValues);
+		result.append(", columnPosition: ");
+		result.append(columnPosition);
 		result.append(')');
 		return result.toString();
 	}

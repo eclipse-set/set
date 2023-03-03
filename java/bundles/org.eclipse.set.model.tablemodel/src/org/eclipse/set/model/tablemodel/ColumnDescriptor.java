@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight <em>Height</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues <em>Merge Common Values</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition <em>Column Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor()
@@ -257,5 +258,30 @@ public interface ColumnDescriptor extends EObject {
 	 * @generated
 	 */
 	void setMergeCommonValues(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Column Position</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The position of this column
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Column Position</em>' attribute.
+	 * @see #setColumnPosition(String)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_ColumnPosition()
+	 * @model
+	 * @generated
+	 */
+	String getColumnPosition();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition <em>Column Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Column Position</em>' attribute.
+	 * @see #getColumnPosition()
+	 * @generated
+	 */
+	void setColumnPosition(String value);
 
 } // ColumnDescriptor

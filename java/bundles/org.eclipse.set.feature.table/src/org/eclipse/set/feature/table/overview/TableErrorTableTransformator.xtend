@@ -35,5 +35,4 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 	
 	override formatTableContent(Table table) {
 	}
-	
 }

@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Comparator;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
@@ -34,7 +35,7 @@ import org.osgi.service.component.annotations.Reference;
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.shortcut=sslw" })
 public final class SslwTransformationService
-		extends AbstractPlanPro2TableTransformationService<SslwColumns> {
+		extends AbstractPlanPro2TableTransformationService {
 
 	@Reference
 	private Messages messages;
@@ -49,13 +50,8 @@ public final class SslwTransformationService
 	}
 
 	@Override
-	public void buildColumns() {
-		columns = new SslwColumns(this.messages);
-	}
-
-	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SslwTransformator(columns, enumTranslationService);
+		return new SslwTransformator(cols, enumTranslationService);
 	}
 
 	@Override
@@ -69,6 +65,11 @@ public final class SslwTransformationService
 		return new TableNameInfo(messages.ToolboxTableNameSslwLong,
 				messages.ToolboxTableNameSslwPlanningNumber,
 				messages.ToolboxTableNameSslwShort);
+	}
+
+	@Override
+	protected String getTableHeading() {
+		return messages.SslwTableView_Heading;
 	}
 
 }

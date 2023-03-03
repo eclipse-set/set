@@ -28,6 +28,9 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BlockAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtensions.*
+import static org.eclipse.set.feature.table.pt1.sslb.SslbColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Inselgleistabelle (Sslb).
@@ -36,12 +39,11 @@ import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtension
  */
 class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	val SslbColumns columns
 	var TMFactory factory = null
 
-	new(SslbColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.columns = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -65,13 +67,19 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		Block_Element blockElement) {
 
 		val row = it
-		fill(columns.nummer, blockElement, [
-			blockElement?.blockStrecke?.strecke?.bezeichnung?.
-				bezeichnungStrecke?.wert
-		])
+		// A: Sslb.Strecke.Nummer
+		fill(
+			cols.getColumn(Strecke_Nummer),
+			blockElement,
+			[
+				blockElement?.blockStrecke?.strecke?.bezeichnung?.
+					bezeichnungStrecke?.wert
+			]
+		)
 
+		// B: Sslb.Strecke.Gleis
 		fillIterable(
-			columns.gleis,
+			cols.getColumn(Strecke_Gleis),
 			blockElement,
 			[
 				blockElement.blockAnlagenStart.map [
@@ -82,35 +90,57 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		fill(columns.betriebsfuehrung, blockElement, [
-			blockElement?.blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.
-				wert?.translate
-		])
+		// C: Sslb.Strecke.Betriebsfuehrung
+		fill(
+			cols.getColumn(Betriebsfuehrung),
+			blockElement,
+			[
+				blockElement?.blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.
+					wert?.translate
+			]
+		)
 
-		fillConditional(columns.betriebsst_Start, blockElement, [
-			!blockElement.blockAnlagenStart.isEmpty
-		], [
-			blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
-				oertlichkeitAbkuerzung?.wert
-		])
+		// D: Sslb.Grundsatzangaben.von.Betriebsstelle_Start
+		fillConditional(
+			cols.getColumn(Betriebsstelle_Start),
+			blockElement,
+			[!blockElement.blockAnlagenStart.isEmpty],
+			[
+				blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
+					oertlichkeitAbkuerzung?.wert
+			]
+		)
 
-		fillConditional(columns.bauform_Start, blockElement, [
-			!blockElement.blockAnlagenStart.isEmpty
-		], [blockElement?.blockElementAllg?.blockBauform?.wert?.translate])
+		// E: Sslb.Grundsatzangaben.von.Bauform_Start
+		fillConditional(
+			cols.getColumn(Bauform_Start),
+			blockElement,
+			[!blockElement.blockAnlagenStart.isEmpty],
+			[blockElement?.blockElementAllg?.blockBauform?.wert?.translate]
+		)
 
-		fillConditional(columns.betriebsst_Ziel, blockElement, [
-			!blockElement.blockAnlagenZiel.isEmpty
-		], [
-			blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
-				oertlichkeitAbkuerzung?.wert
-		])
+		// F: Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
+		fillConditional(
+			cols.getColumn(Betriebsstelle_Ziel),
+			blockElement,
+			[!blockElement.blockAnlagenZiel.isEmpty],
+			[
+				blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
+					oertlichkeitAbkuerzung?.wert
+			]
+		)
 
-		fillConditional(columns.bauform_Ziel, blockElement, [
-			!blockElement.blockAnlagenZiel.isEmpty
-		], [blockElement?.blockElementAllg?.blockBauform?.wert?.translate])
+		// G: Sslb.Grundsatzangaben.nach.Bauform_Ziel
+		fillConditional(
+			cols.getColumn(Bauform_Ziel),
+			blockElement,
+			[!blockElement.blockAnlagenZiel.isEmpty],
+			[blockElement?.blockElementAllg?.blockBauform?.wert?.translate]
+		)
 
+		// H: Sslb.Grundsatzangaben.Blockschaltung
 		fillIterable(
-			columns.blockschaltung,
+			cols.getColumn(Blockschaltung),
 			blockElement,
 			[
 				blockElement.blockAnlagenStart.map [
@@ -121,8 +151,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// I: Sslb.Grundsatzangaben.Schutzuebertrager
 		fillIterable(
-			columns.schutzuebertrager,
+			cols.getColumn(Schutzuebertrager),
 			blockElement,
 			[
 				blockElement.blockAnlagenStart.map [
@@ -133,29 +164,71 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		fill(columns.staendig, blockElement, [
-			blockElement.blockElementErlaubnis?.erlaubnisStaendigVorhanden?.
-				wert?.translate
-		])
+		// J: Sslb.Erlaubnis.staendig
+		fill(
+			cols.getColumn(Erlaubnis_staendig),
+			blockElement,
+			[
+				blockElement.blockElementErlaubnis?.erlaubnisStaendigVorhanden?.
+					wert?.translate
+			]
+		)
 
-		fillSwitch(columns.holen, blockElement, new Case<Block_Element>(
+		// K: Sslb.Erlaubnis.holen
+		fillSwitch(
+			cols.getColumn(Erlaubnis_holen),
+			blockElement,
+			new Case<Block_Element>(
+				[
+					blockElement?.blockElementErlaubnis?.autoErlaubnisholen?.
+						wert == Boolean.TRUE
+				],
+				["auto"]
+			),
+			new Case<Block_Element>(
+				[
+					blockElement?.blockElementErlaubnis?.erlaubnisholen?.wert ==
+						Boolean.TRUE
+				],
+				["manuell"]
+			)
+		)
+
+		// L: Sslb.Erlaubnis.Ruecklauf_autom
+		fill(
+			cols.getColumn(Erlaubnis_Ruecklauf_autom),
+			blockElement,
 			[
-				blockElement?.blockElementErlaubnis?.autoErlaubnisholen?.wert ==
-					Boolean.TRUE
-			],
-			["auto"]
-		), new Case<Block_Element>(
+				blockElement?.blockElementErlaubnis?.autoErlaubnisruecklauf?.
+					wert?.translate
+			]
+		)
+
+		// M: Sslb.Erlaubnis.Abgabespeicherung
+		fill(
+			cols.getColumn(Erlaubnis_Abgabespeicherung),
+			blockElement,
 			[
-				blockElement?.blockElementErlaubnis?.erlaubnisholen?.wert ==
-					Boolean.TRUE
+				blockElement?.blockElementErlaubnis?.
+					erlaubnisabgabespeicherung?.wert?.translate
+			]
+		)
+
+		// N: Sslb.Erlaubnis.Abh_D_Weg_Rf
+		fillConditional(
+			cols.getColumn(Erlaubnis_Abh_D_Weg_Rf),
+			blockElement,
+			[
+				blockElement.signal !== null ||
+					blockElement.fstrZugRangier !== null
 			],
-			["manuell"]
-		))
+			["x"]
+		)
 
 		val gleisabschnittAnordnung = newLinkedList
-
+		// O: Sslb.Blockmeldung.Anrueckabschnitt.Bezeichnung 
 		fillIterable(
-			columns.anrueckabschnitt_bezeichnung,
+			cols.getColumn(Anrueckabschnitt_Bezeichnung),
 			blockElement,
 			[
 				val gleisbezeichnungenStart = blockAnlagenStart.map [
@@ -194,8 +267,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// P: Sslb.Blockmeldung.Anrueckabschnitt.Anordnung
 		fillIterable(
-			columns.anrueckabschnitt_anordnung,
+			cols.getColumn(Anrueckabschnitt_Anordnung),
 			blockElement,
 			[
 				gleisabschnittAnordnung.map [
@@ -206,48 +280,60 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		fill(columns.ruecklauf_autom, blockElement, [
-			blockElement?.blockElementErlaubnis?.autoErlaubnisruecklauf?.wert?.
-				translate
-		])
-
-		fill(columns.abgabespeicherung, blockElement, [
-			blockElement?.blockElementErlaubnis?.erlaubnisabgabespeicherung?.
-				wert?.translate
-		])
-
-		fill(columns.raeumungspruefung, blockElement, [
-			blockElement?.raeumungspruefung
-		])
-		fill(columns.vorblock, blockElement, [
-			blockElement?.blockElementAllg?.vorblockwecker?.wert?.translate
-		])
-		fill(columns.rueckblock, blockElement, [
-			blockElement?.blockElementAllg?.rueckblockwecker?.wert?.translate
-		])
-
-		fillConditional(columns.abh_d_weg_rf, blockElement, [
-			blockElement.signal !== null || blockElement.fstrZugRangier !== null
-		], ["x"])
-		fill(columns.zugschluss, blockElement, [
-			blockElement?.bedienanzeigeElement?.bedienEinrichtungOertlich?.
-				bezeichnung?.bedienEinrichtOertlBez?.wert
-		])
+		// Q: Sslb.Blockmeldung.Zugschluss
 		fill(
-			columns.basis_bemerkung,
+			cols.getColumn(Blockmeldung_Zugschluss),
+			blockElement,
+			[
+				blockElement?.bedienanzeigeElement?.bedienEinrichtungOertlich?.
+					bezeichnung?.bedienEinrichtOertlBez?.wert
+			]
+		)
+
+		// R: Sslb.Blockmeldung.Raeumungspruefung
+		fill(
+			cols.getColumn(Blockmeldung_Raeumungspruefung),
+			blockElement,
+			[blockElement?.raeumungspruefung]
+		)
+
+		// S: Sslb.Akustische_Meldung.Vorblock
+		fill(
+			cols.getColumn(Akustische_Meldung_Vorblock),
+			blockElement,
+			[blockElement?.blockElementAllg?.vorblockwecker?.wert?.translate]
+		)
+
+		// T: Sslb.Akustische_Meldung.Rueckblock
+		fill(
+			cols.getColumn(Akustische_Meldung_Rueckblock),
+			blockElement,
+			[blockElement?.blockElementAllg?.rueckblockwecker?.wert?.translate]
+		)
+
+		// U: Sslb.Awanst.Bez_Bed
+		fillConditional(
+			cols.getColumn(Awanst_Bez_Bed),
+			blockElement,
+			[
+				blockElement.blockStrecke?.oertlichkeit?.bezeichnung?.
+					oertlichkeitAbkuerzung !== null &&
+					blockElement.blockStrecke?.oertlichkeit?.oertlichkeitAllg?.
+						oertlichkeitArt?.wert ===
+						ENUMOertlichkeitArt.ENUM_OERTLICHKEIT_ART_AWANST
+			],
+			[
+				blockElement.blockStrecke?.oertlichkeit?.bezeichnung?.
+					oertlichkeitAbkuerzung?.wert
+			]
+		)
+
+		// V: Sslb.Bemerkung
+		fill(
+			cols.getColumn(Bemerkung),
 			blockElement,
 			[footnoteTransformation.transform(it, row)]
 		)
-		fillConditional(columns.awanst_bez_bed, blockElement, [
-			blockElement.blockStrecke?.oertlichkeit?.bezeichnung?.
-				oertlichkeitAbkuerzung !== null &&
-				blockElement.blockStrecke?.oertlichkeit?.oertlichkeitAllg?.
-					oertlichkeitArt?.wert ===
-					ENUMOertlichkeitArt.ENUM_OERTLICHKEIT_ART_AWANST
-		], [
-			blockElement.blockStrecke?.oertlichkeit?.bezeichnung?.
-				oertlichkeitAbkuerzung?.wert
-		])
 
 		return
 	}

@@ -132,5 +132,4 @@ public class Messages {
 	 * Fehler beim Dokumentenexport
 	 */
 	public String titleDocExportError;
-
 }

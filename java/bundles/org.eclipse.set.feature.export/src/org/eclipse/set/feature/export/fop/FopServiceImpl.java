@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.export.fop;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -102,7 +103,8 @@ public class FopServiceImpl implements FopService {
 	public void activate()
 			throws IOException, SAXException, ConfigurationException {
 		final FopFactoryBuilder fopFactoryBuilder = new FopFactoryBuilder(
-				URI.create(""), proxyResourceResolver); //$NON-NLS-1$
+				new File(".").toURI(), proxyResourceResolver); //$NON-NLS-1$
+
 		fopFactory = fopFactoryBuilder.build();
 		fopFactory.getRendererFactory().addDocumentHandlerMaker(
 				new FopPDFDocumentHandlerMaker(fontService));

@@ -41,6 +41,9 @@ import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import static org.eclipse.set.feature.table.pt1.sskw.SskwColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -49,15 +52,13 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
  */
 class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	SskwColumns cols
-
-	new(SskwColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
-	}
-
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(SskwTransformator))
+
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
+	}
 
 	private static def String angrenzendesElementL(W_Kr_Gsp_Element element,
 		String lage) {
@@ -90,28 +91,36 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			val instance = factory.newTableRow(element)
 
 			// A: Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Bezeichnung
-			fill(instance, cols.basis_bezeichnung, element, [
-				bezeichnung.bezeichnungTabelle.wert
-			])
+			fill(
+				instance,
+				cols.getColumn(Bezeichnung),
+				element,
+				[bezeichnung.bezeichnungTabelle.wert]
+			)
 			if (logger.debugEnabled) {
 				logger.debug(element.bezeichnung.bezeichnungTabelle.wert)
 			}
 
-			// B: Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Bezeichnung
-			fillConditional(instance, cols.form,
-				element, [IDWKrAnlage !== null], [
+			// B: Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Form
+			fillConditional(
+				instance,
+				cols.getColumn(Form),
+				element,
+				[IDWKrAnlage !== null],
+				[
 					val wKrAnlageAllg = WKrAnlage.WKrAnlageAllg
 					val art = wKrAnlageAllg.WKrArt.wert
 					// remove redundant art in grundform
 					val grundform = wKrAnlageAllg.WKrGrundform.wert.
 						replaceFirst("^" + art + " *", "")
 					'''«art» «grundform»'''
-				])
+				]
+			)
 
-			// C: Freimeldung.Fma
+			// C: Sskw.Freimeldung.Fma
 			fillIterable(
 				instance,
-				cols.fma,
+				cols.getColumn(Freimeldung_Fma),
 				element,
 				[
 					WKrGspKomponenten.map[fmaAnlage].flatten.toSet.map [
@@ -121,10 +130,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				MIXED_STRING_COMPARATOR
 			)
 
-			// D: Freimeldung.nicht_grenzzeichenfrei.Links
+			// D: Sskw.Freimeldung.nicht_grenzzeichenfrei.Links
 			fillSwitch(
 				instance,
-				cols.links,
+				cols.getColumn(nicht_grenzzeichenfrei_Links),
 				element,
 				new Case<W_Kr_Gsp_Element>([
 					weicheElement?.GZFreimeldungL?.elementLage?.wert ===
@@ -153,10 +162,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				], [angrenzendesElementL("R")])
 			)
 
-			// E: Freimeldung.nicht_grenzzeichenfrei.Rechts
+			// E: Sskw.Freimeldung.nicht_grenzzeichenfrei.Rechts
 			fillSwitch(
 				instance,
-				cols.rechts,
+				cols.getColumn(nicht_grenzzeichenfrei_Rechts),
 				element,
 				new Case<W_Kr_Gsp_Element>([
 					weicheElement?.GZFreimeldungR?.elementLage?.wert ===
@@ -185,19 +194,19 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				], [angrenzendesElementR("R")])
 			)
 
-			// F: Freimeldung.Isolierfall
+			// F: Sskw.Freimeldung.Isolierfall
 			fillConditional(
 				instance,
-				cols.isolierfall,
+				cols.getColumn(Isolierfall),
 				element,
 				[IDWKrAnlage !== null],
 				[WKrAnlage.WKrAnlageAllg?.isolierfall?.wert ?: ""]
 			)
 
-			// G: Vorzugslage.Lage
+			// G: Sskw.Vorzugslage.Lage
 			fillSwitch(
 				instance,
-				cols.lage,
+				cols.getColumn(Vorzugslage_Lage),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[weicheElement?.weicheVorzugslage?.wert !== null],
@@ -209,10 +218,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// H: Vorzugslage.Automatik
+			// H: Sskw.Vorzugslage.Automatik
 			fillSwitch(
 				instance,
-				cols.automatik,
+				cols.getColumn(Vorzugslage_Automatik),
 				element,
 				new Case<W_Kr_Gsp_Element>([
 					WKrGspElementAllg?.vorzugslageAutomatik?.wert
@@ -231,22 +240,22 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				], ["o"])
 			)
 
-			// I: Weiche.Auffahrortung
+			// I: Sskw.Weiche.Auffahrortung
 			fill(
 				instance,
-				cols.auffahrortung,
+				cols.getColumn(Weiche_Auffahrortung),
 				element,
 				[weicheElement?.auffahrortung?.wert?.translate ?: ""]
 			)
 
-			// J: Weiche.Antriebe
+			// J: Sskw.Weiche.Antriebe
 			val elementKomponenten = element.container.WKrGspKomponente.filter [
 				IDWKrGspElement?.identitaet?.wert == element.identitaet.wert &&
 					zungenpaar !== null
 			]
 			fill(
 				instance,
-				cols.weiche_antriebe,
+				cols.getColumn(Weiche_Antriebe),
 				element,
 				[
 					fillNoOfActuators( //
@@ -257,24 +266,24 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			// K: Weiche.Weichensignal
+			// K: Sskw.Weiche.Weichensignal
 			val weichensignal = elementKomponenten.map [
 				zungenpaar?.weichensignal?.wert
 			].filterNull
 			fill(
 				instance,
-				cols.weichensignal,
+				cols.getColumn(Weiche_Weichensignal),
 				element,
 				[weichensignal.map[translate].toSet.getIterableFilling(null)]
 			)
 
-			// L: Weiche.Pruefkontakte
+			// L: Sskw.Weiche.Pruefkontakte
 			val pruefkontakte = elementKomponenten.map [
 				zungenpaar?.zungenpruefkontaktAnzahl?.wert
 			].filterNull.map[intValue]
 			fillConditional(
 				instance,
-				cols.pruefkontakte,
+				cols.getColumn(Weiche_Pruefkontakte),
 				element,
 				[!pruefkontakte.empty],
 				[pruefkontakte.fold(0, [s, a|s + a]).toString]
@@ -318,12 +327,12 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				art_sonstige_mit_kreuzung
 
 			val keine_anlage = element.IDWKrAnlage === null
-			// M: Weiche.v_zul_W.Links
-			val wKrGspKomponenten = element.WKrGspKomponenten
 
+			// M: Sskw.Weiche.v_zul_W.Links
+			val wKrGspKomponenten = element.WKrGspKomponenten
 			fillSwitch(
 				instance,
-				cols.v_zul_w_links,
+				cols.getColumn(Weiche_v_zul_W_Links),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
@@ -359,10 +368,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// N: Weiche.v_zul_W.Rechts
+			// N: Sskw.Weiche.v_zul_W.Rechts
 			fillSwitch(
 				instance,
-				cols.v_zul_w_rechts,
+				cols.getColumn(Weiche_v_zul_W_Rechts),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
@@ -398,14 +407,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// O: Kreuzung.v_zul_K.Links
+			// O: Sskw.Kreuzung.v_zul_K.Links
 			val krLinksKomponenten = wKrGspKomponenten.filter [
 				zungenpaar?.kreuzungsgleis?.wert == ENUM_LINKS_RECHTS_LINKS
 			]
 			val exKrLinksKomponenten = !krLinksKomponenten.empty
 			fillSwitch(
 				instance,
-				cols.v_zul_k_links,
+				cols.getColumn(Kreuzung_v_zul_K_Links),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
@@ -438,14 +447,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// P: Kreuzung.v_zul_K.Rechts
+			// P: Sskw.Kreuzung.v_zul_K.Rechts
 			val krRechtsKomponenten = wKrGspKomponenten.filter [
 				zungenpaar?.kreuzungsgleis?.wert == ENUM_LINKS_RECHTS_RECHTS
 			]
 			val exKrRechtsKomponenten = !krRechtsKomponenten.empty
 			fillSwitch(
 				instance,
-				cols.v_zul_k_rechts,
+				cols.getColumn(Kreuzung_v_zul_K_Rechts),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
@@ -478,7 +487,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// Q: Herzstueck.Antriebe
+			// Q: Sskw.Herzstueck.Antriebe
 			val herzstueckAntriebe = wKrGspKomponenten.map [
 				zungenpaar?.herzstueckAntriebe?.wert
 			].filterNull.map[intValue]
@@ -487,7 +496,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			].filterNull.map[intValue]
 			fillSwitch(
 				instance,
-				cols.herzstuecke_antriebe,
+				cols.getColumn(Herzstueck_Antriebe),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[herzstueckAntriebe.exists[it > 0]],
@@ -510,10 +519,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 			val exEntgleisungsschuh = !entgleisungsschuhe.empty
 
-			// R: Gleissperre.Antriebe
+			// R: Sskw.Gleissperre.Antriebe
 			fillSwitch(
 				instance,
-				cols.gleissperre_antriebe,
+				cols.getColumn(Gleissperre_Antriebe),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[
@@ -529,10 +538,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// S: Gleissperre.Gsp_signal
+			// S: Sskw.Gleissperre.Gsp_signal
 			fillIterable(
 				instance,
-				cols.gsp_signal,
+				cols.getColumn(Gleissperre_Gsp_signal),
 				element,
 				[
 					WKrGspKomponenten.map[entgleisungsschuh].filterNull.map [
@@ -542,10 +551,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				null
 			)
 
-			// T: Gleissperre.Auswurfrichtung
+			// T: Sskw.Gleissperre.Auswurfrichtung
 			fillConditional(
 				instance,
-				cols.auswurfrichtung,
+				cols.getColumn(Gleissperre_Auswurfrichtung),
 				element,
 				[exEntgleisungsschuh],
 				[
@@ -553,10 +562,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			// U: Gleissperre.Schutzschiene
+			// U: Sskw.Gleissperre.Schutzschiene
 			fillSwitch(
 				instance,
-				cols.schutzschiene,
+				cols.getColumn(Gleissperre_Schutzschiene),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[exEntgleisungsschuh],
@@ -568,19 +577,19 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// V: Sonstiges.Regelzeichnung_Nr
+			// V: Sskw.Sonstiges.Regelzeichnung_Nr
 			fillIterable(
 				instance,
-				cols.regelzeichnung_nr,
+				cols.getColumn(Sonstiges_Regelzeichnung_Nr),
 				element,
 				[element.regelzeichnungen.map[fillRegelzeichnung]],
 				null
 			)
 
-			// W: Sonstiges.DWs
+			// W: Sskw.Sonstiges.DWs
 			fillSwitch(
 				instance,
-				cols.dws,
+				cols.getColumn(Sonstiges_DWs),
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[IDWKrAnlage === null],
@@ -599,7 +608,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			// X: Sskw.Sonderanlage.Art
 			fillIterable(
 				instance,
-				cols.Sonderanlage_Art,
+				cols.getColumn(Sonderanlage_Art),
 				element,
 				[
 					wKrGspKomponenten.map [
@@ -609,10 +618,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				null
 			)
 
-			// Y: Bemerkung
+			// Y: Sskw.Bemerkung
 			fill(
 				instance,
-				cols.basis_bemerkung,
+				cols.getColumn(Bemerkung),
 				element,
 				[footnoteTransformation.transform(it, instance)]
 			)

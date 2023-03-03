@@ -13,8 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import org.osgi.service.component.annotations.Component;
-
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
@@ -26,6 +24,7 @@ import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.TableExport;
 import org.eclipse.set.utils.ToolboxConfiguration;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * {@link TableExport} implementation for table model export.
@@ -42,6 +41,7 @@ public class TableModelExport implements TableExport {
 			final ExportType exportType, final Titlebox titlebox,
 			final FreeFieldInfo freeFieldInfo, final String shortcut,
 			final String outputDir, final ToolboxPaths toolboxPaths,
+			final TableType tableType,
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		if (!ToolboxConfiguration.isDevelopmentMode()) {

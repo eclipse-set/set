@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:template match="/">
+    <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format"
+        xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" language="de" linefeed-treatment="preserve" xsl:use-attribute-sets="default-font">
+        <fo:layout-master-set>
+            <fo:simple-page-master xsl:use-attribute-sets="table-master-style" master-name="table-master-a">
+                <fo:region-body xsl:use-attribute-sets="region-body-style"/>
+                <fo:region-before region-name="folding-mark-region" xsl:use-attribute-sets="folding-mark-region-style"/>
+                <fo:region-after region-name="title-box-region" xsl:use-attribute-sets="title-box-region-style" />
+            </fo:simple-page-master>
+            <fo:simple-page-master xsl:use-attribute-sets="table-master-style" master-name="table-master-b">
+                <fo:region-body xsl:use-attribute-sets="region-body-style"/>
+                <fo:region-before region-name="folding-mark-region" xsl:use-attribute-sets="folding-mark-region-style"/>
+                <fo:region-after region-name="title-box-region" xsl:use-attribute-sets="title-box-region-style" />
+            </fo:simple-page-master>
+            <fo:simple-page-master xsl:use-attribute-sets="table-master-style" master-name="table-master-b-last">
+                <fo:region-body xsl:use-attribute-sets="region-body-style"/>
+                <fo:region-before region-name="folding-mark-region" xsl:use-attribute-sets="folding-mark-region-style"/>
+                <fo:region-after region-name="title-box-region-last" xsl:use-attribute-sets="title-box-region-style" />
+            </fo:simple-page-master>
+            <fo:page-sequence-master master-name="page-sequence-master-b">
+                <fo:repeatable-page-master-alternatives>
+                    <fo:conditional-page-master-reference master-reference="table-master-b-last" page-position="last"/>
+                    <fo:conditional-page-master-reference master-reference="table-master-b"/>
+                </fo:repeatable-page-master-alternatives>
+            </fo:page-sequence-master>
+        </fo:layout-master-set>
+        <fo:page-sequence master-reference="table-master-a">
+            <fo:static-content flow-name="folding-mark-region">
+                <xsl:call-template name="FoldingMarksTop"/>
+                <xsl:call-template name="WaterMark"/>
+            </fo:static-content>
+            <fo:static-content flow-name="title-box-region">
+                <xsl:call-template name="TitleboxRegion">
+                    <xsl:with-param name="pagePostfix" select="'a+'"/>
+                </xsl:call-template>
+                <xsl:call-template name="FoldingMarksBottom"/>
+            </fo:static-content>
+            <fo:flow flow-name="xsl-region-body">
+                <xsl:apply-templates />
+            </fo:flow>
+        </fo:page-sequence>
+        <fo:page-sequence master-reference="page-sequence-master-b" initial-page-number="1">
+            <fo:static-content flow-name="folding-mark-region">
+                <xsl:call-template name="FoldingMarksTop"/>
+                <xsl:call-template name="WaterMark"/>
+            </fo:static-content>
+            <fo:static-content flow-name="title-box-region">
+                <xsl:call-template name="TitleboxRegion">
+                    <xsl:with-param name="pagePostfix" select="'b+'"/>
+                </xsl:call-template>
+                <xsl:call-template name="FoldingMarksBottom"/>
+            </fo:static-content>
+            <fo:static-content flow-name="title-box-region-last">
+                <xsl:call-template name="TitleboxRegion">
+                    <xsl:with-param name="pagePostfix" select="'b-'"/>
+                </xsl:call-template>
+                <xsl:call-template name="FoldingMarksBottom"/>
+            </fo:static-content>
+            <fo:flow flow-name="xsl-region-body">
+                <fo:block start-indent="-38.97cm">
+                    <xsl:apply-templates />
+                </fo:block>
+                <!-- Fill footnotes -->
+                <xsl:apply-templates select="Table/Footnotes" />
+            </fo:flow>
+        </fo:page-sequence>
+    </fo:root>
+</xsl:template>

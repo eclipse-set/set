@@ -1,224 +1,130 @@
 /**
- * Copyright (c) 2017 DB Netz AG and others.
+ * Copyright (c) 2023 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+
 package org.eclipse.set.feature.table.pt1.sslb;
 
-import org.eclipse.set.feature.table.pt1.AbstractTableColumns;
-import org.eclipse.set.feature.table.pt1.messages.Messages;
-import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
-import org.eclipse.set.utils.table.GroupBuilder;
-
 /**
- * TableColumns for the Sslb-table.
+ * Symbolic addressing for Sslb columns.
  * 
- * @author rumpf
+ * @author truong
  *
  */
-public class SslbColumns extends AbstractTableColumns {
+@SuppressWarnings("nls")
+public class SslbColumns {
 
 	/**
-	 * Erlaubnis.Abgabespeicherung
+	 * Sslb.Strecke.Nummer
 	 */
-	public final ColumnDescriptor abgabespeicherung;
+	public static final String Strecke_Nummer = "A";
 
 	/**
-	 * Erlaubnis.Abh_D_Weg_Rf
+	 * Sslb.Strecke.Gleis
 	 */
-	public final ColumnDescriptor abh_d_weg_rf;
+	public static final String Strecke_Gleis = "B";
 
 	/**
-	 * Blockmeldung.Anrueckabschnitt.Anordnung
+	 * Sslb.Strecke.Betriebsfuehrung
 	 */
-	public final ColumnDescriptor anrueckabschnitt_anordnung;
+	public static final String Betriebsfuehrung = "C";
 
 	/**
-	 * Blockmeldung.Anrueckabschnitt.Bezeichnung
+	 * Sslb.Grundsatzangaben.von.Betriebsstelle_Start
 	 */
-	public final ColumnDescriptor anrueckabschnitt_bezeichnung;
+	public static final String Betriebsstelle_Start = "D";
 
 	/**
-	 * Awanst.Bez_Bed
+	 * Sslb.Grundsatzangaben.von.Bauform_Start
 	 */
-	public final ColumnDescriptor awanst_bez_bed;
+	public static final String Bauform_Start = "E";
 
 	/**
-	 * Grundsatzangaben.von.Bauform_Start
+	 * Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
 	 */
-	public final ColumnDescriptor bauform_Start;
+	public static final String Betriebsstelle_Ziel = "F";
 
 	/**
-	 * Grundsatzangaben.nach.Bauform_Ziel
+	 * Sslb.Grundsatzangaben.nach.Bauform_Ziel
 	 */
-	public final ColumnDescriptor bauform_Ziel;
+	public static final String Bauform_Ziel = "G";
 
 	/**
-	 * Strecke.Betriebsfuehrung
+	 * Sslb.Grundsatzangaben.Blockschaltung
 	 */
-	public final ColumnDescriptor betriebsfuehrung;
+	public static final String Blockschaltung = "H";
 
 	/**
-	 * Grundsatzangaben.von.Betriebsst_Start
+	 * Sslb.Grundsatzangaben.Schutzuebertrager
 	 */
-	public final ColumnDescriptor betriebsst_Start;
+	public static final String Schutzuebertrager = "I";
 
 	/**
-	 * Grundsatzangaben.nach.Betriebsst_Ziel
+	 * Sslb.Erlaubnis.staendig
 	 */
-	public final ColumnDescriptor betriebsst_Ziel;
+	public static final String Erlaubnis_staendig = "J";
 
 	/**
-	 * Grundsatzangaben.Blockschaltung
+	 * Sslb.Erlaubnis.holen
 	 */
-	public final ColumnDescriptor blockschaltung;
+	public static final String Erlaubnis_holen = "K";
 
 	/**
-	 * Strecke.Gleis
+	 * Sslb.Erlaubnis.Ruecklauf_autom
 	 */
-	public final ColumnDescriptor gleis;
+	public static final String Erlaubnis_Ruecklauf_autom = "L";
 
 	/**
-	 * Erlaubnis.holen
+	 * Sslb.Erlaubnis.Abgabespeicherung
 	 */
-	public final ColumnDescriptor holen;
+	public static final String Erlaubnis_Abgabespeicherung = "M";
 
 	/**
-	 * Strecke.Nummer
+	 * Sslb.Erlaubnis.Abh_D_Weg_Rf
 	 */
-	public final ColumnDescriptor nummer;
+	public static final String Erlaubnis_Abh_D_Weg_Rf = "N";
 
 	/**
-	 * Blockmeldung.Raeumungspruefung
+	 * Sslb.Blockmeldung.Anrueckabschnitt.Bezeichnung
 	 */
-	public final ColumnDescriptor raeumungspruefung;
+	public static final String Anrueckabschnitt_Bezeichnung = "O";
 
 	/**
-	 * Akustische_Meldung.Rueckblock
+	 * Sslb.Blockmeldung.Anrueckabschnitt.Anordnung
 	 */
-	public final ColumnDescriptor rueckblock;
+	public static final String Anrueckabschnitt_Anordnung = "P";
 
 	/**
-	 * Erlaubnis.Ruecklauf_autom
+	 * Sslb.Blockmeldung.Zugschluss
 	 */
-	public final ColumnDescriptor ruecklauf_autom;
+	public static final String Blockmeldung_Zugschluss = "Q";
 
 	/**
-	 * Grundsatzangaben.Schutzuebertrager
+	 * Sslb.Blockmeldung.Raeumungspruefung
 	 */
-	public final ColumnDescriptor schutzuebertrager;
+	public static final String Blockmeldung_Raeumungspruefung = "R";
 
 	/**
-	 * Erlaubnis.staendig
+	 * Sslb.Akustische_Meldung.Vorblock
 	 */
-	public final ColumnDescriptor staendig;
+	public static final String Akustische_Meldung_Vorblock = "S";
 
 	/**
-	 * Akustische_Meldung.Vorblock
+	 * Sslb.Akustische_Meldung.Rueckblock
 	 */
-	public final ColumnDescriptor vorblock;
+	public static final String Akustische_Meldung_Rueckblock = "T";
 
 	/**
-	 * Blockmeldung.Zugschluss
+	 * Sslb.Awanst.Bez_Bed
 	 */
-	public final ColumnDescriptor zugschluss;
+	public static final String Awanst_Bez_Bed = "U";
 
 	/**
-	 * creates the column descriptions
-	 * 
-	 * @param messages
-	 *            the i8n messages
+	 * Sslb.Bemerkung
 	 */
-	public SslbColumns(final Messages messages) {
-		super(messages);
-		nummer = createNew(messages.SslbTableView_Nummer);
-		gleis = createNew(messages.SslbTableView_Gleis);
-		betriebsfuehrung = createNew(messages.SslbTableView_Betriebsfuehrung);
-		betriebsst_Start = createNew(messages.SslbTableView_Betriebsstelle);
-		bauform_Start = createNew(messages.SslbTableView_Bauform);
-		betriebsst_Ziel = createNew(messages.SslbTableView_Betriebsstelle);
-		bauform_Ziel = createNew(messages.SslbTableView_Bauform);
-		blockschaltung = createNew(messages.SslbTableView_Blockschaltung);
-		schutzuebertrager = createNew(messages.SslbTableView_Schutzuebertrager);
-		staendig = createNew(messages.SslbTableView_StaendigVorhanden);
-		holen = createNew(messages.SslbTableView_Holen);
-		ruecklauf_autom = createNew(
-				messages.SslbTableView_RuecklaufAutomatisch);
-		abgabespeicherung = createNew(messages.SslbTableView_Abgabespeicherung);
-		abh_d_weg_rf = createNew(
-				messages.SslbTableView_AbhaengigkeitDurchrutschwegRangierzielsperre);
-		anrueckabschnitt_bezeichnung = createNew(
-				messages.SsldTableView_HeadingFundamentalIndication);
-		anrueckabschnitt_anordnung = createNew(
-				messages.SslbTableView_Anordnung);
-		zugschluss = createNew(messages.SslbTableView_Zugschlussmeldung);
-		raeumungspruefung = createNew(messages.SslbTableView_Raeumungspruefung);
-		vorblock = createNew(messages.SslbTableView_Vorblockwecker);
-		rueckblock = createNew(messages.SslbTableView_Rueckblockwecker);
-		awanst_bez_bed = createNew(
-				messages.SslbTableView_AwanstBezeichnungBedienungVon);
-	}
-
-	@Override
-	public ColumnDescriptor fillHeaderDescriptions(
-			final ColumnDescriptorModelBuilder builder) {
-		final GroupBuilder root = builder
-				.createRootColumn(messages.SslbTableView_Heading);
-
-		final GroupBuilder strecke = root
-				.addGroup(messages.SslbTableView_Strecke);
-		strecke.add(nummer).width(1.33f);
-		strecke.add(gleis).width(0.89f);
-		strecke.add(betriebsfuehrung).width(2.29f);
-
-		final GroupBuilder fundamental = root
-				.addGroup(messages.SslbTableView_Grundsatzangaben);
-		final GroupBuilder von = fundamental
-				.addGroup(messages.SslbTableView_Von);
-		von.add(betriebsst_Start).width(1.33f);
-		von.add(bauform_Start).width(1.88f);
-
-		final GroupBuilder nach = fundamental
-				.addGroup(messages.SslbTableView_Nach);
-		nach.add(betriebsst_Ziel).width(1.33f);
-		nach.add(bauform_Ziel).width(1.88f);
-
-		fundamental.add(blockschaltung).width(1.48f);
-		fundamental.add(schutzuebertrager).width(1.08f);
-
-		final GroupBuilder erlaubnis = root
-				.addGroup(messages.SslbTableView_Erlaubnis);
-		erlaubnis.add(staendig).width(1.61f).height(LINE_HEIGHT * 2);
-		erlaubnis.add(holen).width(1.06f);
-		erlaubnis.add(ruecklauf_autom).width(1.86f);
-		erlaubnis.add(abgabespeicherung).width(1.86f);
-		erlaubnis.add(abh_d_weg_rf).width(2.46f);
-
-		final GroupBuilder blockmeldung = root
-				.addGroup(messages.SslbTableView_Blockmeldung);
-		final GroupBuilder anrueckabschnitt = blockmeldung
-				.addGroup(messages.SslbTableView_Anrueckabschnitt);
-		anrueckabschnitt.add(anrueckabschnitt_bezeichnung).width(1.9f);
-		anrueckabschnitt.add(anrueckabschnitt_anordnung).width(1.74f);
-
-		blockmeldung.add(zugschluss).width(1.8f);
-		blockmeldung.add(raeumungspruefung).width(1.69f);
-
-		final GroupBuilder akustischeMeldung = root
-				.addGroup(messages.SslbTableView_AkustischeMeldung);
-		akustischeMeldung.add(vorblock).width(1.38f);
-		akustischeMeldung.add(rueckblock).width(1.65f);
-
-		final GroupBuilder awanst = root
-				.addGroup(messages.SslbTableView_Awanst);
-		awanst.add(awanst_bez_bed).width(2.41f);
-
-		root.add(basis_bemerkung).width(2.48f);
-
-		return root.getGroupRoot();
-	}
+	public static final String Bemerkung = "V";
 }

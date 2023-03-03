@@ -33,7 +33,7 @@ import org.osgi.service.component.annotations.Reference;
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
 				"table.shortcut=ssit" })
 public class SsitTransformationService
-		extends AbstractPlanPro2TableTransformationService<SsitColumns> {
+		extends AbstractPlanPro2TableTransformationService {
 
 	@Reference
 	private Messages messages;
@@ -42,7 +42,7 @@ public class SsitTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SsitTransformator(columns, enumTranslationService);
+		return new SsitTransformator(cols, enumTranslationService);
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class SsitTransformationService
 	}
 
 	@Override
-	protected void buildColumns() {
-		columns = new SsitColumns(messages);
+	protected String getTableHeading() {
+		return messages.SsitTableView_Heading;
 	}
 
 }

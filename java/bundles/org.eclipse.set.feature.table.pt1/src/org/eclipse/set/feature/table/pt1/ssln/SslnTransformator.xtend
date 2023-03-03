@@ -43,6 +43,9 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssln.SslnColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Nahbedienungstabelle (SSLN).
@@ -51,13 +54,11 @@ import static extension org.eclipse.set.utils.StringExtensions.*
  */
 class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	val SslnColumns columns
-
 	var TMFactory factory
 
-	new(SslnColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.columns = columns
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -80,34 +81,43 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def TableRow create factory.newTableRow(nbZone) transform(
 		NB_Zone nbZone) {
 		val row = it
-		fill(columns.bereich_zone, nbZone, [bezeichnung])
 
-		fill(columns.art, nbZone, [
-			nb?.NBAllg?.NBArt?.wert?.translate
-		])
+		// A: Ssln.Grundsatzangaben.Bereich_Zone
+		fill(cols.getColumn(Bereich_Zone), nbZone, [bezeichnung])
 
+		// B: Ssln.Grundsatzangaben.Art
+		fill(
+			cols.getColumn(Art),
+			nbZone,
+			[nb?.NBAllg?.NBArt?.wert?.translate]
+		)
+
+		// C: Ssln.Unterstellungsverhaeltnis.untergeordnet
 		fillConditional(
-			columns.untergeordnet,
+			cols.getColumn(untergeordnet),
 			nbZone,
 			[IDNBZone !== null],
 			[NBZone?.NBZoneAllg?.NBZoneBezeichnung?.wert?.toString]
 		)
 
+		// D: Ssln.Unterstellungsverhaeltnis.Rang_Zuschaltung
 		fillConditional(
-			columns.rang_zuschaltung,
+			cols.getColumn(Rang_Zuschaltung),
 			nbZone,
 			[IDNBZone !== null],
 			[NBZoneAllg?.rang?.wert?.toString]
 		)
 
+		// E: Ssln.Unterstellungsverhaeltnis.Aufloesung_Grenze
 		fill(
-			columns.aufloesung_grenze,
+			cols.getColumn(Aufloesung_Grenze),
 			nbZone,
 			[NBZoneAllg?.NBVerhaeltnisBesonders?.wert?.translate]
 		)
 
+		// F: Ssln.Grenze.Bez_Grenze
 		fillIterable(
-			columns.bez_grenze,
+			cols.getColumn(Bez_Grenze),
 			nbZone,
 			[
 				NBZoneGrenzen.map [
@@ -117,8 +127,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			null
 		)
 
+		// G: Ssln.Element.Weiche_Gs.frei_stellbar
 		fillIterable(
-			columns.weiche_gs_frei_stellbar,
+			cols.getColumn(Weiche_Gs_frei_stellebar),
 			nbZone,
 			[
 				val nBZoneElemente = NBZoneElemente.filter [
@@ -134,8 +145,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// H: Ssln.Element.Weiche_Gs.verschlossen
 		fillIterable(
-			columns.verschlossen,
+			cols.getColumn(Weiche_Gs_verschlossen),
 			nbZone,
 			[
 				NBZoneElemente.map[new Pair(it, nbElement)].filter [
@@ -149,8 +161,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// I: Ssln.Element.Signal.frei_stellbar
 		fillIterable(
-			columns.signal_frei_stellbar,
+			cols.getColumn(Signal_frei_stellbar),
 			nbZone,
 			[
 				NBZoneElemente.map[new Pair(it, nbElement)].filter [
@@ -164,8 +177,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// J: Ssln.Erlaubnis.staendig
 		fillIterable(
-			columns.kennlicht,
+			cols.getColumn(Erlaubnis_staendig),
 			nbZone,
 			[
 				NBZoneElemente.map[new Pair(it, nbElement)].filter [
@@ -185,8 +199,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// K: Ssln.Element.Ssp
 		fillIterable(
-			columns.ssp,
+			cols.getColumn(Ssp),
 			nbZone,
 			[
 				NBZoneElemente.map[nbElement].filter [
@@ -199,8 +214,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// L: Ssln.Element.Bedien_Einr
 		fillIterable(
-			columns.bedien_einr,
+			cols.getColumn(Bedien_Einr),
 			nbZone,
 			[
 				NBBedienAnzeigeElemente.map [
@@ -211,8 +227,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// M: Ssln.NB_R.Bedienungshandlung
 		fillIterable(
-			columns.bedienungshandlung,
+			cols.getColumn(Bedienungshandlung),
 			nbZone,
 			[nbZone.nb?.NBFunktionalitaetNBREnums.map[toString]],
 			null,
@@ -220,8 +237,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			String.format("%n")
 		)
 
+		// N: Ssln.Bemerkung
 		fill(
-			columns.basis_bemerkung,
+			cols.getColumn(Bemerkung),
 			nbZone,
 			[footnoteTransformation.transform(it, row)]
 		)

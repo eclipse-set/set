@@ -1,338 +1,181 @@
 /**
- * Copyright (c) 2017 DB Netz AG and others.
+ * Copyright (c) 2023 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+
 package org.eclipse.set.feature.table.pt1.sslz;
 
-import org.eclipse.set.feature.table.pt1.AbstractTableColumns;
-import org.eclipse.set.feature.table.pt1.messages.Messages;
-import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
-import org.eclipse.set.utils.table.GroupBuilder;
-
 /**
- * Sslz
+ * Symbolic addressing for Sslz columns.
  * 
- * @author Schaefer
- * 
- * @see ColumnDescriptor
+ * @author truong
+ *
  */
-public class SslzColumns extends AbstractTableColumns {
+@SuppressWarnings("nls")
+public class SslzColumns {
 
 	/**
-	 * L: Sslz.Abhaengigkeiten.Abhaengiger_BUe
+	 * Sslz.Grundsatzangaben.Bezeichnung
 	 */
-	public final ColumnDescriptor abhaengiger_bue;
+	public static final String Bezeichnung = "A";
 
 	/**
-	 * K: Sslz.Abhaengigkeiten.Ueberwachte_Ssp
+	 * Sslz.Grundsatzangaben.Fahrweg.Start
 	 */
-	public final ColumnDescriptor Ueberwachte_Ssp;
+	public static final String Fahrweg_Start = "B";
 
 	/**
-	 * O: Sslz.Abhaengigkeiten.Anrueckverschluss
+	 * Sslz.Grundsatzangaben.Fahrweg.Ziel
 	 */
-	public final ColumnDescriptor anrueckverschluss;
+	public static final String Fahrweg_Ziel = "C";
 
 	/**
-	 * G: Sslz.Grundsatzangaben.Art
+	 * Sslz.Grundsatzangaben.Fahrweg.Nummer
 	 */
-	public final ColumnDescriptor art;
+	public static final String Fahrweg_Nummer = "D";
 
 	/**
-	 * U: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Aufwertung_Mwtfstr
+	 * Sslz.Grundsatzangaben.Fahrweg.Entscheidungsweiche
 	 */
-	public final ColumnDescriptor aufwertung_mwtfstr;
+	public static final String Fahrweg_Entscheidungsweiche = "E";
 
 	/**
-	 * H: Sslz.Einstellung.Autom_Einstellung
+	 * Sslz.Grundsatzangaben.Durchrutschweg.Bezeichnung
 	 */
-	public final ColumnDescriptor autom_einstellung;
+	public static final String Durchrutschweg_Bezeichnung = "F";
 
 	/**
-	 * S: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Besonders
+	 * Sslz.Grundsatzangaben.Art
 	 */
-	public final ColumnDescriptor besonders;
+	public static final String Art = "G";
 
 	/**
-	 * F: Sslz.Grundsatzangaben.Durchrutschweg.Bezeichnung
+	 * Sslz.Einstellung.Autom_Einstellung
 	 */
-	public final ColumnDescriptor durchrutschweg_bezeichnung;
+	public static final String Autom_Einstellung = "H";
 
 	/**
-	 * R: Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
+	 * Sslz.Einstellung.F_Bedienung
 	 */
-	public final ColumnDescriptor dweg;
+	public static final String F_Bedienung = "I";
 
 	/**
-	 * E: Sslz.Grundsatzangaben.Fahrweg.Entscheidungsweiche
+	 * Sslz.Abhaengigkeiten.Inselgleis
 	 */
-	public final ColumnDescriptor entscheidungsweiche;
+
+	public static final String Inselgleis = "J";
 
 	/**
-	 * I: Sslz.Einstellung.F_Bedienung
+	 * Sslz.Abhaengigkeiten.Ueberwachte_Ssp
 	 */
-	public final ColumnDescriptor f_bedienung;
+	public static final String Ueberwachte_Ssp = "K";
 
 	/**
-	 * Q: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Fahrweg
+	 * Sslz.Abhaengigkeiten.Abhaengiger_BUe
 	 */
-	public final ColumnDescriptor fahrweg;
+	public static final String Abhaengiger_BUe = "L";
 
 	/**
-	 * A: Sslz.Grundsatzangaben.Bezeichnung
+	 * Sslz.Abhaengigkeiten.Nichthaltfallabschnitt
 	 */
-	public final ColumnDescriptor grundsatzangaben_bezeichnung;
+	public static final String Nichthaltfallabschnitt = "M";
 
 	/**
-	 * P: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Hg
+	 * Sslz.Abhaengigkeiten.Zweites_Haltfallkrit
 	 */
-	public final ColumnDescriptor hg;
+	public static final String Zweites_Haltfallkrit = "N";
 
 	/**
-	 * AB: Sslz.Signalisierung.Im_Fahrweg.Zs3
+	 * Sslz.Abhaengigkeiten.Anrueckverschluss
 	 */
-	public final ColumnDescriptor im_fahrweg_zs3;
+	public static final String Anrueckverschluss = "O";
 
 	/**
-	 * AC: Sslz.Signalisierung.Im_Fahrweg.Zs6
+	 * Sslz.Signalisierung.Geschwindigkeit_Startsignal.Hg
 	 */
-	public final ColumnDescriptor im_fahrweg_zs6;
+	public static final String Hg = "P";
 
 	/**
-	 * J: Sslz.Abhaengigkeiten.Inselgleis
+	 * Sslz.Signalisierung.Geschwindigkeit_Startsignal.Fahrweg
 	 */
-	public final ColumnDescriptor inselgleis;
+	public static final String Fahrweg = "Q";
 
 	/**
-	 * AD: Sslz.Signalisierung.Im_Fahrweg.Kennlicht
+	 * Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
 	 */
-	public final ColumnDescriptor kennlicht;
+	public static final String DWeg = "R";
 
 	/**
-	 * M: Sslz.Abhaengigkeiten.Nichthaltfallabschnitt
+	 * Sslz.Signalisierung.Geschwindigkeit_Startsignal.Besonders
 	 */
-	public final ColumnDescriptor nichthaltfallabschnitt;
+	public static final String Besonders = "S";
 
 	/**
-	 * D: Sslz.Grundsatzangaben.Fahrweg.Nummer
+	 * Sslz.Signalisierung.Geschwindigkeit_Startsignal.Zs3
 	 */
-	public final ColumnDescriptor nummer;
+	public static final String Zs3 = "T";
 
 	/**
-	 * T: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Zs3
+	 * Sslz.Signalisierung.Geschwindigkeit_Startsignal.Aufwertung_Mwtfstr
 	 */
-	public final ColumnDescriptor signalisierung_zs3;
+	public static final String Aufwertung_Mwtfstr = "U";
 
 	/**
-	 * Z: Sslz.Signalisierung.Sonstiges_Startsignal.Zs6
+	 * Sslz.Signalisierung.Sonstiges_Startsignal.Zusatzlicht
 	 */
-	public final ColumnDescriptor sonstiges_startsignal_zs6;
+	public static final String Zusatzlicht = "V";
 
 	/**
-	 * B: Sslz.Grundsatzangaben.Fahrweg.Start
+	 * Sslz.Signalisierung.Sonstiges_Startsignal.Zs3v
 	 */
-	public final ColumnDescriptor start;
+	public static final String Zs3v = "W";
 
 	/**
-	 * AE: Sslz.Signalisierung.Im_Fahrweg.Vorsignalisierung
+	 * Sslz.Signalisierung.Sonstiges_Startsignal.Zs2
 	 */
-	public ColumnDescriptor vorsignalisierung;
+	public static final String Zs2 = "X";
 
 	/**
-	 * C: Sslz.Grundsatzangaben.Fahrweg.Ziel
+	 * Sslz.Signalisierung.Sonstiges_Startsignal.Zs2v
 	 */
-	public final ColumnDescriptor ziel;
+	public static final String Zs2v = "Y";
 
 	/**
-	 * AA: Sslz.Signalisierung.Sonstiges_Startsignal.Zs13
+	 * Sslz.Signalisierung.Sonstiges_Startsignal.Zs6
 	 */
-	public final ColumnDescriptor zs13;
+	public static final String Zs6 = "Z";
 
 	/**
-	 * X: Sslz.Signalisierung.Sonstiges_Startsignal.Zs2
+	 * Sslz.Signalisierung.Sonstiges_Startsignal.Zs13
 	 */
-	public final ColumnDescriptor zs2;
+	public static final String Zs13 = "AA";
 
 	/**
-	 * Y: Sslz.Signalisierung.Sonstiges_Startsignal.Zs2v
+	 * Sslz.Signalisierung.Im_Fahrweg.Zs3
 	 */
-	public final ColumnDescriptor zs2v;
+	public static final String Im_Fahrweg_Zs3 = "AB";
 
 	/**
-	 * W: Sslz.Signalisierung.Sonstiges_Startsignal.Zs3v
+	 * Sslz.Signalisierung.Im_Fahrweg.Zs6
 	 */
-	public final ColumnDescriptor zs3v;
+	public static final String Im_Fahrweg_Zs6 = "AC";
 
 	/**
-	 * V: Sslz.Signalisierung.Sonstiges_Startsignal.Zusatzlicht
+	 * Sslz.Signalisierung.Im_Fahrweg.Kennlicht
 	 */
-	public final ColumnDescriptor zusatzlicht;
+	public static final String Im_Fahrweg_Kennlicht = "AD";
 
 	/**
-	 * N: Sslz.Abhaengigkeiten.Zweites_Haltfallkrit
+	 * Sslz.Signalisierung.Im_Fahrweg.Vorsignalisierung
 	 */
-	public final ColumnDescriptor Zweites_Haltfallkrit;
+	public static final String Im_Fahrweg_Vorsignalisierung = "AE";
 
 	/**
-	 * @param messages
-	 *            the messages
+	 * Sslz.Bemerkung
 	 */
-	public SslzColumns(final Messages messages) {
-		super(messages);
-		grundsatzangaben_bezeichnung = createNew(
-				messages.SslzTableView_Grundsatzangaben_Bezeichnung);
-		start = createNew(
-				messages.SslzTableView_Grundsatzangaben_Fahrweg_Start);
-		ziel = createNew(messages.SslzTableView_Grundsatzangaben_Fahrweg_Ziel);
-		nummer = createNew(messages.SslzTableView_Grundsatzangaben_Fahrweg_Nr);
-		entscheidungsweiche = createNew(
-				messages.SslzTableView_Grundsatzangaben_Fahrweg_EntschWeiche);
-		durchrutschweg_bezeichnung = createNew(
-				messages.SslzTableView_Grundsatzangaben_Dweg_Bezeichnung);
-		art = createNew(messages.SslzTableView_Grundsatzangaben_Art);
-		autom_einstellung = createNew(messages.SslzTableView_Einstellung_Auto);
-		f_bedienung = createNew(messages.SslzTableView_Einstellung_F);
-		inselgleis = createNew(
-				messages.SslzTableView_Abhaengigkeiten_Inselgleis);
-		Ueberwachte_Ssp = createNew(
-				messages.SslzTableView_Abhaengigkeiten_Ueberwachte_Ssp);
-		abhaengiger_bue = createNew(messages.SslzTableView_Abhaengigkeiten_BUE);
-		nichthaltfallabschnitt = createNew(
-				messages.SslzTableView_Abhaengigkeiten_NichthaltfallAbschnitt);
-		Zweites_Haltfallkrit = createNew(
-				messages.SslzTableView_Abhaengigkeiten_Zweites_Haltfallkrit);
-		anrueckverschluss = createNew(
-				messages.SslzTableView_Abhaengigkeiten_Anrueckverschluss);
-		hg = createNew(
-				messages.SslzTableView_Signalisierung_GeschwAmStartsignal_VZG);
-		fahrweg = createNew(
-				messages.SslzTableView_Signalisierung_GeschwAmStartsignal_Fahrweg);
-		dweg = createNew(
-				messages.SslzTableView_Signalisierung_GeschwAmStartsignal_DWeg);
-		besonders = createNew(
-				messages.SslzTableView_Signalisierung_GeschwAmStartsignal_Besonders);
-		signalisierung_zs3 = createNew(
-				messages.SslzTableView_Signalisierung_GeschwAmStartsignal_Zs3);
-		aufwertung_mwtfstr = createNew(
-				messages.SslzTableView_Signalisierung_GeschwAmStartsignal_Aufwertung);
-		zusatzlicht = createNew(
-				messages.SslzTableView_Signalisierung_Sonstiges_Zusatzlicht);
-		zs3v = createNew(messages.SslzTableView_Signalisierung_Sonstiges_Zs3v);
-		zs2 = createNew(messages.SslzTableView_Signalisierung_Sonstiges_Zs2);
-		zs2v = createNew(messages.SslzTableView_Signalisierung_Sonstiges_Zs2v);
-		sonstiges_startsignal_zs6 = createNew(
-				messages.SslzTableView_Signalisierung_Sonstiges_Zs6);
-		zs13 = createNew(messages.SslzTableView_Signalisierung_Sonstiges_Zs13);
-		im_fahrweg_zs3 = createNew(
-				messages.SslzTableView_Signalisierung_ImFahrweg_Zs3);
-		im_fahrweg_zs6 = createNew(
-				messages.SslzTableView_Signalisierung_ImFahrweg_Zs6);
-		kennlicht = createNew(
-				messages.SslzTableView_Signalisierung_ImFahrweg_Kennlicht);
-		vorsignalisierung = createNew(
-				messages.SslzTableView_Signalisierung_ImFahrweg_Vorsignalisierung);
-	}
-
-	@Override
-	public ColumnDescriptor fillHeaderDescriptions(
-			final ColumnDescriptorModelBuilder builder) {
-		final GroupBuilder root = builder
-				.createRootColumn(messages.SslzTableView_Heading);
-
-		addGrundsatzangaben(root);
-		addEinstellung(root);
-		addAbhaengigkeiten(root);
-		addSignalisierung(root);
-
-		root.add(basis_bemerkung).width(3.64f);
-
-		return root.getGroupRoot();
-	}
-
-	private void addAbhaengigkeiten(final GroupBuilder builder) {
-		final GroupBuilder abhaengigkeiten = builder
-				.addGroup(messages.SslzTableView_Abhaengigkeiten);
-		abhaengigkeiten.add(inselgleis).width(1.29f);
-		abhaengigkeiten.add(Ueberwachte_Ssp).width(1.57f);
-		abhaengigkeiten.add(abhaengiger_bue).width(1.33f);
-		abhaengigkeiten.add(nichthaltfallabschnitt).width(1.5f);
-		abhaengigkeiten.add(Zweites_Haltfallkrit).width(1.33f);
-		abhaengigkeiten.add(anrueckverschluss).width(1.5f);
-	}
-
-	private void addDweg(final GroupBuilder builder) {
-		final GroupBuilder dwegG = builder
-				.addGroup(messages.SslzTableView_Grundsatzangaben_Dweg);
-		dwegG.add(durchrutschweg_bezeichnung).width(1.16f);
-	}
-
-	private void addEinstellung(final GroupBuilder builder) {
-		final GroupBuilder einstellung = builder
-				.addGroup(messages.SslzTableView_Einstellung);
-		einstellung.add(autom_einstellung).width(1.06f);
-		einstellung.add(f_bedienung).width(0.93f);
-	}
-
-	private void addFahrweg(final GroupBuilder builder) {
-		final GroupBuilder grFahrweg = builder
-				.addGroup(messages.SslzTableView_Grundsatzangaben_Fahrweg);
-		grFahrweg.add(start).width(1.12f);
-		grFahrweg.add(ziel).width(1.12f);
-		grFahrweg.add(nummer).width(0.57f);
-		grFahrweg.add(entscheidungsweiche).width(1.93f)
-				.height(LINE_HEIGHT * 1.5f);
-	}
-
-	private void addGeschwindigkeit(final GroupBuilder builder) {
-		final GroupBuilder vStart = builder.addGroup(
-				messages.SslzTableView_Signalisierung_GeschwAmStartsignal);
-		vStart.add(hg, messages.Common_UnitKmh).width(0.78f);
-		vStart.add(fahrweg, messages.Common_UnitKmh).width(0.83f);
-		vStart.add(dweg, messages.Common_UnitKmh).width(0.89f);
-		vStart.add(besonders, messages.Common_UnitKmh).width(0.99f);
-		vStart.add(signalisierung_zs3).width(0.97f);
-		vStart.add(aufwertung_mwtfstr).width(1.5f);
-	}
-
-	private void addGrundsatzangaben(final GroupBuilder builder) {
-		final GroupBuilder grundsatzangaben = builder
-				.addGroup(messages.SslzTableView_Grundsatzangaben);
-		grundsatzangaben.add(grundsatzangaben_bezeichnung).width(2.86f);
-		addFahrweg(grundsatzangaben);
-		addDweg(grundsatzangaben);
-		grundsatzangaben.add(art).width(0.51f);
-	}
-
-	private void addImFahrweg(final GroupBuilder builder) {
-		final GroupBuilder imFw = builder
-				.addGroup(messages.SslzTableView_Signalisierung_ImFahrweg);
-		imFw.add(im_fahrweg_zs3).width(1.61f);
-		imFw.add(im_fahrweg_zs6).width(1.27f);
-		imFw.add(kennlicht).width(1.27f);
-		imFw.add(vorsignalisierung).width(1.27f);
-	}
-
-	private void addSignalisierung(final GroupBuilder builder) {
-		final GroupBuilder signalisierung = builder
-				.addGroup(messages.SslzTableView_Signalisierung);
-		addGeschwindigkeit(signalisierung);
-		addSonstiges(signalisierung);
-		addImFahrweg(signalisierung);
-	}
-
-	private void addSonstiges(final GroupBuilder builder) {
-		final GroupBuilder sonstiges = builder
-				.addGroup(messages.SslzTableView_Signalisierung_Sonstiges);
-		sonstiges.add(zusatzlicht).width(0.57f);
-		sonstiges.add(zs3v).width(0.59f);
-		sonstiges.add(zs2).width(0.66f);
-		sonstiges.add(zs2v).width(0.61f);
-		sonstiges.add(sonstiges_startsignal_zs6).width(0.66f);
-		sonstiges.add(zs13).width(0.61f);
-	}
+	public static final String Bemerkung = "AF";
 }

@@ -30,6 +30,9 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ZugEinwirkungExtensions.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
+import static org.eclipse.set.feature.table.pt1.sskg.SskgColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Gleisschaltmitteltabelle (SSKG).
@@ -38,11 +41,9 @@ import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
  */
 class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	SskgColumns cols;
-
-	new(SskgColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -55,66 +56,66 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			val TableRow row = factory.newTableRow(ein);
-			// A: Bezeichnung
+			// A: Sskg.Grunsatzangaben.Bezeichnung
 			fill(
 				row,
-				cols.bezeichnung_gleisschaltmittel,
+				cols.getColumn(Bezeichnung),
 				ein,
 				[ein?.bezeichnung?.bezeichnungTabelle?.wert ?: ""]
 			)
 
-			// B: Art
+			// B: Sskg.Grunsatzangaben.Art
 			fill(
 				row,
-				cols.art,
+				cols.getColumn(Art),
 				ein,
 				[translate(ein?.zugeinwirkungAllg?.zugeinwirkungArt.wert) ?: ""]
 			)
 
-			// C: Typ
+			// C: Sskg.Grundsatzangaben.Typ
 			fill(
 				row,
-				cols.typ,
+				cols.getColumn(Typ),
 				ein,
 				[ein?.zugeinwirkungAllg?.zugeinwirkungTyp?.wert ?: ""]
 			)
 
-			// D
+			// D: Sskg.Achszaehlpunkte.Anschluss_Info.AEA_I
 			fill(
 				row,
-				cols.aea_i,
+				cols.getColumn(AEA_I),
 				ein,
 				[""]
 			)
 
-			// E
+			// E: Sskg.Achszaehlepunkte.Anschluss_Energie.AEA_E
 			fill(
 				row,
-				cols.aea_e,
+				cols.getColumn(AEA_E),
 				ein,
 				[""]
 			)
 
-			// F
+			// F: Sskg.Achszaehlpunkte.Anschluss_Energie.AEA_E_separat
 			fill(
 				row,
-				cols.aea_e_separat,
+				cols.getColumn(AEA_E_separat),
 				ein,
 				[""]
 			)
 
-			// G
+			// G: Sskg.Achszaehlpunkte.Schienenprofil
 			fill(
 				row,
-				cols.schienenprofil,
+				cols.getColumn(Schienenprofil),
 				ein,
 				[""]
 			)
 
-			// H
+			// H: Sskg.Standortmerkmale.Bezugspunkt.Bezeichnung
 			fill(
 				row,
-				cols.bezugspunkt_bezeichnung,
+				cols.getColumn(Bezugspunkt_Bezeichnung),
 				ein,
 				[
 					ein?.markanterPunkt?.bezeichnung?.
@@ -122,10 +123,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			// I: Standortmerkmale.Bezugspunkt.Abstand
+			// I: Sskg.Standortmerkmale.Bezugspunkt.Abstand
 			fill(
 				row,
-				cols.abstand,
+				cols.getColumn(Bezugspunkt_Abstand),
 				ein,
 				[
 					val mp = markanterPunkt?.markanteStelle
@@ -141,10 +142,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 			)
 
-			// J
+			// J: Sskg.Standortmerkmale.Standort.Strecke
 			fillIterable(
 				row,
-				cols.strecke,
+				cols.getColumn(Standort_Strecke),
 				ein,
 				[
 					punktObjektStrecke.map[strecke].map [
@@ -154,19 +155,19 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				null
 			)
 
-			// K
+			// K: Sskg.Standortmerkmale.Standort.km
 			fillIterable(
 				row,
-				cols.km,
+				cols.getColumn(Standort_km),
 				ein,
 				[punktObjektStrecke.map[streckeKm?.wert ?: ""]],
 				null
 			)
 
-			// L
+			// L: Sskg.Funktion
 			fillIterable(
 				row,
-				cols.funktion,
+				cols.getColumn(Funktion),
 				ein,
 				[
 					ein?.schaltMittelZuordnung.map [
@@ -176,10 +177,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				null
 			)
 
-			// M: Bemerkung
+			// M: Sskg.Bemerkung
 			fill(
 				row,
-				cols.basis_bemerkung,
+				cols.getColumn(Bemerkung),
 				ein,
 				[footnoteTransformation.transform(it, row)]
 			)
@@ -189,26 +190,26 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 		for (FMA_Komponente fma : container.FMAKomponente) {
 			if (fma.FMAKomponenteAchszaehlpunkt !== null) {
 				val TableRow row = factory.newTableRow(fma);
-				// A: Bezeichnung
+				// A: Sskg.Grundsatzangaben.Bezeichnung
 				fill(
 					row,
-					cols.bezeichnung_gleisschaltmittel,
+					cols.getColumn(Bezeichnung),
 					fma,
 					[fma?.bezeichnung?.bezeichnungTabelle?.wert ?: ""]
 				)
 
-				// B: ART
+				// B: Sskg.Grundsatzangaben.Art
 				fill(
 					row,
-					cols.art,
+					cols.getColumn(Art),
 					fma,
 					["Achszählpunkt"]
 				)
 
-				// C: Typ
+				// C: Sskg.Grundsatzangaben.Typ
 				fill(
 					row,
-					cols.typ,
+					cols.getColumn(Typ),
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.FMAKomponenteTyp?.
@@ -216,10 +217,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// D: AEA
+				// D: Sskg.Achszaehlpunkte.Anschluss_Info.AEA_I
 				fill(
 					row,
-					cols.aea_i,
+					cols.getColumn(AEA_I),
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.
@@ -228,10 +229,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// E: AEA
+				// E: Sskg.Achszaehlpunkte.Anschluss_Energie.AEA_E
 				fill(
 					row,
-					cols.aea_e,
+					cols.getColumn(AEA_E),
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.aussenelementEnergie?.
@@ -240,10 +241,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// F: separate Adern
+				// F: Sskg.Achszaehlpunkte.Anschluss_Energie.AEA_E_separat
 				fill(
 					row,
-					cols.aea_e_separat,
+					cols.getColumn(AEA_E_separat),
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.
@@ -251,10 +252,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// G: Schienenprofil
+				// G: Sskg.Achszaehlpunkte.Schienenprofil
 				fill(
 					row,
-					cols.schienenprofil,
+					cols.getColumn(Schienenprofil),
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.
@@ -262,10 +263,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// H: Bezugspunkt Bezeichnung
+				// H: Sskg.Standortmerkmale.Bezugspunkt.Bezeichnung
 				fill(
 					row,
-					cols.bezugspunkt_bezeichnung,
+					cols.getColumn(Bezugspunkt_Bezeichnung),
 					fma,
 					[
 						fma?.markanterPunkt?.bezeichnung?.
@@ -273,10 +274,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// I: Bezugspunkt Abstand
+				// I: Sskg.Standortmerkmale.Bezugspunkt.Abstand
 				fill(
 					row,
-					cols.abstand,
+					cols.getColumn(Bezugspunkt_Abstand),
 					fma,
 					[
 						val mp = markanterPunkt?.markanteStelle
@@ -293,10 +294,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// J: Bezeichnung
+				// J: Sskg.Standortmerkmale.Standort.Strecke
 				fillIterable(
 					row,
-					cols.strecke,
+					cols.getColumn(Standort_Strecke),
 					fma,
 					[
 						punktObjektStrecke.map[strecke].map [
@@ -306,19 +307,19 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					null
 				)
 
-				// K: km
+				// K: Sskg.Standortmerkmale.Standort.km
 				fillIterable(
 					row,
-					cols.km,
+					cols.getColumn(Standort_km),
 					fma,
 					[punktObjektStrecke.map[streckeKm?.wert ?: ""]],
 					null
 				)
 
-				// L: Funktion
+				// L: Sskg.Funktion
 				fill(
 					row,
-					cols.funktion,
+					cols.getColumn(Funktion),
 					fma,
 					[
 						fma?.schaltmittelZuordnung?.schaltmittelFunktion?.wert?.
@@ -326,10 +327,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// M: Bemerkung
+				// M: Sskg.Bemerkung
 				fill(
 					row,
-					cols.basis_bemerkung,
+					cols.getColumn(Bemerkung),
 					fma,
 					[footnoteTransformation.transform(it, row)]
 				)

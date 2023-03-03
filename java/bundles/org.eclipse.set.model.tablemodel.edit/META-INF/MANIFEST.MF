@@ -6,7 +6,7 @@ Automatic-Module-Name: org.eclipse.set.model.tablemodel.edit
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.tablemodel.provider.TablemodelEditPlugin$Implementation
-Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Export-Package: org.eclipse.set.model.tablemodel.format.provider,

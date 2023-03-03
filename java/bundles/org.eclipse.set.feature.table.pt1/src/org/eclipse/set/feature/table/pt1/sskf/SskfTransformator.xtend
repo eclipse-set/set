@@ -29,6 +29,9 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import static org.eclipse.set.feature.table.pt1.sskf.SskfColumns.*
+import java.util.Set
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -37,11 +40,9 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
  */
 class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 
-	SskfColumns cols;
-
-	new(SskfColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -56,14 +57,14 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			val instance = factory.newTableRow(fmaAnlage)
 
 			// A: Grundsatzangaben.Bezeichnung
-			fill(instance, cols.bezeichnung_freimeldeabschnitt, fmaAnlage, [
+			fill(instance, cols.getColumn(Bezeichnung), fmaAnlage, [
 				bzBezeichner
 			])
 
 			// B: Grundsatzangaben.Teilabschnitt.TA_Bez
 			fill(
 				instance,
-				cols.ta_bez,
+				cols.getColumn(Teilabschnitt_TA_Bez),
 				fmaAnlage,
 				[FMAAnlageKaskade?.FMAKaskadeBezeichnung?.wert ?: ""]
 			)
@@ -71,7 +72,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// C: Grundsatzangaben.Teilabschnitt.TA_E_A
 			fill(
 				instance,
-				cols.ta_e_a,
+				cols.getColumn(Teilabschnitt_TA_E_A),
 				fmaAnlage,
 				[
 					FMAAnlageKaskade?.FMAKaskadeEinzelauswertung?.wert?.
@@ -82,24 +83,34 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// D: Grundsatzangaben.Art
 			fill(
 				instance,
-				cols.art,
+				cols.getColumn(Unterbringung_Art),
 				fmaAnlage,
 				[FMAAnlageAllg?.FMAArt?.wert?.translate ?: ""]
 			)
 
 			// E: Grundsatzangaben.Typ			
-			fill(instance, cols.typ, fmaAnlage, [FMAAnlageAllg?.FMATyp?.wert])
+			fill(
+				instance,
+				cols.getColumn(Typ),
+				fmaAnlage,
+				[FMAAnlageAllg?.FMATyp?.wert]
+			)
 
 			// F: Auswertung.AeA
-			fill(instance, cols.aea, fmaAnlage, [
-				IDGleisfreimeldeInnenanlage?.bezeichnung?.
-					bezeichnungAEA?.wert ?: ""
-			])
+			fill(
+				instance,
+				cols.getColumn(Auswertung_AeA),
+				fmaAnlage,
+				[
+					IDGleisfreimeldeInnenanlage?.bezeichnung?.
+						bezeichnungAEA?.wert ?: ""
+				]
+			)
 
 			// G: Auswertung.Uebertragung.von
 			fillConditional(
 				instance,
-				cols.uebertragung_von,
+				cols.getColumn(Uebertragung_von),
 				fmaAnlage,
 				[
 					FMAAnlageUebertragungFMinfo?.uebertragungFMinfoRichtung?.
@@ -115,7 +126,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// H: Auswertung.Uebertragung.nach
 			fillConditional(
 				instance,
-				cols.uebertragung_nach,
+				cols.getColumn(Uebertragung_nach),
 				fmaAnlage,
 				[
 					FMAAnlageUebertragungFMinfo?.uebertragungFMinfoRichtung?.
@@ -130,14 +141,17 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// I: Auswertung.Uebertragung.Typ
-			fill(instance, cols.uebertragung_typ, fmaAnlage, [
-				FMAAnlageUebertragungFMinfo?.uebertragungFMinfoTyp?.wert
-			])
+			fill(
+				instance,
+				cols.getColumn(Uebertragung_Typ),
+				fmaAnlage,
+				[FMAAnlageUebertragungFMinfo?.uebertragungFMinfoTyp?.wert]
+			)
 
 			// J: Ftgs.Laenge.ls
 			fillConditional(
 				instance,
-				cols.ls,
+				cols.getColumn(Ftgs_Laenge_ls),
 				fmaAnlage,
 				[FMAAnlageAllg.FMAArt.wert === ENUMFMA_ART_FTGS],
 				[FMAAnlageElektrMerkmale.FMALaengeS.wert.toString]
@@ -146,7 +160,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// K: Ftgs.Laenge.l1
 			fillConditional(
 				instance,
-				cols.l1,
+				cols.getColumn(Ftgs_Laenge_l1),
 				fmaAnlage,
 				[FMAAnlageAllg.FMAArt.wert === ENUMFMA_ART_FTGS],
 				[FMAAnlageElektrMerkmale.FMALaengeE1.wert.toString]
@@ -155,7 +169,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// L: Ftgs.Laenge.l2
 			fillConditional(
 				instance,
-				cols.l2,
+				cols.getColumn(Ftgs_Laenge_l2),
 				fmaAnlage,
 				[FMAAnlageAllg.FMAArt.wert === ENUMFMA_ART_FTGS],
 				[FMAAnlageElektrMerkmale.FMALaengeE2.wert.toString]
@@ -164,7 +178,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// N: Ftgs.Laenge.l3
 			fillConditional(
 				instance,
-				cols.l3,
+				cols.getColumn(Ftgs_Laenge_l3),
 				fmaAnlage,
 				[FMAAnlageAllg.FMAArt.wert === ENUMFMA_ART_FTGS],
 				[FMAAnlageElektrMerkmale.FMALaengeE3.wert.toString]
@@ -173,7 +187,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// M: NfTf_GSK.Laenge.elektr
 			fillConditional(
 				instance,
-				cols.elektr,
+				cols.getColumn(NfTf_GSK_Laenge_elektr),
 				fmaAnlage,
 				[
 					FMAAnlageAllg.FMAArt.wert ===
@@ -187,7 +201,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// O: NfTf_GSK.Laenge.beeinfl
 			fillConditional(
 				instance,
-				cols.beeinfl,
+				cols.getColumn(NfTf_GSK_Laenge_beeinfl),
 				fmaAnlage,
 				[
 					FMAAnlageAllg.FMAArt.wert ===
@@ -204,7 +218,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			fillConditional(
 				instance,
-				cols.Weiche,
+				cols.getColumn(Sonstiges_Weiche),
 				fmaAnlage,
 				[
 					weichen.value = gleisabschnitt.filterContained(
@@ -231,7 +245,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// Q: Sonstiges.OlA.Schaltgruppe
 			fillIterable(
 				instance,
-				cols.schaltgruppe,
+				cols.getColumn(Sonstiges_OlA_Schaltgruppe),
 				fmaAnlage,
 				[
 					schaltgruppen.map [
@@ -244,7 +258,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// R: Sonstiges.OlA.Bezeichner
 			fillIterable(
 				instance,
-				cols.Bezeichner,
+				cols.getColumn(Sonstiges_OlA_Bezeichner),
 				fmaAnlage,
 				[schaltgruppen.map[bezeichnung?.bezeichnungTabelle?.wert ?: ""]],
 				MIXED_STRING_COMPARATOR
@@ -253,7 +267,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// S: Sonstiges.Rbmin
 			fillConditional(
 				instance,
-				cols.rbmin_mit,
+				cols.getColumn(Sonstiges_Rbmin),
 				fmaAnlage,
 				[
 					FMAAnlageAllg.FMAArt.wert ===
@@ -264,14 +278,17 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// T: Sonstiges.HFmeldung
-			fill(instance, cols.hfmeldung, fmaAnlage, [
-				FMAAnlageAllg?.FMAHilffreimeldung?.wert?.translate ?: ""
-			])
+			fill(
+				instance,
+				cols.getColumn(Sonstiges_HFmeldung),
+				fmaAnlage,
+				[FMAAnlageAllg?.FMAHilffreimeldung?.wert?.translate ?: ""]
+			)
 
 			// U: Sonstiges.Funktion
 			fillIterable(
 				instance,
-				cols.funktion,
+				cols.getColumn(Sonstiges_Funktion),
 				fmaAnlage,
 				[
 					schaltmittelZuordnungen.map [
@@ -284,7 +301,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			// V: Bemerkung
 			fill(
 				instance,
-				cols.basis_bemerkung,
+				cols.getColumn(Bemerkung),
 				fmaAnlage,
 				[footnoteTransformation.transform(it, instance)]
 			)

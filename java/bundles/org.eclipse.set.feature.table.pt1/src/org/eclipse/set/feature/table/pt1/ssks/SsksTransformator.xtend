@@ -110,6 +110,8 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Signaltabelle Entwurf (Ssks).
@@ -123,11 +125,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
 		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
 
-	SsksColumns cols;
-
-	new(SsksColumns columns, EnumTranslationService enumTranslationService) {
-		super(enumTranslationService)
-		this.cols = columns;
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
+		super(cols, enumTranslationService)
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -148,27 +148,29 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 					val signalRahmen = signal.signalRahmenForBefestigung(gruppe)
 
 					// IMPROVE: Diese Logausgabe führt zu einer Exception...
-//					LOGGER.debug('''signal=«signal.debugString» isHauptbefestigung=«isHauptbefestigung» gruppe=«
-//						gruppe.debugString» signalRahmen=«signalRahmen.debugString»'''
-//					)
+					// LOGGER.debug('''signal=«signal.debugString» isHauptbefestigung=«isHauptbefestigung» gruppe=«
+					// gruppe.debugString» signalRahmen=«signalRahmen.debugString»'''
+					// )
 					val TableRow row = rowGroup.newTableRow
 
 					// Certain columns have the same values in the rows for the "Haupt-" and "Nebenbefestigung". 
 					// In order to avoid the redundant display, we only display these values in the line of the "Hauptbefestigung"
 					if (isHauptbefestigung || !gruppe.empty) {
 
+						// A: Ssks.Bezeichnung_Signal
 						fillConditional(
 							row,
-							cols.bezeichnung_signal,
+							cols.getColumn(Bezeichnung),
 							signal,
 							[isHauptbefestigung],
 							[bezeichnung.bezeichnungTabelle.wert],
 							[""]
 						)
 
+						// B: Ssks.Signal_Art.Reales_Signal
 						fillConditional(
 							row,
-							cols.reales_Signal,
+							cols.getColumn(Reales_Signal),
 							signal,
 							[isHauptbefestigung],
 							[
@@ -177,9 +179,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// C: Ssks.Signal_Art.Fiktives_Signal
 						fillIterable(
 							row,
-							cols.fiktives_Signal,
+							cols.getColumn(Fiktives_Signal),
 							signal,
 							[
 								signal?.signalFiktiv?.fiktivesSignalFunktion?.
@@ -189,9 +192,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
+						// D: Ssks.Standortmerkmale.Standort.Strecke
 						fillConditional(
 							row,
-							cols.strecke,
+							cols.getColumn(Standort_Strecke),
 							signal,
 							[isHauptbefestigung],
 							[
@@ -200,17 +204,19 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// E: Ssks.Standortmerkmale.Standort.km
 						fill(
 							row,
-							cols.km,
+							cols.getColumn(Standort_km),
 							signal,
 							[punktObjektStrecke.unique.streckeKm.wert]
 						)
 
 						if (signal.isSsksSignalNichtAndere) {
+							// F: Ssks.Standortmerkmale.Sonstige_zulaessige_Anordnung
 							fill(
 								row,
-								cols.sonstige_zulaessige_anordnung,
+								cols.getColumn(Sonstige_zulaessige_Anordnung),
 								signal,
 								[
 									signal?.signalReal?.signalRealAktiv?.
@@ -219,9 +225,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// G: Ssks.Standortmerkmale.Lichtraumprofil
 							fillIterable(
 								row,
-								cols.lichtraumprofil,
+								cols.getColumn(Lichtraumprofil),
 								signal,
 								[
 									val s = it
@@ -237,11 +244,13 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								],
 								null
 							)
+
 							val topGraph = new TopGraph(
 								signal.container.TOPKante)
+							// H: Ssks.Standortmerkmale.Ueberhoehung
 							fillIterable(
 								row,
-								cols.ueberhoehung,
+								cols.getColumn(Ueberhoehung),
 								signal,
 								[
 									val s = it
@@ -257,9 +266,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							val abstandMastmitteLinks = new HashSet<Long>
 							val abstandMastmitteRechts = new HashSet<Long>
 
+							// I: Ssks.Standortmerkmale.Abstand_Mastmitte.links
 							fillIterable(
 								row,
-								cols.mastmitte_links,
+								cols.getColumn(Abstand_Mastmitte_links),
 								signal,
 								[
 									initAbstandMastmitte(signalRahmen,
@@ -271,18 +281,20 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[toString]
 							)
 
+							// J: Ssks.Standortmerkmale.Abstand_Mastmitte.rechts 
 							fillIterable(
 								row,
-								cols.mastmitte_rechts,
+								cols.getColumn(Abstand_Mastmitte_rechts),
 								signal,
 								[abstandMastmitteRechts],
 								null,
 								[toString]
 							)
 
+							// K: Ssks.Standortmerkmale.Sichtbarkeit.Soll
 							fillConditional(
 								row,
-								cols.sichtbarkeit_soll,
+								cols.getColumn(Sichtbarkeit_Soll),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -291,9 +303,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// L: Ssks.Standortmerkmale.Sichtbarkeit.Mindest
 							fillConditional(
 								row,
-								cols.sichtbarkeit_mindest,
+								cols.getColumn(Sichtbarkeit_Mindest),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -302,9 +315,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// M: Ssks.Standortmerkmale.Sichtbarkeit.Ist
 							fillConditional(
 								row,
-								cols.sichtbarkeit_ist,
+								cols.getColumn(Sichtbarkeit_Ist),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -313,9 +327,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// N: Ssks.Standortmerkmale.Ausrichtung.Entfernung
 							fillConditional(
 								row,
-								cols.entfernung,
+								cols.getColumn(Ausrichtung_Entfernung),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -324,9 +339,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// O: Ssks.Standortmerkmale.Ausrichtung.Richtpunkt
 							fillConditional(
 								row,
-								cols.richtpunkt,
+								cols.getColumn(Ausrichtung_Richtpunkt),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -335,27 +351,30 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// P: Ssks.konstruktive_Merkmale.Anordnung.Befestigung
 							fillIterable(
 								row,
-								cols.befestigung,
+								cols.getColumn(Anordnung_Befestigung),
 								signalRahmen,
 								[map[signalBefestigung.fillBefestigung].toSet],
 								null,
 								[toString]
 							)
 
+							// Q: Ssks.konstruktive_Merkmale.Anordnung.Regelzeichnung
 							fillIterable(
 								row,
-								cols.anordnung_regelzeichnung,
+								cols.getColumn(Anordnung_Regelzeichnung),
 								signalRahmen,
 								[fillRegelzeichnung.toSet],
 								null,
 								[toString]
 							)
 
+							// R: Ssks.konstruktive_Merkmale.Obere_Lichtpunkthoehe
 							fillIterable(
 								row,
-								cols.obere_lichtpunkthoehe,
+								cols.getColumn(Obere_Lichtpunkthoehe),
 								signalRahmen,
 								[
 									filter[
@@ -376,9 +395,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[it]
 							)
 
+							// S: Ssks.konstruktive_Merkmale.Streuscheibe.Art
 							fillConditional(
 								row,
-								cols.streuscheibe_art,
+								cols.getColumn(Streuscheibe_Art),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -387,9 +407,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// T: Ssks.konstruktive_Merkmale.Streuscheibe.Stellung
 							fillConditional(
 								row,
-								cols.streuscheibe_stellung,
+								cols.getColumn(Streuscheibe_Stellung),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -399,9 +420,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// U: Ssks.konstruktive_Merkmale.Fundament.Regelzeichnung
 							fillIterable(
 								row,
-								cols.fundament_regelzeichnung,
+								cols.getColumn(Fundament_Regelzeichnung),
 								signalRahmen,
 								[
 									map[
@@ -413,9 +435,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[toString]
 							)
 
+							// V: Ssks.konstruktive_Merkmale.Fundament.Hoehe
 							fillIterable(
 								row,
-								cols.fundament_hoehe,
+								cols.getColumn(Fundament_Hoehe),
 								signalRahmen,
 								[
 									map[
@@ -427,9 +450,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[toTableInteger(1000)]
 							)
 
+							// W: Ssks.Anschluss.Schaltkasten.Bezeichnung
 							fillConditional(
 								row,
-								cols.schaltkasten_bezeichnung,
+								cols.getColumn(Schaltkasten_Bezeichnung),
 								signal,
 								[
 									stellelement?.energie?.AEAAllg?.
@@ -442,9 +466,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// X: Ssks.Anschluss.Schaltkasten.Entfernung
 							fillConditional(
 								row,
-								cols.schaltkasten_entfernung,
+								cols.getColumn(Schaltkasten_Entfernung),
 								signal,
 								[controlBox !== null],
 								[
@@ -454,9 +479,11 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// Y: Ssks.Anschluss.Schaltkasten_separat.Bezeichnung
 							fillConditional(
 								row,
-								cols.schaltkasten_separat_bezeichnung,
+								cols.getColumn(
+									Schaltkasten_separat_Bezeichnung),
 								signal,
 								[hasSchaltkastenSeparatBezeichnung],
 								[
@@ -465,9 +492,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// Z: Ssks.Anschluss.Dauerhaft_Nacht
 							fillConditional(
 								row,
-								cols.dauerhaft_nacht,
+								cols.getColumn(Dauerhaft_Nacht),
 								signal,
 								[isHauptbefestigung],
 								[
@@ -478,36 +506,40 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							)
 
+							// AA: Ssks.Signalisierung.Signalbegriffe_Schirm.Hp_Hl
 							fillIterable(
 								row,
-								cols.schirm_hp_hl,
+								cols.getColumn(Schirm_Hp_Hl),
 								signalRahmen,
 								[fillSignalisierungHpHl],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AB: Ssks.Signalisierung.Signalbegriffe_Schirm.Ks_Vr
 							fillIterable(
 								row,
-								cols.schirm_ks_vr,
+								cols.getColumn(Schirm_Ks_Vr),
 								signalRahmen,
 								[fillSignalisierungKsVr],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AC: Ssks.Signalisierung.Signalbegriffe_Schirm.Zl_Kl
 							fillIterable(
 								row,
-								cols.schirm_zl_kl,
+								cols.getColumn(Schirm_Zl_Kl),
 								signalRahmen,
 								[fillSignalisierungZlKl],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AD: Ssks.Signalisierung.Signalbegriffe_Schirm.Ra_Sh
 							fillSwitch(
 								row,
-								cols.schirm_ra_sh,
+								cols.getColumn(Schirm_Ra_Sh),
 								signal,
 								new Case<Signal>(
 									[
@@ -530,45 +562,50 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								new Case<Signal>([hasSignalbegriffID(Sh1)], ["x"])
 							)
 
+							// AE: Ssks.Signalisierung.Signalbegriffe_Schirm.Zs
 							fillIterable(
 								row,
-								cols.schirm_zs,
+								cols.getColumn(Schirm_Zs),
 								signalRahmen,
 								[fillSignalisierungSchirmZs],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AF: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2
 							fillIterable(
 								row,
-								cols.zusatzanzeiger_zs_2,
+								cols.getColumn(Zusatzanzeiger_Zs_2),
 								signalRahmen,
 								[fillSignalisierungSymbol(typeof(Zs2))],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AG: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2v
 							fillIterable(
 								row,
-								cols.zusatzanzeiger_zs_2v,
+								cols.getColumn(Zusatzanzeiger_Zs_2v),
 								signalRahmen,
 								[fillSignalisierungSymbol(typeof(Zs2v))],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AH: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3
 							fillIterable(
 								row,
-								cols.zusatzanzeiger_zs_3,
+								cols.getColumn(Zusatzanzeiger_Zs_3),
 								signalRahmen,
 								[fillSignalisierungSymbolGeschaltet(typeof(Zs3))],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AI: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3v
 							fillIterable(
 								row,
-								cols.zusatzanzeiger_zs_3v,
+								cols.getColumn(Zusatzanzeiger_Zs_3v),
 								signalRahmen,
 								[
 									fillSignalisierungSymbolGeschaltet(
@@ -578,42 +615,46 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[it]
 							)
 
+							// AJ: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs
 							fillIterable(
 								row,
-								cols.zusatzanzeiger_zs,
+								cols.getColumn(Zusatzanzeiger_Zs),
 								signalRahmen,
 								[fillSignalisierungZusatzanzeigerZs],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AK: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zp
 							fillIterable(
 								row,
-								cols.zusatzanzeiger_zp,
+								cols.getColumn(Zusatzanzeiger_Zp),
 								signalRahmen,
 								[fillSignalisierungZp],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AL: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Kombination
 							fill(
 								row,
-								cols.zusatzanzeiger_kombination,
+								cols.getColumn(Zusatzanzeiger_Kombination),
 								signalRahmen,
 								[fillSignalisierungKombination]
 							)
 
+							// AM: Ssks.Signalisierung.Nachgeordnetes_Signal
 							fillIterable(
 								row,
-								cols.nachgeordnetes_Signal,
+								cols.getColumn(Nachgeordnetes_Signal),
 								signalRahmen,
 								[
 									filter[r|r.IDSignalNachordnung !== null].map [ r |
 										r.signalNachordnung.bezeichnung.
 											bezeichnungTabelle.wert
 									] + container.signalRahmen.filter [ r |
-										r?.IDSignalNachordnung?.identitaet?.wert ==
-											signal.identitaet.wert
+										r?.IDSignalNachordnung?.identitaet?.
+											wert == signal.identitaet.wert
 									].map [ r |
 										r.signal.bezeichnung.bezeichnungTabelle.
 											wert
@@ -623,63 +664,71 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[it]
 							)
 
+							// AN: Ssks.Signalisierung.Mastschild
 							fillIterable(
 								row,
-								cols.mastschild,
+								cols.getColumn(Mastschild),
 								signalRahmen,
 								[fillSignalisierungMastschild],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AO: Ssks.Signalisierung.Vorsignaltafel.Regelzeichnung
 							fillIterable(
 								row,
-								cols.vorsignaltafel_regelzeichnung,
+								cols.getColumn(Vorsignaltafel_Regelzeichnung),
 								signalRahmen,
 								[fillSignalisierungVorsignaltafel],
 								MIXED_STRING_COMPARATOR,
 								[it]
 							)
 
+							// AP: Ssks.Sonstiges.automatischer_Betrieb
 							fill(
 								row,
-								cols.automatischer_betrieb,
+								cols.getColumn(automatischer_Betrieb),
 								signal,
 								[fillSonstigesAutomatischerBetrieb]
 							)
 
+							// AQ: Ssks.Sonstiges.Dunkelschaltung
 							fill(
 								row,
-								cols.dunkelschaltung,
+								cols.getColumn(Dunkelschaltung),
 								signal,
 								[fillSonstigesDunkelschaltung]
 							)
 
+							// AR: Ssks.Sonstiges.Durchfahrt_erlaubt
 							fill(
 								row,
-								cols.durchfahrt_erlaubt,
+								cols.getColumn(Durchfahrt_erlaubt),
 								signal,
 								[fillSonstigesDurchfahrtErlaubt]
 							)
 
+							// AS: Ssks.Sonstiges.Besetzte_Ausfahrt
 							fillConditional(
 								row,
-								cols.Besetzte_Ausfahrt,
+								cols.getColumn(Besetzte_Ausfahrt),
 								signal,
 								[signalFstr?.besetzteAusfahrt?.wert !== null],
 								[signalFstr.besetzteAusfahrt.wert.translate]
 							)
 
+							// AT: Ssks.Sonstiges.Loeschung_Zs_1__Zs_7
 							fill(
 								row,
-								cols.loeschung_Zs_1__Zs_7,
+								cols.getColumn(Loeschung_Zs_1__Zs_7),
 								signalRahmen,
 								[fillSonstigesLoeschungZs1Zs7]
 							)
 
+							// AU: Ssks.Sonstiges.Ueberwachung.Zs_2
 							fillIterable(
 								row,
-								cols.ueberwachung_zs_2,
+								cols.getColumn(Ueberwachung_Zs_2),
 								signal,
 								[
 									val zs2 = getSignalbegriffe(Zs2).filterNull
@@ -699,9 +748,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								null
 							)
 
+							// AV: Ssks.Sonstiges.Ueberwachung.Zs_2v
 							fillIterable(
 								row,
-								cols.ueberwachung_zs_2v,
+								cols.getColumn(Ueberwachung_Zs_2v),
 								signal,
 								[
 									val zs2v = getSignalbegriffe(Zs2v).
@@ -727,9 +777,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							}
 						}
 
+						// AW: Ssks.Bemerkung
 						fill(
 							row,
-							cols.basis_bemerkung,
+							cols.getColumn(Bemerkung),
 							signal,
 							[fillBemerkung(signalRahmen, row)]
 						)
@@ -744,9 +795,11 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 					error('''«e.class.simpleName»: «e.message» - failed to transform table contents''',
 						e)
 				val TableRow row = factory.newTableRow(signal);
+
+				// B: Ssks.Signal_Art.Reales_Signal
 				fill(
 					row,
-					cols.reales_Signal,
+					cols.getColumn("B"),
 					signal,
 					[throw new RuntimeException(e)]
 				)
@@ -888,7 +941,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		val stellelement = signal.stellelement
 		return stellelement?.information?.AEAAllg?.aussenelementansteuerungArt?.
 			wert == ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER &&
-			stellelement?.IDInformation?.identitaet?.wert != stellelement?.IDEnergie?.identitaet?.wert
+			stellelement?.IDInformation?.identitaet?.wert !=
+				stellelement?.IDEnergie?.identitaet?.wert
 	}
 
 	private static def List<String> fillSignalisierungHpHl(

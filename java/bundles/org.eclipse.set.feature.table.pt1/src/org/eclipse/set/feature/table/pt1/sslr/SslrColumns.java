@@ -1,188 +1,105 @@
 /**
- * Copyright (c) 2017 DB Netz AG and others.
+ * Copyright (c) 2023 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+
 package org.eclipse.set.feature.table.pt1.sslr;
 
-import org.eclipse.set.feature.table.pt1.AbstractTableColumns;
-import org.eclipse.set.feature.table.pt1.messages.Messages;
-import org.eclipse.set.model.tablemodel.ColumnDescriptor;
-import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
-import org.eclipse.set.utils.table.GroupBuilder;
-
 /**
- * Sslr
+ * Symbolic addressing for Sslr columns.
  * 
- * @author Schaefer
- * 
- * @see ColumnDescriptor
+ * @author truong
+ *
  */
-public class SslrColumns extends AbstractTableColumns {
+@SuppressWarnings("nls")
+public class SslrColumns {
 
 	/**
-	 * N: Sslr.Abhaengigkeiten.Abhaengiger_BUe
+	 * Sslr.Grundsatzangaben.Bezeichnung
 	 */
-	public final ColumnDescriptor Abhaengiger_BUe;
+	public static final String Bezeichnung = "A";
 
 	/**
-	 * F: Sslr.Grundsatzangaben.Art
+	 * Sslr.Grundsatzangaben.Fahrweg.Start
 	 */
-	public final ColumnDescriptor Art;
+	public static final String Fahrweg_Start = "B";
 
 	/**
-	 * P: Sslr.Abhaengigkeiten.Aufloes_Fstr
+	 * Sslr.Grundsatzangaben.Fahrweg.Ziel
 	 */
-	public final ColumnDescriptor Aufloes_Fstr;
+	public static final String Fahrweg_Ziel = "C";
 
 	/**
-	 * G: Sslr.Einstellung.Autom_Einstellung
+	 * Sslr.Grundsatzangaben.Fahrweg.Nummer
 	 */
-	public final ColumnDescriptor Autom_Einstellung;
+	public static final String Fahrweg_Nummer = "D";
 
 	/**
-	 * A: Sslr.Grundsatzangaben.Bezeichnung
+	 * Sslr.Grundsatzangaben.Fahrweg.Entscheidungsweiche
 	 */
-	public ColumnDescriptor Bezeichnung;
+	public static final String Fahrweg_Entscheidungsweiche = "E";
 
 	/**
-	 * E: Sslr.Grundsatzangaben.Fahrweg.Entscheidungsweiche
+	 * Sslr.Grundsatzangaben.Art
 	 */
-	public final ColumnDescriptor Entscheidungsweiche;
+	public static final String Art = "F";
 
 	/**
-	 * H: Sslr.Einstellung.F_Bedienung
+	 * Sslr.Einstellung.Autom_Einstellung
 	 */
-	public final ColumnDescriptor F_Bedienung;
+	public static final String Autom_Einstellung = "G";
 
 	/**
-	 * L: Sslr.Abhaengigkeiten.FwWeichen_mit_Fla
+	 * Sslr.Einstellung.F_Bedienung
 	 */
-	public final ColumnDescriptor FwWeichen_mit_Fla;
+	public static final String F_Bedienung = "H";
 
 	/**
-	 * K: Sslr.Abhaengigkeiten.Gleisfreimeldung
+	 * Sslr.Abhaengigkeiten.Inselgleis.Bezeichnung
 	 */
-	public final ColumnDescriptor Gleisfreimeldung;
+	public static final String Inselgleis_Bezeichnung = "I";
 
 	/**
-	 * I: Sslr.Abhaengigkeiten.Inselgleis.Bezeichnung
+	 * Sslr.Abhaengigkeiten.Inselgleis.Gegenfahrtausschluss
 	 */
-	public final ColumnDescriptor InselgleisBezeichnung;
+	public static final String Inselgleis_Gegenfahrtausschluss = "J";
 
 	/**
-	 * J: Sslr.Abhaengigkeiten.Inselgleis.Gegenfahrtausschluss
+	 * Sslr.Abhaengigkeiten.Gleisfreimeldung
 	 */
-	public final ColumnDescriptor Gegenfahrtausschluss;
+	public static final String Gleisfreimeldung = "K";
 
 	/**
-	 * D: Sslr.Grundsatzangaben.Fahrweg.Nummer
+	 * Sslr.Abhaengigkeiten.FwWeichen_mit_Fla
 	 */
-	public final ColumnDescriptor Nummer;
+	public static final String FwWeichen_mit_Fla = "L";
 
 	/**
-	 * B: Sslr.Grundsatzangaben.Fahrweg.Start
+	 * Sslr.Abhaengigkeiten.Ueberwachte_Ssp
 	 */
-	public final ColumnDescriptor Start;
+	public static final String Ueberwachte_Ssp = "M";
 
 	/**
-	 * M: Sslr.Abhaengigkeiten.Ueberwachte_Ssp
+	 * Sslr.Abhaengigkeiten.Abhaengiger_BUe
 	 */
-	public final ColumnDescriptor Ueberwachte_Ssp;
+	public static final String Abhaengiger_BUe = "N";
 
 	/**
-	 * C: Sslr.Grundsatzangaben.Fahrweg.Ziel
+	 * Sslr.Abhaengigkeiten.Ziel_erlaubnisabh
 	 */
-	public final ColumnDescriptor Ziel;
+	public static final String Ziel_erlaubnisabh = "O";
 
 	/**
-	 * O: Sslr.Abhaengigkeiten.Ziel_erlaubnisabh
+	 * Sslr.Abhaengigkeiten.Aufloes_Fstr
 	 */
-	public final ColumnDescriptor Ziel_erlaubnisabh;
+	public static final String Aufloes_Fstr = "P";
 
 	/**
-	 * @param messages
-	 *            the messages
+	 * Sslr.Bemerkung
 	 */
-	public SslrColumns(final Messages messages) {
-		super(messages);
-		Bezeichnung = createNew(messages.Sslr_Grundsatzangaben_Bezeichnung);
-		Start = createNew(messages.Sslr_Grundsatzangaben_Fahrweg_Start);
-		Ziel = createNew(messages.Sslr_Grundsatzangaben_Fahrweg_Ziel);
-		Nummer = createNew(messages.Sslr_Grundsatzangaben_Fahrweg_Nummer);
-		Entscheidungsweiche = createNew(
-				messages.Sslr_Grundsatzangaben_Fahrweg_Entscheidungsweiche);
-		Art = createNew(messages.Sslr_Grundsatzangaben_Art);
-		Autom_Einstellung = createNew(
-				messages.Sslr_Einstellung_Autom_Einstellung);
-		F_Bedienung = createNew(messages.Sslr_Einstellung_F_Bedienung);
-		InselgleisBezeichnung = createNew(
-				messages.Sslr_Abhaengigkeiten_Inselgleis_Bezeichnung);
-		Gegenfahrtausschluss = createNew(
-				messages.Sslr_Abhaengigkeiten_Inselgleis_Gegenfahrtausschluss);
-		Gleisfreimeldung = createNew(
-				messages.Sslr_Abhaengigkeiten_Gleisfreimeldung);
-		FwWeichen_mit_Fla = createNew(
-				messages.Sslr_Abhaengigkeiten_FwWeichen_mit_Fla);
-		Ueberwachte_Ssp = createNew(
-				messages.Sslr_Abhaengigkeiten_Ueberwachte_Ssp);
-		Abhaengiger_BUe = createNew(
-				messages.Sslr_Abhaengigkeiten_Abhaengiger_BUe);
-		Ziel_erlaubnisabh = createNew(
-				messages.Sslr_Abhaengigkeiten_Ziel_erlaubnisabh);
-		Aufloes_Fstr = createNew(messages.Sslr_Abhaengigkeiten_Aufloes_Fstr);
-	}
-
-	@Override
-	public ColumnDescriptor fillHeaderDescriptions(
-			final ColumnDescriptorModelBuilder builder) {
-		final GroupBuilder rootBuilder = builder
-				.createRootColumn(messages.Sslr_Heading);
-		addGrundsatzangaben(rootBuilder);
-		addEinstellung(rootBuilder);
-		addAbhaengigkeiten(rootBuilder);
-		rootBuilder.add(basis_bemerkung).width(12.15f);
-		return rootBuilder.getGroupRoot();
-	}
-
-	private void addAbhaengigkeiten(final GroupBuilder rootBuilder) {
-		final GroupBuilder abhaengigkeiten = rootBuilder
-				.addGroup(messages.Sslr_Abhaengigkeiten);
-
-		final GroupBuilder inselgleis = abhaengigkeiten
-				.addGroup(messages.Sslr_Abhaengigkeiten_Inselgleis);
-		inselgleis.add(InselgleisBezeichnung).width(1.29f);
-		inselgleis.add(Gegenfahrtausschluss).width(1.29f);
-
-		abhaengigkeiten.add(Gleisfreimeldung).width(1.42f);
-		abhaengigkeiten.add(FwWeichen_mit_Fla).width(2.33f);
-		abhaengigkeiten.add(Ueberwachte_Ssp).width(2.37f);
-		abhaengigkeiten.add(Abhaengiger_BUe).width(1.5f);
-		abhaengigkeiten.add(Ziel_erlaubnisabh).width(1.33f);
-		abhaengigkeiten.add(Aufloes_Fstr).width(2.33f);
-	}
-
-	private void addEinstellung(final GroupBuilder rootBuilder) {
-		final GroupBuilder einstellung = rootBuilder
-				.addGroup(messages.Sslr_Einstellung);
-		einstellung.add(Autom_Einstellung).width(1.78f);
-		einstellung.add(F_Bedienung).width(1.42f);
-	}
-
-	private void addGrundsatzangaben(final GroupBuilder rootBuilder) {
-		final GroupBuilder grundsatzangaben = rootBuilder
-				.addGroup(messages.Sslr_Grundsatzangaben);
-		grundsatzangaben.add(Bezeichnung).width(2.71f);
-		final GroupBuilder fahrweg = grundsatzangaben
-				.addGroup(messages.Sslr_Grundsatzangaben_Fahrweg);
-		fahrweg.add(Start).width(1.12f);
-		fahrweg.add(Ziel).width(1.12f);
-		fahrweg.add(Nummer).width(0.57f);
-		fahrweg.add(Entscheidungsweiche).width(2.77f).height(LINE_HEIGHT * 2);
-		grundsatzangaben.add(Art).width(0.61f);
-	}
-
+	public static final String Bemerkung = "Q";
 }

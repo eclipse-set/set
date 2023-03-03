@@ -44,12 +44,7 @@ public class ValidationTableTransformationService
 	@Override
 	public ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder) {
+		columns = new ValidationTableColumns(messages);
 		return columns.fillHeaderDescriptions(builder);
 	}
-
-	@Override
-	protected void buildColumns() {
-		columns = new ValidationTableColumns(messages);
-	}
-
 }

@@ -37,7 +37,6 @@ public interface TableModelTransformator<T> {
 	 *            the model
 	 * @param factory
 	 *            factory to create new rows of the table model
-	 * 
 	 * @return the table model
 	 */
 	public Table transformTableContent(T model, TMFactory factory);
