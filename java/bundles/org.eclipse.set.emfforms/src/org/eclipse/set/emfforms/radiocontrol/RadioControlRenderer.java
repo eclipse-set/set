@@ -27,6 +27,7 @@ import org.eclipse.emfforms.spi.common.report.ReportService;
 import org.eclipse.emfforms.spi.core.services.databinding.DatabindingFailedException;
 import org.eclipse.emfforms.spi.core.services.databinding.EMFFormsDatabinding;
 import org.eclipse.emfforms.spi.core.services.label.EMFFormsLabelProvider;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.set.basis.exceptions.NoEnumTranslationFound;
 import org.eclipse.set.core.services.Services;
@@ -113,10 +114,8 @@ public class RadioControlRenderer extends SimpleControlSWTControlSWTRenderer {
 				button.setText(literal.getName());
 			}
 
-			// IMPROVE WidgetProperties should be replaced
-			@SuppressWarnings({ "unchecked", "deprecation" })
-			final IObservableValue<Boolean> observe = org.eclipse.jface.databinding.swt.WidgetProperties
-					.selection().observe(button);
+			final IObservableValue<Boolean> observe = WidgetProperties
+					.buttonSelection().observe(button);
 			selectedRadioButtonObservable.addOption(literal.getInstance(),
 					observe);
 

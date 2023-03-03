@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.e4.ui.workbench,
  org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
  org.eclipse.set.rap.compatibility;bundle-version="48.2.0";resolution:=optional,
  org.eclipse.core.databinding.beans;bundle-version="1.4.100",
- org.eclipse.set.toolboxmodel
+ org.eclipse.set.toolboxmodel,
+ slf4j.api
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.google.common.base;version="15.0.0",
  com.google.common.collect;version="15.0.0",
@@ -77,8 +78,7 @@ Import-Package: com.google.common.base;version="15.0.0",
  org.eclipse.set.utils.handler,
  org.eclipse.set.utils.widgets,
  org.osgi.framework;version="1.8.0",
- org.osgi.service.component.annotations;version="1.2.0",
- org.slf4j;version="1.7.2"
+ org.osgi.service.component.annotations;version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.emfforms.attachment.AttachmentListRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeBooleanRendererService.xml,

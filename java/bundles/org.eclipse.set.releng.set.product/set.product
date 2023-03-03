@@ -50,12 +50,14 @@
    </features>
 
    <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.emf.ecp.view.core.swt" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.emfforms.swt.core.di" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.cm" autoStart="true" startLevel="1" />
-      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.osgi" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.set.application" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.set.emfforms" autoStart="true" startLevel="4" />

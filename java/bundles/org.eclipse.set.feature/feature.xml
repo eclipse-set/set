@@ -33,7 +33,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <requires>
       <import feature="org.eclipse.babel.nls_eclipse_de" version="4.4.0.v20140623020002"/>
-      <import feature="org.eclipse.e4.rcp"/>
       <import plugin="javax.inject" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="javax.annotation"/>
       <import plugin="org.eclipse.core.runtime" version="3.10.0" match="greaterOrEqual"/>
@@ -69,9 +68,10 @@ http://www.eclipse.org/legal/epl-v20.html
       <import plugin="org.eclipse.ui.workbench" version="3.105.0" match="compatible"/>
       <import plugin="org.eclipse.xtend.lib"/>
       <import plugin="org.eclipse.xtext.xbase.lib"/>
-      <import plugin="org.slf4j.api"/>
       <import plugin="org.eclipse.set.services" version="0.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.set.application" version="0.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.rcp"/>
+      <import plugin="slf4j.api"/>
    </requires>
 
    <plugin
@@ -140,13 +140,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.eclipse.nebula.widgets.nattable.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.commons.io"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -1141,13 +1134,6 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.ds"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.equinox.event"
          download-size="0"
          install-size="0"
@@ -1668,26 +1654,11 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="ch.qos.logback.slf4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.set.releng.logging"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.slf4j.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -1861,13 +1832,6 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="org.dom4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="javax.activation"
          download-size="0"
          install-size="0"
@@ -1980,20 +1944,6 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="org.apache.xalan"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.xml.serializer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.locationtech.jts.jts-core"
          download-size="0"
          install-size="0"
@@ -2016,13 +1966,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.apache.commons.math3"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="javax.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -2113,35 +2056,7 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="org.bouncycastle.bcpg"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.bouncycastle.bcprov"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="com.ibm.icu"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.xmlbeans"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.poi"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -2205,13 +2120,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.apache.batik.xml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.poi.ooxml"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -2291,13 +2199,6 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.collections4"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="maven.org.apache.xmlgraphics.artifact.fop"
          download-size="0"
          install-size="0"
@@ -2313,6 +2214,62 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.eclipse.set.feature.export"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.commons.commons-collections4"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wrapped.org.apache.poi.poi"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wrapped.org.apache.poi.poi-ooxml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wrapped.org.apache.xmlbeans.xmlbeans"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="bcpg"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="bcprov"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="wrapped.org.dom4j.dom4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javax.xml"
          download-size="0"
          install-size="0"
          version="0.0.0"

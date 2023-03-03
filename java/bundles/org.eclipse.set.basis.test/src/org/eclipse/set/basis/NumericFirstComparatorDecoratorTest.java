@@ -40,7 +40,7 @@ class NumericFirstComparatorDecoratorTest {
 	private CallStatus comparatorCallStatus = IS_NOT_CALLED;
 
 	@BeforeEach
-	private void beforeEach() {
+	void beforeEach() {
 		comparatorCallStatus = CallStatus.IS_NOT_CALLED;
 	}
 
