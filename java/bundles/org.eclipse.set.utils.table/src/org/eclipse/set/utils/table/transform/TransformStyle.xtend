@@ -84,7 +84,7 @@ class TransformStyle {
 	
 	private static def void transformTextFont(Element xslCell, Cell excelCell) {
 		val workbook = excelCell.row.sheet.workbook
-		val cellFontIndex = excelCell.cellStyle.fontIndexAsInt
+		val cellFontIndex = excelCell.cellStyle.fontIndex
 		val fontStyle = workbook.getFontAt(cellFontIndex)
 		if (fontStyle.bold) {
 			xslCell.setAttribute(FONT_WEIGHT, "bold")

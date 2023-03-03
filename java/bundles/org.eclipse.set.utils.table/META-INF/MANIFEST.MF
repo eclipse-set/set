@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.set.model.tablemodel,
  org.eclipse.set.utils,
  org.eclipse.nebula.widgets.nattable.core,
  org.eclipse.e4.core.services,
- org.apache.poi
+ wrapped.org.apache.poi.poi,
+ slf4j.api
 Export-Package: org.eclipse.set.utils.table,
  org.eclipse.set.utils.table.menu,
  org.eclipse.set.utils.table.sorting,

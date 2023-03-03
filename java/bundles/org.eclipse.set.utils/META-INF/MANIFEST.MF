@@ -36,7 +36,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.set.toolboxmodel,
  org.eclipse.set.browser,
  org.eclipse.set.browser.lib,
- org.apache.poi;bundle-version="4.1.1"
+ wrapped.org.apache.poi.poi
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: com.google.common.base;version="15.0.0",
  javax.annotation,
