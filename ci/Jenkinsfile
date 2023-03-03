@@ -53,7 +53,6 @@ pipeline {
           mvn goal: '-T 1.5C clean verify checkstyle:checkstyle -P sign,signexe', dependencies: 'maven.deps'
           archiveArtifacts artifacts: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
         }
-        handleIssues()
       }
     }
     stage('Process Licenses') {
