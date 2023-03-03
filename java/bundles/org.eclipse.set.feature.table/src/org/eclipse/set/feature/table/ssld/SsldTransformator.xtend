@@ -71,17 +71,17 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (fmaAnlagen.contains(null)) {
 			throw new IllegalArgumentException('''«dweg?.bezeichnung?.bezeichnungFstrDWeg?.wert» contains non-FMA-Anlagen within ID_FMA_Anlage''')
 		}
-		val topDWeg = dweg.IDFstrFahrweg.bereichObjektTeilbereich.map[IDTOPKante]
-		val distance = fmaAnlagen?.map[fmaGrenzen]?.flatten?.
-			filter[
-				// Only consider FMA borders which are located on the DWeg
-				punktObjektTOPKante.map[IDTOPKante].exists[topDWeg.contains(it)]				
-			].fold(
-			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
-				Math.max(current,
-					getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
-						grenze))
-			])
+		val topDWeg = dweg.IDFstrFahrweg.bereichObjektTeilbereich.map [
+			IDTOPKante
+		]
+		val distance = fmaAnlagen?.map[fmaGrenzen]?.flatten?.filter [
+			// Only consider FMA borders which are located on the DWeg
+			punktObjektTOPKante.map[IDTOPKante].exists[topDWeg.contains(it)]
+		]?.fold(Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
+			Math.max(current,
+				getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
+					grenze))
+		])
 		val roundedDistance = AgateRounding.roundDown(distance)
 		if (roundedDistance == 0.0)
 			throw new IllegalArgumentException("no path found")
@@ -311,11 +311,15 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[dweg.fstrDWegSpezifisch !== null],
 				[
-					val fstr = container.fstrZugRangier.filter [
-						fstrZug?.fstrZugDWeg?.IDFstrDWeg == dweg
-					].get(0)
+					val fstrs = container.fstrZugRangier.filter [
+						fstrZug?.fstrZugDWeg?.IDFstrDWeg === dweg
+					]
+					if (fstrs.empty) {
+						return ""
+					}
+
 					fstrDWegSpezifisch.IDFMAAnlageZielgleis.IDGleisAbschnitt.
-						getOverlappingLength(fstr.IDFstrFahrweg).
+						getOverlappingLength(fstrs.get(0).IDFstrFahrweg).
 						toTableIntegerAgateDown
 				]
 			)
