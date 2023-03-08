@@ -124,13 +124,13 @@
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.model.model11001.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.model.model11001.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/snapshots/model/feature/updatePlatform"/>
+      <repository location="https://download.eclipse.org/set/snapshots/model/main/"/>
     </location>
 
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.browser.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.browser.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/snapshots/browser/feature/updatePlatform/"/>
+      <repository location="https://download.eclipse.org/set/snapshots/browser/main/"/>
     </location>
 
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -141,7 +141,7 @@
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.toolboxmodel.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.toolboxmodel.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/snapshots/toolboxmodel/feature/updatePlatform"/>
+      <repository location="https://download.eclipse.org/set/snapshots/toolboxmodel/main/"/>
     </location>
 
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -204,12 +204,12 @@ DynamicImport-Package: *
         <dependency>
           <groupId>org.apache.poi</groupId>
           <artifactId>poi</artifactId>
-          <version>5.2.3</version>
+          <version>5.0.0</version>
         </dependency>
         <dependency>
           <groupId>org.apache.poi</groupId>
           <artifactId>poi-ooxml</artifactId>
-          <version>5.2.3</version>
+          <version>5.0.0</version>
         </dependency>
         <dependency>
           <groupId>org.apache.commons</groupId>
