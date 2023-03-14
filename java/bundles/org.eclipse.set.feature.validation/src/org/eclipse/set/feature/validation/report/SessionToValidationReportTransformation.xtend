@@ -60,9 +60,7 @@ class SessionToValidationReportTransformation {
 	 */
 	def ValidationReport transform(IModelSession session) {
 		xmlNodeFinder.read(session?.toolboxFile);
-
-		report = session.transformCreate
-
+		session.transformCreate
 		report.problems.clear
 		val problems = <ValidationProblem>newLinkedList
 
@@ -99,7 +97,7 @@ class SessionToValidationReportTransformation {
 
 		return report
 	}
-
+	
 	private def <T extends Exception> List<ValidationProblem> transform(
 		List<T> errors, String type, ValidationSeverity severity,
 		String successMessage) {
@@ -117,33 +115,37 @@ class SessionToValidationReportTransformation {
 		}
 		return result
 	}
-
-	private def ValidationReport create ValidationreportFactory.eINSTANCE.createValidationReport
-	transformCreate(IModelSession session) {
-
+	
+	private def transformCreate(IModelSession session) {
+		report = report ?: ValidationreportFactory.eINSTANCE.createValidationReport
 		val filePath = session?.toolboxFile?.path
-		fileInfo = ValidationreportFactory.eINSTANCE.createFileInfo
-		fileInfo.fileName = filePath?.toString ?: ""
-		fileInfo.usedVersion = versionService.createUsedVersion(
+		report.fileInfo = report.fileInfo ?: ValidationreportFactory.eINSTANCE.createFileInfo
+		report.fileInfo.fileName = filePath?.toString ?: ""
+		val fileVersion = versionService.createUsedVersion(
 			session.toolboxFile.modelPath)
-		fileInfo.checksum = session.toolboxFile.checksum
+		if (report.fileInfo.usedVersion === null) {
+			report.fileInfo.usedVersion = fileVersion
+		} else {
+			report.fileInfo.usedVersion.planPro = fileVersion.planPro
+			report.fileInfo.usedVersion.signals = fileVersion.signals
+		}
+		report.fileInfo.checksum = session.toolboxFile.checksum
 		
 		val timeStamp = session.planProSchnittstelle.planProSchnittstelleAllg.
 			erzeugungZeitstempel.wert.toGregorianCalendar
-		fileInfo.timeStamp = String.format("%1$td.%1$tm.%1$tY %1$tT",timeStamp)
-		fileInfo.guid = session.planProSchnittstelle.identitaet.wert
-		modelLoaded = if (session.hasLoadedModel) {
+		report.fileInfo.timeStamp = String.format("%1$td.%1$tm.%1$tY %1$tT",timeStamp)
+		report.fileInfo.guid = session.planProSchnittstelle.identitaet.wert
+		report.modelLoaded = if (session.hasLoadedModel) {
 			messages.YesMsg
 		} else {
 			messages.NoMsg
 		}
-		valid = session?.validationResult?.outcome?.transform
-		xsdValid = session?.validationResult?.xsdOutcome?.transform
-		emfValid = session?.validationResult?.emfOutcome?.transform
+		report.valid = session?.validationResult?.outcome?.transform
+		report.xsdValid = session?.validationResult?.xsdOutcome?.transform
+		report.emfValid = session?.validationResult?.emfOutcome?.transform
 
-		supportedVersion = versionService.createSupportedVersion
-
-		toolboxVersion = ToolboxConfiguration.toolboxVersion.longVersion
+		report.supportedVersion = report.supportedVersion ?: versionService.createSupportedVersion
+		report.toolboxVersion = ToolboxConfiguration.toolboxVersion.longVersion
 	}
 
 	private def String transform(Outcome outcome) {
