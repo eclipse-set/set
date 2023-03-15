@@ -10,10 +10,12 @@ package org.eclipse.set.feature.table.pt1.sska
 
 import java.util.Collections
 import java.util.LinkedList
+import java.util.Set
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions
@@ -21,10 +23,12 @@ import org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.utils.table.TMFactory
 
+import static org.eclipse.set.feature.table.pt1.sska.SskaColumns.*
 import static org.eclipse.set.toolboxmodel.Bedienung.ENUMBedienPlatzArt.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
@@ -34,9 +38,6 @@ import static extension org.eclipse.set.ppmodel.extensions.BedienBezirkExtension
 import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import static org.eclipse.set.feature.table.pt1.sska.SskaColumns.*
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import java.util.Set
 
 /**
  * Table transformation for a Elementansteuertabelle (Sska).
@@ -128,7 +129,15 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[unterbringung.streckeKm ?: ""]
 			)
 
-			// H: Sska.Verknüpfungen.Information.primaer
+			// H: Sska.Grundsatzangaben.Unterbringung.Tueranschlag
+			fill(
+				instance,
+				cols.getColumn(Unterbringung_Tueranschlag),
+				element,
+				[unterbringung.tueranschlag.translate ?: ""]
+			)
+
+			// I: Sska.Verknüpfungen.Information.primaer
 			fill(
 				instance,
 				cols.getColumn(Information_primaer),
@@ -136,7 +145,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[elementVerknuepfungenInformationPrimaer]
 			)
 
-			// I: Sska.Verknüpfungen.Information.sekundaer
+			// J: Sska.Verknüpfungen.Information.sekundaer
 			fill(
 				instance,
 				cols.getColumn(Information_sekundaer),
@@ -144,7 +153,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[elementVerknuepfungenInformationSekundaer]
 			)
 
-			// J: Sska.Verknüpfungen.Energie.primaer
+			// K: Sska.Verknüpfungen.Energie.primaer
 			fill(
 				instance,
 				cols.getColumn(Energie_primaer),
@@ -152,7 +161,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[elementVerknuepfungenEnergiePrimaer]
 			)
 
-			// K: Sska.Verknüpfungen.Energie.sekundaer
+			// L: Sska.Verknüpfungen.Energie.sekundaer
 			fill(
 				instance,
 				cols.getColumn(Energie_sekundaer),
@@ -160,7 +169,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[elementVerknuepfungenEnergieSekundaer]
 			)
 
-			// L: Sska.Verknüpfungen.Bedienung.lokal
+			// M: Sska.Verknüpfungen.Bedienung.lokal
 			fill(
 				instance,
 				cols.getColumn(Bedienung_lokal),
@@ -168,7 +177,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[elementVerknuepfungenBedienungLokal]
 			)
 
-			// M: Sska.Verknüpfungen.Bedienung.bezirk
+			// N: Sska.Verknüpfungen.Bedienung.bezirk
 			fill(
 				instance,
 				cols.getColumn(Bedienung_bezirk),
@@ -176,15 +185,15 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[elementVerknuepfungenBedienungBezirk]
 			)
 
-			// N: Sska.Verknüpfungen.Bedienung.zentrale
+			// O: Sska.Verknüpfungen.Bedienung.zentrale
 			fill(
 				instance,
-				cols.getColumn(Verknuepfungen_Bedienung_zentrale),
+				cols.getColumn(Bedienung_zentrale),
 				element,
 				[elementVerknuepfungenBedienungZentrale]
 			)
 
-			// O: Sska.Verknüpfungen.Bedienung.NotBP
+			// P: Sska.Verknüpfungen.Bedienung.NotBP
 			fill(
 				instance,
 				cols.getColumn(Bedienung_NotBP),
@@ -192,7 +201,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[elementVerknuepfungenBedienungNotBP]
 			)
 
-			// P: Sska.IP_Adressangaben.GFK_Kategorie
+			// Q: Sska.IP_Adressangaben.GFK_Kategorie
 			fill(
 				instance,
 				cols.getColumn(IP_GFK_Kategorie),
@@ -200,7 +209,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ipAdressangabenGFKKategorie]
 			)
 
-			// Q: Sska.IP_Adressangaben.Regionalbereich
+			// R: Sska.IP_Adressangaben.Regionalbereich
 			fill(
 				instance,
 				cols.getColumn(IP_Regionalbereich),
@@ -208,7 +217,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ipAdressangabenRegionalbereich]
 			)
 
-			// R: Sska.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
+			// S: Sska.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
 			fill(
 				instance,
 				cols.getColumn(IPv4_Blau),
@@ -216,7 +225,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ipAdressangabenIPv4Blau]
 			)
 
-			// S: Sska.IP_Adressangaben.Adressblock_Blau.IPv6_Blau
+			// T: Sska.IP_Adressangaben.Adressblock_Blau.IPv6_Blau
 			fill(
 				instance,
 				cols.getColumn(IPv6_Blau),
@@ -224,7 +233,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ipAdressangabenIPv6Blau]
 			)
 
-			// T: Sska.IP_Adressangaben.Adressblock_Grau.IPv4_Grau
+			// U: Sska.IP_Adressangaben.Adressblock_Grau.IPv4_Grau
 			fill(
 				instance,
 				cols.getColumn(IPv4_Grau),
@@ -232,7 +241,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ipAdressangabenIPv4Grau]
 			)
 
-			// U: Sska.IP_Adressangaben.Adressblock_Grau.IPv6_Grau
+			// V: Sska.IP_Adressangaben.Adressblock_Grau.IPv6_Grau
 			fill(
 				instance,
 				cols.getColumn(IPv6_Grau),
@@ -240,7 +249,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ipAdressangabenIPv6Grau]
 			)
 
-			// V: Bemerkung
+			// W: Bemerkung
 			fill(
 				instance,
 				cols.getColumn(Bemerkung),
@@ -338,7 +347,9 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getElementVerknuepfungenInformationPrimaer(
 		ESTW_Zentraleinheit element) {
-		return "";
+		val technikStandorts = element.technikStandort
+		return technikStandorts.map[bezeichner].toList.getIterableFilling(
+			MIXED_STRING_COMPARATOR) ?: "";
 	}
 
 	private def dispatch String getElementVerknuepfungenInformationSekundaer(
@@ -371,14 +382,17 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			return energiePrimaer.bezeichner
 		} else {
 			return element?.AEAEnergieversorgung?.energieversorgungArt?.wert?.
-				translate;
+				translate ?: "";
 		}
 	}
 
 	private def dispatch String getElementVerknuepfungenEnergiePrimaer(
 		ESTW_Zentraleinheit element) {
-		return element.ESTWZentraleinheitAllg.energieversorgungArt.wert.
-			translate;
+		if (element.ESTWZEEnergieversorgung?.IDEnergiePrimaer !== null) {
+			return element.elementEnergiePrimaer.bezeichner
+		}
+		return element?.ESTWZEEnergieversorgung?.energieversorgungArt?.wert?.
+			translate ?: ""
 	}
 
 	private def dispatch String getElementVerknuepfungenEnergieSekundaer(
@@ -398,8 +412,11 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getElementVerknuepfungenEnergieSekundaer(
 		ESTW_Zentraleinheit element) {
-		return element?.ESTWZentraleinheitAllg?.energieversorgungArtErsatz?.
-			wert?.translate;
+		if (element?.ESTWZEEnergieversorgung?.IDEnergieSekundaer !== null) {
+			return element.elementEnergieSekundaer.bezeichner
+		}
+		return element?.ESTWZEEnergieversorgung?.energieversorgungArtErsatz?.wert?.
+			translate ?: ""
 	}
 
 	private def dispatch String getElementVerknuepfungenBedienungLokal(
@@ -501,40 +518,43 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 	}
 
-	private def Basis_Objekt getElementEnergiePrimaer(
+	private dispatch def Basis_Objekt getElementEnergiePrimaer(
 		Aussenelementansteuerung element) {
-
-		var elementList = new LinkedList<Basis_Objekt>
-
-		elementList.addAll(element.container.aussenelementansteuerung)
-		elementList.addAll(element.container.ESTWZentraleinheit)
-
-		for (el : elementList) {
-			if (el.identitaet.wert ==
-				element.AEAEnergieversorgung.IDEnergiePrimaer.identitaet?.
-					wert) {
-				return el;
-			}
-		}
-		return null;
+		return element.container.getElementEnergie(
+			element.AEAEnergieversorgung.IDEnergiePrimaer)
 	}
 
-	private def Basis_Objekt getElementEnergieSekundaer(
-		Aussenelementansteuerung element) {
+	private dispatch def Basis_Objekt getElementEnergiePrimaer(
+		ESTW_Zentraleinheit element) {
+		return element.container.getElementEnergie(
+			element.ESTWZEEnergieversorgung.IDEnergiePrimaer)
+	}
 
+	private dispatch def Basis_Objekt getElementEnergieSekundaer(
+		Aussenelementansteuerung element) {
+		return element.container.getElementEnergie(
+			element.AEAEnergieversorgung.IDEnergieSekundaer)
+	}
+
+	private dispatch def Basis_Objekt getElementEnergieSekundaer(
+		ESTW_Zentraleinheit element) {
+		return element.container.getElementEnergie(
+			element.ESTWZEEnergieversorgung.IDEnergieSekundaer)
+	}
+
+	private def Basis_Objekt getElementEnergie(
+		MultiContainer_AttributeGroup container, Basis_Objekt idEnergie) {
 		var elementList = new LinkedList<Basis_Objekt>
 
-		elementList.addAll(element.container.aussenelementansteuerung)
-		elementList.addAll(element.container.ESTWZentraleinheit)
+		elementList.addAll(container.aussenelementansteuerung)
+		elementList.addAll(container.ESTWZentraleinheit)
 
 		for (el : elementList) {
-			if (el.identitaet.wert ==
-				element.AEAEnergieversorgung.IDEnergieSekundaer.identitaet?.
-					wert) {
-				return el;
+			if (el.identitaet.wert == idEnergie.identitaet?.wert) {
+				return el
 			}
 		}
-		return null;
+		return null
 	}
 
 	private dispatch def String getBezeichner(Basis_Objekt objekt) {
@@ -548,6 +568,11 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private dispatch def String getBezeichner(ESTW_Zentraleinheit ze) {
 		return '''«ze.bezeichnung.bezeichnungESTWZE.wert»'''
+	}
+
+	private dispatch def String getBezeichner(
+		Technik_Standort technikStandort) {
+		return '''«technikStandort.bezeichnung.bezeichnungTSO.wert»'''
 	}
 
 	private dispatch def String ipAdressangabenGFKKategorie(

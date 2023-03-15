@@ -8,8 +8,10 @@
  */
 package org.eclipse.set.feature.table.pt1.ssko;
 
+import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
@@ -18,6 +20,8 @@ import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schloss
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.utils.table.TMFactory
+
+import static org.eclipse.set.feature.table.pt1.ssko.SskoColumns.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
@@ -28,10 +32,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SchlossExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import static org.eclipse.set.feature.table.pt1.ssko.SskoColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Schlosstabelle Entwurf (Ssko).
@@ -183,52 +183,31 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// K: Ssko.W_Gsp_Bue.Verschl_Element.Komponente
-			fillSwitch(
+			// K:Ssko.W_Gsp_Bue.Verschl_Element.Anbaulage
+			fill(
 				instance,
-				cols.getColumn(Verschl_Element_Komponente),
+				cols.getColumn(Verschl_Element_Anbaulage),
 				schloss,
-				new Case<Schloss>(
-					[
-						!WKrElement.WKrGspKomponenten.map[zungenpaar].
-							filterNull.empty &&
-							(schlossW?.verschlussHerzstueck === null ||
-								!schlossW.verschlussHerzstueck.wert
-							)
-					],
-					["Zunge"]
-				),
-				new Case<Schloss>(
-					[
-						!WKrElement.WKrGspKomponenten.map[zungenpaar].
-							filterNull.empty &&
-							(schlossW?.verschlussHerzstueck !== null &&
-								schlossW.verschlussHerzstueck.wert
-							)
-					],
-					["Zunge + Herzstück"]
-				),
-				new Case<Schloss>(
-					[
-						WKrElement.WKrGspKomponenten.map[zungenpaar].
-							filterNull.empty &&
-							(schlossW?.verschlussHerzstueck !== null &&
-								schlossW.verschlussHerzstueck.wert
-							)
-					],
-					["Herzstück"]
-				)
+				[schlossW?.WAnbaulage?.wert?.translate ?: ""]
 			)
 
-			// L: Ssko.W_Gsp_Bue.Schlossart
+			// L: Ssko.W_Gsp_Bue.Verschl_Element.Ort
+			fill(
+				instance,
+				cols.getColumn(Verschl_Element_Ort),
+				schloss,
+				[schlossW?.verschlussOrt?.wert?.translate ?: ""]
+			)
+
+			// M: Ssko.W_Gsp_Bue.Schlossart
 			fill(
 				instance,
 				cols.getColumn(Schlossart),
 				schloss,
-				[schloss?.schlossW?.schlossArt?.wert?.translate]
+				[schloss?.schlossW?.schlossArt?.wert?.translate ?: ""]
 			)
 
-			// M: Ssko.Sk_Ssp.Bezeichnung
+			// N: Ssko.Sk_Ssp.Bezeichnung
 			fillSwitch(
 				instance,
 				cols.getColumn(Sk_Ssp_Bezeichnung),
@@ -243,7 +222,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// N: Ssko.Sk_Ssp.Hauptschloss
+			// O: Ssko.Sk_Ssp.Hauptschloss
 			fill(
 				instance,
 				cols.getColumn(Sk_Ssp_Hauptschloss),
@@ -251,7 +230,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				[schloss?.schlossSk?.hauptschloss?.wert?.translate]
 			);
 
-			// O: Ssko.Sk_Ssp.Unterbringung.Art
+			// P: Ssko.Sk_Ssp.Unterbringung.Art
 			fillSwitch(
 				instance,
 				cols.getColumn(Sk_Ssp_Unterbringung_Art),
@@ -272,7 +251,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// P: Ssko.Sk_Ssp.Unterbringung.Ort
+			// Q: Ssko.Sk_Ssp.Unterbringung.Ort
 			fillSwitch(
 				instance,
 				cols.getColumn(Sk_Ssp_Unterbringung_Ort),
@@ -293,7 +272,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// Q: Ssko.Sk_Ssp.Unterbringung.Strecke
+			// R: Ssko.Sk_Ssp.Unterbringung.Strecke
 			fillSwitch(
 				instance,
 				cols.getColumn(Sk_Ssp_Unterbringung_Strecke),
@@ -316,7 +295,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// R: Ssko.Sk_Ssp.Unterbringung.km
+			// S: Ssko.Sk_Ssp.Unterbringung.km
 			fillSwitch(
 				instance,
 				cols.getColumn(Sk_Ssp_Unterbringung_km),
@@ -338,22 +317,35 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 			)
 
-			// S: Ssko.Sonderanlage
+			// T: Ssko.Sonderanlage
 			fillSwitch(
 				instance,
 				cols.getColumn(Sonderanlage),
 				schloss,
 				new Case<Schloss>(
-				[schloss?.schlossSonderanlage !== null], [
-					schloss?.sonderanlage?.bezeichnung?.bezeichnungTabelle?.wert
-				]),
+					[schloss?.schlossSonderanlage !== null],
+					[
+						'''
+							«sonderanlage?.bezeichnung?.bezeichnungTabelle?.wert»
+							(«schlossSonderanlage?.sonderanlageLage.wert.translate»)
+						'''
+					]
+				),
 				new Case<Schloss>(
-				[schloss?.schlossSonderanlage?.beschreibungSonderanlage !== null], [
-					schlossSonderanlage?.beschreibungSonderanlage?.wert
-				])
+					[
+						schloss?.schlossSonderanlage?.
+							beschreibungSonderanlage !== null
+					],
+					[
+						'''
+							«schlossSonderanlage?.beschreibungSonderanlage?.wert»
+							(«schlossSonderanlage?.sonderanlageLage.wert.translate»)
+						'''
+					]
+				)
 			)
 
-			// T: Ssko.Technisch_Berechtigter
+			// U: Ssko.Technisch_Berechtigter
 			fillConditional(
 				instance,
 				cols.getColumn(Technisch_Berechtigter),
@@ -362,7 +354,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				[(technischBerechtigter.wert.translate)]
 			)
 
-			// U: Ssko.Bemerkung
+			// V: Ssko.Bemerkung
 			fill(
 				instance,
 				cols.getColumn(Bemerkung),

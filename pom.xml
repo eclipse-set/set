@@ -49,6 +49,7 @@
 		<module>java/bundles/org.eclipse.set.emfforms</module>
 
 		<module>java/bundles/org.eclipse.set.feature.table</module>
+		<module>java/bundles/org.eclipse.set.feature.table.pt1</module>
 		<module>java/bundles/org.eclipse.set.feature.table.test</module>
 		<module>java/bundles/org.eclipse.set.feature.export</module>
 		<module>java/bundles/org.eclipse.set.feature.export.test</module>

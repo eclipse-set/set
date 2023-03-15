@@ -10,6 +10,7 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup
+import java.util.List
 
 /**
  * Diese Klasse erweitert {@link FMA_Komponente_Achszaehlpunkt_AttributeGroup}.
@@ -26,5 +27,13 @@ class FmaKomponenteAchszaehlpunktExtensions extends BasisObjektExtensions {
 		return komp?.IDEnergie
 	}
 
-
+	/**
+	 * @param komp the component
+	 * 
+	 * @returns the Aussenelementansteuerung of the given id
+	 */
+	def static List<Aussenelementansteuerung> getAussenelementInformation(
+		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
+		return komp?.IDInformation
+	}
 }

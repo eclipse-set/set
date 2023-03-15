@@ -10,8 +10,10 @@ package org.eclipse.set.feature.table.pt1.sskg
 
 import java.util.ArrayList
 import java.util.NoSuchElementException
+import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.format.TextAlignment
@@ -21,8 +23,9 @@ import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
 import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
 import org.eclipse.set.utils.table.TMFactory
 
+import static org.eclipse.set.feature.table.pt1.sskg.SskgColumns.*
+
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteAchszaehlpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensions.*
@@ -30,9 +33,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ZugEinwirkungExtensions.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
-import static org.eclipse.set.feature.table.pt1.sskg.SskgColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Gleisschaltmitteltabelle (SSKG).
@@ -218,15 +218,17 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 
 				// D: Sskg.Achszaehlpunkte.Anschluss_Info.AEA_I
-				fill(
+				fillIterable(
 					row,
 					cols.getColumn(AEA_I),
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.
-							aussenelementInformation?.oertlichkeitNamensgebend?.
-							bezeichnung?.oertlichkeitAbkuerzung?.wert ?: ""
-					]
+							aussenelementInformation.map [
+								bezeichnung?.bezeichnungAEA?.wert ?: ""
+							]
+					],
+					null
 				)
 
 				// E: Sskg.Achszaehlpunkte.Anschluss_Energie.AEA_E
@@ -236,8 +238,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.aussenelementEnergie?.
-							oertlichkeitNamensgebend?.bezeichnung?.
-							oertlichkeitAbkuerzung?.wert ?: ""
+							bezeichnung?.bezeichnungAEA.wert ?: ""
 					]
 				)
 

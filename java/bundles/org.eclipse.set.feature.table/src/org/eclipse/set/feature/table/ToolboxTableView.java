@@ -32,7 +32,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
-import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnCommand;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
@@ -328,6 +327,8 @@ public final class ToolboxTableView extends BasePart {
 				bodyDataProvider);
 
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
+
+		bodyLayerStack.freezeColumn(0);
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
 		selectionLayer.addConfiguration(
@@ -423,7 +424,6 @@ public final class ToolboxTableView extends BasePart {
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
 				s -> showExportEndDialog(getToolboxShell())));
 
-		natTable.doCommand(new FreezeColumnCommand(bodyLayerStack, 0));
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes

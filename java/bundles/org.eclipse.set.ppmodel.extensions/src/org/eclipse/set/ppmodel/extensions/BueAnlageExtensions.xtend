@@ -11,6 +11,7 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Gleisbezogener_Gefahrraum
 import java.util.List
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
 
 /**
  * Extensions for {@link BUE_Anlage}.
@@ -30,4 +31,13 @@ class BueAnlageExtensions extends PunktObjektExtensions {
 			IDBUEAnlage.identitaet?.wert == anlage.identitaet.wert
 		].toList
 	}
+	
+	/**
+	 * @param anlage this BUE Anlage
+	 * 
+	 * @return the BUE Anlage Stellelement
+	 */
+	 static def Stellelement getStellelement(BUE_Anlage anlage) {
+	 	return anlage?.IDBUESchnittstelle?.IDStellelement
+	 }
 }

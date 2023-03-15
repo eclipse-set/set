@@ -11,7 +11,9 @@ package org.eclipse.set.utils.table;
 
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
+import org.eclipse.nebula.widgets.nattable.freeze.FreezeHelper;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
+import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnStrategy;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayerTransform;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
@@ -32,6 +34,8 @@ public class BodyLayerStack extends AbstractLayerTransform {
 	private final SelectionLayer selectionLayer;
 	private final ViewportLayer viewportLayer;
 
+	private final FreezeLayer freezeLayer;
+
 	/**
 	 * @param bodyDataLayer
 	 *            the data layer
@@ -46,11 +50,10 @@ public class BodyLayerStack extends AbstractLayerTransform {
 		this.selectionLayer
 				.addConfiguration(new DefaultMoveSelectionConfiguration());
 
-		final FreezeLayer freezeLayer = new FreezeLayer(this.selectionLayer);
+		freezeLayer = new FreezeLayer(this.selectionLayer);
 		final CompositeFreezeLayer compositeFreezeLayer = new CompositeFreezeLayer(
 				freezeLayer, viewportLayer, this.selectionLayer);
 		setUnderlyingLayer(compositeFreezeLayer);
-
 	}
 
 	/**
@@ -72,5 +75,26 @@ public class BodyLayerStack extends AbstractLayerTransform {
 	 */
 	public ViewportLayer getViewportLayer() {
 		return viewportLayer;
+	}
+
+	/**
+	 * @return the freeze layer
+	 */
+	public FreezeLayer getFreezeLayer() {
+		return freezeLayer;
+	}
+
+	/**
+	 * Freeze column
+	 * 
+	 * @param columnPos
+	 *            column position
+	 */
+	public void freezeColumn(final int columnPos) {
+		final FreezeColumnStrategy freezeColumnStrategy = new FreezeColumnStrategy(
+				freezeLayer, viewportLayer, columnPos);
+		FreezeHelper.freeze(freezeLayer, viewportLayer,
+				freezeColumnStrategy.getTopLeftPosition(),
+				freezeColumnStrategy.getBottomRightPosition());
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 DB Netz AG and others.
+ * Copyright (c) 2023 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.feature.table.pt1.ssld;
+package org.eclipse.set.feature.table.pt1.ssbb;
 
 import org.eclipse.set.core.services.part.PartDescriptionService;
 import org.eclipse.set.feature.table.AbstractTableDescription;
@@ -16,22 +16,24 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * Part description for SSLD table view.
+ * Part description for Ssbb table view.
  * 
- * @author Schaefer
+ * @author truong
  */
 @Component(service = PartDescriptionService.class)
-public class SsldDescriptionService extends AbstractTableDescription {
+public class SsbbDescriptionService extends AbstractTableDescription {
+
 	@Reference
 	Messages messages;
 
 	@Override
 	protected String getToolboxViewName() {
-		return messages.SsldDescriptionService_ViewName;
+		return messages.SsbbDescriptionService_ViewName;
 	}
 
 	@Override
 	protected String getToolboxViewTooltip() {
-		return messages.SsldDescriptionService_ViewTooltip;
+		return messages.SsbbDescriptionService_ViewTooltip;
 	}
+
 }

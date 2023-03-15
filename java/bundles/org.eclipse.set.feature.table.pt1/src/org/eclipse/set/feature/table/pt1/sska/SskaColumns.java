@@ -54,78 +54,84 @@ public class SskaColumns {
 	public static final String Unterbringung_km = "G";
 
 	/**
+	 * Sska.Grundsatzangeben.Unterbringung.Tueranschlag
+	 */
+	public static final String Unterbringung_Tueranschlag = "H";
+
+	/**
 	 * Sska.Verknüpfungen.Information.primaer
 	 */
-	public static final String Information_primaer = "H";
+	public static final String Information_primaer = "I";
 
 	/**
 	 * Sska.Verknüpfungen.Information-sekundaer
 	 */
-	public static final String Information_sekundaer = "I";
+	public static final String Information_sekundaer = "J";
 
 	/**
 	 * Sska.Verknüpfungen.Energie.primaer
 	 */
 
-	public static final String Energie_primaer = "J";
+	public static final String Energie_primaer = "K";
 
 	/**
 	 * Sska.Verknüpfungen.Energie.sekundaer
 	 */
-	public static final String Energie_sekundaer = "K";
+	public static final String Energie_sekundaer = "L";
 
 	/**
 	 * Sska.Verknüpfungen.Bedienung.lokal
 	 */
-	public static final String Bedienung_lokal = "L";
+	public static final String Bedienung_lokal = "M";
 
 	/**
 	 * Sska.Verknüpfungen.Bedienung.bezirk
 	 */
-	public static final String Bedienung_bezirk = "M";
+	public static final String Bedienung_bezirk = "N";
 
 	/**
 	 * Sska.Verknüpfungen.Bedienung.zentrale
 	 */
-	public static final String Bedienung_zentrale = "N";
+	public static final String Bedienung_zentrale = "O";
 
 	/**
 	 * Sska.Verknüpfungen.Bedienung.NotBP
 	 */
-	public static final String Bedienung_NotBP = "O";
+	public static final String Bedienung_NotBP = "P";
 
 	/**
 	 * Sska.IP_Adressangaben.GFK_Kategorie
 	 */
-	public static final String IP_GFK_Kategorie = "P";
+	public static final String IP_GFK_Kategorie = "Q";
 
 	/**
 	 * Sska.IP_Adressangaben.Regionalbereich
 	 */
-	public static final String IP_Regionalbereich = "Q";
+	public static final String IP_Regionalbereich = "R";
 
 	/**
 	 * Sska.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
 	 */
-	public static final String IPv4_Blau = "R";
+	public static final String IPv4_Blau = "S";
 
 	/**
 	 * Sska.IP_Adressangaben.Adressblock_Blau.IPv6_Blau
 	 */
-	public static final String IPv6_Blau = "S";
+	public static final String IPv6_Blau = "T";
 
 	/**
 	 * Sska.IP_Adressangaben.Adressblock_Grau.IPv4_Grau
 	 */
-	public static final String IPv4_Grau = "T";
+	public static final String IPv4_Grau = "U";
 
 	/**
 	 * Sska.IP_Adressangaben.Adressblock_Grau.IPv6_Grau
 	 */
-	public static final String IPv6_Grau = "U";
+	public static final String IPv6_Grau = "V";
 
 	/**
 	 * Sska.Bemerkung
 	 */
-	public static final String Bemerkung = "V";
+	public static final String Bemerkung = "W";
+
 }

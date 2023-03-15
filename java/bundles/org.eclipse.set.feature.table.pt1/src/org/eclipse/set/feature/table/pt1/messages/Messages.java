@@ -143,6 +143,21 @@ public class Messages extends AbstractMessageService {
 	public String Common_Yes;
 
 	/**
+	 * Ssbb (Bedieneinrichtungstabelle BÜ)
+	 */
+	public String SsbbDescriptionService_ViewName;
+
+	/**
+	 * Bedieneinrichtungstabelle BÜ
+	 */
+	public String SsbbDescriptionService_ViewTooltip;
+
+	/**
+	 * Bedieneinrichtungstabelle BÜ (Ssbb)
+	 */
+	public String SsbbTableView_Heading;
+
+	/**
 	 * Sska (Elementansteuertabelle)
 	 */
 	public String SskaDescriptionService_ViewName;
@@ -3052,6 +3067,21 @@ public class Messages extends AbstractMessageService {
 	 * Elementansteuertabelle
 	 */
 	public String ToolboxTableNameSskaButtonTooltip;
+
+	/**
+	 * Bedieneinrichtungstabelle BÜ
+	 */
+	public String ToolboxTableNameSsbbLong;
+
+	/**
+	 * 23/13
+	 */
+	public String ToolboxTableNameSsbbPlanningNumber;
+
+	/**
+	 * Ssbb
+	 */
+	public String ToolboxTableNameSsbbShort;
 
 	/**
 	 * Elementansteuertabelle

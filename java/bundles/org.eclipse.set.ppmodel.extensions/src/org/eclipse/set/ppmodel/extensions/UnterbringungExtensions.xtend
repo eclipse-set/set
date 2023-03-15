@@ -13,6 +13,7 @@ import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
 import org.eclipse.set.toolboxmodel.Geodaten.Strecke
 import java.util.List
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMTueranschlag
 
 /**
  * Extensions for {@link Unterbringung}.
@@ -66,5 +67,9 @@ class UnterbringungExtensions extends BasisObjektExtensions {
 		return unterbringung?.punktObjektStrecke?.map [
 			IDStrecke
 		];
+	}
+	
+	def static ENUMTueranschlag getTueranschlag(Unterbringung unterbringung) {
+		return unterbringung?.unterbringungAllg?.tueranschlag?.wert
 	}
 }

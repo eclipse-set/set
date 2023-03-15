@@ -70,57 +70,63 @@ public class SskoColumns {
 	public static final String Verschl_Element_Lage = "J";
 
 	/**
-	 * Ssko.W_Gsp_Bue.Verschl_Element.Komponente
+	 * Ssko.W_Gsp_Bue.Verschl_Element.Anbaulage
 	 */
-	public static final String Verschl_Element_Komponente = "K";
+
+	public static final String Verschl_Element_Anbaulage = "K";
+
+	/**
+	 * Ssko.W_Gsp_Bue.Verschl_Element.Ort
+	 */
+	public static final String Verschl_Element_Ort = "L";
 
 	/**
 	 * Ssko.W_Gsp_Bue.Schlossart
 	 */
-	public static final String Schlossart = "L";
+	public static final String Schlossart = "M";
 
 	/**
 	 * Ssko.Sk_Ssp.Bezeichnung
 	 */
-	public static final String Sk_Ssp_Bezeichnung = "M";
+	public static final String Sk_Ssp_Bezeichnung = "N";
 
 	/**
 	 * Ssko.Sk_Ssp.Hauptschloss
 	 */
-	public static final String Sk_Ssp_Hauptschloss = "N";
+	public static final String Sk_Ssp_Hauptschloss = "O";
 
 	/**
 	 * Ssko.Sk_Ssp.Unterbringung.Art
 	 */
-	public static final String Sk_Ssp_Unterbringung_Art = "O";
+	public static final String Sk_Ssp_Unterbringung_Art = "P";
 
 	/**
 	 * Ssko.Sk_Ssp.Unterbringung.Ort
 	 */
-	public static final String Sk_Ssp_Unterbringung_Ort = "P";
+	public static final String Sk_Ssp_Unterbringung_Ort = "Q";
 
 	/**
 	 * Ssko.Sk_Ssp.Unterbringung.Strecke
 	 */
-	public static final String Sk_Ssp_Unterbringung_Strecke = "Q";
+	public static final String Sk_Ssp_Unterbringung_Strecke = "R";
 
 	/**
 	 * Ssko.Sk_Ssp.Unterbringung.km
 	 */
-	public static final String Sk_Ssp_Unterbringung_km = "R";
+	public static final String Sk_Ssp_Unterbringung_km = "S";
 
 	/**
 	 * Ssko.Sonderanlage
 	 */
-	public static final String Sonderanlage = "S";
+	public static final String Sonderanlage = "T";
 
 	/**
 	 * Ssko.Technisch_Berechtigter
 	 */
-	public static final String Technisch_Berechtigter = "T";
+	public static final String Technisch_Berechtigter = "U";
 
 	/**
 	 * Ssko.Bemerkung
 	 */
-	public static final String Bemerkung = "U";
+	public static final String Bemerkung = "V";
 }

@@ -13,6 +13,7 @@ import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit;
 import java.util.List
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Platz
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Bezirk
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
 
 /**
  * Extensions for {@link ESTW_Zentraleinheit}.
@@ -61,6 +62,18 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 	def static Bedien_Bezirk getBedienBezirkVirtuell(
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 		return estw_zentraleinheit.IDBedienBezirkVirtuell
+	}
+
+	/**
+	 * @param estw_zentraleinheit this ESTW_Zentraleinheit
+	 * 
+	 * @return the Bedien_Bezirk as defined by ID_Bedien_Bezirk_Virtuell
+	 */
+	def static List<Technik_Standort> getTechnikStandort(
+		ESTW_Zentraleinheit estw_zentraleinheit) {
+		return estw_zentraleinheit.container.technikStandort.filter [
+			IDUnterbringung === estw_zentraleinheit.IDUnterbringung
+		].toList
 	}
 
 }
