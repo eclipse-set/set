@@ -18,6 +18,9 @@
    <feature id="org.eclipse.set.browser.feature">
       <category name="de.scheidtbachmann.planpro.set.utils.category"/>
    </feature>
+      <feature id="org.eclipse.set.browser.cef.feature">
+      <category name="de.scheidtbachmann.planpro.set.utils.category"/>
+   </feature>
    <feature id="org.eclipse.set.browser.feature.source">
       <category name="de.scheidtbachmann.planpro.set.utils.category"/>
    </feature>
