@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,7 +42,7 @@ import org.xml.sax.SAXException;
  * @author Truong
  */
 public class TransformTable {
-	private static final String EXCEL_TEMPLATE_PATH = "./data/export/excel"; //$NON-NLS-1$
+	private static final String EXCEL_TEMPLATE_PATH = "data/export/excel"; //$NON-NLS-1$
 	private static final String WATER_MARK_TEMPLATE_NAME = "water-mark-content"; //$NON-NLS-1$
 	private static final float MAX_PAPER_WIDTH = 38.97f;
 	String shortcut;
@@ -114,8 +115,8 @@ public class TransformTable {
 	}
 
 	private File getTemplatePath() {
-		return new File(String.format("%s/%s_vorlage.xlt", EXCEL_TEMPLATE_PATH, //$NON-NLS-1$
-				shortcut));
+		return Paths.get(String.format("%s/%s_vorlage.xlt", EXCEL_TEMPLATE_PATH, //$NON-NLS-1$
+				shortcut)).toAbsolutePath().toFile();
 	}
 
 	/**

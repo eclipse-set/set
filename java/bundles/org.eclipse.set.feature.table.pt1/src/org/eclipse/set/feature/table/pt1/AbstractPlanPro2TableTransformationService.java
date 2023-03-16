@@ -33,7 +33,7 @@ import org.eclipse.set.utils.table.GroupBuilder;
  */
 public abstract class AbstractPlanPro2TableTransformationService
 		extends PlanPro2TableTransformationService {
-	private static final String TEMPLATE_DIR = "./data/export/excel/"; //$NON-NLS-1$
+	private static final String TEMPLATE_DIR = "data/export/excel/"; //$NON-NLS-1$
 	protected Set<ColumnDescriptor> cols;
 
 	@Override
@@ -48,9 +48,11 @@ public abstract class AbstractPlanPro2TableTransformationService
 	public ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder) {
 		final GroupBuilder root = builder.createRootColumn(getTableHeading());
-		final Path templatePath = Paths.get(TEMPLATE_DIR,
-				getTableNameInfo().getShortName().toLowerCase()
-						+ "_vorlage.xlt"); //$NON-NLS-1$
+		final Path templatePath = Paths
+				.get(TEMPLATE_DIR,
+						getTableNameInfo().getShortName().toLowerCase()
+								+ "_vorlage.xlt") //$NON-NLS-1$
+				.toAbsolutePath();
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());
 				final Workbook workbook = new HSSFWorkbook(inputStream)) {

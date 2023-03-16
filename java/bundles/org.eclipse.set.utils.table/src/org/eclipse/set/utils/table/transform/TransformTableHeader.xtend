@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.utils.table.transform
 
-import java.io.File
 import java.io.IOException
+import java.nio.file.Paths
 import java.util.Optional
 import java.util.Set
 import javax.xml.parsers.DocumentBuilderFactory
@@ -37,8 +37,8 @@ import static extension org.eclipse.set.utils.table.transform.TransformStyle.*
  * @author Truong 
  */
 class TransformTableHeader {
-	static val XSL_TEMPLATE_PATH = "./data/export/pdf/table_template.xsl"
-	static val MULTIPAGE_LAYOUT_TEMPLATE_PATH = "./data/export/pdf/multipage_layout.xsl"
+	static val XSL_TEMPLATE_PATH = "data/export/pdf/table_template.xsl"
+	static val MULTIPAGE_LAYOUT_TEMPLATE_PATH = "data/export/pdf/multipage_layout.xsl"
 	static val XSL_MAINPAGE_TEMPLATE_NAME = "MainPage"
 	
 	Document doc
@@ -55,7 +55,7 @@ class TransformTableHeader {
 		String path) throws ParserConfigurationException , SAXException, IOException {
 		val documentBuilderFactory = DocumentBuilderFactory.newInstance
 		val builder = documentBuilderFactory.newDocumentBuilder
-		val doc = builder.parse(new File(path))
+		val doc = builder.parse(Paths.get(path).toAbsolutePath.toFile)
 		return doc
 	}
 
