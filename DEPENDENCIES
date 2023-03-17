@@ -564,7 +564,7 @@ npm/npmjs/-/glob-parent/5.1.2, ISC, approved, clearlydefined
 npm/npmjs/-/glob-parent/6.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/glob-to-regexp/0.4.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/globby/13.1.2, MIT, approved, #5753
-npm/npmjs/-/graceful-fs/4.2.10, ISC, approved, clearlydefined
+npm/npmjs/-/graceful-fs/4.2.10, ISC, approved, #7413
 npm/npmjs/-/has-flag/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/ignore/5.2.0, MIT, approved, #5907
@@ -862,7 +862,7 @@ npm/npmjs/-/glob/7.2.3, ISC, approved, clearlydefined
 npm/npmjs/-/globals/13.18.0, MIT, approved, #4992
 npm/npmjs/-/globby/11.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/globby/13.1.2, MIT, approved, #5753
-npm/npmjs/-/graceful-fs/4.2.10, ISC, approved, clearlydefined
+npm/npmjs/-/graceful-fs/4.2.10, ISC, approved, #7413
 npm/npmjs/-/grapheme-splitter/1.0.4, MIT, approved, #1645
 npm/npmjs/-/handle-thing/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/has-bigints/1.0.2, MIT, approved, clearlydefined
