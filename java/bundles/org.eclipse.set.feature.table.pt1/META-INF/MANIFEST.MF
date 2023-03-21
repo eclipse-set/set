@@ -100,6 +100,8 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssko.SskoTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sskt.SsktDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sskt.SsktTransformationService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.ssla.SslaDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.ssla.SslaTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sslb.SslbDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sslb.SslbTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssli.SsliDescriptionService.xml,
