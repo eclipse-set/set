@@ -67,11 +67,6 @@ public interface ToolboxProperties {
 	public static final String PDF_EXPORT_TEST_FILLING = "toolbox.export.pdf.test.filling";
 
 	/**
-	 * Property key for show toolbox news at start up.
-	 */
-	public static final String SHOW_NEWS = "showNews";
-
-	/**
 	 * Property key for tables scale factor.
 	 */
 	public static final String TABLES_SCALE_FACTOR = "toolbox.tables.scale";
