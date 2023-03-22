@@ -100,14 +100,6 @@ public class ValidationServiceImpl implements ValidationService {
 			final ValidationResult result) {
 		final SchemaFactory factory = SchemaFactory
 				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		// Disallow external entity access
-		try {
-			factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");//$NON-NLS-1$
-		} catch (final Exception e) {
-			// Rethrow this exception. It is only thrown if the SchemaFactory is
-			// missing features, which itself is unsupported by us
-			throw new RuntimeException(e);
-		}
 		factory.setResourceResolver(PlanProSchemaDir.getResourceResolver());
 		final File file = new File(toolboxFile.getModelPath().toString());
 		try {

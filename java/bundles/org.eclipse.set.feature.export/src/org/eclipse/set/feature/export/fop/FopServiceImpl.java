@@ -17,7 +17,6 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.Map;
 
-import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -110,11 +109,6 @@ public class FopServiceImpl implements FopService {
 		fopFactory.getRendererFactory().addDocumentHandlerMaker(
 				new FopPDFDocumentHandlerMaker(fontService));
 		transformerFactory = TransformerFactory.newInstance();
-
-		// Disallow external entity access
-		transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); //$NON-NLS-1$
-		transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET,
-				""); //$NON-NLS-1$
 	}
 
 	@Override

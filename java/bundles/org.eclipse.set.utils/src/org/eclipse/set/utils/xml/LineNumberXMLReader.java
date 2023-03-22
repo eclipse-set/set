@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Stack;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -80,8 +79,6 @@ public class LineNumberXMLReader {
 			throws IOException, SAXException, ParserConfigurationException {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
 		final SAXParser parser = factory.newSAXParser();
-		parser.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); //$NON-NLS-1$
-		parser.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); //$NON-NLS-1$
 		final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
 				.newInstance();
 		final DocumentBuilder docBuilder = docBuilderFactory
