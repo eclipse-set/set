@@ -57,7 +57,7 @@ public class NewsUtil {
 		final String currentVersion = ToolboxConfiguration.getToolboxVersion()
 				.getShortVersion();
 		final String[] splitVersion = currentVersion.split("\\."); //$NON-NLS-1$
-		LOGGER.debug(String.format("Current Version: %s", currentVersion));
+		LOGGER.debug(String.format("Current Version: %s", currentVersion)); //$NON-NLS-1$
 		// Not show news by development version
 		if (splitVersion.length > 3) {
 			return false;
@@ -66,7 +66,7 @@ public class NewsUtil {
 		final NewsUtil newsUtil = new NewsUtil();
 		final String releaseVersion = String.format("%s.%s", splitVersion[0], //$NON-NLS-1$
 				splitVersion[1]);
-		LOGGER.debug(String.format("Release Version: %s", releaseVersion));
+		LOGGER.debug(String.format("Release Version: %s", releaseVersion)); //$NON-NLS-1$
 		if (newsUtil.isContainVersion(releaseVersion)) {
 			newsUtil.store(currentVersion);
 			return true;
