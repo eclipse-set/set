@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
@@ -38,9 +39,10 @@ public class NewsUtil {
 
 	private static final String FILENAME = "showNewsConfig.csv"; //$NON-NLS-1$
 	private static final String CSV_HEADER_VERSION = "Version"; //$NON-NLS-1$
+	private static final String VERSION_REGEX = "^([0-9]*.[0-9]*)$"; //$NON-NLS-1$
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(NewsUtil.class);
-	private final List<CSVRecord> csvRecodes = new ArrayList<>();
+	private final List<CSVRecord> csvRecordes = new ArrayList<>();
 	private boolean isFileExist = true;
 	private final Builder csvBuilder;
 
@@ -59,7 +61,7 @@ public class NewsUtil {
 		final String[] splitVersion = currentVersion.split("\\."); //$NON-NLS-1$
 		LOGGER.debug(String.format("Current Version: %s", currentVersion)); //$NON-NLS-1$
 		// Not show news by development version
-		if (splitVersion.length > 3) {
+		if (splitVersion.length > 3 || splitVersion.length < 2) {
 			return false;
 		}
 
@@ -67,8 +69,8 @@ public class NewsUtil {
 		final String releaseVersion = String.format("%s.%s", splitVersion[0], //$NON-NLS-1$
 				splitVersion[1]);
 		LOGGER.debug(String.format("Release Version: %s", releaseVersion)); //$NON-NLS-1$
-		if (newsUtil.isContainVersion(releaseVersion)) {
-			newsUtil.store(currentVersion);
+		if (!newsUtil.isContainVersion(releaseVersion)) {
+			newsUtil.store(releaseVersion);
 			return true;
 		}
 
@@ -116,7 +118,7 @@ public class NewsUtil {
 		try (final Reader reader = Files.newBufferedReader(getFilePath());
 				final CSVParser csvParser = new CSVParser(reader,
 						csvBuilder.build())) {
-			csvRecodes.addAll(csvParser.getRecords());
+			csvRecordes.addAll(csvParser.getRecords());
 		} catch (final IOException e) {
 			final Path workingDir = Paths.get(""); //$NON-NLS-1$
 			LOGGER.error("Current Relative Path"); //$NON-NLS-1$
@@ -137,11 +139,7 @@ public class NewsUtil {
 		try (BufferedWriter writer = Files.newBufferedWriter(getFilePath());
 				final CSVPrinter csvPrinter = new CSVPrinter(writer,
 						csvBuilder.build())) {
-			final List<String> storeVersions = getStoreVersions();
-			if (Strings.isNullOrEmpty(newVersionNumber)) {
-				storeVersions.add(newVersionNumber);
-			}
-			storeVersions.forEach(version -> {
+			getStoreVersions().forEach(version -> {
 				try {
 					csvPrinter.printRecord(version);
 				} catch (final IOException ex) {
@@ -150,6 +148,9 @@ public class NewsUtil {
 					throw new RuntimeException(ex);
 				}
 			});
+			if (!Strings.isNullOrEmpty(newVersionNumber)) {
+				csvPrinter.printRecord(newVersionNumber);
+			}
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -183,8 +184,16 @@ public class NewsUtil {
 	}
 
 	private List<String> getStoreVersions() {
-		return csvRecodes.stream().map(record -> record.get(CSV_HEADER_VERSION))
-				.toList();
+		if (csvRecordes.isEmpty()) {
+			return new ArrayList<>();
+		}
+		return csvRecordes.stream().map(csvRecord -> {
+			final String version = csvRecord.get(CSV_HEADER_VERSION);
+			if (version.matches(VERSION_REGEX)) {
+				return version;
+			}
+			return null;
+		}).filter(Objects::nonNull).toList();
 	}
 
 }
