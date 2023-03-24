@@ -122,6 +122,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.emf.ecp.viewmodel.feature/1.27.0.2022120
 p2/orbit/p2.eclipse.feature/org.eclipse.emfforms.core.bazaar.feature/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.feature/org.eclipse.emfforms.view.annotation.feature/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.feature/org.eclipse.equinox.executable/3.8.1900.v20221108-1024, EPL-2.0, approved, eclipse.equinox
+p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/17.0.6.v20230204-1729, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.feature/org.eclipse.set.browser.cef.feature/107.0.0.202303140900, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.feature/org.eclipse.set.browser.feature.source/2.0.0.202303140930, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.feature/org.eclipse.set.browser.feature/2.0.0.202303140930, EPL-2.0, approved, technology.set
@@ -435,6 +436,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.jface.notifications/0.5.100.v20221024-213
 p2/orbit/p2.eclipse.plugin/org.eclipse.jface.text.nl_de/4.22.0.v20211218020001, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jface.text/3.22.0.v20221119-1047, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jface/3.28.0.v20221024-1426, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/17.0.6.v20230204-1729, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/17.0.6.v20230204-1729, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.nl_de/4.22.0.v20211218020001, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring/3.13.0.v20220822-0502, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.ui.refactoring/3.12.200.v20220808-2221, EPL-2.0, approved, eclipse.platform
