@@ -211,32 +211,18 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[FMAAnlageElektrMerkmale.FMALaengeBeeinflusst.wert.toString]
 			)
-
-			// P: Sskf.Sonstiges.Weiche
-			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichen = new Wrapper
-			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichenZK = new Wrapper
-
+			
+			// P: Sonstiges.Rbmin
 			fillConditional(
 				instance,
-				cols.getColumn(Sonstiges_Weiche),
+				cols.getColumn(Sonstiges_Rbmin),
 				fmaAnlage,
 				[
-					weichen.value = gleisabschnitt.filterContained(
-						container.WKrGspKomponente
-					).map[WKrGspElement]
-
-					weichenZK.value = weichen.value.filter [
-						WKrGspKomponenten.exists[zungenpaar !== null] ||
-							WKrGspKomponenten.exists[kreuzung !== null] ||
-							WKrGspKomponenten.exists[entgleisungsschuh !== null]
-					]
-
-					!weichenZK.value.empty
+					FMAAnlageAllg.FMAArt.wert ===
+						ENUMFMA_ART_NF_GLEISSTROMKREIS ||
+						FMAAnlageAllg.FMAArt.wert === ENUMFMA_ART_FTGS
 				],
-				[
-					weichenZK.value.map[bezeichnung.bezeichnungTabelle.wert].
-						toSet.getIterableFilling(MIXED_STRING_COMPARATOR)
-				]
+				[FMAAnlageElektrMerkmale?.bettungswiderstand?.wert?.toString]
 			)
 
 			val List<Gleis_Schaltgruppe> schaltgruppen = fmaAnlage.
@@ -263,21 +249,43 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				[schaltgruppen.map[bezeichnung?.bezeichnungTabelle?.wert ?: ""]],
 				MIXED_STRING_COMPARATOR
 			)
+			
+			// S: Sskf.Sonstiges.Weiche
+			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichen = new Wrapper
+			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichenZK = new Wrapper
 
-			// S: Sonstiges.Rbmin
 			fillConditional(
 				instance,
-				cols.getColumn(Sonstiges_Rbmin),
+				cols.getColumn(Sonstiges_Weiche),
 				fmaAnlage,
 				[
-					FMAAnlageAllg.FMAArt.wert ===
-						ENUMFMA_ART_NF_GLEISSTROMKREIS ||
-						FMAAnlageAllg.FMAArt.wert === ENUMFMA_ART_FTGS
-				],
-				[FMAAnlageElektrMerkmale?.bettungswiderstand?.wert?.toString]
-			)
+					weichen.value = IDGleisAbschnitt.filterContained(
+						container.WKrGspKomponente
+					).map[WKrGspElement]
 
-			// T: Sonstiges.HFmeldung
+					weichenZK.value = weichen.value.filter [
+						WKrGspKomponenten.exists[zungenpaar !== null] ||
+							WKrGspKomponenten.exists[kreuzung !== null] ||
+							WKrGspKomponenten.exists[entgleisungsschuh !== null]
+					]
+
+					!weichenZK.value.empty
+				],
+				[
+					weichenZK.value.map[bezeichnung.bezeichnungTabelle.wert].
+						toSet.getIterableFilling(MIXED_STRING_COMPARATOR)
+				]
+			)
+			
+			//T: Sonstiges.zul_v
+			fill(
+				instance,
+				cols.getColumn(Sonstiges_zul_Geschwindigkeit),
+				fmaAnlage,
+				[IDGleisAbschnitt?.geschwindigkeit?.wert?.toString ?: ""]
+			)
+			
+			// U: Sonstiges.HFmeldung
 			fill(
 				instance,
 				cols.getColumn(Sonstiges_HFmeldung),
@@ -285,7 +293,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				[FMAAnlageAllg?.FMAHilffreimeldung?.wert?.translate ?: ""]
 			)
 
-			// U: Sonstiges.Funktion
+			// V: Sonstiges.Funktion
 			fillIterable(
 				instance,
 				cols.getColumn(Sonstiges_Funktion),
@@ -298,7 +306,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				null
 			)
 
-			// V: Bemerkung
+			// W: Bemerkung
 			fill(
 				instance,
 				cols.getColumn(Bemerkung),

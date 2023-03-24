@@ -95,9 +95,9 @@ public class SskfColumns {
 	public static final String NfTf_GSK_Laenge_beeinfl = "O";
 
 	/**
-	 * Sskf.Sonstiges.Weiche
+	 * Sskf.Sonstiges.Rbmin
 	 */
-	public static final String Sonstiges_Weiche = "P";
+	public static final String Sonstiges_Rbmin = "P";
 
 	/**
 	 * Sskf.Sonstiges.OlA.Schaltgruppe
@@ -110,22 +110,27 @@ public class SskfColumns {
 	public static final String Sonstiges_OlA_Bezeichner = "R";
 
 	/**
-	 * Sskf.Sonstiges.Rbmin
+	 * Sskf.Sonstiges.Weiche
 	 */
-	public static final String Sonstiges_Rbmin = "S";
+	public static final String Sonstiges_Weiche = "S";
+
+	/**
+	 * Sskf.Sonstiges.zul_v
+	 */
+	public static final String Sonstiges_zul_Geschwindigkeit = "T";
 
 	/**
 	 * Sskf.Sonstiges.HFmeldung
 	 */
-	public static final String Sonstiges_HFmeldung = "T";
+	public static final String Sonstiges_HFmeldung = "U";
 
 	/**
 	 * Sskf.Sonstiges.Funktion
 	 */
-	public static final String Sonstiges_Funktion = "U";
+	public static final String Sonstiges_Funktion = "V";
 
 	/**
 	 * Sskf.Bemerkung
 	 */
-	public static final String Bemerkung = "V";
+	public static final String Bemerkung = "W";
 }
