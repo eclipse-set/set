@@ -102,11 +102,7 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 					return ((String) field.get(messages)).trim();
 				}
 			}
-			// IMPROVE: currently we dont have new ENUM of Model 1.10,
-			// for this reason, when no ENUM found,
-			// then return null instead of throw Exception
-			// throw new NoEnumTranslationFound(key);
-			return null;
+			throw new NoEnumTranslationFound(key);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
