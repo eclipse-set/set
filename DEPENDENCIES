@@ -123,7 +123,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.emfforms.core.bazaar.feature/1.27.0.2022
 p2/orbit/p2.eclipse.feature/org.eclipse.emfforms.view.annotation.feature/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.feature/org.eclipse.equinox.executable/3.8.1900.v20221108-1024, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/17.0.6.v20230204-1729, EPL-2.0, approved, technology.justj
-p2/orbit/p2.eclipse.feature/org.eclipse.set.browser.cef.feature/107.0.0.202303140900, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.feature/org.eclipse.set.browser.cef.feature/107.0.0.202303271227, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.feature/org.eclipse.set.browser.feature.source/2.0.0.202303140930, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.feature/org.eclipse.set.browser.feature/2.0.0.202303140930, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.feature/org.eclipse.set.model.model11001.feature.source/2.0.0.202303031648, EPL-2.0, approved, technology.set
@@ -456,7 +456,7 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.util.nl_de/4.22.0.v20211218020001, E
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.util/3.7.100.v20220615-1601, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi/3.18.200.v20221116-1324, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.rcp/4.26.0.v20221123-1800, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/107.0.0.202303140900, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/107.0.0.202303271227, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib.source/2.0.0.202303140930, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.0.0.202303140930, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.source/2.0.0.202303140930, EPL-2.0, approved, technology.set
