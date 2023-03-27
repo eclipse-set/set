@@ -267,7 +267,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt bereich,
 		Bereich_Objekt other
 	) {
-		return bereich.bereichObjektTeilbereich.exists[other.intersectsStrictly(it)]
+		return bereich.bereichObjektTeilbereich.exists [
+			other.intersectsStrictly(it)
+		]
 	}
 
 	/**
@@ -281,8 +283,11 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt bereich,
 		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich
 	) {
-		return bereich.bereichObjektTeilbereich.exists[intersectsStrictly(teilbereich)]
+		return bereich.bereichObjektTeilbereich.exists [
+			intersectsStrictly(teilbereich)
+		]
 	}
+
 	/**
 	 * @param teilbereich a Teilbereich
 	 * @param other another Teilbereich
@@ -323,17 +328,16 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		if (bEndAStart < 0) {
 			return false
 		}
-		
+
 		// If the two TBs are equal, they intersect
-		if(aEndBStart === 0)
-		{
+		if (aEndBStart === 0) {
 			return bEndAStart === 0
 		}
-		
+
 		// Intersection as either
 		// - a starts before b ends
 		// - b starts before a ends
-		return true 
+		return true
 	}
 
 	/**
@@ -575,6 +579,57 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 
 		return Distance.compare(A, distance) <= 0 &&
 			Distance.compare(distance, B) <= 0
+	}
+
+	def static BigDecimal getOverlappingLength(
+		Bereich_Objekt_Teilbereich_AttributeGroup tba,
+		Bereich_Objekt_Teilbereich_AttributeGroup tbb) {
+		if (tba.IDTOPKante !== tbb.IDTOPKante)
+			return BigDecimal.ZERO
+
+		val taA = tba.begrenzungA?.wert
+		val taB = tba.begrenzungB?.wert
+		val tbA = tbb.begrenzungA?.wert
+		val tbB = tbb.begrenzungB?.wert
+
+		val minA = taA.min(taB)
+		val maxA = taA.max(taB)
+
+		val minB = tbA.min(tbB)
+		val maxB = tbA.max(tbB)
+
+		// Determine whether A or B starts first
+		if (minA < minB) {
+			// A starts first
+			// If A ends before B begins, the length is zero
+			if (maxA <= minB) {
+				return BigDecimal.ZERO
+			}
+			// Otherwise the length is the distance from minB to either maxB or maxA (whichever is less) 
+			return maxA.min(maxB) - minB
+		} else // minB <= minA 
+		{
+			// B starts first
+			// If B ends before A begins, the length is zero
+			if (maxB <= minA) {
+				return BigDecimal.ZERO
+			}
+			// Otherwise the length is the distance from minB to either maxB or maxA (whichever is less)			
+			return maxB.min(maxA) - minA
+		}
+	}
+
+	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
+		Bereich_Objekt_Teilbereich_AttributeGroup tbb) {
+		return bo.bereichObjektTeilbereich.map[getOverlappingLength(tbb)].reduce [ a, b |
+			a + b
+		]
+	}
+
+	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
+		Bereich_Objekt bo2) {
+		return bo.bereichObjektTeilbereich.map[bo2.getOverlappingLength(it)].
+			reduce[a, b|a + b]
 	}
 
 }
