@@ -135,7 +135,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Buildnumber Plugin, um die Revision für z.B. Dateinamen/Readme verwenden 
+			<!-- Buildnumber Plugin, um die Revision für z.B. Dateinamen/Readme verwenden
 				zu können -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -256,8 +256,9 @@
 								<!-- IMPROVE PLANPRO-2176 -->
 								<feature id="org.eclipse.babel.nls_modeling.ecp_de" />
 								<feature id="org.eclipse.babel.nls_modeling.emf_de" />
-								<plugin id="de.scheidtbachmann.planpro.v1801.viewmodel" />
 								<plugin id="edu.umd.cs.findbugs.annotations" />
+								<plugin id="org.apache.commons.io" />
+								<plugin id="slf4j.api" />
 								<plugin id="javax.xml" />
 								<plugin id="javax.mail" />
 								<plugin id="javax.activation" />
