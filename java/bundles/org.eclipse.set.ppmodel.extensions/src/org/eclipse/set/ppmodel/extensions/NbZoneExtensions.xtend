@@ -81,6 +81,6 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 */
 	def static String getBezeichnung(NB_Zone nbZone) {
 		val nb = nbZone.nb
-		return '''«nb?.bezeichnung?.kennzahl?.wert ?: ""»NB«nb?.bezeichnung.bezeichnungNB?.wert ?: ""»«nbZone.bezeichnung?.bezeichnungNBZone?.wert ?: ""»'''
+		return '''«nb?.bezeichnung?.kennzahl?.wert ?: ""»NB«nb?.bezeichnung.bezeichnungNB.wert ?: ""»«nbZone.bezeichnung?.bezeichnungNBZone?.wert ?: ""»'''
 	}
 }
