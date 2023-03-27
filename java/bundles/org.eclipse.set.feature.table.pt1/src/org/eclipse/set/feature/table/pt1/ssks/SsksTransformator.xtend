@@ -782,7 +782,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		signalRahmen.map [
 			signalBefestigungIterator.findFirst [
 				signalBefestigungAllg.befestigungArt.wert ==
-					ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
+					ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH ||
+					signalBefestigungAllg.befestigungArt.wert ==
+						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
 			]
 		].filterNull.map[singlePoints].flatten.forEach [ p |
 			val seitlicherAbstand = Math.round(
@@ -1231,7 +1233,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 				signalArt == ENUM_SIGNAL_ART_HAUPTSPERRSIGNAL ||
 				signalArt == ENUM_SIGNAL_ART_MEHRABSCHNITTSSIGNAL ||
 				signalArt == ENUM_SIGNAL_ART_MEHRABSCHNITTSSPERRSIGNAL ||
-				signalArt == ENUM_SIGNAL_ART_HAUPTSPERRSIGNAL_NE_14_LS):
+				signalArt == ENUM_SIGNAL_ART_HAUPTSPERRSIGNAL_NE_14_LS ||
+				signalArt == ENUM_SIGNAL_ART_SPERRSIGNAL):
 				return "ZL"
 			case signalFiktivAutoEinstellung ==
 				ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_ZL && (
@@ -1245,7 +1248,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 				signalArt == ENUM_SIGNAL_ART_HAUPTSPERRSIGNAL ||
 				signalArt == ENUM_SIGNAL_ART_MEHRABSCHNITTSSIGNAL ||
 				signalArt == ENUM_SIGNAL_ART_MEHRABSCHNITTSSPERRSIGNAL ||
-				signalArt == ENUM_SIGNAL_ART_HAUPTSPERRSIGNAL_NE_14_LS):
+				signalArt == ENUM_SIGNAL_ART_HAUPTSPERRSIGNAL_NE_14_LS ||
+				signalArt == ENUM_SIGNAL_ART_SPERRSIGNAL):
 				return "SB"
 			case signalFiktivAutoEinstellung ==
 				ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_SB && (
