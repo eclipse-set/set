@@ -30,6 +30,7 @@ import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*
 import static extension org.eclipse.set.utils.excel.HSSFWorkbookExtension.*
 import static extension org.eclipse.set.utils.table.TableBuilderFromExcel.*
 import static extension org.eclipse.set.utils.table.transform.TransformStyle.*
+import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
 
 /**
  * Transform Excel table header to XSL
@@ -198,16 +199,18 @@ class TransformTableHeader {
 				if (cellSpanRange.present) {
 					val spanCount = cellSpanRange.get.numberOfCells.toString
 					i = cellSpanRange.get.lastColumn
-					// Get Style of last cell in span column
-					cell = sheet.getCellAt(row.rowNum, i).transformCell
-					// Content is in first cell of span column
-					cell.firstChild.textContent = cellContent.get
 					cell.setAttribute(NUMBER_COLUMNS_SPANNED, spanCount)
-
+					
+					// Set border style for last cell in column span
+					sheet.getCellAt(row.rowNum, i).setBorderStyle(cell, BorderDirection.RIGHT)
 				} else if (!excelCell.get.isSingleColumnGroup &&
 					row.rowNum !== 0) {
-					cell.setAttribute(NUMBER_ROWS_SPANNED,
-						Integer.toString(lastRowIndex - row.rowNum))
+					val rowSpanCount = lastRowIndex - row.rowNum			
+					cell.setAttribute(NUMBER_ROWS_SPANNED, rowSpanCount.toString)
+
+					// set border style for last cell in row span
+					sheet.getCellAt(lastRowIndex - 1, i).setBorderStyle(cell, BorderDirection.BOTTOM)
+					
 				}
 
 				cells.add(cell)

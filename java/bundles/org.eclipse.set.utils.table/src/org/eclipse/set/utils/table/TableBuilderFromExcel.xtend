@@ -56,6 +56,10 @@ class TableBuilderFromExcel {
 		}
 
 		val currentGroup = parent.addGroup(currentCellValue.get)
+		if (currentCell.isPresent) {
+			currentGroup.groupRoot.height = sheet.getCellHeight(currentCell.get)	
+		}
+		
 		for (var i = firstColumnIndex; i <= lastColumnIndex; i++) {
 			val nextRowIndex = currentRowIndex + 1
 			val childCell = sheet.getCellAt(nextRowIndex, i)
