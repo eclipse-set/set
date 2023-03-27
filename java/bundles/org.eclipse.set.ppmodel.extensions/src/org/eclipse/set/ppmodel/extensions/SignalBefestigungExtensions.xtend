@@ -8,25 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
 import java.util.List
+import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
 
 /**
  * This class extends {@link Signal_Befestigung}.
  */
 class SignalBefestigungExtensions extends BasisObjektExtensions {
-
-	/**
-	 * @param befestigung the Signalbefestigung
-	 * 
-	 * @returns the list of Regelzeichnungen
-	 */
-	def static List<Regelzeichnung> getRegelzeichnungen(
-		Signal_Befestigung befestigung) {
-		return befestigung.IDRegelzeichnung
-	}
-
 
 	/**
 	 * @param befestigung the Signalbefestigung

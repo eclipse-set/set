@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2022 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import java.util.Set
+
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
 	protected val FootnoteTransformation footnoteTransformation = new FootnoteTransformation()
 	protected val EnumTranslationService enumTranslationService
@@ -26,8 +27,9 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	 */
 	protected static val Comparator<String> MIXED_STRING_COMPARATOR = ToolboxConstants.
 		LST_OBJECT_NAME_COMPARATOR
-		
-	new(Set<ColumnDescriptor> cols, EnumTranslationService enumTranslationService) {
+
+	new(Set<ColumnDescriptor> cols,
+		EnumTranslationService enumTranslationService) {
 		super()
 		this.enumTranslationService = enumTranslationService
 		this.cols.addAll(cols)
@@ -60,8 +62,14 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		}
 		return enumTranslationService.translate(value).alternative
 	}
-	
+
 	def ColumnDescriptor getColumn(Set<ColumnDescriptor> columns, String pos) {
-		return columns.findFirst[columnPosition !== null && columnPosition.equals(pos)]
+		val column = columns.findFirst [
+			columnPosition !== null && columnPosition.equals(pos)
+		]
+		if (column === null) {
+			throw new RuntimeException("Missing column " + pos);
+		}
+		return column;
 	}
 }
