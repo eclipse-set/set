@@ -11,6 +11,7 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Anlage
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.List
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt
 
 /**
  * Extensions for {@link W_Kr_Anlage}.
@@ -26,5 +27,14 @@ class WKrAnlageExtensions extends BasisObjektExtensions {
 		return anlage.container.WKrGspElement.filter [
 			IDWKrAnlage?.identitaet?.wert == anlage.identitaet.wert
 		].toList
+	}
+	
+	/**
+	 * @param anlage this Weiche, Kreuzung Anlage
+	 * 
+	 * @return the Weiche, Kreuzung Anlage Art
+	 */
+	static def ENUMWKrArt getWKrAnlageArt(W_Kr_Anlage anlage) {
+		return anlage?.WKrAnlageAllg?.WKrArt?.wert
 	}
 }
