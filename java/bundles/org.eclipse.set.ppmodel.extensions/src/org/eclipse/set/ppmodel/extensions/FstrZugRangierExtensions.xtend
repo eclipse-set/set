@@ -42,6 +42,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -94,17 +95,11 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	 * 
 	 * @returns the Fstr_Rangier_Fla_Zuordnung
 	 */
-	def static Fstr_Rangier_Fla_Zuordnung getFstrRangierFlaZuordnung(
+	def static Iterable<Fstr_Rangier_Fla_Zuordnung> getFstrRangierFlaZuordnung(
 		Fstr_Zug_Rangier fstrZugRangier) {
-
-		for (fstrRangierFla : fstrZugRangier.container.
-			fstrRangierFlaZuordnung) {
-			if (fstrRangierFla?.IDFstrRangier?.identitaet?.wert ==
-				fstrZugRangier.identitaet.wert) {
-				return fstrRangierFla;
-			}
-		}
-		return null;
+		return fstrZugRangier.container.fstrRangierFlaZuordnung.filter [
+			IDFstrRangier === fstrZugRangier
+		]
 	}
 
 	/**
@@ -194,7 +189,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		].toSet
 	}
 
-
 	/**
 	 * @param fstrZugRangier this Fstr Zug Rangier
 	 * @param signal a Signal
@@ -221,6 +215,62 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
 		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.toSet
+	}
+
+	def static String getZugFstrBezeichnung(Fstr_Zug_Rangier fstrZugRangier) {
+		if (!fstrZugRangier.isZOrGz) {
+			return null
+		}
+
+		if (fstrZugRangier?.fstrZug?.fstrZugDWeg === null ||
+			fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch === null) {
+			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert ==
+				BigInteger.ZERO) {
+				return fstrZugRangier?.fstrFahrweg?.transformFarhwegStartZiel
+			}
+
+			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
+				isNotNullAndGreater(BigInteger.ZERO)) {
+				return '''«fstrZugRangier?.fstrFahrweg?.
+					transformFarhwegStartZiel» [U«fstrZugRangier?.
+					fstrZugRangierAllg?.fstrReihenfolge?.wert»]'''
+			}
+		}
+
+		if (fstrZugRangier?.fstrZug?.fstrZugDWeg !== null) {
+			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert ==
+				BigInteger.ZERO) {
+				return '''«fstrZugRangier?.fstrFahrweg?.
+					transformFarhwegStartZiel» («fstrZugRangier?.
+					fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert»)'''
+
+			}
+
+			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
+				isNotNullAndGreater(BigInteger.ZERO)) {
+				return '''«fstrZugRangier?.fstrFahrweg?.
+					transformFarhwegStartZiel» [U«fstrZugRangier?.
+					fstrZugRangierAllg?.fstrReihenfolge?.wert»] («fstrZugRangier?.
+					fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert»)'''
+
+			}
+		}
+		return null
+	}
+
+	def static String transformFarhwegStartZiel(Fstr_Fahrweg fahrweg) {
+		return '''«fahrweg?.start?.bezeichnung?.bezeichnungTabelle?.wert»/«fahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»'''
+	}
+
+	def static boolean isZOrGz(Fstr_Zug_Rangier fstrZugRangier) {
+		val rangierArt = fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.
+			literal
+		return rangierArt.matches(
+			"Z.*"
+		) || rangierArt.matches(
+			"GZ.*"
+		)
+
 	}
 
 	private def static dispatch int getVmax(Object object, Fstr_Fahrweg fw) {

@@ -112,5 +112,7 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssli.SsliTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssln.SslnDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssln.SslnTransformationService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sslr.SslrDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sslr.SslrTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssvu.SsvuDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssvu.SsvuTransformationService.xml
