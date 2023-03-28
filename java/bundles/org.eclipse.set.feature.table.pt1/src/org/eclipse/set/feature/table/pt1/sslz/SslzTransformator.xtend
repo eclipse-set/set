@@ -165,7 +165,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					fstrZugRangier,
 					new Case<Fstr_Zug_Rangier>(
 					[fstrZug.fstrZugArt.wert.literal.matches("G.*")], [
-						fstrZug.fstrZugArt.wert.literal.substring(1)
+						fstrZug.fstrZugArt.wert.literal.substring(2)
 					]),
 					new Case<Fstr_Zug_Rangier>([zielFstrZugRangier !== null], [
 						'''«fstrZug?.fstrZugArt?.wert?.literal?.substring(1)»B'''
