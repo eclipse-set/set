@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
 import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
+import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
@@ -47,6 +48,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
 
 /**
  * This class extends {@link Signal}.
@@ -122,6 +124,19 @@ class SignalExtensions extends PunktObjektExtensions {
 	 */
 	def static List<Signal_Rahmen> signalRahmen(Signal signal) {
 		return signal.container.signalRahmen.filter[r|r.signal == signal].toList
+	}
+
+	/**
+	 * @param signal this signal
+	 * 
+	 * @return whether this signal is an alleinstehendes Zusatzsignal
+	 */
+	def static boolean isAlleinstehendesZusatzsignal(Signal signal) {
+		val signalFunktion = signal.signalReal?.signalFunktion?.wert
+		val signalbegriffe = signal.signalbegriffe
+		return signalFunktion ===
+			ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL &&
+			signalbegriffe.containsSignalbegriffID(Zs3v)
 	}
 
 	/**
@@ -224,7 +239,6 @@ class SignalExtensions extends PunktObjektExtensions {
 	) {
 		return signal?.signalFstrS?.IDAnrueckverschluss ?: Collections.emptyList
 	}
-
 
 	/**
 	 * @param signal this signal

@@ -184,18 +184,31 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		T object,
 		Case<T>... cases
 	) {
+
 		try {
-			for (c : cases) {
-				val condition = c.condition.apply(object)
-				if (condition !== null && condition.booleanValue) {
-					fill(row, column, object, c.filling)
-					return
-				}
+			val filling = getSwitchValue(object, cases)
+			if (filling === null) {
+				row.set(column, BLANK)
+			} else {
+				fill(row, column, object, [filling])
 			}
-			row.set(column, BLANK)
 		} catch (Exception e) {
 			handleFillingException(e, row, column)
 		}
+	}
+
+	def <T> String getSwitchValue(
+		T object,
+		Case<T>... cases
+	) {
+		for (c : cases) {
+			val condition = c.condition.apply(object)
+			if (condition !== null && condition.booleanValue) {
+				return c.filling.apply(object)
+			}
+		}
+		return null
+
 	}
 
 	/**
