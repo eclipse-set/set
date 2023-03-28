@@ -8,15 +8,16 @@
  */
 package org.eclipse.set.utils.table
 
-import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
 import java.util.Collection
 import java.util.Comparator
 import java.util.List
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -121,6 +122,25 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		(T)=>Number filling
 	) {
 		fill(row, column, object, [filling.apply(object)?.toString])
+	}
+
+	def <T> void fillMultiColor(
+		TableRow row,
+		ColumnDescriptor column,
+		T object,
+		(T)=>MultiColorContent fillMultiColorContent
+	) {
+		val multicolorContent = fillMultiColorContent.apply(object)
+		try {
+			if (multicolorContent !== null &&
+				multicolorContent.stringFormat !== null) {
+				row.set(column, #[multicolorContent], "")
+			} else {
+				row.set(column, BLANK)
+			}
+		} catch (Exception e) {
+			handleFillingException(e, row, column)
+		}
 	}
 
 	/**
@@ -230,6 +250,35 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		Comparator<String> comparator
 	) {
 		row.fillIterable(column, object, sequence, comparator, [it])
+	}
+
+	def <S, T> void fillMultiColorIterable(
+		TableRow row,
+		ColumnDescriptor column,
+		S object,
+		(S)=>List<MultiColorContent> sequence
+	) {
+		row.fillMultiColorIterable(column, object, sequence,
+			ITERABLE_FILLING_SEPARATOR)
+	}
+
+	def <S> void fillMultiColorIterable(
+		TableRow row,
+		ColumnDescriptor column,
+		S object,
+		(S)=>List<MultiColorContent> sequence,
+		String separator
+	) {
+		try {
+			val list = sequence.apply(object)
+			if (!list.empty) {
+				row.set(column, list, separator)
+			} else {
+				fill(row, column, object, [])
+			}
+		} catch (Exception e) {
+			handleFillingException(e, row, column)
+		}
 	}
 
 	/**

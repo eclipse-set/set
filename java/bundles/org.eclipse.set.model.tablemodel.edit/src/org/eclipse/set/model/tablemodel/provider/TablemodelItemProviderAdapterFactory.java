@@ -308,6 +308,52 @@ public class TablemodelItemProviderAdapterFactory extends TablemodelAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.set.model.tablemodel.MultiColorCellContent} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MultiColorCellContentItemProvider multiColorCellContentItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.set.model.tablemodel.MultiColorCellContent}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMultiColorCellContentAdapter() {
+		if (multiColorCellContentItemProvider == null) {
+			multiColorCellContentItemProvider = new MultiColorCellContentItemProvider(this);
+		}
+
+		return multiColorCellContentItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.eclipse.set.model.tablemodel.MultiColorContent} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MultiColorContentItemProvider multiColorContentItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.eclipse.set.model.tablemodel.MultiColorContent}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createMultiColorContentAdapter() {
+		if (multiColorContentItemProvider == null) {
+			multiColorContentItemProvider = new MultiColorContentItemProvider(this);
+		}
+
+		return multiColorContentItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -422,6 +468,8 @@ public class TablemodelItemProviderAdapterFactory extends TablemodelAdapterFacto
 		if (compareCellContentItemProvider != null) compareCellContentItemProvider.dispose();
 		if (cellAnnotationItemProvider != null) cellAnnotationItemProvider.dispose();
 		if (footnoteItemProvider != null) footnoteItemProvider.dispose();
+		if (multiColorCellContentItemProvider != null) multiColorCellContentItemProvider.dispose();
+		if (multiColorContentItemProvider != null) multiColorContentItemProvider.dispose();
 	}
 
 }

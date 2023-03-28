@@ -118,6 +118,24 @@ public interface TablemodelFactory extends EFactory {
 	Footnote createFootnote();
 
 	/**
+	 * Returns a new object of class '<em>Multi Color Cell Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Color Cell Content</em>'.
+	 * @generated
+	 */
+	MultiColorCellContent createMultiColorCellContent();
+
+	/**
+	 * Returns a new object of class '<em>Multi Color Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Multi Color Content</em>'.
+	 * @generated
+	 */
+	MultiColorContent createMultiColorContent();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

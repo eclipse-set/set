@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,8 @@ import org.eclipse.set.utils.ToolboxConfiguration
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.tablemodel.MultiColorCellContent
+import org.eclipse.set.model.tablemodel.MultiColorContent
 
 /**
  * Extensions for {@link CellContent}.
@@ -57,6 +59,10 @@ class CellContentExtensions {
 		val newFormat = content.newFormat
 		val oldAndNewExists = !oldFormat.empty && !newFormat.empty
 		return '''<p style="text-align:«content.textAlign»">«oldFormat»«IF oldAndNewExists»<br></br>«ENDIF»«content.newFormat»</p>'''
+	}
+	
+	static def dispatch String getRichTextValue(MultiColorCellContent content) {
+		return '''<p style="text-align:«content.textAlign»">«content.multiColorFormat»</p>'''
 	}
 
 	/**
@@ -102,8 +108,12 @@ class CellContentExtensions {
 		return content.tableCell.format.textAlignment.literal
 	}
 
-	private static def String getValueFormat(StringCellContent content) {
+	private static def dispatch String getValueFormat(StringCellContent content) {
 		return '''<span>«content.valueHtmlString»</span>'''
+	}
+	
+	private static def dispatch String getValueFormat(MultiColorCellContent content) {
+		return '''<span>«content.multiColorFormat.htmlString»</span>'''
 	}
 
 	private static def String getOldFormat(CompareCellContent content) {
@@ -119,6 +129,27 @@ class CellContentExtensions {
 		}
 		return '''<span style="color:rgb(255, 0, 0)">«content.newValueHtmlString»</span>'''
 	}
+	
+	private static def String getMultiColorFormat(MultiColorCellContent content) {
+		if (content.value.isEmpty) {
+			return ""
+		}
+		return '''«FOR element : content.value SEPARATOR content.seperator»«element.multiColorFormat»«ENDFOR»''' 
+	}
+	
+	private static def String getMultiColorFormat(MultiColorContent content) {
+		if (Strings.isNullOrEmpty(content.multiColorValue)) {
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
+		}
+		
+		val value = '''<span style="background-color:rgb(255,255, 0)">«content
+			.getMultiColorValueHtmlString(WARNING_MARK_YELLOW)»</span><span style="color:rgb(255, 0, 0)">«content
+			.getMultiColorValueHtmlString(WARNING_MARK_RED)»</span>'''
+		return '''<span>«String.format(content.stringFormat, value)»</span>'''
+	}
+	
 
 	private static def String getValueHtmlString(StringCellContent content) {
 		if (content.value.isErrorText &&
@@ -147,6 +178,13 @@ class CellContentExtensions {
 		} else {
 			return content.newValue.htmlString
 		}
+	}
+	
+	private static def String getMultiColorValueHtmlString(MultiColorContent content, String warningColor) {
+		if (content.multiColorValue.isErrorText && !ToolboxConfiguration.developmentMode) {
+			return warningColor
+		}
+		return content.multiColorValue.htmlString
 	}
 
 	private static def String getHtmlString(String value) {

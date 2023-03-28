@@ -607,6 +607,98 @@ public interface TablemodelPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl <em>Multi Color Cell Content</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorCellContent()
+	 * @generated
+	 */
+	int MULTI_COLOR_CELL_CONTENT = 11;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CELL_CONTENT__VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Seperator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CELL_CONTENT__SEPERATOR = CELL_CONTENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Multi Color Cell Content</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Multi Color Cell Content</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl <em>Multi Color Content</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorContent()
+	 * @generated
+	 */
+	int MULTI_COLOR_CONTENT = 12;
+
+	/**
+	 * The feature id for the '<em><b>Multi Color Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE = 0;
+
+	/**
+	 * The feature id for the '<em><b>String Format</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CONTENT__STRING_FORMAT = 1;
+
+	/**
+	 * The number of structural features of the '<em>Multi Color Content</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CONTENT_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Multi Color Content</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CONTENT_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -614,7 +706,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
-	int COLUMN_WIDTH_MODE = 11;
+	int COLUMN_WIDTH_MODE = 13;
 
 
 	/**
@@ -1014,6 +1106,70 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getFootnote_Text();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent <em>Multi Color Cell Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Multi Color Cell Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent
+	 * @generated
+	 */
+	EClass getMultiColorCellContent();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Value</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue()
+	 * @see #getMultiColorCellContent()
+	 * @generated
+	 */
+	EReference getMultiColorCellContent_Value();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getSeperator <em>Seperator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Seperator</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent#getSeperator()
+	 * @see #getMultiColorCellContent()
+	 * @generated
+	 */
+	EAttribute getMultiColorCellContent_Seperator();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.MultiColorContent <em>Multi Color Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Multi Color Content</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorContent
+	 * @generated
+	 */
+	EClass getMultiColorContent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.MultiColorContent#getMultiColorValue <em>Multi Color Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Multi Color Value</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorContent#getMultiColorValue()
+	 * @see #getMultiColorContent()
+	 * @generated
+	 */
+	EAttribute getMultiColorContent_MultiColorValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.MultiColorContent#getStringFormat <em>String Format</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>String Format</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorContent#getStringFormat()
+	 * @see #getMultiColorContent()
+	 * @generated
+	 */
+	EAttribute getMultiColorContent_StringFormat();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1363,6 +1519,58 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FOOTNOTE__TEXT = eINSTANCE.getFootnote_Text();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl <em>Multi Color Cell Content</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorCellContent()
+		 * @generated
+		 */
+		EClass MULTI_COLOR_CELL_CONTENT = eINSTANCE.getMultiColorCellContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MULTI_COLOR_CELL_CONTENT__VALUE = eINSTANCE.getMultiColorCellContent_Value();
+
+		/**
+		 * The meta object literal for the '<em><b>Seperator</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MULTI_COLOR_CELL_CONTENT__SEPERATOR = eINSTANCE.getMultiColorCellContent_Seperator();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl <em>Multi Color Content</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorContent()
+		 * @generated
+		 */
+		EClass MULTI_COLOR_CONTENT = eINSTANCE.getMultiColorContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Multi Color Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE = eINSTANCE.getMultiColorContent_MultiColorValue();
+
+		/**
+		 * The meta object literal for the '<em><b>String Format</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MULTI_COLOR_CONTENT__STRING_FORMAT = eINSTANCE.getMultiColorContent_StringFormat();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.

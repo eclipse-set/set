@@ -118,6 +118,14 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 				return createFootnoteAdapter();
 			}
 			@Override
+			public Adapter caseMultiColorCellContent(MultiColorCellContent object) {
+				return createMultiColorCellContentAdapter();
+			}
+			@Override
+			public Adapter caseMultiColorContent(MultiColorContent object) {
+				return createMultiColorContentAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -288,6 +296,34 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFootnoteAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent <em>Multi Color Cell Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent
+	 * @generated
+	 */
+	public Adapter createMultiColorCellContentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.tablemodel.MultiColorContent <em>Multi Color Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorContent
+	 * @generated
+	 */
+	public Adapter createMultiColorContentAdapter() {
 		return null;
 	}
 

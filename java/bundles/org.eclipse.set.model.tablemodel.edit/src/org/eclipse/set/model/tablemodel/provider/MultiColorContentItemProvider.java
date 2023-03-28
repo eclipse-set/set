@@ -17,8 +17,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,20 +24,20 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
-import org.eclipse.set.model.tablemodel.TableCell;
-import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.set.model.tablemodel.TableCell} object.
+ * This is the item provider adapter for a {@link org.eclipse.set.model.tablemodel.MultiColorContent} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class TableCellItemProvider 
+public class MultiColorContentItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -53,7 +51,7 @@ public class TableCellItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TableCellItemProvider(AdapterFactory adapterFactory) {
+	public MultiColorContentItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -68,73 +66,65 @@ public class TableCellItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addColumndescriptorPropertyDescriptor(object);
+			addMultiColorValuePropertyDescriptor(object);
+			addStringFormatPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Columndescriptor feature.
+	 * This adds a property descriptor for the Multi Color Value feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addColumndescriptorPropertyDescriptor(Object object) {
+	protected void addMultiColorValuePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_TableCell_columndescriptor_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_TableCell_columndescriptor_feature", "_UI_TableCell_type"),
-				 TablemodelPackage.Literals.TABLE_CELL__COLUMNDESCRIPTOR,
+				 getString("_UI_MultiColorContent_multiColorValue_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MultiColorContent_multiColorValue_feature", "_UI_MultiColorContent_type"),
+				 TablemodelPackage.Literals.MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * This adds a property descriptor for the String Format feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(TablemodelPackage.Literals.TABLE_CELL__CONTENT);
-			childrenFeatures.add(TablemodelPackage.Literals.TABLE_CELL__CELLANNOTATION);
-		}
-		return childrenFeatures;
+	protected void addStringFormatPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MultiColorContent_stringFormat_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MultiColorContent_stringFormat_feature", "_UI_MultiColorContent_type"),
+				 TablemodelPackage.Literals.MULTI_COLOR_CONTENT__STRING_FORMAT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
-
-		return super.getChildFeature(object, child);
-	}
-
-	/**
-	 * This returns TableCell.gif.
+	 * This returns MultiColorContent.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/TableCell"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MultiColorContent"));
 	}
 
 	/**
@@ -145,7 +135,10 @@ public class TableCellItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_TableCell_type");
+		String label = ((MultiColorContent)object).getMultiColorValue();
+		return label == null || label.length() == 0 ?
+			getString("_UI_MultiColorContent_type") :
+			getString("_UI_MultiColorContent_type") + " " + label;
 	}
 
 
@@ -160,10 +153,10 @@ public class TableCellItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(TableCell.class)) {
-			case TablemodelPackage.TABLE_CELL__CONTENT:
-			case TablemodelPackage.TABLE_CELL__CELLANNOTATION:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+		switch (notification.getFeatureID(MultiColorContent.class)) {
+			case TablemodelPackage.MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE:
+			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}
 		super.notifyChanged(notification);
@@ -179,26 +172,6 @@ public class TableCellItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(TablemodelPackage.Literals.TABLE_CELL__CONTENT,
-				 TablemodelFactory.eINSTANCE.createStringCellContent()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(TablemodelPackage.Literals.TABLE_CELL__CONTENT,
-				 TablemodelFactory.eINSTANCE.createCompareCellContent()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(TablemodelPackage.Literals.TABLE_CELL__CONTENT,
-				 TablemodelFactory.eINSTANCE.createMultiColorCellContent()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(TablemodelPackage.Literals.TABLE_CELL__CELLANNOTATION,
-				 TablemodelFactory.eINSTANCE.createCellAnnotation()));
 	}
 
 	/**

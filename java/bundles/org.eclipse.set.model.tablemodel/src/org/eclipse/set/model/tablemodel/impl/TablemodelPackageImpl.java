@@ -22,6 +22,8 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.Footnote;
+import org.eclipse.set.model.tablemodel.MultiColorCellContent;
+import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
@@ -118,6 +120,20 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	private EClass footnoteEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiColorCellContentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass multiColorContentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -569,6 +585,66 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EClass getMultiColorCellContent() {
+		return multiColorCellContentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getMultiColorCellContent_Value() {
+		return (EReference)multiColorCellContentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMultiColorCellContent_Seperator() {
+		return (EAttribute)multiColorCellContentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getMultiColorContent() {
+		return multiColorContentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMultiColorContent_MultiColorValue() {
+		return (EAttribute)multiColorContentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getMultiColorContent_StringFormat() {
+		return (EAttribute)multiColorContentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getColumnWidthMode() {
 		return columnWidthModeEEnum;
 	}
@@ -650,6 +726,14 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		createEAttribute(footnoteEClass, FOOTNOTE__NUMBER);
 		createEAttribute(footnoteEClass, FOOTNOTE__TEXT);
 
+		multiColorCellContentEClass = createEClass(MULTI_COLOR_CELL_CONTENT);
+		createEReference(multiColorCellContentEClass, MULTI_COLOR_CELL_CONTENT__VALUE);
+		createEAttribute(multiColorCellContentEClass, MULTI_COLOR_CELL_CONTENT__SEPERATOR);
+
+		multiColorContentEClass = createEClass(MULTI_COLOR_CONTENT);
+		createEAttribute(multiColorContentEClass, MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE);
+		createEAttribute(multiColorContentEClass, MULTI_COLOR_CONTENT__STRING_FORMAT);
+
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
 	}
@@ -687,6 +771,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		// Add supertypes to classes
 		stringCellContentEClass.getESuperTypes().add(this.getCellContent());
 		compareCellContentEClass.getESuperTypes().add(this.getCellContent());
+		multiColorCellContentEClass.getESuperTypes().add(this.getCellContent());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(tableEClass, Table.class, "Table", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -736,6 +821,14 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEClass(footnoteEClass, Footnote.class, "Footnote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFootnote_Number(), ecorePackage.getEInt(), "number", null, 1, 1, Footnote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFootnote_Text(), ecorePackage.getEString(), "text", null, 0, 1, Footnote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(multiColorCellContentEClass, MultiColorCellContent.class, "MultiColorCellContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMultiColorCellContent_Value(), this.getMultiColorContent(), null, "value", null, 0, -1, MultiColorCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMultiColorCellContent_Seperator(), ecorePackage.getEString(), "seperator", null, 0, 1, MultiColorCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(multiColorContentEClass, MultiColorContent.class, "MultiColorContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getMultiColorContent_MultiColorValue(), ecorePackage.getEString(), "multiColorValue", null, 0, 1, MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMultiColorContent_StringFormat(), ecorePackage.getEString(), "stringFormat", null, 0, 1, MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class, "ColumnWidthMode");

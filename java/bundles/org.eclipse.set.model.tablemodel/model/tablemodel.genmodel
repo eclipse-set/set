@@ -4,8 +4,7 @@
     modelDirectory="/org.eclipse.set.model.tablemodel/src" editorDirectory="" modelPluginID="org.eclipse.set.model.tablemodel"
     modelName="Tablemodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0"
-    copyrightFields="false" usedGenPackages="../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//Basisobjekte ../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//Verweise ../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//BasisTypen ../../org.eclipse.set.toolboxmodel/model/PlanPro.genmodel#//Geodaten"
-    operationReflection="true" importOrganizing="true">
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
   <foreignModel>tablemodel.ecore</foreignModel>
   <genPackages prefix="Tablemodel" basePackage="org.eclipse.set.model" disposableProviderFactory="true"
       ecorePackage="tablemodel.ecore#/">
@@ -58,6 +57,14 @@
     <genClasses ecoreClass="tablemodel.ecore#//Footnote">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//Footnote/number"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//Footnote/text"/>
+    </genClasses>
+    <genClasses ecoreClass="tablemodel.ecore#//MultiColorCellContent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//MultiColorCellContent/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorCellContent/seperator"/>
+    </genClasses>
+    <genClasses ecoreClass="tablemodel.ecore#//MultiColorContent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorContent/multiColorValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorContent/stringFormat"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

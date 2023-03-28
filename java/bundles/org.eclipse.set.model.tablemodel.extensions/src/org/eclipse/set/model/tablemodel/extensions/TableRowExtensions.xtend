@@ -8,16 +8,17 @@
  */
 package org.eclipse.set.model.tablemodel.extensions
 
+import java.util.HashMap
+import java.util.List
+import java.util.Map
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
-import java.util.HashMap
-import java.util.List
-import java.util.Map
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
@@ -125,6 +126,22 @@ class TableRowExtensions {
 	def static void set(TableRow row, ColumnDescriptor column, String value) {
 		val newContent = TablemodelFactory.eINSTANCE.createStringCellContent
 		newContent.value = value
+		row.getCell(column).content = newContent
+	}
+	
+	/**
+	 * sets the column content, that should be in red and yellow display,
+	 * by column descriptor
+	 * @param tableRow the table row
+	 * @param column the column
+	 * @param multiColorValue the multi color content
+	 * @param stringFormat the string format of content,
+	 * 					   which contain reference for multi color content
+	 */
+	def static void set(TableRow row, ColumnDescriptor column, List<MultiColorContent> contents, String seperator) {
+		val newContent = TablemodelFactory.eINSTANCE.createMultiColorCellContent
+		newContent.value.addAll(contents)
+		newContent.seperator = seperator
 		row.getCell(column).content = newContent
 	}
 

@@ -73,6 +73,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 			case TablemodelPackage.COMPARE_CELL_CONTENT: return createCompareCellContent();
 			case TablemodelPackage.CELL_ANNOTATION: return createCellAnnotation();
 			case TablemodelPackage.FOOTNOTE: return createFootnote();
+			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT: return createMultiColorCellContent();
+			case TablemodelPackage.MULTI_COLOR_CONTENT: return createMultiColorContent();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -216,6 +218,28 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 	public Footnote createFootnote() {
 		FootnoteImpl footnote = new FootnoteImpl();
 		return footnote;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public MultiColorCellContent createMultiColorCellContent() {
+		MultiColorCellContentImpl multiColorCellContent = new MultiColorCellContentImpl();
+		return multiColorCellContent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public MultiColorContent createMultiColorContent() {
+		MultiColorContentImpl multiColorContent = new MultiColorContentImpl();
+		return multiColorContent;
 	}
 
 	/**

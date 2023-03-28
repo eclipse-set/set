@@ -140,6 +140,19 @@ public class TablemodelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT: {
+				MultiColorCellContent multiColorCellContent = (MultiColorCellContent)theEObject;
+				T result = caseMultiColorCellContent(multiColorCellContent);
+				if (result == null) result = caseCellContent(multiColorCellContent);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TablemodelPackage.MULTI_COLOR_CONTENT: {
+				MultiColorContent multiColorContent = (MultiColorContent)theEObject;
+				T result = caseMultiColorContent(multiColorContent);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -306,6 +319,36 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFootnote(Footnote object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Color Cell Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Color Cell Content</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiColorCellContent(MultiColorCellContent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Color Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Color Content</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMultiColorContent(MultiColorContent object) {
 		return null;
 	}
 
