@@ -94,11 +94,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 		val fstrZugRangierList = container.fstrZugRangier
-//		val counter = new Counter(fstrZugRangierList.filter [
-//			fstrZugRangierAllg.fstrArt.isZOrGz
-//		].toList.size)
-		// Agate: /trunk/doc/agate/PT_1_Tabellen_Soll/1_7_0/Sslz.tab, r9217
-		// Sort for columns B,C,D
 		val fstrZugRangierListSorted = fstrZugRangierList
 		val total = fstrZugRangierListSorted.size
 		var current = 0
@@ -115,13 +110,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			if (isZOrGz) {
 				val instance = factory.newTableRow(fstrZugRangier)
-				if (logger.debugEnabled) {
-//					logger.
-//						debug(
-//							'''«counter.count» fstrZugRangier=«fstrZugRangier.debugString» guidToObjectCache=«modelSession.modelCache.guidToObject.stats» topKanteToPunktObjekteCache=«modelSession.modelCache.topKanteToPunktObjekte.stats»'''
-//						)
-				}
-
 				fillSwitch(
 					instance,
 					cols.getColumn(Grundsatzangaben_Bezeichnung),
@@ -176,7 +164,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Art),
 					fstrZugRangier,
 					new Case<Fstr_Zug_Rangier>(
-					[!fstrZug.fstrZugArt.wert.literal.matches("G.*")], [
+					[fstrZug.fstrZugArt.wert.literal.matches("G.*")], [
 						fstrZug.fstrZugArt.wert.literal.substring(1)
 					]),
 					new Case<Fstr_Zug_Rangier>([zielFstrZugRangier !== null], [
