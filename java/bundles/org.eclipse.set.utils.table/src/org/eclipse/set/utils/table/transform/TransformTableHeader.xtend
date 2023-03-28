@@ -41,7 +41,7 @@ class TransformTableHeader {
 	static val XSL_TEMPLATE_PATH = "data/export/pdf/table_template.xsl"
 	static val MULTIPAGE_LAYOUT_TEMPLATE_PATH = "data/export/pdf/multipage_layout.xsl"
 	static val XSL_MAINPAGE_TEMPLATE_NAME = "MainPage"
-	
+
 	Document doc
 	Sheet sheet
 	float maxPaperWidth
@@ -63,18 +63,19 @@ class TransformTableHeader {
 	def Document transform() throws ParserConfigurationException, SAXException, IOException , TransformerException {
 		doc = XSL_TEMPLATE_PATH.parseTemplate
 		val rootNode = doc.getElementsByTagName(XSL_STYLESHEET).item(0)
-		
+
 		val table = transformTable
 		if (!pageBreakAts.empty) {
 			val multipageTemplate = MULTIPAGE_LAYOUT_TEMPLATE_PATH.parseTemplate
 			val clone = doc.importNode(multipageTemplate.firstChild, true)
-			val singlePageLayout = doc.findNodebyTagName(XSL_TEMPLATE, XSL_MAINPAGE_TEMPLATE_NAME)
+			val singlePageLayout = doc.findNodebyTagName(XSL_TEMPLATE,
+				XSL_MAINPAGE_TEMPLATE_NAME)
 			if (singlePageLayout.present) {
-				rootNode.replaceChild(clone, singlePageLayout.get)	
+				rootNode.replaceChild(clone, singlePageLayout.get)
 			} else {
 				rootNode.appendChild(clone)
 			}
-			
+
 		}
 		rootNode.appendChild(table)
 		rootNode.appendChild(doc.emptyTableTemplate)
@@ -174,8 +175,10 @@ class TransformTableHeader {
 		for (var i = 0; i <= lastRowIndex; i++) {
 			val row = doc.createElement(FO_TABLE_ROW)
 			val cells = sheet.getRow(i).transformCells
-			cells.forEach[row.appendChild(it)]
-			rows.add(row)
+			if (!cells.empty) {
+				cells.forEach[row.appendChild(it)]
+				rows.add(row)
+			}
 		}
 		return rows
 	}
@@ -200,17 +203,20 @@ class TransformTableHeader {
 					val spanCount = cellSpanRange.get.numberOfCells.toString
 					i = cellSpanRange.get.lastColumn
 					cell.setAttribute(NUMBER_COLUMNS_SPANNED, spanCount)
-					
+
 					// Set border style for last cell in column span
-					sheet.getCellAt(row.rowNum, i).setBorderStyle(cell, BorderDirection.RIGHT)
+					sheet.getCellAt(row.rowNum, i).setBorderStyle(cell,
+						BorderDirection.RIGHT)
 				} else if (!excelCell.get.isSingleColumnGroup &&
 					row.rowNum !== 0) {
-					val rowSpanCount = lastRowIndex - row.rowNum			
-					cell.setAttribute(NUMBER_ROWS_SPANNED, rowSpanCount.toString)
+					val rowSpanCount = lastRowIndex - row.rowNum
+					cell.setAttribute(NUMBER_ROWS_SPANNED,
+						rowSpanCount.toString)
 
 					// set border style for last cell in row span
-					sheet.getCellAt(lastRowIndex - 1, i).setBorderStyle(cell, BorderDirection.BOTTOM)
-					
+					sheet.getCellAt(lastRowIndex - 1, i).setBorderStyle(cell,
+						BorderDirection.BOTTOM)
+
 				}
 
 				cells.add(cell)
@@ -223,9 +229,18 @@ class TransformTableHeader {
 
 		val isEmptyRow = !cells.exists[!firstChild.textContent.empty]
 		if (isEmptyRow) {
-			val secondCellBlock = cells.get(2).firstChild as Element
-			secondCellBlock.setAttribute("color", "white")
-			secondCellBlock.textContent = "."
+			// Only visible empty row, when it is last row
+			if (row.rowNum === lastRowIndex) {
+				val secondCellBlock = cells.size > 1 ? cells.get(1).firstChild as Element : doc.createElement(FO_TABLE_CELL)
+				if (cells.size === 1) {
+					cells.add(secondCellBlock)
+				} 
+				secondCellBlock.setAttribute("color", "white")
+				secondCellBlock.textContent = "."
+			} else {
+				return emptySet
+			}
+
 		}
 		return cells
 	}
@@ -291,8 +306,9 @@ class TransformTableHeader {
 			}
 		}
 	}
-	
-	static def Optional<Element> findNodebyTagName(Document doc, String tag, String name) {
+
+	static def Optional<Element> findNodebyTagName(Document doc, String tag,
+		String name) {
 		val nodeList = doc.getElementsByTagName(tag)
 		for (var i = 0; i < nodeList.length; i++) {
 			val item = nodeList.item(i) as Element
