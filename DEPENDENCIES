@@ -76,7 +76,7 @@ maven/mavencentral/org.junit.platform/junit-platform-launcher/1.9.1, EPL-2.0, ap
 maven/mavencentral/org.junit.platform/junit-platform-runner/1.9.1, EPL-2.0, approved, #3126
 maven/mavencentral/org.junit.platform/junit-platform-suite-api/1.9.1, EPL-2.0, approved, #3136
 maven/mavencentral/org.junit.platform/junit-platform-suite-commons/1.9.1, EPL-2.0, approved, #3131
-maven/mavencentral/org.locationtech.jts/jts-core/1.19.0, NOASSERTION, restricted, clearlydefined
+maven/mavencentral/org.locationtech.jts/jts-core/1.19.0, EPL-2.0, approved, locationtech.jts
 maven/mavencentral/org.opentest4j/opentest4j/1.2.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.osgi/org.osgi.namespace.extender/1.0.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.osgi/org.osgi.namespace.implementation/1.0.0, Apache-2.0, approved, clearlydefined
