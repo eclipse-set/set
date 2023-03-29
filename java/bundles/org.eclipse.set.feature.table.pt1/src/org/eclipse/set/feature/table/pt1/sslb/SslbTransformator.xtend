@@ -148,7 +148,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// I: Sslb.Grundsatzangaben.von.Streckenziel_Ziel
 		fillConditional(
-			cols.getColumn(Streckenziel_Start),
+			cols.getColumn(Streckenziel_Ziel),
 			blockElement,
 			[!blockElement.blockAnlagenZiel.isEmpty],
 			[blockElement?.IDSignal?.bezeichnung?.bezeichnungTabelle?.wert]
