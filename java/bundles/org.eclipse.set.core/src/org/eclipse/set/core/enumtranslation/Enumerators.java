@@ -8877,6 +8877,66 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFstr_Art_RU_Alternative;
 
 	/**
+	 * RR (RangierRegel)
+	 */
+	public String ENUMFstr_Rangier_Art_RR_Presentation;
+
+	/**
+	 * R1
+	 */
+	public String ENUMFstr_Rangier_Art_RR_Sorting;
+
+	/**
+	 * R
+	 */
+	public String ENUMFstr_Rangier_Art_RR_Alternative;
+
+	/**
+	 * RT (RangierTeil)
+	 */
+	public String ENUMFstr_Rangier_Art_RT_Presentation;
+
+	/**
+	 * R3
+	 */
+	public String ENUMFstr_Rangier_Art_RT_Sorting;
+
+	/**
+	 * T
+	 */
+	public String ENUMFstr_Rangier_Art_RT_Alternative;
+
+	/**
+	 * RTU (RangierTeilUmfahr)
+	 */
+	public String ENUMFstr_Rangier_Art_RTU_Presentation;
+
+	/**
+	 * R4
+	 */
+	public String ENUMFstr_Rangier_Art_RTU_Sorting;
+
+	/**
+	 * TU
+	 */
+	public String ENUMFstr_Rangier_Art_RTU_Alternative;
+
+	/**
+	 * RU (RangierUmfahr)
+	 */
+	public String ENUMFstr_Rangier_Art_RU_Presentation;
+
+	/**
+	 * R2
+	 */
+	public String ENUMFstr_Rangier_Art_RU_Sorting;
+
+	/**
+	 * U
+	 */
+	public String ENUMFstr_Rangier_Art_RU_Alternative;
+
+	/**
 	 * ZB (ZugZentralblock)
 	 */
 	public String ENUMFstr_Art_ZB_Presentation;
