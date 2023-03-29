@@ -262,14 +262,9 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override void formatTableContent(Table table) {
-		// A: Sska.Grundsatzangaben.Bezeichnung
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
+		super.formatTableContent(table)
 		// G: Sska.Grundsatzangaben.Unterbringung.km
-		table.setTextAlignment(6, TextAlignment.RIGHT);
-
-		// O: Sska.Bemerkung
-		table.setTextAlignment(20, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Unterbringung_km), TextAlignment.RIGHT);
 	}
 
 	private def dispatch String getElementBezeichnung(Basis_Objekt element) {

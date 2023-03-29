@@ -227,7 +227,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Bemerkung),
 			einrichtung,
-			[""]
+			[footnoteTransformation.transform(it, instance)]
 		)
 
 		return

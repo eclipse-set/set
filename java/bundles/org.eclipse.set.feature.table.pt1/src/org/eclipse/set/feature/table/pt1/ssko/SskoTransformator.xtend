@@ -386,13 +386,8 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override void formatTableContent(Table table) {
-		// A: Grundsatzangaben.Bezeichnung_Schloss
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
+		super.formatTableContent(table)
 		// P: Sk_Ssp.Unterbringung.km
-		table.setTextAlignment(15, TextAlignment.RIGHT);
-
-		// S: Bemerkung
-		table.setTextAlignment(18, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Sk_Ssp_Unterbringung_km), TextAlignment.RIGHT);
 	}
 }

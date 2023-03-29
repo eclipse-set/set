@@ -730,16 +730,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override void formatTableContent(Table table) {
-		// A: Sslz.Grundsatzangaben.Bezeichnung
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
+		super.formatTableContent(table)
 		// B: Sslz.Grundsatzangaben.Fahrweg.Start
-		table.setTextAlignment(1, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Start), TextAlignment.LEFT);
 
 		// C: Sslz.Grundsatzangaben.Fahrweg.Ziel
-		table.setTextAlignment(2, TextAlignment.LEFT);
-
-		// AE: Sslz.Bemerkung
-		table.setTextAlignment(30, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Ziel), TextAlignment.LEFT);
 	}
 }

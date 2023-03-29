@@ -329,14 +329,8 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override void formatTableContent(Table table) {
-		// IMPROVE: Use column descriptor instead of index
-		// A: Sskt.Grundsatzangaben.Bezeichnung
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
+		super.formatTableContent(table)
 		// G: Sskt.Grundsatzangaben.Unterbringung.km
-		table.setTextAlignment(6, TextAlignment.RIGHT);
-
-		// U: Sskt.Bemerkung
-		table.setTextAlignment(15, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Unterbringung_km), TextAlignment.RIGHT);
 	}
 }

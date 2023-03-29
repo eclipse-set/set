@@ -356,16 +356,11 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override void formatTableContent(Table table) {
-		// A: Ssld.Grundsatzangaben.von
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
+		super.formatTableContent(table)
 		// B: Ssld.Grundsatzangaben.bis
-		table.setTextAlignment(1, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(bis), TextAlignment.LEFT);
 
 		// C: Ssld.Grundsatzangaben.Gefahrpunkt
-		table.setTextAlignment(2, TextAlignment.LEFT);
-
-		// T: Bemerkung
-		table.setTextAlignment(19, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Gefahrpunkt), TextAlignment.LEFT);
 	}
 }

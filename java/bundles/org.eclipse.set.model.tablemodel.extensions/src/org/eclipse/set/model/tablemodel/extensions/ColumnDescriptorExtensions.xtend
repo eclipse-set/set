@@ -55,6 +55,7 @@ class ColumnDescriptorExtensions {
 		val unitDescriptor = TablemodelFactory.eINSTANCE.createColumnDescriptor
 		unitDescriptor.label = unit
 		unitDescriptor.unit = true
+		unitDescriptor.columnPosition = descriptor.columnPosition
 		descriptor.table.columndescriptors.add(unitDescriptor)
 		descriptor.children.add(unitDescriptor)
 		return unitDescriptor

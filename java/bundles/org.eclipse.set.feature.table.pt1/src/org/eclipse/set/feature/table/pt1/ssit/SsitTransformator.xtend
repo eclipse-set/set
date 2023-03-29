@@ -9,11 +9,12 @@
 package org.eclipse.set.feature.table.pt1.ssit
 
 import com.google.common.collect.Lists
+import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
@@ -22,7 +23,8 @@ import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.utils.table.TMFactory
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssit.SsitColumns.*
+
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienEinrichtungOertlichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbBedienAnzeigeElementExtensions.*
@@ -31,9 +33,6 @@ import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import static org.eclipse.set.feature.table.pt1.ssit.SsitColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Bedieneinrichtungstabelle ESTW (Ssit).
@@ -302,14 +301,6 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		return
-	}
-
-	override void formatTableContent(Table table) {
-		// A: Ssit.Grundsatzangaben.Bezeichnung
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
-		// R: Ssit.Bemerkung
-		table.setTextAlignment(17, TextAlignment.LEFT);
 	}
 
 	private static def boolean isWKrGspKomponenteWithZungenpaar(

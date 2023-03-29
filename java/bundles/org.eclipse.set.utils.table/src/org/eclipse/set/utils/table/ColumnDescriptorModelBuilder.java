@@ -66,6 +66,7 @@ public final class ColumnDescriptorModelBuilder {
 				.createColumnDescriptor();
 		unitDescriptor.setLabel(unit);
 		unitDescriptor.setUnit(true);
+		unitDescriptor.setColumnPosition(childDescriptor.getColumnPosition());
 		table.getColumndescriptors().add(childDescriptor);
 		table.getColumndescriptors().add(unitDescriptor);
 		parentDescriptor.getChildren().add(childDescriptor);

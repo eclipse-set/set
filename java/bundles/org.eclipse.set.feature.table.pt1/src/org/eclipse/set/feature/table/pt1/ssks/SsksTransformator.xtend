@@ -17,9 +17,7 @@ import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
@@ -101,7 +99,6 @@ import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMTunnelsignal.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.DistanceExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -1313,7 +1310,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String fillBemerkung(Signal signal,
-		List<Signal_Rahmen> signalRahmen, TableRow row) {
+		List<Signal_Rahmen> signalRahmen, TableRow row) {	
 		val bemerkungen = new LinkedList
 		bemerkungen.addAll(
 			signalRahmen.map[signalbegriffe].flatten.map [
@@ -1342,13 +1339,5 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 			bemerkungen.add(commentStr)
 		}
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
-	}
-
-	override void formatTableContent(Table table) {
-		// A: Bezeichnung_Signal
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
-		// AV: Bemerkung
-		table.setTextAlignment(47, TextAlignment.LEFT);
 	}
 }

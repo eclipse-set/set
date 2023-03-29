@@ -75,7 +75,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Flankenschutzmaßnahme of the left Weitergabe
 	 */
 	def static Fla_Schutz getWeitergabeL(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzWeitergabe.IDFlaWeitergabeL
+		return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL
 	}
 
 	/**
@@ -84,7 +84,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Flankenschutzmaßnahme of the right Weitergabe
 	 */
 	def static Fla_Schutz getWeitergabeR(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzWeitergabe.IDFlaWeitergabeR
+		return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR
 	}
 
 

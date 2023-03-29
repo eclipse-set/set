@@ -287,11 +287,20 @@ class TableExtensions {
 	 * @param table this table
 	 * @param columnIdx the column index
 	 */
-	static def void setTextAlignment(Table table, int columnIdx,
+	static def void setTextAlignment(Table table, ColumnDescriptor column,
 		TextAlignment textAlignment) {
+		val columnIdx = table.columns.indexed.findFirst [
+			value.equals(column) || (value.columnPosition !== null &&
+				value.columnPosition.equals(column.columnPosition))
+		]?.key
+
+		if (columnIdx === null) {
+			return
+		}
 		table.tablecontent.rowgroups.forEach [
 			it.setTextAlignment(columnIdx, textAlignment)
 		]
+
 	}
 
 	/**

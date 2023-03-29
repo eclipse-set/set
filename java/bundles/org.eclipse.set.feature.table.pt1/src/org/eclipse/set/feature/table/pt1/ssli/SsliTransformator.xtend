@@ -16,9 +16,9 @@ import java.util.Map
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
@@ -28,16 +28,14 @@ import org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt
 import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.utils.table.TMFactory
 
+import static org.eclipse.set.feature.table.pt1.ssli.SsliColumns.*
 import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
-import static org.eclipse.set.feature.table.pt1.ssli.SsliColumns.*
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -336,13 +334,5 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		} catch (NumberFormatException ex) {
 		}
 		return false
-	}
-
-	override void formatTableContent(Table table) {
-		// A: Ssli.Grundsatzangaben.Bezeichnung_Inselgleis
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
-		// O: Ssli.Bemerkung
-		table.setTextAlignment(7, TextAlignment.LEFT);
 	}
 }

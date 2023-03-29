@@ -339,13 +339,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override void formatTableContent(Table table) {
-		// D: Sslb.Grundsatzangaben.von.Betriebsst_Start
-		table.setTextAlignment(3, TextAlignment.LEFT);
-
+		super.formatTableContent(table)
 		// F: Sslb.Grundsatzangaben.nach.Betriebsst_Ziel
-		table.setTextAlignment(5, TextAlignment.LEFT);
-
-		// V: Sslb.Bemerkung
-		table.setTextAlignment(21, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Betriebsstelle_Ziel), TextAlignment.LEFT);
 	}
 }

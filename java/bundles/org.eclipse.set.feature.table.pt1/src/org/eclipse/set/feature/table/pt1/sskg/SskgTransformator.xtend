@@ -14,9 +14,7 @@ import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
@@ -25,7 +23,6 @@ import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sskg.SskgColumns.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteAchszaehlpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensions.*
@@ -340,13 +337,5 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		return factory.table;
-	}
-
-	override void formatTableContent(Table table) {
-		// A: Grundsatzangaben.Bezeichnung
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
-		// L: Bemerkung
-		table.setTextAlignment(11, TextAlignment.LEFT);
 	}
 }

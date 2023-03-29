@@ -524,6 +524,11 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	}
 
 	override void formatTableContent(Table table) {
-		table.setTextAlignment(0, TextAlignment.LEFT);
+		val cols = table.columns
+		// Description Column
+		table.setTextAlignment(cols.get(0), TextAlignment.LEFT);
+		
+		// Notice column
+		table.setTextAlignment(cols.get(cols.size - 1), TextAlignment.LEFT)
 	}
 }

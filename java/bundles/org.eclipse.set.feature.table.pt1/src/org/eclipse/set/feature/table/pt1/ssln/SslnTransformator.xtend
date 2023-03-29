@@ -10,13 +10,14 @@ package org.eclipse.set.feature.table.pt1.ssln
 
 import com.google.common.collect.Lists
 import java.util.List
+import java.util.Set
 import org.eclipse.set.basis.Pair
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
@@ -30,24 +31,20 @@ import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.utils.table.TMFactory
 
-import static org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
+import static org.eclipse.set.feature.table.pt1.ssln.SslnColumns.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.NbExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbBedienAnzeigeElementExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.NbExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneElementExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import static org.eclipse.set.feature.table.pt1.ssln.SslnColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Nahbedienungstabelle (SSLN).
@@ -302,14 +299,6 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezeichnung?.bezeichnungTabelle?.wert?.removeSuffix("A", "B", "AB",
 				"CD") ?: ""
 		]
-	}
-
-	override void formatTableContent(Table table) {
-		// A: Ssln.Grundsatzangaben.Bereich_Zone
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
-		// N: Ssln.Bemerkung
-		table.setTextAlignment(13, TextAlignment.LEFT);
 	}
 
 	private static dispatch def String toBezeichnungGrenze(

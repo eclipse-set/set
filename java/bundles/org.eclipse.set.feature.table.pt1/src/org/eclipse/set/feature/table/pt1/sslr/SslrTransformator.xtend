@@ -351,16 +351,12 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override void formatTableContent(Table table) {
-		// A: Sslr.Grundsatzangaben.Bezeichnung
-		table.setTextAlignment(0, TextAlignment.LEFT);
+		super.formatTableContent(table)
 
 		// B: Sslr.Grundsatzangaben.Fahrweg.Start
-		table.setTextAlignment(1, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Fahrweg_Start), TextAlignment.LEFT);
 
 		// C: Sslr.Grundsatzangaben.Fahrweg.Ziel
-		table.setTextAlignment(2, TextAlignment.LEFT);
-
-		// Q: Sslr.Bemerkung
-		table.setTextAlignment(15, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Fahrweg_Ziel), TextAlignment.LEFT);
 	}
 }

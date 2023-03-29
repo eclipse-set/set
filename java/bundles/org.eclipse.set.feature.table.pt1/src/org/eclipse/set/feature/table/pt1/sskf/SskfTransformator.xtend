@@ -9,29 +9,26 @@
 package org.eclipse.set.feature.table.pt1.sskf
 
 import java.util.List
+import java.util.Set
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.format.TextAlignment
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
+import static org.eclipse.set.feature.table.pt1.sskf.SskfColumns.*
 import static org.eclipse.set.toolboxmodel.Ortung.ENUMFMAArt.*
 import static org.eclipse.set.toolboxmodel.Ortung.ENUMUebertragungFMinfoRichtung.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import static org.eclipse.set.feature.table.pt1.sskf.SskfColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -317,13 +314,5 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		return factory.table
-	}
-
-	override void formatTableContent(Table table) {
-		// A: Grundsatzangaben.Bezeichnung
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
-		// V: Bemerkung
-		table.setTextAlignment(21, TextAlignment.LEFT);
 	}
 }

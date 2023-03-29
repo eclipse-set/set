@@ -22,12 +22,10 @@ import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sslf.SslfColumns.*
 import static org.eclipse.set.toolboxmodel.Flankenschutz.ENUMFahrtUeber.*
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 
 /**
  * Table transformation for a Flankenschutztabelle (SSLF).
@@ -263,13 +261,5 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 		val zone = nbZoneGrenze.IDNBZone
 		val nb = zone.IDNB
 		return '''«nb?.bezeichnung?.kennzahl?.wert» Nb«nb?.bezeichnung?.bezeichnungNB?.wert.intValue»/«zone?.bezeichnung?.bezeichnungNBZone?.wert.intValue»'''
-	}
-
-	override void formatTableContent(Table table) {
-		// A: Sslf.Flankenschutzanforderer.Bezeichnung_W_Nb
-		table.setTextAlignment(0, TextAlignment.LEFT);
-
-		// M: Sslf.Bemerkung
-		table.setTextAlignment(13, TextAlignment.LEFT);
 	}
 }

@@ -308,6 +308,6 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override void formatTableContent(Table table) {
 		// H: Ssvu.Bemerkung
-		table.setTextAlignment(7, TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Bemerkung), TextAlignment.LEFT);
 	}
 }
