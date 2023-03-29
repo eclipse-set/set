@@ -411,14 +411,11 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								cols.getColumn(Fundament_Art_Regelzeichnung),
 								signalRahmen,
 								[
-									val regelzeichnung = flatMap[
-										fundament?.IDRegelzeichnung?.
-											filterNull?.map[fillRegelzeichnung]
-									].filterNull
+									val regelzeichnung = map[fundament].filterNull.flatMap[IDRegelzeichnung].map[fillRegelzeichnung].filterNull
 									val fundament = map[
 										fundament?.signalBefestigungAllg?.
 											fundamentArt?.wert
-									].filterNull.map[translate]
+									].filterNull.map[translate].filterNull
 									return (regelzeichnung + fundament).toSet
 								],
 								null,
@@ -1220,10 +1217,11 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 				signalArt != ENUM_SIGNAL_ART_MEHRABSCHNITTSSPERRSIGNAL &&
 				signalArt != ENUM_SIGNAL_ART_HAUPTSPERRSIGNAL_NE_14_LS &&
 				signalArt != ENUM_SIGNAL_ART_SPERRSIGNAL &&
-				!signalFiktivFunktion.contains(
-					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK) &&
-				!signalFiktivFunktion.contains(
-					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14):
+				(signalFiktivFunktion === null ||
+					!signalFiktivFunktion.contains(
+						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK) &&
+						!signalFiktivFunktion.contains(
+							ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14)):
 				return ""
 			case zlSignal == ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_ZL && (
 				signalArt == ENUM_SIGNAL_ART_HAUPTSIGNAL ||
@@ -1234,11 +1232,12 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 				signalArt == ENUM_SIGNAL_ART_SPERRSIGNAL):
 				return "ZL"
 			case signalFiktivAutoEinstellung ==
-				ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_ZL && (
+				ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_ZL &&
+				signalFiktivFunktion !== null && (
 				signalFiktivFunktion.contains(
-				ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK) ||
-				signalFiktivFunktion.contains(
-					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14)):
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK) ||
+					signalFiktivFunktion.contains(
+						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14)):
 				return "ZL"
 			case zlSignal == ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_SB && (
 				signalArt == ENUM_SIGNAL_ART_HAUPTSIGNAL ||
@@ -1249,11 +1248,12 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 				signalArt == ENUM_SIGNAL_ART_SPERRSIGNAL):
 				return "SB"
 			case signalFiktivAutoEinstellung ==
-				ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_SB && (
+				ENUMAutoEinstellung.ENUM_AUTO_EINSTELLUNG_SB &&
+				signalFiktivFunktion !== null && (
 				signalFiktivFunktion.contains(
-				ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK) ||
-				signalFiktivFunktion.contains(
-					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14)):
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_BK) ||
+					signalFiktivFunktion.contains(
+						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14)):
 				return "SB"
 			default:
 				return "o"
@@ -1310,7 +1310,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String fillBemerkung(Signal signal,
-		List<Signal_Rahmen> signalRahmen, TableRow row) {	
+		List<Signal_Rahmen> signalRahmen, TableRow row) {
 		val bemerkungen = new LinkedList
 		bemerkungen.addAll(
 			signalRahmen.map[signalbegriffe].flatten.map [
