@@ -411,7 +411,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								cols.getColumn(Fundament_Art_Regelzeichnung),
 								signalRahmen,
 								[
-									val regelzeichnung = map[fundament].filterNull.flatMap[IDRegelzeichnung].map[fillRegelzeichnung].filterNull
+									val regelzeichnung = map[fundament].
+										filterNull.flatMap[IDRegelzeichnung].map [
+											fillRegelzeichnung
+										].filterNull
 									val fundament = map[
 										fundament?.signalBefestigungAllg?.
 											fundamentArt?.wert
