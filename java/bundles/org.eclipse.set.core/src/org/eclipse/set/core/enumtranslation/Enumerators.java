@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 DB Netz AG and others.
+ * Copyright (c) 2023 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -14,6 +14,8 @@ import org.osgi.service.component.annotations.Component;
 
 /**
  * Translations for enumerators.
+ *
+ * @generated
  */
 @Component(service = Enumerators.class)
 public class Enumerators extends AbstractMessageService {
@@ -835,36 +837,6 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAnhang_Art_ZN_Raumplan_Rechnerraum_Alternative;
 
 	/**
-	 * 60 s
-	 */
-	public String ENUMAnschaltdauer_60_s_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMAnschaltdauer_60_s_Sorting;
-
-	/**
-	 * 60
-	 */
-	public String ENUMAnschaltdauer_60_s_Alternative;
-
-	/**
-	 * 90 s
-	 */
-	public String ENUMAnschaltdauer_90_s_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMAnschaltdauer_90_s_Sorting;
-
-	/**
-	 * 90
-	 */
-	public String ENUMAnschaltdauer_90_s_Alternative;
-
-	/**
 	 * G
 	 */
 	public String ENUMAnschaltdauer_G_Presentation;
@@ -1105,51 +1077,6 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMArt_Bedingung_Stoertelegramm_Alternative;
 
 	/**
-	 * Ende Bestandsdigitalisierung
-	 */
-	public String ENUMArt_Besonders_Ende_Bestdig_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMArt_Besonders_Ende_Bestdig_Sorting;
-
-	/**
-	 * Ende Bestandsdigitalisierung
-	 */
-	public String ENUMArt_Besonders_Ende_Bestdig_Alternative;
-
-	/**
-	 * sonstige
-	 */
-	public String ENUMArt_Besonders_sonstige_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMArt_Besonders_sonstige_Sorting;
-
-	/**
-	 * sonstige
-	 */
-	public String ENUMArt_Besonders_sonstige_Alternative;
-
-	/**
-	 * Verbindung
-	 */
-	public String ENUMArt_Besonders_Verbindung_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMArt_Besonders_Verbindung_Sorting;
-
-	/**
-	 * Verbindung
-	 */
-	public String ENUMArt_Besonders_Verbindung_Alternative;
-
-	/**
 	 * besetzt
 	 */
 	public String ENUMAufloesung_Ssp_Zielgleis_besetzt_Presentation;
@@ -1230,7 +1157,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAussenelementansteuerung_Art_BUE_Anschaltung_Presentation;
 
 	/**
-	 * 5
+	 * null
 	 */
 	public String ENUMAussenelementansteuerung_Art_BUE_Anschaltung_Sorting;
 
@@ -1495,12 +1422,27 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBahnsteig_Zugang_Art_Aufzug_Alternative;
 
 	/**
+	 * Bahnhofsgebäude
+	 */
+	public String ENUMBahnsteig_Zugang_Art_Bahnhofsgebaeude_Presentation;
+
+	/**
+	 * 3
+	 */
+	public String ENUMBahnsteig_Zugang_Art_Bahnhofsgebaeude_Sorting;
+
+	/**
+	 * Bahnhofsgebäude
+	 */
+	public String ENUMBahnsteig_Zugang_Art_Bahnhofsgebaeude_Alternative;
+
+	/**
 	 * Rampe
 	 */
 	public String ENUMBahnsteig_Zugang_Art_Rampe_Presentation;
 
 	/**
-	 * 3
+	 * 5
 	 */
 	public String ENUMBahnsteig_Zugang_Art_Rampe_Sorting;
 
@@ -1515,7 +1457,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBahnsteig_Zugang_Art_Resi_Presentation;
 
 	/**
-	 * 4
+	 * 6
 	 */
 	public String ENUMBahnsteig_Zugang_Art_Resi_Sorting;
 
@@ -1553,6 +1495,111 @@ public class Enumerators extends AbstractMessageService {
 	 * Treppe
 	 */
 	public String ENUMBahnsteig_Zugang_Art_Treppe_Alternative;
+
+	/**
+	 * Weg
+	 */
+	public String ENUMBahnsteig_Zugang_Art_Weg_Presentation;
+
+	/**
+	 * 4
+	 */
+	public String ENUMBahnsteig_Zugang_Art_Weg_Sorting;
+
+	/**
+	 * Weg
+	 */
+	public String ENUMBahnsteig_Zugang_Art_Weg_Alternative;
+
+	/**
+	 * BSS 86
+	 */
+	public String ENUMBalisenhalter_BSS_85_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBalisenhalter_BSS_85_Sorting;
+
+	/**
+	 * BSS 86
+	 */
+	public String ENUMBalisenhalter_BSS_85_Alternative;
+
+	/**
+	 * Kolster
+	 */
+	public String ENUMBalisenhalter_Kolster_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBalisenhalter_Kolster_Sorting;
+
+	/**
+	 * Kolster
+	 */
+	public String ENUMBalisenhalter_Kolster_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMBalisenhalter_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBalisenhalter_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMBalisenhalter_sonstige_Alternative;
+
+	/**
+	 * unbekannt
+	 */
+	public String ENUMBalisenhalter_unbekannt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBalisenhalter_unbekannt_Sorting;
+
+	/**
+	 * unbekannt
+	 */
+	public String ENUMBalisenhalter_unbekannt_Alternative;
+
+	/**
+	 * Vortok doppelt
+	 */
+	public String ENUMBalisenhalter_Vortok_doppelt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBalisenhalter_Vortok_doppelt_Sorting;
+
+	/**
+	 * Vortok doppelt
+	 */
+	public String ENUMBalisenhalter_Vortok_doppelt_Alternative;
+
+	/**
+	 * Vortok einfach
+	 */
+	public String ENUMBalisenhalter_Vortok_einfach_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBalisenhalter_Vortok_einfach_Sorting;
+
+	/**
+	 * Vortok einfach
+	 */
+	public String ENUMBalisenhalter_Vortok_einfach_Alternative;
 
 	/**
 	 * 100 Mbit/s
@@ -1688,6 +1735,51 @@ public class Enumerators extends AbstractMessageService {
 	 * sonstige
 	 */
 	public String ENUMBaubereich_Art_sonstige_Alternative;
+
+	/**
+	 * Rechteck
+	 */
+	public String ENUMBaumprofil_Rechteck_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBaumprofil_Rechteck_Sorting;
+
+	/**
+	 * Rechteck
+	 */
+	public String ENUMBaumprofil_Rechteck_Alternative;
+
+	/**
+	 * rund
+	 */
+	public String ENUMBaumprofil_rund_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBaumprofil_rund_Sorting;
+
+	/**
+	 * rund
+	 */
+	public String ENUMBaumprofil_rund_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMBaumprofil_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBaumprofil_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMBaumprofil_sonstige_Alternative;
 
 	/**
 	 * Bedienpult
@@ -1842,77 +1934,32 @@ public class Enumerators extends AbstractMessageService {
 	/**
 	 * Standard-BPS
 	 */
-	public String ENUMBedien_Platz_Art_Standart_BPS_Presentation;
+	public String ENUMBedien_Platz_Art_Standard_BPS_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMBedien_Platz_Art_Standart_BPS_Sorting;
+	public String ENUMBedien_Platz_Art_Standard_BPS_Sorting;
 
 	/**
 	 * Standard-BPS
 	 */
-	public String ENUMBedien_Platz_Art_Standart_BPS_Alternative;
+	public String ENUMBedien_Platz_Art_Standard_BPS_Alternative;
 
 	/**
 	 * Standard-BPS abgesetzt
 	 */
-	public String ENUMBedien_Platz_Art_Standart_BPS_abgesetzt_Presentation;
+	public String ENUMBedien_Platz_Art_Standard_BPS_abgesetzt_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMBedien_Platz_Art_Standart_BPS_abgesetzt_Sorting;
+	public String ENUMBedien_Platz_Art_Standard_BPS_abgesetzt_Sorting;
 
 	/**
 	 * Standard-BPS abgesetzt
 	 */
-	public String ENUMBedien_Platz_Art_Standart_BPS_abgesetzt_Alternative;
-
-	/**
-	 * wb
-	 */
-	public String ENUMBedienart_wb_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMBedienart_wb_Sorting;
-
-	/**
-	 * wb
-	 */
-	public String ENUMBedienart_wb_Alternative;
-
-	/**
-	 * wb/zb
-	 */
-	public String ENUMBedienart_wb_zb_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMBedienart_wb_zb_Sorting;
-
-	/**
-	 * wb/zb
-	 */
-	public String ENUMBedienart_wb_zb_Alternative;
-
-	/**
-	 * zb
-	 */
-	public String ENUMBedienart_zb_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMBedienart_zb_Sorting;
-
-	/**
-	 * zb
-	 */
-	public String ENUMBedienart_zb_Alternative;
+	public String ENUMBedien_Platz_Art_Standard_BPS_abgesetzt_Alternative;
 
 	/**
 	 * außen
@@ -1960,6 +2007,81 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBedienung_Art_innen_Alternative;
 
 	/**
+	 * andere
+	 */
+	public String ENUMBefestigung_Art_andere_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_andere_Sorting;
+
+	/**
+	 * andere
+	 */
+	public String ENUMBefestigung_Art_andere_Alternative;
+
+	/**
+	 * andere Sonderkonstruktion
+	 */
+	public String ENUMBefestigung_Art_andere_Sonderkonstruktion_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_andere_Sonderkonstruktion_Sorting;
+
+	/**
+	 * andere Sonderkonstruktion
+	 */
+	public String ENUMBefestigung_Art_andere_Sonderkonstruktion_Alternative;
+
+	/**
+	 * Arbeitsbühne
+	 */
+	public String ENUMBefestigung_Art_Arbeitsbuehne_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Arbeitsbuehne_Sorting;
+
+	/**
+	 * Arbeitsbühne
+	 */
+	public String ENUMBefestigung_Art_Arbeitsbuehne_Alternative;
+
+	/**
+	 * Bahnsteig
+	 */
+	public String ENUMBefestigung_Art_Bahnsteig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Bahnsteig_Sorting;
+
+	/**
+	 * Bahnsteig
+	 */
+	public String ENUMBefestigung_Art_Bahnsteig_Alternative;
+
+	/**
+	 * Dach
+	 */
+	public String ENUMBefestigung_Art_Dach_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Dach_Sorting;
+
+	/**
+	 * Dach
+	 */
+	public String ENUMBefestigung_Art_Dach_Alternative;
+
+	/**
 	 * Fundament
 	 */
 	public String ENUMBefestigung_Art_Fundament_Presentation;
@@ -1973,6 +2095,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Fundament
 	 */
 	public String ENUMBefestigung_Art_Fundament_Alternative;
+
+	/**
+	 * Konstruktionsteil
+	 */
+	public String ENUMBefestigung_Art_Konstruktionsteil_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Konstruktionsteil_Sorting;
+
+	/**
+	 * Konstruktionsteil
+	 */
+	public String ENUMBefestigung_Art_Konstruktionsteil_Alternative;
 
 	/**
 	 * Mast
@@ -1990,6 +2127,51 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Mast_Alternative;
 
 	/**
+	 * OL-Kettenwerk
+	 */
+	public String ENUMBefestigung_Art_OL_Kettenwerk_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_OL_Kettenwerk_Sorting;
+
+	/**
+	 * OL-Kettenwerk
+	 */
+	public String ENUMBefestigung_Art_OL_Kettenwerk_Alternative;
+
+	/**
+	 * OL-Mast
+	 */
+	public String ENUMBefestigung_Art_OL_Mast_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_OL_Mast_Sorting;
+
+	/**
+	 * OL-Mast
+	 */
+	public String ENUMBefestigung_Art_OL_Mast_Alternative;
+
+	/**
+	 * Pfahl
+	 */
+	public String ENUMBefestigung_Art_Pfahl_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Pfahl_Sorting;
+
+	/**
+	 * Pfahl
+	 */
+	public String ENUMBefestigung_Art_Pfahl_Alternative;
+
+	/**
 	 * Pfosten
 	 */
 	public String ENUMBefestigung_Art_Pfosten_Presentation;
@@ -2005,6 +2187,51 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Pfosten_Alternative;
 
 	/**
+	 * Pfosten hoch
+	 */
+	public String ENUMBefestigung_Art_Pfosten_hoch_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Pfosten_hoch_Sorting;
+
+	/**
+	 * Pfosten hoch
+	 */
+	public String ENUMBefestigung_Art_Pfosten_hoch_Alternative;
+
+	/**
+	 * Pfosten niedrig
+	 */
+	public String ENUMBefestigung_Art_Pfosten_niedrig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Pfosten_niedrig_Sorting;
+
+	/**
+	 * Pfosten niedrig
+	 */
+	public String ENUMBefestigung_Art_Pfosten_niedrig_Alternative;
+
+	/**
+	 * Prellbock
+	 */
+	public String ENUMBefestigung_Art_Prellbock_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Prellbock_Sorting;
+
+	/**
+	 * Prellbock
+	 */
+	public String ENUMBefestigung_Art_Prellbock_Alternative;
+
+	/**
 	 * Rahmen
 	 */
 	public String ENUMBefestigung_Art_Rahmen_Presentation;
@@ -2018,6 +2245,66 @@ public class Enumerators extends AbstractMessageService {
 	 * Rahmen
 	 */
 	public String ENUMBefestigung_Art_Rahmen_Alternative;
+
+	/**
+	 * Regelanordnung Mast hoch
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Mast_hoch_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Mast_hoch_Sorting;
+
+	/**
+	 * Regelanordnung Mast hoch
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Mast_hoch_Alternative;
+
+	/**
+	 * Regelanordnung Mast niedrig
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Mast_niedrig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Mast_niedrig_Sorting;
+
+	/**
+	 * Regelanordnung Mast niedrig
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Mast_niedrig_Alternative;
+
+	/**
+	 * sonstige Regelanordnung hoch
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_hoch_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_hoch_Sorting;
+
+	/**
+	 * sonstige Regelanordnung hoch
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_hoch_Alternative;
+
+	/**
+	 * sonstige Regelanordnung niedrig
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_niedrig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_niedrig_Sorting;
+
+	/**
+	 * sonstige Regelanordnung niedrig
+	 */
+	public String ENUMBefestigung_Art_Regelanordnung_Sonstige_niedrig_Alternative;
 
 	/**
 	 * Schienenfuß
@@ -2110,6 +2397,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBefestigung_Art_Signalbruecke_Alternative;
 
 	/**
+	 * Sonderanordnung Mast hoch
+	 */
+	public String ENUMBefestigung_Art_Sonderanordnung_Mast_hoch_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Sonderanordnung_Mast_hoch_Sorting;
+
+	/**
+	 * Sonderanordnung Mast hoch
+	 */
+	public String ENUMBefestigung_Art_Sonderanordnung_Mast_hoch_Alternative;
+
+	/**
+	 * Sonderanordnung Mast niedrig
+	 */
+	public String ENUMBefestigung_Art_Sonderanordnung_Mast_niedrig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Sonderanordnung_Mast_niedrig_Sorting;
+
+	/**
+	 * Sonderanordnung Mast niedrig
+	 */
+	public String ENUMBefestigung_Art_Sonderanordnung_Mast_niedrig_Alternative;
+
+	/**
 	 * sonstige
 	 */
 	public String ENUMBefestigung_Art_sonstige_Presentation;
@@ -2123,6 +2440,21 @@ public class Enumerators extends AbstractMessageService {
 	 * sonstige
 	 */
 	public String ENUMBefestigung_Art_sonstige_Alternative;
+
+	/**
+	 * Wand
+	 */
+	public String ENUMBefestigung_Art_Wand_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBefestigung_Art_Wand_Sorting;
+
+	/**
+	 * Wand
+	 */
+	public String ENUMBefestigung_Art_Wand_Alternative;
 
 	/**
 	 * angestrahlt
@@ -2485,6 +2817,81 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_2_Alternative;
 
 	/**
+	 * 20
+	 */
+	public String ENUMBf_Kennung_20_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBf_Kennung_20_Sorting;
+
+	/**
+	 * 20
+	 */
+	public String ENUMBf_Kennung_20_Alternative;
+
+	/**
+	 * 21
+	 */
+	public String ENUMBf_Kennung_21_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBf_Kennung_21_Sorting;
+
+	/**
+	 * 21
+	 */
+	public String ENUMBf_Kennung_21_Alternative;
+
+	/**
+	 * 22
+	 */
+	public String ENUMBf_Kennung_22_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBf_Kennung_22_Sorting;
+
+	/**
+	 * 22
+	 */
+	public String ENUMBf_Kennung_22_Alternative;
+
+	/**
+	 * 23
+	 */
+	public String ENUMBf_Kennung_23_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBf_Kennung_23_Sorting;
+
+	/**
+	 * 23
+	 */
+	public String ENUMBf_Kennung_23_Alternative;
+
+	/**
+	 * 24
+	 */
+	public String ENUMBf_Kennung_24_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBf_Kennung_24_Sorting;
+
+	/**
+	 * 24
+	 */
+	public String ENUMBf_Kennung_24_Alternative;
+
+	/**
 	 * 3
 	 */
 	public String ENUMBf_Kennung_3_Presentation;
@@ -2515,6 +2922,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBf_Kennung_4_Alternative;
 
 	/**
+	 * 50
+	 */
+	public String ENUMBf_Kennung_50_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBf_Kennung_50_Sorting;
+
+	/**
+	 * 50
+	 */
+	public String ENUMBf_Kennung_50_Alternative;
+
+	/**
+	 * 51
+	 */
+	public String ENUMBf_Kennung_51_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBf_Kennung_51_Sorting;
+
+	/**
+	 * 51
+	 */
+	public String ENUMBf_Kennung_51_Alternative;
+
+	/**
 	 * AB 64
 	 */
 	public String ENUMBlock_Bauform_AB64_Presentation;
@@ -2543,6 +2980,21 @@ public class Enumerators extends AbstractMessageService {
 	 * AB 70
 	 */
 	public String ENUMBlock_Bauform_AB70_Alternative;
+
+	/**
+	 * Blockanpassung RB
+	 */
+	public String ENUMBlock_Bauform_Blockanpassung_RB_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBlock_Bauform_Blockanpassung_RB_Sorting;
+
+	/**
+	 * Blockanpassung RB
+	 */
+	public String ENUMBlock_Bauform_Blockanpassung_RB_Alternative;
 
 	/**
 	 * DB-Block
@@ -2678,6 +3130,21 @@ public class Enumerators extends AbstractMessageService {
 	 * neutr. BSS
 	 */
 	public String ENUMBlock_Bauform_firmenneutrale_Blockschnittstelle_Alternative;
+
+	/**
+	 * ILS-Adapter
+	 */
+	public String ENUMBlock_Bauform_ILS_Adapter_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBlock_Bauform_ILS_Adapter_Sorting;
+
+	/**
+	 * ILS-Adapter
+	 */
+	public String ENUMBlock_Bauform_ILS_Adapter_Alternative;
 
 	/**
 	 * Relaisblock RB II 60
@@ -2950,6 +3417,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Bauart_Bue_Alternative;
 
 	/**
+	 * ntg Reisendenübergang
+	 */
+	public String ENUMBUE_Bauart_ntg_Reisendenuebergang_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Bauart_ntg_Reisendenuebergang_Sorting;
+
+	/**
+	 * ntg Reisendenübergang
+	 */
+	public String ENUMBUE_Bauart_ntg_Reisendenuebergang_Alternative;
+
+	/**
 	 * Resi
 	 */
 	public String ENUMBUE_Bauart_Resi_Presentation;
@@ -3220,6 +3702,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Lage_geschlossen_Alternative;
 
 	/**
+	 * A
+	 */
+	public String ENUMBUE_Sicherungsart_A_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_A_Sorting;
+
+	/**
+	 * A
+	 */
+	public String ENUMBUE_Sicherungsart_A_Alternative;
+
+	/**
 	 * A + Lf
 	 */
 	public String ENUMBUE_Sicherungsart_A_und_Lf_Presentation;
@@ -3250,6 +3747,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_A_und_Sprechverbindung_Alternative;
 
 	/**
+	 * Anrufschranke + Sprechverbindung
+	 */
+	public String ENUMBUE_Sicherungsart_Anrufschranke_und_Sprechverbindung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_Anrufschranke_und_Sprechverbindung_Sorting;
+
+	/**
+	 * Anrufschranke + Sprechverbindung
+	 */
+	public String ENUMBUE_Sicherungsart_Anrufschranke_und_Sprechverbindung_Alternative;
+
+	/**
+	 * bgBÜ
+	 */
+	public String ENUMBUE_Sicherungsart_bgBUe_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_bgBUe_Sorting;
+
+	/**
+	 * bgBÜ
+	 */
+	public String ENUMBUE_Sicherungsart_bgBUe_Alternative;
+
+	/**
 	 * Lz
 	 */
 	public String ENUMBUE_Sicherungsart_Lz_Presentation;
@@ -3263,6 +3790,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Lz
 	 */
 	public String ENUMBUE_Sicherungsart_Lz_Alternative;
+
+	/**
+	 * LzF
+	 */
+	public String ENUMBUE_Sicherungsart_LzF_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_LzF_Sorting;
+
+	/**
+	 * LzF
+	 */
+	public String ENUMBUE_Sicherungsart_LzF_Alternative;
 
 	/**
 	 * LzH
@@ -3325,6 +3867,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_LzHH_Alternative;
 
 	/**
+	 * LzHH/2F
+	 */
+	public String ENUMBUE_Sicherungsart_LzHH_2F_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_LzHH_2F_Sorting;
+
+	/**
+	 * LzHH/2F
+	 */
+	public String ENUMBUE_Sicherungsart_LzHH_2F_Alternative;
+
+	/**
+	 * LzHH/F
+	 */
+	public String ENUMBUE_Sicherungsart_LzHH_F_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_LzHH_F_Sorting;
+
+	/**
+	 * LzHH/F
+	 */
+	public String ENUMBUE_Sicherungsart_LzHH_F_Alternative;
+
+	/**
 	 * LzV
 	 */
 	public String ENUMBUE_Sicherungsart_LzV_Presentation;
@@ -3368,6 +3940,21 @@ public class Enumerators extends AbstractMessageService {
 	 * P + Lf
 	 */
 	public String ENUMBUE_Sicherungsart_P_und_Lf_Alternative;
+
+	/**
+	 * P + U
+	 */
+	public String ENUMBUE_Sicherungsart_P_und_U_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_P_und_U_Sorting;
+
+	/**
+	 * P + U
+	 */
+	public String ENUMBUE_Sicherungsart_P_und_U_Alternative;
 
 	/**
 	 * schlüsselabhängig
@@ -3415,6 +4002,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Sicherungsart_Ue_Alternative;
 
 	/**
+	 * Ü + A
+	 */
+	public String ENUMBUE_Sicherungsart_Ue_und_A_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_Ue_und_A_Sorting;
+
+	/**
+	 * Ü + A
+	 */
+	public String ENUMBUE_Sicherungsart_Ue_und_A_Alternative;
+
+	/**
 	 * Ü + P
 	 */
 	public String ENUMBUE_Sicherungsart_Ue_und_P_Presentation;
@@ -3428,6 +4030,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Ü + P
 	 */
 	public String ENUMBUE_Sicherungsart_Ue_und_P_Alternative;
+
+	/**
+	 * Ü + U
+	 */
+	public String ENUMBUE_Sicherungsart_Ue_und_U_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBUE_Sicherungsart_Ue_und_U_Sorting;
+
+	/**
+	 * Ü + U
+	 */
+	public String ENUMBUE_Sicherungsart_Ue_und_U_Alternative;
 
 	/**
 	 * Anrufschranke
@@ -3730,6 +4347,891 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMBUE_Technik_sonstige_Alternative;
 
 	/**
+	 * Anlagentabelle Transition
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Anlagentabelle_Transition_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Anlagentabelle_Transition_Sorting;
+
+	/**
+	 * Anlagentabelle Transition
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Anlagentabelle_Transition_Alternative;
+
+	/**
+	 * Balisenprüfprotokoll
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Balisenpruefprotokoll_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Balisenpruefprotokoll_Sorting;
+
+	/**
+	 * Balisenprüfprotokoll
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Balisenpruefprotokoll_Alternative;
+
+	/**
+	 * Bedieneinrichtungstabelle BÜ
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_BUe_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_BUe_Sorting;
+
+	/**
+	 * Bedieneinrichtungstabelle BÜ
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_BUe_Alternative;
+
+	/**
+	 * Bedieneinrichtungstabelle Stw
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_Stw_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_Stw_Sorting;
+
+	/**
+	 * Bedieneinrichtungstabelle Stw
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Bedieneinrichtungstabelle_Stw_Alternative;
+
+	/**
+	 * BÜ-Abhängigkeitstabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Abhaengigkeitstabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Abhaengigkeitstabelle_Sorting;
+
+	/**
+	 * BÜ-Abhängigkeitstabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Abhaengigkeitstabelle_Alternative;
+
+	/**
+	 * BÜ-Kabellage- und Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Kabellage__und_Uebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Kabellage__und_Uebersichtsplan_Sorting;
+
+	/**
+	 * BÜ-Kabellage- und Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Kabellage__und_Uebersichtsplan_Alternative;
+
+	/**
+	 * BÜ-Kabelübersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Kabeluebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Kabeluebersichtsplan_Sorting;
+
+	/**
+	 * BÜ-Kabelübersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Kabeluebersichtsplan_Alternative;
+
+	/**
+	 * BÜ-Lageplan ntg
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Lageplan_ntg_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Lageplan_ntg_Sorting;
+
+	/**
+	 * BÜ-Lageplan ntg
+	 */
+	public String ENUMBV_Darstellung_In_Plan_BUe_Lageplan_ntg_Alternative;
+
+	/**
+	 * Deadlock-Tabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Deadlock_Tabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Deadlock_Tabelle_Sorting;
+
+	/**
+	 * Deadlock-Tabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Deadlock_Tabelle_Alternative;
+
+	/**
+	 * Durchrutschweg- und Gefahrpunkttabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Durchrutschweg__und_Gefahrpunkttabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Durchrutschweg__und_Gefahrpunkttabelle_Sorting;
+
+	/**
+	 * Durchrutschweg- und Gefahrpunkttabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Durchrutschweg__und_Gefahrpunkttabelle_Alternative;
+
+	/**
+	 * Elementansteuertabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Elementansteuertabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Elementansteuertabelle_Sorting;
+
+	/**
+	 * Elementansteuertabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Elementansteuertabelle_Alternative;
+
+	/**
+	 * ESG-Datenpunkttabelle 1
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_1_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_1_Sorting;
+
+	/**
+	 * ESG-Datenpunkttabelle 1
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_1_Alternative;
+
+	/**
+	 * ESG-Datenpunkttabelle 2
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_2_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_2_Sorting;
+
+	/**
+	 * ESG-Datenpunkttabelle 2
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_2_Alternative;
+
+	/**
+	 * ESG-Datenpunkttabelle 3
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_3_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_3_Sorting;
+
+	/**
+	 * ESG-Datenpunkttabelle 3
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ESG_Datenpunkttabelle_3_Alternative;
+
+	/**
+	 * ETCS-Datenpunkttabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Datenpunkttabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Datenpunkttabelle_Sorting;
+
+	/**
+	 * ETCS-Datenpunkttabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Datenpunkttabelle_Alternative;
+
+	/**
+	 * ETCS Melde- und Kommandoanschaltung Signale (Muka Signale)
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Signale__Muka_Signale__Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Signale__Muka_Signale__Sorting;
+
+	/**
+	 * ETCS Melde- und Kommandoanschaltung Signale (Muka Signale)
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Signale__Muka_Signale__Alternative;
+
+	/**
+	 * ETCS Melde- und Kommandoanschaltung Weichen (Muka Weichen)
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Weichen__Muka_Weichen__Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Weichen__Muka_Weichen__Sorting;
+
+	/**
+	 * ETCS Melde- und Kommandoanschaltung Weichen (Muka Weichen)
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ETCS_Melde__und_Kommandoanschaltung_Weichen__Muka_Weichen__Alternative;
+
+	/**
+	 * Flankenschutztabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Flankenschutztabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Flankenschutztabelle_Sorting;
+
+	/**
+	 * Flankenschutztabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Flankenschutztabelle_Alternative;
+
+	/**
+	 * Freimeldetabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Freimeldetabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Freimeldetabelle_Sorting;
+
+	/**
+	 * Freimeldetabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Freimeldetabelle_Alternative;
+
+	/**
+	 * GFR-Plan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_GFR_Plan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_GFR_Plan_Sorting;
+
+	/**
+	 * GFR-Plan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_GFR_Plan_Alternative;
+
+	/**
+	 * Gleisfreimeldeplan für Gleisstromkreise
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleisfreimeldeplan_fuer_Gleisstromkreise_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleisfreimeldeplan_fuer_Gleisstromkreise_Sorting;
+
+	/**
+	 * Gleisfreimeldeplan für Gleisstromkreise
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleisfreimeldeplan_fuer_Gleisstromkreise_Alternative;
+
+	/**
+	 * Gleismagnettabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleismagnettabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleismagnettabelle_Sorting;
+
+	/**
+	 * Gleismagnettabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleismagnettabelle_Alternative;
+
+	/**
+	 * Gleisschaltmitteltabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleisschaltmitteltabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleisschaltmitteltabelle_Sorting;
+
+	/**
+	 * Gleisschaltmitteltabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Gleisschaltmitteltabelle_Alternative;
+
+	/**
+	 * Inselgleistabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Inselgleistabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Inselgleistabelle_Sorting;
+
+	/**
+	 * Inselgleistabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Inselgleistabelle_Alternative;
+
+	/**
+	 * Kabellageplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Kabellageplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Kabellageplan_Sorting;
+
+	/**
+	 * Kabellageplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Kabellageplan_Alternative;
+
+	/**
+	 * Kabelübersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Kabeluebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Kabeluebersichtsplan_Sorting;
+
+	/**
+	 * Kabelübersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Kabeluebersichtsplan_Alternative;
+
+	/**
+	 * LEU-Tabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_LEU_Tabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_LEU_Tabelle_Sorting;
+
+	/**
+	 * LEU-Tabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_LEU_Tabelle_Alternative;
+
+	/**
+	 * Meldedrucktabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Meldedrucktabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Meldedrucktabelle_Sorting;
+
+	/**
+	 * Meldedrucktabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Meldedrucktabelle_Alternative;
+
+	/**
+	 * Nahbedienungstabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Nahbedienungstabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Nahbedienungstabelle_Sorting;
+
+	/**
+	 * Nahbedienungstabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Nahbedienungstabelle_Alternative;
+
+	/**
+	 * Rangierstraßentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Rangierstrassentabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Rangierstrassentabelle_Sorting;
+
+	/**
+	 * Rangierstraßentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Rangierstrassentabelle_Alternative;
+
+	/**
+	 * Schlosstabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Schlosstabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Schlosstabelle_Sorting;
+
+	/**
+	 * Schlosstabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Schlosstabelle_Alternative;
+
+	/**
+	 * Sicherungstechnischer Kreuzungsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Kreuzungsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Kreuzungsplan_Sorting;
+
+	/**
+	 * Sicherungstechnischer Kreuzungsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Kreuzungsplan_Alternative;
+
+	/**
+	 * Sicherungstechnischer Lageplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Lageplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Lageplan_Sorting;
+
+	/**
+	 * Sicherungstechnischer Lageplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Lageplan_Alternative;
+
+	/**
+	 * Sicherungstechnischer Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_Sorting;
+
+	/**
+	 * Sicherungstechnischer Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_Alternative;
+
+	/**
+	 * Sicherungstechnischer Übersichtsplan BÜ
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_BUe_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_BUe_Sorting;
+
+	/**
+	 * Sicherungstechnischer Übersichtsplan BÜ
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Sicherungstechnischer_Uebersichtsplan_BUe_Alternative;
+
+	/**
+	 * Signal- und Schutzstreckentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Signal__und_Schutzstreckentabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Signal__und_Schutzstreckentabelle_Sorting;
+
+	/**
+	 * Signal- und Schutzstreckentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Signal__und_Schutzstreckentabelle_Alternative;
+
+	/**
+	 * Signaltabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Signaltabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Signaltabelle_Sorting;
+
+	/**
+	 * Signaltabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Signaltabelle_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMBV_Darstellung_In_Plan_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMBV_Darstellung_In_Plan_sonstige_Alternative;
+
+	/**
+	 * Stammkabelübersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Stammkabeluebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Stammkabeluebersichtsplan_Sorting;
+
+	/**
+	 * Stammkabelübersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Stammkabeluebersichtsplan_Alternative;
+
+	/**
+	 * Statische Streckeneigenschaften
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Statische_Streckeneigenschaften_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Statische_Streckeneigenschaften_Sorting;
+
+	/**
+	 * Statische Streckeneigenschaften
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Statische_Streckeneigenschaften_Alternative;
+
+	/**
+	 * Streckenblocktabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Streckenblocktabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Streckenblocktabelle_Sorting;
+
+	/**
+	 * Streckenblocktabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Streckenblocktabelle_Alternative;
+
+	/**
+	 * Tabelle der aneinandergereihten Fahrstraßen
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_aneinandergereihten_Fahrstrassen_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_aneinandergereihten_Fahrstrassen_Sorting;
+
+	/**
+	 * Tabelle der aneinandergereihten Fahrstraßen
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_aneinandergereihten_Fahrstrassen_Alternative;
+
+	/**
+	 * Tabelle der ATO Segment Profiles
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Segment_Profiles_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Segment_Profiles_Sorting;
+
+	/**
+	 * Tabelle der ATO Segment Profiles
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Segment_Profiles_Alternative;
+
+	/**
+	 * Tabelle der ATO Timing Points
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Timing_Points_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Timing_Points_Sorting;
+
+	/**
+	 * Tabelle der ATO Timing Points
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_Timing_Points_Alternative;
+
+	/**
+	 * Tabelle der ATO-TS Instanzen
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_TS_Instanzen_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_TS_Instanzen_Sorting;
+
+	/**
+	 * Tabelle der ATO-TS Instanzen
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_ATO_TS_Instanzen_Alternative;
+
+	/**
+	 * Tabelle der Ein- und Ausstiege
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Ein__und_Ausstiege_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Ein__und_Ausstiege_Sorting;
+
+	/**
+	 * Tabelle der Ein- und Ausstiege
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Ein__und_Ausstiege_Alternative;
+
+	/**
+	 * Tabelle der Technik- und Bedienstandorte
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Technik__und_Bedienstandorte_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Technik__und_Bedienstandorte_Sorting;
+
+	/**
+	 * Tabelle der Technik- und Bedienstandorte
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Tabelle_der_Technik__und_Bedienstandorte_Alternative;
+
+	/**
+	 * Übertragungswegtabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Uebertragungswegtabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Uebertragungswegtabelle_Sorting;
+
+	/**
+	 * Übertragungswegtabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Uebertragungswegtabelle_Alternative;
+
+	/**
+	 * Weichenlaufkettentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Weichenlaufkettentabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Weichenlaufkettentabelle_Sorting;
+
+	/**
+	 * Weichenlaufkettentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Weichenlaufkettentabelle_Alternative;
+
+	/**
+	 * Weichentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Weichentabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Weichentabelle_Sorting;
+
+	/**
+	 * Weichentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Weichentabelle_Alternative;
+
+	/**
+	 * ZBS-Datenpunkttabelle 1
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_1_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_1_Sorting;
+
+	/**
+	 * ZBS-Datenpunkttabelle 1
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_1_Alternative;
+
+	/**
+	 * ZBS-Datenpunkttabelle 2
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_2_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_2_Sorting;
+
+	/**
+	 * ZBS-Datenpunkttabelle 2
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_2_Alternative;
+
+	/**
+	 * ZBS-Datenpunkttabelle 3
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_3_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_3_Sorting;
+
+	/**
+	 * ZBS-Datenpunkttabelle 3
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZBS_Datenpunkttabelle_3_Alternative;
+
+	/**
+	 * ZL-Anstoßtabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZL_Anstosstabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZL_Anstosstabelle_Sorting;
+
+	/**
+	 * ZL-Anstoßtabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZL_Anstosstabelle_Alternative;
+
+	/**
+	 * ZLV-Bus-Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZLV_Bus_Uebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZLV_Bus_Uebersichtsplan_Sorting;
+
+	/**
+	 * ZLV-Bus-Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZLV_Bus_Uebersichtsplan_Alternative;
+
+	/**
+	 * ZN-Tabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZN_Tabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZN_Tabelle_Sorting;
+
+	/**
+	 * ZN-Tabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZN_Tabelle_Alternative;
+
+	/**
+	 * ZN-Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZN_Uebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZN_Uebersichtsplan_Sorting;
+
+	/**
+	 * ZN-Übersichtsplan
+	 */
+	public String ENUMBV_Darstellung_In_Plan_ZN_Uebersichtsplan_Alternative;
+
+	/**
+	 * Zugstraßentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Zugstrassentabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Zugstrassentabelle_Sorting;
+
+	/**
+	 * Zugstraßentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Zugstrassentabelle_Alternative;
+
+	/**
+	 * Zwieschutzweichentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Zwieschutzweichentabelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Zwieschutzweichentabelle_Sorting;
+
+	/**
+	 * Zwieschutzweichentabelle
+	 */
+	public String ENUMBV_Darstellung_In_Plan_Zwieschutzweichentabelle_Alternative;
+
+	/**
 	 * 0
 	 */
 	public String ENUMC_Wert_0_Presentation;
@@ -3865,6 +5367,51 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDateityp_tif_Alternative;
 
 	/**
+	 * Präzisionshalt
+	 */
+	public String ENUMDP_ATO_Praezisionshalt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_ATO_Praezisionshalt_Sorting;
+
+	/**
+	 * Präzisionshalt
+	 */
+	public String ENUMDP_ATO_Praezisionshalt_Alternative;
+
+	/**
+	 * Präzisionshalt hochpräzise
+	 */
+	public String ENUMDP_ATO_Praezisionshalt_hochpraezise_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_ATO_Praezisionshalt_hochpraezise_Sorting;
+
+	/**
+	 * Präzisionshalt hochpräzise
+	 */
+	public String ENUMDP_ATO_Praezisionshalt_hochpraezise_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMDP_ATO_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_ATO_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMDP_ATO_sonstige_Alternative;
+
+	/**
 	 * mittelbar
 	 */
 	public String ENUMDP_Bezug_Betrieblich_Art_mittelbar_Presentation;
@@ -3908,6 +5455,51 @@ public class Enumerators extends AbstractMessageService {
 	 * unmittelbar
 	 */
 	public String ENUMDP_Bezug_Betrieblich_Art_unmittelbar_Alternative;
+
+	/**
+	 * mittelbar
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_mittelbar_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_mittelbar_Sorting;
+
+	/**
+	 * mittelbar
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_mittelbar_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_sonstige_Alternative;
+
+	/**
+	 * unmittelbar
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_unmittelbar_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_unmittelbar_Sorting;
+
+	/**
+	 * unmittelbar
+	 */
+	public String ENUMDP_Bezug_Funktional_Art_unmittelbar_Alternative;
 
 	/**
 	 * Grund
@@ -3985,6 +5577,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_Art_sekundaer_Alternative;
 
 	/**
+	 * AA
+	 */
+	public String ENUMDP_Typ_ESG_AA_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AA_Sorting;
+
+	/**
+	 * AA
+	 */
+	public String ENUMDP_Typ_ESG_AA_Alternative;
+
+	/**
 	 * AB
 	 */
 	public String ENUMDP_Typ_ESG_AB_Presentation;
@@ -4015,6 +5622,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AE_Alternative;
 
 	/**
+	 * AE-E
+	 */
+	public String ENUMDP_Typ_ESG_AE_E_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AE_E_Sorting;
+
+	/**
+	 * AE-E
+	 */
+	public String ENUMDP_Typ_ESG_AE_E_Alternative;
+
+	/**
+	 * AE-L
+	 */
+	public String ENUMDP_Typ_ESG_AE_L_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AE_L_Sorting;
+
+	/**
+	 * AE-L
+	 */
+	public String ENUMDP_Typ_ESG_AE_L_Alternative;
+
+	/**
 	 * AF
 	 */
 	public String ENUMDP_Typ_ESG_AF_Presentation;
@@ -4028,6 +5665,96 @@ public class Enumerators extends AbstractMessageService {
 	 * AF
 	 */
 	public String ENUMDP_Typ_ESG_AF_Alternative;
+
+	/**
+	 * AG-E
+	 */
+	public String ENUMDP_Typ_ESG_AG_E_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AG_E_Sorting;
+
+	/**
+	 * AG-E
+	 */
+	public String ENUMDP_Typ_ESG_AG_E_Alternative;
+
+	/**
+	 * AG-L
+	 */
+	public String ENUMDP_Typ_ESG_AG_L_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AG_L_Sorting;
+
+	/**
+	 * AG-L
+	 */
+	public String ENUMDP_Typ_ESG_AG_L_Alternative;
+
+	/**
+	 * AH
+	 */
+	public String ENUMDP_Typ_ESG_AH_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AH_Sorting;
+
+	/**
+	 * AH
+	 */
+	public String ENUMDP_Typ_ESG_AH_Alternative;
+
+	/**
+	 * AM
+	 */
+	public String ENUMDP_Typ_ESG_AM_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AM_Sorting;
+
+	/**
+	 * AM
+	 */
+	public String ENUMDP_Typ_ESG_AM_Alternative;
+
+	/**
+	 * AR
+	 */
+	public String ENUMDP_Typ_ESG_AR_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AR_Sorting;
+
+	/**
+	 * AR
+	 */
+	public String ENUMDP_Typ_ESG_AR_Alternative;
+
+	/**
+	 * AS
+	 */
+	public String ENUMDP_Typ_ESG_AS_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AS_Sorting;
+
+	/**
+	 * AS
+	 */
+	public String ENUMDP_Typ_ESG_AS_Alternative;
 
 	/**
 	 * AS-136
@@ -4120,6 +5847,66 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_AS_99_Alternative;
 
 	/**
+	 * AT
+	 */
+	public String ENUMDP_Typ_ESG_AT_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AT_Sorting;
+
+	/**
+	 * AT
+	 */
+	public String ENUMDP_Typ_ESG_AT_Alternative;
+
+	/**
+	 * ATS
+	 */
+	public String ENUMDP_Typ_ESG_ATS_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_ATS_Sorting;
+
+	/**
+	 * ATS
+	 */
+	public String ENUMDP_Typ_ESG_ATS_Alternative;
+
+	/**
+	 * AV-E
+	 */
+	public String ENUMDP_Typ_ESG_AV_E_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AV_E_Sorting;
+
+	/**
+	 * AV-E
+	 */
+	public String ENUMDP_Typ_ESG_AV_E_Alternative;
+
+	/**
+	 * AV-L
+	 */
+	public String ENUMDP_Typ_ESG_AV_L_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AV_L_Sorting;
+
+	/**
+	 * AV-L
+	 */
+	public String ENUMDP_Typ_ESG_AV_L_Alternative;
+
+	/**
 	 * AW
 	 */
 	public String ENUMDP_Typ_ESG_AW_Presentation;
@@ -4133,6 +5920,21 @@ public class Enumerators extends AbstractMessageService {
 	 * AW
 	 */
 	public String ENUMDP_Typ_ESG_AW_Alternative;
+
+	/**
+	 * AWP
+	 */
+	public String ENUMDP_Typ_ESG_AWP_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_AWP_Sorting;
+
+	/**
+	 * AWP
+	 */
+	public String ENUMDP_Typ_ESG_AWP_Alternative;
 
 	/**
 	 * BA
@@ -4165,6 +5967,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_BM_Alternative;
 
 	/**
+	 * BMI
+	 */
+	public String ENUMDP_Typ_ESG_BMI_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_BMI_Sorting;
+
+	/**
+	 * BMI
+	 */
+	public String ENUMDP_Typ_ESG_BMI_Alternative;
+
+	/**
 	 * BP
 	 */
 	public String ENUMDP_Typ_ESG_BP_Presentation;
@@ -4178,6 +5995,21 @@ public class Enumerators extends AbstractMessageService {
 	 * BP
 	 */
 	public String ENUMDP_Typ_ESG_BP_Alternative;
+
+	/**
+	 * BPI
+	 */
+	public String ENUMDP_Typ_ESG_BPI_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_BPI_Sorting;
+
+	/**
+	 * BPI
+	 */
+	public String ENUMDP_Typ_ESG_BPI_Alternative;
 
 	/**
 	 * BR
@@ -4195,6 +6027,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_BR_Alternative;
 
 	/**
+	 * BRI
+	 */
+	public String ENUMDP_Typ_ESG_BRI_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_BRI_Sorting;
+
+	/**
+	 * BRI
+	 */
+	public String ENUMDP_Typ_ESG_BRI_Alternative;
+
+	/**
 	 * BS
 	 */
 	public String ENUMDP_Typ_ESG_BS_Presentation;
@@ -4208,6 +6055,96 @@ public class Enumerators extends AbstractMessageService {
 	 * BS
 	 */
 	public String ENUMDP_Typ_ESG_BS_Alternative;
+
+	/**
+	 * BW
+	 */
+	public String ENUMDP_Typ_ESG_BW_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_BW_Sorting;
+
+	/**
+	 * BW
+	 */
+	public String ENUMDP_Typ_ESG_BW_Alternative;
+
+	/**
+	 * EA
+	 */
+	public String ENUMDP_Typ_ESG_EA_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_EA_Sorting;
+
+	/**
+	 * EA
+	 */
+	public String ENUMDP_Typ_ESG_EA_Alternative;
+
+	/**
+	 * EF
+	 */
+	public String ENUMDP_Typ_ESG_EF_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_EF_Sorting;
+
+	/**
+	 * EF
+	 */
+	public String ENUMDP_Typ_ESG_EF_Alternative;
+
+	/**
+	 * EH
+	 */
+	public String ENUMDP_Typ_ESG_EH_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_EH_Sorting;
+
+	/**
+	 * EH
+	 */
+	public String ENUMDP_Typ_ESG_EH_Alternative;
+
+	/**
+	 * EM
+	 */
+	public String ENUMDP_Typ_ESG_EM_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_EM_Sorting;
+
+	/**
+	 * EM
+	 */
+	public String ENUMDP_Typ_ESG_EM_Alternative;
+
+	/**
+	 * EP
+	 */
+	public String ENUMDP_Typ_ESG_EP_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_EP_Sorting;
+
+	/**
+	 * EP
+	 */
+	public String ENUMDP_Typ_ESG_EP_Alternative;
 
 	/**
 	 * FH1
@@ -4345,6 +6282,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_GH5_Alternative;
 
 	/**
+	 * GLI
+	 */
+	public String ENUMDP_Typ_ESG_GLI_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_GLI_Sorting;
+
+	/**
+	 * GLI
+	 */
+	public String ENUMDP_Typ_ESG_GLI_Alternative;
+
+	/**
 	 * GM1
 	 */
 	public String ENUMDP_Typ_ESG_GM1_Presentation;
@@ -4420,6 +6372,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_GM5_Alternative;
 
 	/**
+	 * HG
+	 */
+	public String ENUMDP_Typ_ESG_HG_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_HG_Sorting;
+
+	/**
+	 * HG
+	 */
+	public String ENUMDP_Typ_ESG_HG_Alternative;
+
+	/**
 	 * HS
 	 */
 	public String ENUMDP_Typ_ESG_HS_Presentation;
@@ -4433,6 +6400,21 @@ public class Enumerators extends AbstractMessageService {
 	 * HS
 	 */
 	public String ENUMDP_Typ_ESG_HS_Alternative;
+
+	/**
+	 * HV
+	 */
+	public String ENUMDP_Typ_ESG_HV_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_HV_Sorting;
+
+	/**
+	 * HV
+	 */
+	public String ENUMDP_Typ_ESG_HV_Alternative;
 
 	/**
 	 * LB
@@ -4465,6 +6447,81 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LF_Alternative;
 
 	/**
+	 * LF-S
+	 */
+	public String ENUMDP_Typ_ESG_LF_S_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_LF_S_Sorting;
+
+	/**
+	 * LF-S
+	 */
+	public String ENUMDP_Typ_ESG_LF_S_Alternative;
+
+	/**
+	 * LF-V
+	 */
+	public String ENUMDP_Typ_ESG_LF_V_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_LF_V_Sorting;
+
+	/**
+	 * LF-V
+	 */
+	public String ENUMDP_Typ_ESG_LF_V_Alternative;
+
+	/**
+	 * LFI
+	 */
+	public String ENUMDP_Typ_ESG_LFI_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_LFI_Sorting;
+
+	/**
+	 * LFI
+	 */
+	public String ENUMDP_Typ_ESG_LFI_Alternative;
+
+	/**
+	 * LG-S
+	 */
+	public String ENUMDP_Typ_ESG_LG_S_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_LG_S_Sorting;
+
+	/**
+	 * LG-S
+	 */
+	public String ENUMDP_Typ_ESG_LG_S_Alternative;
+
+	/**
+	 * LG-V
+	 */
+	public String ENUMDP_Typ_ESG_LG_V_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_LG_V_Sorting;
+
+	/**
+	 * LG-V
+	 */
+	public String ENUMDP_Typ_ESG_LG_V_Alternative;
+
+	/**
 	 * LR
 	 */
 	public String ENUMDP_Typ_ESG_LR_Presentation;
@@ -4480,6 +6537,81 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_LR_Alternative;
 
 	/**
+	 * LR-S
+	 */
+	public String ENUMDP_Typ_ESG_LR_S_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_LR_S_Sorting;
+
+	/**
+	 * LR-S
+	 */
+	public String ENUMDP_Typ_ESG_LR_S_Alternative;
+
+	/**
+	 * LR-V
+	 */
+	public String ENUMDP_Typ_ESG_LR_V_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_LR_V_Sorting;
+
+	/**
+	 * LR-V
+	 */
+	public String ENUMDP_Typ_ESG_LR_V_Alternative;
+
+	/**
+	 * MG
+	 */
+	public String ENUMDP_Typ_ESG_MG_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_MG_Sorting;
+
+	/**
+	 * MG
+	 */
+	public String ENUMDP_Typ_ESG_MG_Alternative;
+
+	/**
+	 * MH
+	 */
+	public String ENUMDP_Typ_ESG_MH_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_MH_Sorting;
+
+	/**
+	 * MH
+	 */
+	public String ENUMDP_Typ_ESG_MH_Alternative;
+
+	/**
+	 * MP
+	 */
+	public String ENUMDP_Typ_ESG_MP_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_MP_Sorting;
+
+	/**
+	 * MP
+	 */
+	public String ENUMDP_Typ_ESG_MP_Alternative;
+
+	/**
 	 * MS
 	 */
 	public String ENUMDP_Typ_ESG_MS_Presentation;
@@ -4493,6 +6625,21 @@ public class Enumerators extends AbstractMessageService {
 	 * MS
 	 */
 	public String ENUMDP_Typ_ESG_MS_Alternative;
+
+	/**
+	 * MV
+	 */
+	public String ENUMDP_Typ_ESG_MV_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_MV_Sorting;
+
+	/**
+	 * MV
+	 */
+	public String ENUMDP_Typ_ESG_MV_Alternative;
 
 	/**
 	 * NV
@@ -4825,6 +6972,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ESG_TG_Alternative;
 
 	/**
+	 * TG-E
+	 */
+	public String ENUMDP_Typ_ESG_TG_E_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_TG_E_Sorting;
+
+	/**
+	 * TG-E
+	 */
+	public String ENUMDP_Typ_ESG_TG_E_Alternative;
+
+	/**
+	 * TG-L
+	 */
+	public String ENUMDP_Typ_ESG_TG_L_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_TG_L_Sorting;
+
+	/**
+	 * TG-L
+	 */
+	public String ENUMDP_Typ_ESG_TG_L_Alternative;
+
+	/**
 	 * TM-E
 	 */
 	public String ENUMDP_Typ_ESG_TM_E_Presentation;
@@ -4928,6 +7105,21 @@ public class Enumerators extends AbstractMessageService {
 	 * TV-L
 	 */
 	public String ENUMDP_Typ_ESG_TV_L_Alternative;
+
+	/**
+	 * VP
+	 */
+	public String ENUMDP_Typ_ESG_VP_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ESG_VP_Sorting;
+
+	/**
+	 * VP
+	 */
+	public String ENUMDP_Typ_ESG_VP_Alternative;
 
 	/**
 	 * VS
@@ -5275,6 +7467,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMDP_Typ_ZBS_ZRE_Alternative;
 
 	/**
+	 * ZRE 1
+	 */
+	public String ENUMDP_Typ_ZBS_ZRE_1_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ZBS_ZRE_1_Sorting;
+
+	/**
+	 * ZRE 1
+	 */
+	public String ENUMDP_Typ_ZBS_ZRE_1_Alternative;
+
+	/**
+	 * ZRE 2
+	 */
+	public String ENUMDP_Typ_ZBS_ZRE_2_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMDP_Typ_ZBS_ZRE_2_Sorting;
+
+	/**
+	 * ZRE 2
+	 */
+	public String ENUMDP_Typ_ZBS_ZRE_2_Alternative;
+
+	/**
 	 * ZRH
 	 */
 	public String ENUMDP_Typ_ZBS_ZRH_Presentation;
@@ -5408,96 +7630,6 @@ public class Enumerators extends AbstractMessageService {
 	 * verboten
 	 */
 	public String ENUMDurchfahrt_verboten_Alternative;
-
-	/**
-	 * 100
-	 */
-	public String ENUMDWeg_V_100_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMDWeg_V_100_Sorting;
-
-	/**
-	 * 100
-	 */
-	public String ENUMDWeg_V_100_Alternative;
-
-	/**
-	 * 160
-	 */
-	public String ENUMDWeg_V_160_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMDWeg_V_160_Sorting;
-
-	/**
-	 * 160
-	 */
-	public String ENUMDWeg_V_160_Alternative;
-
-	/**
-	 * 20
-	 */
-	public String ENUMDWeg_V_20_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMDWeg_V_20_Sorting;
-
-	/**
-	 * 20
-	 */
-	public String ENUMDWeg_V_20_Alternative;
-
-	/**
-	 * 30
-	 */
-	public String ENUMDWeg_V_30_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMDWeg_V_30_Sorting;
-
-	/**
-	 * 30
-	 */
-	public String ENUMDWeg_V_30_Alternative;
-
-	/**
-	 * 40
-	 */
-	public String ENUMDWeg_V_40_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMDWeg_V_40_Sorting;
-
-	/**
-	 * 40
-	 */
-	public String ENUMDWeg_V_40_Alternative;
-
-	/**
-	 * 60
-	 */
-	public String ENUMDWeg_V_60_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMDWeg_V_60_Sorting;
-
-	/**
-	 * 60
-	 */
-	public String ENUMDWeg_V_60_Alternative;
 
 	/**
 	 * Hilfsdatei
@@ -5680,7 +7812,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige__Gleisabschluss_Alternative;
 
 	/**
-	 * Grenze_Ausruestungsbereich
+	 * Grenze Ausrüstungsbereich
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige__Grenze_Ausruestungsbereich_Presentation;
 
@@ -5690,7 +7822,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMETCS_Knoten_Art_Sonstige__Grenze_Ausruestungsbereich_Sorting;
 
 	/**
-	 * Grenze_Ausruestungsbereich
+	 * Grenze Ausrüstungsbereich
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige__Grenze_Ausruestungsbereich_Alternative;
 
@@ -5738,6 +7870,36 @@ public class Enumerators extends AbstractMessageService {
 	 * Streckenwechsel
 	 */
 	public String ENUMETCS_Knoten_Art_Sonstige__Streckenwechsel_Alternative;
+
+	/**
+	 * Km-Sprung
+	 */
+	public String ENUMETCS_Knoten_Art_Sonstige_Km_Sprung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMETCS_Knoten_Art_Sonstige_Km_Sprung_Sorting;
+
+	/**
+	 * Km-Sprung
+	 */
+	public String ENUMETCS_Knoten_Art_Sonstige_Km_Sprung_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMETCS_Knoten_Art_Sonstige_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMETCS_Knoten_Art_Sonstige_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMETCS_Knoten_Art_Sonstige_sonstige_Alternative;
 
 	/**
 	 * andere AEA
@@ -5860,21 +8022,6 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEV_Art_Landesnetz_VNB_Alternative;
 
 	/**
-	 * Notstromanschluss (NEA mobil)
-	 */
-	public String ENUMEV_Art_Notstromaggregat_NEA_mobil_Presentation;
-
-	/**
-	 * 3
-	 */
-	public String ENUMEV_Art_Notstromaggregat_NEA_mobil_Sorting;
-
-	/**
-	 * Notstromanschluss (NEA mobil)
-	 */
-	public String ENUMEV_Art_Notstromaggregat_NEA_mobil_Alternative;
-
-	/**
 	 * Notstromaggregat (NEA stationär)
 	 */
 	public String ENUMEV_Art_Notstromaggregat_NEA_stationaer_Presentation;
@@ -5888,6 +8035,36 @@ public class Enumerators extends AbstractMessageService {
 	 * Notstromaggregat (NEA stationär)
 	 */
 	public String ENUMEV_Art_Notstromaggregat_NEA_stationaer_Alternative;
+
+	/**
+	 * Notstromanschluss (NEA mobil)
+	 */
+	public String ENUMEV_Art_Notstromanschluss_NEA_mobil_Presentation;
+
+	/**
+	 * 3
+	 */
+	public String ENUMEV_Art_Notstromanschluss_NEA_mobil_Sorting;
+
+	/**
+	 * Notstromanschluss (NEA mobil)
+	 */
+	public String ENUMEV_Art_Notstromanschluss_NEA_mobil_Alternative;
+
+	/**
+	 * Solar
+	 */
+	public String ENUMEV_Art_Solar_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMEV_Art_Solar_Sorting;
+
+	/**
+	 * Solar
+	 */
+	public String ENUMEV_Art_Solar_Alternative;
 
 	/**
 	 * sonstige
@@ -6293,51 +8470,6 @@ public class Enumerators extends AbstractMessageService {
 	 * ZZS
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Alternative;
-
-	/**
-	 * bei Einstellung
-	 */
-	public String ENUMFla_Raum_Freimeldung_bei_Einstellung_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMFla_Raum_Freimeldung_bei_Einstellung_Sorting;
-
-	/**
-	 * bei Einstellung
-	 */
-	public String ENUMFla_Raum_Freimeldung_bei_Einstellung_Alternative;
-
-	/**
-	 * ja
-	 */
-	public String ENUMFla_Raum_Freimeldung_ja_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMFla_Raum_Freimeldung_ja_Sorting;
-
-	/**
-	 * ja
-	 */
-	public String ENUMFla_Raum_Freimeldung_ja_Alternative;
-
-	/**
-	 * nein
-	 */
-	public String ENUMFla_Raum_Freimeldung_nein_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMFla_Raum_Freimeldung_nein_Sorting;
-
-	/**
-	 * nein
-	 */
-	public String ENUMFla_Raum_Freimeldung_nein_Alternative;
 
 	/**
 	 * Ausspeisung
@@ -7330,6 +9462,156 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFue_Schaltfall_2_Alternative;
 
 	/**
+	 * -
+	 */
+	public String ENUMFuellung_doppelte_Schraffur_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFuellung_doppelte_Schraffur_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMFuellung_doppelte_Schraffur_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMFuellung_einfache_Schraffur_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFuellung_einfache_Schraffur_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMFuellung_einfache_Schraffur_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMFuellung_einfache_Schraffur_gestrichelt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFuellung_einfache_Schraffur_gestrichelt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMFuellung_einfache_Schraffur_gestrichelt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMFuellung_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFuellung_sonstige_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMFuellung_sonstige_Alternative;
+
+	/**
+	 * groß
+	 */
+	public String ENUMFundament_Art_gross_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFundament_Art_gross_Sorting;
+
+	/**
+	 * groß
+	 */
+	public String ENUMFundament_Art_gross_Alternative;
+
+	/**
+	 * klein
+	 */
+	public String ENUMFundament_Art_klein_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFundament_Art_klein_Sorting;
+
+	/**
+	 * klein
+	 */
+	public String ENUMFundament_Art_klein_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMFundament_Art_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFundament_Art_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMFundament_Art_sonstige_Alternative;
+
+	/**
+	 * RS
+	 */
+	public String ENUMFunktion_Ohne_Signal_RS_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFunktion_Ohne_Signal_RS_Sorting;
+
+	/**
+	 * RS
+	 */
+	public String ENUMFunktion_Ohne_Signal_RS_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMFunktion_Ohne_Signal_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFunktion_Ohne_Signal_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMFunktion_Ohne_Signal_sonstige_Alternative;
+
+	/**
+	 * ZS
+	 */
+	public String ENUMFunktion_Ohne_Signal_ZS_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFunktion_Ohne_Signal_ZS_Sorting;
+
+	/**
+	 * ZS
+	 */
+	public String ENUMFunktion_Ohne_Signal_ZS_Alternative;
+
+	/**
 	 * Anbiete-/Annahmefeld
 	 */
 	public String ENUMFunktionalitaet_Anzeigefeld_Anbiete_Annahmefeld_Presentation;
@@ -7735,6 +10017,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMGEO_Form_Km_Sprung_Alternative;
 
 	/**
+	 * null
+	 */
+	public String ENUMGEO_Form_Polylinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMGEO_Form_Polylinie_Sorting;
+
+	/**
+	 * null
+	 */
+	public String ENUMGEO_Form_Polylinie_Alternative;
+
+	/**
 	 * Richtgerade (Knick 200 gon)
 	 */
 	public String ENUMGEO_Form_Richtgerade_Knick_am_Ende_200_gon_Presentation;
@@ -7793,6 +10090,81 @@ public class Enumerators extends AbstractMessageService {
 	 * Übergangsbogen S-Form
 	 */
 	public String ENUMGEO_Form_Uebergangsbogen_S_Form_Alternative;
+
+	/**
+	 * CR1
+	 */
+	public String ENUMGEO_Koordinatensystem_CR0_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMGEO_Koordinatensystem_CR0_Sorting;
+
+	/**
+	 * CR1
+	 */
+	public String ENUMGEO_Koordinatensystem_CR0_Alternative;
+
+	/**
+	 * DR1
+	 */
+	public String ENUMGEO_Koordinatensystem_DR0_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMGEO_Koordinatensystem_DR0_Sorting;
+
+	/**
+	 * DR1
+	 */
+	public String ENUMGEO_Koordinatensystem_DR0_Alternative;
+
+	/**
+	 * ER1
+	 */
+	public String ENUMGEO_Koordinatensystem_ER0_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMGEO_Koordinatensystem_ER0_Sorting;
+
+	/**
+	 * ER1
+	 */
+	public String ENUMGEO_Koordinatensystem_ER0_Alternative;
+
+	/**
+	 * FR1
+	 */
+	public String ENUMGEO_Koordinatensystem_FR0_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMGEO_Koordinatensystem_FR0_Sorting;
+
+	/**
+	 * FR1
+	 */
+	public String ENUMGEO_Koordinatensystem_FR0_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMGEO_Koordinatensystem_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMGEO_Koordinatensystem_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMGEO_Koordinatensystem_sonstige_Alternative;
 
 	/**
 	 * groß
@@ -8485,6 +10857,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMHp_Ersatzstecker_sonstige_Alternative;
 
 	/**
+	 * DBRH 2003
+	 */
+	public String ENUMHSystem_DBRH_2003_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMHSystem_DBRH_2003_Sorting;
+
+	/**
+	 * DBRH 2003
+	 */
+	public String ENUMHSystem_DBRH_2003_Alternative;
+
+	/**
+	 * DBRH 2016
+	 */
+	public String ENUMHSystem_DBRH_2016_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMHSystem_DBRH_2016_Sorting;
+
+	/**
+	 * DBRH 2016
+	 */
+	public String ENUMHSystem_DBRH_2016_Alternative;
+
+	/**
 	 * DHHN 12
 	 */
 	public String ENUMHSystem_DHHN_12_Presentation;
@@ -8498,6 +10900,21 @@ public class Enumerators extends AbstractMessageService {
 	 * DHHN 12
 	 */
 	public String ENUMHSystem_DHHN_12_Alternative;
+
+	/**
+	 * DHHN 2017
+	 */
+	public String ENUMHSystem_DHHN_2016_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMHSystem_DHHN_2016_Sorting;
+
+	/**
+	 * DHHN 2017
+	 */
+	public String ENUMHSystem_DHHN_2016_Alternative;
 
 	/**
 	 * DHHN 85
@@ -8635,6 +11052,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMIsolierung_zweischienig_Alternative;
 
 	/**
+	 * Balisenkabel
+	 */
+	public String ENUMKabel_Art_Balisenkabel_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMKabel_Art_Balisenkabel_Sorting;
+
+	/**
+	 * Balisenkabel
+	 */
+	public String ENUMKabel_Art_Balisenkabel_Alternative;
+
+	/**
 	 * Energie 400V AC
 	 */
 	public String ENUMKabel_Art_Energie_400V_AC_Presentation;
@@ -8693,6 +11125,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Signalkabel adrig
 	 */
 	public String ENUMKabel_Art_Signalkabel_adrig_Alternative;
+
+	/**
+	 * Signalkabel kombiniert
+	 */
+	public String ENUMKabel_Art_Signalkabel_kombiniert_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMKabel_Art_Signalkabel_kombiniert_Sorting;
+
+	/**
+	 * Signalkabel kombiniert
+	 */
+	public String ENUMKabel_Art_Signalkabel_kombiniert_Alternative;
 
 	/**
 	 * Signalkabel Sternvierer
@@ -9085,6 +11532,156 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMKoordinatensystem_WGS84_Alternative;
 
 	/**
+	 * BÜ Kreuzungsplan LST
+	 */
+	public String ENUMLageplan_Art_BUe_Kreuzungsplan_LST_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_BUe_Kreuzungsplan_LST_Sorting;
+
+	/**
+	 * BÜ Kreuzungsplan LST
+	 */
+	public String ENUMLageplan_Art_BUe_Kreuzungsplan_LST_Alternative;
+
+	/**
+	 * BÜ Sicherungstechn. Lage- und Kabelübersichtsplan
+	 */
+	public String ENUMLageplan_Art_BUe_Sicherungstechn__Lage__und_Kabeluebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_BUe_Sicherungstechn__Lage__und_Kabeluebersichtsplan_Sorting;
+
+	/**
+	 * BÜ Sicherungstechn. Lage- und Kabelübersichtsplan
+	 */
+	public String ENUMLageplan_Art_BUe_Sicherungstechn__Lage__und_Kabeluebersichtsplan_Alternative;
+
+	/**
+	 * Gleisfreimeldeplan für Gleisstromkreise
+	 */
+	public String ENUMLageplan_Art_Gleisfreimeldeplan_fuer_Gleisstromkreise_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_Gleisfreimeldeplan_fuer_Gleisstromkreise_Sorting;
+
+	/**
+	 * Gleisfreimeldeplan für Gleisstromkreise
+	 */
+	public String ENUMLageplan_Art_Gleisfreimeldeplan_fuer_Gleisstromkreise_Alternative;
+
+	/**
+	 * Kabellageplan
+	 */
+	public String ENUMLageplan_Art_Kabellageplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_Kabellageplan_Sorting;
+
+	/**
+	 * Kabellageplan
+	 */
+	public String ENUMLageplan_Art_Kabellageplan_Alternative;
+
+	/**
+	 * Kabelübersichtsplan
+	 */
+	public String ENUMLageplan_Art_Kabeluebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_Kabeluebersichtsplan_Sorting;
+
+	/**
+	 * Kabelübersichtsplan
+	 */
+	public String ENUMLageplan_Art_Kabeluebersichtsplan_Alternative;
+
+	/**
+	 * Sicherungstechnischer Lageplan
+	 */
+	public String ENUMLageplan_Art_Sicherungstechnischer_Lageplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_Sicherungstechnischer_Lageplan_Sorting;
+
+	/**
+	 * Sicherungstechnischer Lageplan
+	 */
+	public String ENUMLageplan_Art_Sicherungstechnischer_Lageplan_Alternative;
+
+	/**
+	 * Sicherungstechnischer Übersichtsplan
+	 */
+	public String ENUMLageplan_Art_Sicherungstechnischer_Uebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_Sicherungstechnischer_Uebersichtsplan_Sorting;
+
+	/**
+	 * Sicherungstechnischer Übersichtsplan
+	 */
+	public String ENUMLageplan_Art_Sicherungstechnischer_Uebersichtsplan_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMLageplan_Art_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMLageplan_Art_sonstige_Alternative;
+
+	/**
+	 * Stammkabelübersichtsplan
+	 */
+	public String ENUMLageplan_Art_Stammkabeluebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_Stammkabeluebersichtsplan_Sorting;
+
+	/**
+	 * Stammkabelübersichtsplan
+	 */
+	public String ENUMLageplan_Art_Stammkabeluebersichtsplan_Alternative;
+
+	/**
+	 * ZLV-Bus-Übersichtsplan
+	 */
+	public String ENUMLageplan_Art_ZLV_Bus_Uebersichtsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLageplan_Art_ZLV_Bus_Uebersichtsplan_Sorting;
+
+	/**
+	 * ZLV-Bus-Übersichtsplan
+	 */
+	public String ENUMLageplan_Art_ZLV_Bus_Uebersichtsplan_Alternative;
+
+	/**
 	 * beidseitig
 	 */
 	public String ENUMLagerung_beidseitig_Presentation;
@@ -9147,6 +11744,36 @@ public class Enumerators extends AbstractMessageService {
 	/**
 	 * LEU-P
 	 */
+	public String ENUMLEU_Art_LEU_P_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLEU_Art_LEU_P_Sorting;
+
+	/**
+	 * LEU-P
+	 */
+	public String ENUMLEU_Art_LEU_P_Alternative;
+
+	/**
+	 * Voll-LEU
+	 */
+	public String ENUMLEU_Art_Voll_LEU_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLEU_Art_Voll_LEU_Sorting;
+
+	/**
+	 * Voll-LEU
+	 */
+	public String ENUMLEU_Art_Voll_LEU_Alternative;
+
+	/**
+	 * LEU-P
+	 */
 	public String ENUMLEU_Modul_Art_LEU_P_Presentation;
 
 	/**
@@ -9203,6 +11830,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Dauerimpuls
 	 */
 	public String ENUMLFUE_Impuls_Dauerimpuls_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMLFUE_Impuls_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLFUE_Impuls_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMLFUE_Impuls_sonstige_Alternative;
 
 	/**
 	 * 1 SM DR
@@ -9280,6 +11922,231 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMLichtraumprofil_sonstige_Alternative;
 
 	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Punktlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Punktlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Punktlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Dreipunktlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Strich_Dreipunktlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Dreipunktlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Punktlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Strich_Punktlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Punktlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Strichlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Strich_Strichlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Strichlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Zweipunktlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Strich_Zweipunktlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Zweipunktlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Zweistrichlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Strich_Zweistrichlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strich_Zweistrichlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strichlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Strichlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strichlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strichlinie_lang_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Strichlinie_lang_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Strichlinie_lang_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Volllinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Volllinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Volllinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Zweistrich_Dreipunktlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Zweistrich_Dreipunktlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Zweistrich_Dreipunktlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Zweistrich_Punktlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Zweistrich_Punktlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Zweistrich_Punktlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Zweistrich_Zweipunktlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Art_Zweistrich_Zweipunktlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Art_Zweistrich_Zweipunktlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Subart_breit_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Subart_breit_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Subart_breit_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Subart_extrabreit_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Subart_extrabreit_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Subart_extrabreit_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Subart_schmal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLinie_Subart_schmal_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLinie_Subart_schmal_Alternative;
+
+	/**
 	 * links
 	 */
 	public String ENUMLinksRechts_links_Presentation;
@@ -9308,6 +12175,2466 @@ public class Enumerators extends AbstractMessageService {
 	 * R
 	 */
 	public String ENUMLinksRechts_rechts_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Anhang_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Anhang_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Anhang_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ATO_Segment_Profile_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ATO_Segment_Profile_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ATO_Segment_Profile_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ATO_Timing_Point_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ATO_Timing_Point_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ATO_Timing_Point_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ATO_TS_Instanz_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ATO_TS_Instanz_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ATO_TS_Instanz_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Aussenelementansteuerung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Aussenelementansteuerung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Aussenelementansteuerung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Kante_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Kante_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Kante_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Zugang_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Zugang_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bahnsteig_Zugang_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Balise_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Balise_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Balise_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bearbeitungsvermerk_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bearbeitungsvermerk_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bearbeitungsvermerk_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Anrueckabschnitt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Anrueckabschnitt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Anrueckabschnitt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Anzeige_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Anzeige_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Anzeige_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Bezirk_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Bezirk_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Bezirk_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Einrichtung_Oertlich_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Einrichtung_Oertlich_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Einrichtung_Oertlich_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_GBT_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_GBT_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_GBT_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Bild_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Bild_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oberflaeche_Bild_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oertlichkeit_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oertlichkeit_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Oertlichkeit_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Platz_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Platz_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Platz_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Zentrale_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Zentrale_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Bedien_Zentrale_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Binaerdaten_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Binaerdaten_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Binaerdaten_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Block_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Block_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Block_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Block_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Block_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Block_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Block_Strecke_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Block_Strecke_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Block_Strecke_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_Strasse_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_Strasse_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_Strasse_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_V_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_V_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Anlage_V_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Ausschaltung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Ausschaltung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Ausschaltung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Bedien_Anzeige_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Bedien_Anzeige_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Bedien_Anzeige_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Einschaltung_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Gefahrraum_Eckpunkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Gefahrraum_Eckpunkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Gefahrraum_Eckpunkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Kante_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Kante_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Kante_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Kreuzungsplan_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Kreuzungsplan_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Kreuzungsplan_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Schnittstelle_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Schnittstelle_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Schnittstelle_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Spezifisches_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Spezifisches_Signal_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_Spezifisches_Signal_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Datenpunkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Datenpunkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Datenpunkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Datenpunkt_Link_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Datenpunkt_Link_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Datenpunkt_Link_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ESTW_Zentraleinheit_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ESTW_Zentraleinheit_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ESTW_Zentraleinheit_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Kante_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Kante_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Kante_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Knoten_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Knoten_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Knoten_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Richtungsanzeige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Richtungsanzeige_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Richtungsanzeige_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Signal_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_Signal_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_W_Kr_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_W_Kr_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ETCS_W_Kr_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_EV_Modul_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_EV_Modul_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_EV_Modul_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fachtelegramm_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fachtelegramm_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fachtelegramm_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Freimelde_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Freimelde_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Freimelde_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Schutz_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Schutz_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Schutz_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Zwieschutz_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Zwieschutz_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fla_Zwieschutz_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Komponente_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Komponente_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FMA_Komponente_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Abhaengigkeit_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Abhaengigkeit_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Abhaengigkeit_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Aneinander_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_DWeg_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_DWeg_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_DWeg_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_DWeg_W_Kr_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_DWeg_W_Kr_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_DWeg_W_Kr_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Fahrweg_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Fahrweg_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Fahrweg_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Nichthaltfall_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Nichthaltfall_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Nichthaltfall_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Signalisierung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Signalisierung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Signalisierung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Umfahrpunkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Umfahrpunkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Umfahrpunkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Zug_Rangier_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Zug_Rangier_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Fstr_Zug_Rangier_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FT_Anschaltbedingung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_FT_Anschaltbedingung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FT_Anschaltbedingung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FT_Fahrweg_Teil_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_FT_Fahrweg_Teil_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_FT_Fahrweg_Teil_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Kante_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Kante_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Kante_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Knoten_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Knoten_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Knoten_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Punkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Punkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GEO_Punkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Geschwindigkeitsprofil_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Geschwindigkeitsprofil_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Geschwindigkeitsprofil_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Tripelspiegel_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Tripelspiegel_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_GFR_Tripelspiegel_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Abschluss_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Abschluss_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Abschluss_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Abschnitt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Abschnitt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Abschnitt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Art_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Art_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Art_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Baubereich_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Baubereich_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Baubereich_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Bezeichnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Bezeichnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Bezeichnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Fahrbahn_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Fahrbahn_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Fahrbahn_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Lichtraum_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Lichtraum_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Lichtraum_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Schaltgruppe_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Schaltgruppe_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Gleis_Schaltgruppe_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Hoehenlinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Hoehenlinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Hoehenlinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Hoehenpunkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Hoehenpunkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Hoehenpunkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Kabel_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Kabel_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Kabel_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Kabel_Verteilpunkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Kabel_Verteilpunkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Kabel_Verteilpunkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Modul_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Modul_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Modul_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Schaltkasten_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Schaltkasten_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_LEU_Schaltkasten_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Lieferobjekt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Lieferobjekt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Lieferobjekt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Luft_Telegramm_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Luft_Telegramm_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Luft_Telegramm_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Markanter_Punkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Markanter_Punkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Markanter_Punkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_NB_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Bedien_Anzeige_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_NB_Bedien_Anzeige_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Bedien_Anzeige_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Grenze_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Grenze_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_NB_Zone_Grenze_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Oertlichkeit_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Oertlichkeit_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Oertlichkeit_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Prog_Datei_Gruppe_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Prog_Datei_Gruppe_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Prog_Datei_Gruppe_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Element_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Element_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Element_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Zuordnung_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Zuordnung_Signal_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_PZB_Zuordnung_Signal_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_RBC_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_RBC_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_RBC_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Regelzeichnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Regelzeichnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Regelzeichnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Regelzeichnung_Parameter_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Regelzeichnung_Parameter_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Regelzeichnung_Parameter_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schaltmittel_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Schaltmittel_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schaltmittel_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schloss_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Schloss_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schloss_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schlosskombination_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Schlosskombination_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schlosskombination_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schluessel_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Schluessel_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schluessel_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schluesselsperre_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Schluesselsperre_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schluesselsperre_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schrankenantrieb_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Schrankenantrieb_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Schrankenantrieb_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Befestigung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Befestigung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Befestigung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Fank_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Fank_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Fank_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Rahmen_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Rahmen_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Rahmen_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Signalbegriff_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Signalbegriff_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Signal_Signalbegriff_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Sonstiger_Punkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Sonstiger_Punkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Sonstiger_Punkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Stell_Bereich_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Stell_Bereich_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Stell_Bereich_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Stellelement_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Stellelement_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Stellelement_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Bremsweg_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Bremsweg_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Bremsweg_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Punkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Punkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Strecke_Punkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Technik_Standort_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Technik_Standort_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Technik_Standort_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Technischer_Bereich_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Technischer_Bereich_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Technischer_Bereich_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Technischer_Punkt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Technischer_Punkt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Technischer_Punkt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_TOP_Kante_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_TOP_Kante_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_TOP_Kante_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_TOP_Knoten_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_TOP_Knoten_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_TOP_Knoten_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Trasse_Kante_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Trasse_Kante_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Trasse_Kante_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Trasse_Knoten_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Trasse_Knoten_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Trasse_Knoten_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Ueberhoehung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Ueberhoehung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Ueberhoehung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Ueberhoehungslinie_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Ueberhoehungslinie_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Ueberhoehungslinie_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Uebertragungsweg_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Uebertragungsweg_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Uebertragungsweg_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Unterbringung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Unterbringung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Unterbringung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Verkehrszeichen_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Verkehrszeichen_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Verkehrszeichen_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Element_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Element_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Element_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Komponente_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Komponente_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_W_Kr_Gsp_Komponente_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Weichenlaufkette_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Weichenlaufkette_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Weichenlaufkette_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Weichenlaufkette_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Weichenlaufkette_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Weichenlaufkette_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZBS_Schutzstrecke_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZBS_Schutzstrecke_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZBS_Schutzstrecke_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZBS_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZBS_Signal_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZBS_Signal_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_DLP_Abschnitt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZL_DLP_Abschnitt_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_DLP_Abschnitt_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_DLP_Fstr_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZL_DLP_Fstr_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_DLP_Fstr_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Fstr_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Fstr_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Fstr_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Fstr_Anstoss_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Fstr_Anstoss_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Fstr_Anstoss_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_Besondere_Anlage_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_Besondere_Anlage_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_Besondere_Anlage_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_US_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_US_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZLV_Bus_US_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Akustik_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Akustik_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Akustik_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Anzeigefeld_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Anzeigefeld_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Anzeigefeld_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Fortschalt_Kriterium_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Fortschalt_Kriterium_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Fortschalt_Kriterium_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Unterstation_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Unterstation_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_Unterstation_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_ZBS_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZN_ZBS_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZN_ZBS_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZUB_Bereichsgrenze_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZUB_Bereichsgrenze_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZUB_Bereichsgrenze_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZUB_Streckeneigenschaft_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_ZUB_Streckeneigenschaft_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_ZUB_Streckeneigenschaft_Alternative;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Zugeinwirkung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMLST_Objekt_Art_Zugeinwirkung_Sorting;
+
+	/**
+	 * -
+	 */
+	public String ENUMLST_Objekt_Art_Zugeinwirkung_Alternative;
 
 	/**
 	 * L0
@@ -9867,1600 +15194,10 @@ public class Enumerators extends AbstractMessageService {
 	/**
 	 * -
 	 */
-	public String ENUMName_LST_Objekt_Art_Anhang_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Anhang_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Anhang_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Aussenelementansteuerung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Aussenelementansteuerung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Aussenelementansteuerung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Anlage_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Anlage_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Anlage_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Kante_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Kante_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Kante_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Zugang_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Zugang_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bahnsteig_Zugang_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bearbeitungsvermerk_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bearbeitungsvermerk_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bearbeitungsvermerk_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Anrueckabschnitt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Anrueckabschnitt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Anrueckabschnitt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Anzeige_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Anzeige_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Anzeige_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Bezirk_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Bezirk_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Bezirk_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Einrichtung_Oertlich_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Einrichtung_Oertlich_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Einrichtung_Oertlich_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_GBT_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_GBT_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_GBT_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oberflaeche_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oberflaeche_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oberflaeche_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oberflaeche_Bild_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oberflaeche_Bild_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oberflaeche_Bild_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oertlichkeit_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oertlichkeit_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Oertlichkeit_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Platz_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Platz_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Platz_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Zentrale_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Zentrale_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Bedien_Zentrale_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Anlage_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Anlage_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Anlage_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Strecke_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Strecke_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Block_Strecke_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Anlage_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Anlage_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Anlage_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Ausschaltung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Ausschaltung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Ausschaltung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Bedien_Anzeige_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Bedien_Anzeige_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Bedien_Anzeige_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Deckendes_Signal_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Einschaltung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Einschaltung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Einschaltung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Einschaltung_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Einschaltung_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Einschaltung_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Gleisbezogener_Gefahrraum_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Schnittstelle_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Schnittstelle_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Schnittstelle_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Spezifisches_Signal_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Spezifisches_Signal_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_Spezifisches_Signal_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_BUE_WS_Fstr_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ESTW_Zentraleinheit_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ESTW_Zentraleinheit_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ESTW_Zentraleinheit_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Freimelde_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Freimelde_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Freimelde_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Schutz_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Schutz_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Schutz_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Zwieschutz_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Zwieschutz_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fla_Zwieschutz_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Anlage_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Anlage_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Anlage_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Komponente_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Komponente_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_FMA_Komponente_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Abhaengigkeit_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Abhaengigkeit_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Abhaengigkeit_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Aneinander_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Aneinander_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Aneinander_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Aneinander_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Aneinander_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Aneinander_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_DWeg_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_DWeg_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_DWeg_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_DWeg_W_Kr_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_DWeg_W_Kr_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_DWeg_W_Kr_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Fahrweg_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Fahrweg_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Fahrweg_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Nichthaltfall_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Nichthaltfall_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Nichthaltfall_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Rangier_Fla_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Signalisierung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Signalisierung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Signalisierung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Umfahrpunkt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Umfahrpunkt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Umfahrpunkt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Zug_Rangier_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Zug_Rangier_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Fstr_Zug_Rangier_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Kante_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Kante_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Kante_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Knoten_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Knoten_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Knoten_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Punkt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Punkt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_GEO_Punkt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Abschluss_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Abschluss_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Abschluss_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Abschnitt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Abschnitt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Abschnitt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Art_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Art_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Art_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Baubereich_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Baubereich_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Baubereich_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Bezeichnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Bezeichnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Bezeichnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Fahrbahn_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Fahrbahn_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Fahrbahn_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Lichtraum_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Lichtraum_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Lichtraum_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Schaltgruppe_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Schaltgruppe_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Gleis_Schaltgruppe_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Hoehenpunkt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Hoehenpunkt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Hoehenpunkt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Markanter_Punkt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Markanter_Punkt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Markanter_Punkt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Bedien_Anzeige_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Bedien_Anzeige_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Bedien_Anzeige_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Grenze_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Grenze_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_NB_Zone_Grenze_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Oertlichkeit_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Oertlichkeit_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Oertlichkeit_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Element_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Element_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Element_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Zuordnung_Signal_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Zuordnung_Signal_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_PZB_Zuordnung_Signal_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Regelzeichnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Regelzeichnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Regelzeichnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Regelzeichnung_Parameter_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Regelzeichnung_Parameter_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Regelzeichnung_Parameter_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schaltmittel_Fstr_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schaltmittel_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schaltmittel_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schaltmittel_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schloss_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schloss_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schloss_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schlosskombination_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schlosskombination_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schlosskombination_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schluessel_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schluessel_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schluessel_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schluesselsperre_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schluesselsperre_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Schluesselsperre_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Befestigung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Befestigung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Befestigung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Rahmen_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Rahmen_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Rahmen_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Signalbegriff_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Signalbegriff_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Signal_Signalbegriff_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Sonstiger_Punkt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Sonstiger_Punkt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Sonstiger_Punkt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Stell_Bereich_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Stell_Bereich_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Stell_Bereich_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Stellelement_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Stellelement_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Stellelement_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Strecke_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Strecke_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Strecke_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Strecke_Punkt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Strecke_Punkt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Strecke_Punkt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Technischer_Bereich_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Technischer_Bereich_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Technischer_Bereich_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Technischer_Punkt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Technischer_Punkt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Technischer_Punkt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_TOP_Kante_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_TOP_Kante_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_TOP_Kante_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_TOP_Knoten_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_TOP_Knoten_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_TOP_Knoten_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Ueberhoehung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Ueberhoehung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Ueberhoehung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Uebertragungsweg_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Uebertragungsweg_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Uebertragungsweg_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Unterbringung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Unterbringung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Unterbringung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Anlage_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Anlage_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Anlage_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Gsp_Element_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Gsp_Element_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Gsp_Element_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Gsp_Komponente_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Gsp_Komponente_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_W_Kr_Gsp_Komponente_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Weichenlaufkette_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Weichenlaufkette_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Weichenlaufkette_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Weichenlaufkette_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Weichenlaufkette_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Weichenlaufkette_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_DLP_Abschnitt_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_DLP_Abschnitt_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_DLP_Abschnitt_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_DLP_Fstr_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_DLP_Fstr_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_DLP_Fstr_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Fstr_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Fstr_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Fstr_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Fstr_Anstoss_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Fstr_Anstoss_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Fstr_Anstoss_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Signalgruppe_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Signalgruppe_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Signalgruppe_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZL_Signalgruppe_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZLV_Bus_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZLV_Bus_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZLV_Bus_Alternative;
-
-	/**
-	 * -
-	 */
 	public String ENUMName_LST_Objekt_Art_ZLV_Bus_BZ_Zuordnung_Presentation;
 
 	/**
-	 * -
+	 * null
 	 */
 	public String ENUMName_LST_Objekt_Art_ZLV_Bus_BZ_Zuordnung_Sorting;
 
@@ -11472,70 +15209,10 @@ public class Enumerators extends AbstractMessageService {
 	/**
 	 * -
 	 */
-	public String ENUMName_LST_Objekt_Art_ZLV_Bus_US_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZLV_Bus_US_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZLV_Bus_US_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Akustik_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Akustik_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Akustik_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Anzeigefeld_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Anzeigefeld_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Anzeigefeld_Alternative;
-
-	/**
-	 * -
-	 */
 	public String ENUMName_LST_Objekt_Art_ZN_DRF_Anzeigefeld_Zuordnung_Presentation;
 
 	/**
-	 * -
+	 * null
 	 */
 	public String ENUMName_LST_Objekt_Art_ZN_DRF_Anzeigefeld_Zuordnung_Sorting;
 
@@ -11550,7 +15227,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMName_LST_Objekt_Art_ZN_DRF_Unterstation_Zuordnung_Presentation;
 
 	/**
-	 * -
+	 * null
 	 */
 	public String ENUMName_LST_Objekt_Art_ZN_DRF_Unterstation_Zuordnung_Sorting;
 
@@ -11565,7 +15242,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMName_LST_Objekt_Art_ZN_Durchreichfunktion_OdB_Presentation;
 
 	/**
-	 * -
+	 * null
 	 */
 	public String ENUMName_LST_Objekt_Art_ZN_Durchreichfunktion_OdB_Sorting;
 
@@ -11577,70 +15254,10 @@ public class Enumerators extends AbstractMessageService {
 	/**
 	 * -
 	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Fortschalt_Kriterium_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Fortschalt_Kriterium_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Fortschalt_Kriterium_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Telegramm_84_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Telegramm_85_Zuordnung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Unterstation_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Unterstation_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_Unterstation_Alternative;
-
-	/**
-	 * -
-	 */
 	public String ENUMName_LST_Objekt_Art_ZN_Vormeldung_Presentation;
 
 	/**
-	 * -
+	 * null
 	 */
 	public String ENUMName_LST_Objekt_Art_ZN_Vormeldung_Sorting;
 
@@ -11648,36 +15265,6 @@ public class Enumerators extends AbstractMessageService {
 	 * -
 	 */
 	public String ENUMName_LST_Objekt_Art_ZN_Vormeldung_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_ZBS_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_ZBS_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_ZN_ZBS_Alternative;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Zugeinwirkung_Presentation;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Zugeinwirkung_Sorting;
-
-	/**
-	 * -
-	 */
-	public String ENUMName_LST_Objekt_Art_Zugeinwirkung_Alternative;
 
 	/**
 	 * G (W mechanisch)
@@ -11888,36 +15475,6 @@ public class Enumerators extends AbstractMessageService {
 	 * Schlüssel eingeschlossen
 	 */
 	public String ENUMNB_Rueckgabevoraussetzung_Schluessel_eingeschlossen_Alternative;
-
-	/**
-	 * übergeordnet
-	 */
-	public String ENUMNB_Unterstellungsverhaeltnis_uebergeordnet_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMNB_Unterstellungsverhaeltnis_uebergeordnet_Sorting;
-
-	/**
-	 * übergeordnet
-	 */
-	public String ENUMNB_Unterstellungsverhaeltnis_uebergeordnet_Alternative;
-
-	/**
-	 * untergeordnet
-	 */
-	public String ENUMNB_Unterstellungsverhaeltnis_untergeordnet_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMNB_Unterstellungsverhaeltnis_untergeordnet_Sorting;
-
-	/**
-	 * untergeordnet
-	 */
-	public String ENUMNB_Unterstellungsverhaeltnis_untergeordnet_Alternative;
 
 	/**
 	 * überlappend
@@ -12355,6 +15912,66 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMObjektzustand_Besonders_abgedeckt_Alternative;
 
 	/**
+	 * am Standort, angesteuert, nicht gueltig
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_nicht_gueltig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_nicht_gueltig_Sorting;
+
+	/**
+	 * am Standort, angesteuert, nicht gueltig
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_nicht_gueltig_Alternative;
+
+	/**
+	 * am Standort, angesteuert, ungueltig, abgedeckt
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_ungueltig_abgedeckt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_ungueltig_abgedeckt_Sorting;
+
+	/**
+	 * am Standort, angesteuert, ungueltig, abgedeckt
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_angesteuert_ungueltig_abgedeckt_Alternative;
+
+	/**
+	 * am Standort, nicht angesteuert, ungueltig
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_ungueltig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_ungueltig_Sorting;
+
+	/**
+	 * am Standort, nicht angesteuert, ungueltig
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_ungueltig_Alternative;
+
+	/**
+	 * am Standort, nicht angesteuert, vorbereitend
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_vorbereitend_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_vorbereitend_Sorting;
+
+	/**
+	 * am Standort, nicht angesteuert, vorbereitend
+	 */
+	public String ENUMObjektzustand_Besonders_am_Standort_nicht_angesteuert_vorbereitend_Alternative;
+
+	/**
 	 * außer Betrieb
 	 */
 	public String ENUMObjektzustand_Besonders_ausser_Betrieb_Presentation;
@@ -12398,6 +16015,36 @@ public class Enumerators extends AbstractMessageService {
 	 * sonstige
 	 */
 	public String ENUMObjektzustand_Besonders_sonstige_Alternative;
+
+	/**
+	 * standortfern, angesteuert, ungueltig
+	 */
+	public String ENUMObjektzustand_Besonders_standortfern_angesteuert_ungueltig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMObjektzustand_Besonders_standortfern_angesteuert_ungueltig_Sorting;
+
+	/**
+	 * standortfern, angesteuert, ungueltig
+	 */
+	public String ENUMObjektzustand_Besonders_standortfern_angesteuert_ungueltig_Alternative;
+
+	/**
+	 * standortfern, nicht angesteuert, ungueltig
+	 */
+	public String ENUMObjektzustand_Besonders_standortfern_nicht_angesteuert_ungueltig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMObjektzustand_Besonders_standortfern_nicht_angesteuert_ungueltig_Sorting;
+
+	/**
+	 * standortfern, nicht angesteuert, ungueltig
+	 */
+	public String ENUMObjektzustand_Besonders_standortfern_nicht_angesteuert_ungueltig_Alternative;
 
 	/**
 	 * Abzw
@@ -13645,6 +17292,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMPlan_Quelle_Neutrassierung_Alternative;
 
 	/**
+	 * Planung
+	 */
+	public String ENUMPlan_Quelle_Planung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMPlan_Quelle_Planung_Sorting;
+
+	/**
+	 * Planung
+	 */
+	public String ENUMPlan_Quelle_Planung_Alternative;
+
+	/**
+	 * PT 2
+	 */
+	public String ENUMPlan_Quelle_PT_2_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMPlan_Quelle_PT_2_Sorting;
+
+	/**
+	 * PT 2
+	 */
+	public String ENUMPlan_Quelle_PT_2_Alternative;
+
+	/**
 	 * sonstige
 	 */
 	public String ENUMPlan_Quelle_sonstige_Presentation;
@@ -13658,6 +17335,21 @@ public class Enumerators extends AbstractMessageService {
 	 * sonstige
 	 */
 	public String ENUMPlan_Quelle_sonstige_Alternative;
+
+	/**
+	 * Vermessung
+	 */
+	public String ENUMPlan_Quelle_Vermessung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMPlan_Quelle_Vermessung_Sorting;
+
+	/**
+	 * Vermessung
+	 */
+	public String ENUMPlan_Quelle_Vermessung_Alternative;
 
 	/**
 	 * Bauzustand
@@ -14305,51 +17997,6 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMRangier_Gegenfahrtausschluss_nein_Alternative;
 
 	/**
-	 * gesamt
-	 */
-	public String ENUMRangier_Gleisfreimeldung_gesamt_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMRangier_Gleisfreimeldung_gesamt_Sorting;
-
-	/**
-	 * gesamt
-	 */
-	public String ENUMRangier_Gleisfreimeldung_gesamt_Alternative;
-
-	/**
-	 * nein
-	 */
-	public String ENUMRangier_Gleisfreimeldung_nein_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMRangier_Gleisfreimeldung_nein_Sorting;
-
-	/**
-	 * nein
-	 */
-	public String ENUMRangier_Gleisfreimeldung_nein_Alternative;
-
-	/**
-	 * ohne Zielgleis
-	 */
-	public String ENUMRangier_Gleisfreimeldung_ohne_Zielgleis_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMRangier_Gleisfreimeldung_ohne_Zielgleis_Sorting;
-
-	/**
-	 * ohne Zielgleis
-	 */
-	public String ENUMRangier_Gleisfreimeldung_ohne_Zielgleis_Alternative;
-
-	/**
 	 * Mitte
 	 */
 	public String ENUMRegionalbereich_Mitte_Presentation;
@@ -14528,6 +18175,21 @@ public class Enumerators extends AbstractMessageService {
 	 * sonstige
 	 */
 	public String ENUMRichtungspfeil_sonstige_Alternative;
+
+	/**
+	 * GEO-Planer
+	 */
+	public String ENUMRolle_GEO_Planer_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMRolle_GEO_Planer_Sorting;
+
+	/**
+	 * GEO-Planer
+	 */
+	public String ENUMRolle_GEO_Planer_Alternative;
 
 	/**
 	 * GIS-Daten
@@ -14710,6 +18372,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchaltmittel_Funktion_ARM_Alternative;
 
 	/**
+	 * Aus BÜ
+	 */
+	public String ENUMSchaltmittel_Funktion_Aus_BUE_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSchaltmittel_Funktion_Aus_BUE_Sorting;
+
+	/**
+	 * Aus BÜ
+	 */
+	public String ENUMSchaltmittel_Funktion_Aus_BUE_Alternative;
+
+	/**
 	 * Awanst
 	 */
 	public String ENUMSchaltmittel_Funktion_Awanst_Presentation;
@@ -14753,6 +18430,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Haltfall
 	 */
 	public String ENUMSchaltmittel_Funktion_Haltfall_Alternative;
+
+	/**
+	 * Räumungsprüfung
+	 */
+	public String ENUMSchaltmittel_Funktion_Raeumungspruefung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSchaltmittel_Funktion_Raeumungspruefung_Sorting;
+
+	/**
+	 * Räumungsprüfung
+	 */
+	public String ENUMSchaltmittel_Funktion_Raeumungspruefung_Alternative;
 
 	/**
 	 * sonstige
@@ -15505,6 +19197,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Hauptsperrsignal_Alternative;
 
 	/**
+	 * Hauptsperrsignal Ne 14 Ls
+	 */
+	public String ENUMSignal_Art_Hauptsperrsignal_Ne_14_Ls_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSignal_Art_Hauptsperrsignal_Ne_14_Ls_Sorting;
+
+	/**
+	 * H
+	 */
+	public String ENUMSignal_Art_Hauptsperrsignal_Ne_14_Ls_Alternative;
+
+	/**
 	 * Mehrabschnittssignal
 	 */
 	public String ENUMSignal_Art_Mehrabschnittssignal_Presentation;
@@ -15550,21 +19257,6 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Art_Sperrsignal_Alternative;
 
 	/**
-	 * Überwachungssignal
-	 */
-	public String ENUMSignal_Art_Ueberwachungssignal_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMSignal_Art_Ueberwachungssignal_Sorting;
-
-	/**
-	 * W
-	 */
-	public String ENUMSignal_Art_Ueberwachungssignal_Alternative;
-
-	/**
 	 * Vorsignal
 	 */
 	public String ENUMSignal_Art_Vorsignal_Presentation;
@@ -15608,6 +19300,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Z
 	 */
 	public String ENUMSignal_Art_Zugdeckungssignal_Alternative;
+
+	/**
+	 * andere
+	 */
+	public String ENUMSignal_Befestigungsart_andere_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSignal_Befestigungsart_andere_Sorting;
+
+	/**
+	 * andere
+	 */
+	public String ENUMSignal_Befestigungsart_andere_Alternative;
 
 	/**
 	 * Bahnsteig
@@ -15803,6 +19510,81 @@ public class Enumerators extends AbstractMessageService {
 	 * Wand
 	 */
 	public String ENUMSignal_Befestigungsart_Wand_Alternative;
+
+	/**
+	 * Ausfahrsignal
+	 */
+	public String ENUMSignal_Charakter_Ausfahr_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSignal_Charakter_Ausfahr_Signal_Sorting;
+
+	/**
+	 * Ausfahrsignal
+	 */
+	public String ENUMSignal_Charakter_Ausfahr_Signal_Alternative;
+
+	/**
+	 * Ausfahrsignal nachgelagert
+	 */
+	public String ENUMSignal_Charakter_Ausfahr_Signal_nachgelagert_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSignal_Charakter_Ausfahr_Signal_nachgelagert_Sorting;
+
+	/**
+	 * Ausfahrsignal nachgelagert
+	 */
+	public String ENUMSignal_Charakter_Ausfahr_Signal_nachgelagert_Alternative;
+
+	/**
+	 * Blocksignal
+	 */
+	public String ENUMSignal_Charakter_Block_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSignal_Charakter_Block_Signal_Sorting;
+
+	/**
+	 * Blocksignal
+	 */
+	public String ENUMSignal_Charakter_Block_Signal_Alternative;
+
+	/**
+	 * Einfahrsignal
+	 */
+	public String ENUMSignal_Charakter_Einfahr_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSignal_Charakter_Einfahr_Signal_Sorting;
+
+	/**
+	 * Einfahrsignal
+	 */
+	public String ENUMSignal_Charakter_Einfahr_Signal_Alternative;
+
+	/**
+	 * Nachrücksignal
+	 */
+	public String ENUMSignal_Charakter_Nachrueck_Signal_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSignal_Charakter_Nachrueck_Signal_Sorting;
+
+	/**
+	 * Nachrücksignal
+	 */
+	public String ENUMSignal_Charakter_Nachrueck_Signal_Alternative;
 
 	/**
 	 * Alleinstehendes Zusatzsignal
@@ -16075,21 +19857,6 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSignal_Funktion_Zwischen_Signal_Alternative;
 
 	/**
-	 * BÜ
-	 */
-	public String ENUMSignalsystem_Bue_Presentation;
-
-	/**
-	 * 2
-	 */
-	public String ENUMSignalsystem_Bue_Sorting;
-
-	/**
-	 * BÜ
-	 */
-	public String ENUMSignalsystem_Bue_Alternative;
-
-	/**
 	 * Hl
 	 */
 	public String ENUMSignalsystem_Hl_Presentation;
@@ -16163,6 +19930,51 @@ public class Enumerators extends AbstractMessageService {
 	 * SV
 	 */
 	public String ENUMSignalsystem_SV_Alternative;
+
+	/**
+	 * befahrbar
+	 */
+	public String ENUMSonderanlage_Lage_befahrbar_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSonderanlage_Lage_befahrbar_Sorting;
+
+	/**
+	 * befahrbar
+	 */
+	public String ENUMSonderanlage_Lage_befahrbar_Alternative;
+
+	/**
+	 * nicht befahrbar
+	 */
+	public String ENUMSonderanlage_Lage_nicht_befahrbar_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSonderanlage_Lage_nicht_befahrbar_Sorting;
+
+	/**
+	 * nicht befahrbar
+	 */
+	public String ENUMSonderanlage_Lage_nicht_befahrbar_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMSonderanlage_Lage_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMSonderanlage_Lage_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMSonderanlage_Lage_sonstige_Alternative;
 
 	/**
 	 * rechts
@@ -16347,47 +20159,62 @@ public class Enumerators extends AbstractMessageService {
 	/**
 	 * Signal
 	 */
-	public String ENUMStandortangabe_Signal_Presentation;
+	public String ENUMStandortangabe_Balisenschild_Signal_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMStandortangabe_Signal_Sorting;
+	public String ENUMStandortangabe_Balisenschild_Signal_Sorting;
 
 	/**
 	 * Signal
 	 */
-	public String ENUMStandortangabe_Signal_Alternative;
+	public String ENUMStandortangabe_Balisenschild_Signal_Alternative;
 
 	/**
 	 * Signal Gleis
 	 */
-	public String ENUMStandortangabe_Signal_Gleis_Presentation;
+	public String ENUMStandortangabe_Balisenschild_Signal_Gleis_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMStandortangabe_Signal_Gleis_Sorting;
+	public String ENUMStandortangabe_Balisenschild_Signal_Gleis_Sorting;
 
 	/**
 	 * Signal Gleis
 	 */
-	public String ENUMStandortangabe_Signal_Gleis_Alternative;
+	public String ENUMStandortangabe_Balisenschild_Signal_Gleis_Alternative;
 
 	/**
-	 * Streckenkilometer Gleis
+	 * Strecke sonstiger Standort
 	 */
-	public String ENUMStandortangabe_Streckenkilometer_Gleis_Presentation;
+	public String ENUMStandortangabe_Balisenschild_Strecke_sonstiger_Standort_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMStandortangabe_Streckenkilometer_Gleis_Sorting;
+	public String ENUMStandortangabe_Balisenschild_Strecke_sonstiger_Standort_Sorting;
+
+	/**
+	 * Strecke sonstiger Standort
+	 */
+	public String ENUMStandortangabe_Balisenschild_Strecke_sonstiger_Standort_Alternative;
 
 	/**
 	 * Streckenkilometer Gleis
 	 */
-	public String ENUMStandortangabe_Streckenkilometer_Gleis_Alternative;
+	public String ENUMStandortangabe_Balisenschild_Streckenkilometer_Gleis_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMStandortangabe_Balisenschild_Streckenkilometer_Gleis_Sorting;
+
+	/**
+	 * Streckenkilometer Gleis
+	 */
+	public String ENUMStandortangabe_Balisenschild_Streckenkilometer_Gleis_Alternative;
 
 	/**
 	 * Hauptbahn
@@ -16418,6 +20245,51 @@ public class Enumerators extends AbstractMessageService {
 	 * Nebenbahn
 	 */
 	public String ENUMStrecke_Art_Nebenbahn_Alternative;
+
+	/**
+	 * a
+	 */
+	public String ENUMStrecke_Richtung_a_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMStrecke_Richtung_a_Sorting;
+
+	/**
+	 * a
+	 */
+	public String ENUMStrecke_Richtung_a_Alternative;
+
+	/**
+	 * b
+	 */
+	public String ENUMStrecke_Richtung_b_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMStrecke_Richtung_b_Sorting;
+
+	/**
+	 * b
+	 */
+	public String ENUMStrecke_Richtung_b_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMStrecke_Richtung_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMStrecke_Richtung_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMStrecke_Richtung_sonstige_Alternative;
 
 	/**
 	 * HG
@@ -16658,21 +20530,6 @@ public class Enumerators extends AbstractMessageService {
 	 * HL
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HL_Alternative;
-
-	/**
-	 * HN
-	 */
-	public String ENUMStreuscheibe_Betriebsstellung_HN_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMStreuscheibe_Betriebsstellung_HN_Sorting;
-
-	/**
-	 * HN
-	 */
-	public String ENUMStreuscheibe_Betriebsstellung_HN_Alternative;
 
 	/**
 	 * HR
@@ -17140,6 +20997,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTaste_Zieltaste_Alternative;
 
 	/**
+	 * Zugfertigmeldetaste
+	 */
+	public String ENUMTaste_Zugfertigmeldetaste_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTaste_Zugfertigmeldetaste_Sorting;
+
+	/**
+	 * Zugfertigmeldetaste
+	 */
+	public String ENUMTaste_Zugfertigmeldetaste_Alternative;
+
+	/**
 	 * Zugschlussmeldung
 	 */
 	public String ENUMTaste_Zugschlussmeldung_Presentation;
@@ -17153,6 +21025,36 @@ public class Enumerators extends AbstractMessageService {
 	 * Zugschlussmeldung
 	 */
 	public String ENUMTaste_Zugschlussmeldung_Alternative;
+
+	/**
+	 * Zustimmungsanforderung
+	 */
+	public String ENUMTaste_Zustimmungsanforderung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTaste_Zustimmungsanforderung_Sorting;
+
+	/**
+	 * Zustimmungsanforderung
+	 */
+	public String ENUMTaste_Zustimmungsanforderung_Alternative;
+
+	/**
+	 * Bahnsteigabsenkung
+	 */
+	public String ENUMTB_Art_Bahnsteigabsenkung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTB_Art_Bahnsteigabsenkung_Sorting;
+
+	/**
+	 * Bahnsteigabsenkung
+	 */
+	public String ENUMTB_Art_Bahnsteigabsenkung_Alternative;
 
 	/**
 	 * Brücke
@@ -17183,6 +21085,51 @@ public class Enumerators extends AbstractMessageService {
 	 * Durchlass
 	 */
 	public String ENUMTB_Art_Durchlass_Alternative;
+
+	/**
+	 * Eisenbahnkreuzungsbauwerk
+	 */
+	public String ENUMTB_Art_Eisenbahnkreuzungsbauwerk_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTB_Art_Eisenbahnkreuzungsbauwerk_Sorting;
+
+	/**
+	 * Eisenbahnkreuzungsbauwerk
+	 */
+	public String ENUMTB_Art_Eisenbahnkreuzungsbauwerk_Alternative;
+
+	/**
+	 * Eisenbahnüberführung
+	 */
+	public String ENUMTB_Art_Eisenbahnueberfuehrung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTB_Art_Eisenbahnueberfuehrung_Sorting;
+
+	/**
+	 * Eisenbahnüberführung
+	 */
+	public String ENUMTB_Art_Eisenbahnueberfuehrung_Alternative;
+
+	/**
+	 * Eisenbahnunterführung
+	 */
+	public String ENUMTB_Art_Eisenbahnunterfuehrung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTB_Art_Eisenbahnunterfuehrung_Sorting;
+
+	/**
+	 * Eisenbahnunterführung
+	 */
+	public String ENUMTB_Art_Eisenbahnunterfuehrung_Alternative;
 
 	/**
 	 * Schutzwand links
@@ -17243,6 +21190,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Tunnel
 	 */
 	public String ENUMTB_Art_Tunnel_Alternative;
+
+	/**
+	 * Überführung Straße/Weg
+	 */
+	public String ENUMTB_Art_Ueberfuehrung_Strasse_Weg_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTB_Art_Ueberfuehrung_Strasse_Weg_Sorting;
+
+	/**
+	 * Überführung Straße/Weg
+	 */
+	public String ENUMTB_Art_Ueberfuehrung_Strasse_Weg_Alternative;
 
 	/**
 	 * analog FSK
@@ -17380,6 +21342,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Links_Alternative;
 
 	/**
+	 * Meridiansprung
+	 */
+	public String ENUMTOP_Anschluss_Meridiansprung_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTOP_Anschluss_Meridiansprung_Sorting;
+
+	/**
+	 * Meridiansprung
+	 */
+	public String ENUMTOP_Anschluss_Meridiansprung_Alternative;
+
+	/**
+	 * RB-Grenze
+	 */
+	public String ENUMTOP_Anschluss_RB_Grenze_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTOP_Anschluss_RB_Grenze_Sorting;
+
+	/**
+	 * RB-Grenze
+	 */
+	public String ENUMTOP_Anschluss_RB_Grenze_Alternative;
+
+	/**
 	 * Rechts
 	 */
 	public String ENUMTOP_Anschluss_Rechts_Presentation;
@@ -17440,6 +21432,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTOP_Anschluss_Spitze_Alternative;
 
 	/**
+	 * Streckenwechsel
+	 */
+	public String ENUMTOP_Anschluss_Streckenwechsel_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTOP_Anschluss_Streckenwechsel_Sorting;
+
+	/**
+	 * Streckenwechsel
+	 */
+	public String ENUMTOP_Anschluss_Streckenwechsel_Alternative;
+
+	/**
 	 * Verbindung
 	 */
 	public String ENUMTOP_Anschluss_Verbindung_Presentation;
@@ -17453,6 +21460,36 @@ public class Enumerators extends AbstractMessageService {
 	 * Verbindung
 	 */
 	public String ENUMTOP_Anschluss_Verbindung_Alternative;
+
+	/**
+	 * Bahnsteigmonitor
+	 */
+	public String ENUMTP_Art_Bahnsteigmonitor_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTP_Art_Bahnsteigmonitor_Sorting;
+
+	/**
+	 * Bahnsteigmonitor
+	 */
+	public String ENUMTP_Art_Bahnsteigmonitor_Alternative;
+
+	/**
+	 * Bahnsteigspiegel
+	 */
+	public String ENUMTP_Art_Bahnsteigspiegel_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTP_Art_Bahnsteigspiegel_Sorting;
+
+	/**
+	 * Bahnsteigspiegel
+	 */
+	public String ENUMTP_Art_Bahnsteigspiegel_Alternative;
 
 	/**
 	 * Gebäude
@@ -17500,6 +21537,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTP_Art_sonstige_Alternative;
 
 	/**
+	 * Zughaltesensor
+	 */
+	public String ENUMTP_Art_Zughaltesensor_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTP_Art_Zughaltesensor_Sorting;
+
+	/**
+	 * Zughaltesensor
+	 */
+	public String ENUMTP_Art_Zughaltesensor_Alternative;
+
+	/**
 	 * Erdtrasse
 	 */
 	public String ENUMTrasse_Kante_Art_Erdtrasse_Presentation;
@@ -17528,6 +21580,21 @@ public class Enumerators extends AbstractMessageService {
 	 * frei
 	 */
 	public String ENUMTrasse_Kante_Art_frei_Alternative;
+
+	/**
+	 * Kabelgestell (Tunnel)
+	 */
+	public String ENUMTrasse_Kante_Art_Kabelgestell_Tunnel_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTrasse_Kante_Art_Kabelgestell_Tunnel_Sorting;
+
+	/**
+	 * Kabelgestell (Tunnel)
+	 */
+	public String ENUMTrasse_Kante_Art_Kabelgestell_Tunnel_Alternative;
 
 	/**
 	 * Lufttrasse
@@ -17890,6 +21957,111 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMTSO_Teilsystem_Art_ZE_Alternative;
 
 	/**
+	 * abnehmbar
+	 */
+	public String ENUMTueranschlag_abnehmbar_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTueranschlag_abnehmbar_Sorting;
+
+	/**
+	 * abnehmbar
+	 */
+	public String ENUMTueranschlag_abnehmbar_Alternative;
+
+	/**
+	 * beidseitig
+	 */
+	public String ENUMTueranschlag_beidseitig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTueranschlag_beidseitig_Sorting;
+
+	/**
+	 * beidseitig
+	 */
+	public String ENUMTueranschlag_beidseitig_Alternative;
+
+	/**
+	 * links
+	 */
+	public String ENUMTueranschlag_links_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTueranschlag_links_Sorting;
+
+	/**
+	 * links
+	 */
+	public String ENUMTueranschlag_links_Alternative;
+
+	/**
+	 * oben
+	 */
+	public String ENUMTueranschlag_oben_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTueranschlag_oben_Sorting;
+
+	/**
+	 * oben
+	 */
+	public String ENUMTueranschlag_oben_Alternative;
+
+	/**
+	 * rechts
+	 */
+	public String ENUMTueranschlag_rechts_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTueranschlag_rechts_Sorting;
+
+	/**
+	 * rechts
+	 */
+	public String ENUMTueranschlag_rechts_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMTueranschlag_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTueranschlag_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMTueranschlag_sonstige_Alternative;
+
+	/**
+	 * unten
+	 */
+	public String ENUMTueranschlag_unten_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMTueranschlag_unten_Sorting;
+
+	/**
+	 * unten
+	 */
+	public String ENUMTueranschlag_unten_Alternative;
+
+	/**
 	 * mit Dauernachtschaltung
 	 */
 	public String ENUMTunnelsignal_mit_Dauernachtschaltung_Presentation;
@@ -18012,17 +22184,17 @@ public class Enumerators extends AbstractMessageService {
 	/**
 	 * Schere (S)
 	 */
-	public String ENUMUeberhoehungslinie_Form_Schere_S__Presentation;
+	public String ENUMUeberhoehungslinie_Form_Schere_S_Presentation;
 
 	/**
 	 * null
 	 */
-	public String ENUMUeberhoehungslinie_Form_Schere_S__Sorting;
+	public String ENUMUeberhoehungslinie_Form_Schere_S_Sorting;
 
 	/**
 	 * Schere (S)
 	 */
-	public String ENUMUeberhoehungslinie_Form_Schere_S__Alternative;
+	public String ENUMUeberhoehungslinie_Form_Schere_S_Alternative;
 
 	/**
 	 * gehend
@@ -18355,6 +22527,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUnterbringung_Befestigung_sonstige_Alternative;
 
 	/**
+	 * ATO
+	 */
+	public String ENUMUntergewerk_Art_ATO_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMUntergewerk_Art_ATO_Sorting;
+
+	/**
+	 * ATO
+	 */
+	public String ENUMUntergewerk_Art_ATO_Alternative;
+
+	/**
 	 * Bedienung ETCS
 	 */
 	public String ENUMUntergewerk_Art_Bedienung_ETCS_Presentation;
@@ -18370,21 +22557,6 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMUntergewerk_Art_Bedienung_ETCS_Alternative;
 
 	/**
-	 * Bedienung Fdl
-	 */
-	public String ENUMUntergewerk_Art_Bedienung_Fdl_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMUntergewerk_Art_Bedienung_Fdl_Sorting;
-
-	/**
-	 * Bedienung Fdl
-	 */
-	public String ENUMUntergewerk_Art_Bedienung_Fdl_Alternative;
-
-	/**
 	 * Bedienung Fdl BZ
 	 */
 	public String ENUMUntergewerk_Art_Bedienung_Fdl_BZ_Presentation;
@@ -18398,6 +22570,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Bedienung Fdl BZ
 	 */
 	public String ENUMUntergewerk_Art_Bedienung_Fdl_BZ_Alternative;
+
+	/**
+	 * Bedienung Fdl ESTW-ZE
+	 */
+	public String ENUMUntergewerk_Art_Bedienung_Fdl_ESTW_ZE_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMUntergewerk_Art_Bedienung_Fdl_ESTW_ZE_Sorting;
+
+	/**
+	 * Bedienung Fdl ESTW-ZE
+	 */
+	public String ENUMUntergewerk_Art_Bedienung_Fdl_ESTW_ZE_Alternative;
 
 	/**
 	 * BUE
@@ -18428,21 +22615,6 @@ public class Enumerators extends AbstractMessageService {
 	 * ESTW
 	 */
 	public String ENUMUntergewerk_Art_ESTW_Alternative;
-
-	/**
-	 * ESTW-ZE
-	 */
-	public String ENUMUntergewerk_Art_ESTW_ZE_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMUntergewerk_Art_ESTW_ZE_Sorting;
-
-	/**
-	 * ESTW-ZE
-	 */
-	public String ENUMUntergewerk_Art_ESTW_ZE_Alternative;
 
 	/**
 	 * ETCS
@@ -18548,6 +22720,21 @@ public class Enumerators extends AbstractMessageService {
 	 * anzeigegeführt
 	 */
 	public String ENUMV_Profil_Art_anzeigegefuehrt_Alternative;
+
+	/**
+	 * anzeigegeführt ES
+	 */
+	public String ENUMV_Profil_Art_anzeigegefuehrt_ES_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMV_Profil_Art_anzeigegefuehrt_ES_Sorting;
+
+	/**
+	 * anzeigegeführt ES
+	 */
+	public String ENUMV_Profil_Art_anzeigegefuehrt_ES_Alternative;
 
 	/**
 	 * signalgeführt
@@ -18668,6 +22855,81 @@ public class Enumerators extends AbstractMessageService {
 	 * ÄP (Änderungsplanung)
 	 */
 	public String ENUMVergleichstyp_Besonders_AeP_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMVergleichstyp_Besonders_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMVergleichstyp_Besonders_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMVergleichstyp_Besonders_sonstige_Alternative;
+
+	/**
+	 * Herzstück
+	 */
+	public String ENUMVerschluss_Ort_Herzstueck_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMVerschluss_Ort_Herzstueck_Sorting;
+
+	/**
+	 * Herzstück
+	 */
+	public String ENUMVerschluss_Ort_Herzstueck_Alternative;
+
+	/**
+	 * Mitte
+	 */
+	public String ENUMVerschluss_Ort_Mitte_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMVerschluss_Ort_Mitte_Sorting;
+
+	/**
+	 * Mitte
+	 */
+	public String ENUMVerschluss_Ort_Mitte_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMVerschluss_Ort_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMVerschluss_Ort_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMVerschluss_Ort_sonstige_Alternative;
+
+	/**
+	 * Spitze
+	 */
+	public String ENUMVerschluss_Ort_Spitze_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMVerschluss_Ort_Spitze_Sorting;
+
+	/**
+	 * Spitze
+	 */
+	public String ENUMVerschluss_Ort_Spitze_Alternative;
 
 	/**
 	 * nur Rückfall
@@ -18795,7 +23057,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Art_DW_Presentation;
 
 	/**
-	 * 9
+	 * 10
 	 */
 	public String ENUMW_Kr_Art_DW_Sorting;
 
@@ -18880,6 +23142,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Art_Klothoidenweiche_Alternative;
 
 	/**
+	 * Korbbogenweiche
+	 */
+	public String ENUMW_Kr_Art_Korbbogenweiche_Presentation;
+
+	/**
+	 * 9
+	 */
+	public String ENUMW_Kr_Art_Korbbogenweiche_Sorting;
+
+	/**
+	 * Korbbogenweiche
+	 */
+	public String ENUMW_Kr_Art_Korbbogenweiche_Alternative;
+
+	/**
 	 * Kr
 	 */
 	public String ENUMW_Kr_Art_Kr_Presentation;
@@ -18900,7 +23177,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMW_Kr_Art_sonstige_Presentation;
 
 	/**
-	 * 10
+	 * 11
 	 */
 	public String ENUMW_Kr_Art_sonstige_Sorting;
 
@@ -18908,21 +23185,6 @@ public class Enumerators extends AbstractMessageService {
 	 * sonstige
 	 */
 	public String ENUMW_Kr_Art_sonstige_Alternative;
-
-	/**
-	 * nein
-	 */
-	public String ENUMW_Kr_Gsp_Komponente_Signal_nein_Presentation;
-
-	/**
-	 * null
-	 */
-	public String ENUMW_Kr_Gsp_Komponente_Signal_nein_Sorting;
-
-	/**
-	 * o
-	 */
-	public String ENUMW_Kr_Gsp_Komponente_Signal_nein_Alternative;
 
 	/**
 	 * elektrisch ferngestellt
@@ -19193,6 +23455,51 @@ public class Enumerators extends AbstractMessageService {
 	 * in
 	 */
 	public String ENUMWirkrichtung_in_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMWirksamkeit_Fstr_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMWirksamkeit_Fstr_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMWirksamkeit_Fstr_sonstige_Alternative;
+
+	/**
+	 * ständig wirksam wenn Fstr eingestellt
+	 */
+	public String ENUMWirksamkeit_Fstr_staendig_wirksam_wenn_Fahrstrasse_eingestellt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMWirksamkeit_Fstr_staendig_wirksam_wenn_Fahrstrasse_eingestellt_Sorting;
+
+	/**
+	 * ständig wirksam wenn Fstr eingestellt
+	 */
+	public String ENUMWirksamkeit_Fstr_staendig_wirksam_wenn_Fahrstrasse_eingestellt_Alternative;
+
+	/**
+	 * unwirksam wenn Fstr eingestellt
+	 */
+	public String ENUMWirksamkeit_Fstr_unwirksam_wenn_Fahrstrasse_eingestellt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMWirksamkeit_Fstr_unwirksam_wenn_Fahrstrasse_eingestellt_Sorting;
+
+	/**
+	 * unwirksam wenn Fstr eingestellt
+	 */
+	public String ENUMWirksamkeit_Fstr_unwirksam_wenn_Fahrstrasse_eingestellt_Alternative;
 
 	/**
 	 * schaltbar von Signal
@@ -20035,6 +24342,21 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMZugeinwirkung_Art_Einfach_Sensor_Alternative;
 
 	/**
+	 * Einfach-Sensor richtungsabh.
+	 */
+	public String ENUMZugeinwirkung_Art_Einfach_Sensor_richtungsabhaengig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMZugeinwirkung_Art_Einfach_Sensor_richtungsabhaengig_Sorting;
+
+	/**
+	 * Einfach-Sensor richtungsabh.
+	 */
+	public String ENUMZugeinwirkung_Art_Einfach_Sensor_richtungsabhaengig_Alternative;
+
+	/**
 	 * Isolierte Schiene (separat)
 	 */
 	public String ENUMZugeinwirkung_Art_Isolierte_Schiene_alleinstehend_Presentation;
@@ -20063,6 +24385,21 @@ public class Enumerators extends AbstractMessageService {
 	 * Isolierte Schiene (FMA genutzt)
 	 */
 	public String ENUMZugeinwirkung_Art_Isolierte_Schiene_FMA_Anlage_mitbenutzt_Alternative;
+
+	/**
+	 * Schienenkontakt
+	 */
+	public String ENUMZugeinwirkung_Art_Schienenkontakt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMZugeinwirkung_Art_Schienenkontakt_Sorting;
+
+	/**
+	 * Schienenkontakt
+	 */
+	public String ENUMZugeinwirkung_Art_Schienenkontakt_Alternative;
 
 	/**
 	 * sonstige
