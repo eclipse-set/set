@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2019 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -35,7 +35,7 @@ import org.eclipse.set.core.services.validation.CustomValidator
 @Component(immediate=true, service=CustomValidator)
 class NilTest extends AbstractCustomValidator {
 	static val NIL = "xsi:nil"
-	
+
 	override void validate(
 		ToolboxFile toolboxFile,
 		ValidationResult result
@@ -43,13 +43,13 @@ class NilTest extends AbstractCustomValidator {
 		try {
 			val nilProblems = ObjectMetadataXMLReader.read(toolboxFile).validate
 			if (nilProblems.length === 0) {
-				result.addCustomProblem(messages
-					.NilTestProblem_Description.successValidationReport
+				result.addCustomProblem(
+					messages.NilTestProblem_Description.successValidationReport
 				)
 			} else {
 				nilProblems.forEach[result.addCustomProblem(it)]
 			}
-			
+
 		} catch (ParserConfigurationException e) {
 			result.addCustomProblem(e.transform)
 		} catch (SAXException e) {
@@ -60,28 +60,28 @@ class NilTest extends AbstractCustomValidator {
 		}
 	}
 
-	private def List<CustomValidationProblem> create newLinkedList
-		validate(Node node) {
-			val nilAttribute = node?.attributes?.getNamedItem(NIL)
-			if (nilAttribute !== null) {
-				it.add(node.transform)
-			}
-			it.addAll(node.childNodes.iterable.flatMap[validate])
-			return
+	private def List<CustomValidationProblem> validate(Node node) {
+		val it = newLinkedList
+		val nilAttribute = node?.attributes?.getNamedItem(NIL)
+		if (nilAttribute !== null) {
+			it.add(node.transform)
+		}
+		it.addAll(node.childNodes.iterable.flatMap[validate])
+		return it
 	}
 
-	private def dispatch CustomValidationProblem create new CustomValidationProblemImpl
-	transform(Exception e) {
+	private def dispatch CustomValidationProblem transform(Exception e) {
+		val it = new CustomValidationProblemImpl
 		lineNumber = 0
 		message = e.message
 		severity = ValidationSeverity.ERROR
 		type = messages.NilTestProblem_Type
-		
-		return
+
+		return it
 	}
 
-	private def dispatch CustomValidationProblem create new CustomValidationProblemImpl
-	transform(Node node) {
+	private def dispatch CustomValidationProblem transform(Node node) {
+		val it = new CustomValidationProblemImpl
 		lineNumber = node.lineNumber
 		message = messages.NilTestProblem_Message
 		severity = ValidationSeverity.ERROR
@@ -90,11 +90,11 @@ class NilTest extends AbstractCustomValidator {
 		objectScope = node.objectScope
 		objectState = node.objectState
 		attributeName = node.attributeName
-		return
+		return it
 	}
-	
+
 	override validationType() {
 		return messages.NilTestProblem_Type
 	}
-	
+
 }
