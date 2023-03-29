@@ -44,87 +44,97 @@ public class SslbColumns {
 	public static final String Bauform_Start = "E";
 
 	/**
+	 * Sslb.Grundsatzangaben.von.Streckenziel_Start
+	 */
+	public static final String Streckenziel_Start = "F";
+
+	/**
 	 * Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
 	 */
-	public static final String Betriebsstelle_Ziel = "F";
+	public static final String Betriebsstelle_Ziel = "G";
 
 	/**
 	 * Sslb.Grundsatzangaben.nach.Bauform_Ziel
 	 */
-	public static final String Bauform_Ziel = "G";
+	public static final String Bauform_Ziel = "H";
+
+	/**
+	 * Sslb.Grundsatzangaben.von.Streckenziel_Start
+	 */
+	public static final String Streckenziel_Ziel = "I";
 
 	/**
 	 * Sslb.Grundsatzangaben.Blockschaltung
 	 */
-	public static final String Blockschaltung = "H";
+	public static final String Blockschaltung = "J";
 
 	/**
 	 * Sslb.Grundsatzangaben.Schutzuebertrager
 	 */
-	public static final String Schutzuebertrager = "I";
+	public static final String Schutzuebertrager = "K";
 
 	/**
 	 * Sslb.Erlaubnis.staendig
 	 */
-	public static final String Erlaubnis_staendig = "J";
+	public static final String Erlaubnis_staendig = "L";
 
 	/**
 	 * Sslb.Erlaubnis.holen
 	 */
-	public static final String Erlaubnis_holen = "K";
+	public static final String Erlaubnis_holen = "M";
 
 	/**
 	 * Sslb.Erlaubnis.Ruecklauf_autom
 	 */
-	public static final String Erlaubnis_Ruecklauf_autom = "L";
+	public static final String Erlaubnis_Ruecklauf_autom = "N";
 
 	/**
 	 * Sslb.Erlaubnis.Abgabespeicherung
 	 */
-	public static final String Erlaubnis_Abgabespeicherung = "M";
+	public static final String Erlaubnis_Abgabespeicherung = "O";
 
 	/**
 	 * Sslb.Erlaubnis.Abh_D_Weg_Rf
 	 */
-	public static final String Erlaubnis_Abh_D_Weg_Rf = "N";
+	public static final String Erlaubnis_Abh_D_Weg_Rf = "P";
 
 	/**
 	 * Sslb.Blockmeldung.Anrueckabschnitt.Bezeichnung
 	 */
-	public static final String Anrueckabschnitt_Bezeichnung = "O";
+	public static final String Anrueckabschnitt_Bezeichnung = "Q";
 
 	/**
 	 * Sslb.Blockmeldung.Anrueckabschnitt.Anordnung
 	 */
-	public static final String Anrueckabschnitt_Anordnung = "P";
+	public static final String Anrueckabschnitt_Anordnung = "R";
 
 	/**
 	 * Sslb.Blockmeldung.Zugschluss
 	 */
-	public static final String Blockmeldung_Zugschluss = "Q";
+	public static final String Blockmeldung_Zugschluss = "S";
 
 	/**
 	 * Sslb.Blockmeldung.Raeumungspruefung
 	 */
-	public static final String Blockmeldung_Raeumungspruefung = "R";
+	public static final String Blockmeldung_Raeumungspruefung = "T";
 
 	/**
 	 * Sslb.Akustische_Meldung.Vorblock
 	 */
-	public static final String Akustische_Meldung_Vorblock = "S";
+	public static final String Akustische_Meldung_Vorblock = "U";
 
 	/**
 	 * Sslb.Akustische_Meldung.Rueckblock
 	 */
-	public static final String Akustische_Meldung_Rueckblock = "T";
+	public static final String Akustische_Meldung_Rueckblock = "V";
 
 	/**
 	 * Sslb.Awanst.Bez_Bed
 	 */
-	public static final String Awanst_Bez_Bed = "U";
+	public static final String Awanst_Bez_Bed = "W";
 
 	/**
 	 * Sslb.Bemerkung
 	 */
-	public static final String Bemerkung = "V";
+	public static final String Bemerkung = "X";
 }

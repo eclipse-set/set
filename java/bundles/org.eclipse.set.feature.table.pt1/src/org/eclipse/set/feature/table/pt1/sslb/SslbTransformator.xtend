@@ -119,7 +119,15 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[blockElement?.blockElementAllg?.blockBauform?.wert?.translate]
 		)
 
-		// F: Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
+		// F: Sslb.Grundsatzangaben.von.Streckenziel_start
+		fillConditional(
+			cols.getColumn(Streckenziel_Start),
+			blockElement,
+			[!blockElement.blockAnlagenStart.isEmpty],
+			[blockElement?.IDSignal?.bezeichnung?.bezeichnungTabelle?.wert]
+		)
+
+		// G: Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
 		fillConditional(
 			cols.getColumn(Betriebsstelle_Ziel),
 			blockElement,
@@ -130,7 +138,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		// G: Sslb.Grundsatzangaben.nach.Bauform_Ziel
+		// H: Sslb.Grundsatzangaben.nach.Bauform_Ziel
 		fillConditional(
 			cols.getColumn(Bauform_Ziel),
 			blockElement,
@@ -138,7 +146,15 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[blockElement?.blockElementAllg?.blockBauform?.wert?.translate]
 		)
 
-		// H: Sslb.Grundsatzangaben.Blockschaltung
+		// I: Sslb.Grundsatzangaben.von.Streckenziel_Ziel
+		fillConditional(
+			cols.getColumn(Streckenziel_Start),
+			blockElement,
+			[!blockElement.blockAnlagenZiel.isEmpty],
+			[blockElement?.IDSignal?.bezeichnung?.bezeichnungTabelle?.wert]
+		)
+
+		// J: Sslb.Grundsatzangaben.Blockschaltung
 		fillIterable(
 			cols.getColumn(Blockschaltung),
 			blockElement,
@@ -151,7 +167,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		// I: Sslb.Grundsatzangaben.Schutzuebertrager
+		// K: Sslb.Grundsatzangaben.Schutzuebertrager
 		fillIterable(
 			cols.getColumn(Schutzuebertrager),
 			blockElement,
@@ -164,7 +180,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		// J: Sslb.Erlaubnis.staendig
+		// L: Sslb.Erlaubnis.staendig
 		fill(
 			cols.getColumn(Erlaubnis_staendig),
 			blockElement,
@@ -174,7 +190,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		// K: Sslb.Erlaubnis.holen
+		// M: Sslb.Erlaubnis.holen
 		fillSwitch(
 			cols.getColumn(Erlaubnis_holen),
 			blockElement,
@@ -194,7 +210,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 		)
 
-		// L: Sslb.Erlaubnis.Ruecklauf_autom
+		// N: Sslb.Erlaubnis.Ruecklauf_autom
 		fill(
 			cols.getColumn(Erlaubnis_Ruecklauf_autom),
 			blockElement,
@@ -204,7 +220,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		// M: Sslb.Erlaubnis.Abgabespeicherung
+		// O: Sslb.Erlaubnis.Abgabespeicherung
 		fill(
 			cols.getColumn(Erlaubnis_Abgabespeicherung),
 			blockElement,
@@ -214,7 +230,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		// N: Sslb.Erlaubnis.Abh_D_Weg_Rf
+		// P: Sslb.Erlaubnis.Abh_D_Weg_Rf
 		fillConditional(
 			cols.getColumn(Erlaubnis_Abh_D_Weg_Rf),
 			blockElement,
@@ -226,7 +242,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		val gleisabschnittAnordnung = newLinkedList
-		// O: Sslb.Blockmeldung.Anrueckabschnitt.Bezeichnung 
+		// Q: Sslb.Blockmeldung.Anrueckabschnitt.Bezeichnung 
 		fillIterable(
 			cols.getColumn(Anrueckabschnitt_Bezeichnung),
 			blockElement,
@@ -267,7 +283,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		// P: Sslb.Blockmeldung.Anrueckabschnitt.Anordnung
+		// R: Sslb.Blockmeldung.Anrueckabschnitt.Anordnung
 		fillIterable(
 			cols.getColumn(Anrueckabschnitt_Anordnung),
 			blockElement,
@@ -280,7 +296,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		// Q: Sslb.Blockmeldung.Zugschluss
+		// S: Sslb.Blockmeldung.Zugschluss
 		fill(
 			cols.getColumn(Blockmeldung_Zugschluss),
 			blockElement,
@@ -290,28 +306,28 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		// R: Sslb.Blockmeldung.Raeumungspruefung
+		// T: Sslb.Blockmeldung.Raeumungspruefung
 		fill(
 			cols.getColumn(Blockmeldung_Raeumungspruefung),
 			blockElement,
 			[blockElement?.raeumungspruefung]
 		)
 
-		// S: Sslb.Akustische_Meldung.Vorblock
+		// U: Sslb.Akustische_Meldung.Vorblock
 		fill(
 			cols.getColumn(Akustische_Meldung_Vorblock),
 			blockElement,
 			[blockElement?.blockElementAllg?.vorblockwecker?.wert?.translate]
 		)
 
-		// T: Sslb.Akustische_Meldung.Rueckblock
+		// V: Sslb.Akustische_Meldung.Rueckblock
 		fill(
 			cols.getColumn(Akustische_Meldung_Rueckblock),
 			blockElement,
 			[blockElement?.blockElementAllg?.rueckblockwecker?.wert?.translate]
 		)
 
-		// U: Sslb.Awanst.Bez_Bed
+		// W: Sslb.Awanst.Bez_Bed
 		fillConditional(
 			cols.getColumn(Awanst_Bez_Bed),
 			blockElement,
@@ -322,13 +338,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 						oertlichkeitArt?.wert ===
 						ENUMOertlichkeitArt.ENUM_OERTLICHKEIT_ART_AWANST
 			],
-			[
-				blockElement.blockStrecke?.oertlichkeit?.bezeichnung?.
-					oertlichkeitAbkuerzung?.wert
-			]
+			[fillBezBed]
 		)
 
-		// V: Sslb.Bemerkung
+		// X: Sslb.Bemerkung
 		fill(
 			cols.getColumn(Bemerkung),
 			blockElement,
@@ -338,9 +351,23 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		return
 	}
 
+	private static def String fillBezBed(Block_Element blockElement) {
+		val oertlichkeit = blockElement.blockStrecke?.oertlichkeit
+		val oertlichkeitAbk = oertlichkeit?.bezeichnung?.
+			oertlichkeitAbkuerzung?.wert
+		val oertlichkeitAwanst = oertlichkeit?.IDOertlichkeitAwanstBedient?.
+			bezeichnung?.oertlichkeitAbkuerzung
+		return '''«oertlichkeitAbk» («oertlichkeitAwanst»)'''
+	}
+
 	override void formatTableContent(Table table) {
-		super.formatTableContent(table)
+		// D: Sslb.Grundsatzangaben.von.Betriebsst_Start
+		table.setTextAlignment(cols.getColumn(Betriebsstelle_Start), TextAlignment.LEFT);
+
 		// F: Sslb.Grundsatzangaben.nach.Betriebsst_Ziel
 		table.setTextAlignment(cols.getColumn(Betriebsstelle_Ziel), TextAlignment.LEFT);
+
+		// V: Sslb.Bemerkung
+		table.setTextAlignment(cols.getColumn(Bemerkung), TextAlignment.LEFT);
 	}
 }
