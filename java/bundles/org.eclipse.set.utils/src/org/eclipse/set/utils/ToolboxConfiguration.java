@@ -139,18 +139,22 @@ public class ToolboxConfiguration {
 	 * @return true, if store version older than current version
 	 */
 	public static boolean isShowNews(final String versionNumber) {
-		final ConfigNewsProperties configNew = new ConfigNewsProperties();
-		if (!configNew.isPropertyExist()) {
-			return true;
-		}
-
+		final String storeVersion = new ConfigNewsProperties()
+				.getProperty(ToolboxProperties.VERSION);
 		final String[] splitVersionNumber = versionNumber.split("\\."); //$NON-NLS-1$
 		// If Development Version, then return false
 		if (splitVersionNumber.length > 3) {
 			return false;
 		}
 
-		return !configNew.isContainVersion(versionNumber);
+		final String[] splitStoreVersion = storeVersion.split("\\."); //$NON-NLS-1$
+		for (int i = 0; i < splitStoreVersion.length; i++) {
+			if (Integer.parseInt(splitStoreVersion[i]) < Integer
+					.parseInt(splitVersionNumber[i])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -159,16 +163,9 @@ public class ToolboxConfiguration {
 	 * @param newVersionNumber
 	 *            current version of Toolbox
 	 */
-	public static void setNewVersion(final String newVersionNumber) {
+	public static void setNextVersion(final String newVersionNumber) {
 		final ConfigNewsProperties properties = new ConfigNewsProperties();
-		final String versions = properties
-				.getProperty(ToolboxProperties.VERSION);
-		if (!versions.isEmpty()) {
-			properties.setProperty(ToolboxProperties.VERSION,
-					versions + "," + newVersionNumber); //$NON-NLS-1$
-		} else {
-			properties.setProperty(ToolboxProperties.VERSION, newVersionNumber);
-		}
+		properties.setProperty(ToolboxProperties.VERSION, newVersionNumber);
 		properties.store();
 	}
 

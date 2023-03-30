@@ -40,7 +40,7 @@ public class ShowNewsAddon {
 				.getShortVersion();
 		if (ToolboxConfiguration.isShowNews(versionNumber)) {
 			partService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
-			ToolboxConfiguration.setNewVersion(versionNumber);
+			ToolboxConfiguration.setNextVersion(versionNumber);
 		}
 	}
 

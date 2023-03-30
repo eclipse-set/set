@@ -33,8 +33,6 @@ public class ConfigNewsProperties extends Properties {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ConfigNewsProperties.class);
 
-	private boolean isPropertyExist = true;
-
 	private static String getFilePath() {
 		return Paths.get(ToolboxConstants.TMP_BASE_DIR, FILENAME).toString();
 	}
@@ -44,10 +42,8 @@ public class ConfigNewsProperties extends Properties {
 	 */
 	public ConfigNewsProperties() {
 		if (new File(getFilePath()).exists()) {
-			isPropertyExist = true;
 			load();
 		} else {
-			isPropertyExist = false;
 			create();
 		}
 	}
@@ -82,7 +78,6 @@ public class ConfigNewsProperties extends Properties {
 	public void store() {
 		try (final FileOutputStream output = new FileOutputStream(
 				getFilePath())) {
-
 			store(output, null);
 
 		} catch (final IOException e) {
@@ -104,34 +99,6 @@ public class ConfigNewsProperties extends Properties {
 					+ Files.exists(Paths.get(FILENAME)));
 			throw new RuntimeException(e);
 		}
-	}
-
-	/**
-	 * @return true, if property already create
-	 */
-	public boolean isPropertyExist() {
-		return isPropertyExist;
-	}
-
-	/**
-	 * Check, if version number already storage
-	 * 
-	 * @param versionNumber
-	 *            version number
-	 * @return true, if version number already storage
-	 */
-	public boolean isContainVersion(final String versionNumber) {
-		final String[] storeVersions = this
-				.getProperty(ToolboxProperties.VERSION).split(","); //$NON-NLS-1$
-		if (storeVersions.length == 0) {
-			return false;
-		}
-		for (final String storeVersion : storeVersions) {
-			if (storeVersion.equals(versionNumber)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 }
