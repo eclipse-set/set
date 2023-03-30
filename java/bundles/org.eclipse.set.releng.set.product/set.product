@@ -71,7 +71,6 @@
       <property name="toolbox.viewer.tags" value="dark_blue,white,normal" />
       <property name="toolbox.detailversion" value="${qualifiedVersion}R${buildNumber}" />
       <property name="toolbox.viewer.defaults" value="black,white,bold" />
-      <property name="toolbox.cefdir" value="bin/cef" />
       <property name="toolbox.greyedoutstyle.foreground" value="128,128,128" />
       <property name="toolbox.version" value="${qualifiedVersion}" />
       <property name="toolbox.viewer.attributes" value="red,white,normal" />

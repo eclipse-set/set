@@ -12,7 +12,6 @@ import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.basis.constants.TextType;
@@ -167,17 +166,6 @@ public class ToolboxConfiguration {
 		final ConfigNewsProperties properties = new ConfigNewsProperties();
 		properties.setProperty(ToolboxProperties.VERSION, newVersionNumber);
 		properties.store();
-	}
-
-	/**
-	 * @return the path to the CEF binaries
-	 */
-	public static Optional<Path> getCEFPath() {
-		final String path = System.getProperty(ToolboxProperties.CEF_DIR);
-		if (path != null) {
-			return Optional.of(Paths.get(path));
-		}
-		return Optional.empty();
 	}
 
 	/**
