@@ -47,6 +47,7 @@
       <feature id="org.eclipse.emf.ecp.emfforms.runtime.feature"/>
       <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.set.browser.cef.feature"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full.stripped" installMode="root"/>
    </features>
 
    <configurations>
