@@ -102,7 +102,8 @@ public class WebBrowser {
 	protected List<String> getAllowedPrefixes() {
 		// URLs must start with one of the allowed prefixes in order to be
 		// opened
-		return List.of("file://", "http://localhost:", "http://localhost/");
+		return List.of("file://", "http://localhost:", "http://localhost/",
+				"chrome://");
 	}
 
 	/**

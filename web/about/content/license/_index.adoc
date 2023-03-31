@@ -40,6 +40,12 @@ Anhang [EPL2.0]) zur Verfügung gestellt.
 Diese Anwendung enthält Software, welche von anderen Open-Source-Projekten
 entwickelt wurden. Die Lizenzen finden Sie in den Quellen.
 
+Die Eclipse Signalling Engineering Toolbox enthält den Chromium Webbrowser, welcher unter den Bedingungen
+der BSD-Lizenz verwendet wird. Siehe dazu auch: 
+++++
+<a href="javascript:fetch('chrome-credits')">Chromium Lizenzinformationen</a>
+++++
+
 ---
 - Icons
 

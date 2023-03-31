@@ -145,4 +145,9 @@ public class Messages {
 	 * Neuigkeiten
 	 */
 	public String WebNewsPartDescriptionService_ViewName;
+
+	/**
+	 * Chromium Lizenzinformationen
+	 */
+	public String ChromiumCreditsPartDescriptionService_ViewName;
 }

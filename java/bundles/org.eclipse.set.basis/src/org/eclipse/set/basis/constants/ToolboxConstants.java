@@ -225,6 +225,11 @@ public final class ToolboxConstants {
 	 */
 	public static final String ABOUT_PART_ID = "org.eclipse.set.application.about.AboutPart";
 
+	/**
+	 * The id of the about part
+	 */
+	public static final String CHROMIUM_CREDITS_PART_ID = "org.eclipse.set.application.about.ChromiumCreditsPart";
+
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,

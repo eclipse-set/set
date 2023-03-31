@@ -88,7 +88,7 @@ public class FileWebBrowser extends WebBrowser implements RequestHandler {
 
 	@Override
 	protected List<String> getAllowedPrefixes() {
-		return List.of(BASE_URI);
+		return List.of(BASE_URI, "chrome://"); //$NON-NLS-1$
 	}
 
 	@Override

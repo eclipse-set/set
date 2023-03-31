@@ -17,7 +17,9 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.application.Messages;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.ui.VersionInfo;
+import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.version.AdditionalVersionService;
 import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions;
 import org.eclipse.set.utils.PartInitializationException;
@@ -49,6 +51,9 @@ public class AboutPart extends WebNoSessionBasePart {
 	@Optional
 	private AdditionalVersionService additionalVersionService;
 
+	@Inject
+	private ToolboxPartService partService;
+
 	static final Logger LOGGER = LoggerFactory.getLogger(AboutPart.class);
 
 	private void setupRouteHandler() {
@@ -59,6 +64,11 @@ public class AboutPart extends WebNoSessionBasePart {
 				response.setResponseData(
 						new ObjectMapper().writerWithDefaultPrettyPrinter()
 								.writeValueAsString(getVersionInformation()));
+			});
+
+			browser.serveUri("chrome-credits", (request, response) -> { //$NON-NLS-1$
+				partService.showPart(ToolboxConstants.CHROMIUM_CREDITS_PART_ID);
+				response.setStatus(200);
 			});
 
 			browser.serveRootDirectory(Path.of(ABOUT_DIRECTORY));

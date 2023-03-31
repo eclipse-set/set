@@ -130,6 +130,7 @@ Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServ
  OSGI-INF/org.eclipse.set.application.defaultvalue.DefaultValueServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.AboutPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.AttachmentPartDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.application.descriptions.ChromiumCreditsPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.ViewPdfPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.WebNewsPartDescriptionService.xml,
