@@ -47,7 +47,7 @@ public class ShowNewsAddon {
 			jsonService.loadJSON();
 			final ToolboxVersion toolboxVersion = ToolboxConfiguration
 					.getToolboxVersion();
-			if (!toolboxVersion.isDevelopmentVersion()) {
+			if (toolboxVersion.isDevelopmentVersion()) {
 				return;
 			}
 			final List<TransformJSONService<?>> transformServices = jsonService

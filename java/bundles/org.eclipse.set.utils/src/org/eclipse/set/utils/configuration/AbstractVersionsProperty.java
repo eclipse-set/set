@@ -100,7 +100,7 @@ public abstract class AbstractVersionsProperty
 	 */
 	public boolean isContainVersion(final String versionNumber) {
 		if (!versionNumber.matches(VERSION_REGEX)) {
-			return false;
+			return true;
 		}
 		final List<String> versions = getProperty(VERSION_PROPERTY);
 		if (versions == null || versions.isEmpty()) {
