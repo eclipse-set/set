@@ -67,4 +67,9 @@ class ToolboxVersion {
 	def boolean isAvailable() {
 		return isAvailable
 	}
+	
+	def boolean isDevelopmentVersion() {
+		val versionTags = Splitter.on(Pattern.compile("\\.")).splitToList(longVersion)
+		return !versionTags.last.matches("R.*") 
+	}
 }

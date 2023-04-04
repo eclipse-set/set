@@ -133,42 +133,6 @@ public class ToolboxConfiguration {
 	}
 
 	/**
-	 * @param versionNumber
-	 *            current version
-	 * @return true, if store version older than current version
-	 */
-	public static boolean isShowNews(final String versionNumber) {
-		final String storeVersion = new ConfigNewsProperties()
-				.getProperty(ToolboxProperties.VERSION);
-		final String[] splitVersionNumber = versionNumber.split("\\."); //$NON-NLS-1$
-		// If Development Version, then return false
-		if (splitVersionNumber.length > 3) {
-			return false;
-		}
-
-		final String[] splitStoreVersion = storeVersion.split("\\."); //$NON-NLS-1$
-		for (int i = 0; i < splitStoreVersion.length; i++) {
-			if (Integer.parseInt(splitStoreVersion[i]) < Integer
-					.parseInt(splitVersionNumber[i])) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Set next version number for config news properties
-	 * 
-	 * @param newVersionNumber
-	 *            current version of Toolbox
-	 */
-	public static void setNextVersion(final String newVersionNumber) {
-		final ConfigNewsProperties properties = new ConfigNewsProperties();
-		properties.setProperty(ToolboxProperties.VERSION, newVersionNumber);
-		properties.store();
-	}
-
-	/**
 	 * @return whether the toolbox is in debug mode
 	 */
 	public static boolean isDebugMode() {

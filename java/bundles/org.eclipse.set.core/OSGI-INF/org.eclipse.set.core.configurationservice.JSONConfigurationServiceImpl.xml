@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.core.configurationservice.JSONConfigurationServiceImpl">
+   <service>
+      <provide interface="org.eclipse.set.core.services.configurationservice.JSONConfigurationService"/>
+   </service>
+   <reference bind="addTransformService" cardinality="0..n" interface="org.eclipse.set.core.services.configurationservice.TransformJSONService" name="TransformService" policy="dynamic" unbind="removeTransformService"/>
+   <implementation class="org.eclipse.set.core.configurationservice.JSONConfigurationServiceImpl"/>
+</scr:component>
