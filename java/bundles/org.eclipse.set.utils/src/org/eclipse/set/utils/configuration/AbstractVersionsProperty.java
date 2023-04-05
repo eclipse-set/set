@@ -39,7 +39,7 @@ public abstract class AbstractVersionsProperty
 
 	@Override
 	public void loadProperty() throws IOException {
-		versionNode = this.getVersionNode();
+		versionNode = getVersionNode();
 		if (versionNode == null) {
 			return;
 		}
@@ -84,7 +84,7 @@ public abstract class AbstractVersionsProperty
 		return arrayNode;
 	}
 
-	protected JsonNode getVersionNode() {
+	protected static JsonNode getVersionNode() {
 		if (rootNode == null) {
 			return null;
 		}

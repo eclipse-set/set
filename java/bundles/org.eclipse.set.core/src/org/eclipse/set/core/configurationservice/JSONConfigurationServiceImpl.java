@@ -60,9 +60,10 @@ public class JSONConfigurationServiceImpl implements JSONConfigurationService {
 			return;
 		}
 		final ObjectNode root = mapper.createObjectNode();
-		for (final TransformJSONService<?> p : transformServices) {
-			root.set(p.getPropertyName(), p.getDefaultValue());
+		for (final TransformJSONService<?> service : transformServices) {
+			root.set(service.getPropertyName(), service.getDefaultValue());
 		}
+		TransformJSONService.setRootNode(root);
 		mapper.writerWithDefaultPrettyPrinter().writeValue(configuration, root);
 	}
 
@@ -76,10 +77,8 @@ public class JSONConfigurationServiceImpl implements JSONConfigurationService {
 		try (final Reader reader = Files
 				.newBufferedReader(configurationFile.toPath())) {
 			final JsonNode jsonNode = mapper.readTree(reader);
+			TransformJSONService.setRootNode(jsonNode);
 			for (final TransformJSONService<?> service : transformServices) {
-				if (service.getRootNode() == null) {
-					service.setRootNode(jsonNode);
-				}
 				service.loadProperty();
 			}
 		}
@@ -121,7 +120,6 @@ public class JSONConfigurationServiceImpl implements JSONConfigurationService {
 
 		final ObjectNode root = mapper.createObjectNode();
 		for (final TransformJSONService<?> service : transformServices) {
-
 			root.set(service.getPropertyName(), service.transform());
 		}
 		mapper.writerWithDefaultPrettyPrinter().writeValue(configurationFile,

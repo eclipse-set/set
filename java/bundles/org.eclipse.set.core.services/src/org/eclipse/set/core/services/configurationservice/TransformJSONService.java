@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class TransformJSONService<T> {
 	protected ObjectMapper mapper = new ObjectMapper();
 	protected Map<String, T> properties = new HashMap<>();
-	protected JsonNode rootNode = null;
+	protected static JsonNode rootNode = null;
 
 	protected boolean isChanged = false;
 
@@ -84,8 +84,8 @@ public abstract class TransformJSONService<T> {
 	 * 
 	 * @return root of json file
 	 */
-	public JsonNode getRootNode() {
-		return this.rootNode;
+	public static JsonNode getRootNode() {
+		return rootNode;
 	}
 
 	/**
@@ -94,8 +94,8 @@ public abstract class TransformJSONService<T> {
 	 * @param node
 	 *            json node
 	 */
-	public void setRootNode(final JsonNode node) {
-		this.rootNode = node;
+	public static void setRootNode(final JsonNode node) {
+		rootNode = node;
 	}
 
 	/**
