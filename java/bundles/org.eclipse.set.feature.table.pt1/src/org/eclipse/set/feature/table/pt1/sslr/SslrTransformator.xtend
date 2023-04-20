@@ -324,7 +324,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					val fahrWegStartZiel = IDFstrAusschlussBesonders.map [
-						fstrFahrweg.transformFarhwegStartZiel
+						fstrFahrweg.transformFahrwegStartZiel
 					]
 
 					val footnotes = footnoteTransformation.transform(it, row)
@@ -338,7 +338,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					val footnotes = footnoteTransformation.transform(it, row)
-					'''Siehe Sslz: «FOR fstr : zugFstrs SEPARATOR ", "»«fstr.zugFstrBezeichnung»«ENDFOR» «footnotes»'''
+					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr.zugFstrBezeichnung»«ENDFOR» «footnotes»'''
 				]
 			)
 		)

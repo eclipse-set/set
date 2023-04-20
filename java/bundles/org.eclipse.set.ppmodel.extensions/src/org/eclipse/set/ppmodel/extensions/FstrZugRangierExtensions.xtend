@@ -238,13 +238,13 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch === null) {
 			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert ==
 				BigInteger.ZERO) {
-				return fstrZugRangier?.fstrFahrweg?.transformFarhwegStartZiel
+				return fstrZugRangier?.fstrFahrweg?.transformFahrwegStartZiel
 			}
 
 			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
 				isNotNullAndGreater(BigInteger.ZERO)) {
 				return '''«fstrZugRangier?.fstrFahrweg?.
-					transformFarhwegStartZiel» [U«fstrZugRangier?.
+					transformFahrwegStartZiel» [U«fstrZugRangier?.
 					fstrZugRangierAllg?.fstrReihenfolge?.wert»]'''
 			}
 		}
@@ -253,7 +253,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert ==
 				BigInteger.ZERO) {
 				return '''«fstrZugRangier?.fstrFahrweg?.
-					transformFarhwegStartZiel» («fstrZugRangier?.
+					transformFahrwegStartZiel» («fstrZugRangier?.
 					fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert»)'''
 
 			}
@@ -261,7 +261,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
 				isNotNullAndGreater(BigInteger.ZERO)) {
 				return '''«fstrZugRangier?.fstrFahrweg?.
-					transformFarhwegStartZiel» [U«fstrZugRangier?.
+					transformFahrwegStartZiel» [U«fstrZugRangier?.
 					fstrZugRangierAllg?.fstrReihenfolge?.wert»] («fstrZugRangier?.
 					fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert»)'''
 
@@ -305,7 +305,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return true
 	}
 
-	def static String transformFarhwegStartZiel(Fstr_Fahrweg fahrweg) {
+	def static String transformFahrwegStartZiel(Fstr_Fahrweg fahrweg) {
 		return '''«fahrweg?.start?.bezeichnung?.bezeichnungTabelle?.wert»/«fahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»'''
 	}
 
