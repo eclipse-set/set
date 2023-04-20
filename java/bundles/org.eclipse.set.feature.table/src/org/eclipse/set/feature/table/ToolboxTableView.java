@@ -328,7 +328,8 @@ public final class ToolboxTableView extends BasePart {
 
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
 
-		bodyLayerStack.freezeColumn(0);
+		bodyLayerStack.freezeColumns(
+				tableService.getFixedColumns(getToolboxPart().getElementId()));
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
 		selectionLayer.addConfiguration(
@@ -460,6 +461,12 @@ public final class ToolboxTableView extends BasePart {
 						scrollToPositionRequested));
 				scrollToPositionRequested = -1;
 			}
+			// natTable.doCommand(
+			// new FreezeColumnCommand(natTable, 0, false, true));
+			// natTable.doCommand(
+			// new FreezeColumnCommand(natTable, 1, false, true));
+			// natTable.doCommand(
+			// new FreezeColumnCommand(natTable, 2, false, true));
 		});
 
 		updateButtons();

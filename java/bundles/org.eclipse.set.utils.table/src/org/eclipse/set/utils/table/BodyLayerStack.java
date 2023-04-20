@@ -9,6 +9,9 @@
 
 package org.eclipse.set.utils.table;
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeHelper;
@@ -96,5 +99,23 @@ public class BodyLayerStack extends AbstractLayerTransform {
 		FreezeHelper.freeze(freezeLayer, viewportLayer,
 				freezeColumnStrategy.getTopLeftPosition(),
 				freezeColumnStrategy.getBottomRightPosition());
+	}
+
+	/**
+	 * Fixed columns
+	 * 
+	 * @param columnsPos
+	 *            position of fixed columns
+	 */
+	public void freezeColumns(final Set<Integer> columnsPos) {
+		final Integer maxValue = Collections.max(columnsPos);
+		final Integer minValue = Collections.min(columnsPos);
+		final FreezeColumnStrategy firstColumntoFreeze = new FreezeColumnStrategy(
+				freezeLayer, viewportLayer, minValue.intValue());
+		final FreezeColumnStrategy lastColumntoFreeze = new FreezeColumnStrategy(
+				freezeLayer, viewportLayer, maxValue.intValue());
+		FreezeHelper.freeze(freezeLayer, viewportLayer,
+				firstColumntoFreeze.getTopLeftPosition(),
+				lastColumntoFreeze.getBottomRightPosition());
 	}
 }

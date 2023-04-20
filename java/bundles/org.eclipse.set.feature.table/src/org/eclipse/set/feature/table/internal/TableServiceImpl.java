@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
@@ -166,6 +167,11 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Collection<String> getAvailableTables() {
 		return new ArrayList<>(modelServiceMap.keySet());
+	}
+
+	@Override
+	public Set<Integer> getFixedColumns(final String elementID) {
+		return getModelService(extractShortcut(elementID)).getFixedColumnsPos();
 	}
 
 	@Override

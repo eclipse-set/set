@@ -9,6 +9,7 @@
 package org.eclipse.set.utils.excel
 
 import java.util.Optional
+import java.util.Set
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.util.CellRangeAddress
@@ -41,30 +42,6 @@ class HSSFWorkbookExtension {
 		)
 	}
 
-	static def int getHeaderLastRowIndex(Sheet sheet) {
-		return sheet.repeatingRows.lastRow
-	}
-
-	static def int getHeaderLastColumnIndex(Sheet sheet) {
-		val firstRow = sheet.getRow(0)
-		// Skip first column, that is count number column and
-		// can maybe null or empty
-		var lastColumnIndex = 1
-		for (var i = lastColumnIndex; i < firstRow.lastCellNum; i++) {
-			val cell = firstRow.getCell(i)
-			if (cell.cellStringValue.isEmpty) {
-				return lastColumnIndex
-			}
-			lastColumnIndex = i
-		}
-		
-		return lastColumnIndex
-	}
-
-	static def CellRangeAddress[] getParentGroupSpan(Sheet sheet) {
-		return sheet.mergedRegions.filter[firstRow === 1]
-	}
-
 	static def Optional<CellRangeAddress> getColumnSpanRangeAt(Cell cell) {
 		if (cell === null) {
 			return Optional.empty
@@ -81,6 +58,52 @@ class HSSFWorkbookExtension {
 		)
 	}
 
+	static def float getColumnWidthInCm(Sheet sheet, int columnIndex) {
+		val widthPX = Math.round(sheet.getColumnWidthInPixels(columnIndex) *
+			FONT_SCALE_FACTOR)
+		return Math.round(
+			(widthPX.floatValue / Units.PIXEL_DPI).doubleValue * CM_PER_INCH *
+				100) / 100f
+	}
+
+	static def int getHeaderLastRowIndex(Sheet sheet) {
+		return sheet.repeatingRows.lastRow
+	}
+
+	static def int getHeaderLastColumnIndex(Sheet sheet) {
+		val firstRow = sheet.getRow(0)
+		// Skip first column, that is count number column and
+		// can maybe null or empty
+		var lastColumnIndex = 1
+		for (var i = lastColumnIndex; i < firstRow.lastCellNum; i++) {
+			val cell = firstRow.getCell(i)
+			if (cell.cellStringValue.isEmpty) {
+				return lastColumnIndex
+			}
+			lastColumnIndex = i
+		}
+
+		return lastColumnIndex
+	}
+
+	static def CellRangeAddress[] getParentGroupSpan(Sheet sheet) {
+		return sheet.mergedRegions.filter[firstRow === 1]
+	}
+
+	static def Set<Integer> getRepeatingColumns(Sheet sheet) {
+		val result = <Integer>newHashSet
+		if (sheet === null || sheet.repeatingColumns === null) {
+			return result
+		}
+		val repeatingRange = sheet.repeatingColumns
+		
+		for (var i = repeatingRange.firstColumn; i <=
+			repeatingRange.lastColumn; i++) {
+			result.add(i)
+		}
+		return result
+	}
+
 	static def Optional<CellRangeAddress> getRowSpanRangeAt(Cell cell) {
 		return getRowSpanRangeAt(cell.sheet, cell.rowIndex, cell.columnIndex)
 	}
@@ -92,14 +115,6 @@ class HSSFWorkbookExtension {
 				firstColumn === columnIndex
 			].findFirst[firstRow <= rowIndex && lastRow >= rowIndex]
 		)
-	}
-
-	static def float getColumnWidthInCm(Sheet sheet, int columnIndex) {
-		val widthPX = Math.round(sheet.getColumnWidthInPixels(columnIndex) *
-			FONT_SCALE_FACTOR)
-		return Math.round(
-			(widthPX.floatValue / Units.PIXEL_DPI).doubleValue * CM_PER_INCH *
-				100) / 100f
 	}
 
 	static def float getRowHeightInCm(Sheet sheet, int rowIndex) {

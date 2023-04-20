@@ -10,6 +10,7 @@ package org.eclipse.set.feature.table;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
@@ -96,4 +97,12 @@ public interface TableService {
 	 */
 	Table transformToTable(final String elementId, TableType tableType,
 			final IModelSession modelSession);
+
+	/**
+	 * Get fixed columns
+	 * 
+	 * @param elementID
+	 * @return position of fixed columns
+	 */
+	Set<Integer> getFixedColumns(final String elementID);
 }

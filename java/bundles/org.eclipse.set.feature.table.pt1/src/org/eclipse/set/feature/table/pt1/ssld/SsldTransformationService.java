@@ -36,6 +36,7 @@ import org.osgi.service.component.annotations.Reference;
 				"table.shortcut=ssld" })
 public final class SsldTransformationService
 		extends AbstractPlanPro2TableTransformationService {
+
 	@Reference
 	private Messages messages;
 	@Reference

@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.table;
 
+import java.util.Set;
+
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.table.AbstractTableTransformationService;
@@ -22,4 +24,9 @@ public abstract class PlanPro2TableTransformationService extends
 	 * @return the table name info
 	 */
 	public abstract TableNameInfo getTableNameInfo();
+
+	/**
+	 * @return position of fixed columns
+	 */
+	public abstract Set<Integer> getFixedColumnsPos();
 }
