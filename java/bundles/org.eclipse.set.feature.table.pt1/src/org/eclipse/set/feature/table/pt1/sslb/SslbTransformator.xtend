@@ -8,19 +8,21 @@
  */
 package org.eclipse.set.feature.table.pt1.sslb
 
+import java.util.Set
 import org.eclipse.set.basis.Pair
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Block.Block_Element
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMOertlichkeitArt
 import org.eclipse.set.utils.table.TMFactory
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import static org.eclipse.set.feature.table.pt1.sslb.SslbColumns.*
+
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnrueckabschnittExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
@@ -28,9 +30,6 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BlockAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtensions.*
-import static org.eclipse.set.feature.table.pt1.sslb.SslbColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.toolboxmodel.Block.Block_Anlage
 
 /**
@@ -397,16 +396,4 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		return '''«FOR ort : betriebsStellen SEPARATOR "/"»«ort»«ENDFOR»'''
 	}
 
-	override void formatTableContent(Table table) {
-		// D: Sslb.Grundsatzangaben.von.Betriebsst_Start
-		table.setTextAlignment(cols.getColumn(Betriebsstelle_Start),
-			TextAlignment.LEFT);
-
-		// F: Sslb.Grundsatzangaben.nach.Betriebsst_Ziel
-		table.setTextAlignment(cols.getColumn(Betriebsstelle_Ziel),
-			TextAlignment.LEFT);
-
-		// V: Sslb.Bemerkung
-		table.setTextAlignment(cols.getColumn(Bemerkung), TextAlignment.LEFT);
-	}
 }

@@ -16,7 +16,6 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
@@ -26,7 +25,6 @@ import org.eclipse.set.utils.table.TMFactory
 import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*
 import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
@@ -348,15 +346,5 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def boolean getGeneralbedingung(Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.literal?.
 			substring(0, 1) == "R"
-	}
-
-	override void formatTableContent(Table table) {
-		super.formatTableContent(table)
-
-		// B: Sslr.Grundsatzangaben.Fahrweg.Start
-		table.setTextAlignment(cols.getColumn(Fahrweg_Start), TextAlignment.LEFT);
-
-		// C: Sslr.Grundsatzangaben.Fahrweg.Ziel
-		table.setTextAlignment(cols.getColumn(Fahrweg_Ziel), TextAlignment.LEFT);
 	}
 }

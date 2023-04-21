@@ -13,9 +13,7 @@ import java.util.Comparator
 import java.util.List
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.MultiColorContent
-import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.utils.ToolboxConfiguration
@@ -23,7 +21,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static extension com.google.common.base.Throwables.*
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
@@ -521,14 +518,5 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		int column
 	) {
 		row.set(column, BLANK)
-	}
-
-	override void formatTableContent(Table table) {
-		val cols = table.columns
-		// Description Column
-		table.setTextAlignment(cols.get(0), TextAlignment.LEFT);
-		
-		// Notice column
-		table.setTextAlignment(cols.get(cols.size - 1), TextAlignment.LEFT)
 	}
 }

@@ -8,13 +8,14 @@
  */
 package org.eclipse.set.feature.table.pt1.ssvu
 
+import java.util.Set
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit
@@ -29,10 +30,7 @@ import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static org.eclipse.set.feature.table.pt1.ssvu.SsvuColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Übertragungswegtabelle (Ssvu).
@@ -304,10 +302,5 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def dispatch String getElementBezeichnung(
 		Aussenelementansteuerung element) {
 		return element?.bezeichnung?.bezeichnungAEA?.wert
-	}
-
-	override void formatTableContent(Table table) {
-		// H: Ssvu.Bemerkung
-		table.setTextAlignment(cols.getColumn(Bemerkung), TextAlignment.LEFT);
 	}
 }

@@ -16,8 +16,6 @@ import org.eclipse.emf.common.util.EList
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions
 import org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
@@ -31,7 +29,6 @@ import org.eclipse.set.utils.table.TMFactory
 import static org.eclipse.set.feature.table.pt1.sska.SskaColumns.*
 import static org.eclipse.set.toolboxmodel.Bedienung.ENUMBedienPlatzArt.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienBezirkExtensions.*
@@ -259,12 +256,6 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		return factory.table
-	}
-
-	override void formatTableContent(Table table) {
-		super.formatTableContent(table)
-		// G: Sska.Grundsatzangaben.Unterbringung.km
-		table.setTextAlignment(cols.getColumn(Unterbringung_km), TextAlignment.RIGHT);
 	}
 
 	private def dispatch String getElementBezeichnung(Basis_Objekt element) {

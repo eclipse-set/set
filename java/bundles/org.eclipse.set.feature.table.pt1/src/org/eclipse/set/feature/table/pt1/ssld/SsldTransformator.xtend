@@ -9,10 +9,10 @@
 package org.eclipse.set.feature.table.pt1.ssld
 
 import java.math.RoundingMode
+import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.format.TextAlignment
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
@@ -22,9 +22,10 @@ import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 
+import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.DwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
@@ -35,9 +36,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for a Durchrutschwegtabelle (SSLD).
@@ -353,14 +351,5 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		return factory.table
-	}
-
-	override void formatTableContent(Table table) {
-		super.formatTableContent(table)
-		// B: Ssld.Grundsatzangaben.bis
-		table.setTextAlignment(cols.getColumn(bis), TextAlignment.LEFT);
-
-		// C: Ssld.Grundsatzangaben.Gefahrpunkt
-		table.setTextAlignment(cols.getColumn(Gefahrpunkt), TextAlignment.LEFT);
 	}
 }

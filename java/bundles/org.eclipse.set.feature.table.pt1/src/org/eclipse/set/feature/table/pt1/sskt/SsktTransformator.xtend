@@ -8,11 +8,12 @@
  */
 package org.eclipse.set.feature.table.pt1.sskt
 
+import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.TSO_IP_AB_Teilsystem_AttributeGroup
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
@@ -23,13 +24,11 @@ import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
 import org.eclipse.set.utils.table.RowFactory
 import org.eclipse.set.utils.table.TMFactory
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import static org.eclipse.set.feature.table.pt1.sskt.SsktColumns.*
+
 import static extension org.eclipse.set.ppmodel.extensions.BedienStandortExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TechnikStandortExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
-import static org.eclipse.set.feature.table.pt1.sskt.SsktColumns.*
-import java.util.Set
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
 
 /**
  * Table transformation for Sskt.
@@ -326,11 +325,5 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def boolean getGeneralbedingung(Basis_Objekt standort) {
 		return true
-	}
-
-	override void formatTableContent(Table table) {
-		super.formatTableContent(table)
-		// G: Sskt.Grundsatzangaben.Unterbringung.km
-		table.setTextAlignment(cols.getColumn(Unterbringung_km), TextAlignment.RIGHT);
 	}
 }

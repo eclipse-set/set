@@ -12,8 +12,6 @@ import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
@@ -23,7 +21,6 @@ import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssko.SskoColumns.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExtensions.*
@@ -383,11 +380,5 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 	) {
 		val fstrFahrweg = fstrZugRangier?.fstrFahrweg
 		return '''«fstrFahrweg?.start?.bezeichnung?.bezeichnungTabelle?.wert»/«fstrFahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»'''
-	}
-
-	override void formatTableContent(Table table) {
-		super.formatTableContent(table)
-		// P: Sk_Ssp.Unterbringung.km
-		table.setTextAlignment(cols.getColumn(Sk_Ssp_Unterbringung_km), TextAlignment.RIGHT);
 	}
 }

@@ -22,14 +22,6 @@ import org.eclipse.set.model.tablemodel.Table;
 public interface TableModelTransformator<T> {
 
 	/**
-	 * Formats a table.
-	 * 
-	 * @param table
-	 *            the table
-	 */
-	public void formatTableContent(Table table);
-
-	/**
 	 * Transforms the given container of a PlanPro model to a particular table
 	 * of the table model.
 	 * 

@@ -8,11 +8,10 @@
  */
 package org.eclipse.set.feature.table.overview
 
+import java.util.Collection
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
-import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.utils.table.TableError
-import java.util.Collection
 
 class TableErrorTableTransformator extends AbstractTableModelTransformator<Collection<TableError>> {	
 	TableErrorTableColumns columns;
@@ -31,8 +30,5 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 		}
 		
 		return factory.table
-	}
-	
-	override formatTableContent(Table table) {
 	}
 }

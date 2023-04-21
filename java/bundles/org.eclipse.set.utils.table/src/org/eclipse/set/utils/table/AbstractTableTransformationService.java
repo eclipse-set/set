@@ -9,16 +9,20 @@
 package org.eclipse.set.utils.table;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.model.tablemodel.extensions.TableExtensions.getColumns;
+import static org.eclipse.set.model.tablemodel.extensions.TableExtensions.setTextAlignment;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.format.TextAlignment;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 
 /**
@@ -60,13 +64,21 @@ public abstract class AbstractTableTransformationService<T>
 	public abstract ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder);
 
+	@SuppressWarnings("static-method")
+	protected void setColumnTextAlignment(final Table table) {
+		final List<ColumnDescriptor> columns = getColumns(table);
+		// By default set first and last columnd align left
+		setTextAlignment(table, 0, TextAlignment.LEFT);
+		setTextAlignment(table, columns.size() - 1, TextAlignment.LEFT);
+	}
+
 	@Override
 	public void format(final Table table) {
 		if (table == null) {
 			return;
 		}
 		transformator = createTransformator();
-		transformator.formatTableContent(table);
+		setColumnTextAlignment(table);
 	}
 
 	@Override
@@ -82,7 +94,7 @@ public abstract class AbstractTableTransformationService<T>
 		buildHeading(table);
 		transformator = createTransformator();
 		transformator.transformTableContent(model, new TMFactory(table));
-		transformator.formatTableContent(table);
+		setColumnTextAlignment(table);
 		return table;
 	}
 

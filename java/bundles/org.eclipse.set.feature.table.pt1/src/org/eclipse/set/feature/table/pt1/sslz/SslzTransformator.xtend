@@ -20,12 +20,13 @@ import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.extensions.Utils
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Art_TypeClass
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
@@ -41,16 +42,17 @@ import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2v
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs6
+import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.utils.table.TMFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.*
 import static org.eclipse.set.toolboxmodel.Bahnuebergang.ENUMBUESicherungsart.*
-import static org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart.*
 import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMFstrZugArt.*
+import static org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart.*
 
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExtensions.*
@@ -63,10 +65,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Art_TypeClass
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -729,14 +727,5 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			IDFstrFahrweg?.IDStart == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B
 		]
-	}
-
-	override void formatTableContent(Table table) {
-		super.formatTableContent(table)
-		// B: Sslz.Grundsatzangaben.Fahrweg.Start
-		table.setTextAlignment(cols.getColumn(Start), TextAlignment.LEFT);
-
-		// C: Sslz.Grundsatzangaben.Fahrweg.Ziel
-		table.setTextAlignment(cols.getColumn(Ziel), TextAlignment.LEFT);
 	}
 }

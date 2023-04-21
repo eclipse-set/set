@@ -14,6 +14,8 @@ import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.util.Units
+import java.util.List
+import java.util.Collections
 
 /**
  * Extension for Excel Workbook
@@ -123,5 +125,17 @@ class HSSFWorkbookExtension {
 		val heightPx = Math.round(height * FONT_SCALE_FACTOR);
 		return Math.round(heightPx.floatValue / Units.PIXEL_DPI * CM_PER_INCH *
 			100) / 100f;
+	}
+	
+	static def List<Cell> getFirstDataRow(Sheet sheet) {
+		val hearLastRowIndex = sheet.headerLastRowIndex
+		val firstDataRow = sheet.getRow(hearLastRowIndex + 1)
+		if (firstDataRow === null || firstDataRow.empty) {
+			return Collections.emptyList
+		}
+		return firstDataRow.iterator.toList.filter[
+			val firstRowCellValue = sheet.getCellAt(0, columnIndex).cellStringValue
+			return firstRowCellValue.present
+		].toList
 	}
 }

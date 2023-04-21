@@ -9,6 +9,8 @@
 package org.eclipse.set.feature.table.pt1;
 
 import static org.eclipse.set.utils.excel.HSSFWorkbookExtension.getRepeatingColumns;
+import static org.eclipse.set.model.tablemodel.extensions.TableExtensions.setTextAlignment;
+import static org.eclipse.set.utils.excel.HSSFWorkbookExtension.getFirstDataRow;
 import static org.eclipse.set.utils.table.TableBuilderFromExcel.headerBuilder;
 
 import java.io.FileInputStream;
@@ -16,17 +18,22 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
+import org.eclipse.set.model.tablemodel.format.TextAlignment;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.GroupBuilder;
 
@@ -38,6 +45,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 		extends PlanPro2TableTransformationService {
 	private static final String TEMPLATE_DIR = "data/export/excel/"; //$NON-NLS-1$
 	protected Set<ColumnDescriptor> cols;
+	protected List<Cell> firstDataRowCells = new ArrayList<>();
 
 	protected HSSFSheet excelTemplate = null;
 
@@ -79,7 +87,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 				final Workbook workbook = new HSSFWorkbook(inputStream)) {
 			excelTemplate = (HSSFSheet) workbook.getSheetAt(0);
 			headerBuilder(excelTemplate, root, 1);
-
+			firstDataRowCells.addAll(getFirstDataRow(sheetAt));
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -107,4 +115,31 @@ public abstract class AbstractPlanPro2TableTransformationService
 	 * @return
 	 */
 	protected abstract String getTableHeading();
+
+	@Override
+	protected void setColumnTextAlignment(final Table table) {
+		firstDataRowCells.forEach(cell -> {
+			if (cell != null) {
+				final HorizontalAlignment alignment = cell.getCellStyle()
+						.getAlignment();
+				// Nattable start with column "A"
+				// and Excel table start with row index column
+				final int columnIdx = cell.getColumnIndex() - 1;
+				switch (alignment) {
+				case LEFT: {
+					setTextAlignment(table, columnIdx, TextAlignment.LEFT);
+					break;
+				}
+				case RIGHT: {
+					setTextAlignment(table, columnIdx, TextAlignment.RIGHT);
+					break;
+				}
+				// Another align will ignore
+				default:
+					break;
+				}
+			}
+
+		});
+	}
 }
