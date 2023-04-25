@@ -54,27 +54,30 @@ class TransformTableBody {
 		val result = <Set<Cell>>newLinkedHashSet
 		val lastHeaderRowIndex = sheet.headerLastRowIndex
 		val parentGroupLastIndex = columnWithWideBorderRight
-		val firstDataRow = sheet.getRow(lastHeaderRowIndex + 2)
-		if (firstDataRow !== null) {
-			for (var i = 0; i <= sheet.headerLastColumnIndex; i++) {
-				val cell = sheet.getCellAt(firstDataRow.rowNum, i)
-				if (cell.present) {
-					if (parentGroupLastIndex.contains(i)) {
-						val cellStyle = sheet.workbook.createCellStyle
-						cellStyle.cloneStyleFrom(cell.get.cellStyle)
-						cellStyle.borderRight = BorderStyle.MEDIUM
-						cell.get.cellStyle = cellStyle
-					}
-					if (!cell.get.cellStyle.defaultStyle) {
-						val sameStyleGroup = result.findFirst [
-							it.findFirst [ lastColumnCell |
-								cell.get.cellStyle.isEquals(
-									lastColumnCell.cellStyle)
-							] !== null
-						]
-						sameStyleGroup !== null ? sameStyleGroup.add(
-							cell.get) : result.add(newLinkedHashSet(cell.get))
-					}
+		var firstDataRow = sheet.getRow(lastHeaderRowIndex + 2)
+		if (firstDataRow === null) {
+			throw new RuntimeException(
+				"Missing first data row. Is the printing area configured correctly?");
+		}
+
+		for (var i = 0; i <= sheet.headerLastColumnIndex; i++) {
+			val cell = sheet.getCellAt(firstDataRow.rowNum, i)
+			if (cell.present) {
+				if (parentGroupLastIndex.contains(i)) {
+					val cellStyle = sheet.workbook.createCellStyle
+					cellStyle.cloneStyleFrom(cell.get.cellStyle)
+					cellStyle.borderRight = BorderStyle.MEDIUM
+					cell.get.cellStyle = cellStyle
+				}
+				if (!cell.get.cellStyle.defaultStyle) {
+					val sameStyleGroup = result.findFirst [
+						it.findFirst [ lastColumnCell |
+							cell.get.cellStyle.isEquals(
+								lastColumnCell.cellStyle)
+						] !== null
+					]
+					sameStyleGroup !== null ? sameStyleGroup.add(
+						cell.get) : result.add(newLinkedHashSet(cell.get))
 				}
 			}
 		}
@@ -99,14 +102,20 @@ class TransformTableBody {
 	}
 
 	private def int[] getColumnWithWideBorderRight() {
-		val parentGroupSpan = sheet.parentGroupSpan
-		val result = parentGroupSpan.filter [
-			lastColumn !== sheet.headerLastColumnIndex
-		].map[lastColumn].toSet
-		if (!parentGroupSpan.exists[it.firstColumn === 1]) {
-			result.add(1)
+		val headerRow = sheet.getRow(1)
+		val result = newArrayList
+		// Start at 1 to skip empty column 0
+		for (var i = 1; i <= sheet.headerLastColumnIndex; i++) {
+			val cell = headerRow.getCell(i)
+			if (cell.cellStyle.borderRight == BorderStyle.MEDIUM) {
+				result.add(i)
+			}
+			if (i !== 1 && cell.cellStyle.borderLeft == BorderStyle.MEDIUM) {
+				result.add(i - 1)
+			}
 		}
-		return result
+
+		return result.toSet
 	}
 
 	def Set<Element> pageBreakColumnCellStyle(int[] pageBreakAt) {
@@ -150,7 +159,7 @@ class TransformTableBody {
 		pageBreakColumnsStyle.addAll(defaultStyle)
 		return pageBreakColumnsStyle
 	}
-	
+
 	private def Element rowStyle(Cell[] exclusionColumns) {
 
 		val expression = String.format(
