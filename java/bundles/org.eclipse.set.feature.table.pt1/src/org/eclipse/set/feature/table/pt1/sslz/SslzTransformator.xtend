@@ -106,9 +106,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				return null
 			}
 			// Generalbedingung
-			val isZOrGz = isZOrGz(fstrZugRangier.fstrZug?.fstrZugArt)
+			val isZ = isZ(fstrZugRangier.fstrZug?.fstrZugArt)
 
-			if (isZOrGz) {
+			if (isZ) {
 				val instance = factory.newTableRow(fstrZugRangier)
 				fillSwitch(
 					instance,
@@ -163,17 +163,22 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					instance,
 					cols.getColumn(Art),
 					fstrZugRangier,
-					new Case<Fstr_Zug_Rangier>(
-					[fstrZug.fstrZugArt.wert.literal.matches("G.*")], [
-						'''G«fstrZug.fstrZugArt.wert.literal.substring(2)»'''
-					]),
 					new Case<Fstr_Zug_Rangier>([zielFstrZugRangier !== null], [
 						'''«fstrZug?.fstrZugArt?.wert?.literal?.substring(1)»B'''
 					]),
 					new Case<Fstr_Zug_Rangier>(
-					[!fstrZug.fstrZugArt.wert.literal.matches("G.*")], [
-						fstrZug.fstrZugArt.wert.literal.substring(1)
-					])
+						[fstrZug?.IDSignalGruppenausfahrt !== null],
+						[
+							'''G«fstrZug?.fstrZugArt?.wert.literal.substring(1)»'''
+						]
+					),
+					new Case<Fstr_Zug_Rangier>(
+						[
+							zielFstrZugRangier === null &&
+								fstrZug?.IDSignalGruppenausfahrt === null
+						],
+						[fstrZug?.fstrZugArt?.wert.literal.substring(1)]
+					)
 				)
 
 				fill(instance, cols.getColumn(Autom_Einstellung),
@@ -670,11 +675,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			toSet.toList
 	}
 
-	def boolean isZOrGz(
+	def boolean isZ(
 		Fstr_Zug_Art_TypeClass typeClazz
 	) {
 		val lit = typeClazz?.wert?.literal
-		return lit !== null && (lit.matches("Z.*") || lit.matches("GZ.*"))
+		return lit !== null && lit.matches("Z.*")
 	}
 
 	private def String fahrwegStart(
