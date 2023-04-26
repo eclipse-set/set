@@ -31,6 +31,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtension
 import static org.eclipse.set.feature.table.pt1.sslb.SslbColumns.*
 import java.util.Set
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.toolboxmodel.Block.Block_Anlage
 
 /**
  * Table transformation for a Inselgleistabelle (Sslb).
@@ -101,14 +102,25 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// D: Sslb.Grundsatzangaben.von.Betriebsstelle_Start
-		fillConditional(
+		fillSwitch(
 			cols.getColumn(Betriebsstelle_Start),
 			blockElement,
-			[!blockElement.blockAnlagenStart.isEmpty],
-			[
-				blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
-					oertlichkeitAbkuerzung?.wert
-			]
+			new Case<Block_Element>(
+				[!blockElement.blockAnlagenStart.isEmpty],
+				[
+					getBetriebsStelle(
+						[blockAnlagenStart],
+						[IDBlockElementB]
+					)
+				]
+			),
+			new Case<Block_Element>(
+				[!blockElement.blockAnlagenZiel.isEmpty],
+				[
+					blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
+						oertlichkeitAbkuerzung?.wert
+				]
+			)
 		)
 
 		// E: Sslb.Grundsatzangaben.von.Bauform_Start
@@ -128,14 +140,25 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// G: Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
-		fillConditional(
+		fillSwitch(
 			cols.getColumn(Betriebsstelle_Ziel),
 			blockElement,
-			[!blockElement.blockAnlagenZiel.isEmpty],
-			[
-				blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
-					oertlichkeitAbkuerzung?.wert
-			]
+			new Case<Block_Element>(
+				[!blockElement.blockAnlagenZiel.isEmpty],
+				[
+					getBetriebsStelle(
+						[blockAnlagenZiel],
+						[IDBlockElementA]
+					)
+				]
+			),
+			new Case<Block_Element>(
+				[!blockElement.blockAnlagenStart.isEmpty],
+				[
+					blockElement?.blockStrecke?.oertlichkeit?.bezeichnung?.
+						oertlichkeitAbkuerzung?.wert
+				]
+			)
 		)
 
 		// H: Sslb.Grundsatzangaben.nach.Bauform_Ziel
@@ -360,12 +383,28 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		return '''«oertlichkeitAbk» («oertlichkeitAwanst»)'''
 	}
 
+	private def String getBetriebsStelle(
+		Block_Element blockElement,
+		(Block_Element)=>Set<Block_Anlage> blockAnlage,
+		(Block_Anlage)=>Block_Element targetElement
+	) {
+		val targetBlocks = blockAnlage.apply(blockElement).map [
+			targetElement.apply(it)
+		].filterNull
+		val betriebsStellen = targetBlocks.map [
+			blockStrecke.oertlichkeit?.bezeichnung?.oertlichkeitAbkuerzung?.wert
+		]
+		return '''«FOR ort : betriebsStellen SEPARATOR "/"»«ort»«ENDFOR»'''
+	}
+
 	override void formatTableContent(Table table) {
 		// D: Sslb.Grundsatzangaben.von.Betriebsst_Start
-		table.setTextAlignment(cols.getColumn(Betriebsstelle_Start), TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Betriebsstelle_Start),
+			TextAlignment.LEFT);
 
 		// F: Sslb.Grundsatzangaben.nach.Betriebsst_Ziel
-		table.setTextAlignment(cols.getColumn(Betriebsstelle_Ziel), TextAlignment.LEFT);
+		table.setTextAlignment(cols.getColumn(Betriebsstelle_Ziel),
+			TextAlignment.LEFT);
 
 		// V: Sslb.Bemerkung
 		table.setTextAlignment(cols.getColumn(Bemerkung), TextAlignment.LEFT);
