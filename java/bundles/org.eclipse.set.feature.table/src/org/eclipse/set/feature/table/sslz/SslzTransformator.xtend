@@ -211,11 +211,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					instance,
 					columns.art,
 					fstrZugRangier,
-					[!fstrZugRangierAllg.fstrArt.wert.matches("G.*")],
-					[fstrZugRangierAllg.fstrArt.wert.literal.substring(1)],
-					[
-						'''G«fstrZugRangierAllg.fstrArt.wert.literal.substring(2)»'''
-					]
+					[fstrZug?.IDSignalGruppenausfahrt !== null],
+					['''G«fstrZugRangierAllg?.fstrArt?.wert.literal.substring(1)»'''],
+					[fstrZugRangierAllg?.fstrArt?.wert.literal.substring(1)]
 				)
 
 				fill(instance, columns.autom_einstellung, fstrZugRangier, [
