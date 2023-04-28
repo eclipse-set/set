@@ -173,10 +173,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						]
 					),
 					new Case<Fstr_Zug_Rangier>(
-						[
-							zielFstrZugRangier === null &&
-								fstrZug?.IDSignalGruppenausfahrt === null
-						],
+						[true],
 						[fstrZug?.fstrZugArt?.wert.literal.substring(1)]
 					)
 				)
