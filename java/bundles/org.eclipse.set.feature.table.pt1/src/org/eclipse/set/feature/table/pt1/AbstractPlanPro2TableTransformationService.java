@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.feature.table.pt1;
 
-import static org.eclipse.set.utils.excel.HSSFWorkbookExtension.getRepeatingColumns;
 import static org.eclipse.set.model.tablemodel.extensions.TableExtensions.setTextAlignment;
 import static org.eclipse.set.utils.excel.HSSFWorkbookExtension.getFirstDataRow;
+import static org.eclipse.set.utils.excel.HSSFWorkbookExtension.getRepeatingColumns;
 import static org.eclipse.set.utils.table.TableBuilderFromExcel.headerBuilder;
 
 import java.io.FileInputStream;
@@ -101,7 +101,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 		// In Nattable row count column is not caculate
 		return repeatingColumns.stream()
 				.map(ele -> Integer.valueOf(ele.intValue() - 1))
-				.filter(ele -> ele.intValue() > 0)
+				.filter(ele -> ele.intValue() >= 0)
 				.collect(Collectors.toCollection(HashSet<Integer>::new));
 
 	}
