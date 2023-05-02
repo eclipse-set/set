@@ -52,6 +52,7 @@ pipeline {
         container('maven') {
           mvn goal: 'clean verify checkstyle:checkstyle -P sign,signexe', dependencies: 'maven.deps'
           archiveArtifacts artifacts: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
+          archiveArtifacts artifacts: 'java/bundles/org.eclipse.set.releng.repository/target/*.zip'
         }
       }
     }
@@ -74,8 +75,8 @@ pipeline {
 
     stage('Deploy Snapshot') {
       steps {
-        deployP2Site name: "set/${BRANCH_NAME}", path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
-        deployProduct name: 'set', path: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
+        deployP2Site name: "set", branch: BRANCH_NAME, path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
+        deployProduct name: 'set', branch: BRANCH_NAME, path: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
       }
     }
   }
