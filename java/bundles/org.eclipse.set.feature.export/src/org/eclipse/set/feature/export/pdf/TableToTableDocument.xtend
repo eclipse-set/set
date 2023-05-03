@@ -34,6 +34,8 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import org.eclipse.set.utils.table.TableSpanUtils
+import org.eclipse.set.model.tablemodel.MultiColorCellContent
+import org.eclipse.set.model.tablemodel.MultiColorContent
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -133,7 +135,7 @@ class TableToTableDocument {
 
 		// cells
 		val rowElement = it
-		val rowIndex = rows.indexOf(row) 
+		val rowIndex = rows.indexOf(row)
 		val cells = row.content
 
 		logger.
@@ -189,8 +191,8 @@ class TableToTableDocument {
 		return cellElement
 	}
 
-	private def dispatch Element createCell(Void content, int columnNumber, int rowSpan,
-		boolean isRemarkColumn) {
+	private def dispatch Element createCell(Void content, int columnNumber,
+		int rowSpan, boolean isRemarkColumn) {
 		val cellElement = doc.createElement("Cell")
 
 		cellElement.attributeNode = createColumnAttribute(columnNumber)
@@ -265,12 +267,43 @@ class TableToTableDocument {
 		int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
 		element.appendChild(
-			content.oldValue.checkForTestOutput(columnNumber).
-				createDiffComponent("OldValue", isRemarkColumn))
+			content.oldValue.createContentElement("OldValue", columnNumber,
+				isRemarkColumn))
 		element.appendChild(
-			content.newValue.checkForTestOutput(columnNumber).
-				createDiffComponent("NewValue", isRemarkColumn))
+			content.newValue.createContentElement("NewValue", columnNumber,
+				isRemarkColumn))
 		return element
+	}
+
+	private def dispatch Element createContent(MultiColorCellContent content,
+		int columnNumber, boolean isRemarkColumn) {
+		val element = doc.createElement("MultiColorContent")
+		for (var i = 0; i < content.value.size; i++) {
+			element.appendChild(
+				content.value.get(i).createMultiColorElement(columnNumber,
+					isRemarkColumn))
+			if (i < content.value.size - 1) {
+				val separator = doc.createElement("SimpleValue")
+				separator.textContent = content.seperator
+				element.appendChild(separator)
+			}
+		}
+		return element
+	}
+
+	private def Element createMultiColorElement(MultiColorContent content,
+		int columnNumber, boolean isRemarkColumn) {
+		if (content.multiColorValue === null) {
+			return content.stringFormat.createContentElement("SimpleValue",
+				columnNumber, isRemarkColumn)
+
+		}
+		// IMPROVE: currently the order of multicolor content is static.
+		// The underlying issue is a limitation in XSL 1.0 and string splitting.
+		val multiColorElement = content.stringFormat.replace("%s", "").createContentElement("MultiColorValue",
+			columnNumber, isRemarkColumn)
+		multiColorElement.setAttribute("multicolorValue", content.multiColorValue)
+		return multiColorElement
 	}
 
 	private def Attr createColumnAttribute(int columnNumber) {
@@ -278,22 +311,21 @@ class TableToTableDocument {
 		columnAttr.value = Integer.toString(columnNumber)
 		return columnAttr
 	}
-	
-	
+
 	private def Attr createRowSpanAttribute(int rowSpan) {
 		val attr = doc.createAttribute("number-rows-spanned")
 		attr.value = Integer.toString(rowSpan)
 		return attr
 	}
-	
 
-	private def Element createDiffComponent(String content, String elementName,
-		boolean isRemarkColumn) {
+	private def Element createContentElement(String content, String elementName,
+		int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement(elementName)
+		val checkOutput = content.checkForTestOutput(columnNumber)
 		element.textContent = if (isRemarkColumn)
-			content
+			checkOutput
 		else
-			content.intersperseWithZeroSpacesSC
+			checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 

@@ -10,10 +10,13 @@ package org.eclipse.set.model.tablemodel.impl;
 
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
@@ -34,7 +37,7 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  */
 public class MultiColorCellContentImpl extends CellContentImpl implements MultiColorCellContent {
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' reference list.
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getValue()
@@ -89,7 +92,7 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 	@Override
 	public EList<MultiColorContent> getValue() {
 		if (value == null) {
-			value = new EObjectResolvingEList<MultiColorContent>(MultiColorContent.class, this, TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE);
+			value = new EObjectContainmentEList<MultiColorContent>(MultiColorContent.class, this, TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE);
 		}
 		return value;
 	}
@@ -115,6 +118,20 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 		seperator = newSeperator;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.MULTI_COLOR_CELL_CONTENT__SEPERATOR, oldSeperator, seperator));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE:
+				return ((InternalEList<?>)getValue()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

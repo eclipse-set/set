@@ -84,4 +84,43 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
+	<xsl:template match="MultiColorContent">
+		<fo:block>
+			<xsl:apply-templates />
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="SimpleValue">
+		<fo:inline>
+			<xsl:value-of select="."/>
+		</fo:inline>
+	</xsl:template>
+
+	<xsl:template match="SimpleValue[starts-with(.,'Error:')]">
+		<fo:block>
+			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="pictures/warning_black.svg" fox:alt-text="Error"/>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="MultiColorValue">
+		<xsl:variable name="format" select="." />
+		<xsl:variable name="value" select="@multicolorValue" />
+                <!--IMPROVE: The order of multi color content shouldn't static-->
+		<fo:block>
+
+			<fo:inline background-color="yellow">
+				<xsl:value-of select="@multicolorValue" />
+			</fo:inline>
+			<fo:inline color="#cd0000">
+				<xsl:value-of select="@multicolorValue" />
+			</fo:inline>
+			<xsl:value-of select="." />
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="MultiColorValue[starts-with(.,'Error:')]">
+		<fo:block>
+			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="pictures/warning_black.svg" fox:alt-text="Error"/>
+		</fo:block>
+	</xsl:template>
 </xsl:stylesheet>

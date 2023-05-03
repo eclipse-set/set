@@ -617,7 +617,7 @@ public interface TablemodelPackage extends EPackage {
 	int MULTI_COLOR_CELL_CONTENT = 11;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference list.
+	 * The feature id for the '<em><b>Value</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1116,10 +1116,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getMultiColorCellContent();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue <em>Value</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Value</em>'.
+	 * @return the meta object for the containment reference list '<em>Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue()
 	 * @see #getMultiColorCellContent()
 	 * @generated
@@ -1531,7 +1531,7 @@ public interface TablemodelPackage extends EPackage {
 		EClass MULTI_COLOR_CELL_CONTENT = eINSTANCE.getMultiColorCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

@@ -30,13 +30,13 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface MultiColorCellContent extends CellContent {
 	/**
-	 * Returns the value of the '<em><b>Value</b></em>' reference list.
+	 * Returns the value of the '<em><b>Value</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.set.model.tablemodel.MultiColorContent}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Value</em>' reference list.
+	 * @return the value of the '<em>Value</em>' containment reference list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getMultiColorCellContent_Value()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<MultiColorContent> getValue();

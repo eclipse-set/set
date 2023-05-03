@@ -505,15 +505,18 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					if (!exEntgleisungsschuh) {
 						return null
 					}
-					val multiColorContent = TablemodelFactory.eINSTANCE.createMultiColorContent
+					val multiColorContent = TablemodelFactory.eINSTANCE.
+						createMultiColorContent
 					val gleissperreAntrieb = gleissperreAntrieb
-					if (entgleisungsschuhe.exists[austauschAntriebe?.wert === true]) {
+					if (entgleisungsschuhe.exists [
+						austauschAntriebe?.wert === true
+					]) {
 						multiColorContent.multiColorValue = gleissperreAntrieb
 						multiColorContent.stringFormat = "%s"
 					} else {
 						multiColorContent.multiColorValue = null
 						multiColorContent.stringFormat = gleissperreAntrieb
-					}									
+					}
 					return multiColorContent
 				]
 			)
@@ -638,6 +641,13 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				"+"
 			)
+		} else {
+			fill(
+				row,
+				cols.getColumn(Herzstueck_Antriebe),
+				element,
+				[]
+			)
 		}
 	}
 
@@ -711,10 +721,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				actuatorPositionSelector)
 			if (austauschAntriebe?.wert === true) {
 				multiColorContent.multiColorValue = noOfActuators.toString
-				multiColorContent.stringFormat = '''%s«IF noOfActuators >0»(«position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''%s«IF noOfActuators >0» («position»)«ENDIF»'''
 			} else {
 				multiColorContent.multiColorValue = null
-				multiColorContent.stringFormat = '''«noOfActuators»«IF noOfActuators > 0»(«position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''«noOfActuators»«IF noOfActuators > 0» («position»)«ENDIF»'''
 			}
 
 			return multiColorContent

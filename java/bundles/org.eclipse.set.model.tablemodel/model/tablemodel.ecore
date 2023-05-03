@@ -188,7 +188,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiColorCellContent" eSuperTypes="#//CellContent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
-        eType="#//MultiColorContent"/>
+        eType="#//MultiColorContent" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="seperator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MultiColorContent">
