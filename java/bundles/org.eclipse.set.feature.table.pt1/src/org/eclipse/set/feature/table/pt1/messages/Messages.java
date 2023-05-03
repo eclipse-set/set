@@ -509,6 +509,36 @@ public class Messages extends AbstractMessageService {
 	public String Sslr_Heading;
 
 	/**
+	 * Sslw (Zwieschutzweichentabelle)
+	 */
+	public String SslwDescriptionService_ViewName;
+
+	/**
+	 * Zwieschutzweichentabelle
+	 */
+	public String SslwDescriptionService_ViewTooltip;
+
+	/**
+	 * Zwieschutzweichentabelle
+	 */
+	public String ToolboxTableNameSslwLong;
+
+	/**
+	 * 10/25
+	 */
+	public String ToolboxTableNameSslwPlanningNumber;
+
+	/**
+	 * Sslw
+	 */
+	public String ToolboxTableNameSslwShort;
+
+	/**
+	 * Zwieschutzweichentabelle (Sslz)
+	 */
+	public String SslwTableView_Heading;
+
+	/**
 	 * Sslz (Zugstraßentabelle)
 	 */
 	public String SslzDescriptionService_ViewName;

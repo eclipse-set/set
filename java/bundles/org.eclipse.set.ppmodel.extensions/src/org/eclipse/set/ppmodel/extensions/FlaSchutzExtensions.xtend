@@ -16,6 +16,7 @@ import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt
 
 /**
  * Extensions for {@link Fla_Schutz}.
@@ -87,7 +88,6 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 		return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR
 	}
 
-
 	/**
 	 * @param flaSchutz this Flankenschutz
 	 * 
@@ -99,6 +99,18 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 			it?.IDFlaSchutz?.identitaet?.wert == flaSchutz?.identitaet?.wert &&
 				it?.IDFlaSchutz?.identitaet?.wert !== null
 		].toList
+	}
+
+	def static String getAnfordererBezeichnung(Fla_Schutz anforderer,
+		W_Kr_Gsp_Element wKrGspElement) {
+		val wKrArt = wKrGspElement?.IDWKrAnlage?.WKrAnlageAllg?.WKrArt?.wert
+		if (wKrArt === ENUMWKrArt.ENUMW_KR_ART_EKW &&
+			anforderer?.flaSchutzAnforderer?.EKWKrAnteil?.wert) {
+			return '''«wKrGspElement?.bezeichnung?.kennzahl»Kr«wKrGspElement.bezeichnung.oertlicherElementname»'''
+		} else {
+			wKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert
+		}
+		return ""
 	}
 
 }
