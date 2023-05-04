@@ -85,6 +85,10 @@ class CellContentExtensions {
 	static def dispatch String getPlainStringValue(CompareCellContent content) {
 		return '''«content.oldValue»/«content.newValue»'''
 	}
+	
+	static def dispatch String getPlainStringValue(MultiColorCellContent content) {
+		return '''«FOR value : content.value SEPARATOR content.seperator»«String.format(value.stringFormat, value.multiColorValue)»«ENDFOR»'''
+	}
 
 	/**
 	 * @param text the text

@@ -8,12 +8,13 @@
  */
 package org.eclipse.set.utils.table
 
+import java.util.Optional
+import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.util.CellRangeAddress
-import static extension org.eclipse.set.utils.excel.HSSFWorkbookExtension.*
-import org.apache.poi.ss.usermodel.Cell
 import org.eclipse.set.model.tablemodel.TablemodelFactory
-import java.util.Optional
+
+import static extension org.eclipse.set.utils.excel.HSSFWorkbookExtension.*
 
 /**
  * Extension for create table from excel template
@@ -100,7 +101,6 @@ class TableBuilderFromExcel {
 		val sheet = cell.sheet
 		val columnIndex = cell.columnIndex
 		val columnName = sheet.getCellAt(0, columnIndex).cellStringValue
-
 		val columnDescriptor = TablemodelFactory.eINSTANCE.
 			createColumnDescriptor
 		columnDescriptor.label = cell.stringCellValue
