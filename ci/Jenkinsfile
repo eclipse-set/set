@@ -64,15 +64,6 @@ pipeline {
       }
     }
 
-    stage('Remove Old Snapshot') {
-      when {
-        branch 'main'
-      }
-      steps {
-        removeOldSnapshot repo: 'set'
-      }
-    }
-
     stage('Deploy Snapshot') {
       steps {
         deployP2Site name: "set", branch: BRANCH_NAME, path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
