@@ -641,7 +641,7 @@ npm/npmjs/-/terser/5.15.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/tr46/0.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/universal-user-agent/6.0.0, ISC, approved, clearlydefined
-npm/npmjs/-/update-browserslist-db/1.0.10, MIT, approved, clearlydefined
+npm/npmjs/-/update-browserslist-db/1.0.10, MIT, approved, #8237
 npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/watchpack/2.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/web-streams-polyfill/3.2.1, MIT, approved, clearlydefined
@@ -652,7 +652,7 @@ npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/webpack/5.74.0, MIT, approved, clearlydefined
 npm/npmjs/-/whatwg-url/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/which/2.0.2, ISC, approved, clearlydefined
-npm/npmjs/-/wildcard/2.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/wildcard/2.0.0, MIT, approved, #8274
 npm/npmjs/-/wrappy/1.0.2, ISC, approved, clearlydefined
 npm/npmjs/@discoveryjs/json-ext/0.5.7, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/gen-mapping/0.3.2, MIT, approved, clearlydefined
@@ -1103,7 +1103,7 @@ npm/npmjs/-/type-is/1.6.18, MIT, approved, clearlydefined
 npm/npmjs/-/typescript/4.7.4, Apache-2.0 AND CC-BY-4.0 AND LicenseRef-scancode-khronos AND LicenseRef-scancode-unicode AND MIT AND W3C-20150513, approved, #3357
 npm/npmjs/-/unbox-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/unpipe/1.0.0, MIT, approved, clearlydefined
-npm/npmjs/-/update-browserslist-db/1.0.3, MIT, approved, clearlydefined
+npm/npmjs/-/update-browserslist-db/1.0.3, MIT, approved, #8237
 npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/util-deprecate/1.0.2, MIT, approved, #5885
 npm/npmjs/-/utila/0.4.0, MIT, approved, clearlydefined
@@ -1122,7 +1122,7 @@ npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/which-boxed-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/which/2.0.2, ISC, approved, clearlydefined
-npm/npmjs/-/wildcard/2.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/wildcard/2.0.0, MIT, approved, #8274
 npm/npmjs/-/word-wrap/1.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/wrappy/1.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/ws/8.8.0, MIT, approved, clearlydefined
