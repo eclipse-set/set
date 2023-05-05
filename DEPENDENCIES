@@ -624,7 +624,7 @@ npm/npmjs/-/reusify/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/run-parallel/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/safe-buffer/5.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/schema-utils/3.1.1, MIT, approved, #7963
-npm/npmjs/-/schema-utils/4.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/schema-utils/4.0.0, MIT, approved, #8213
 npm/npmjs/-/serialize-javascript/6.0.0, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/shallow-clone/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-command/2.0.0, MIT, approved, clearlydefined
@@ -1048,7 +1048,7 @@ npm/npmjs/-/safe-buffer/5.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/safe-buffer/5.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/safer-buffer/2.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/schema-utils/3.1.1, MIT, approved, #7963
-npm/npmjs/-/schema-utils/4.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/schema-utils/4.0.0, MIT, approved, #8213
 npm/npmjs/-/select-hose/2.0.0, MIT, approved, #145
 npm/npmjs/-/selfsigned/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/semver/7.3.8, ISC, approved, clearlydefined
