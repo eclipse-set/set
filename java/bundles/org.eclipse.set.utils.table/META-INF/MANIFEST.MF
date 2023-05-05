@@ -16,7 +16,6 @@ Require-Bundle: org.eclipse.set.model.tablemodel,
  org.eclipse.set.utils,
  org.eclipse.nebula.widgets.nattable.core,
  org.eclipse.e4.core.services,
- wrapped.org.apache.poi.poi,
  slf4j.api
 Export-Package: org.eclipse.set.utils.table,
  org.eclipse.set.utils.table.menu,
@@ -33,4 +32,7 @@ Import-Package: javax.inject;version="1.0.0",
  org.eclipse.set.nattable.utils,
  org.eclipse.swt,
  org.eclipse.swt.events,
- org.eclipse.swt.widgets
+ org.eclipse.swt.widgets,
+ org.apache.poi.ss.usermodel,
+ org.apache.poi.util,
+ org.apache.poi.ss.util

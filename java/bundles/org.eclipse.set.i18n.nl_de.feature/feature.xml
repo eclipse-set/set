@@ -496,30 +496,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.osgi.nl_de"
-         download-size="6213"
-         install-size="6213"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.osgi.services.nl_de"
-         download-size="1365"
-         install-size="1365"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.osgi.util.nl_de"
-         download-size="1431"
-         install-size="1431"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.swt.nl_de"
          download-size="3643"
          install-size="3643"

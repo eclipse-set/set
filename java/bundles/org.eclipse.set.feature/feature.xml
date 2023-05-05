@@ -2227,21 +2227,21 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="wrapped.org.apache.poi.poi"
+         id="maven.org.apache.poi.poi"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="wrapped.org.apache.poi.poi-ooxml"
+         id="maven.org.apache.poi.poi-ooxml"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="wrapped.org.apache.xmlbeans.xmlbeans"
+         id="maven.org.apache.xmlbeans.xmlbeans"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -2262,7 +2262,7 @@ http://www.eclipse.org/legal/epl-v20.html
          unpack="false"/>
 
    <plugin
-         id="wrapped.org.dom4j.dom4j"
+         id="maven.org.dom4j.dom4j"
          download-size="0"
          install-size="0"
          version="0.0.0"
