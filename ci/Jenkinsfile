@@ -57,6 +57,7 @@ pipeline {
         }
       }
     }
+    
     stage('Process Licenses') {
       steps {
         container('maven') {
@@ -66,6 +67,13 @@ pipeline {
     }
 
     stage('Deploy Snapshot') {
+      when {
+        anyOf {
+          buildingTag()
+          branch 'main'
+          branch pattern: 'release/[0-9.]+', comparator: 'REGEXP'
+        }
+      }
       steps {
         deployP2Site name: "set", branch: BRANCH_NAME, path: 'java/bundles/org.eclipse.set.releng.repository/target/repository'
         deployProduct name: 'set', branch: BRANCH_NAME, path: 'java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip'
