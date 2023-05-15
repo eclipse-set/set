@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/custom.css">
 <meta charset="UTF-8">
-<title>Neuigkeiten</title>
+<title>News</title>
+<style>
+/* Use eclipse homepage styling fragments */
+body {
+	color: #4c4d4e;
+	font-family: Roboto,Libre Franklin,Helvetica Neue,Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	background-color: #f9f9f9;
+}
+a {
+  color: #3f7b96;
+  text-decoration: none;
+}
+a:visited {
+  color: #af6e3d;
+}
+</style>
 </head>
 <body>
-	<h1>Neuigkeiten &amp; Versionshinweise</h1>
-	<h2>SET 0.2</h2>
-	<ul>
-		<li>Laufende Aktualisierungen ohne geplantes Ausgabedatum</li>
-	</ul>
-	<h2>SET 0.1</h2>
-	<ul>
-		<li>Erste Referenzversion und Basis f&uuml;r die Fortentwicklung
-			des PlanPro Werkzeugkoffers</li>
-		<li>Diese Ausgabe enth&auml;lt keine JRE und l&auml;uft nicht mit
-			Java 11+ !</li>
+	<h1>News &amp; Release Notes</h1>
+	<h2><a href="https://projects.eclipse.org/projects/technology.set/releases/1.1.0" target="_blank">SET 1.1.0</a></h2>
+	<p>First release of the Eclipse Signalling Engineering Toolbox as an Eclipse project. The Signalling Engineering Toolbox&nbsp;provides means for initialization, managing,&nbsp;testing,&nbsp;validation,&nbsp;visualization, documentation&nbsp;and&nbsp;merging of instances of&nbsp;the object model for the railway interlocking signalling technology.</p>
+	<p>As an initial release, most work has been towards migrating the development process to the Eclipse Foundation. However some minor features and improvements were also completed:</p>
+	<ul><li>Improved consistency of "jump to"-actions</li>
+	<li>Webservers have been replaced by a faster callback-based architecture in our browser integration</li>
+	<li>Eclipse Platform has been updated to Eclipse 2022-06</li>
+	<li>A Java Runtime Environment is now included in the binary artifact</li>
 	</ul>
 </body>
 </html>
