@@ -134,20 +134,20 @@
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.model.model1902.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.model.model1902.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/nightly/release/1.1/p2/model/"/>
+      <repository location="https://download.eclipse.org/set/releases/1.1.0/p2/model/"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.toolboxmodel.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.toolboxmodel.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/nightly/release/1.1/p2/toolboxmodel/"/>
+      <repository location="https://download.eclipse.org/set/releases/1.1.0/p2/toolboxmodel/"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.set.browser.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.set.browser.feature.source.feature.group" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/set/nightly/release/1.1/p2/browser/"/>
+      <repository location="https://download.eclipse.org/set/releases/1.1.0/p2/browser/"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-      <repository location="https://download.eclipse.org/set/nightly/release/1.1/p2/browser-cef/"/>
+      <repository location="https://download.eclipse.org/set/releases/1.1.0/p2/browser-cef/"/>
       <unit id="org.eclipse.set.browser.cef.feature.feature.group" version="0.0.0"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
