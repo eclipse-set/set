@@ -100,6 +100,10 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			// Allow ppxml files with unknown features to be loaded
 			// by ignoring wrapped FeatureNotFoundExceptions
 			try {
+				// Disable find package throug namespace uri
+				resourceSet.getLoadOptions().put(
+						XMLResource.OPTION_USE_PACKAGE_NS_URI_AS_LOCATION,
+						Boolean.FALSE);
 				newResource.load(resourceSet.getLoadOptions());
 			} catch (final Resource.IOWrappedException e) {
 				if (!(e.getCause() instanceof FeatureNotFoundException
