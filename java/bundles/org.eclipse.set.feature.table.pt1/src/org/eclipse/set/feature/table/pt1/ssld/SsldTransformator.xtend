@@ -18,6 +18,7 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
@@ -71,20 +72,22 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (fmaAnlagen.contains(null)) {
 			throw new IllegalArgumentException('''«dweg?.bezeichnung?.bezeichnungFstrDWeg?.wert» contains non-FMA-Anlagen within ID_FMA_Anlage''')
 		}
-		
+
 		val fstrFahrwegsZumSignal = dweg.container.fstrFahrweg.filter [
 			dweg.fstrFahrweg.start === start
 		]
-		val topDWeg = fstrFahrwegsZumSignal.map[bereichObjektTeilbereich].flatten.map[IDTOPKante].toList
+		val topDWeg = fstrFahrwegsZumSignal.map[bereichObjektTeilbereich].
+			flatten.map[IDTOPKante].toList
 		val punktObjects = fmaAnlagen?.map[fmaGrenzen]?.flatten?.filter [
 			// Only consider FMA borders which are located on the DWeg
 			punktObjektTOPKante.map[IDTOPKante].exists[topDWeg.contains(it)]
 		]
-		val distance = punktObjects?.fold(Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
-			Math.max(current,
-				getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
-					grenze))
-		])
+		val distance = punktObjects?.fold(
+			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
+				Math.max(current,
+					getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
+						grenze))
+			])
 		val roundedDistance = AgateRounding.roundDown(distance)
 		if (roundedDistance == 0.0)
 			throw new IllegalArgumentException("no path found")
@@ -316,16 +319,22 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[dweg.fstrDWegSpezifisch !== null],
 				[
-					val fstrs = container.fstrZugRangier.filter [
-						fstrZug?.fstrZugDWeg?.IDFstrDWeg === dweg
-					]
+					val fstrs = fstrZugRangier
 					if (fstrs.empty) {
 						return ""
 					}
-
-					fstrDWegSpezifisch.IDFMAAnlageZielgleis.IDGleisAbschnitt.
-						getOverlappingLength(fstrs.get(0).IDFstrFahrweg).
-						toTableIntegerAgateDown
+					
+					val distance = fstrs?.fold(
+						Double.valueOf(0.0),
+						[ Double current, Fstr_Zug_Rangier fstr |
+							Math.max(current,
+								fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.
+									IDGleisAbschnitt?.
+									getOverlappingLength(fstr.IDFstrFahrweg).
+									doubleValue)
+						]
+					)
+					return AgateRounding.roundDown(distance).toString
 				]
 			)
 
