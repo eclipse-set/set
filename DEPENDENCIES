@@ -990,7 +990,7 @@ npm/npmjs/-/picocolors/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/pkg-dir/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/postcss-modules-extract-imports/3.0.0, ISC, approved, clearlydefined
-npm/npmjs/-/postcss-modules-local-by-default/4.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/postcss-modules-local-by-default/4.0.0, MIT, approved, #8508
 npm/npmjs/-/postcss-modules-scope/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-modules-values/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-selector-parser/6.0.10, MIT, approved, #5056
