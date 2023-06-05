@@ -16,13 +16,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.osgi.service.component.annotations.Component;
-
 import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.eclipse.set.model.validationreport.VersionInfo;
 import org.eclipse.set.ppmodel.extensions.PlanProPackageExtensions;
 import org.eclipse.set.ppmodel.extensions.SignalbegriffeRil301PackageExtensions;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * Implementation for {@link PlanProVersionService}.
@@ -33,7 +32,6 @@ import org.eclipse.set.ppmodel.extensions.SignalbegriffeRil301PackageExtensions;
 public class PlanProVersionServiceImpl implements PlanProVersionService {
 
 	private static final String DELIMITER = ""; //$NON-NLS-1$
-	private static final String INTEGRATION_KEY = "tag:scheidt-bachmann-st.de,2018-06-29:planpro/temporaryintegration/"; //$NON-NLS-1$
 	private static final String KEY_VALUE_PATTERN = ".*xmlns:.*=\\s*[\'\"](%s[^\'\" ]+)[\'\"].*"; //$NON-NLS-1$
 	private static final String PLAN_PRO_KEY = "http://www.plan-pro.org/modell/PlanPro/"; //$NON-NLS-1$
 	private static final String SIGNALS_KEY = "http://www.plan-pro.org/modell/Signalbegriffe_Ril_301/"; //$NON-NLS-1$
@@ -84,10 +82,8 @@ public class PlanProVersionServiceImpl implements PlanProVersionService {
 		final String text = getText(location);
 
 		final String planProVersion = parseVersion(text, PLAN_PRO_KEY);
-		final String integrationVersion = parseVersion(text, INTEGRATION_KEY);
 
-		versionInfo.setPlanPro(
-				planProVersion != null ? planProVersion : integrationVersion);
+		versionInfo.setPlanPro(planProVersion != null ? planProVersion : ""); //$NON-NLS-1$
 		versionInfo.setSignals(parseVersion(text, SIGNALS_KEY));
 
 		return versionInfo;

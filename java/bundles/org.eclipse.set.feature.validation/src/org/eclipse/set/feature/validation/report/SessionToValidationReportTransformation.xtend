@@ -18,6 +18,7 @@ import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.version.PlanProVersionService
 import org.eclipse.set.feature.validation.Messages
+import org.eclipse.set.feature.validation.utils.FileInfoReader
 import org.eclipse.set.feature.validation.utils.XMLNodeFinder
 import org.eclipse.set.model.validationreport.ObjectScope
 import org.eclipse.set.model.validationreport.ValidationProblem
@@ -63,7 +64,6 @@ class SessionToValidationReportTransformation {
 		session.transformCreate
 		report.problems.clear
 		val problems = <ValidationProblem>newLinkedList
-
 		// transform the IO problems
 		problems.addAll(
 			session.validationResult.xsdErrors.transform(messages.XsdProblemMsg,
@@ -118,23 +118,9 @@ class SessionToValidationReportTransformation {
 	
 	private def transformCreate(IModelSession session) {
 		report = report ?: ValidationreportFactory.eINSTANCE.createValidationReport
-		val filePath = session?.toolboxFile?.path
-		report.fileInfo = report.fileInfo ?: ValidationreportFactory.eINSTANCE.createFileInfo
-		report.fileInfo.fileName = filePath?.toString ?: ""
-		val fileVersion = versionService.createUsedVersion(
-			session.toolboxFile.modelPath)
-		if (report.fileInfo.usedVersion === null) {
-			report.fileInfo.usedVersion = fileVersion
-		} else {
-			report.fileInfo.usedVersion.planPro = fileVersion.planPro
-			report.fileInfo.usedVersion.signals = fileVersion.signals
-		}
-		report.fileInfo.checksum = session.toolboxFile.checksum
-		
-		val timeStamp = session.planProSchnittstelle.planProSchnittstelleAllg.
-			erzeugungZeitstempel.wert.toGregorianCalendar
-		report.fileInfo.timeStamp = String.format("%1$td.%1$tm.%1$tY %1$tT",timeStamp)
-		report.fileInfo.guid = session.planProSchnittstelle.identitaet.wert
+		val fileInfoReader = new FileInfoReader(versionService, session?.toolboxFile)
+		report.fileInfo = report.fileInfo ?: fileInfoReader.fileInfo
+
 		report.modelLoaded = if (session.hasLoadedModel) {
 			messages.YesMsg
 		} else {

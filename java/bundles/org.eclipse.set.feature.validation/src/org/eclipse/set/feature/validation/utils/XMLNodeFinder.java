@@ -56,6 +56,41 @@ public class XMLNodeFinder {
 	}
 
 	/**
+	 * Returns the first node match the name
+	 * 
+	 * @param nodeName
+	 *            the name of node
+	 * @return the found node or null
+	 */
+	public Node findFirstNodeByNodeName(final String nodeName) {
+		return findFirstNodeByNodeName(rootNode, nodeName);
+	}
+
+	/**
+	 * @param node
+	 *            root node
+	 * @param nodeName
+	 *            the node of node
+	 * @return the foudn node or null
+	 */
+	public Node findFirstNodeByNodeName(final Node node,
+			final String nodeName) {
+		if (node.getNodeName().equals(nodeName)) {
+			return node;
+		}
+
+		final NodeList nodeList = node.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			final Node childNode = findFirstNodeByNodeName(nodeList.item(i),
+					nodeName);
+			if (childNode != null) {
+				return childNode;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Returns whether a line number is contained within a XML node
 	 * 
 	 * @param lineNumber
