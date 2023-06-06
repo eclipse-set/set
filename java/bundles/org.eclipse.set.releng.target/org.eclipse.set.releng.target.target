@@ -222,6 +222,12 @@ DynamicImport-Package: *
 			  </dependency>
 			  <dependency>
 				  <groupId>org.apache.poi</groupId>
+				  <artifactId>poi-ooxml-lite</artifactId>
+				  <version>5.0.0</version>
+				  <type>jar</type>
+			  </dependency>
+			  <dependency>
+				  <groupId>org.apache.poi</groupId>
 				  <artifactId>poi</artifactId>
 				  <version>5.0.0</version>
 				  <type>jar</type>
@@ -230,6 +236,12 @@ DynamicImport-Package: *
 				  <groupId>org.apache.xmlbeans</groupId>
 				  <artifactId>xmlbeans</artifactId>
 				  <version>5.1.1</version>
+				  <type>jar</type>
+			  </dependency>
+			  <dependency>
+				  <groupId>org.apache.logging.log4j</groupId>
+				  <artifactId>log4j-api</artifactId>
+				  <version>2.18.0</version>
 				  <type>jar</type>
 			  </dependency>
 		  </dependencies>

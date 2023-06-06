@@ -25,7 +25,7 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 
 	private static final String TABLE_MODEL_EXPORT_PATTERN = "%s_%s.tm"; //$NON-NLS-1$
 	private static final String TABLE_PDF_EXPORT_PATTERN = "%s_%s.pdf"; //$NON-NLS-1$
-	private static final String TABLE_XLS_EXPORT_PATTERN = "%s_%s.xls"; //$NON-NLS-1$
+	private static final String TABLE_XLSX_EXPORT_PATTERN = "%s_%s.xlsx"; //$NON-NLS-1$
 
 	private final ModelSession modelSession;
 
@@ -51,10 +51,10 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 	}
 
 	@Override
-	public Path getTableXlsExport(final String shortcut, final Path base,
+	public Path getTableXlsxExport(final String shortcut, final Path base,
 			final ExportType exportType) {
 		return Paths.get(base.toString(),
-				getTableXlsExport(shortcut, exportType));
+				getTableXlsxExport(shortcut, exportType));
 	}
 
 	private String getModelBaseName(final ExportType exportType) {
@@ -76,9 +76,9 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 				getModelBaseName(exportType), shortcut);
 	}
 
-	private String getTableXlsExport(final String shortcut,
+	private String getTableXlsxExport(final String shortcut,
 			final ExportType exportType) {
-		return String.format(TABLE_XLS_EXPORT_PATTERN,
+		return String.format(TABLE_XLSX_EXPORT_PATTERN,
 				getModelBaseName(exportType), shortcut);
 	}
 }

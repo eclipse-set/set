@@ -8,20 +8,20 @@
  */
 package org.eclipse.set.utils.excel
 
+import java.util.Collections
+import java.util.List
 import java.util.Optional
 import java.util.Set
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.util.Units
-import java.util.List
-import java.util.Collections
 
 /**
  * Extension for Excel Workbook
  * @autor Truong
  */
-class HSSFWorkbookExtension {
+class ExcelWorkbookExtension {
 
 	static float FONT_SCALE_FACTOR = 1.0725f;
 	static final float CM_PER_INCH = 2.54f;
@@ -93,7 +93,7 @@ class HSSFWorkbookExtension {
 	}
 
 	static def Set<Integer> getRepeatingColumns(Sheet sheet) {
-		val result = <Integer>newHashSet
+		val result = <Integer>newLinkedHashSet
 		if (sheet === null || sheet.repeatingColumns === null) {
 			return result
 		}

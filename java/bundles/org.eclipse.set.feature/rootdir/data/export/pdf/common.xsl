@@ -23,15 +23,6 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:variable name="folding-mark-region-extend">10mm</xsl:variable>
 	<xsl:variable name="title-box-region-extend">90mm</xsl:variable>
 
-	<xsl:attribute-set name="table-master-style">
-		<!-- Page layout -->
-		<xsl:attribute name="margin-left">20mm</xsl:attribute>
-		<xsl:attribute name="margin-right">10mm</xsl:attribute>
-		<xsl:attribute name="margin-top">0mm</xsl:attribute>
-		<xsl:attribute name="margin-bottom">0mm</xsl:attribute>
-		<xsl:attribute name="page-height">297mm</xsl:attribute>
-		<xsl:attribute name="page-width">420mm</xsl:attribute>
-	</xsl:attribute-set>
 	<xsl:attribute-set name="folding-mark-region-style">
 		<!-- Width of the region with the folding marks box -->
 		<xsl:attribute name="extent">

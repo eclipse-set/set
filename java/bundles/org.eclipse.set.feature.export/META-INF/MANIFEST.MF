@@ -33,6 +33,7 @@ Import-Package: javax.inject;version="1.0.0",
  org.apache.poi.hssf.usermodel;version="4.1.1",
  org.apache.poi.ss.usermodel,
  org.apache.poi.ss.util,
+ org.apache.poi.xssf.usermodel,
  org.apache.xalan.serialize;version="2.7.2",
  org.apache.xalan.xslt;version="2.7.2",
  org.apache.xmlgraphics.image.loader.spi;version="2.4.0",
@@ -92,4 +93,4 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.export.compileservice.TableC
  OSGI-INF/org.eclipse.set.feature.export.pdf.FopPdfExportBuilder.xml,
  OSGI-INF/org.eclipse.set.feature.export.tablediff.CustomTableDiffService.xml,
  OSGI-INF/org.eclipse.set.feature.export.tm.TableModelExport.xml,
- OSGI-INF/org.eclipse.set.feature.export.xls.ExcelExportBuilder.xml
+ OSGI-INF/org.eclipse.set.feature.export.xlsx.ExcelExportBuilder.xml

@@ -51,7 +51,7 @@ public interface ToolboxPaths {
 	 * @param exportType
 	 *            the export type
 	 * 
-	 * @return the path to the table xls export
+	 * @return the path to the table xlsx export
 	 */
-	Path getTableXlsExport(String shortcut, Path base, ExportType exportType);
+	Path getTableXlsxExport(String shortcut, Path base, ExportType exportType);
 }

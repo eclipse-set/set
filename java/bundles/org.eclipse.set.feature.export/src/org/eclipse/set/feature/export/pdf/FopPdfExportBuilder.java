@@ -180,6 +180,20 @@ public class FopPdfExportBuilder implements TableExport {
 				translationTableType(tableType));
 		final Document xslDoc = transformTable.transform();
 		if (xslDoc != null) {
+			if (ToolboxConfiguration.isDevelopmentMode()) {
+				final TransformerFactory transformerFactory = TransformerFactory
+						.newInstance();
+				final Transformer documentToString = transformerFactory
+						.newTransformer();
+				final DOMSource source = new DOMSource(xslDoc);
+				final StringWriter writer = new StringWriter();
+				final StreamResult result = new StreamResult(writer);
+				documentToString.transform(source, result);
+				exportTableDocument(
+						Paths.get(outputPath.getParent().toString(),
+								getFilename(shortcut, "xsl")), //$NON-NLS-1$
+						writer.toString());
+			}
 			final ByteArrayInputStream tableDocumentStream = new ByteArrayInputStream(
 					tableDocumentText.getBytes(UTF_8));
 			final StreamSource tableDocumentSource = new StreamSource(
@@ -293,9 +307,9 @@ public class FopPdfExportBuilder implements TableExport {
 	// IMPROVE: This translation should replace by EnumTranslationService in 2.0
 	// version.
 	private static String translationTableType(final TableType tableType) {
-                if (tableType == null) {
-                   return null;
-                }
+		if (tableType == null) {
+			return null;
+		}
 		switch (tableType) {
 		case INITIAL:
 			return "Startzustand"; //$NON-NLS-1$

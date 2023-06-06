@@ -58,7 +58,7 @@
                 <xsl:call-template name="FoldingMarksBottom"/>
             </fo:static-content>
             <fo:flow flow-name="xsl-region-body">
-                <fo:block start-indent="-38.97cm">
+                <fo:block id="start-indent">
                     <xsl:apply-templates />
                 </fo:block>
                 <!-- Fill footnotes -->

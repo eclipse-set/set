@@ -8,6 +8,9 @@
  */
 package org.eclipse.set.utils.table.transform;
 
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getColumnWidthInCm;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_NAME;
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.XSL_VARIABLE;
 
 import java.io.ByteArrayInputStream;
@@ -27,9 +30,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -44,7 +47,7 @@ import org.xml.sax.SAXException;
 public class TransformTable {
 	private static final String EXCEL_TEMPLATE_PATH = "data/export/excel"; //$NON-NLS-1$
 	private static final String WATER_MARK_TEMPLATE_NAME = "water-mark-content"; //$NON-NLS-1$
-	private static final float MAX_PAPER_WIDTH = 38.97f;
+	private static final float A3_PAPER_WIDTH = 42f;
 	String shortcut;
 	String tableTyle;
 
@@ -78,12 +81,16 @@ public class TransformTable {
 	public Document transform() throws IOException,
 			ParserConfigurationException, SAXException, TransformerException {
 		final File excelFile = getTemplatePath();
-		final Sheet tableSheet = getTableSheet(excelFile);
+		final XSSFSheet tableSheet = getTableSheet(excelFile);
 		if (tableSheet == null) {
 			return null;
 		}
-		final TransformTableHeader transformHeader = new TransformTableHeader(
-				tableSheet, MAX_PAPER_WIDTH);
+		final float contentWidth = getContentWidth(tableSheet);
+
+		final AbstractTransformTableHeader transformHeader = needToBreakPage(
+				tableSheet, contentWidth)
+						? new MultiPageTableHeader(tableSheet, contentWidth)
+						: new SinglePageTableHeader(tableSheet, contentWidth);
 		final Document xslDoc = transformHeader.transform();
 		if (tableTyle != null) {
 			setWaterMarkContent(xslDoc);
@@ -93,20 +100,30 @@ public class TransformTable {
 	}
 
 	private void setWaterMarkContent(final Document xslDoc) {
-		final Optional<Element> waterMarkVariable = TransformTableHeader
-				.findNodebyTagName(xslDoc, XSL_VARIABLE,
+		final Optional<Element> waterMarkVariable = AbstractTransformTableHeader
+				.findNodebyTagName(xslDoc, XSL_VARIABLE, ATTR_NAME,
 						WATER_MARK_TEMPLATE_NAME);
 		if (waterMarkVariable.isPresent()) {
 			waterMarkVariable.get().setTextContent(tableTyle);
 		}
 	}
 
-	private static Sheet getTableSheet(final File templateFile)
+	private static float getContentWidth(final XSSFSheet sheet) {
+		final XSSFPrintSetup printSetup = sheet.getPrintSetup();
+		final double leftMargin = printSetup.getLeftMargin() * 2.54;
+		final double rightMargin = printSetup.getRightMargin() * 2.54;
+		return Math.round(
+				(A3_PAPER_WIDTH - (float) (leftMargin + rightMargin)) * 100)
+				/ 100f;
+	}
+
+	private static XSSFSheet getTableSheet(final File templateFile)
 			throws IOException {
 		if (templateFile.canRead()) {
 			try (final InputStream inputStream = new FileInputStream(
 					templateFile);
-					final Workbook workbook = new HSSFWorkbook(inputStream)) {
+					final XSSFWorkbook workbook = new XSSFWorkbook(
+							inputStream)) {
 				return workbook.getSheetAt(0);
 			}
 		}
@@ -115,8 +132,10 @@ public class TransformTable {
 	}
 
 	private File getTemplatePath() {
-		return Paths.get(String.format("%s/%s_vorlage.xlt", EXCEL_TEMPLATE_PATH, //$NON-NLS-1$
-				shortcut)).toAbsolutePath().toFile();
+		return Paths
+				.get(String.format("%s/%s_vorlage.xlsx", EXCEL_TEMPLATE_PATH, //$NON-NLS-1$
+						shortcut))
+				.toAbsolutePath().toFile();
 	}
 
 	/**
@@ -137,5 +156,20 @@ public class TransformTable {
 
 		return new StreamSource(new ByteArrayInputStream(baos.toByteArray()),
 				domSource.getSystemId());
+	}
+
+	private static boolean needToBreakPage(final XSSFSheet sheet,
+			final float maxContentWidth) {
+		final int[] columnBreaks = sheet.getColumnBreaks();
+		if (columnBreaks.length > 0) {
+			return true;
+		}
+		float sumWidth = 0f;
+		for (int i = 0; i <= getHeaderLastColumnIndex(sheet); i++) {
+			final float columnWidthInCm = getColumnWidthInCm(sheet, i);
+			sumWidth += columnWidthInCm;
+		}
+
+		return sumWidth > maxContentWidth;
 	}
 }

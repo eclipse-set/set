@@ -6,7 +6,9 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.export.xls;
+package org.eclipse.set.feature.export.xlsx;
+
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,15 +18,17 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -59,38 +63,7 @@ public class ExcelExportBuilder implements TableExport {
 	private static final String TEMPLATE_DIR = "./data/export/excel"; //$NON-NLS-1$
 
 	private static int getFirstRowForContent(final Sheet sheet) {
-		int index = 0;
-		while (sheet.getRow(index) != null) {
-			final Row row = sheet.getRow(index);
-			// The first content row can be found by finding the first row
-			// without borders
-			// to the left, right and bottom
-
-			// Use the second cell in the row, which is the first content
-			// column for PT1 tables,
-			// since column 0 is always blank
-			final Cell cell = row.getCell(1);
-			// If the cell is the (default) empty cell, it has no borders
-			if (cell == null) {
-				// Empty cells have no border
-				return index;
-			}
-
-			// Otherwise check the borders
-			final BorderStyle borderRight = cell.getCellStyle()
-					.getBorderRight();
-			final BorderStyle borderBottom = cell.getCellStyle()
-					.getBorderBottom();
-			final BorderStyle borderLeft = cell.getCellStyle().getBorderLeft();
-			if (borderRight == BorderStyle.NONE
-					&& borderBottom == BorderStyle.NONE
-					&& borderLeft == BorderStyle.NONE) {
-				return index;
-			}
-			index++;
-		}
-		throw new IllegalArgumentException(
-				"No content row found for the given sheet"); //$NON-NLS-1$
+		return getHeaderLastRowIndex(sheet) + 1;
 	}
 
 	private static Table getTableToBeExported(
@@ -106,18 +79,14 @@ public class ExcelExportBuilder implements TableExport {
 
 	static String[] getColumnHeaders(final Sheet sheet) {
 		final Row row = sheet.getRow(0);
-		final short maxColIx = row.getLastCellNum();
-
+		final int maxColIx = getHeaderLastColumnIndex(sheet);
 		final List<String> headers = new ArrayList<>();
-
-		for (int colIx = 1; colIx < maxColIx; colIx++) {
-			final Cell cell = row.getCell(colIx);
-			if (cell != null) {
-				final String cellValue = cell.getStringCellValue();
-
-				if (cellValue != null && cellValue.length() > 0) {
-					headers.add(cell.getStringCellValue());
-				}
+		for (int colIx = 1; colIx <= maxColIx; colIx++) {
+			final Optional<Cell> cell = getCellAt(sheet, row.getRowNum(),
+					colIx);
+			final Optional<String> cellStringValue = getCellStringValue(cell);
+			if (cellStringValue.isPresent()) {
+				headers.add(cellStringValue.get());
 			}
 		}
 
@@ -135,13 +104,13 @@ public class ExcelExportBuilder implements TableExport {
 		final Table table = getTableToBeExported(tables);
 
 		final Path templatePath = Paths.get(TEMPLATE_DIR,
-				shortcut + "_vorlage.xlt"); //$NON-NLS-1$
-		final Path outputPath = toolboxPaths.getTableXlsExport(shortcut,
+				shortcut + "_vorlage.xlsx"); //$NON-NLS-1$
+		final Path outputPath = toolboxPaths.getTableXlsxExport(shortcut,
 				Paths.get(outputDir), exportType);
 
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());
-				final Workbook workbook = new HSSFWorkbook(inputStream)) {
+				final Workbook workbook = new XSSFWorkbook(inputStream)) {
 
 			// check overwrite
 			if (!overwriteHandling.test(outputPath)) {
@@ -187,24 +156,45 @@ public class ExcelExportBuilder implements TableExport {
 
 	private static void fillSheet(final Sheet sheet, final List<TableRow> rows,
 			final int rowIndex, final int columnCount) {
-		int sheetRowIndex = rowIndex;
+		int contentRowIndex = rowIndex;
 		for (final TableRow row : rows) {
+			final Row sheetRow = contentRowIndex == rowIndex
+					? sheet.getRow(contentRowIndex)
+					: createNewRow(sheet, contentRowIndex, columnCount);
 			for (int i = 0; i < columnCount; i++) {
 				final String content = TableRowExtensions
 						.getPlainStringValue(row, i);
-				Row sheetRow = sheet.getRow(sheetRowIndex);
-				if (sheetRow == null) {
-					// wenn nicht vorhanden, dann neu machen
-					sheetRow = sheet.createRow(sheetRowIndex);
-				}
 				Cell cell = sheetRow.getCell(i + 1);
+
 				if (cell == null) {
 					cell = sheetRow.createCell(i + 1);
 				}
+
 				cell.setCellValue(content);
 			}
-			sheetRowIndex++;
+			// Auto adjust row height
+			sheetRow.setHeight((short) -1);
+			contentRowIndex++;
 		}
+	}
+
+	@SuppressWarnings("resource")
+	private static Row createNewRow(final Sheet sheet, final int rowIndex,
+			final int maxColIndex) {
+		final Row cloneRow = sheet.createRow(rowIndex);
+		final Workbook workbook = sheet.getWorkbook();
+		for (int i = 0; i <= maxColIndex; i++) {
+			final Optional<Cell> cellAt = getCellAt(sheet, rowIndex - 1, i);
+			final Cell newCell = cloneRow.createCell(i);
+			if (cellAt.isPresent()) {
+				final CellStyle cloneStyle = workbook.createCellStyle();
+				cloneStyle.cloneStyleFrom(cellAt.get().getCellStyle());
+				cloneStyle.setBorderTop(BorderStyle.NONE);
+				cloneStyle.setBorderBottom(BorderStyle.NONE);
+				newCell.setCellStyle(cloneStyle);
+			}
+		}
+		return cloneRow;
 	}
 
 	private static void addTableSpans(final Sheet sheet,

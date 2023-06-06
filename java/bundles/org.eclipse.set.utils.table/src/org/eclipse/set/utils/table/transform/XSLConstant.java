@@ -24,6 +24,11 @@ public class XSLConstant {
 		}
 
 		/**
+		 * xsl:attribute
+		 */
+		public static final String XSL_ATTRIBUTE = "xsl:attribute"; //$NON-NLS-1$
+
+		/**
 		 * "xsl:stylesheet
 		 */
 		public static final String XSL_STYLESHEET = "xsl:stylesheet"; //$NON-NLS-1$
@@ -88,48 +93,141 @@ public class XSLConstant {
 	}
 
 	/**
+	 * XSL & Fo attribute
+	 * 
+	 * @author Truong
+	 *
+	 */
+	@SuppressWarnings("nls")
+	public static class XSLFoAttributeName {
+		/**
+		 * name
+		 */
+		public static final String ATTR_NAME = "name";
+
+		/**
+		 * id
+		 */
+		public static final String ATTR_ID = "id";
+
+		/**
+		 * page-height
+		 */
+		public static final String ATTR_PAGE_HEIGHT = "page-height";
+
+		/**
+		 * page-width
+		 */
+		public static final String ATTR_PAGE_WIDTH = "page-width";
+
+		/**
+		 * margin-left
+		 */
+		public static final String ATTR_CONTENT_MARGIN_LEFT = "margin-left";
+
+		/**
+		 * margin-right
+		 */
+		public static final String ATTR_CONTENT_MARGIN_RIGHT = "margin-right";
+
+		/**
+		 * match
+		 */
+		public static final String ATTR_MATCH = "match";
+
+		/**
+		 * select
+		 */
+		public static final String ATTR_SELECT = "select";
+
+		/**
+		 * start-indent
+		 */
+		public static final String ATTR_START_INDENT = "start-indent";
+	}
+
+	/**
+	 * @author Truong
+	 *
+	 */
+	@SuppressWarnings("nls")
+	public static class TableAttrValue {
+		/**
+		 * Table[Rows/Row]
+		 */
+		public static final String TABLE_ROWS_ROW = "Table[Rows/Row]";
+
+		/**
+		 * Table[not(Rows/Row)]
+		 */
+		public static final String TABLE_NOT_ROWS_ROW = "Table[not(Rows/Row)]";
+
+		/**
+		 * Rows/Row
+		 */
+		public static final String ROWS_ROW = "Rows/Row";
+
+		/**
+		 * Footnotes
+		 */
+		public static final String FOOTNOTES = "Footnotes";
+
+		/**
+		 * fixed
+		 */
+		public static final String LAYOUT_FIXED = "fixed";
+
+	}
+
+	/**
 	 * XSl style set
 	 */
+	@SuppressWarnings("nls")
 	public class XSLStyleSets {
 
 		/**
 		 * wide-border-style
 		 */
-		public static final String WIDE_BORDER_STYLE = "wide-border-style"; //$NON-NLS-1$
+		public static final String WIDE_BORDER_STYLE = "wide-border-style";
 		/**
 		 * small-border-style
 		 */
-		public static final String SMALL_BORDER_STYLE = "small-border-style"; //$NON-NLS-1$
+		public static final String SMALL_BORDER_STYLE = "small-border-style";
 
 		/**
 		 * no-border-style
 		 */
-		public static final String NO_BORDER_STYLE = "no-border-style"; //$NON-NLS-1$
+		public static final String NO_BORDER_STYLE = "no-border-style";
 
 		/**
 		 * "default-cell-style
 		 */
-		public static final String DEFAULT_CELL_STYLE = "default-cell-style"; //$NON-NLS-1$
+		public static final String DEFAULT_CELL_STYLE = "default-cell-style";
 
 		/**
 		 * first-column-cell-style
 		 */
-		public static final String FIRST_COLUMN_CELL_STYLE = "first-column-cell-style"; //$NON-NLS-1$
+		public static final String FIRST_COLUMN_CELL_STYLE = "first-column-cell-style";
 
 		/**
 		 * last-row-cell-style
 		 */
-		public static final String LAST_ROW_CELL_STYLE = "last-row-cell-style"; //$NON-NLS-1$
+		public static final String LAST_ROW_CELL_STYLE = "last-row-cell-style";
 
 		/**
 		 * body-row-cell-style
 		 */
-		public static final String BODY_ROW_CELL_STYLE = "body-row-cell-style"; //$NON-NLS-1$
+		public static final String BODY_ROW_CELL_STYLE = "body-row-cell-style";
 
 		/**
 		 * thin-border-style
 		 */
-		public static final String THIN_BORDER_STYLE = "thin-border-style"; //$NON-NLS-1$
+		public static final String THIN_BORDER_STYLE = "thin-border-style";
+
+		/**
+		 * table-header-style
+		 */
+		public static final String TABLE_HEADER_STYLE = "table-header-style";
 	}
 
 	/**

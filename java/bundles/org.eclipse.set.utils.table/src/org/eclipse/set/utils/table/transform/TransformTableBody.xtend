@@ -20,10 +20,11 @@ import org.w3c.dom.Element
 
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.*
 
-import static extension org.eclipse.set.utils.excel.HSSFWorkbookExtension.*
 import static extension org.eclipse.set.utils.table.transform.TransformStyle.*
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*
 import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*
+import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
+import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
 
 /**
  * Transform excel table body style
@@ -39,7 +40,7 @@ class TransformTableBody {
 	}
 
 	def Set<Element> getDefaultStyles() {
-		return groupCellByStyle.flatMap [
+		return groupCellByStyle(#[]).flatMap [
 			#[it.rowStyle, it.lastRowStyle]
 		].toSet
 	}
@@ -50,10 +51,12 @@ class TransformTableBody {
 		].toSet
 	}
 
-	private def Set<Set<Cell>> groupCellByStyle() {
+	private def Set<Set<Cell>> groupCellByStyle(int[] pageBreakAt) {
 		val result = <Set<Cell>>newLinkedHashSet
 		val lastHeaderRowIndex = sheet.headerLastRowIndex
 		val parentGroupLastIndex = columnWithWideBorderRight
+		// Get next 2 row, because first row after table header row will contains
+		// border style of header row
 		var firstDataRow = sheet.getRow(lastHeaderRowIndex + 2)
 		if (firstDataRow === null) {
 			throw new RuntimeException(
@@ -64,11 +67,14 @@ class TransformTableBody {
 			val cell = sheet.getCellAt(firstDataRow.rowNum, i)
 			if (cell.present) {
 				if (parentGroupLastIndex.contains(i)) {
-					val cellStyle = sheet.workbook.createCellStyle
-					cellStyle.cloneStyleFrom(cell.get.cellStyle)
-					cellStyle.borderRight = BorderStyle.MEDIUM
-					cell.get.cellStyle = cellStyle
+					setExcelCellBorderStyle(cell, BorderDirection.RIGHT, BorderStyle.MEDIUM)
+				// Set border style for The break column and the after
+				} else if (pageBreakAt.contains(i - 1)) {
+					setExcelCellBorderStyle(cell, BorderDirection.LEFT, BorderStyle.MEDIUM)
+				} else if (pageBreakAt.contains(i)) {
+					setExcelCellBorderStyle(cell, BorderDirection.RIGHT, BorderStyle.MEDIUM)
 				}
+				
 				if (!cell.get.cellStyle.defaultStyle) {
 					val sameStyleGroup = result.findFirst [
 						it.findFirst [ lastColumnCell |
@@ -76,8 +82,9 @@ class TransformTableBody {
 								lastColumnCell.cellStyle)
 						] !== null
 					]
-					sameStyleGroup !== null ? sameStyleGroup.add(
-						cell.get) : result.add(newLinkedHashSet(cell.get))
+					sameStyleGroup !== null
+						? sameStyleGroup.add(cell.get)
+						: result.add(newLinkedHashSet(cell.get))
 				}
 			}
 		}
@@ -119,7 +126,7 @@ class TransformTableBody {
 	}
 
 	def Set<Element> pageBreakColumnCellStyle(int[] pageBreakAt) {
-		val groupStyles = groupCellByStyle
+		val groupStyles = groupCellByStyle(pageBreakAt)
 		val pageBreakColumns = groupStyles.flatMap [
 			it.map [ cell |
 				if (pageBreakAt.contains(cell.columnIndex)) {
@@ -133,9 +140,9 @@ class TransformTableBody {
 			return it
 		].flatMap [
 			#[it.rowStyle, it.lastRowStyle]
-		].toSet
+		].filterNull.toSet
 		val pageBreakColumnsStyle = #[pageBreakColumns.rowStyle,
-			pageBreakColumns.lastRowStyle].toSet
+			pageBreakColumns.lastRowStyle].filterNull.toSet
 
 		pageBreakColumnsStyle.forEach [
 			val numberCountColStyle = doc.createElement(FO_TABLE_CELL)
@@ -149,7 +156,7 @@ class TransformTableBody {
 			valueof.setAttribute("select", "../@group-number")
 			block.appendChild(valueof)
 			numberCountColStyle.appendChild(block)
-
+	
 			val applyTemplates = doc.createElement(XSL_APPLY_TEMPLATE)
 			applyTemplates.setAttribute("select", "../*[@column-number = '1']")
 			appendChild(numberCountColStyle)
@@ -161,6 +168,9 @@ class TransformTableBody {
 	}
 
 	private def Element rowStyle(Cell[] exclusionColumns) {
+		if (exclusionColumns.empty) {
+			return null
+		}
 
 		val expression = String.format(
 			"Cell[contains(' %s ', concat(' ', @column-number, ' '))]",
@@ -176,6 +186,10 @@ class TransformTableBody {
 	}
 
 	private def Element lastRowStyle(Cell[] exclusionColumns) {
+		if (exclusionColumns.empty) {
+			return null
+		}
+
 		val expression = String.format(
 			"Cell[contains(' %s ', concat(' ', @column-number, ' '))" +
 				" and ../@group-number = count(/Table/Rows/Row)]",

@@ -19,6 +19,16 @@ http://www.eclipse.org/legal/epl-v20.html
     <xsl:include href="data/export/pdf/content.xsl" />
     <xsl:variable name="water-mark-content"/>
     <!-- CUSTOMIZE: Adjust the following defaults only if needed -->
+    <xsl:attribute-set name="table-master-style">
+        <!-- Page layout -->
+        <xsl:attribute name="margin-left">20mm</xsl:attribute>
+        <xsl:attribute name="margin-right">10mm</xsl:attribute>
+        <xsl:attribute name="margin-top">0mm</xsl:attribute>
+        <xsl:attribute name="margin-bottom">0mm</xsl:attribute>
+        <xsl:attribute name="page-height">297mm</xsl:attribute>
+        <xsl:attribute name="page-width">420mm</xsl:attribute>
+    </xsl:attribute-set>
+    
     <xsl:attribute-set name="table-header-style">
         <xsl:attribute name="text-align">center</xsl:attribute>
         <xsl:attribute name="display-align">center</xsl:attribute>

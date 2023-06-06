@@ -15,17 +15,47 @@ import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.ss.usermodel.VerticalAlignment
+import org.apache.poi.xssf.usermodel.XSSFSheet
+import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
+import org.w3c.dom.Document
 import org.w3c.dom.Element
 
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.*
 import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*
-import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_CONTENT_MARGIN_LEFT
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_CONTENT_MARGIN_RIGHT
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_NAME
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.*
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.XSL_ATTRIBUTE
+import java.util.Map
 
 /**
  * Transform excel cell style to xsl style
  * @author Truong
  */
 class TransformStyle {
+
+	/**
+	 * Transform sheet style to xsl style set
+	 */
+	static def void transformPageStyle(Document doc, XSSFSheet sheet) {
+		val contentMarginLeft = SinglePageTableHeader.findNodebyTagName(doc,
+			XSL_ATTRIBUTE, ATTR_NAME, ATTR_CONTENT_MARGIN_LEFT)
+		val contentMarginRight = SinglePageTableHeader.findNodebyTagName(doc,
+			XSL_ATTRIBUTE, ATTR_NAME, ATTR_CONTENT_MARGIN_RIGHT)
+
+		val printSetup = sheet.printSetup
+		val leftMargin = printSetup.leftMargin * 2.54 * 10
+		val rightMargin = printSetup.rightMargin * 2.54 * 10
+		if (contentMarginLeft.present) {
+			contentMarginLeft.get.setTextContent(String.format("%smm", // $NON-NLS-1$
+			Double.valueOf(leftMargin).toString))
+		}
+		if (contentMarginRight.present) {
+			contentMarginRight.get.setTextContent(String.format("%smm", // $NON-NLS-1$
+			Double.valueOf(rightMargin).toString))
+		}
+	}
+
 	/**
 	 * transform excel cell style to xsl style
 	 */
@@ -42,6 +72,9 @@ class TransformStyle {
 		xslCell.transformTextFont(excelCell.get)
 	}
 
+	/**
+	 * Set border style for xsl element
+	 */
 	private static def void setBorderStyle(Element cell,
 		HashMap<BorderDirection, String> borderStyles) {
 		borderStyles.filter[directionm, style|!style.empty].forEach [ direction, style |
@@ -49,19 +82,35 @@ class TransformStyle {
 			cell.setAttribute(directionString, '''{$«style»}''')
 		]
 	}
-	
-	static def void setBorderStyle(Optional<Cell> cell, Element xslCell, BorderDirection direction) {
+
+	/**
+	 * Set border style for xsl element
+	 */
+	static def void setBorderStyle(Optional<Cell> cell, Element xslCell,
+		BorderDirection direction) {
 		if (cell.empty) {
 			return
 		}
 		val borderStyle = cell.get.cellStyle.transformBorderStyle.get(direction)
+		xslCell.setBorderStyle(direction, borderStyle)
+	}
+
+	/**
+	 * Set border style for xsl element
+	 */
+	static def void setBorderStyle(Element xslCell, BorderDirection direction,
+		String borderStyle) {
 		if (!borderStyle.empty) {
-			xslCell.setAttribute(direction.directionString, '''{$«borderStyle»}''')
+			xslCell.setAttribute(
+				direction.directionString, '''{$«borderStyle»}''')
 		} else if (xslCell.getAttribute(direction.directionString) !== null) {
 			xslCell.removeAttribute(direction.directionString)
 		}
 	}
 
+	/**
+	 * Transform borderstyle of excel cell to xsl element
+	 */
 	def static HashMap<BorderDirection, String> transformBorderStyle(
 		CellStyle style) {
 		return newHashMap(
@@ -87,6 +136,44 @@ class TransformStyle {
 		}
 	}
 
+	/**
+	 * Set border style for excel cell
+	 */
+	static def void setExcelCellBorderStyle(Optional<Cell> cell,
+		Map<BorderDirection, BorderStyle> borderStyles) {
+		borderStyles.forEach [ direction, style |
+			cell.setExcelCellBorderStyle(direction, style)
+		]
+	}
+
+	/**
+	 * Set border style for excel cell
+	 */
+	static def void setExcelCellBorderStyle(Optional<Cell> cell,
+		BorderDirection direction, BorderStyle style) {
+		if (cell.empty) {
+			return
+		}
+		val wb = cell.get.sheet.workbook
+		val newStyle = wb.createCellStyle
+		newStyle.cloneStyleFrom(cell.get.cellStyle)
+		switch (direction) {
+			case LEFT:
+				newStyle.borderLeft = style
+		
+			case RIGHT:
+				newStyle.borderRight = style
+			case TOP:
+				newStyle.borderTop = style
+			case BOTTOM:
+				newStyle.borderBottom = style
+		}
+		cell.get.cellStyle = newStyle
+	}
+
+	/**
+	 * Set text algin for xsl element
+	 */
 	private static def void transformTextAlign(Element xslCell,
 		HorizontalAlignment horizonAlign, VerticalAlignment verticalAlign) {
 		var horizon = ""
@@ -101,6 +188,9 @@ class TransformStyle {
 		xslCell.setAttribute(TEXT_ALIGN, horizon.toLowerCase)
 	}
 
+	/**
+	 * Set text font for xsl element
+	 */
 	private static def void transformTextFont(Element xslCell, Cell excelCell) {
 		val workbook = excelCell.row.sheet.workbook
 		val cellFontIndex = excelCell.cellStyle.fontIndex

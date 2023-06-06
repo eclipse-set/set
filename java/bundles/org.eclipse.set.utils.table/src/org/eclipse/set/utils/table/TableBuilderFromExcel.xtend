@@ -14,17 +14,18 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.util.CellRangeAddress
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 
-import static extension org.eclipse.set.utils.excel.HSSFWorkbookExtension.*
+import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
 
 /**
  * Extension for create table from excel template
  * @autor Truong
  */
 class TableBuilderFromExcel {
-	
+
 	def static void headerBuilder(Sheet sheet, GroupBuilder root,
 		int columnIndex) {
 		val cell = sheet.getCellAt(1, columnIndex)
+
 		if (cell.empty) {
 			return
 		}
@@ -58,9 +59,9 @@ class TableBuilderFromExcel {
 
 		val currentGroup = parent.addGroup(currentCellValue.get)
 		if (currentCell.isPresent) {
-			currentGroup.groupRoot.height = sheet.getCellHeight(currentCell.get)	
+			currentGroup.groupRoot.height = sheet.getCellHeight(currentCell.get)
 		}
-		
+
 		for (var i = firstColumnIndex; i <= lastColumnIndex; i++) {
 			val nextRowIndex = currentRowIndex + 1
 			val childCell = sheet.getCellAt(nextRowIndex, i)
@@ -69,8 +70,9 @@ class TableBuilderFromExcel {
 		return currentCell
 	}
 
-	private def static Optional<Cell> singleGroupBuilder(GroupBuilder parent, Cell cell) {
-		if (cell.isSingleColumnGroup) {
+	private def static Optional<Cell> singleGroupBuilder(GroupBuilder parent,
+		Cell cell) {
+		if (Optional.of(cell).isSingleColumnGroup) {
 			val singleGroup = parent.addGroup(cell.stringCellValue)
 			val cellAtNextRow = cell.sheet.getCellAt(cell.rowIndex + 1,
 				cell.columnIndex)
@@ -81,15 +83,17 @@ class TableBuilderFromExcel {
 		return parent.cellBuild(cell)
 	}
 
-	def static boolean isSingleColumnGroup(Cell cell) {
-		if (cell.stringCellValue.empty) {
+	def static boolean isSingleColumnGroup(Optional<Cell> cell) {
+		if (cell.empty && cell.get.stringCellValue.empty) {
 			return false
 		}
 
-		val lastRowOfSheet = cell.sheet.headerLastRowIndex
-		val nextRow = cell.rowIndex + 1
-		if (lastRowOfSheet !== cell.rowIndex && lastRowOfSheet !== nextRow) {
-			val nextRowCell = cell.sheet.getCellAt(nextRow, cell.columnIndex)
+		val lastRowOfSheet = cell.get.sheet.headerLastRowIndex
+		val nextRow = cell.get.rowIndex + 1
+		if (lastRowOfSheet !== cell.get.rowIndex &&
+			lastRowOfSheet !== nextRow) {
+			val nextRowCell = cell.get.sheet.getCellAt(nextRow,
+				cell.get.columnIndex)
 			return nextRowCell.cellStringValue.present
 		}
 
@@ -120,7 +124,7 @@ class TableBuilderFromExcel {
 		}
 		return Optional.of(cell)
 	}
-	
+
 	private def static float getCellHeight(Sheet sheet, Cell cell) {
 		var cellHeight = sheet.getRowHeightInCm(cell.rowIndex)
 		val rowSpan = sheet.getRowSpanRangeAt(cell.rowIndex, cell.columnIndex)

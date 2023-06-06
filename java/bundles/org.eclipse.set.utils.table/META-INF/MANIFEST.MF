@@ -22,6 +22,7 @@ Export-Package: org.eclipse.set.utils.table,
  org.eclipse.set.utils.table.sorting,
  org.eclipse.set.utils.table.transform
 Import-Package: javax.inject;version="1.0.0",
+ org.apache.poi.xssf.usermodel,
  org.eclipse.jface.layout,
  org.eclipse.set.basis,
  org.eclipse.set.basis.constants,

@@ -108,8 +108,9 @@ public class BodyLayerStack extends AbstractLayerTransform {
 	 *            position of fixed columns
 	 */
 	public void freezeColumns(final Set<Integer> columnsPos) {
-		if (columnsPos.size() == 1) {
-			freezeColumn(columnsPos.iterator().next().intValue());
+		if (columnsPos.isEmpty()) {
+			freezeColumn(0);
+			return;
 		}
 		final Integer maxValue = Collections.max(columnsPos);
 		final Integer minValue = Collections.min(columnsPos);

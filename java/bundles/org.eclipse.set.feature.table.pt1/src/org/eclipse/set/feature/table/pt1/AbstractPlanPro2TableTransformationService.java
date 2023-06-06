@@ -9,8 +9,8 @@
 package org.eclipse.set.feature.table.pt1;
 
 import static org.eclipse.set.model.tablemodel.extensions.TableExtensions.setTextAlignment;
-import static org.eclipse.set.utils.excel.HSSFWorkbookExtension.getFirstDataRow;
-import static org.eclipse.set.utils.excel.HSSFWorkbookExtension.getRepeatingColumns;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getFirstDataRow;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getRepeatingColumns;
 import static org.eclipse.set.utils.table.TableBuilderFromExcel.headerBuilder;
 
 import java.io.FileInputStream;
@@ -22,10 +22,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
@@ -43,7 +43,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 	private static final String TEMPLATE_DIR = "data/export/excel/"; //$NON-NLS-1$
 	protected Set<ColumnDescriptor> cols;
 
-	protected HSSFSheet excelTemplate = null;
+	protected XSSFSheet excelTemplate = null;
 
 	@Override
 	protected ColumnDescriptor buildHeading(final Table table) {
@@ -76,12 +76,12 @@ public abstract class AbstractPlanPro2TableTransformationService
 		final Path templatePath = Paths
 				.get(TEMPLATE_DIR,
 						getTableNameInfo().getShortName().toLowerCase()
-								+ "_vorlage.xlt") //$NON-NLS-1$
+								+ "_vorlage.xlsx") //$NON-NLS-1$
 				.toAbsolutePath();
 		try (final FileInputStream inputStream = new FileInputStream(
 				templatePath.toFile());
-				final Workbook workbook = new HSSFWorkbook(inputStream)) {
-			excelTemplate = (HSSFSheet) workbook.getSheetAt(0);
+				final Workbook workbook = new XSSFWorkbook(inputStream)) {
+			excelTemplate = (XSSFSheet) workbook.getSheetAt(0);
 			headerBuilder(excelTemplate, root, 1);
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
