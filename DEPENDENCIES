@@ -13,6 +13,8 @@ maven/mavencentral/org.apache.felix/org.apache.felix.gogo.command/1.1.2, Apache-
 maven/mavencentral/org.apache.felix/org.apache.felix.gogo.runtime/1.1.6, Apache-2.0 AND MIT, approved, CQ22929
 maven/mavencentral/org.apache.felix/org.apache.felix.gogo.shell/1.1.4, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.felix/org.apache.felix.scr/2.2.4, Apache-2.0 AND BSD-3-Clause AND MIT, approved, #798
+maven/mavencentral/org.apache.logging.log4j/log4j-api/2.18.0, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.apache.poi/poi-ooxml-lite/5.0.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.poi/poi-ooxml/5.0.0, Apache-2.0 AND BSD-3-Clause AND MIT AND Apache-2.0, approved, #8428
 maven/mavencentral/org.apache.poi/poi/5.0.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.xmlbeans/xmlbeans/5.1.1, Apache-2.0, approved, #8429
@@ -30,6 +32,7 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.core.services/2.0.0-SNAPSHOT,
 maven/mavencentral/org.eclipse.set/org.eclipse.set.core/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.emfforms/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.export/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.plazmodel/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.table.pt1/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.table/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.validation/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
@@ -44,6 +47,8 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.nl_de.feature/2.0.0-SNAP
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.validationreport.nl_de/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview.edit/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel.edit/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.simplemerge.extensions/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.simplemerge/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.tablemodel.extensions/2.0.0-SNAPSHOT, EPL-2.0, approved, technology.set
@@ -160,6 +165,7 @@ p2/orbit/p2.eclipse.plugin/org.apache.batik.transcoder/1.16.0.v20221027-0840, Ap
 p2/orbit/p2.eclipse.plugin/org.apache.batik.util/1.16.0.v20221027-0840, Apache-2.0, approved, #4850
 p2/orbit/p2.eclipse.plugin/org.apache.batik.xml/1.16.0.v20221027-0840, Apache-2.0, approved, #5341
 p2/orbit/p2.eclipse.plugin/org.apache.commons.codec/1.14.0.v20221112-0806, Apache-2.0 AND (Apache-2.0 AND BSD-3-Clause), approved, #3905
+p2/orbit/p2.eclipse.plugin/org.apache.commons.compress/1.21.0.v20211103-2100, Apache-2.0, approved, #5843
 p2/orbit/p2.eclipse.plugin/org.apache.commons.io/2.8.0.v20210415-0900, Apache-2.0, approved, CQ23182
 p2/orbit/p2.eclipse.plugin/org.apache.commons.jxpath/1.3.0.v200911051830, Apache-2.0, approved, CQ10790
 p2/orbit/p2.eclipse.plugin/org.apache.commons.lang3/3.1.0.v201403281430, Apache-2.0, approved, CQ5902
