@@ -2310,4 +2310,25 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.set.feature.plazmodel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.set.model.plazmodel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.set.model.plazmodel.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

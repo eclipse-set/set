@@ -1,0 +1,94 @@
+/**
+ * Copyright (c) 2022 DB Netz AG and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.feature.plazmodel.table;
+
+import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.plazmodel.Messages;
+import org.eclipse.set.model.plazmodel.PlazReport;
+import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.table.menu.TableMenuService;
+import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+
+/**
+ * View for the validation table
+ * 
+ * @author Stuecker
+ *
+ */
+public class PlazModelTableView extends AbstractSortByColumnTables {
+	private final Messages messages;
+	private final BasePart part;
+	private final EnumTranslationService enumTranslationService;
+	private NatTable natTable;
+
+	private final TableMenuService tableMenuService;
+
+	/**
+	 * @param part
+	 *            The source part used for events
+	 * @param messages
+	 *            The messages
+	 * @param tableMenuService
+	 *            The table menu service
+	 * @param enumTranslationService
+	 *            the enum translation service
+	 */
+	public PlazModelTableView(final BasePart part, final Messages messages,
+			final TableMenuService tableMenuService,
+			final EnumTranslationService enumTranslationService) {
+		this.part = part;
+		this.messages = messages;
+		this.tableMenuService = tableMenuService;
+		this.enumTranslationService = enumTranslationService;
+	}
+
+	/**
+	 * Creates the table view
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 * @param validationReport
+	 *            the validation report to show
+	 * @return the nattable control
+	 */
+	@SuppressWarnings("boxing")
+	public Control create(final Composite parent,
+			final PlazReport validationReport) {
+		final PlazModelTableTransformationService service = new PlazModelTableTransformationService(
+				messages, enumTranslationService);
+
+		final Table table = service.transform(validationReport);
+		this.createTableBodyData(table, rowLine -> validationReport.getEntries()
+				.get(rowLine).getLineNumber());
+		tableMenuService.createDefaultMenuItems(part, table, bodyDataProvider,
+				bodyLayerStack.getSelectionLayer());
+		natTable = createTable(parent, table, tableMenuService);
+
+		return natTable;
+	}
+
+	/**
+	 * Updates the table view
+	 * 
+	 * @param report
+	 *            the new report
+	 */
+	public void updateView(final PlazReport report) {
+		if (natTable != null) {
+			final PlazModelTableTransformationService service = new PlazModelTableTransformationService(
+					messages, enumTranslationService);
+			bodyDataProvider.refresh(service.transform(report));
+			natTable.refresh();
+		}
+	}
+}

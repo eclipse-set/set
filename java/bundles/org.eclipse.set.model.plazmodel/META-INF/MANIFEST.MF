@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-Name: %pluginName
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-SymbolicName: org.eclipse.set.model.plazmodel;singleton:=true
+Automatic-Module-Name: org.eclipse.set.model.plazmodel
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.set.model.plazmodel,
+ org.eclipse.set.model.plazmodel.impl,
+ org.eclipse.set.model.plazmodel.util
+Bundle-ClassPath: .
+Bundle-Version: 2.0.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.core.runtime,
+ org.eclipse.set.model.validationreport;visibility:=reexport

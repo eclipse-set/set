@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated plaz -->
+      <package
+            uri="tag:scheidt-bachmann-st.de,2023-26-05:planpro/plaz"
+            class="org.eclipse.set.model.plazmodel.PlazPackage"
+            genModel="model/plaz.genmodel"/>
+   </extension>
+
+</plugin>

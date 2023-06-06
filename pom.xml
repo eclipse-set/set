@@ -54,6 +54,7 @@
 		<module>java/bundles/org.eclipse.set.feature.export</module>
 		<module>java/bundles/org.eclipse.set.feature.export.test</module>
 		<module>java/bundles/org.eclipse.set.feature.validation</module>
+		<module>java/bundles/org.eclipse.set.feature.plazmodel</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecore.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.categorization.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.core.nl_de</module>
@@ -76,6 +77,8 @@
 		<module>java/bundles/org.eclipse.set.model.validationreport.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport</module>
 		<module>java/bundles/org.eclipse.set.model.zipmanifest</module>
+		<module>java/bundles/org.eclipse.set.model.plazmodel</module>
+		<module>java/bundles/org.eclipse.set.model.plazmodel.edit</module>
 
 		<module>java/bundles/org.eclipse.set.nattable.utils</module>
 		<module>java/bundles/org.eclipse.set.pdf.utils</module>
