@@ -53,7 +53,6 @@ class NilTest extends AbstractCustomValidator {
 		} catch (ParserConfigurationException e) {
 			result.addCustomProblem(e.transform)
 		} catch (SAXException e) {
-			e.notify
 			result.addCustomProblem(e.transform)
 		} catch (IOException e) {
 			result.addIoError(e)
