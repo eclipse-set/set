@@ -659,7 +659,7 @@ npm/npmjs/@octokit/plugin-paginate-rest/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/@octokit/plugin-request-log/1.0.4, MIT, approved, #1837
 npm/npmjs/@octokit/plugin-rest-endpoint-methods/6.7.0, MIT, approved, clearlydefined
 npm/npmjs/@octokit/request-error/3.0.2, MIT, approved, clearlydefined
-npm/npmjs/@octokit/request/6.2.2, MIT, approved, clearlydefined
+npm/npmjs/@octokit/request/6.2.2, MIT, approved, #8758
 npm/npmjs/@octokit/rest/19.0.5, MIT, approved, clearlydefined
 npm/npmjs/@octokit/types/8.0.0, MIT, approved, clearlydefined
 npm/npmjs/@types/eslint-scope/3.7.4, MIT, approved, clearlydefined
