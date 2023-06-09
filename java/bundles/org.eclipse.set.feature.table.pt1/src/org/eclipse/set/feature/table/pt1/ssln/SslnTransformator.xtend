@@ -9,10 +9,8 @@
 package org.eclipse.set.feature.table.pt1.ssln
 
 import com.google.common.collect.Lists
-import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.Pair
-import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
@@ -27,7 +25,6 @@ import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Grenze
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
 import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.utils.table.TMFactory
 
@@ -41,10 +38,7 @@ import static extension org.eclipse.set.ppmodel.extensions.NbExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import static extension org.eclipse.set.utils.StringExtensions.*
 
 /**
  * Table transformation for a Nahbedienungstabelle (SSLN).
@@ -293,14 +287,6 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		return false
 	}
 
-	private static def List<String> getNbGrenzeBezeichnung(
-		List<W_Kr_Gsp_Element> wKrGspElemente) {
-		return wKrGspElemente.map [
-			bezeichnung?.bezeichnungTabelle?.wert?.removeSuffix("A", "B", "AB",
-				"CD") ?: ""
-		]
-	}
-
 	private static dispatch def String toBezeichnungGrenze(
 		Punkt_Objekt markanteStelle,
 		NB_Zone_Grenze grenze
@@ -320,23 +306,6 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		NB_Zone_Grenze grenze
 	) {
 		return grenze.toBezeichnungGrenze
-	}
-
-	private static dispatch def String toBezeichnungGrenze(
-		W_Kr_Gsp_Komponente markanteStelle,
-		NB_Zone_Grenze grenze
-	) {
-		val bezeichnung = getIterableFilling(
-			markanteStelle.topKanten.flatMap [
-				WKrGspElemente.nbGrenzeBezeichnung
-			],
-			ToolboxConstants.LST_OBJECT_NAME_COMPARATOR,
-			"/"
-		)
-		val innen = markanteStelle.WKrGspElement.bezeichnung?.
-			bezeichnungTabelle?.wert ?: ""
-		val aussen = grenze.flaSchutzElemente
-		return '''«bezeichnung» («innen», «aussen»)'''
 	}
 
 	private static dispatch def String toBezeichnungGrenze(
