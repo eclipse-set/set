@@ -113,6 +113,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import java.math.BigDecimal
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -254,7 +255,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[
 									val s = it
 									gruppe.map [
-										s.getUeberhoehung(topGraph, it)?.
+										s.getUeberhoehung(topGraph, it)?. //
+										// Multiply by 1000, as the model specifies the value in meters, 
+										// but the table outputs millimeters
+										multiply(new BigDecimal(1000))?.
 											toTableInteger ?: ""
 									].toSet
 								],
