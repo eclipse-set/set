@@ -650,10 +650,10 @@ npm/npmjs/@jridgewell/trace-mapping/0.3.17, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.stat/2.0.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.walk/1.2.8, MIT, approved, clearlydefined
-npm/npmjs/@octokit/auth-token/3.0.2, MIT, approved, clearlydefined
+npm/npmjs/@octokit/auth-token/3.0.2, MIT, approved, #8736
 npm/npmjs/@octokit/core/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/@octokit/endpoint/7.0.3, MIT AND BSD-3-Clause, approved, #3752
-npm/npmjs/@octokit/graphql/5.0.4, MIT, approved, clearlydefined
+npm/npmjs/@octokit/graphql/5.0.4, MIT, approved, #8728
 npm/npmjs/@octokit/openapi-types/14.0.0, MIT AND Unlicense, approved, #3809
 npm/npmjs/@octokit/plugin-paginate-rest/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/@octokit/plugin-request-log/1.0.4, MIT, approved, #1837
