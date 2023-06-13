@@ -75,6 +75,9 @@ public class XMLNodeFinder {
 	 */
 	public Node findFirstNodeByNodeName(final Node node,
 			final String nodeName) {
+		if (node == null) {
+			return null;
+		}
 		if (node.getNodeName().equals(nodeName)) {
 			return node;
 		}
