@@ -70,6 +70,6 @@ class ToolboxVersion {
 	
 	def boolean isDevelopmentVersion() {
 		val versionTags = Splitter.on(Pattern.compile("\\.")).splitToList(longVersion)
-		return !versionTags.last.matches("R.*") 
+		return versionTags.size > 3
 	}
 }
