@@ -20,7 +20,6 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.configurationservice.JSONConfigurationService;
-import org.eclipse.set.core.services.configurationservice.TransformJSONService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.ToolboxVersion;
@@ -33,8 +32,7 @@ import org.eclipse.set.utils.configuration.AbstractVersionsProperty;
  */
 public class ShowNewsAddon {
 	@Inject
-	JSONConfigurationService jsonService;
-
+	JSONConfigurationService<List<String>> jsonService;
 	@Inject
 	ToolboxPartService partService;
 
@@ -42,28 +40,20 @@ public class ShowNewsAddon {
 	@Optional
 	@SuppressWarnings("unused")
 	private void startUpComplete(
-			@UIEventTopic(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE) final MApplication application) {
-		try {
-			jsonService.loadJSON();
-			final ToolboxVersion toolboxVersion = ToolboxConfiguration
-					.getToolboxVersion();
-			if (toolboxVersion.isDevelopmentVersion()) {
-				return;
-			}
-			final List<TransformJSONService<?>> transformServices = jsonService
-					.getTransformServices(
-							AbstractVersionsProperty.VERSION_PROPERTY);
-			if (!transformServices.isEmpty() && transformServices.get(
-					0) instanceof final AbstractVersionsProperty versionsProperty) {
-				final String versionNumber = toolboxVersion
-						.getExtraShortVersion();
-				if (!versionsProperty.isContainVersion(versionNumber)) {
-					partService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
-				}
-			}
-
-		} catch (final IOException e) {
-			throw new RuntimeException();
+			@UIEventTopic(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE) final MApplication application,
+			final AbstractVersionsProperty versionsProperty)
+			throws IOException {
+		jsonService.loadJSON();
+		versionsProperty.setJSONService(jsonService);
+		versionsProperty.loadProperty();
+		final ToolboxVersion toolboxVersion = ToolboxConfiguration
+				.getToolboxVersion();
+		if (toolboxVersion.isDevelopmentVersion()) {
+			return;
+		}
+		final String versionNumber = toolboxVersion.getExtraShortVersion();
+		if (!versionsProperty.isContainVersion(versionNumber)) {
+			partService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
 		}
 
 	}

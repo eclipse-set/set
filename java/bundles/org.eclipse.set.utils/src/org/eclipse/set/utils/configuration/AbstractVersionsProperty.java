@@ -10,12 +10,15 @@
 package org.eclipse.set.utils.configuration;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import org.eclipse.set.core.services.configurationservice.TransformJSONService;
+import org.eclipse.set.core.services.configurationservice.JSONConfigurationService;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -23,13 +26,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author truong
  *
  */
-public abstract class AbstractVersionsProperty
-		extends TransformJSONService<List<String>> {
+public abstract class AbstractVersionsProperty {
+	JSONConfigurationService<List<String>> jsonService;
+
 	/**
 	 * Version property
 	 */
 	public static final String VERSION_PROPERTY = "version"; //$NON-NLS-1$
 	private static final String VERSION_REGEX = "^([\\d]*.[\\d]*)$"; //$NON-NLS-1$
+
+	protected Map<String, List<String>> versionprop = new HashMap<>();
 
 	protected JsonNode versionNode = null;
 
@@ -37,58 +43,46 @@ public abstract class AbstractVersionsProperty
 
 	protected abstract JsonNode getChildNode();
 
-	@Override
+	/**
+	 * @param jsonService
+	 *            {@link JSONConfigurationService}
+	 */
+	public void setJSONService(
+			final JSONConfigurationService<List<String>> jsonService) {
+		this.jsonService = jsonService;
+	}
+
+	/**
+	 * @throws IOException
+	 *             {@link IOException}
+	 */
 	public void loadProperty() throws IOException {
 		versionNode = getVersionNode();
 		if (versionNode == null) {
-			return;
+			versionNode = new ObjectMapper().createObjectNode();
 		}
 		final JsonNode nestedVersionNode = getChildNode();
 		if (nestedVersionNode == null) {
 			return;
 		}
-		final List<String> versions = mapper
-				.readValue(nestedVersionNode.toString(), new TypeReference<>() {
-					// Empty
-				});
+		final List<String> versions = jsonService
+				.readJSONNode(nestedVersionNode.toString());
 		versions.removeIf(ele -> !ele.matches(VERSION_REGEX));
-		properties.put(VERSION_PROPERTY, versions);
+		versionprop.put(VERSION_PROPERTY, versions);
 	}
 
-	@Override
-	public JsonNode getDefaultValue() {
-		final ObjectNode node = mapper.createObjectNode();
-		node.set(getNestedPropertyName(), mapper.createArrayNode());
-		return node;
-	}
-
-	@Override
-	public String getPropertyName() {
-		return VERSION_PROPERTY;
-	}
-
-	@Override
+	/**
+	 * @return list of opened version
+	 */
 	public List<String> getProperty() {
-		return getProperty(VERSION_PROPERTY);
+		return versionprop.get(VERSION_PROPERTY);
 	}
 
-	@Override
-	public JsonNode transform() {
-		final ArrayNode arrayNode = mapper.createArrayNode();
-		this.getProperty().forEach(version -> arrayNode.add(version));
-		if (versionNode.isObject()) {
-			final ObjectNode objectNode = (ObjectNode) versionNode.deepCopy();
-			objectNode.set(getNestedPropertyName(), arrayNode);
-			return objectNode;
-		}
-		return arrayNode;
-	}
-
-	protected static JsonNode getVersionNode() {
-		if (rootNode == null) {
+	protected JsonNode getVersionNode() {
+		if (jsonService == null || jsonService.getRootNode() == null) {
 			return null;
 		}
-		return rootNode.get(VERSION_PROPERTY);
+		return jsonService.getRootNode().get(VERSION_PROPERTY);
 	}
 
 	/**
@@ -102,7 +96,7 @@ public abstract class AbstractVersionsProperty
 		if (!versionNumber.matches(VERSION_REGEX)) {
 			return true;
 		}
-		final List<String> versions = getProperty(VERSION_PROPERTY);
+		final List<String> versions = getProperty();
 		if (versions == null || versions.isEmpty()) {
 			storeNewVersion(versionNumber);
 			return false;
@@ -116,13 +110,19 @@ public abstract class AbstractVersionsProperty
 	}
 
 	private void storeNewVersion(final String versionNumber) {
+		final List<String> versions = new LinkedList<>();
 		if (getProperty() == null) {
-			properties.put(VERSION_PROPERTY, List.of(versionNumber));
+			versionprop.put(VERSION_PROPERTY, List.of(versionNumber));
 		} else {
-			final List<String> versions = getProperty();
-			versions.add(versionNumber);
+			versions.addAll(getProperty());
 		}
-
-		this.isChanged = true;
+		versions.add(versionNumber);
+		final ArrayNode arrayNode = new ObjectMapper().createArrayNode();
+		versions.forEach(arrayNode::add);
+		if (versionNode.isObject()) {
+			final ObjectNode objectNode = (ObjectNode) versionNode.deepCopy();
+			objectNode.set(getNestedPropertyName(), arrayNode);
+			jsonService.addJSONNode(VERSION_PROPERTY, objectNode);
+		}
 	}
 }

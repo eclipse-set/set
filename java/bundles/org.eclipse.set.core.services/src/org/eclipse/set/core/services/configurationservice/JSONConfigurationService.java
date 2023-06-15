@@ -10,20 +10,17 @@
 package org.eclipse.set.core.services.configurationservice;
 
 import java.io.IOException;
-import java.util.List;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Service for handle JSON configuration file
  * 
  * @author truong
+ * @param <T>
+ *            type of node value
  */
-public interface JSONConfigurationService {
-	/**
-	 * Create JSON configuration file
-	 * 
-	 * @throws IOException
-	 */
-	void createJSON() throws IOException;
+public interface JSONConfigurationService<T> {
 
 	/**
 	 * Load JSON configuration file
@@ -40,11 +37,27 @@ public interface JSONConfigurationService {
 	void storeJSON() throws IOException;
 
 	/**
-	 * Get transform services of property
+	 * @return json root node
+	 */
+	JsonNode getRootNode();
+
+	/**
+	 * Read value of given node
+	 * 
+	 * @param nodeName
+	 *            the name of node
+	 * @return node value
+	 * @throws IOException
+	 */
+	T readJSONNode(String nodeName) throws IOException;
+
+	/**
+	 * Add node to root node
 	 * 
 	 * @param propertyName
-	 * @return list of transform service for this property
+	 *            name of given node
+	 * @param node
+	 *            {@link JsonNode}
 	 */
-	List<TransformJSONService<?>> getTransformServices(
-			final String propertyName);
+	void addJSONNode(String propertyName, JsonNode node);
 }

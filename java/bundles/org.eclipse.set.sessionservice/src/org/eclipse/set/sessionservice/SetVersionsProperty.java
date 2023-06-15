@@ -9,7 +9,6 @@
 
 package org.eclipse.set.sessionservice;
 
-import org.eclipse.set.core.services.configurationservice.TransformJSONService;
 import org.eclipse.set.utils.configuration.AbstractVersionsProperty;
 import org.osgi.service.component.annotations.Component;
 
@@ -19,7 +18,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  * @author truong
  *
  */
-@Component(service = { TransformJSONService.class })
+@Component(service = { AbstractVersionsProperty.class })
 public class SetVersionsProperty extends AbstractVersionsProperty {
 	private static final String SET_VERSION = "set-versions"; //$NON-NLS-1$
 

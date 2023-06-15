@@ -51,7 +51,7 @@ public class WindowCloseAddon implements IWindowCloseHandler {
 
 	@Inject
 	@Optional
-	JSONConfigurationService jsonService;
+	JSONConfigurationService<?> jsonService;
 
 	@Override
 	public boolean close(final MWindow window) {

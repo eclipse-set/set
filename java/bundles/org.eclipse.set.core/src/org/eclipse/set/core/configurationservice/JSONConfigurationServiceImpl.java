@@ -19,14 +19,11 @@ import java.util.List;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.configurationservice.JSONConfigurationService;
-import org.eclipse.set.core.services.configurationservice.TransformJSONService;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -35,9 +32,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * Implementation for {@link JSONConfigurationService}
  * 
  * @author Truong
+ * @param <T>
+ *            type of node value
  */
 @Component(immediate = true)
-public class JSONConfigurationServiceImpl implements JSONConfigurationService {
+public class JSONConfigurationServiceImpl<T>
+		implements JSONConfigurationService<T> {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(JSONConfigurationServiceImpl.class);
 	private static final String FILENAME = "configuration.json"; //$NON-NLS-1$
@@ -46,92 +46,61 @@ public class JSONConfigurationServiceImpl implements JSONConfigurationService {
 		return Paths.get(ToolboxConstants.TMP_BASE_DIR, FILENAME).toFile();
 	}
 
-	ObjectMapper mapper = new ObjectMapper();
-	private final List<TransformJSONService<?>> transformServices = new LinkedList<>();
-
-	@Override
-	public void createJSON() throws IOException {
-		final File configuration = getFile();
-		if (!configuration.getParentFile().exists()) {
-			configuration.getParentFile().mkdirs();
-		}
-		if (!configuration.createNewFile()) {
-			LOGGER.error("Cannot create File: ", FILENAME); //$NON-NLS-1$
-			return;
-		}
-		final ObjectNode root = mapper.createObjectNode();
-		for (final TransformJSONService<?> service : transformServices) {
-			root.set(service.getPropertyName(), service.getDefaultValue());
-		}
-		TransformJSONService.setRootNode(root);
-		mapper.writerWithDefaultPrettyPrinter().writeValue(configuration, root);
-	}
+	protected List<String> propertyList = new LinkedList<>();
+	private JsonNode rootNode;
+	private final ObjectMapper mapper = new ObjectMapper();
 
 	@Override
 	public void loadJSON() throws IOException {
 		final File configurationFile = getFile();
+		// Create configuration file, when not exsits
 		if (!configurationFile.exists()) {
-			createJSON();
-			return;
+			if (!configurationFile.getParentFile().exists()) {
+				configurationFile.getParentFile().mkdirs();
+			}
+			if (!configurationFile.createNewFile()) {
+				LOGGER.error("Cannot create File: ", FILENAME); //$NON-NLS-1$
+				return;
+			}
+			// create empty json node
+			rootNode = mapper.createObjectNode();
+			storeJSON();
 		}
 		try (final Reader reader = Files
 				.newBufferedReader(configurationFile.toPath())) {
-			final JsonNode jsonNode = mapper.readTree(reader);
-			TransformJSONService.setRootNode(jsonNode);
-			for (final TransformJSONService<?> service : transformServices) {
-				service.loadProperty();
-			}
+			rootNode = mapper.readTree(reader);
 		}
-	}
-
-	/**
-	 * Add a json transform service
-	 * 
-	 * @param service
-	 *            the json tranformation service
-	 */
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	public void addTransformService(final TransformJSONService<?> service) {
-		transformServices.add(service);
-	}
-
-	/**
-	 * Remove a model service
-	 * 
-	 * @param service
-	 *            the json tranformation service
-	 */
-	public void removeTransformService(final TransformJSONService<?> service) {
-		transformServices.remove(service);
 	}
 
 	@Override
 	public void storeJSON() throws IOException {
-		if (!transformServices.isEmpty()
-				&& !transformServices.get(0).isChangedConfiguration()) {
-			return;
-		}
 		final File configurationFile = getFile();
 		if (!configurationFile.exists()) {
 			LOGGER.error(
 					"Can't found file: " + configurationFile.getAbsolutePath()); //$NON-NLS-1$
 			return;
 		}
-
-		final ObjectNode root = mapper.createObjectNode();
-		for (final TransformJSONService<?> service : transformServices) {
-			root.set(service.getPropertyName(), service.transform());
-		}
 		mapper.writerWithDefaultPrettyPrinter().writeValue(configurationFile,
-				root);
+				rootNode);
 	}
 
 	@Override
-	public List<TransformJSONService<?>> getTransformServices(
-			final String propertyName) {
-		return transformServices.stream().filter(
-				service -> service.getPropertyName().equals(propertyName))
-				.toList();
+	public JsonNode getRootNode() {
+		return rootNode;
+	}
+
+	@Override
+	public void addJSONNode(final String propertyName, final JsonNode node) {
+		if (rootNode instanceof final ObjectNode objectNode) {
+			objectNode.set(propertyName, node);
+		}
+	}
+
+	@Override
+	public T readJSONNode(final String nodeName) throws IOException {
+		return mapper.readValue(nodeName, new TypeReference<T>() {
+			// Empty
+		});
 	}
 
 }

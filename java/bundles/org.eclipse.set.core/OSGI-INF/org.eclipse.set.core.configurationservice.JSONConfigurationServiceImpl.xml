@@ -3,6 +3,5 @@
    <service>
       <provide interface="org.eclipse.set.core.services.configurationservice.JSONConfigurationService"/>
    </service>
-   <reference bind="addTransformService" cardinality="0..n" interface="org.eclipse.set.core.services.configurationservice.TransformJSONService" name="TransformService" policy="dynamic" unbind="removeTransformService"/>
    <implementation class="org.eclipse.set.core.configurationservice.JSONConfigurationServiceImpl"/>
 </scr:component>
