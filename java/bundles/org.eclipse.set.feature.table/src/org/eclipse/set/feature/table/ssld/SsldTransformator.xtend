@@ -8,19 +8,19 @@
  */
 package org.eclipse.set.feature.table.ssld
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.Signale.Signal
 import java.math.RoundingMode
 import org.eclipse.set.feature.table.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.feature.table.messages.MessagesWrapper
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.utils.math.AgateRounding
+import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
@@ -61,27 +61,16 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	def static String getFreigemeldetLaenge(TopGraph topGraph, Fstr_DWeg dweg) {
-		if (dweg.IDFMAAnlageFreimeldung === null) {
+		val endFMA = dweg?.FMAs
+		if (endFMA.empty) {
 			return ""
 		}
-		val fmaAnlagen = dweg?.fmaAnlageFreimeldung
-		if (fmaAnlagen.empty) {
-			return ""
-		}
-		if (fmaAnlagen.contains(null)) {
-			throw new IllegalArgumentException('''«dweg?.bezeichnung?.bezeichnungFstrDWeg?.wert» contains non-FMA-Anlagen within ID_FMA_Anlage''')
-		}
-		val topDWeg = dweg.IDFstrFahrweg.bereichObjektTeilbereich.map [
-			IDTOPKante
-		]
-		val distance = fmaAnlagen?.map[fmaGrenzen]?.flatten?.filter [
-			// Only consider FMA borders which are located on the DWeg
-			punktObjektTOPKante.map[IDTOPKante].exists[topDWeg.contains(it)]
-		]?.fold(Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
-			Math.max(current,
-				getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
-					grenze))
-		])
+		val distance = endFMA?.fold(
+			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
+				Math.max(current,
+					getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
+						grenze))
+			])
 		val roundedDistance = AgateRounding.roundDown(distance)
 		if (roundedDistance == 0.0)
 			throw new IllegalArgumentException("no path found")
@@ -143,7 +132,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.pzb_gefahrpunkt,
 				dweg,
-				[PZBGefahrpunkt?.bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				[IDPZBGefahrpunkt?.bezeichnung?.bezeichnungMarkanterPunkt?.wert]
 			)
 
 			// Bezeichnung
