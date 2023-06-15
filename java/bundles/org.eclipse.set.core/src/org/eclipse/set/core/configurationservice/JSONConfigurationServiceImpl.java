@@ -23,6 +23,7 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,6 +70,9 @@ public class JSONConfigurationServiceImpl<T>
 		try (final Reader reader = Files
 				.newBufferedReader(configurationFile.toPath())) {
 			rootNode = mapper.readTree(reader);
+		} catch (final JsonParseException e) {
+			// When configuration isn't valid json, then create new root node
+			rootNode = mapper.createObjectNode();
 		}
 	}
 

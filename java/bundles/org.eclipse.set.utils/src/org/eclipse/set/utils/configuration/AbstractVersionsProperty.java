@@ -33,7 +33,7 @@ public abstract class AbstractVersionsProperty {
 	 * Version property
 	 */
 	public static final String VERSION_PROPERTY = "version"; //$NON-NLS-1$
-	private static final String VERSION_REGEX = "^([\\d]*.[\\d]*)$"; //$NON-NLS-1$
+	private static final String VERSION_REGEX = "^([\\d]*\\.[\\d]*)$"; //$NON-NLS-1$
 
 	protected Map<String, List<String>> versionprop = new HashMap<>();
 
