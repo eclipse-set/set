@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.application.exampleservice.ExampleServiceImpl">
-   <service>
-      <provide interface="org.eclipse.set.core.services.example.ExampleService"/>
-   </service>
-   <reference bind="setFileService" interface="org.eclipse.set.core.services.files.ToolboxFileService" name="FileService"/>
-   <implementation class="org.eclipse.set.application.exampleservice.ExampleServiceImpl"/>
-</scr:component>

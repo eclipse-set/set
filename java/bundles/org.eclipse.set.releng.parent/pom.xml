@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.set</groupId>
 	<artifactId>org.eclipse.set.releng.parent</artifactId>
@@ -40,6 +38,12 @@
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho-version}</version>
 				<extensions>true</extensions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-ds-plugin</artifactId>
+				<version>${tycho-version}</version>
 			</plugin>
 
 			<plugin>
@@ -398,13 +402,13 @@
 								<plugin id="javax.media.jai_core" />
 								<plugin id="javax.media.jai_imageio" />
 								<plugin id="javax.xml.stream" />
-								<plugin id="org.bouncycastle.bcpg"/>
-								<plugin id="org.bouncycastle.bcprov"/>
-								<plugin id="org.eclipse.equinox.ds"/>
-								<plugin id="org.apache.commons.lang3"/>
-								<plugin id="jakarta.xml.bind"/>
-								<plugin id="org.eclipse.equinox.p2.artifact.repository.nl_de"/>
-								<plugin id="org.eclipse.equinox.p2.jarprocessor.nl_de"/>
+								<plugin id="org.bouncycastle.bcpg" />
+								<plugin id="org.bouncycastle.bcprov" />
+								<plugin id="org.eclipse.equinox.ds" />
+								<plugin id="org.apache.commons.lang3" />
+								<plugin id="jakarta.xml.bind" />
+								<plugin id="org.eclipse.equinox.p2.artifact.repository.nl_de" />
+								<plugin id="org.eclipse.equinox.p2.jarprocessor.nl_de" />
 							</excludes>
 						</configuration>
 					</execution>

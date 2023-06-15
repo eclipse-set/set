@@ -23,12 +23,13 @@ import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.utils.VDomainModelReferenceExtensions;
 import org.eclipse.set.utils.emfforms.Annotations;
-
+import org.osgi.service.component.annotations.Component;
 /**
  * Provides specialist descriptions for rendered PlanPro model elements.
  * 
  * @author Schaefer
  */
+@Component
 public class ToolboxLabelProvider extends EMFFormsLabelProviderImpl {
 
 	private static final String ALTERNATE_DISPLAY_NAME_SUPPLIER = "AlternateDisplayNameSupplier"; //$NON-NLS-1$

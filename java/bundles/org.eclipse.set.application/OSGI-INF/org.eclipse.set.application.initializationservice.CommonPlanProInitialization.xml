@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.application.initializationservice.CommonPlanProInitialization">
-   <service>
-      <provide interface="org.eclipse.set.core.services.initialization.InitializationStep"/>
-   </service>
-   <implementation class="org.eclipse.set.application.initializationservice.CommonPlanProInitialization"/>
-</scr:component>

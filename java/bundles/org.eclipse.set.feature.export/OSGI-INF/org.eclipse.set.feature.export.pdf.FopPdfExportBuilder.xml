@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.feature.export.pdf.FopPdfExportBuilder">
-   <service>
-      <provide interface="org.eclipse.set.services.export.TableExport"/>
-   </service>
-   <reference bind="setFopService" cardinality="1..1" interface="org.eclipse.set.services.fop.FopService" name="FopService" policy="static"/>
-   <implementation class="org.eclipse.set.feature.export.pdf.FopPdfExportBuilder"/>
-</scr:component>

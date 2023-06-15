@@ -48,3 +48,8 @@ dist/
 # Hugo documentation
 web/about/public
 .vscode/settings.json
+
+# OSGI Declare Service
+**/OSGI-INF/*.xml
+# Currently tycho-ds-plugin cannot service from overide methode generated
+!**/OSGI-INF/org.eclipse.set.emfforms.labelservice.ToolboxLabelProvider.xml

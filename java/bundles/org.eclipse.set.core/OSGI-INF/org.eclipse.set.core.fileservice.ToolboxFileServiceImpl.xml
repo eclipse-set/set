@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.core.fileservice.ToolboxFileServiceImpl">
-   <service>
-      <provide interface="org.eclipse.set.core.services.files.ToolboxFileService"/>
-   </service>
-   <reference bind="addFormat" cardinality="0..n" interface="org.eclipse.set.core.services.files.ToolboxFileFormatService" name="Format" policy="dynamic" unbind="removeFormat"/>
-   <implementation class="org.eclipse.set.core.fileservice.ToolboxFileServiceImpl"/>
-</scr:component>

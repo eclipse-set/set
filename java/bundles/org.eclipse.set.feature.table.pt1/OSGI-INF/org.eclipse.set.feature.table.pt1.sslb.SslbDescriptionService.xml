@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.eclipse.set.feature.table.pt1.sslb.SslbDescriptionService">
-   <service>
-      <provide interface="org.eclipse.set.core.services.part.PartDescriptionService"/>
-   </service>
-   <reference cardinality="1..1" field="messages" interface="org.eclipse.set.feature.table.pt1.messages.Messages" name="messages"/>
-   <implementation class="org.eclipse.set.feature.table.pt1.sslb.SslbDescriptionService"/>
-</scr:component>

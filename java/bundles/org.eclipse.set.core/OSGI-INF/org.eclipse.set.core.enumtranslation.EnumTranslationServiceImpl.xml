@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.eclipse.set.core.enumtranslation.EnumTranslationServiceImpl">
-   <service>
-      <provide interface="org.eclipse.set.core.services.enumtranslation.EnumTranslationService"/>
-   </service>
-   <reference cardinality="1..1" field="enumerators" interface="org.eclipse.set.core.enumtranslation.Enumerators" name="enumerators"/>
-   <reference cardinality="1..1" field="messages" interface="org.eclipse.set.core.Messages" name="messages"/>
-   <implementation class="org.eclipse.set.core.enumtranslation.EnumTranslationServiceImpl"/>
-</scr:component>

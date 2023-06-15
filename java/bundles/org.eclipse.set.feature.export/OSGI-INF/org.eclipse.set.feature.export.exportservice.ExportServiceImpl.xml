@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.feature.export.exportservice.ExportServiceImpl">
-   <service>
-      <provide interface="org.eclipse.set.services.export.ExportService"/>
-   </service>
-   <reference bind="addTableExportBuilder" cardinality="0..n" interface="org.eclipse.set.services.export.TableExport" name="TableExportBuilder" policy="dynamic" unbind="removeTableExportBuilder"/>
-   <implementation class="org.eclipse.set.feature.export.exportservice.ExportServiceImpl"/>
-</scr:component>

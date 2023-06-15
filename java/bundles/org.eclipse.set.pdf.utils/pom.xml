@@ -14,4 +14,17 @@
 		<artifactId>org.eclipse.set.releng.parent</artifactId>
 		<version>0.30.0.1</version>
 	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-ds-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<enabled>true</enabled>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

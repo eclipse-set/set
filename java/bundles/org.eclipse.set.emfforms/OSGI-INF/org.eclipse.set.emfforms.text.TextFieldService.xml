@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.eclipse.set.emfforms.text.TextFieldService">
-   <service>
-      <provide interface="org.eclipse.emfforms.spi.swt.core.di.EMFFormsDIRendererService"/>
-   </service>
-   <implementation class="org.eclipse.set.emfforms.text.TextFieldService"/>
-</scr:component>
