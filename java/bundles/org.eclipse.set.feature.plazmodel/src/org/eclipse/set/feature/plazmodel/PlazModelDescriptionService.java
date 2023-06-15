@@ -55,7 +55,7 @@ public class PlazModelDescriptionService implements PartDescriptionService {
 				// defaultForNature
 				null,
 				// toolboxViewNeedsLoadedModel
-				false,
+				true,
 				// toolboxViewNeedsXsdValidation
 				false,
 				// toolboxViewNeedsEmfValidation

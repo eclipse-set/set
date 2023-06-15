@@ -9,8 +9,6 @@
 
 package org.eclipse.set.feature.validation.utils;
 
-import java.nio.file.Path;
-
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.version.PlanProVersionService;
@@ -53,9 +51,9 @@ public class FileInfoReader {
 	public FileInfo getFileInfo() {
 		final FileInfo fileInfo = ValidationreportFactory.eINSTANCE
 				.createFileInfo();
-		final Path filePath = toolboxFile.getPath();
-		fileInfo.setFileName(filePath.toString());
-		fileInfo.setUsedVersion(versionService.createUsedVersion(filePath));
+		fileInfo.setFileName(toolboxFile.getPath().toString());
+		fileInfo.setUsedVersion(
+				versionService.createUsedVersion(toolboxFile.getModelPath()));
 		fileInfo.setTimeStamp(getFileTimeStamp());
 		fileInfo.setGuid(getFileGuid());
 		fileInfo.setChecksum(toolboxFile.getChecksum());
