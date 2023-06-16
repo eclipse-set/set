@@ -165,7 +165,6 @@ p2/orbit/p2.eclipse.plugin/org.apache.batik.transcoder/1.16.0.v20221027-0840, Ap
 p2/orbit/p2.eclipse.plugin/org.apache.batik.util/1.16.0.v20221027-0840, Apache-2.0, approved, #4850
 p2/orbit/p2.eclipse.plugin/org.apache.batik.xml/1.16.0.v20221027-0840, Apache-2.0, approved, #5341
 p2/orbit/p2.eclipse.plugin/org.apache.commons.codec/1.14.0.v20221112-0806, Apache-2.0 AND (Apache-2.0 AND BSD-3-Clause), approved, #3905
-p2/orbit/p2.eclipse.plugin/org.apache.commons.compress/1.21.0.v20211103-2100, Apache-2.0, approved, #5843
 p2/orbit/p2.eclipse.plugin/org.apache.commons.io/2.8.0.v20210415-0900, Apache-2.0, approved, CQ23182
 p2/orbit/p2.eclipse.plugin/org.apache.commons.jxpath/1.3.0.v200911051830, Apache-2.0, approved, CQ10790
 p2/orbit/p2.eclipse.plugin/org.apache.commons.lang3/3.1.0.v201403281430, Apache-2.0, approved, CQ5902
@@ -249,20 +248,12 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench.swt/0.16.700.v20221024-21
 p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench/1.14.0.v20221024-2137, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench3.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench3/0.16.100.v20221024-2137, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.nl_de/4.26.0.v20230220105658, unknown, restricted, none
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.ui.nl_de/4.26.0.v20230220105658, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.ui/2.20.0.v20220226-1304, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common/2.27.0.v20221121-1400, EPL-1.0, approved, modeling.emf
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.edit.nl_de/4.26.0.v20230220105658, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.edit/1.7.0.v20210113-0340, EPL-1.0, approved, modeling.emf
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.nl_de/4.26.0.v20230220105658, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding/1.6.0.v20220517-0824, EPL-1.0, approved, modeling.emf
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change.nl_de/4.26.0.v20230220105658, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change/2.14.0.v20190528-0725, EPL-1.0, approved, modeling.emf
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.edit.nl_de/4.26.0.v20230220105658, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.edit/2.13.0.v20190822-1451, EPL-1.0, approved, modeling.emf
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.nl_de/4.26.0.v20230220105658, unknown, restricted, none
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xmi.nl_de/4.26.0.v20230220105658, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xmi/2.17.0.v20220817-1334, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore/2.29.0.v20221121-1400, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.common.ui/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
@@ -341,8 +332,6 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.view.vertical.model.edit/1.27.0.2
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.view.vertical.model/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.view.vertical.ui.swt/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.workspace.core/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.nl_de/4.26.0.v20230220105658, unknown, restricted, none
-p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.ui.nl_de/4.26.0.v20230220105658, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.ui/2.22.0.v20220619-0533, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit/2.17.0.v20220201-1551, EPL-1.0, approved, modeling.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfcloud.emfjson-jackson/2.2.0, EPL-2.0 OR MIT, approved, ecd.emfcloud
