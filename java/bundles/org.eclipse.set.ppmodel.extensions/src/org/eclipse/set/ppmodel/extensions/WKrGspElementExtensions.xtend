@@ -8,8 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.Collections
+import java.util.List
+import java.util.Set
+import org.eclipse.core.runtime.Assert
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
@@ -19,12 +24,10 @@ import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.GZ_Freimeldung_R_At
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Anlage
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import java.util.Collections
-import java.util.List
-import org.eclipse.core.runtime.Assert
 
 import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
 
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
@@ -152,5 +155,18 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 		]
 		Assert.isTrue(results.size == 1)
 		return results.get(0)
+	}
+
+	/**
+	 * Get all {@link Fstr_Zug_Rangier} over trackswitch leg
+	 * @param element this Weiche, Kreuzung oder Gleissperre
+	 * @param legTopKante topkante of Weiche leg
+	 */
+	static def Set<Fstr_Zug_Rangier> getFstrZugRangierCrossingLeg(
+		W_Kr_Gsp_Element element, TOP_Kante legTopKante) {
+		return element.container.fstrZugRangier.filter [
+			IDFstrFahrweg.bereichObjektTeilbereich.map[topKante].contains(
+				legTopKante)
+		].filterNull.toSet
 	}
 }
