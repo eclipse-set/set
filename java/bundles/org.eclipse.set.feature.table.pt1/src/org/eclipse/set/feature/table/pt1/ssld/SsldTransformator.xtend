@@ -26,7 +26,6 @@ import org.eclipse.set.utils.table.TMFactory
 import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
-import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.DwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
@@ -61,28 +60,11 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	def static String getFreigemeldetLaenge(TopGraph topGraph, Fstr_DWeg dweg) {
-		if (dweg.IDFMAAnlageFreimeldung === null) {
+		val fmas = dweg?.FMAs
+		if (fmas.empty) {
 			return ""
 		}
-
-		val fmaAnlagen = dweg?.fmaAnlageFreimeldung
-		if (fmaAnlagen.empty) {
-			return ""
-		}
-		if (fmaAnlagen.contains(null)) {
-			throw new IllegalArgumentException('''«dweg?.bezeichnung?.bezeichnungFstrDWeg?.wert» contains non-FMA-Anlagen within ID_FMA_Anlage''')
-		}
-
-		val fstrFahrwegsZumSignal = dweg.container.fstrFahrweg.filter [
-			dweg.fstrFahrweg.start === start
-		]
-		val topDWeg = fstrFahrwegsZumSignal.map[bereichObjektTeilbereich].
-			flatten.map[IDTOPKante].toList
-		val punktObjects = fmaAnlagen?.map[fmaGrenzen]?.flatten?.filter [
-			// Only consider FMA borders which are located on the DWeg
-			punktObjektTOPKante.map[IDTOPKante].exists[topDWeg.contains(it)]
-		]
-		val distance = punktObjects?.fold(
+		val distance = fmas?.fold(
 			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
 				Math.max(current,
 					getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
@@ -149,7 +131,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(PZB_Gefahrpunkt),
 				dweg,
-				[PZBGefahrpunkt?.bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				[IDPZBGefahrpunkt?.bezeichnung?.bezeichnungMarkanterPunkt?.wert]
 			)
 
 			// E: Ssld.Grundsatzangaben.Bezeichnung
