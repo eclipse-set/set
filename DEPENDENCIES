@@ -862,9 +862,9 @@ npm/npmjs/-/has-tostringtag/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/he/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/hpack.js/2.1.6, MIT, approved, clearlydefined
-npm/npmjs/-/html-entities/2.3.3, MIT, approved, clearlydefined
+npm/npmjs/-/html-entities/2.3.3, MIT, approved, #9043
 npm/npmjs/-/html-minifier-terser/6.1.0, MIT AND MPL-1.1, approved, #2968
-npm/npmjs/-/html-webpack-plugin/5.5.0, MIT, approved, clearlydefined
+npm/npmjs/-/html-webpack-plugin/5.5.0, MIT, approved, #9078
 npm/npmjs/-/htmlparser2/6.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/http-deceiver/1.2.7, MIT, approved, clearlydefined
 npm/npmjs/-/http-errors/1.6.3, MIT, approved, clearlydefined
