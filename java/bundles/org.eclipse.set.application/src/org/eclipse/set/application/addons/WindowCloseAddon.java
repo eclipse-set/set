@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.application.addons;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -23,7 +21,6 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.core.services.configurationservice.JSONConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.swt.widgets.Shell;
 
@@ -49,10 +46,6 @@ public class WindowCloseAddon implements IWindowCloseHandler {
 	@Optional
 	IWorkbench workbench;
 
-	@Inject
-	@Optional
-	JSONConfigurationService<?> jsonService;
-
 	@Override
 	public boolean close(final MWindow window) {
 		final Shell shell = window.getContext().get(Shell.class);
@@ -75,11 +68,6 @@ public class WindowCloseAddon implements IWindowCloseHandler {
 	private void close() {
 		if (modelSession != null) {
 			modelSession.cleanUp();
-		}
-		try {
-			jsonService.storeJSON();
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
 		}
 		workbench.close();
 	}

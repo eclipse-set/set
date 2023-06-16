@@ -10,7 +10,7 @@
 package org.eclipse.set.application.addons;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -19,11 +19,10 @@ import org.eclipse.e4.ui.di.UIEventTopic;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.set.basis.constants.ToolboxConstants;
-import org.eclipse.set.core.services.configurationservice.JSONConfigurationService;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.ToolboxVersion;
-import org.eclipse.set.utils.configuration.AbstractVersionsProperty;
 
 /**
  * Addon for opening toolbox news part on the first time
@@ -32,7 +31,7 @@ import org.eclipse.set.utils.configuration.AbstractVersionsProperty;
  */
 public class ShowNewsAddon {
 	@Inject
-	JSONConfigurationService<List<String>> jsonService;
+	UserConfigurationService userConfigService;
 	@Inject
 	ToolboxPartService partService;
 
@@ -40,19 +39,17 @@ public class ShowNewsAddon {
 	@Optional
 	@SuppressWarnings("unused")
 	private void startUpComplete(
-			@UIEventTopic(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE) final MApplication application,
-			final AbstractVersionsProperty versionsProperty)
+			@UIEventTopic(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE) final MApplication application)
 			throws IOException {
-		jsonService.loadJSON();
-		versionsProperty.setJSONService(jsonService);
-		versionsProperty.loadProperty();
 		final ToolboxVersion toolboxVersion = ToolboxConfiguration
 				.getToolboxVersion();
 		if (toolboxVersion.isDevelopmentVersion()) {
 			return;
 		}
 		final String versionNumber = toolboxVersion.getExtraShortVersion();
-		if (!versionsProperty.isContainVersion(versionNumber)) {
+		final Set<String> knownVersions = userConfigService.getKnownVersions();
+		if (!knownVersions.contains(versionNumber)) {
+			userConfigService.addKnownVersions(versionNumber);
 			partService.showPart(ToolboxConstants.WEB_NEWS_PART_ID);
 		}
 

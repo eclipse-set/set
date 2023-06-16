@@ -7,10 +7,11 @@ Automatic-Module-Name: org.eclipse.set.core
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
-Import-Package: com.fasterxml.jackson.core,
+Import-Package: com.fasterxml.jackson.annotation,
+ com.fasterxml.jackson.core,
  com.fasterxml.jackson.core.type,
  com.fasterxml.jackson.databind,
- com.fasterxml.jackson.databind.node;version="2.12.6",
+ com.fasterxml.jackson.databind.node,
  com.fasterxml.jackson.databind.ser,
  javax.annotation,
  javax.inject,
@@ -105,7 +106,7 @@ Export-Package: org.eclipse.set.core,
  org.eclipse.set.core.enumtranslation,
  org.eclipse.set.core.modelservice
 Service-Component: OSGI-INF/org.eclipse.set.core.Messages.xml,
- OSGI-INF/org.eclipse.set.core.configurationservice.JSONConfigurationServiceImpl.xml,
+ OSGI-INF/org.eclipse.set.core.configurationservice.UserConfigurationServiceImpl.xml,
  OSGI-INF/org.eclipse.set.core.enumtranslation.EnumTranslationServiceImpl.xml,
  OSGI-INF/org.eclipse.set.core.enumtranslation.Enumerators.xml,
  OSGI-INF/org.eclipse.set.core.fileservice.PlainFileFormatService.xml,
