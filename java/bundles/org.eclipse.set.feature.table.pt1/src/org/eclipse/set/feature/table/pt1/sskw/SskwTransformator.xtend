@@ -228,9 +228,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Vorzugslage_Automatik),
 				element,
-				[WKrGspElementAllg.vorzugslageAutomatik.wert],
-				["x"],
-				["o"]
+				[WKrGspElementAllg?.vorzugslageAutomatik?.wert !== null],
+				[WKrGspElementAllg.vorzugslageAutomatik.wert ? "x" : "o" ],
+				[""]
 			)
 
 			// I: Sskw.Weiche.Auffahrortung
