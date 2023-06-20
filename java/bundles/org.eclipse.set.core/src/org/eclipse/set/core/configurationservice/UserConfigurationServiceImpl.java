@@ -122,6 +122,9 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 
 	@Override
 	public Set<String> getKnownVersions() throws IOException {
+		if (configuration.versions == null) {
+			configuration.versions = new HashSet<>();
+		}
 		return configuration.versions;
 	}
 
