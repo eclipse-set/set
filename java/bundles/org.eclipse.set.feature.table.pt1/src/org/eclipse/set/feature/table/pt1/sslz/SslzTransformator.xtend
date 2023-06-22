@@ -557,7 +557,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						fstrZugRangier.container.contents.filter(
 							Fstr_Abhaengigkeit).map [
 							IDBedienAnzeigeElement?.bedienAnzeigeElementAllg
-						].findFirst[taste !== null || schalter !== null] !==
+						].findFirst[it?.taste !== null || it?.schalter !== null] !==
 							null
 					], [
 						val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.
