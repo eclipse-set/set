@@ -36,7 +36,7 @@ class SignalbegriffExtensions extends BasisObjektExtensions {
 	 */
 	def static <T extends Signalbegriff_ID_TypeClass> boolean hasSignalbegriffID(
 		Signal_Signalbegriff signalBegriff, Class<T> type) {
-		return type.isInstance(signalBegriff.signalbegriffID)
+		return type.isInstance(signalBegriff?.signalbegriffID)
 	}
 
 	/**

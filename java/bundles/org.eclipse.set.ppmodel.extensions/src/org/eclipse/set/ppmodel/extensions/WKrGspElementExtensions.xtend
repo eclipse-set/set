@@ -153,7 +153,8 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 		val results = weichenKnoten.topKanten.filter [
 			getTOPAnschluss(weichenKnoten) == anschluss
 		]
-		Assert.isTrue(results.size == 1)
+		if(results.size !== 1)
+			return null
 		return results.get(0)
 	}
 
