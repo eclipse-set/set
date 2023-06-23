@@ -22,25 +22,10 @@ public interface FontService {
 	 */
 	Path getSiteplanFont();
 
-	// IMPROVE: Java-17: Use a record here
-	/**
-	 * Font definition
-	 */
 	@SuppressWarnings("javadoc")
-	public class FopFont {
-		public FopFont(final Path path, final String name, final String weight,
-				final String style) {
-			this.path = path;
-			this.name = name;
-			this.weight = weight;
-			this.style = style;
 
-		}
-
-		public final Path path;
-		public final String name;
-		public final String weight;
-		public final String style;
+	public record FopFont(Path path, String name, String weight, String style) {
+		//
 	}
 
 	/**
