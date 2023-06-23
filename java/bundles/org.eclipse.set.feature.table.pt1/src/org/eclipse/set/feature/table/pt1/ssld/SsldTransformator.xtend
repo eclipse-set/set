@@ -149,7 +149,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Zielgeschwindigkeit_moeglich),
 				dweg,
 				[fstrDWegSpezifisch !== null],
-				[fstrDWegSpezifisch.DWegV.wert.toString]
+				[fstrDWegSpezifisch?.DWegV?.wert?.toString]
 			)
 
 			// G: Ssld.Eigenschaften.Laenge.Soll
