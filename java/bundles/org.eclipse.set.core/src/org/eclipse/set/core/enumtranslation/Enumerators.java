@@ -1,31 +1,30 @@
-/**
- * Copyright (c) 2023 DB Netz AG and others.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
- */
-package org.eclipse.set.core.enumtranslation;
+  /**
+   * Copyright (c) 2023 DB Netz AG and others.
+   *
+   * All rights reserved. This program and the accompanying materials
+   * are made available under the terms of the Eclipse Public License v2.0
+   * which accompanies this distribution, and is available at
+   * http://www.eclipse.org/legal/epl-v20.html
+   */
+  package org.eclipse.set.core.enumtranslation;
 
-import org.eclipse.set.core.AbstractMessageService;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
+  import org.eclipse.set.core.AbstractMessageService;
+  import org.osgi.service.component.annotations.Activate;
+  import org.osgi.service.component.annotations.Component;
 
-/**
- * Translations for enumerators.
- *
- * @generated
- */
-@Component(service = Enumerators.class)
-public class Enumerators extends AbstractMessageService {
-	@Activate
-	private void setupLocalization()
-			throws IllegalArgumentException, IllegalAccessException {
-		super.setupLocalization(
-				"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
-	}
-
+  /**
+   * Translations for enumerators.
+   *
+   * @generated
+   */
+  @Component(service = Enumerators.class)
+  public class Enumerators extends AbstractMessageService {
+  		@Activate
+  		private void setupLocalization()
+  				throws IllegalArgumentException, IllegalAccessException {
+  			super.setupLocalization(
+  					"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
+  		}
 	/**
 	 * 112
 	 */
@@ -7662,6 +7661,66 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMEinzeldatei_Art_Ladedatei_Alternative;
 
 	/**
+	 * L
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_links_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_links_Sorting;
+
+	/**
+	 * L
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_links_Alternative;
+
+	/**
+	 * M
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_mittig_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_mittig_Sorting;
+
+	/**
+	 * M
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_mittig_Alternative;
+
+	/**
+	 * R
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_rechts_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_rechts_Sorting;
+
+	/**
+	 * R
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_rechts_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMElektrischer_Antrieb_Lage_sonstige_Alternative;
+
+	/**
 	 * Abschnitt
 	 */
 	public String ENUMElement_Lage_Abschnitt_Presentation;
@@ -8467,7 +8526,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Sorting;
 
 	/**
-	 * ZZS
+	 * ZZS 
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Alternative;
 
@@ -8817,64 +8876,34 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFMA_Komponente_Art_Isolierstoss_zweischienig_Alternative;
 
 	/**
-	 * RR (RangierRegel)
+	 * ZM (ZugMittelweichenteil)
 	 */
-	public String ENUMFstr_Art_RR_Presentation;
+	public String ENUMFstr_Mittel_Art_ZM_Presentation;
 
 	/**
-	 * R1
+	 * Z4M1
 	 */
-	public String ENUMFstr_Art_RR_Sorting;
+	public String ENUMFstr_Mittel_Art_ZM_Sorting;
 
 	/**
-	 * R
+	 * M
 	 */
-	public String ENUMFstr_Art_RR_Alternative;
+	public String ENUMFstr_Mittel_Art_ZM_Alternative;
 
 	/**
-	 * RT (RangierTeil)
+	 * ZUM (ZugUmfahrMittelweichenteil)
 	 */
-	public String ENUMFstr_Art_RT_Presentation;
+	public String ENUMFstr_Mittel_Art_ZUM_Presentation;
 
 	/**
-	 * R3
+	 * Z5M2
 	 */
-	public String ENUMFstr_Art_RT_Sorting;
+	public String ENUMFstr_Mittel_Art_ZUM_Sorting;
 
 	/**
-	 * T
+	 * UM
 	 */
-	public String ENUMFstr_Art_RT_Alternative;
-
-	/**
-	 * RTU (RangierTeilUmfahr)
-	 */
-	public String ENUMFstr_Art_RTU_Presentation;
-
-	/**
-	 * R4
-	 */
-	public String ENUMFstr_Art_RTU_Sorting;
-
-	/**
-	 * TU
-	 */
-	public String ENUMFstr_Art_RTU_Alternative;
-
-	/**
-	 * RU (RangierUmfahr)
-	 */
-	public String ENUMFstr_Art_RU_Presentation;
-
-	/**
-	 * R2
-	 */
-	public String ENUMFstr_Art_RU_Sorting;
-
-	/**
-	 * U
-	 */
-	public String ENUMFstr_Art_RU_Alternative;
+	public String ENUMFstr_Mittel_Art_ZUM_Alternative;
 
 	/**
 	 * RR (RangierRegel)
@@ -8937,139 +8966,124 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFstr_Rangier_Art_RU_Alternative;
 
 	/**
-	 * ZB (ZugZentralblock)
+	 * B (Blockabschnitt)
 	 */
-	public String ENUMFstr_Art_ZB_Presentation;
-
-	/**
-	 * Z3
-	 */
-	public String ENUMFstr_Art_ZB_Sorting;
-
-	/**
-	 * B
-	 */
-	public String ENUMFstr_Art_ZB_Alternative;
-
-	/**
-	 * ZH (ZugHilfs)
-	 */
-	public String ENUMFstr_Art_ZH_Presentation;
-
-	/**
-	 * Z6
-	 */
-	public String ENUMFstr_Art_ZH_Sorting;
-
-	/**
-	 * H
-	 */
-	public String ENUMFstr_Art_ZH_Alternative;
-
-	/**
-	 * ZM (ZugMittelweichenteil)
-	 */
-	public String ENUMFstr_Art_ZM_Presentation;
-
-	/**
-	 * Z4
-	 */
-	public String ENUMFstr_Art_ZM_Sorting;
-
-	/**
-	 * M
-	 */
-	public String ENUMFstr_Art_ZM_Alternative;
-
-	/**
-	 * ZR (ZugRegel)
-	 */
-	public String ENUMFstr_Art_ZR_Presentation;
-
-	/**
-	 * Z1
-	 */
-	public String ENUMFstr_Art_ZR_Sorting;
-
-	/**
-	 * R
-	 */
-	public String ENUMFstr_Art_ZR_Alternative;
-
-	/**
-	 * ZT (ZugTeil)
-	 */
-	public String ENUMFstr_Art_ZT_Presentation;
+	public String ENUMFstr_Zug_Art_B_Presentation;
 
 	/**
 	 * Z8
 	 */
-	public String ENUMFstr_Art_ZT_Sorting;
+	public String ENUMFstr_Zug_Art_B_Sorting;
+
+	/**
+	 * B
+	 */
+	public String ENUMFstr_Zug_Art_B_Alternative;
+
+	/**
+	 * ZBZ (ZugZentralblock)
+	 */
+	public String ENUMFstr_Zug_Art_ZBZ_Presentation;
+
+	/**
+	 * Z3
+	 */
+	public String ENUMFstr_Zug_Art_ZBZ_Sorting;
+
+	/**
+	 * BZ
+	 */
+	public String ENUMFstr_Zug_Art_ZBZ_Alternative;
+
+	/**
+	 * ZH (ZugHilfs)
+	 */
+	public String ENUMFstr_Zug_Art_ZH_Presentation;
+
+	/**
+	 * Z64
+	 */
+	public String ENUMFstr_Zug_Art_ZH_Sorting;
+
+	/**
+	 * H
+	 */
+	public String ENUMFstr_Zug_Art_ZH_Alternative;
+
+	/**
+	 * ZR (ZugRegel)
+	 */
+	public String ENUMFstr_Zug_Art_ZR_Presentation;
+
+	/**
+	 * Z1
+	 */
+	public String ENUMFstr_Zug_Art_ZR_Sorting;
+
+	/**
+	 * R
+	 */
+	public String ENUMFstr_Zug_Art_ZR_Alternative;
+
+	/**
+	 * ZT (ZugTeil)
+	 */
+	public String ENUMFstr_Zug_Art_ZT_Presentation;
+
+	/**
+	 * Z86
+	 */
+	public String ENUMFstr_Zug_Art_ZT_Sorting;
 
 	/**
 	 * T
 	 */
-	public String ENUMFstr_Art_ZT_Alternative;
+	public String ENUMFstr_Zug_Art_ZT_Alternative;
 
 	/**
 	 * ZTU (ZugTeilUmfahr)
 	 */
-	public String ENUMFstr_Art_ZTU_Presentation;
+	public String ENUMFstr_Zug_Art_ZTU_Presentation;
 
 	/**
-	 * Z9
+	 * Z97
 	 */
-	public String ENUMFstr_Art_ZTU_Sorting;
+	public String ENUMFstr_Zug_Art_ZTU_Sorting;
 
 	/**
 	 * TU
 	 */
-	public String ENUMFstr_Art_ZTU_Alternative;
+	public String ENUMFstr_Zug_Art_ZTU_Alternative;
 
 	/**
 	 * ZU (ZugUmfahr)
 	 */
-	public String ENUMFstr_Art_ZU_Presentation;
+	public String ENUMFstr_Zug_Art_ZU_Presentation;
 
 	/**
 	 * Z2
 	 */
-	public String ENUMFstr_Art_ZU_Sorting;
+	public String ENUMFstr_Zug_Art_ZU_Sorting;
 
 	/**
 	 * U
 	 */
-	public String ENUMFstr_Art_ZU_Alternative;
+	public String ENUMFstr_Zug_Art_ZU_Alternative;
 
 	/**
 	 * ZUH (ZugUmfahrHilfs)
 	 */
-	public String ENUMFstr_Art_ZUH_Presentation;
+	public String ENUMFstr_Zug_Art_ZUH_Presentation;
 
 	/**
-	 * Z7
+	 * Z75
 	 */
-	public String ENUMFstr_Art_ZUH_Sorting;
+	public String ENUMFstr_Zug_Art_ZUH_Sorting;
 
 	/**
 	 * UH
 	 */
-	public String ENUMFstr_Art_ZUH_Alternative;
-
-	/**
-	 * ZUM (ZugUmfahrMittelweichenteil)
-	 */
-	public String ENUMFstr_Art_ZUM_Presentation;
-
-	/**
-	 * Z5
-	 */
-	public String ENUMFstr_Art_ZUM_Sorting;
-
-	/**
-	 * UM
-	 */
-	public String ENUMFstr_Art_ZUM_Alternative;
+	public String ENUMFstr_Zug_Art_ZUH_Alternative;
 
 	/**
 	 * 1
@@ -24565,5 +24579,4 @@ public class Enumerators extends AbstractMessageService {
 	 * Erfolg
 	 */
 	public String SUCCESS_Alternative;
-
 }
