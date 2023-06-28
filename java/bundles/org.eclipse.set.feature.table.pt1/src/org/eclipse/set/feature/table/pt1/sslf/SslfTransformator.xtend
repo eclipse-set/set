@@ -250,7 +250,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 		val wkrArt = wKrGspElement?.IDWKrAnlage?.WKrAnlageArt
 		if (wkrArt === ENUMWKrArt.ENUMW_KR_ART_EKW &&
 			flaSchutz?.flaSchutzAnforderer?.EKWKrAnteil?.wert === true) {
-			return '''«wKrGspElement?.bezeichnung?.kennzahl»Kr«wKrGspElement.bezeichnung.oertlicherElementname»'''
+			return '''«wKrGspElement?.bezeichnung?.kennzahl?.wert»Kr«wKrGspElement?.bezeichnung?.oertlicherElementname?.wert»'''
 		} else {
 			return wKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert
 		}

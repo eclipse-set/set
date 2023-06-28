@@ -266,7 +266,7 @@ class TableToTableDocument {
 	private def dispatch Element createContent(CompareCellContent content,
 		int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
-		#[content.oldValue, content.newValue].flatten.filterNull.toSet.forEach[
+		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.forEach[
 			val child = content.getCompareContentValueFormat([createCompareValueElement($0, $1)], it)
 			element.appendChild(addContentToElement(child,columnNumber, isRemarkColumn))
 		]
