@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.set.sessionservice.feature"
       label="SET Session Service Feature"
-      version="2.0.0.qualifier"
+      version="2.1.0.qualifier"
       provider-name="Eclipse Signalling Engineering Toolbox">
 
    <description url="http://www.example.com/description">
