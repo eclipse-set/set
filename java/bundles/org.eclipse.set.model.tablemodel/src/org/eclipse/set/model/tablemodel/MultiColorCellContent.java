@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue <em>Value</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getSeperator <em>Seperator</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getMultiColorCellContent()
@@ -40,27 +39,5 @@ public interface MultiColorCellContent extends CellContent {
 	 * @generated
 	 */
 	EList<MultiColorContent> getValue();
-
-	/**
-	 * Returns the value of the '<em><b>Seperator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Seperator</em>' attribute.
-	 * @see #setSeperator(String)
-	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getMultiColorCellContent_Seperator()
-	 * @model
-	 * @generated
-	 */
-	String getSeperator();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getSeperator <em>Seperator</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Seperator</em>' attribute.
-	 * @see #getSeperator()
-	 * @generated
-	 */
-	void setSeperator(String value);
 
 } // MultiColorCellContent

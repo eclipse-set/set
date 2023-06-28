@@ -281,9 +281,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						[
 							gleisabschnitte.value.map [
 								bezeichnung?.bezeichnungTabelle?.wert
-							].filterNull.getIterableFilling(
-								MIXED_STRING_COMPARATOR)
-						]
+							].filterNull
+						],
+						ITERABLE_FILLING_SEPARATOR,
+						MIXED_STRING_COMPARATOR
 					),
 					new Case<Fstr_Zug_Rangier>(
 						[
@@ -294,9 +295,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							!zugeinwirkungen.value.empty
 						],
 						[
-							zugeinwirkungen.value.getIterableFilling(
-								MIXED_STRING_COMPARATOR)
-						]
+							zugeinwirkungen.value
+						],
+						ITERABLE_FILLING_SEPARATOR,
+						MIXED_STRING_COMPARATOR
 					)
 				)
 
@@ -342,46 +344,62 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 									signalRahmen.signal ==
 										fstrZugRangier.fstrFahrweg.IDZiel
 							].sortBy[signalbegriffID?.symbol]
-							'''«FOR signal : signals SEPARATOR String.format("%n")»«signal?.signalbegriffID?.symbol»«ENDFOR»'''
-						]
+							return signals.map[signalbegriffID?.symbol].
+								filterNull
+						],
+						ITERABLE_FILLING_SEPARATOR,
+						null
 					),
 					new Case<Fstr_Zug_Rangier>(
-					[true /* condition handled within filling */ ], [
-						val zs3Start = fstrZugRangier.fstrSignalisierung.filter [
-							signalSignalbegriff !== null &&
-								signalSignalbegriffZiel === null &&
-								signalSignalbegriff.
-									hasSignalbegriffID(typeof(Zs3)) &&
-								signalSignalbegriff.signalRahmen.signal.
-									identitaet.wert ==
-									fstrZugRangier.fstrFahrweg.start.identitaet.
-										wert
-						].sortBy[signalSignalbegriff?.signalbegriffID?.symbol]
+						[true /* condition handled within filling */ ],
+						[
+							val zs3Start = fstrZugRangier.fstrSignalisierung.
+								filter [
+									signalSignalbegriff !== null &&
+										signalSignalbegriffZiel === null &&
+										signalSignalbegriff.
+											hasSignalbegriffID(typeof(Zs3)) &&
+										signalSignalbegriff.signalRahmen.signal.
+											identitaet.wert ==
+											fstrZugRangier.fstrFahrweg.start.
+												identitaet.wert
+								].sortBy [
+									signalSignalbegriff?.signalbegriffID?.symbol
+								]
 
-						val zs3StartZiel = fstrZugRangier.fstrSignalisierung.
-							filter [
-								signalSignalbegriff !== null &&
-									signalSignalbegriffZiel !== null &&
-									signalSignalbegriff.
-										hasSignalbegriffID(typeof(Zs3)) &&
-									(signalSignalbegriffZiel.
-										hasSignalbegriffID(typeof(Zs3)) ||
-										signalSignalbegriffZiel.
-											hasSignalbegriffID(typeof(Hp0))) &&
-									signalSignalbegriff.signalRahmen.signal.
-										identitaet.wert ==
-										fstrZugRangier.fstrFahrweg.start.
-											identitaet.wert
-							].sortBy [
-								signalSignalbegriff?.signalbegriffID?.symbol
+							val zs3StartZiel = fstrZugRangier.
+								fstrSignalisierung.filter [
+									signalSignalbegriff !== null &&
+										signalSignalbegriffZiel !== null &&
+										signalSignalbegriff.
+											hasSignalbegriffID(typeof(Zs3)) &&
+										(signalSignalbegriffZiel.
+											hasSignalbegriffID(typeof(Zs3)) ||
+											signalSignalbegriffZiel.
+												hasSignalbegriffID(
+													typeof(Hp0))) &&
+										signalSignalbegriff.signalRahmen.signal.
+											identitaet.wert ==
+											fstrZugRangier.fstrFahrweg.start.
+												identitaet.wert
+								].sortBy [
+									signalSignalbegriff?.signalbegriffID?.symbol
+								]
+							val result = zs3Start.map [
+								'''«signalSignalbegriff?.signalbegriffID?.symbol»'''
 							]
-
-						'''«FOR signal : zs3Start SEPARATOR String.format("%n")»«
-							signal?.signalSignalbegriff?.signalbegriffID?.symbol»«ENDFOR»«IF !zs3Start.empty && !zs3StartZiel.empty»«String.format("%n")»«ENDIF»«FOR signal : zs3StartZiel SEPARATOR String.format("%n")»
-							«signal?.signalSignalbegriff?.signalbegriffID?.symbol»(«
-							»«IF signal?.signalSignalbegriffZiel.hasSignalbegriffID(typeof(Hp0))»0«ELSE»«
-							»«signal?.signalSignalbegriffZiel?.signalbegriffID?.symbol»«ENDIF»)«ENDFOR»'''
-					])
+							if (!zs3Start.empty && !zs3StartZiel.empty) {
+								result.addAll(zs3StartZiel.map [
+									'''«signalSignalbegriff?.signalbegriffID?.symbol»(«
+									»«IF signalSignalbegriffZiel.hasSignalbegriffID(typeof(Hp0))»0«ELSE»«
+									»«signalSignalbegriffZiel?.signalbegriffID?.symbol»«ENDIF»)'''
+								])
+							}
+							return result
+						],
+						ITERABLE_FILLING_SEPARATOR,
+						null
+					)
 				)
 
 				fill(
@@ -479,22 +497,32 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					["x"]
 				)
 
-				fill(instance, cols.getColumn(Im_Fahrweg_Zs3), fstrZugRangier, [
-					val zs3NichtStart = fstrZugRangier.fstrSignalisierung.filter [
-						signalSignalbegriff !== null &&
-							signalSignalbegriff.
-								hasSignalbegriffID(typeof(Zs3)) &&
-							signalSignalbegriff.signalRahmen.signal.identitaet.
-								wert !=
-								fstrZugRangier.fstrFahrweg.start.identitaet.wert
-					].sortBy [
-						signalSignalbegriff?.signalbegriffID?.symbol
-					]
-
-					'''«FOR signal : zs3NichtStart SEPARATOR String.format("%n")»
-							«signal?.signalSignalbegriff?.signalRahmen.signal.bezeichnung.bezeichnungTabelle.wert
-								» («signal?.signalSignalbegriff?.signalbegriffID?.symbol»)«ENDFOR»'''
-				])
+				fillIterable(
+					instance,
+					cols.getColumn(Im_Fahrweg_Zs3),
+					fstrZugRangier,
+					[
+						val zs3NichtStart = fstrZugRangier.fstrSignalisierung.
+							filter [
+								signalSignalbegriff !== null &&
+									signalSignalbegriff.
+										hasSignalbegriffID(typeof(Zs3)) &&
+									signalSignalbegriff.signalRahmen.signal.
+										identitaet.wert !=
+										fstrZugRangier.fstrFahrweg.start.
+											identitaet.wert
+							].sortBy [
+								signalSignalbegriff?.signalbegriffID?.symbol
+							]
+						zs3NichtStart.map [
+							'''«signalSignalbegriff?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.wert»«
+						»(«signalSignalbegriff?.signalbegriffID?.symbol»'''
+						]
+					],
+					null,
+					[it],
+					ITERABLE_FILLING_SEPARATOR
+				)
 
 				// Analysis: Sslz.Signalisierung.Im_Fahrweg.Zs6
 				if (logger.debugEnabled) {
@@ -508,15 +536,20 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					}
 				}
 
-				fill(instance, cols.getColumn(Im_Fahrweg_Zs6), fstrZugRangier, [
-					fstrFahrweg.signalbegriffeImFahrweg.findFirst [ b1 |
-						b1.hasSignalbegriffID(typeof(Zs6)) &&
-							fstrZugRangier.fstrSignalisierung.exists [ b2 |
-								b2.signalSignalbegriff === b1
-							]
-					]?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.
-						wert
-				])
+				fill(
+					instance,
+					cols.getColumn(Im_Fahrweg_Zs6),
+					fstrZugRangier,
+					[
+						fstrFahrweg.signalbegriffeImFahrweg.findFirst [ b1 |
+							b1.hasSignalbegriffID(typeof(Zs6)) &&
+								fstrZugRangier.fstrSignalisierung.exists [ b2 |
+									b2.signalSignalbegriff === b1
+								]
+						]?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.
+							wert
+					]
+				)
 
 				fillIterable(
 					instance,
@@ -574,7 +607,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					], [
 						val fstrAusschlussBesonders = IDFstrAusschlussBesonders.
 							map [
-								getSwitchValue(getBezeichnungCases())
+								getSwitchCase(getBezeichnungCases())
 							]
 						val footnotes = footnoteTransformation.transform(it,
 							instance)

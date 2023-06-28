@@ -8,6 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
+import java.util.List
+import java.util.Comparator
+
 /**
  * Describes a switch case.
  * 
@@ -23,7 +26,11 @@ class Case<T> {
 	/**
 	 * the filling
 	 */
-	public (T)=>String filling
+	public (T)=>Iterable<String> filling
+	
+	public String seperator
+	
+	public Comparator<String> comparator
 	
 	/**
 	 * @param condition the condition
@@ -31,9 +38,21 @@ class Case<T> {
 	 */
 	new(
 		(T)=>Boolean condition,
-		(T)=>String filling
+		(T)=>Iterable<String> filling,
+		String seperator,
+		Comparator<String> comparator
 	) {
 		this.condition = condition
 		this.filling = filling
+		this.seperator = seperator
+		this.comparator = comparator
+	}	
+	
+	new((T) => Boolean condition,
+		(T) => String filling
+	) {
+		this.condition = condition
+		this.filling = filling.andThen[it !== null ? List.of(it) : emptyList]
+		this.seperator = null
 	}	
 }

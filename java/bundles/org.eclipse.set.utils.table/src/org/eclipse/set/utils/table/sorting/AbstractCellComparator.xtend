@@ -8,12 +8,14 @@
  */
 package org.eclipse.set.utils.table.sorting
 
+import java.util.Comparator
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
-import java.util.Comparator
-import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
+
+import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 
 /**
  * Comparator for TableCells
@@ -81,11 +83,14 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		return c1.compareCellContentString.compareCell(c2.value)
 	}
 
-	private def String compareCellContentString(CompareCellContent content) {
-		return '''«content.newValue»«content.oldValue»'''
+	private def Iterable<String> compareCellContentString(CompareCellContent content) {
+		return #[content.newValue,content.oldValue].flatten.toSet
 	}
 	
-	def int compareCell(String text1, String text2) {
+	def int compareCell(Iterable<String> iterable1, Iterable<String> iterable2) {
+		// For compare, the separator should be empty
+		val text1 = iterable1.iterableToString("")
+		val text2 = iterable2.iterableToString("")
 		try {
 			val number1 = Integer.parseInt(text1)
 			val number2 = Integer.parseInt(text2)

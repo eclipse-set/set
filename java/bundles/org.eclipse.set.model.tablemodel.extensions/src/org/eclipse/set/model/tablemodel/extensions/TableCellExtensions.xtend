@@ -16,6 +16,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.CellContentE
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 import org.eclipse.set.model.tablemodel.format.CellFormat
 import org.eclipse.set.model.tablemodel.format.TableformatFactory
+import java.util.Set
 
 /**
  * Extensions for {@link TableCell}.
@@ -44,6 +45,10 @@ class TableCellExtensions {
 	 */
 	static def String getPlainStringValue(TableCell cell) {
 		return cell.content.plainStringValue
+	}
+	
+	static def Set<String> getIterableStringValue(TableCell cell) {
+		return cell.content.stringValueIterable.toSet
 	}
 
 	/**

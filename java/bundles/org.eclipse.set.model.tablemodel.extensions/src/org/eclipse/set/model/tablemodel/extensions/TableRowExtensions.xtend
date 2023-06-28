@@ -113,7 +113,7 @@ class TableRowExtensions {
 	 */
 	def static void set(TableRow row, int columnIndex, String value) {
 		val newContent = TablemodelFactory.eINSTANCE.createStringCellContent
-		newContent.value = value
+		newContent.value?.add(value)
 		row.cells.get(columnIndex).content = newContent
 	}
 
@@ -125,10 +125,24 @@ class TableRowExtensions {
 	 */
 	def static void set(TableRow row, ColumnDescriptor column, String value) {
 		val newContent = TablemodelFactory.eINSTANCE.createStringCellContent
-		newContent.value = value
+		newContent.value?.add(value)
 		row.getCell(column).content = newContent
 	}
-	
+
+	/** 
+	 * sets the column by column descriptor.
+	 * @param tableRow the table row
+	 * @param column the column
+	 * @param value the new content
+	 */
+	def static void set(TableRow row, ColumnDescriptor column,
+		Iterable<String> value, String separator) {
+		val newContent = TablemodelFactory.eINSTANCE.createStringCellContent
+		newContent.value?.addAll(value)
+		newContent.separator = separator
+		row.getCell(column).content = newContent
+	}
+
 	/**
 	 * sets the column content, that should be in red and yellow display,
 	 * by column descriptor
@@ -138,10 +152,11 @@ class TableRowExtensions {
 	 * @param stringFormat the string format of content,
 	 * 					   which contain reference for multi color content
 	 */
-	def static void set(TableRow row, ColumnDescriptor column, List<MultiColorContent> contents, String seperator) {
+	def static void set(TableRow row, ColumnDescriptor column,
+		List<MultiColorContent> contents, String seperator) {
 		val newContent = TablemodelFactory.eINSTANCE.createMultiColorCellContent
 		newContent.value.addAll(contents)
-		newContent.seperator = seperator
+		newContent.separator = seperator
 		row.getCell(column).content = newContent
 	}
 
@@ -159,7 +174,7 @@ class TableRowExtensions {
 			columndescriptor.label == columnLabel
 		]
 		val newContent = TablemodelFactory.eINSTANCE.createStringCellContent
-		newContent.value = value
+		newContent.value?.add(value)
 		column.content = newContent
 	}
 
@@ -170,7 +185,8 @@ class TableRowExtensions {
 	 */
 	def static TableCell getCell(TableRow row, ColumnDescriptor column) {
 		for (TableCell cell : row.cells)
-			if (cell.columndescriptor == column || cell.columndescriptor.isDescendantOf(column))
+			if (cell.columndescriptor == column ||
+				cell.columndescriptor.isDescendantOf(column))
 				return cell
 		throw new IllegalArgumentException("no column found: " + column.label);
 	}
@@ -253,8 +269,9 @@ class TableRowExtensions {
 	static def String getLeadingObjectGuid(TableRow tableRow) {
 		return tableRow.group.leadingObject?.identitaet?.wert
 	}
-	
-	def static String toDebugString(TableRow row, int groupNumber, int columnWidth) {
+
+	def static String toDebugString(TableRow row, int groupNumber,
+		int columnWidth) {
 		if (row.eContainer !== null) {
 			return '''«groupNumber.toString.toPaddedString(3)» «row.leadingObjectGuid.toPaddedString(columnWidth)» «FOR cell : row.cells SEPARATOR " "»«
 			cell.plainStringValue.toPaddedString(columnWidth)»«ENDFOR»'''

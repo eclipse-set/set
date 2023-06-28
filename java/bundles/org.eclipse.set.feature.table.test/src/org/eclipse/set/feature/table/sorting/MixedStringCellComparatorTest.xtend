@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.table.sorting
 
+import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.utils.table.sorting.MixedStringCellComparator
 import org.junit.jupiter.api.BeforeEach
@@ -16,7 +17,6 @@ import org.junit.jupiter.api.Test
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.Is.*
 import static org.junit.jupiter.api.Assertions.*
-import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 
 /**
  * Tests for {@link MixedStringCellComparator}.
@@ -36,13 +36,12 @@ class MixedStringCellComparatorTest {
 	def void testMixedCells() {
 		val cell1 = TablemodelFactory.eINSTANCE.createTableCell
 		val content1 = TablemodelFactory.eINSTANCE.createCompareCellContent
-		content1.oldValue = null
-		content1.newValue = "86W9"
+		content1.newValue.add("86W9")
 		cell1.content = content1
 
 		val cell2 = TablemodelFactory.eINSTANCE.createTableCell
 		val content2 = TablemodelFactory.eINSTANCE.createStringCellContent
-		content2.value = "83W1"
+		content2.value.add("83W1")
 		cell2.content = content2
 
 		val result = comparator.compare(cell1, cell2)
@@ -54,12 +53,12 @@ class MixedStringCellComparatorTest {
 	def void testKennzahl() {
 		val cell1 = TablemodelFactory.eINSTANCE.createTableCell
 		val content1 = TablemodelFactory.eINSTANCE.createStringCellContent
-		content1.value = "76ZV2/75ZU2 (D)"
+		content1.value.add("76ZV2/75ZU2 (D)")
 		cell1.content = content1
 
 		val cell2 = TablemodelFactory.eINSTANCE.createTableCell
 		val content2 = TablemodelFactory.eINSTANCE.createStringCellContent
-		content2.value = "76002/76F ()"
+		content2.value.add("76002/76F ()")
 		cell2.content = content2
 
 		val result = comparator.compare(cell1, cell2)

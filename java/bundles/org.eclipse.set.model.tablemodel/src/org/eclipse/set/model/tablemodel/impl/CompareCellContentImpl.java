@@ -8,12 +8,10 @@
  */
 package org.eclipse.set.model.tablemodel.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -33,44 +31,24 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  */
 public class CompareCellContentImpl extends CellContentImpl implements CompareCellContent {
 	/**
-	 * The default value of the '{@link #getOldValue() <em>Old Value</em>}' attribute.
+	 * The cached value of the '{@link #getOldValue() <em>Old Value</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getOldValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String OLD_VALUE_EDEFAULT = null;
+	protected EList<String> oldValue;
 
 	/**
-	 * The cached value of the '{@link #getOldValue() <em>Old Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOldValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected String oldValue = OLD_VALUE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getNewValue() <em>New Value</em>}' attribute.
+	 * The cached value of the '{@link #getNewValue() <em>New Value</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getNewValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NEW_VALUE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getNewValue() <em>New Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getNewValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected String newValue = NEW_VALUE_EDEFAULT;
+	protected EList<String> newValue;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -97,7 +75,10 @@ public class CompareCellContentImpl extends CellContentImpl implements CompareCe
 	 * @generated
 	 */
 	@Override
-	public String getOldValue() {
+	public EList<String> getOldValue() {
+		if (oldValue == null) {
+			oldValue = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.COMPARE_CELL_CONTENT__OLD_VALUE);
+		}
 		return oldValue;
 	}
 
@@ -107,34 +88,11 @@ public class CompareCellContentImpl extends CellContentImpl implements CompareCe
 	 * @generated
 	 */
 	@Override
-	public void setOldValue(String newOldValue) {
-		String oldOldValue = oldValue;
-		oldValue = newOldValue;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COMPARE_CELL_CONTENT__OLD_VALUE, oldOldValue, oldValue));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getNewValue() {
+	public EList<String> getNewValue() {
+		if (newValue == null) {
+			newValue = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.COMPARE_CELL_CONTENT__NEW_VALUE);
+		}
 		return newValue;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setNewValue(String newNewValue) {
-		String oldNewValue = newValue;
-		newValue = newNewValue;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COMPARE_CELL_CONTENT__NEW_VALUE, oldNewValue, newValue));
 	}
 
 	/**
@@ -158,14 +116,17 @@ public class CompareCellContentImpl extends CellContentImpl implements CompareCe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TablemodelPackage.COMPARE_CELL_CONTENT__OLD_VALUE:
-				setOldValue((String)newValue);
+				getOldValue().clear();
+				getOldValue().addAll((Collection<? extends String>)newValue);
 				return;
 			case TablemodelPackage.COMPARE_CELL_CONTENT__NEW_VALUE:
-				setNewValue((String)newValue);
+				getNewValue().clear();
+				getNewValue().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -180,10 +141,10 @@ public class CompareCellContentImpl extends CellContentImpl implements CompareCe
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.COMPARE_CELL_CONTENT__OLD_VALUE:
-				setOldValue(OLD_VALUE_EDEFAULT);
+				getOldValue().clear();
 				return;
 			case TablemodelPackage.COMPARE_CELL_CONTENT__NEW_VALUE:
-				setNewValue(NEW_VALUE_EDEFAULT);
+				getNewValue().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -198,9 +159,9 @@ public class CompareCellContentImpl extends CellContentImpl implements CompareCe
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.COMPARE_CELL_CONTENT__OLD_VALUE:
-				return OLD_VALUE_EDEFAULT == null ? oldValue != null : !OLD_VALUE_EDEFAULT.equals(oldValue);
+				return oldValue != null && !oldValue.isEmpty();
 			case TablemodelPackage.COMPARE_CELL_CONTENT__NEW_VALUE:
-				return NEW_VALUE_EDEFAULT == null ? newValue != null : !NEW_VALUE_EDEFAULT.equals(newValue);
+				return newValue != null && !newValue.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

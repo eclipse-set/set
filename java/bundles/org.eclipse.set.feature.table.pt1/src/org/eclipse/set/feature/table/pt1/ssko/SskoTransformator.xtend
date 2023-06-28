@@ -279,16 +279,20 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						schlossKombination?.unterbringung?.strecken?.map [
 							bezeichnung?.bezeichnungStrecke.wert
-						].getIterableFilling(null)
-					]
+						]
+					],
+					ITERABLE_FILLING_SEPARATOR,
+					null
 				),
 				new Case<Schloss>(
 					[schlossSsp !== null],
 					[
 						schluesselsperre?.unterbringung?.strecken.map [
 							bezeichnung?.bezeichnungStrecke?.wert
-						].getIterableFilling(null)
-					]
+						]
+					],
+					ITERABLE_FILLING_SEPARATOR,
+					null
 				)
 			)
 
@@ -301,16 +305,20 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 					[schlossSk !== null],
 					[
 						schlossKombination?.unterbringung?.punktObjektStrecke.
-							map[streckeKm?.wert].getIterableFilling(null)
-					]
+							map[streckeKm?.wert]
+					],
+					ITERABLE_FILLING_SEPARATOR,
+					null
 				),
 				new Case<Schloss>(
 					[schlossSsp !== null],
 					[
 						schluesselsperre?.unterbringung?.punktObjektStrecke.map [
 							streckeKm?.wert
-						].getIterableFilling(null)
-					]
+						]
+					],
+					ITERABLE_FILLING_SEPARATOR,
+					null
 				)
 			)
 

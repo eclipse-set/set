@@ -56,4 +56,3 @@ Service-Component: OSGI-INF/org.eclipse.set.sessionservice.SetBrandingServiceCon
  OSGI-INF/org.eclipse.set.sessionservice.SetFontServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.sessionservice.SetSessionService.xml,
  OSGI-INF/org.eclipse.set.sessionservice.SetTableMenuServiceContextFunction.xml,
- OSGI-INF/org.eclipse.set.sessionservice.SetVersionsProperty.xml

@@ -97,7 +97,7 @@ public class StringCellContentItemProvider extends CellContentItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((StringCellContent)object).getValue();
+		String label = ((StringCellContent)object).getSeparator();
 		return label == null || label.length() == 0 ?
 			getString("_UI_StringCellContent_type") :
 			getString("_UI_StringCellContent_type") + " " + label;

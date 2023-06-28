@@ -135,19 +135,21 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// I: Sska.Verknüpfungen.Information.primaer
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Information_primaer),
 				element,
-				[elementVerknuepfungenInformationPrimaer]
+				[elementVerknuepfungenInformationPrimaer],
+				MIXED_STRING_COMPARATOR
 			)
 
 			// J: Sska.Verknüpfungen.Information.sekundaer
-			fill(
-				instance,
+			fillIterable(
+				instance, 
 				cols.getColumn(Information_sekundaer),
-				element,
-				[elementVerknuepfungenInformationSekundaer]
+				element, 
+				[elementVerknuepfungenInformationSekundaer],
+				MIXED_STRING_COMPARATOR
 			)
 
 			// K: Sska.Verknüpfungen.Energie.primaer
@@ -313,12 +315,12 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		return ESTW_ZentraleinheitExtensions.getUnterbringung(element)
 	}
 
-	private def dispatch String getElementVerknuepfungenInformationPrimaer(
+	private def dispatch Iterable<String> getElementVerknuepfungenInformationPrimaer(
 		Basis_Objekt element) {
 		throw new IllegalArgumentException(element.class.simpleName)
 	}
 
-	private def dispatch String getElementVerknuepfungenInformationPrimaer(
+	private def dispatch Iterable<String> getElementVerknuepfungenInformationPrimaer(
 		Aussenelementansteuerung element) {
 		var elementList = new LinkedList<Basis_Objekt>
 
@@ -328,31 +330,30 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		return elementList.filter [
 			element.IDInformationPrimaer.map[identitaet?.wert].contains(
 				identitaet.wert)
-		].map[bezeichner].toList.getIterableFilling(MIXED_STRING_COMPARATOR)
+		].map[bezeichner]
 	}
 
-	private def dispatch String getElementVerknuepfungenInformationPrimaer(
+	private def dispatch Iterable<String> getElementVerknuepfungenInformationPrimaer(
 		ESTW_Zentraleinheit element) {
 		val technikStandorts = element.technikStandort
-		return technikStandorts.map[bezeichner].toList.getIterableFilling(
-			MIXED_STRING_COMPARATOR) ?: "";
+		return technikStandorts.map[bezeichner]
 	}
 
-	private def dispatch String getElementVerknuepfungenInformationSekundaer(
+	private def dispatch Iterable<String> getElementVerknuepfungenInformationSekundaer(
 		Basis_Objekt element) {
 		throw new IllegalArgumentException(element.class.simpleName)
 	}
 
-	private def dispatch String getElementVerknuepfungenInformationSekundaer(
+	private def dispatch Iterable<String> getElementVerknuepfungenInformationSekundaer(
 		Aussenelementansteuerung element) {
 		return element.aussenelementansteuerungInformationSekundaer.map [
 			bezeichner
-		].getIterableFilling(MIXED_STRING_COMPARATOR)
+		]
 	}
 
-	private def dispatch String getElementVerknuepfungenInformationSekundaer(
+	private def dispatch Iterable<String> getElementVerknuepfungenInformationSekundaer(
 		ESTW_Zentraleinheit element) {
-		return "";
+		return #[];
 	}
 
 	private def dispatch String getElementVerknuepfungenEnergiePrimaer(
@@ -401,8 +402,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (element?.ESTWZEEnergieversorgung?.IDEnergieSekundaer !== null) {
 			return element.elementEnergieSekundaer.bezeichner
 		}
-		return element?.ESTWZEEnergieversorgung?.energieversorgungArtErsatz?.wert?.
-			translate ?: ""
+		return element?.ESTWZEEnergieversorgung?.energieversorgungArtErsatz?.
+			wert?.translate ?: ""
 	}
 
 	private def dispatch String getElementVerknuepfungenBedienungLokal(

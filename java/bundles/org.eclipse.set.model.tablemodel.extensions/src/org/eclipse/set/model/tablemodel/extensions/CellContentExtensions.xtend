@@ -12,14 +12,14 @@ import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
+import org.eclipse.set.model.tablemodel.MultiColorCellContent
+import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.utils.ToolboxConfiguration
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.tablemodel.MultiColorCellContent
-import org.eclipse.set.model.tablemodel.MultiColorContent
 
 /**
  * Extensions for {@link CellContent}.
@@ -55,12 +55,25 @@ class CellContentExtensions {
 	}
 
 	static def dispatch String getRichTextValue(CompareCellContent content) {
-		val oldFormat = content.oldFormat
-		val newFormat = content.newFormat
-		val oldAndNewExists = !oldFormat.empty && !newFormat.empty
-		return '''<p style="text-align:«content.textAlign»">«oldFormat»«IF oldAndNewExists»<br></br>«ENDIF»«content.newFormat»</p>'''
+		if (content.oldValue.equals(content.newValue)) {
+			return '''<p style="text-align:«content.textAlign»">«
+			»«content.newValue.iterableToString(content.separator).htmlString»</p>'''
+		}
+		val result = <String>newLinkedList
+		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.
+			forEach [
+				result.add(content.getCompareContentValueFormat([
+					getCompareValueFormat($0, $1)
+				], it))
+			]
+
+		return '''<p style="text-align:«content.textAlign»">«
+		»«result.iterableToString(content.separator === null || content.separator.equals("\r\n")
+			? "<br></br>" 
+			: content.separator
+		)»</p>'''
 	}
-	
+
 	static def dispatch String getRichTextValue(MultiColorCellContent content) {
 		return '''<p style="text-align:«content.textAlign»">«content.multiColorFormat»</p>'''
 	}
@@ -79,15 +92,31 @@ class CellContentExtensions {
 	}
 
 	static def dispatch String getPlainStringValue(StringCellContent content) {
-		return content.value
+		return content.value.iterableToString(content.separator)
 	}
 
 	static def dispatch String getPlainStringValue(CompareCellContent content) {
 		return '''«content.oldValue»/«content.newValue»'''
 	}
-	
-	static def dispatch String getPlainStringValue(MultiColorCellContent content) {
-		return '''«FOR value : content.value SEPARATOR content.seperator»«String.format(value.stringFormat, value.multiColorValue)»«ENDFOR»'''
+
+	static def dispatch String getPlainStringValue(
+		MultiColorCellContent content) {
+		return '''«FOR value : content.value SEPARATOR content.separator»«
+		»«String.format(value.stringFormat, value.multiColorValue)»«ENDFOR»'''
+	}
+
+	static def dispatch Iterable<String> getStringValueIterable(Void content) {
+		return #[]
+	}
+
+	static def dispatch Iterable<String> getStringValueIterable(
+		CellContent content) {
+		return #[content.plainStringValue]
+	}
+
+	static def dispatch Iterable<String> getStringValueIterable(
+		StringCellContent content) {
+		return content.value
 	}
 
 	/**
@@ -112,80 +141,83 @@ class CellContentExtensions {
 		return content.tableCell.format.textAlignment.literal
 	}
 
-	private static def dispatch String getValueFormat(StringCellContent content) {
+	private static def dispatch String getValueFormat(
+		StringCellContent content) {
 		return '''<span>«content.valueHtmlString»</span>'''
 	}
-	
-	private static def dispatch String getValueFormat(MultiColorCellContent content) {
+
+	private static def dispatch String getValueFormat(
+		MultiColorCellContent content) {
 		return '''<span>«content.multiColorFormat.htmlString»</span>'''
 	}
 
-	private static def String getOldFormat(CompareCellContent content) {
-		if (Strings.isNullOrEmpty(content.oldValue)) {
-			return ""
+	static def <T> T getCompareContentValueFormat(CompareCellContent content,
+		(String, String)=>T getFormatFunction, String value) {
+		if (content.oldValue.contains(value) &&
+			content.newValue.contains(value)) {
+			return getFormatFunction.apply(WARNING_MARK_BLACK, value)
+		} else if (content.oldValue.contains(value)) {
+			return getFormatFunction.apply(WARNING_MARK_YELLOW, value)
+		} else {
+			return getFormatFunction.apply(WARNING_MARK_RED, value)
 		}
-		return '''<span style="background-color:rgb(255,255, 0)"><s>«content.oldValueHtmlString»</s></span>'''
 	}
 
-	private static def String getNewFormat(CompareCellContent content) {
-		if (Strings.isNullOrEmpty(content.newValue)) {
+	private static def String getCompareValueFormat(String warning_mark,
+		String value) {
+		if (Strings.isNullOrEmpty(value)) {
 			return ""
 		}
-		return '''<span style="color:rgb(255, 0, 0)">«content.newValueHtmlString»</span>'''
+		if (value.isErrorText) {
+			return warning_mark
+		}
+
+		switch (warning_mark) {
+			case WARNING_MARK_BLACK: {
+				return '''<span>«value.htmlString»</span>'''
+			}
+			case WARNING_MARK_YELLOW: {
+				return '''<span style="background-color:rgb(255,255, 0)"><s>«value.htmlString»</s></span>'''
+			}
+			case WARNING_MARK_RED: {
+				return '''<span style="color:rgb(255, 0, 0)">«value.htmlString»</span>'''
+			}
+		}
 	}
-	
-	private static def String getMultiColorFormat(MultiColorCellContent content) {
+
+	private static def String getMultiColorFormat(
+		MultiColorCellContent content) {
 		if (content.value.isEmpty) {
 			return ""
 		}
-		return '''«FOR element : content.value SEPARATOR content.seperator»«element.multiColorFormat»«ENDFOR»''' 
+		return '''«FOR element : content.value SEPARATOR content.separator»«element.multiColorFormat»«ENDFOR»'''
 	}
-	
+
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat)
-				? ""
-				: content.stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
+				stringFormat.htmlString
 		}
-		
+
 		val value = '''<span style="background-color:rgb(255,255, 0)">«content
 			.getMultiColorValueHtmlString(WARNING_MARK_YELLOW)»</span><span style="color:rgb(255, 0, 0)">«content
 			.getMultiColorValueHtmlString(WARNING_MARK_RED)»</span>'''
 		return '''<span>«String.format(content.stringFormat, value)»</span>'''
 	}
-	
 
 	private static def String getValueHtmlString(StringCellContent content) {
-		if (content.value.isErrorText &&
-			!ToolboxConfiguration.developmentMode) {
+		val contentValue = content.value.iterableToString(content.separator)
+		if (contentValue.isErrorText && !ToolboxConfiguration.developmentMode) {
 			return WARNING_MARK_BLACK
 		} else {
-			return content.value.htmlString
+			return contentValue.htmlString
 		}
 	}
 
-	private static def String getOldValueHtmlString(
-		CompareCellContent content) {
-		if (content.oldValue.isErrorText &&
+	private static def String getMultiColorValueHtmlString(
+		MultiColorContent content, String warningColor) {
+		if (content.multiColorValue.isErrorText &&
 			!ToolboxConfiguration.developmentMode) {
-			return WARNING_MARK_YELLOW
-		} else {
-			return content.oldValue.htmlString
-		}
-	}
-
-	private static def String getNewValueHtmlString(
-		CompareCellContent content) {
-		if (content.newValue.isErrorText &&
-			!ToolboxConfiguration.developmentMode) {
-			return WARNING_MARK_RED
-		} else {
-			return content.newValue.htmlString
-		}
-	}
-	
-	private static def String getMultiColorValueHtmlString(MultiColorContent content, String warningColor) {
-		if (content.multiColorValue.isErrorText && !ToolboxConfiguration.developmentMode) {
 			return warningColor
 		}
 		return content.multiColorValue.htmlString
@@ -195,6 +227,13 @@ class CellContentExtensions {
 		return HtmlEscapers.htmlEscaper.escape(
 			value.intersperseWithZeroSpacesSC
 		).replaceAll("\n", "<br></br>")
+	}
+
+	def static String iterableToString(
+		Iterable<String> sequence,
+		String separator
+	) {
+		return '''«FOR element : sequence SEPARATOR separator === null ? "\n" : separator»«element»«ENDFOR»'''
 	}
 
 	/**

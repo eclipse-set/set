@@ -111,7 +111,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 						[blockAnlagenStart],
 						[IDBlockElementB]
 					)
-				]
+				],
+				"/",
+				null
 			),
 			new Case<Block_Element>(
 				[!blockElement.blockAnlagenZiel.isEmpty],
@@ -149,7 +151,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 						[blockAnlagenZiel],
 						[IDBlockElementA]
 					)
-				]
+				],
+				"/",
+				null
 			),
 			new Case<Block_Element>(
 				[!blockElement.blockAnlagenStart.isEmpty],
@@ -382,7 +386,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		return '''«oertlichkeitAbk» («oertlichkeitAwanst»)'''
 	}
 
-	private def String getBetriebsStelle(
+	private def Iterable<String> getBetriebsStelle(
 		Block_Element blockElement,
 		(Block_Element)=>Set<Block_Anlage> blockAnlage,
 		(Block_Anlage)=>Block_Element targetElement
@@ -390,10 +394,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val targetBlocks = blockAnlage.apply(blockElement).map [
 			targetElement.apply(it)
 		].filterNull
-		val betriebsStellen = targetBlocks.map [
+		return targetBlocks.map [
 			blockStrecke.oertlichkeit?.bezeichnung?.oertlichkeitAbkuerzung?.wert
 		]
-		return '''«FOR ort : betriebsStellen SEPARATOR "/"»«ort»«ENDFOR»'''
+//		return '''«FOR ort : betriebsStellen SEPARATOR "/"»«ort»«ENDFOR»'''
 	}
 
 }

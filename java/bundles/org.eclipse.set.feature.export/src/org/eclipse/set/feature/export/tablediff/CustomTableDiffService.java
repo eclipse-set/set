@@ -8,7 +8,9 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -36,15 +38,13 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true)
 public class CustomTableDiffService implements TableDiffService {
-	private static final String EMPTY_VALUE = ""; //$NON-NLS-1$
-
 	private static void addEmptyValue(final TableRow row,
 			final ColumnDescriptor descriptor) {
 		final TableCell cell = TablemodelFactory.eINSTANCE.createTableCell();
 		cell.setColumndescriptor(descriptor);
 		final StringCellContent content = TablemodelFactory.eINSTANCE
 				.createStringCellContent();
-		content.setValue(""); //$NON-NLS-1$
+		content.getValue().add(""); //$NON-NLS-1$
 		cell.setContent(content);
 		row.getCells().add(cell);
 	}
@@ -96,19 +96,20 @@ public class CustomTableDiffService implements TableDiffService {
 	private static void createDiffContent(final int i, final TableRow row,
 			final TableRow match) {
 		final TableCell oldCell = row.getCells().get(i);
-		final String oldValue = TableCellExtensions
-				.getPlainStringValue(oldCell);
-		String newValue = EMPTY_VALUE;
+		final Set<String> oldValue = TableCellExtensions
+				.getIterableStringValue(oldCell);
+		final Set<String> newValue = new LinkedHashSet<>();
 		if (match != null) {
-			newValue = TableCellExtensions
-					.getPlainStringValue(match.getCells().get(i));
+			newValue.addAll(TableCellExtensions
+					.getIterableStringValue(match.getCells().get(i)));
 		}
 
 		if (!oldValue.equals(newValue)) {
 			final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
 					.createCompareCellContent();
-			compareContent.setOldValue(oldValue);
-			compareContent.setNewValue(newValue);
+			compareContent.getOldValue().addAll(oldValue);
+			compareContent.getNewValue().addAll(newValue);
+			compareContent.setSeparator(oldCell.getContent().getSeparator());
 			oldCell.setContent(compareContent);
 		}
 	}
@@ -146,8 +147,6 @@ public class CustomTableDiffService implements TableDiffService {
 		final Table expanded = expandNewRowGroups(oldTable, newTable);
 
 		// create diff table by matching each row of the expanded table
-		final Table diff = matchRows(expanded, newTable);
-
-		return diff;
+		return matchRows(expanded, newTable);
 	}
 }

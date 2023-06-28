@@ -8,12 +8,10 @@
  */
 package org.eclipse.set.model.tablemodel.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -32,24 +30,14 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  */
 public class StringCellContentImpl extends CellContentImpl implements StringCellContent {
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String VALUE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getValue()
-	 * @generated
-	 * @ordered
-	 */
-	protected String value = VALUE_EDEFAULT;
+	protected EList<String> value;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -76,21 +64,11 @@ public class StringCellContentImpl extends CellContentImpl implements StringCell
 	 * @generated
 	 */
 	@Override
-	public String getValue() {
+	public EList<String> getValue() {
+		if (value == null) {
+			value = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.STRING_CELL_CONTENT__VALUE);
+		}
 		return value;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setValue(String newValue) {
-		String oldValue = value;
-		value = newValue;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.STRING_CELL_CONTENT__VALUE, oldValue, value));
 	}
 
 	/**
@@ -112,11 +90,13 @@ public class StringCellContentImpl extends CellContentImpl implements StringCell
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TablemodelPackage.STRING_CELL_CONTENT__VALUE:
-				setValue((String)newValue);
+				getValue().clear();
+				getValue().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -131,7 +111,7 @@ public class StringCellContentImpl extends CellContentImpl implements StringCell
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.STRING_CELL_CONTENT__VALUE:
-				setValue(VALUE_EDEFAULT);
+				getValue().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -146,7 +126,7 @@ public class StringCellContentImpl extends CellContentImpl implements StringCell
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.STRING_CELL_CONTENT__VALUE:
-				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+				return value != null && !value.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

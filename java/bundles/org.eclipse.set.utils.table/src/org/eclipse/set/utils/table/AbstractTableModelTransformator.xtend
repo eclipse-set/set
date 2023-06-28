@@ -39,7 +39,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(AbstractTableModelTransformator))
 
-	val static String ITERABLE_FILLING_SEPARATOR = String.format("%n")
+	protected val static String ITERABLE_FILLING_SEPARATOR = String.format("%n")
 
 	val static boolean DEVELOPMENT_MODE = ToolboxConfiguration.developmentMode
 
@@ -203,25 +203,31 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	) {
 
 		try {
-			val filling = getSwitchValue(object, cases)
-			if (filling === null) {
+			val switchCase = getSwitchCase(object, cases)
+			val content = switchCase?.filling?.apply(object)
+			if (content === null || content.empty) {
 				row.set(column, BLANK)
+			} else if (content.size === 1) {
+				fill(row, column, object, [content.get(0)])
 			} else {
-				fill(row, column, object, [filling])
+				fillIterable(row, column, object, [content],
+					switchCase.comparator, [it], switchCase.seperator === null
+						? ITERABLE_FILLING_SEPARATOR
+						: switchCase.seperator)
 			}
 		} catch (Exception e) {
 			handleFillingException(e, row, column)
 		}
 	}
 
-	def <T> String getSwitchValue(
+	def <T> Case<T> getSwitchCase(
 		T object,
 		Case<T>... cases
 	) {
 		for (c : cases) {
 			val condition = c.condition.apply(object)
 			if (condition !== null && condition.booleanValue) {
-				return c.filling.apply(object)
+				return c
 			}
 		}
 		return null
@@ -327,6 +333,29 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		row.fillIterableWithSeparatorConditional(column, object, [true],
 			sequence, comparator, elementFilling, [], separator)
 	}
+	
+	/**
+	 * Fill a row with a sequence of string values depending on a condition and handle exceptions.
+	 * 
+	 * @param row the row
+	 * @param column the column
+	 * @param object the object to be transformed
+	 * @param condition the condition for filling
+	 * @param sequenceIfTrue the filling sequence, in the case of a true condition
+	 * @param comparator The comparator for sorting the sequence. May be
+	 * @param separator the separator
+	 */
+	def <S, T> void fillIterableWithConditional(
+		TableRow row,
+		ColumnDescriptor column,
+		S object,
+		(S) => Boolean condition,
+		(S) => Iterable<String> sequenceIfTrue,
+		Comparator<String> comparator,
+		String separtor
+	) {
+		row.fillIterableWithSeparatorConditional(column, object, condition, sequenceIfTrue, comparator, [], separtor)
+	}
 
 	/**
 	 * Fill a row with a sequence of string values depending on a condition and handle exceptions.
@@ -386,7 +415,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 			if (condition.apply(object).booleanValue) {
 				val list = sequenceIfTrue.apply(object).sortWith(comparator).
 					map(elementFilling).filterNull
-				row.set(column, list.getIterableFilling(separator))
+				row.set(column, list, separator)
 			} else {
 				fill(row, column, object, fillingIfFalse)
 			}
@@ -447,13 +476,6 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		String separator
 	) {
 		return '''«FOR element : sequence.sortWith(comparator) SEPARATOR separator»«element»«ENDFOR»'''
-	}
-
-	private def static String getIterableFilling(
-		Iterable<String> sequence,
-		String separator
-	) {
-		return '''«FOR element : sequence SEPARATOR separator»«element»«ENDFOR»'''
 	}
 
 	def dispatch private handleFillingException(

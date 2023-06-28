@@ -613,11 +613,14 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[it]
 							)
 
-							fill(
+							fillIterable(
 								row,
 								cols.getColumn(Zusatzanzeiger_Kombination),
 								signalRahmen,
-								[fillSignalisierungKombination]
+								[fillSignalisierungKombination],
+								null,
+								[it],
+								", "
 							)
 
 							fillIterable(
@@ -950,15 +953,14 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filterNull.toList
 	}
 
-	private static def String fillSignalisierungKombination(
+	private static def Iterable<String> fillSignalisierungKombination(
 		List<Signal_Rahmen> signalRahmen
 	) {
 		val kombinationen = signalRahmen.filter [
 			rahmenArt.wert == ENUM_RAHMEN_ART_ZUSATZANZEIGER
 		].map[signalbegriffe.toSet].map[map[signalbegriffID.typeName].toSet].
 			filter[size > 1]
-		return '''«FOR kombination : kombinationen SEPARATOR ", "»«
-			kombination.fillSignalisierungKombination»«ENDFOR»'''
+		return kombinationen.map[fillSignalisierungKombination]
 	}
 
 	private static def String fillSignalisierungKombination(

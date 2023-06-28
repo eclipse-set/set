@@ -266,13 +266,25 @@ class TableToTableDocument {
 	private def dispatch Element createContent(CompareCellContent content,
 		int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
-		element.appendChild(
-			content.oldValue.createContentElement("OldValue", columnNumber,
-				isRemarkColumn))
-		element.appendChild(
-			content.newValue.createContentElement("NewValue", columnNumber,
-				isRemarkColumn))
+		#[content.oldValue, content.newValue].flatten.filterNull.toSet.forEach[
+			val child = content.getCompareContentValueFormat([createCompareValueElement($0, $1)], it)
+			element.appendChild(addContentToElement(child,columnNumber, isRemarkColumn))
+		]
 		return element
+	}
+
+	private def Element createCompareValueElement(String warning_mark,
+		String value) {
+		switch (warning_mark) {
+			case WARNING_MARK_BLACK:
+				return doc.createElement("UnchangedValue")
+			case WARNING_MARK_YELLOW:
+				return doc.createElement("OldValue")
+			case WARNING_MARK_RED:
+				return doc.createElement("NewValue")
+			default:
+				return null
+		}
 	}
 
 	private def dispatch Element createContent(MultiColorCellContent content,
@@ -284,7 +296,7 @@ class TableToTableDocument {
 					isRemarkColumn))
 			if (i < content.value.size - 1) {
 				val separator = doc.createElement("SimpleValue")
-				separator.textContent = content.seperator
+				separator.textContent = content.separator
 				element.appendChild(separator)
 			}
 		}
@@ -321,6 +333,12 @@ class TableToTableDocument {
 	private def Element createContentElement(String content, String elementName,
 		int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement(elementName)
+		return content.addContentToElement(element, columnNumber,
+			isRemarkColumn)
+	}
+
+	private def Element addContentToElement(String content, Element element,
+		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
 		element.textContent = if (isRemarkColumn)
 			checkOutput

@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.model.tablemodel;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -32,53 +34,33 @@ package org.eclipse.set.model.tablemodel;
  */
 public interface CompareCellContent extends CellContent {
 	/**
-	 * Returns the value of the '<em><b>Old Value</b></em>' attribute.
+	 * Returns the value of the '<em><b>Old Value</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The old value
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Old Value</em>' attribute.
-	 * @see #setOldValue(String)
+	 * @return the value of the '<em>Old Value</em>' attribute list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareCellContent_OldValue()
 	 * @model
 	 * @generated
 	 */
-	String getOldValue();
+	EList<String> getOldValue();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue <em>Old Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Old Value</em>' attribute.
-	 * @see #getOldValue()
-	 * @generated
-	 */
-	void setOldValue(String value);
-
-	/**
-	 * Returns the value of the '<em><b>New Value</b></em>' attribute.
+	 * Returns the value of the '<em><b>New Value</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The new value
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>New Value</em>' attribute.
-	 * @see #setNewValue(String)
+	 * @return the value of the '<em>New Value</em>' attribute list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareCellContent_NewValue()
 	 * @model
 	 * @generated
 	 */
-	String getNewValue();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue <em>New Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>New Value</em>' attribute.
-	 * @see #getNewValue()
-	 * @generated
-	 */
-	void setNewValue(String value);
+	EList<String> getNewValue();
 
 } // CompareCellContent

@@ -251,7 +251,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichen = new Wrapper
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichenZK = new Wrapper
 
-			fillConditional(
+			fillIterableWithConditional(
 				instance,
 				cols.getColumn(Sonstiges_Weiche),
 				fmaAnlage,
@@ -270,8 +270,10 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					weichenZK.value.map[bezeichnung.bezeichnungTabelle.wert].
-						toSet.getIterableFilling(MIXED_STRING_COMPARATOR)
-				]
+						toSet
+				],
+				MIXED_STRING_COMPARATOR,
+				ITERABLE_FILLING_SEPARATOR
 			)
 			
 			//T: Sonstiges.zul_v

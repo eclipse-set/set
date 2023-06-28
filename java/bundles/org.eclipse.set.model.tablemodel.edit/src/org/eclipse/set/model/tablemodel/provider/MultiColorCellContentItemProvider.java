@@ -17,8 +17,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -51,7 +49,6 @@ public class MultiColorCellContentItemProvider extends CellContentItemProvider {
 			super.getPropertyDescriptors(object);
 
 			addValuePropertyDescriptor(object);
-			addSeperatorPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -79,28 +76,6 @@ public class MultiColorCellContentItemProvider extends CellContentItemProvider {
 	}
 
 	/**
-	 * This adds a property descriptor for the Seperator feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSeperatorPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MultiColorCellContent_seperator_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MultiColorCellContent_seperator_feature", "_UI_MultiColorCellContent_type"),
-				 TablemodelPackage.Literals.MULTI_COLOR_CELL_CONTENT__SEPERATOR,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This returns MultiColorCellContent.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -119,7 +94,7 @@ public class MultiColorCellContentItemProvider extends CellContentItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((MultiColorCellContent)object).getSeperator();
+		String label = ((MultiColorCellContent)object).getSeparator();
 		return label == null || label.length() == 0 ?
 			getString("_UI_MultiColorCellContent_type") :
 			getString("_UI_MultiColorCellContent_type") + " " + label;
@@ -136,12 +111,6 @@ public class MultiColorCellContentItemProvider extends CellContentItemProvider {
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(MultiColorCellContent.class)) {
-			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__SEPERATOR:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 

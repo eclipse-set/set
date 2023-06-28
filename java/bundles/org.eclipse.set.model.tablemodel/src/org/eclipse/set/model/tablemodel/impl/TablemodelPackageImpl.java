@@ -32,10 +32,13 @@ import org.eclipse.set.model.tablemodel.TableContent;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Ansteuerung_ElementPackage;
 import org.eclipse.set.toolboxmodel.BasisTypen.BasisTypenPackage;
 import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage;
+import org.eclipse.set.toolboxmodel.Bedienung.BedienungPackage;
 import org.eclipse.set.toolboxmodel.Geodaten.GeodatenPackage;
-import org.eclipse.set.toolboxmodel.Verweise.VerweisePackage;
+import org.eclipse.set.toolboxmodel.Gleis.GleisPackage;
+import org.eclipse.set.toolboxmodel.Medien_und_Trassen.Medien_und_TrassenPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -191,9 +194,12 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		// Initialize simple dependencies
 		BasisobjektePackage.eINSTANCE.eClass();
-		VerweisePackage.eINSTANCE.eClass();
 		BasisTypenPackage.eINSTANCE.eClass();
 		GeodatenPackage.eINSTANCE.eClass();
+		GleisPackage.eINSTANCE.eClass();
+		BedienungPackage.eINSTANCE.eClass();
+		Ansteuerung_ElementPackage.eINSTANCE.eClass();
+		Medien_und_TrassenPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theTablemodelPackage.createPackageContents();
@@ -495,6 +501,16 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EAttribute getCellContent_Separator() {
+		return (EAttribute)cellContentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getStringCellContent() {
 		return stringCellContentEClass;
 	}
@@ -605,16 +621,6 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
-	public EAttribute getMultiColorCellContent_Seperator() {
-		return (EAttribute)multiColorCellContentEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EClass getMultiColorContent() {
 		return multiColorContentEClass;
 	}
@@ -712,6 +718,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		createEReference(tableCellEClass, TABLE_CELL__CELLANNOTATION);
 
 		cellContentEClass = createEClass(CELL_CONTENT);
+		createEAttribute(cellContentEClass, CELL_CONTENT__SEPARATOR);
 
 		stringCellContentEClass = createEClass(STRING_CELL_CONTENT);
 		createEAttribute(stringCellContentEClass, STRING_CELL_CONTENT__VALUE);
@@ -728,7 +735,6 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		multiColorCellContentEClass = createEClass(MULTI_COLOR_CELL_CONTENT);
 		createEReference(multiColorCellContentEClass, MULTI_COLOR_CELL_CONTENT__VALUE);
-		createEAttribute(multiColorCellContentEClass, MULTI_COLOR_CELL_CONTENT__SEPERATOR);
 
 		multiColorContentEClass = createEClass(MULTI_COLOR_CONTENT);
 		createEAttribute(multiColorContentEClass, MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE);
@@ -780,7 +786,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		initEClass(columnDescriptorEClass, ColumnDescriptor.class, "ColumnDescriptor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getColumnDescriptor_Width(), ecorePackage.getEFloatObject(), "width", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getColumnDescriptor_WidthMode(), this.getColumnWidthMode(), "widthMode", "0", 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getColumnDescriptor_WidthMode(), this.getColumnWidthMode(), "widthMode", "WIDTH_CM", 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getColumnDescriptor_Children(), this.getColumnDescriptor(), this.getColumnDescriptor_Parent(), "children", null, 0, -1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColumnDescriptor_Label(), ecorePackage.getEString(), "label", null, 1, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColumnDescriptor_Greyed(), ecorePackage.getEBoolean(), "greyed", null, 1, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -808,13 +814,14 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEReference(getTableCell_Cellannotation(), this.getCellAnnotation(), null, "cellannotation", null, 0, -1, TableCell.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cellContentEClass, CellContent.class, "CellContent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCellContent_Separator(), ecorePackage.getEString(), "separator", null, 0, 1, CellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringCellContentEClass, StringCellContent.class, "StringCellContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStringCellContent_Value(), ecorePackage.getEString(), "value", null, 0, 1, StringCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStringCellContent_Value(), ecorePackage.getEString(), "value", null, 0, -1, StringCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compareCellContentEClass, CompareCellContent.class, "CompareCellContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCompareCellContent_OldValue(), ecorePackage.getEString(), "oldValue", null, 0, 1, CompareCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCompareCellContent_NewValue(), ecorePackage.getEString(), "newValue", null, 0, 1, CompareCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompareCellContent_OldValue(), ecorePackage.getEString(), "oldValue", null, 0, -1, CompareCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompareCellContent_NewValue(), ecorePackage.getEString(), "newValue", null, 0, -1, CompareCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cellAnnotationEClass, CellAnnotation.class, "CellAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -824,7 +831,6 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		initEClass(multiColorCellContentEClass, MultiColorCellContent.class, "MultiColorCellContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMultiColorCellContent_Value(), this.getMultiColorContent(), null, "value", null, 0, -1, MultiColorCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getMultiColorCellContent_Seperator(), ecorePackage.getEString(), "seperator", null, 0, 1, MultiColorCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiColorContentEClass, MultiColorContent.class, "MultiColorContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMultiColorContent_MultiColorValue(), ecorePackage.getEString(), "multiColorValue", null, 0, 1, MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

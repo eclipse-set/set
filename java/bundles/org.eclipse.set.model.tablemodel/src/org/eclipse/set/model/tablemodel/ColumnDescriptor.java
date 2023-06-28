@@ -69,7 +69,7 @@ public interface ColumnDescriptor extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Width Mode</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
+	 * The default value is <code>"WIDTH_CM"</code>.
 	 * The literals are from the enumeration {@link org.eclipse.set.model.tablemodel.ColumnWidthMode}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -77,7 +77,7 @@ public interface ColumnDescriptor extends EObject {
 	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
 	 * @see #setWidthMode(ColumnWidthMode)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_WidthMode()
-	 * @model default="0"
+	 * @model default="WIDTH_CM"
 	 * @generated
 	 */
 	ColumnWidthMode getWidthMode();

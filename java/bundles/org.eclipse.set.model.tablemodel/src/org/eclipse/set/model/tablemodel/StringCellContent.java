@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.model.tablemodel;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -31,28 +33,18 @@ package org.eclipse.set.model.tablemodel;
  */
 public interface StringCellContent extends CellContent {
 	/**
-	 * Returns the value of the '<em><b>Value</b></em>' attribute.
+	 * Returns the value of the '<em><b>Value</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * The text.
 	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #setValue(String)
+	 * @return the value of the '<em>Value</em>' attribute list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getStringCellContent_Value()
 	 * @model
 	 * @generated
 	 */
-	String getValue();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.StringCellContent#getValue <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Value</em>' attribute.
-	 * @see #getValue()
-	 * @generated
-	 */
-	void setValue(String value);
+	EList<String> getValue();
 
 } // StringCellContent

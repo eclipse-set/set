@@ -166,8 +166,10 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					raFahrtGleichzeitigVerbot.map [
 						bezeichnung?.bezGleisBezeichnung?.wert
-					].getIterableFilling(MIXED_STRING_COMPARATOR)
-				]
+					]
+				],
+				ITERABLE_FILLING_SEPARATOR,
+				MIXED_STRING_COMPARATOR
 			),
 			new Case<Fstr_Zug_Rangier>(
 				[
@@ -179,9 +181,10 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					fstrZugRangier.container.gleisBezeichnung.filter [
 						intersects(fstrZugRangier?.fstrFahrweg?.zielSignal)
-					].map[bezeichnung?.bezGleisBezeichnung?.wert].
-						getIterableFilling(MIXED_STRING_COMPARATOR)
-				]
+					].map[bezeichnung?.bezGleisBezeichnung?.wert]
+				],
+				ITERABLE_FILLING_SEPARATOR,
+				MIXED_STRING_COMPARATOR
 			)
 		)
 

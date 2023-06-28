@@ -431,13 +431,22 @@ public interface TablemodelPackage extends EPackage {
 	int CELL_CONTENT = 6;
 
 	/**
+	 * The feature id for the '<em><b>Separator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CELL_CONTENT__SEPARATOR = 0;
+
+	/**
 	 * The number of structural features of the '<em>Cell Content</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CELL_CONTENT_FEATURE_COUNT = 0;
+	int CELL_CONTENT_FEATURE_COUNT = 1;
 
 	/**
 	 * The number of operations of the '<em>Cell Content</em>' class.
@@ -459,7 +468,16 @@ public interface TablemodelPackage extends EPackage {
 	int STRING_CELL_CONTENT = 7;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Separator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -496,7 +514,16 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_CELL_CONTENT = 8;
 
 	/**
-	 * The feature id for the '<em><b>Old Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Separator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
+
+	/**
+	 * The feature id for the '<em><b>Old Value</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -505,7 +532,7 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_CELL_CONTENT__OLD_VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>New Value</b></em>' attribute.
+	 * The feature id for the '<em><b>New Value</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -617,6 +644,15 @@ public interface TablemodelPackage extends EPackage {
 	int MULTI_COLOR_CELL_CONTENT = 11;
 
 	/**
+	 * The feature id for the '<em><b>Separator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
+
+	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -626,22 +662,13 @@ public interface TablemodelPackage extends EPackage {
 	int MULTI_COLOR_CELL_CONTENT__VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Seperator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MULTI_COLOR_CELL_CONTENT__SEPERATOR = CELL_CONTENT_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Multi Color Cell Content</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_COLOR_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT + 2;
+	int MULTI_COLOR_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Multi Color Cell Content</em>' class.
@@ -1011,6 +1038,17 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCellContent();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator <em>Separator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Separator</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CellContent#getSeparator()
+	 * @see #getCellContent()
+	 * @generated
+	 */
+	EAttribute getCellContent_Separator();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.StringCellContent <em>String Cell Content</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1021,10 +1059,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getStringCellContent();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.StringCellContent#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.StringCellContent#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @return the meta object for the attribute list '<em>Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.StringCellContent#getValue()
 	 * @see #getStringCellContent()
 	 * @generated
@@ -1042,10 +1080,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCompareCellContent();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue <em>Old Value</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue <em>Old Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Old Value</em>'.
+	 * @return the meta object for the attribute list '<em>Old Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue()
 	 * @see #getCompareCellContent()
 	 * @generated
@@ -1053,10 +1091,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getCompareCellContent_OldValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue <em>New Value</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue <em>New Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>New Value</em>'.
+	 * @return the meta object for the attribute list '<em>New Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue()
 	 * @see #getCompareCellContent()
 	 * @generated
@@ -1125,17 +1163,6 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getMultiColorCellContent_Value();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getSeperator <em>Seperator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Seperator</em>'.
-	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent#getSeperator()
-	 * @see #getMultiColorCellContent()
-	 * @generated
-	 */
-	EAttribute getMultiColorCellContent_Seperator();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.MultiColorContent <em>Multi Color Content</em>}'.
@@ -1441,6 +1468,14 @@ public interface TablemodelPackage extends EPackage {
 		EClass CELL_CONTENT = eINSTANCE.getCellContent();
 
 		/**
+		 * The meta object literal for the '<em><b>Separator</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CELL_CONTENT__SEPARATOR = eINSTANCE.getCellContent_Separator();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.StringCellContentImpl <em>String Cell Content</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1451,7 +1486,7 @@ public interface TablemodelPackage extends EPackage {
 		EClass STRING_CELL_CONTENT = eINSTANCE.getStringCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1469,7 +1504,7 @@ public interface TablemodelPackage extends EPackage {
 		EClass COMPARE_CELL_CONTENT = eINSTANCE.getCompareCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Old Value</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Old Value</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1477,7 +1512,7 @@ public interface TablemodelPackage extends EPackage {
 		EAttribute COMPARE_CELL_CONTENT__OLD_VALUE = eINSTANCE.getCompareCellContent_OldValue();
 
 		/**
-		 * The meta object literal for the '<em><b>New Value</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>New Value</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1537,14 +1572,6 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MULTI_COLOR_CELL_CONTENT__VALUE = eINSTANCE.getMultiColorCellContent_Value();
-
-		/**
-		 * The meta object literal for the '<em><b>Seperator</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MULTI_COLOR_CELL_CONTENT__SEPERATOR = eINSTANCE.getMultiColorCellContent_Seperator();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl <em>Multi Color Content</em>}' class.

@@ -30,8 +30,8 @@ public class CellContentExtensionsTest {
 			final String oldValue, final String newValue) {
 		final CompareCellContent content = TablemodelFactory.eINSTANCE
 				.createCompareCellContent();
-		content.setOldValue(oldValue);
-		content.setNewValue(newValue);
+		content.getOldValue().add(oldValue);
+		content.getNewValue().add(newValue);
 		final TableCell tableCell = TablemodelFactory.eINSTANCE
 				.createTableCell();
 		tableCell.setContent(content);
@@ -42,7 +42,7 @@ public class CellContentExtensionsTest {
 			final String value) {
 		final StringCellContent content = TablemodelFactory.eINSTANCE
 				.createStringCellContent();
-		content.setValue(value);
+		content.getValue().add(value);
 		final TableCell tableCell = TablemodelFactory.eINSTANCE
 				.createTableCell();
 		tableCell.setContent(content);
@@ -78,6 +78,6 @@ public class CellContentExtensionsTest {
 		value = CellContentExtensions
 				.getRichTextValue(createCompareCellContent("Old", "New"));
 		assertThat(value, is(
-				"<p style=\"text-align:center\"><span style=\"background-color:rgb(255,255, 0)\"><s>Old</s></span><br></br><span style=\"color:rgb(255, 0, 0)\">New</span></p>"));
+				"<p style=\"text-align:center\"><span style=\"color:rgb(255, 0, 0)\">New</span><br></br><span style=\"background-color:rgb(255,255, 0)\"><s>Old</s></span></p>"));
 	}
 }

@@ -19,10 +19,38 @@ import org.eclipse.emf.ecore.EObject;
  * Content of a table cell.
  * <!-- end-model-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator <em>Separator</em>}</li>
+ * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCellContent()
  * @model abstract="true"
  * @generated
  */
 public interface CellContent extends EObject {
+
+	/**
+	 * Returns the value of the '<em><b>Separator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Separator</em>' attribute.
+	 * @see #setSeparator(String)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCellContent_Separator()
+	 * @model
+	 * @generated
+	 */
+	String getSeparator();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator <em>Separator</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Separator</em>' attribute.
+	 * @see #getSeparator()
+	 * @generated
+	 */
+	void setSeparator(String value);
 } // CellContent

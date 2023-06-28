@@ -9,12 +9,10 @@
 package org.eclipse.set.model.tablemodel.impl;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
@@ -30,7 +28,6 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl#getValue <em>Value</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl#getSeperator <em>Seperator</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,25 +42,6 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 	 * @ordered
 	 */
 	protected EList<MultiColorContent> value;
-
-	/**
-	 * The default value of the '{@link #getSeperator() <em>Seperator</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSeperator()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String SEPERATOR_EDEFAULT = null;
-	/**
-	 * The cached value of the '{@link #getSeperator() <em>Seperator</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getSeperator()
-	 * @generated
-	 * @ordered
-	 */
-	protected String seperator = SEPERATOR_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -103,29 +81,6 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 	 * @generated
 	 */
 	@Override
-	public String getSeperator() {
-		return seperator;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setSeperator(String newSeperator) {
-		String oldSeperator = seperator;
-		seperator = newSeperator;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.MULTI_COLOR_CELL_CONTENT__SEPERATOR, oldSeperator, seperator));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE:
@@ -144,8 +99,6 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 		switch (featureID) {
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE:
 				return getValue();
-			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__SEPERATOR:
-				return getSeperator();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -163,9 +116,6 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 				getValue().clear();
 				getValue().addAll((Collection<? extends MultiColorContent>)newValue);
 				return;
-			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__SEPERATOR:
-				setSeperator((String)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -181,9 +131,6 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE:
 				getValue().clear();
 				return;
-			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__SEPERATOR:
-				setSeperator(SEPERATOR_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -198,26 +145,8 @@ public class MultiColorCellContentImpl extends CellContentImpl implements MultiC
 		switch (featureID) {
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE:
 				return value != null && !value.isEmpty();
-			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__SEPERATOR:
-				return SEPERATOR_EDEFAULT == null ? seperator != null : !SEPERATOR_EDEFAULT.equals(seperator);
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (seperator: ");
-		result.append(seperator);
-		result.append(')');
-		return result.toString();
 	}
 
 } //MultiColorCellContentImpl

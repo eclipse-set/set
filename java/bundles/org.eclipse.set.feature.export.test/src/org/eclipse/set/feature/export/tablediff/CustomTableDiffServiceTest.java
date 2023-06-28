@@ -18,10 +18,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
 
 /**
  * Test for {@link CustomTableDiffService}.
@@ -71,7 +70,7 @@ public class CustomTableDiffServiceTest {
 		System.out.println(TableExtensions.toDebugString(ziel, 10));
 		final Table diffTable = service.createDiffTable(start, ziel);
 		System.out.println(TableExtensions.toDebugString(diffTable, 10));
-		assertEquals("43/",
+		assertEquals("[43]/[]",
 				TableExtensions.getPlainStringValue(diffTable, 44, 0));
 	}
 
@@ -108,9 +107,9 @@ public class CustomTableDiffServiceTest {
 				TableExtensions.getPlainStringValue(diffTable, 2, "B"));
 		assertEquals("14",
 				TableExtensions.getPlainStringValue(diffTable, 4, "C"));
-		assertEquals("5/",
+		assertEquals("[5]/[]",
 				TableExtensions.getPlainStringValue(diffTable, 1, "C"));
-		assertEquals("9/",
+		assertEquals("[9]/[]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
 	}
 
@@ -210,15 +209,15 @@ public class CustomTableDiffServiceTest {
 
 		assertEquals("0",
 				TableExtensions.getPlainStringValue(diffTable, 0, "A"));
-		assertEquals("/1",
+		assertEquals("[]/[1]",
 				TableExtensions.getPlainStringValue(diffTable, 5, "B"));
 		assertEquals("7",
 				TableExtensions.getPlainStringValue(diffTable, 2, "B"));
 		assertEquals("14",
 				TableExtensions.getPlainStringValue(diffTable, 4, "C"));
-		assertEquals("5/",
+		assertEquals("[5]/[]",
 				TableExtensions.getPlainStringValue(diffTable, 1, "C"));
-		assertEquals("9/",
+		assertEquals("[9]/[]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
 	}
 
@@ -235,9 +234,11 @@ public class CustomTableDiffServiceTest {
 		System.out.println(TableExtensions.toDebugString(start, 10));
 		System.out.println(TableExtensions.toDebugString(ziel, 10));
 		System.out.println(TableExtensions.toDebugString(diffTable, 10));
-		assertEquals("", TableExtensions.getPlainStringValue(diffTable, 18, 4));
-		assertEquals("", TableExtensions.getPlainStringValue(diffTable, 18, 5));
-		assertEquals("/o",
+		assertEquals("[]/[]",
+				TableExtensions.getPlainStringValue(diffTable, 18, 4));
+		assertEquals("[]/[]",
+				TableExtensions.getPlainStringValue(diffTable, 18, 5));
+		assertEquals("[]/[o]",
 				TableExtensions.getPlainStringValue(diffTable, 18, 7));
 	}
 
@@ -254,8 +255,10 @@ public class CustomTableDiffServiceTest {
 		System.out.println(TableExtensions.toDebugString(ziel, 10));
 		final Table diffTable = service.createDiffTable(start, ziel);
 		System.out.println(TableExtensions.toDebugString(diffTable, 10));
-		assertEquals("", TableExtensions.getPlainStringValue(diffTable, 5, 0));
-		assertEquals("", TableExtensions.getPlainStringValue(diffTable, 5, 3));
+		assertEquals("[]/[]",
+				TableExtensions.getPlainStringValue(diffTable, 5, 0));
+		assertEquals("[]/[]",
+				TableExtensions.getPlainStringValue(diffTable, 5, 3));
 	}
 
 	/**
@@ -283,13 +286,13 @@ public class CustomTableDiffServiceTest {
 				TableExtensions.getPlainStringValue(diffTable, 1, "B"));
 		assertEquals("2",
 				TableExtensions.getPlainStringValue(diffTable, 2, "C"));
-		assertEquals("/3",
+		assertEquals("[]/[3]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
-		assertEquals("/3",
+		assertEquals("[]/[3]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "B"));
-		assertEquals("/3",
+		assertEquals("[]/[3]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "C"));
-		assertEquals("/4",
+		assertEquals("[]/[4]",
 				TableExtensions.getPlainStringValue(diffTable, 4, "B"));
 	}
 
@@ -322,13 +325,13 @@ public class CustomTableDiffServiceTest {
 				TableExtensions.getPlainStringValue(diffTable, 1, "B"));
 		assertEquals("2",
 				TableExtensions.getPlainStringValue(diffTable, 2, "C"));
-		assertEquals("/3",
+		assertEquals("[]/[3]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "A"));
-		assertEquals("/3",
+		assertEquals("[]/[3]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "B"));
-		assertEquals("/3",
+		assertEquals("[]/[3]",
 				TableExtensions.getPlainStringValue(diffTable, 3, "C"));
-		assertEquals("/4",
+		assertEquals("[]/[4]",
 				TableExtensions.getPlainStringValue(diffTable, 4, "B"));
 	}
 
@@ -357,11 +360,11 @@ public class CustomTableDiffServiceTest {
 				TableExtensions.getPlainStringValue(newTable, 0, "A"));
 		assertEquals("B",
 				TableExtensions.getPlainStringValue(newTable, 1, "B"));
-		assertEquals("0/A",
+		assertEquals("[0]/[A]",
 				TableExtensions.getPlainStringValue(diffTable, 0, "A"));
 		assertEquals("0",
 				TableExtensions.getPlainStringValue(diffTable, 0, "B"));
-		assertEquals("1/B",
+		assertEquals("[1]/[B]",
 				TableExtensions.getPlainStringValue(diffTable, 1, "B"));
 	}
 }

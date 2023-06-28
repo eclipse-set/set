@@ -36,6 +36,22 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
+	<xsl:template match="UnchangedValue">
+		<fo:block>
+			<fo:inline>
+				<xsl:value-of select="." />
+			</fo:inline>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="UnchangedValue[starts-with(.,'Error:')]" priority="1">
+		<fo:block>
+			<fo:inline>
+				<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="pictures/warning_yellow.svg" fox:alt-text="Error"/>
+			</fo:inline>
+		</fo:block>
+	</xsl:template>
+
 	<xsl:template match="OldValue">
 		<fo:block>
 			<fo:inline background-color="yellow" text-decoration="line-through">

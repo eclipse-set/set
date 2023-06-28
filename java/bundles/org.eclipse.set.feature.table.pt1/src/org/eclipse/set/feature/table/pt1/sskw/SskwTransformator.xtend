@@ -140,15 +140,20 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(nicht_grenzzeichenfrei_Links),
 				element,
-				new Case<W_Kr_Gsp_Element>([
-					weicheElement?.GZFreimeldungL?.elementLage?.wert ===
-						ENUMElementLage.ENUM_ELEMENT_LAGE_ABSCHNITT
-				], [
-					(weicheElement?.GZFreimeldungL?.
-						element as Gleis_Abschnitt)?.fmaAnlagen.map [
-						bzBezeichner
-					].getIterableFilling(MIXED_STRING_COMPARATOR)
-				]),
+				new Case<W_Kr_Gsp_Element>(
+					[
+						weicheElement?.GZFreimeldungL?.elementLage?.wert ===
+							ENUMElementLage.ENUM_ELEMENT_LAGE_ABSCHNITT
+					],
+					[
+						(weicheElement?.GZFreimeldungL?.
+							element as Gleis_Abschnitt)?.fmaAnlagen.map [
+							bzBezeichner
+						]
+					],
+					ITERABLE_FILLING_SEPARATOR,
+					MIXED_STRING_COMPARATOR
+				),
 				new Case<W_Kr_Gsp_Element>([
 					weicheElement?.GZFreimeldungL?.elementLage?.wert ===
 						ENUMElementLage.ENUM_ELEMENT_LAGE_WEICHE
@@ -172,15 +177,20 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(nicht_grenzzeichenfrei_Rechts),
 				element,
-				new Case<W_Kr_Gsp_Element>([
-					weicheElement?.GZFreimeldungR?.elementLage?.wert ===
-						ENUMElementLage.ENUM_ELEMENT_LAGE_ABSCHNITT
-				], [
-					(weicheElement?.GZFreimeldungR?.
-						element as Gleis_Abschnitt)?.fmaAnlagen?.map [
-						bzBezeichner
-					].getIterableFilling(MIXED_STRING_COMPARATOR)
-				]),
+				new Case<W_Kr_Gsp_Element>(
+					[
+						weicheElement?.GZFreimeldungR?.elementLage?.wert ===
+							ENUMElementLage.ENUM_ELEMENT_LAGE_ABSCHNITT
+					],
+					[
+						(weicheElement?.GZFreimeldungR?.
+							element as Gleis_Abschnitt)?.fmaAnlagen?.map [
+							bzBezeichner
+						]
+					],
+					ITERABLE_FILLING_SEPARATOR,
+					MIXED_STRING_COMPARATOR
+				),
 				new Case<W_Kr_Gsp_Element>([
 					weicheElement?.GZFreimeldungR?.elementLage?.wert ===
 						ENUMElementLage.ENUM_ELEMENT_LAGE_WEICHE
@@ -265,11 +275,12 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			val weichensignal = elementKomponenten.map [
 				zungenpaar?.weichensignal?.wert
 			].filterNull
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Weiche_Weichensignal),
 				element,
-				[weichensignal.map[translate].toSet.getIterableFilling(null)]
+				[weichensignal.map[translate].toSet],
+				null
 			)
 
 			// L: Sskw.Weiche.Pruefkontakte
@@ -332,13 +343,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weiche_v_zul_W_Links),
 				element,
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
 					[
-						wKrGspKomponenten.map[zungenpaar].printGeschwindingkeitL(isPMaxL)
+						wKrGspKomponenten.map[zungenpaar].
+							printGeschwindingkeitL(isPMaxL)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_ekw],
 					[
 						wKrGspKomponenten.filter [
@@ -347,9 +359,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						].map[zungenpaar].toList.printGeschwindingkeitL(isPMaxL)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_dkw],
-					[ gspElement |
+					[
 						wKrGspKomponenten.filter [
 							zungenpaar?.kreuzungsgleis?.wert ==
 								ENUM_LINKS_RECHTS_RECHTS
@@ -371,7 +383,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weiche_v_zul_W_Rechts),
 				element,
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
 					[
 						wKrGspKomponenten.map [
@@ -379,7 +391,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						].printGeschwindingkeitR(isPMaxR)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_ekw],
 					[
 						wKrGspKomponenten.filter [
@@ -388,7 +400,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						].map[zungenpaar].toList.printGeschwindingkeitR(isPMaxR)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_dkw],
 					[
 						wKrGspKomponenten.filter [
@@ -420,14 +432,15 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
 					[""]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_ekw],
 					[
 						getKreuzungEKWGroup(wKrGspKomponenten,
-							ENUM_LINKS_RECHTS_LINKS).printGeschwindingkeitL(isPMaxL)
+							ENUM_LINKS_RECHTS_LINKS).
+							printGeschwindingkeitL(isPMaxL)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_dkw && exKrLinksKomponenten],
 					[
 						krLinksKomponenten.map [
@@ -435,10 +448,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						].toList.printGeschwindingkeitL(isPMaxL)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_kr_flachkreuzung_sonstige_mit_kreuzung],
 					[
-						wKrGspKomponenten.map[kreuzung].printGeschwindingkeitL(isPMaxL)
+						wKrGspKomponenten.map[kreuzung].
+							printGeschwindingkeitL(isPMaxL)
 					]
 				),
 				new Case<W_Kr_Gsp_Element>(
@@ -460,14 +474,15 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
 					[""]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_ekw],
 					[
 						getKreuzungEKWGroup(wKrGspKomponenten,
-							ENUM_LINKS_RECHTS_RECHTS).printGeschwindingkeitR(isPMaxR)
+							ENUM_LINKS_RECHTS_RECHTS).
+							printGeschwindingkeitR(isPMaxR)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_dkw && exKrRechtsKomponenten],
 					[
 						krRechtsKomponenten.map [
@@ -475,10 +490,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						].toList.printGeschwindingkeitR(isPMaxR)
 					]
 				),
-				new Case<W_Kr_Gsp_Element>(
+				fillingIterableCase(
 					[art_kr_flachkreuzung_sonstige_mit_kreuzung],
 					[
-						wKrGspKomponenten.map[kreuzung].printGeschwindingkeitR(isPMaxR)
+						wKrGspKomponenten.map[kreuzung].
+							printGeschwindingkeitR(isPMaxR)
 					]
 				),
 				new Case<W_Kr_Gsp_Element>(
@@ -533,14 +549,16 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// T: Sskw.Gleissperre.Auswurfrichtung
-			fillConditional(
+			fillIterableWithConditional(
 				instance,
 				cols.getColumn(Gleissperre_Auswurfrichtung),
 				element,
 				[exEntgleisungsschuh],
 				[
-					'''«FOR r : WKrGspKomponenten.map[entgleisungsschuh.auswurfrichtung.wert].toSet SEPARATOR ", "»«r»«ENDFOR»'''
-				]
+					WKrGspKomponenten.map[entgleisungsschuh.auswurfrichtung.wert.literal].toSet
+				],
+				null,
+				", "
 			)
 
 			// U: Sskw.Gleissperre.Schutzschiene
@@ -611,6 +629,17 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
+	/**
+	 * Create filling Iterable case with compartor as ToolboxConstants.NUMERIC_COMPARATOR
+	 * and separator as ","
+	 */
+	private def static Case<W_Kr_Gsp_Element> fillingIterableCase(
+		(W_Kr_Gsp_Element)=>Boolean condition,
+		(W_Kr_Gsp_Element)=>Iterable<String> filling) {
+		return new Case<W_Kr_Gsp_Element>(condition, filling, ", ",
+			ToolboxConstants.NUMERIC_COMPARATOR)
+	}
+
 	def void fillHerzstueckAntriebe(TableRow row, W_Kr_Gsp_Element element) {
 		val herzstueckAntriebe = element.WKrGspKomponenten.map [
 			zungenpaar?.herzstueckAntriebe?.wert
@@ -650,7 +679,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def List<Zungenpaar_AttributeGroup> getKreuzungEKWGroup(
-		W_Kr_Gsp_Element element, List<W_Kr_Gsp_Komponente> komponentens, ENUMLinksRechts enumLinksRechts) {
+		W_Kr_Gsp_Element element, List<W_Kr_Gsp_Komponente> komponentens,
+		ENUMLinksRechts enumLinksRechts) {
 		val group = newLinkedList
 		komponentens.forEach [
 			if (zungenpaar?.kreuzungsgleis?.wert == enumLinksRechts) {
@@ -667,10 +697,13 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		]
 		return group
 	}
-	
-	private def isGeschwindigkeitPMax(W_Kr_Gsp_Element element, TOP_Kante topKante) {
-				return !element.getFstrZugRangierCrossingLeg(topKante).exists[
-			fstrSignalisierung.exists[IDSignalSignalbegriff.hasSignalbegriffID(Zs3)]
+
+	private def isGeschwindigkeitPMax(W_Kr_Gsp_Element element,
+		TOP_Kante topKante) {
+		return !element.getFstrZugRangierCrossingLeg(topKante).exists [
+			fstrSignalisierung.exists [
+				IDSignalSignalbegriff.hasSignalbegriffID(Zs3)
+			]
 		]
 	}
 
@@ -678,14 +711,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		throw new IllegalArgumentException(group.toString)
 	}
 
-	private def String printGeschwindingkeitL(
-		List<?> group, boolean isPMaxL) {
+	private def Iterable<String> printGeschwindingkeitL(List<?> group,
+		boolean isPMaxL) {
 		return group.map [
 			'''«printGeschwindingkeitL» «IF isPMaxL»(pmax)«ENDIF»'''
-		].getIterableFilling(
-			ToolboxConstants.NUMERIC_COMPARATOR,
-			", "
-		)
+		]
 	}
 
 	private def dispatch String printGeschwindingkeitL(
@@ -702,14 +732,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		throw new IllegalArgumentException(group.toString)
 	}
 
-	private def String printGeschwindingkeitR(
-		List<?> group, boolean isPMaxR) {
+	private def Iterable<String> printGeschwindingkeitR(List<?> group,
+		boolean isPMaxR) {
 		return group.map [
 			'''«printGeschwindingkeitR» «IF isPMaxR»(pmax)«ENDIF»'''
-		].getIterableFilling(
-			ToolboxConstants.NUMERIC_COMPARATOR,
-			", "
-		)
+		]
 	}
 
 	private def dispatch String printGeschwindingkeitR(

@@ -120,7 +120,7 @@ public class CompareCellContentItemProvider extends CellContentItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((CompareCellContent)object).getOldValue();
+		String label = ((CompareCellContent)object).getSeparator();
 		return label == null || label.length() == 0 ?
 			getString("_UI_CompareCellContent_type") :
 			getString("_UI_CompareCellContent_type") + " " + label;

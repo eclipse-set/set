@@ -97,11 +97,14 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// F: Ssla.Unterwegssignal
-			fill(
+			fillIterable(
 				instance,
 				cols.getColumn(Unterwegssignal),
 				fstrAneinander,
-				[fstrUnterwegsSignalString]
+				[fstrUnterwegsSignalString],
+				null,
+				[it],
+				" - "
 			)
 
 			// G: Ssla.Bemerkung
@@ -117,7 +120,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
-	private def String getFstrUnterwegsSignalString(
+	private def Iterable<String> getFstrUnterwegsSignalString(
 		Fstr_Aneinander fstrAneinander) {
 		val List<Fstr_Aneinander_Zuordnung> zuordnungen = fstrAneinander.
 			zuordnungen
@@ -134,10 +137,11 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			zuordnungenUnterwegs.add(zu)
 			zuordnungen.remove(zu)
 		}
+		return zuordnungenUnterwegs.map[
+			'''«fstrZugRangier?.fstrFahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»«
+			»«IF fstrZugRangier?.fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert !== null »«
+			»(«fstrZugRangier?.fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert»)«ENDIF»'''
+		]
 
-		return '''«FOR zuordnung : zuordnungenUnterwegs SEPARATOR ' - '»«
-		»«zuordnung.fstrZugRangier?.fstrFahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»«
-		»«IF zuordnung.fstrZugRangier?.fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert !== null »«
-		»(«zuordnung.fstrZugRangier?.fstrDWeg?.bezeichnung?.bezeichnungFstrDWeg?.wert»)«ENDIF»«ENDFOR»''';
 	}
 }

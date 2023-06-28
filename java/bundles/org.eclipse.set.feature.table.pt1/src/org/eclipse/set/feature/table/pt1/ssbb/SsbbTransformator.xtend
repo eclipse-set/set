@@ -104,16 +104,20 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 							return (it as W_Kr_Gsp_Element).stellelement?.
 								bezeichungAEA
 						}
-					].toSet.filterNull.iterableFilling
-				]
+					].toSet.filterNull
+				],
+				ITERABLE_FILLING_SEPARATOR,
+				null
 			),
 			new Case<Bedien_Einrichtung_Oertlich>(
 				[!lBUEBedienAnzeigeElement.empty],
 				[
 					lBUEBedienAnzeigeElement.map[bueAnlage].flatten.map [
 						stellelement.bezeichungAEA
-					].toSet.filterNull.iterableFilling
-				]
+					].toSet.filterNull
+				],
+				ITERABLE_FILLING_SEPARATOR,
+				null
 			)
 		)
 
