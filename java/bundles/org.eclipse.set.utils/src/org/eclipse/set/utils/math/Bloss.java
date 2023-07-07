@@ -171,12 +171,12 @@ public class Bloss {
 	private double x(final double l) {
 		double result = l;
 		for (int m = 2; m <= maxIterations; m += 2) {
-			final double sign = Math.pow(-1, m / 2);
+			final double sign = Math.pow(-1, m / 2f);
 			final double fact = BigIntegerMath.factorial(m).doubleValue();
 
 			double innerSum = 0.0;
 			for (int n = m; n <= 4 * m; ++n) {
-				innerSum += amn(m, n) * Math.pow(l, n + 1) / (n + 1);
+				innerSum += amn(m, n) * Math.pow(l, n + 1f) / (n + 1);
 			}
 
 			result += sign / fact * innerSum;
@@ -187,12 +187,12 @@ public class Bloss {
 	private double y(final double l) {
 		double result = 0.0;
 		for (int m = 1; m <= maxIterations; m += 2) {
-			final double sign = Math.pow(-1, (m - 1) / 2);
+			final double sign = Math.pow(-1, (m - 1) / 2f);
 			final double fact = BigIntegerMath.factorial(m).doubleValue();
 
 			double innerSum = 0.0;
 			for (int n = m; n <= 4 * m; ++n) {
-				innerSum += amn(m, n) * Math.pow(l, n + 1) / (n + 1);
+				innerSum += amn(m, n) * Math.pow(l, n + 1f) / (n + 1);
 			}
 
 			result += sign / fact * innerSum;

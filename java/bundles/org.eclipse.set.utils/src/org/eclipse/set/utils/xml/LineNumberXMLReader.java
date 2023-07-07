@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,7 +39,7 @@ public class LineNumberXMLReader {
 	/**
 	 * key for the line number userdata
 	 */
-	public final static String LINE_NUMBER_KEY = "lineNumber"; //$NON-NLS-1$
+	public static final String LINE_NUMBER_KEY = "lineNumber"; //$NON-NLS-1$
 
 	/**
 	 * @param location
@@ -78,13 +79,18 @@ public class LineNumberXMLReader {
 	public static Document read(final InputStream input)
 			throws IOException, SAXException, ParserConfigurationException {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
+		factory.setFeature(
+				"http://xml.org/sax/features/external-general-entities", false); //$NON-NLS-1$
+		factory.setFeature(
+				"http://xml.org/sax/features/external-parameter-entities", //$NON-NLS-1$
+				false);
 		final SAXParser parser = factory.newSAXParser();
 		final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
 				.newInstance();
 		final DocumentBuilder docBuilder = docBuilderFactory
 				.newDocumentBuilder();
 		final Document doc = docBuilder.newDocument();
-		final Stack<Element> elementStack = new Stack<>();
+		final Deque<Element> elementStack = new ArrayDeque<>();
 		final StringBuilder nodeText = new StringBuilder();
 		final DefaultHandler handler = new DefaultHandler() {
 			private Locator locator;
@@ -100,7 +106,7 @@ public class LineNumberXMLReader {
 			}
 
 			@Override
-			public void characters(final char ch[], final int start,
+			public void characters(final char[] ch, final int start,
 					final int length) throws SAXException {
 				nodeText.append(ch, start, length);
 			}

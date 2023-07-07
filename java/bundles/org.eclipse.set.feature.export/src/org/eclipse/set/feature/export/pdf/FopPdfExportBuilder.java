@@ -19,8 +19,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -67,6 +69,19 @@ public class FopPdfExportBuilder implements TableExport {
 
 	private static final String TITLEBOX_SHORTCUT = "schriftfeld"; //$NON-NLS-1$
 
+	private static TransformerFactory newTransformerFactory() {
+		final TransformerFactory transformerFactory = TransformerFactory
+				.newInstance();
+		// Disable external access
+		try {
+			transformerFactory
+					.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+		} catch (final TransformerConfigurationException e) {
+			// Ignore failure
+		}
+		return transformerFactory;
+	}
+
 	private static String createTableDocumentText(final Table table,
 			final Titlebox titlebox, final FreeFieldInfo freeFieldInfo)
 			throws ParserConfigurationException, TransformerException {
@@ -74,9 +89,7 @@ public class FopPdfExportBuilder implements TableExport {
 				.createTransformation();
 		final Document document = tableToXmlFo.transformToDocument(table,
 				titlebox, freeFieldInfo);
-		final TransformerFactory transformerFactory = TransformerFactory
-				.newInstance();
-		final Transformer documentToString = transformerFactory
+		final Transformer documentToString = newTransformerFactory()
 				.newTransformer();
 		final DOMSource source = new DOMSource(document);
 		final StringWriter writer = new StringWriter();
@@ -90,9 +103,8 @@ public class FopPdfExportBuilder implements TableExport {
 		final TableToTableDocument tableToXmlFo = TableToTableDocument
 				.createTransformation();
 		final Document document = tableToXmlFo.transformToDocument(titlebox);
-		final TransformerFactory transformerFactory = TransformerFactory
-				.newInstance();
-		final Transformer documentToString = transformerFactory
+
+		final Transformer documentToString = newTransformerFactory()
 				.newTransformer();
 		final DOMSource source = new DOMSource(document);
 		final StringWriter writer = new StringWriter();
@@ -181,9 +193,7 @@ public class FopPdfExportBuilder implements TableExport {
 		final Document xslDoc = transformTable.transform();
 		if (xslDoc != null) {
 			if (ToolboxConfiguration.isDevelopmentMode()) {
-				final TransformerFactory transformerFactory = TransformerFactory
-						.newInstance();
-				final Transformer documentToString = transformerFactory
+				final Transformer documentToString = newTransformerFactory()
 						.newTransformer();
 				final DOMSource source = new DOMSource(xslDoc);
 				final StringWriter writer = new StringWriter();

@@ -31,6 +31,8 @@ import org.eclipse.set.core.services.validation.CustomValidator;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 
 import com.google.common.collect.Lists;
@@ -100,6 +102,12 @@ public class ValidationServiceImpl implements ValidationService {
 			final ValidationResult result) {
 		final SchemaFactory factory = SchemaFactory
 				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		try {
+			factory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); //$NON-NLS-1$
+			factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); //$NON-NLS-1$
+		} catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+			// Ignore failures
+		}
 		factory.setResourceResolver(PlanProSchemaDir.getResourceResolver());
 		final File file = new File(toolboxFile.getModelPath().toString());
 		try {

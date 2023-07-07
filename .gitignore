@@ -53,3 +53,4 @@ web/about/public
 **/OSGI-INF/*.xml
 # Currently tycho-ds-plugin cannot service from overide methode generated
 !**/OSGI-INF/org.eclipse.set.emfforms.labelservice.ToolboxLabelProvider.xml
+org.sonarlint.eclipse.core.prefs
