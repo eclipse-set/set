@@ -305,7 +305,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fill(instance, cols.getColumn(Hg), fstrZugRangier, [
 					fstrZugRangier?.fstrFahrweg?.fstrVHg?.wert?.toString
 				])
-
+				
 				fillConditional(instance, cols.getColumn(Fahrweg),
 					fstrZugRangier, [
 						fstrZugRangier.geschwindigkeit == Integer.MAX_VALUE
@@ -319,6 +319,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fill(instance, cols.getColumn(Besonders), fstrZugRangier, [
 					fstrZugRangier?.fstrZugRangierAllg?.fstrV?.wert?.toString
 				])
+
 
 				fillSwitch(
 					instance,
@@ -387,7 +388,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								]
 							val result = zs3Start.map [
 								'''«signalSignalbegriff?.signalbegriffID?.symbol»'''
-							]
+							].toSet
 							if (!zs3Start.empty && !zs3StartZiel.empty) {
 								result.addAll(zs3StartZiel.map [
 									'''«signalSignalbegriff?.signalbegriffID?.symbol»(«

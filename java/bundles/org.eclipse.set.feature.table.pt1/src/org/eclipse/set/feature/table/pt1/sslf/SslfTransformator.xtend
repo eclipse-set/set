@@ -72,7 +72,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Bezeichnung_W),
 				flaSchutz,
 				[flaSchutz.flaSchutzWGsp !== null],
-				[weicheGleissperreElement.bezeichnung.bezeichnungTabelle.wert]
+				[weicheGleissperreElement?.bezeichnung.bezeichnungTabelle.wert]
 			)
 
 			// D: Sslf.Unmittelbarer_Flankenschutz.Weiche_Gleissperre.Lage
@@ -98,7 +98,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Bezeichung_Sig),
 				flaSchutz,
 				[flaSchutzSignal !== null],
-				[signal.bezeichnung.bezeichnungTabelle.wert]
+				[signal?.bezeichnung?.bezeichnungTabelle?.wert]
 			)
 
 			// G: Sslf.Unmittelbarer_Flankenschutz.Signal.Zielsperrung
