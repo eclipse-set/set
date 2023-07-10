@@ -59,7 +59,7 @@ class ManifestTransformation {
 	private def MediaList create ZipmanifestFactory.eINSTANCE.createMediaList
 	toMediaList(ZippedPlanProToolboxFile toolboxFile) {
 		val mediaList = it
-		val attachments = toolboxFile.resource.allContents.filter(
+		val attachments = toolboxFile.planProResource.allContents.filter(
 			typeof(Anhang)
 		).toList
 		val attachmentGuids = attachments.map [

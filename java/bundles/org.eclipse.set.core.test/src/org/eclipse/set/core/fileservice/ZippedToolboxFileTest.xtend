@@ -10,14 +10,18 @@
 package org.eclipse.set.core.fileservice
 
 import java.io.IOException
+import java.nio.file.Files
 import java.nio.file.Paths
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.basis.files.ToolboxFileRole
 import org.eclipse.set.core.services.files.ToolboxFileFormatService
 import org.eclipse.set.sessionservice.SetSessionService
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
 import org.eclipse.set.unittest.utils.toolboxfile.AbstractToolboxFileTest
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Disabled
+
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertTrue
 
 /**
  * Test for {@link ZippedPlanProToolboxFile}
@@ -35,6 +39,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	def void testOpen() throws IOException{
 		whenOpen
 		thenExpectContentsExists(true)
+		thenExpectLayoutContentExists(true)
 		thenExpectResourceCallsWithinZipDirectory
 	}
 
@@ -60,6 +65,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 		whenClose
 		thenExpectZippedDirectoryNotExist
 		thenExpectContentsExists(false)
+		thenExpectLayoutContentExists(false)
 	}
 
 	/**
@@ -67,11 +73,10 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	 */
 	@Test
 	def void testAutoclose() throws IOException {
-		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eINSTANCE
-					.eClass();
-		org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eINSTANCE
-					.eClass();
-					
+		PlanProPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eINSTANCE.
+			eClass();
+
 		ToolboxFileRole.SESSION.whenOpenAndAutoclose
 		thenExpectZippedDirectoryNotExist
 	}
@@ -85,11 +90,21 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	def void testCloseThenOpen() throws IOException{
 		whenOpen
 		thenExpectContentsExists(true)
+		thenExpectLayoutContentExists(true)
 		whenClose
 		thenExpectContentsExists(false)
+		thenExpectLayoutContentExists(false)
 		whenOpen
 		thenExpectContentsExists(true)
+		thenExpectLayoutContentExists(true)
 		thenExpectResourceCallsWithinZipDirectory
+	}
+
+	def void thenExpectLayoutContentExists(boolean exists) {
+		if (Files.exists(testee.layoutPath)) {
+			assertNotNull(testee.layoutResource);
+			assertTrue(testee.layoutResource.contents.empty != exists)
+		}
 	}
 
 	def ToolboxFileFormatService setUpFormatService() {

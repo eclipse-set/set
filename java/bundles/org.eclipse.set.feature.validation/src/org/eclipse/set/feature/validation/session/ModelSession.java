@@ -349,7 +349,7 @@ public class ModelSession implements IModelSession {
 				.createDocumentRoot();
 		DocumentRootExtensions.fix(documentRoot);
 		documentRoot.setPlanProSchnittstelle(getPlanProSchnittstelle());
-		toolboxFile.getResource().getContents().add(documentRoot);
+		toolboxFile.getPlanProResource().getContents().add(documentRoot);
 		save(shell);
 
 		// delete temporary integration
@@ -645,12 +645,12 @@ public class ModelSession implements IModelSession {
 		setPlanProSchnittstelle(serviceProvider.validationService
 				.checkLoad(getToolboxFile(), path -> {
 					getToolboxFile().open();
-					return getToolboxFile().getResource();
+					return toolboxFile.getPlanProResource();
 				}, PlanProSchnittstelleExtensions::readFrom, validationResult));
 		validationResult = serviceProvider.validationService
 				.xsdValidation(getToolboxFile(), validationResult);
 		final org.eclipse.set.model.model11001.PlanPro.DocumentRoot sourceRoot = getToolboxFile()
-				.getSourceModel();
+				.getPlanProSourceModel();
 		if (sourceRoot != null) {
 			validationResult = serviceProvider.validationService.emfValidation(
 					sourceRoot.getPlanProSchnittstelle(), validationResult);
@@ -685,7 +685,7 @@ public class ModelSession implements IModelSession {
 
 			final DocumentRoot documentRoot = PlanProSchnittstelleExtensions
 					.getDocumentRoot(getPlanProSchnittstelle());
-			final XMLResource resource = toolboxFile.getResource();
+			final XMLResource resource = toolboxFile.getPlanProResource();
 			resource.getContents().add(documentRoot);
 			toolboxFile.save();
 			setNewProject(false);
@@ -717,7 +717,8 @@ public class ModelSession implements IModelSession {
 			PlanProSchnittstelleExtensions.fix(getPlanProSchnittstelle());
 			saveFixResult = SaveFixResult.NONE;
 			if (PlanProSchnittstelleExtensions.fixManagementDefaults(
-					getPlanProSchnittstelle(), toolboxFile.getResource())) {
+					getPlanProSchnittstelle(),
+					toolboxFile.getPlanProResource())) {
 				saveFixResult = SaveFixResult.OBJEKTMANAGEMENT;
 			}
 			PlanProSchnittstelleExtensions.updateErzeugung(
@@ -725,7 +726,7 @@ public class ModelSession implements IModelSession {
 					getToolboxFile().getEditingDomain());
 			// Ask user if all missing values should be filled
 			if (PlanProSchnittstelleExtensions.containsUnfilledValues(
-					getPlanProSchnittstelle(), toolboxFile.getResource())
+					getPlanProSchnittstelle(), toolboxFile.getPlanProResource())
 					&& serviceProvider.dialogService
 							.confirmSetDefaultsGlobally(shell)) {
 				PlanProSchnittstelleExtensions
@@ -805,7 +806,7 @@ public class ModelSession implements IModelSession {
 		toolboxFile.setPath(path);
 
 		// add contents
-		final XMLResource resource = toolboxFile.getResource();
+		final XMLResource resource = toolboxFile.getPlanProResource();
 		resource.eAdapters()
 				.add(new AdapterFactoryEditingDomain.EditingDomainProvider(
 						toolboxFile.getEditingDomain()));
