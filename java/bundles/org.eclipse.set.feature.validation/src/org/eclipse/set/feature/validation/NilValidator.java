@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.set.toolboxmodel.Layoutinformationen.LayoutinformationenPackage;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
@@ -41,6 +42,17 @@ public class NilValidator extends EObjectValidator {
 		// Register only if not the current validator
 		if (!(planproValidator instanceof NilValidator)) {
 			EValidator.Registry.INSTANCE.put(PlanProPackage.eINSTANCE,
+					new NilValidator(planproValidator, messages));
+			EValidator.Registry.INSTANCE.put(
+					LayoutinformationenPackage.eINSTANCE,
+					new NilValidator(planproValidator, messages));
+		}
+
+		final EValidator layoutValidator = (EValidator) EValidator.Registry.INSTANCE
+				.get(LayoutinformationenPackage.eINSTANCE);
+		if (!(layoutValidator instanceof NilValidator)) {
+			EValidator.Registry.INSTANCE.put(
+					LayoutinformationenPackage.eINSTANCE,
 					new NilValidator(planproValidator, messages));
 		}
 

@@ -152,7 +152,7 @@ public class Messages {
 	public String SuccessMsg;
 
 	/**
-	 * Schema Problem
+	 * XML-Schema
 	 */
 	public String XsdProblemMsg;
 

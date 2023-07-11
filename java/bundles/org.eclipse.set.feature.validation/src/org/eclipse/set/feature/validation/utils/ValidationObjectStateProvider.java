@@ -20,11 +20,13 @@ public class ValidationObjectStateProvider {
 	private static final String NODE_ZUSTAND_START = "LST_Zustand_Start"; //$NON-NLS-1$
 	private static final String NODE_ZUSTAND_ZIEL = "LST_Zustand_Ziel"; //$NON-NLS-1$
 	private static final String NODE_ZUSTAND_INFO = "LST_Zustand"; //$NON-NLS-1$
+	private static final String NODE_LAYOUTINFORMATION_ROOT = "nsLayoutinformationen:PlanPro_Layoutinfo"; //$NON-NLS-1$
 
 	// IMPROVE: Use enum translation service?
 	private static final String LST_ZUSTAND_START = "Start"; //$NON-NLS-1$
 	private static final String LST_ZUSTAND_ZIEL = "Ziel"; //$NON-NLS-1$
 	private static final String LST_ZUSTAND_INFO = "Information"; //$NON-NLS-1$
+	private static final String LAYOUTINFORMATIONEN = "Layoutinformationen"; //$NON-NLS-1$
 
 	/**
 	 * @param node
@@ -48,6 +50,9 @@ public class ValidationObjectStateProvider {
 		}
 		if (nodeName.equals(NODE_ZUSTAND_INFO)) {
 			return LST_ZUSTAND_INFO;
+		}
+		if (nodeName.equals(NODE_LAYOUTINFORMATION_ROOT)) {
+			return LAYOUTINFORMATIONEN;
 		}
 
 		return getObjectState(node.getParentNode());
