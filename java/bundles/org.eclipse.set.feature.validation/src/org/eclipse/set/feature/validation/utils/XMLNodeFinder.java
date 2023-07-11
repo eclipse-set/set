@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.validation.utils;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -120,10 +121,12 @@ public class XMLNodeFinder {
 	 * 
 	 * @param toolboxfile
 	 *            the ToolboxFile
+	 * @param docPath
+	 *            the path of document
 	 */
-	public void read(final ToolboxFile toolboxfile) {
+	public void read(final ToolboxFile toolboxfile, final Path docPath) {
 		try {
-			rootNode = ObjectMetadataXMLReader.read(toolboxfile);
+			rootNode = ObjectMetadataXMLReader.read(toolboxfile, docPath);
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			// Discard exceptions
 		}

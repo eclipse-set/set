@@ -180,17 +180,21 @@ public interface ToolboxFile {
 	XMLResource getLayoutResource();
 
 	/**
+	 * @param contentName
+	 *            name of document
 	 * @return DOM document with line number
 	 */
-	Document getXMLDocument();
+	Document getXMLDocument(String contentName);
 
 	/**
 	 * create DOM document
 	 * 
+	 * @param docName
+	 *            name of document
 	 * @param doc
 	 *            DOM document with line number
 	 */
-	void setXMLDocument(Document doc);
+	void setXMLDocument(String docName, Document doc);
 
 	/**
 	 * @return whether the toolbox file (true = detached) or the model (false =

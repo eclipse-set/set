@@ -37,13 +37,14 @@ class PlazModelServiceImpl implements PlazModelService {
 	static final Logger logger = LoggerFactory.getLogger(PlazModelServiceImpl)
 	EObjectXMLFinder finder
 
-	val severityOrder = newLinkedList(ValidationSeverity.ERROR, ValidationSeverity.WARNING,
-		ValidationSeverity.SUCCESS)
+	val severityOrder = newLinkedList(ValidationSeverity.ERROR,
+		ValidationSeverity.WARNING, ValidationSeverity.SUCCESS)
 
 	override PlazReport runPlazModel(IModelSession modelSession) {
 		val PlazReport report = PlazFactory.eINSTANCE.createPlazReport
 		try {
-			finder = new EObjectXMLFinder(modelSession.toolboxFile)
+			finder = new EObjectXMLFinder(modelSession.toolboxFile,
+				modelSession.toolboxFile.modelPath)
 		} catch (XmlParseException exc) {
 			finder = null
 			logger.error("Parsing XML document failed", exc) // $NON-NLS-1$

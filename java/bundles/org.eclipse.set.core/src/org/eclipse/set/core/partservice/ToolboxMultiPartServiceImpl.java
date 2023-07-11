@@ -48,6 +48,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.Wrapper;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.part.PartDescription;
@@ -392,8 +393,10 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		if (session.getNature() == PlanProFileNature.INVALID) {
 			return ToolboxConstants.VALIDATION_PART_ID;
 		}
+		final Outcome outcome = session
+				.getValidationsOutcome(ValidationResult::getOutcome);
 
-		if (session.getValidationResult().getOutcome() == Outcome.INVALID) {
+		if (outcome == Outcome.INVALID) {
 			return ToolboxConstants.VALIDATION_PART_ID;
 		}
 
