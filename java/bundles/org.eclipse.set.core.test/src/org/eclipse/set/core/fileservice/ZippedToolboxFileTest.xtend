@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test
 
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
+import org.junit.jupiter.api.Disabled
 
 /**
  * Test for {@link ZippedPlanProToolboxFile}
