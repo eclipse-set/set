@@ -24,9 +24,6 @@ import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
 import org.junit.jupiter.api.Disabled
 
-import static org.junit.Assert.assertNotNull
-import static org.junit.Assert.assertTrue
-
 /**
  * Test for {@link ZippedPlanProToolboxFile}
  * 
