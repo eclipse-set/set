@@ -143,17 +143,18 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 			final Cache cache = Services.getCacheService()
 					.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
-			final List<ProblemMessage> problems = cache.get("validationReport", //$NON-NLS-1$
-					ArrayList::new);
+			final List<ProblemMessage> problems = cache
+					.get(VIEW_VALIDATION_REPORT, ArrayList::new);
 			problems.clear();
 
 			// Add problems
 			validationReport.getProblems().stream()
 					.filter(problem -> problem
 							.getSeverity() != ValidationSeverity.SUCCESS)
-					.forEach(problem -> problems.add(new ProblemMessage(
-							problem.getMessage(), problem.getType(),
-							problem.getLineNumber(), 3)));
+					.forEach(problem -> problems
+							.add(new ProblemMessage(problem.getMessage(),
+									problem.getType(), problem.getLineNumber(),
+									3, problem.getObjectState().getLiteral())));
 			getBroker().post(Events.PROBLEMS_CHANGED, null);
 
 			// Register nattable injector

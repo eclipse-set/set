@@ -32,8 +32,8 @@ class ValidationReportTableTransformator extends AbstractTableModelTransformator
 			}
 			fill(instance, columns.ObjectType, problem, [objectArt])
 			fill(instance, columns.AttributeGroup, problem, [attributeName])
-			fill(instance, columns.ObjectScope, problem, [objectScope.toString])
-			fill(instance, columns.ObjectState, problem, [objectState])
+			fill(instance, columns.ObjectScope, problem, [objectScope?.toString])
+			fill(instance, columns.ObjectState, problem, [objectState?.literal])
 			fill(instance, columns.Message, problem, [message])			
 		}
 		

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.set.model.validationreport.ObjectScope;
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.model.validationreport.ValidationreportPackage;
@@ -231,7 +232,7 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String OBJECT_STATE_EDEFAULT = "";
+	protected static final ObjectState OBJECT_STATE_EDEFAULT = ObjectState.INITIAL;
 
 	/**
 	 * The cached value of the '{@link #getObjectState() <em>Object State</em>}' attribute.
@@ -241,7 +242,7 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 * @ordered
 	 */
-	protected String objectState = OBJECT_STATE_EDEFAULT;
+	protected ObjectState objectState = OBJECT_STATE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -475,7 +476,7 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 */
 	@Override
-	public String getObjectState() {
+	public ObjectState getObjectState() {
 		return objectState;
 	}
 
@@ -485,9 +486,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 */
 	@Override
-	public void setObjectState(String newObjectState) {
-		String oldObjectState = objectState;
-		objectState = newObjectState;
+	public void setObjectState(ObjectState newObjectState) {
+		ObjectState oldObjectState = objectState;
+		objectState = newObjectState == null ? OBJECT_STATE_EDEFAULT : newObjectState;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE, oldObjectState, objectState));
 	}
@@ -560,7 +561,7 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 				setObjectScope((ObjectScope)newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
-				setObjectState((String)newValue);
+				setObjectState((ObjectState)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -636,7 +637,7 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 				return objectScope != OBJECT_SCOPE_EDEFAULT;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
-				return OBJECT_STATE_EDEFAULT == null ? objectState != null : !OBJECT_STATE_EDEFAULT.equals(objectState);
+				return objectState != OBJECT_STATE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

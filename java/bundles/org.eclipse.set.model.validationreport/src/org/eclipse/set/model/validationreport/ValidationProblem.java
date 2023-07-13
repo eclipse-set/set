@@ -268,24 +268,27 @@ public interface ValidationProblem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Object State</b></em>' attribute.
 	 * The default value is <code>""</code>.
+	 * The literals are from the enumeration {@link org.eclipse.set.model.validationreport.ObjectState}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Object State</em>' attribute.
-	 * @see #setObjectState(String)
+	 * @see org.eclipse.set.model.validationreport.ObjectState
+	 * @see #setObjectState(ObjectState)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationProblem_ObjectState()
 	 * @model default=""
 	 * @generated
 	 */
-	String getObjectState();
+	ObjectState getObjectState();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectState <em>Object State</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Object State</em>' attribute.
+	 * @see org.eclipse.set.model.validationreport.ObjectState
 	 * @see #getObjectState()
 	 * @generated
 	 */
-	void setObjectState(String value);
+	void setObjectState(ObjectState value);
 
 } // ValidationProblem

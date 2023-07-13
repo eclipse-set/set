@@ -20,10 +20,12 @@ import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.ui.menu.IMenuItemProvider;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.table.TableDataProvider;
@@ -55,21 +57,27 @@ public class SetTableMenuService extends AbstractTableMenuService {
 				new JumpToSourceLineEvent(part) {
 
 					@Override
-					public int getLineNumber() {
+					public Pair<ObjectState, Integer> getLineNumber() {
 						final Collection<ILayerCell> selectedCells = selectionLayer
 								.getSelectedCells();
 						if (selectedCells.isEmpty()) {
-							return -1;
+							return new Pair<>(null, Integer.valueOf(-1));
 						}
 						final int rowPosition = selectedCells.iterator().next()
 								.getRowPosition();
 						if (dataProvider instanceof final TableDataProvider tableDataProvider) {
 							final int originalRow = tableDataProvider
 									.getOriginalRow(rowPosition);
-							return tableDataProvider
-									.getObjectSourceLine(originalRow);
+							final String objectState = tableDataProvider
+									.getObjectState(rowPosition);
+							final ObjectState state = ObjectState
+									.get(objectState);
+							final Integer lineNumber = Integer
+									.valueOf(tableDataProvider
+											.getObjectSourceLine(originalRow));
+							return new Pair<>(state, lineNumber);
 						}
-						return -1;
+						return new Pair<>(null, Integer.valueOf(-1));
 
 					}
 

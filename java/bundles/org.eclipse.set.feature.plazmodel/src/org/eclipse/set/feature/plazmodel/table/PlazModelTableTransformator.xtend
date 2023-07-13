@@ -42,7 +42,7 @@ class PlazModelTableTransformator extends AbstractTableModelTransformator<PlazRe
 			fill(instance, columns.AttributeGroup,
 				problem, [attributeName])
 			fill(instance, columns.ObjectScope, problem, [objectScope?.literal])
-			fill(instance, columns.ObjectState, problem, [objectState])
+			fill(instance, columns.ObjectState, problem, [objectState?.literal])
 			fill(instance, columns.Message, problem, [message])
 		}
 

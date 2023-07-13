@@ -19,8 +19,10 @@ package org.eclipse.set.basis;
  *            the line
  * @param severity
  *            the severity (1-4) of the problem
+ * @param model
+ *            the model container of this problem
  */
 public record ProblemMessage(String message, String type, int line,
-		int severity) {
+		int severity, String model) {
 	//
 }
