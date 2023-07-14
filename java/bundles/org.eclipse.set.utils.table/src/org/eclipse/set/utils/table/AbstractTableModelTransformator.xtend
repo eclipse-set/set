@@ -211,9 +211,10 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 				fill(row, column, object, [content.get(0)])
 			} else {
 				fillIterable(row, column, object, [content],
-					switchCase.comparator, [it], switchCase.seperator === null
-						? ITERABLE_FILLING_SEPARATOR
-						: switchCase.seperator)
+					switchCase.comparator, [it],
+					switchCase.seperator ===
+						null ? ITERABLE_FILLING_SEPARATOR : switchCase.
+						seperator)
 			}
 		} catch (Exception e) {
 			handleFillingException(e, row, column)
@@ -333,7 +334,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		row.fillIterableWithSeparatorConditional(column, object, [true],
 			sequence, comparator, elementFilling, [], separator)
 	}
-	
+
 	/**
 	 * Fill a row with a sequence of string values depending on a condition and handle exceptions.
 	 * 
@@ -349,12 +350,13 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		TableRow row,
 		ColumnDescriptor column,
 		S object,
-		(S) => Boolean condition,
-		(S) => Iterable<String> sequenceIfTrue,
+		(S)=>Boolean condition,
+		(S)=>Iterable<String> sequenceIfTrue,
 		Comparator<String> comparator,
 		String separtor
 	) {
-		row.fillIterableWithSeparatorConditional(column, object, condition, sequenceIfTrue, comparator, [], separtor)
+		row.fillIterableWithSeparatorConditional(column, object, condition,
+			sequenceIfTrue, comparator, [], separtor)
 	}
 
 	/**
@@ -413,8 +415,8 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	) {
 		try {
 			if (condition.apply(object).booleanValue) {
-				val list = sequenceIfTrue.apply(object).sortWith(comparator).
-					map(elementFilling).filterNull
+				val list = sequenceIfTrue.apply(object).filterNull.sortWith(
+					comparator).map(elementFilling).filterNull
 				row.set(column, list, separator)
 			} else {
 				fill(row, column, object, fillingIfFalse)

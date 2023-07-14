@@ -337,9 +337,9 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					!zugFstrs.empty
 				],
-				[
-					val footnotes = footnoteTransformation.transform(it, row)
-					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr.zugFstrBezeichnung»«ENDFOR» «footnotes»'''
+				[ zugRangier|
+					val footnotes = footnoteTransformation.transform(zugRangier, row)
+					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr.getZugFstrBezeichnung([isZOrGz(it)])»«ENDFOR» «footnotes»'''
 				]
 			)
 		)
