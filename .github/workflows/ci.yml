@@ -60,9 +60,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Maven Authentification
-        run: mkdir -p ~/.m2 && cp .github/settings.xml ~/.m2/settings.xml
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -78,10 +75,10 @@ jobs:
           maven-version: 3.9.3
 
       - name: Build
-        run: mvn -T 1.5C -B clean verify --settings ~/.m2/settings.xml
+        run: mvn -T 1.5C -B clean verify --settings .github/settings.xml
 
       - name: Publish
-        run: mvn -T 1.5C -B deploy --settings ~/.m2/settings.xml
+        run: mvn -T 1.5C -B deploy --settings .github/settings.xml
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
         env:
           GITHUB_TOKEN: ${{ github.token }}
