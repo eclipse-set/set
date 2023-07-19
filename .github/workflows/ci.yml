@@ -7,16 +7,28 @@ on: push
 jobs:
   docs:
     runs-on: ubuntu-latest
-    # container: klakegg/hugo:0.101.0-asciidoctor-ci
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@16361eb4acea8698b220b76c0d4e84e1fd22c61d # v2
+        with:
+          hugo-version: "0.101.0"
+          extended: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@250fcd6a742febb1123a77a841497ccaa8b9e939 # v1.152.0
+        with:
+          ruby-version: 3.2
+
+      - run: gem install asciidoctor
+
       - name: Build hugo
         run: hugo
         working-directory: web/about
 
   textviewer:
     runs-on: ubuntu-latest
-    # container: node:18
     steps:
       - uses: actions/checkout@v3
       - name: Build
@@ -35,7 +47,7 @@ jobs:
           curl -o pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.16.105/pdfjs-2.16.105-dist.zip
           npm ci 
           npm run build
-        working-directory: web/pdfviewer
+        working-directory: web/pdf
 
   java:
     runs-on: ubuntu-latest

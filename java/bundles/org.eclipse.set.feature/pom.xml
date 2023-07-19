@@ -83,7 +83,7 @@
 							<outputDirectory>${basedir}/pdfviewer/web/pdfviewer</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/../../../web/pdfviewer/dist</directory>
+									<directory>${basedir}/../../../web/pdf/dist</directory>
 								</resource>
 							</resources>
 						</configuration>
