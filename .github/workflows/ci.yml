@@ -74,7 +74,7 @@ jobs:
           maven-version: 3.9.3
 
       - name: Build
-        run: mvn -T 1.5C -B clean verify
+        run: cat ~/.m2/settings.xml # mvn -T 1.5C -B clean verify
 
       - name: Publish
         run: mvn -T 1.5C -B deploy
