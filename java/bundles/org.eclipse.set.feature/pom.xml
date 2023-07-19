@@ -43,6 +43,51 @@
 							</resources>
 						</configuration>
 					</execution>
+					<execution>
+						<id>copy-about</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/about/web/about</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../../web/about/dist</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-textviewer</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/textviewer/web/textviewer</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../../web/textviewer/dist</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-pdfviewer</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/pdfviewer/web/pdfviewer</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../../web/pdfviewer/dist</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>										
 				</executions>
 			</plugin>
 
@@ -58,6 +103,18 @@
 							<directory>rootdir_filtered</directory>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
+						<fileset>
+							<directory>about</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+						<fileset>
+							<directory>textviewer</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+						<fileset>
+							<directory>pdfviewer</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>												
 					</filesets>
 				</configuration>
 			</plugin>

@@ -19,18 +19,6 @@ which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v20.html
    </copyright>
 
-   <includes
-         id="org.eclipse.set.toolboxmodel.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.set.model.model11001.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.set.browser.feature"
-         version="0.0.0"/>
-
    <requires>
       <import feature="org.eclipse.babel.nls_eclipse_de" version="4.4.0.v20140623020002"/>
       <import plugin="javax.inject" version="1.0.0" match="greaterOrEqual"/>

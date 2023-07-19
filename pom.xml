@@ -21,7 +21,6 @@
 		<!-- ############################################################### -->
 		<module>java/bundles/org.eclipse.set.releng.logging</module>
 		<module>java/bundles/org.eclipse.set.releng.set.product</module>
-		<module>java/bundles/org.eclipse.set.releng.repository</module>
 		<module>java/bundles/org.eclipse.set.releng.target</module>
 
 		<!-- ############################################################### -->

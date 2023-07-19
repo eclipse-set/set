@@ -7,9 +7,9 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<cbi-version>1.3.2</cbi-version>
-		<tycho-version>3.0.3</tycho-version>
-		<tycho-extras-version>3.0.3</tycho-extras-version>
+		<tycho-version>4.0.0</tycho-version>
+		<tycho-extras-version>4.0.0</tycho-extras-version>
+		<deploy-plugin-version>3.1.1</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,6 +19,12 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>${deploy-plugin-version}</version>
+			</plugin>
+
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-compiler-plugin</artifactId>
@@ -71,37 +77,6 @@
 					<updatePomFile>false</updatePomFile>
 					<skipPomGeneration>true</skipPomGeneration>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-p2-publisher-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<profiles>JavaSE-17</profiles>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-p2-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<executions>
-					<execution>
-						<!-- Keine (default) Metadaten vor der source-feature Ausführung anhängen. -->
-						<id>default-p2-metadata-default</id>
-						<configuration>
-							<attachP2Metadata>false</attachP2Metadata>
-						</configuration>
-					</execution>
-					<execution>
-						<id>attach-p2-metadata</id>
-						<phase>package</phase>
-						<goals>
-							<goal>p2-metadata</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -419,37 +394,15 @@
 	</build>
 
 	<scm>
-		<connection>scm:git:https://gitlab.eclipse.org/eclipse/set/set</connection>
-		<developerConnection>scm:git:https://gitlab.eclipse.org/eclipse/set/set</developerConnection>
+		<connection>scm:git:https://github.com/eclipse-set/set</connection>
+		<developerConnection>scm:git:https://github.com/eclipse-set/set</developerConnection>
 	</scm>
 
-	<profiles>
-		<profile>
-			<id>sign</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.eclipse.cbi.maven.plugins</groupId>
-						<artifactId>eclipse-jarsigner-plugin</artifactId>
-						<version>${cbi-version}</version>
-						<executions>
-							<execution>
-								<id>sign</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>cbi</id>
-			<url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
-		</pluginRepository>
-	</pluginRepositories>
+	<distributionManagement>
+		<repository>
+			<id>set-github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/eclipse-set/set</url>
+		</repository>
+	</distributionManagement>
 </project>

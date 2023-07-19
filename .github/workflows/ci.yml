@@ -1,0 +1,78 @@
+# This workflow will build the main SET application and publish it to GitHub Packages
+
+name: Build model
+
+on: push
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    # container: klakegg/hugo:0.101.0-asciidoctor-ci
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build hugo
+        run: hugo
+        working-directory: web/about
+
+  textviewer:
+    runs-on: ubuntu-latest
+    # container: node:18
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: |
+          npm ci 
+          npm run build
+        working-directory: web/textviewer
+
+  pdfviewer:
+    runs-on: ubuntu-latest
+    # container: node:18
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: |
+          curl -o pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.16.105/pdfjs-2.16.105-dist.zip
+          npm ci 
+          npm run build
+        working-directory: web/pdfviewer
+
+  java:
+    runs-on: ubuntu-latest
+    needs:
+      - docs
+      - textviewer
+      - pdfviewer
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: temurin
+          server-id: set-github
+          cache: maven
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
+        with:
+          maven-version: 3.9.3
+
+      - name: Build
+        run: mvn -T 1.5C -B clean verify
+
+      - name: Publish
+        run: mvn -T 1.5C -B deploy
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: SET
+          path: java/bundles/org.eclipse.set.releng.set.product/target/products/SET-*.zip
