@@ -4,6 +4,9 @@ name: Build model
 
 on: push
 
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
 jobs:
   docs:
     runs-on: ubuntu-latest
