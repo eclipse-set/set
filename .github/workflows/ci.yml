@@ -61,7 +61,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up Maven Authentification
-        run: cp .github/settings.xml ~/.m2/settings.xml
+        run: mkdir -p ~/.m2 && cp .github/settings.xml ~/.m2/settings.xml
 
       - name: Set up JDK
         uses: actions/setup-java@v3
