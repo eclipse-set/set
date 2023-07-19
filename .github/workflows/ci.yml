@@ -60,11 +60,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up Maven Authentification
+        run: cp .github/settings.xml ~/.m2/settings.xml
+
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           java-version: "17"
           distribution: temurin
+          overwrite-settings: false
           server-id: set-github
           cache: maven
 
@@ -72,9 +76,6 @@ jobs:
         uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
         with:
           maven-version: 3.9.3
-
-      - name: Set up Maven Authentification
-        run: cp .github/settings.xml ~/.m2/settings.xml
 
       - name: Build
         run: mvn -T 1.5C -B clean verify
