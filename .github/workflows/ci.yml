@@ -73,8 +73,11 @@ jobs:
         with:
           maven-version: 3.9.3
 
+      - name: Set up Maven Authentification
+        run: cp .github/settings.xml ~/.m2/settings.xml
+
       - name: Build
-        run: cat ~/.m2/settings.xml # mvn -T 1.5C -B clean verify
+        run: mvn -T 1.5C -B clean verify
 
       - name: Publish
         run: mvn -T 1.5C -B deploy
