@@ -39,12 +39,11 @@ jobs:
 
   pdfviewer:
     runs-on: ubuntu-latest
-    # container: node:18
     steps:
       - uses: actions/checkout@v3
       - name: Build
         run: |
-          curl -o pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.16.105/pdfjs-2.16.105-dist.zip
+          curl -vvvv -o pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.16.105/pdfjs-2.16.105-dist.zip
           npm ci 
           npm run build
         working-directory: web/pdf
