@@ -80,7 +80,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/pdfviewer/web/pdfviewer</outputDirectory>
+							<outputDirectory>${basedir}/pdfviewer/web/pdf</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${basedir}/../../../web/pdf/dist</directory>
