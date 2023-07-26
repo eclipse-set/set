@@ -2,6 +2,7 @@ baseURL = ""
 languageCode = "de-de"
 title = "Werkzeugkoffer Version- und Lizenz- Informationen"
 theme = "kraiklyn"
+publishDir = "dist"
 
 # Disable sitemaps, 404 pages and RSS feeds
 disableKinds = ["sitemap", "404", "RSS"]
