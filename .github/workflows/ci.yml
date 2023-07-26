@@ -29,6 +29,13 @@ jobs:
       - name: Build hugo
         run: hugo
         working-directory: web/about
+        
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: about-artifact
+          path: web/about/dist
+          retention-days: 1
 
   textviewer:
     runs-on: ubuntu-latest
@@ -39,7 +46,13 @@ jobs:
           npm ci 
           npm run build
         working-directory: web/textviewer
-
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: textviewer-artifact
+          path: web/textviewer/dist
+          retention-days: 1
+          
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
@@ -50,6 +63,12 @@ jobs:
           npm ci 
           npm run build
         working-directory: web/pdf
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdfviewer-artifact
+          path: web/pdf/dist
+          retention-days: 1
 
   java:
     runs-on: ubuntu-latest
@@ -62,7 +81,7 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-
+      
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -76,6 +95,24 @@ jobs:
         uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
         with:
           maven-version: 3.9.3
+      
+      - name: Fetch pdf viewer
+        uses: actions/download-artifact@v3
+        with:
+          name: pdfviewer-artifact
+          path: web/pdf/dist
+      
+      - name: Fetch text viewer
+        uses: actions/download-artifact@v3
+        with:
+          name: pdfviewer-artifact
+          path: web/textviewer/dist
+      
+      - name: Fetch about
+        uses: actions/download-artifact@v3
+        with:
+          name: about-artifact
+          path: web/about/dist          
 
       - name: Build
         run: mvn -X -T 1.5C -B clean verify --settings .github/settings.xml
