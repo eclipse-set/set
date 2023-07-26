@@ -105,7 +105,7 @@ jobs:
       - name: Fetch text viewer
         uses: actions/download-artifact@v3
         with:
-          name: pdfviewer-artifact
+          name: textviewer-artifact
           path: web/textviewer/dist
       
       - name: Fetch about
