@@ -99,6 +99,5 @@ Export-Package: org.eclipse.set.feature.validation,
  org.eclipse.set.feature.validation.utils
 Service-Component: OSGI-INF/org.eclipse.set.feature.validation.descriptions.ValidationTableDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.validation.descriptions.ValidationViewDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.validation.modelloader.ModelLoaderContextFunction.xml,
  OSGI-INF/org.eclipse.set.feature.validation.niltest.NilTest.xml,
  OSGI-INF/org.eclipse.set.feature.validation.service.ValidationServiceContextFunction.xml
