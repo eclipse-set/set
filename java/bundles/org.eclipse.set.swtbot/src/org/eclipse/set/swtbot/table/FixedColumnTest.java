@@ -32,18 +32,26 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author truong
  *
  */
-class FixedColumnTest extends AbstractTableTest {
+public class FixedColumnTest extends AbstractTableTest {
 	@SuppressWarnings("boxing")
-	private static Stream<Arguments> getPtTableToTestFixedColumn() {
+	protected static Stream<Arguments> getPtTableToTestFixedColumn() {
 		return PtTable.tablesToTest.stream()
 				.filter(table -> table.fixedColumns().size() > 1
 						|| table.fixedColumns().get(0) != 0)
 				.map(table -> Arguments.of(table));
 	}
 
-	private FreezeLayer freezeLayer;
+	protected FreezeLayer freezeLayer;
 
-	private void thenExistFixedColumn() {
+	@ParameterizedTest
+	@MethodSource("getPtTableToTestFixedColumn")
+	protected void testFixedColumn(final PtTable table) {
+		givenNattableBot(table);
+		thenExistFixedColumn();
+		thenFixedColumnsIsFixed(table.fixedColumns());
+	}
+
+	protected void thenExistFixedColumn() {
 		final NatTable natTable = nattableBot.widget;
 		final ILayer layer = natTable.getLayer();
 		assertInstanceOf(GridLayer.class, layer);
@@ -57,7 +65,7 @@ class FixedColumnTest extends AbstractTableTest {
 		assertTrue(freezeLayer.isFrozen());
 	}
 
-	private void thenFixedColumnsIsFixed(final List<Integer> fixedColumns) {
+	protected void thenFixedColumnsIsFixed(final List<Integer> fixedColumns) {
 		int lastFixedColumn = 0;
 		int firstFixedColumn = 0;
 		if (fixedColumns.size() > 1) {
@@ -75,13 +83,5 @@ class FixedColumnTest extends AbstractTableTest {
 		assertEquals(lastFixedColumn,
 				freezeLayer.getBottomRightPosition().columnPosition);
 		assertEquals(-1, freezeLayer.getBottomRightPosition().rowPosition);
-	}
-
-	@ParameterizedTest
-	@MethodSource("getPtTableToTestFixedColumn")
-	void testFixedColumn(final PtTable table) {
-		givenNattableBot(table);
-		thenExistFixedColumn();
-		thenFixedColumnsIsFixed(table.fixedColumns());
 	}
 }

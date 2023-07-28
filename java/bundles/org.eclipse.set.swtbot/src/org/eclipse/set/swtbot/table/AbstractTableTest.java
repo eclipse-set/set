@@ -76,7 +76,7 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		swtBotExpandItem.expand();
 	}
 
-	void givenNattableBot(final PtTable table) {
+	protected void givenNattableBot(final PtTable table) {
 		bot.button(table.tableName()).click();
 		bot.waitUntil(new DefaultCondition() {
 

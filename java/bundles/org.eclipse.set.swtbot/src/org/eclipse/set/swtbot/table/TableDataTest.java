@@ -26,11 +26,30 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author truong
  *
  */
-class TableDataTest extends AbstractTableTest {
+public class TableDataTest extends AbstractTableTest {
 
 	List<CSVRecord> referenceData = new LinkedList<>();
 
-	private void thenPtTableDataEqualReferenceCSV() {
+	protected void givenReferenceCSV(final PtTable table) throws IOException {
+		referenceData = loadReferenceFile(table.shortcut());
+
+	}
+
+	/**
+	 * Compare table data with reference file
+	 * 
+	 * @throws Exception
+	 */
+	@ParameterizedTest
+	@MethodSource("providesPtTable")
+	protected void testTableData(final PtTable table) throws Exception {
+		givenNattableBot(table);
+		givenReferenceCSV(table);
+		whenExistReferenceCSV();
+		thenPtTableDataEqualReferenceCSV();
+	}
+
+	protected void thenPtTableDataEqualReferenceCSV() {
 		for (int rowIndex = 0; rowIndex < nattableBot.rowCount(); rowIndex++) {
 			for (int columnIndex = 0; columnIndex < nattableBot
 					.columnCount(); columnIndex++) {
@@ -49,27 +68,8 @@ class TableDataTest extends AbstractTableTest {
 		}
 	}
 
-	private void whenExistReferenceCSV() {
+	protected void whenExistReferenceCSV() {
 		assertNotNull(referenceData);
 		assertFalse(referenceData.isEmpty());
-	}
-
-	void givenReferenceCSV(final PtTable table) throws IOException {
-		referenceData = loadReferenceFile(table.shortcut());
-
-	}
-
-	/**
-	 * Compare table data with reference file
-	 * 
-	 * @throws Exception
-	 */
-	@ParameterizedTest
-	@MethodSource("providesPtTable")
-	void testTableData(final PtTable table) throws Exception {
-		givenNattableBot(table);
-		givenReferenceCSV(table);
-		whenExistReferenceCSV();
-		thenPtTableDataEqualReferenceCSV();
 	}
 }
