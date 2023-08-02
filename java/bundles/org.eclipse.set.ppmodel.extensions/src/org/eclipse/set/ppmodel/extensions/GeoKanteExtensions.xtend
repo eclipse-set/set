@@ -37,6 +37,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExten
 import org.eclipse.set.utils.math.Clothoid
 import org.eclipse.set.utils.math.Bloss
 import java.util.ArrayList
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -108,7 +109,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val radiusB = (kante.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
 		val angle = kante.GEOKanteAllg.GEORichtungswinkel.wert.doubleValue
 		val coordinateA = kante.geoKnotenA.coordinate
-		val coordinateB = kante.geoKnotenB.coordinate
+		var coordinateB = kante.coordinateKnoteB
 		val length = kante.GEOKanteAllg.GEOLaenge.wert.doubleValue
 		if (radiusA != 0 && radiusB != 0) {
 			// Clothoid connecting two curved tracks	
@@ -172,7 +173,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val radiusA = (kante.GEOKanteAllg?.GEORadiusA?.wert ?: 0).doubleValue
 		val radiusB = (kante.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
 		val coordinateA = kante.geoKnotenA.coordinate
-		val coordinateB = kante.geoKnotenB.coordinate
+		var coordinateB = kante.coordinateKnoteB
 		val length = kante.GEOKanteAllg.GEOLaenge.wert.doubleValue
 		if (radiusA != 0 && radiusB != 0) {
 			// Bloss curve connecting two straight tracks
@@ -257,7 +258,34 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	}
 
 	private def static Coordinate[] getCoordinates(GEO_Kante kante) {
-		return #[kante.geoKnotenA.coordinate, kante.geoKnotenB.coordinate]
+		return #[kante.geoKnotenA.coordinate, kante.coordinateKnoteB]
+	}
+	
+	private def static Coordinate getCoordinateKnoteB(GEO_Kante kante) {
+		val knotenB = kante.geoKnotenB
+		var coordinateB = knotenB.coordinate
+		if (!kante.isCRSConsistent) {
+			coordinateB = coordinateB.transformCRS(knotenB.CRS, kante.CRS)
+		} 
+		return coordinateB
+	}
+
+	/**
+	 * Returns the CRS for a GEO_Kante
+	 * 
+	 * @param geoKante a GEO_Kante
+	 * @return the CRS of the GEO_Kante or null
+	 */
+	static def ENUMGEOKoordinatensystem getCRS(GEO_Kante geoKante) {
+		// When exists GEO_Kante stay on two other CRS,
+		// then the coordiatenes of KnotenB will be transform into CRS of KnotenA
+		return geoKante.geoKnotenA.CRS
+	}
+
+	static def boolean isCRSConsistent(GEO_Kante geoKante) {
+		val crsA = geoKante.geoKnotenA.CRS
+		val crsB = geoKante.geoKnotenB.CRS
+		return crsA === crsB
 	}
 
 	/**
@@ -409,6 +437,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	}
 
 	static val geoFactory = new GeometryFactory()
+
 	private def static GeometryFactory getGeometryFactory() {
 		return geoFactory
 	}
