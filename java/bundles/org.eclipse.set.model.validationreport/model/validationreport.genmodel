@@ -19,6 +19,11 @@
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Plan"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Unknown"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ContainerContent">
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ContainerContent/MODEL"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ContainerContent/LAYOUT"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ContainerContent/ATTACHMENT"/>
+    </genEnums>
     <genClasses ecoreClass="validationreport.ecore#//ValidationReport">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/modelLoaded"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/valid"/>
@@ -53,6 +58,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/checksum"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/guid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/timeStamp"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//FileInfo/containerContents"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

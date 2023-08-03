@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.FileInfo;
 import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.model.validationreport.ValidationProblem;
@@ -73,6 +74,13 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 	 * @generated
 	 */
 	private EEnum objectScopeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum containerContentEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -451,6 +459,16 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 	 * @generated
 	 */
 	@Override
+	public EAttribute getFileInfo_ContainerContents() {
+		return (EAttribute)fileInfoEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EEnum getValidationSeverity() {
 		return validationSeverityEEnum;
 	}
@@ -463,6 +481,16 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 	@Override
 	public EEnum getObjectScope() {
 		return objectScopeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EEnum getContainerContent() {
+		return containerContentEEnum;
 	}
 
 	/**
@@ -528,10 +556,12 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		createEAttribute(fileInfoEClass, FILE_INFO__CHECKSUM);
 		createEAttribute(fileInfoEClass, FILE_INFO__GUID);
 		createEAttribute(fileInfoEClass, FILE_INFO__TIME_STAMP);
+		createEAttribute(fileInfoEClass, FILE_INFO__CONTAINER_CONTENTS);
 
 		// Create enums
 		validationSeverityEEnum = createEEnum(VALIDATION_SEVERITY);
 		objectScopeEEnum = createEEnum(OBJECT_SCOPE);
+		containerContentEEnum = createEEnum(CONTAINER_CONTENT);
 	}
 
 	/**
@@ -598,6 +628,7 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		initEAttribute(getFileInfo_Checksum(), ecorePackage.getEString(), "checksum", null, 0, 1, FileInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFileInfo_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, FileInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFileInfo_TimeStamp(), ecorePackage.getEString(), "timeStamp", null, 0, 1, FileInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFileInfo_ContainerContents(), ecorePackage.getEString(), "containerContents", null, 0, 1, FileInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(validationSeverityEEnum, ValidationSeverity.class, "ValidationSeverity");
@@ -609,6 +640,11 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		addEEnumLiteral(objectScopeEEnum, ObjectScope.BETRACHTUNG);
 		addEEnumLiteral(objectScopeEEnum, ObjectScope.PLAN);
 		addEEnumLiteral(objectScopeEEnum, ObjectScope.UNKNOWN);
+
+		initEEnum(containerContentEEnum, ContainerContent.class, "ContainerContent");
+		addEEnumLiteral(containerContentEEnum, ContainerContent.MODEL);
+		addEEnumLiteral(containerContentEEnum, ContainerContent.LAYOUT);
+		addEEnumLiteral(containerContentEEnum, ContainerContent.ATTACHMENT);
 
 		// Create resource
 		createResource(eNS_URI);
