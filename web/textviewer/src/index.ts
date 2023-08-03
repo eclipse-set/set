@@ -23,9 +23,25 @@ let app !: App
   const model = new Model()
   app = new App()
   app.init()
+
+  await model.fetchFont().then(res => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      const fontStyle = document.createElement('style')
+      fontStyle.innerHTML = `@font-face {
+        font-family: 'siteplanfont';
+        src: url('${reader.result}') format('truetype');
+      }`
+      document.body.appendChild(fontStyle)
+    }
+    reader.readAsDataURL(new Blob([res.data]))
+  }).catch(() => {
+    console.warn('Font not available')
+  })
+
   const viewModels = new Map<string, monaco.editor.ITextModel>()
   await model.fetchFile().then(value => {
-    viewModels.set(TextFileModel.SCHNITTSTELLE, monaco.editor.createModel(value, 'xml'))
+    viewModels.set(TextFileModel.MODEL, monaco.editor.createModel(value, 'xml'))
   })
 
   await model.fetchLayout().then(value => {

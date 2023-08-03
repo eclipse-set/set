@@ -110,7 +110,7 @@ export class App {
 
   setDefaultViewModel () {
     // Set defualt file model
-    this.switchTab(TextFileModel.SCHNITTSTELLE)
+    this.switchTab(TextFileModel.MODEL)
     this.updateProblems()
   }
 

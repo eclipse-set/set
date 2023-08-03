@@ -39,6 +39,7 @@ export class Multitab {
     tab.style.padding = '8px'
     tab.style.color = 'white'
     tab.style.borderRight = '0.5px solid rgb(190, 190, 190)'
+    tab.style.fontFamily = 'siteplanfont'
     tab.onclick = () => {
       (window as any).planproSwitchModel(tabName)
     }

@@ -21,8 +21,8 @@ export interface ProblemMessage {
 }
 
 export enum TextFileModel {
-  SCHNITTSTELLE = 'PlanPro Schnittstelle',
-  LAYOUT = 'Layoutinformationen'
+  MODEL = 'Model',
+  LAYOUT = 'Layout'
 }
 
 /**
@@ -42,5 +42,14 @@ export class Model {
   async fetchLayout () {
     const response = await axios.get('layout.xml')
     return response.data
+  }
+
+  async fetchFont () {
+    const response = await axios({
+      method: 'GET',
+      url: 'font',
+      responseType: 'blob'
+    })
+    return response
   }
 }

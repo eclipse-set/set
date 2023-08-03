@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.application.parts;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.browser.RequestHandler.Request;
 import org.eclipse.set.browser.RequestHandler.Response;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.font.FontService;
 import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
@@ -72,6 +75,9 @@ public class SourceWebTextViewPart extends BasePart {
 	@Translation
 	org.eclipse.set.utils.Messages utilMessages;
 
+	@Inject
+	FontService fontService;
+
 	private FileWebBrowser browser;
 	private EventRegistration eventRegistration;
 
@@ -107,6 +113,7 @@ public class SourceWebTextViewPart extends BasePart {
 					SourceWebTextViewPart::serveProblems);
 			browser.serveFile(LAYOUT_XML, "text/plain", //$NON-NLS-1$
 					session.getToolboxFile().getLayoutPath());
+			browser.serveUri("font", this::serveFont); //$NON-NLS-1$
 
 			browser.setToolboxUrl("index.html"); //$NON-NLS-1$
 		} catch (final Exception e) {
@@ -142,6 +149,13 @@ public class SourceWebTextViewPart extends BasePart {
 				new ObjectMapper().writerWithDefaultPrettyPrinter()
 						.writeValueAsString(problemMessages));
 
+	}
+
+	@SuppressWarnings("resource") // Stream is closed by the browser
+	private void serveFont(final Response response) throws IOException {
+		response.setMimeType("application/x-font-ttf"); //$NON-NLS-1$
+		response.setResponseData(
+				Files.newInputStream(fontService.getSiteplanFont()));
 	}
 
 	private void handleJumpToSourceLineEvent(
