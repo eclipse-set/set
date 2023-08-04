@@ -32,7 +32,7 @@ public enum ContainerContent implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MODEL(0, "MODEL", "Model"),
+	MODEL(0, "MODEL", "Modell"),
 
 	/**
 	 * The '<em><b>LAYOUT</b></em>' literal object.
@@ -59,7 +59,7 @@ public enum ContainerContent implements Enumerator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #MODEL
-	 * @model literal="Model"
+	 * @model literal="Modell"
 	 * @generated
 	 * @ordered
 	 */
