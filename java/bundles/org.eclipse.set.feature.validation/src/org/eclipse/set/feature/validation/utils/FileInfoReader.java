@@ -107,7 +107,7 @@ public class FileInfoReader {
 		return null;
 	}
 
-	private List<ContainerContent> getFileInhalts() {
+	private List<ContainerContent> getContainerContents() {
 		if (this.toolboxFile.getFormat().isPlain()) {
 			return List.of(ContainerContent.MODEL);
 		}
