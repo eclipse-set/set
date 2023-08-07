@@ -89,11 +89,19 @@
       </children>
     </children>
     <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_Eab3UPD5EeuhSN8ICEyhFA" name="%ValidationReport.FunctionalModelInfo" groupType="Collapsible">
-      <children xsi:type="org.eclipse.emf.ecp.view.vertical.model:VerticalLayout" xmi:id="_Eab3UfD5EeuhSN8ICEyhFA">
+      <children xsi:type="org.eclipse.emf.ecp.view.horizontal.model:HorizontalLayout" xmi:id="_V40r0DIMEe6_CrM2CwR_RA">
         <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_Eab3YPD5EeuhSN8ICEyhFA" name="%ValidationReport.Subworks">
           <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_Eab3Y_D5EeuhSN8ICEyhFA" name="Control subworksTypes" readonly="true">
             <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_bzj8EPEIEeuhSN8ICEyhFA">
               <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//ValidationReport/subworkTypes"/>
+            </domainModelReference>
+          </children>
+        </children>
+        <children xsi:type="org.eclipse.emf.ecp.view.group.model:Group" xmi:id="_YLrfQDIMEe6_CrM2CwR_RA" name="%ValidationReport.ContainerContents">
+          <children xsi:type="org.eclipse.emf.ecp.view.model:Control" xmi:id="_otCYwDIMEe6_CrM2CwR_RA" name="%ValidationReport.Contents" readonly="true">
+            <domainModelReference xsi:type="org.eclipse.emf.ecp.view.model:FeaturePathDomainModelReference" xmi:id="_sWZFEDIMEe6_CrM2CwR_RA">
+              <domainModelEFeature xsi:type="ecore:EAttribute" href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//FileInfo/containerContents"/>
+              <domainModelEReferencePath href="tag:scheidt-bachmann-st.de,2018-09-06:planpro/vr#//ValidationReport/fileInfo"/>
             </domainModelReference>
           </children>
         </children>

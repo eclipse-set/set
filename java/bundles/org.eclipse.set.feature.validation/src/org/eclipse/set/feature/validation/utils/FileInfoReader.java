@@ -9,9 +9,17 @@
 
 package org.eclipse.set.feature.validation.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.version.PlanProVersionService;
+import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.FileInfo;
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.w3c.dom.Node;
@@ -30,6 +38,10 @@ public class FileInfoReader {
 	private static final String FILE_TIME_STAMP_NODE_NAME = "Erzeugung_Zeitstempel"; //$NON-NLS-1$
 	private static final String FILE_GUID_NODE_NAME = "Identitaet"; //$NON-NLS-1$
 	private static final String VALUE_NODE_NAME = "Wert"; //$NON-NLS-1$
+
+	private static final String MODEL_XML_NAME = "content.xml"; //$NON-NLS-1$
+	private static final String LAYOUT_XML_NAME = "layout.xml"; //$NON-NLS-1$
+	private static final String ATTACHMENT_XML_NAME = "manifest.xml"; //$NON-NLS-1$
 
 	/**
 	 * @param versionService
@@ -57,6 +69,10 @@ public class FileInfoReader {
 		fileInfo.setTimeStamp(getFileTimeStamp());
 		fileInfo.setGuid(getFileGuid());
 		fileInfo.setChecksum(toolboxFile.getChecksum());
+		final String fileContents = getContainerContents().stream()
+				.map(ContainerContent::getLiteral)
+				.collect(Collectors.joining(", ")); //$NON-NLS-1$
+		fileInfo.setContainerContents(fileContents);
 		return fileInfo;
 	}
 
@@ -89,6 +105,31 @@ public class FileInfoReader {
 			return valueNode;
 		}
 		return null;
+	}
+
+	private List<ContainerContent> getContainerContents() {
+		if (this.toolboxFile.getFormat().isPlain()) {
+			return List.of(ContainerContent.MODEL);
+		}
+		final File modelDir = this.toolboxFile.getModelPath().getParent()
+				.toFile();
+		if (!modelDir.isDirectory()) {
+			return Collections.emptyList();
+		}
+		final List<ContainerContent> fileContents = new ArrayList<>();
+		Arrays.asList(modelDir.listFiles()).forEach(file -> {
+			if (!file.isDirectory()) {
+				final String fileName = file.getName();
+				if (fileName.equals(MODEL_XML_NAME)) {
+					fileContents.add(ContainerContent.MODEL);
+				} else if (fileName.equals(LAYOUT_XML_NAME)) {
+					fileContents.add(ContainerContent.LAYOUT);
+				} else if (fileName.equals(ATTACHMENT_XML_NAME)) {
+					fileContents.add(ContainerContent.ATTACHMENT);
+				}
+			}
+		});
+		return fileContents;
 	}
 
 }

@@ -45,40 +45,35 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 	 * 
 	 * @generated
 	 */
-	public FileInfoItemProvider(final AdapterFactory adapterFactory) {
+	public FileInfoItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(
-			final Object object) {
+			Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(
-					ValidationreportPackage.Literals.FILE_INFO__USED_VERSION);
+			childrenFeatures.add(ValidationreportPackage.Literals.FILE_INFO__USED_VERSION);
 		}
 		return childrenFeatures;
 	}
 
 	/**
-	 * This returns FileInfo.gif. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns FileInfo.gif.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Object getImage(final Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/FileInfo"));
+	public Object getImage(Object object) {
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/FileInfo"));
 	}
 
 	/**
@@ -89,7 +84,7 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 	 */
 	@Override
 	public List<IItemPropertyDescriptor> getPropertyDescriptors(
-			final Object object) {
+			Object object) {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
@@ -97,6 +92,7 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 			addChecksumPropertyDescriptor(object);
 			addGuidPropertyDescriptor(object);
 			addTimeStampPropertyDescriptor(object);
+			addContainerContentsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -113,43 +109,41 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
-	public String getText(final Object object) {
-		final String label = ((FileInfo) object).getFileName();
-		return label == null || label.length() == 0
-				? getString("_UI_FileInfo_type")
-				: getString("_UI_FileInfo_type") + " " + label;
+	public String getText(Object object) {
+		String label = ((FileInfo)object).getFileName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_FileInfo_type") :
+			getString("_UI_FileInfo_type") + " " + label;
 	}
 
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
-	public void notifyChanged(final Notification notification) {
+	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(FileInfo.class)) {
-		case ValidationreportPackage.FILE_INFO__FILE_NAME:
-		case ValidationreportPackage.FILE_INFO__CHECKSUM:
-		case ValidationreportPackage.FILE_INFO__GUID:
-		case ValidationreportPackage.FILE_INFO__TIME_STAMP:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), false, true));
-			return;
-		case ValidationreportPackage.FILE_INFO__USED_VERSION:
-			fireNotifyChanged(new ViewerNotification(notification,
-					notification.getNotifier(), true, false));
-			return;
+			case ValidationreportPackage.FILE_INFO__FILE_NAME:
+			case ValidationreportPackage.FILE_INFO__CHECKSUM:
+			case ValidationreportPackage.FILE_INFO__GUID:
+			case ValidationreportPackage.FILE_INFO__TIME_STAMP:
+			case ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case ValidationreportPackage.FILE_INFO__USED_VERSION:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
 		}
 		super.notifyChanged(notification);
 	}
@@ -160,17 +154,20 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 	 * 
 	 * @generated
 	 */
-	protected void addChecksumPropertyDescriptor(final Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_FileInfo_checksum_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_FileInfo_checksum_feature", "_UI_FileInfo_type"),
-				ValidationreportPackage.Literals.FILE_INFO__CHECKSUM, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+	protected void addChecksumPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_FileInfo_checksum_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_checksum_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__CHECKSUM,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -179,34 +176,42 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 	 * 
 	 * @generated
 	 */
-	protected void addFileNamePropertyDescriptor(final Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_FileInfo_fileName_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_FileInfo_fileName_feature", "_UI_FileInfo_type"),
-				ValidationreportPackage.Literals.FILE_INFO__FILE_NAME, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+	protected void addFileNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_FileInfo_fileName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_fileName_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__FILE_NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Guid feature. <!-- begin-user-doc
+	 * This adds a property descriptor for the Guid feature.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	protected void addGuidPropertyDescriptor(final Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(), getString("_UI_FileInfo_guid_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_FileInfo_guid_feature", "_UI_FileInfo_type"),
-				ValidationreportPackage.Literals.FILE_INFO__GUID, true, false,
-				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
+	protected void addGuidPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_FileInfo_guid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_guid_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__GUID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -215,17 +220,42 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 	 * 
 	 * @generated
 	 */
-	protected void addTimeStampPropertyDescriptor(final Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_FileInfo_timeStamp_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_FileInfo_timeStamp_feature", "_UI_FileInfo_type"),
-				ValidationreportPackage.Literals.FILE_INFO__TIME_STAMP, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+	protected void addTimeStampPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_FileInfo_timeStamp_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_timeStamp_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__TIME_STAMP,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Container Contents feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addContainerContentsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_FileInfo_containerContents_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_FileInfo_containerContents_feature", "_UI_FileInfo_type"),
+				 ValidationreportPackage.Literals.FILE_INFO__CONTAINER_CONTENTS,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -237,24 +267,22 @@ public class FileInfoItemProvider extends ItemProviderAdapter
 	 */
 	@Override
 	protected void collectNewChildDescriptors(
-			final Collection<Object> newChildDescriptors, final Object object) {
+			Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(
-				ValidationreportPackage.Literals.FILE_INFO__USED_VERSION,
-				ValidationreportFactory.eINSTANCE.createVersionInfo()));
+		newChildDescriptors.add
+			(createChildParameter
+				(ValidationreportPackage.Literals.FILE_INFO__USED_VERSION,
+				 ValidationreportFactory.eINSTANCE.createVersionInfo()));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
-	protected EStructuralFeature getChildFeature(final Object object,
-			final Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);

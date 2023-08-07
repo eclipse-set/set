@@ -84,6 +84,8 @@ public class ValidationreportFactoryImpl extends EFactoryImpl implements Validat
 				return createValidationSeverityFromString(eDataType, initialValue);
 			case ValidationreportPackage.OBJECT_SCOPE:
 				return createObjectScopeFromString(eDataType, initialValue);
+			case ValidationreportPackage.CONTAINER_CONTENT:
+				return createContainerContentFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -101,6 +103,8 @@ public class ValidationreportFactoryImpl extends EFactoryImpl implements Validat
 				return convertValidationSeverityToString(eDataType, instanceValue);
 			case ValidationreportPackage.OBJECT_SCOPE:
 				return convertObjectScopeToString(eDataType, instanceValue);
+			case ValidationreportPackage.CONTAINER_CONTENT:
+				return convertContainerContentToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -187,6 +191,26 @@ public class ValidationreportFactoryImpl extends EFactoryImpl implements Validat
 	 * @generated
 	 */
 	public String convertObjectScopeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ContainerContent createContainerContentFromString(EDataType eDataType, String initialValue) {
+		ContainerContent result = ContainerContent.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertContainerContentToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
