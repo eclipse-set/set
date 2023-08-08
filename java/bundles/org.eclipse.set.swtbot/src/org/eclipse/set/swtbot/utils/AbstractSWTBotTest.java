@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public abstract class AbstractSWTBotTest {
 	protected static SWTBot bot;
+	protected static final String DEFAULT_TOOLBOX_NAME = "Eclipse Signalling Engineering Toolbox";
 	protected static MockDialogService dialogService;
 	protected static final String TEST_FILE_DIR = "test_res/test_file/";
 

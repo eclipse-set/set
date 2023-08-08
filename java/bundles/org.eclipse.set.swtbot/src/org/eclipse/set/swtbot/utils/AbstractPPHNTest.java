@@ -41,11 +41,11 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 			@Override
 			public boolean test() throws Exception {
 				final var shell = bot.activeShell();
-				String applicationName = System.getProperty("application-name");
-				if (applicationName.isBlank() || applicationName.isEmpty()) {
-					applicationName = "Eclipse Signalling Engineering Toolbox";
+				String toolboxName = System.getProperty("toolbox.name");
+				if (toolboxName.isBlank() || toolboxName.isEmpty()) {
+					toolboxName = DEFAULT_TOOLBOX_NAME;
 				}
-				return shell.getText().startsWith(applicationName);
+				return shell.getText().startsWith(toolboxName);
 			}
 
 		});
