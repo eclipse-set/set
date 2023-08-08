@@ -32,7 +32,6 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 		LOGGER.info(getFilePath(PPHN_FILE_NAME).toString());
 		dialogService.openFileDialogHandler = filters -> Optional
 				.of(getFilePath(PPHN_FILE_NAME));
-
 		bot.waitUntil(new DefaultCondition() {
 			@Override
 			public String getFailureMessage() {
@@ -42,7 +41,8 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 			@Override
 			public boolean test() throws Exception {
 				final var shell = bot.activeShell();
-				return shell.getText().startsWith(getApplicationName());
+				String toolboxName = System.getProperty("toolbox.name", DEFAULT_TOOLBOX_NAME);
+				return shell.getText().startsWith(toolboxName);
 			}
 
 		});
