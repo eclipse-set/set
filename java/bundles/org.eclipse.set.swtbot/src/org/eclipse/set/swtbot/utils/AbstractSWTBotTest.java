@@ -59,8 +59,4 @@ public abstract class AbstractSWTBotTest {
 		bot = new SWTBot();
 		dialogService = MockDialogServiceContextFunction.mockService;
 	}
-
-	protected String getApplicationName() {
-		return "Eclipse Signalling Engineering Toolbox";
-	}
 }

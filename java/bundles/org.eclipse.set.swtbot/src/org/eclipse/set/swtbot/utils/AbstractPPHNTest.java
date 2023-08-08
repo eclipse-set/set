@@ -32,7 +32,7 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 		LOGGER.info(getFilePath(PPHN_FILE_NAME).toString());
 		dialogService.openFileDialogHandler = filters -> Optional
 				.of(getFilePath(PPHN_FILE_NAME));
-
+		System.out.print(System.getProperty("application-name"));
 		bot.waitUntil(new DefaultCondition() {
 			@Override
 			public String getFailureMessage() {
@@ -42,7 +42,11 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 			@Override
 			public boolean test() throws Exception {
 				final var shell = bot.activeShell();
-				return shell.getText().startsWith(getApplicationName());
+				String applicationName = System.getProperty("application-name");
+				if (applicationName.isBlank() || applicationName.isEmpty()) {
+					applicationName = "Eclipse Signalling Engineering Toolbox";
+				}
+				return shell.getText().startsWith(applicationName);
 			}
 
 		});
