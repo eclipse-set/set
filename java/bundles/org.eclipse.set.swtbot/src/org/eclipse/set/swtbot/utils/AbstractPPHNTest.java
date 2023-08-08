@@ -41,10 +41,7 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 			@Override
 			public boolean test() throws Exception {
 				final var shell = bot.activeShell();
-				String toolboxName = System.getProperty("toolbox.name");
-				if (toolboxName.isBlank() || toolboxName.isEmpty()) {
-					toolboxName = DEFAULT_TOOLBOX_NAME;
-				}
+				String toolboxName = System.getProperty("toolbox.name", DEFAULT_TOOLBOX_NAME);
 				return shell.getText().startsWith(toolboxName);
 			}
 
