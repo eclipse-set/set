@@ -145,6 +145,7 @@
         <setEntry value="org.apache.felix.gogo.runtime@default:default"/>
         <setEntry value="org.apache.felix.gogo.shell@default:default"/>
         <setEntry value="org.apache.felix.scr@1:true"/>
+        <setEntry value="org.apache.logging.log4j.api@default:default"/>
         <setEntry value="org.apache.xalan@default:default"/>
         <setEntry value="org.apache.xml.resolver@default:default"/>
         <setEntry value="org.apache.xml.serializer@default:default"/>
@@ -424,10 +425,12 @@
         <setEntry value="org.eclipse.set.browser@default:default"/>
         <setEntry value="org.eclipse.set.model.model11001.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.model11001.editor@default:default"/>
+        <setEntry value="org.eclipse.set.model.model11001@default:default"/>
         <setEntry value="org.eclipse.set.model.modelservice@default:default"/>
         <setEntry value="org.eclipse.set.toolboxmodel.edit@default:default"/>
         <setEntry value="org.eclipse.set.toolboxmodel.editor@default:default"/>
         <setEntry value="org.eclipse.set.toolboxmodel.transform@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel@default:default"/>
         <setEntry value="org.eclipse.swt.nl_de@default:false"/>
         <setEntry value="org.eclipse.swt.win32.win32.x86_64@default:false"/>
         <setEntry value="org.eclipse.swt@default:default"/>
@@ -496,6 +499,7 @@
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
         <setEntry value="slf4j.api@default:default"/>
+        <setEntry value="wrapped.org.apache.poi.poi-ooxml-lite@default:default"/>
         <setEntry value="wrapped.org.apache.poi.poi-ooxml@default:default"/>
         <setEntry value="wrapped.org.apache.poi.poi@default:default"/>
         <setEntry value="wrapped.org.apache.xmlbeans.xmlbeans@default:default"/>
@@ -511,8 +515,10 @@
         <setEntry value="org.eclipse.set.core.test@default:false"/>
         <setEntry value="org.eclipse.set.core@default:default"/>
         <setEntry value="org.eclipse.set.emfforms@default:default"/>
+        <setEntry value="org.eclipse.set.feature.enumtransformation@default:default"/>
         <setEntry value="org.eclipse.set.feature.export.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.export@default:default"/>
+        <setEntry value="org.eclipse.set.feature.plazmodel@default:default"/>
         <setEntry value="org.eclipse.set.feature.table.pt1@default:default"/>
         <setEntry value="org.eclipse.set.feature.table.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.table@default:default"/>
@@ -521,15 +527,10 @@
         <setEntry value="org.eclipse.set.i18n.ecp.categorization.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.ecp.core.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.ecp.table.nl_de@default:false"/>
-        <setEntry value="org.eclipse.set.i18n.integrationview.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.model.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.validationreport.nl_de@default:false"/>
-        <setEntry value="org.eclipse.set.model.integrationview.edit@default:default"/>
-        <setEntry value="org.eclipse.set.model.integrationview@default:default"/>
-        <setEntry value="org.eclipse.set.model.model11001@default:default"/>
-        <setEntry value="org.eclipse.set.model.simplemerge.edit@default:default"/>
-        <setEntry value="org.eclipse.set.model.simplemerge.extensions@default:default"/>
-        <setEntry value="org.eclipse.set.model.simplemerge@default:default"/>
+        <setEntry value="org.eclipse.set.model.plazmodel.edit@default:default"/>
+        <setEntry value="org.eclipse.set.model.plazmodel@default:default"/>
         <setEntry value="org.eclipse.set.model.tablemodel.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.tablemodel.extensions.test@default:false"/>
         <setEntry value="org.eclipse.set.model.tablemodel.extensions@default:default"/>
@@ -555,7 +556,6 @@
         <setEntry value="org.eclipse.set.sessionservice.test@default:false"/>
         <setEntry value="org.eclipse.set.sessionservice@default:default"/>
         <setEntry value="org.eclipse.set.swtbot@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel@default:default"/>
         <setEntry value="org.eclipse.set.unittest.utils@default:default"/>
         <setEntry value="org.eclipse.set.utils.rcp@default:false"/>
         <setEntry value="org.eclipse.set.utils.table@default:default"/>

@@ -28,7 +28,7 @@
                 <configuration>
                     <useUIHarness>true</useUIHarness>
                     <useUIThread>false</useUIThread>
-                    <product>org.eclipse.set.application.ppt.product_ppt</product>
+                    <product>org.eclipse.set.application.set.product_set</product>
                     <application>org.eclipse.e4.ui.workbench.swt.E4Application</application>
                     <appArgLine>-nl de_DE_SET</appArgLine>
                     <argLine>-Duser.dir=${application-under-test} -Xmx4096M -Dtoolbox.detailversion=${application-version} -Dorg.eclipse.set.browser.locale=de-DE -Dtoolbox.development.mode=false -Dorg.eclipse.set.browser.user-agent-product="PlanPro Werkzeugkoffer (dbnetze.com/planpro)" -Dfile.encoding=UTF8</argLine>
