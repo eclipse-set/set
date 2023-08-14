@@ -239,7 +239,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Vorzugslage_Automatik),
 				element,
 				[WKrGspElementAllg?.vorzugslageAutomatik?.wert !== null],
-				[WKrGspElementAllg.vorzugslageAutomatik.wert ? "x" : "o" ],
+				[WKrGspElementAllg.vorzugslageAutomatik.wert ? "x" : "o"],
 				[""]
 			)
 
@@ -555,7 +555,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[exEntgleisungsschuh],
 				[
-					WKrGspKomponenten.map[entgleisungsschuh.auswurfrichtung.wert.literal].toSet
+					WKrGspKomponenten.map [
+						entgleisungsschuh.auswurfrichtung.wert.literal
+					].toSet
 				],
 				null,
 				", "
@@ -698,9 +700,13 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		return group
 	}
 
-	private def isGeschwindigkeitPMax(W_Kr_Gsp_Element element,
+	private def boolean isGeschwindigkeitPMax(W_Kr_Gsp_Element element,
 		TOP_Kante topKante) {
-		return !element.getFstrZugRangierCrossingLeg(topKante).exists [
+		val fstrZugs = element.getFstrZugCrossingLeg(topKante)
+		if (fstrZugs.empty) {
+			return false
+		}
+		return !fstrZugs.exists [
 			fstrSignalisierung.exists [
 				IDSignalSignalbegriff.hasSignalbegriffID(Zs3)
 			]
