@@ -1,0 +1,16 @@
+name: Check Licenses
+
+on:
+  pull_request:
+    branches: 
+     - 'main'
+  issue_comment:
+    types: [created]
+
+jobs:
+  license:
+    uses: eclipse-set/build/.github/workflows/dash.yml@main
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
