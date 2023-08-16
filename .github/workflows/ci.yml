@@ -10,10 +10,13 @@ env:
 jobs:
   docs:
     runs-on: ubuntu-latest
-    container: klakegg/hugo:0.111.3-asciidoctor-ci
     steps:
       - uses: actions/checkout@v3
-      - name: Build hugo
+
+      - name: Install Asciidoctor & Hugo
+        uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
+
+      - name: Build About
         run: hugo
         working-directory: web/about
         
