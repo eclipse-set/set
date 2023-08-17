@@ -43,10 +43,10 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
-import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import java.math.BigInteger
+import static extension org.eclipse.set.ppmodel.extensions.BasisObjektExtensions.*
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)
@@ -103,11 +103,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				MIXED_STRING_COMPARATOR,
 				ITERABLE_FILLING_SEPARATOR
 			)
-			if (pzb.identitaet.wert.equals(
-				"94712661-5DEB-40CF-9F89-5ADD6D22B07A")) {
-				val fstrDweg = pzb.fstrDWegs.toSet
-				print("TEST")
-			}
+
 			// D: Sskp.PZB_Schutzstrecke.GeschwindigkeitsKlasse
 			fillIterableWithConditional(
 				instance,
@@ -147,11 +143,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 							return ""
 						}
 						if (dwegV > 60) {
-							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.doubleValue * 20 + 450»'''
+							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.toDouble * 20 + 450»'''
 						} else if (dwegV <= 60 && dwegV > 40) {
-							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.doubleValue * 10 + 350»'''
+							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.toDouble * 10 + 350»'''
 						} else if (dwegV <= 40) {
-							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.doubleValue * 5 + 210»'''
+							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.toDouble * 5 + 210»'''
 						}
 						return ""
 					]
@@ -235,8 +231,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						]
 					],
 					[
-						PZBElementZuordnungFstr.map [
-							wirksamkeitFstr?.wert.translate
+						IDPZBElementZuordnung.bearbeitungsvermerk.map [
+							bearbeitungsvermerkAllg?.kurztext?.wert
 						]
 					],
 					ITERABLE_FILLING_SEPARATOR,
@@ -282,10 +278,16 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<PZB_Element>(
 					[PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_HZ],
 					[
-						val bezugspunktSignals = PZBElementBezugspunkt.filter(Signal)
-						val pzbZuordnungSignals = PZBZuordnungSignal.map[IDSignal]
-						val distance = bezugspunktSignals.filter[pzbZuordnungSignals.contains(it)].map[
-							 AgateRounding.roundDown(topGraph.getPointsDistance(pzb, it).min)
+						val bezugspunktSignals = PZBElementBezugspunkt.filter(
+							Signal)
+						val pzbZuordnungSignals = PZBZuordnungSignal.map [
+							IDSignal
+						]
+						val distance = bezugspunktSignals.filter [
+							pzbZuordnungSignals.contains(it)
+						].map [
+							AgateRounding.roundDown(
+								topGraph.getPointsDistance(pzb, it).min)
 						].filter[it === 0]
 						return distance.map[it.toString]
 					],
@@ -520,8 +522,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
@@ -537,24 +539,38 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(topGraph, pzb, signal).min)
 			return distance > 0 ? distance.toString : ""
 		}
-		val bueAnlage = signal.container.BUESpezifischesSignal.filter [
-			IDSignal === signal
-		].map [
-			IDBUEAnlage
-		]
+		
+		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
+			filter [
+				IDSignal === signal
+			]
+
+		if (bueSpezifischesSignal.empty) {
+			return ""
+		}
+		
 		val bueKantens = signal.container.BUEKante.filter [ kante |
-			// TODO: get kante zwichen signal und bue anlage
-			bueAnlage.exists[it === kante.IDBUEAnlage]
+			bueSpezifischesSignal.map[IDBUEAnlage].exists [
+				it === kante.IDBUEAnlage
+			]
 		]
-		return ""
+		
+		if (bueKantens.empty) {
+			return ""
+		}
+		return getDistanceOfPoinst(topGraph, bueKantens, pzb)
 
 	}
 
 	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
 		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
-		// TODO: welche komponenten soll nehmen
-		getDistanceOfPoinst(topGraph, gspElement.WKrGspKomponenten, pzb)
-		return ""
+		val gspKomponent = gspElement.WKrGspKomponenten.filter [
+			zungenpaar !== null
+		]
+		if (gspKomponent.empty) {
+			throw new IllegalArgumentException('''«gspElement?.bezeichnung.bezeichnungTabelle?.wert» hast no Zungenpaar''')
+		}
+		return getDistanceOfPoinst(topGraph, gspKomponent, pzb)
 	}
 
 	private def String getDistanceOfPoinst(TopGraph topGraph,

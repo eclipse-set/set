@@ -79,4 +79,11 @@ class BigDecimalExtensions {
 		}
 		return null
 	}
+	
+	static def double toDouble(BigDecimal value) {
+		if (value === null) {
+			return 0.0
+		}
+		return value.doubleValue
+	}
 }
