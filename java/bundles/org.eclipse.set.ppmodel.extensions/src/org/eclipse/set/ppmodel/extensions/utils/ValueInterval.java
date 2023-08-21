@@ -15,11 +15,11 @@ package org.eclipse.set.ppmodel.extensions.utils;
  * 
  * Idea:
  * <p>
- * [left ... right]
+ * [left ....... right]
  * <p>
- * [..............] length
+ * [..................] length
  * <p>
- * [.....] distance
+ * [.....] distanceFromLeft
  * 
  * @param <S>
  *            the type of the interval values
@@ -30,7 +30,9 @@ package org.eclipse.set.ppmodel.extensions.utils;
  */
 public class ValueInterval<S, T> {
 
-	private final T distance;
+	private final T distanceFromLeft;
+
+	private final T distanceFromRight;
 
 	private final S left;
 
@@ -45,22 +47,32 @@ public class ValueInterval<S, T> {
 	 *            the right value
 	 * @param length
 	 *            the length
-	 * @param distance
-	 *            the distance
+	 * @param distanceFromLeft
+	 *            the distance from left
+	 * @param distanceFromRight
+	 *            the distance from right
 	 */
 	public ValueInterval(final S left, final S right, final T length,
-			final T distance) {
+			final T distanceFromLeft, final T distanceFromRight) {
 		this.left = left;
 		this.right = right;
 		this.length = length;
-		this.distance = distance;
+		this.distanceFromLeft = distanceFromLeft;
+		this.distanceFromRight = distanceFromRight;
 	}
 
 	/**
 	 * @return the distance
 	 */
-	public T getDistance() {
-		return distance;
+	public T getDistanceFromLeft() {
+		return distanceFromLeft;
+	}
+
+	/**
+	 * @return the distance
+	 */
+	public T getDistanceFromRight() {
+		return distanceFromRight;
 	}
 
 	/**
