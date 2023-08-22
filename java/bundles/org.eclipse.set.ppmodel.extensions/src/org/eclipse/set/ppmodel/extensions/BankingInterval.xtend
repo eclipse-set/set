@@ -41,10 +41,6 @@ import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
  * @author Schaefer
  */
 class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
-
-	static final BigDecimal RAMPE_S_SPLIT = BigDecimal.valueOf(4)
-	static final BigDecimal RAMPE_BLOSS_SPLIT = BigDecimal.valueOf(6)
-
 	val boolean isPoint
 	val DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path
 	Ueberhoehungslinie bankingLine
@@ -249,7 +245,7 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		switch (bankingLine?.ueberhoehungslinieAllg?.ueberhoehungslinieForm?.wert) {
 			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_BLOSS: {
 				if (distanceFromStart.compareTo(
-					length.divide(RAMPE_BLOSS_SPLIT).multiplyValue(3)) === 1) {
+					length.divideValue(2)) < 1) {
 					slope = h_between.multiplyValue(3).divide(length.pow(2))
 					val slope_second = h_between.multiplyValue(2).divide(
 						length.pow(3))
@@ -262,11 +258,10 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 			}
 			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_S: {
 				if (distanceFromStart.compareTo(
-					length.divide(RAMPE_S_SPLIT).multiplyValue(2)) === -1) {
+					length.divideValue(2)) < 1) {
 					slope = h_between.multiplyValue(2).divide(length.pow(2))
 					pointDistance = distanceFromStart.pow(2)
-				} else if (distanceFromEnd.compareTo(
-					length.divide(RAMPE_S_SPLIT).multiplyValue(2)) === -1) {
+				} else {
 					slope = h_between.multiplyValue(2).divide(length.pow(2)).
 						negate
 					addValue = h_between
