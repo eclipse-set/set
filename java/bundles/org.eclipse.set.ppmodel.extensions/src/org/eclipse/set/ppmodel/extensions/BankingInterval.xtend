@@ -225,47 +225,84 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		val h_start = left
 		val h_end = right
 		val h_between = (h_start - h_end).abs
-		val length = length
-		val distanceFromStart = distanceFromLeft
-		val distanceFromEnd = distanceFromRight
-		var pointDistance = distanceFromStart
-		var slope = h_between / length
-		var addValue = BigDecimal.ZERO
-
+		var result = BigDecimal.ZERO
 		switch (bankingLine?.ueberhoehungslinieAllg?.ueberhoehungslinieForm?.wert) {
 			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_BLOSS: {
-				if (distanceFromStart.compareTo(
-					length.divideValue(2)) < 1) {
-					slope = h_between.multiplyValue(3).divide(length.pow(2))
-					val slope_second = h_between.multiplyValue(2).divide(
-						length.pow(3))
-					addValue = new BigSlopeInterceptForm(slope_second,
-						BigDecimal.ZERO).apply(
-						distanceFromStart.pow(3)
-					).negate
-					pointDistance = distanceFromStart.pow(2)
-				}
+				result = h_between.bankingOfRampeBloss
 			}
 			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_S: {
-				if (distanceFromStart.compareTo(
-					length.divideValue(2)) < 1) {
-					slope = h_between.multiplyValue(2).divide(length.pow(2))
-					pointDistance = distanceFromStart.pow(2)
-				} else {
-					slope = h_between.multiplyValue(2).divide(length.pow(2)).
-						negate
-					addValue = h_between
-					pointDistance = distanceFromEnd.pow(2)
-				}
-
+				result = h_between.bankingOfRampeS
 			}
 			default: {
-				//
+				result = h_between.bankingDefault
 			}
 		}
-		return new BigSlopeInterceptForm(slope, addValue).apply(pointDistance) +
-			h_start
-
+		return result.add(h_start)
+	}
+	
+	/**
+	 * BankingIntervall S-Form to Bloss
+	 * When x <= L / 2, then:
+	 * 		u = (3 * U / L^2) * x^2 - (2 * U / L^3) * x^3
+	 * else:
+	 * 		u = U / L * x
+	 * with:
+	 * 		U: the height between banking start and banking end
+	 * 		L: the length of banking
+	 * 		x: distance form start of banking to point
+	 */
+	private def BigDecimal bankingOfRampeBloss(BigDecimal h_between) {
+		if (distanceFromLeft.compareTo(length.divideValue(2)) > 0) {
+			return h_between.bankingDefault
+		}
+		val a = h_between
+			.multiplyValue(3)
+			.divide(length.pow(2))
+			.multiply(distanceFromLeft.pow(2)) 
+		val b = h_between
+			.multiplyValue(2)
+			.divide(length.pow(3))
+			.multiply(distanceFromLeft.pow(3)) 
+		return a.add(b.negate) 
+	}
+	
+	/**
+	 * BankingIntervall S-Form to Rampe
+	 * 1. Case: when x =< L/2 => u = 2 * U * x^2 / L^2
+	 * 2. Case: when x > L/2 => u = U - 2 * U * z^2 / L^2
+	 * with:
+	 * 		U: the height between banking start and banking end
+	 * 		L: the length of banking
+	 * 		x: distance form start of banking to point
+	 * 		z: distance from end of banking to point
+	 */
+	private def BigDecimal bankingOfRampeS(BigDecimal h_between) {
+		if (distanceFromLeft.compareTo(length.divideValue(2)) < 1) {
+			return h_between
+				.multiplyValue(2)
+				.multiplyValue(distanceFromLeft.pow(2))
+				.divide(length.pow(2))
+		}
+		return h_between.add(h_between
+				.multiplyValue(2)
+				.multiplyValue(distanceFromRight.pow(2))
+				.divide(length.pow(2))
+				.negate)
+	}
+	
+	/**
+	 * Default BankingIntervall
+	 * 		u = U / L * x
+	 * with:
+	 * 		U: the height between banking start and banking end
+	 * 		L: the length of banking
+	 * 		x: distance form start of banking to point
+	 */
+	private def BigDecimal bankingDefault(BigDecimal h_between) {
+		return h_between
+				.multiplyValue(2)
+				.multiplyValue(distanceFromLeft.pow(2))
+				.divide(length.pow(2))
 	}
 
 	/**
