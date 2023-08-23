@@ -56,8 +56,8 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		Ueberhoehungslinie bankingLine
 	) {
 		super(path.left, path.right, path.getBankingLength(bankingLine),
-			path.distanceTo(path.start, singlePoint),
-			path.distanceTo(path.end, singlePoint))
+			path.distance(path.start, singlePoint).toBigDecimal,
+			path.distance(path.end, singlePoint).toBigDecimal)
 		this.bankingLine = bankingLine
 		this.path = path
 		isPoint = false
@@ -89,16 +89,6 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 	) {
 		val end = path.end.punktObjekt as Ueberhoehung
 		return end.ueberhoehungAllg.ueberhoehungHoehe.wert
-	}
-
-	private static def BigDecimal distanceTo(
-		DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path,
-		Punkt_Objekt_TOP_Kante_AttributeGroup from,
-		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
-	) {
-		return BigDecimal.valueOf(
-			path.distance(from, singlePoint)
-		)
 	}
 
 	private static def BigDecimal getBankingLength(

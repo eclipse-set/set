@@ -59,10 +59,10 @@ class BigDecimalExtensions {
 	/**
 	 * Convert number value to bigdecimal
 	 */
-	static def <T extends Integer, Dobule, Long> BigDecimal toBigDecimal(
+	static def <T extends Number> BigDecimal toBigDecimal(
 		T value) {
 		try {
-			return BigDecimal.valueOf(value)
+			return BigDecimal.valueOf(value.longValue)
 		} catch (Exception e) {
 			throw new RuntimeException(e)
 		}
@@ -98,7 +98,7 @@ class BigDecimalExtensions {
 	 * @param multiplyValue the multiply value
 	 * @return the result
 	 */
-	static def <T extends Integer, Dobule, Long> BigDecimal multiplyValue(
+	static def <T extends Number> BigDecimal multiplyValue(
 		BigDecimal value, T multiplyValue) {
 		if (value !== null) {
 			return value.multiply(multiplyValue.toBigDecimal)
@@ -111,7 +111,7 @@ class BigDecimalExtensions {
 	 * @param multiplyValue the multiply value
 	 * @return the result
 	 */
-	static def <T extends Integer, Dobule, Long> BigDecimal divideValue(
+	static def <T extends Number> BigDecimal divideValue(
 		BigDecimal value, T divideValue) {
 		if (value !== null) {
 			return value.divide(divideValue.toBigDecimal)
