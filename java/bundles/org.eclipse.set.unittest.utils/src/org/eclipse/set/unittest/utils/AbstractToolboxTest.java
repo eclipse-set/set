@@ -41,20 +41,10 @@ import org.junit.jupiter.api.BeforeEach;
  */
 public class AbstractToolboxTest {
 	/**
-	 * ABC_01_01_Ibn-Zustand_DT.ppxml file
+	 * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro file
 	 */
-	public static String PHausen_ABC_01_01_PPXML = getModel(
-			"ABC_01_01_Ibn-Zustand_DT.ppxml"); //$NON-NLS-1$
-	/**
-	 * ABC_01_01_Ibn-Zustand_DT.planpro file
-	 */
-	public static String PHausen_ABC_01_01_PLANPRO = getModel(
-			"ABC_01_01_Ibn-Zustand_DT.planpro"); //$NON-NLS-1$
-	/**
-	 * PPHN_01-02_Ibn-Z. - 2. AeM_2022-05-17_13-44.ppxml file
-	 */
-	public static String PHausen_IBN_20220517 = getModel(
-			"PPHN_01-02_Ibn-Z.-2.AeM_2022-07-26_16-36.ppxml"); //$NON-NLS-1$
+	public static String PPHN_1_10_0_1_20220517 = getModel(
+			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro"); //$NON-NLS-1$
 
 	protected static PlanPro_Schnittstelle planProSchnittstelle;
 

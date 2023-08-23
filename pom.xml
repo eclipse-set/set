@@ -46,8 +46,7 @@
 		<module>java/bundles/org.eclipse.set.core.rcp.dialogService</module>
 
 		<module>java/bundles/org.eclipse.set.core.services</module>
-		<!-- TODO(1.10.0.1) Disabled as no test data is available -->
-		<!-- <module>java/bundles/org.eclipse.set.core.test</module> -->
+		<module>java/bundles/org.eclipse.set.core.test</module>
 		<module>java/bundles/org.eclipse.set.core</module>
 		<module>java/bundles/org.eclipse.set.emfforms</module>
 

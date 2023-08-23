@@ -23,9 +23,9 @@ import org.junit.jupiter.api.Disabled
  * 
  * TODO(1.10.0.1) Disabled as no test data is available
  */
-@Disabled
+ @Disabled
 class PlainToolboxFileTest extends AbstractToolboxFileTest {
-	static val TESTPATH = PHausen_ABC_01_01_PPXML
+	static val TESTPATH = ""
 
 	/**
 	 * Test method for {@link PlainToolboxFile#open()}
