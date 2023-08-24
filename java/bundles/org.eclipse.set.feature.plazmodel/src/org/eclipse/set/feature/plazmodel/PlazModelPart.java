@@ -137,7 +137,8 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 				entry -> entry.getSeverity() != ValidationSeverity.SUCCESS)
 				.forEach(entry -> problems
 						.add(new ProblemMessage(entry.getMessage(),
-								entry.getType(), entry.getLineNumber(), 2)));
+								entry.getType(), entry.getLineNumber(), 2,
+								entry.getObjectState().getLiteral())));
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
 

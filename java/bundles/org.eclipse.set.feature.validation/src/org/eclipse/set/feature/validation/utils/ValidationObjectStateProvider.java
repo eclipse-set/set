@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.validation.utils;
 
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.w3c.dom.Node;
 
 /**
@@ -22,18 +23,12 @@ public class ValidationObjectStateProvider {
 	private static final String NODE_ZUSTAND_INFO = "LST_Zustand"; //$NON-NLS-1$
 	private static final String NODE_LAYOUTINFORMATION_ROOT = "nsLayoutinformationen:PlanPro_Layoutinfo"; //$NON-NLS-1$
 
-	// IMPROVE: Use enum translation service?
-	private static final String LST_ZUSTAND_START = "Start"; //$NON-NLS-1$
-	private static final String LST_ZUSTAND_ZIEL = "Ziel"; //$NON-NLS-1$
-	private static final String LST_ZUSTAND_INFO = "Information"; //$NON-NLS-1$
-	private static final String LAYOUTINFORMATIONEN = "Layoutinformationen"; //$NON-NLS-1$
-
 	/**
 	 * @param node
 	 *            The node to find the state for
 	 * @return The object state or null
 	 */
-	public String getObjectState(final Node node) {
+	public ObjectState getObjectState(final Node node) {
 		if (node == null) {
 			return null;
 		}
@@ -43,16 +38,16 @@ public class ValidationObjectStateProvider {
 			return getObjectState(node.getParentNode());
 		}
 		if (nodeName.equals(NODE_ZUSTAND_START)) {
-			return LST_ZUSTAND_START;
+			return ObjectState.INITIAL;
 		}
 		if (nodeName.equals(NODE_ZUSTAND_ZIEL)) {
-			return LST_ZUSTAND_ZIEL;
+			return ObjectState.FINAL;
 		}
 		if (nodeName.equals(NODE_ZUSTAND_INFO)) {
-			return LST_ZUSTAND_INFO;
+			return ObjectState.INFO;
 		}
 		if (nodeName.equals(NODE_LAYOUTINFORMATION_ROOT)) {
-			return LAYOUTINFORMATIONEN;
+			return ObjectState.LAYOUT;
 		}
 
 		return getObjectState(node.getParentNode());

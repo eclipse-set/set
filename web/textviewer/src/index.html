@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	</head>
-	<body style="width: auto; height: auto; min-height: 98vh; border: 1px solid grey">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<style>
+	#editorContent {
+		width: auto;
+		height: auto;
+		min-height: 98vh;
+		border-width: 0px 1px 1px 1px;
+		border-style: solid;
+		border-color: black;
+		padding-top: 2px;
+	}
+</style>
+
+<body>
+	<div id="editorContent">
 		<script src="monaco/vs/loader.js"></script>
 		<script>
-            // Configure AMD Loader with German language support
-			require.config({ 
-                'paths': { vs: 'monaco/vs' },
+			// Configure AMD Loader with German language support
+			require.config({
+				'paths': {vs: 'monaco/vs'},
 				'vs/nls': {
 					availableLanguages: {
 						'*': 'de'
@@ -16,14 +30,16 @@
 				}
 			});
 
-            // Load the editor
+			// Load the editor
 			require(['vs/editor/editor.main'], () => {
-                const script = document.createElement('script');
-                script.src = 'index.js';
-                script.onload = () => window.initApp();
-                document.head.appendChild(script);
-            });
+				const script = document.createElement('script');
+				script.src = 'index.js';
+				script.onload = () => window.initApp();
+				document.head.appendChild(script);
+			});
 		</script>
-		
-	</body>
+</div>
+
+</body>
+
 </html>

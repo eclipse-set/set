@@ -24,6 +24,12 @@
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ContainerContent/LAYOUT"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ContainerContent/ATTACHMENT"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ObjectState">
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/INITIAL"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/FINAL"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/LAYOUT"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/INFO"/>
+    </genEnums>
     <genClasses ecoreClass="validationreport.ecore#//ValidationReport">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/modelLoaded"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationReport/valid"/>

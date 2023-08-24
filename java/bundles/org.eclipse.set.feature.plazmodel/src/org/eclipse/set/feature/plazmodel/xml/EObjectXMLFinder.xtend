@@ -24,6 +24,7 @@ import org.eclipse.set.basis.files.ToolboxFile
 import java.util.stream.IntStream
 import org.eclipse.set.model.validationreport.ObjectScope
 import java.nio.file.Path
+import org.eclipse.set.model.validationreport.ObjectState
 
 /** 
  * Resolves an EObject to its line number within a XML document
@@ -128,7 +129,7 @@ class EObjectXMLFinder {
 	 *            the node
 	 * @return the LST state of the object or null
 	 */
-	def String getObjectState(Node node) {
+	def ObjectState getObjectState(Node node) {
 		return ObjectMetadataXMLReader.getObjectState(node)
 	}
 	

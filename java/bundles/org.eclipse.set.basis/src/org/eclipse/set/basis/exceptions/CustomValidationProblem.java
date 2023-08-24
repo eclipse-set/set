@@ -9,6 +9,7 @@
 package org.eclipse.set.basis.exceptions;
 
 import org.eclipse.set.model.validationreport.ObjectScope;
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 
 /**
@@ -41,7 +42,7 @@ public interface CustomValidationProblem {
 	/**
 	 * @return the Object State
 	 */
-	String getObjectState();
+	ObjectState getObjectState();
 
 	/**
 	 * @return the validation severity

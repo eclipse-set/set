@@ -80,17 +80,13 @@ public class ReportSavedSessionDialog extends MessageDialog {
 				.getValidationsOutcome(ValidationResult::getOutcome);
 		final Path location = session.getToolboxFile().getPath();
 		switch (outcome) {
-		case VALID:
+		case VALID, NOT_SUPPORTED:
 			return String.format(
 					messages.DialogService_ReportSavedSessionValidPattern,
 					location.toString());
 		case INVALID:
 			return String.format(
 					messages.DialogService_ReportSavedSessionInvalidPattern,
-					location.toString());
-		case NOT_SUPPORTED:
-			return String.format(
-					messages.DialogService_ReportSavedSessionNotSupportedPattern,
 					location.toString());
 		default:
 			throw new IllegalArgumentException(outcome.toString());
