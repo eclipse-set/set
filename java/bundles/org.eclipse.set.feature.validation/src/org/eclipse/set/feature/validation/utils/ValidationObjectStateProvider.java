@@ -49,9 +49,6 @@ public class ValidationObjectStateProvider {
 		if (nodeName.equals(NODE_LAYOUTINFORMATION_ROOT)) {
 			return ObjectState.LAYOUT;
 		}
-		if (nodeName.equals(NODE_LAYOUTINFORMATION_ROOT)) {
-			return LAYOUTINFORMATIONEN;
-		}
 
 		return getObjectState(node.getParentNode());
 	}
