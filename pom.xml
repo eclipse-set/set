@@ -490,4 +490,14 @@
 			<url>https://maven.pkg.github.com/eclipse-set/set</url>
 		</repository>
 	</distributionManagement>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>dash-licenses-snapshots</id>
+			<url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
