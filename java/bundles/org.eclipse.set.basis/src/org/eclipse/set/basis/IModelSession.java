@@ -11,6 +11,7 @@ package org.eclipse.set.basis;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +20,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ValidationResult;
+import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -159,9 +161,21 @@ public interface IModelSession {
 	ToolboxPaths getToolboxPaths();
 
 	/**
+	 * @param sourceClass
+	 *            the class of source to validate
 	 * @return the result of the last validation
+	 * 
 	 */
-	ValidationResult getValidationResult();
+	ValidationResult getValidationResult(Class<? extends EObject> sourceClass);
+
+	/**
+	 * Get outcome result of validation
+	 * 
+	 * @param outcome
+	 *            outcome type
+	 * @return {@link Outcome}
+	 */
+	Outcome getValidationsOutcome(Function<ValidationResult, Outcome> outcome);
 
 	/**
 	 * Validates and loads the model resource and the PlanPro Schnittstelle.
@@ -257,7 +271,7 @@ public interface IModelSession {
 	 *         data is loaded
 	 */
 	boolean isSingleState();
-	
+
 	/**
 	 * Switch the session to merge mode.
 	 * 
@@ -274,11 +288,12 @@ public interface IModelSession {
 	 * @throws UserAbortion
 	 *             if the user aborts saving
 	 */
-	/* TODO(1.10.0.1): Readd once temporary integrations are reenabled
-	void switchToMergeMode(ToolboxTemporaryIntegration temporaryIntegration,
-			String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile)
-			throws IOException, UserAbortion;
-	*/
+	/*
+	 * TODO(1.10.0.1): Readd once temporary integrations are reenabled void
+	 * switchToMergeMode(ToolboxTemporaryIntegration temporaryIntegration,
+	 * String mergeDir, Shell shell, ToolboxFile temporaryToolboxFile) throws
+	 * IOException, UserAbortion;
+	 */
 	/**
 	 * The applied level of save fixes
 	 */

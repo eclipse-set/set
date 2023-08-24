@@ -30,6 +30,12 @@ import org.xml.sax.SAXParseException
 
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
+import org.eclipse.set.basis.constants.ValidationResult
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.basis.files.ToolboxFile
+import java.nio.file.Path
+import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
+import java.util.Set
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -60,30 +66,15 @@ class SessionToValidationReportTransformation {
 	 * @return the validation report
 	 */
 	def ValidationReport transform(IModelSession session) {
-		xmlNodeFinder.read(session?.toolboxFile);
 		session.transformCreate
 		report.problems.clear
 		val problems = <ValidationProblem>newLinkedList
-		// transform the IO problems
 		problems.addAll(
-			session.validationResult.xsdErrors.transform(messages.XsdProblemMsg,
-				ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg))
-
-		// transform the XSD problems
+			session.getValidationResult(PlanPro_Schnittstelle).transform(
+				session?.toolboxFile, session?.toolboxFile?.modelPath))
 		problems.addAll(
-			session.validationResult.xsdWarnings.transform(
-				messages.XsdWarningMsg, ValidationSeverity.WARNING,
-				messages.XsdSuccessMsg))
-		problems.addAll(
-			session.validationResult.ioErrors.transform(messages.IoProblemMsg,
-				ValidationSeverity.ERROR, messages.IoSuccessMsg))
-
-		// transform custom problems
-		session.validationResult.customProblems.forEach [
-			problems.add(
-				transform
-			)
-		]
+			session.getValidationResult(PlanPro_Layoutinfo).transform(
+				session?.toolboxFile, session?.toolboxFile?.layoutPath))
 		problems.sortProblem
 		report.problems.addAll(problems)
 		// Add subwork information
@@ -97,7 +88,32 @@ class SessionToValidationReportTransformation {
 
 		return report
 	}
-	
+
+	def Set<ValidationProblem> transform(ValidationResult validationResult,
+		ToolboxFile toolboxFile, Path sourcePath) {
+		val problems = <ValidationProblem>newLinkedList
+		xmlNodeFinder.read(toolboxFile, sourcePath)
+		problems.addAll(
+			validationResult.xsdErrors.transform(messages.XsdProblemMsg,
+				ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg))
+
+		// transform the XSD problems
+		problems.addAll(
+			validationResult.xsdWarnings.transform(messages.XsdWarningMsg,
+				ValidationSeverity.WARNING, messages.XsdSuccessMsg))
+		problems.addAll(
+			validationResult.ioErrors.transform(messages.IoProblemMsg,
+				ValidationSeverity.ERROR, messages.IoSuccessMsg))
+
+		// transform custom problems
+		validationResult.customProblems.forEach [
+			problems.add(
+				transform
+			)
+		]
+		return problems.toSet
+	}
+
 	private def <T extends Exception> List<ValidationProblem> transform(
 		List<T> errors, String type, ValidationSeverity severity,
 		String successMessage) {
@@ -115,10 +131,12 @@ class SessionToValidationReportTransformation {
 		}
 		return result
 	}
-	
+
 	private def transformCreate(IModelSession session) {
-		report = report ?: ValidationreportFactory.eINSTANCE.createValidationReport
-		val fileInfoReader = new FileInfoReader(versionService, session?.toolboxFile)
+		report = report ?:
+			ValidationreportFactory.eINSTANCE.createValidationReport
+		val fileInfoReader = new FileInfoReader(versionService,
+			session?.toolboxFile)
 		report.fileInfo = report.fileInfo ?: fileInfoReader.fileInfo
 
 		report.modelLoaded = if (session.hasLoadedModel) {
@@ -126,11 +144,12 @@ class SessionToValidationReportTransformation {
 		} else {
 			messages.NoMsg
 		}
-		report.valid = session?.validationResult?.outcome?.transform
-		report.xsdValid = session?.validationResult?.xsdOutcome?.transform
-		report.emfValid = session?.validationResult?.emfOutcome?.transform
+		report.valid = session?.getValidationsOutcome([outcome])?.transform
+		report.xsdValid = session?.getValidationsOutcome([xsdOutcome])?.transform
+		report.emfValid = session?.getValidationsOutcome([emfOutcome])?.transform
 
-		report.supportedVersion = report.supportedVersion ?: versionService.createSupportedVersion
+		report.supportedVersion = report.supportedVersion ?:
+			versionService.createSupportedVersion
 		report.toolboxVersion = ToolboxConfiguration.toolboxVersion.longVersion
 	}
 
@@ -303,5 +322,4 @@ class SessionToValidationReportTransformation {
 		}
 		return enumService.translate(enumerator).alternative
 	}
-
 }

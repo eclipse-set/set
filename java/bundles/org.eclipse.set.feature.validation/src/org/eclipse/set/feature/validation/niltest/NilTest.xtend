@@ -26,6 +26,8 @@ import static extension org.eclipse.set.basis.extensions.NodeListExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
 import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
 import org.eclipse.set.core.services.validation.CustomValidator
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
 
 /** 
  * Test for intentionally incomplete data.
@@ -41,8 +43,20 @@ class NilTest extends AbstractCustomValidator {
 		ValidationResult result
 	) {
 		try {
-			val nilProblems = ObjectMetadataXMLReader.read(toolboxFile).validate
-			if (nilProblems.length === 0) {
+			val sourceClass = result.validatedSourceClass
+			val nilProblems = newLinkedList
+			if (sourceClass.isAssignableFrom(PlanPro_Schnittstelle)) {
+				nilProblems.addAll(
+					ObjectMetadataXMLReader.read(toolboxFile,
+						toolboxFile.modelPath).validate)
+			} else if (toolboxFile.layoutPath?.toFile.exists &&
+				sourceClass.isAssignableFrom(PlanPro_Layoutinfo)) {
+				nilProblems.addAll(
+					ObjectMetadataXMLReader.read(toolboxFile,
+						toolboxFile.layoutPath).validate)
+			}
+
+			if (nilProblems.size === 0) {
 				result.addCustomProblem(
 					messages.NilTestProblem_Description.successValidationReport
 				)

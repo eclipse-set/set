@@ -202,6 +202,6 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	public Path getLayoutPath() {
-		throw new UnsupportedOperationException();
+		return null;
 	}
 }

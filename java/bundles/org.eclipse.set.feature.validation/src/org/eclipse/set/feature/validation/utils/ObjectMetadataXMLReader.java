@@ -13,6 +13,7 @@ import java.nio.file.Path;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.utils.xml.LineNumberXMLReader;
@@ -40,6 +41,8 @@ public class ObjectMetadataXMLReader {
 	 * 
 	 * @param toolboxFile
 	 *            the ToolboxFile
+	 * @param docPath
+	 *            the path of document
 	 * @return The document
 	 * @throws ParserConfigurationException
 	 *             if the underlying LineNumberXMLReader throws
@@ -48,18 +51,20 @@ public class ObjectMetadataXMLReader {
 	 * @throws IOException
 	 *             if the underlying LineNumberXMLReader throws
 	 */
-	public static Document read(final ToolboxFile toolboxFile)
+	public static Document read(final ToolboxFile toolboxFile,
+			final Path docPath)
 			throws IOException, SAXException, ParserConfigurationException {
-		Document document = toolboxFile.getXMLDocument();
+		if (docPath == null) {
+			return null;
+		}
+		final String docName = PathExtensions.getBaseFileName(docPath);
+		Document document = toolboxFile.getXMLDocument(docName);
 		if (document == null) {
-			final Path path = toolboxFile.getFormat().isPlain()
-					? toolboxFile.getPath()
-					: toolboxFile.getModelPath();
-
 			final ObjectMetadataXMLReader reader = new ObjectMetadataXMLReader(
-					path);
+					docPath);
 			document = reader.read();
-			toolboxFile.setXMLDocument(document);
+			toolboxFile.setXMLDocument(PathExtensions.getBaseFileName(docPath),
+					document);
 		}
 		return document;
 	}

@@ -23,6 +23,7 @@ import org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader
 import org.eclipse.set.basis.files.ToolboxFile
 import java.util.stream.IntStream
 import org.eclipse.set.model.validationreport.ObjectScope
+import java.nio.file.Path
 
 /** 
  * Resolves an EObject to its line number within a XML document
@@ -46,9 +47,9 @@ class EObjectXMLFinder {
 	/** 
 	 * @param path path to the XML document
 	 */
-	new(ToolboxFile toolboxFile) throws XmlParseException {
+	new(ToolboxFile toolboxFile, Path docPath) throws XmlParseException {
 		try {
-			this.document = ObjectMetadataXMLReader.read(toolboxFile)
+			this.document = ObjectMetadataXMLReader.read(toolboxFile, docPath)
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			throw new XmlParseException(
 				"The given XML document could not be parsed", e)

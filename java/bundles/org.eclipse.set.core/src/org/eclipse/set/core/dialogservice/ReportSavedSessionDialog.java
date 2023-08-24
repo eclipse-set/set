@@ -17,6 +17,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.core.Messages;
 import org.eclipse.swt.SWT;
@@ -36,14 +37,13 @@ import org.eclipse.swt.widgets.Shell;
 public class ReportSavedSessionDialog extends MessageDialog {
 
 	private static int getKind(final IModelSession session) {
-		final Outcome outcome = session.getValidationResult().getOutcome();
+		final Outcome outcome = session
+				.getValidationsOutcome(ValidationResult::getOutcome);
 		switch (outcome) {
-		case VALID:
+		case VALID, NOT_SUPPORTED:
 			return MessageDialog.INFORMATION;
 		case INVALID:
 			return MessageDialog.WARNING;
-		case NOT_SUPPORTED:
-			return MessageDialog.INFORMATION;
 		default:
 			throw new IllegalArgumentException(outcome.toString());
 		}
@@ -76,7 +76,8 @@ public class ReportSavedSessionDialog extends MessageDialog {
 
 	private static String getMessage(final IModelSession session,
 			final Messages messages) {
-		final Outcome outcome = session.getValidationResult().getOutcome();
+		final Outcome outcome = session
+				.getValidationsOutcome(ValidationResult::getOutcome);
 		final Path location = session.getToolboxFile().getPath();
 		switch (outcome) {
 		case VALID:

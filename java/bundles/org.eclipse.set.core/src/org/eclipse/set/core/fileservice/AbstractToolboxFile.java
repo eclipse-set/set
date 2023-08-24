@@ -39,20 +39,20 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	protected static final String ENCODING = StandardCharsets.UTF_8.name();
 
-	private Document domDocument = null;
+	private final HashMap<String, Document> domDocument = new HashMap<>();
 
 	private String md5checksum = null;
 
 	private HashMap<String, XMLResource> resources = new HashMap<>();
 
 	@Override
-	public void setXMLDocument(final Document doc) {
-		domDocument = doc;
+	public void setXMLDocument(final String docName, final Document doc) {
+		domDocument.put(docName, doc);
 	}
 
 	@Override
-	public Document getXMLDocument() {
-		return domDocument;
+	public Document getXMLDocument(final String docName) {
+		return domDocument.get(docName);
 	}
 
 	@Override
@@ -170,12 +170,17 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	@Override
 	public org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot getLayoutSourceModel() {
-		final XMLResource layoutResource = getLayoutResource();
-		if (layoutResource == null) {
+		try {
+			final XMLResource layoutResource = getLayoutResource();
+			if (layoutResource == null) {
+				return null;
+			}
+			return ((org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl) layoutResource)
+					.getLayoutModel();
+		} catch (final UnsupportedOperationException e) {
 			return null;
 		}
-		return ((org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl) layoutResource)
-				.getLayoutModel();
+
 	}
 
 	/**

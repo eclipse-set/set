@@ -14,6 +14,8 @@ import java.io.IOException
 import java.nio.file.Files
 import java.util.ArrayList
 import java.util.List
+import org.eclipse.set.model.model11001.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.model11001.Layoutinformationen.PlanPro_Layoutinfo
 
 /**
  * Extensions for {@link IModelSession}.
@@ -51,7 +53,9 @@ class IModelSessionExtensions {
 	 */
 	static def boolean isXsdValid(IModelSession session) {
 		return session !== null &&
-			session.validationResult.xsdOutcome == Outcome.VALID
+			!#[session.getValidationResult(PlanPro_Schnittstelle), session.getValidationResult(PlanPro_Layoutinfo)].exists[
+				xsdOutcome == Outcome.INVALID	
+			]
 	}
 
 	/**
@@ -61,7 +65,9 @@ class IModelSessionExtensions {
 	 */
 	static def boolean isEmfValid(IModelSession session) {
 		return session !== null &&
-			session.validationResult.emfOutcome == Outcome.VALID
+			!#[session.getValidationResult(PlanPro_Schnittstelle), session.getValidationResult(PlanPro_Layoutinfo)].exists[
+				emfOutcome == Outcome.INVALID	
+			]
 	}
 
 	/**
