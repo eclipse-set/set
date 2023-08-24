@@ -43,8 +43,14 @@ public class AbstractToolboxTest {
 	/**
 	 * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro file
 	 */
-	public static String PPHN_1_10_0_1_20220517 = getModel(
+	public static String PPHN_1_10_0_1_20220517_PLANPRO = getModel(
 			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro"); //$NON-NLS-1$
+
+	/**
+	 * PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml file
+	 */
+	public static String PPHN_1_10_0_1_20220517_PPXML = getModel(
+			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml"); //$NON-NLS-1$
 
 	protected static PlanPro_Schnittstelle planProSchnittstelle;
 
