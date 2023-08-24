@@ -153,21 +153,22 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 		val results = weichenKnoten.topKanten.filter [
 			getTOPAnschluss(weichenKnoten) == anschluss
 		]
-		if(results.size !== 1)
+		if (results.size !== 1)
 			return null
 		return results.get(0)
 	}
 
 	/**
-	 * Get all {@link Fstr_Zug_Rangier} over trackswitch leg
+	 * Get all train roads run over trackswitch leg
 	 * @param element this Weiche, Kreuzung oder Gleissperre
 	 * @param legTopKante topkante of Weiche leg
 	 */
-	static def Set<Fstr_Zug_Rangier> getFstrZugRangierCrossingLeg(
+	static def Set<Fstr_Zug_Rangier> getFstrZugCrossingLeg(
 		W_Kr_Gsp_Element element, TOP_Kante legTopKante) {
 		return element.container.fstrZugRangier.filter [
-			IDFstrFahrweg.bereichObjektTeilbereich.map[topKante].contains(
-				legTopKante)
+			fstrZug !== null &&
+				IDFstrFahrweg.bereichObjektTeilbereich.map[topKante].contains(
+					legTopKante)
 		].filterNull.toSet
 	}
 }

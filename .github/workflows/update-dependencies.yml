@@ -1,0 +1,13 @@
+name: Update DEPENDENCIES
+
+on: 
+  push:
+    branches:
+      - main
+      - release/*
+
+jobs:
+  dependencies:
+    uses: eclipse-set/build/.github/workflows/update-dependencies.yml@main
+    permissions:
+      contents: write
