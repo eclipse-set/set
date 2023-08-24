@@ -130,10 +130,14 @@ public class AbstractToolboxTest {
 		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eINSTANCE.eClass();
 		org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
 				.eClass();
+		org.eclipse.set.toolboxmodel.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
+				.eClass();
 
 		org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eINSTANCE
 				.eClass();
 		org.eclipse.set.model.model11001.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
+				.eClass();
+		org.eclipse.set.model.model11001.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
 				.eClass();
 
 		Services.setCacheService(new NoCacheService());

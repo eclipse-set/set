@@ -24,6 +24,7 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.toolboxmodel.PlanPro.util.ToolboxModelService;
 import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -98,8 +99,9 @@ public class ZippedPlanProFileFormatService
 				final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
 				registry.getContentTypeToFactoryMap().put(extension,
 						resourceFactory);
+				final ToolboxModelService toolboxmodelService = new ToolboxModelServiceImpl();
 				resourceFactory.setToolboxModelServiceProvider(
-						ToolboxModelServiceImpl::new);
+						() -> toolboxmodelService);
 			}
 		}
 

@@ -9,14 +9,12 @@
 package org.eclipse.set.core.fileservice;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.extensions.PathExtensions;
@@ -24,6 +22,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.session.SessionService;
+import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
 
 /**
  * Toolbox file support for plain files.
@@ -47,7 +46,8 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 		this.commonPath = toolboxFile.commonPath;
 		this.format = toolboxFile.format;
 		this.editingDomain = toolboxFile.editingDomain;
-		setResource(toolboxFile.getResource());
+		addResource(PathExtensions.getBaseFileName(toolboxFile.getPath()),
+				toolboxFile.getPlanProResource());
 		this.loadable = false;
 
 	}
@@ -59,7 +59,6 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 		this.commonPath = null;
 		this.format = format;
 		this.editingDomain = editingDomain;
-		setResource(createResource());
 		this.loadable = false;
 	}
 
@@ -72,14 +71,7 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 		this.commonPath = path;
 		this.format = format;
 		this.editingDomain = editingDomain;
-		setResource(createResource());
 		this.loadable = loadable;
-	}
-
-	@Override
-	public void close() throws IOException {
-		getEditingDomain().getResourceSet().getResources().clear();
-		getResource().getContents().clear();
 	}
 
 	@Override
@@ -164,9 +156,9 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
-	public void saveResource() throws IOException {
-		final XMLResource resource = getResource();
-		if (resource.getURI().isFile()) {
+	public void saveResource(final XMLResource resource) throws IOException {
+		if (resource instanceof PlanProResourceFactoryImpl
+				&& resource.getURI().isFile()) {
 			resource.save(null);
 			editingDomain.getCommandStack().flush();
 			loadable = true;
@@ -193,17 +185,23 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 		// plain toolbox files do not need a temporary directory
 	}
 
-	private XMLResource createResource() {
-		// IMPROVE Do we need this ?
-		final URI packageUri = sessionService.getPackageUri(format);
-		// Use the file extension as content type
-		// This may not be the same as the extension of path if path is a
-		// temporary file (e.g. for zipped planpro files)
-		final String contentType = PathExtensions.getExtension(getPath());
-		// Load the resource
-		final XMLResource newResource = (XMLResource) editingDomain
-				.getResourceSet().createResource(packageUri, contentType);
-		newResource.setEncoding(StandardCharsets.UTF_8.name());
-		return newResource;
+	@Override
+	protected String getContentType(final Path modelPath) {
+		return PathExtensions.getExtension(modelPath);
+	}
+
+	@Override
+	public XMLResource getPlanProResource() {
+		return getResource(getContentType(getModelPath()));
+	}
+
+	@Override
+	public XMLResource getLayoutResource() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Path getLayoutPath() {
+		throw new UnsupportedOperationException();
 	}
 }

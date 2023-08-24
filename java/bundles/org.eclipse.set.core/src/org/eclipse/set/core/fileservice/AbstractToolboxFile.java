@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.HashMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.emf.common.util.URI;
@@ -42,14 +43,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	private String md5checksum = null;
 
-	// IMPROVE: this Resource and Resource of EditingDomain have same content.
-	// Should we this Resouce here remove ?
-	private XMLResource resource;
-
-	@Override
-	public XMLResource getResource() {
-		return resource;
-	}
+	private HashMap<String, XMLResource> resources = new HashMap<>();
 
 	@Override
 	public void setXMLDocument(final Document doc) {
@@ -75,7 +69,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	}
 
 	private void modifyXmlDeclaration() {
-		if (resource instanceof final PlanProResourceImpl planproResource) {
+		if (getPlanProResource() instanceof final PlanProResourceImpl planproResource) {
 			PlanProResourceImplExtensions.setStandalone(planproResource, NO);
 		}
 	}
@@ -100,10 +94,6 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			// Allow ppxml files with unknown features to be loaded
 			// by ignoring wrapped FeatureNotFoundExceptions
 			try {
-				// Disable find package throug namespace uri
-				resourceSet.getLoadOptions().put(
-						XMLResource.OPTION_USE_PACKAGE_NS_URI_AS_LOCATION,
-						Boolean.FALSE);
 				newResource.load(resourceSet.getLoadOptions());
 			} catch (final Resource.IOWrappedException e) {
 				if (!(e.getCause() instanceof FeatureNotFoundException
@@ -112,47 +102,80 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 				}
 			}
 		}
+		addResource(getContentType(path), newResource);
 
-		setResource(newResource);
 	}
 
-	protected void setResource(final XMLResource resource) {
-		this.resource = resource;
+	protected void addResource(final String contentName,
+			final XMLResource resource) {
+		if (contentName == null || resource == null) {
+			return;
+		}
+		this.resources.put(contentName, resource);
 		modifyXmlDeclaration();
 	}
 
-	protected void setResourcePath(final Path path) {
-		if (!resource.getURI().isFile()) {
-			// Use the file extension as content type
-			// This may not be the same as the extension of path if path is a
-			// temporary file (e.g. for zipped planpro files)
-			final String contentType = PathExtensions.getExtension(getPath());
+	protected XMLResource getResource(final String contentName) {
+		return resources.get(contentName);
+	}
 
-			final XMLResource newResource = (XMLResource) getEditingDomain()
-					.getResourceSet().createResource(
-							URI.createFileURI(path.toString()), contentType);
-			newResource.setEncoding(ENCODING);
-			if (!resource.getContents().isEmpty()) {
-				newResource.getContents().addAll(resource.getContents());
+	protected void setResourcePath(final Path path) {
+		final HashMap<String, XMLResource> newResources = new HashMap<>();
+		resources.forEach((contentName, resource) -> {
+			if (!resource.getURI().isFile()) {
+				// Use the file extension as content type
+				// This may not be the same as the extension of path if path is
+				// a
+				// temporary file (e.g. for zipped planpro files)
+				final String contentType = PathExtensions
+						.getExtension(getPath());
+
+				final XMLResource newResource = (XMLResource) getEditingDomain()
+						.getResourceSet()
+						.createResource(URI.createFileURI(path.toString()),
+								contentType);
+				newResource.setEncoding(ENCODING);
+				if (!resource.getContents().isEmpty()) {
+					newResource.getContents().addAll(resource.getContents());
+				}
+				newResources.put(contentName, newResource);
+				modifyXmlDeclaration();
+			} else {
+				resource.setURI(URI.createFileURI(path.toString()));
 			}
-			resource = newResource;
-			modifyXmlDeclaration();
-		} else {
-			resource.setURI(URI.createFileURI(path.toString()));
-		}
+		});
+		resources = newResources;
 	}
 
 	@Override
 	public void save() throws IOException {
-		saveResource();
+		this.saveResource(getPlanProResource());
 	}
 
 	@Override
-	public DocumentRoot getSourceModel() {
-		if (getResource() instanceof final org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl ppresource) {
-			return ppresource.getSourceModel();
+	public void close() throws IOException {
+		getEditingDomain().getResourceSet().getResources().clear();
+		resources.values().forEach(resource -> resource.getContents().clear());
+	}
+
+	@Override
+	public DocumentRoot getPlanProSourceModel() {
+		final XMLResource planProResource = getPlanProResource();
+		if (planProResource == null) {
+			return null;
 		}
-		return null;
+		return ((org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl) planProResource)
+				.getSourceModel();
+	}
+
+	@Override
+	public org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot getLayoutSourceModel() {
+		final XMLResource layoutResource = getLayoutResource();
+		if (layoutResource == null) {
+			return null;
+		}
+		return ((org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl) layoutResource)
+				.getLayoutModel();
 	}
 
 	/**
@@ -160,5 +183,8 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	 * 
 	 * @throws IOException
 	 */
-	protected abstract void saveResource() throws IOException;
+	protected abstract void saveResource(XMLResource resource)
+			throws IOException;
+
+	protected abstract String getContentType(Path modelPath);
 }
