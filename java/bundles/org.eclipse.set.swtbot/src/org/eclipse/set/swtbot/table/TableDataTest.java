@@ -54,10 +54,6 @@ class TableDataTest extends AbstractTableTest {
 		assertFalse(referenceData.isEmpty());
 	}
 
-	private void whenNattableBotNotNull() {
-		assertNotNull(nattableBot);
-	}
-
 	void givenReferenceCSV(final PtTable table) throws IOException {
 		referenceData = loadReferenceFile(table.shortcut());
 
@@ -72,7 +68,6 @@ class TableDataTest extends AbstractTableTest {
 	@MethodSource("providesPtTable")
 	void testTableData(final PtTable table) throws Exception {
 		givenNattableBot(table);
-		whenNattableBotNotNull();
 		givenReferenceCSV(table);
 		whenExistReferenceCSV();
 		thenPtTableDataEqualReferenceCSV();
