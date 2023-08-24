@@ -14,3 +14,5 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+    secrets:
+      gitlabAPIToken: ${{ secrets.GITLAB_API_TOKEN }}      
