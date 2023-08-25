@@ -25,6 +25,7 @@ export class App {
   pendingSetLine: number | null = null
   viewModels!: Map<string, monaco.editor.ITextModel>
   currentModelName!: string
+  readonly LAYOUT_PRBOLEM_STATE = 'Layoutinformationen'
   setViewModels (model: Model, viewModel: Map<string, monaco.editor.ITextModel>) {
     this.model = model
     this.viewModels = viewModel
@@ -180,9 +181,9 @@ export class App {
     const markers = this.problems
       .filter(entry => {
         if (this.currentModelName === TextFileModel.LAYOUT) {
-          return entry.model === TextFileModel.LAYOUT
+          return entry.model === this.LAYOUT_PRBOLEM_STATE
         }
-        return entry.model !== TextFileModel.LAYOUT
+        return entry.model !== this.LAYOUT_PRBOLEM_STATE
       })
       .map(entry => {
         return {
