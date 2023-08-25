@@ -86,8 +86,8 @@ public class SourceWebTextViewPart extends BasePart {
 	private static final String PROBLEMS_JSON = "problems.json"; //$NON-NLS-1$
 	private static final String MODEL_PPXML = "model.ppxml"; //$NON-NLS-1$
 	private static final String LAYOUT_XML = "layout.xml"; //$NON-NLS-1$
-	private static final String VIEW_MODEL_SCHNITTSTELLE = "PlanPro Schnittstelle";//$NON-NLS-1$
-	private static final String VIEW_MODEL_LAYOUTINFORMATIONEN = "Layoutinformationen";//$NON-NLS-1$
+	private static final String VIEW_MODEL_SCHNITTSTELLE = "Model";//$NON-NLS-1$
+	private static final String VIEW_MODEL_LAYOUTINFORMATIONEN = "Layout";//$NON-NLS-1$
 
 	/**
 	 * Constructor
