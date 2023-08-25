@@ -9,5 +9,4 @@ on:
 jobs:
   dependencies:
     uses: eclipse-set/build/.github/workflows/update-dependencies.yml@main
-    permissions:
-      contents: write
+    secrets: inherit
