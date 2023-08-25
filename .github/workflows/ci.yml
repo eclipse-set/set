@@ -107,7 +107,7 @@ jobs:
           path: web/about/dist          
 
       - name: Build
-        run: mvn -T 1.5C -B clean verify --settings .github/settings.xml
+        run: mvn -T 1.5C -B -U clean verify --settings .github/settings.xml
 
       - name: Publish
         run: mvn -T 1.5C -B deploy --settings .github/settings.xml -DaltDeploymentRepository=set-github::https://maven.pkg.github.com/${{ github.repository }}
