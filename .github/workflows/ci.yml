@@ -2,7 +2,7 @@
 
 name: Build SET
 
-on: push
+on: [push, repository_dispatch]
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
