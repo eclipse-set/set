@@ -25,6 +25,7 @@ maven/mavencentral/org.apiguardian/apiguardian-api/1.1.2, Apache-2.0, approved, 
 maven/mavencentral/org.bouncycastle/bcpg-jdk18on/1.72, Apache-2.0, approved, #4295
 maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.72, MIT AND CC0-1.0, approved, #3538
 maven/mavencentral/org.codehaus.mojo/animal-sniffer-annotations/1.9, MIT, approved, clearlydefined
+maven/mavencentral/org.dom4j/dom4j/2.1.3, LicenseRef-Dom4j, approved, CQ21947
 maven/mavencentral/org.eclipse.set/org.eclipse.set.application.set/2.1.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.application/2.1.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.basis/2.1.0-SNAPSHOT, EPL-2.0, approved, technology.set
@@ -817,7 +818,6 @@ p2/orbit/p2.eclipse.plugin/javax.activation/1.2.2.v20221112-0806, EPL-2.0 OR GPL
 p2/orbit/p2.eclipse.plugin/javax.annotation/1.3.5.v20221112-0806, EPL-2.0 OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.ca
 p2/orbit/p2.eclipse.plugin/javax.inject/1.0.0.v20220405-0441, Apache-2.0, approved, CQ3555
 p2/orbit/p2.eclipse.plugin/javax.xml/1.3.4.v201005080400, Apache-2.0 OR LicenseRef-Public-Domain OR W3C, approved, CQ1448
-p2/orbit/p2.eclipse.plugin/maven.org.dom4j.artifact.dom4j/2.1.3, unknown, restricted, none
 p2/orbit/p2.eclipse.plugin/org.apache.ant/1.10.12.v20211102-1452, Apache-2.0 AND EPL-2.0 AND W3C AND LicenseRef-Flora AND LicenseRef-Public-Domain, approved, CQ23806
 p2/orbit/p2.eclipse.plugin/org.apache.batik.anim/1.16.0.v20221027-0840, Apache-2.0, approved, #5348
 p2/orbit/p2.eclipse.plugin/org.apache.batik.awt.util/1.16.0.v20221027-0840, Apache-2.0, approved, #5325
@@ -1107,17 +1107,17 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.services/3.11.100.v20221006-1531, EP
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.util/3.7.100.v20220615-1601, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi/3.18.200.v20221116-1324, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.plugin/org.eclipse.rcp/4.26.0.v20221123-1800, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.1.0.202308241349, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.1.0.202308241349, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.1.0.202308241349, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.edit/2.1.0.202308250718, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.editor/2.1.0.202308250718, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001/2.1.0.202308250718, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice/2.1.0.202308250718, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/2.1.0.202308250721, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.editor/2.1.0.202308250721, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/2.1.0.202308250721, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/2.1.0.202308250721, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.1.0.202308250739, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.1.0.202308250739, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.1.0.202308250739, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.edit/2.1.0.202308250738, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.editor/2.1.0.202308250738, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001/2.1.0.202308250738, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice/2.1.0.202308250738, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/2.1.0.202308250741, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.editor/2.1.0.202308250741, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/2.1.0.202308250741, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/2.1.0.202308250741, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.win32.win32.x86_64/3.122.0.v20221123-2302, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt/3.122.0.v20221123-2302, EPL-2.0, approved, eclipse.platform
@@ -1156,12 +1156,12 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.xbase.lib/2.27.0.v20220530-0353, EP
 p2/orbit/p2.eclipse.plugin/org.hamcrest.core/1.3.0.v20180420-1519, BSD-2-Clause, approved, CQ7063
 p2/orbit/p2.eclipse.plugin/org.hamcrest.library/1.3.0.v20180524-2246, BSD-2-Clause, approved, CQ7219
 p2/orbit/p2.eclipse.plugin/org.junit.jupiter.api/5.9.1.v20221103-2317, EPL-2.0, approved, #3133
-p2/orbit/p2.eclipse.plugin/org.junit.jupiter.params/5.9.1.v20221103-2317, unknown, restricted, none
+p2/orbit/p2.eclipse.plugin/org.junit.jupiter.params/5.9.1.v20221103-2317, EPL-2.0, approved, #10228
 p2/orbit/p2.eclipse.plugin/org.junit.platform.commons/1.9.1.v20221103-2317, EPL-2.0, approved, #8777
 p2/orbit/p2.eclipse.plugin/org.junit.platform.engine/1.9.1.v20221103-2317, EPL-2.0, approved, #8778
 p2/orbit/p2.eclipse.plugin/org.junit.platform.launcher/1.9.1.v20221103-2317, EPL-2.0, approved, #8779
-p2/orbit/p2.eclipse.plugin/org.junit.platform.suite.api/1.9.1.v20221103-2317, unknown, restricted, none
-p2/orbit/p2.eclipse.plugin/org.junit.platform.suite.commons/1.9.1.v20221103-2317, unknown, restricted, none
+p2/orbit/p2.eclipse.plugin/org.junit.platform.suite.api/1.9.1.v20221103-2317, EPL-2.0, approved, #10227
+p2/orbit/p2.eclipse.plugin/org.junit.platform.suite.commons/1.9.1.v20221103-2317, EPL-2.0, approved, #10230
 p2/orbit/p2.eclipse.plugin/org.junit/4.13.2.v20211018-1956, EPL-1.0, approved, CQ21439
 p2/orbit/p2.eclipse.plugin/org.slf4j.api/1.7.30.v20200204-2150, MIT, approved, CQ21574
 p2/orbit/p2.eclipse.plugin/org.w3c.css.sac/1.3.1.v200903091627, Apache-2.0 OR LicenseRef-Public-Domain OR W3C, approved, CQ1448
