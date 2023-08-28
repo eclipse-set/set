@@ -126,7 +126,7 @@ public class AbstractToolboxTest {
 				planProSchnittstelle = docRoot.getPlanProSchnittstelle();
 			} else {
 				throw new IllegalArgumentException(
-						"Resurce contains no PlanPro model with the requested version."); //$NON-NLS-1$
+						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
 			}
 		}
 	}
@@ -187,7 +187,7 @@ public class AbstractToolboxTest {
 				planProSchnittstelle = model.getPlanProSchnittstelle();
 			} else {
 				throw new IllegalArgumentException(
-						"Resurce contains no PlanPro model with the requested version."); //$NON-NLS-1$
+						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
 			}
 		});
 	}
