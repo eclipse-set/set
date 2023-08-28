@@ -149,10 +149,10 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 						!signalFstrAusInselgleis.IDZgFahrtGleichzeitigVerbot.
 							empty
 				]
-			], ["x"]),
+			], [true.translate]),
 			new Case<Gleis_Bezeichnung>([
 				begrenzungen.forall[startOfAnyTrainRoute]
-			], ["o"])
+			], [false.translate])
 		)
 
 		// F: Ssli.Ausschluss_Fahrten.Rangierfahrt.Einfahrt
@@ -166,12 +166,12 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 						transformToGegenfahrtausschluesse.contains(
 							ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI)
 				]
-			], ["x"]),
+			], [true.translate]),
 			new Case<Gleis_Bezeichnung>([
 				begrenzungen.forall [
 					isStartOrDestinationOfAnyShuntingRoute(false)
 				]
-			], ["o"])
+			], [false.translate])
 		)
 
 		// G: Ssli.Ausschluss_Fahrten.Rangierfahrt.Ausfahrt
@@ -185,12 +185,12 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 						!signalFstrAusInselgleis.IDRaFahrtGleichzeitigVerbot.
 							empty
 				]
-			], ["x"]),
+			], [true.translate]),
 			new Case<Gleis_Bezeichnung>([
 				begrenzungen.forall [
 					isStartOrDestinationOfAnyShuntingRoute(true)
 				]
-			], ["o"])
+			], [false.translate])
 		)
 
 		// H: Ssli.Bemerkung

@@ -1269,14 +1269,14 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 	}
 
-	private static def String fillSonstigesDunkelschaltung(Signal signal) {
+	private def String fillSonstigesDunkelschaltung(Signal signal) {
 		val dunkelschaltung = signal?.signalReal?.dunkelschaltung?.wert
 
 		switch (dunkelschaltung) {
 			case dunkelschaltung !== null && dunkelschaltung:
-				return "x"
+				return translate(true)
 			case dunkelschaltung !== null && !dunkelschaltung:
-				return "o"
+				return translate(false)
 			default:
 				return null
 		}

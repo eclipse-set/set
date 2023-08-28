@@ -234,13 +234,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// H: Sskw.Vorzugslage.Automatik
-			fillConditional(
+			fill(
 				instance,
 				cols.getColumn(Vorzugslage_Automatik),
 				element,
-				[WKrGspElementAllg?.vorzugslageAutomatik?.wert !== null],
-				[WKrGspElementAllg.vorzugslageAutomatik.wert ? "x" : "o"],
-				[""]
+				[WKrGspElementAllg?.vorzugslageAutomatik?.wert?.translate ?: ""]
 			)
 
 			// I: Sskw.Weiche.Auffahrortung
@@ -588,22 +586,13 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// W: Sskw.Sonstiges.DWs
-			fillSwitch(
+			fillConditional(
 				instance,
 				cols.getColumn(Sonstiges_DWs),
 				element,
-				new Case<W_Kr_Gsp_Element>(
-					[IDWKrAnlage === null],
-					[""]
-				),
-				new Case<W_Kr_Gsp_Element>(
-					[WKrAnlage.IDAnhangDWS !== null],
-					["x"]
-				),
-				new Case<W_Kr_Gsp_Element>(
-					[WKrAnlage.IDAnhangDWS === null],
-					["o"]
-				)
+				[IDWKrAnlage === null],
+				[""],
+				[(WKrAnlage.IDAnhangDWS !== null).translate]
 			)
 
 			// X: Sskw.Sonderanlage.Art

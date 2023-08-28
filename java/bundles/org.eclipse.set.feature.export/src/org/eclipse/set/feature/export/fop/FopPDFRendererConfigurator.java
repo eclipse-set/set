@@ -18,7 +18,9 @@ import org.apache.fop.fonts.EmbedFontInfo;
 import org.apache.fop.fonts.EmbeddingMode;
 import org.apache.fop.fonts.EncodingMode;
 import org.apache.fop.fonts.Font;
+import org.apache.fop.fonts.FontAdder;
 import org.apache.fop.fonts.FontCollection;
+import org.apache.fop.fonts.FontEventAdapter;
 import org.apache.fop.fonts.FontInfo;
 import org.apache.fop.fonts.FontManager;
 import org.apache.fop.fonts.FontManagerConfigurator;
@@ -73,15 +75,35 @@ public class FopPDFRendererConfigurator extends PDFRendererConfigurator {
 			throws FOPException {
 		final List<EmbedFontInfo> fontList = new ArrayList<>();
 		fontService.getFopFonts().forEach(font -> {
-			final FontUris fontUri = new FontUris(font.path.toUri(), null);
+			final FontUris fontUri = new FontUris(font.path().toUri(), null);
 			final List<FontTriplet> fontTriplets = List.of(new FontTriplet(
-					font.name, font.style, toFontWeight(font.weight)));
+					font.name(), font.style(), toFontWeight(font.weight())));
 			fontList.add(new EmbedFontInfo(fontUri, true, false, fontTriplets,
 					null, EncodingMode.AUTO, EmbeddingMode.SUBSET, false, false,
 					true));
 		});
-
 		return createCollectionFromFontList(resolver, fontList);
+	}
+
+	@Override
+	protected List<FontCollection> getDefaultFontCollection() {
+		final List<FontCollection> fontsCollections = super.getDefaultFontCollection();
+		// Detec system font
+		final List<EmbedFontInfo> systemFonts = new ArrayList<>();
+		final FontManager fontManager = userAgent.getFontManager();
+		final FontEventAdapter eventAdapter = new FontEventAdapter(
+				userAgent.getEventBroadcaster());
+		final FontAdder fontAdder = new FontAdder(fontManager,
+				fontManager.getResourceResolver(), eventAdapter);
+		try {
+			fontManager.autoDetectFonts(true, fontAdder, false, eventAdapter,
+					systemFonts);
+			fontsCollections.add(createCollectionFromFontList(
+					userAgent.getResourceResolver(), systemFonts));
+		} catch (final FOPException e) {
+			throw new RuntimeException(e);
+		}
+		return fontsCollections;
 	}
 
 	@Override

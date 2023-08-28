@@ -24536,7 +24536,7 @@
 	public String ENUMZwieschutz_Art_eigen_Alternative;
 
 	/**
-	 * o
+	 * □
 	 */
 	public String XSBoolean_false_Presentation;
 
@@ -24546,7 +24546,7 @@
 	public String XSBoolean_false_Sorting;
 
 	/**
-	 * o
+	 * □
 	 */
 	public String XSBoolean_false_Alternative;
 

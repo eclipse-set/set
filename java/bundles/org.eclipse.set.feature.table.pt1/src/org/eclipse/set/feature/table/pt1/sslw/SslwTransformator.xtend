@@ -159,7 +159,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 						currentFlaSchutz?.flaSchutzWGsp !== null
 					],
 					[
-						if (currentFlaSchutz.hasZwieschutz) "x" else "o"
+						currentFlaSchutz.hasZwieschutz.translate
 					]
 				)
 

@@ -199,8 +199,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 					return null
 				switch (gegenfahrtausschluss) {
 					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI: return "Inselgleis frei"
-					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA: return "x"
-					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_NEIN: return "o"
+					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA: return true.translate
+					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_NEIN: return false.translate
 				}
 			]
 		)

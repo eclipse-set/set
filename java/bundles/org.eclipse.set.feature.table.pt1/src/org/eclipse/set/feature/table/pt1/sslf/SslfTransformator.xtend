@@ -89,7 +89,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Weiche_Gleissperre_Zwieschutz),
 				flaSchutz,
 				[flaSchutzWGsp !== null],
-				[if (hasZwieschutz) "x" else "o"]
+				[hasZwieschutz.translate]
 			)
 
 			// F: Sslf.Unmittelbarer_Flankenschutz.Signal.Bezeichnung_Sig
