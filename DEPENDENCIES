@@ -1040,7 +1040,7 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.swt.core.plugin/1.27.0.20221202-
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.swt.core/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.swt.reference.table/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.swt.table/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
-p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.swt.treemasterdetail.decorator.validation.default/1.27.0.20221202-1633, unknown, restricted, none
+p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.swt.treemasterdetail.decorator.validation.default/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.swt.treemasterdetail/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.view.annotation.model.edit/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.view.annotation.model/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
