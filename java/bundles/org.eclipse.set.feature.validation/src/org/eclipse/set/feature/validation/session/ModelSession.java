@@ -656,7 +656,7 @@ public class ModelSession implements IModelSession {
 	}
 
 	private void readMergeModel() throws IOException {
-		toolboxFile.open();
+		toolboxFile.openModel();
 		/*
 		 * TODO(1.10.0.1): Readd once temporary integrations are reenabled
 		 * temporaryIntegration = (ToolboxTemporaryIntegration) toolboxFile
@@ -671,15 +671,26 @@ public class ModelSession implements IModelSession {
 				PlanPro_Schnittstelle.class);
 		setPlanProSchnittstelle(serviceProvider.validationService
 				.checkLoad(getToolboxFile(), path -> {
-					getToolboxFile().open();
+					getToolboxFile().openModel();
 					return toolboxFile.getPlanProResource();
 				}, PlanProSchnittstelleExtensions::readFrom,
 						schnittstelleValidationResult));
 		schnittstelleValidationResult = serviceProvider.validationService
 				.validateSource(schnittstelleValidationResult,
 						getToolboxFile());
+	}
+
+	private void readLayoutInformationen() {
 		final Path layoutPath = getToolboxFile().getLayoutPath();
 		if (layoutPath != null && layoutPath.toFile().exists()) {
+			layoutinfoValidationResult = new ValidationResult(
+					PlanPro_Layoutinfo.class);
+			serviceProvider.validationService.checkLoad(getToolboxFile(),
+					path -> {
+						getToolboxFile().openLayout();
+						return toolboxFile.getLayoutResource();
+					}, null, layoutinfoValidationResult);
+
 			layoutinfoValidationResult = serviceProvider.validationService
 					.validateSource(
 							new ValidationResult(PlanPro_Layoutinfo.class),
@@ -846,6 +857,7 @@ public class ModelSession implements IModelSession {
 			readMergeModel();
 		} else {
 			readPlanProModel();
+			readLayoutInformationen();
 		}
 	}
 

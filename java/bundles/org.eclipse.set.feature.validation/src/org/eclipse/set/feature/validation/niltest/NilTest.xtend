@@ -28,6 +28,7 @@ import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
 import org.eclipse.set.core.services.validation.CustomValidator
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.validationreport.ObjectState
 
 /** 
  * Test for intentionally incomplete data.
@@ -37,13 +38,13 @@ import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
 @Component(immediate=true, service=CustomValidator)
 class NilTest extends AbstractCustomValidator {
 	static val NIL = "xsi:nil"
-
+	Class<?> sourceClass
 	override void validate(
 		ToolboxFile toolboxFile,
 		ValidationResult result
 	) {
 		try {
-			val sourceClass = result.validatedSourceClass
+			sourceClass = result.validatedSourceClass
 			val nilProblems = newLinkedList
 			if (sourceClass.isAssignableFrom(PlanPro_Schnittstelle)) {
 				nilProblems.addAll(
@@ -89,7 +90,9 @@ class NilTest extends AbstractCustomValidator {
 		message = e.message
 		severity = ValidationSeverity.ERROR
 		type = messages.NilTestProblem_Type
-
+		if (sourceClass.isAssignableFrom(PlanPro_Layoutinfo)) {
+			objectState = ObjectState.LAYOUT
+		}
 		return it
 	}
 
