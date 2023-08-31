@@ -247,7 +247,7 @@ class SessionToValidationReportTransformation {
 		objectArt = ""
 		objectScope = ObjectScope.UNKNOWN
 		attributeName = ""
-		 if (validationSourceClass == PlanPro_Layoutinfo) {
+		if (validationSourceClass == PlanPro_Layoutinfo) {
 			objectState = ObjectState.LAYOUT
 		}
 		return
