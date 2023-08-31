@@ -104,12 +104,14 @@ public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 	protected void whenOpen() throws IOException {
 		assertNotNull(testee);
 		testee.openModel();
+		testee.openLayout();
 	}
 
 	protected void whenOpenAndAutoclose(final ToolboxFileRole role)
 			throws IOException {
 		try (ToolboxFileAC file = new ToolboxFileAC(createToolboxFile(role))) {
 			file.get().openModel();
+			file.get().openLayout();
 		}
 	}
 }
