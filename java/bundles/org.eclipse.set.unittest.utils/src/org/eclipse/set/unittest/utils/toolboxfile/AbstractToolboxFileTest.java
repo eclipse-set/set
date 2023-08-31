@@ -104,7 +104,10 @@ public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 	protected void whenOpen() throws IOException {
 		assertNotNull(testee);
 		testee.openModel();
-		testee.openLayout();
+		if (testee.getLayoutPath() != null
+				&& testee.getLayoutPath().toFile().exists()) {
+			testee.openLayout();
+		}
 	}
 
 	protected void whenOpenAndAutoclose(final ToolboxFileRole role)
