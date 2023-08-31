@@ -43,9 +43,6 @@ public class NilValidator extends EObjectValidator {
 		if (!(planproValidator instanceof NilValidator)) {
 			EValidator.Registry.INSTANCE.put(PlanProPackage.eINSTANCE,
 					new NilValidator(planproValidator, messages));
-			EValidator.Registry.INSTANCE.put(
-					LayoutinformationenPackage.eINSTANCE,
-					new NilValidator(planproValidator, messages));
 		}
 
 		final EValidator layoutValidator = (EValidator) EValidator.Registry.INSTANCE

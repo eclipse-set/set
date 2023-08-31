@@ -221,7 +221,14 @@ public interface ToolboxFile {
 	 * @throws IOException
 	 *             if an I/O error has occurred
 	 */
-	void open() throws IOException;
+	void openModel() throws IOException;
+
+	/**
+	 * open layout infomartion from {@link #getLayoutPath()}
+	 * 
+	 * @throws IOException
+	 */
+	void openLayout() throws IOException;
 
 	/**
 	 * Saves the toolbox file.
@@ -266,4 +273,5 @@ public interface ToolboxFile {
 	 * @return the planpro layout model
 	 */
 	org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot getLayoutSourceModel();
+
 }

@@ -8,34 +8,35 @@
  */
 package org.eclipse.set.feature.validation.report
 
+import java.nio.file.Path
 import java.util.Comparator
 import java.util.List
+import java.util.Set
 import org.eclipse.emf.common.util.Enumerator
 import org.eclipse.emf.ecore.xmi.XMIException
 import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.basis.constants.ValidationResult
 import org.eclipse.set.basis.constants.ValidationResult.Outcome
 import org.eclipse.set.basis.exceptions.CustomValidationProblem
+import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.version.PlanProVersionService
 import org.eclipse.set.feature.validation.Messages
 import org.eclipse.set.feature.validation.utils.FileInfoReader
 import org.eclipse.set.feature.validation.utils.XMLNodeFinder
 import org.eclipse.set.model.validationreport.ObjectScope
+import org.eclipse.set.model.validationreport.ObjectState
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.model.validationreport.ValidationreportFactory
+import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.xml.sax.SAXParseException
 
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
-import org.eclipse.set.basis.constants.ValidationResult
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.basis.files.ToolboxFile
-import java.nio.file.Path
-import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
-import java.util.Set
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -48,10 +49,11 @@ class SessionToValidationReportTransformation {
 
 	val PlanProVersionService versionService
 	var ValidationReport report
-	val XMLNodeFinder xmlNodeFinder = new XMLNodeFinder();
+	var XMLNodeFinder xmlNodeFinder;
 	val EnumTranslationService enumService
 	val severityOrder = newLinkedList(ValidationSeverity.ERROR,
 		ValidationSeverity.WARNING, ValidationSeverity.SUCCESS)
+	Class<?> validationSourceClass;
 
 	new(Messages messages, PlanProVersionService versionService,
 		EnumTranslationService enumService) {
@@ -92,7 +94,9 @@ class SessionToValidationReportTransformation {
 	def Set<ValidationProblem> transform(ValidationResult validationResult,
 		ToolboxFile toolboxFile, Path sourcePath) {
 		val problems = <ValidationProblem>newLinkedList
+		xmlNodeFinder = new XMLNodeFinder()
 		xmlNodeFinder.read(toolboxFile, sourcePath)
+		validationSourceClass = validationResult.validatedSourceClass
 		problems.addAll(
 			validationResult.xsdErrors.transform(messages.XsdProblemMsg,
 				ValidationSeverity.ERROR, messages.XsdErrorSuccessMsg))
@@ -145,8 +149,10 @@ class SessionToValidationReportTransformation {
 			messages.NoMsg
 		}
 		report.valid = session?.getValidationsOutcome([outcome])?.transform
-		report.xsdValid = session?.getValidationsOutcome([xsdOutcome])?.transform
-		report.emfValid = session?.getValidationsOutcome([emfOutcome])?.transform
+		report.xsdValid = session?.getValidationsOutcome([xsdOutcome])?.
+			transform
+		report.emfValid = session?.getValidationsOutcome([emfOutcome])?.
+			transform
 
 		report.supportedVersion = report.supportedVersion ?:
 			versionService.createSupportedVersion
@@ -199,6 +205,8 @@ class SessionToValidationReportTransformation {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
+		} else if (validationSourceClass == PlanPro_Layoutinfo) {
+			objectState = ObjectState.LAYOUT
 		}
 		return
 	}
@@ -219,6 +227,8 @@ class SessionToValidationReportTransformation {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
+		} else if (validationSourceClass == PlanPro_Layoutinfo) {
+			objectState = ObjectState.LAYOUT
 		}
 		return
 	}
@@ -237,6 +247,9 @@ class SessionToValidationReportTransformation {
 		objectArt = ""
 		objectScope = ObjectScope.UNKNOWN
 		attributeName = ""
+		 if (validationSourceClass == PlanPro_Layoutinfo) {
+			objectState = ObjectState.LAYOUT
+		}
 		return
 	}
 

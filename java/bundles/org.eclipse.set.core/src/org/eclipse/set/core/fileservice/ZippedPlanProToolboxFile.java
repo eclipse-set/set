@@ -258,16 +258,20 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
-	public void open() throws IOException {
+	public void openModel() throws IOException {
 		if (isLoadable()) {
 			generateMD5CheckSum();
 			unzip();
 			loadResource(getModelPath(), editingDomain);
-			if (Files.exists(getLayoutPath())) {
-				loadResource(getLayoutPath(), editingDomain);
-			}
 		} else {
 			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$
+		}
+	}
+
+	@Override
+	public void openLayout() throws IOException {
+		if (Files.exists(getLayoutPath())) {
+			loadResource(getLayoutPath(), editingDomain);
 		}
 	}
 

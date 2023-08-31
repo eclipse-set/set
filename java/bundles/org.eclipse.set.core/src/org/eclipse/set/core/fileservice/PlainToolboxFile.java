@@ -146,7 +146,7 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
-	public void open() throws IOException {
+	public void openModel() throws IOException {
 		if (isLoadable()) {
 			generateMD5CheckSum();
 			loadResource(getModelPath(), editingDomain);
@@ -203,5 +203,10 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	@Override
 	public Path getLayoutPath() {
 		return null;
+	}
+
+	@Override
+	public void openLayout() throws IOException {
+		throw new UnsupportedOperationException();
 	}
 }
