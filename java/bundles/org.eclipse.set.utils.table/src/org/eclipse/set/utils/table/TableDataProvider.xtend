@@ -31,6 +31,8 @@ class TableDataProvider implements IDataProvider {
 	Function<Integer, Integer> getSourceLine
 	Map<Integer, Object> filters = newHashMap
 	Table table
+	
+	static val EXCULDE_FILTER_SIGN = "-"
 
 	new(Table table, Function<Integer, Integer> getSourceLine) {
 		this.getSourceLine = getSourceLine;
@@ -69,7 +71,12 @@ class TableDataProvider implements IDataProvider {
 			if (filters.containsKey(i)) {
 				val content = row.cells.get(i).content.plainStringValue.
 					toLowerCase
-				if (!content.contains(filters.get(i).toString.toLowerCase)) {
+				var filterValue = filters.get(i).toString.toLowerCase
+				val isExcludeFilter = filterValue.substring(0, 1).equals(EXCULDE_FILTER_SIGN)
+				filterValue = isExcludeFilter ? filterValue.substring(1) : filterValue
+				
+				// Equivalence logic
+				if (isExcludeFilter === content.contains(filterValue)) {
 					return false
 				}
 			}
