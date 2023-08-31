@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.TableRow#getCells <em>Cells</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes <em>Footnotes</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row Index</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getTableRow()
@@ -64,27 +63,5 @@ public interface TableRow extends EObject {
 	 * @generated
 	 */
 	EList<Footnote> getFootnotes();
-
-	/**
-	 * Returns the value of the '<em><b>Row Index</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Row Index</em>' attribute.
-	 * @see #setRowIndex(int)
-	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getTableRow_RowIndex()
-	 * @model
-	 * @generated
-	 */
-	int getRowIndex();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row Index</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Row Index</em>' attribute.
-	 * @see #getRowIndex()
-	 * @generated
-	 */
-	void setRowIndex(int value);
 
 } // TableRow

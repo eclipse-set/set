@@ -14,9 +14,6 @@ import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import java.util.List
 
 /**
  * Factory for the table model.
@@ -47,30 +44,6 @@ class TMFactory extends AbstractRowFactory {
 		group.leadingObject = leadingObject
 		return new RowGroupRowFactory(group)
 	}
-	
-	/**
-	 * Add new table row to same group, when alread exist,
-	 * otherwise create new group and add into this
-	 *   
-	 * @params row the table row
-	 * @params columns list of columns have same value
-	 */
-	def void addRowToGroup(TableRow row, List<ColumnDescriptor> columns) {
-		val rowsGroups = table.tablecontent.rowgroups
-		val group = rowsGroups.findFirst[group |
-			val firstRowInGroup = group.rows.get(0)
-			firstRowInGroup.cells.filter[columns.contains(columndescriptor)].forall[
-				val groupValue = getPlainStringValue(content)
-				val rowValue = getPlainStringValue(row, columndescriptor)
-				return groupValue.equals(rowValue)				
-			]
-		]
-		if (group !== null) {
-			group.rows.add(row)
-		} else {
-			rowGroup.rows.add(row)
-		}
-	}
 
 	/** 
 	 * @param leadingObjectGuid
@@ -78,15 +51,6 @@ class TMFactory extends AbstractRowFactory {
 	 */
 	def TableRow newTableRow(Ur_Objekt leadingObject) {
 		return newTableRow(leadingObject, 0)
-	}
-	
-	def TableRow newTableRow(int rowIndex, List<ColumnDescriptor> columns) {
-		val newTableRow = TablemodelFactory.eINSTANCE.createTableRow
-		newTableRow.rowIndex = rowIndex
-		columns.forEach[
-			newTableRow.cells.add(newTableCell(it))
-		]
-		return newTableRow
 	}
 
 	/**
@@ -96,7 +60,7 @@ class TMFactory extends AbstractRowFactory {
 	def TableRow newTableRow(Ur_Objekt leadingObject, int leadingObjectIndex) {
 		val row = newTableRow
 		row.group.leadingObject = leadingObject
-		row.rowIndex = leadingObjectIndex
+		row.group.leadingObjectIndex = leadingObjectIndex
 		return row
 	}
 
