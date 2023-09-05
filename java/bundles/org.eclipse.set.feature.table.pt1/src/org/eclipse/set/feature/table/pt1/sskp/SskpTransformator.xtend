@@ -89,7 +89,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
 				pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ
 
-			// C: Sskp.PZB_Schutstrecke.PZB_Schutzpunkt
+			// C: Sskp.PZB_Schutzstrecke.PZB_Schutzpunkt
 			fillIterableWithConditional(
 				instance,
 				cols.getColumn(PZB_Schutzpunkt),
@@ -119,9 +119,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						if (dwegV > 60) {
 							return "v > 60"
 						} else if (dwegV <= 60 && dwegV > 40) {
-							return "40 < v <= 60"
+							return "40 < v ≤ 60"
 						} else if (dwegV <= 40) {
-							return "v <= 40"
+							return "v ≤ 40"
 						}
 						return ""
 					]
@@ -171,7 +171,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						].filter(Punkt_Objekt)
 						return getDistanceOfPoinst(topGraph, markantePunkts,
 							signal)
-					].filter[it == 0.0].map[it.toString]
+					].filter[it !== 0.0].map[it.toString]
 				],
 				null,
 				ITERABLE_FILLING_SEPARATOR
@@ -184,7 +184,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[
 					PZBElementZuordnungBP.map [
-						wirksamkeit.wert.translate
+						wirksamkeit?.wert?.translate
 					]
 				],
 				null
@@ -214,7 +214,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					],
 					[
 						PZBElementZuordnungFstr.map [
-							val wirksamKeit = wirksamkeitFstr.wert.translate
+							val wirksamKeit = wirksamkeitFstr?.wert?.translate
 							val fstrZugRangier = IDFstrZugRangier.
 								getZugFstrBezeichnung([art|isZ(art)])
 							return '''«wirksamKeit» «fstrZugRangier»'''
