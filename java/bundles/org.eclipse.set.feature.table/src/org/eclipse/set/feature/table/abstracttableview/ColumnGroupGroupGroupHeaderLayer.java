@@ -183,7 +183,7 @@ public class ColumnGroupGroupGroupHeaderLayer extends AbstractLayerTransform {
 	}
 
 	@Override
-	public DisplayMode getDisplayModeByPosition(final int columnPosition,
+	public String getDisplayModeByPosition(final int columnPosition,
 			final int rowPosition) {
 		final int columnIndex = getColumnIndexByPosition(columnPosition);
 		if (rowPosition == 0 && this.model.isPartOfAGroup(columnIndex)) {
