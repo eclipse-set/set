@@ -16,8 +16,11 @@ import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.IConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterIconPainter;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowPainter;
 import org.eclipse.nebula.widgets.nattable.grid.GridRegion;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
+import org.eclipse.nebula.widgets.nattable.group.painter.ColumnGroupHeaderTextPainter;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
@@ -34,7 +37,9 @@ import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
 import org.eclipse.nebula.widgets.nattable.style.HorizontalAlignmentEnum;
 import org.eclipse.nebula.widgets.nattable.style.IStyle;
 import org.eclipse.nebula.widgets.nattable.style.Style;
+import org.eclipse.nebula.widgets.nattable.style.VerticalAlignmentEnum;
 import org.eclipse.nebula.widgets.nattable.style.theme.ModernNatTableThemeConfiguration;
+import org.eclipse.nebula.widgets.nattable.ui.util.CellEdgeEnum;
 import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.set.basis.ToolboxProperties;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -56,6 +61,7 @@ import org.eclipse.swt.graphics.Image;
  */
 public class PlanProTableThemeConfiguration
 		extends ModernNatTableThemeConfiguration {
+
 	private static final String ALIGN_LEFT = "align_left"; //$NON-NLS-1$
 	private static final String EXCEPTION_LABEL = "exception"; //$NON-NLS-1$
 	private static final String GREYED_LABEL = "greyedout"; //$NON-NLS-1$
@@ -138,24 +144,8 @@ public class PlanProTableThemeConfiguration
 			final GridLayer gridLayer, final ColumnDescriptor heading,
 			final AbstractLayer bodyLayer,
 			final IDataProvider bodyDataProvider) {
-		final boolean wraptext = true;
-		final boolean calculateByTextLength = false;
-		final boolean calculateByTextHeight = true;
-
 		resourceManager = new LocalResourceManager(
 				JFaceResources.getResources(), natTable.getParent());
-
-		final Image leftWarningImage = createImage(resourceManager,
-				SetImages.WARNING_YELLOW);
-		final Image rightWarningImage = createImage(resourceManager,
-				SetImages.WARNING_RED);
-		final Image blackWarningImage = createImage(resourceManager,
-				SetImages.IC_WARNING_BLACK_18DP_1X);
-
-		this.defaultCellPainter = new PlanProTableCellPainter(
-				new PlanProRichTextCellPainter(wraptext, calculateByTextLength,
-						calculateByTextHeight),
-				leftWarningImage, rightWarningImage, blackWarningImage);
 
 		// initialize colors
 		final Color defaultBackground = createColor(
@@ -173,6 +163,10 @@ public class PlanProTableThemeConfiguration
 		this.bodyLayer = bodyLayer;
 		this.bodyDataProvider = bodyDataProvider;
 
+		// IMPROVE: currently exists bug by resize row height in Nattable, when
+		// vertical alignment !== TOP
+		// See: https://bugs.eclipse.org/bugs/show_bug.cgi?id=582373
+		this.defaultVAlign = VerticalAlignmentEnum.TOP;
 		// initialize heading
 		this.heading = heading;
 
@@ -191,6 +185,8 @@ public class PlanProTableThemeConfiguration
 		fatHeaderStyle.setAttributeValue(CellStyleAttributes.FONT, headerFont);
 		fatHeaderStyle.setAttributeValue(CellStyleAttributes.BACKGROUND_COLOR,
 				greyedOutStyleBackgroundColor);
+		fatHeaderStyle.setAttributeValue(CellStyleAttributes.VERTICAL_ALIGNMENT,
+				VerticalAlignmentEnum.MIDDLE);
 
 		// set label accumulators
 		headerLayer.setConfigLabelAccumulator(headerLayerAccumulator);
@@ -207,6 +203,32 @@ public class PlanProTableThemeConfiguration
 
 		// add handler
 		registerHandler(gridLayer);
+	}
+
+	@Override
+	public void createPainterInstances() {
+		super.createPainterInstances();
+		final boolean wraptext = true;
+		final boolean calculateByTextLength = false;
+		final boolean calculateByTextHeight = true;
+
+		final Image leftWarningImage = createImage(resourceManager,
+				SetImages.WARNING_YELLOW);
+		final Image rightWarningImage = createImage(resourceManager,
+				SetImages.WARNING_RED);
+		final Image blackWarningImage = createImage(resourceManager,
+				SetImages.IC_WARNING_BLACK_18DP_1X);
+
+		this.defaultCellPainter = new PlanProTableCellPainter(
+				new PlanProRichTextCellPainter(wraptext, calculateByTextLength,
+						calculateByTextHeight),
+				leftWarningImage, rightWarningImage, blackWarningImage);
+		this.filterRowCellPainter = new PaddingDecorator(
+				new FilterRowPainter(
+						new FilterIconPainter(GUIHelper.getImage("filter"))), //$NON-NLS-1$
+				0, 0, 0, 5);
+		this.cGroupHeaderCellPainter = new ColumnGroupHeaderTextPainter(
+				new TextPainter(true, false), CellEdgeEnum.RIGHT, null);
 	}
 
 	@Override
