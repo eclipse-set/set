@@ -32,7 +32,7 @@ public enum ContainerContent implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	MODEL(0, "MODEL", "Modell"),
+	MODEL(0, "MODEL", "Fachdaten"),
 
 	/**
 	 * The '<em><b>LAYOUT</b></em>' literal object.
@@ -42,7 +42,7 @@ public enum ContainerContent implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	LAYOUT(1, "LAYOUT", "Layout"),
+	LAYOUT(1, "LAYOUT", "Layoutdaten"),
 
 	/**
 	 * The '<em><b>ATTACHMENT</b></em>' literal object.
@@ -59,7 +59,7 @@ public enum ContainerContent implements Enumerator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #MODEL
-	 * @model literal="Modell"
+	 * @model literal="Fachdaten"
 	 * @generated
 	 * @ordered
 	 */
@@ -70,7 +70,7 @@ public enum ContainerContent implements Enumerator {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #LAYOUT
-	 * @model literal="Layout"
+	 * @model literal="Layoutdaten"
 	 * @generated
 	 * @ordered
 	 */

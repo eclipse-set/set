@@ -31,6 +31,7 @@ import org.eclipse.set.browser.RequestHandler.Request;
 import org.eclipse.set.browser.RequestHandler.Response;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.font.FontService;
+import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
@@ -55,12 +56,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  * @author Stuecker
  */
+@SuppressWarnings("nls")
 public class SourceWebTextViewPart extends BasePart {
-	private static final String JUMP_TO_LINE_FUNCTION = "window.planproJumpToLine"; //$NON-NLS-1$
-	private static final String JUMP_TO_GUID_FUNCTION = "window.planproJumpToGuid"; //$NON-NLS-1$
-	private static final String UPDATE_PROBLEMS_FUNCTION = "window.planproUpdateProblems"; //$NON-NLS-1$
+	private static final String JUMP_TO_LINE_FUNCTION = "window.planproJumpToLine";
+	private static final String JUMP_TO_GUID_FUNCTION = "window.planproJumpToGuid";
+	private static final String UPDATE_PROBLEMS_FUNCTION = "window.planproUpdateProblems";
 
-	private static final String SWITCH_MODEL_VIEW_FUNCTION = "window.planproSwitchModel"; //$NON-NLS-1$
+	private static final String SWITCH_MODEL_VIEW_FUNCTION = "window.planproSwitchModel";
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SourceWebTextViewPart.class);
@@ -82,12 +84,12 @@ public class SourceWebTextViewPart extends BasePart {
 	private EventRegistration eventRegistration;
 
 	private final EventHandler problemsChangeEventHandler = event -> onProblemsChange();
-	private static final String TEXT_VIEWER_PATH = "./web/textviewer"; //$NON-NLS-1$
-	private static final String PROBLEMS_JSON = "problems.json"; //$NON-NLS-1$
-	private static final String MODEL_PPXML = "model.ppxml"; //$NON-NLS-1$
-	private static final String LAYOUT_XML = "layout.xml"; //$NON-NLS-1$
-	private static final String VIEW_MODEL_SCHNITTSTELLE = "Modell";//$NON-NLS-1$
-	private static final String VIEW_MODEL_LAYOUTINFORMATIONEN = "Layout";//$NON-NLS-1$
+	private static final String TEXT_VIEWER_PATH = "./web/textviewer";
+	private static final String PROBLEMS_JSON = "problems.json";
+	private static final String MODEL_PPXML = "model.ppxml";
+	private static final String LAYOUT_XML = "layout.xml";
+	private static final String VIEW_MODEL_SCHNITTSTELLE = "Modell";
+	private static final String VIEW_MODEL_LAYOUTINFORMATIONEN = "Layout";
 
 	/**
 	 * Constructor
@@ -98,7 +100,7 @@ public class SourceWebTextViewPart extends BasePart {
 
 	private void onProblemsChange() {
 		browser.executeJavascript(
-				String.format("%s()", UPDATE_PROBLEMS_FUNCTION)); //$NON-NLS-1$
+				String.format("%s()", UPDATE_PROBLEMS_FUNCTION));
 	}
 
 	@Override
@@ -107,15 +109,15 @@ public class SourceWebTextViewPart extends BasePart {
 		browser = new FileWebBrowser(parent);
 		try {
 			browser.serveRootDirectory(Path.of(TEXT_VIEWER_PATH));
-			browser.serveFile(MODEL_PPXML, "text/plain", //$NON-NLS-1$
+			browser.serveFile(MODEL_PPXML, "text/plain",
 					session.getToolboxFile().getModelPath());
 			browser.serveUri(PROBLEMS_JSON,
 					SourceWebTextViewPart::serveProblems);
-			browser.serveFile(LAYOUT_XML, "text/plain", //$NON-NLS-1$
+			browser.serveFile(LAYOUT_XML, "text/plain",
 					session.getToolboxFile().getLayoutPath());
-			browser.serveUri("font", this::serveFont); //$NON-NLS-1$
+			browser.serveUri("font", this::serveFont);
 
-			browser.setToolboxUrl("index.html"); //$NON-NLS-1$
+			browser.setToolboxUrl("index.html");
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -143,7 +145,7 @@ public class SourceWebTextViewPart extends BasePart {
 		problems.forEach(problemContainer -> problemMessages
 				.addAll((List<ProblemMessage>) problemContainer));
 
-		response.setMimeType("application/json;charset=UTF-8"); //$NON-NLS-1$
+		response.setMimeType("application/json;charset=UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setResponseData(
 				new ObjectMapper().writerWithDefaultPrettyPrinter()
@@ -153,7 +155,7 @@ public class SourceWebTextViewPart extends BasePart {
 
 	@SuppressWarnings("resource") // Stream is closed by the browser
 	private void serveFont(final Response response) throws IOException {
-		response.setMimeType("application/x-font-ttf"); //$NON-NLS-1$
+		response.setMimeType("application/x-font-ttf");
 		response.setResponseData(
 				Files.newInputStream(fontService.getSiteplanFont()));
 	}
@@ -167,16 +169,16 @@ public class SourceWebTextViewPart extends BasePart {
 		} else if (objectGuid != null && !objectGuid.isEmpty()) {
 			this.jumpToGUID(objectGuid);
 		} else {
-			LOGGER.warn("Invalid jump to line event ignored."); //$NON-NLS-1$
+			LOGGER.warn("Invalid jump to line event ignored.");
 		}
 	}
 
 	private void jumpToLine(final Pair<ObjectState, Integer> lineNumber) {
 		String modelName = ""; //$NON-NLS-1$
 		if (lineNumber.getFirst() == ObjectState.LAYOUT) {
-			modelName = VIEW_MODEL_LAYOUTINFORMATIONEN;
+			modelName = ContainerContent.ATTACHMENT.getLiteral();
 		} else {
-			modelName = VIEW_MODEL_SCHNITTSTELLE;
+			modelName = ContainerContent.MODEL.getLiteral();
 		}
 		@SuppressWarnings("boxing")
 		final String js = String.format("""
@@ -205,18 +207,18 @@ public class SourceWebTextViewPart extends BasePart {
 			tableType = getModelSession().getNature().getDefaultContainer()
 					.getTableTypeForTables();
 		}
-		String tableState = ""; //$NON-NLS-1$
+		String tableState = "";
 		switch (tableType) {
 		case INITIAL: {
-			tableState = "initial"; //$NON-NLS-1$
+			tableState = "initial";
 			break;
 		}
 		case FINAL: {
-			tableState = "final"; //$NON-NLS-1$
+			tableState = "final";
 			break;
 		}
 		case DIFF: {
-			tableState = "diff"; //$NON-NLS-1$
+			tableState = "diff";
 			break;
 		}
 		default:
