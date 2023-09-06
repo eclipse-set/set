@@ -88,8 +88,6 @@ public class SourceWebTextViewPart extends BasePart {
 	private static final String PROBLEMS_JSON = "problems.json";
 	private static final String MODEL_PPXML = "model.ppxml";
 	private static final String LAYOUT_XML = "layout.xml";
-	private static final String VIEW_MODEL_SCHNITTSTELLE = "Modell";
-	private static final String VIEW_MODEL_LAYOUTINFORMATIONEN = "Layout";
 
 	/**
 	 * Constructor
