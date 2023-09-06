@@ -171,7 +171,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						].filter(Punkt_Objekt)
 						return getDistanceOfPoinst(topGraph, markantePunkts,
 							signal)
-					].filter[it !== 0.0].map[it.toString]
+					]
 				],
 				null,
 				ITERABLE_FILLING_SEPARATOR
@@ -264,7 +264,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// J: Sskp.Gleismagnete.Abstand_GM_2000
-			// TODO
 			fillSwitch(
 				instance,
 				cols.getColumn(Abstand_GM_2000),
@@ -288,7 +287,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						].map [
 							AgateRounding.roundDown(
 								topGraph.getPointsDistance(pzb, it).min)
-						].filter[it === 0]
+						].filter[it !== 0]
 						return distance.map[it.toString]
 					],
 					ITERABLE_FILLING_SEPARATOR,
@@ -581,6 +580,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				Math.min(current, topGraph.getPointsDistance(p1, p2).min)
 			]
 		)
+		if (distance.doubleValue === 0) {
+			return ""
+		}
 		return AgateRounding.roundDown(distance).toString
 	}
 
