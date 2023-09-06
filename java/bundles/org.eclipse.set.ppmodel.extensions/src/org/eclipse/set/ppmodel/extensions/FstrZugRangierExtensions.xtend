@@ -51,6 +51,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
 import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Art_TypeClass
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -229,8 +230,9 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.toSet
 	}
 
-	def static String getZugFstrBezeichnung(Fstr_Zug_Rangier fstrZugRangier) {
-		if (!fstrZugRangier.isZOrGz) {
+	def static String getZugFstrBezeichnung(Fstr_Zug_Rangier fstrZugRangier,
+		(Fstr_Zug_Art_TypeClass)=>boolean condition) {
+		if (!condition.apply(fstrZugRangier?.fstrZug?.fstrZugArt)) {
 			return null
 		}
 
@@ -309,15 +311,20 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return '''«fahrweg?.start?.bezeichnung?.bezeichnungTabelle?.wert»/«fahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»'''
 	}
 
-	def static boolean isZOrGz(Fstr_Zug_Rangier fstrZugRangier) {
-		val rangierArt = fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.
-			literal
+	def static boolean isZOrGz(Fstr_Zug_Art_TypeClass fstrZugArt) {
+		val rangierArt = fstrZugArt?.wert?.literal
 		return rangierArt.matches(
 			"Z.*"
 		) || rangierArt.matches(
 			"GZ.*"
 		)
+	}
 
+	def static boolean isZ(
+		Fstr_Zug_Art_TypeClass typeClazz
+	) {
+		val lit = typeClazz?.wert?.literal
+		return lit !== null && lit.matches("Z.*")
 	}
 
 	private def static dispatch int getVmax(Object object, Fstr_Fahrweg fw) {
