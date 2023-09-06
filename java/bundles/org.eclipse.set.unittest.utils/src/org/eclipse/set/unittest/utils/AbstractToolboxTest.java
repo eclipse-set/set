@@ -8,6 +8,9 @@
  */
 package org.eclipse.set.unittest.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -15,16 +18,24 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
+import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
+import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
@@ -52,7 +63,14 @@ public class AbstractToolboxTest {
 	public static String PPHN_1_10_0_1_20220517_PPXML = getModel(
 			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.ppxml"); //$NON-NLS-1$
 
-	protected static PlanPro_Schnittstelle planProSchnittstelle;
+	private static final String UNZIP_DIR = "res/toolbox"; //$NON-NLS-1$
+	private static final String CONTENT_MODEL = "content"; //$NON-NLS-1$
+	private static final String LAYOUT_MODEL = "layout"; //$NON-NLS-1$
+	private static final String PLANPRO_ZIPPED_EXTENSION = "planpro"; //$NON-NLS-1$
+	private static final String PLANPRO_PLAIN_EXTENSION = "ppxml"; //$NON-NLS-1$
+
+	protected PlanPro_Schnittstelle planProSchnittstelle;
+	private ResourceSet resourceSet;
 
 	protected static String getModel(final Class<?> clazz, final String name) {
 		final URL res = clazz.getClassLoader().getResource(name);
@@ -88,29 +106,28 @@ public class AbstractToolboxTest {
 	 * 
 	 * @param filename
 	 *            The path to the .ppxml
+	 * @throws IOException
 	 */
-	protected void givenPlanProFile(final String filename) {
+	protected void givenPlanProFile(final String filename) throws IOException {
 		initPackages();
-		final ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(PlanProPackage.eNS_URI,
 				PlanProPackage.eINSTANCE);
 		resourceSet.getPackageRegistry().put(
 				Signalbegriffe_Ril_301Package.eNS_URI,
 				Signalbegriffe_Ril_301Package.eINSTANCE);
-
-		final XMLResource resource = (XMLResource) resourceSet
-				.createResource(URI.createFileURI(filename), "ppxml"); //$NON-NLS-1$
-		try {
-			resource.load(resourceSet.getLoadOptions());
-		} catch (final Exception e) {
-			/* do nothing */
-		}
-		final EObject root = resource.getContents().get(0);
-		if (root instanceof final org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot docRoot) {
-			planProSchnittstelle = docRoot.getPlanProSchnittstelle();
+		if (isZippedPlanProFile(filename)) {
+			loadZippedPlanProFile(filename);
 		} else {
-			throw new IllegalArgumentException(
-					"Resurce contains no PlanPro model with the requested version."); //$NON-NLS-1$
+			final URI testFileURI = URI.createFileURI(filename);
+			final XMLResource resource = loadResource(testFileURI);
+			if (!resource.getContents().isEmpty() && resource.getContents()
+					.get(0) instanceof final DocumentRoot docRoot) {
+				planProSchnittstelle = docRoot.getPlanProSchnittstelle();
+			} else {
+				throw new IllegalArgumentException(
+						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
+			}
 		}
 	}
 
@@ -145,6 +162,105 @@ public class AbstractToolboxTest {
 				.setToolboxModelServiceProvider(() -> toolboxModelService);
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
 				.put("ppxml", resourceFactory); //$NON-NLS-1$
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", //$NON-NLS-1$
+				resourceFactory);
 
 	}
+
+	private void loadZippedPlanProFile(final String filePath)
+			throws IOException {
+		final List<XMLResource> listResource = new ArrayList<>();
+		unzip(filePath);
+		final URI contentURI = URI
+				.createFileURI(getModelPath(CONTENT_MODEL).toString());
+		listResource.add(loadResource(contentURI));
+
+		final Path layoutModelPath = getModelPath(LAYOUT_MODEL);
+		if (Files.exists(layoutModelPath)) {
+			final URI layout = URI.createFileURI(layoutModelPath.toString());
+			listResource.add(loadResource(layout));
+		}
+
+		listResource.forEach(resource -> {
+			final EObject root = resource.getContents().get(0);
+			if (root instanceof final DocumentRoot model) {
+				planProSchnittstelle = model.getPlanProSchnittstelle();
+			} else {
+				throw new IllegalArgumentException(
+						"Resource contains no PlanPro model with the requested version."); //$NON-NLS-1$
+			}
+		});
+	}
+
+	private static void unzip(final String filePath) throws IOException {
+		final Path unzipDir = Paths.get(UNZIP_DIR);
+		Files.createDirectories(unzipDir);
+		// unzip the archive
+		final byte[] buffer = new byte[1024];
+		try (final ZipInputStream zipIn = new ZipInputStream(
+				new FileInputStream(new File(filePath)))) {
+			for (ZipEntry zipEntry = zipIn
+					.getNextEntry(); zipEntry != null; zipEntry = zipIn
+							.getNextEntry()) {
+				final File newFile = newFile(unzipDir, zipEntry);
+				if (zipEntry.getName().endsWith("/")) { //$NON-NLS-1$
+					newFile.mkdirs();
+				} else {
+					// Create parent directories if not present
+					newFile.getParentFile().mkdirs();
+
+					// Extract the file
+					try (final FileOutputStream fos = new FileOutputStream(
+							newFile)) {
+						int len;
+						while ((len = zipIn.read(buffer)) > 0) {
+							fos.write(buffer, 0, len);
+						}
+					}
+				}
+			}
+			zipIn.closeEntry();
+		}
+	}
+
+	private static File newFile(final Path dir, final ZipEntry entry)
+			throws IOException {
+		final File file = new File(dir.toString(), entry.getName());
+
+		// test file position against dir
+		final String filePath = file.getCanonicalPath();
+		final String dirPath = dir.toFile().getCanonicalPath() + File.separator;
+		if (filePath.startsWith(dirPath)) {
+			return file;
+		}
+		throw new IOException(
+				String.format("%s is outside of %s", filePath, dirPath)); //$NON-NLS-1$
+	}
+
+	private static boolean isZippedPlanProFile(final String filePath) {
+		final List<String> split = Arrays.asList(filePath.split("\\.")); //$NON-NLS-1$
+		if (split.size() > 1) {
+			return split.get(split.size() - 1).equals(PLANPRO_ZIPPED_EXTENSION);
+		}
+		return false;
+	}
+
+	private static Path getModelPath(final String modelName) {
+		return Paths.get(UNZIP_DIR, modelName + ".xml"); //$NON-NLS-1$
+	}
+
+	private XMLResource loadResource(final URI resourceURI) throws IOException {
+		final XMLResource resource = (XMLResource) resourceSet
+				.createResource(resourceURI);
+		try {
+			resource.load(null);
+		} catch (final Exception e) {
+			if (!(e.getCause() instanceof FeatureNotFoundException
+					|| e.getCause() instanceof IllegalValueException)) {
+				throw e;
+			}
+		}
+		return resource;
+	}
+
 }

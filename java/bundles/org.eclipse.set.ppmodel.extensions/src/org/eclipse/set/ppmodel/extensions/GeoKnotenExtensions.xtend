@@ -26,7 +26,9 @@ import static org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
 
 /**
  * This class extends {@link GEO_Knoten}.
@@ -47,7 +49,8 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		GEO_Knoten knoten
 	) {
 		return knoten.container.GEOPunkt.filter [
-			IDGEOKnoten !== null && IDGEOKnoten.identitaet.wert == knoten.identitaet.wert
+			IDGEOKnoten !== null &&
+				IDGEOKnoten.identitaet.wert == knoten.identitaet.wert
 		].toList
 	}
 
@@ -88,11 +91,20 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 */
 	def static Coordinate getCoordinate(GEO_Knoten geoKnoten) {
 		val List<GEO_Punkt> geoPunkte = geoKnoten.geoPunkte
+		geoPunkte.getGeoPunkt(geoKnoten)
 		val GEO_Punkt geoPunkt = getGeoPunkt(geoPunkte, geoKnoten);
 		return geoPunkt.coordinate
 	}
 
-	private def static GEO_Punkt getGeoPunkt(List<GEO_Punkt> geoPunkte,
+	def static ENUMGEOKoordinatensystem getCRS(GEO_Knoten geoKnoten) {
+		val crs = geoKnoten.geoPunkte.map [
+			GEOPunktAllg?.GEOKoordinatensystem?.wert
+		].toSet.uniqueOrNull
+		return crs !== null ? crs : ENUMGEOKoordinatensystem.
+			ENUMGEO_KOORDINATENSYSTEM_SONSTIGE
+	}
+
+	def static GEO_Punkt getGeoPunkt(List<GEO_Punkt> geoPunkte,
 		GEO_Knoten geoKnoten) {
 		if (geoPunkte.size() != 1) {
 			throw new GeometryException(
