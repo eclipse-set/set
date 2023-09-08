@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+- package-ecosystem: npm
+  directory: "/web/pdf"
+  schedule:
+    interval: daily
+- package-ecosystem: npm
+  directory: "/web/textviewer"
+  schedule:
+    interval: daily    
