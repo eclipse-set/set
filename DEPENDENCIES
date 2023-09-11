@@ -188,7 +188,7 @@ npm/npmjs/-/commander/8.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/compressible/2.0.18, MIT, approved, clearlydefined
 npm/npmjs/-/compression/1.7.4, MIT, approved, #1975
 npm/npmjs/-/concat-map/0.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/connect-history-api-fallback/1.6.0, MIT, approved, clearlydefined
+npm/npmjs/-/connect-history-api-fallback/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/content-disposition/0.5.4, MIT, approved, clearlydefined
 npm/npmjs/-/content-type/1.0.4, MIT, approved, #6950
 npm/npmjs/-/cookie-signature/1.0.6, MIT, approved, clearlydefined
@@ -420,6 +420,7 @@ npm/npmjs/-/json5/2.2.1, MIT, approved, #2126
 npm/npmjs/-/json5/2.2.1, MIT, approved, #2126
 npm/npmjs/-/kind-of/6.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/kind-of/6.0.3, MIT, approved, clearlydefined
+npm/npmjs/-/launch-editor/2.6.0, MIT, approved, clearlydefined
 npm/npmjs/-/levn/0.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/loader-runner/4.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/loader-runner/4.3.0, MIT, approved, clearlydefined
@@ -571,7 +572,7 @@ npm/npmjs/-/schema-utils/3.3.0, MIT, approved, #8952
 npm/npmjs/-/schema-utils/4.0.0, MIT, approved, #8213
 npm/npmjs/-/schema-utils/4.0.0, MIT, approved, #8213
 npm/npmjs/-/select-hose/2.0.0, MIT, approved, #145
-npm/npmjs/-/selfsigned/2.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/selfsigned/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.3.8, ISC, approved, clearlydefined
 npm/npmjs/-/send/0.18.0, MIT, approved, clearlydefined
@@ -587,6 +588,7 @@ npm/npmjs/-/shebang-command/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-command/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-regex/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-regex/3.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/shell-quote/1.8.1, MIT, approved, #7044
 npm/npmjs/-/side-channel/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/signal-exit/3.0.7, ISC, approved, #5892
 npm/npmjs/-/slash/3.0.0, MIT, approved, clearlydefined
@@ -629,7 +631,7 @@ npm/npmjs/-/thunky/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/toidentifier/1.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/ts-loader/9.4.1, MIT AND ISC, approved, #5028
+npm/npmjs/-/ts-loader/9.4.4, MIT AND ISC, approved, #5028
 npm/npmjs/-/tsconfig-paths/3.14.2, MIT, approved, clearlydefined
 npm/npmjs/-/tslib/1.14.1, 0BSD, approved, clearlydefined
 npm/npmjs/-/tslib/2.4.0, 0BSD, approved, #4336
@@ -660,7 +662,7 @@ npm/npmjs/-/web-streams-polyfill/3.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-cli/4.10.0, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-cli/5.1.4, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-dev-middleware/5.3.3, MIT, approved, clearlydefined
-npm/npmjs/-/webpack-dev-server/4.9.2, MIT, approved, clearlydefined
+npm/npmjs/-/webpack-dev-server/4.15.1, MIT, approved, #8400
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #2407
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #2407
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
@@ -676,7 +678,7 @@ npm/npmjs/-/which/2.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/wildcard/2.0.0, MIT, approved, #8274
 npm/npmjs/-/wildcard/2.0.0, MIT, approved, #8274
 npm/npmjs/-/wrappy/1.0.2, ISC, approved, clearlydefined
-npm/npmjs/-/ws/8.8.0, MIT, approved, clearlydefined
+npm/npmjs/-/ws/8.14.0, , restricted, clearlydefined
 npm/npmjs/-/yallist/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/yocto-queue/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/@aashutoshrathi/word-wrap/1.2.6, MIT, approved, #9212
@@ -735,7 +737,7 @@ npm/npmjs/@types/semver/7.3.13, MIT, approved, #4668
 npm/npmjs/@types/serve-index/1.9.1, MIT, approved, clearlydefined
 npm/npmjs/@types/serve-static/1.13.10, MIT, approved, clearlydefined
 npm/npmjs/@types/sockjs/0.3.33, MIT, approved, clearlydefined
-npm/npmjs/@types/ws/8.5.3, MIT, approved, #6016
+npm/npmjs/@types/ws/8.5.5, MIT, approved, #6016
 npm/npmjs/@typescript-eslint/eslint-plugin/5.44.0, MIT, approved, #5029
 npm/npmjs/@typescript-eslint/parser/5.62.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/5.44.0, MIT, approved, clearlydefined
@@ -1111,17 +1113,17 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.services/3.11.100.v20221006-1531, EP
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.util/3.7.100.v20220615-1601, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi/3.18.200.v20221116-1324, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.plugin/org.eclipse.rcp/4.26.0.v20221123-1800, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.1.0.202309080952, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.1.0.202309080952, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.1.0.202309080952, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.edit/2.1.0.202309080953, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.editor/2.1.0.202309080953, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001/2.1.0.202309080953, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice/2.1.0.202309080953, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/2.1.0.202309080956, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.editor/2.1.0.202309080956, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/2.1.0.202309080956, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/2.1.0.202309080956, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.1.0.202309111016, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.1.0.202309111016, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.1.0.202309111016, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.edit/2.1.0.202309110903, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.editor/2.1.0.202309110903, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001/2.1.0.202309110903, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice/2.1.0.202309110903, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/2.1.0.202309110923, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.editor/2.1.0.202309110923, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/2.1.0.202309110923, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/2.1.0.202309110923, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.win32.win32.x86_64/3.122.0.v20221123-2302, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt/3.122.0.v20221123-2302, EPL-2.0, approved, eclipse.platform
