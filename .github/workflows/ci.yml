@@ -2,7 +2,7 @@
 
 name: Build SET
 
-on: push
+on: [push, repository_dispatch]
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -11,7 +11,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Asciidoctor & Hugo
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
@@ -30,7 +30,7 @@ jobs:
   textviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         run: |
           npm ci
@@ -46,7 +46,7 @@ jobs:
   pdfviewer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v2.16.105/pdfjs-2.16.105-dist.zip
@@ -72,7 +72,7 @@ jobs:
       checks: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -107,7 +107,7 @@ jobs:
           path: web/about/dist          
 
       - name: Build
-        run: mvn -T 1.5C -B clean verify --settings .github/settings.xml
+        run: mvn -T 1.5C -B -U clean verify --settings .github/settings.xml
 
       - name: Publish
         run: mvn -T 1.5C -B deploy --settings .github/settings.xml -DaltDeploymentRepository=set-github::https://maven.pkg.github.com/${{ github.repository }}
@@ -123,7 +123,7 @@ jobs:
           retention-days: 7
           
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@f0b5d2433f350eff587831d4ad22cb15aab75866 # v2.8
+        uses: EnricoMi/publish-unit-test-result-action@283dea176069279a9076e77b548668a8e4f0c31b # v2.9.0
         if: always()
         with:
           files: |

@@ -1,3 +1,4 @@
+
 /**
  * Copyright (c) 2022 DB Netz AG and others.
  *
@@ -16,6 +17,12 @@ export interface ProblemMessage {
   type: string
   message: string
   line: number
+  model: string
+}
+
+export enum TextFileModel {
+  MODEL = 'Modell',
+  LAYOUT = 'Layout'
 }
 
 /**
@@ -30,5 +37,19 @@ export class Model {
   async fetchProblems () {
     const response = await axios.get<ProblemMessage[]>('problems.json')
     return response.data
+  }
+
+  async fetchLayout () {
+    const response = await axios.get('layout.xml')
+    return response.data
+  }
+
+  async fetchFont () {
+    const response = await axios({
+      method: 'GET',
+      url: 'font',
+      responseType: 'blob'
+    })
+    return response
   }
 }

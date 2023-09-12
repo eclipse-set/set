@@ -65,7 +65,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 			return toolboxFile;
 		}
 		final PlanPro_Schnittstelle oldschnittstelle = PlanProSchnittstelleExtensions
-				.readFrom(toolboxFile.getResource());
+				.readFrom(toolboxFile.getPlanProResource());
 		final PlanPro_Schnittstelle newschnittstelle = EcoreUtil
 				.copy(oldschnittstelle);
 
@@ -85,7 +85,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 				.createDocumentRoot();
 		DocumentRootExtensions.fix(documentRoot);
 		documentRoot.setPlanProSchnittstelle(newschnittstelle);
-		newToolboxFile.getResource().getContents().add(documentRoot);
+		newToolboxFile.getPlanProResource().getContents().add(documentRoot);
 		newToolboxFile.setPath(newPath);
 		IDReferenceUtils.retargetIDReferences(oldschnittstelle,
 				newschnittstelle);

@@ -9,8 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.1</tycho-version>
-		<tycho-extras-version>4.0.1</tycho-extras-version>
+		<tycho-version>4.0.2</tycho-version>
 		<deploy-plugin-version>3.1.1</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
@@ -46,8 +45,7 @@
 		<module>java/bundles/org.eclipse.set.core.rcp.dialogService</module>
 
 		<module>java/bundles/org.eclipse.set.core.services</module>
-		<!-- TODO(1.10.0.1) Disabled as no test data is available -->
-		<!-- <module>java/bundles/org.eclipse.set.core.test</module> -->
+		<module>java/bundles/org.eclipse.set.core.test</module>
 		<module>java/bundles/org.eclipse.set.core</module>
 		<module>java/bundles/org.eclipse.set.emfforms</module>
 
@@ -141,7 +139,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.4</version>
+				<version>3.0.5</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 					<failOnError>false</failOnError>
@@ -184,7 +182,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>3.3.1</version>
 				<configuration>
 					<filesets>
 						<fileset>
@@ -235,12 +233,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>3.3.0</version>
 				<dependencies>
 					<dependency>
 						<groupId>com.puppycrawl.tools</groupId>
 						<artifactId>checkstyle</artifactId>
-						<version>10.7.0</version>
+						<version>10.12.3</version>
 					</dependency>
 				</dependencies>
 				<configuration>
@@ -302,7 +300,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-source-plugin</artifactId>
-				<version>${tycho-extras-version}</version>
+				<version>${tycho-version}</version>
 				<executions>
 					<execution>
 						<id>plugin-source</id>
@@ -491,4 +489,14 @@
 			<url>https://maven.pkg.github.com/eclipse-set/set</url>
 		</repository>
 	</distributionManagement>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>dash-licenses-snapshots</id>
+			<url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 </project>

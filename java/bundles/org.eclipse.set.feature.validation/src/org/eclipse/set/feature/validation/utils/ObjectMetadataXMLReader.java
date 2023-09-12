@@ -13,8 +13,10 @@ import java.nio.file.Path;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.validationreport.ObjectScope;
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.utils.xml.LineNumberXMLReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -40,6 +42,8 @@ public class ObjectMetadataXMLReader {
 	 * 
 	 * @param toolboxFile
 	 *            the ToolboxFile
+	 * @param docPath
+	 *            the path of document
 	 * @return The document
 	 * @throws ParserConfigurationException
 	 *             if the underlying LineNumberXMLReader throws
@@ -48,18 +52,20 @@ public class ObjectMetadataXMLReader {
 	 * @throws IOException
 	 *             if the underlying LineNumberXMLReader throws
 	 */
-	public static Document read(final ToolboxFile toolboxFile)
+	public static Document read(final ToolboxFile toolboxFile,
+			final Path docPath)
 			throws IOException, SAXException, ParserConfigurationException {
-		Document document = toolboxFile.getXMLDocument();
+		if (docPath == null) {
+			return null;
+		}
+		final String docName = PathExtensions.getBaseFileName(docPath);
+		Document document = toolboxFile.getXMLDocument(docName);
 		if (document == null) {
-			final Path path = toolboxFile.getFormat().isPlain()
-					? toolboxFile.getPath()
-					: toolboxFile.getModelPath();
-
 			final ObjectMetadataXMLReader reader = new ObjectMetadataXMLReader(
-					path);
+					docPath);
 			document = reader.read();
-			toolboxFile.setXMLDocument(document);
+			toolboxFile.setXMLDocument(PathExtensions.getBaseFileName(docPath),
+					document);
 		}
 		return document;
 	}
@@ -121,7 +127,7 @@ public class ObjectMetadataXMLReader {
 	 *            the node
 	 * @return the state of the object or null
 	 */
-	public static String getObjectState(final Node node) {
+	public static ObjectState getObjectState(final Node node) {
 		final ObjectMetadataXMLReader metadata = getMetadataReader(node);
 		return metadata.validationObjectStateProvider.getObjectState(node);
 	}

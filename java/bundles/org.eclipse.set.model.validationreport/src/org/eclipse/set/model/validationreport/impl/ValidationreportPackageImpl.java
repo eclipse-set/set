@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.FileInfo;
 import org.eclipse.set.model.validationreport.ObjectScope;
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
@@ -81,6 +82,13 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 	 * @generated
 	 */
 	private EEnum containerContentEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum objectStateEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -499,6 +507,16 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 	 * @generated
 	 */
 	@Override
+	public EEnum getObjectState() {
+		return objectStateEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public ValidationreportFactory getValidationreportFactory() {
 		return (ValidationreportFactory)getEFactoryInstance();
 	}
@@ -562,6 +580,7 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		validationSeverityEEnum = createEEnum(VALIDATION_SEVERITY);
 		objectScopeEEnum = createEEnum(OBJECT_SCOPE);
 		containerContentEEnum = createEEnum(CONTAINER_CONTENT);
+		objectStateEEnum = createEEnum(OBJECT_STATE);
 	}
 
 	/**
@@ -616,7 +635,7 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		initEAttribute(getValidationProblem_ObjectArt(), ecorePackage.getEString(), "objectArt", null, 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationProblem_AttributeName(), ecorePackage.getEString(), "attributeName", null, 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationProblem_ObjectScope(), this.getObjectScope(), "objectScope", "", 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getValidationProblem_ObjectState(), ecorePackage.getEString(), "objectState", "", 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getValidationProblem_ObjectState(), this.getObjectState(), "objectState", "", 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(versionInfoEClass, VersionInfo.class, "VersionInfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVersionInfo_PlanPro(), ecorePackage.getEString(), "planPro", null, 0, 1, VersionInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -645,6 +664,12 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		addEEnumLiteral(containerContentEEnum, ContainerContent.MODEL);
 		addEEnumLiteral(containerContentEEnum, ContainerContent.LAYOUT);
 		addEEnumLiteral(containerContentEEnum, ContainerContent.ATTACHMENT);
+
+		initEEnum(objectStateEEnum, ObjectState.class, "ObjectState");
+		addEEnumLiteral(objectStateEEnum, ObjectState.INITIAL);
+		addEEnumLiteral(objectStateEEnum, ObjectState.FINAL);
+		addEEnumLiteral(objectStateEEnum, ObjectState.LAYOUT);
+		addEEnumLiteral(objectStateEEnum, ObjectState.INFO);
 
 		// Create resource
 		createResource(eNS_URI);

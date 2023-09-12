@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.core.services.validation;
 
+import java.nio.file.Path;
 import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EObject;
@@ -68,15 +69,22 @@ public interface ValidationService {
 			ValidationResult result);
 
 	/**
-	 * @param toolboxFile
-	 *            the toolbox file
-	 * @param schemaDir
-	 *            the schema directory
+	 * @param sourcePath
+	 *            the path of source to validate
 	 * @param result
 	 *            the object collecting the validation results
 	 * 
 	 * @return the validation result
 	 */
-	ValidationResult xsdValidation(ToolboxFile toolboxFile,
-			ValidationResult result);
+	ValidationResult xsdValidation(Path sourcePath, ValidationResult result);
+
+	/**
+	 * @param result
+	 *            the validation result
+	 * @param toolboxFile
+	 *            the thoolbox file
+	 * @return the validation result
+	 */
+	ValidationResult validateSource(ValidationResult result,
+			ToolboxFile toolboxFile);
 }

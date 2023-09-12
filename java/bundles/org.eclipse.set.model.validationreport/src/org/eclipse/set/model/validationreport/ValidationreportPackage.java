@@ -461,6 +461,17 @@ public interface ValidationreportPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.validationreport.ObjectState <em>Object State</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.validationreport.ObjectState
+	 * @see org.eclipse.set.model.validationreport.impl.ValidationreportPackageImpl#getObjectState()
+	 * @generated
+	 */
+	int OBJECT_STATE = 7;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.validationreport.ValidationReport <em>Validation Report</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -839,6 +850,16 @@ public interface ValidationreportPackage extends EPackage {
 	EEnum getContainerContent();
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.set.model.validationreport.ObjectState <em>Object State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Object State</em>'.
+	 * @see org.eclipse.set.model.validationreport.ObjectState
+	 * @generated
+	 */
+	EEnum getObjectState();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1154,6 +1175,16 @@ public interface ValidationreportPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum CONTAINER_CONTENT = eINSTANCE.getContainerContent();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.validationreport.ObjectState <em>Object State</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.validationreport.ObjectState
+		 * @see org.eclipse.set.model.validationreport.impl.ValidationreportPackageImpl#getObjectState()
+		 * @generated
+		 */
+		EEnum OBJECT_STATE = eINSTANCE.getObjectState();
 
 	}
 

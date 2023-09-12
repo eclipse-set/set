@@ -156,27 +156,45 @@ public interface ToolboxFile {
 	Path getModelPath();
 
 	/**
+	 * Return the layout model path of the toolbox file. This may be the toolbox
+	 * file itself or a temporary content file on the file system. The returned
+	 * file is always a plain, uncompressed xml file.
+	 * 
+	 * @return the layout model path
+	 */
+	Path getLayoutPath();
+
+	/**
 	 * @return the path to the file
 	 */
 	Path getPath();
 
 	/**
-	 * @return the resource for the XML content
+	 * @return the planpro schnittstelle resources
 	 */
-	XMLResource getResource();
+	XMLResource getPlanProResource();
 
 	/**
+	 * @return the planpro layout resource
+	 */
+	XMLResource getLayoutResource();
+
+	/**
+	 * @param contentName
+	 *            name of document
 	 * @return DOM document with line number
 	 */
-	Document getXMLDocument();
+	Document getXMLDocument(String contentName);
 
 	/**
 	 * create DOM document
 	 * 
+	 * @param docName
+	 *            name of document
 	 * @param doc
 	 *            DOM document with line number
 	 */
-	void setXMLDocument(Document doc);
+	void setXMLDocument(String docName, Document doc);
 
 	/**
 	 * @return whether the toolbox file (true = detached) or the model (false =
@@ -203,7 +221,14 @@ public interface ToolboxFile {
 	 * @throws IOException
 	 *             if an I/O error has occurred
 	 */
-	void open() throws IOException;
+	void openModel() throws IOException;
+
+	/**
+	 * open layout infomartion from {@link #getLayoutPath()}
+	 * 
+	 * @throws IOException
+	 */
+	void openLayout() throws IOException;
 
 	/**
 	 * Saves the toolbox file.
@@ -238,5 +263,15 @@ public interface ToolboxFile {
 	 * 
 	 * @return the planpro model
 	 */
-	org.eclipse.set.model.model11001.PlanPro.DocumentRoot getSourceModel();
+	org.eclipse.set.model.model11001.PlanPro.DocumentRoot getPlanProSourceModel();
+
+	/**
+	 * Return the loaded PlanPro Layout model. Note that this model is *not* the
+	 * toolbox model and should only be used if access to the plain model is
+	 * required
+	 * 
+	 * @return the planpro layout model
+	 */
+	org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot getLayoutSourceModel();
+
 }

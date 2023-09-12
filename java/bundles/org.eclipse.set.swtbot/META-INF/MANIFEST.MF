@@ -40,9 +40,11 @@ Import-Package: javax.inject,
  org.eclipse.set.utils.table,
  org.eclipse.ui,
  org.junit,
- org.slf4j,
  org.junit.jupiter.api,
- org.junit.jupiter.api.function
+ org.junit.jupiter.api.function,
+ org.junit.jupiter.params,
+ org.junit.jupiter.params.provider,
+ org.slf4j
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  test_res/table_reference/,

@@ -24,6 +24,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
+import org.eclipse.set.toolboxmodel.Layoutinformationen.LayoutinformationenPackage;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
@@ -78,11 +79,15 @@ public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 		testee.getEditingDomain().getResourceSet().getPackageRegistry().put(
 				Signalbegriffe_Ril_301Package.eNS_URI,
 				Signalbegriffe_Ril_301Package.eINSTANCE);
+		testee.getEditingDomain().getResourceSet().getPackageRegistry().put(
+				LayoutinformationenPackage.eNS_URI,
+				LayoutinformationenPackage.eINSTANCE);
 	}
 
 	protected void thenExpectContentsExists(final boolean exists) {
-		assertNotNull(testee.getResource());
-		assertTrue(testee.getResource().getContents().isEmpty() != exists);
+		assertNotNull(testee.getPlanProResource());
+		assertTrue(
+				testee.getPlanProResource().getContents().isEmpty() != exists);
 		assertTrue(testee.getEditingDomain().getResourceSet().getResources()
 				.isEmpty() != exists);
 	}
@@ -98,13 +103,18 @@ public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 
 	protected void whenOpen() throws IOException {
 		assertNotNull(testee);
-		testee.open();
+		testee.openModel();
+		if (testee.getLayoutPath() != null
+				&& testee.getLayoutPath().toFile().exists()) {
+			testee.openLayout();
+		}
 	}
 
 	protected void whenOpenAndAutoclose(final ToolboxFileRole role)
 			throws IOException {
 		try (ToolboxFileAC file = new ToolboxFileAC(createToolboxFile(role))) {
-			file.get().open();
+			file.get().openModel();
+			file.get().openLayout();
 		}
 	}
 }

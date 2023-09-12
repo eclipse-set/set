@@ -12,6 +12,7 @@ import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.set.model.validationreport.ObjectScope
+import org.eclipse.set.model.validationreport.ObjectState
 
 /** 
  * Implementation of {@link CustomValidationProblem} for nil test.
@@ -24,7 +25,7 @@ class CustomValidationProblemImpl implements CustomValidationProblem {
 	new() {
 	}
 
-	new(String message, ValidationSeverity severity, String type, String objectArt, ObjectScope objectScope, String objectState) {
+	new(String message, ValidationSeverity severity, String type, String objectArt, ObjectScope objectScope, ObjectState objectState) {
 		setMessage(message)
 		setSeverity(severity)
 		setType(type)
@@ -39,6 +40,6 @@ class CustomValidationProblemImpl implements CustomValidationProblem {
 	String type
 	String objectArt
 	ObjectScope objectScope
-	String objectState
+	ObjectState objectState
 	String attributeName
 }

@@ -18,6 +18,12 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
+	<xsl:template match="StringContent[starts-with(.,'&#x25a1;')]">
+		<fo:block font-family="Arial">
+			<xsl:value-of select="." />
+		</fo:block>
+	</xsl:template>
+
 	<xsl:template match="StringContent[starts-with(.,'Error:')]" priority="1">
 		<fo:block>
 			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="pictures/warning_black.svg" fox:alt-text="Error"/>
@@ -60,6 +66,14 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
+	<xsl:template match="OldValue[starts-with(.,'&#x25a1;')]">
+		<fo:block>
+			<fo:inline font-family="Arial" background-color="yellow" text-decoration="line-through">
+				<xsl:value-of select="." />
+			</fo:inline>
+		</fo:block>
+	</xsl:template>
+
 	<xsl:template match="OldValue[starts-with(.,'Error:')]" priority="1">
 		<fo:block>
 			<fo:inline>
@@ -79,6 +93,14 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="NewValue">
 		<fo:block>
 			<fo:inline color="#cd0000">
+				<xsl:value-of select="." />
+			</fo:inline>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="NewValue[starts-with(.,'&#x25a1;')]">
+		<fo:block>
+			<fo:inline font-family="Arial" color="#cd0000">
 				<xsl:value-of select="." />
 			</fo:inline>
 		</fo:block>
@@ -121,7 +143,7 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="MultiColorValue">
 		<xsl:variable name="format" select="." />
 		<xsl:variable name="value" select="@multicolorValue" />
-                <!--IMPROVE: The order of multi color content shouldn't static-->
+		<!--IMPROVE: The order of multi color content shouldn't static-->
 		<fo:block>
 
 			<fo:inline background-color="yellow">

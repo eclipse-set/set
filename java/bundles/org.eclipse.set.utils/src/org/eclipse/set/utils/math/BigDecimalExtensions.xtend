@@ -92,7 +92,7 @@ class BigDecimalExtensions {
 		}
 		return null
 	}
-
+  
 	/**
 	 * @param value the big decimal to multiply
 	 * @param multiplyValue the multiply value
@@ -117,5 +117,12 @@ class BigDecimalExtensions {
 			return value.divide(divideValue.toBigDecimal)
 		}
 		return null
+
+	
+	static def double toDouble(BigDecimal value) {
+		if (value === null) {
+			return 0.0
+		}
+		return value.doubleValue
 	}
 }

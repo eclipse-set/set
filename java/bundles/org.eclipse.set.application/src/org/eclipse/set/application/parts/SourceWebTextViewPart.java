@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.application.parts;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ProblemMessage;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
@@ -27,6 +30,8 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.browser.RequestHandler.Request;
 import org.eclipse.set.browser.RequestHandler.Response;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.font.FontService;
+import org.eclipse.set.model.validationreport.ObjectState;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.FileWebBrowser;
@@ -55,6 +60,8 @@ public class SourceWebTextViewPart extends BasePart {
 	private static final String JUMP_TO_GUID_FUNCTION = "window.planproJumpToGuid"; //$NON-NLS-1$
 	private static final String UPDATE_PROBLEMS_FUNCTION = "window.planproUpdateProblems"; //$NON-NLS-1$
 
+	private static final String SWITCH_MODEL_VIEW_FUNCTION = "window.planproSwitchModel"; //$NON-NLS-1$
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(SourceWebTextViewPart.class);
 
@@ -68,6 +75,9 @@ public class SourceWebTextViewPart extends BasePart {
 	@Translation
 	org.eclipse.set.utils.Messages utilMessages;
 
+	@Inject
+	FontService fontService;
+
 	private FileWebBrowser browser;
 	private EventRegistration eventRegistration;
 
@@ -75,6 +85,9 @@ public class SourceWebTextViewPart extends BasePart {
 	private static final String TEXT_VIEWER_PATH = "./web/textviewer"; //$NON-NLS-1$
 	private static final String PROBLEMS_JSON = "problems.json"; //$NON-NLS-1$
 	private static final String MODEL_PPXML = "model.ppxml"; //$NON-NLS-1$
+	private static final String LAYOUT_XML = "layout.xml"; //$NON-NLS-1$
+	private static final String VIEW_MODEL_SCHNITTSTELLE = "Modell";//$NON-NLS-1$
+	private static final String VIEW_MODEL_LAYOUTINFORMATIONEN = "Layout";//$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -98,6 +111,10 @@ public class SourceWebTextViewPart extends BasePart {
 					session.getToolboxFile().getModelPath());
 			browser.serveUri(PROBLEMS_JSON,
 					SourceWebTextViewPart::serveProblems);
+			browser.serveFile(LAYOUT_XML, "text/plain", //$NON-NLS-1$
+					session.getToolboxFile().getLayoutPath());
+			browser.serveUri("font", this::serveFont); //$NON-NLS-1$
+
 			browser.setToolboxUrl("index.html"); //$NON-NLS-1$
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
@@ -134,11 +151,18 @@ public class SourceWebTextViewPart extends BasePart {
 
 	}
 
+	@SuppressWarnings("resource") // Stream is closed by the browser
+	private void serveFont(final Response response) throws IOException {
+		response.setMimeType("application/x-font-ttf"); //$NON-NLS-1$
+		response.setResponseData(
+				Files.newInputStream(fontService.getSiteplanFont()));
+	}
+
 	private void handleJumpToSourceLineEvent(
 			final JumpToSourceLineEvent event) {
-		final int lineNumber = event.getLineNumber();
+		final Pair<ObjectState, Integer> lineNumber = event.getLineNumber();
 		final String objectGuid = event.getObjectGuid();
-		if (lineNumber != -1) {
+		if (lineNumber.getSecond().intValue() != -1) {
 			this.jumpToLine(lineNumber);
 		} else if (objectGuid != null && !objectGuid.isEmpty()) {
 			this.jumpToGUID(objectGuid);
@@ -147,12 +171,21 @@ public class SourceWebTextViewPart extends BasePart {
 		}
 	}
 
-	@SuppressWarnings("boxing")
-	private void jumpToLine(final int lineNumber) {
+	private void jumpToLine(final Pair<ObjectState, Integer> lineNumber) {
+		String modelName = ""; //$NON-NLS-1$
+		if (lineNumber.getFirst() == ObjectState.LAYOUT) {
+			modelName = VIEW_MODEL_LAYOUTINFORMATIONEN;
+		} else {
+			modelName = VIEW_MODEL_SCHNITTSTELLE;
+		}
+		@SuppressWarnings("boxing")
 		final String js = String.format("""
 				{
 					let intervalId = 0
 					const jumpToLineWrapper = () => {
+						if(%s) {
+							%s('%s')
+						}
 						if(%s) {
 							%s(%d);
 							clearInterval(intervalId);
@@ -160,7 +193,9 @@ public class SourceWebTextViewPart extends BasePart {
 					}
 					intervalId = setInterval(jumpToLineWrapper, 100);
 				}
-				""", JUMP_TO_LINE_FUNCTION, JUMP_TO_LINE_FUNCTION, lineNumber);
+				""", SWITCH_MODEL_VIEW_FUNCTION, SWITCH_MODEL_VIEW_FUNCTION,
+				modelName, JUMP_TO_LINE_FUNCTION, JUMP_TO_LINE_FUNCTION,
+				lineNumber.getSecond().intValue());
 		browser.executeJavascript(js);
 	}
 

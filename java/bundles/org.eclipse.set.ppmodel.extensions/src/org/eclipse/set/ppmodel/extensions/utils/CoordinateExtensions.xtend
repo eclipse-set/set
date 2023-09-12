@@ -8,7 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
 import org.locationtech.jts.geom.Coordinate
+import org.locationtech.proj4j.CRSFactory
+import org.locationtech.proj4j.CoordinateReferenceSystem
+import org.locationtech.proj4j.CoordinateTransformFactory
+import org.locationtech.proj4j.ProjCoordinate
 
 /**
  * Extensions for Geotools Coordinates
@@ -16,6 +21,11 @@ import org.locationtech.jts.geom.Coordinate
  * @author Stuecker
  */
 class CoordinateExtensions {
+	public static String CRS_CR0_PARAMETER = "+proj=tmerc +lat_0=0 +lon_0=6  +k=1 +x_0=2500000 +y_0=0 +ellps=bessel +towgs84=598.1,73.7,418.2,0.202,0.045,-2.455,6.7 +units=m +no_defs"
+	public static String CRS_DR0_PARAMETER = "+proj=tmerc +lat_0=0 +lon_0=9  +k=1 +x_0=3500000 +y_0=0 +ellps=bessel +towgs84=598.1,73.7,418.2,0.202,0.045,-2.455,6.7 +units=m +no_defs"
+	public static String CRS_ERO_PARAMETER = "+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +towgs84=598.1,73.7,418.2,0.202,0.045,-2.455,6.7 +units=m +no_defs"
+	public static String CRS_FRO_PARAMETER = "+proj=tmerc +lat_0=0 +lon_0=15 +k=1 +x_0=5500000 +y_0=0 +ellps=bessel +towgs84=598.1,73.7,418.2,0.202,0.045,-2.455,6.7 +units=m +no_defs"
+
 	/**
 	 * Rotates a coordinate around another coordinate according to an angle in 2D
 	 * 
@@ -46,7 +56,8 @@ class CoordinateExtensions {
 	 * @param angle the angle in radians to rotate by
 	 * @return a rotated coordinate
 	 */
-	def static Coordinate rotateAroundOrigin(Coordinate coordinate, double angle) {
+	def static Coordinate rotateAroundOrigin(Coordinate coordinate,
+		double angle) {
 		return coordinate.rotateAroundPoint(angle, new Coordinate(0, 0, 0))
 	}
 
@@ -84,5 +95,62 @@ class CoordinateExtensions {
 		val dx = origin.x - coordinate.x
 		val dy = origin.y - coordinate.y
 		return Math.atan2(dy, dx)
+	}
+
+	/**
+	 * Transform coordinate into another CRS
+	 * @param originCoor the coordinate to transform
+	 * @param source the source CRS
+	 * @param target the target CRS
+	 * @return the coordinate in target CRS
+	 */
+	def static Coordinate transformCRS(Coordinate originCoor,
+		ENUMGEOKoordinatensystem source, ENUMGEOKoordinatensystem target) {
+		transformCRS(originCoor.x.doubleValue, originCoor.y.doubleValue, source,
+			target)
+	}
+
+	/**
+	 * Transform coordinate into another CRS
+	 * @param x the x-coordinate to transform
+	 * @param y the y-coordinate to transform
+	 * @param source the source CRS
+	 * @param target the target CRS
+	 * @return the coordinate in target CRS
+	 */
+	def static Coordinate transformCRS(double x, double y,
+		ENUMGEOKoordinatensystem source, ENUMGEOKoordinatensystem target) {
+		val sourceCRS = source.createCRS
+		val targetCRS = target.createCRS
+		if (sourceCRS === null || targetCRS === null) {
+			return new Coordinate(x, y)
+		}
+		val transformFactory = new CoordinateTransformFactory()
+		val targetCoor = new ProjCoordinate()
+		transformFactory.createTransform(sourceCRS, targetCRS).transform(
+			new ProjCoordinate(x, y), targetCoor)
+		return new Coordinate(targetCoor.x, targetCoor.y)
+
+	}
+
+	private def static CoordinateReferenceSystem createCRS(
+		ENUMGEOKoordinatensystem crs) {
+		val crsFactory = new CRSFactory()
+		switch (crs) {
+			case ENUMGEO_KOORDINATENSYSTEM_CR0:
+				return crsFactory.createFromParameters(crs.literal,
+					CRS_CR0_PARAMETER)
+			case ENUMGEO_KOORDINATENSYSTEM_DR0:
+				return crsFactory.createFromParameters(crs.literal,
+					CRS_DR0_PARAMETER)
+			case ENUMGEO_KOORDINATENSYSTEM_ER0:
+				return crsFactory.createFromParameters(crs.literal,
+					CRS_ERO_PARAMETER)
+			case ENUMGEO_KOORDINATENSYSTEM_FR0:
+				return crsFactory.createFromParameters(crs.literal,
+					CRS_FRO_PARAMETER)
+			default:
+				return null
+		}
 	}
 }

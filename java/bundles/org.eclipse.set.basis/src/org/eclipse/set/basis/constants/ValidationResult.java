@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.exceptions.CustomValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.xml.sax.SAXParseException;
@@ -46,6 +47,26 @@ public class ValidationResult {
 		 * The mode is valid.
 		 */
 		VALID
+	}
+
+	private final Class<? extends EObject> validatedSourceClass;
+
+	/**
+	 * @return class of validated object
+	 */
+	public Class<? extends EObject> getValidatedSourceClass() {
+		return validatedSourceClass;
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param validatedSourceClass
+	 *            class of validated object
+	 */
+	public ValidationResult(
+			final Class<? extends EObject> validatedSourceClass) {
+		this.validatedSourceClass = validatedSourceClass;
 	}
 
 	private final List<CustomValidationProblem> customProblems = Lists

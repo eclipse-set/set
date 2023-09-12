@@ -92,16 +92,17 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 			return null;
 		}
 
-		final ValidationResult validationResult = modelSession
-				.getValidationResult();
-		final Outcome validationOutcome = validationResult.getOutcome();
+		final Outcome validationOutcome = modelSession
+				.getValidationsOutcome(ValidationResult::getOutcome);
 		if (validationOutcome == Outcome.VALID
 				|| validationOutcome == Outcome.NOT_SUPPORTED) {
 			return modelSession;
 		}
 
-		final Outcome xsdOutcome = validationResult.getXsdOutcome();
-		final Outcome emfOutcome = validationResult.getEmfOutcome();
+		final Outcome xsdOutcome = modelSession
+				.getValidationsOutcome(ValidationResult::getXsdOutcome);
+		final Outcome emfOutcome = modelSession
+				.getValidationsOutcome(ValidationResult::getEmfOutcome);
 		if ((xsdOutcome == Outcome.VALID || xsdOutcome == Outcome.NOT_SUPPORTED)
 				&& (emfOutcome == Outcome.VALID
 						|| emfOutcome == Outcome.NOT_SUPPORTED)) {

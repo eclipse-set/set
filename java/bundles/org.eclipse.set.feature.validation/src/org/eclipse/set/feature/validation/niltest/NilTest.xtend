@@ -26,6 +26,9 @@ import static extension org.eclipse.set.basis.extensions.NodeListExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
 import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
 import org.eclipse.set.core.services.validation.CustomValidator
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.validationreport.ObjectState
 
 /** 
  * Test for intentionally incomplete data.
@@ -35,14 +38,26 @@ import org.eclipse.set.core.services.validation.CustomValidator
 @Component(immediate=true, service=CustomValidator)
 class NilTest extends AbstractCustomValidator {
 	static val NIL = "xsi:nil"
-
+	Class<?> sourceClass
 	override void validate(
 		ToolboxFile toolboxFile,
 		ValidationResult result
 	) {
 		try {
-			val nilProblems = ObjectMetadataXMLReader.read(toolboxFile).validate
-			if (nilProblems.length === 0) {
+			sourceClass = result.validatedSourceClass
+			val nilProblems = newLinkedList
+			if (sourceClass.isAssignableFrom(PlanPro_Schnittstelle)) {
+				nilProblems.addAll(
+					ObjectMetadataXMLReader.read(toolboxFile,
+						toolboxFile.modelPath).validate)
+			} else if (toolboxFile.layoutPath?.toFile.exists &&
+				sourceClass.isAssignableFrom(PlanPro_Layoutinfo)) {
+				nilProblems.addAll(
+					ObjectMetadataXMLReader.read(toolboxFile,
+						toolboxFile.layoutPath).validate)
+			}
+
+			if (nilProblems.size === 0) {
 				result.addCustomProblem(
 					messages.NilTestProblem_Description.successValidationReport
 				)
@@ -75,7 +90,9 @@ class NilTest extends AbstractCustomValidator {
 		message = e.message
 		severity = ValidationSeverity.ERROR
 		type = messages.NilTestProblem_Type
-
+		if (sourceClass.isAssignableFrom(PlanPro_Layoutinfo)) {
+			objectState = ObjectState.LAYOUT
+		}
 		return it
 	}
 

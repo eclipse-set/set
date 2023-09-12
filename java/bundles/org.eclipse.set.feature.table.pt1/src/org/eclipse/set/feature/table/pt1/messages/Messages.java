@@ -209,6 +209,36 @@ public class Messages extends AbstractMessageService {
 	public String SskoTableView_Heading;
 
 	/**
+	 * Sskp (PZB-Tabelle)
+	 */
+	public String SskpDescriptionService_ViewName;
+
+	/**
+	 * PZB-Tabelle
+	 */
+	public String SskpDescriptionService_ViewTooltip;
+
+	/**
+	 * PZB-Tabelle
+	 */
+	public String ToolboxTableNameSskpLong;
+
+	/**
+	 * 10/36
+	 */
+	public String ToolboxTableNameSskpPlanningNumber;
+
+	/**
+	 * Sskp
+	 */
+	public String ToolboxTableNameSskpShort;
+
+	/**
+	 * PZB-Tabelle (Sskp)
+	 */
+	public String SskpTableView_Heading;
+
+	/**
 	 * Ssks (Signaltabelle)
 	 */
 	public String SsksDescriptionService_ViewName;

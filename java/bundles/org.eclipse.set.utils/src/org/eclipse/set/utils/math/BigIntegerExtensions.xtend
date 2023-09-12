@@ -33,4 +33,11 @@ class BigIntegerExtensions extends org.eclipse.xtext.xbase.lib.BigIntegerExtensi
 		}
 		return integer.compareTo(otherInteger) > 0
 	}
+	
+	static def int toInteger(BigInteger integer) {
+		if (integer === null) {
+			return 0
+		}
+		return integer.intValue
+	}
 }

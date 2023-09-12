@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.validation.service;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Function;
 
@@ -29,6 +29,9 @@ import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.validation.CustomValidator;
 import org.eclipse.set.core.services.validation.ValidationService;
+import org.eclipse.set.model.model11001.PlanPro.DocumentRoot;
+import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -53,6 +56,44 @@ public class ValidationServiceImpl implements ValidationService {
 	 */
 	public void addCustomValidator(final CustomValidator validator) {
 		customValidators.add(validator);
+	}
+
+	@Override
+	public ValidationResult validateSource(final ValidationResult result,
+			final ToolboxFile toolboxFile) {
+		final Class<? extends EObject> sourceClass = result
+				.getValidatedSourceClass();
+		if (sourceClass == null) {
+			return result;
+		}
+		if (sourceClass.isAssignableFrom(PlanPro_Schnittstelle.class)) {
+			validateSchnittstelle(toolboxFile, result);
+		} else if (sourceClass.isAssignableFrom(PlanPro_Layoutinfo.class)) {
+			validateLayoutinfo(toolboxFile, result);
+		}
+		return result;
+	}
+
+	private void validateSchnittstelle(final ToolboxFile toolboxFile,
+			final ValidationResult result) {
+		xsdValidation(toolboxFile.getModelPath(), result);
+		final DocumentRoot planProSourceModel = toolboxFile
+				.getPlanProSourceModel();
+		if (planProSourceModel != null) {
+			emfValidation(planProSourceModel.getPlanProSchnittstelle(), result);
+		}
+		customValidation(toolboxFile, result);
+	}
+
+	private void validateLayoutinfo(final ToolboxFile toolboxFile,
+			final ValidationResult result) {
+		xsdValidation(toolboxFile.getLayoutPath(), result);
+		final org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot layoutSourceModel = toolboxFile
+				.getLayoutSourceModel();
+		if (layoutSourceModel != null) {
+			emfValidation(layoutSourceModel.getPlanProLayoutinfo(), result);
+		}
+		customValidation(toolboxFile, result);
 	}
 
 	@Override
@@ -98,8 +139,12 @@ public class ValidationServiceImpl implements ValidationService {
 	}
 
 	@Override
-	public ValidationResult xsdValidation(final ToolboxFile toolboxFile,
+	public ValidationResult xsdValidation(final Path sourcePath,
 			final ValidationResult result) {
+		if (sourcePath == null || !sourcePath.toFile().exists()) {
+			return result;
+		}
+
 		final SchemaFactory factory = SchemaFactory
 				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		try {
@@ -109,7 +154,6 @@ public class ValidationServiceImpl implements ValidationService {
 			// Ignore failures
 		}
 		factory.setResourceResolver(PlanProSchemaDir.getResourceResolver());
-		final File file = new File(toolboxFile.getModelPath().toString());
 		try {
 			final Schema schema = factory
 					.newSchema(PlanProSchemaDir.getSchemas());
@@ -133,7 +177,7 @@ public class ValidationServiceImpl implements ValidationService {
 					result.addXsdWarning(exception);
 				}
 			});
-			validator.validate(new StreamSource(file));
+			validator.validate(new StreamSource(sourcePath.toFile()));
 			result.setPassedXsdValidation(true);
 		} catch (final SAXParseException e) {
 			result.addXsdError(e);

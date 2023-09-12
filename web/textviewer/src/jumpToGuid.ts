@@ -7,6 +7,13 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 import * as monaco from 'monaco-editor'
+import { Model, TextFileModel } from './model'
+
+export enum ModelContainer {
+  INITIAL,
+  FINAL,
+  LAYOUT
+}
 
 /**
  * If the editor is currently at a position within an ID-Reference, this utility
@@ -15,7 +22,7 @@ import * as monaco from 'monaco-editor'
  * @param editor The editor
  * @param xml The xml document
  */
-export default function jumpToDefinition (editor: monaco.editor.IStandaloneCodeEditor, xml: Document) {
+export default function jumpToDefinition (editor: monaco.editor.IStandaloneCodeEditor, viewModels: Map<string, monaco.editor.ITextModel>, xml: Document) {
   // Extract the GUID at the editor position
   const position = editor.getPosition()
   const guid = getGUIDAt(editor, position)
@@ -24,7 +31,7 @@ export default function jumpToDefinition (editor: monaco.editor.IStandaloneCodeE
   }
 
   // Find the corresponding line number for the definition
-  const line = findObjectDefinitionLineByGUID(guid, editor, xml, isInStartContainer(editor, position))
+  const line = findObjectDefinitionLineByGUID(guid, editor.getModel(), xml, getModelContainer(editor, position))
   if (line) {
     // Jump to the line
     editor.revealLineInCenter(line)
@@ -32,7 +39,38 @@ export default function jumpToDefinition (editor: monaco.editor.IStandaloneCodeE
       lineNumber: line,
       column: 0
     })
+    return
   }
+  switchModelToFindReference(editor, viewModels, guid)
+}
+
+/**
+ * Find the corresponding line number for the definition
+ * in another editor model, when current model not contains
+ * @param editor the edit
+ * @param viewModels list models
+ * @param guid the guid
+ */
+function switchModelToFindReference (
+  editor: monaco.editor.IStandaloneCodeEditor,
+  viewModels: Map<string, monaco.editor.ITextModel>,
+  guid: string
+) {
+  viewModels.forEach((model, name) => {
+    if (!Object.is(model, editor.getModel())) {
+      const xml = new DOMParser().parseFromString(model.getValue(), 'text/xml')
+      const modelContainer = name === TextFileModel.LAYOUT ? ModelContainer.LAYOUT : [ModelContainer.INITIAL, ModelContainer.FINAL]
+      const lineNumber = findObjectDefinitionLineByGUID(guid, model, xml, modelContainer)
+      if (lineNumber) {
+        (window as any).planproSwitchModel(name)
+        editor.revealLineInCenter(lineNumber)
+        editor.setPosition({
+          lineNumber,
+          column: 0
+        })
+      }
+    }
+  })
 }
 
 /**
@@ -40,10 +78,14 @@ export default function jumpToDefinition (editor: monaco.editor.IStandaloneCodeE
  * @param pos the position of the cursor
  * @returns whether the position is contained within a LST_Zustand_Start
  */
-export function isInStartContainer (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Position) {
+export function getModelContainer (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Position) {
+  const isLayoutContainer = editor.getModel().findMatches('/nsLayoutinformationen:PlanPro_Layoutinfo', false, false, true, null, false).length > 0
+  if (isLayoutContainer) {
+    return ModelContainer.LAYOUT
+  }
   const lstState = editor.getModel().findPreviousMatch('<LST_Zustand_(Start|Ziel)>', pos, true, false, null, true)
   if (lstState) {
-    return lstState.matches[1] === 'Start'
+    return lstState.matches[1] === 'Start' ? ModelContainer.INITIAL : ModelContainer.FINAL
   }
 }
 
@@ -71,7 +113,7 @@ function getGUIDOfIDTag (editor: monaco.editor.IStandaloneCodeEditor, pos: monac
  * @param pos the position
  * @returns the GUID of the ID-Reference or null if the position is not at any ID-Reference
  */
-function getGUIDAt (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Position): string | null {
+export function getGUIDAt (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Position): string | null {
   // Find the previous opening XML bracket
   const indexOpeningBracket = editor.getModel().findPreviousMatch('<', pos, false, false, null, true)
   if (!indexOpeningBracket) {
@@ -105,28 +147,41 @@ function getGUIDAt (editor: monaco.editor.IStandaloneCodeEditor, pos: monaco.Pos
  * @param guid the GUID to search for
  * @param editor the editor
  * @param xml  the XML document
- * @param startContainer whether to look in LST_Zustand_Start or LST_Zustand_Ziel
- * @returns the line of the object definition or null
+ * @param container object container
+ * @returns the line of the first object definition or undifine
  */
-export function findObjectDefinitionLineByGUID (guid: string, editor: monaco.editor.IStandaloneCodeEditor, xml: Document, startContainer: boolean) {
+export function findObjectDefinitionLineByGUID (
+  guid: string,
+  viewModel : monaco.editor.ITextModel,
+  xml: Document,
+  container: ModelContainer| ModelContainer[]
+) : number | undefined {
   // Find the XML node via XPath
-  const xpath = startContainer
-    ? `.//LST_Zustand_Start/Container/*/Identitaet/Wert[text()="${guid}"]`
-    : `.//LST_Zustand_Ziel/Container/*/Identitaet/Wert[text()="${guid}"]`
-  const node = xml.evaluate(xpath, xml.getRootNode()).iterateNext().parentElement.parentElement
-  const rawText = editor.getValue()
+  if (Array.isArray(container)) {
+    const lines = container
+      .map(ele => findObjectDefinitionLineByGUID(guid, viewModel, xml, ele))
+      .filter(ele => ele)
+    return lines.length > 0 ? lines[0] : undefined
+  }
+  const xpath = getContainerXPath(container, guid)
+  const node = xml.evaluate(xpath, xml.getRootNode())
+    ?.iterateNext()?.parentElement?.parentElement
+  const rawText = viewModel.getValue()
 
+  if (!node) {
+    return undefined
+  }
   // Iterate through nodes simultanously with regex and the node list to find the
   // raw offset within the file
+
   let offset = 0
   const regex = new RegExp(`<${node.tagName}\\W`, 'g')
   for (const item of xml.getElementsByTagName(node.tagName)) {
-    offset = regex.exec(rawText).index
+    offset = regex.exec(rawText)?.index
     if (item === node) {
       break
     }
   }
-
   // Count lines
   let line = 0
   for (let i = 0; i < rawText.substring(0, offset).length; i++) {
@@ -134,5 +189,16 @@ export function findObjectDefinitionLineByGUID (guid: string, editor: monaco.edi
       line++
     }
   }
-  return line + 1
+  return line === 0 ? undefined : line + 1
+}
+
+function getContainerXPath (container: ModelContainer, guid: string) : string {
+  switch (container) {
+    case ModelContainer.INITIAL:
+      return `.//LST_Zustand_Start/Container/*/Identitaet/Wert[text()="${guid}"]`
+    case ModelContainer.FINAL:
+      return `.//LST_Zustand_Ziel/Container/*/Identitaet/Wert[text()="${guid}"]`
+    case ModelContainer.LAYOUT:
+      return `.//Identitaet/Wert[text()="${guid}"]`
+  }
 }

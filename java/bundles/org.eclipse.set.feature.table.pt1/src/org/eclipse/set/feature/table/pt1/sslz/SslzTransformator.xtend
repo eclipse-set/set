@@ -26,7 +26,6 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Art_TypeClass
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
@@ -64,7 +63,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -108,13 +106,14 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			if (isZ) {
 				val instance = factory.newTableRow(fstrZugRangier)
-				fillSwitch(
+
+				fill (
 					instance,
 					cols.getColumn(Grundsatzangaben_Bezeichnung),
 					fstrZugRangier,
-					getBezeichnungCases()
+					[getZugFstrBezeichnung([isZ(it)])]
 				)
-
+				
 				fill(instance, cols.getColumn(Start), fstrZugRangier, [
 					fahrwegStart
 				])
@@ -608,7 +607,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					], [
 						val fstrAusschlussBesonders = IDFstrAusschlussBesonders.
 							map [
-								getSwitchCase(getBezeichnungCases())
+								getZugFstrBezeichnung([art | isZ(art)])
 							]
 						val footnotes = footnoteTransformation.transform(it,
 							instance)
@@ -639,54 +638,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
-	def List<Case<Fstr_Zug_Rangier>> getBezeichnungCases() {
-		return #[
-			new Case<Fstr_Zug_Rangier>([
-				(fstrZug?.fstrZugDWeg === null ||
-					fstrDWeg?.fstrDWegSpezifisch === null) &&
-					fstrZugRangierAllg?.fstrReihenfolge?.wert == BigInteger.ZERO
-			], [
-				'''
-				«fstrFahrweg?.start?.bezeichnung?.bezeichnungTabelle?.wert»/«fstrFahrweg?.zielSignal?.bezeichnung?.
-								bezeichnungTabelle?.wert»'''
-			]),
-			new Case<Fstr_Zug_Rangier>([
-				(fstrZug?.fstrZugDWeg === null ||
-					fstrDWeg?.fstrDWegSpezifisch === null) &&
-					fstrZugRangierAllg?.fstrReihenfolge?.wert.
-						isNotNullAndGreater(BigInteger.ZERO)
-			], [
-				'''
-				«fstrFahrweg?.start?.bezeichnung?.
-							bezeichnungTabelle?.wert»/«fstrFahrweg?.zielSignal?.bezeichnung?.
-								bezeichnungTabelle?.wert» [U«fstrZugRangierAllg?.
-								fstrReihenfolge?.wert»]'''
-			]),
-			new Case<Fstr_Zug_Rangier>([
-				fstrZug?.fstrZugDWeg !== null &&
-					fstrZugRangierAllg?.fstrReihenfolge?.wert == BigInteger.ZERO
-			], [
-				'''
-				«fstrFahrweg?.start?.bezeichnung?.
-							bezeichnungTabelle?.wert»/«fstrFahrweg?.zielSignal?.bezeichnung?.
-								bezeichnungTabelle?.wert» («fstrDWeg?.bezeichnung?.
-								bezeichnungFstrDWeg?.wert»)'''
-			]),
-			new Case<Fstr_Zug_Rangier>([
-				fstrZug?.fstrZugDWeg !== null &&
-					fstrZugRangierAllg?.fstrReihenfolge?.wert.
-						isNotNullAndGreater(BigInteger.ZERO)
-			], [
-				'''
-				«fstrFahrweg?.start?.bezeichnung?.
-							bezeichnungTabelle?.wert»/«fstrFahrweg?.zielSignal?.bezeichnung?.
-								bezeichnungTabelle?.wert» [U«fstrZugRangierAllg?.
-								fstrReihenfolge?.wert»] («fstrDWeg?.bezeichnung?.
-								bezeichnungFstrDWeg?.wert»)'''
-			])
-		]
-	}
-
 	private static def String totalTime(
 		Duration duration,
 		int current,
@@ -704,12 +655,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			toSet.toList
 	}
 
-	def boolean isZ(
-		Fstr_Zug_Art_TypeClass typeClazz
-	) {
-		val lit = typeClazz?.wert?.literal
-		return lit !== null && lit.matches("Z.*")
-	}
+
 
 	private def String fahrwegStart(
 		Fstr_Zug_Rangier fstrZugRangier
