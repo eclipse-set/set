@@ -16,8 +16,10 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import org.osgi.service.component.annotations.Component
 
 /**
- * Validates that all GEO_Kanten have valid coordinate reference system (consistent system
- * or long equals 0, when exists more than one system in GEO_Kante)
+ * Validates that all GEO_Kanten have a valid coordinate reference system.
+ * A valid GEO_Kante either has:
+ *  - a consistent CRS or
+ *  - a length equal to zero (different CRS within one GEO_Kante are allowed)
  * 
  * @author Truong
  */
@@ -25,7 +27,7 @@ import org.osgi.service.component.annotations.Component
 class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements PlazCheck {
 
 	override checkType() {
-		return "GEOKaten"
+		return "Koordinatensystem"
 	}
 
 	override getDescription() {
@@ -53,7 +55,7 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		geoKantenWithMeridianSprung.forEach [
 			val err = PlazFactory.eINSTANCE.createPlazError
 			if (GEOKanteAllg?.GEOLaenge?.wert.doubleValue !== 0.0) {
-				err.message = '''Es gibt GEO_Kante in unterschiedlichen Koordinatensystemen mit der Länge > 0. Der sicherungstechnische Lageplan kann unvollständig sein.'''
+				err.message = '''Die GEO_Kante «identitaet.wert» mit der Länge > 0 hat unterschiedliche Koordinatensysteme. Der sicherungstechnische Lageplan kann unvollständig sein.'''
 				err.type = checkType
 				err.object = it
 				errList.add(err)
