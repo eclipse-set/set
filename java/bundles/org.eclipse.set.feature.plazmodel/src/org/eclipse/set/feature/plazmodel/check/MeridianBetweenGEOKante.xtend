@@ -31,7 +31,7 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 	}
 
 	override getDescription() {
-		return "Alle GEOKanten haben ein konsistentes Koordinatensystem."
+		return "Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
 	}
 
 	override protected run(MultiContainer_AttributeGroup container) {
