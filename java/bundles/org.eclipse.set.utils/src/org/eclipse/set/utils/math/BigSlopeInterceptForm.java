@@ -9,14 +9,14 @@
 package org.eclipse.set.utils.math;
 
 import java.math.BigDecimal;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 /**
  * A slope intercept form describes a straight line on a cartesian plane.
  * 
  * @author Schaefer
  */
-public class BigSlopeInterceptForm implements Function<BigDecimal, BigDecimal> {
+public class BigSlopeInterceptForm implements UnaryOperator<BigDecimal> {
 
 	private final BigDecimal intercept;
 	private final BigDecimal slope;

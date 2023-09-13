@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.utils.math
 
-import java.math.BigDecimal
 import org.eclipse.emf.common.util.Enumerator
+import java.math.BigDecimal
 
 /**
  * Extensions for {@link Enumerator}.
@@ -57,6 +57,19 @@ class BigDecimalExtensions {
 	}
 
 	/**
+	 * Convert number value to bigdecimal
+	 */
+	static def <T extends Number> BigDecimal toBigDecimal(
+		T value) {
+		try {
+			return BigDecimal.valueOf(value.longValue)
+		} catch (Exception e) {
+			throw new RuntimeException(e)
+		}
+
+	}
+
+	/**
 	 * @param length the length
 	 * 
 	 * @return the rounded and formatted length
@@ -76,6 +89,32 @@ class BigDecimalExtensions {
 	static def String toTableIntegerAgateDown(BigDecimal length) {
 		if (length !== null) {
 			return Long.toString(AgateRounding.roundDown(length.doubleValue))
+		}
+		return null
+	}
+  
+	/**
+	 * @param value the big decimal to multiply
+	 * @param multiplyValue the multiply value
+	 * @return the result
+	 */
+	static def <T extends Number> BigDecimal multiplyValue(
+		BigDecimal value, T multiplyValue) {
+		if (value !== null) {
+			return value.multiply(multiplyValue.toBigDecimal)
+		}
+		return null
+	}
+
+	/**
+	 * @param value the big decimal to multiply
+	 * @param multiplyValue the multiply value
+	 * @return the result
+	 */
+	static def <T extends Number> BigDecimal divideValue(
+		BigDecimal value, T divideValue) {
+		if (value !== null) {
+			return value.divide(divideValue.toBigDecimal)
 		}
 		return null
 	}

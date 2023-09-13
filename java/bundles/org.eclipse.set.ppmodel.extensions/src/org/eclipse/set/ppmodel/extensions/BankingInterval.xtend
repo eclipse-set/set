@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,27 +8,22 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigDecimal
+import java.util.List
 import org.eclipse.core.runtime.Assert
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.Digraph
 import org.eclipse.set.basis.graph.Digraphs
-import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.DirectedEdgePath
-import org.eclipse.set.basis.graph.Routing
+import org.eclipse.set.core.services.Services
+import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
+import org.eclipse.set.ppmodel.extensions.utils.ValueInterval
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
-import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
-import org.eclipse.set.ppmodel.extensions.utils.Distance
-import org.eclipse.set.ppmodel.extensions.utils.TopKantePath
-import org.eclipse.set.ppmodel.extensions.utils.TopRouting
-import org.eclipse.set.ppmodel.extensions.utils.ValueInterval
-import org.eclipse.set.core.services.Services
+import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehungslinie
 import org.eclipse.set.utils.math.BigSlopeInterceptForm
-import java.math.BigDecimal
-import java.util.Collections
-import java.util.Comparator
-import java.util.List
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -37,7 +32,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
-import org.eclipse.set.basis.constants.ToolboxConstants
+import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
  * A banking interval consists of two (possibly identical) banking values, the length
@@ -46,9 +41,9 @@ import org.eclipse.set.basis.constants.ToolboxConstants
  * @author Schaefer
  */
 class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
-
 	val boolean isPoint
 	val DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path
+	Ueberhoehungslinie bankingLine
 
 	static final Logger LOGGER = LoggerFactory. //
 	getLogger(
@@ -57,27 +52,30 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 
 	private new(
 		DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path,
-		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
+		Ueberhoehungslinie bankingLine
 	) {
-		super(path.left, path.right, BigDecimal.valueOf(path.length),
-			path.distanceTo(singlePoint))
+		super(path.left, path.right, path.getBankingLength(bankingLine),
+			path.distance(path.start, singlePoint).toBigDecimal,
+			path.distance(path.end, singlePoint).toBigDecimal)
+		this.bankingLine = bankingLine
 		this.path = path
 		isPoint = false
 	}
 
 	private new(BigDecimal bankingValue) {
-		super(bankingValue, bankingValue, BigDecimal.ZERO, BigDecimal.ZERO)
+		super(bankingValue, bankingValue, BigDecimal.ZERO, BigDecimal.ZERO,
+			BigDecimal.ZERO)
 		path = null
 		isPoint = true
 	}
-	
+
 	/**
 	 * @return the cache key for this banking interval
 	 */
 	def String getCacheKey() {
 		return isPoint.toString + path.cacheKey
 	}
-	
 
 	private static def BigDecimal getLeft(
 		DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path
@@ -93,87 +91,16 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		return end.ueberhoehungAllg.ueberhoehungHoehe.wert
 	}
 
-	private static def BigDecimal distanceTo(
+	private static def BigDecimal getBankingLength(
 		DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path,
-		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
+		Ueberhoehungslinie bankingLine
 	) {
-		return BigDecimal.valueOf(
-			path.distance(path.start, singlePoint)
-		)
-	}
-
-	private static class BankRouting implements Routing<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> {
-
-		val Digraph<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> graph
-		val Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
-		val TopRouting topRouting
-
-		new(
-			Digraph<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> graph,
-			Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
-		) {
-			this.graph = graph
-			this.singlePoint = singlePoint
-			this.topRouting = new TopRouting
+		val length = bankingLine?.ueberhoehungslinieAllg?.
+			ueberhoehungslinieLaenge?.wert
+		if (length !== null) {
+			return length
 		}
-
-		override getDirectPredecessors(
-			DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> directedEdge
-		) {
-			if (directedEdge.bankingFound(false)) {
-				return Collections.emptySet
-			}
-			return topRouting.getDirectPredecessors(directedEdge)
-		}
-
-		override getDirectSuccessors(
-			DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> directedEdge
-		) {
-			if (directedEdge.bankingFound(true)) {
-				return Collections.emptySet
-			}
-			return topRouting.getDirectSuccessors(directedEdge)
-		}
-
-		override getDistanceComparator() {
-			return new Comparator<Double>() {
-				override compare(Double d1, Double d2) {
-					return Distance.compare(d1, d2)
-				}
-			}
-		}
-
-		override getEdge(TOP_Knoten tail, TOP_Knoten head) {
-			return graph.getEdge(tail, head)
-		}
-
-		override getEdges(TOP_Knoten tail, TOP_Knoten head) {
-			return graph.getEdges(tail, head)
-		}
-
-		override getEmptyPath() {
-			return new TopKantePath
-		}
-
-		private def boolean bankingFound(
-			DirectedEdge<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> directedEdge,
-			boolean afterPunkt) {
-			val singlePoints = directedEdge.iterator.toList
-			val index = singlePoints.indexOf(singlePoint)
-			if (index < 0) {
-				return !singlePoints.filter(Ueberhoehung).empty
-			}
-			if (afterPunkt) {
-				return !singlePoints.subList(index, singlePoints.size).filter(
-					Ueberhoehung).empty
-			}
-			return !singlePoints.subList(0, index).filter(Ueberhoehung).empty
-		}
-		
-		override getCacheKey() {
-			return '''«graph.cacheKey»/singlePoint.cacheKey''' 
-		}
-		
+		return BigDecimal.valueOf(path.length)
 	}
 
 	/**
@@ -195,9 +122,11 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		}
 
 		// try to find a cached banking interval with the single point
-		val storedBankingIntervals = Services.cacheService.getCache(ToolboxConstants.CacheId.BANKING_INTERVAL)
-		
-		val foundIntervals = storedBankingIntervals.values.filter(BankingInterval).filter [
+		val storedBankingIntervals = Services.cacheService.getCache(
+			ToolboxConstants.CacheId.BANKING_INTERVAL)
+
+		val foundIntervals = storedBankingIntervals.values.filter(
+			BankingInterval).filter [
 			contains(singlePoint)
 		]
 		if (foundIntervals.size > 1) {
@@ -265,9 +194,23 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		LOGGER.debug(
 			'''Created Banking interval [«interval.start.debugString», «interval.end.debugString»].'''
 		)
-		val newInterval = new BankingInterval(interval, singlePoint)
+		val bankingLine = startBanking.getBankingLine(endBanking)
+		val newInterval = new BankingInterval(interval, singlePoint,
+			bankingLine)
 		storedBankingIntervals.set(newInterval.cacheKey, newInterval)
 		return newInterval
+	}
+
+	static def Ueberhoehungslinie getBankingLine(Ueberhoehung start,
+		Ueberhoehung end) {
+		val lines = start.container.ueberhoehungslinie.filter [
+			IDUeberhoehungA === start && IDUeberhoehungB === end
+		]
+		if (lines.empty) {
+			return null
+		}
+
+		return lines.get(0)
 	}
 
 	/**
@@ -281,13 +224,85 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 
 		val h_start = left
 		val h_end = right
-		val length = length
-		val slope = (h_end - h_start) / length
-
-		val pointDistance = distance
-
-		return new BigSlopeInterceptForm(slope, BigDecimal.ZERO).apply(
-			pointDistance) + h_start
+		val h_between = (h_start - h_end).abs
+		var result = BigDecimal.ZERO
+		switch (bankingLine?.ueberhoehungslinieAllg?.ueberhoehungslinieForm?.wert) {
+			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_BLOSS: {
+				result = h_between.bankingOfRampeBloss
+			}
+			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_S: {
+				result = h_between.bankingOfRampeS
+			}
+			default: {
+				result = h_between.bankingDefault
+			}
+		}
+		return result.add(h_start)
+	}
+	
+	/**
+	 * BankingIntervall S-Form to Bloss
+	 * When x <= L / 2, then:
+	 * 		u = (3 * U / L^2) * x^2 - (2 * U / L^3) * x^3
+	 * else:
+	 * 		u = U / L * x
+	 * with:
+	 * 		U: the height between banking start and banking end
+	 * 		L: the length of banking
+	 * 		x: distance form start of banking to point
+	 */
+	private def BigDecimal bankingOfRampeBloss(BigDecimal h_between) {
+		if (distanceFromLeft.compareTo(length.divideValue(2)) > 0) {
+			return h_between.bankingDefault
+		}
+		val a = h_between
+			.multiplyValue(3)
+			.divide(length.pow(2))
+			.multiply(distanceFromLeft.pow(2)) 
+		val b = h_between
+			.multiplyValue(2)
+			.divide(length.pow(3))
+			.multiply(distanceFromLeft.pow(3)) 
+		return a.add(b.negate) 
+	}
+	
+	/**
+	 * BankingIntervall S-Form to Rampe
+	 * 1. Case: when x =< L/2 => u = 2 * U * x^2 / L^2
+	 * 2. Case: when x > L/2 => u = U - 2 * U * z^2 / L^2
+	 * with:
+	 * 		U: the height between banking start and banking end
+	 * 		L: the length of banking
+	 * 		x: distance form start of banking to point
+	 * 		z: distance from end of banking to point
+	 */
+	private def BigDecimal bankingOfRampeS(BigDecimal h_between) {
+		if (distanceFromLeft.compareTo(length.divideValue(2)) < 1) {
+			return h_between
+				.multiplyValue(2)
+				.multiplyValue(distanceFromLeft.pow(2))
+				.divide(length.pow(2))
+		}
+		return h_between.add(h_between
+				.multiplyValue(2)
+				.multiplyValue(distanceFromRight.pow(2))
+				.divide(length.pow(2))
+				.negate)
+	}
+	
+	/**
+	 * Default BankingIntervall
+	 * 		u = U / L * x
+	 * with:
+	 * 		U: the height between banking start and banking end
+	 * 		L: the length of banking
+	 * 		x: distance form start of banking to point
+	 */
+	private def BigDecimal bankingDefault(BigDecimal h_between) {
+		return h_between
+				.multiplyValue(2)
+				.multiplyValue(distanceFromLeft.pow(2))
+				.divide(length.pow(2))
 	}
 
 	/**
