@@ -117,7 +117,7 @@ class BigDecimalExtensions {
 			return value.divide(divideValue.toBigDecimal)
 		}
 		return null
-
+	}
 	
 	static def double toDouble(BigDecimal value) {
 		if (value === null) {
