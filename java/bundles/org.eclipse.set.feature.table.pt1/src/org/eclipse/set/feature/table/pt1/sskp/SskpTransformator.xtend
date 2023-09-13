@@ -542,9 +542,6 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
 				getPointsDistance(topGraph, pzb, signal).min)
-			if (pzb.identitaet.wert.equals("8D403732-895D-4003-952F-12D99EEC6050")) {
-				println("TEST")
-			}
 			val directionSign = topGraph.isInWirkrichtungOfSignal(signal, pzb)
 				? "+"
 				: "-"
