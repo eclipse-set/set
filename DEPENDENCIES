@@ -112,12 +112,14 @@ maven/mavencentral/org.osgi/osgi.annotation/8.0.1, Apache-2.0, approved, #6909
 maven/mavencentral/org.slf4j/slf4j-api/1.7.25, MIT, approved, CQ13368
 maven/mavencentral/org.slf4j/slf4j-api/1.7.36, MIT, approved, CQ13368
 maven/mavencentral/org.tukaani/xz/1.9, LicenseRef-Public-Domain, approved, CQ23498
+npm/npmjs/-/abbrev/1.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/accepts/1.3.8, MIT, approved, clearlydefined
 npm/npmjs/-/acorn-import-assertions/1.9.0, MIT, approved, clearlydefined
 npm/npmjs/-/acorn-import-assertions/1.9.0, MIT, approved, clearlydefined
 npm/npmjs/-/acorn-jsx/5.3.2, MIT, approved, clearlydefined
 npm/npmjs/-/acorn/8.10.0, MIT, approved, #9312
 npm/npmjs/-/acorn/8.10.0, MIT, approved, #9312
+npm/npmjs/-/agent-base/6.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/ajv-formats/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/ajv-formats/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/ajv-keywords/3.5.2, MIT, approved, clearlydefined
@@ -130,8 +132,11 @@ npm/npmjs/-/ajv/8.11.0, MIT, approved, #4969
 npm/npmjs/-/ajv/8.11.0, MIT, approved, #4969
 npm/npmjs/-/ansi-html-community/0.0.8, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/ansi-regex/5.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/ansi-regex/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/ansi-styles/4.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/anymatch/3.1.2, ISC, approved, #5050
+npm/npmjs/-/aproba/2.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/are-we-there-yet/2.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/argparse/2.0.1, Python-2.0, approved, CQ22954
 npm/npmjs/-/array-buffer-byte-length/1.0.0, MIT, approved, #7548
 npm/npmjs/-/array-flatten/1.1.1, MIT, approved, clearlydefined
@@ -146,6 +151,7 @@ npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/available-typed-arrays/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/axios/1.5.0, MIT, approved, #10504
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
+npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/batch/0.6.1, MIT, approved, clearlydefined
 npm/npmjs/-/big.js/5.2.2, MIT, approved, clearlydefined
 npm/npmjs/-/big.js/5.2.2, MIT, approved, clearlydefined
@@ -153,6 +159,7 @@ npm/npmjs/-/binary-extensions/2.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/body-parser/1.20.0, MIT, approved, clearlydefined
 npm/npmjs/-/bonjour-service/1.0.13, MIT, approved, clearlydefined
 npm/npmjs/-/boolbase/1.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/brace-expansion/1.1.11, MIT, approved, clearlydefined
 npm/npmjs/-/brace-expansion/1.1.11, MIT, approved, clearlydefined
 npm/npmjs/-/braces/3.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/braces/3.0.2, MIT, approved, clearlydefined
@@ -168,8 +175,10 @@ npm/npmjs/-/callsites/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/camel-case/4.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/caniuse-lite/1.0.30001358, CC-BY-4.0, approved, #1196
 npm/npmjs/-/caniuse-lite/1.0.30001422, CC-BY-4.0, approved, #1196
+npm/npmjs/-/canvas/2.11.2, MIT, restricted, clearlydefined
 npm/npmjs/-/chalk/4.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/chokidar/3.5.3, MIT, approved, #2317
+npm/npmjs/-/chownr/2.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/chrome-trace-event/1.0.3, MIT, approved, #2414
 npm/npmjs/-/chrome-trace-event/1.0.3, MIT, approved, #2414
 npm/npmjs/-/clean-css/5.3.0, MIT, approved, clearlydefined
@@ -177,6 +186,7 @@ npm/npmjs/-/clone-deep/4.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/clone-deep/4.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/color-convert/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/color-name/1.1.4, MIT, approved, clearlydefined
+npm/npmjs/-/color-support/1.1.3, ISC, approved, clearlydefined
 npm/npmjs/-/colorette/2.0.19, MIT, approved, clearlydefined
 npm/npmjs/-/colorette/2.0.19, MIT, approved, clearlydefined
 npm/npmjs/-/combined-stream/1.0.8, MIT, approved, clearlydefined
@@ -188,7 +198,9 @@ npm/npmjs/-/commander/8.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/compressible/2.0.18, MIT, approved, clearlydefined
 npm/npmjs/-/compression/1.7.4, MIT, approved, #1975
 npm/npmjs/-/concat-map/0.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/concat-map/0.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/connect-history-api-fallback/2.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/console-control-strings/1.1.0, ISC, approved, clearlydefined
 npm/npmjs/-/content-disposition/0.5.4, MIT, approved, clearlydefined
 npm/npmjs/-/content-type/1.0.4, MIT, approved, #6950
 npm/npmjs/-/cookie-signature/1.0.6, MIT, approved, clearlydefined
@@ -205,14 +217,18 @@ npm/npmjs/-/cssesc/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/debug/2.6.9, MIT, approved, clearlydefined
 npm/npmjs/-/debug/3.2.7, MIT, approved, clearlydefined
 npm/npmjs/-/debug/4.3.4, MIT, approved, clearlydefined
+npm/npmjs/-/debug/4.3.4, MIT, approved, clearlydefined
+npm/npmjs/-/decompress-response/4.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/deep-is/0.1.4, MIT, approved, #2130
 npm/npmjs/-/default-gateway/6.0.3, BSD-2-Clause AND BSD-3-Clause, approved, #2956
 npm/npmjs/-/define-lazy-prop/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/define-properties/1.2.0, MIT, approved, #7116
 npm/npmjs/-/delayed-stream/1.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/delegates/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/depd/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/depd/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/destroy/1.2.0, MIT, approved, clearlydefined
+npm/npmjs/-/detect-libc/2.0.2, Apache-2.0, approved, #9829
 npm/npmjs/-/detect-node/2.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/dir-glob/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/dir-glob/3.0.1, MIT, approved, clearlydefined
@@ -224,12 +240,12 @@ npm/npmjs/-/dom-converter/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/dom-serializer/1.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/domelementtype/2.3.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
-npm/npmjs/-/dommatrix/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/ee-first/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/electron-to-chromium/1.4.167, ISC, approved, #1950
 npm/npmjs/-/electron-to-chromium/1.4.284, ISC, approved, #1950
+npm/npmjs/-/emoji-regex/8.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/emojis-list/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/emojis-list/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/encodeurl/1.0.2, MIT, approved, clearlydefined
@@ -306,12 +322,15 @@ npm/npmjs/-/for-each/0.3.3, MIT, approved, clearlydefined
 npm/npmjs/-/form-data/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/forwarded/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/fresh/0.5.2, MIT, approved, clearlydefined
+npm/npmjs/-/fs-minipass/2.1.0, ISC, approved, clearlydefined
 npm/npmjs/-/fs-monkey/1.0.3, Unlicense AND (ISC AND MIT), approved, #2964
+npm/npmjs/-/fs.realpath/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/fs.realpath/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/function-bind/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/function-bind/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/function.prototype.name/1.1.6, MIT, approved, #10255
 npm/npmjs/-/functions-have-names/1.2.3, MIT, approved, clearlydefined
+npm/npmjs/-/gauge/3.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/get-intrinsic/1.2.1, MIT, approved, #8453
 npm/npmjs/-/get-stream/6.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/get-symbol-description/1.0.0, MIT, approved, clearlydefined
@@ -321,6 +340,7 @@ npm/npmjs/-/glob-parent/6.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/glob-parent/6.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/glob-to-regexp/0.4.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/glob-to-regexp/0.4.1, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/-/glob/7.2.3, ISC, approved, clearlydefined
 npm/npmjs/-/glob/7.2.3, ISC, approved, clearlydefined
 npm/npmjs/-/globals/13.21.0, MIT, approved, clearlydefined
 npm/npmjs/-/globalthis/1.0.3, MIT, approved, clearlydefined
@@ -339,6 +359,7 @@ npm/npmjs/-/has-property-descriptors/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-proto/1.0.1, MIT, approved, #6175
 npm/npmjs/-/has-symbols/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/has-tostringtag/1.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/has-unicode/2.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/has/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/has/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/he/1.2.0, MIT, approved, clearlydefined
@@ -353,6 +374,7 @@ npm/npmjs/-/http-errors/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/http-parser-js/0.5.6, MIT, approved, #2970
 npm/npmjs/-/http-proxy-middleware/2.0.6, MIT, approved, clearlydefined
 npm/npmjs/-/http-proxy/1.18.1, MIT, approved, clearlydefined
+npm/npmjs/-/https-proxy-agent/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/human-signals/2.1.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/iconv-lite/0.4.24, MIT, approved, clearlydefined
 npm/npmjs/-/icss-utils/5.1.0, ISC, approved, clearlydefined
@@ -363,7 +385,9 @@ npm/npmjs/-/import-local/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/import-local/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/imurmurhash/0.1.4, MIT, approved, clearlydefined
 npm/npmjs/-/inflight/1.0.6, ISC, approved, clearlydefined
+npm/npmjs/-/inflight/1.0.6, ISC, approved, clearlydefined
 npm/npmjs/-/inherits/2.0.3, ISC, approved, clearlydefined
+npm/npmjs/-/inherits/2.0.4, ISC, approved, clearlydefined
 npm/npmjs/-/inherits/2.0.4, ISC, approved, clearlydefined
 npm/npmjs/-/internal-slot/1.0.5, MIT, approved, #7118
 npm/npmjs/-/interpret/3.1.1, MIT, approved, clearlydefined
@@ -381,6 +405,7 @@ npm/npmjs/-/is-date-object/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/is-docker/2.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/is-extglob/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/is-extglob/2.1.1, MIT, approved, clearlydefined
+npm/npmjs/-/is-fullwidth-code-point/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/is-glob/4.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/is-glob/4.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/is-negative-zero/2.0.2, MIT, approved, clearlydefined
@@ -433,6 +458,8 @@ npm/npmjs/-/lodash.merge/4.6.2, MIT, approved, clearlydefined
 npm/npmjs/-/lodash/4.17.21, CC0-1.0 AND MIT, approved, #2096
 npm/npmjs/-/lower-case/2.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/lru-cache/6.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/lru-cache/6.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/make-dir/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/media-typer/0.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/memfs/3.4.6, Unlicense, approved, #2974
 npm/npmjs/-/merge-descriptors/1.0.1, MIT, approved, clearlydefined
@@ -449,14 +476,22 @@ npm/npmjs/-/mime-types/2.1.35, MIT, approved, clearlydefined
 npm/npmjs/-/mime-types/2.1.35, MIT, approved, clearlydefined
 npm/npmjs/-/mime/1.6.0, MIT, approved, clearlydefined
 npm/npmjs/-/mimic-fn/2.1.0, MIT, approved, clearlydefined
+npm/npmjs/-/mimic-response/2.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/minimalistic-assert/1.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/minimatch/3.1.2, ISC, approved, clearlydefined
+npm/npmjs/-/minimatch/3.1.2, ISC, approved, clearlydefined
 npm/npmjs/-/minimist/1.2.8, MIT, approved, #5886
-npm/npmjs/-/monaco-editor/0.43.0, , restricted, clearlydefined
+npm/npmjs/-/minipass/3.3.6, ISC, approved, clearlydefined
+npm/npmjs/-/minipass/5.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/minizlib/2.1.2, MIT, approved, clearlydefined
+npm/npmjs/-/mkdirp/1.0.4, MIT, approved, clearlydefined
+npm/npmjs/-/monaco-editor/0.43.0, MIT, approved, clearlydefined
 npm/npmjs/-/ms/2.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/ms/2.1.2, MIT, approved, #5895
 npm/npmjs/-/ms/2.1.2, MIT, approved, #5895
 npm/npmjs/-/ms/2.1.3, MIT, approved, #5895
 npm/npmjs/-/multicast-dns/7.2.5, MIT, approved, clearlydefined
+npm/npmjs/-/nan/2.17.0, MIT, approved, #3782
 npm/npmjs/-/nanoid/3.3.6, MIT, approved, #7571
 npm/npmjs/-/natural-compare-lite/1.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/natural-compare/1.4.0, MIT, approved, clearlydefined
@@ -464,14 +499,18 @@ npm/npmjs/-/negotiator/0.6.3, MIT, approved, clearlydefined
 npm/npmjs/-/neo-async/2.6.2, MIT, approved, clearlydefined
 npm/npmjs/-/neo-async/2.6.2, MIT, approved, clearlydefined
 npm/npmjs/-/no-case/3.0.4, MIT, approved, clearlydefined
+npm/npmjs/-/node-fetch/2.7.0, , restricted, clearlydefined
 npm/npmjs/-/node-forge/1.3.1, (BSD-3-Clause OR GPL-2.0-only) AND MIT, approved, #3014
 npm/npmjs/-/node-releases/2.0.5, MIT, approved, #1954
 npm/npmjs/-/node-releases/2.0.6, MIT, approved, #1954
 npm/npmjs/-/node-stream-zip/1.15.0, MIT, approved, clearlydefined
+npm/npmjs/-/nopt/5.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/normalize-path/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/normalize-path/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/npm-run-path/4.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/npmlog/5.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/nth-check/2.1.1, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/-/object-assign/4.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/object-inspect/1.12.3, MIT, approved, clearlydefined
 npm/npmjs/-/object-keys/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/object.assign/4.1.4, MIT, approved, #3232
@@ -481,6 +520,7 @@ npm/npmjs/-/object.values/1.1.7, MIT, approved, #4665
 npm/npmjs/-/obuf/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/on-finished/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/on-headers/1.0.2, MIT, approved, clearlydefined
+npm/npmjs/-/once/1.4.0, ISC, approved, clearlydefined
 npm/npmjs/-/once/1.4.0, ISC, approved, clearlydefined
 npm/npmjs/-/onetime/5.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/open/8.4.0, MIT, approved, #7102
@@ -501,6 +541,7 @@ npm/npmjs/-/pascal-case/3.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/path-exists/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/path-exists/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/path-is-absolute/1.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/path-is-absolute/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-key/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-key/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-parse/1.0.7, MIT, approved, clearlydefined
@@ -508,7 +549,8 @@ npm/npmjs/-/path-parse/1.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/path-to-regexp/0.1.7, MIT, approved, clearlydefined
 npm/npmjs/-/path-type/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/path-type/4.0.0, MIT, approved, clearlydefined
-npm/npmjs/-/pdfjs-dist/2.16.105, Apache-2.0 AND (Apache-2.0 AND MIT) AND BSD-3-Clause AND OFL-1.1, approved, #5023
+npm/npmjs/-/path2d-polyfill/2.0.1, MIT, restricted, clearlydefined
+npm/npmjs/-/pdfjs-dist/3.10.111, , restricted, clearlydefined
 npm/npmjs/-/picocolors/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/picocolors/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
@@ -538,6 +580,7 @@ npm/npmjs/-/range-parser/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/raw-body/2.5.1, MIT, approved, clearlydefined
 npm/npmjs/-/readable-stream/2.3.7, MIT, approved, #945
 npm/npmjs/-/readable-stream/3.6.0, MIT, approved, CQ22627
+npm/npmjs/-/readable-stream/3.6.2, MIT, approved, CQ22627
 npm/npmjs/-/readdirp/3.6.0, MIT, approved, #2977
 npm/npmjs/-/rechoir/0.8.0, MIT, approved, clearlydefined
 npm/npmjs/-/rechoir/0.8.0, MIT, approved, clearlydefined
@@ -559,6 +602,7 @@ npm/npmjs/-/retry/0.13.1, MIT, approved, clearlydefined
 npm/npmjs/-/reusify/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/reusify/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/rimraf/3.0.2, ISC, approved, clearlydefined
+npm/npmjs/-/rimraf/3.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/run-parallel/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/run-parallel/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/safe-array-concat/1.0.1, MIT, approved, #10335
@@ -575,12 +619,15 @@ npm/npmjs/-/schema-utils/4.0.0, MIT, approved, #8213
 npm/npmjs/-/select-hose/2.0.0, MIT, approved, #145
 npm/npmjs/-/selfsigned/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
+npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.3.8, ISC, approved, clearlydefined
+npm/npmjs/-/semver/7.5.4, ISC, approved, clearlydefined
 npm/npmjs/-/send/0.18.0, MIT, approved, clearlydefined
 npm/npmjs/-/serialize-javascript/6.0.1, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/serialize-javascript/6.0.1, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/serve-index/1.9.1, MIT, approved, clearlydefined
 npm/npmjs/-/serve-static/1.15.0, MIT, approved, clearlydefined
+npm/npmjs/-/set-blocking/2.0.0, ISC, approved, #5899
 npm/npmjs/-/setprototypeof/1.1.0, ISC, approved, clearlydefined
 npm/npmjs/-/setprototypeof/1.2.0, ISC, approved, clearlydefined
 npm/npmjs/-/shallow-clone/3.0.1, MIT, approved, clearlydefined
@@ -592,6 +639,9 @@ npm/npmjs/-/shebang-regex/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shell-quote/1.8.1, MIT, approved, #7044
 npm/npmjs/-/side-channel/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/signal-exit/3.0.7, ISC, approved, #5892
+npm/npmjs/-/signal-exit/3.0.7, ISC, approved, #5892
+npm/npmjs/-/simple-concat/1.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/simple-get/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/slash/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/slash/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/slash/4.0.0, MIT, approved, clearlydefined
@@ -606,11 +656,14 @@ npm/npmjs/-/spdy/4.0.2, MIT, approved, #2926
 npm/npmjs/-/statuses/1.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/statuses/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/string-replace-loader/3.1.0, MIT, approved, clearlydefined
+npm/npmjs/-/string-width/4.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/string.prototype.trim/1.2.8, MIT, approved, #10361
 npm/npmjs/-/string.prototype.trimend/1.0.7, MIT, approved, #4564
 npm/npmjs/-/string.prototype.trimstart/1.0.7, MIT, approved, #4647
 npm/npmjs/-/string_decoder/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/string_decoder/1.3.0, MIT, approved, clearlydefined
+npm/npmjs/-/string_decoder/1.3.0, MIT, approved, clearlydefined
+npm/npmjs/-/strip-ansi/6.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/strip-ansi/6.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/strip-bom/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/strip-final-newline/2.0.0, MIT, approved, clearlydefined
@@ -623,6 +676,7 @@ npm/npmjs/-/supports-preserve-symlinks-flag/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/supports-preserve-symlinks-flag/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/tapable/2.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/tapable/2.2.1, MIT, approved, clearlydefined
+npm/npmjs/-/tar/6.2.0, , restricted, clearlydefined
 npm/npmjs/-/terser-webpack-plugin/5.3.9, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser-webpack-plugin/5.3.9, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser/5.19.4, BSD-2-Clause AND BSD-3-Clause AND BSD-2-Clause, approved, #9355
@@ -632,6 +686,7 @@ npm/npmjs/-/thunky/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/toidentifier/1.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/tr46/0.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/ts-loader/9.4.4, MIT AND ISC, approved, #5028
 npm/npmjs/-/tsconfig-paths/3.14.2, MIT, approved, clearlydefined
 npm/npmjs/-/tslib/1.14.1, 0BSD, approved, clearlydefined
@@ -652,6 +707,7 @@ npm/npmjs/-/update-browserslist-db/1.0.3, MIT, approved, #8237
 npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/util-deprecate/1.0.2, MIT, approved, #5885
+npm/npmjs/-/util-deprecate/1.0.2, MIT, approved, #5885
 npm/npmjs/-/utila/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/utils-merge/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #2438
@@ -659,7 +715,7 @@ npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/wbuf/1.7.3, MIT, approved, clearlydefined
-npm/npmjs/-/web-streams-polyfill/3.2.1, MIT, approved, clearlydefined
+npm/npmjs/-/webidl-conversions/3.0.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/webpack-cli/5.1.4, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-cli/5.1.4, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-dev-middleware/5.3.3, MIT, approved, clearlydefined
@@ -672,14 +728,18 @@ npm/npmjs/-/webpack/5.88.2, MIT, approved, #9185
 npm/npmjs/-/webpack/5.88.2, MIT, approved, #9185
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
+npm/npmjs/-/whatwg-url/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/which-boxed-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/which-typed-array/1.1.11, MIT, approved, #4864
 npm/npmjs/-/which/2.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/which/2.0.2, ISC, approved, clearlydefined
+npm/npmjs/-/wide-align/1.1.5, ISC, approved, clearlydefined
 npm/npmjs/-/wildcard/2.0.0, MIT, approved, #8274
 npm/npmjs/-/wildcard/2.0.0, MIT, approved, #8274
 npm/npmjs/-/wrappy/1.0.2, ISC, approved, clearlydefined
+npm/npmjs/-/wrappy/1.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/ws/8.14.0, MIT, approved, #10503
+npm/npmjs/-/yallist/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/yallist/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/yocto-queue/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/@aashutoshrathi/word-wrap/1.2.6, MIT, approved, #9212
@@ -705,6 +765,7 @@ npm/npmjs/@jridgewell/sourcemap-codec/1.4.15, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/trace-mapping/0.3.19, MIT, approved, #9904
 npm/npmjs/@jridgewell/trace-mapping/0.3.19, MIT, approved, #9904
 npm/npmjs/@leichtgewicht/ip-codec/2.0.4, MIT, approved, clearlydefined
+npm/npmjs/@mapbox/node-pre-gyp/1.0.11, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.stat/2.0.5, MIT, approved, clearlydefined
