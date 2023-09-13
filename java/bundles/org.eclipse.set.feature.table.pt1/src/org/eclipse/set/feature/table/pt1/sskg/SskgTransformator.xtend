@@ -29,8 +29,7 @@ import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensi
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ZugEinwirkungExtensions.*
-import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
-
+import static extension org.eclipse.set.basis.graph.Digraphs.*
 /**
  * Table transformation for a Gleisschaltmitteltabelle (SSKG).
  * 

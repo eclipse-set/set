@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Schaefer
  */
-// IMPROVE: combine Digraphs + DigraphExtensions
 public class Digraphs {
 
 	private Digraphs() {
@@ -49,6 +48,32 @@ public class Digraphs {
 	public static void setEdgeToSubPathCacheSupplier(
 			final Supplier<Cache> edgeToSubPathCacheSupplier) {
 		Digraphs.edgeToSubPathCacheSupplier = edgeToSubPathCacheSupplier;
+	}
+
+	/**
+	 * @param <E>
+	 *            the edge type
+	 * @param <N>
+	 *            the node type
+	 * @param <P>
+	 *            the point object type
+	 * 
+	 * @param digraph
+	 *            this digraph
+	 * @param start
+	 *            the starting points
+	 * @param end
+	 *            the ending points
+	 * 
+	 * @return all paths from all starting points to all ending points
+	 */
+	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
+			final Digraph<E, N, P> digraph, final Collection<P> start,
+			final Collection<P> end) {
+		final Set<DirectedEdgePath<E, N, P>> result = new HashSet<>();
+		start.forEach(
+				s -> end.forEach(e -> result.addAll(getPaths(digraph, s, e))));
+		return result;
 	}
 
 	/**

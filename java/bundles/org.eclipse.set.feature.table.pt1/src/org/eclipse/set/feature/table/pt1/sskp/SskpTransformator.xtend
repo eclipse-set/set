@@ -42,7 +42,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
+import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
@@ -54,6 +54,9 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
  * @author Truong
  */
 class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
+	static final double ADDITION_SCHUTZSTRECKE_SOLL_60 = 450
+	static final double ADDITION_SCHUTZSTRECKE_SOLL_40_60 = 350
+	static final double ADDITION_SCHUTZSTRECKE_SOLL_40 = 210
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService) {
 		super(cols, enumTranslationService)
@@ -139,15 +142,18 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					fstrDWegs?.filter[IDPZBGefahrpunkt !== null]?.map [
 						val dwegV = fstrDWegSpezifisch?.DWegV?.wert.toInteger
+						val inclination = fstrDWegAllg?.massgebendeNeigung?.wert.toDouble
+						val multipleValue = inclination < 0 ? 0.05 : 0.1
 						if (dwegV === 0) {
 							return ""
 						}
+						
 						if (dwegV > 60) {
-							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.toDouble * 20 + 450»'''
+							return '''«inclination * multipleValue * 200 + ADDITION_SCHUTZSTRECKE_SOLL_60»'''
 						} else if (dwegV <= 60 && dwegV > 40) {
-							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.toDouble * 10 + 350»'''
+							return '''«inclination * multipleValue * 100 + ADDITION_SCHUTZSTRECKE_SOLL_40_60»'''
 						} else if (dwegV <= 40) {
-							return '''«fstrDWegAllg?.massgebendeNeigung?.wert.toDouble * 5 + 210»'''
+							return '''«inclination * multipleValue * 50 + ADDITION_SCHUTZSTRECKE_SOLL_40»'''
 						}
 						return ""
 					]
@@ -536,7 +542,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
 				getPointsDistance(topGraph, pzb, signal).min)
-			return distance > 0 ? distance.toString : ""
+			if (pzb.identitaet.wert.equals("8D403732-895D-4003-952F-12D99EEC6050")) {
+				println("TEST")
+			}
+			val directionSign = topGraph.isInWirkrichtungOfSignal(signal, pzb)
+				? "+"
+				: "-"
+			return distance > 0 ? '''«directionSign»«distance.toString»''' : ""
 		}
 		
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.

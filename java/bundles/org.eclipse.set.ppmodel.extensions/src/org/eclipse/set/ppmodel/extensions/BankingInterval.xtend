@@ -23,7 +23,6 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
 import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehungslinie
-import org.eclipse.set.utils.math.BigSlopeInterceptForm
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -31,7 +30,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
+import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**

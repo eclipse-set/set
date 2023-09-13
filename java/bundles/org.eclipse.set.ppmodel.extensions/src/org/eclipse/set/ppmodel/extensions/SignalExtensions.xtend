@@ -19,6 +19,7 @@ import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
 import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
@@ -26,6 +27,7 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
@@ -48,7 +50,8 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
+import static extension org.eclipse.set.basis.graph.Digraphs.*
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
 /**
  * This class extends {@link Signal}.
@@ -137,6 +140,13 @@ class SignalExtensions extends PunktObjektExtensions {
 		return signalFunktion ===
 			ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL &&
 			signalbegriffe.containsSignalbegriffID(Zs3v)
+	}
+
+	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
+		Signal signal, Punkt_Objekt object) {
+		return topGraph.getPaths(signal.singlePoints, object.singlePoints).
+			flatMap[edges].forall[isForwards == true]
+
 	}
 
 	/**
