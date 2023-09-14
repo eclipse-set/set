@@ -17886,7 +17886,7 @@
 	public String ENUMPZB_Art_1000_2000_Hz_Sorting;
 
 	/**
-	 * 1/2
+	 * 1000/2000
 	 */
 	public String ENUMPZB_Art_1000_2000_Hz_Alternative;
 
@@ -17901,7 +17901,7 @@
 	public String ENUMPZB_Art_1000_Hz_Sorting;
 
 	/**
-	 * 1
+	 * 1000
 	 */
 	public String ENUMPZB_Art_1000_Hz_Alternative;
 
@@ -17916,7 +17916,7 @@
 	public String ENUMPZB_Art_2000_Hz_Sorting;
 
 	/**
-	 * 2
+	 * 2000
 	 */
 	public String ENUMPZB_Art_2000_Hz_Alternative;
 
@@ -17931,7 +17931,7 @@
 	public String ENUMPZB_Art_500_Hz_Sorting;
 
 	/**
-	 * 0,5
+	 * 500
 	 */
 	public String ENUMPZB_Art_500_Hz_Alternative;
 
@@ -24536,7 +24536,7 @@
 	public String ENUMZwieschutz_Art_eigen_Alternative;
 
 	/**
-	 * □
+	 * nein
 	 */
 	public String XSBoolean_false_Presentation;
 
@@ -24551,7 +24551,7 @@
 	public String XSBoolean_false_Alternative;
 
 	/**
-	 * x
+	 * ja
 	 */
 	public String XSBoolean_true_Presentation;
 

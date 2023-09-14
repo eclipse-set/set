@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject
 
 import static org.eclipse.set.ppmodel.extensions.DistanceExtensions.MeasuringStrategy.*
 
-import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
+import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*

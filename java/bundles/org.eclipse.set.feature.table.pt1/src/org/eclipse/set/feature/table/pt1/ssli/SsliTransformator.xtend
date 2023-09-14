@@ -35,7 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
-import static extension org.eclipse.set.utils.graph.DigraphExtensions.*
+import static extension org.eclipse.set.basis.graph.Digraphs.*
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
