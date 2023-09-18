@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 import * as monaco from 'monaco-editor'
-import { Model, TextFileModel } from './model'
+import { TextFileModel } from './model'
 
 export enum ModelContainer {
   INITIAL,
@@ -51,7 +51,7 @@ export default function jumpToDefinition (editor: monaco.editor.IStandaloneCodeE
  * @param viewModels list models
  * @param guid the guid
  */
-function switchModelToFindReference (
+export function switchModelToFindReference (
   editor: monaco.editor.IStandaloneCodeEditor,
   viewModels: Map<string, monaco.editor.ITextModel>,
   guid: string
@@ -163,6 +163,7 @@ export function findObjectDefinitionLineByGUID (
       .filter(ele => ele)
     return lines.length > 0 ? lines[0] : undefined
   }
+
   const xpath = getContainerXPath(container, guid)
   const node = xml.evaluate(xpath, xml.getRootNode())
     ?.iterateNext()?.parentElement?.parentElement
