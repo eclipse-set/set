@@ -8,7 +8,7 @@
  */
 import { Model, ProblemMessage, TextFileModel } from './model'
 import * as monaco from 'monaco-editor'
-import jumpToDefinition, { ModelContainer, findObjectDefinitionLineByGUID, getGUIDAt, getModelContainer } from './jumpToGuid'
+import jumpToDefinition, { ModelContainer, findObjectDefinitionLineByGUID, getGUIDAt, getModelContainer, switchModelToFindReference } from './jumpToGuid'
 import { TableType } from '.'
 import { seletedTabStyle } from './multitab'
 
@@ -136,7 +136,21 @@ export class App {
   }
 
   jumpToGuid (guid: string, sessionState: TableType) {
-    const line = findObjectDefinitionLineByGUID(guid, this.editor.getModel(), this.xml, this.getModelContainer(sessionState))
+    const modelContainer = this.getModelContainer(sessionState)
+    let line = findObjectDefinitionLineByGUID(guid, this.editor.getModel(), this.xml, modelContainer)
+    if (!line && sessionState === TableType.DIFF) {
+      switch (modelContainer) {
+        case ModelContainer.INITIAL:{
+          line = findObjectDefinitionLineByGUID(guid, this.editor.getModel(), this.xml, ModelContainer.FINAL)
+          break
+        }
+        case ModelContainer.FINAL:{
+          line = findObjectDefinitionLineByGUID(guid, this.editor.getModel(), this.xml, ModelContainer.INITIAL)
+          break
+        }
+      }
+    }
+
     if (line) {
       // Jump to the line
       this.editor.revealLineInCenter(line)
@@ -144,7 +158,9 @@ export class App {
         lineNumber: line,
         column: 0
       })
+      return
     }
+    switchModelToFindReference(this.editor, this.viewModels, guid)
   }
 
   getModelContainer (sessionState: TableType): ModelContainer {
@@ -163,7 +179,7 @@ export class App {
       case TableType.INITIAL:
         return ModelContainer.INITIAL
       case TableType.DIFF:
-        return getModelContainer(this.editor, this.editor.getPosition()) ? ModelContainer.INITIAL : ModelContainer.LAYOUT
+        return getModelContainer(this.editor, this.editor.getPosition())
       default:
         return ModelContainer.FINAL
     }
