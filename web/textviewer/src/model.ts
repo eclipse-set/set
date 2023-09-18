@@ -21,8 +21,8 @@ export interface ProblemMessage {
 }
 
 export enum TextFileModel {
-  MODEL = 'Modell',
-  LAYOUT = 'Layout'
+  MODEL = 'Fachdaten',
+  LAYOUT = 'Layoutdaten'
 }
 
 /**
