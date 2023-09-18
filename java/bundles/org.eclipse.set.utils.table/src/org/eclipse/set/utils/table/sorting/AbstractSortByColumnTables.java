@@ -10,21 +10,14 @@
 package org.eclipse.set.utils.table.sorting;
 
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.nebula.widgets.nattable.config.CellConfigAttributes;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
-import org.eclipse.nebula.widgets.nattable.config.DefaultNatTableStyleConfiguration;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
-import org.eclipse.nebula.widgets.nattable.filterrow.FilterIconPainter;
 import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
-import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowPainter;
 import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
-import org.eclipse.nebula.widgets.nattable.filterrow.config.DefaultFilterRowConfiguration;
-import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnCommand;
-import org.eclipse.nebula.widgets.nattable.grid.GridRegion;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
@@ -33,13 +26,10 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.CornerLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
-import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.PaddingDecorator;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
-import org.eclipse.nebula.widgets.nattable.style.DisplayMode;
-import org.eclipse.nebula.widgets.nattable.util.GUIHelper;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
@@ -69,7 +59,7 @@ public abstract class AbstractSortByColumnTables {
 	protected DataLayer bodyDataLayer;
 
 	protected void createTableBodyData(final Table table,
-			final Function<Integer, Integer> getSourceLine) {
+			final UnaryOperator<Integer> getSourceLine) {
 		bodyDataProvider = new TableDataProvider(table, getSourceLine);
 		bodyDataLayer = new DataLayer(bodyDataProvider);
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
@@ -88,13 +78,6 @@ public abstract class AbstractSortByColumnTables {
 			tableDataProvider.applyFilter(filterIndexToObjectMap);
 		}
 
-	}
-
-	class FilterRowCustomConfiguration extends DefaultFilterRowConfiguration {
-		public FilterRowCustomConfiguration() {
-			this.cellPainter = new FilterRowPainter(
-					new FilterIconPainter(GUIHelper.getImage("filter"))); //$NON-NLS-1$
-		}
 	}
 
 	protected NatTable createTable(final Composite parent,
@@ -117,13 +100,6 @@ public abstract class AbstractSortByColumnTables {
 				columnHeaderLayer, new TableSortModel(bodyDataProvider), true);
 
 		final ConfigRegistry configRegistry = new ConfigRegistry();
-		configRegistry.registerConfigAttribute(
-				CellConfigAttributes.CELL_PAINTER,
-				new PaddingDecorator(
-						new FilterRowPainter(new FilterIconPainter(
-								GUIHelper.getImage("remove-filter"))), //$NON-NLS-1$
-						0, 0, 0, 5),
-				DisplayMode.NORMAL, GridRegion.FILTER_ROW);
 		final FilterRowHeaderComposite<Object> filterRowHeaderLayer = new FilterRowHeaderComposite<>(
 				new FilterStrategy<>(bodyDataProvider), sortHeaderLayer,
 				columnHeaderDataLayer.getDataProvider(), configRegistry);
@@ -152,10 +128,7 @@ public abstract class AbstractSortByColumnTables {
 				false);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(natTable);
 		natTable.setConfigRegistry(configRegistry);
-		natTable.addConfiguration(new DefaultNatTableStyleConfiguration());
 		natTable.addConfiguration(new SingleClickSortConfiguration());
-		natTable.addConfiguration(new FilterRowCustomConfiguration());
-
 		if (tableMenuService != null) {
 			natTable.addConfiguration(tableMenuService.createMenuConfiguration(
 					natTable, bodyLayerStack.getSelectionLayer()));
@@ -167,8 +140,6 @@ public abstract class AbstractSortByColumnTables {
 		natTable.setTheme(new PlanProTableThemeConfiguration(natTable,
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider));
-
-		natTable.doCommand(new FreezeColumnCommand(bodyLayerStack, 0));
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// Sort by first column (Ascending)

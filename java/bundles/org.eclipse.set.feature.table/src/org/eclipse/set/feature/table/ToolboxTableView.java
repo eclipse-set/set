@@ -360,8 +360,7 @@ public final class ToolboxTableView extends BasePart {
 		// column group groups
 		final ColumnGroupModel columnGroupGroupModel = new ColumnGroupModel();
 		final ColumnGroupGroupHeaderLayer columnGroupGroupHeaderLayer = new ColumnGroupGroupHeaderLayer(
-				columnGroupHeaderLayer, bodyLayerStack.getSelectionLayer(),
-				columnGroupGroupModel);
+				columnGroupHeaderLayer, columnGroupGroupModel);
 		NatTableColumnGroupHelper.addGroupGroups(rootColumnDescriptor,
 				columnGroupGroupHeaderLayer);
 		columnGroupGroupHeaderLayer

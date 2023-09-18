@@ -15,13 +15,12 @@ import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
-
-import org.eclipse.set.feature.table.messages.MessagesWrapper;
 
 /**
  * Create and publish {@link MessagesWrapper}.
@@ -50,8 +49,7 @@ public class MessagesContextFunction extends ContextFunction {
 		applicationContext.set(MessagesWrapper.class, wrapper);
 		// publish as an osgi service:
 		serviceRegistration = bundleContext.registerService(
-				MessagesWrapper.class, wrapper,
-				new Hashtable<String, Object>());
+				MessagesWrapper.class, wrapper, new Hashtable<>());
 
 		return wrapper;
 	}

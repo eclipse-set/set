@@ -256,8 +256,7 @@ public class AttachmentTable {
 		createColumns();
 
 		if (hasSupportForListManipulation()) {
-			viewer.setContentProvider(
-					new DomainElementListContentProvider<Attachment, AttachmentInfo<Attachment>>());
+			viewer.setContentProvider(new DomainElementListContentProvider<>());
 			viewer.setInput(attachmentList);
 
 			// refresh the viewer...
