@@ -223,7 +223,7 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 
 		val h_start = left
 		val h_end = right
-		val h_between = (h_start - h_end).abs
+		val h_between = h_end - h_start
 		var result = BigDecimal.ZERO
 		switch (bankingLine?.ueberhoehungslinieAllg?.ueberhoehungslinieForm?.wert) {
 			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_BLOSS: {

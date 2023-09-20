@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.cache.NoCache;
@@ -96,7 +97,12 @@ public class Digraphs {
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final Digraph<E, N, P> digraph, final P startPoint,
 			final P endPoint) {
-		return getPaths(digraph, startPoint, endPoint);
+		return digraph.getEdges().stream()
+				.filter(edge -> edge.contains(startPoint))
+				.flatMap(startEdge -> getPaths(startEdge, digraph, startPoint,
+						endPoint).stream())
+				.collect(Collectors.toSet());
+
 	}
 
 	/**

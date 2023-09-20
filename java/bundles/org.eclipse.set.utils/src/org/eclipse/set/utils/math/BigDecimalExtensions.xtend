@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.utils.math
 
-import org.eclipse.emf.common.util.Enumerator
 import java.math.BigDecimal
-import java.math.MathContext
+import java.math.RoundingMode
+import org.eclipse.emf.common.util.Enumerator
 
 /**
  * Extensions for {@link Enumerator}.
@@ -118,7 +118,7 @@ class BigDecimalExtensions {
 		T divideValue) {
 		if (value !== null) {
 			return value.divide(divideValue.toBigDecimal,
-				MathContext.DECIMAL128)
+				RoundingMode.DOWN)
 		}
 		return null
 	}
