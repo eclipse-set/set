@@ -114,6 +114,10 @@
         <setEntry value="junit-platform-suite-commons@default:default"/>
         <setEntry value="junit-platform-suite-engine@default:default"/>
         <setEntry value="junit-vintage-engine@default:default"/>
+        <setEntry value="maven.org.apache.poi.artifact.poi-ooxml-lite@default:default"/>
+        <setEntry value="maven.org.apache.poi.artifact.poi-ooxml@default:default"/>
+        <setEntry value="maven.org.apache.poi.artifact.poi@default:default"/>
+        <setEntry value="maven.org.apache.xmlbeans.artifact.xmlbeans@default:default"/>
         <setEntry value="maven.org.apache.xmlgraphics.artifact.fop@default:default"/>
         <setEntry value="org.apache.ant@default:default"/>
         <setEntry value="org.apache.batik.anim@default:default"/>
@@ -139,7 +143,7 @@
         <setEntry value="org.apache.commons.io@default:default"/>
         <setEntry value="org.apache.commons.jxpath@default:default"/>
         <setEntry value="org.apache.commons.lang3@default:default"/>
-        <setEntry value="org.apache.commons.logging*1.2.0.v20180409-1502@default:default"/>
+        <setEntry value="org.apache.commons.logging@default:default"/>
         <setEntry value="org.apache.commons.math3@default:default"/>
         <setEntry value="org.apache.felix.gogo.command@default:default"/>
         <setEntry value="org.apache.felix.gogo.runtime@default:default"/>
@@ -153,6 +157,7 @@
         <setEntry value="org.apiguardian.api@default:default"/>
         <setEntry value="org.eclipse.ant.core.nl_de@default:false"/>
         <setEntry value="org.eclipse.ant.core@default:default"/>
+        <setEntry value="org.eclipse.collections@default:default"/>
         <setEntry value="org.eclipse.compare.core.nl_de@default:false"/>
         <setEntry value="org.eclipse.compare.core@default:default"/>
         <setEntry value="org.eclipse.compare.nl_de@default:false"/>
@@ -415,22 +420,16 @@
         <setEntry value="org.eclipse.nebula.widgets.cdatetime@default:default"/>
         <setEntry value="org.eclipse.nebula.widgets.nattable.core@default:default"/>
         <setEntry value="org.eclipse.nebula.widgets.nattable.extension.nebula@default:default"/>
-        <setEntry value="org.eclipse.nebula.widgets.richtext*1.3.0.201907151344@default:default"/>
+        <setEntry value="org.eclipse.nebula.widgets.richtext@default:default"/>
         <setEntry value="org.eclipse.net4j.util@default:default"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
         <setEntry value="org.eclipse.osgi.services@default:default"/>
         <setEntry value="org.eclipse.osgi@1:true"/>
-        <setEntry value="org.eclipse.set.browser.cef.win32@default:default"/>
         <setEntry value="org.eclipse.set.browser.lib@default:default"/>
         <setEntry value="org.eclipse.set.browser@default:default"/>
         <setEntry value="org.eclipse.set.model.model11001.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.model11001.editor@default:default"/>
-        <setEntry value="org.eclipse.set.model.model11001@default:default"/>
         <setEntry value="org.eclipse.set.model.modelservice@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel.edit@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel.editor@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel.transform@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel@default:default"/>
         <setEntry value="org.eclipse.swt.nl_de@default:false"/>
         <setEntry value="org.eclipse.swt.win32.win32.x86_64@default:false"/>
         <setEntry value="org.eclipse.swt@default:default"/>
@@ -476,10 +475,17 @@
         <setEntry value="org.hamcrest.core@default:default"/>
         <setEntry value="org.hamcrest.library@default:default"/>
         <setEntry value="org.junit.jupiter.api@default:default"/>
+        <setEntry value="org.junit.jupiter.engine@default:default"/>
+        <setEntry value="org.junit.jupiter.migrationsupport@default:default"/>
+        <setEntry value="org.junit.jupiter.params@default:default"/>
+        <setEntry value="org.junit.platform.commons@default:default"/>
         <setEntry value="org.junit.platform.engine@default:default"/>
         <setEntry value="org.junit.platform.launcher@default:default"/>
+        <setEntry value="org.junit.platform.suite.api@default:default"/>
+        <setEntry value="org.junit.platform.suite.commons@default:default"/>
         <setEntry value="org.junit@default:default"/>
         <setEntry value="org.locationtech.jts.jts-core@default:default"/>
+        <setEntry value="org.locationtech.proj4j@default:default"/>
         <setEntry value="org.opentest4j@default:default"/>
         <setEntry value="org.osgi.service.cm@default:default"/>
         <setEntry value="org.osgi.service.component@default:default"/>
@@ -499,10 +505,6 @@
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
         <setEntry value="slf4j.api@default:default"/>
-        <setEntry value="wrapped.org.apache.poi.poi-ooxml-lite@default:default"/>
-        <setEntry value="wrapped.org.apache.poi.poi-ooxml@default:default"/>
-        <setEntry value="wrapped.org.apache.poi.poi@default:default"/>
-        <setEntry value="wrapped.org.apache.xmlbeans.xmlbeans@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="org.eclipse.set.application.set@default:default"/>
@@ -510,6 +512,7 @@
         <setEntry value="org.eclipse.set.application@default:default"/>
         <setEntry value="org.eclipse.set.basis.test@default:false"/>
         <setEntry value="org.eclipse.set.basis@default:default"/>
+        <setEntry value="org.eclipse.set.browser.cef.win32@default:default"/>
         <setEntry value="org.eclipse.set.core.rcp.dialogservice@default:default"/>
         <setEntry value="org.eclipse.set.core.services@default:default"/>
         <setEntry value="org.eclipse.set.core.test@default:false"/>
@@ -529,6 +532,7 @@
         <setEntry value="org.eclipse.set.i18n.ecp.table.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.model.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.validationreport.nl_de@default:false"/>
+        <setEntry value="org.eclipse.set.model.model11001@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel@default:default"/>
         <setEntry value="org.eclipse.set.model.tablemodel.edit@default:default"/>
@@ -556,6 +560,10 @@
         <setEntry value="org.eclipse.set.sessionservice.test@default:false"/>
         <setEntry value="org.eclipse.set.sessionservice@default:default"/>
         <setEntry value="org.eclipse.set.swtbot@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel.edit@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel.editor@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel.transform@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel@default:default"/>
         <setEntry value="org.eclipse.set.unittest.utils@default:default"/>
         <setEntry value="org.eclipse.set.utils.rcp@default:false"/>
         <setEntry value="org.eclipse.set.utils.table@default:default"/>

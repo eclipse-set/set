@@ -8,8 +8,9 @@
  */
 package org.eclipse.set.utils.math
 
-import org.eclipse.emf.common.util.Enumerator
 import java.math.BigDecimal
+import java.math.RoundingMode
+import org.eclipse.emf.common.util.Enumerator
 
 /**
  * Extensions for {@link Enumerator}.
@@ -59,10 +60,12 @@ class BigDecimalExtensions {
 	/**
 	 * Convert number value to bigdecimal
 	 */
-	static def <T extends Number> BigDecimal toBigDecimal(
-		T value) {
+	static def <T extends Number> BigDecimal toBigDecimal(T value) {
+		if (value instanceof BigDecimal) {
+			return value
+		}
 		try {
-			return BigDecimal.valueOf(value.longValue)
+			return BigDecimal.valueOf(value.doubleValue)
 		} catch (Exception e) {
 			throw new RuntimeException(e)
 		}
@@ -92,14 +95,14 @@ class BigDecimalExtensions {
 		}
 		return null
 	}
-  
+
 	/**
 	 * @param value the big decimal to multiply
 	 * @param multiplyValue the multiply value
 	 * @return the result
 	 */
-	static def <T extends Number> BigDecimal multiplyValue(
-		BigDecimal value, T multiplyValue) {
+	static def <T extends Number> BigDecimal multiplyValue(BigDecimal value,
+		T multiplyValue) {
 		if (value !== null) {
 			return value.multiply(multiplyValue.toBigDecimal)
 		}
@@ -111,14 +114,15 @@ class BigDecimalExtensions {
 	 * @param multiplyValue the multiply value
 	 * @return the result
 	 */
-	static def <T extends Number> BigDecimal divideValue(
-		BigDecimal value, T divideValue) {
+	static def <T extends Number> BigDecimal divideValue(BigDecimal value,
+		T divideValue) {
 		if (value !== null) {
-			return value.divide(divideValue.toBigDecimal)
+			return value.divide(divideValue.toBigDecimal,
+				RoundingMode.DOWN)
 		}
 		return null
 	}
-	
+
 	static def double toDouble(BigDecimal value) {
 		if (value === null) {
 			return 0.0
