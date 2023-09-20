@@ -36,9 +36,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class TableDataTest extends AbstractTableTest {
 
 	private static final String CELL_VALUE_REPLACE_REGEX = "[\\n\\r]";
+	private ILayer columnHeaderLayer;
 	private int fixedColumnCount;
-
 	private GridLayer gridLayer;
+	private SelectionLayer selectionlayer;
 	List<CSVRecord> referenceData = new LinkedList<>();
 
 	private void compareValue(final ILayer nattableLayer, final int startRow,
@@ -63,11 +64,29 @@ public class TableDataTest extends AbstractTableTest {
 		fixedColumnCount = table.fixedColumns().size();
 	}
 
-	private void givenNattableGridLayer() {
+	private void givenNattableLayers() {
 		final NatTable natTable = nattableBot.widget;
 		final ILayer layer = natTable.getLayer();
 		assertInstanceOf(GridLayer.class, layer);
 		gridLayer = (GridLayer) layer;
+
+		columnHeaderLayer = gridLayer.getColumnHeaderLayer();
+		assertInstanceOf(BodyLayerStack.class, gridLayer.getBodyLayer());
+		final BodyLayerStack bodyLayerStack = (BodyLayerStack) gridLayer
+				.getBodyLayer();
+
+		selectionlayer = bodyLayerStack.getSelectionLayer();
+	}
+
+	private void thenRowAndColumnCountEqualReferenceCSV() {
+		final int nattableColumnCount = gridLayer.getPreferredColumnCount()
+				- fixedColumnCount;
+		final int referenceColumnCount = referenceData.get(0).size();
+		assertEquals(referenceColumnCount, nattableColumnCount);
+		final int nattableRowCount = columnHeaderLayer.getRowCount()
+				+ selectionlayer.getRowCount();
+		final int referenceRowCount = referenceData.size();
+		assertEquals(referenceRowCount, nattableRowCount);
 	}
 
 	protected void givenReferenceCSV(final PtTable table) throws IOException {
@@ -85,8 +104,9 @@ public class TableDataTest extends AbstractTableTest {
 		givenNattableBot(table);
 		givenReferenceCSV(table);
 		givenFixedColumnCount(table);
-		givenNattableGridLayer();
+		givenNattableLayers();
 		whenExistReferenceCSV();
+		thenRowAndColumnCountEqualReferenceCSV();
 		thenPtTableColumnHeaderEqualReferenceCSV();
 		thenPtTableDataEqualReferenceCSV();
 	}
@@ -99,15 +119,9 @@ public class TableDataTest extends AbstractTableTest {
 	}
 
 	protected void thenPtTableDataEqualReferenceCSV() {
-
-		assertInstanceOf(BodyLayerStack.class, gridLayer.getBodyLayer());
-		final BodyLayerStack bodyLayerStack = (BodyLayerStack) gridLayer
-				.getBodyLayer();
-		final int startRow = gridLayer.getColumnHeaderLayer().getRowCount();
-		final SelectionLayer selectionlayer = bodyLayerStack
-				.getSelectionLayer();
+		final int startRow = columnHeaderLayer.getRowCount();
 		assertDoesNotThrow(() -> compareValue(selectionlayer, startRow,
-				selectionlayer.getPreferredRowCount()));
+				selectionlayer.getRowCount()));
 	}
 
 	protected void whenExistReferenceCSV() {
