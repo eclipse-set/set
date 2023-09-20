@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.swtbot.table;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -21,6 +22,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -46,19 +48,13 @@ public class TableDataTest extends AbstractTableTest {
 			for (int columnIndex = 0; columnIndex < nattableLayer
 					.getPreferredColumnCount()
 					- fixedColumnCount; columnIndex++) {
-				try {
-					final String cellValue = nattableLayer
-							.getDataValueByPosition(columnIndex, rowIndex)
-							.toString()
-							.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
-					final String referenceValue = referenceData
-							.get(rowIndex + startRow).get(columnIndex + 1)
-							.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
-					assertEquals(referenceValue, cellValue);
-				} catch (final Exception e) {
-					System.out.println(e);
-				}
-
+				final String cellValue = nattableLayer
+						.getDataValueByPosition(columnIndex, rowIndex)
+						.toString().replaceAll(CELL_VALUE_REPLACE_REGEX, "");
+				final String referenceValue = referenceData
+						.get(rowIndex + startRow).get(columnIndex + 1)
+						.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
+				assertEquals(referenceValue, cellValue);
 			}
 		}
 	}
@@ -97,7 +93,8 @@ public class TableDataTest extends AbstractTableTest {
 
 	protected void thenPtTableColumnHeaderEqualReferenceCSV() {
 		final int rowCount = gridLayer.getColumnHeaderLayer().getRowCount();
-		compareValue(gridLayer.getColumnHeaderLayer(), 0, rowCount);
+		assertDoesNotThrow(() -> compareValue(gridLayer.getColumnHeaderLayer(),
+				0, rowCount));
 
 	}
 
@@ -107,8 +104,10 @@ public class TableDataTest extends AbstractTableTest {
 		final BodyLayerStack bodyLayerStack = (BodyLayerStack) gridLayer
 				.getBodyLayer();
 		final int startRow = gridLayer.getColumnHeaderLayer().getRowCount();
-		compareValue(bodyLayerStack.getSelectionLayer(), startRow,
-				bodyLayerStack.getSelectionLayer().getPreferredRowCount());
+		final SelectionLayer selectionlayer = bodyLayerStack
+				.getSelectionLayer();
+		assertDoesNotThrow(() -> compareValue(selectionlayer, startRow,
+				selectionlayer.getPreferredRowCount()));
 	}
 
 	protected void whenExistReferenceCSV() {
