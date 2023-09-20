@@ -96,7 +96,7 @@ public class Digraphs {
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final Digraph<E, N, P> digraph, final P startPoint,
 			final P endPoint) {
-		return DigraphExtensions.getPaths(digraph, startPoint, endPoint);
+		return getPaths(digraph, startPoint, endPoint);
 	}
 
 	/**

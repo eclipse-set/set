@@ -26,11 +26,11 @@ import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehungslinie
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
@@ -256,11 +256,11 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		}
 		val a = h_between
 			.multiplyValue(3)
-			.divide(length.pow(2))
+			.divideValue(length.pow(2))
 			.multiply(distanceFromLeft.pow(2)) 
 		val b = h_between
 			.multiplyValue(2)
-			.divide(length.pow(3))
+			.divideValue(length.pow(3))
 			.multiply(distanceFromLeft.pow(3)) 
 		return a.add(b.negate) 
 	}
@@ -280,12 +280,12 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 			return h_between
 				.multiplyValue(2)
 				.multiplyValue(distanceFromLeft.pow(2))
-				.divide(length.pow(2))
+				.divideValue(length.pow(2))
 		}
 		return h_between.add(h_between
 				.multiplyValue(2)
 				.multiplyValue(distanceFromRight.pow(2))
-				.divide(length.pow(2))
+				.divideValue(length.pow(2))
 				.negate)
 	}
 	
@@ -299,9 +299,8 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 	 */
 	private def BigDecimal bankingDefault(BigDecimal h_between) {
 		return h_between
-				.multiplyValue(2)
-				.multiplyValue(distanceFromLeft.pow(2))
-				.divide(length.pow(2))
+				.multiplyValue(distanceFromLeft)
+				.divideValue(length)
 	}
 
 	/**
