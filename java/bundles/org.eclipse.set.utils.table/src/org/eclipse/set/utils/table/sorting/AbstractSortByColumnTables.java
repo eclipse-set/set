@@ -75,6 +75,8 @@ public abstract class AbstractSortByColumnTables {
 		final TreeRowModel<TableRowData> treeRowModel = new TreeRowModel<>(
 				bodyDataProvider);
 		treeLayer = new TreeLayer(bodyDataLayer, treeRowModel);
+		// Collapse all group by default
+		treeLayer.collapseAll();
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer, treeLayer);
 	}
 
@@ -110,7 +112,7 @@ public abstract class AbstractSortByColumnTables {
 		final ColumnHeaderLayer columnHeaderLayer = new ColumnHeaderLayer(
 				columnHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
-		
+
 		// Sort Column Header
 		final TableSortModel sortModel = new TableSortModel(bodyDataProvider);
 		final SortHeaderLayer<BodyLayerStack> sortHeaderLayer = new SortHeaderLayer<>(
