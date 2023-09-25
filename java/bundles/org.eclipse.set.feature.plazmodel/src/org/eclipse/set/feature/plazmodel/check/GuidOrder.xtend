@@ -19,6 +19,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.ge
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.set.model.validationreport.ValidationSeverity
+import java.util.Map
 
 /**
  * Validates that objects are in order
@@ -46,6 +47,7 @@ class GuidOrder extends AbstractPlazContainerCheck implements PlazCheck {
 		return errors.distinctBy[eClass].map [
 			val err = PlazFactory.eINSTANCE.createPlazError
 			err.message = '''Die Elemente des Objekttyps «it.eClass.name» sind nicht sortiert.'''
+			err.message = transformErroMsg(Map.of("Objekttyp", it.eClass.name))
 			err.type = checkType
 			err.severity = ValidationSeverity.WARNING
 			err.object = it
@@ -60,4 +62,9 @@ class GuidOrder extends AbstractPlazContainerCheck implements PlazCheck {
 	override getDescription() {
 		return "Objekte vom gleichen Typ sind anhand ihrer GUID sortiert."
 	}
+	
+	override getGeneralErrMsg() {
+		return "Die Elemente des Objekttyps {Objekttyp} sind nicht sortiert."
+	}
+	
 }

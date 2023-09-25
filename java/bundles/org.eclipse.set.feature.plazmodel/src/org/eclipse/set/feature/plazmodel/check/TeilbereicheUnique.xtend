@@ -16,6 +16,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
+import java.util.Map
 
 /**
  * Validates that Bereich_Objekt_Teilbereich in Object not identical
@@ -39,7 +40,7 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 						].flatten
 				if (identicals.size > 1) {
 					val err = PlazFactory.eINSTANCE.createPlazError
-					err.message = '''Es gibt mehrere identische Teilbereich in Objekt «object.identitaet?.wert»'''
+					err.message = transformErroMsg(Map.of("GUID", object.identitaet?.wert))
 					err.type = checkType
 					err.object = object?.identitaet
 					return err
@@ -54,5 +55,10 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 	
 	override getDescription() {
 		return "Teilbereichsgrenzen der LST-Objekte sind einzigartig."
-	}		
+	}
+	
+	override getGeneralErrMsg() {
+		return "Es gibt mehrere identische Teilbereich in Objekt {GUID}."
+	}
+	
 }

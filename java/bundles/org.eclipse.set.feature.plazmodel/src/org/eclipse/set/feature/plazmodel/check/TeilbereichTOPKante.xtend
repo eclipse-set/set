@@ -57,15 +57,15 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	private def getErrorMessage(double limitA, double limitB,
 		double topLength) {
 		if (limitA < 0)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungA: «limitA».'''
+			return '''«generalErrMsg» BegrenzungA: «limitA».'''
 		if (limitB < 0)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: «limitB».'''
+			return '''«generalErrMsg» BegrenzungB: «limitB».'''
 		if (limitA > topLength)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungA: «limitA». Länge TOP-Kante: «topLength»'''
+			return '''«generalErrMsg» BegrenzungA: «limitA». Länge TOP-Kante: «topLength»'''
 		if (limitB > topLength)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: «limitB». Länge TOP-Kante: «topLength»'''
+			return '''«generalErrMsg» BegrenzungB: «limitB». Länge TOP-Kante: «topLength»'''
 		if (limitB < limitA)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungA: «limitA». BegrenzungB: «limitB».'''
+			return '''«generalErrMsg» BegrenzungA: «limitA». BegrenzungB: «limitB».'''
 		return null
 	}
 
@@ -79,5 +79,10 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	
 	override getDescription() {
 		return "Teilbereichsgrenzen der LST-Objekte sind gültig."
-	}	
+	}
+	
+	override getGeneralErrMsg() {
+		return "Ungültige Teilbereichsgrenzen für LST-Objekt."
+	}
+	
 }

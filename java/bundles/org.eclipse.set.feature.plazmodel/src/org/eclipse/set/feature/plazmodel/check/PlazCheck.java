@@ -9,7 +9,9 @@
 package org.eclipse.set.feature.plazmodel.check;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.model.plazmodel.PlazError;
 
@@ -37,4 +39,20 @@ public interface PlazCheck {
 	 * @return check description
 	 */
 	String getDescription();
+
+	/**
+	 * @return general error messages
+	 */
+	String getGeneralErrMsg();
+
+	/**
+	 * Transform general error message to individual messages
+	 * 
+	 * @param params
+	 *            name and value of parameter in general erro message
+	 * @return individual error messages
+	 */
+	default String transformErroMsg(final Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}
 }

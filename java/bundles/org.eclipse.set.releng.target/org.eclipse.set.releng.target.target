@@ -316,6 +316,11 @@ DynamicImport-Package: *
 					<artifactId>commons-csv</artifactId>
 					<version>1.9.0</version>
 				</dependency>
+				<dependency>
+				    <groupId>org.apache.commons</groupId>
+				    <artifactId>commons-text</artifactId>
+				    <version>1.10.0</version>
+				</dependency>
 			</dependencies>
 		</location>
 		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache POI" missingManifest="generate" type="Maven">

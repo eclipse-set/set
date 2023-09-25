@@ -90,4 +90,9 @@ public interface ToolboxProperties {
 	 * Property key for the default NatTable line height.
 	 */
 	public static final String TOOLBOX_DEFAULT_LINE_HEIGHT = "toolbox.default.line.height";
+
+	/**
+	 * Property key for the minimum of content in table row group.
+	 */
+	public static final String TREE_MINIMUN = "toolbox.table.tree.minimum";
 }

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2016 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -8,12 +8,15 @@
  */
 package org.eclipse.set.utils.table
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import java.util.List
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 
 /**
  * Factory for the table model.
@@ -53,6 +56,31 @@ class TMFactory extends AbstractRowFactory {
 		return newTableRow(leadingObject, 0)
 	}
 
+	def TableRow newTableRow(int rowIndex, List<ColumnDescriptor> columns) {
+		val newTableRow = TablemodelFactory.eINSTANCE.createTableRow
+		newTableRow.rowIndex = rowIndex
+		columns.forEach [
+			newTableRow.cells.add(newTableCell(it))
+		]
+		return newTableRow
+	}
+
+	/**
+	 * Create and fill general row for row group with abstract value of
+	 * row in group
+	 * 
+	 * @param rowInGroup any row in group
+	 * @param excludeColumns the columns, that shouldn't fill
+	 */
+	def TableRow createGeneralGroupRow(TableRow rowInGroup,
+		List<ColumnDescriptor> excludeColumns) {
+		val generalRow = newTableRow(0, table.columns)
+		table.columns.filter[!excludeColumns.contains(it)].forEach [
+			generalRow.set(it, rowInGroup.getPlainStringValue(it))
+		]
+		return generalRow
+	}
+
 	/**
 	 * @param leadingObjectGuid
 	 *            the guid of the leading object
@@ -60,10 +88,9 @@ class TMFactory extends AbstractRowFactory {
 	def TableRow newTableRow(Ur_Objekt leadingObject, int leadingObjectIndex) {
 		val row = newTableRow
 		row.group.leadingObject = leadingObject
-		row.group.leadingObjectIndex = leadingObjectIndex
+		row.rowIndex = leadingObjectIndex
 		return row
 	}
-
 
 	/**
 	 * @return returns the table

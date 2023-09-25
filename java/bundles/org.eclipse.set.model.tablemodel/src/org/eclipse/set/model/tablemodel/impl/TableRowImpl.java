@@ -10,6 +10,7 @@ package org.eclipse.set.model.tablemodel.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -17,6 +18,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -37,6 +39,7 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getCells <em>Cells</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getFootnotes <em>Footnotes</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getRowIndex <em>Row Index</em>}</li>
  * </ul>
  *
  * @generated
@@ -61,6 +64,26 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	 * @ordered
 	 */
 	protected EList<Footnote> footnotes;
+
+	/**
+	 * The default value of the '{@link #getRowIndex() <em>Row Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRowIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ROW_INDEX_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getRowIndex() <em>Row Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRowIndex()
+	 * @generated
+	 * @ordered
+	 */
+	protected int rowIndex = ROW_INDEX_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,6 +136,29 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	 * @generated
 	 */
 	@Override
+	public int getRowIndex() {
+		return rowIndex;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setRowIndex(int newRowIndex) {
+		int oldRowIndex = rowIndex;
+		rowIndex = newRowIndex;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_ROW__ROW_INDEX, oldRowIndex, rowIndex));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.TABLE_ROW__CELLS:
@@ -135,6 +181,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 				return getCells();
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				return getFootnotes();
+			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
+				return getRowIndex();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -156,6 +204,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 				getFootnotes().clear();
 				getFootnotes().addAll((Collection<? extends Footnote>)newValue);
 				return;
+			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
+				setRowIndex((Integer)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -174,6 +225,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				getFootnotes().clear();
 				return;
+			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
+				setRowIndex(ROW_INDEX_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -190,8 +244,26 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 				return cells != null && !cells.isEmpty();
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				return footnotes != null && !footnotes.isEmpty();
+			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
+				return rowIndex != ROW_INDEX_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (rowIndex: ");
+		result.append(rowIndex);
+		result.append(')');
+		return result.toString();
 	}
 
 } //TableRowImpl

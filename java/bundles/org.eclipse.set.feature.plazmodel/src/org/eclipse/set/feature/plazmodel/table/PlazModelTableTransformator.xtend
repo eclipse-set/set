@@ -8,48 +8,50 @@
  */
 package org.eclipse.set.feature.plazmodel.table
 
-import org.eclipse.set.utils.table.AbstractTableModelTransformator
-import org.eclipse.set.utils.table.TMFactory
+import java.util.List
 import org.eclipse.emf.common.util.Enumerator
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.model.plazmodel.PlazReport
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.validationreport.ValidationProblem
+import org.eclipse.set.utils.table.tree.AbstractTreeTableTransformator
 
 /**
  * Table transformator for the Plaz Model Report 
  * 
  * @author Stuecker
  */
-class PlazModelTableTransformator extends AbstractTableModelTransformator<PlazReport> {
+class PlazModelTableTransformator extends AbstractTreeTableTransformator<PlazReport> {
 	PlazReportColumns columns
 	protected val EnumTranslationService enumTranslationService
-	
-	new(PlazReportColumns columns, EnumTranslationService enumTranslationService) {
+	protected val List<ColumnDescriptor> excludeColumns
+
+	new(PlazReportColumns columns,
+		EnumTranslationService enumTranslationService) {
 		super()
 		this.columns = columns
 		this.enumTranslationService = enumTranslationService
+		excludeColumns = newArrayList(columns.RowIndex, columns.Message,
+			columns.LineNumber)
 	}
 
-	override transformTableContent(PlazReport report, TMFactory factory) {
-		for (problem : report.entries) {
-			val instance = factory.newTableRow(null, problem.id)
+	 override fillProblem(TableRow instance, ValidationProblem problem) {
+		if (problem.id !== 0) {
 			fill(instance, columns.RowIndex, problem, [problem.id.toString])
-			fill(instance, columns.Severity, problem, [severity.translate])
-			fill(instance, columns.ProblemType, problem, [type])
-			if (problem.lineNumber !== 0) {
-				fillNumeric(instance, columns.LineNumber, problem, [lineNumber])	
-			}
-			fill(instance, columns.ObjectType, problem, [objectArt])
-			fill(instance, columns.AttributeGroup,
-				problem, [attributeName])
-			fill(instance, columns.ObjectScope, problem, [objectScope?.literal])
-			fill(instance, columns.ObjectState, problem, [objectState?.literal])
-			fill(instance, columns.Message, problem, [message])
 		}
-
-		return factory.table
+		fill(instance, columns.Severity, problem, [severity.translate])
+		fill(instance, columns.ProblemType, problem, [type])
+		if (problem.lineNumber !== 0) {
+			fillNumeric(instance, columns.LineNumber, problem, [lineNumber])
+		}
+		fill(instance, columns.ObjectType, problem, [objectArt])
+		fill(instance, columns.AttributeGroup, problem, [attributeName])
+		fill(instance, columns.ObjectScope, problem, [objectScope?.literal])
+		fill(instance, columns.ObjectState, problem, [objectState?.literal])
+		fill(instance, columns.Message, problem, [message])
 	}
-	
-	
+
 	/**
 	 * Translates the enum via the enum translation service.
 	 * 
@@ -63,4 +65,21 @@ class PlazModelTableTransformator extends AbstractTableModelTransformator<PlazRe
 		}
 		return enumTranslationService.translate(enumerator).alternative
 	}
+	
+	override getExcludeColumns() {
+		return excludeColumns
+	}
+	
+	override getIndexColumn() {
+		return columns.RowIndex
+	}
+	
+	override getProblems(PlazReport report) {
+		return report.entries
+	}
+	
+	override getMessagesColumn() {
+		return columns.Message
+	}
+	
 }

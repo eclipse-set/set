@@ -44,4 +44,9 @@ class GuidRefInvalid implements PlazCheck {
 	override getDescription() {
 		return "Verweise verweisen auf ein Objekt vom erwarteten Typ."
 	}
+	
+	override getGeneralErrMsg() {
+		return "Es gibt ungültigen Verweisen."
+	}
+	
 }

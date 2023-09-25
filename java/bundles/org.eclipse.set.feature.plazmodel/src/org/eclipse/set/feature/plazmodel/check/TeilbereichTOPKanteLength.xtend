@@ -39,7 +39,7 @@ class TeilbereichTOPKanteLength extends AbstractPlazContainerCheck implements Pl
 				return null
 
 			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = '''Sehr kleine Teilbereichslänge (<0.1 m). Die Länge des Teilbereichs ist «length» m.'''
+			err.message = '''«generalErrMsg» Die Länge des Teilbereichs ist «length» m.'''
 			err.type = checkType
 			err.object = it
 			err.severity = ValidationSeverity.WARNING
@@ -54,4 +54,9 @@ class TeilbereichTOPKanteLength extends AbstractPlazContainerCheck implements Pl
 	override getDescription() {
 		return "Teilbereichslängen der LST-Objekte sind gültig."
 	}
+	
+	override getGeneralErrMsg() {
+		return "Sehr kleine Teilbereichslänge (<0.1 m)."
+	}
+	
 }

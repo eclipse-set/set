@@ -48,4 +48,9 @@ class CRSValid extends AbstractPlazContainerCheck implements PlazCheck {
 	override getDescription() {
 		return "Instanzen von GEO_Punkt_Allg haben ein konsistentes Koordinatensystem."
 	}
+	
+	override getGeneralErrMsg() {
+		return "Es gibt Objekte mit ungültigen Koordinatensystemen. Der sicherungstechnische Lageplan kann unvollständig sein"
+	}
+	
 }

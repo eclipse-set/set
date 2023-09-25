@@ -76,6 +76,7 @@ public class ValidationProblemItemProvider
 			addAttributeNamePropertyDescriptor(object);
 			addObjectScopePropertyDescriptor(object);
 			addObjectStatePropertyDescriptor(object);
+			addGeneralMsgPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -301,6 +302,28 @@ public class ValidationProblemItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the General Msg feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addGeneralMsgPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationProblem_generalMsg_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationProblem_generalMsg_feature", "_UI_ValidationProblem_type"),
+				 ValidationreportPackage.Literals.VALIDATION_PROBLEM__GENERAL_MSG,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns ValidationProblem.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -346,6 +369,7 @@ public class ValidationProblemItemProvider
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
+			case ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

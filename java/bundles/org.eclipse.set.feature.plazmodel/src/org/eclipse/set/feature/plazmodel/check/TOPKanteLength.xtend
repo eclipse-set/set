@@ -58,5 +58,10 @@ class TOPKanteLength extends AbstractPlazContainerCheck implements PlazCheck {
 	
 	override getDescription() {
 		return "TOP_Kanten haben eindeutige Endknoten."
-	}		
+	}
+	
+	override getGeneralErrMsg() {
+		return "Es gibt TOP_Kanten mit nicht eindeutigen Endknoten."
+	}
+	
 }

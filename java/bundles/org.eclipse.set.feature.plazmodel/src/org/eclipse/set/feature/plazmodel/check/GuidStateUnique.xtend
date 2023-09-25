@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
+import java.util.Map
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions
@@ -31,7 +32,7 @@ class GuidStateUnique implements PlazCheck {
 					LSTPlanungEinzel?.LSTZustandZiel]
 			].notDistinctBy[identitaet?.wert].map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = '''Die GUID des Zustands «identitaet?.wert» ist nicht eindeutig!'''
+				err.message = transformErroMsg(Map.of("GUID", identitaet?.wert))
 				err.type = checkType
 				err.object = it?.identitaet
 				return err
@@ -47,4 +48,9 @@ class GuidStateUnique implements PlazCheck {
 	override getDescription() {
 		return "Die GUIDs aller Zustände sind eindeutig."
 	}
+	
+	override getGeneralErrMsg() {
+		return "Die GUID des Zustands {GUID} ist nicht eindeutig!"
+	}
+	
 }

@@ -40,6 +40,7 @@
     <genClasses ecoreClass="tablemodel.ecore#//TableRow">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/cells"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/footnotes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//TableRow/rowIndex"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//TableCell">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableCell/content"/>
