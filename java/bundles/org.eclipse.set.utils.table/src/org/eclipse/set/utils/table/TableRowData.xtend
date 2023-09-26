@@ -24,7 +24,7 @@ class TableRowData {
 	new(Integer rowIndex, TableRow row) {
 		this.rowIndex = rowIndex
 		this.row = row
-		this.contents = row.cells.map[content].toList
+		this.contents = contentsFromRow
 	}
 	
 	def int getRowIndex() {
@@ -39,7 +39,15 @@ class TableRowData {
 		return row
 	}
 	
+	def void setContents(List<CellContent> contents) {
+		this.contents = contents
+	}
+	
 	def List<CellContent> getContents() {
 		return contents
+	}
+	
+	def List<CellContent> getContentsFromRow() {
+		return row.cells.map[content].toList
 	}
 }

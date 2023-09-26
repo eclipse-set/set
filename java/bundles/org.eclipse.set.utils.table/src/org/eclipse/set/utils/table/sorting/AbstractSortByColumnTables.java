@@ -32,7 +32,6 @@ import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
 import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
-import org.eclipse.nebula.widgets.nattable.tree.TreeRowModel;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -40,8 +39,8 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
-import org.eclipse.set.utils.table.TableRowData;
 import org.eclipse.set.utils.table.menu.TableMenuService;
+import org.eclipse.set.utils.table.tree.TableTreeRowModel;
 import org.eclipse.set.utils.table.tree.TreeDataProvider;
 import org.eclipse.set.utils.table.tree.TreeSortCommandHandler;
 import org.eclipse.swt.SWT;
@@ -72,7 +71,7 @@ public abstract class AbstractSortByColumnTables {
 
 		bodyDataProvider = new TreeDataProvider(table, getSourceLine);
 		bodyDataLayer = new DataLayer(bodyDataProvider);
-		final TreeRowModel<TableRowData> treeRowModel = new TreeRowModel<>(
+		final TableTreeRowModel treeRowModel = new TableTreeRowModel(
 				bodyDataProvider);
 		treeLayer = new TreeLayer(bodyDataLayer, treeRowModel);
 		// Collapse all group by default

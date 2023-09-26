@@ -12,7 +12,6 @@ import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand
 import org.eclipse.nebula.widgets.nattable.sort.command.SortCommandHandler
 import org.eclipse.nebula.widgets.nattable.tree.TreeLayer
-import org.eclipse.nebula.widgets.nattable.tree.TreeRowModel
 import org.eclipse.set.utils.table.BodyLayerStack
 import org.eclipse.set.utils.table.sorting.TableSortModel
 
@@ -54,12 +53,10 @@ class TreeSortCommandHandler extends SortCommandHandler<BodyLayerStack> {
 	}
 
 	def TreeDataProvider getTreeDataProvider() {
-		if (treeLayer.model instanceof TreeRowModel<?>) {
-			val treeRowModel = (treeLayer.model as TreeRowModel<?>)
-			if (treeRowModel.treeData instanceof TreeDataProvider) {
-				return treeRowModel.treeData as TreeDataProvider
-			}
-		}	
+		if (treeLayer.model instanceof TableTreeRowModel) {
+			val treeRowModel = (treeLayer.model as TableTreeRowModel)
+			return treeRowModel.treeData
+		}
 		return null
 	}
 }
