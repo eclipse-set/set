@@ -39,7 +39,6 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
-import org.eclipse.set.utils.table.TableRowData;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.tree.TableTreeRowModel;
 import org.eclipse.set.utils.table.tree.TreeDataProvider;
