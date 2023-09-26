@@ -461,7 +461,7 @@ npm/npmjs/-/path-parse/1.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/path-to-regexp/0.1.7, MIT, approved, clearlydefined
 npm/npmjs/-/path-type/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/path2d-polyfill/2.0.1, MIT, approved, #10510
-npm/npmjs/-/pdfjs-dist/3.10.111, Apache-2.0 AND BSD-3-Clause AND (Apache-2.0 AND MIT) AND MPL-2.0 AND OFL-1.1, approved, #10512
+npm/npmjs/-/pdfjs-dist/3.11.174, Apache-2.0 AND BSD-3-Clause AND (Apache-2.0 AND MIT) AND MPL-2.0 AND OFL-1.1, approved, #10667
 npm/npmjs/-/picocolors/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/pkg-dir/4.2.0, MIT, approved, clearlydefined
