@@ -139,7 +139,7 @@ npm/npmjs/-/array.prototype.flatmap/1.3.2, MIT, approved, #4651
 npm/npmjs/-/arraybuffer.prototype.slice/1.0.2, MIT, approved, #9657
 npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/available-typed-arrays/1.0.5, MIT, approved, clearlydefined
-npm/npmjs/-/axios/1.5.0, MIT, approved, #10504
+npm/npmjs/-/axios/1.5.1, MIT, approved, #10504
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/batch/0.6.1, MIT, approved, clearlydefined
 npm/npmjs/-/big.js/5.2.2, MIT, approved, clearlydefined
