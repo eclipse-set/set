@@ -222,6 +222,16 @@ public class Messages {
 	public String ValidationTableItem_JumpToTextView;
 
 	/**
+	 * Alle expandieren
+	 */
+	public String ValidationTable_ExpandAllGroup;
+
+	/**
+	 * All collapse
+	 */
+	public String ValidationTable_CollapseAllGroup;
+
+	/**
 	 * Es sind keine Schemafehler aufgetreten.
 	 */
 	public String XsdErrorSuccessMsg;

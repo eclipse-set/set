@@ -326,7 +326,7 @@ public final class ToolboxTableView extends BasePart {
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
 
-		bodyLayerStack = new BodyLayerStack(bodyDataLayer, null);
+		bodyLayerStack = new BodyLayerStack(bodyDataLayer);
 
 		bodyLayerStack.freezeColumns(
 				tableService.getFixedColumns(getToolboxPart().getElementId()));

@@ -115,6 +115,12 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 				return messages.PlazModellPart_ExportTitleMsg;
 			}
 		});
+
+		tableView.createExpandCollapseAllButton(
+				(Composite) getBanderole().getControl(),
+				messages.PlazModellPart_ExpandAllGroup,
+				messages.PlazModellPart_CollapseAllGroup);
+
 	}
 
 	private void create(final Composite parent) {
