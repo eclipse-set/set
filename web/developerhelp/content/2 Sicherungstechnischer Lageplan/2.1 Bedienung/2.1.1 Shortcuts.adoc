@@ -1,0 +1,13 @@
+---
+title: "2.1.1 Shortcuts"
+anchor: "sicherungstechnischer_lageplan.bedienung.shortcuts"
+---
+
+*Kartenausschnitt auswählen* +
+Es kann ein Kartenauschnitt ausgewählt werden, in den herangezoomt wird. Bei betätigter `SHIFT`-Taste ist der Bereich durch eine gedrückte linke Maustaste und entsprechenden Mausbewegungen auszuwählen. Beim loslassen der Maustaste wird die Kartenansicht passend auf den gewählten Bereich zentriert und herangezoomt.
+
+*Drehung der Kartenansicht* +
+Die Kartenansicht kann frei gedreht werden, indem ähnlich zum Verschieben der Karte bei gedrückter linker Maustaste die Maus bewegt wird, während die Tastenkombination `ALT` + `SHIFT` betätigt bleibt.
+
+*Ansicht zurücksetzen* + 
+Durch einen Klick auf das image:img/ZoomToFit.png[Gesamtbereich darstellen,25,25] Symbol, kann die Ansicht des Lageplans zurückgesetzt werden, sodass alle Objekte der aktuellen Planung dargestellt werden.

@@ -155,4 +155,14 @@ public class DialogServiceRcpImpl extends DialogServiceCommonImpl {
 		}
 		return Optional.ofNullable(dir);
 	}
+
+	@Override
+	public boolean sitePlanError(final Shell shell, final String filename) {
+		final LoadInvalidSiteplanDialog dialog = new LoadInvalidSiteplanDialog(
+				shell, filename, messages);
+		final int result = dialog.open();
+		dialog.close();
+		return result == IDialogConstants.OK_ID;
+	}
+
 }

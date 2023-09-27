@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200"
+    stroke="black" stroke-width="2.5">
+    <defs>
+        <g class="rangierdienstsignale" id="Ra10">
+            <path d="M0,12.5 a12.5,12.5 0, 0, 1, 25, 0 z" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="12.5"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="15" />
+        </g>
+
+
+        <!-- Selbst gemessen -->
+        <g class="rangierdienstsignale" id="Ra11">
+            <path d="M0,5 L7.5,27.5 L15,15 L22.5,27.5 L30,5" fill="transparent" stroke-linecap="round"/>
+            <toolbox:anchor id="mastAnkerTop" x="15" y="15" />
+            <toolbox:anchor id="mastAnkerBottom" x="15" y="15"/>
+            <toolbox:rectbound x="-1.25" y="3.75" width="32.5" height="27.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="rangierdienstsignale" id="Ra11b">
+            <path d="M5,5 L12.5,27.5 L20,15 L27.5,27.5 L35,5" fill="transparent" stroke-linecap="round"/>
+            <circle r="5" cx="5" cy="30" fill="white"/>
+            <circle r="5" cx="42.5" cy="5" fill="white"/>
+            <toolbox:anchor id="mastAnkerTop" x="20" y="15" />
+            <toolbox:anchor id="mastAnkerBottom" x="20" y="15"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="50" height="37.5" />
+        </g>
+
+    </defs>
+
+    <g width="100" height="100" transform="translate(20,20)">
+       <use xlink:href="#Ra10"/>
+    </g>
+</svg>

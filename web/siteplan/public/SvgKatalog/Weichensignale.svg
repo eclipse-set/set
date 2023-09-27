@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200"
+    stroke="black" stroke-width="2.5">
+    <defs>
+         <!-- Selbst gemessen -->
+        <g class="weichensignale" id="Wn1">
+            <rect width="20" height="20" />
+            <circle r="4" cx="4" cy="4" fill="white" />
+            <circle r="4" cx="4" cy="16" fill="white" />
+            <circle r="4" cx="16" cy="16" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="weichensignale" id="Wn2">
+            <rect width="20" height="20" />
+            <circle r="4" cx="16" cy="4" fill="white" />
+            <circle r="4" cx="4" cy="16" fill="white" />
+            <circle r="4" cx="16" cy="16" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+         <!-- Selbst gemessen -->
+        <g class="weichensignale" id="Wn3_4_5_6">
+            <rect width="20" height="20" />
+            <circle r="4" cx="4" cy="4" fill="white" />
+            <circle r="4" cx="16" cy="4" fill="white" />
+            <circle r="4" cx="4" cy="16" fill="white" />
+            <circle r="4" cx="16" cy="16" fill="white" />
+            <circle r="4" cx="10" cy="10" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+    </defs>
+
+    <g width="100" height="100" transform="translate(20,20)">
+        <!-- Selbst gemessen -->
+        <use xlink:href="#Wn1" />
+    </g>
+</svg>

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.set.model.siteplan;singleton:=true
+Automatic-Module-Name: org.eclipse.set.model.siteplan
+Bundle-Version: 2.1.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Eclipse Signalling Engineering Toolbox
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.eclipse.set.model.siteplan,
+ org.eclipse.set.model.siteplan.impl,
+ org.eclipse.set.model.siteplan.util
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="siteplan" nsURI="http://www.example.org/siteplan" nsPrefix="siteplan">
+  <eClassifiers xsi:type="ecore:EClass" name="Siteplan">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initialState" eType="#//SiteplanState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedInitialState" eType="#//SiteplanState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonState" eType="#//SiteplanState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="changedFinalState" eType="#//SiteplanState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="finalState" eType="#//SiteplanState"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="centerPosition" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectManagement" upperBound="-1"
+        eType="#//ObjectManagement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="layoutInfo" upperBound="-1"
+        eType="#//Layoutinfo" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SiteplanState">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signals" upperBound="-1"
+        eType="#//SignalMount" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackSwitches" upperBound="-1"
+        eType="#//TrackSwitch" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackSwitchEndMarkers"
+        upperBound="-1" eType="#//TrackSwitchEndMarker" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tracks" upperBound="-1"
+        eType="#//Track" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fmaComponents" upperBound="-1"
+        eType="#//FMAComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pzb" lowerBound="1" upperBound="-1"
+        eType="#//PZB" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pzbGU" lowerBound="1" upperBound="-1"
+        eType="#//PZBGU" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="routes" upperBound="-1"
+        eType="#//Route" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stations" upperBound="-1"
+        eType="#//Station" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackLock" upperBound="-1"
+        eType="#//TrackLock" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="errors" upperBound="-1"
+        eType="#//Error" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackClosures" upperBound="-1"
+        eType="#//TrackClose" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalElementControls"
+        upperBound="-1" eType="#//ExternalElementControl" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lockkeys" upperBound="-1"
+        eType="#//LockKey" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Coordinate">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Position" eSuperTypes="#//Coordinate">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rotation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="routeLocations" upperBound="-1"
+        eType="#//RouteLocation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteLocation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="km" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="route" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalMount" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attachedSignals" upperBound="-1"
+        eType="#//Signal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mountType" eType="#//SignalMountType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Signal" eSuperTypes="#//RouteObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="#//SignalRole"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="system" eType="#//SignalSystem"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="screen" upperBound="-1"
+        eType="#//SignalScreen" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lateralDistance" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="signalDirection" eType="#//Direction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mountPosition" eType="#//Position"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SignalScreen">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="screen" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="switched" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frameType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Label">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientationInverted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SignalMountType">
+    <eLiterals name="Mast" literal="Mast"/>
+    <eLiterals name="MehrereMasten" value="1" literal="MehrereMasten"/>
+    <eLiterals name="Pfosten" value="2" literal="Pfosten"/>
+    <eLiterals name="Schienenfuss" value="3"/>
+    <eLiterals name="Gleisabschluss" value="4" literal="Gleisabschluss"/>
+    <eLiterals name="MastNiedrig" value="5" literal="MastNiedrig"/>
+    <eLiterals name="PfostenNiedrig" value="6" literal="PfostenNiedrig"/>
+    <eLiterals name="Deckenkonstruktion" value="7" literal="Deckenkonstruktion"/>
+    <eLiterals name="Wandkonstruktion" value="8" literal="Wandkonstruktion"/>
+    <eLiterals name="SignalauslegerLinks" value="9" literal="SignalauslegerLinks"/>
+    <eLiterals name="SignalauslegerMitte" value="10" literal="SignalauslegerMitte"/>
+    <eLiterals name="Signalbruecke" value="11" literal="Signalbruecke"/>
+    <eLiterals name="Sonderkonstruktion" value="12" literal="Sonderkonstruktion"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SignalRole">
+    <eLiterals name="MultiSection"/>
+    <eLiterals name="Main" value="1"/>
+    <eLiterals name="Pre" value="2"/>
+    <eLiterals name="None" value="3"/>
+    <eLiterals name="TrainCover" value="4" literal="TrainCover"/>
+    <eLiterals name="Lock" value="5" literal="Lock"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SignalSystem">
+    <eLiterals name="HL" literal="HL"/>
+    <eLiterals name="HV" value="1"/>
+    <eLiterals name="KS" value="2"/>
+    <eLiterals name="SV" value="3"/>
+    <eLiterals name="None" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MountDirection">
+    <eLiterals name="None"/>
+    <eLiterals name="Up" value="1"/>
+    <eLiterals name="Down" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSwitch" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="design" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="2"
+        eType="#//TrackSwitchComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="continuousSegments" upperBound="2"
+        eType="#//ContinuousTrackSegment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSwitchComponent" eSuperTypes="#//RouteObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferredLocation" eType="#//LeftRight"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointDetectorCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="labelPosition" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operatingMode" lowerBound="1"
+        eType="#//TurnoutOperatingMode" defaultValueLiteral="Undefined"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainLeg" eType="#//TrackSwitchLeg"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sideLeg" eType="#//TrackSwitchLeg"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TurnoutOperatingMode">
+    <eLiterals name="Undefined"/>
+    <eLiterals name="ElectricRemote" value="1"/>
+    <eLiterals name="ElectricLocal" value="2"/>
+    <eLiterals name="MechanicalRemote" value="3"/>
+    <eLiterals name="MechanicalLocal" value="4"/>
+    <eLiterals name="NonOperational" value="5"/>
+    <eLiterals name="Trailable" value="6"/>
+    <eLiterals name="Other" value="7"/>
+    <eLiterals name="DeadLeft" value="8"/>
+    <eLiterals name="DeadRight" value="9"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ContinuousTrackSegment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//Coordinate"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="end" eType="#//Coordinate"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Track" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//TrackSection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="designations" upperBound="-1"
+        eType="#//TrackDesignation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" eType="#//TrackShape"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="segments" upperBound="-1"
+        eType="#//TrackSegment" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSegment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" upperBound="-1" eType="#//TrackType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="positions" upperBound="-1"
+        eType="#//Coordinate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TrackShape">
+    <eLiterals name="Straight" literal="Straight"/>
+    <eLiterals name="Curve" value="1" literal="Curve"/>
+    <eLiterals name="Clothoid" value="2" literal="Clothoid"/>
+    <eLiterals name="Blosscurve" value="3" literal="Blosscurve"/>
+    <eLiterals name="BlossCurvedSimple" value="4" literal="BlossCurvedSimple"/>
+    <eLiterals name="Other" value="5" literal="Other"/>
+    <eLiterals name="DirectionalStraightKinkEnd" value="6"/>
+    <eLiterals name="KmJump" value="7" literal="KmJump"/>
+    <eLiterals name="TransitionCurveSForm" value="8" literal="TransitionCurveSForm"/>
+    <eLiterals name="SFormSimpleCurved" value="9" literal="SFormSimpleCurved"/>
+    <eLiterals name="Unknown" value="10" literal="Unknown"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TrackType">
+    <eLiterals name="None"/>
+    <eLiterals name="MainTrack" value="2"/>
+    <eLiterals name="SideTrack" value="4"/>
+    <eLiterals name="ConnectingTrack" value="5"/>
+    <eLiterals name="RouteTrack" value="3"/>
+    <eLiterals name="Other" value="6"/>
+    <eLiterals name="PassingMainTrack" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FMAComponent" eSuperTypes="#//RouteObject #//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FMAComponentType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rightSide" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FMAComponentType">
+    <eLiterals name="None"/>
+    <eLiterals name="Axle" value="1"/>
+    <eLiterals name="NFDCCircuit" value="2"/>
+    <eLiterals name="TFDCCircuit" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Route" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sections" upperBound="-1"
+        eType="#//RouteSection" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="markers" upperBound="-1"
+        eType="#//KMMarker" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RouteSection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" eType="#//TrackShape"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="positions" upperBound="-1"
+        eType="#//Coordinate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KMMarker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSwitchEndMarker">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="legACoordinate" lowerBound="1"
+        eType="#//Coordinate" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="legBCoordinate" lowerBound="1"
+        eType="#//Coordinate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Error">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Coordinate"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relevantGUIDs" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PZB" eSuperTypes="#//RouteObject #//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//PZBType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="element" eType="#//PZBElement"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rightSide" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="effectivity" eType="#//PZBEffectivity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PZBGU" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pzbs" upperBound="-1" eType="#//PZB"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PZBType">
+    <eLiterals name="GM"/>
+    <eLiterals name="GUE_GSA" value="1" literal="GUE_GSA"/>
+    <eLiterals name="GUE_GSE" value="2" literal="GUE_GSE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PZBElement">
+    <eLiterals name="None"/>
+    <eLiterals name="F500Hz" value="1" literal="500Hz"/>
+    <eLiterals name="F1000Hz" value="2" literal="1000Hz"/>
+    <eLiterals name="F2000Hz" value="3" literal="2000Hz"/>
+    <eLiterals name="F1000Hz2000Hz" value="4" literal="1000Hz2000Hz"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PZBEffectivity">
+    <eLiterals name="None" literal="None"/>
+    <eLiterals name="Signal" value="1"/>
+    <eLiterals name="Route" value="2"/>
+    <eLiterals name="Always" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackDesignation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Coordinate"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSwitchLeg">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connection" eType="#//LeftRight"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coordinates" upperBound="-1"
+        eType="#//Coordinate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Station" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="platforms" upperBound="-1"
+        eType="#//Platform" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" lowerBound="1" eType="#//Label"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Platform">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" lowerBound="1" eType="#//Label"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="labelPosition" lowerBound="1"
+        eType="#//Position" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" upperBound="-1"
+        eType="#//Coordinate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackLock" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" lowerBound="1"
+        upperBound="2" eType="#//TrackLockComponent" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferredLocation" eType="#//TrackLockLocation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operatingMode" eType="#//TurnoutOperatingMode"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackLockComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tracklockSignal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ejectionDirection" eType="#//LeftRight"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TrackLockLocation">
+    <eLiterals name="BesideTrack" literal="BesideTrack"/>
+    <eLiterals name="OnTrack" value="1" literal="OnTrack"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectManagement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="planningObjectIDs" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="planningGroupID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LeftRight">
+    <eLiterals name="LEFT" literal="LEFT"/>
+    <eLiterals name="RIGHT" value="1" literal="RIGHT"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Direction">
+    <eLiterals name="FORWARD" literal="FORWARD"/>
+    <eLiterals name="OPPOSITE" value="1" literal="OPPOSITE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackClose" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackCloseType" eType="#//TrackCloseType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="TrackCloseType">
+    <eLiterals name="FrictionBufferStop" literal="Bremsprellbock"/>
+    <eLiterals name="FixedBufferStop" value="1" literal="Festprellbock"/>
+    <eLiterals name="HeadRamp" value="2" literal="Kopframpe"/>
+    <eLiterals name="ThresholdCross" value="3" literal="Schwellenkreuz"/>
+    <eLiterals name="TurnTable" value="4" literal="Drehscheibe"/>
+    <eLiterals name="SlidingStage" value="5" literal="Schiebebuehne"/>
+    <eLiterals name="FerryDock" value="6" literal="Faehranleger"/>
+    <eLiterals name="InfrastructureBorder" value="7" literal="Infrastrukturgrenze"/>
+    <eLiterals name="Other" value="8" literal="sonstige"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalElementControl" eSuperTypes="#//RouteObject #//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlArt" eType="#//ExternalElementControlArt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="elementType" eType="#//ExternalElementControlArt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlStation" eType="#//ControlStationType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ExternalElementControlArt">
+    <eLiterals name="FeAk" literal="FeAk"/>
+    <eLiterals name="GFK" value="1" literal="GFK"/>
+    <eLiterals name="Gleisfreimelde_Innenanlage" value="2" literal="Gleisfreimelde_Innenanlage"/>
+    <eLiterals name="ESTW_A" value="3" literal="ESTW_A"/>
+    <eLiterals name="Objektcontroller" value="4" literal="Objektcontroller"/>
+    <eLiterals name="Relaisstellwerk" value="5" literal="Relaisstellwerk"/>
+    <eLiterals name="sonstige" value="6" literal="sonstige"/>
+    <eLiterals name="virtuelle_Aussenelementansteuerung" value="7" literal="virtuelle_Aussenelementansteuerung"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ControlStationType">
+    <eLiterals name="DefaultControl"/>
+    <eLiterals name="EmergencyControl" value="1"/>
+    <eLiterals name="EmergencyControlDispose" value="2" literal="EmergencyControlDispose"/>
+    <eLiterals name="DefaultControlDispose" value="3"/>
+    <eLiterals name="Other" value="4"/>
+    <eLiterals name="WithoutControl" value="5"/>
+    <eLiterals name="OnlyRemoteControl" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LockKey" eSuperTypes="#//RouteObject #//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//LockKeyType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="locked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LockKeyType">
+    <eLiterals name="inside"/>
+    <eLiterals name="outside" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Layoutinfo" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sheetsCut" upperBound="-1"
+        eType="#//SheetCut" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SheetCut" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="polygonDirection" upperBound="2"
+        eType="#//Coordinate" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="polygon" upperBound="-1"
+        eType="#//Coordinate" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

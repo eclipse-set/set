@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    copyrightText="Copyright (c) 2021 DB Netz AG and others.&#xA;&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v2.0&#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v20.html"
+    modelDirectory="/org.eclipse.set.model.siteplan/src" creationIcons="false" editDirectory=""
+    editorDirectory="" modelPluginID="org.eclipse.set.model.siteplan" modelName="Siteplan"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="17.0" copyrightFields="false" editPluginID="org.eclipse.set.model.siteplan.edit"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>siteplan.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Siteplan" basePackage="org.eclipse.set.model" disposableProviderFactory="true"
+      ecorePackage="siteplan.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//SignalMountType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Mast"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/MehrereMasten"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Pfosten"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Schienenfuss"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Gleisabschluss"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/MastNiedrig"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/PfostenNiedrig"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Deckenkonstruktion"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Wandkonstruktion"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/SignalauslegerLinks"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/SignalauslegerMitte"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Signalbruecke"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalMountType/Sonderkonstruktion"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//SignalRole">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/MultiSection"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/Main"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/Pre"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/None"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/TrainCover"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/Lock"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//SignalSystem">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalSystem/HL"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalSystem/HV"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalSystem/KS"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalSystem/SV"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalSystem/None"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//MountDirection">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//MountDirection/None"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//MountDirection/Up"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//MountDirection/Down"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//TurnoutOperatingMode">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/Undefined"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/ElectricRemote"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/ElectricLocal"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/MechanicalRemote"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/MechanicalLocal"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/NonOperational"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/Trailable"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/Other"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/DeadLeft"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TurnoutOperatingMode/DeadRight"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//TrackShape">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/Straight"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/Curve"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/Clothoid"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/Blosscurve"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/BlossCurvedSimple"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/Other"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/DirectionalStraightKinkEnd"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/KmJump"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/TransitionCurveSForm"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/SFormSimpleCurved"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackShape/Unknown"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//TrackType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackType/MainTrack"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackType/SideTrack"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackType/ConnectingTrack"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackType/RouteTrack"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackType/Other"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackType/PassingMainTrack"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//FMAComponentType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//FMAComponentType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//FMAComponentType/Axle"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//FMAComponentType/NFDCCircuit"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//FMAComponentType/TFDCCircuit"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//PZBType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBType/GM"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBType/GUE_GSA"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBType/GUE_GSE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//PZBElement">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBElement/None"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBElement/F500Hz"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBElement/F1000Hz"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBElement/F2000Hz"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBElement/F1000Hz2000Hz"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//PZBEffectivity">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBEffectivity/None"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBEffectivity/Signal"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBEffectivity/Route"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//PZBEffectivity/Always"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//TrackLockLocation">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackLockLocation/BesideTrack"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackLockLocation/OnTrack"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//LeftRight">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//LeftRight/LEFT"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//LeftRight/RIGHT"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//Direction">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//Direction/FORWARD"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//Direction/OPPOSITE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//TrackCloseType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/FrictionBufferStop"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/FixedBufferStop"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/HeadRamp"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/ThresholdCross"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/TurnTable"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/SlidingStage"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/FerryDock"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/InfrastructureBorder"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//TrackCloseType/Other"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//ExternalElementControlArt">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/FeAk"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/GFK"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/Gleisfreimelde_Innenanlage"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/ESTW_A"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/Objektcontroller"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/Relaisstellwerk"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/sonstige"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ExternalElementControlArt/virtuelle_Aussenelementansteuerung"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//ControlStationType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ControlStationType/DefaultControl"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ControlStationType/EmergencyControl"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ControlStationType/EmergencyControlDispose"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ControlStationType/DefaultControlDispose"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ControlStationType/Other"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ControlStationType/WithoutControl"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//ControlStationType/OnlyRemoteControl"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//LockKeyType">
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//LockKeyType/inside"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//LockKeyType/outside"/>
+    </genEnums>
+    <genClasses ecoreClass="siteplan.ecore#//Siteplan">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/initialState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/changedInitialState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/commonState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/changedFinalState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/finalState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/centerPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/objectManagement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Siteplan/layoutInfo"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//SiteplanState">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/signals"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/trackSwitches"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/trackSwitchEndMarkers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/tracks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/fmaComponents"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/pzb"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/pzbGU"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/routes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/stations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/trackLock"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/errors"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/trackClosures"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/externalElementControls"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/lockkeys"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//SiteplanObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SiteplanObject/guid"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Coordinate">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Coordinate/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Coordinate/y"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Position">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Position/rotation"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//RouteObject">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//RouteObject/routeLocations"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//RouteLocation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//RouteLocation/km"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//RouteLocation/route"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//SignalMount">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SignalMount/attachedSignals"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SignalMount/mountType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SignalMount/position"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Signal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/guid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/role"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/system"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference siteplan.ecore#//Signal/screen"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference siteplan.ecore#//Signal/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/lateralDistance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/signalDirection"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Signal/mountPosition"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//SignalScreen">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SignalScreen/screen"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SignalScreen/switched"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SignalScreen/frameType"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Label">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Label/text"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Label/orientationInverted"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackSwitch">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitch/design"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitch/components"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitch/continuousSegments"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackSwitchComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/preferredLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/guid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/pointDetectorCount"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchComponent/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchComponent/labelPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchComponent/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/operatingMode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchComponent/mainLeg"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchComponent/sideLeg"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//ContinuousTrackSegment">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//ContinuousTrackSegment/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//ContinuousTrackSegment/end"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Track">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Track/sections"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Track/designations"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackSection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSection/guid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSection/shape"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSection/segments"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackSegment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSegment/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSegment/positions"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//FMAComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//FMAComponent/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//FMAComponent/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//FMAComponent/rightSide"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//FMAComponent/position"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Route">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Route/sections"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Route/markers"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//RouteSection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//RouteSection/guid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//RouteSection/shape"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//RouteSection/positions"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//KMMarker">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//KMMarker/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//KMMarker/value"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackSwitchEndMarker">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchEndMarker/legACoordinate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchEndMarker/legBCoordinate"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Error">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Error/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Error/relevantGUIDs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Error/message"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//PZB">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZB/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZB/element"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZB/rightSide"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZB/effectivity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//PZB/position"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//PZBGU">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//PZBGU/pzbs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZBGU/length"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackDesignation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackDesignation/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackDesignation/position"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackSwitchLeg">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchLeg/connection"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchLeg/coordinates"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Station">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Station/platforms"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference siteplan.ecore#//Station/label"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Platform">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Platform/guid"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference siteplan.ecore#//Platform/label"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference siteplan.ecore#//Platform/labelPosition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Platform/points"/>
+      <genClasses ecoreClass="siteplan.ecore#//TrackLock">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackLock/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLock/tracklockSignal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLock/preferredLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLock/guid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference siteplan.ecore#//TrackLock/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLock/operatingMode"/>
+    </genClasses>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackLock">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackLock/components"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLock/preferredLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLock/operatingMode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackLock/label"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackLockComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackLockComponent/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLockComponent/tracklockSignal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLockComponent/ejectionDirection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLockComponent/guid"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//ObjectManagement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ObjectManagement/planningObjectIDs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ObjectManagement/planningGroupID"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//TrackClose">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackClose/trackCloseType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackClose/position"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//ExternalElementControl">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//ExternalElementControl/position"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ExternalElementControl/controlArt"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ExternalElementControl/elementType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ExternalElementControl/controlStation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference siteplan.ecore#//ExternalElementControl/label"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//LockKey">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//LockKey/position"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//LockKey/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//LockKey/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//LockKey/locked"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Layoutinfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Layoutinfo/label"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Layoutinfo/sheetsCut"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//SheetCut">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SheetCut/label"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SheetCut/polygonDirection"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SheetCut/polygon"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

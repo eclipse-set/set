@@ -150,4 +150,9 @@ public class Messages {
 	 * Chromium Lizenzinformationen
 	 */
 	public String ChromiumCreditsPartDescriptionService_ViewName;
+
+	/**
+	 * Werkzeugkoffer-Hilfe für Entwickler
+	 */
+	public String WebDeveloperHelpPartDescriptionService_ViewName;
 }

@@ -57,7 +57,7 @@ public interface ToolboxProperties {
 	public static final String GREYED_OUT_STYLE_FOREGROUND = "toolbox.greyedoutstyle.foreground";
 
 	/**
-	 * Property key for log file (empty name deactivates logging)
+	 * Property key for log file = empty name deactivates logging)
 	 */
 	public static final String LOGFILE = "toolbox.logfile";
 
@@ -90,4 +90,65 @@ public interface ToolboxProperties {
 	 * Property key for the default NatTable line height.
 	 */
 	public static final String TOOLBOX_DEFAULT_LINE_HEIGHT = "toolbox.default.line.height";
+
+	/**
+	 * Property key for map sources.
+	 */
+	public static final String MAP_SOURCES = "toolbox.siteplan.mapsources";
+
+	/**
+	 * Property key for HERE 20 API key.
+	 */
+	public static final String HERE_API_KEY = "toolbox.siteplan.mapsources.here_apikey";
+
+	/**
+	 * Property key for MAPBOX 20 API key.
+	 */
+	public static final String MAPBOX_API_KEY = "toolbox.siteplan.mapsources.mapbox_apikey";
+
+	/**
+	 * Property key for DOP 20 API key.
+	 */
+	public static final String DOP20_API_KEY = "toolbox.siteplan.mapsources.dop20_apikey";
+
+	/**
+	 * Property key for DOP20 intern URL.
+	 */
+	public static final String DOP20_INTERN_URL = "toolbox.siteplan.mapsources.dop20_intern_url";
+
+	/**
+	 * Property key for the LOD scale.
+	 */
+	public static final String LOD_SCALE = "toolbox.siteplan.lod_scale";
+
+	/**
+	 * Property key for the export DPI.
+	 */
+	public static final String EXPORT_DPI = "toolbox.siteplan.export_dpi";
+
+	/**
+	 * Property key for track width
+	 */
+	public static final String TRACK_WIDTH = "toolbox.siteplan.track_width";
+
+	/**
+	 * Property key for track width intervall
+	 */
+	public static final String TRACK_WIDTH_INTERVALL = "toolbox.siteplan.track_width_intervall";
+
+	/**
+	 * Property key for base zoom level
+	 */
+	public static final String BASE_ZOOM_LEVEL = "toolbox.siteplan.base_zoom_level";
+
+	/**
+	 * Property key for collisions default enablement state
+	 */
+	public static final String DEFAULT_COLLISIONS_ENABLED = "toolbox.siteplan.default_collisions_enabled";
+
+	/**
+	 * Property key for sheetcut coordinate reference system
+	 */
+	public static final String DEFAULT_SHEETCUT_CRS = "toolbox.siteplan.sheetcut_crs";
+
 }

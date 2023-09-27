@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 500 500" stroke-width="2.5" stroke="black">
+
+  <defs>
+    <g class="schluesselsperr" id="aussen">
+      <circle cx="15" cy="15" r="15" fill="white" />
+      <path id="schloss" d="M5,10 L5,20 L18,18 C28,24,28,6,18,12 z"/>
+      <toolbox:rectbound x="0" y="0" width="30" height="30" />
+    </g>
+
+    <g class="schluesselsperr" id="innen">
+      <rect width="30" height="20" fill="white" />
+      <path id="schloss" d="M5,5 L5,15 L18,12 C28,19,28,1,18,8 z" />
+      <toolbox:rectbound x="0" y="0" width="30" height="20" />
+    </g>
+
+  </defs>
+  <g width="200" height="200" transform="translate(50,50) rotate(0)">
+    <use xlink:href="#innen" />
+  </g>
+  
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200"
+    stroke-width="2.5" stroke="black">
+    <defs>
+        <g class="langMast" id="Type6">
+            <line x1="0" x2="20" y1="0" y2="0" stroke-width="5" />
+            <line x1="10" y1="0" x2="10" y2="15" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="15" />
+            <toolbox:nullpunkt id="nullpunkt" x="10" y="0" />
+            <toolbox:rectbound x="0" y="-2.5" width="20" height="17.5" />
+        </g>
+         <g class="mast" id="Type7">
+            <line x1="0" y1="25" x2="0" y2="10" stroke-linecap="round" />
+            <line x1="0" y1="10" x2="15" y2="10" />
+            <line x1="15" y1="0" x2="15" y2="20" stroke-width="5" />
+            <toolbox:anchor id="mastAnkerTop" x="0" y="25" />
+            <toolbox:nullpunkt id="nullpunkt" x="15" y="10" />
+            <toolbox:rectbound x="-1.25" y="0" width="18.75" height="26.25" />
+        </g>
+    </defs>
+    <g width="100" height="100" transform="translate(20,20)">
+        <use xlink:href="#Type6" />
+    </g>
+</svg>
