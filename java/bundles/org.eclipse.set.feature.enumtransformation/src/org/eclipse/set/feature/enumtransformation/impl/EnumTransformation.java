@@ -118,9 +118,7 @@ public class EnumTransformation {
 	}
 
 	private static String transformToValue(final String value) {
-		String result = value;
-		result = result.replaceAll(EMPTY + "|" + XS_PREFIX, ""); //$NON-NLS-1$ //$NON-NLS-2$
-		return result;
+		return value.replaceAll(EMPTY + "|" + XS_PREFIX, ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	static String transformToAlternative(final HSSFRow row) {
