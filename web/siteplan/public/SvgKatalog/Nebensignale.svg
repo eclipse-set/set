@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200" stroke="black" stroke-width="2.5">
+    <defs>
+        <g class="nebensignale" id="Ne1">
+            <path d="M5,0 L30,0 L35,25 L0,25 z" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="17.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="17.5" y="25" />
+            <toolbox:rectbound x="-1.5" y="-1.25" width="28" height="27.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne2">
+            <rect width="25" height="35" fill="white" />
+            <line x1="0" x2="25" y1="0" y2="35" />
+            <line x1="25" x2="0" y1="0" y2="35" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="37.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="Ne2vRVA">
+            <path d="M12.5,0 L6,-10 L19,-10 z" fill="white" />
+            <rect width="25" height="35" fill="white" />
+            <line x1="0" x2="25" y1="0" y2="35" />
+            <line x1="25" x2="0" y1="0" y2="35" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="-10" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-11.25" width="27.5" height="47.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne35str">
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="50" y2="30" />
+            <line x1="0" x2="20" y1="42.5" y2="22.5" />
+            <line x1="0" x2="20" y1="35" y2="15" />
+            <line x1="0" x2="20" y1="27.5" y2="7.5" />
+            <line x1="0" x2="20" y1="20" y2="0" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne35strvRVA">
+            <path d="M10,0 L3.5,-10 L16.5,-10 z" fill="white" />
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="50" y2="30" />
+            <line x1="0" x2="20" y1="42.5" y2="22.5" />
+            <line x1="0" x2="20" y1="35" y2="15" />
+            <line x1="0" x2="20" y1="27.5" y2="7.5" />
+            <line x1="0" x2="20" y1="20" y2="0" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="-10" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-11.25" width="22.5" height="62.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne34str">
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="46.3" y2="26.3" />
+            <line x1="0" x2="20" y1="38.8" y2="18.8" />
+            <line x1="0" x2="20" y1="32.3" y2="12.3" />
+            <line x1="0" x2="20" y1="24.8" y2="4.8" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+            
+        </g>
+
+        <g class="nebensignale" id="Ne34strvRVA">
+            <path d="M10,0 L3.5,-10 L16.5,-10 z" fill="white" />
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="46.3" y2="26.3" />
+            <line x1="0" x2="20" y1="38.8" y2="18.8" />
+            <line x1="0" x2="20" y1="32.3" y2="12.3" />
+            <line x1="0" x2="20" y1="24.8" y2="4.8" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="-10" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-11.25" width="22.5" height="62.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne33str">
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="42.6" y2="22.6" />
+            <line x1="0" x2="20" y1="35.1" y2="15.1" />
+            <line x1="0" x2="20" y1="27.6" y2="7.6" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne33strvRVA">
+            <path d="M10,0 L3.5,-10 L16.5,-10 z" fill="white" />
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="42.6" y2="22.6" />
+            <line x1="0" x2="20" y1="35.1" y2="15.1" />
+            <line x1="0" x2="20" y1="27.6" y2="7.6" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="-10" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-11.25" width="22.5" height="62.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne32str">
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="38.8" y2="18.2" />
+            <line x1="0" x2="20" y1="31.3" y2="10.7" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne32strvRVA">
+            <path d="M10,0 L3.5,-10 L16.5,-10 z" fill="white" />
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="38.8" y2="18.2" />
+            <line x1="0" x2="20" y1="31.3" y2="10.7" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="-10" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-11.25" width="22.5" height="62.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne31str">
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="35.8" y2="14.2" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne31strvRVA">
+            <path d="M10,0 L3.5,-10 L16.5,-10 z" fill="white" />
+            <rect width="20" height="50" fill="white" />
+            <line x1="0" x2="20" y1="35.8" y2="14.2" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="-10" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-11.25" width="22.5" height="62.5" />
+            
+        </g>
+
+        <g class="nebensignale" id="Ne4">
+            <rect width="25" height="35" fill="white" />
+            <rect width="12.5" height="17.5" y="17.5" stroke="none" />
+            <rect width="12.5" height="17.5" x="12.5" stroke="none" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="37.5" />
+            <rect x="-1.25" y="-1.25" width="27.5" height="37.5" fill-opacity="0.1" stroke-width="0.1"/>
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="Ne5">
+            <rect width="25" height="35" fill="white" />
+            <line x1="5" x2="20" y1="17.5" y2="17.5" />
+            <line x1="5" x2="5" y1="5" y2="30" />
+            <line x1="20" x2="20" y1="5" y2="30" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="37.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne6">
+            <rect width="50" height="20" fill="white" />
+            <line x1="42.6" x2="22.6" y1="0" y2="20" />
+            <line x1="35.1" x2="15.1" y1="0" y2="20" />
+            <line x1="27.6" x2="7.6" y1="0" y2="20" />
+            <toolbox:anchor id="mastAnkerTop" x="25" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="25" y="20" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="52.5" height="22.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="Ne12">
+            <rect width="20" height="50" fill="white" />
+            <rect width="20" height="7.5" />
+            <rect width="20" height="7.5" y="20" />
+            <rect width="20" height="7.5" y="40" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="Ne13">
+            <rect width="25" height="35" fill="white" />
+            <rect width="25" height="10" y="25" />
+            <circle r="7" cx="12.5" cy="12.5" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="37.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne14_links">
+            <rect width="20" height="20" />
+            <path d="M2,10 L10,2 L10,6 L18,6 L18,14 L10,14 L10,18 z" stroke-width="0" stroke="white" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <g class="nebensignale" id="Ne14_rechts">
+            <rect width="20" height="20" />
+            <path d="M18,10 L10,2 L10,6 L2,6 L2,14 L10,14 L10,18 z" stroke-width="0" stroke="white" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="So1">
+            <rect width="20" height="20" rx="0.25" fill="white" />
+            <path d="M10,8 L2,0 L18,0 z" stroke-width="0" />
+            <path d="M10,12 L2,20 L18,20 z" stroke-width="0" />
+            <path d="M8,10 L0,2 L0,18 z" stroke-width="0" />
+            <path d="M12,10 L20,2 L20,18 z" stroke-width="0" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="So191P">
+            <rect width="20" height="50" rx="0.25" />
+            <circle r="5" cx="10" cy="25" fill="white" stroke-width="0" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="So192P">
+            <rect width="20" height="50" rx="0.25" />
+            <circle r="5" cx="10" cy="17.5" fill="white" stroke-width="0" />
+            <circle r="5" cx="10" cy="32.5" fill="white" stroke-width="0" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="So193P">
+            <rect width="20" height="50" rx="0.25" />
+            <circle r="5" cx="10" cy="25" fill="white" stroke-width="0" />
+            <circle r="5" cx="10" cy="12.5" fill="white" stroke-width="0" />
+            <circle r="5" cx="10" cy="37.5" fill="white" stroke-width="0" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="50" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="52.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="nebensignale" id="So106">
+            <path d="M0,10 L5,0 L25,0 L30,10 L25,20 L5,20 z" fill="white" />
+            <line x1="5" x2="25" y1="0" y2="20" />
+            <line x1="5" x2="25" y1="20" y2="0" />
+            <toolbox:anchor id="mastAnkerTop" x="15" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="15" y="20" />
+            <toolbox:rectbound x="-1.5" y="-1.25" width="33" height="52.5" />
+        </g>
+    </defs>
+
+    <g width="100" height="100" transform="translate(20,20)">
+        <use xlink:href="#So106" />
+    </g>
+</svg>

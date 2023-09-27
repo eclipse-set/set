@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.application.parts;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +111,6 @@ public class SourceWebTextViewPart extends BasePart {
 					SourceWebTextViewPart::serveProblems);
 			browser.serveFile(LAYOUT_XML, "text/plain",
 					session.getToolboxFile().getLayoutPath());
-			browser.serveUri("font", this::serveFont);
 
 			browser.setToolboxUrl("index.html");
 		} catch (final Exception e) {
@@ -149,13 +146,6 @@ public class SourceWebTextViewPart extends BasePart {
 				new ObjectMapper().writerWithDefaultPrettyPrinter()
 						.writeValueAsString(problemMessages));
 
-	}
-
-	@SuppressWarnings("resource") // Stream is closed by the browser
-	private void serveFont(final Response response) throws IOException {
-		response.setMimeType("application/x-font-ttf");
-		response.setResponseData(
-				Files.newInputStream(fontService.getSiteplanFont()));
 	}
 
 	private void handleJumpToSourceLineEvent(

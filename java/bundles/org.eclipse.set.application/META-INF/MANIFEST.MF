@@ -136,6 +136,7 @@ Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServ
  OSGI-INF/org.eclipse.set.application.descriptions.ChromiumCreditsPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.ViewPdfPartDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.application.descriptions.WebDeveloperHelpPartDescription.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.WebNewsPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.exampleservice.ExampleServiceImpl.xml,
  OSGI-INF/org.eclipse.set.application.initializationservice.CommonPlanProInitialization.xml,

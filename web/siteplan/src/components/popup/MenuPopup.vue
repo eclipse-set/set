@@ -1,0 +1,207 @@
+<!--
+ * Copyright (c) 2022 DB Netz AG and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ -->
+<template>
+  <div>
+    <span
+      v-if="isMultiFeature() && selectedFeature"
+      id="popup-back"
+      class="material-icons"
+      @click="backToMenu"
+    >arrow_back</span>
+    <div v-if="isMultiFeature&&!selectedFeature">
+      <h2>Bitte ein Objekt auswählen</h2>
+      <ul>
+        <li
+          v-for="feature in filterSameFeature()"
+          id="menuItem"
+          :key="feature.getId()"
+          @click="selectedItem(feature)"
+        >
+          {{ getFeatureName(feature) }}: {{ getLabel(feature) }}
+        </li>
+      </ul>
+    </div>
+
+    <div
+      v-else
+      id="popup"
+    >
+      <component
+        :is="selectedPopup"
+        :feature="selectedFeature"
+      />
+    </div>
+  </div>
+</template>
+<script lang="ts">
+import EECPopup from '@/components/popup/EECPopup.vue'
+import EmptyPopup from '@/components/popup/EmptyPopup.vue'
+import ErrorPopup from '@/components/popup/ErrorPopup.vue'
+import JumpMenuPopup from '@/components/popup/JumpMenuPopup.vue'
+import LockKeyPopup from '@/components/popup/LockKeyPopup.vue'
+import PZBPopup from '@/components/popup/PZBPopup.vue'
+import SignalPopup from '@/components/popup/SignalPopup.vue'
+import TrackLockPopup from '@/components/popup/TrackLockPopup.vue'
+import TrackSectionPopup from '@/components/popup/TrackSectionPopup.vue'
+import TrackSwitchPopup from '@/components/popup/TrackSwitchPopup.vue'
+import {
+  FeatureType, getFeatureLabel,
+  getFeatureName,
+  getFeatureType,
+  getFeatureData
+} from '@/feature/FeatureInfo'
+import { LeftRight } from '@/model/SiteplanModel'
+import 'material-design-icons/iconfont/material-icons.css'
+import { Collection, Feature } from 'ol'
+import Geometry from 'ol/geom/Geometry'
+import { Options, Vue } from 'vue-class-component'
+import { compare } from '@/util/ObjectExtension'
+
+/**
+ * Menu for select object
+ *
+ * @author Truong
+ */
+@Options({
+  props: {
+    features: Object,
+    mouseButton: String
+  },
+  components: {
+    SignalPopup,
+    TrackSectionPopup,
+    PZBPopup,
+    TrackSwitchPopup,
+    ErrorPopup,
+    EmptyPopup,
+    TrackLockPopup,
+    LockKeyPopup,
+    EECPopup,
+    JumpMenuPopup
+  },
+  computed: {
+    selectedPopup () {
+      if (this.selectedFeature == null) {
+        return EmptyPopup
+      }
+
+      if (this.mouseButton === LeftRight.LEFT) {
+        switch (getFeatureType(this.selectedFeature)) {
+          case FeatureType.Signal:
+            return SignalPopup
+          case FeatureType.PZB:
+          case FeatureType.PZBGU:
+            return PZBPopup
+          case FeatureType.Track:
+            return TrackSectionPopup
+          case FeatureType.TrackSwitch:
+            return TrackSwitchPopup
+          case FeatureType.Error:
+            return ErrorPopup
+          case FeatureType.TrackLock:
+            return TrackLockPopup
+          case FeatureType.LockKey:
+            return LockKeyPopup
+          case FeatureType.ExternalElementControl:
+            return EECPopup
+          default:
+            return null
+        }
+      } else if (this.mouseButton === LeftRight.RIGHT) {
+        return JumpMenuPopup
+      }
+    }
+  }
+})
+export default class MenuPopup extends Vue {
+  features!: Collection<Feature<Geometry>>
+  selectedPopup!: Vue
+  mouseButton!: string
+  selectedFeature: Feature<Geometry> | null = null
+
+  getFeatureName (feature: Feature<Geometry>): string {
+    return getFeatureName(getFeatureType(feature))
+  }
+
+  getLabel (feature: Feature<Geometry>): string {
+    return getFeatureLabel(feature)
+  }
+
+  filterSameFeature (): Array<Feature<Geometry>> {
+    if (this.features === undefined) {
+      return []
+    }
+
+    const result: Feature<Geometry>[] = []
+    this.features.forEach(feature => {
+      const featureType = getFeatureType(feature)
+      const featuresSameType = result.filter(ele =>
+        getFeatureType(ele) === featureType)
+      if (featuresSameType.length === 0) {
+        result.push(feature)
+      } else {
+        featuresSameType.forEach(ele => {
+          if (compare(getFeatureData(feature), getFeatureData(ele))) {
+            result.push(feature)
+          }
+        })
+      }
+    })
+    return result
+  }
+
+  isMultiFeature (): boolean {
+    if (this.filterSameFeature().length > 1) {
+      return true
+    }
+
+    this.selectedFeature = this.features.getArray()[ 0 ]
+    return false
+  }
+
+  backToMenu () {
+    this.selectedFeature = null
+  }
+
+  selectedItem (feature: Feature<Geometry>) {
+    this.selectedFeature = feature
+  }
+}
+</script>
+<style scoped>
+#menu {
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+
+#menuItem {
+  cursor: pointer;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  background-color: gainsboro;
+  padding-left: 5px;
+}
+
+#menuItem:hover {
+  background-color: darkgray;
+}
+
+#popup {
+  min-height: 220px;
+}
+
+#popup-back {
+  position: absolute;
+  top: 10px;
+  z-index: 200;
+  padding: 5px 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+</style>

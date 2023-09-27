@@ -1,0 +1,29 @@
+---
+title: "1.1 Standardparameter"
+anchor: "headless.standardparameter"
+---
+
+[%autowidth,cols=3*,options=header]
+|===
+|Parameter
+|Erforderlich
+|Beschreibung
+
+|-headless
+|Ja
+|Startet den Werkzeugkoffer im Headlesss Modus
+
+|-nosplash
+|Nein
+|Versteckt den Ladebildschirm der Anwendung
+
+|-i *Dateipfad*
+|Ja
+|Eingabedatei im PlanPro Format
+
+|-o *Ordnerpfad*
+|Ja
+|Pfad für die Ausgabe von Informationen durch den Werkzeugkoffer. Wenn am gewählten Pfad noch kein Ordner existiert, so wird dieser erstellt. +
+Achtung: Vorhandene Dateien in diesem Ordner werden ohne Rückfrage überschrieben. 
+
+|===

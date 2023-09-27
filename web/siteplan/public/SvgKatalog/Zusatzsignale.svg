@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200"
+    stroke="black" stroke-width="2.5">
+    <defs>
+        <g class="zusatzsignale" id="Zs1">
+            <path d="M0,17.5 L10,0 L20,17.5" stroke="black" fill="transparent" stroke-width="2.5"/>
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="17.5"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-1.25" y="-2.5" width="22.5" height="20.75" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs2">
+            <path d="M0,10 L10,0 L20,10  L20,20 L0,20 z" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-1.25" y="-1.75" width="22.5" height="23" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs2v">
+            <path d="M0,0 L20,0 L20,10  L10,20 L0,10 z" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:zusatzsignale id="signalAnker" position="bottom"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="23" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs3_switched" >
+            <path d="M0,17.5 L10,0 L20,17.5 z" fill="black" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="17.5"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-2.125" y="-2.5" width="24.25" height="21.25" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs3" >
+            <path d="M0,17.5 L10,0 L20,17.5 Z" fill="white"/>
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="17.5"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-2.125" y="-2.5" width="24.25" height="21.25" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs3v_switched" >
+            <path d="M0,0 L20,0 L10,17.5 z" fill="black" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="17.5"/>
+            <toolbox:zusatzsignale id="signalAnker" position="bottom"/>
+            <toolbox:rectbound x="-2.125" y="-1.25" width="24.25" height="21.25" />
+        </g>
+
+          <g class="zusatzsignale" id="Zs3v" >
+            <path d="M0,0 L20,0 L10,17.5 Z" fill="white"/>
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="17.5"/>
+            <toolbox:zusatzsignale id="signalAnker" position="bottom"/>
+            <toolbox:rectbound x="-2.125" y="-1.25" width="24.25" height="21.25" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs6">
+            <rect width="20" height="20" x="0" y="0" />
+            <path d="M17.5,17.5 L2.5,17.5 L17.5,2.5 z" fill="white" stroke-width="0"/>
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs6_switched">
+            <rect width="20" height="20" x="0" y="0" />
+            <rect width="15" height="15" x="2.5" y="2.5" stroke="white" fill="white" />
+            <line x1="0" y1="20" x2="20" y2="0" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs7">
+            <path d="M0,0 L10,17.5 L20,0"  fill="transparent"/>
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="17.5"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-1.25" y="-0.75" width="22.5" height="21" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs8">
+            <line x1="0" x2="20" y1="0" y2="20" />
+            <line x1="20" x2="0" y1="0" y2="20" />
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <g class="zusatzsignale" id="Zs13">
+            <rect width="20" height="20" x="0" y="0" />
+            <line x1="4" x2="4" y1="5" y2="15" stroke="white"/>
+            <line x1="4" x2="16" y1="10" y2="10" stroke="white"/>
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:zusatzsignale id="signalAnker" position="top"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <g class="zusatzsignale" id="Zp9_10">
+            <rect width="20" height="20" x="0" y="0" />
+            <rect width="15" height="15" x="2.5" y="2.5" stroke="white" fill="white" />
+            <circle r="10" cx="10" cy="10" fill="white" />
+            <circle r="2" cx="10" cy="10"/>
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:zusatzsignale id="signalAnker" position="bottom"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+    </defs>
+
+    <g width="100" height="100" transform="translate(20,20)">
+        <use xlink:href="#Zs1" />
+        
+    </g>
+</svg>

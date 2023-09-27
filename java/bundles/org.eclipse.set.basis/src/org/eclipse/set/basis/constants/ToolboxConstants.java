@@ -226,9 +226,14 @@ public final class ToolboxConstants {
 	public static final String ABOUT_PART_ID = "org.eclipse.set.application.about.AboutPart";
 
 	/**
-	 * The id of the about part
+	 * The id of the chromium credits part
 	 */
 	public static final String CHROMIUM_CREDITS_PART_ID = "org.eclipse.set.application.about.ChromiumCreditsPart";
+
+	/**
+	 * The id of the web developer help part
+	 */
+	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";
 
 	static {
 		DEFAULT_HOME_DIR = "./";

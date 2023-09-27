@@ -420,4 +420,16 @@ public interface DialogService {
 	 * @return whether the user has confirmed to apply default values globally
 	 */
 	boolean confirmSetDefaultsGlobally(Shell shell);
+
+	/**
+	 * Create a siteplan Error dialog.
+	 * 
+	 * @param shell
+	 *            the shell
+	 * @param filename
+	 *            the filename
+	 * @return whether the model should be loaded (<code>true</code>) or whether
+	 *         the loading should be aborted (<code>false</code>)
+	 */
+	boolean sitePlanError(Shell shell, String filename);
 }

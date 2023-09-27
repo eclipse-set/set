@@ -1,0 +1,14 @@
+---
+title: "2.1.2 Maßstab"
+anchor: "sicherungstechnischer_lageplan.bedienung.massstab"
+---
+
+Im unteren linken Bereich des Lageplans wird der Maßstab angezeigt. +
+
+image::img/BedienungMassstab.png[]
+
+Mit einem Linksklick auf den Maßstab kann dieser auf einen Wert von 1:1000 fixiert werden.
+
+image::img/BedienungMassstab1000.png[]
+
+Die Einstellung von 1:1000 bleibt bestehen, bis die Zoomeinstellung durch Klick auf die Vergrößern-/Verkleinern-Schaltflächen bzw. durch das Mausrad verändert wird.

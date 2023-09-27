@@ -498,4 +498,25 @@ public class Messages extends AbstractMessageService {
 	 */
 	public String WindowCloseAddon_ConfirmTitle;
 
+	/**
+	 * Unvollständige PlanPro-Datei
+	 */
+	public String LoadInvalidCRSDialog_Title;
+
+	/**
+	 * Achtung, die Datei "%s" enthält kein valid CRS Daten. Der Lageplan kann
+	 * nicht vollständige anzeigen werden.
+	 */
+	public String LoadInvalidCRSDialog_MessagePattern;
+
+	/**
+	 * Unvollständig Lageplan darstellen
+	 */
+	public String LoadInvalidCRSDialog_OpenLabel;
+
+	/**
+	 * Lageplan schließen
+	 */
+	public String LoadInvalidCRSDialog_CloseLabel;
+
 }

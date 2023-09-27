@@ -27,7 +27,7 @@ public class Messages {
 	public String SetBrandingService_ToolName;
 
 	/**
-	 * Zeigen in Texisicht
+	 * Zeige in Texisicht
 	 */
 	public String SetTableMenuService_TextView;
 }
