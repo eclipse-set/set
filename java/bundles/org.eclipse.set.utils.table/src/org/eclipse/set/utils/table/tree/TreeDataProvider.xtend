@@ -23,6 +23,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensi
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 
 /**
+ * ITreeData implementation for table
  * @author Truong
  */
 class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowData> {

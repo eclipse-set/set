@@ -15,6 +15,10 @@ import org.eclipse.nebula.widgets.nattable.tree.TreeLayer
 import org.eclipse.set.utils.table.BodyLayerStack
 import org.eclipse.set.utils.table.sorting.TableSortModel
 
+/**
+ * Custom sort command handler for treelayer
+ * @author Truong
+ */
 class TreeSortCommandHandler extends SortCommandHandler<BodyLayerStack> {
 	TreeLayer treeLayer
 	TableSortModel sortModel
@@ -34,6 +38,10 @@ class TreeSortCommandHandler extends SortCommandHandler<BodyLayerStack> {
 		val hiddenRows = treeLayer.hiddenRowIndexes.map [
 			sortModel.tableData.getRowData(it)
 		].filterNull.toList
+		
+		// Expand all collapse group before sorting for correct sort,
+		// because treelayer cached index of group/row while collapse and
+		// this index not change, when sorting
 		treeLayer.expandAll
 		super.doCommand(command)
 		val treeData = treeDataProvider

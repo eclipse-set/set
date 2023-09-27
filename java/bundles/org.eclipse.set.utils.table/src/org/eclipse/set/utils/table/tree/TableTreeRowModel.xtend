@@ -10,7 +10,13 @@ package org.eclipse.set.utils.table.tree
 
 import org.eclipse.nebula.widgets.nattable.tree.TreeRowModel
 import org.eclipse.set.utils.table.TableRowData
+import org.eclipse.nebula.widgets.nattable.tree.TreeLayer
+import org.eclipse.nebula.widgets.nattable.tree.ITreeRowModel
 
+/**
+ * {@link ITreeRowModel} implementation for {@link TreeLayer}
+ * @author Truong
+ */
 class TableTreeRowModel extends TreeRowModel<TableRowData> {
 	
 	new(TreeDataProvider treeData) {
