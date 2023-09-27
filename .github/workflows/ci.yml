@@ -2,7 +2,11 @@
 
 name: Build SET
 
-on: [push, repository_dispatch]
+on: 
+  push:
+    paths-ignore:
+      - DEPENDENCIES
+  repository_dispatch:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -73,20 +77,16 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: "17"
-          distribution: temurin
-          overwrite-settings: false
-          server-id: set-github
-          cache: maven
 
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
+       # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        if: github.ref == 'refs/heads/main'
         with:
-          maven-version: 3.9.3
+          languages: java, javascript
+      
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
       
       - name: Fetch pdf viewer
         uses: actions/download-artifact@v3
@@ -128,3 +128,7 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/**/surefire-reports/*.xml
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        if: github.ref == 'refs/heads/main'
