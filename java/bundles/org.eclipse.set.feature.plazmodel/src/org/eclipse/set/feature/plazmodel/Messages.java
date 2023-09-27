@@ -78,19 +78,4 @@ public class Messages {
 	 * Lfd.
 	 */
 	public String PlazReportColumns_RowIndex;
-
-	/**
-	 * %s_PlaZMeldungen.csv
-	 */
-	public String ExportFilePattern;
-
-	/**
-	 * Export als CSV
-	 */
-	public String ExportReportMsg;
-
-	/**
-	 * Export als CSV
-	 */
-	public String ExportDialogTitleMsg;
 }
