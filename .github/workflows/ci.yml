@@ -1,5 +1,4 @@
 # This workflow will build the main SET application and publish it to GitHub Packages
-
 name: Build SET
 
 on: 
@@ -80,12 +79,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         if: github.ref == 'refs/heads/main'
         with:
           languages: java, javascript
+          config: |
+            paths-ignore: 
+              - '**/dist/**'
+              - '**/target/**'
       
       - name: Setup Java
         uses: eclipse-set/build/.github/actions/setup-java@main
@@ -109,7 +111,7 @@ jobs:
           path: web/about/dist          
 
       - name: Build
-        run: mvn -T 1.5C -B -U clean verify --settings .github/settings.xml
+        run: mvn -T 1.5C -B -U clean verify
 
       - name: Publish
         run: mvn -T 1.5C -B deploy --settings .github/settings.xml -DaltDeploymentRepository=set-github::https://maven.pkg.github.com/${{ github.repository }}
