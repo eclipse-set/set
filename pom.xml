@@ -198,8 +198,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- Buildnumber Plugin, um die Revision für z.B. Dateinamen/Readme verwenden
-				zu können -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
