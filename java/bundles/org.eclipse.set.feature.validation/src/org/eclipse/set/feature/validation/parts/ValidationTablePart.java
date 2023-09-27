@@ -18,8 +18,10 @@ import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
+import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.table.menu.TableMenuService;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -57,8 +59,27 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 				messages, versionService, enumTranslationService);
 		final ValidationReport validationReport = transformation
 				.transform(getModelSession());
+
+		// export action
+		getBanderole().setExportAction(new SelectableAction() {
+
+			@Override
+			public void selected(final SelectionEvent e) {
+				export(validationReport);
+			}
+
+			@Override
+			public String getText() {
+				return messages.ExportValidationMsg;
+			}
+		});
+
 		final ValidationTableView tableView = new ValidationTableView(this,
 				messages, tableMenuService);
 		tableView.create(parent, validationReport);
+	}
+
+	protected void export(final ValidationReport report) {
+		ValidationPart.exportValidation(this, messages, report);
 	}
 }
