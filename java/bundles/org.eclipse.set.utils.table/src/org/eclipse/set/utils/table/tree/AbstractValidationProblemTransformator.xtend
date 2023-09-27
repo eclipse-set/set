@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.utils.table.tree
 
+import java.util.Comparator
 import java.util.List
 import java.util.Set
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
@@ -20,10 +21,14 @@ import org.eclipse.set.utils.table.TMFactory
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
-import java.util.Comparator
 
-abstract class AbstractTreeTableTransformator<T> extends AbstractTableModelTransformator<T> {
+/**
+ * Abstract class for validation problem transformation
+ * @author Truong
+ */
+abstract class AbstractValidationProblemTransformator<T> extends AbstractTableModelTransformator<T> {
 	Set<ValidationProblem> listProblems = newHashSet
+
 	override transformTableContent(T report, TMFactory factory) {
 		report.problems.forEach [
 			factory.transformProblem(it)
@@ -64,16 +69,18 @@ abstract class AbstractTreeTableTransformator<T> extends AbstractTableModelTrans
 				override compare(TableRow r1, TableRow r2) {
 					return r1.rowIndex.compareTo(r2.rowIndex)
 				}
-				
+
 			})
 			val rootRow = factory.createGeneralGroupRow(sortedRows.get(0),
 				excludeColumns)
 			rootRow.set(
 				indexColumn, '''«sortedRows.get(0).rowIndex»..«sortedRows.last.rowIndex»''')
-			val generalErroMsg = listProblems.findFirst[id === sortedRows.get(0).rowIndex]?.generalMsg
+			val generalErroMsg = listProblems.findFirst [
+				id === sortedRows.get(0).rowIndex
+			]?.generalMsg
 			rootRow.set(messagesColumn, generalErroMsg)
 			group.rows.add(0, rootRow)
-			
+
 		]
 	}
 

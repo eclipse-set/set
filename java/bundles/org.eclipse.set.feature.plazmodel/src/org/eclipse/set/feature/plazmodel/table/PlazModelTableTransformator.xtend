@@ -15,14 +15,14 @@ import org.eclipse.set.model.plazmodel.PlazReport
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.validationreport.ValidationProblem
-import org.eclipse.set.utils.table.tree.AbstractTreeTableTransformator
+import org.eclipse.set.utils.table.tree.AbstractValidationProblemTransformator
 
 /**
  * Table transformator for the Plaz Model Report 
  * 
  * @author Stuecker
  */
-class PlazModelTableTransformator extends AbstractTreeTableTransformator<PlazReport> {
+class PlazModelTableTransformator extends AbstractValidationProblemTransformator<PlazReport> {
 	PlazReportColumns columns
 	protected val EnumTranslationService enumTranslationService
 	protected val List<ColumnDescriptor> excludeColumns

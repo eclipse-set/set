@@ -13,9 +13,9 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
-import org.eclipse.set.utils.table.tree.AbstractTreeTableTransformator
+import org.eclipse.set.utils.table.tree.AbstractValidationProblemTransformator
 
-class ValidationReportTableTransformator extends AbstractTreeTableTransformator<ValidationReport> {
+class ValidationReportTableTransformator extends AbstractValidationProblemTransformator<ValidationReport> {
 	ValidationTableColumns columns;
 	protected val List<ColumnDescriptor> excludeColumns
 
