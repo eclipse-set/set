@@ -8,9 +8,6 @@
  */
 package org.eclipse.set.feature.validation.parts;
 
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -42,15 +39,18 @@ import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
+import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.model.validationreport.extensions.ValidationReportExtension;
+import org.eclipse.set.model.validationreport.extensions.ValidationProblemExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
+import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -76,6 +76,16 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	private static final String VIEW_VALIDATION_REPORT = "validationReport"; //$NON-NLS-1$
 
 	private static final String INJECT_VIEW_VALIDATION_NATTABLE = "validationTableNattable"; //$NON-NLS-1$
+
+	@SuppressWarnings("nls")
+	private static String CSV_HEADER_PATTERN = """
+			Validierungsmeldungen
+			Datei: %s
+			Validierung: %s
+			Werkzeugkofferversion: %s
+
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Meldung"
+			""";
 
 	private Exception createException;
 
@@ -164,22 +174,29 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 				final Composite composite = new Composite(innerParent,
 						SWT.NONE);
-				GridLayoutFactory.fillDefaults().numColumns(3)
+				GridLayoutFactory.swtDefaults().numColumns(2)
 						.applyTo(composite);
+				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
+						.grab(true, false).applyTo(composite);
 
 				// create the button
-				exportValidationButton = new Button(composite, SWT.PUSH);
-				exportValidationButton.setText(messages.ExportValidationMsg);
-				exportValidationButton.addListener(SWT.Selection,
-						event -> exportValidation());
-				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
-						0);
-
 				final Button showTableButton = new Button(composite, SWT.PUSH);
+				GridDataFactory.swtDefaults().align(SWT.LEFT, SWT.FILL)
+						.grab(true, false).applyTo(showTableButton);
 				showTableButton.setText(messages.ShowValidationTableMsg);
 				showTableButton.addListener(SWT.Selection,
 						event -> showValidationTable());
 				showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+				exportValidationButton = new Button(composite, SWT.PUSH);
+				GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.FILL)
+						.grab(true, false).applyTo(exportValidationButton);
+				exportValidationButton.setText(messages.ExportValidationMsg);
+				exportValidationButton.addListener(SWT.Selection,
+						event -> exportValidation(this, messages,
+								validationReport));
+				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
+						0);
 
 				final Control natTable = tableView.create(innerParent,
 						validationReport);
@@ -231,31 +248,38 @@ public class ValidationPart extends AbstractEmfFormsPart {
 		}
 	}
 
-	void exportValidation() {
-		final Shell shell = getToolboxShell();
-		final Path location = getModelSession().getToolboxFile().getPath();
+	/**
+	 * Export validation report to csv
+	 * 
+	 * @param part
+	 *            the part
+	 * @param messages
+	 *            the messages class
+	 * @param report
+	 *            the validation report
+	 */
+	public static void exportValidation(final BasePart part,
+			final Messages messages, final ValidationReport report) {
+		final Shell shell = part.getToolboxShell();
+		final Path location = part.getModelSession().getToolboxFile().getPath();
 		final Path parent = location.getParent();
 		final String defaultPath = parent == null ? "" : parent.toString(); //$NON-NLS-1$
 		final String defaultFileName = String.format(messages.ExportFilePattern,
 				PathExtensions.getBaseFileName(location));
 
-		final Optional<Path> optionalPath = getDialogService().saveFileDialog(
-				shell, getDialogService().getCsvFileFilters(),
-				Paths.get(defaultPath, defaultFileName),
-				messages.ExportValidationTitleMsg);
-
+		final Optional<Path> optionalPath = part.getDialogService()
+				.saveFileDialog(shell,
+						part.getDialogService().getCsvFileFilters(),
+						Paths.get(defaultPath, defaultFileName),
+						messages.ExportValidationTitleMsg);
 		// export
-		if (optionalPath.isPresent()) {
-			final String fileName = optionalPath.get().toString();
-			try (final OutputStreamWriter writer = new OutputStreamWriter(
-					new FileOutputStream(fileName),
-					StandardCharsets.ISO_8859_1)) {
-				ValidationReportExtension.problemCsvExport(validationReport,
-						writer);
-			} catch (final Exception e) {
-				getDialogService().error(shell, e);
-			}
-		}
+		final ExportToCSV<ValidationProblem> problemExport = new ExportToCSV<>(
+				CSV_HEADER_PATTERN);
+		problemExport.exportToCSV(optionalPath, report.getProblems(),
+				ValidationProblemExtensions::getCsvExport);
+		optionalPath.ifPresent(
+				outputDir -> part.getDialogService().openDirectoryAfterExport(
+						part.getToolboxShell(), Paths.get(defaultPath)));
 	}
 
 	void showValidationTable() {

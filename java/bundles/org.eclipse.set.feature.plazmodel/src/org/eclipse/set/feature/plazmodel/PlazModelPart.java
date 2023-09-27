@@ -8,14 +8,8 @@
  */
 package org.eclipse.set.feature.plazmodel;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,20 +34,18 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.service.PlazModelService;
 import org.eclipse.set.feature.plazmodel.table.PlazModelTableView;
 import org.eclipse.set.model.plazmodel.PlazReport;
+import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.ppmodel.extensions.EObjectExtensions;
+import org.eclipse.set.model.validationreport.extensions.ValidationProblemExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
+import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.set.utils.table.menu.TableMenuService;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -109,13 +101,26 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 			setOutdated(true);
 		}
 
+		// export action
+		getBanderole().setEnableExport(true);
+		getBanderole().setExportAction(new SelectableAction() {
+
+			@Override
+			public void selected(final SelectionEvent e) {
+				exportPlazModel();
+			}
+
+			@Override
+			public String getText() {
+				return messages.PlazModellPart_ExportTitleMsg;
+			}
+		});
 	}
 
 	private void create(final Composite parent) {
 		try {
 			updatePlazModel();
 			tableView.create(parent, plazReport);
-			createExportButton(parent);
 			createException = null;
 		} catch (final Exception e) {
 			createException = e;
@@ -142,23 +147,7 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
 
-	private void createExportButton(final Composite parent) {
-		final Button exportPlazModelButton = new Button(parent, SWT.PUSH);
-		exportPlazModelButton.setText(messages.PlazModellPart_ExportTitleMsg);
-		exportPlazModelButton.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(final SelectionEvent event) {
-				exportPlazModel();
-			}
-
-			@Override
-			public void widgetSelected(final SelectionEvent event) {
-				exportPlazModel();
-			}
-		});
-	}
-
+	@SuppressWarnings("nls")
 	static final String HEADER_PATTERN = """
 			PlaZ-Modell-Prüfung
 			Datei: %s
@@ -183,32 +172,14 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 				Paths.get(defaultPath, defaultFileName),
 				messages.PlazModellPart_ExportTitleMsg);
 
-		if (optionalPath.isPresent()) {
-			final String fileName = optionalPath.get().toString();
-			try (final OutputStreamWriter writer = new OutputStreamWriter(
-					new FileOutputStream(fileName),
-					StandardCharsets.ISO_8859_1)) {
-				writer.write(String.format(HEADER_PATTERN,
-						location.getFileName().toString(),
-						LocalDateTime.now()
-								.format(DateTimeFormatter
-										.ofPattern("uuuu-MM-dd HH:mm:ss")), //$NON-NLS-1$
-						ToolboxConfiguration.getToolboxVersion()
-								.getLongVersion()));
-				plazReport.getEntries().stream().map(EObjectExtensions::toCSV)
-						.forEach(t -> {
-							try {
-								writer.write(t);
-							} catch (final IOException e) {
-								throw new RuntimeException(e);
-							}
-						});
-
-			} catch (final Exception e) {
-				getDialogService().error(shell, e);
-			}
-		}
-
+		// export
+		final ExportToCSV<ValidationProblem> problemExport = new ExportToCSV<>(
+				HEADER_PATTERN);
+		problemExport.exportToCSV(optionalPath, plazReport.getEntries(),
+				ValidationProblemExtensions::getCsvExport);
+		optionalPath.ifPresent(
+				outputDir -> getDialogService().openDirectoryAfterExport(
+						getToolboxShell(), Paths.get(defaultPath)));
 	}
 
 	@Override
