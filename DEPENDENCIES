@@ -376,6 +376,7 @@ npm/npmjs/-/json-schema-traverse/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/json-stable-stringify-without-jsonify/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/json5/1.0.2, MIT, approved, CQ22351
 npm/npmjs/-/json5/2.2.1, MIT, approved, #2126
+npm/npmjs/-/json5/2.2.3, MIT, approved, #2126
 npm/npmjs/-/kind-of/6.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/launch-editor/2.6.0, MIT, approved, clearlydefined
 npm/npmjs/-/levn/0.4.1, MIT, approved, clearlydefined
