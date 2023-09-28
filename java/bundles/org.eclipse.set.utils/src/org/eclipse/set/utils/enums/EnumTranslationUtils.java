@@ -21,7 +21,7 @@ public class EnumTranslationUtils {
 	private static final String ALTERNATIVE = "_Alternative"; //$NON-NLS-1$
 	private static final String PRESENTATION = "_Presentation"; //$NON-NLS-1$
 	private static final String SORTING = "_Sorting"; //$NON-NLS-1$
-	private static final String XSBOOLEAN = "XSBoolean_"; //$NON-NLS-1$
+	private static final String XSBOOLEAN = "boolean_"; //$NON-NLS-1$
 
 	/**
 	 * @param keyBasis
