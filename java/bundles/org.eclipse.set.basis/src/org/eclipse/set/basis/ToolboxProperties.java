@@ -57,7 +57,7 @@ public interface ToolboxProperties {
 	public static final String GREYED_OUT_STYLE_FOREGROUND = "toolbox.greyedoutstyle.foreground";
 
 	/**
-	 * Property key for log file = empty name deactivates logging)
+	 * Property key for log file (empty name deactivates logging)
 	 */
 	public static final String LOGFILE = "toolbox.logfile";
 
