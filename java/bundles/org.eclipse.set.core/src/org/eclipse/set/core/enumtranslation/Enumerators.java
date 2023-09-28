@@ -26,6 +26,36 @@
   					"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
   		}
 	/**
+	 * nein
+	 */
+	public String boolean_false_Presentation;
+
+	/**
+	 * null
+	 */
+	public String boolean_false_Sorting;
+
+	/**
+	 * □
+	 */
+	public String boolean_false_Alternative;
+
+	/**
+	 * ja
+	 */
+	public String boolean_true_Presentation;
+
+	/**
+	 * null
+	 */
+	public String boolean_true_Sorting;
+
+	/**
+	 * x
+	 */
+	public String boolean_true_Alternative;
+
+	/**
 	 * 112
 	 */
 	public String ENUMA_Wert_112_Presentation;
@@ -24534,36 +24564,6 @@
 	 * eigen
 	 */
 	public String ENUMZwieschutz_Art_eigen_Alternative;
-
-	/**
-	 * nein
-	 */
-	public String XSBoolean_false_Presentation;
-
-	/**
-	 * null
-	 */
-	public String XSBoolean_false_Sorting;
-
-	/**
-	 * □
-	 */
-	public String XSBoolean_false_Alternative;
-
-	/**
-	 * ja
-	 */
-	public String XSBoolean_true_Presentation;
-
-	/**
-	 * null
-	 */
-	public String XSBoolean_true_Sorting;
-
-	/**
-	 * x
-	 */
-	public String XSBoolean_true_Alternative;
 
 	/**
 	 * Fehler

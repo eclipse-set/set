@@ -37,6 +37,7 @@ public class EnumTransformation {
 	private static final int COLUMN_SORTING_VALUE = 4;
 	private static final String EMPTY = "<leer>"; //$NON-NLS-1$
 	private static final String ENUMS = "ENUMs"; //$NON-NLS-1$
+	private static final String XS_PREFIX = "xs:"; //$NON-NLS-1$
 
 	/**
 	 * Exports the given translations to a java and a property file.
@@ -117,9 +118,7 @@ public class EnumTransformation {
 	}
 
 	private static String transformToValue(final String value) {
-		String result = new String(value);
-		result = result.replace(EMPTY, ""); //$NON-NLS-1$
-		return result;
+		return value.replaceAll(EMPTY + "|" + XS_PREFIX, ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	static String transformToAlternative(final HSSFRow row) {
