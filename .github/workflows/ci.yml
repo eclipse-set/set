@@ -74,7 +74,7 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
 
       - name: Build Release Notes
-        run: mvn -Dnote-file-path="${{github.workspace}}/RELEASE_NOTES.md" verify
+        run: mvn -Dnote-file-path="${{github.workspace}}/RELEASE_NOTES.md" clean compile
         working-directory: web/news
 
       - name: Store artifact
