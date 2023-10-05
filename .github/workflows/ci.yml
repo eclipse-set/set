@@ -63,12 +63,35 @@ jobs:
           path: web/pdf/dist
           retention-days: 1
 
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+
+      - name: Install Asciidoctor & Hugo
+        uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
+
+      - name: Build Release Notes
+        run: mvn -U -Dnote-file-path="${{github.workspace}}/RELEASE_NOTES.md" verify
+        working-directory: web/news
+
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: news-artifact
+          path: web/news/public
+          retention-days: 1
+
+
   java:
     runs-on: ubuntu-latest
     needs:
       - docs
       - textviewer
       - pdfviewer
+      - news
     permissions:
       contents: read
       packages: write
@@ -108,7 +131,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: about-artifact
-          path: web/about/dist          
+          path: web/about/dist
+
+      - name: Fetch news
+        uses: actions/download-artifact@v3
+        with:
+            name: new-artifact
+            path: web/news/public
 
       - name: Build
         run: mvn -T 1.5C -B -U clean verify

@@ -47,6 +47,7 @@ dist/
 
 # Hugo documentation
 web/about/public
+web/news/public
 .vscode/settings.json
 
 # OSGI Declare Service
