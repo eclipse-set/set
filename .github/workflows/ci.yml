@@ -74,7 +74,7 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
 
       - name: Build Release Notes
-        run: mvn -U -Dnote-file-path="${{github.workspace}}/RELEASE_NOTES.md" verify
+        run: mvn -Dnote-file-path="${{github.workspace}}/RELEASE_NOTES.md" verify
         working-directory: web/news
 
       - name: Store artifact
@@ -136,7 +136,7 @@ jobs:
       - name: Fetch news
         uses: actions/download-artifact@v3
         with:
-            name: new-artifact
+            name: news-artifact
             path: web/news/public
 
       - name: Build

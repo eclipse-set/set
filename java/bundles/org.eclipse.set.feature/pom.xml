@@ -88,6 +88,21 @@
 							</resources>
 						</configuration>
 					</execution>
+					<execution>
+						<id>copy-news</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/news/web/news</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../../web/news/public</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
@@ -113,6 +128,10 @@
 						</fileset>
 						<fileset>
 							<directory>pdfviewer</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+						<fileset>
+							<directory>news</directory>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
 					</filesets>

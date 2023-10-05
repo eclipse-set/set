@@ -9,7 +9,7 @@
       <plugin>
         <groupId>org.eclipse.set</groupId>
         <artifactId>release-notes-maven-plugin</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <executions>
           <execution>
             <id>transform-release-notes</id>
@@ -45,7 +45,7 @@
   <pluginRepositories>
     <pluginRepository>
       <id>set-github-build</id>
-      <url>https://maven.pkg.github.com/truongquangsb/build</url>
+      <url>https://maven.pkg.github.com/eclipse-set/build</url>
     </pluginRepository>
   </pluginRepositories>
 </project>
