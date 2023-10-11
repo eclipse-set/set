@@ -379,7 +379,7 @@ npm/npmjs/-/json-stable-stringify-without-jsonify/1.0.1, MIT, approved, clearlyd
 npm/npmjs/-/json5/1.0.2, MIT, approved, CQ22351
 npm/npmjs/-/json5/2.2.3, MIT, approved, #2126
 npm/npmjs/-/kind-of/6.0.3, MIT, approved, clearlydefined
-npm/npmjs/-/launch-editor/2.6.0, MIT, approved, clearlydefined
+npm/npmjs/-/launch-editor/2.6.0, MIT, approved, #10975
 npm/npmjs/-/levn/0.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/loader-runner/4.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/loader-utils/2.0.3, MIT, approved, #4986
@@ -652,9 +652,9 @@ npm/npmjs/@types/qs/6.9.7, MIT, approved, clearlydefined
 npm/npmjs/@types/range-parser/1.2.4, MIT, approved, #10795
 npm/npmjs/@types/retry/0.12.0, MIT, approved, clearlydefined
 npm/npmjs/@types/semver/7.3.13, MIT, approved, #4668
-npm/npmjs/@types/serve-index/1.9.1, MIT, approved, clearlydefined
+npm/npmjs/@types/serve-index/1.9.1, MIT, approved, #10976
 npm/npmjs/@types/serve-static/1.13.10, MIT, approved, clearlydefined
-npm/npmjs/@types/sockjs/0.3.33, MIT, approved, clearlydefined
+npm/npmjs/@types/sockjs/0.3.33, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.5, MIT, approved, #6016
 npm/npmjs/@typescript-eslint/eslint-plugin/5.44.0, MIT, approved, #5029
 npm/npmjs/@typescript-eslint/parser/5.62.0, BSD-2-Clause, approved, clearlydefined
@@ -1003,8 +1003,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring/3.13.0.v20220822-050
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.ui.refactoring/3.12.200.v20220808-2221, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.cwt/1.1.0.202303072132, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.cdatetime/1.5.0.202303072132, EPL-2.0, approved, technology.nebula
-p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.core/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
-p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.extension.nebula/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
+p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.core/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
+p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.extension.nebula/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.richtext/1.5.1.202303072132, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.plugin/org.eclipse.net4j.util/3.21.0.v20221123-1721, EPL-1.0, approved, modeling.emf.cdo
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.compatibility.state/1.2.800.v20221116-1440, EPL-2.0, approved, eclipse.equinox
