@@ -70,7 +70,7 @@ jobs:
       - textviewer
       - pdfviewer
     permissions:
-      contents: read
+      contents: write
       packages: write
       checks: write
       pull-requests: write
@@ -125,6 +125,19 @@ jobs:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/
           retention-days: 7
+
+      - name: Prepare release asset
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          VERSION=$(echo ${{ github.ref_name }} | cut -c 2-)
+          mv *.zip unsigned-Eclipse-SET-$VERSION.zip
+        working-directory: java/bundles/org.eclipse.set.releng.set.product/target/products
+
+      - name: Upload release asset
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
+        with: 
+          files: java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/*
           
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@d93dbc08d265e4653da0c0af544bee2a851d3e38 # v2.10.0
