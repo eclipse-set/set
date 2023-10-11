@@ -24,6 +24,7 @@
             <goals>
               <goal>transform</goal>
             </goals>
+            <phase>compile</phase>
             <configuration>
               <notesPath>${note-file-path}</notesPath>
               <outDir>content</outDir>
