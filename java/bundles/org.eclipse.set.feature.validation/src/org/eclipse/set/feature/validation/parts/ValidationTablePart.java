@@ -77,6 +77,11 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 		final ValidationTableView tableView = new ValidationTableView(this,
 				messages, tableMenuService);
 		tableView.create(parent, validationReport);
+		tableView.createExpandCollapseAllButton(
+				(Composite) getBanderole().getControl(),
+				messages.ValidationTable_ExpandAllGroup,
+				messages.ValidationTable_CollapseAllGroup);
+
 	}
 
 	protected void export(final ValidationReport report) {

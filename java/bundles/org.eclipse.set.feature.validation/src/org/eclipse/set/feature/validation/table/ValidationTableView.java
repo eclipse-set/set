@@ -14,7 +14,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.menu.TableMenuService;
-import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
+import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Control;
  * @author Stuecker
  *
  */
-public class ValidationTableView extends AbstractSortByColumnTables {
+public class ValidationTableView extends AbstractTreeLayerTable {
 	private final Messages messages;
 	private final BasePart part;
 	private NatTable natTable;
