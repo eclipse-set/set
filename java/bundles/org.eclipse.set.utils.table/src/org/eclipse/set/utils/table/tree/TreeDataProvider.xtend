@@ -120,7 +120,7 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		if (row.hasChildren) {
 			return row
 		}
-		return rowGroupMapping.findFirst[value.contains(row)].key
+		return rowGroupMapping.findFirst[value.contains(row)]?.key
 	}
 
 	/**
