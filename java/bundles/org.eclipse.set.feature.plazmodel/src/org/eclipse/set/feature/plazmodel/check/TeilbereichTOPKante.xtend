@@ -17,6 +17,8 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import org.osgi.service.component.annotations.Component
 import org.eclipse.set.model.validationreport.ValidationSeverity
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that Bereich_Objekt_Teilbereich entries
@@ -57,15 +59,15 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	private def getErrorMessage(double limitA, double limitB,
 		double topLength) {
 		if (limitA < 0)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungA: «limitA».'''
+			return '''«generalErrMsg» BegrenzungA: «limitA».'''
 		if (limitB < 0)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: «limitB».'''
+			return '''«generalErrMsg» BegrenzungB: «limitB».'''
 		if (limitA > topLength)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungA: «limitA». Länge TOP-Kante: «topLength»'''
+			return '''«generalErrMsg» BegrenzungA: «limitA». Länge TOP-Kante: «topLength»'''
 		if (limitB > topLength)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: «limitB». Länge TOP-Kante: «topLength»'''
+			return '''«generalErrMsg» BegrenzungB: «limitB». Länge TOP-Kante: «topLength»'''
 		if (limitB < limitA)
-			return '''Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungA: «limitA». BegrenzungB: «limitB».'''
+			return '''«generalErrMsg» BegrenzungA: «limitA». BegrenzungB: «limitB».'''
 		return null
 	}
 
@@ -79,5 +81,13 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	
 	override getDescription() {
 		return "Teilbereichsgrenzen der LST-Objekte sind gültig."
-	}	
+	}
+	
+	override getGeneralErrMsg() {
+		return "Ungültige Teilbereichsgrenzen für LST-Objekt."
+	}
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}
 }

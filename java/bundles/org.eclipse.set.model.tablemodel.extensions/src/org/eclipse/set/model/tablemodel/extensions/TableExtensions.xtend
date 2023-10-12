@@ -8,15 +8,6 @@
  */
 package org.eclipse.set.model.tablemodel.extensions
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.RowGroup
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.TablemodelFactory
-import org.eclipse.set.model.tablemodel.TablemodelPackage
-import org.eclipse.set.model.tablemodel.extensions.internal.TableToFootnoteText
-import org.eclipse.set.model.tablemodel.format.TextAlignment
 import java.io.IOException
 import java.nio.file.Path
 import java.util.Collections
@@ -25,6 +16,15 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.RowGroup
+import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.TablemodelFactory
+import org.eclipse.set.model.tablemodel.TablemodelPackage
+import org.eclipse.set.model.tablemodel.extensions.internal.TableToFootnoteText
+import org.eclipse.set.model.tablemodel.format.TextAlignment
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*

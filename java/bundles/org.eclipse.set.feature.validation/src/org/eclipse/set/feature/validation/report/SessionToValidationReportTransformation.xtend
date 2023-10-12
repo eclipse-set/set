@@ -76,7 +76,10 @@ class SessionToValidationReportTransformation {
 				session?.toolboxFile, session?.toolboxFile?.modelPath))
 		problems.addAll(
 			session.getValidationResult(PlanPro_Layoutinfo).transform(
-				session?.toolboxFile, session?.toolboxFile?.layoutPath))
+				session?.toolboxFile, session?.toolboxFile?.layoutPath).filter [
+				!problems.contains(it)
+			]
+		)
 		problems.sortProblem
 		report.problems.addAll(problems)
 		// Add subwork information

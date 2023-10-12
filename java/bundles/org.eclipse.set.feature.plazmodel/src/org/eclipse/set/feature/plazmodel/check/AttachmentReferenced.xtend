@@ -13,6 +13,8 @@ import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.osgi.service.component.annotations.Component
 import java.io.IOException
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that all attachment files on the filesystem are referenced
@@ -32,7 +34,7 @@ class AttachmentReferenced implements PlazCheck {
 				!attachments.contains(it)
 			].map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = '''Der Anhang «it» ist vorhanden, wird aber nicht referenziert.'''
+				err.message = transformErroMsg(Map.of("GUID", it))
 				err.type = checkType
 				err.object = null
 				return err
@@ -46,8 +48,16 @@ class AttachmentReferenced implements PlazCheck {
 	override checkType() {
 		return "Anhänge"
 	}
-	
+
 	override getDescription() {
 		return "Anhänge in der .planpro-Datei werden referenziert."
+	}
+
+	override getGeneralErrMsg() {
+		return "Der Anhang {GUID} ist vorhanden, wird aber nicht referenziert."
+	}
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

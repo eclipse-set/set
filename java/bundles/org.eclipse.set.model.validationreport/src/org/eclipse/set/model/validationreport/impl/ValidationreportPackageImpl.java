@@ -377,6 +377,16 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 	 * @generated
 	 */
 	@Override
+	public EAttribute getValidationProblem_GeneralMsg() {
+		return (EAttribute)validationProblemEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getVersionInfo() {
 		return versionInfoEClass;
 	}
@@ -563,6 +573,7 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		createEAttribute(validationProblemEClass, VALIDATION_PROBLEM__ATTRIBUTE_NAME);
 		createEAttribute(validationProblemEClass, VALIDATION_PROBLEM__OBJECT_SCOPE);
 		createEAttribute(validationProblemEClass, VALIDATION_PROBLEM__OBJECT_STATE);
+		createEAttribute(validationProblemEClass, VALIDATION_PROBLEM__GENERAL_MSG);
 
 		versionInfoEClass = createEClass(VERSION_INFO);
 		createEAttribute(versionInfoEClass, VERSION_INFO__PLAN_PRO);
@@ -636,6 +647,7 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		initEAttribute(getValidationProblem_AttributeName(), ecorePackage.getEString(), "attributeName", null, 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationProblem_ObjectScope(), this.getObjectScope(), "objectScope", "", 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getValidationProblem_ObjectState(), this.getObjectState(), "objectState", "", 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getValidationProblem_GeneralMsg(), ecorePackage.getEString(), "generalMsg", null, 0, 1, ValidationProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(versionInfoEClass, VersionInfo.class, "VersionInfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVersionInfo_PlanPro(), ecorePackage.getEString(), "planPro", null, 0, 1, VersionInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

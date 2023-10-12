@@ -13,6 +13,8 @@ import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.osgi.service.component.annotations.Component
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that GUIDs are unique
@@ -27,7 +29,7 @@ class GuidUnique extends AbstractPlazContainerCheck implements PlazCheck {
 			val guid = it.identitaet?.wert
 			if (knownGUIDs.contains(guid)) {
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = '''Die GUID «guid» ist nicht eindeutig!'''
+				err.message = transformErroMsg(Map.of("GUID", guid))
 				err.type = checkType
 				err.object = it
 				return err
@@ -37,12 +39,20 @@ class GuidUnique extends AbstractPlazContainerCheck implements PlazCheck {
 		].filterNull.toList
 
 	}
-	
+
 	override checkType() {
 		return "GUID-Eindeutigkeit"
 	}
-	
+
 	override getDescription() {
 		return "Die GUIDs aller Objekte sind eindeutig."
+	}
+
+	override getGeneralErrMsg() {
+		return "Die GUID {GUID} ist nicht eindeutig!"
+	}
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

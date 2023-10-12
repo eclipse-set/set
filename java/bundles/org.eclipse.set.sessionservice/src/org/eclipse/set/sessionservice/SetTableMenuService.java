@@ -67,7 +67,7 @@ public class SetTableMenuService extends AbstractTableMenuService {
 								.getRowPosition();
 						if (dataProvider instanceof final TableDataProvider tableDataProvider) {
 							final int originalRow = tableDataProvider
-									.getOriginalRow(rowPosition);
+									.getOriginalRowIndex(rowPosition);
 							final String objectState = tableDataProvider
 									.getObjectState(rowPosition);
 							final ObjectState state = ObjectState

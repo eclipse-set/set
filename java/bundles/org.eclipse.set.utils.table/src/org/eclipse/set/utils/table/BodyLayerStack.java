@@ -17,11 +17,13 @@ import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeHelper;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnStrategy;
+import org.eclipse.nebula.widgets.nattable.group.config.DefaultRowGroupHeaderLayerConfiguration;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayerTransform;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.selection.config.DefaultMoveSelectionConfiguration;
 import org.eclipse.nebula.widgets.nattable.selection.config.DefaultRowSelectionLayerConfiguration;
+import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 
 /**
@@ -42,20 +44,30 @@ public class BodyLayerStack extends AbstractLayerTransform {
 	/**
 	 * @param bodyDataLayer
 	 *            the data layer
+	 * @param treeLayer
+	 *            the tree layer
 	 */
-	public BodyLayerStack(final DataLayer bodyDataLayer) {
+	public BodyLayerStack(final DataLayer bodyDataLayer,
+			final TreeLayer treeLayer) {
 		this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
-		this.selectionLayer = new SelectionLayer(bodyDataLayer);
-		this.viewportLayer = new ViewportLayer(this.selectionLayer);
+		if (treeLayer != null) {
+			this.selectionLayer = new SelectionLayer(treeLayer);
+		} else {
+			this.selectionLayer = new SelectionLayer(bodyDataLayer);
+		}
 
 		this.selectionLayer
 				.addConfiguration(new DefaultRowSelectionLayerConfiguration());
 		this.selectionLayer
 				.addConfiguration(new DefaultMoveSelectionConfiguration());
+		this.selectionLayer.addConfiguration(
+				new DefaultRowGroupHeaderLayerConfiguration());
 
+		this.viewportLayer = new ViewportLayer(this.selectionLayer);
 		freezeLayer = new FreezeLayer(this.selectionLayer);
 		final CompositeFreezeLayer compositeFreezeLayer = new CompositeFreezeLayer(
 				freezeLayer, viewportLayer, this.selectionLayer);
+
 		setUnderlyingLayer(compositeFreezeLayer);
 	}
 

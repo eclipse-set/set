@@ -33,7 +33,7 @@ abstract class AbstractRowFactory implements RowFactory {
 		return newTableRow
 	}
 
-	private def TableCell newTableCell(ColumnDescriptor descriptor) {
+	protected def TableCell newTableCell(ColumnDescriptor descriptor) {
 		val newTableColumn = TablemodelFactory.eINSTANCE.createTableCell
 		newTableColumn.columndescriptor = descriptor
 		return newTableColumn
