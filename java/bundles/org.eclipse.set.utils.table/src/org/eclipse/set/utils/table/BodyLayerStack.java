@@ -17,7 +17,6 @@ import org.eclipse.nebula.widgets.nattable.freeze.CompositeFreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeHelper;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
 import org.eclipse.nebula.widgets.nattable.freeze.command.FreezeColumnStrategy;
-import org.eclipse.nebula.widgets.nattable.group.config.DefaultRowGroupHeaderLayerConfiguration;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayerTransform;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
@@ -34,12 +33,24 @@ import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
  */
 public class BodyLayerStack extends AbstractLayerTransform {
 
-	private final IDataProvider stackBodyDataProvider;
+	private IDataProvider stackBodyDataProvider;
 
-	private final SelectionLayer selectionLayer;
-	private final ViewportLayer viewportLayer;
+	protected SelectionLayer selectionLayer;
+	private ViewportLayer viewportLayer;
 
-	private final FreezeLayer freezeLayer;
+	private FreezeLayer freezeLayer;
+
+	protected DataLayer bodyDataLayer;
+
+	/**
+	 * @param bodyDataLayer
+	 *            the data layer
+	 */
+	public BodyLayerStack(final DataLayer bodyDataLayer) {
+		this.bodyDataLayer = bodyDataLayer;
+		this.selectionLayer = new SelectionLayer(bodyDataLayer);
+		init();
+	}
 
 	/**
 	 * @param bodyDataLayer
@@ -49,19 +60,17 @@ public class BodyLayerStack extends AbstractLayerTransform {
 	 */
 	public BodyLayerStack(final DataLayer bodyDataLayer,
 			final TreeLayer treeLayer) {
-		this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
-		if (treeLayer != null) {
-			this.selectionLayer = new SelectionLayer(treeLayer);
-		} else {
-			this.selectionLayer = new SelectionLayer(bodyDataLayer);
-		}
+		this.bodyDataLayer = bodyDataLayer;
+		this.selectionLayer = new SelectionLayer(treeLayer);
+		init();
+	}
 
+	protected void init() {
+		this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
 		this.selectionLayer
 				.addConfiguration(new DefaultRowSelectionLayerConfiguration());
 		this.selectionLayer
 				.addConfiguration(new DefaultMoveSelectionConfiguration());
-		this.selectionLayer.addConfiguration(
-				new DefaultRowGroupHeaderLayerConfiguration());
 
 		this.viewportLayer = new ViewportLayer(this.selectionLayer);
 		freezeLayer = new FreezeLayer(this.selectionLayer);

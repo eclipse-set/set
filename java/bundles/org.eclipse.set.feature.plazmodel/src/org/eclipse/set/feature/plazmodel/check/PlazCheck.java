@@ -11,6 +11,7 @@ package org.eclipse.set.feature.plazmodel.check;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.model.plazmodel.PlazError;
 
