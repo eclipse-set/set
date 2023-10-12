@@ -62,7 +62,6 @@ public abstract class AbstractSortByColumnTables {
 
 	protected DataLayer bodyDataLayer;
 	protected RowGroupModel<TableRow> rowGroupModel;
-	// protected TreeLayer treeLayer;
 
 	protected void createTableBodyData(final Table table,
 			final UnaryOperator<Integer> getSourceLine) {
