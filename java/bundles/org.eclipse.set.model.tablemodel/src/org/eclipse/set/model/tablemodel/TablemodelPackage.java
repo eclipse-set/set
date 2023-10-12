@@ -348,13 +348,22 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE_ROW__FOOTNOTES = 1;
 
 	/**
+	 * The feature id for the '<em><b>Row Index</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE_ROW__ROW_INDEX = 2;
+
+	/**
 	 * The number of structural features of the '<em>Table Row</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TABLE_ROW_FEATURE_COUNT = 2;
+	int TABLE_ROW_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Table Row</em>' class.
@@ -985,6 +994,17 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableRow_Footnotes();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row Index</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Row Index</em>'.
+	 * @see org.eclipse.set.model.tablemodel.TableRow#getRowIndex()
+	 * @see #getTableRow()
+	 * @generated
+	 */
+	EAttribute getTableRow_RowIndex();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.TableCell <em>Table Cell</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1422,6 +1442,14 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TABLE_ROW__FOOTNOTES = eINSTANCE.getTableRow_Footnotes();
+
+		/**
+		 * The meta object literal for the '<em><b>Row Index</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TABLE_ROW__ROW_INDEX = eINSTANCE.getTableRow_RowIndex();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl <em>Table Cell</em>}' class.

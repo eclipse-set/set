@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 import java.util.List
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
@@ -108,5 +109,27 @@ class RowGroupExtensions {
 	 */
 	static def int getMaxFootnoteNumber(RowGroup group) {
 		return group.rows.fold(0, [n, r|Math.max(n, r.maxFootnoteNumber)])
+	}
+
+	/**
+	 * Find group for the row. 
+	 * 
+	 * @params row the table row
+	 * @params excludeCols the column, that don't need same value
+	 */
+	static def RowGroup findRowGroup(Table table, TableRow row,
+		List<ColumnDescriptor> excludeCols) {
+		val groups = table.tablecontent.rowgroups
+		val sameValueCols = table.columns.filter[!excludeCols.contains(it)]
+		return groups.findFirst [ group |
+			val firstRowInGroup = group.rows.get(0)
+			firstRowInGroup.cells.filter [
+				sameValueCols.contains(columndescriptor)
+			].forall [
+				val groupValue = content.plainStringValue
+				val rowValue = row.getPlainStringValue(columndescriptor)
+				return groupValue.equals(rowValue)
+			]
+		]
 	}
 }

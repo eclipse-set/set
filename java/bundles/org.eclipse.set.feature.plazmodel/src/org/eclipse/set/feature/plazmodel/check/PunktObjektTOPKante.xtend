@@ -16,6 +16,8 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.plazmodel.PlazError
 import org.osgi.service.component.annotations.Component
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that GUID references point to object which exists
@@ -31,15 +33,16 @@ class PunktObjektTOPKante extends AbstractPlazContainerCheck implements PlazChec
 			val topLength = it.topKante?.TOPKanteAllg?.TOPLaenge?.wert
 			if (distance === null || topLength === null)
 				return null;
+			val generalErroMsg = transformErroMsg(Map.of("Distance", distance.toString))
 			if (distance.doubleValue < 0) {
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = '''Ungültiger Punktobjektabstand für LST-Objekt Abstand: «distance». Der Punktobjektabstand darf nicht negativ sein.'''
+				err.message = '''«generalErroMsg» Der Punktobjektabstand darf nicht negativ sein.'''
 				err.type = checkType
 				err.object = it
 				return err
 			} else if (distance > topLength) {
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = '''Ungültiger Punktobjektabstand für LST-Objekt Abstand: «distance». Länge TOP-Kante: «topLength».'''
+				err.message = '''«generalErroMsg» Länge TOP-Kante: «topLength».'''
 				err.type = checkType
 				err.object = it
 				return err
@@ -54,5 +57,13 @@ class PunktObjektTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	
 	override getDescription() {
 		return "Der Punktobjektabstand aller LST-Objekte ist gültig."
-	}	
+	}
+	
+	override getGeneralErrMsg() {
+		return "Ungültiger Punktobjektabstand für LST-Objekt Abstand: {Distance}."
+	}
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}
 }

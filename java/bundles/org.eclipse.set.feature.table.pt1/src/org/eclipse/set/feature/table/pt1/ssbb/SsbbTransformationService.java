@@ -11,11 +11,10 @@ package org.eclipse.set.feature.table.pt1.ssbb;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
+import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
-import org.eclipse.set.utils.table.TableModelTransformator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -55,7 +54,7 @@ public class SsbbTransformationService
 	}
 
 	@Override
-	public TableModelTransformator<MultiContainer_AttributeGroup> createTransformator() {
+	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SsbbTransformator(cols, enumTranslationService);
 	}
 

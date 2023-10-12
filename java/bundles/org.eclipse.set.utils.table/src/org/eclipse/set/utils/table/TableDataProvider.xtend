@@ -8,17 +8,17 @@
  */
 package org.eclipse.set.utils.table
 
+import java.util.Comparator
 import java.util.List
 import java.util.Map
+import java.util.function.UnaryOperator
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider
+import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
-import java.util.Comparator
-import org.eclipse.set.model.tablemodel.CellContent
-import java.util.function.Function
 
 /**
  * IDataProvider implementation for Table
@@ -27,19 +27,20 @@ import java.util.function.Function
  */
 class TableDataProvider implements IDataProvider {
 	int columnCount
-	List<Pair<Integer, List<CellContent>>> tableContents
-	Function<Integer, Integer> getSourceLine
-	Map<Integer, Object> filters = newHashMap
-	Table table
+	protected List<TableRowData> tableContents
+	
+	UnaryOperator<Integer> getSourceLine
+	protected Map<Integer, Object> filters = newHashMap
+	protected Table table
 	
 	static val EXCULDE_FILTER_SIGN = "-"
 
-	new(Table table, Function<Integer, Integer> getSourceLine) {
+	new(Table table, UnaryOperator<Integer> getSourceLine) {
 		this.getSourceLine = getSourceLine;
 		this.table = table
 		refresh()
 	}
-
+	
 	/**
 	 * Update the table model and refresh the table content
 	 */
@@ -57,7 +58,7 @@ class TableDataProvider implements IDataProvider {
 		this.columnCount = table.columndescriptors.flatMap[leaves].toSet.size
 		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].indexed.
 			filter[value.filterMatch].map [
-				key -> value.cells.map[content].toList
+				new TableRowData(key,value)
 			].toList
 	}
 
@@ -66,7 +67,7 @@ class TableDataProvider implements IDataProvider {
 	 * 
 	 * @param row the row to check
 	 */
-	private def boolean filterMatch(TableRow row) {
+	protected def boolean filterMatch(TableRow row) {
 		for (var i = 0; i < columnCount; i++) {
 			if (filters.containsKey(i)) {
 				val content = row.cells.get(i).content.plainStringValue.
@@ -86,14 +87,36 @@ class TableDataProvider implements IDataProvider {
 
 	/** 
 	 * @param row the current table row (after filters are applied)
-	 * @return the original row (before filters were applied)
+	 * @return the original row index(before filters were applied)
 	 */
-	def int getOriginalRow(int row) {
-		return tableContents.get(row).key
+	def int getOriginalRowIndex(int row) {
+		return tableContents.get(row).rowIndex
 	}
 
 	def int getObjectSourceLine(int row) {
 		return getSourceLine === null ? -1 : getSourceLine.apply(row)
+	}
+	
+	def TableRowData getRowData(int rowIndex) {
+		if (rowIndex >= 0 && rowIndex < tableContents.size) {
+			return tableContents.get(rowIndex)
+		}
+		return null
+	}
+	
+	def int getCurrentRowIndex(TableRowData row) {
+		return tableContents.indexOf(row)
+	}
+	
+	/**
+	 *
+	 * @param rowToFind the row
+	 * @return {@link TableRowData}
+	 */
+	def TableRowData findRow(TableRow rowtoFind) {
+		return tableContents.findFirst[
+			row === rowtoFind
+		]
 	}
 
 	def String getObjectState(int row) {
@@ -103,7 +126,7 @@ class TableDataProvider implements IDataProvider {
 		if (zustandColumn === null) {
 			return null
 		}
-		val zustandCell = tableContents?.get(row)?.value?.get(
+		val zustandCell = tableContents?.get(row)?.contents?.get(
 			table.columndescriptors.indexOf(zustandColumn) - 1)
 		if (zustandCell === null) {
 			return null
@@ -117,7 +140,7 @@ class TableDataProvider implements IDataProvider {
 	}
 
 	override Object getDataValue(int columnIndex, int rowIndex) {
-		return tableContents.get(rowIndex).value.get(columnIndex).richTextValue
+		return tableContents.get(rowIndex).contents.get(columnIndex).richTextValue
 	}
 
 	override int getRowCount() {
@@ -141,14 +164,20 @@ class TableDataProvider implements IDataProvider {
 	}
 
 	def void sort(int column, Comparator<? super String> comparator) {
-		val Comparator<CellContent> cellComparator = [ cell1, cell2 |
+		tableContents = tableContents.sortWith [ p1, p2 |
+			comparator.rowComparator(column).compare(p1.contents, p2.contents)
+		]
+	}
+	
+	protected def Comparator<CellContent> cellComparator(Comparator<? super String> comparator) {
+		return [ cell1, cell2 |
 			comparator.compare(cell1.plainStringValue, cell2.plainStringValue)
 		]
-		val Comparator<List<CellContent>> rowComparator = [ cells1, cells2 |
-			cellComparator.compare(cells1.get(column), cells2.get(column))
-		]
-		tableContents = tableContents.sortWith [ p1, p2 |
-			rowComparator.compare(p1.value, p2.value)
+	}
+	
+	protected def Comparator<List<CellContent>> rowComparator(Comparator<? super String> comparator, int column) {
+		return [ cells1, cells2 |
+			comparator.cellComparator.compare(cells1.get(column), cells2.get(column))
 		]
 	}
 }

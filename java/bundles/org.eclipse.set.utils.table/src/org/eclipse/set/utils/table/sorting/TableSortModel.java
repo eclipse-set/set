@@ -119,4 +119,11 @@ public class TableSortModel implements ISortModel {
 		};
 	}
 
+	/**
+	 * @return the table data
+	 */
+	public TableDataProvider getTableData() {
+		return dataProvider;
+	}
+
 }

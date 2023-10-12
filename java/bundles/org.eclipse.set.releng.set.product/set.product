@@ -83,6 +83,7 @@
       <property name="toolbox.tables.scale" value="50.0" />
       <property name="toolbox.buildNumber" value="${buildNumber}" />
       <property name="logback.configurationFile" value="logback-runtime.xml" />
+      <property name="toolbox.table.tree.minimum" value="5" />
    </configurations>
 
    <preferencesInfo>

@@ -39,6 +39,7 @@ import org.eclipse.set.model.validationreport.ValidationreportPackage;
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getAttributeName <em>Attribute Name</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectScope <em>Object Scope</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectState <em>Object State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getGeneralMsg <em>General Msg</em>}</li>
  * </ul>
  *
  * @generated
@@ -243,6 +244,26 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @ordered
 	 */
 	protected ObjectState objectState = OBJECT_STATE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getGeneralMsg() <em>General Msg</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGeneralMsg()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String GENERAL_MSG_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getGeneralMsg() <em>General Msg</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGeneralMsg()
+	 * @generated
+	 * @ordered
+	 */
+	protected String generalMsg = GENERAL_MSG_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -499,6 +520,29 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 */
 	@Override
+	public String getGeneralMsg() {
+		return generalMsg;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setGeneralMsg(String newGeneralMsg) {
+		String oldGeneralMsg = generalMsg;
+		generalMsg = newGeneralMsg;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG, oldGeneralMsg, generalMsg));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ValidationreportPackage.VALIDATION_PROBLEM__ID:
@@ -521,6 +565,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 				return getObjectScope();
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
 				return getObjectState();
+			case ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG:
+				return getGeneralMsg();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -562,6 +608,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
 				setObjectState((ObjectState)newValue);
+				return;
+			case ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG:
+				setGeneralMsg((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -605,6 +654,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
 				setObjectState(OBJECT_STATE_EDEFAULT);
 				return;
+			case ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG:
+				setGeneralMsg(GENERAL_MSG_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -638,6 +690,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 				return objectScope != OBJECT_SCOPE_EDEFAULT;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
 				return objectState != OBJECT_STATE_EDEFAULT;
+			case ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG:
+				return GENERAL_MSG_EDEFAULT == null ? generalMsg != null : !GENERAL_MSG_EDEFAULT.equals(generalMsg);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -672,6 +726,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		result.append(objectScope);
 		result.append(", objectState: ");
 		result.append(objectState);
+		result.append(", generalMsg: ");
+		result.append(generalMsg);
 		result.append(')');
 		return result.toString();
 	}
