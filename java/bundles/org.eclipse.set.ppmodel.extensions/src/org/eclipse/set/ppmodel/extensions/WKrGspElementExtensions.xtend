@@ -26,6 +26,7 @@ import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 
 import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -120,15 +121,30 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * element is no Weiche
 	 */
 	def static TOP_Knoten getTopKnoten(W_Kr_Gsp_Element wKrGspElement) {
-		if (wKrGspElement?.weicheElement === null) {
-			return null
+		switch (wKrGspElement.getWKrAnlage.getWKrAnlageAllg.getWKrArt) {
+			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
+			case ENUMW_KR_ART_IBW,
+			case ENUMW_KR_ART_KORBBOGENWEICHE,
+			case ENUMW_KR_ART_ABW,
+			case ENUMW_KR_ART_DKW,
+			case ENUMW_KR_ART_DW,
+			case ENUMW_KR_ART_EKW,
+			case ENUMW_KR_ART_EW: {
+				if (wKrGspElement?.weicheElement === null) {
+					return null
+				}
+				val zungenpaare = wKrGspElement.WKrGspKomponenten.filter [
+					zungenpaar !== null
+				]
+				Assert.isTrue(!zungenpaare.empty)
+				val zungenpaar = zungenpaare.get(0)
+				return zungenpaar.topKnoten
+			}
+			case ENUMW_KR_ART_FLACHKREUZUNG,
+			case ENUMW_KR_ART_KR,
+			case ENUMW_KR_ART_SONSTIGE:
+				return wKrGspElement.WKrGspKomponenten.get(0).topKnoten
 		}
-		val zungenpaare = wKrGspElement.WKrGspKomponenten.filter [
-			zungenpaar !== null
-		]
-		Assert.isTrue(!zungenpaare.empty)
-		val zungenpaar = zungenpaare.get(0)
-		return zungenpaar.topKnoten
 	}
 
 	/**
@@ -166,9 +182,9 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	static def Set<Fstr_Zug_Rangier> getFstrZugCrossingLeg(
 		W_Kr_Gsp_Element element, TOP_Kante legTopKante) {
 		return element.container.fstrZugRangier.filter [
-			fstrZug !== null &&
-				IDFstrFahrweg.bereichObjektTeilbereich.map[topKante].contains(
-					legTopKante)
+			fstrZug !== null && IDFstrFahrweg.bereichObjektTeilbereich.map [
+				topKante
+			].contains(legTopKante)
 		].filterNull.toSet
 	}
 }
