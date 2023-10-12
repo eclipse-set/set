@@ -17,6 +17,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
 import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that Bereich_Objekt_Teilbereich in Object not identical
@@ -60,5 +61,8 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 	override getGeneralErrMsg() {
 		return "Es gibt mehrere identische Teilbereich in Objekt {GUID}."
 	}
-	
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}	
 }

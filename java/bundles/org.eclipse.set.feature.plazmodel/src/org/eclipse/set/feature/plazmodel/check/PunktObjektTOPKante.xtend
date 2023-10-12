@@ -17,6 +17,7 @@ import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.plazmodel.PlazError
 import org.osgi.service.component.annotations.Component
 import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that GUID references point to object which exists
@@ -61,5 +62,8 @@ class PunktObjektTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	override getGeneralErrMsg() {
 		return "Ungültiger Punktobjektabstand für LST-Objekt Abstand: {Distance}."
 	}
-	
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}
 }

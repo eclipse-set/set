@@ -13,6 +13,7 @@ import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
 import org.osgi.service.component.annotations.Component
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that all attachments referenced are present on the filesystem
@@ -50,6 +51,10 @@ class AttachmentPresent implements PlazCheck {
 
 	override getGeneralErrMsg() {
 		return "Der Anhang {GUID} wird referenziert, ist aber nicht vorhanden."
+	}
+	
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 }

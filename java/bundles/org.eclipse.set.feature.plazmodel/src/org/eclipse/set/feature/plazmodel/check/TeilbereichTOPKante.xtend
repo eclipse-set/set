@@ -17,6 +17,8 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import org.osgi.service.component.annotations.Component
 import org.eclipse.set.model.validationreport.ValidationSeverity
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that Bereich_Objekt_Teilbereich entries
@@ -84,5 +86,8 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	override getGeneralErrMsg() {
 		return "Ungültige Teilbereichsgrenzen für LST-Objekt."
 	}
-	
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}
 }

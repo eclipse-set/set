@@ -29,6 +29,7 @@ import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import java.util.Set
 import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that Object isn't  planning- und consideration- region same time
@@ -107,4 +108,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 		return "Bestandteile des Objekts {GUID} sind sowohl im Planungs- als auch im Betrachtungsbereich verortet."
 	}
 	
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}
 }

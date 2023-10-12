@@ -14,6 +14,8 @@ import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.osgi.service.component.annotations.Component
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that a TOP_Kante of length zero has distinct 
@@ -26,42 +28,41 @@ import org.osgi.service.component.annotations.Component
 @Component
 class TOPKanteLength extends AbstractPlazContainerCheck implements PlazCheck {
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
-		return container.TOPKante.filter[IDTOPKnotenA === IDTOPKnotenB]
-			.filter[TOPKanteAllg?.TOPLaenge?.wert !== null]
-			.map[
-				val topLength = it.TOPKanteAllg?.TOPLaenge?.wert
-				if(topLength.doubleValue === 0.0)
-				{
-					val err = PlazFactory.eINSTANCE.createPlazError
-					err.message = '''TOP_Kante der Länge null enthält identische Endknoten.'''
-					err.type = checkType
-					err.object = it
-					err.severity = ValidationSeverity.ERROR
-					return err	
-				}
-				else 
-				{
-					val err = PlazFactory.eINSTANCE.createPlazError
-					err.message = '''TOP_Kante enthält identische Endknoten.'''
-					err.type = "TOP_Kante"
-					err.object = it
-					err.severity = ValidationSeverity.WARNING
-					return err	
-				}
-			]
-		.toList
+		return container.TOPKante.filter[IDTOPKnotenA === IDTOPKnotenB].filter [
+			TOPKanteAllg?.TOPLaenge?.wert !== null
+		].map [
+			val topLength = it.TOPKanteAllg?.TOPLaenge?.wert
+			if (topLength.doubleValue === 0.0) {
+				val err = PlazFactory.eINSTANCE.createPlazError
+				err.message = '''TOP_Kante der Länge null enthält identische Endknoten.'''
+				err.type = checkType
+				err.object = it
+				err.severity = ValidationSeverity.ERROR
+				return err
+			} else {
+				val err = PlazFactory.eINSTANCE.createPlazError
+				err.message = '''TOP_Kante enthält identische Endknoten.'''
+				err.type = "TOP_Kante"
+				err.object = it
+				err.severity = ValidationSeverity.WARNING
+				return err
+			}
+		].toList
 	}
-	
+
 	override checkType() {
 		return "TOP_Kante"
 	}
-	
+
 	override getDescription() {
 		return "TOP_Kanten haben eindeutige Endknoten."
 	}
-	
+
 	override getGeneralErrMsg() {
 		return "Es gibt TOP_Kanten mit nicht eindeutigen Endknoten."
 	}
-	
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
+	}
 }

@@ -17,6 +17,8 @@ import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_Attr
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that Bereich_Objekt_Teilbereich entries have useful (> 10cm) lengths
@@ -54,9 +56,12 @@ class TeilbereichTOPKanteLength extends AbstractPlazContainerCheck implements Pl
 	override getDescription() {
 		return "Teilbereichslängen der LST-Objekte sind gültig."
 	}
-	
+
 	override getGeneralErrMsg() {
 		return "Sehr kleine Teilbereichslänge (<0.1 m)."
 	}
-	
+
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
+	}
 }
