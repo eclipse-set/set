@@ -279,7 +279,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				ValidationProblemExtensions::getCsvExport);
 		optionalPath.ifPresent(
 				outputDir -> part.getDialogService().openDirectoryAfterExport(
-						part.getToolboxShell(), Paths.get(defaultPath)));
+						part.getToolboxShell(), outputDir.getParent()));
 	}
 
 	void showValidationTable() {
