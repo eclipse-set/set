@@ -185,7 +185,7 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 				ValidationProblemExtensions::getCsvExport);
 		optionalPath.ifPresent(
 				outputDir -> getDialogService().openDirectoryAfterExport(
-						getToolboxShell(), Paths.get(defaultPath)));
+						getToolboxShell(), outputDir.getParent()));
 	}
 
 	@Override
