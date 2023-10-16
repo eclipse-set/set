@@ -463,7 +463,7 @@ public class ModelSession implements IModelSession {
 			final Function<ValidationResult, Outcome> outcome) {
 		final Stream<ValidationResult> resultsStream = Stream
 				.of(schnittstelleValidationResult, layoutinfoValidationResult)
-				.filter(c -> c != null);
+				.filter(Objects::nonNull);
 
 		if (resultsStream
 				.anyMatch(result -> outcome.apply(result) == Outcome.INVALID)) {
