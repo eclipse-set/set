@@ -146,6 +146,10 @@
 				<repository>
 					<id>set-github-browser</id>
 					<url>https://maven.pkg.github.com/eclipse-set/browser</url>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+					</snapshots>
 				</repository>
 			</repositories>
 		</location>
@@ -181,6 +185,10 @@
 				<repository>
 					<id>set-github-toolboxmodel</id>
 					<url>https://maven.pkg.github.com/eclipse-set/toolboxmodel</url>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+					</snapshots>
 				</repository>
 			</repositories>
 		</location>
@@ -456,6 +464,10 @@ DynamicImport-Package: *
 				<repository>
 					<id>set-github-model</id>
 					<url>https://maven.pkg.github.com/eclipse-set/model</url>
+					<snapshots>
+						<enabled>true</enabled>
+						<updatePolicy>always</updatePolicy>
+					</snapshots>
 				</repository>
 			</repositories>
 		</location>
