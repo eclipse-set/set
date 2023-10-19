@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build
         run: |
-          wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v3.10.111/pdfjs-3.10.111-dist.zip
+          wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
           npm ci
           npm run build
         working-directory: web/pdf
