@@ -121,7 +121,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * element is no Weiche
 	 */
 	def static TOP_Knoten getTopKnoten(W_Kr_Gsp_Element wKrGspElement) {
-		switch (wKrGspElement.getWKrAnlage.getWKrAnlageAllg.getWKrArt) {
+		switch (wKrGspElement.getWKrAnlage.getWKrAnlageAllg.getWKrArt.wert) {
 			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
 			case ENUMW_KR_ART_IBW,
 			case ENUMW_KR_ART_KORBBOGENWEICHE,
