@@ -181,7 +181,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	static def Set<Fstr_Zug_Rangier> getFstrZugCrossingLeg(
 		W_Kr_Gsp_Element element, TOP_Kante legTopKante) {
 		return element.container.fstrZugRangier.filter [
-			val fstrZR = it
+			val fstrFW = IDFstrFahrweg
 			fstrZug !== null && IDFstrFahrweg.bereichObjektTeilbereich.map [
 				topKante
 			].contains(legTopKante) && element.getWKrGspKomponenten.exists [
