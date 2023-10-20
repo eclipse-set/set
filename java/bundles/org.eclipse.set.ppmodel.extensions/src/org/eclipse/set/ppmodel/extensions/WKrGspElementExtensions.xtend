@@ -185,7 +185,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 			fstrZug !== null && IDFstrFahrweg.bereichObjektTeilbereich.map [
 				topKante
 			].contains(legTopKante) && element.getWKrGspKomponenten.exists [
-				fstrZR.IDFstrFahrweg.intersects(it)
+				fstrFW.intersects(it)
 			]
 		].filterNull.toSet
 	}
