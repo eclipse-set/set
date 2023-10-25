@@ -241,7 +241,7 @@ npm/npmjs/-/eslint-config-standard/17.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/eslint-import-resolver-node/0.3.9, MIT, approved, #9923
 npm/npmjs/-/eslint-module-utils/2.8.0, MIT, approved, #8209
 npm/npmjs/-/eslint-plugin-es-x/7.2.0, MIT, approved, #10527
-npm/npmjs/-/eslint-plugin-import/2.28.1, MIT, approved, #9927
+npm/npmjs/-/eslint-plugin-import/2.29.0, MIT, approved, #11187
 npm/npmjs/-/eslint-plugin-n/16.2.0, MIT, approved, #11057
 npm/npmjs/-/eslint-plugin-promise/6.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/eslint-scope/5.1.1, BSD-2-Clause, approved, clearlydefined
@@ -287,6 +287,7 @@ npm/npmjs/-/fs-minipass/2.1.0, ISC, approved, clearlydefined
 npm/npmjs/-/fs-monkey/1.0.3, Unlicense AND (ISC AND MIT), approved, #2964
 npm/npmjs/-/fs.realpath/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/function-bind/1.1.1, MIT, approved, #11063
+npm/npmjs/-/function-bind/1.1.2, MIT, approved, #11063
 npm/npmjs/-/function.prototype.name/1.1.6, MIT, approved, #10255
 npm/npmjs/-/functions-have-names/1.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/gauge/3.0.2, ISC, approved, clearlydefined
@@ -314,6 +315,7 @@ npm/npmjs/-/has-symbols/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/has-tostringtag/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/has-unicode/2.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/has/1.0.3, MIT, approved, #10930
+npm/npmjs/-/hasown/2.0.0, MIT, approved, #11097
 npm/npmjs/-/he/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/hpack.js/2.1.6, MIT, approved, clearlydefined
 npm/npmjs/-/html-entities/2.3.3, MIT, approved, #9043
@@ -348,6 +350,7 @@ npm/npmjs/-/is-binary-path/2.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/is-boolean-object/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/is-callable/1.2.7, MIT, approved, clearlydefined
 npm/npmjs/-/is-core-module/2.13.0, MIT, approved, #9885
+npm/npmjs/-/is-core-module/2.13.1, MIT, approved, #9885
 npm/npmjs/-/is-date-object/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/is-docker/2.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/is-extglob/2.1.1, MIT, approved, clearlydefined
