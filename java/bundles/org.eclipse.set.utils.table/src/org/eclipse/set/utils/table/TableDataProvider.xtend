@@ -57,9 +57,7 @@ class TableDataProvider implements IDataProvider {
 		// as each defines a single column in the table (rather than a heading)
 		this.columnCount = table.columndescriptors.flatMap[leaves].toSet.size
 		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].indexed.
-			filter[value.filterMatch].map [
-				new TableRowData(key,value)
-			].toList
+			filter[value.filterMatch].map[new TableRowData(key, value)].toList
 	}
 
 	/**
@@ -73,9 +71,11 @@ class TableDataProvider implements IDataProvider {
 				val content = row.cells.get(i).content.plainStringValue.
 					toLowerCase
 				var filterValue = filters.get(i).toString.toLowerCase
-				val isExcludeFilter = filterValue.substring(0, 1).equals(EXCULDE_FILTER_SIGN)
-				filterValue = isExcludeFilter ? filterValue.substring(1) : filterValue
-				
+				val isExcludeFilter = filterValue.substring(0, 1).equals(
+					EXCULDE_FILTER_SIGN)
+				filterValue = isExcludeFilter ? filterValue.
+					substring(1) : filterValue
+
 				// Equivalence logic
 				if (isExcludeFilter === content.contains(filterValue)) {
 					return false
@@ -90,31 +90,31 @@ class TableDataProvider implements IDataProvider {
 	 * @return the original row index(before filters were applied)
 	 */
 	def int getOriginalRowIndex(int row) {
-		return tableContents.get(row).rowIndex
+		return tableContents.get(row).row.rowIndex
 	}
 
 	def int getObjectSourceLine(int row) {
 		return getSourceLine === null ? -1 : getSourceLine.apply(row)
 	}
-	
+
 	def TableRowData getRowData(int rowIndex) {
 		if (rowIndex >= 0 && rowIndex < tableContents.size) {
 			return tableContents.get(rowIndex)
 		}
 		return null
 	}
-	
+
 	def int getCurrentRowIndex(TableRowData row) {
 		return tableContents.indexOf(row)
 	}
-	
+
 	/**
-	 *
+	 * 
 	 * @param rowToFind the row
 	 * @return {@link TableRowData}
 	 */
 	def TableRowData findRow(TableRow rowtoFind) {
-		return tableContents.findFirst[
+		return tableContents.findFirst [
 			row === rowtoFind
 		]
 	}
@@ -140,7 +140,8 @@ class TableDataProvider implements IDataProvider {
 	}
 
 	override Object getDataValue(int columnIndex, int rowIndex) {
-		return tableContents.get(rowIndex).contents.get(columnIndex).richTextValue
+		return tableContents.get(rowIndex).contents.get(columnIndex).
+			richTextValue
 	}
 
 	override int getRowCount() {
@@ -168,16 +169,19 @@ class TableDataProvider implements IDataProvider {
 			comparator.rowComparator(column).compare(p1.contents, p2.contents)
 		]
 	}
-	
-	protected def Comparator<CellContent> cellComparator(Comparator<? super String> comparator) {
+
+	protected def Comparator<CellContent> cellComparator(
+		Comparator<? super String> comparator) {
 		return [ cell1, cell2 |
 			comparator.compare(cell1.plainStringValue, cell2.plainStringValue)
 		]
 	}
-	
-	protected def Comparator<List<CellContent>> rowComparator(Comparator<? super String> comparator, int column) {
+
+	protected def Comparator<List<CellContent>> rowComparator(
+		Comparator<? super String> comparator, int column) {
 		return [ cells1, cells2 |
-			comparator.cellComparator.compare(cells1.get(column), cells2.get(column))
+			comparator.cellComparator.compare(cells1.get(column),
+				cells2.get(column))
 		]
 	}
 }
