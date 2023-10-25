@@ -599,7 +599,7 @@ npm/npmjs/-/webpack-dev-middleware/5.3.3, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-dev-server/4.15.1, MIT, approved, #8400
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #2407
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
-npm/npmjs/-/webpack/5.88.2, MIT, approved, #9185
+npm/npmjs/-/webpack/5.89.0, MIT, approved, clearlydefined
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/whatwg-url/5.0.0, MIT, approved, clearlydefined
