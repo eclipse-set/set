@@ -11,7 +11,7 @@ package org.eclipse.set.utils.table.tree
 import java.util.Collections
 import java.util.Comparator
 import java.util.List
-import java.util.Set
+import java.util.Map
 import java.util.function.UnaryOperator
 import org.eclipse.nebula.widgets.nattable.tree.ITreeData
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
@@ -22,6 +22,7 @@ import org.eclipse.set.utils.table.TableRowData
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import java.util.Set
 
 /**
  * ITreeData implementation for table
@@ -41,24 +42,30 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 
 	override refresh() {
 		super.refresh()
-		rowGroupMapping = newLinkedList
-		parentRowMapping = newLinkedList
+		refreshRowGroup()
 
+	}
+
+	def void refreshRowGroup() {
+		parentRowMapping = newLinkedList
+		rowGroupMapping = newLinkedList
 		val rowGroups = table.tablecontent.rowgroups
-		for (var i = 0; i < rowGroups.size; i++) {
-			val rows = rowGroups.get(i).rows.filter[filterMatch].toList
+		rowGroups.map[rows].filter [ rows |
+			!rows.empty && findRow(rows.get(0)) !== null
+		].forEach [ rows |
+			val firstRow = findRow(rows.get(0))
+			parentRowMapping.add(firstRow)
+
 			if (rows.size > 1) {
-				val firstRow = rows.get(0).findRow
-				val childs = rows.subList(1, rows.size).map[findRow].toList
-				this.rowGroupMapping.add(new Pair(firstRow, childs))
-				parentRowMapping.add(firstRow)
+				val childs = rows.subList(1, rows.size).map[findRow].filterNull.
+					toList
+
+				rowGroupMapping.add(new Pair(firstRow, childs))
 			} else if (rows.size == 1) {
-				val singleRow = rows.get(0).findRow
 				this.rowGroupMapping.add(
-					new Pair(singleRow, Collections.emptyList))
-				parentRowMapping.add(singleRow)
+					new Pair(firstRow, Collections.emptyList))
 			}
-		}
+		]
 	}
 
 	override getChildren(TableRowData object) {
@@ -143,12 +150,6 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	}
 
 	override void sort(int column, Comparator<? super String> comparator) {
-		val Comparator<TableRowData> tableRowDataComparator = [ row1, row2 |
-			val cell1 = row1.contents
-			val cell2 = row2.contents
-			return comparator.rowComparator(column).compare(cell1, cell2)
-		]
-
 		val Comparator<Pair<TableRowData, List<TableRowData>>> rowGroupComparator = [ group1, group2 |
 			val compareContent1 = group1.value.isEmpty
 					? group1.key
@@ -157,13 +158,14 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 					? group2.key
 					: group2.value.get(0)
 
-			return tableRowDataComparator.compare(compareContent1,
-				compareContent2)
+			return tableRowDataComparator(column, comparator).compare(
+				compareContent1, compareContent2)
 		]
 
 		val sortedChilds = rowGroupMapping.map [
 			val childs = value.sortWith [ row1, row2 |
-				return tableRowDataComparator.compare(row1, row2)
+				return tableRowDataComparator(column, comparator).compare(row1,
+					row2)
 			]
 			return new Pair(key, childs)
 		]
@@ -177,6 +179,11 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 			newList.addAll(value)
 			return newList
 		].toList
+	}
+
+	override void applyFilter(Map<Integer, Object> filterIndexToObjectMap) {
+		super.applyFilter(filterIndexToObjectMap)
+		refreshRowGroup()
 	}
 
 	def void collasedGroup(int parentIndex) {
@@ -203,7 +210,7 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		hiddenRowsIndex.removeAll(childsIndex)
 
 	}
-
+	
 	private def ColumnDescriptor getRowIndexColumn() {
 		return table.columns.findFirst [
 			label !== null && label.equals("Lfd. Nr.")
