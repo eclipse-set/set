@@ -66,15 +66,15 @@ public class SetTableMenuService extends AbstractTableMenuService {
 						final int rowPosition = selectedCells.iterator().next()
 								.getRowPosition();
 						if (dataProvider instanceof final TableDataProvider tableDataProvider) {
-							final int originalRow = tableDataProvider
+							final int originalRowIndex = tableDataProvider
 									.getOriginalRowIndex(rowPosition);
 							final String objectState = tableDataProvider
 									.getObjectState(rowPosition);
 							final ObjectState state = ObjectState
 									.get(objectState);
-							final Integer lineNumber = Integer
-									.valueOf(tableDataProvider
-											.getObjectSourceLine(originalRow));
+							final Integer lineNumber = Integer.valueOf(
+									tableDataProvider.getObjectSourceLine(
+											originalRowIndex));
 							return new Pair<>(state, lineNumber);
 						}
 						return new Pair<>(null, Integer.valueOf(-1));

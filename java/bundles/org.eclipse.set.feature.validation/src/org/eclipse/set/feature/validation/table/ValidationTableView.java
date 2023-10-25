@@ -62,8 +62,8 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 
 		final Table table = service.transform(validationReport);
 		this.createTableBodyData(table,
-				rowline -> Integer.valueOf(validationReport.getProblems()
-						.get(rowline.intValue()).getLineNumber()));
+				rowIndex -> Integer.valueOf(validationReport.getProblems()
+						.get(rowIndex.intValue() - 1).getLineNumber()));
 		tableMenuService.createDefaultMenuItems(part, table, bodyDataProvider,
 				bodyLayerStack.getSelectionLayer());
 		natTable = createTable(parent, table, tableMenuService);
