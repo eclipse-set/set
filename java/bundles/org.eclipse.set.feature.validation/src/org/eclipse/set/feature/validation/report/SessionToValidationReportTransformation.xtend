@@ -74,9 +74,15 @@ class SessionToValidationReportTransformation {
 		problems.addAll(
 			session.getValidationResult(PlanPro_Schnittstelle).transform(
 				session?.toolboxFile, session?.toolboxFile?.modelPath))
-		problems.addAll(
-			session.getValidationResult(PlanPro_Layoutinfo).transform(
-				session?.toolboxFile, session?.toolboxFile?.layoutPath))
+		val layoutValidation = session.getValidationResult(PlanPro_Layoutinfo)
+		if (layoutValidation !== null) {
+			problems.addAll(
+				layoutValidation.transform(session?.toolboxFile,
+					session?.toolboxFile?.layoutPath).filter [
+					!problems.contains(it)
+				]
+			)
+		}
 		problems.sortProblem
 		report.problems.addAll(problems)
 		// Add subwork information
@@ -269,15 +275,21 @@ class SessionToValidationReportTransformation {
 		return
 	}
 
-	private def ValidationProblem create ValidationreportFactory.eINSTANCE.createValidationProblem
-	transform(
+	private def ValidationProblem transform(
 		String errorType,
 		String message
 	) {
+		val it = ValidationreportFactory.eINSTANCE.createValidationProblem
 		type = errorType
 		severity = ValidationSeverity.SUCCESS
 		severityText = severity.translate
+		if (validationSourceClass == PlanPro_Layoutinfo) {
+			objectState = ObjectState.LAYOUT
+		} else {
+			objectState = ObjectState.INFO
+		}
 		it.message = message
+		return it
 	}
 
 	private def Iterable<String> getSubworkTypes(IModelSession session) {

@@ -53,6 +53,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/attributeName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectScope"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/objectState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//ValidationProblem/generalMsg"/>
     </genClasses>
     <genClasses ecoreClass="validationreport.ecore#//VersionInfo">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute validationreport.ecore#//VersionInfo/planPro"/>

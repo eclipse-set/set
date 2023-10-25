@@ -21,7 +21,8 @@ Export-Package: org.eclipse.set.utils.table,
  org.eclipse.set.utils.table.export,
  org.eclipse.set.utils.table.menu,
  org.eclipse.set.utils.table.sorting,
- org.eclipse.set.utils.table.transform
+ org.eclipse.set.utils.table.transform,
+ org.eclipse.set.utils.table.tree
 Import-Package: javax.inject;version="1.0.0",
  org.apache.poi.hssf.usermodel,
  org.apache.poi.ss.usermodel,

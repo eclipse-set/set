@@ -19,12 +19,14 @@ import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
@@ -67,8 +69,31 @@ public class TableRowItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addRowIndexPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Row Index feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRowIndexPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_TableRow_rowIndex_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_TableRow_rowIndex_feature", "_UI_TableRow_type"),
+				 TablemodelPackage.Literals.TABLE_ROW__ROW_INDEX,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -121,7 +146,8 @@ public class TableRowItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_TableRow_type");
+		TableRow tableRow = (TableRow)object;
+		return getString("_UI_TableRow_type") + " " + tableRow.getRowIndex();
 	}
 
 
@@ -137,6 +163,9 @@ public class TableRowItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(TableRow.class)) {
+			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 			case TablemodelPackage.TABLE_ROW__CELLS:
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.osgi.service.component.annotations.Component
+import java.util.Map
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Check if that GUID references point to correct object
@@ -43,5 +45,13 @@ class GuidRefInvalid implements PlazCheck {
 
 	override getDescription() {
 		return "Verweise verweisen auf ein Objekt vom erwarteten Typ."
+	}
+	
+	override getGeneralErrMsg() {
+		return "Es gibt ungültigen Verweisen."
+	}
+	
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

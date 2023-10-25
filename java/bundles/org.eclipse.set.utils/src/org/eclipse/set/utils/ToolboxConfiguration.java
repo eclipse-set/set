@@ -109,6 +109,19 @@ public class ToolboxConfiguration {
 	}
 
 	/**
+	 * @return the minimum content of row group
+	 */
+	public static int getTableTreeMinimum() {
+		final String property = System
+				.getProperty(ToolboxProperties.TREE_MINIMUN);
+		try {
+			return Integer.parseInt(property);
+		} catch (final NumberFormatException e) {
+			return 5;
+		}
+	}
+
+	/**
 	 * @return the toolbox short name
 	 */
 	public static String getShortName() {

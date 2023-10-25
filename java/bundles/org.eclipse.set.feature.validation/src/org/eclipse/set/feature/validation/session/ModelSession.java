@@ -15,8 +15,8 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -174,8 +174,7 @@ public class ModelSession implements IModelSession {
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
-	protected ValidationResult layoutinfoValidationResult = new ValidationResult(
-			PlanPro_Layoutinfo.class);
+	protected ValidationResult layoutinfoValidationResult = null;
 
 	/**
 	 * @param toolboxFile
@@ -463,9 +462,10 @@ public class ModelSession implements IModelSession {
 	@Override
 	public Outcome getValidationsOutcome(
 			final Function<ValidationResult, Outcome> outcome) {
-		final Stream<ValidationResult> resultsStream = List
+		final Stream<ValidationResult> resultsStream = Stream
 				.of(schnittstelleValidationResult, layoutinfoValidationResult)
-				.stream();
+				.filter(Objects::nonNull);
+
 		if (resultsStream
 				.anyMatch(result -> outcome.apply(result) == Outcome.INVALID)) {
 			return Outcome.INVALID;

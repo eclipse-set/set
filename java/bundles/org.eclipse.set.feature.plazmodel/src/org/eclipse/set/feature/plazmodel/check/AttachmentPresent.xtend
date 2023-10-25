@@ -8,10 +8,12 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import java.util.Map
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.plazmodel.PlazFactory
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
 import org.osgi.service.component.annotations.Component
+import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that all attachments referenced are present on the filesystem
@@ -21,11 +23,13 @@ import org.osgi.service.component.annotations.Component
 @Component
 class AttachmentPresent implements PlazCheck {
 	override run(IModelSession modelSession) {
-		return modelSession.planProSchnittstelle.eAllContents.filter(Anhang).filter [
+		return modelSession.planProSchnittstelle.eAllContents.filter(Anhang).
+			filter [
 				!attachmentPresent(it, modelSession)
 			].map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = '''Der Anhang «it.identitaet?.wert ?: "(ohne Identität)"» wird referenziert, ist aber nicht vorhanden.'''
+				err.message = transformErroMsg(
+					Map.of("GUID", it.identitaet?.wert ?: "(ohne Identität)"))
 				err.type = checkType
 				err.object = it
 				return err
@@ -44,4 +48,13 @@ class AttachmentPresent implements PlazCheck {
 	override getDescription() {
 		return "Referenzierte Anhänge sind in der .planpro-Datei vorhanden."
 	}
+
+	override getGeneralErrMsg() {
+		return "Der Anhang {GUID} wird referenziert, ist aber nicht vorhanden."
+	}
+	
+	override transformErroMsg(Map<String, String> params) {
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+	}
+
 }

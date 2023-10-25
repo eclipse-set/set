@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getAttributeName <em>Attribute Name</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectScope <em>Object Scope</em>}</li>
  *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getObjectState <em>Object State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.ValidationProblem#getGeneralMsg <em>General Msg</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationProblem()
@@ -290,5 +291,27 @@ public interface ValidationProblem extends EObject {
 	 * @generated
 	 */
 	void setObjectState(ObjectState value);
+
+	/**
+	 * Returns the value of the '<em><b>General Msg</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>General Msg</em>' attribute.
+	 * @see #setGeneralMsg(String)
+	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationProblem_GeneralMsg()
+	 * @model
+	 * @generated
+	 */
+	String getGeneralMsg();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationProblem#getGeneralMsg <em>General Msg</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>General Msg</em>' attribute.
+	 * @see #getGeneralMsg()
+	 * @generated
+	 */
+	void setGeneralMsg(String value);
 
 } // ValidationProblem

@@ -20,17 +20,16 @@ import org.eclipse.set.utils.enums.EnumTranslationUtils;
  * 
  * @author Schaefer
  */
+@SuppressWarnings("nls")
 public class TranslationCode {
 
-	private static final String COPYRIGHT_DATE_PATTERN = "uuuu"; //$NON-NLS-1$
-
-	@SuppressWarnings("nls")
+	private static final String COPYRIGHT_DATE_PATTERN = "uuuu";
 	private static final String MESSAGE_ENTRY_PATTERN = "	/**%n" //
 			+ "	 * %s%n" //
 			+ "	 */%n" //
 			+ "	public String %s;%n%n";
 
-	private static final String MESSAGE_FILE = "Enumerators.java"; //$NON-NLS-1$
+	private static final String MESSAGE_FILE = "Enumerators.java";
 
 	private static final String MESSAGES_EPILOGUE_PATTERN = """
 				/**
@@ -75,15 +74,15 @@ public class TranslationCode {
 			  		private void setupLocalization()
 			  				throws IllegalArgumentException, IllegalAccessException {
 			  			super.setupLocalization(
-			  					"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
+			  					"platform:/plugin/org.eclipse.set.core/translation/Enumerators");
 			  		}
 			""";
 
-	private static final String PROPERTIES_DATE_PATTERN = "uuuu-MM-dd"; //$NON-NLS-1$
+	private static final String PROPERTIES_DATE_PATTERN = "uuuu-MM-dd";
 
-	private static final String PROPERTIES_FILE = "Enumerators.properties"; //$NON-NLS-1$
+	private static final String PROPERTIES_FILE = "Enumerators.properties";
 
-	private static final String PROPERTIES_INTRODUCTION_PATTERN = "# generated %s%n%n"; //$NON-NLS-1$
+	private static final String PROPERTIES_INTRODUCTION_PATTERN = "# generated %s%n%n";
 
 	private static final String PROPERTIES_EPILOGUE_PATTERN = """
 			ERROR_Alternative=Fehler
@@ -91,7 +90,7 @@ public class TranslationCode {
 			SUCCESS_Alternative=Erfolg
 			""";
 
-	private static final String PROPERTY_ENTRY_PATTERN = "%s=%s%n"; //$NON-NLS-1$
+	private static final String PROPERTY_ENTRY_PATTERN = "%s=%s%n";
 
 	private static String getMessagesEpilogue() {
 		return String.format(MESSAGES_EPILOGUE_PATTERN);
@@ -115,7 +114,7 @@ public class TranslationCode {
 
 	private static String nullToEmpty(final String value) {
 		if (value == null) {
-			return ""; //$NON-NLS-1$
+			return "";
 		}
 		return value;
 	}
@@ -145,7 +144,7 @@ public class TranslationCode {
 			appendToMessages(translation);
 			appendToProperties(translation);
 		} else {
-			throw new IllegalStateException("translation code closed"); //$NON-NLS-1$
+			throw new IllegalStateException("translation code closed");
 		}
 	}
 

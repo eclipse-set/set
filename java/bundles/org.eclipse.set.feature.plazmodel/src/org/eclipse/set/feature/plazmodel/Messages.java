@@ -30,6 +30,16 @@ public class Messages {
 	public String PlazModellPart_ExportTitleMsg;
 
 	/**
+	 * Alle collapse
+	 */
+	public String PlazModellPart_CollapseAllGroup;
+
+	/**
+	 * Alle expandieren
+	 */
+	public String PlazModellPart_ExpandAllGroup;
+
+	/**
 	 * PlaZ-Modell-Prüfung wird durchgeführt
 	 */
 	public String PlaZService_MonitorDisplay_GeneratePlazModel;
