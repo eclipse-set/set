@@ -248,7 +248,7 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	def Set<Integer> getHiddenRowsIndex() {
 		return hiddenRowsIndex
 	}
-
+	
 	/**
 	 * The hidden rows list should just be changed through command
 	 */
