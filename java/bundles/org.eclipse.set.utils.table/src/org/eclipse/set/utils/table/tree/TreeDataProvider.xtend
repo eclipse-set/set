@@ -11,6 +11,7 @@ package org.eclipse.set.utils.table.tree
 import java.util.Collections
 import java.util.Comparator
 import java.util.List
+import java.util.Set
 import java.util.function.UnaryOperator
 import org.eclipse.nebula.widgets.nattable.tree.ITreeData
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
@@ -30,10 +31,12 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	List<Pair<TableRowData, List<TableRowData>>> rowGroupMapping
 	List<TableRowData> parentRowMapping
 	TMFactory tmFactory;
+	Set<Integer> hiddenRowsIndex
 
 	new(Table table, UnaryOperator<Integer> getSourceLine) {
 		super(table, getSourceLine)
 		tmFactory = new TMFactory(table)
+		hiddenRowsIndex = newHashSet
 	}
 
 	override refresh() {
@@ -56,7 +59,6 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 				parentRowMapping.add(singleRow)
 			}
 		}
-
 	}
 
 	override getChildren(TableRowData object) {
@@ -81,6 +83,11 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 			return null
 		}
 		return tableContents.get(index)
+	}
+
+	override getOriginalRowIndex(int row) {
+		return tableContents.filter[!hiddenRowsIndex.contains(rowIndex)].get(
+			row).row.rowIndex
 	}
 
 	override getDepthOfData(TableRowData object) {
@@ -143,10 +150,12 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		]
 
 		val Comparator<Pair<TableRowData, List<TableRowData>>> rowGroupComparator = [ group1, group2 |
-			val compareContent1 = group1.value.isEmpty ? group1.key : group1.
-					value.get(0)
-			val compareContent2 = group2.value.isEmpty ? group2.key : group2.
-					value.get(0)
+			val compareContent1 = group1.value.isEmpty
+					? group1.key
+					: group1.value.get(0)
+			val compareContent2 = group2.value.isEmpty
+					? group2.key
+					: group2.value.get(0)
 
 			return tableRowDataComparator.compare(compareContent1,
 				compareContent2)
@@ -176,6 +185,8 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 			return
 		}
 		parentRow.contents = parentRow.contentsFromRow
+		val childsIndex = parentRow.children.map[rowIndex]
+		hiddenRowsIndex.addAll(childsIndex)
 	}
 
 	def void expandedGroup(int parentIndex) {
@@ -188,6 +199,9 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		emptyRow.set(rowIndexColumn,
 			parentRow.row.getPlainStringValue(rowIndexColumn))
 		parentRow.contents = emptyRow.cells.map[content].toList
+		val childsIndex = parentRow.children.map[rowIndex]
+		hiddenRowsIndex.removeAll(childsIndex)
+
 	}
 
 	private def ColumnDescriptor getRowIndexColumn() {
