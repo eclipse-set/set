@@ -69,7 +69,6 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 				override compare(TableRow r1, TableRow r2) {
 					return r1.rowIndex.compareTo(r2.rowIndex)
 				}
-
 			})
 			val rootRow = factory.createGeneralGroupRow(sortedRows.get(0),
 				excludeColumns)
@@ -80,7 +79,6 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 			]?.generalMsg
 			rootRow.set(messagesColumn, generalErroMsg)
 			group.rows.add(0, rootRow)
-
 		]
 	}
 
@@ -91,13 +89,14 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 	 * @param factory {@link TMFactory}
 	 */
 	protected def void reGroupingTree(TMFactory factory) {
-		val rowGroups = factory.table.tablecontent.rowgroups.filter [
+		val tableRowGroups = factory.table.tablecontent.rowgroups
+		val extractRowGroups = tableRowGroups.filter [
 			rows.size < ToolboxConfiguration.tableTreeMinimum && rows.size > 1
 		]
-		val rows = rowGroups.map[rows.subList(1, rows.size)].flatten.toSet
-		rows.forEach [
+		val rows = extractRowGroups.map[rows.subList(1, rows.size)].flatten.toSet
+		rows.forEach [row |
 			val newGroup = factory.rowGroup
-			newGroup.rows.add(it)
+			newGroup.rows.add(row)
 		]
 	}
 
