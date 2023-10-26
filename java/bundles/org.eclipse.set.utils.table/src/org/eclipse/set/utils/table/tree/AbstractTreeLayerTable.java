@@ -26,6 +26,7 @@ import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
 import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandAllCommand;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableRowData;
@@ -180,10 +181,10 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 	private void toggleExpandCollapseAll(final Button button,
 			final String expandAllLabel, final String collapseAllLabel) {
 		if (treeLayer.hasHiddenRows()) {
-			treeLayer.expandAll();
+			treeLayer.doCommand(new TreeExpandAllCommand());
 			button.setText(collapseAllLabel);
 		} else {
-			treeLayer.collapseAll();
+			treeLayer.doCommand(new TreeCollapseAllCommand());
 			button.setText(expandAllLabel);
 		}
 	}
