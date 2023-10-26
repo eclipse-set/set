@@ -188,12 +188,6 @@ class TableDataProvider implements IDataProvider {
 		}
 	}
 
-	def void sort() {
-		if (currentComparator !== null) {
-			sort(currentComparator.key, currentComparator.value)
-		}
-	}
-
 	def void sort(int column, Comparator<? super String> comparator) {
 		tableContents = tableContents.sortWith(
 			tableRowDataComparator(column, comparator))

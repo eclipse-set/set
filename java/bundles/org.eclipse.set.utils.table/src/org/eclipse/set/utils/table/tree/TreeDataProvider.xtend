@@ -215,11 +215,6 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 			return newList
 		].toList
 
-		// Update hidden rows index after sort
-		if (!hiddenRows.empty && hiddenRows.size === hiddenRowsIndex.size) {
-			hiddenRowsIndex = hiddenRows.map[indexOf].toSet	
-		}
-
 		currentComparator = new Pair(column, comparator)
 	}
 
@@ -261,10 +256,6 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 
 	def Set<Integer> getHiddenRowsIndex() {
 		return hiddenRowsIndex
-	}
-
-	private def void expandAllCommandHandle() {
-		hiddenRowsIndex = newHashSet
 	}
 
 	/**
