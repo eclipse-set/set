@@ -28,19 +28,21 @@ import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescri
 class TableDataProvider implements IDataProvider {
 	int columnCount
 	protected List<TableRowData> tableContents
-	
+
 	UnaryOperator<Integer> getSourceLine
 	protected Map<Integer, Object> filters = newHashMap
 	protected Table table
-	
+
 	static val EXCULDE_FILTER_SIGN = "-"
+
+	protected Pair<Integer, Comparator<? super String>> currentComparator
 
 	new(Table table, UnaryOperator<Integer> getSourceLine) {
 		this.getSourceLine = getSourceLine;
 		this.table = table
 		refresh()
 	}
-	
+
 	/**
 	 * Update the table model and refresh the table content
 	 */
@@ -162,11 +164,28 @@ class TableDataProvider implements IDataProvider {
 	def void applyFilter(Map<Integer, Object> filterIndexToObjectMap) {
 		this.filters = filterIndexToObjectMap
 		refresh()
+		// sort contents again after filter
+		sort()
+	}
+	
+	
+	def void sort() {
+		if (currentComparator !== null) {
+			sort(currentComparator.key, currentComparator.value)
+		}
 	}
 
 	def void sort(int column, Comparator<? super String> comparator) {
-		tableContents = tableContents.sortWith [ p1, p2 |
-			comparator.rowComparator(column).compare(p1.contents, p2.contents)
+		tableContents = tableContents.sortWith(
+			tableRowDataComparator(column, comparator))
+		currentComparator = new Pair(column, comparator)
+	}
+
+	protected def Comparator<TableRowData> tableRowDataComparator(int column,
+		Comparator<? super String> comparator) {
+		return [ row1, row2 |
+			comparator.rowComparator(column).compare(row1.contents,
+				row2.contents)
 		]
 	}
 
