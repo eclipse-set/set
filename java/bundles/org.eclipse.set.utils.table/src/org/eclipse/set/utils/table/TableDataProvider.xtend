@@ -19,6 +19,7 @@ import org.eclipse.set.model.tablemodel.TableRow
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import org.eclipse.set.model.tablemodel.RowGroup
 
 /**
  * IDataProvider implementation for Table
@@ -58,8 +59,11 @@ class TableDataProvider implements IDataProvider {
 		// The number of actual columns is the number of leaf column descriptors
 		// as each defines a single column in the table (rather than a heading)
 		this.columnCount = table.columndescriptors.flatMap[leaves].toSet.size
-		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].indexed.
-			map[new TableRowData(key, value)].filter[filterMatch].toList
+		val rowGroups = table.tablecontent.rowgroups.sortWith(
+			tableRowGroupComparator).toList
+		this.tableContents = rowGroups.flatMap[rows].indexed.map [
+			new TableRowData(key, value)
+		].filter[filterMatch].toList
 	}
 
 	/**
@@ -101,7 +105,7 @@ class TableDataProvider implements IDataProvider {
 
 	def TableRowData getRowData(int rowIndex) {
 		if (rowIndex >= 0 && rowIndex < tableContents.size) {
-			return tableContents.get(rowIndex)
+			return findRow(rowIndex)
 		}
 		return null
 	}
@@ -118,6 +122,16 @@ class TableDataProvider implements IDataProvider {
 	def TableRowData findRow(TableRow rowtoFind) {
 		return tableContents.findFirst [
 			row === rowtoFind
+		]
+	}
+
+	/**
+	 * Find row with original index
+	 * @param originalIndex 
+	 */
+	def TableRowData findRow(int originalIndex) {
+		return tableContents.findFirst [
+			row.rowIndex === originalIndex
 		]
 	}
 
@@ -178,6 +192,14 @@ class TableDataProvider implements IDataProvider {
 		tableContents = tableContents.sortWith(
 			tableRowDataComparator(column, comparator))
 		currentComparator = new Pair(column, comparator)
+	}
+
+	protected def Comparator<RowGroup> tableRowGroupComparator() {
+		return [ group1, group2 |
+			val lastRow1 = group1.rows.last
+			val lastRow2 = group2.rows.last
+			return lastRow1.rowIndex.compareTo(lastRow2.rowIndex)
+		]
 	}
 
 	protected def Comparator<TableRowData> tableRowDataComparator(int column,
