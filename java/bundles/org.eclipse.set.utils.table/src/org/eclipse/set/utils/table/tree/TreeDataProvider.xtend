@@ -55,18 +55,22 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	def void refreshRowGroup() {
 		parentRowMapping = newLinkedList
 		rowGroupMapping = newLinkedList
-		val rowGroups = table.tablecontent.rowgroups
-		rowGroups.map[rows].filter [ rows |
-			!rows.empty && findRow(rows.get(0)) !== null
-		].forEach [ rows |
+		val rowGroups = table.tablecontent.rowgroups.map[rows].filter [
+			!empty && exists[findRow !== null]
+		].toList
+		rowGroups.forEach [ rows |
 			val firstRow = findRow(rows.get(0))
 			parentRowMapping.add(firstRow)
 
 			if (rows.size > 1) {
 				val childs = rows.subList(1, rows.size).map[findRow].filterNull.
 					toList
+				if (childs.empty) {
+					tableContents.remove(firstRow)
+				} else {
+					rowGroupMapping.add(new Pair(firstRow, childs))
+				}
 
-				rowGroupMapping.add(new Pair(firstRow, childs))
 			} else if (rows.size == 1) {
 				this.rowGroupMapping.add(
 					new Pair(firstRow, Collections.emptyList))
@@ -75,6 +79,21 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		if (currentComparator !== null) {
 			sort(currentComparator.key, currentComparator.value)
 		}
+	}
+
+	override filterMatch(TableRowData row) {
+		if (row.isParentRow) {
+			return true
+		}
+		return super.filterMatch(row)
+	}
+
+	private def boolean isParentRow(TableRowData rowData) {
+		if (rowGroupMapping === null) {
+			return false
+		}
+		//Single row group will be filtered
+		return !rowGroupMapping.findFirst[key.row.equals(rowData.row)]?.value.isNullOrEmpty
 	}
 
 	override getChildren(TableRowData object) {
@@ -188,10 +207,10 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 			newList.addAll(value)
 			return newList
 		].toList
-		
+
 		// Update hidden rows index after sort
 		if (!hiddenRows.empty && hiddenRows.size === hiddenRowsIndex.size) {
-			hiddenRowsIndex = hiddenRows.map[indexOf].toSet	
+			hiddenRowsIndex = hiddenRows.map[indexOf].toSet
 		}
 
 		currentComparator = new Pair(column, comparator)

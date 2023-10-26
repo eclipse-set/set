@@ -59,7 +59,7 @@ class TableDataProvider implements IDataProvider {
 		// as each defines a single column in the table (rather than a heading)
 		this.columnCount = table.columndescriptors.flatMap[leaves].toSet.size
 		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].indexed.
-			filter[value.filterMatch].map[new TableRowData(key, value)].toList
+			map[new TableRowData(key, value)].filter[filterMatch].toList
 	}
 
 	/**
@@ -67,16 +67,16 @@ class TableDataProvider implements IDataProvider {
 	 * 
 	 * @param row the row to check
 	 */
-	protected def boolean filterMatch(TableRow row) {
+	protected def boolean filterMatch(TableRowData row) {
 		for (var i = 0; i < columnCount; i++) {
 			if (filters.containsKey(i)) {
-				val content = row.cells.get(i).content.plainStringValue.
-					toLowerCase
+				val content = row.contents.get(i).plainStringValue.toLowerCase
 				var filterValue = filters.get(i).toString.toLowerCase
 				val isExcludeFilter = filterValue.substring(0, 1).equals(
 					EXCULDE_FILTER_SIGN)
-				filterValue = isExcludeFilter ? filterValue.
-					substring(1) : filterValue
+				filterValue = isExcludeFilter
+					? filterValue.substring(1)
+					: filterValue
 
 				// Equivalence logic
 				if (isExcludeFilter === content.contains(filterValue)) {
@@ -167,8 +167,7 @@ class TableDataProvider implements IDataProvider {
 		// sort contents again after filter
 		sort()
 	}
-	
-	
+
 	def void sort() {
 		if (currentComparator !== null) {
 			sort(currentComparator.key, currentComparator.value)
