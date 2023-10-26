@@ -9,15 +9,27 @@
 
 package org.eclipse.set.utils.table.tree;
 
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.eclipse.nebula.widgets.nattable.command.ILayerCommand;
+import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
+import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
+import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
 import org.eclipse.nebula.widgets.nattable.grid.layer.ColumnHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandAllCommand;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.table.BodyLayerStack;
+import org.eclipse.set.utils.table.TableRowData;
 import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
 import org.eclipse.set.utils.table.sorting.TableSortModel;
 import org.eclipse.swt.SWT;
@@ -44,12 +56,30 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 			final UnaryOperator<Integer> getSourceLine) {
 		bodyDataProvider = new TreeDataProvider(table, getSourceLine);
 		bodyDataLayer = new DataLayer(bodyDataProvider);
-		final TableTreeRowModel treeRowModel = new TableTreeRowModel(
-				(TreeDataProvider) bodyDataProvider);
-		treeLayer = new TreeLayer(bodyDataLayer, treeRowModel);
-		// Collapse all group by default
-		treeLayer.collapseAll();
+		createTreeLayer();
+
 		bodyLayerStack = new BodyLayerStack(bodyDataLayer, treeLayer);
+	}
+
+	/**
+	 * Create treelayer
+	 */
+	private void createTreeLayer() {
+		if (!(bodyDataProvider instanceof TreeDataProvider)) {
+			return;
+		}
+		final TreeDataProvider treeData = (TreeDataProvider) bodyDataProvider;
+		final TableTreeRowModel treeRowModel = new TableTreeRowModel(treeData);
+		treeLayer = new TreeLayer(bodyDataLayer, treeRowModel) {
+			@Override
+			public boolean doCommand(final ILayerCommand command) {
+				// Update hidden rows list in {@link TreeDataProvider}
+				treeData.doExpandCollapseCommand(command);
+				return super.doCommand(command);
+			}
+		};
+		// Collapse all group by default
+		treeLayer.doCommand(new TreeCollapseAllCommand());
 	}
 
 	@Override
@@ -63,6 +93,53 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 		sortHeaderLayer.registerCommandHandler(new TreeSortCommandHandler(
 				tableSortModel, sortHeaderLayer, treeLayer));
 		return sortHeaderLayer;
+	}
+
+	class TreeFilterStrategy<T> implements IFilterStrategy<T> {
+
+		private final TreeDataProvider treeDataProvider;
+		private final TreeLayer layer;
+
+		public TreeFilterStrategy(final TreeLayer treeLayer,
+				final TreeDataProvider treeDataProvider) {
+			this.layer = treeLayer;
+			this.treeDataProvider = treeDataProvider;
+		}
+
+		@Override
+		public void applyFilter(
+				final Map<Integer, Object> filterIndexToObjectMap) {
+			final Stream<TableRowData> hiddenRows = treeDataProvider
+					.getHiddenRowsIndex().stream()
+					.map(treeDataProvider::getRowData);
+			// The hidden rows list in {@link TreeDataProvider} will not be
+			// change by direct call expland-collapse function
+			layer.expandAll();
+			treeDataProvider.applyFilter(filterIndexToObjectMap);
+			final Set<Integer> hiddenParentIndex = hiddenRows
+					.map(treeDataProvider::getParent).filter(Objects::nonNull)
+					.map(treeDataProvider::getCurrentRowIndex)
+					.collect(Collectors.toSet());
+			hiddenParentIndex.forEach(layer::collapseTreeRow);
+
+		}
+
+	}
+
+	@Override
+	protected FilterRowHeaderComposite<Object> createFilterRowHeader(
+			final SortHeaderLayer<BodyLayerStack> sortHeaderLayer,
+			final DataLayer columnHeaderDataLayer,
+			final ConfigRegistry configRegistry) {
+		if (bodyDataProvider instanceof final TreeDataProvider treeDataProvider) {
+			return new FilterRowHeaderComposite<>(
+					new TreeFilterStrategy<>(treeLayer, treeDataProvider),
+					sortHeaderLayer, columnHeaderDataLayer.getDataProvider(),
+					configRegistry);
+		}
+		return super.createFilterRowHeader(sortHeaderLayer,
+				columnHeaderDataLayer, configRegistry);
+
 	}
 
 	/**
@@ -104,10 +181,10 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 	private void toggleExpandCollapseAll(final Button button,
 			final String expandAllLabel, final String collapseAllLabel) {
 		if (treeLayer.hasHiddenRows()) {
-			treeLayer.expandAll();
+			treeLayer.doCommand(new TreeExpandAllCommand());
 			button.setText(collapseAllLabel);
 		} else {
-			treeLayer.collapseAll();
+			treeLayer.doCommand(new TreeCollapseAllCommand());
 			button.setText(expandAllLabel);
 		}
 	}
