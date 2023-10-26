@@ -137,10 +137,6 @@ public abstract class AbstractSortByColumnTables {
 			final DataLayer columnHeaderDataLayer,
 			final SortHeaderLayer<BodyLayerStack> sortHeaderLayer,
 			final ConfigRegistry configRegistry) {
-		final FilterRowHeaderComposite<Object> filterRowHeaderLayer = new FilterRowHeaderComposite<>(
-				new FilterStrategy<>(bodyDataProvider), sortHeaderLayer,
-				columnHeaderDataLayer.getDataProvider(), configRegistry);
-
 		// row header stack
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(
 				bodyDataProvider);
@@ -148,6 +144,9 @@ public abstract class AbstractSortByColumnTables {
 				rowHeaderDataProvider, 0, 20);
 		final RowHeaderLayer rowHeaderLayer = new RowHeaderLayer(
 				rowHeaderDataLayer, bodyLayerStack, getSelectionLayer());
+
+		final FilterRowHeaderComposite<Object> filterRowHeaderLayer = createFilterRowHeader(
+				sortHeaderLayer, columnHeaderDataLayer, configRegistry);
 
 		// Corner Layer stack
 		final DefaultCornerDataProvider cornerDataProvider = new DefaultCornerDataProvider(
@@ -159,6 +158,15 @@ public abstract class AbstractSortByColumnTables {
 		// gridlayer
 		return new GridLayer(bodyLayerStack, filterRowHeaderLayer,
 				rowHeaderLayer, cornerLayer);
+	}
+
+	protected FilterRowHeaderComposite<Object> createFilterRowHeader(
+			final SortHeaderLayer<BodyLayerStack> sortHeaderLayer,
+			final DataLayer columnHeaderDataLayer,
+			final ConfigRegistry configRegistry) {
+		return new FilterRowHeaderComposite<>(
+				new FilterStrategy<>(bodyDataProvider), sortHeaderLayer,
+				columnHeaderDataLayer.getDataProvider(), configRegistry);
 	}
 
 	protected NatTable createNattable(final Composite parent,
