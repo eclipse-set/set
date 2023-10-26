@@ -6,12 +6,10 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.swtbot.table;
+package org.eclipse.set.swtbot;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -19,25 +17,22 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.set.swtbot.utils.SWTBotUtils.NattableLayers;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
+import org.junit.jupiter.api.Test;
 
 /**
- * Compare table data with csv reference
- * 
- * @author truong
- *
+ * Test for changes in PlaZ Model
  */
-class TableDataTest extends AbstractTableTest {
+class PlaZModelTest extends AbstractPPHNTest {
 
 	private static final String CELL_VALUE_REPLACE_REGEX = "[\\n\\r]";
-
-	private NattableLayers layers;
-
 	private int fixedColumnCount;
 	List<CSVRecord> referenceData = new LinkedList<>();
+
+	private NattableLayers layers;
 
 	private void compareValue(final ILayer nattableLayer, final int startRow, final int endRow) {
 
@@ -51,15 +46,6 @@ class TableDataTest extends AbstractTableTest {
 				assertEquals(referenceValue, cellValue);
 			}
 		}
-
-	}
-
-	private void givenFixedColumnCount(final PtTable table) {
-		fixedColumnCount = table.fixedColumns().size();
-	}
-
-	private void givenNattableLayers() {
-		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 
 	private void thenRowAndColumnCountEqualReferenceCSV() {
@@ -71,42 +57,33 @@ class TableDataTest extends AbstractTableTest {
 		assertEquals(referenceRowCount, nattableRowCount);
 	}
 
-	protected void givenReferenceCSV(final PtTable table) throws IOException {
-		referenceData = loadReferenceFile(table.shortcut());
+	protected void givenReferenceCSV() throws IOException {
+		referenceData = loadReferenceFile("plaz_model_reference.csv");
 	}
 
 	/**
-	 * Compare table data with reference file
+	 * Compare plaz model table data with reference file
 	 * 
 	 * @throws Exception
 	 */
-	@ParameterizedTest
-	@MethodSource("providesPtTable")
-	protected void testTableData(final PtTable table) throws Exception {
-		givenNattableBot(table);
-		givenReferenceCSV(table);
-		givenFixedColumnCount(table);
-		givenNattableLayers();
-		whenExistReferenceCSV();
+	@Test
+	protected void testTableData() throws Exception {
+		givenReferenceCSV();
+		whenOpeningPlaZModelNatTable();
 		thenRowAndColumnCountEqualReferenceCSV();
-		thenPtTableColumnHeaderEqualReferenceCSV();
-		thenPtTableDataEqualReferenceCSV();
+		thenPtTableDataEqualsReferenceCSV();
 	}
 
-	protected void thenPtTableColumnHeaderEqualReferenceCSV() {
-		final int rowCount = layers.gridLayer().getColumnHeaderLayer().getRowCount();
+	private void thenPtTableDataEqualsReferenceCSV() {
+		final int rowCount = layers.columnHeaderLayer().getRowCount();
 		assertDoesNotThrow(() -> compareValue(layers.gridLayer().getColumnHeaderLayer(), 0, rowCount));
-
-	}
-
-	protected void thenPtTableDataEqualReferenceCSV() {
-		final int startRow = layers.columnHeaderLayer().getRowCount();
 		assertDoesNotThrow(
-				() -> compareValue(layers.selectionLayer(), startRow, layers.selectionLayer().getRowCount()));
+				() -> compareValue(layers.selectionLayer(), rowCount, layers.selectionLayer().getRowCount()));
 	}
 
-	protected void whenExistReferenceCSV() {
-		assertNotNull(referenceData);
-		assertFalse(referenceData.isEmpty());
+	private void whenOpeningPlaZModelNatTable() {
+		bot.button("PlaZ Modell").click();
+		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
+		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
 }
