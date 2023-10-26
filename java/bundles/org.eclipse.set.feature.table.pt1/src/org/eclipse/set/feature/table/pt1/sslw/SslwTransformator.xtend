@@ -50,10 +50,11 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
+			val rowGroup = factory.newRowGroup(flaZwieSchutz)
 			var runLeft = true;
 
 			for (var i = 0; i < 2; i++) {
-				val instance = factory.newTableRow(flaZwieSchutz, i)
+				val instance = rowGroup.newTableRow()
 				val currentFlaSchutz = this.getCurrentFlaSchutz(flaZwieSchutz,
 					runLeft);
 				val currentDirectionString = this.
