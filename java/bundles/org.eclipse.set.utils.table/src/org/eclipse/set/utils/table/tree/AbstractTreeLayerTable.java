@@ -109,13 +109,14 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 		@Override
 		public void applyFilter(
 				final Map<Integer, Object> filterIndexToObjectMap) {
-			final Stream<TableRowData> hiddenRows = treeDataProvider
-					.getHiddenRowsIndex().stream()
-					.map(treeDataProvider::getRowData);
 			// The hidden rows list in {@link TreeDataProvider} will not be
 			// change by direct call expland-collapse function
 			layer.expandAll();
 			treeDataProvider.applyFilter(filterIndexToObjectMap);
+
+			final Stream<TableRowData> hiddenRows = treeDataProvider
+					.getHiddenRowsIndex().stream()
+					.map(treeDataProvider::getRowData);
 			final Set<Integer> hiddenParentIndex = hiddenRows
 					.map(treeDataProvider::getParent).filter(Objects::nonNull)
 					.map(treeDataProvider::getCurrentRowIndex)
