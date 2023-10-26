@@ -167,6 +167,13 @@ class TableDataProvider implements IDataProvider {
 		// sort contents again after filter
 		sort()
 	}
+	
+	
+	def void sort() {
+		if (currentComparator !== null) {
+			sort(currentComparator.key, currentComparator.value)
+		}
+	}
 
 	def void sort() {
 		if (currentComparator !== null) {

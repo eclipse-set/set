@@ -179,12 +179,10 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 
 	override void sort(int column, Comparator<? super String> comparator) {
 		val Comparator<Pair<TableRowData, List<TableRowData>>> rowGroupComparator = [ group1, group2 |
-			val compareContent1 = group1.value.isEmpty
-					? group1.key
-					: group1.value.get(0)
-			val compareContent2 = group2.value.isEmpty
-					? group2.key
-					: group2.value.get(0)
+			val compareContent1 = group1.value.isEmpty ? group1.key : group1.
+					value.get(0)
+			val compareContent2 = group2.value.isEmpty ? group2.key : group2.
+					value.get(0)
 
 			return tableRowDataComparator(column, comparator).compare(
 				compareContent1, compareContent2)
@@ -248,7 +246,11 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	def Set<Integer> getHiddenRowsIndex() {
 		return hiddenRowsIndex
 	}
-	
+
+	private def void expandAllCommandHandle() {
+		hiddenRowsIndex = newHashSet
+	}
+
 	/**
 	 * The hidden rows list should just be changed through command
 	 */
