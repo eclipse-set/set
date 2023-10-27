@@ -11,7 +11,7 @@ package org.eclipse.set.utils.table.tree
 import java.util.Collections
 import java.util.Comparator
 import java.util.List
-import java.util.Set
+import java.util.Map
 import java.util.function.UnaryOperator
 import org.eclipse.nebula.widgets.nattable.tree.ITreeData
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
@@ -22,6 +22,11 @@ import org.eclipse.set.utils.table.TableRowData
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import java.util.Set
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandCollapseCommand
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandAllCommand
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand
+import org.eclipse.nebula.widgets.nattable.command.ILayerCommand
 
 /**
  * ITreeData implementation for table
@@ -31,6 +36,8 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	List<Pair<TableRowData, List<TableRowData>>> rowGroupMapping
 	List<TableRowData> parentRowMapping
 	TMFactory tmFactory;
+	
+	// Store original index of hidden row
 	Set<Integer> hiddenRowsIndex
 
 	new(Table table, UnaryOperator<Integer> getSourceLine) {
@@ -41,24 +48,55 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 
 	override refresh() {
 		super.refresh()
-		rowGroupMapping = newLinkedList
-		parentRowMapping = newLinkedList
+		refreshRowGroup()
+	}
 
-		val rowGroups = table.tablecontent.rowgroups
-		for (var i = 0; i < rowGroups.size; i++) {
-			val rows = rowGroups.get(i).rows.filter[filterMatch].toList
+	/**
+	 * Grouping table contents 
+	 */
+	def void refreshRowGroup() {
+		parentRowMapping = newLinkedList
+		rowGroupMapping = newLinkedList
+		val rowGroups = table.tablecontent.rowgroups.map[rows].filter [
+			!empty && exists[findRow !== null]
+		].toList
+		rowGroups.forEach [ rows |
+			val firstRow = findRow(rows.get(0))
+			parentRowMapping.add(firstRow)
+
 			if (rows.size > 1) {
-				val firstRow = rows.get(0).findRow
-				val childs = rows.subList(1, rows.size).map[findRow].toList
-				this.rowGroupMapping.add(new Pair(firstRow, childs))
-				parentRowMapping.add(firstRow)
+				val childs = rows.subList(1, rows.size).map[findRow].filterNull.
+					toList
+				if (childs.empty) {
+					tableContents.remove(firstRow)
+				} else {
+					rowGroupMapping.add(new Pair(firstRow, childs))
+				}
+
 			} else if (rows.size == 1) {
-				val singleRow = rows.get(0).findRow
 				this.rowGroupMapping.add(
-					new Pair(singleRow, Collections.emptyList))
-				parentRowMapping.add(singleRow)
+					new Pair(firstRow, Collections.emptyList))
 			}
+		]
+		if (currentComparator !== null) {
+			sort(currentComparator.key, currentComparator.value)
 		}
+	}
+
+	override filterMatch(TableRowData row) {
+		if (row.isParentRow) {
+			return true
+		}
+		return super.filterMatch(row)
+	}
+
+	private def boolean isParentRow(TableRowData rowData) {
+		if (rowGroupMapping === null) {
+			return false
+		}
+		// Single row group will be filtered
+		return !rowGroupMapping.findFirst[key.row.equals(rowData.row)]?.value.
+			isNullOrEmpty
 	}
 
 	override getChildren(TableRowData object) {
@@ -85,9 +123,16 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		return tableContents.get(index)
 	}
 
-	override getOriginalRowIndex(int row) {
-		return tableContents.filter[!hiddenRowsIndex.contains(rowIndex)].get(
-			row).row.rowIndex
+	override getOriginalRowIndex(int index) {
+		val visibleRows = tableContents.filter[!hiddenRowsIndex.contains(rowIndex)]
+		if (visibleRows.empty) {
+			return -1
+		}
+		val treeTableRow = visibleRows.get(index)
+		if (treeTableRow === null || isParentRow(treeTableRow)) {
+			return -1
+		}
+		return treeTableRow.row.rowIndex
 	}
 
 	override getDepthOfData(TableRowData object) {
@@ -143,27 +188,20 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	}
 
 	override void sort(int column, Comparator<? super String> comparator) {
-		val Comparator<TableRowData> tableRowDataComparator = [ row1, row2 |
-			val cell1 = row1.contents
-			val cell2 = row2.contents
-			return comparator.rowComparator(column).compare(cell1, cell2)
-		]
-
 		val Comparator<Pair<TableRowData, List<TableRowData>>> rowGroupComparator = [ group1, group2 |
-			val compareContent1 = group1.value.isEmpty
-					? group1.key
-					: group1.value.get(0)
-			val compareContent2 = group2.value.isEmpty
-					? group2.key
-					: group2.value.get(0)
+			val compareContent1 = group1.value.isEmpty ? group1.key : group1.
+					value.get(0)
+			val compareContent2 = group2.value.isEmpty ? group2.key : group2.
+					value.get(0)
 
-			return tableRowDataComparator.compare(compareContent1,
-				compareContent2)
+			return tableRowDataComparator(column, comparator).compare(
+				compareContent1, compareContent2)
 		]
 
 		val sortedChilds = rowGroupMapping.map [
 			val childs = value.sortWith [ row1, row2 |
-				return tableRowDataComparator.compare(row1, row2)
+				return tableRowDataComparator(column, comparator).compare(row1,
+					row2)
 			]
 			return new Pair(key, childs)
 		]
@@ -171,26 +209,41 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		rowGroupMapping = sortedChilds.sortWith [ group1, group2 |
 			return rowGroupComparator.compare(group1, group2)
 		]
-
 		tableContents = rowGroupMapping.flatMap [
 			val newList = newLinkedList(key)
 			newList.addAll(value)
 			return newList
 		].toList
+
+		currentComparator = new Pair(column, comparator)
 	}
 
+	override void applyFilter(Map<Integer, Object> filterIndexToObjectMap) {
+		this.filters = filterIndexToObjectMap
+		refresh()
+		refreshRowGroup()
+		sort()
+
+	}
+
+	/**
+	 * Add content for parent row, when collapsed
+	 * @param parentIndex table contents index
+	 */
 	def void collasedGroup(int parentIndex) {
-		val parentRow = parentIndex.rowData
+		val parentRow = getDataAtIndex(parentIndex)
 		if (parentRow === null) {
 			return
 		}
 		parentRow.contents = parentRow.contentsFromRow
-		val childsIndex = parentRow.children.map[rowIndex]
-		hiddenRowsIndex.addAll(childsIndex)
 	}
 
+	/**
+	 * Remove content for parent row, when expand
+	 * @param parentIndex table contents index
+	 */
 	def void expandedGroup(int parentIndex) {
-		val parentRow = parentIndex.rowData
+		val parentRow = getDataAtIndex(parentIndex)
 		if (parentRow === null) {
 			return
 		}
@@ -199,9 +252,45 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 		emptyRow.set(rowIndexColumn,
 			parentRow.row.getPlainStringValue(rowIndexColumn))
 		parentRow.contents = emptyRow.cells.map[content].toList
-		val childsIndex = parentRow.children.map[rowIndex]
-		hiddenRowsIndex.removeAll(childsIndex)
+	}
 
+	def Set<Integer> getHiddenRowsIndex() {
+		return hiddenRowsIndex
+	}
+
+	/**
+	 * The hidden rows list should just be changed through command
+	 */
+	def void doExpandCollapseCommand(ILayerCommand command) {
+		if (command instanceof TreeExpandAllCommand) {
+			expandAllCommandHandle()
+		} else if (command instanceof TreeCollapseAllCommand) {
+			collapseAllCommandHandle()
+		} else if (command instanceof TreeExpandCollapseCommand) {
+			expandCollapseCommandHandle(command.parentIndex)
+		}
+	}
+
+	private def void expandCollapseCommandHandle(int parentIndex) {
+		val parentRow = getDataAtIndex(parentIndex)
+		if (parentRow === null) {
+			return
+		}
+		val childsIndex = parentRow.children.map[rowIndex]
+		if (hiddenRowsIndex.containsAll(childsIndex)) {
+			hiddenRowsIndex.removeAll(childsIndex)
+		} else {
+			hiddenRowsIndex.addAll(childsIndex)
+		}
+	}
+
+	private def void collapseAllCommandHandle() {
+		hiddenRowsIndex.addAll(
+			parentRowMapping.map[children.map[rowIndex]].flatten.toSet)
+	}
+
+	private def void expandAllCommandHandle() {
+		hiddenRowsIndex = newHashSet
 	}
 
 	private def ColumnDescriptor getRowIndexColumn() {
