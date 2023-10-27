@@ -56,6 +56,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -174,19 +175,29 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 				final Composite composite = new Composite(innerParent,
 						SWT.NONE);
-				GridLayoutFactory.swtDefaults().numColumns(2)
+
+				GridLayoutFactory.swtDefaults().numColumns(3)
 						.applyTo(composite);
 				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
 						.grab(true, false).applyTo(composite);
 
-				// create the button
+				final Control natTable = tableView.create(innerParent,
+						validationReport);
+				// create the open view button
 				final Button showTableButton = new Button(composite, SWT.PUSH);
 				GridDataFactory.swtDefaults().align(SWT.LEFT, SWT.FILL)
-						.grab(true, false).applyTo(showTableButton);
+						.grab(false, false).applyTo(showTableButton);
+
 				showTableButton.setText(messages.ShowValidationTableMsg);
 				showTableButton.addListener(SWT.Selection,
 						event -> showValidationTable());
 				showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+				// create the toggle collapsed button
+				final Button collapseAllButton = tableView
+						.createExpandCollapseAllButton(composite,
+								messages.ValidationTable_ExpandAllGroup,
+								messages.ValidationTable_CollapseAllGroup);
 
 				exportValidationButton = new Button(composite, SWT.PUSH);
 				GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.FILL)
@@ -198,8 +209,13 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
 						0);
 
-				final Control natTable = tableView.create(innerParent,
-						validationReport);
+				// Setup layout
+				showTableButton.setLayoutData(
+						new GridData(SWT.LEFT, SWT.TOP, false, true));
+				collapseAllButton.setLayoutData(
+						new GridData(SWT.LEFT, SWT.TOP, false, true));
+				exportValidationButton.setLayoutData(
+						new GridData(SWT.RIGHT, SWT.TOP, true, true));
 
 				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
 						.grab(true, true).hint(SWT.DEFAULT, 600)
