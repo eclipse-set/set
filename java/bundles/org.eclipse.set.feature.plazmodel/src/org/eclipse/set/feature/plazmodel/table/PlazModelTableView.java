@@ -15,7 +15,7 @@ import org.eclipse.set.model.plazmodel.PlazReport;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.menu.TableMenuService;
-import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
+import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Control;
  * @author Stuecker
  *
  */
-public class PlazModelTableView extends AbstractSortByColumnTables {
+public class PlazModelTableView extends AbstractTreeLayerTable {
 	private final Messages messages;
 	private final BasePart part;
 	private final EnumTranslationService enumTranslationService;
@@ -68,8 +68,8 @@ public class PlazModelTableView extends AbstractSortByColumnTables {
 				messages, enumTranslationService);
 
 		final Table table = service.transform(validationReport);
-		this.createTableBodyData(table, rowLine -> validationReport.getEntries()
-				.get(rowLine).getLineNumber());
+		this.createTableBodyData(table, rowIndex -> validationReport
+				.getEntries().get(rowIndex - 1).getLineNumber());
 		tableMenuService.createDefaultMenuItems(part, table, bodyDataProvider,
 				bodyLayerStack.getSelectionLayer());
 		natTable = createTable(parent, table, tableMenuService);

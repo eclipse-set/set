@@ -451,6 +451,16 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EAttribute getTableRow_RowIndex() {
+		return (EAttribute)tableRowEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getTableCell() {
 		return tableCellEClass;
 	}
@@ -711,6 +721,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		tableRowEClass = createEClass(TABLE_ROW);
 		createEReference(tableRowEClass, TABLE_ROW__CELLS);
 		createEReference(tableRowEClass, TABLE_ROW__FOOTNOTES);
+		createEAttribute(tableRowEClass, TABLE_ROW__ROW_INDEX);
 
 		tableCellEClass = createEClass(TABLE_CELL);
 		createEReference(tableCellEClass, TABLE_CELL__CONTENT);
@@ -807,6 +818,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEClass(tableRowEClass, TableRow.class, "TableRow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTableRow_Cells(), this.getTableCell(), null, "cells", null, 1, -1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTableRow_Footnotes(), this.getFootnote(), null, "footnotes", null, 0, -1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTableRow_RowIndex(), ecorePackage.getEInt(), "rowIndex", null, 0, 1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableCellEClass, TableCell.class, "TableCell", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTableCell_Content(), this.getCellContent(), null, "content", null, 0, 1, TableCell.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

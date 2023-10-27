@@ -22,6 +22,7 @@ import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.selection.config.DefaultMoveSelectionConfiguration;
 import org.eclipse.nebula.widgets.nattable.selection.config.DefaultRowSelectionLayerConfiguration;
+import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 
 /**
@@ -32,30 +33,50 @@ import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
  */
 public class BodyLayerStack extends AbstractLayerTransform {
 
-	private final IDataProvider stackBodyDataProvider;
+	private IDataProvider stackBodyDataProvider;
 
-	private final SelectionLayer selectionLayer;
-	private final ViewportLayer viewportLayer;
+	protected SelectionLayer selectionLayer;
+	private ViewportLayer viewportLayer;
 
-	private final FreezeLayer freezeLayer;
+	private FreezeLayer freezeLayer;
+
+	protected DataLayer bodyDataLayer;
 
 	/**
 	 * @param bodyDataLayer
 	 *            the data layer
 	 */
 	public BodyLayerStack(final DataLayer bodyDataLayer) {
-		this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
+		this.bodyDataLayer = bodyDataLayer;
 		this.selectionLayer = new SelectionLayer(bodyDataLayer);
-		this.viewportLayer = new ViewportLayer(this.selectionLayer);
+		init();
+	}
 
+	/**
+	 * @param bodyDataLayer
+	 *            the data layer
+	 * @param treeLayer
+	 *            the tree layer
+	 */
+	public BodyLayerStack(final DataLayer bodyDataLayer,
+			final TreeLayer treeLayer) {
+		this.bodyDataLayer = bodyDataLayer;
+		this.selectionLayer = new SelectionLayer(treeLayer);
+		init();
+	}
+
+	protected void init() {
+		this.stackBodyDataProvider = bodyDataLayer.getDataProvider();
 		this.selectionLayer
 				.addConfiguration(new DefaultRowSelectionLayerConfiguration());
 		this.selectionLayer
 				.addConfiguration(new DefaultMoveSelectionConfiguration());
 
+		this.viewportLayer = new ViewportLayer(this.selectionLayer);
 		freezeLayer = new FreezeLayer(this.selectionLayer);
 		final CompositeFreezeLayer compositeFreezeLayer = new CompositeFreezeLayer(
 				freezeLayer, viewportLayer, this.selectionLayer);
+
 		setUnderlyingLayer(compositeFreezeLayer);
 	}
 

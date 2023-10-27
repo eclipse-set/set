@@ -59,6 +59,7 @@ class PlazModelServiceImpl implements PlazModelService {
 			errors.values.get(m).length, m++) {
 			val startCount = n
 			val errorsList = errors.values.get(m)
+			val generalErroMsg = errors.keySet?.get(m)?.generalErrMsg
 			if (errorsList.length === 0) {
 				entries.add(
 					errors.keySet.get(m).sucessfulReport(n)
@@ -66,7 +67,7 @@ class PlazModelServiceImpl implements PlazModelService {
 				n++
 			} else {
 				errorsList.forEach [ error, index |
-					entries.add(error.transform(index + startCount, finder))
+					entries.add(error.transform(index + startCount, finder, generalErroMsg))
 				]
 			}
 		}
@@ -87,7 +88,7 @@ class PlazModelServiceImpl implements PlazModelService {
 	}
 
 	def ValidationProblem transform(PlazError error, int index,
-		EObjectXMLFinder finder) {
+		EObjectXMLFinder finder, String generalErroMsg) {
 		val entry = ValidationreportFactory.eINSTANCE.createValidationProblem
 		val node = finder.find(error.object)
 		// Add +1 to start counting from one rather than zero
@@ -95,6 +96,7 @@ class PlazModelServiceImpl implements PlazModelService {
 		entry.message = error.message
 		entry.type = error.type
 		entry.severity = error.severity
+		entry.generalMsg = generalErroMsg
 		if (node !== null) {
 			var line = 0
 			try {

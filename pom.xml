@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.2</tycho-version>
+		<tycho-version>4.0.3</tycho-version>
 		<deploy-plugin-version>3.1.1</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
@@ -230,12 +230,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.3.1</version>
 				<dependencies>
 					<dependency>
 						<groupId>com.puppycrawl.tools</groupId>
 						<artifactId>checkstyle</artifactId>
-						<version>10.12.3</version>
+						<version>10.12.4</version>
 					</dependency>
 				</dependencies>
 				<configuration>

@@ -83,7 +83,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 							.getRowPosition();
 
 					final int originalRow = bodyDataProvider
-							.getOriginalRow(row);
+							.getOriginalRowIndex(row);
 
 					final Optional<TableError> rowElement = tableErrors.stream()
 							.skip(originalRow).findFirst();
