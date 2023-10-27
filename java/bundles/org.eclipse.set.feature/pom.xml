@@ -88,8 +88,8 @@
 							</resources>
 						</configuration>
 					</execution>
-					<execution>
-						<id>copy-siteplan</id>
+          <execution>
+  					<id>copy-siteplan</id>
 						<phase>prepare-package</phase>
 						<goals>
 							<goal>copy-resources</goal>
@@ -99,6 +99,21 @@
 							<resources>
 								<resource>
 									<directory>${basedir}/../../../web/siteplan/dist</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-news</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+              <outputDirectory>${basedir}/news/web/news</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../../web/news/public</directory>
 								</resource>
 							</resources>
 						</configuration>
@@ -153,7 +168,11 @@
 							<directory>developerhelp</directory>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
-					</filesets>
+						<fileset>
+							<directory>news</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+          </filesets>
 				</configuration>
 			</plugin>
 		</plugins>

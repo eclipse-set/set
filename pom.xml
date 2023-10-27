@@ -32,7 +32,6 @@
 		<module>java/bundles/org.eclipse.set.feature</module>
 		<module>java/bundles/org.eclipse.set.test.feature</module>
 		<module>java/bundles/org.eclipse.set.i18n.nl_de.feature</module>
-		<module>java/bundles/org.eclipse.set.sessionservice.feature</module>
 
 		<!-- ############################################################### -->
 		<!-- Bundles -->

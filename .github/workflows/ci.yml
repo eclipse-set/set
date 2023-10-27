@@ -98,6 +98,27 @@ jobs:
           path: web/siteplan/dist
           retention-days: 1
 
+  news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+
+      - name: Install Asciidoctor & Hugo
+        uses: eclipse-set/build/.github/actions/setup-asciidoctor@main
+
+      - name: Build Release Notes
+        run: mvn -Dnote-file-path="${{github.workspace}}/RELEASE_NOTES.md" clean compile
+        working-directory: web/news
+
+      - name: Store artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: news-artifact
+          path: web/news/public
+          retention-days: 1
+
   java:
     runs-on: ubuntu-latest
     needs:
@@ -106,6 +127,7 @@ jobs:
       - pdfviewer
       - siteplan
       - developerhelp
+      - news
     permissions:
       contents: write
       packages: write
@@ -158,6 +180,12 @@ jobs:
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
+
+      - name: Fetch news
+        uses: actions/download-artifact@v3
+        with:
+            name: news-artifact
+            path: web/news/public
 
       - name: Build
         run: mvn -T 1.5C -B -U clean verify
