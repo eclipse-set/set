@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.simplemerge.edit;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.simplemerge.edit
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.1.0
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.simplemerge.provider.SimplemergeEditPlugin$Implementation
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Validationreport Extensions
 Bundle-SymbolicName: org.eclipse.set.model.validationreport.extensions
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.1.0
 Automatic-Module-Name: org.eclipse.set.model.validationreport.extensions
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: com.google.guava,
