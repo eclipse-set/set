@@ -38,6 +38,11 @@ import org.xml.sax.SAXParseException
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
 
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.naturalOrder;
+import java.util.Collections
+
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
  * 
@@ -53,6 +58,7 @@ class SessionToValidationReportTransformation {
 	val EnumTranslationService enumService
 	val severityOrder = newLinkedList(ValidationSeverity.ERROR,
 		ValidationSeverity.WARNING, ValidationSeverity.SUCCESS)
+	val List<String> problemOrder
 	Class<?> validationSourceClass;
 
 	new(Messages messages, PlanProVersionService versionService,
@@ -60,6 +66,9 @@ class SessionToValidationReportTransformation {
 		this.messages = messages
 		this.versionService = versionService
 		this.enumService = enumService
+		this.problemOrder = newLinkedList(messages.IoProblemMsg,
+			messages.XsdProblemMsg, messages.XsdWarningMsg,
+			messages.NilTestProblem_Type)
 	}
 
 	/**
@@ -317,17 +326,29 @@ class SessionToValidationReportTransformation {
 	 * @param problems the list of problems
 	 */
 	private def void sortProblem(List<ValidationProblem> problems) {
-		problems.sort(new Comparator<ValidationProblem>() {
-			override compare(ValidationProblem o1, ValidationProblem o2) {
-				val compareSeverity = severityOrder.indexOf(o1.severity).
-					compareTo(severityOrder.indexOf(o2.severity))
-				if (compareSeverity === 0) {
-					return o1.lineNumber.compareTo(o2.lineNumber)
-				}
-				return compareSeverity
-			}
+		var Comparator<ValidationProblem> comparator = Comparator.comparing [
+			severityOrder.indexOf(severity)
+		]
+		comparator = comparator.thenComparing(
+			comparing([problemOrder.indexOf(type)], nullsLast(naturalOrder))
+		)
+		comparator = comparator.thenComparing(
+			comparing([objectArt], nullsLast(naturalOrder))
+		)
+		comparator = comparator.thenComparing(
+			comparing([attributeName], nullsLast(naturalOrder))
+		)
+		var Comparator<ValidationProblem> comparatorObjectScope = comparing([
+			objectScope
+		], nullsLast(naturalOrder))
 
-		})
+		comparator = comparator.thenComparing(
+			Collections.reverseOrder(comparatorObjectScope)
+		)
+		comparator = comparator.thenComparing(
+			comparing([lineNumber], nullsLast(naturalOrder))
+		)
+		problems.sort(comparator);
 		problems.forEach[it, index|id = index + 1]
 	}
 
