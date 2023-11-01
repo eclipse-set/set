@@ -248,7 +248,7 @@ npm/npmjs/-/eslint-scope/7.2.2, BSD-2-Clause, approved, #9916
 npm/npmjs/-/eslint-utils/3.0.0, MIT, approved, #2431
 npm/npmjs/-/eslint-visitor-keys/2.1.0, Apache-2.0, approved, #2433
 npm/npmjs/-/eslint-visitor-keys/3.4.3, Apache-2.0, approved, #7729
-npm/npmjs/-/eslint/8.49.0, , approved, #10506
+npm/npmjs/-/eslint/8.52.0, MIT AND ISC AND OFL-1.1 AND CC-BY-NC-SA-2.0-UK, approved, #11188
 npm/npmjs/-/espree/9.6.1, BSD-2-Clause AND BSD-3-Clause AND MIT AND BSD-2-Clause, approved, #9308
 npm/npmjs/-/esquery/1.5.0, BSD-3-Clause, approved, #7469
 npm/npmjs/-/esrecurse/4.3.0, BSD-2-Clause, approved, clearlydefined
@@ -619,10 +619,10 @@ npm/npmjs/@discoveryjs/json-ext/0.5.7, MIT, approved, clearlydefined
 npm/npmjs/@eslint-community/eslint-utils/4.4.0, MIT, approved, #8032
 npm/npmjs/@eslint-community/regexpp/4.8.0, MIT AND BSD-3-Clause, approved, #10362
 npm/npmjs/@eslint/eslintrc/2.1.2, MIT, approved, #9908
-npm/npmjs/@eslint/js/8.49.0, MIT, approved, clearlydefined
-npm/npmjs/@humanwhocodes/config-array/0.11.11, Apache-2.0, approved, #5876
+npm/npmjs/@eslint/js/8.52.0, MIT, approved, clearlydefined
+npm/npmjs/@humanwhocodes/config-array/0.11.13, Apache-2.0, approved, #5876
 npm/npmjs/@humanwhocodes/module-importer/1.0.1, Apache-2.0, approved, clearlydefined
-npm/npmjs/@humanwhocodes/object-schema/1.2.1, BSD-3-Clause, approved, clearlydefined
+npm/npmjs/@humanwhocodes/object-schema/2.0.1, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/@jridgewell/gen-mapping/0.3.3, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/resolve-uri/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/set-array/1.1.2, MIT, approved, clearlydefined
@@ -672,6 +672,7 @@ npm/npmjs/@typescript-eslint/typescript-estree/5.62.0, BSD-2-Clause, approved, c
 npm/npmjs/@typescript-eslint/utils/5.44.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/5.44.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/5.62.0, MIT, approved, clearlydefined
+npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
 npm/npmjs/@webassemblyjs/ast/1.11.6, MIT, approved, #7953
 npm/npmjs/@webassemblyjs/floating-point-hex-parser/1.11.6, MIT, approved, #7959
 npm/npmjs/@webassemblyjs/helper-api-error/1.11.6, MIT, approved, #7969
