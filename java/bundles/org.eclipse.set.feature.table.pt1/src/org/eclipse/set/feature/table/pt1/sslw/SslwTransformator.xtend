@@ -53,7 +53,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(W_Kr_Stellung),
 			flaZwieSchutz,
 			[
-				zwieschutzweiche?.bezeichnung?.bezeichnungTabelle?.wert + (isLeft ? "L" : "R")
+				zwieschutzweiche?.bezeichnung?.bezeichnungTabelle?.wert +
+					(isLeft ? "L" : "R")
 			]
 		)
 
@@ -233,24 +234,19 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			])
 		]
 
-		fillSwitch(
-			instance,
-			cols.getColumn(Weiche_Kreuzung_Bezeichnung_W_Kr),
-			flaZwieSchutz,
-			bezWKrNotEKW_LR.apply(true),
-			bezWKrEKW_NoKr_LR.apply(true),
-			bezWKrEKW_Kr_LR.apply(true),
-			new Case<Fla_Zwieschutz>([
-				// If ID_Fla_Weitergabe_L is set, ID_Fla_Weitergabe_R is not considered 
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWeitergabe?.
-					IDFlaWeitergabeL !== null
-			], [
-				""
-			]),
-			bezWKrNotEKW_LR.apply(false),
-			bezWKrEKW_NoKr_LR.apply(false),
-			bezWKrEKW_Kr_LR.apply(false)
-		)
+		fillSwitchGrouped(instance,
+			cols.getColumn(Weiche_Kreuzung_Bezeichnung_W_Kr), flaZwieSchutz, [
+				filterNull.flatMap[filling?.apply(flaZwieSchutz)].filterNull.
+					toSet
+			], #[
+				bezWKrNotEKW_LR.apply(true),
+				bezWKrEKW_NoKr_LR.apply(true),
+				bezWKrEKW_Kr_LR.apply(true)
+			], #[
+				bezWKrNotEKW_LR.apply(false),
+				bezWKrEKW_NoKr_LR.apply(false),
+				bezWKrEKW_Kr_LR.apply(false)
+			])
 
 		// K: Sslw.Ersatzschutz_Weitergabe.Weiche_Kreuzung.wie_Fahrt_ueber
 		fillSwitch(
