@@ -10,11 +10,7 @@
 package org.eclipse.set.utils.table.tree;
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.nebula.widgets.nattable.command.ILayerCommand;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
@@ -29,7 +25,6 @@ import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
 import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandAllCommand;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.table.BodyLayerStack;
-import org.eclipse.set.utils.table.TableRowData;
 import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
 import org.eclipse.set.utils.table.sorting.TableSortModel;
 import org.eclipse.swt.SWT;
@@ -113,15 +108,7 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 			// change by direct call expland-collapse function
 			layer.expandAll();
 			treeDataProvider.applyFilter(filterIndexToObjectMap);
-
-			final Stream<TableRowData> hiddenRows = treeDataProvider
-					.getHiddenRowsIndex().stream()
-					.map(treeDataProvider::getRowData);
-			final Set<Integer> hiddenParentIndex = hiddenRows
-					.map(treeDataProvider::getParent).filter(Objects::nonNull)
-					.map(treeDataProvider::getCurrentRowIndex)
-					.collect(Collectors.toSet());
-			hiddenParentIndex.forEach(layer::collapseTreeRow);
+			treeLayer.doCommand(new TreeCollapseAllCommand());
 
 		}
 
