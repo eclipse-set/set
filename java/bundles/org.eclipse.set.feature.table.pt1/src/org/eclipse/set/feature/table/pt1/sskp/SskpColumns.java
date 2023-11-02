@@ -133,23 +133,18 @@ public class SskpColumns {
 	public static final String GUE_Bauart = "W";
 
 	/**
-	 * Sskp.Gue.GUE_Bauform
-	 */
-	public static final String GUE_Bauform = "X";
-
-	/**
 	 * Sskp.Gue.Montageort_Schaltkastens
 	 */
-	public static final String Montageort_Schaltkastens = "Y";
+	public static final String Montageort_Schaltkastens = "X";
 
 	/**
 	 * Sskp.Gue.Energieversorgung
 	 */
-	public static final String Energieversorgung = "Z";
+	public static final String Energieversorgung = "Y";
 
 	/**
 	 * Sskp.Bemerkung
 	 */
-	public static final String Bemerkung = "AA";
+	public static final String Bemerkung = "Z";
 
 }
