@@ -88,8 +88,8 @@
 							</resources>
 						</configuration>
 					</execution>
-          <execution>
-  					<id>copy-siteplan</id>
+					<execution>
+						<id>copy-siteplan</id>
 						<phase>prepare-package</phase>
 						<goals>
 							<goal>copy-resources</goal>
@@ -110,7 +110,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-              <outputDirectory>${basedir}/news/web/news</outputDirectory>
+							<outputDirectory>${basedir}/news/web/news</outputDirectory>
 							<resources>
 								<resource>
 									<directory>${basedir}/../../../web/news/public</directory>
@@ -172,7 +172,7 @@
 							<directory>news</directory>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
-          </filesets>
+					</filesets>
 				</configuration>
 			</plugin>
 		</plugins>
