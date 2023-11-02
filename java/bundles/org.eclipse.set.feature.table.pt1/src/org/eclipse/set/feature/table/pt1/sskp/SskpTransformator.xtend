@@ -447,7 +447,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					[PZBElementGUE.pruefzeit?.wert.toTableInteger]
 				)
 
-				// T: Sskpe.Gue.Messfehler
+				// T: Sskp.Gue.Messfehler
 				fill(
 					instance,
 					cols.getColumn(Messfehler),
@@ -455,7 +455,15 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					[PZBElementGUE.messfehler?.wert.translate]
 				)
 
-				// U: Sskpe.Gue.GUE_Anordnung
+				// U: Sskp.Gue.Messstrecke
+				fill(
+					instance,
+					cols.getColumn(Messstrecke),
+					pzb,
+					[PZBElementGUE.GUEMessstrecke?.wert.intValue.toString]
+				)
+
+				// V: Sskp.Gue.GUE_Anordnung
 				fill(
 					instance,
 					cols.getColumn(GUE_Anordnung),
@@ -463,7 +471,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					[PZBElementGUE.GUEAnordnung?.wert.translate]
 				)
 
-				// V: Sskp.Gue.GUE_Bauart
+				// W: Sskp.Gue.GUE_Bauart
 				fill(
 					instance,
 					cols.getColumn(GUE_Bauart),
@@ -471,7 +479,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					[PZBElementGUE.GUEBauart?.wert.translate]
 				)
 
-				// W: Sskp.Gue.GUE_Bauform
+				// X: Sskp.Gue.GUE_Bauform
 				fill(
 					instance,
 					cols.getColumn(GUE_Bauform),
@@ -479,7 +487,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					[""]
 				)
 
-				// X: SSkp.Gue.Montageort_Schaltkastens
+				// Y: SSkp.Gue.Montageort_Schaltkastens
 				fill(
 					instance,
 					cols.getColumn(Montageort_Schaltkastens),
@@ -490,7 +498,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// Y: Sskp.Gue.Energieversorgung
+				// Z: Sskp.Gue.Energieversorgung
 				fill(
 					instance,
 					cols.getColumn(Energieversorgung),

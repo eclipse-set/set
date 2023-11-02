@@ -118,33 +118,38 @@ public class SskpColumns {
 	public static final String Messfehler = "T";
 
 	/**
+	 * Sskp.Gue.Messfehler
+	 */
+	public static final String Messstrecke = "U";
+
+	/**
 	 * Sskp.Gue.GUE_Anordnung
 	 */
-	public static final String GUE_Anordnung = "U";
+	public static final String GUE_Anordnung = "V";
 
 	/**
 	 * Sskp.Gue.GUE_Bauart
 	 */
-	public static final String GUE_Bauart = "V";
+	public static final String GUE_Bauart = "W";
 
 	/**
 	 * Sskp.Gue.GUE_Bauform
 	 */
-	public static final String GUE_Bauform = "W";
+	public static final String GUE_Bauform = "X";
 
 	/**
 	 * Sskp.Gue.Montageort_Schaltkastens
 	 */
-	public static final String Montageort_Schaltkastens = "X";
+	public static final String Montageort_Schaltkastens = "Y";
 
 	/**
 	 * Sskp.Gue.Energieversorgung
 	 */
-	public static final String Energieversorgung = "Y";
+	public static final String Energieversorgung = "Z";
 
 	/**
 	 * Sskp.Bemerkung
 	 */
-	public static final String Bemerkung = "Z";
+	public static final String Bemerkung = "AA";
 
 }
