@@ -479,15 +479,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					[PZBElementGUE.GUEBauart?.wert.translate]
 				)
 
-				// X: Sskp.Gue.GUE_Bauform
-				fill(
-					instance,
-					cols.getColumn(GUE_Bauform),
-					pzb,
-					[""]
-				)
-
-				// Y: SSkp.Gue.Montageort_Schaltkastens
+				// X: SSkp.Gue.Montageort_Schaltkastens
 				fill(
 					instance,
 					cols.getColumn(Montageort_Schaltkastens),
@@ -498,7 +490,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
-				// Z: Sskp.Gue.Energieversorgung
+				// Y: Sskp.Gue.Energieversorgung
 				fill(
 					instance,
 					cols.getColumn(Energieversorgung),
