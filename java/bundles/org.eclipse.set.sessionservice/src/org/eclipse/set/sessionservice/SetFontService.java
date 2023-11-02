@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.sessionservice;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -23,12 +22,6 @@ import org.osgi.service.component.annotations.Component;
 @Component
 @SuppressWarnings("nls")
 public class SetFontService implements FontService {
-	@Override
-	public Path getSiteplanFont() {
-		return Paths
-				.get("data/fonts/Open_Sans_Condensed/OpenSans-CondLight.ttf"); //$NON-NLS-1$
-	}
-
 	@Override
 	public Iterable<FopFont> getFopFonts() {
 		return List.of( //

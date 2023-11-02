@@ -89,6 +89,21 @@
 						</configuration>
 					</execution>
 					<execution>
+						<id>copy-siteplan</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/siteplan/web/siteplan</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../../web/siteplan/dist</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
 						<id>copy-news</id>
 						<phase>prepare-package</phase>
 						<goals>
@@ -99,6 +114,21 @@
 							<resources>
 								<resource>
 									<directory>${basedir}/../../../web/news/public</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-developerhelp</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/developerhelp/web/developerhelp</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../../../web/developerhelp/dist</directory>
 								</resource>
 							</resources>
 						</configuration>
@@ -128,6 +158,14 @@
 						</fileset>
 						<fileset>
 							<directory>pdfviewer</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+						<fileset>
+							<directory>siteplan</directory>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+						<fileset>
+							<directory>developerhelp</directory>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
 						<fileset>

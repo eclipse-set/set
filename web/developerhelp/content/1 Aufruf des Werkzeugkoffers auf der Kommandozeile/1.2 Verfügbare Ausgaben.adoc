@@ -1,0 +1,14 @@
+---
+title: "1.2 Verfügbare Ausgaben"
+anchor: "headless.ausgaben"
+---
+
+[%autowidth,cols=2*,options=header]
+|===
+|Parameter
+|Beschreibung
+
+|-validationReport
+|Erstellt einen Validitätsbericht im Ausgabeordner. Dateiname: `validationreport.xml`
+
+|===

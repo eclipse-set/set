@@ -1,0 +1,11 @@
+---
+title: "2.3.2 Einzelnes Signal"
+anchor: "sicherungstechnischer_lageplan.symbol.einzeln"
+---
+
+Diese Option bietet die Möglichkeit, ein einzelnes Signal zusammenzubauen.
+Zunächst muss das Signalsystem (KS, Hl-SV, HV) ausgewählt werden.
+Anschließen lässt sich das Signal durch auswählen des Signalschirms und der Befestigung bestimmen.
+Zusätzlich lassen sich Zusatzsignale dem Signal beifügen.
+
+image::img/einzeln_modus.png[]

@@ -263,4 +263,9 @@ public class MockDialogService implements DialogService {
 		sync.syncExec(runnable);
 	}
 
+	@Override
+	public boolean sitePlanError(Shell shell, String filename) {
+		throw new UnsupportedOperationException();
+	}
+
 }

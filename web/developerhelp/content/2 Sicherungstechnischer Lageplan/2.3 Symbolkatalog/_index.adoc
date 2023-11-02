@@ -1,0 +1,11 @@
+---
+title: "2.3 Symbolkatalog"
+anchor: "sicherungstechnischer_lageplan.symbol"
+---
+
+Hinweis: +
+Diese Option ist nur mit <<entwicklermodus,_aktiviertem Entwicklermodus_>> verfügbar.
+
+Es gibt drei Möglichkeiten, die Signale zu betrachten.
+
+image::img/symbolkatalog_selectModus.png[]

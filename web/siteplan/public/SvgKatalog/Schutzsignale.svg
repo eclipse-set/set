@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200"
+    stroke="black" stroke-width="2.5">
+    <defs>
+
+        <g class="schutzsignale" id="Sh0_Form" >
+            <circle r="10" cx="10" cy="10" fill="white" />
+            <line x1="0" x2="20" y1="10" y2="10" stroke-width="5" />
+            <!-- ???? -->
+            <toolbox:anchor id="mastAnkerTop" x="10" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="10" y="20"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="22.5" height="22.5" />
+        </g>
+
+        <g class="schutzsignale" id="Sh0_Licht" >
+            <rect width="25" height="25" fill="white" />
+            <line x1="0" x2="25" y1="12.5" y2="12.5" stroke-width="5" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="25"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="27.5" />
+        </g>
+
+        <g class="schutzsignale" id="Sh2" >
+            <rect width="35" height="25" fill="white" />
+            <rect width="25" height="15" x="5" y="5" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="17.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="17.5" y="25"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="37.5" height="27.5" />
+        </g>
+
+        <!-- Selbst gemessen -->
+        <g class="schutzsignale" id="Zugdeckungssignal" >
+            <rect width="25" height="25" fill="white" />
+            <circle r="7.5" cx="12.5" cy="12.5" fill="white"/>
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="25"/>
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="27.5" />
+        </g>
+        
+    </defs>
+
+    <g width="100" height="100" transform="translate(20,20)">
+        <use xlink:href="#Sh0_Form" />
+    </g>
+</svg>

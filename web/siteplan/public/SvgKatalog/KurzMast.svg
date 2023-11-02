@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200"
+    stroke-width="2.5" stroke="black">
+    <defs>
+        <g class="kurzMast" id="Type1">
+            <line x1="0" y1="25" x2="10" y2="25" stroke-linecap="round"/>
+            <line x1="5" y1="0" x2="5" y2="25"/>
+            <toolbox:anchor id="mastAnkerBottom" x="5" y="0" />
+            <toolbox:nullpunkt id="nullpunkt" x="5" y="25" />
+            <toolbox:rectbound x="-1.25" y="0" width="12.5" height="26.25" />
+        </g>
+        <g class="kurzMast" id="Type2">
+            <line x1="0" y1="25" x2="15" y2="25" stroke-linecap="round" />
+            <line x1="5" y1="25" x2="5" y2="0" />
+            <line x1="10" y1="25" x2="10" y2="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="7.5" y="0" />
+            <toolbox:nullpunkt id="nullpunkt" x="7.5" y="25" />
+            <rect x="-1.25" y="0" fill="transparent" stroke="black" stroke-width="0.1" width="17.5" height="26.25" />
+            <toolbox:rectbound x="-1.25" y="0" width="17.5" height="26.25" />
+        </g>
+        <g class="kurzMast" id="Type3">
+            <line x1="0" y1="25" x2="5" y2="25" stroke-linecap="round" />
+            <line x1="5" y1="0" x2="5" y2="25" />
+            <toolbox:anchor id="mastAnkerBottom" x="5" y="0" />
+            <toolbox:nullpunkt id="nullpunkt" x="5" y="25" />
+            <toolbox:rectbound x="-1.25" y="0" width="7.5" height="26.25" />
+        </g>
+        <g class="kurzMast" id="Type4">
+            <line x1="5" y1="0" x2="5" y2="25" />
+            <line x1="0" y1="25" x2="10" y2="25" stroke-linecap="round" />
+            <line x1="0" y1="20" x2="10" y2="20" stroke-linecap="round" />
+            <toolbox:anchor id="mastAnkerBottom" x="5" y="0" />
+            <toolbox:nullpunkt id="nullpunkt" x="5" y="25" />
+            <toolbox:rectbound x="-1.25" y="0" width="12.5" height="26.25" />
+        </g>
+        <g class="kurzMast" id="Type5">
+            <line x1="0" y1="25" x2="5" y2="25" stroke-linecap="round" />
+            <line x1="5" y1="25" x2="30" y2="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="30" y="0" />
+            <toolbox:nullpunkt id="nullpunkt" x="5" y="25" />
+            <toolbox:rectbound x="-1.25" y="-1" width="32.25" height="27.25" />
+        </g>
+        
+    </defs>
+    <g width="100" height="100" transform="translate(20,20)">
+        <use xlink:href="#Type5" />
+    </g>
+</svg>

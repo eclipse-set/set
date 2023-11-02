@@ -153,4 +153,113 @@ public class ToolboxConfiguration {
 		return ManagementFactory.getRuntimeMXBean().getInputArguments()
 				.toString().indexOf("jdwp") > -1; //$NON-NLS-1$
 	}
+
+	private static final String MAP_SOURCES_DEFAULT = "BKG_TOPPLUS|BKG_SENT"; //$NON-NLS-1$
+	private static final String HERE_API_KEY_DEFAULT = ""; //$NON-NLS-1$
+	private static final String MAPBOX_API_KEY_DEFAULT = ""; //$NON-NLS-1$
+	private static final String DOP20_API_KEY_DEFAULT = ""; //$NON-NLS-1$
+	private static final String DOP20_INTERN_URL_DEFAULT = "https://sg.geodatenzentrum.de/wms_dop"; //$NON-NLS-1$
+	private static final String LOD_SCALE_DEFAULT = "10000"; //$NON-NLS-1$
+	private static final String EXPORT_DPI_DEFAULT = "600"; //$NON-NLS-1$
+	private static final String TRACK_WIDTH = "3|1.5|0.75|1"; //$NON-NLS-1$
+	private static final String TRACK_WIDTH_INTERVALL = "1,10|0.5,8|0.25,3|0.5,3"; //$NON-NLS-1$
+	private static final String BASE_ZOOM_LEVEL = "20"; //$NON-NLS-1$
+	private static final String DEFAULT_COLLISIONS_ENABLED = "true"; //$NON-NLS-1$
+	private static final String DEFAULT_SHEETCUT_CRS = "DR0"; //$NON-NLS-1$
+
+	/**
+	 * @return a string describing the map sources
+	 */
+	public static String getMapSources() {
+		return System.getProperty(ToolboxProperties.MAP_SOURCES,
+				MAP_SOURCES_DEFAULT);
+	}
+
+	/**
+	 * @return the HERE API key
+	 */
+	public static String getHereApiKey() {
+		return System.getProperty(ToolboxProperties.HERE_API_KEY,
+				HERE_API_KEY_DEFAULT);
+	}
+
+	/**
+	 * @return the HERE API key
+	 */
+	public static String getMapboxApiKey() {
+		return System.getProperty(ToolboxProperties.MAPBOX_API_KEY,
+				MAPBOX_API_KEY_DEFAULT);
+	}
+
+	/**
+	 * @return the DOP 20 API key
+	 */
+	public static String getDop20ApiKey() {
+		return System.getProperty(ToolboxProperties.DOP20_API_KEY,
+				DOP20_API_KEY_DEFAULT);
+	}
+
+	/**
+	 * @return the DOP 20 intern URL
+	 */
+	public static String getDop20InternUrl() {
+		return System.getProperty(ToolboxProperties.DOP20_INTERN_URL,
+				DOP20_INTERN_URL_DEFAULT);
+	}
+
+	/**
+	 * @return the LOD scale
+	 */
+	public static int getLodScale() {
+		return Integer.parseInt(System.getProperty(ToolboxProperties.LOD_SCALE,
+				LOD_SCALE_DEFAULT));
+	}
+
+	/**
+	 * @return the PDF export DPI
+	 */
+	public static int getExportDPI() {
+		return Integer.parseInt(System.getProperty(ToolboxProperties.EXPORT_DPI,
+				EXPORT_DPI_DEFAULT));
+	}
+
+	/**
+	 * @return the default track width
+	 */
+	public static String getTrackWidth() {
+		return System.getProperty(ToolboxProperties.TRACK_WIDTH, TRACK_WIDTH);
+	}
+
+	/**
+	 * @return the track width intervall
+	 */
+	public static String getTrackWidthIntervall() {
+		return System.getProperty(ToolboxProperties.TRACK_WIDTH_INTERVALL,
+				TRACK_WIDTH_INTERVALL);
+	}
+
+	/**
+	 * @return the base zoom level
+	 */
+	public static int getBaseZoomLevel() {
+		return Integer.parseInt(System.getProperty(
+				ToolboxProperties.BASE_ZOOM_LEVEL, BASE_ZOOM_LEVEL));
+	}
+
+	/**
+	 * @return whether collisions should be enabled by default
+	 */
+	public static boolean getDefaultCollisionsEnabled() {
+		return System.getProperty(ToolboxProperties.DEFAULT_COLLISIONS_ENABLED,
+				DEFAULT_COLLISIONS_ENABLED).equals("true"); //$NON-NLS-1$
+	}
+
+	/**
+	 * @return default sheetcut coordinate reference system
+	 */
+	public static String getDefaultSheetCutCRS() {
+		return System.getProperty(ToolboxProperties.DEFAULT_SHEETCUT_CRS,
+				DEFAULT_SHEETCUT_CRS);
+	}
+
 }

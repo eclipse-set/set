@@ -1,0 +1,14 @@
+---
+title: "3. Entwicklermodus aktivieren"
+anchor: "entwicklermodus"
+---
+
+Der PlanPro Werkzeugkoffer bietet einige Funktionalität nur im Entwicklermodus an. Um diesen zu aktivieren ist wie folgt vorzugehen:
+
+Bearbeiten der Datei: +
+`<Pfad zum Werkzeugkoffer-Verzeichnis>\configuration\config.ini`
+
+Ändern der Zeile +
+`toolbox.development.mode=*false*` +
+nach +
+`toolbox.development.mode=*true*` +

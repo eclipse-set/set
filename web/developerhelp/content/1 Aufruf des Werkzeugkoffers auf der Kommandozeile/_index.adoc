@@ -1,0 +1,9 @@
+---
+title: "1. Kommandozeilenaufruf"
+anchor: "headless"
+---
+
+Der PlanPro Werkzeugkoffer kann durch die Angabe der Kommandozeilenparameter `+-headless -nosplash+` in einen Headless Modus versetzt werden. Hierbei wird die Benutzeroberfläche nicht dargestellt und der Benutzer kann nicht mit dem Werkzeugkoffer interagieren. Stattdessen können durch verschiedene Kommandozeilenparameter maschinenlesbare Ausgaben erzeugt werden, welche die Informationen des Werkzeugkoffers enthalten.
+
+Achtung: +
+Das Format der maschinenlesbaren Ausgabedateien ist derzeit noch nicht festgelegt, sodass sich Format und Inhalte in zukünftigen Versionen ggf. ändern werden.
