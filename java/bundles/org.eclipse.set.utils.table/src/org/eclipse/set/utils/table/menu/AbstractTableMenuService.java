@@ -124,7 +124,7 @@ public abstract class AbstractTableMenuService implements TableMenuService {
 								.getRowPosition();
 						if (dataProvider instanceof final TableDataProvider tableDataProvider) {
 							final int originalRow = tableDataProvider
-									.getOriginalRow(rowPosition);
+									.getOriginalRowPosition(rowPosition);
 							final String objectState = tableDataProvider
 									.getObjectState(rowPosition);
 							final ObjectState state = ObjectState
