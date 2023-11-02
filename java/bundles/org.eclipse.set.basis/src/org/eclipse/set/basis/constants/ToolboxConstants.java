@@ -231,6 +231,11 @@ public final class ToolboxConstants {
 	public static final String CHROMIUM_CREDITS_PART_ID = "org.eclipse.set.application.about.ChromiumCreditsPart";
 
 	/**
+	 * The key for decide with view model should be renderer
+	 */
+	public static final String PLANING_GROUP_VIEW_DETAIL_KEY = "detail";
+
+	/**
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";

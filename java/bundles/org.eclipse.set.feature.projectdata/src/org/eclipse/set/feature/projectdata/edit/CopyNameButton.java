@@ -88,10 +88,10 @@ public class CopyNameButton implements ButtonAction {
 				.getEType().getInstanceClass();
 		final NameAkteurTransformation transformation = new NameAkteurTransformation();
 		final Object transformed = transformation.transform(nameAkteur, type);
-		if (transformed instanceof Name_Akteur_5_TypeClass) {
-			text.setText(((Name_Akteur_5_TypeClass) transformed).getWert());
-		} else if (transformed instanceof Name_Akteur_10_TypeClass) {
-			text.setText(((Name_Akteur_10_TypeClass) transformed).getWert());
+		if (transformed instanceof final Name_Akteur_5_TypeClass nameAkteur5) {
+			text.setText(nameAkteur5.getWert());
+		} else if (transformed instanceof final Name_Akteur_10_TypeClass nameAkteur10) {
+			text.setText(nameAkteur10.getWert());
 		}
 	}
 }

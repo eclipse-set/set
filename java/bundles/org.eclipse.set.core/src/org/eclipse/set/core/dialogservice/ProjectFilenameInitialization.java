@@ -25,6 +25,7 @@ import org.eclipse.emf.ecp.view.spi.validation.ViewValidationListener;
 import org.eclipse.emfforms.swt.core.EMFFormsSWTConstants;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.set.basis.ProjectInitializationData;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.Messages;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.toolboxmodel.PlanPro.Index_Ausgabe_TypeClass;
@@ -153,6 +154,9 @@ final class ProjectFilenameInitialization
 		properties.addInheritableProperty(
 				EMFFormsSWTConstants.USE_ON_MODIFY_DATABINDING_KEY,
 				EMFFormsSWTConstants.USE_ON_MODIFY_DATABINDING_VALUE);
+		properties.addNonInheritableProperty(
+				ToolboxConstants.PLANING_GROUP_VIEW_DETAIL_KEY,
+				Boolean.valueOf(false));
 		final VElement vElement = ViewProviderHelper.getView(formModel,
 				properties);
 		final ViewModelContext viewModelContext = ViewModelContextFactory.INSTANCE

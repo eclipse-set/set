@@ -103,8 +103,7 @@ public class DateAutofill extends DefaultAutofill {
 
 		final FillPathSetting targetDatumAbschlussGruppe = new FillPathSetting(
 				PlanProFactory.eINSTANCE, planning,
-				PlanProPackage.eINSTANCE
-						.getPlanung_Projekt_LstPlanungErsteGruppe(),
+				PlanProPackage.eINSTANCE.getPlanung_Projekt_LSTPlanungGruppe(),
 				PlanProPackage.eINSTANCE.getPlanung_Gruppe_PlanungGAllg(),
 				PlanProPackage.eINSTANCE
 						.getPlanung_G_Allg_AttributeGroup_DatumAbschlussGruppe(),
@@ -115,8 +114,7 @@ public class DateAutofill extends DefaultAutofill {
 
 		final FillPathSetting targetDatumAbschlussEinzel = new FillPathSetting(
 				PlanProFactory.eINSTANCE, planning,
-				PlanProPackage.eINSTANCE
-						.getPlanung_Projekt_LstPlanungErsteGruppe(),
+				PlanProPackage.eINSTANCE.getPlanung_Projekt_LSTPlanungGruppe(),
 				PlanProPackage.eINSTANCE.getPlanung_Gruppe_LSTPlanungEinzel(),
 				PlanProPackage.eINSTANCE.getPlanung_Einzel_PlanungEAllg(),
 				PlanProPackage.eINSTANCE
