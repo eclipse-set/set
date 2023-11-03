@@ -17,12 +17,14 @@
         :key="featureSelectionKey"
         :features="selectedFeatures"
         :mouse-button="mouseDownButton"
+        @remove-popup="resetSelection"
       />
     </div>
   </teleport>
 </template>
 <script lang="ts">
 import MenuPopup from '@/components/popup/MenuPopup.vue'
+import { FeatureType } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
 import NamedFeatureLayer from '@/util/NamedFeatureLayer'
 import { Collection, Feature, MapBrowserEvent } from 'ol'
@@ -53,6 +55,21 @@ export default class FeatureInfoPopup extends Vue {
   infoPopup!: Overlay
   selectedFeatures: Collection<Feature<Geometry>> = new Collection()
   featureSelectionKey = 0
+  readonly existPopupFeature = [
+    FeatureType.Signal,
+    FeatureType.PZB,
+    FeatureType.PZBGU,
+    FeatureType.TrackDesignationMarker,
+    FeatureType.TrackSectionMarker,
+    FeatureType.Track,
+    FeatureType.TrackOutline,
+    FeatureType.TrackSwitchEndMarker,
+    FeatureType.TrackSwitch,
+    FeatureType.Error,
+    FeatureType.TrackLock,
+    FeatureType.LockKey,
+    FeatureType.ExternalElementControl
+  ]
 
   mounted (): void {
     // Allow feature selection

@@ -18,6 +18,7 @@ import { SignalMount } from '@/model/SignalMount'
 import { Feature as GeoJSONFeature, FeatureCollection, GeometryCollection as GeoJSONGeometryCollection } from 'geojson'
 import LineString from 'ol/geom/LineString'
 import { SheetCutFeatureData } from '@/feature/LayoutInfoFeature'
+import TrackClose from '@/model/TrackClose'
 
 export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
   const name = getFeatureType(feature)
@@ -59,6 +60,9 @@ export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
     case FeatureType.SheetCut:
       const sheetCut = getFeatureData(feature) as SheetCutFeatureData
       return sheetCut ? [sheetCut.guid] : []
+    case FeatureType.TrackClose:
+      const trackClose = getFeatureData(feature) as TrackClose
+      return trackClose ? [trackClose.guid] : []
     default:
       return []
   }

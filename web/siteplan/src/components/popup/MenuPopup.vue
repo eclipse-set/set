@@ -62,6 +62,7 @@ import { Collection, Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
 import { Options, Vue } from 'vue-class-component'
 import { compare } from '@/util/ObjectExtension'
+import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 
 /**
  * Menu for select object
@@ -88,7 +89,7 @@ import { compare } from '@/util/ObjectExtension'
   computed: {
     selectedPopup () {
       if (this.selectedFeature == null) {
-        return EmptyPopup
+        return this.$emit('removePopup')
       }
 
       if (this.mouseButton === LeftRight.LEFT) {
@@ -98,8 +99,12 @@ import { compare } from '@/util/ObjectExtension'
           case FeatureType.PZB:
           case FeatureType.PZBGU:
             return PZBPopup
+          case FeatureType.TrackDesignationMarker:
+          case FeatureType.TrackSectionMarker:
           case FeatureType.Track:
+          case FeatureType.TrackOutline:
             return TrackSectionPopup
+          case FeatureType.TrackSwitchEndMarker:
           case FeatureType.TrackSwitch:
             return TrackSwitchPopup
           case FeatureType.Error:
@@ -111,19 +116,38 @@ import { compare } from '@/util/ObjectExtension'
           case FeatureType.ExternalElementControl:
             return EECPopup
           default:
-            return null
+            return this.$emit('removePopup')
         }
       } else if (this.mouseButton === LeftRight.RIGHT) {
         return JumpMenuPopup
       }
+
+      return this.$emit('removePopup')
     }
-  }
+  },
+  emits: ['removePopup']
 })
+
 export default class MenuPopup extends Vue {
   features!: Collection<Feature<Geometry>>
   selectedPopup!: Vue
   mouseButton!: string
-  selectedFeature: Feature<Geometry> | null = null
+  selectedFeature: Feature<Geometry>|null = null
+  readonly existPopupFeature = [
+    FeatureType.Signal,
+    FeatureType.PZB,
+    FeatureType.PZBGU,
+    FeatureType.TrackDesignationMarker,
+    FeatureType.TrackSectionMarker,
+    FeatureType.Track,
+    FeatureType.TrackOutline,
+    FeatureType.TrackSwitchEndMarker,
+    FeatureType.TrackSwitch,
+    FeatureType.Error,
+    FeatureType.TrackLock,
+    FeatureType.LockKey,
+    FeatureType.ExternalElementControl
+  ]
 
   getFeatureName (feature: Feature<Geometry>): string {
     return getFeatureName(getFeatureType(feature))
@@ -170,7 +194,13 @@ export default class MenuPopup extends Vue {
   }
 
   selectedItem (feature: Feature<Geometry>) {
-    this.selectedFeature = feature
+    const existInfoPop = this.mouseButton === LeftRight.LEFT &&
+      this.existPopupFeature.includes(getFeatureType(feature))
+    const existGUID = this.mouseButton === LeftRight.RIGHT &&
+      getFeatureGUIDs(feature).length > 0
+    if (existInfoPop || existGUID) {
+      this.selectedFeature = feature
+    }
   }
 }
 </script>
