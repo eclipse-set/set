@@ -126,6 +126,8 @@ public interface ToolboxPartService {
 
 	/**
 	 * Returns the registerred toolbox view groups
+	 * 
+	 * @return the registerred toolbox view groups
 	 */
 	public Collection<ToolboxViewGroup> getViewGroups();
 }

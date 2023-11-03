@@ -349,7 +349,7 @@ public class DocumentActionsPart implements ActionProvider {
 				.filter(toolboxPartService::isOpen).findAny().isPresent();
 	}
 
-	private boolean showDevelopmentItems() {
+	private static boolean showDevelopmentItems() {
 		return ToolboxConfiguration.isDevelopmentMode();
 	}
 
