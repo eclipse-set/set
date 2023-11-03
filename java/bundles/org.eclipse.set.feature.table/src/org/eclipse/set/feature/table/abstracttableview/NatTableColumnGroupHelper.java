@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.table.abstracttableview;
 
-import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
@@ -26,9 +25,36 @@ import org.slf4j.LoggerFactory;
  *
  */
 public final class NatTableColumnGroupHelper {
+	private static final String ZERO_WIDTH_SPACE = "\u200B"; //$NON-NLS-1$
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(NatTableColumnGroupHelper.class);
+
+	/**
+	 * Helper interface to wrap the method reference ::addColumnsIndexesToGroup
+	 * across multiple classes
+	 *
+	 */
+	@FunctionalInterface
+	private interface HeaderLayer {
+		void addColumnsIndexesToGroup(String colGroupName, int... colIndexes);
+	}
+
+	private static void addGroupsToHeader(final Set<ColumnDescriptor> groups,
+			final HeaderLayer columnHeaderLayer) {
+		for (final ColumnDescriptor group : groups) {
+			final int[] indices = ColumnDescriptorExtensions
+					.getColumnIndices(group);
+
+			final int uniqueIndex = indices.length > 0 ? indices[0] : 0;
+			final String groupLabel = group.getLabel()
+					+ ZERO_WIDTH_SPACE.repeat(uniqueIndex);
+			logger.info("Create group {} with indices {}", //$NON-NLS-1$ log
+															// message
+					groupLabel, indices);
+			columnHeaderLayer.addColumnsIndexesToGroup(groupLabel, indices);
+		}
+	}
 
 	/**
 	 * adds column numbers
@@ -58,18 +84,8 @@ public final class NatTableColumnGroupHelper {
 	 */
 	public static void addGroup4(final ColumnDescriptor header,
 			final ColumnGroup4HeaderLayer columnGroup4HeaderLayer) {
-		final Collection<ColumnDescriptor> groups4 = ColumnDescriptorExtensions
-				.getGroup4(header);
-		for (final ColumnDescriptor group4 : groups4) {
-			final int[] indices = ColumnDescriptorExtensions
-					.getColumnIndices(group4);
-			final String group4Label = group4.getLabel();
-			logger.info("Create group 4 {} with indices {}", //$NON-NLS-1$ log
-					// message
-					group4Label, indices);
-			columnGroup4HeaderLayer.addColumnsIndexesToGroup(group4Label,
-					indices);
-		}
+		addGroupsToHeader(ColumnDescriptorExtensions.getGroup4(header),
+				columnGroup4HeaderLayer::addColumnsIndexesToGroup);
 	}
 
 	/**
@@ -82,18 +98,9 @@ public final class NatTableColumnGroupHelper {
 	 */
 	public static void addGroupGroupGroups(final ColumnDescriptor header,
 			final ColumnGroupGroupGroupHeaderLayer columnGroupGroupGroupHeaderLayer) {
-		final Collection<ColumnDescriptor> groupGroupGroups = ColumnDescriptorExtensions
-				.getGroupGroupGroups(header);
-		for (final ColumnDescriptor groupGroupGroup : groupGroupGroups) {
-			final int[] indices = ColumnDescriptorExtensions
-					.getColumnIndices(groupGroupGroup);
-			final String groupGroupGroupLabel = groupGroupGroup.getLabel();
-			logger.info("Create group group group {} with indices {}", //$NON-NLS-1$ log
-					// message
-					groupGroupGroupLabel, indices);
-			columnGroupGroupGroupHeaderLayer
-					.addColumnsIndexesToGroup(groupGroupGroupLabel, indices);
-		}
+		addGroupsToHeader(
+				ColumnDescriptorExtensions.getGroupGroupGroups(header),
+				columnGroupGroupGroupHeaderLayer::addColumnsIndexesToGroup);
 	}
 
 	/**
@@ -106,18 +113,8 @@ public final class NatTableColumnGroupHelper {
 	 */
 	public static void addGroupGroups(final ColumnDescriptor header,
 			final ColumnGroupGroupHeaderLayer columnGroupGroupHeaderLayer) {
-		final Collection<ColumnDescriptor> groupGroups = ColumnDescriptorExtensions
-				.getGroupGroups(header);
-		for (final ColumnDescriptor groupGroup : groupGroups) {
-			final int[] indices = ColumnDescriptorExtensions
-					.getColumnIndices(groupGroup);
-			final String groupGroupLabel = groupGroup.getLabel();
-			logger.info("Create group group {} with indices {}", //$NON-NLS-1$ log
-					// message
-					groupGroupLabel, indices);
-			columnGroupGroupHeaderLayer
-					.addColumnsIndexesToGroup(groupGroupLabel, indices);
-		}
+		addGroupsToHeader(ColumnDescriptorExtensions.getGroupGroups(header),
+				columnGroupGroupHeaderLayer::addColumnsIndexesToGroup);
 	}
 
 	/**
@@ -130,18 +127,8 @@ public final class NatTableColumnGroupHelper {
 	 */
 	public static void addGroups(final ColumnDescriptor header,
 			final ColumnGroupHeaderLayer columnGroupHeaderLayer) {
-		final Set<ColumnDescriptor> groups = ColumnDescriptorExtensions
-				.getGroups(header);
-		for (final ColumnDescriptor group : groups) {
-			final int[] indices = ColumnDescriptorExtensions
-					.getColumnIndices(group);
-			final String groupLabel = group.getLabel();
-			logger.info("Create group {} with indices {}", //$NON-NLS-1$ log
-															// message
-					groupLabel, indices);
-			columnGroupHeaderLayer.addColumnsIndexesToGroup(groupLabel,
-					indices);
-		}
+		addGroupsToHeader(ColumnDescriptorExtensions.getGroups(header),
+				columnGroupHeaderLayer::addColumnsIndexesToGroup);
 	}
 
 	private NatTableColumnGroupHelper() {
