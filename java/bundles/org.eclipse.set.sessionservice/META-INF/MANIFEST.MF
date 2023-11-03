@@ -55,5 +55,4 @@ Require-Bundle: org.eclipse.nebula.widgets.nattable.core
 Service-Component: OSGI-INF/org.eclipse.set.sessionservice.SetBrandingServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.sessionservice.SetFontService.xml,
  OSGI-INF/org.eclipse.set.sessionservice.SetFontServiceContextFunction.xml,
- OSGI-INF/org.eclipse.set.sessionservice.SetSessionService.xml,
- OSGI-INF/org.eclipse.set.sessionservice.SetTableMenuServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.sessionservice.SetTableMenuServiceContextFunction.xml

@@ -14,71 +14,70 @@ import org.eclipse.jface.resource.ImageDescriptor;
 /**
  * Describes a view group of the toolbox action area.
  * 
- * @author Schaefer
+ * @param text
+ *            the text for the view group
+ * @param imageDescriptor
+ *            the image descriptor for the view group
+ * @param isInitiallyExpanded
+ *            whether the view group shall be initially expanded
+ * @param isDevelopment
+ *            whether the view group is a development group
+ * @param isInvisible
+ *            whether the view group is invisible
+ * @param orderPriority
+ *            priority for ordering the view groups. Higher priority causes the
+ *            group to be shown earlier
  */
-public class ToolboxViewGroup {
-
-	private final ImageDescriptor imageDescriptor;
-	private final boolean isDevelopment;
-	private final boolean isInitiallyExpanded;
-	private final boolean isInvisible;
-	private final String text;
+public record ToolboxViewGroup(String text, ImageDescriptor imageDescriptor,
+		boolean isInitiallyExpanded, boolean isDevelopment, boolean isInvisible,
+		int orderPriority) {
 
 	/**
-	 * @param text
-	 *            the text for the view group
-	 * @param imageDescriptor
-	 *            the image descriptor for the view group
-	 * @param isInitiallyExpanded
-	 *            whether the view group shall be initially expanded
-	 * @param isDevelopment
-	 *            whether the view group is a development group
-	 * @param isInvisible
-	 *            whether the view group is invisible
+	 * Builder for ToolboxViewGroup
 	 */
-	public ToolboxViewGroup(final String text,
-			final ImageDescriptor imageDescriptor,
-			final boolean isInitiallyExpanded, final boolean isDevelopment,
-			final boolean isInvisible) {
-		this.text = text;
-		this.imageDescriptor = imageDescriptor;
-		this.isInitiallyExpanded = isInitiallyExpanded;
-		this.isDevelopment = isDevelopment;
-		this.isInvisible = isInvisible;
-	}
+	@SuppressWarnings("javadoc")
+	public static class Builder {
+		private String text;
+		private ImageDescriptor imageDescriptor;
+		private boolean isInitiallyExpanded = false;
+		private boolean isDevelopment = false;
+		private boolean isInvisible = false;
+		private int orderPriority = 0;
 
-	/**
-	 * @return the image descriptor for the view group
-	 */
-	public ImageDescriptor getImageDescriptor() {
-		return imageDescriptor;
-	}
+		public Builder withText(final String groupText) {
+			this.text = groupText;
+			return this;
+		}
 
-	/**
-	 * @return the text for the view group
-	 */
-	public String getText() {
-		return text;
-	}
+		public Builder withIcon(final ImageDescriptor groupImageDescriptor) {
+			this.imageDescriptor = groupImageDescriptor;
+			return this;
+		}
 
-	/**
-	 * @return whether the view group is a development group
-	 */
-	public boolean isDevelopment() {
-		return isDevelopment;
-	}
+		public Builder setInitiallyExpanded(final boolean initiallyExpanded) {
+			this.isInitiallyExpanded = initiallyExpanded;
+			return this;
+		}
 
-	/**
-	 * @return whether the view group shall be initially expanded
-	 */
-	public boolean isInitiallyExpanded() {
-		return isInitiallyExpanded;
-	}
+		public Builder setDevelopment(final boolean development) {
+			this.isDevelopment = development;
+			return this;
+		}
 
-	/**
-	 * @return whether the view group is invisible
-	 */
-	public boolean isInvisible() {
-		return isInvisible;
+		public Builder setInvisible(final boolean invisible) {
+			this.isInvisible = invisible;
+			return this;
+		}
+
+		public Builder withOrderPriority(final int priority) {
+			this.orderPriority = priority;
+			return this;
+		}
+
+		public ToolboxViewGroup build() {
+			return new ToolboxViewGroup(text, imageDescriptor,
+					isInitiallyExpanded, isDevelopment, isInvisible,
+					orderPriority);
+		}
 	}
 }

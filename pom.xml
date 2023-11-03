@@ -90,7 +90,6 @@
 		<module>java/bundles/org.eclipse.set.ppmodel.extensions</module>
 		<module>java/bundles/org.eclipse.set.ppmodel.extensions.container</module>
 		<module>java/bundles/org.eclipse.set.services</module>
-		<module>java/bundles/org.eclipse.set.sessionservice.test</module>
 		<module>java/bundles/org.eclipse.set.sessionservice</module>
 		<module>java/bundles/org.eclipse.set.unittest.utils</module>
 		<module>java/bundles/org.eclipse.set.utils</module>

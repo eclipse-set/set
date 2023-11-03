@@ -9,6 +9,7 @@
 package org.eclipse.set.core.services.part;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -122,4 +123,11 @@ public interface ToolboxPartService {
 	 *            the path to the pdf file
 	 */
 	public void showPdfPart(Path path);
+
+	/**
+	 * Returns the registerred toolbox view groups
+	 * 
+	 * @return the registerred toolbox view groups
+	 */
+	public Collection<ToolboxViewGroup> getViewGroups();
 }

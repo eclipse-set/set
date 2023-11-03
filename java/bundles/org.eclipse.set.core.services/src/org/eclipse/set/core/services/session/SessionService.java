@@ -10,9 +10,7 @@
 package org.eclipse.set.core.services.session;
 
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.e4.ui.model.application.MApplication;
@@ -22,7 +20,6 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.InitializationData;
 import org.eclipse.set.basis.files.ToolboxFile.Format;
 import org.eclipse.set.basis.files.ToolboxFileExtension;
-import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 
 /**
  * Provide session specific information.
@@ -49,27 +46,12 @@ public interface SessionService {
 	EditingDomain createEditingDomain();
 
 	/**
-	 * @return the list of view groups
-	 */
-	List<ToolboxViewGroup> getViewGroups();
-
-	/**
 	 * @param format
 	 *            the format
 	 * 
 	 * @return the default extension
 	 */
 	String getDefaultExtension(Format format);
-
-	/**
-	 * Provide (an optional) default part ID for a new session.
-	 * 
-	 * @param modelSession
-	 *            the model session
-	 * 
-	 * @return the default part ID
-	 */
-	Optional<String> getDefaultPartID(IModelSession modelSession);
 
 	/**
 	 * @param path
