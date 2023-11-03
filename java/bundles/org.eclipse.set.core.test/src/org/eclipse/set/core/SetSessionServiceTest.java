@@ -7,10 +7,11 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.sessionservice;
+package org.eclipse.set.core;
 
 import java.nio.file.Path;
 
+import org.eclipse.set.feature.validation.session.SetSessionService;
 import org.eclipse.set.unittest.utils.session.AbstractSessionServiceTest;
 import org.junit.jupiter.api.Test;
 

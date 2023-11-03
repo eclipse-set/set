@@ -25,6 +25,7 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.InitializationData;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
@@ -40,20 +41,21 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.NilValidator;
 import org.eclipse.set.feature.validation.session.ModelSession.ServiceProvider;
-import org.eclipse.set.utils.viewgroups.SetViewGroups;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.swt.widgets.Shell;
+import org.osgi.service.component.annotations.Component;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Basic service functionality.
  * 
  * @author Schaefer
  */
-public abstract class AbstractSessionService implements SessionService {
+
+@Component(service = SessionService.class)
+public class SetSessionService implements SessionService {
 
 	protected static final Map<String, Set<ToolboxFileExtension>> PLAIN_SUPPORT_MAP;
 
@@ -212,11 +214,6 @@ public abstract class AbstractSessionService implements SessionService {
 	}
 
 	@Override
-	public List<ToolboxViewGroup> getViewGroups() {
-		return actionItems;
-	}
-
-	@Override
 	public Format getZippedPlanProFormat() {
 		return SetFormat.createZippedPlanPro();
 	}
@@ -231,17 +228,6 @@ public abstract class AbstractSessionService implements SessionService {
 		serviceProvider = ContextInjectionFactory.make(ServiceProvider.class,
 				application.getContext());
 	}
-
-	protected void createSetViewGroups() {
-		getViewGroups().add(SetViewGroups.getInformation());
-		getViewGroups().add(SetViewGroups.getSiteplan());
-		getViewGroups().add(SetViewGroups.getTable());
-		getViewGroups().add(SetViewGroups.getExport());
-		getViewGroups().add(SetViewGroups.getEdit());
-		getViewGroups().add(SetViewGroups.getDevelopment());
-	}
-
-	protected abstract void createViewGroups();
 
 	protected MApplication getApplication() {
 		return serviceProvider.application;
@@ -267,8 +253,9 @@ public abstract class AbstractSessionService implements SessionService {
 		return serviceProvider.toolboxPartService;
 	}
 
-	protected ModelSession initSetSession(
-			final ProjectInitializationData projectInitializationData) {
+	@Override
+	public ModelSession initModelSession(
+			final InitializationData projectInitializationData) {
 		// IMPROVE: Is there a better place to set this up?
 		NilValidator.setup(getMessages());
 		final ToolboxFile toolboxFile = getFileService()
@@ -276,17 +263,18 @@ public abstract class AbstractSessionService implements SessionService {
 		final ModelSession modelSession = new ModelSession(toolboxFile, this,
 				getMainWindow(), serviceProvider);
 		modelSession.setNewProject(true);
-		modelSession.setNewProjectData(projectInitializationData);
-		createViewGroups();
+		modelSession.setNewProjectData(
+				(ProjectInitializationData) projectInitializationData);
 		return modelSession;
 	}
 
-	protected ModelSession loadSetSession(final Path path) {
+	@Override
+	public ModelSession loadModelSession(final Path path) {
 		final ModelSession modelSession = new ModelSession(
 				getFileService().load(path, ToolboxFileRole.SESSION), this,
 				getMainWindow(), serviceProvider);
 		modelSession.setNewProject(false);
-		createViewGroups();
 		return modelSession;
 	}
+
 }

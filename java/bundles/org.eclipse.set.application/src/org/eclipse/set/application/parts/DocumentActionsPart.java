@@ -45,7 +45,6 @@ import org.eclipse.set.core.services.branding.BrandingService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.utils.ToolboxConfiguration;
-import org.eclipse.set.utils.ToolboxPartServiceExtensions;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.NewActiveViewEvent;
@@ -281,7 +280,7 @@ public class DocumentActionsPart implements ActionProvider {
 
 	private void createExpandItem(final ToolboxViewGroup group) {
 		if (Arrays.stream(bar.getItems())
-				.anyMatch(item -> item.getText().equals(group.getText()))) {
+				.anyMatch(item -> item.getText().equals(group.text()))) {
 			// we do not add groups with the same name as an existing group
 			return;
 		}
@@ -298,11 +297,11 @@ public class DocumentActionsPart implements ActionProvider {
 		}
 
 		final ExpandItem expandItem = new ExpandItem(bar, SWT.NONE, index);
-		expandItem.setText(group.getText());
+		expandItem.setText(group.text());
 		expandItem.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		expandItem.setControl(composite);
 		final Image image = localResourceManager
-				.createImage(group.getImageDescriptor());
+				.createImage(group.imageDescriptor());
 		expandItem.setImage(image);
 		expandItem.setControl(composite);
 		expandItem.setExpanded(group.isInitiallyExpanded());
@@ -339,7 +338,7 @@ public class DocumentActionsPart implements ActionProvider {
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(PartDescriptionExtensions.debugHtml(view,
-						group.getText()));
+						group.text()));
 			}
 		}
 	}
@@ -351,8 +350,7 @@ public class DocumentActionsPart implements ActionProvider {
 	}
 
 	private boolean showDevelopmentItems() {
-		return ToolboxPartServiceExtensions.hasDevelopmentViews(
-				toolboxPartService) && ToolboxConfiguration.isDevelopmentMode();
+		return ToolboxConfiguration.isDevelopmentMode();
 	}
 
 	@Inject
@@ -401,20 +399,12 @@ public class DocumentActionsPart implements ActionProvider {
 	}
 
 	void createExpandItems() {
-		if (sessionService.getViewGroups() == null) {
-			return;
-		}
+		toolboxPartService.getViewGroups().stream()
+				.filter(g -> !g.isInvisible())
+				.filter(g -> showDevelopmentItems() || !g.isDevelopment())
+				.sorted(Comparator.comparingInt(ToolboxViewGroup::orderPriority)
+						.reversed())
+				.forEach(this::createExpandItem);
 
-		// normal groups
-		sessionService.getViewGroups().stream()
-				.filter(g -> !g.isInvisible() && !g.isDevelopment())
-				.forEach(g -> createExpandItem(g));
-
-		// development groups
-		if (showDevelopmentItems()) {
-			ToolboxPartServiceExtensions
-					.getDevelopmentGroups(toolboxPartService)
-					.forEach(g -> createExpandItem(g));
-		}
 	}
 }

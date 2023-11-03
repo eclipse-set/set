@@ -15,13 +15,13 @@ import java.nio.file.Paths
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.basis.files.ToolboxFileRole
 import org.eclipse.set.core.services.files.ToolboxFileFormatService
-import org.eclipse.set.sessionservice.SetSessionService
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
 import org.eclipse.set.unittest.utils.toolboxfile.AbstractToolboxFileTest
 import org.junit.jupiter.api.Test
 
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
+import org.eclipse.set.feature.validation.session.SetSessionService
 
 /**
  * Test for {@link ZippedPlanProToolboxFile}

@@ -9,10 +9,11 @@
 package org.eclipse.set.core.partservice;
 
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -57,7 +58,6 @@ import org.eclipse.set.basis.part.ViewVisibility;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
-import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.NewActiveViewEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
@@ -133,9 +133,6 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 	private MPart actionPart;
 
 	private MPartStack primaryPartStack;
-
-	@Inject
-	private SessionService sessionService;
 
 	MPart activePart;
 
@@ -219,9 +216,8 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 
 	@Override
 	public boolean isOpen(final PartDescription description) {
-		return getOpenParts().stream()
-				.filter(p -> p.getElementId() == description.getId()).findAny()
-				.isPresent();
+		return getOpenParts().stream().anyMatch(
+				p -> Objects.equals(p.getElementId(), description.getId()));
 	}
 
 	@Override
@@ -356,17 +352,16 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		final Wrapper<Boolean> result = new Wrapper<>();
 		final List<MWindow> windows = application.getChildren();
 		final MWindow mWindow = windows.get(0);
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				((org.eclipse.swt.widgets.Shell) mWindow.getWidget())
-						.forceFocus();
-				result.setValue(Boolean.valueOf(showPartImpl(id)));
-				broker.post(UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,
-						UIEvents.ALL_ELEMENT_ID);
-			}
+		Display.getDefault().syncExec(() -> {
+			((org.eclipse.swt.widgets.Shell) mWindow.getWidget()).forceFocus();
+			showPartImpl(id);
+			result.setValue(Boolean.valueOf(true));
+			broker.post(UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,
+					UIEvents.ALL_ELEMENT_ID);
+
 		});
 		return result.getValue().booleanValue();
+
 	}
 
 	private MPart getActionPart() {
@@ -382,12 +377,6 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 	private String getDefaultPartID(final IModelSession session) {
 		if (session == null) {
 			return null;
-		}
-
-		final Optional<String> serviceDefaultPartID = sessionService
-				.getDefaultPartID(session);
-		if (serviceDefaultPartID.isPresent()) {
-			return serviceDefaultPartID.get();
 		}
 
 		if (session.getNature() == PlanProFileNature.INVALID) {
@@ -468,7 +457,7 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 
 		// set visibility
 		final MElementContainer<MUIElement> stack = part.getParent();
-		stack.getChildren().forEach(e -> setVisibility(e));
+		stack.getChildren().forEach(this::setVisibility);
 
 		// select the active part within its stack
 		stack.setSelectedElement(activePart);
@@ -493,10 +482,9 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 			@UIEventTopic(UIEvents.UILifeCycle.ACTIVATE) final Event event) {
 		if (event != null) {
 			final Object element = event.getProperty(EventTags.ELEMENT);
-			if (element instanceof MPart) {
-				final MPart part = (MPart) element;
+			if (element instanceof final MPart part) {
 				if (MApplicationElementExtensions.isToolboxView(part)) {
-					setActivePart((MPart) element);
+					setActivePart(part);
 				}
 			}
 		}
@@ -510,8 +498,7 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 			final Object element = event.getProperty(EventTags.ELEMENT);
 
 			// switch between parts in different shells
-			if (element instanceof MPart) {
-				final MPart part = (MPart) element;
+			if (element instanceof final MPart part) {
 				final MElementContainer<MUIElement> parent = part.getParent();
 
 				// We do not activate parts of the primary part stack with this
@@ -532,8 +519,7 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		final Object element = event.getProperty(EventTags.ELEMENT);
 
 		// switch stack element within stack
-		if (element instanceof MPartStack) {
-			final MPartStack stack = (MPartStack) element;
+		if (element instanceof final MPartStack stack) {
 			final MStackElement selectedStackElement = stack
 					.getSelectedElement();
 			if (selectedStackElement != activePart) {
@@ -542,12 +528,10 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		}
 
 		// switch between stacks of the part sash container
-		if (element instanceof MPartSashContainer) {
-			final MPartSashContainer container = (MPartSashContainer) element;
+		if (element instanceof final MPartSashContainer container) {
 			final MPartSashContainerElement selectedContainerElement = container
 					.getSelectedElement();
-			if (selectedContainerElement instanceof MPartStack) {
-				final MPartStack stack = (MPartStack) selectedContainerElement;
+			if (selectedContainerElement instanceof final MPartStack stack) {
 				final MStackElement selectedStackElement = stack
 						.getSelectedElement();
 				if (selectedStackElement != activePart) {
@@ -584,7 +568,7 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		createAndPlacePart(description);
 	}
 
-	boolean showPartImpl(final String id) {
+	void showPartImpl(final String id) {
 		LOGGER.trace("showPart: {}...", id); //$NON-NLS-1$
 
 		final Stopwatch stopwatch = Stopwatch.createStarted();
@@ -592,7 +576,7 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		try {
 			// we do not display any default parts
 			if (id == null || ToolboxConstants.NO_SESSION_PART_ID.equals(id)) {
-				return true;
+				return;
 			}
 
 			// try to find the part
@@ -600,13 +584,13 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 
 			// test whether the part is already active
 			if (part == activePart) {
-				return true;
+				return;
 			}
 
 			// test whether the part is already displayed
 			if (part != null && part.isVisible() && part.isToBeRendered()) {
 				setActivePart(part);
-				return true;
+				return;
 			}
 
 			// create the part
@@ -637,8 +621,11 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		} finally {
 			LOGGER.info("showPart: {} done: {}", id, stopwatch); //$NON-NLS-1$
 		}
+	}
 
-		return true;
+	@Override
+	public Collection<ToolboxViewGroup> getViewGroups() {
+		return getRegisteredDescriptions().keySet();
 	}
 
 }
