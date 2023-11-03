@@ -545,7 +545,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			val directionSign = topGraph.isInWirkrichtungOfSignal(signal, pzb)
 				? "+"
 				: "-"
-			return distance > 0 ? '''«directionSign»«distance.toString»''' : ""
+			return distance == 0 ? distance.toString : '''«directionSign»«distance.toString»'''
 		}
 		
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
