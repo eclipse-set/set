@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.projectdata.edit;
 
-import java.util.EventObject;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -58,8 +57,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -194,9 +191,11 @@ public class ProjectPart extends BasePart {
 
 	private void renderTabItem(final CTabItem tabItem)
 			throws ECPRendererException {
+		// already rendered or invalid state
 		if (!tabItemToObject.containsKey(tabItem)) {
 			return;
 		}
+		// remove from the maps on first rendering
 		final EObject tabItemObject = tabItemToObject.remove(tabItem);
 		final VViewModelProperties properties = VViewFactory.eINSTANCE
 				.createViewModelLoadingProperties();
@@ -270,12 +269,9 @@ public class ProjectPart extends BasePart {
 		rowComposite.setLayoutData(
 				new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1));
 		// button logic
-		stackListener = new CommandStackListener() {
-			@Override
-			public void commandStackChanged(final EventObject event) {
-				discardButton.setEnabled(getModelSession().isDirty());
-				saveButton.setEnabled(getModelSession().isDirty());
-			}
+		stackListener = event -> {
+			discardButton.setEnabled(getModelSession().isDirty());
+			saveButton.setEnabled(getModelSession().isDirty());
 		};
 
 	}
@@ -286,14 +282,9 @@ public class ProjectPart extends BasePart {
 				.add(messages.ProjectPart_discardChanges);
 		discardButton.setEnabled(getModelSession().isDirty());
 
-		discardButton.addDisposeListener(new DisposeListener() {
-
-			@Override
-			public void widgetDisposed(final DisposeEvent e) {
-				getModelSession().getEditingDomain().getCommandStack()
-						.removeCommandStackListener(stackListener);
-			}
-		});
+		discardButton.addDisposeListener(
+				event -> getModelSession().getEditingDomain().getCommandStack()
+						.removeCommandStackListener(stackListener));
 		discardButton.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -305,9 +296,7 @@ public class ProjectPart extends BasePart {
 
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				dateAutofill.setEnable(false);
-				discardChanges();
-				dateAutofill.setEnable(true);
+				widgetDefaultSelected(e);
 			}
 		});
 		return discardButton;
