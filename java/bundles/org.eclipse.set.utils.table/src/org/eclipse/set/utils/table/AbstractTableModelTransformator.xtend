@@ -221,6 +221,40 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		}
 	}
 
+	/**
+	 *  Fills using Case-lists. For each Case list a result is passed
+	 * 	to fillingCombiner. If a case list does not contain any matching cases,
+	 *  null is passed to fillingCombiner
+	 * 
+	 * @param row The row to fill
+	 * @param column The column to fill
+	 * @param object The object to fill for
+	 * @param fillingCombiner the aggregation function to combine case lists
+	 * @param a list of case lists
+	 */
+	def <T> void fillSwitchGrouped(
+		TableRow row,
+		ColumnDescriptor column,
+		T object,
+		(Iterable<Case<T>>)=>Iterable<String> fillingCombiner,
+		Iterable<Case<T>>... caseGroups
+	) {
+		try {
+			val switchResult = caseGroups.map[getSwitchCase(object, it)]
+			val content = fillingCombiner.apply(switchResult)
+			if (content === null || content.empty) {
+				row.set(column, BLANK)
+			} else if (content.size === 1) {
+				fill(row, column, object, [content.get(0)])
+			} else {
+				fillIterable(row, column, object, [content], null, [it],
+					ITERABLE_FILLING_SEPARATOR)
+			}
+		} catch (Exception e) {
+			handleFillingException(e, row, column)
+		}
+	}
+
 	def <T> Case<T> getSwitchCase(
 		T object,
 		Case<T>... cases
