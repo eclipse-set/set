@@ -44,7 +44,6 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 		super(cols, enumTranslationService)
 	}
 
-
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
 		TMFactory factory
@@ -61,7 +60,6 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		return factory.table
 	}
-
 
 	private def transformSingleSide(TableRow instance,
 		Fla_Zwieschutz flaZwieSchutz, boolean isLeft) {
@@ -147,44 +145,32 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// G: Sslw.Ersatzschutz_unmittelbar.Weiche_Gleissperre.Zwieschutz
-		fillConditional(
+		fill(
 			instance,
 			cols.getColumn(Weiche_Gleissperre_Zwieschutz),
 			flaZwieSchutz,
 			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp !==
-					null
-			],
-			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft).hasZwieschutz.
-					translate
+				(flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp ===
+					flaZwieSchutz?.IDWElement).translate
 			]
 		)
 
 		// H: Sslw.Ersatzschutz_unmittelbar.Signal.Bezeichnung_Sig
-		fillConditional(
+		fill(
 			instance,
 			cols.getColumn(Bezeichnung_Sig),
 			flaZwieSchutz,
 			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzSignal !==
-					null
-			],
-			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.signal?.bezeichnung?.
-					bezeichnungTabelle?.wert
+				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzSignal?.
+					IDFlaSignal?.bezeichnung?.bezeichnungTabelle?.wert
 			]
 		)
 
 		// I: Sslw.Ersatzschutz_unmittelbar.Signal.Rangierzielsperre
-		fillConditional(
+		fill(
 			instance,
 			cols.getColumn(Signal_Zielsperrung),
 			flaZwieSchutz,
-			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzSignal !==
-					null
-			],
 			[
 				flaZwieschutzElement?.IDFlaSchutz(isLeft).hasZielsperrung.
 					translate
@@ -320,8 +306,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[
 				(flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					freimeldeZuordnungen?.filter [
-						flaRaumFreimeldung.wert
-					] ?: newLinkedList()).map [
+						flaRaumFreimeldung?.wert
+					] ?: newLinkedList())?.map [
 					fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
 						bezeichnungTabelle?.wert
 				]
@@ -337,8 +323,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[
 				(flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					freimeldeZuordnungen?.filter [
-						!flaRaumFreimeldung.wert
-					] ?: newLinkedList()).map [
+						!flaRaumFreimeldung?.wert
+					] ?: newLinkedList())?.map [
 					fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
 						bezeichnungTabelle?.wert
 				]
