@@ -331,28 +331,17 @@ class SessionToValidationReportTransformation {
 	 * @param problems the list of problems
 	 */
 	private def void sortProblem(List<ValidationProblem> problems) {
-		var Comparator<ValidationProblem> comparator = Comparator.comparing [
+		val comparator = Comparator.comparing [ ValidationProblem it |
 			severityOrder.indexOf(severity)
-		]
-		comparator = comparator.thenComparing(
-			comparing([problemOrder.indexOf(type)], nullsLast(naturalOrder))
-		)
-		comparator = comparator.thenComparing(
-			comparing([objectArt], nullsLast(naturalOrder))
-		)
-		comparator = comparator.thenComparing(
-			comparing([attributeName], nullsLast(naturalOrder))
-		)
-		var Comparator<ValidationProblem> comparatorObjectScope = comparing([
-			objectScope
-		], nullsLast(naturalOrder))
+		].thenComparing([problemOrder.indexOf(type)], nullsLast(naturalOrder)) //
+		.thenComparing([objectArt], nullsLast(naturalOrder)) //
+		.thenComparing(
+			[attributeName], nullsLast(naturalOrder)) //
+		.thenComparing(Collections.reverseOrder(comparing(
+			[ValidationProblem it|objectScope], nullsLast(naturalOrder)))) //
+		.thenComparing(
+			[lineNumber], nullsLast(naturalOrder))
 
-		comparator = comparator.thenComparing(
-			Collections.reverseOrder(comparatorObjectScope)
-		)
-		comparator = comparator.thenComparing(
-			comparing([lineNumber], nullsLast(naturalOrder))
-		)
 		problems.sort(comparator);
 		problems.forEach[it, index|id = index + 1]
 	}
