@@ -114,17 +114,13 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// E: Sslw.Ersatzschutz_unmittelbar.Weiche_Gleissperre.Bezeichnung_W
-		fillConditional(
+		fill(
 			instance,
 			cols.getColumn(Weiche_Gleissperre_Bezeichnung_W),
 			flaZwieSchutz,
 			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp !==
-					null
-			],
-			[
 				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
-					weicheGleissperreElement?.bezeichnung?.
+					flaSchutzWGsp?.IDFlaWGspElement?.bezeichnung?.
 					bezeichnungTabelle?.wert
 			]
 		)
