@@ -67,21 +67,20 @@ class PlazModelServiceImpl implements PlazModelService {
 				n++
 			} else {
 				errorsList.forEach [ error, index |
-					entries.add(error.transform(index + startCount, finder, generalErroMsg))
+					entries.add(
+						error.transform(index + startCount, finder,
+							generalErroMsg))
 				]
 			}
 		}
-		// Sort entry by severity and line number
-		entries.sort(new Comparator<ValidationProblem>() {
-			override compare(ValidationProblem o1, ValidationProblem o2) {
-				val compareSeverity = severityOrder.indexOf(o1.severity).
-					compareTo(severityOrder.indexOf(o2.severity))
-				if (compareSeverity === 0) {
-					return o1.lineNumber.compareTo(o2.lineNumber)
-				}
-				return compareSeverity
-			}
-		})
+		// Sort entry by severity, type and line number
+		val comparator = Comparator.comparing [ ValidationProblem it |
+			severityOrder.indexOf(severity)
+		] //
+		.thenComparing([ValidationProblem it|type]) //
+		.thenComparing([ValidationProblem it|lineNumber])
+
+		entries.sort(comparator)
 		entries.forEach[it, i|id = i + 1]
 		report.entries.addAll(entries)
 		return report
