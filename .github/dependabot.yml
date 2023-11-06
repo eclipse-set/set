@@ -20,3 +20,8 @@ updates:
   schedule:
     interval: daily
   rebase-strategy: disabled
+- package-ecosystem: npm
+  directory: "/web/siteplan"
+  schedule:
+    interval: daily
+  rebase-strategy: disabled
