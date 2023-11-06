@@ -175,7 +175,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						val markantePunkts = fstrDWegs.map [ dweg |
 							dweg?.IDPZBGefahrpunkt?.IDMarkanteStelle
 						].filter(Punkt_Objekt)
-						return getDistanceOfPoinst(topGraph, markantePunkts,
+						return getDistanceOfPoints(topGraph, markantePunkts,
 							signal)
 					]
 				],
@@ -338,7 +338,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						val markanteStelle = inaGefahrstelles.map [
 							IDMarkanterPunkt?.IDMarkanteStelle
 						].filter(Punkt_Objekt)
-						return getDistanceOfPoinst(topGraph, markanteStelle, it)
+						return getDistanceOfPoints(topGraph, markanteStelle, it)
 					]
 				)
 
@@ -566,7 +566,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (bueKantens.empty) {
 			return ""
 		}
-		return getDistanceOfPoinst(topGraph, bueKantens, pzb)
+		return getDistanceOfPoints(topGraph, bueKantens, pzb)
 
 	}
 
@@ -578,10 +578,10 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (gspKomponent.empty) {
 			throw new IllegalArgumentException('''«gspElement?.bezeichnung.bezeichnungTabelle?.wert» hast no Zungenpaar''')
 		}
-		return getDistanceOfPoinst(topGraph, gspKomponent, pzb)
+		return getDistanceOfPoints(topGraph, gspKomponent, pzb)
 	}
 
-	private def String getDistanceOfPoinst(TopGraph topGraph,
+	private def String getDistanceOfPoints(TopGraph topGraph,
 		Iterable<? extends Punkt_Objekt> p1s, Punkt_Objekt p2) {
 		val distance = p1s?.fold(
 			Double.MAX_VALUE,
