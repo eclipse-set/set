@@ -321,8 +321,13 @@ class SessionToValidationReportTransformation {
 	}
 
 	/**
-	 * Sort problems by severity and line number, then set
-	 * id
+	 * Sort problems by:
+	 * 1) severity
+	 * 2) problem type
+	 * 3) object type
+	 * 4) attribute
+	 * 5) object scope
+	 * 6) line number
 	 * @param problems the list of problems
 	 */
 	private def void sortProblem(List<ValidationProblem> problems) {
