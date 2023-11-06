@@ -548,7 +548,6 @@ npm/npmjs/-/postcss-modules-scope/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-modules-values/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-selector-parser/6.0.10, MIT, approved, #5056
 npm/npmjs/-/postcss-value-parser/4.2.0, MIT, approved, clearlydefined
-npm/npmjs/-/postcss/8.4.29, MIT, approved, #3545
 npm/npmjs/-/postcss/8.4.31, MIT, approved, #3545
 npm/npmjs/-/prelude-ls/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/pretty-error/4.0.0, MIT, approved, clearlydefined
