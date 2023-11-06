@@ -44,6 +44,25 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 		super(cols, enumTranslationService)
 	}
 
+
+	override transformTableContent(
+		MultiContainer_AttributeGroup container,
+		TMFactory factory
+	) {
+		val flaZwieSchutzList = container.flaZwieschutz;
+		for (flaZwieSchutz : flaZwieSchutzList) {
+			if (Thread.currentThread.interrupted) {
+				return null
+			}
+			val rowGroup = factory.newRowGroup(flaZwieSchutz)
+			transformSingleSide(rowGroup.newTableRow(), flaZwieSchutz, true)
+			transformSingleSide(rowGroup.newTableRow(), flaZwieSchutz, false)
+		}
+
+		return factory.table
+	}
+
+
 	private def transformSingleSide(TableRow instance,
 		Fla_Zwieschutz flaZwieSchutz, boolean isLeft) {
 
@@ -363,20 +382,4 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 		return isLeft ? element.IDFlaSchutzL : element.IDFlaSchutzR
 	}
 
-	override transformTableContent(
-		MultiContainer_AttributeGroup container,
-		TMFactory factory
-	) {
-		val flaZwieSchutzList = container.flaZwieschutz;
-		for (flaZwieSchutz : flaZwieSchutzList) {
-			if (Thread.currentThread.interrupted) {
-				return null
-			}
-			val rowGroup = factory.newRowGroup(flaZwieSchutz)
-			transformSingleSide(rowGroup.newTableRow(), flaZwieSchutz, true)
-			transformSingleSide(rowGroup.newTableRow(), flaZwieSchutz, false)
-		}
-
-		return factory.table
-	}
 }
