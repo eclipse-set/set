@@ -18,7 +18,7 @@
       <h2>Bitte ein Objekt auswählen</h2>
       <ul>
         <li
-          v-for="feature in filterSameFeature()"
+          v-for="feature in getFeatures()"
           id="menuItem"
           :key="feature.getId()"
           @click="selectedItem(feature)"
@@ -53,16 +53,13 @@ import TrackSwitchPopup from '@/components/popup/TrackSwitchPopup.vue'
 import {
   FeatureType, getFeatureLabel,
   getFeatureName,
-  getFeatureType,
-  getFeatureData
+  getFeatureType
 } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
 import 'material-design-icons/iconfont/material-icons.css'
 import { Collection, Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
 import { Options, Vue } from 'vue-class-component'
-import { compare } from '@/util/ObjectExtension'
-import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 
 /**
  * Menu for select object
@@ -129,25 +126,18 @@ import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 })
 
 export default class MenuPopup extends Vue {
-  features!: Collection<Feature<Geometry>>
+  features!: Feature<Geometry>[]
   selectedPopup!: Vue
   mouseButton!: string
   selectedFeature: Feature<Geometry>|null = null
-  readonly existPopupFeature = [
-    FeatureType.Signal,
-    FeatureType.PZB,
-    FeatureType.PZBGU,
-    FeatureType.TrackDesignationMarker,
-    FeatureType.TrackSectionMarker,
-    FeatureType.Track,
-    FeatureType.TrackOutline,
-    FeatureType.TrackSwitchEndMarker,
-    FeatureType.TrackSwitch,
-    FeatureType.Error,
-    FeatureType.TrackLock,
-    FeatureType.LockKey,
-    FeatureType.ExternalElementControl
-  ]
+
+  getFeatures () {
+    if (this.features === null || !this.features) {
+      return []
+    }
+
+    return this.features
+  }
 
   getFeatureName (feature: Feature<Geometry>): string {
     return getFeatureName(getFeatureType(feature))
@@ -157,35 +147,12 @@ export default class MenuPopup extends Vue {
     return getFeatureLabel(feature)
   }
 
-  filterSameFeature (): Array<Feature<Geometry>> {
-    if (this.features === undefined) {
-      return []
-    }
-
-    const result: Feature<Geometry>[] = []
-    this.features.forEach(feature => {
-      const featureType = getFeatureType(feature)
-      const featuresSameType = result.filter(ele =>
-        getFeatureType(ele) === featureType)
-      if (featuresSameType.length === 0) {
-        result.push(feature)
-      } else {
-        featuresSameType.forEach(ele => {
-          if (compare(getFeatureData(feature), getFeatureData(ele))) {
-            result.push(feature)
-          }
-        })
-      }
-    })
-    return result
-  }
-
   isMultiFeature (): boolean {
-    if (this.filterSameFeature().length > 1) {
+    if (this.getFeatures().length > 1) {
       return true
     }
 
-    this.selectedFeature = this.features.getArray()[ 0 ]
+    this.selectedFeature = this.features[0]
     return false
   }
 
@@ -194,13 +161,7 @@ export default class MenuPopup extends Vue {
   }
 
   selectedItem (feature: Feature<Geometry>) {
-    const existInfoPop = this.mouseButton === LeftRight.LEFT &&
-      this.existPopupFeature.includes(getFeatureType(feature))
-    const existGUID = this.mouseButton === LeftRight.RIGHT &&
-      getFeatureGUIDs(feature).length > 0
-    if (existInfoPop || existGUID) {
-      this.selectedFeature = feature
-    }
+    this.selectedFeature = feature
   }
 }
 </script>

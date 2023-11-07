@@ -15,7 +15,7 @@
       >X</span>
       <MenuPopup
         :key="featureSelectionKey"
-        :features="selectedFeatures"
+        :features="getPopupAvaibleFeatures()"
         :mouse-button="mouseDownButton"
         @remove-popup="resetSelection"
       />
@@ -24,9 +24,11 @@
 </template>
 <script lang="ts">
 import MenuPopup from '@/components/popup/MenuPopup.vue'
-import { FeatureType } from '@/feature/FeatureInfo'
+import { FeatureType, getFeatureData, getFeatureType } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
+import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 import NamedFeatureLayer from '@/util/NamedFeatureLayer'
+import { compare } from '@/util/ObjectExtension'
 import { Collection, Feature, MapBrowserEvent } from 'ol'
 import Geometry from 'ol/geom/Geometry'
 import Select, { SelectEvent } from 'ol/interaction/Select'
@@ -95,7 +97,54 @@ export default class FeatureInfoPopup extends Vue {
     this.map.addOverlay(this.infoPopup)
   }
 
+  getPopupAvaibleFeatures () {
+    if (this.selectedFeatures === undefined) {
+      this.resetSelection()
+      return []
+    }
+
+    const uniqueFeatures = this.filterSameFeature(this.selectedFeatures.getArray())
+    const popupAvavaibleFeatures = uniqueFeatures.filter(feature => this.isFeatureHavePopup(feature))
+    if (popupAvavaibleFeatures.length == 0) {
+      this.resetSelection()
+      return []
+    }
+
+    return popupAvavaibleFeatures
+  }
+
+  filterSameFeature (features: Feature<Geometry>[]): Array<Feature<Geometry>> {
+    const result: Feature<Geometry>[] = []
+    features.forEach(feature => {
+      const featureType = getFeatureType(feature)
+      const featuresSameType = result.filter(ele =>
+        getFeatureType(ele) === featureType)
+      if (featuresSameType.length === 0) {
+        result.push(feature)
+      } else {
+        featuresSameType.forEach(ele => {
+          if (compare(getFeatureData(feature), getFeatureData(ele))) {
+            result.push(feature)
+          }
+        })
+      }
+    })
+    return result
+  }
+
+  isFeatureHavePopup (feature: Feature<Geometry>): boolean {
+    const existInfoPop = this.mouseDownButton === LeftRight.LEFT &&
+      this.existPopupFeature.includes(getFeatureType(feature))
+    const existGUID = this.mouseDownButton === LeftRight.RIGHT &&
+      getFeatureGUIDs(feature).length > 0
+    return existInfoPop || existGUID
+  }
+
   resetSelection (): void {
+    if (this.infoPopup == null) {
+      return
+    }
+
     this.selectedFeatures.clear()
     this.infoPopup.setPosition(undefined)
   }
