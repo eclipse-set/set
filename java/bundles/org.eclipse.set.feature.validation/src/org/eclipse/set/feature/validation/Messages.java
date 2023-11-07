@@ -245,4 +245,9 @@ public class Messages {
 	 * Es sind keine Ein/Ausgabefehler aufgetreten.
 	 */
 	public String IoSuccessMsg;
+
+	/**
+	 * Speichern PlanPro Daten
+	 */
+	public String SaveToolboxFile;
 }

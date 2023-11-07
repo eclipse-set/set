@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.projectdata.edit;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import javax.inject.Inject;
@@ -19,26 +19,10 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecp.ui.view.ECPRendererException;
-import org.eclipse.emf.ecp.view.spi.context.ViewModelContext;
-import org.eclipse.emf.ecp.view.spi.context.ViewModelContextFactory;
-import org.eclipse.emf.ecp.view.spi.model.VElement;
-import org.eclipse.emf.ecp.view.spi.model.VView;
-import org.eclipse.emf.ecp.view.spi.model.VViewFactory;
-import org.eclipse.emf.ecp.view.spi.model.VViewModelProperties;
-import org.eclipse.emf.ecp.view.spi.provider.ViewProviderHelper;
-import org.eclipse.emfforms.spi.swt.core.AbstractSWTRenderer;
-import org.eclipse.emfforms.spi.swt.core.EMFFormsNoRendererException;
-import org.eclipse.emfforms.spi.swt.core.EMFFormsRendererFactory;
-import org.eclipse.emfforms.spi.swt.core.layout.GridDescriptionFactory;
-import org.eclipse.emfforms.spi.swt.core.layout.SWTGridCell;
-import org.eclipse.emfforms.spi.swt.core.layout.SWTGridDescription;
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.PlanProFileNature;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
@@ -48,8 +32,9 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
 import org.eclipse.set.toolboxmodel.PlanPro.Planung_P_Allg_AttributeGroup;
 import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
-import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.emfforms.AbstractTabViewPart;
 import org.eclipse.set.utils.events.EditingCompleted;
+import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.widgets.ButtonRow;
@@ -57,13 +42,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -72,7 +55,7 @@ import org.eclipse.swt.widgets.Text;
  * 
  * @author Schaefer
  */
-public class ProjectPart extends BasePart {
+public class ProjectPart extends AbstractTabViewPart {
 
 	private static final String COPY_DATE_TRIGGER = "copyDateTrigger"; //$NON-NLS-1$
 
@@ -92,12 +75,17 @@ public class ProjectPart extends BasePart {
 	CommandStackListener stackListener;
 
 	@Inject
-	EMFFormsRendererFactory renderFactory;
-
-	@Inject
 	ToolboxViewModelService viewModelService;
-	private final Map<CTabItem, EObject> tabItemToObject = new LinkedHashMap<>();
-	private final Map<CTabItem, Composite> tabItemToComposite = new LinkedHashMap<>();
+
+	private CopyNameButton copyNameButton;
+
+	private DateAutofill dateAutofill;
+
+	private Planung_Projekt planingProject;
+
+	private CTabFolder cTabFolder;
+
+	private final List<CTabItem> tabItems = new LinkedList<>();
 
 	/**
 	 * Create the part.
@@ -112,23 +100,24 @@ public class ProjectPart extends BasePart {
 		final IModelSession session = getModelSession();
 
 		if (session.getNature() != PlanProFileNature.INFORMATION_STATE) {
-			final Planung_Projekt element = PlanProSchnittstelleExtensions
+			planingProject = PlanProSchnittstelleExtensions
 					.LSTPlanungProjekt(session.getPlanProSchnittstelle());
-			Assert.isNotNull(element);
+			Assert.isNotNull(planingProject);
 			// copy name buttons
-			final CopyNameButton copyNameButton = new CopyNameButton(messages);
+			copyNameButton = new CopyNameButton(messages,
+					shouldCopyNameButtonEnable(planingProject));
 			viewModelService.put(COPY_NAME, copyNameButton);
 
 			// date auto fill
-			final DateAutofill dateAutofill = createDateAutoFill(parent,
-					session, element);
+			createDateAutoFill(parent, session, planingProject);
 
 			try {
-				createTabView(parent, element);
+				cTabFolder = createTabFolder(parent);
+				setDefaultSelectionTab(cTabFolder);
 			} catch (final Exception e) {
 				throw new RuntimeException(e);
 			}
-			createButtonRow(parent, dateAutofill);
+			createButtonRow(parent);
 			getModelSession().getEditingDomain().getCommandStack()
 					.addCommandStackListener(stackListener);
 		} else {
@@ -142,111 +131,70 @@ public class ProjectPart extends BasePart {
 		}
 	}
 
-	private void createTabView(final Composite parent,
-			final Planung_Projekt element) throws ECPRendererException {
-		final CTabFolder cTabFolder = new CTabFolder(parent, SWT.BOTTOM);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL)
-				.grab(true, true).applyTo(cTabFolder);
-		cTabFolder.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				itemSelected(cTabFolder.getSelection());
-			}
-		});
+	@Override
+	protected void createTabItem(final CTabFolder folder) {
+		createPlanungProjektAllgemeinTab(folder,
+				planingProject.getPlanungPAllg());
+		createPlanungGruppeTabs(folder, planingProject.getLSTPlanungGruppe());
+	}
 
-		createPlanungProjektAllgemeinTab(cTabFolder, element.getPlanungPAllg());
-		createPlanungGruppeTabs(cTabFolder, element.getLSTPlanungGruppe());
-		cTabFolder.setSelection(0);
+	@Override
+	protected void handleProjectDataChanged(final ProjectDataChanged e) {
+		final Notification notification = e.getNotification();
+		if (notification.getEventType() != Notification.SET) {
+			return;
+		}
+		copyNameButton.refresh(notification);
+	}
+
+	private static boolean shouldCopyNameButtonEnable(
+			final Planung_Projekt planungProject) {
+		String nameAkteur = ""; //$NON-NLS-1$
+		try {
+			nameAkteur = planungProject.getPlanungPAllg().getProjektleiter()
+					.getAkteurAllg().getNameAkteur().getWert();
+		} catch (final NullPointerException e) {
+			return false;
+		}
+		return nameAkteur != null && !nameAkteur.isBlank();
 	}
 
 	private void createPlanungProjektAllgemeinTab(final CTabFolder folder,
-			final Planung_P_Allg_AttributeGroup pAllg)
-			throws ECPRendererException {
+			final Planung_P_Allg_AttributeGroup pAllg) {
 		final CTabItem cTabItem = new CTabItem(folder, SWT.BOTTOM);
 		cTabItem.setText("Projekt"); //$NON-NLS-1$
+		tabItems.add(cTabItem);
 		tabItemToObject.put(cTabItem, pAllg);
 		tabItemToComposite.put(cTabItem,
 				new ScrolledComposite(folder, SWT.V_SCROLL | SWT.H_SCROLL));
-		renderTabItem(cTabItem);
+
 	}
 
 	private void createPlanungGruppeTabs(final CTabFolder folder,
 			final EList<Planung_Gruppe> lstPlanungGruppe) {
-		lstPlanungGruppe.forEach(gruppe -> {
+		lstPlanungGruppe.forEach(group -> {
 			final CTabItem cTabItem = new CTabItem(folder, SWT.BOTTOM);
-			final String gruppeName = enumTranslationService.translate(
-					gruppe.getPlanungGAllg().getUntergewerkArt().getWert())
-					.getPresentation();
+			String gruppeName = ""; //$NON-NLS-1$
+
+			try {
+				gruppeName = enumTranslationService.translate(
+						group.getPlanungGAllg().getUntergewerkArt().getWert())
+						.getPresentation();
+			} catch (final Exception e) {
+				getDialogService().error(getToolboxShell(), e);
+			}
 			cTabItem.setText(gruppeName);
-			tabItemToObject.put(cTabItem, gruppe);
+			tabItems.add(cTabItem);
+			dateAutofill.setGroup(group);
+			tabItemToObject.put(cTabItem, group);
 			tabItemToComposite.put(cTabItem,
 					new ScrolledComposite(folder, SWT.V_SCROLL | SWT.H_SCROLL));
-			try {
-				renderTabItem(cTabItem);
-			} catch (final ECPRendererException e) {
-				throw new RuntimeException(e);
-			}
 		});
 	}
 
-	private void renderTabItem(final CTabItem tabItem)
-			throws ECPRendererException {
-		// already rendered or invalid state
-		if (!tabItemToObject.containsKey(tabItem)) {
-			return;
-		}
-		// remove from the maps on first rendering
-		final EObject tabItemObject = tabItemToObject.remove(tabItem);
-		final VViewModelProperties properties = VViewFactory.eINSTANCE
-				.createViewModelLoadingProperties();
-		properties.addNonInheritableProperty(
-				ToolboxConstants.PLANING_GROUP_VIEW_DETAIL_KEY,
-				Boolean.valueOf(true));
-		final VView view = ViewProviderHelper.getView(tabItemObject,
-				properties);
-		final ViewModelContext viewModelContext = ViewModelContextFactory.INSTANCE
-				.createViewModelContext(view, tabItemObject);
-		AbstractSWTRenderer<VElement> renderer = null;
-		try {
-			renderer = renderFactory.getRendererInstance(view,
-					viewModelContext);
-		} catch (final EMFFormsNoRendererException e) {
-			throw new RuntimeException(e);
-		}
-		if (renderer == null) {
-			return;
-		}
-		final SWTGridDescription gridDescription = renderer.getGridDescription(
-				GridDescriptionFactory.INSTANCE.createEmptyGridDescription());
-		final Composite composite = tabItemToComposite.remove(tabItem);
-		for (final SWTGridCell grid : gridDescription.getGrid()) {
-			final Control render = renderer.render(grid, composite);
-			renderer.finalizeRendering(composite);
-			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL)
-					.grab(true, true).applyTo(render);
-			final ScrolledComposite scrolledComposite = ScrolledComposite.class
-					.cast(composite);
-			scrolledComposite.setExpandHorizontal(true);
-			scrolledComposite.setExpandVertical(true);
-			scrolledComposite.setContent(render);
-			scrolledComposite
-					.setMinSize(render.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-			tabItem.setControl(composite);
-		}
-
-	}
-
-	private void itemSelected(final CTabItem selection) {
-		try {
-			renderTabItem(selection);
-		} catch (final ECPRendererException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private DateAutofill createDateAutoFill(final Composite parent,
+	private void createDateAutoFill(final Composite parent,
 			final IModelSession session, final Planung_Projekt element) {
-		final DateAutofill dateAutofill = new DateAutofill(
+		dateAutofill = new DateAutofill(
 				date -> getDialogService().doApplyAutofill(getToolboxShell(),
 						date),
 				new ExceptionHandler(getToolboxShell(), getDialogService()));
@@ -255,14 +203,11 @@ public class ProjectPart extends BasePart {
 		viewModelService.put(COPY_DATE_TRIGGER, dateAutofillConsumer);
 		dateAutofill.setEditingDomain(session.getEditingDomain());
 		dateAutofill.setPlanning(parent, element);
-		return dateAutofill;
 	}
 
-	private void createButtonRow(final Composite parent,
-			final DateAutofill dateAutoFill) {
+	private void createButtonRow(final Composite parent) {
 		final ButtonRow buttonRow = new ButtonRow(parent);
-		final Button discardButton = createDiscardButton(buttonRow,
-				dateAutoFill);
+		final Button discardButton = createDiscardButton(buttonRow);
 		final Button saveButton = createSaveButton(buttonRow);
 
 		final Composite rowComposite = buttonRow.getComposite();
@@ -276,8 +221,7 @@ public class ProjectPart extends BasePart {
 
 	}
 
-	private Button createDiscardButton(final ButtonRow buttonRow,
-			final DateAutofill dateAutofill) {
+	private Button createDiscardButton(final ButtonRow buttonRow) {
 		final Button discardButton = buttonRow
 				.add(messages.ProjectPart_discardChanges);
 		discardButton.setEnabled(getModelSession().isDirty());
@@ -314,7 +258,7 @@ public class ProjectPart extends BasePart {
 
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				save();
+				widgetDefaultSelected(e);
 			}
 		});
 		return saveButton;
@@ -344,5 +288,4 @@ public class ProjectPart extends BasePart {
 		// send editing completed
 		ToolboxEvents.send(getBroker(), new EditingCompleted());
 	}
-
 }

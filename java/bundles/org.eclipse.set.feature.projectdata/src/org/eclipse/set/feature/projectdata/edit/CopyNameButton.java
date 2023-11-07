@@ -10,6 +10,7 @@ package org.eclipse.set.feature.projectdata.edit;
 
 import java.util.Map;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.view.spi.model.VControl;
 import org.eclipse.emf.ecp.view.spi.model.VFeaturePathDomainModelReference;
@@ -21,8 +22,6 @@ import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_10_TypeClass;
 import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_5_TypeClass;
 import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_TypeClass;
 import org.eclipse.set.utils.ButtonAction;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
@@ -39,15 +38,19 @@ public class CopyNameButton implements ButtonAction {
 	private static final int BUTTON_WIDTH = 150;
 
 	private final Messages messages;
+	private final boolean enable;
 
 	final Map<Button, RendererContext> buttonsToContext = Maps.newHashMap();
 
 	/**
 	 * @param messages
 	 *            the translations
+	 * @param enable
+	 *            should button enable or not
 	 */
-	public CopyNameButton(final Messages messages) {
+	public CopyNameButton(final Messages messages, final boolean enable) {
 		this.messages = messages;
+		this.enable = enable;
 	}
 
 	@Override
@@ -63,12 +66,43 @@ public class CopyNameButton implements ButtonAction {
 	@Override
 	public void register(final RendererContext context) {
 		final Button button = context.get(Button.class);
+		button.setEnabled(enable);
 		buttonsToContext.put(button, context);
-		button.addDisposeListener(new DisposeListener() {
+		button.addDisposeListener(e -> buttonsToContext.remove(button));
+	}
 
-			@Override
-			public void widgetDisposed(final DisposeEvent e) {
-				buttonsToContext.remove(button);
+	/**
+	 * Refresh button after name akteur change
+	 * 
+	 * @param notification
+	 *            the notification
+	 */
+	public void refresh(final Notification notification) {
+		final Object notifier = notification.getNotifier();
+
+		if (notifier instanceof final Akteur_Allg_AttributeGroup akteurAllg) {
+			setButtonState(akteurAllg, akteurAllg.getNameAkteur());
+		}
+
+		if (notifier instanceof final Name_Akteur_TypeClass nameAkteur
+				&& nameAkteur
+						.eContainer() instanceof final Akteur_Allg_AttributeGroup akteurAllg) {
+			setButtonState(akteurAllg, nameAkteur);
+		}
+	}
+
+	private void setButtonState(final Akteur_Allg_AttributeGroup aktuerAllg,
+			final Name_Akteur_TypeClass nameAkteur) {
+		final boolean shouldEnable = nameAkteur != null
+				&& nameAkteur.getWert() != null
+				&& !nameAkteur.getWert().isBlank();
+
+		buttonsToContext.forEach((button, action) -> {
+			if (action.get(
+					EObject.class) instanceof final Akteur_Allg_AttributeGroup buttonAkteurAllg
+					&& aktuerAllg == buttonAkteurAllg && !button.isDisposed()
+					&& button.getEnabled() != shouldEnable) {
+				button.setEnabled(shouldEnable);
 			}
 		});
 	}

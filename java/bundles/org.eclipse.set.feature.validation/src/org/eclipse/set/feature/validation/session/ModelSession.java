@@ -733,12 +733,8 @@ public class ModelSession implements IModelSession {
 			// refresh validation
 			refreshValidation();
 		} catch (final IOException e) {
-			Display.getDefault().syncExec(new Runnable() {
-				@Override
-				public void run() {
-					serviceProvider.dialogService.error(shell, e);
-				}
-			});
+			Display.getDefault().syncExec(
+					() -> serviceProvider.dialogService.error(shell, e));
 			return false;
 		}
 		return true;
@@ -782,10 +778,12 @@ public class ModelSession implements IModelSession {
 					getPlanProSchnittstelle(), directory, extension,
 					ExportType.PLANNING_RECORDS);
 			if (oldPath.equals(newPath)) {
-				toolboxFile.save();
+				saveProcessDialog(shell, toolboxFile);
 			} else {
 				toolboxFile = serviceProvider.renameService.save(shell,
-						toolboxFile, getPlanProSchnittstelle(), askUser);
+						toolboxFile, getPlanProSchnittstelle(), askUser,
+						newToolboxFile -> saveProcessDialog(shell,
+								newToolboxFile));
 			}
 
 			// update title
@@ -804,6 +802,19 @@ public class ModelSession implements IModelSession {
 			return false;
 		}
 		return true;
+	}
+
+	private void saveProcessDialog(final Shell shell,
+			final ToolboxFile toolbox) {
+		final DialogService dialogService = serviceProvider.dialogService;
+		dialogService.showProgressUISync(shell,
+				serviceProvider.messages.SaveToolboxFile, () -> {
+					try {
+						toolbox.save();
+					} catch (final IOException e) {
+						dialogService.error(shell, e);
+					}
+				});
 	}
 
 	private void setPlanProSchnittstelle(
