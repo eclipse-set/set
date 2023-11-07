@@ -675,7 +675,7 @@ npm/npmjs/-/typed-array-byte-length/1.0.0, MIT, approved, #9659
 npm/npmjs/-/typed-array-byte-offset/1.0.0, MIT, approved, #9407
 npm/npmjs/-/typed-array-length/1.0.4, MIT, approved, #6246
 npm/npmjs/-/typescript/4.7.4, Apache-2.0 AND CC-BY-4.0 AND LicenseRef-scancode-khronos AND LicenseRef-scancode-unicode AND MIT AND W3C-20150513, approved, #3357
-npm/npmjs/-/typescript/5.0.3, Apache-2.0, approved, #7710
+npm/npmjs/-/typescript/5.2.2, Apache-2.0 AND ODbL-1.0 AND MIT AND W3C-20150513 AND Unicode-DFS-2016 AND CC-BY-4.0 AND X11 AND BSD-3-Clause, approved, #10231
 npm/npmjs/-/unbox-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/unpipe/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/update-browserslist-db/1.0.10, MIT, approved, #8237
@@ -834,7 +834,7 @@ npm/npmjs/@typescript-eslint/visitor-keys/5.44.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/5.57.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/5.62.0, MIT, approved, clearlydefined
 npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
-npm/npmjs/@vitejs/plugin-vue/4.1.0, MIT, approved, #7527
+npm/npmjs/@vitejs/plugin-vue/4.4.0, MIT, approved, clearlydefined
 npm/npmjs/@vue/compiler-core/3.2.47, MIT, approved, #7097
 npm/npmjs/@vue/compiler-dom/3.2.47, MIT, approved, #7093
 npm/npmjs/@vue/compiler-sfc/3.2.47, MIT, approved, #3104
