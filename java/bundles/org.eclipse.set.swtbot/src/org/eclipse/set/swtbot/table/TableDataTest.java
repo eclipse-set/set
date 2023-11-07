@@ -54,7 +54,11 @@ public class TableDataTest extends AbstractTableTest {
 						.toString().replaceAll(CELL_VALUE_REPLACE_REGEX, "");
 				final String referenceValue = referenceData
 						.get(rowIndex + startRow).get(columnIndex + 1)
-						.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
+						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
+						// By Nattable 2.2.0 add to much double quote into
+						// richtext
+						// value
+						.replace("\"\"", "\"");
 				assertEquals(referenceValue, cellValue);
 			}
 		}
