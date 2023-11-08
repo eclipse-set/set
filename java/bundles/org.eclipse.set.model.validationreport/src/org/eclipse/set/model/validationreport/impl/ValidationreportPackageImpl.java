@@ -668,6 +668,8 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		addEEnumLiteral(validationSeverityEEnum, ValidationSeverity.SUCCESS);
 
 		initEEnum(objectScopeEEnum, ObjectScope.class, "ObjectScope");
+		addEEnumLiteral(objectScopeEEnum, ObjectScope.LAYOUT);
+		addEEnumLiteral(objectScopeEEnum, ObjectScope.CONTENT);
 		addEEnumLiteral(objectScopeEEnum, ObjectScope.BETRACHTUNG);
 		addEEnumLiteral(objectScopeEEnum, ObjectScope.PLAN);
 		addEEnumLiteral(objectScopeEEnum, ObjectScope.UNKNOWN);
@@ -678,9 +680,9 @@ public class ValidationreportPackageImpl extends EPackageImpl implements Validat
 		addEEnumLiteral(containerContentEEnum, ContainerContent.ATTACHMENT);
 
 		initEEnum(objectStateEEnum, ObjectState.class, "ObjectState");
+		addEEnumLiteral(objectStateEEnum, ObjectState.NONE);
 		addEEnumLiteral(objectStateEEnum, ObjectState.INITIAL);
 		addEEnumLiteral(objectStateEEnum, ObjectState.FINAL);
-		addEEnumLiteral(objectStateEEnum, ObjectState.LAYOUT);
 		addEEnumLiteral(objectStateEEnum, ObjectState.INFO);
 
 		// Create resource

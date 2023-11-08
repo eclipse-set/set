@@ -93,9 +93,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container implements Plaz
 		switch (featureID) {
 			case PlazPackage.PLAZ_REPORT__ENTRIES:
 				return ((InternalEList<?>)getEntries()).basicRemove(otherEnd, msgs);
-			default:
-				return super.eInverseRemove(otherEnd, featureID, msgs);
 		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -108,9 +107,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container implements Plaz
 		switch (featureID) {
 			case PlazPackage.PLAZ_REPORT__ENTRIES:
 				return getEntries();
-			default:
-				return super.eGet(featureID, resolve, coreType);
 		}
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -126,10 +124,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container implements Plaz
 				getEntries().clear();
 				getEntries().addAll((Collection<? extends ValidationProblem>)newValue);
 				return;
-			default:
-				super.eSet(featureID, newValue);
-				return;
 		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -143,10 +139,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container implements Plaz
 			case PlazPackage.PLAZ_REPORT__ENTRIES:
 				getEntries().clear();
 				return;
-			default:
-				super.eUnset(featureID);
-				return;
 		}
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -159,9 +153,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container implements Plaz
 		switch (featureID) {
 			case PlazPackage.PLAZ_REPORT__ENTRIES:
 				return entries != null && !entries.isEmpty();
-			default:
-				return super.eIsSet(featureID);
 		}
+		return super.eIsSet(featureID);
 	}
 
 } //PlazReportImpl

@@ -9,7 +9,7 @@
 package org.eclipse.set.utils.events;
 
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.model.validationreport.ObjectState;
+import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.utils.BasePart;
 
 /**
@@ -26,7 +26,7 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 	private final int lineNumber;
 
 	private final String objectGuid;
-	private final ObjectState objectState;
+	private final ObjectScope objectScope;
 
 	/**
 	 * Default event.
@@ -48,15 +48,15 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 	 *            the line number
 	 * @param source
 	 *            the source
-	 * @param objectState
+	 * @param objectScope
 	 *            the state of selected object
 	 */
 	public JumpToSourceLineEvent(final int lineNumber, final BasePart source,
-			final ObjectState objectState) {
+			final ObjectScope objectScope) {
 		this.lineNumber = lineNumber;
 		this.source = source;
 		this.objectGuid = null;
-		this.objectState = objectState;
+		this.objectScope = objectScope;
 	}
 
 	/**
@@ -70,15 +70,14 @@ public class JumpToSourceLineEvent implements ToolboxEvent {
 		this.lineNumber = -1;
 		this.source = source;
 		this.objectGuid = objectGuid;
-		this.objectState = null;
+		this.objectScope = null;
 	}
 
 	/**
 	 * @return the line number
 	 */
-	public Pair<ObjectState, Integer> getLineNumber() {
-		return new Pair<>(objectState,
-				Integer.valueOf(lineNumber));
+	public Pair<ObjectScope, Integer> getLineNumber() {
+		return new Pair<>(objectScope, Integer.valueOf(lineNumber));
 	}
 
 	/**
