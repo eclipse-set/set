@@ -138,4 +138,8 @@ export default class TrackLockFeature extends LageplanFeature<TrackLock> {
       LageplanFeature.createBBox(feature, position, bbox, [0, 0], [1, 1])
     })
   }
+
+  compareChangedState (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
+    return super.compareChangedState(initial, final, [], trackLock => this.getObjectSvg(trackLock))
+  }
 }
