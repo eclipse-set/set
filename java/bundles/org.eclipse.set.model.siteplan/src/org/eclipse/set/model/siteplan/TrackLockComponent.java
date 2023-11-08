@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackLockComponent#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.TrackLockComponent#getTracklockSignal <em>Tracklock Signal</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackLockComponent#getTrackLockSignal <em>Track Lock Signal</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackLockComponent#getEjectionDirection <em>Ejection Direction</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackLockComponent#getGuid <em>Guid</em>}</li>
  * </ul>
@@ -53,26 +53,26 @@ public interface TrackLockComponent extends EObject {
 	void setPosition(Position value);
 
 	/**
-	 * Returns the value of the '<em><b>Tracklock Signal</b></em>' attribute.
+	 * Returns the value of the '<em><b>Track Lock Signal</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Tracklock Signal</em>' attribute.
-	 * @see #setTracklockSignal(String)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackLockComponent_TracklockSignal()
+	 * @return the value of the '<em>Track Lock Signal</em>' attribute.
+	 * @see #setTrackLockSignal(String)
+	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackLockComponent_TrackLockSignal()
 	 * @model
 	 * @generated
 	 */
-	String getTracklockSignal();
+	String getTrackLockSignal();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getTracklockSignal <em>Tracklock Signal</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getTrackLockSignal <em>Track Lock Signal</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Tracklock Signal</em>' attribute.
-	 * @see #getTracklockSignal()
+	 * @param value the new value of the '<em>Track Lock Signal</em>' attribute.
+	 * @see #getTrackLockSignal()
 	 * @generated
 	 */
-	void setTracklockSignal(String value);
+	void setTrackLockSignal(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Ejection Direction</b></em>' attribute.

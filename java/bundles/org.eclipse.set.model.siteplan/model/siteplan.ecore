@@ -327,7 +327,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="TrackLockComponent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tracklockSignal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackLockSignal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ejectionDirection" eType="#//LeftRight"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

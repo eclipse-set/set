@@ -31,7 +31,7 @@ import org.eclipse.set.model.siteplan.TrackLockComponent;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockComponentImpl#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockComponentImpl#getTracklockSignal <em>Tracklock Signal</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockComponentImpl#getTrackLockSignal <em>Track Lock Signal</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockComponentImpl#getEjectionDirection <em>Ejection Direction</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockComponentImpl#getGuid <em>Guid</em>}</li>
  * </ul>
@@ -50,24 +50,24 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 	protected Position position;
 
 	/**
-	 * The default value of the '{@link #getTracklockSignal() <em>Tracklock Signal</em>}' attribute.
+	 * The default value of the '{@link #getTrackLockSignal() <em>Track Lock Signal</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTracklockSignal()
+	 * @see #getTrackLockSignal()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String TRACKLOCK_SIGNAL_EDEFAULT = null;
+	protected static final String TRACK_LOCK_SIGNAL_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getTracklockSignal() <em>Tracklock Signal</em>}' attribute.
+	 * The cached value of the '{@link #getTrackLockSignal() <em>Track Lock Signal</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTracklockSignal()
+	 * @see #getTrackLockSignal()
 	 * @generated
 	 * @ordered
 	 */
-	protected String tracklockSignal = TRACKLOCK_SIGNAL_EDEFAULT;
+	protected String trackLockSignal = TRACK_LOCK_SIGNAL_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getEjectionDirection() <em>Ejection Direction</em>}' attribute.
@@ -179,8 +179,8 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 	 * @generated
 	 */
 	@Override
-	public String getTracklockSignal() {
-		return tracklockSignal;
+	public String getTrackLockSignal() {
+		return trackLockSignal;
 	}
 
 	/**
@@ -189,11 +189,11 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 	 * @generated
 	 */
 	@Override
-	public void setTracklockSignal(String newTracklockSignal) {
-		String oldTracklockSignal = tracklockSignal;
-		tracklockSignal = newTracklockSignal;
+	public void setTrackLockSignal(String newTrackLockSignal) {
+		String oldTrackLockSignal = trackLockSignal;
+		trackLockSignal = newTrackLockSignal;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL, oldTracklockSignal, tracklockSignal));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL, oldTrackLockSignal, trackLockSignal));
 	}
 
 	/**
@@ -266,8 +266,8 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 		switch (featureID) {
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__POSITION:
 				return getPosition();
-			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL:
-				return getTracklockSignal();
+			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL:
+				return getTrackLockSignal();
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__EJECTION_DIRECTION:
 				return getEjectionDirection();
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__GUID:
@@ -287,8 +287,8 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__POSITION:
 				setPosition((Position)newValue);
 				return;
-			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL:
-				setTracklockSignal((String)newValue);
+			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL:
+				setTrackLockSignal((String)newValue);
 				return;
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__EJECTION_DIRECTION:
 				setEjectionDirection((LeftRight)newValue);
@@ -311,8 +311,8 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__POSITION:
 				setPosition((Position)null);
 				return;
-			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL:
-				setTracklockSignal(TRACKLOCK_SIGNAL_EDEFAULT);
+			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL:
+				setTrackLockSignal(TRACK_LOCK_SIGNAL_EDEFAULT);
 				return;
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__EJECTION_DIRECTION:
 				setEjectionDirection(EJECTION_DIRECTION_EDEFAULT);
@@ -334,8 +334,8 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 		switch (featureID) {
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__POSITION:
 				return position != null;
-			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL:
-				return TRACKLOCK_SIGNAL_EDEFAULT == null ? tracklockSignal != null : !TRACKLOCK_SIGNAL_EDEFAULT.equals(tracklockSignal);
+			case SiteplanPackage.TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL:
+				return TRACK_LOCK_SIGNAL_EDEFAULT == null ? trackLockSignal != null : !TRACK_LOCK_SIGNAL_EDEFAULT.equals(trackLockSignal);
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__EJECTION_DIRECTION:
 				return ejectionDirection != EJECTION_DIRECTION_EDEFAULT;
 			case SiteplanPackage.TRACK_LOCK_COMPONENT__GUID:
@@ -354,8 +354,8 @@ public class TrackLockComponentImpl extends MinimalEObjectImpl.Container impleme
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (tracklockSignal: ");
-		result.append(tracklockSignal);
+		result.append(" (trackLockSignal: ");
+		result.append(trackLockSignal);
 		result.append(", ejectionDirection: ");
 		result.append(ejectionDirection);
 		result.append(", guid: ");
