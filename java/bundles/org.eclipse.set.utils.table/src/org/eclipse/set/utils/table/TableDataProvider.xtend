@@ -134,21 +134,27 @@ class TableDataProvider implements IDataProvider {
 			row.rowIndex === originalIndex
 		]
 	}
+	
+	/**
+	 * @return the table row with current table position
+	 */
+	def TableRowData getRow(int tableRowPosition) {
+		return tableContents.get(tableRowPosition)
+	}
 
-	def String getObjectScope(int row) {
+	def String getObjectScope(int tableRowPosition) {
 		val scopeColumn = table.columndescriptors.findFirst [
 			label !== null && label.equals('Bereich')
 		]
 		if (scopeColumn === null) {
 			return null
 		}
-		val zustandCell = tableContents?.get(row)?.contents?.get(
+		val zustandCell = tableRowPosition.row?.contents?.get(
 			table.columndescriptors.indexOf(scopeColumn) - 1)
 		if (zustandCell === null) {
 			return null
 		}
 		return zustandCell.plainStringValue
-
 	}
 
 	override int getColumnCount() {

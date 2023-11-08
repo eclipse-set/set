@@ -124,15 +124,19 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	}
 
 	override getOriginalRowIndex(int index) {
-		val visibleRows = tableContents.filter[!hiddenRowsIndex.contains(rowIndex)]
-		if (visibleRows.empty) {
+		val visbile = visibleRows
+		if (visbile.empty) {
 			return -1
 		}
-		val treeTableRow = visibleRows.get(index)
+		val treeTableRow = visbile.get(index)
 		if (treeTableRow === null || isParentRow(treeTableRow)) {
 			return -1
 		}
 		return treeTableRow.row.rowIndex
+	}
+	
+	override getRow(int tableRowPosition) {
+		return visibleRows.get(tableRowPosition)
 	}
 
 	override getDepthOfData(TableRowData object) {
@@ -167,12 +171,16 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 	override isValidIndex(int index) {
 		return index >= 0 && index < tableContents.size
 	}
-
+	
 	def TableRowData getParent(TableRowData row) {
 		if (row.hasChildren) {
 			return row
 		}
 		return rowGroupMapping.findFirst[value.contains(row)]?.key
+	}
+	
+	def List<TableRowData> getVisibleRows() {
+		return tableContents.filter[!hiddenRowsIndex.contains(rowIndex)].toList
 	}
 
 	/**

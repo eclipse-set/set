@@ -164,7 +164,7 @@ public class SourceWebTextViewPart extends BasePart {
 	private void jumpToLine(final Pair<ObjectScope, Integer> lineNumber) {
 		String modelName = ""; //$NON-NLS-1$
 		if (lineNumber.getFirst() == ObjectScope.LAYOUT) {
-			modelName = ContainerContent.ATTACHMENT.getLiteral();
+			modelName = ContainerContent.LAYOUT.getLiteral();
 		} else {
 			modelName = ContainerContent.MODEL.getLiteral();
 		}
