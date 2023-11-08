@@ -19,7 +19,7 @@
     "ol-mapbox-style": "^10.3.4",
     "vue": "^3.3.8",
     "vue-class-component": "^8.0.0-1",
-    "vue-router": "^4.1.6",
+    "vue-router": "^4.2.5",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
