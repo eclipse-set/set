@@ -75,8 +75,7 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
     const sideLegCoorClone: Coordinate[] = component.sideLeg.coordinates.map(coor => {
       return {
         x: coor.x,
-        y: coor.y,
-        crs: coor.crs
+        y: coor.y
       }
     })
     sideLegCoorClone.reverse()

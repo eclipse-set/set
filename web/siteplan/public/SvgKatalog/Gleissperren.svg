@@ -18,7 +18,7 @@
             <toolbox:anchor id="mastAnkerTop" x="5" y="0" />
             <toolbox:anchor id="mastAnkerBottom" x="5" y="40" />
             <toolbox:rectbound x="0" y="0" width="10" height="40" />
-            <toolbox:rectbound x="0" y="0" width="0.1" height="56" transform="translate(24 1) rotate(45)" />
+            <toolbox:rectbound x="0" y="0" width="2" height="56" transform="translate(24 1) rotate(45)" />
         </g>
 
         <g class="gleissperren" id="sperren_doppelte">

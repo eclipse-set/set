@@ -54,7 +54,7 @@ export default class FeatureInfoPopup extends Vue {
   map!: Map
   featureLayers!: NamedFeatureLayer[]
   mouseDownButton: LeftRight | null = null
-  infoPopup!: Overlay
+  infoPopup: Overlay | null = null
   selectedFeatures: Collection<Feature<Geometry>> = new Collection()
   featureSelectionKey = 0
   readonly existPopupFeature = [
@@ -159,7 +159,7 @@ export default class FeatureInfoPopup extends Vue {
       return
     }
 
-    this.infoPopup.setPosition(event.mapBrowserEvent.coordinate)
+    this.infoPopup?.setPosition(event.mapBrowserEvent.coordinate)
   }
 
   onFeatureClick (event: MapBrowserEvent<PointerEvent>): boolean {

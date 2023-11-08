@@ -226,11 +226,11 @@ export default class SvgDrawTracklock extends AbstractDrawSVG {
     if (trackLock.preferredLocation === TrackLockLocation.besideTrack) {
       if (trackLock.components[0].trackLockSignal === TrackLockSignal.bothside) {
         const offset = getWidth(bboxContainer[1])
-        return -getWidth(bboxContainer[0]) / 4 - offset / 2
+        return -getWidth(bboxContainer[0]) / 4 + offset / 2
       }
     }
 
-    return -getWidth(bboxContainer[0]) / 4
+    return getWidth(bboxContainer[0]) / 2
   }
 
   public getFeatureType (): FeatureType {
