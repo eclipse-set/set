@@ -135,15 +135,15 @@ class TableDataProvider implements IDataProvider {
 		]
 	}
 
-	def String getObjectState(int row) {
-		val zustandColumn = table.columndescriptors.findFirst [
-			label !== null && label.equals('Zustand')
+	def String getObjectScope(int row) {
+		val scopeColumn = table.columndescriptors.findFirst [
+			label !== null && label.equals('Bereich')
 		]
-		if (zustandColumn === null) {
+		if (scopeColumn === null) {
 			return null
 		}
 		val zustandCell = tableContents?.get(row)?.contents?.get(
-			table.columndescriptors.indexOf(zustandColumn) - 1)
+			table.columndescriptors.indexOf(scopeColumn) - 1)
 		if (zustandCell === null) {
 			return null
 		}

@@ -253,9 +253,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 			case PlazPackage.PLAZ_ERROR__OBJECT:
 				if (resolve) return getObject();
 				return basicGetObject();
-			default:
-				return super.eGet(featureID, resolve, coreType);
 		}
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
@@ -278,10 +277,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 			case PlazPackage.PLAZ_ERROR__OBJECT:
 				setObject((EObject)newValue);
 				return;
-			default:
-				super.eSet(featureID, newValue);
-				return;
 		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
@@ -304,10 +301,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 			case PlazPackage.PLAZ_ERROR__OBJECT:
 				setObject((EObject)null);
 				return;
-			default:
-				super.eUnset(featureID);
-				return;
 		}
+		super.eUnset(featureID);
 	}
 
 	/**
@@ -326,9 +321,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 				return severity != SEVERITY_EDEFAULT;
 			case PlazPackage.PLAZ_ERROR__OBJECT:
 				return object != null;
-			default:
-				return super.eIsSet(featureID);
 		}
+		return super.eIsSet(featureID);
 	}
 
 	/**

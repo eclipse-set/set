@@ -25,7 +25,6 @@ import org.eclipse.set.feature.validation.Messages
 import org.eclipse.set.feature.validation.utils.FileInfoReader
 import org.eclipse.set.feature.validation.utils.XMLNodeFinder
 import org.eclipse.set.model.validationreport.ObjectScope
-import org.eclipse.set.model.validationreport.ObjectState
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.model.validationreport.ValidationSeverity
@@ -220,8 +219,14 @@ class SessionToValidationReportTransformation {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
-		} else if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+		}
+
+		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
+			if (validationSourceClass == PlanPro_Layoutinfo) {
+				objectScope = ObjectScope.LAYOUT
+			} else {
+				objectScope = ObjectScope.CONTENT
+			}
 		}
 		return
 	}
@@ -242,8 +247,14 @@ class SessionToValidationReportTransformation {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
-		} else if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+		}
+
+		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
+			if (validationSourceClass == PlanPro_Layoutinfo) {
+				objectScope = ObjectScope.LAYOUT
+			} else {
+				objectScope = ObjectScope.CONTENT
+			}
 		}
 		return
 	}
@@ -260,10 +271,12 @@ class SessionToValidationReportTransformation {
 		lineNumber = 0
 		message = exception.transformToMessage
 		objectArt = ""
-		objectScope = ObjectScope.UNKNOWN
 		attributeName = ""
+
 		if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+			objectScope = ObjectScope.LAYOUT
+		} else {
+			objectScope = ObjectScope.CONTENT
 		}
 		return
 	}
@@ -281,6 +294,14 @@ class SessionToValidationReportTransformation {
 		objectScope = problem.objectScope
 		objectState = problem.objectState
 		attributeName = problem.attributeName
+
+		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
+			if (validationSourceClass == PlanPro_Layoutinfo) {
+				objectScope = ObjectScope.LAYOUT
+			} else {
+				objectScope = ObjectScope.CONTENT
+			}
+		}
 		return
 	}
 
@@ -293,9 +314,9 @@ class SessionToValidationReportTransformation {
 		severity = ValidationSeverity.SUCCESS
 		severityText = severity.translate
 		if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+			objectScope = ObjectScope.LAYOUT
 		} else {
-			objectState = ObjectState.INFO
+			objectScope = ObjectScope.CONTENT
 		}
 		it.message = message
 		return it

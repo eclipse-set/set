@@ -15,6 +15,8 @@
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ValidationSeverity/SUCCESS"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ObjectScope">
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Layout"/>
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Content"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Betrachtung"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Plan"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectScope/Unknown"/>
@@ -25,9 +27,9 @@
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ContainerContent/ATTACHMENT"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="validationreport.ecore#//ObjectState">
+      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/NONE"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/INITIAL"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/FINAL"/>
-      <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/LAYOUT"/>
       <genEnumLiterals ecoreEnumLiteral="validationreport.ecore#//ObjectState/INFO"/>
     </genEnums>
     <genClasses ecoreClass="validationreport.ecore#//ValidationReport">

@@ -30,7 +30,7 @@ import org.eclipse.set.browser.RequestHandler.Response;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.font.FontService;
 import org.eclipse.set.model.validationreport.ContainerContent;
-import org.eclipse.set.model.validationreport.ObjectState;
+import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.FileWebBrowser;
@@ -150,7 +150,7 @@ public class SourceWebTextViewPart extends BasePart {
 
 	private void handleJumpToSourceLineEvent(
 			final JumpToSourceLineEvent event) {
-		final Pair<ObjectState, Integer> lineNumber = event.getLineNumber();
+		final Pair<ObjectScope, Integer> lineNumber = event.getLineNumber();
 		final String objectGuid = event.getObjectGuid();
 		if (lineNumber.getSecond().intValue() != -1) {
 			this.jumpToLine(lineNumber);
@@ -161,9 +161,9 @@ public class SourceWebTextViewPart extends BasePart {
 		}
 	}
 
-	private void jumpToLine(final Pair<ObjectState, Integer> lineNumber) {
+	private void jumpToLine(final Pair<ObjectScope, Integer> lineNumber) {
 		String modelName = ""; //$NON-NLS-1$
-		if (lineNumber.getFirst() == ObjectState.LAYOUT) {
+		if (lineNumber.getFirst() == ObjectScope.LAYOUT) {
 			modelName = ContainerContent.ATTACHMENT.getLiteral();
 		} else {
 			modelName = ContainerContent.MODEL.getLiteral();

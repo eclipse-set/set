@@ -28,7 +28,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
-import org.eclipse.set.model.validationreport.ObjectState;
+import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.ToolboxEvent;
@@ -114,7 +114,7 @@ public abstract class AbstractTableMenuService implements TableMenuService {
 				new JumpToSourceLineEvent(part) {
 
 					@Override
-					public Pair<ObjectState, Integer> getLineNumber() {
+					public Pair<ObjectScope, Integer> getLineNumber() {
 						final Collection<ILayerCell> selectedCells = selectionLayer
 								.getSelectedCells();
 						if (selectedCells.isEmpty()) {
@@ -125,14 +125,14 @@ public abstract class AbstractTableMenuService implements TableMenuService {
 						if (dataProvider instanceof final TableDataProvider tableDataProvider) {
 							final int originalRow = tableDataProvider
 									.getOriginalRowIndex(rowPosition);
-							final String objectState = tableDataProvider
-									.getObjectState(rowPosition);
-							final ObjectState state = ObjectState
-									.get(objectState);
+							final String objectScope = tableDataProvider
+									.getObjectScope(rowPosition);
+							final ObjectScope scope = ObjectScope
+									.get(objectScope);
 							final Integer lineNumber = Integer
 									.valueOf(tableDataProvider
 											.getObjectSourceLine(originalRow));
-							return new Pair<>(state, lineNumber);
+							return new Pair<>(scope, lineNumber);
 						}
 						return new Pair<>(null, Integer.valueOf(-1));
 

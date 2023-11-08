@@ -27,6 +27,7 @@ import org.osgi.service.component.annotations.ReferencePolicy
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.eclipse.set.model.plazmodel.PlazReport
+import org.eclipse.set.model.validationreport.ObjectScope
 
 @Component
 class PlazModelServiceImpl implements PlazModelService {
@@ -121,6 +122,7 @@ class PlazModelServiceImpl implements PlazModelService {
 		entry.severity = ValidationSeverity.SUCCESS
 		entry.type = check.checkType
 		entry.message = check.description
+		entry.objectScope = ObjectScope.CONTENT
 		return entry
 
 	}

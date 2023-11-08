@@ -233,7 +233,7 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	 * @generated
 	 * @ordered
 	 */
-	protected static final ObjectState OBJECT_STATE_EDEFAULT = ObjectState.INITIAL;
+	protected static final ObjectState OBJECT_STATE_EDEFAULT = ObjectState.NONE;
 
 	/**
 	 * The cached value of the '{@link #getObjectState() <em>Object State</em>}' attribute.
