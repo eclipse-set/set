@@ -813,7 +813,6 @@ npm/npmjs/@types/sockjs/0.3.33, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.5, MIT, approved, #6016
 npm/npmjs/@typescript-eslint/eslint-plugin/5.44.0, MIT, approved, #5029
 npm/npmjs/@typescript-eslint/eslint-plugin/5.57.0, BSD-2-Clause AND MIT, approved, #10720
-npm/npmjs/@typescript-eslint/parser/5.57.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/parser/5.62.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/5.44.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/5.57.0, MIT, approved, clearlydefined
