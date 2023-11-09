@@ -84,7 +84,11 @@ export default class PZBFeature extends LageplanFeature<PZB> {
         rotation += 180
       }
 
-      const position = { x: pzb.position.x, y: pzb.position.y, crs: pzb.position.crs, rotation }
+      const position = {
+        x: pzb.position.x,
+        y: pzb.position.y,
+        rotation
+      }
       LageplanFeature.createBBox(feature, position, bbox, translate, [1, 1])
     }
   }

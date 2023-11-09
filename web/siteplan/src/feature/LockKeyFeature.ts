@@ -73,7 +73,6 @@ export default class LockKeyFeature extends LageplanFeature<LockKey> {
 
   private createLockKeyBBox (feature: Feature<Geometry>, lockKey: LockKey, svg: ISvgElement, rotation: number) {
     const position: Position = {
-      crs: lockKey.position.crs,
       rotation,
       x: lockKey.position.x,
       y: lockKey.position.y

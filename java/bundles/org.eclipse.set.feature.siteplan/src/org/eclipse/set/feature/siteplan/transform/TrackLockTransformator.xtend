@@ -60,7 +60,7 @@ class TrackLockTransformator extends BaseTransformator<W_Kr_Gsp_Element> {
 			component.position = positionService.transformPosition(
 				trackService.getCoordinate(it)
 			)
-			component.tracklockSignal = transformTrackLockSignal
+			component.trackLockSignal = transformTrackLockSignal
 			component.ejectionDirection = transformEjectionDirection
 			result.components.add(component)
 		]

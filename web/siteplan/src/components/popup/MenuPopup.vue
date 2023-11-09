@@ -57,7 +57,7 @@ import {
 } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
 import 'material-design-icons/iconfont/material-icons.css'
-import { Collection, Feature } from 'ol'
+import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
 import { Options, Vue } from 'vue-class-component'
 

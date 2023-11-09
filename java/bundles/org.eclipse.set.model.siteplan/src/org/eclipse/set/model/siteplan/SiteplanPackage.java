@@ -1985,13 +1985,13 @@ public interface SiteplanPackage extends EPackage {
 	int TRACK_LOCK_COMPONENT__POSITION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Tracklock Signal</b></em>' attribute.
+	 * The feature id for the '<em><b>Track Lock Signal</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL = 1;
+	int TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL = 1;
 
 	/**
 	 * The feature id for the '<em><b>Ejection Direction</b></em>' attribute.
@@ -4058,15 +4058,15 @@ public interface SiteplanPackage extends EPackage {
 	EReference getTrackLockComponent_Position();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getTracklockSignal <em>Tracklock Signal</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getTrackLockSignal <em>Track Lock Signal</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Tracklock Signal</em>'.
-	 * @see org.eclipse.set.model.siteplan.TrackLockComponent#getTracklockSignal()
+	 * @return the meta object for the attribute '<em>Track Lock Signal</em>'.
+	 * @see org.eclipse.set.model.siteplan.TrackLockComponent#getTrackLockSignal()
 	 * @see #getTrackLockComponent()
 	 * @generated
 	 */
-	EAttribute getTrackLockComponent_TracklockSignal();
+	EAttribute getTrackLockComponent_TrackLockSignal();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getEjectionDirection <em>Ejection Direction</em>}'.
@@ -5694,12 +5694,12 @@ public interface SiteplanPackage extends EPackage {
 		EReference TRACK_LOCK_COMPONENT__POSITION = eINSTANCE.getTrackLockComponent_Position();
 
 		/**
-		 * The meta object literal for the '<em><b>Tracklock Signal</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Track Lock Signal</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL = eINSTANCE.getTrackLockComponent_TracklockSignal();
+		EAttribute TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL = eINSTANCE.getTrackLockComponent_TrackLockSignal();
 
 		/**
 		 * The meta object literal for the '<em><b>Ejection Direction</b></em>' attribute feature.

@@ -190,7 +190,7 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
       return missingNode.map(x => {
         const missingID = getIDFunction(x)
         const index = firstList.indexOf(x)
-        return [index, `${missingID}` ?? '', x]
+        return [index, missingID ? `${missingID}` : '', x]
       })
     }
 

@@ -17,10 +17,10 @@ import { angle, midpoint } from '@/util/Math'
 import { updateLabelColor, updateLabelOrientation } from '@/util/ModelExtensions'
 import SvgDrawTracklock from '@/util/SVG/Draw/SvgDrawTracklock'
 import { Feature } from 'ol'
-import { getHeight } from 'ol/extent'
+import { getHeight, getWidth, Extent } from 'ol/extent'
 import Geometry from 'ol/geom/Geometry'
 import Point from 'ol/geom/Point'
-import { createFeature, FeatureType } from './FeatureInfo'
+import { FeatureType, createFeature } from './FeatureInfo'
 
 export default class TrackLockFeature extends LageplanFeature<TrackLock> {
   protected getObjectsModel (model: SiteplanState): TrackLock[] {
@@ -76,7 +76,6 @@ export default class TrackLockFeature extends LageplanFeature<TrackLock> {
       const rotation = angle([current.x, current.y], [next.x, next.y])
 
       return {
-        crs: current.crs,
         x: midPoint[0],
         y: midPoint[1],
         rotation
@@ -91,24 +90,52 @@ export default class TrackLockFeature extends LageplanFeature<TrackLock> {
     trackLockSvg: ISvgElement,
     rotation: number
   ): void {
-    let translate = [0, 0]
-    const offsetXFactor = trackLock.preferredLocation === TrackLockLocation.besideTrack ? -1 : 1
+    const offsetFactor = trackLock.preferredLocation === TrackLockLocation.besideTrack ? -1 : 1
+    // Line width
     const offSet = 1.25
-    trackLockSvg.boundingBox.forEach((bbox, index) => {
-      // Translate bounding box of track lock signal circle up or down
-      if (bbox[0] !== 0 && bbox[1] !== 0 && trackLockSvg.nullpunkt) {
-        translate = [
-          -offsetXFactor * Math.pow(-1, index) * (trackLockSvg.nullpunkt.x + offSet),
-          +Math.pow(-1, index) * (trackLockSvg.nullpunkt.y + getHeight(bbox) / 2 + offSet)
-        ]
-      }
+    let trackLockBBoxs = new Array<Extent>().concat(trackLockSvg.boundingBox)
+    const isBesideTrack = trackLock.preferredLocation === TrackLockLocation.besideTrack
+    // create bbox for tracklock signal
+    if (trackLockSvg.nullpunkt) {
+      const trackLockSignal = trackLockSvg.boundingBox.filter(bbox => bbox[0] !== 0 && bbox[1] !== 0)
+      trackLockBBoxs = trackLockBBoxs.filter(bbox => !trackLockSignal.includes(bbox))
+      trackLockSignal.forEach((bbox, index) => {
+        let translate = [0, 0]
 
-      if (trackLock.preferredLocation === TrackLockLocation.besideTrack) {
-        translate[0] -= SvgDrawTracklock.getOffsetX(trackLock, trackLockSvg.boundingBox) - 5
-      }
+        // Translate bounding box of track lock signal circle up or down
+        if (bbox[0] !== 0 && bbox[1] !== 0 && trackLockSvg.nullpunkt) {
+          // Define transform direction of this bbox
+          const factor = offsetFactor * Math.pow(-1, index + 1)
+          translate = [
+            factor * (getWidth(bbox) / 2 + offSet),
+            factor * (trackLockSvg.nullpunkt.y + getHeight(bbox) / 2 + offSet)
+          ]
+        }
 
-      const position = { x: pos.x, y: pos.y, crs: pos.crs, rotation }
-      LageplanFeature.createBBox(feature, position, bbox, translate, [1, 1])
+        if (isBesideTrack) {
+          translate[0] -= SvgDrawTracklock.getOffsetX(trackLock, trackLockSvg.boundingBox) - 5
+        }
+
+        const position = { x: pos.x, y: pos.y, rotation }
+        LageplanFeature.createBBox(feature, position, bbox, translate, [1, 1])
+      })
+    }
+
+    const arrowBBox = trackLockBBoxs.reduce((prev, curr) =>
+      getWidth(prev) < getWidth(curr) ? prev : curr)
+    if (arrowBBox) {
+      const arrowRotation = rotation - 45
+      const position = {
+        x: pos.x,
+        y: pos.y,
+        rotation: isBesideTrack ? arrowRotation - 90 : arrowRotation
+      }
+      LageplanFeature.createBBox(feature, position, arrowBBox, [0, 0], [1, 1])
+    }
+
+    trackLockBBoxs.filter(ele => ele !== arrowBBox).forEach(bbox => {
+      const position = { x: pos.x,y: pos.y,rotation}
+      LageplanFeature.createBBox(feature, position, bbox, [0, 0], [1, 1])
     })
   }
 

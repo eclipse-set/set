@@ -1879,7 +1879,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getTrackLockComponent_TracklockSignal() {
+	public EAttribute getTrackLockComponent_TrackLockSignal() {
 		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -2517,7 +2517,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 
 		trackLockComponentEClass = createEClass(TRACK_LOCK_COMPONENT);
 		createEReference(trackLockComponentEClass, TRACK_LOCK_COMPONENT__POSITION);
-		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__TRACKLOCK_SIGNAL);
+		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL);
 		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__EJECTION_DIRECTION);
 		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__GUID);
 
@@ -2788,7 +2788,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 
 		initEClass(trackLockComponentEClass, TrackLockComponent.class, "TrackLockComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTrackLockComponent_Position(), this.getPosition(), null, "position", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackLockComponent_TracklockSignal(), ecorePackage.getEString(), "tracklockSignal", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrackLockComponent_TrackLockSignal(), ecorePackage.getEString(), "trackLockSignal", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrackLockComponent_EjectionDirection(), this.getLeftRight(), "ejectionDirection", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrackLockComponent_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
