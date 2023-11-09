@@ -147,6 +147,7 @@ npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/atob/2.1.2, MIT OR Apache-2.0, approved, #1027
 npm/npmjs/-/available-typed-arrays/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/axios/1.6.0, MIT, approved, #11338
+npm/npmjs/-/axios/1.6.1, MIT, approved, #11338
 npm/npmjs/-/balanced-match/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/base64-arraybuffer/0.2.0, MIT, approved, clearlydefined
