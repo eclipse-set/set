@@ -103,7 +103,7 @@ export default class FeatureInfoPopup extends Vue {
       return []
     }
 
-    const popupAvavaibleFeatures = this.selectedFeatures.getArray().filter(feature => this.isFeatureHavePopup(feature))
+    const popupAvavaibleFeatures = this.selectedFeatures.getArray().filter(feature => this.hasPopup(feature))
     const uniqueFeatures = this.filterSameFeature(popupAvavaibleFeatures)
 
     if (uniqueFeatures.length == 0) {
@@ -134,7 +134,7 @@ export default class FeatureInfoPopup extends Vue {
     return result
   }
 
-  isFeatureHavePopup (feature: Feature<Geometry>): boolean {
+  hasPopup (feature: Feature<Geometry>): boolean {
     const existInfoPop = this.mouseDownButton === LeftRight.LEFT &&
       this.existPopupFeature.includes(getFeatureType(feature))
     const existGUID = this.mouseDownButton === LeftRight.RIGHT &&
