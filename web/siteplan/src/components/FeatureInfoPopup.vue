@@ -24,7 +24,7 @@
 </template>
 <script lang="ts">
 import MenuPopup from '@/components/popup/MenuPopup.vue'
-import { FeatureType, getFeatureData, getFeatureType, getFeatureGUID } from '@/feature/FeatureInfo'
+import { FeatureType, getFeatureData, getFeatureType } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
 import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 import NamedFeatureLayer from '@/util/NamedFeatureLayer'
