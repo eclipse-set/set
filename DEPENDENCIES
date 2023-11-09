@@ -330,6 +330,7 @@ npm/npmjs/-/function.prototype.name/1.1.6, MIT, approved, #10255
 npm/npmjs/-/functions-have-names/1.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/gauge/3.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/geojson-rbush/3.2.0, MIT, approved, clearlydefined
+npm/npmjs/-/geojson/0.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/geotiff/2.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/get-intrinsic/1.2.1, MIT, approved, #8453
 npm/npmjs/-/get-intrinsic/1.2.2, MIT, approved, #8453
@@ -794,6 +795,7 @@ npm/npmjs/@types/eslint/8.4.7, MIT, approved, #2429
 npm/npmjs/@types/estree/1.0.1, MIT, approved, #8266
 npm/npmjs/@types/express-serve-static-core/4.17.29, MIT, approved, #6020
 npm/npmjs/@types/express/4.17.13, MIT, approved, #5760
+npm/npmjs/@types/geojson/7946.0.13, , restricted, clearlydefined
 npm/npmjs/@types/geojson/7946.0.8, MIT, approved, clearlydefined
 npm/npmjs/@types/html-minifier-terser/6.1.0, MIT, approved, clearlydefined
 npm/npmjs/@types/http-proxy/1.17.9, MIT, approved, #8414
