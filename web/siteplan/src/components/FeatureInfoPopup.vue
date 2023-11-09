@@ -24,7 +24,7 @@
 </template>
 <script lang="ts">
 import MenuPopup from '@/components/popup/MenuPopup.vue'
-import { FeatureType, getFeatureData, getFeatureType } from '@/feature/FeatureInfo'
+import { FeatureType, getFeatureData, getFeatureType, getFeatureGUID } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
 import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 import NamedFeatureLayer from '@/util/NamedFeatureLayer'
@@ -103,14 +103,15 @@ export default class FeatureInfoPopup extends Vue {
       return []
     }
 
-    const uniqueFeatures = this.filterSameFeature(this.selectedFeatures.getArray())
-    const popupAvavaibleFeatures = uniqueFeatures.filter(feature => this.isFeatureHavePopup(feature))
-    if (popupAvavaibleFeatures.length == 0) {
+    const popupAvavaibleFeatures = this.selectedFeatures.getArray().filter(feature => this.isFeatureHavePopup(feature))
+    const uniqueFeatures = this.filterSameFeature(popupAvavaibleFeatures)
+
+    if (uniqueFeatures.length == 0) {
       this.resetSelection()
       return []
     }
 
-    return popupAvavaibleFeatures
+    return uniqueFeatures
   }
 
   filterSameFeature (features: Feature<Geometry>[]): Array<Feature<Geometry>> {
@@ -119,14 +120,15 @@ export default class FeatureInfoPopup extends Vue {
       const featureType = getFeatureType(feature)
       const featuresSameType = result.filter(ele =>
         getFeatureType(ele) === featureType)
+
       if (featuresSameType.length === 0) {
         result.push(feature)
-      } else {
-        featuresSameType.forEach(ele => {
-          if (compare(getFeatureData(feature), getFeatureData(ele))) {
-            result.push(feature)
-          }
-        })
+        return
+      }
+
+      const isAlreadyAdded = !featuresSameType.every(ele => compare(getFeatureData(feature), getFeatureData(ele)))
+      if (!isAlreadyAdded) {
+        result.push(feature)
       }
     })
     return result
