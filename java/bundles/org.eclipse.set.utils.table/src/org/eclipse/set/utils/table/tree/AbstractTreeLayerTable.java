@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.function.UnaryOperator;
 
 import org.eclipse.nebula.widgets.nattable.command.ILayerCommand;
+import org.eclipse.nebula.widgets.nattable.command.StructuralRefreshCommand;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
 import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
@@ -70,6 +71,12 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 		treeLayer = new TreeLayer(bodyDataLayer, treeRowModel) {
 			@Override
 			public boolean doCommand(final ILayerCommand command) {
+				// Refresh hidden row index by data change
+				if (command instanceof StructuralRefreshCommand) {
+					treeLayer.doCommand(new TreeExpandAllCommand());
+					treeLayer.doCommand(new TreeCollapseAllCommand());
+					return true;
+				}
 				// Update hidden rows list in {@link TreeDataProvider}
 				treeData.doExpandCollapseCommand(command);
 				return super.doCommand(command);
@@ -111,7 +118,6 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 			layer.expandAll();
 			treeDataProvider.applyFilter(filterIndexToObjectMap);
 			treeLayer.doCommand(new TreeCollapseAllCommand());
-
 		}
 
 	}

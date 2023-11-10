@@ -328,11 +328,11 @@ class SessionToValidationReportTransformation {
 		if (fachdaten === null)
 			return #[]
 		val subtypes = newHashMap
-		fachdaten.map[untergewerkArt?.wert?.toString].forEach [
-			if (!subtypes.containsKey(it)) {
+		fachdaten.map[untergewerkArt?.wert].filterNull.forEach [
+			if (!subtypes.containsKey(it.toString)) {
 				subtypes.put(it, 1)
 			} else {
-				val count = subtypes.get(it)
+				val count = subtypes.get(it.toString)
 				subtypes.put(it, count + 1)
 			}
 		]

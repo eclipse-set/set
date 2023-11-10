@@ -11,6 +11,7 @@ package org.eclipse.set.application.renameservice;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
@@ -23,9 +24,8 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * Implementation for {@link RenameService}.
@@ -42,7 +42,8 @@ public class RenameServiceImpl implements RenameService {
 
 	@Override
 	public ToolboxFile save(final Shell shell, final ToolboxFile toolboxFile,
-			final PlanPro_Schnittstelle planProObject, final boolean askUser)
+			final PlanPro_Schnittstelle planProObject, final boolean askUser,
+			final Consumer<ToolboxFile> saveAction)
 			throws UserAbortion, IOException {
 		// old and new Path
 		final Path oldPath = toolboxFile.getPath();
@@ -79,10 +80,9 @@ public class RenameServiceImpl implements RenameService {
 			}
 
 			// confirm overwriting
-			if (Files.exists(newPath)) {
-				if (!dialogService.confirmOverwrite(shell, newPath)) {
-					throw new UserAbortion();
-				}
+			if (Files.exists(newPath)
+					&& !dialogService.confirmOverwrite(shell, newPath)) {
+				throw new UserAbortion();
 			}
 
 			// create new toolbox file
@@ -98,7 +98,7 @@ public class RenameServiceImpl implements RenameService {
 		}
 
 		// save
-		newToolboxFile.save();
+		saveAction.accept(newToolboxFile);
 
 		return newToolboxFile;
 	}

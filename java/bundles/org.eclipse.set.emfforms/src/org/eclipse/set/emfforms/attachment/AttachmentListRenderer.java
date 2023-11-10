@@ -46,6 +46,10 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.emfforms.utils.DomainModelTypeRendererService;
 import org.eclipse.set.ppmodel.extensions.AnhangTransformation;
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMAnhangArt;
+import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.utils.Messages;
 import org.eclipse.set.utils.widgets.AttachmentTable;
 import org.eclipse.swt.SWT;
@@ -55,11 +59,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
-
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMAnhangArt;
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Renders a list of attachments.
@@ -312,10 +311,12 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 		attachmentTable.setModel(transformation.toAttachment(domainElementList),
 				toFileKinds(getFileKindList(domainElementList),
 						translationService));
+		attachmentTable.setModel(
+				transformation.toAttachment(domainElementList.getElements()));
 		attachmentTable.setTempDir(tempDir);
 		final ToolboxPartService partService = toolboxViewModelService
 				.get(ToolboxPartService.class);
-		attachmentTable.setPdfViewer(path -> partService.showPdfPart(path));
+		attachmentTable.setPdfViewer(partService::showPdfPart);
 		attachmentTable.setExtensionFilter(getExtensionFilter());
 		return attachmentTable.createControl();
 	}

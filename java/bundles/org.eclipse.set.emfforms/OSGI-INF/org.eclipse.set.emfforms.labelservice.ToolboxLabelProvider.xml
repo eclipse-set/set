@@ -1,14 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<scr:component name="org.eclipse.set.emfforms.labelservice.ToolboxLabelProvider" immediate="true" xmlns:scr="http://www.osgi.org/xmlns/scr/v1.2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.eclipse.set.emfforms.labelservice.ToolboxLabelProvider">
    <implementation class="org.eclipse.set.emfforms.labelservice.ToolboxLabelProvider"/>
-   <service>
-      <provide interface="org.eclipse.emfforms.spi.core.services.label.EMFFormsLabelProvider"/>
-      <provide interface="org.eclipse.emfforms.internal.core.services.label.EMFFormsLabelProviderImpl"/>
-   </service>
-   <reference bind="setReportService" cardinality="1..1" interface="org.eclipse.emfforms.spi.common.report.ReportService" name="ReportService" policy="static" />
-   <reference bind="setEMFFormsDatabinding" cardinality="1..1" interface="org.eclipse.emfforms.spi.core.services.databinding.emf.EMFFormsDatabindingEMF" name="EMFFormsDatabinding" policy="static" />
-   <reference bind="setEMFFormsLocaleProvider" cardinality="1..1" interface="org.eclipse.emfforms.spi.common.locale.EMFFormsLocaleProvider" name="EMFFormsLocaleProvider" policy="static" />
-   <reference bind="setEMFFormsLocalizationService" cardinality="1..1" interface="org.eclipse.emfforms.spi.localization.EMFFormsLocalizationService" name="EMFFormsLocalizationService" policy="static" />
-   <reference bind="setLabelProviderDefault" cardinality="1..1" interface="org.eclipse.emfforms.internal.core.services.label.EMFFormsLabelProviderDefaultImpl" name="EMFFormsLabelProviderDefaultImpl" policy="static"/>
-   <property name="service.ranking" type="Integer" value="22"/>
 </scr:component>

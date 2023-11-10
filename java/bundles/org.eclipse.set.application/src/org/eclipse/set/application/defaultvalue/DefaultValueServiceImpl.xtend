@@ -100,6 +100,9 @@ class DefaultValueServiceImpl implements DefaultValueService {
 		if (planungGAllg.untergewerkArt === null) {
 			planungGAllg.untergewerkArt = PlanProFactory.eINSTANCE.
 				createUntergewerk_Art_TypeClass
+		}
+		
+		if (planungGAllg.untergewerkArt.wert === null) {
 			planungGAllg.untergewerkArt.wert = ENUMUntergewerkArt.
 				ENUM_UNTERGEWERK_ART_ESTW
 		}
