@@ -834,7 +834,7 @@ npm/npmjs/@typescript-eslint/visitor-keys/5.44.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/5.57.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/5.62.0, MIT, approved, clearlydefined
 npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
-npm/npmjs/@vitejs/plugin-vue/4.4.0, MIT, approved, clearlydefined
+npm/npmjs/@vitejs/plugin-vue/4.4.0, MIT, approved, #11487
 npm/npmjs/@vue/compiler-core/3.3.8, MIT, approved, #8185
 npm/npmjs/@vue/compiler-dom/3.3.8, MIT, approved, #8182
 npm/npmjs/@vue/compiler-sfc/3.3.8, MIT, approved, #8192
