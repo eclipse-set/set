@@ -147,6 +147,12 @@ export function compare (x: any, y: any): boolean {
     return x !== y
   }
 
+  // Must null check here,
+  // because typeof of null return object
+  if (x === null || y === null) {
+    return x !== y
+  }
+
   if (Array.isArray(x) && Array.isArray(y)) {
     return compareArray(x, y)
   }
