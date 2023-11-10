@@ -25,6 +25,7 @@ import org.eclipse.set.model.tablemodel.Footnote;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
@@ -144,6 +145,13 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	private EEnum columnWidthModeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum rowMergeModeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -671,6 +679,16 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
+	public EEnum getRowMergeMode() {
+		return rowMergeModeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public TablemodelFactory getTablemodelFactory() {
 		return (TablemodelFactory)getEFactoryInstance();
 	}
@@ -753,6 +771,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
+		rowMergeModeEEnum = createEEnum(ROW_MERGE_MODE);
 	}
 
 	/**
@@ -804,7 +823,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEAttribute(getColumnDescriptor_Unit(), ecorePackage.getEBoolean(), "unit", null, 1, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getColumnDescriptor_Parent(), this.getColumnDescriptor(), this.getColumnDescriptor_Children(), "parent", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColumnDescriptor_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getColumnDescriptor_MergeCommonValues(), ecorePackage.getEBoolean(), "mergeCommonValues", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getColumnDescriptor_MergeCommonValues(), this.getRowMergeMode(), "mergeCommonValues", "DEFAULT", 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getColumnDescriptor_ColumnPosition(), ecorePackage.getEString(), "columnPosition", null, 0, 1, ColumnDescriptor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableContentEClass, TableContent.class, "TableContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -852,6 +871,11 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class, "ColumnWidthMode");
 		addEEnumLiteral(columnWidthModeEEnum, ColumnWidthMode.WIDTH_CM);
 		addEEnumLiteral(columnWidthModeEEnum, ColumnWidthMode.WIDTH_PERCENT);
+
+		initEEnum(rowMergeModeEEnum, RowMergeMode.class, "RowMergeMode");
+		addEEnumLiteral(rowMergeModeEEnum, RowMergeMode.DEFAULT);
+		addEEnumLiteral(rowMergeModeEEnum, RowMergeMode.ENABLED);
+		addEEnumLiteral(rowMergeModeEEnum, RowMergeMode.DISABLED);
 
 		// Create resource
 		createResource(eNS_URI);

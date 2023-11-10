@@ -13,6 +13,11 @@
       <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//ColumnWidthMode/WIDTH_CM"/>
       <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//ColumnWidthMode/WIDTH_PERCENT"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tablemodel.ecore#//RowMergeMode">
+      <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//RowMergeMode/DEFAULT"/>
+      <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//RowMergeMode/ENABLED"/>
+      <genEnumLiterals ecoreEnumLiteral="tablemodel.ecore#//RowMergeMode/DISABLED"/>
+    </genEnums>
     <genClasses ecoreClass="tablemodel.ecore#//Table">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//Table/columndescriptors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//Table/tablecontent"/>

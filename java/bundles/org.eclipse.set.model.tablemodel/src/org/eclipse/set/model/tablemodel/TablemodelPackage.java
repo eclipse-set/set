@@ -746,6 +746,17 @@ public interface TablemodelPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge Mode</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
+	 * @generated
+	 */
+	int ROW_MERGE_MODE = 14;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.Table <em>Table</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -876,11 +887,11 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_Height();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues <em>Merge Common Values</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues <em>Merge Common Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Merge Common Values</em>'.
-	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues()
+	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues()
 	 * @see #getColumnDescriptor()
 	 * @generated
 	 */
@@ -1225,6 +1236,16 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getColumnWidthMode();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge Mode</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Row Merge Mode</em>'.
+	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
+	 * @generated
+	 */
+	EEnum getRowMergeMode();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1636,6 +1657,16 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum COLUMN_WIDTH_MODE = eINSTANCE.getColumnWidthMode();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge Mode</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.tablemodel.RowMergeMode
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
+		 * @generated
+		 */
+		EEnum ROW_MERGE_MODE = eINSTANCE.getRowMergeMode();
 
 	}
 

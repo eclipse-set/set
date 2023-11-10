@@ -11,6 +11,7 @@ package org.eclipse.set.utils.table;
 import java.util.List;
 
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 
@@ -83,8 +84,12 @@ public class TableSpanUtils {
 		// And contain the same value
 		final String valueA = TableRowExtensions.getPlainStringValue(rowA,
 				column);
-		final String valueB = TableRowExtensions.getPlainStringValue(rowA,
+		final String valueB = TableRowExtensions.getPlainStringValue(rowB,
 				column);
+
+		if (valueA == null) {
+			return valueB == null;
+		}
 		return valueA.equals(valueB);
 	}
 
@@ -104,10 +109,11 @@ public class TableSpanUtils {
 			if (cd == null) {
 				return false;
 			}
-			if (cd.isMergeCommonValues()) {
-				return true;
+			if (cd.getMergeCommonValues() == RowMergeMode.DEFAULT) {
+				cd = cd.getParent();
+				continue;
 			}
-			cd = cd.getParent();
+			return cd.getMergeCommonValues() == RowMergeMode.ENABLED;
 		}
 	}
 }
