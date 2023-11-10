@@ -34,7 +34,7 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 			factory.transformProblem(it)
 			listProblems.add(it)
 		]
-		factory.instertTreeRootRow
+		factory.instertGroupAbstractRow
 		factory.reGroupingTree
 		return factory.table
 	}
@@ -55,31 +55,36 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 
 	abstract def void fillProblem(TableRow instance, ValidationProblem problem)
 
-	/**
-	 * Insert row with abstract content into group
-	 * 
-	 * @param factory {@link TMFactory}
-	 */
-	protected def void instertTreeRootRow(TMFactory factory) {
+	private def void instertGroupAbstractRow(TMFactory factory) {
 		val rowGroups = factory.table.tablecontent.rowgroups.filter [
 			rows.size >= ToolboxConfiguration.tableTreeMinimum
 		]
-		rowGroups.forEach [ group |
-			val sortedRows = group.rows.sortWith(new Comparator<TableRow>() {
+		rowGroups.forEach [
+			val sortedRows = rows.sortWith(new Comparator<TableRow>() {
 				override compare(TableRow r1, TableRow r2) {
 					return r1.rowIndex.compareTo(r2.rowIndex)
 				}
 			})
-			val rootRow = factory.createGeneralGroupRow(sortedRows.get(0),
-				excludeColumns)
-			rootRow.set(
-				indexColumn, '''«sortedRows.get(0).rowIndex»..«sortedRows.last.rowIndex»''')
-			val generalErroMsg = listProblems.findFirst [
-				id === sortedRows.get(0).rowIndex
-			]?.generalMsg
-			rootRow.set(messagesColumn, generalErroMsg)
-			group.rows.add(0, rootRow)
+			rows.add(0, factory.createGroupAbstractRow(sortedRows))
 		]
+	}
+
+	/**
+	 * Create row with abstract content of group
+	 * @param factory {@link TMFactory}
+	 * @param groupRows list of rows in group
+	 */
+	protected def TableRow createGroupAbstractRow(TMFactory factory,
+		List<TableRow> groupRows) {
+		val rootRow = factory.createGeneralGroupRow(groupRows.get(0),
+			excludeColumns)
+		rootRow.set(
+			indexColumn, '''«groupRows.get(0).rowIndex»..«groupRows.last.rowIndex»''')
+		val generalErroMsg = listProblems.findFirst [
+			id === groupRows.get(0).rowIndex
+		]?.generalMsg
+		rootRow.set(messagesColumn, generalErroMsg)
+		return rootRow
 	}
 
 	/**
@@ -93,8 +98,9 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 		val extractRowGroups = tableRowGroups.filter [
 			rows.size < ToolboxConfiguration.tableTreeMinimum && rows.size > 1
 		]
-		val rows = extractRowGroups.map[rows.subList(1, rows.size)].flatten.toSet
-		rows.forEach [row |
+		val rows = extractRowGroups.map[rows.subList(1, rows.size)].flatten.
+			toSet
+		rows.forEach [ row |
 			val newGroup = factory.rowGroup
 			newGroup.rows.add(row)
 		]
