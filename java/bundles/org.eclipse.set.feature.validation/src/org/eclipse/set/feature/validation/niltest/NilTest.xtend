@@ -101,7 +101,7 @@ class NilTest extends AbstractCustomValidator {
 		val it = new CustomValidationProblemImpl
 		lineNumber = node.lineNumber
 		message = messages.NilTestProblem_Message
-		severity = ValidationSeverity.ERROR
+		severity = ValidationSeverity.WARNING
 		type = validationType
 		objectArt = node.objectType
 		objectScope = node.objectScope
