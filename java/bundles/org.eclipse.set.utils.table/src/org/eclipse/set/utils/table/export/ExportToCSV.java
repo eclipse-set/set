@@ -98,4 +98,30 @@ public class ExportToCSV<T> {
 			}
 		}
 	}
+
+	/**
+	 * @param filePath
+	 *            the output file path
+	 * @param dataToExport
+	 *            the data
+	 */
+	public void exportToCSV(final Optional<Path> filePath,
+			final List<String> dataToExport) {
+		if (filePath.isPresent()) {
+			final HeaderInfo headerInfo = new HeaderInfo(
+					filePath.get().toString());
+			try (final OutputStreamWriter writer = new OutputStreamWriter(
+					new FileOutputStream(filePath.get().toString()),
+					StandardCharsets.UTF_8)) {
+				writer.write(String.format(headerPatter, headerInfo.file,
+						headerInfo.time, headerInfo.version));
+				final ConsumerThrowingException<String> consumerException = writer::write;
+				dataToExport
+						.forEach(rethrowException(consumerException)::accept);
+			} catch (final IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+	}
 }

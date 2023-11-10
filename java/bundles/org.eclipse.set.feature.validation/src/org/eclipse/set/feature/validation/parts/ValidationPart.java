@@ -39,10 +39,8 @@ import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
-import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.model.validationreport.extensions.ValidationProblemExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
@@ -205,7 +203,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				exportValidationButton.setText(messages.ExportValidationMsg);
 				exportValidationButton.addListener(SWT.Selection,
 						event -> exportValidation(this, messages,
-								validationReport));
+								tableView.transformToCSV()));
 				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
 						0);
 
@@ -271,11 +269,11 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	 *            the part
 	 * @param messages
 	 *            the messages class
-	 * @param report
-	 *            the validation report
+	 * @param csvData
+	 *            the validation report als csv
 	 */
 	public static void exportValidation(final BasePart part,
-			final Messages messages, final ValidationReport report) {
+			final Messages messages, final List<String> csvData) {
 		final Shell shell = part.getToolboxShell();
 		final Path location = part.getModelSession().getToolboxFile().getPath();
 		final Path parent = location.getParent();
@@ -289,10 +287,9 @@ public class ValidationPart extends AbstractEmfFormsPart {
 						Paths.get(defaultPath, defaultFileName),
 						messages.ExportValidationTitleMsg);
 		// export
-		final ExportToCSV<ValidationProblem> problemExport = new ExportToCSV<>(
+		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				CSV_HEADER_PATTERN);
-		problemExport.exportToCSV(optionalPath, report.getProblems(),
-				ValidationProblemExtensions::getCsvExport);
+		problemExport.exportToCSV(optionalPath, csvData);
 		optionalPath.ifPresent(
 				outputDir -> part.getDialogService().openDirectoryAfterExport(
 						part.getToolboxShell(), outputDir.getParent()));

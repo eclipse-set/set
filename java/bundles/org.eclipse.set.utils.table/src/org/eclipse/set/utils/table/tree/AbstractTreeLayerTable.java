@@ -9,6 +9,7 @@
 
 package org.eclipse.set.utils.table.tree;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
@@ -189,5 +190,14 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 			treeLayer.doCommand(new TreeCollapseAllCommand());
 			button.setText(expandAllLabel);
 		}
+	}
+
+	/**
+	 * Transform table cotent to csv
+	 * 
+	 * @return table contents als csv content
+	 */
+	public List<String> transformToCSV() {
+		return bodyDataProvider.transformToCSV();
 	}
 }

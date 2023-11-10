@@ -43,6 +43,8 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 	@Inject
 	private EnumTranslationService enumTranslationService;
 
+	private ValidationTableView tableView;
+
 	/**
 	 * Create the part.
 	 */
@@ -65,7 +67,7 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 
 			@Override
 			public void selected(final SelectionEvent e) {
-				export(validationReport);
+				export();
 			}
 
 			@Override
@@ -74,8 +76,7 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 			}
 		});
 
-		final ValidationTableView tableView = new ValidationTableView(this,
-				messages, tableMenuService);
+		tableView = new ValidationTableView(this, messages, tableMenuService);
 		tableView.create(parent, validationReport);
 		tableView.createExpandCollapseAllButton(
 				(Composite) getBanderole().getControl(),
@@ -84,7 +85,8 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 
 	}
 
-	protected void export(final ValidationReport report) {
-		ValidationPart.exportValidation(this, messages, report);
+	protected void export() {
+		ValidationPart.exportValidation(this, messages,
+				tableView.transformToCSV());
 	}
 }
