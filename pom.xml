@@ -78,7 +78,6 @@
 		<module>java/bundles/org.eclipse.set.model.titlebox.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport.edit</module>
-		<module>java/bundles/org.eclipse.set.model.validationreport.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport</module>
 		<module>java/bundles/org.eclipse.set.model.zipmanifest</module>
 		<module>java/bundles/org.eclipse.set.model.plazmodel</module>

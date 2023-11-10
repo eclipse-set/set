@@ -34,9 +34,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.service.PlazModelService;
 import org.eclipse.set.feature.plazmodel.table.PlazModelTableView;
 import org.eclipse.set.model.plazmodel.PlazReport;
-import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.model.validationreport.extensions.ValidationProblemExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -179,10 +177,9 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 				messages.PlazModellPart_ExportTitleMsg);
 
 		// export
-		final ExportToCSV<ValidationProblem> problemExport = new ExportToCSV<>(
+		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				HEADER_PATTERN);
-		problemExport.exportToCSV(optionalPath, plazReport.getEntries(),
-				ValidationProblemExtensions::getCsvExport);
+		problemExport.exportToCSV(optionalPath, tableView.transformToCSV());
 		optionalPath.ifPresent(
 				outputDir -> getDialogService().openDirectoryAfterExport(
 						getToolboxShell(), outputDir.getParent()));

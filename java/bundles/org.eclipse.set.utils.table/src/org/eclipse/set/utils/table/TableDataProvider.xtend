@@ -78,9 +78,8 @@ class TableDataProvider implements IDataProvider {
 				var filterValue = filters.get(i).toString.toLowerCase
 				val isExcludeFilter = filterValue.substring(0, 1).equals(
 					EXCULDE_FILTER_SIGN)
-				filterValue = isExcludeFilter
-					? filterValue.substring(1)
-					: filterValue
+				filterValue = isExcludeFilter ? filterValue.
+					substring(1) : filterValue
 
 				// Equivalence logic
 				if (isExcludeFilter === content.contains(filterValue)) {
@@ -134,7 +133,7 @@ class TableDataProvider implements IDataProvider {
 			row.rowIndex === originalIndex
 		]
 	}
-	
+
 	/**
 	 * @return the table row with current table position
 	 */
@@ -228,6 +227,12 @@ class TableDataProvider implements IDataProvider {
 		return [ cells1, cells2 |
 			comparator.cellComparator.compare(cells1.get(column),
 				cells2.get(column))
+		]
+	}
+
+	def List<String> transformToCSV() {
+		return tableContents.map [
+			'''«FOR value : contents SEPARATOR ";"»"«value.plainStringValue»"«ENDFOR»«System.lineSeparator»'''
 		]
 	}
 }
