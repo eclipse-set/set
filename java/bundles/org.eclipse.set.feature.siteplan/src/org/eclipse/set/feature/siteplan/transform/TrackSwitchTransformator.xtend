@@ -50,11 +50,12 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 	@Reference
 	TrackService trackService
-	
+
 	@Reference
 	PositionService positionService
 
 	static val ERROR_NO_TRACK_SWITCH_LEG = "Weichenschenkel der Weiche nicht bestimmbar."
+	static val ERROR_NO_TRACK_SWITCH_METADATA = "Unbekannte Weichenbauform. Art: \"%s\" Grundform: \"%s\".";
 
 	TrackSwitchMetadataProvider trackSwitchMetadataProvider;
 
@@ -130,6 +131,18 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 			}
 		}
 
+		// Record error if no metadata is found as visualization is incorrect
+		if (metadata === null) {
+			// Position the error somewhere on the first leg. 
+			recordError(trackswitch.identitaet?.wert,
+				String.format(ERROR_NO_TRACK_SWITCH_METADATA,
+					trackswitch.WKrAnlageAllg?.WKrArt?.wert?.toString() ?:
+						"Keine W_Kr_Art",
+					trackswitch.WKrAnlageAllg?.WKrGrundform?.wert ?:
+						"Keine W_Kr_Grundform"),
+				legA.getCoordinate(0, 2, trackService, positionService))
+		}
+
 		result.addSiteplanElement(
 			SiteplanPackage.eINSTANCE.siteplanState_TrackSwitches)
 	}
@@ -168,9 +181,8 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		result.operatingMode = transform(
 			element.WKrGspElementAllg?.WKrGspStellart?.wert)
 		result.preferredLocation = element.weicheElement?.weicheVorzugslage?.
-			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS
-			? LeftRight.LEFT
-			: LeftRight.RIGHT
+			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS ? LeftRight.
+			LEFT : LeftRight.RIGHT
 
 		return result
 	}
@@ -186,7 +198,8 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 			default:
 				result.connection = null
 		}
-		result.coordinates.addAll(leg.getCoordinates(trackService, positionService))
+		result.coordinates.addAll(
+			leg.getCoordinates(trackService, positionService))
 		return result
 	}
 
