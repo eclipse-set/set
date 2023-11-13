@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight <em>Height</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues <em>Merge Common Values</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues <em>Merge Common Values</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition <em>Column Position</em>}</li>
  * </ul>
  *
@@ -239,25 +239,29 @@ public interface ColumnDescriptor extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Merge Common Values</b></em>' attribute.
+	 * The default value is <code>"DEFAULT"</code>.
+	 * The literals are from the enumeration {@link org.eclipse.set.model.tablemodel.RowMergeMode}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Merge Common Values</em>' attribute.
-	 * @see #setMergeCommonValues(boolean)
+	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
+	 * @see #setMergeCommonValues(RowMergeMode)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_MergeCommonValues()
-	 * @model
+	 * @model default="DEFAULT"
 	 * @generated
 	 */
-	boolean isMergeCommonValues();
+	RowMergeMode getMergeCommonValues();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isMergeCommonValues <em>Merge Common Values</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues <em>Merge Common Values</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Merge Common Values</em>' attribute.
-	 * @see #isMergeCommonValues()
+	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
+	 * @see #getMergeCommonValues()
 	 * @generated
 	 */
-	void setMergeCommonValues(boolean value);
+	void setMergeCommonValues(RowMergeMode value);
 
 	/**
 	 * Returns the value of the '<em><b>Column Position</b></em>' attribute.

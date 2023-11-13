@@ -8,12 +8,17 @@
  */
 package org.eclipse.set.feature.table.pt1.sskp;
 
+import java.util.List;
+
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -55,5 +60,24 @@ public final class SskpTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SskpTableView_Heading;
+	}
+
+	@Override
+	public ColumnDescriptor fillHeaderDescriptions(
+			final ColumnDescriptorModelBuilder builder) {
+		final ColumnDescriptor cd = super.fillHeaderDescriptions(builder);
+		// Merge all columns except C to F
+		cd.setMergeCommonValues(RowMergeMode.ENABLED);
+		List.of(SskpColumns.PZB_Schutzpunkt, //
+				SskpColumns.GeschwindigkeitsKlasse, //
+				SskpColumns.PZB_Schutzstrecke_Soll, //
+				SskpColumns.PZB_Schutzstrecke_Ist)
+				.forEach(it -> cols.forEach(col -> {
+					if (it.equals(col.getColumnPosition())) {
+						col.setMergeCommonValues(RowMergeMode.DISABLED);
+					}
+				}));
+
+		return cd;
 	}
 }

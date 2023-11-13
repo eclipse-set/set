@@ -67,7 +67,8 @@
         <details key="documentation" value="The height of the row in cm."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mergeCommonValues" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mergeCommonValues" eType="#//RowMergeMode"
+        defaultValueLiteral="DEFAULT"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="columnPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The position of this column"/>
@@ -198,5 +199,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="MultiColorContent">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiColorValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringFormat" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RowMergeMode">
+    <eLiterals name="DEFAULT" literal="DEFAULT"/>
+    <eLiterals name="ENABLED" value="1" literal="ENABLED"/>
+    <eLiterals name="DISABLED" value="2" literal="DISABLED"/>
   </eClassifiers>
 </ecore:EPackage>
