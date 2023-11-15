@@ -10,7 +10,7 @@ package org.eclipse.set.feature.siteplan.trackservice;
 
 import java.util.Set;
 
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement;
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
 import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem;
 import org.locationtech.jts.geom.Coordinate;
@@ -24,24 +24,21 @@ import org.locationtech.jts.geom.Coordinate;
  */
 public class GEOKanteCoordinate {
 	private final Set<Bereich_Objekt> bereichObjekte;
-	private final Coordinate coordinate;
+	private final GeoPosition position;
 	private final ENUMGEOKoordinatensystem crs;
-	private double rotation;
 
-	GEOKanteCoordinate(final SymbolArrangement<Coordinate> coordinate,
+	GEOKanteCoordinate(final GeoPosition position,
 			final Set<Bereich_Objekt> bereichObjekte,
 			final ENUMGEOKoordinatensystem crs) {
-		this.coordinate = coordinate.getGeometricInformation();
+		this.position = position;
 		this.bereichObjekte = bereichObjekte;
-		this.rotation = coordinate.getRotation();
 		this.crs = crs;
 	}
 
 	GEOKanteCoordinate(final Coordinate coordinate,
 			final Set<Bereich_Objekt> bereichObjekte,
 			final ENUMGEOKoordinatensystem crs) {
-		this.coordinate = coordinate;
-		this.rotation = 0;
+		this.position = new GeoPosition(coordinate, 0, 0);
 		this.bereichObjekte = bereichObjekte;
 		this.crs = crs;
 	}
@@ -57,8 +54,8 @@ public class GEOKanteCoordinate {
 	 * @return the coordinate of the point in the coordinate reference system as
 	 *         defined by {@link #getCRS()}
 	 */
-	public Coordinate getCoordinate() {
-		return coordinate;
+	public GeoPosition getCoordinate() {
+		return position;
 	}
 
 	/**
@@ -71,17 +68,14 @@ public class GEOKanteCoordinate {
 	/**
 	 * @return rotation of the point
 	 */
-	public double getRotation() {
-		return rotation;
+	public double getEffectiveRotation() {
+		return position.getEffectiveRotation();
 	}
 
 	/**
-	 * Sets the rotation for the coordinate
-	 * 
-	 * @param rotation
-	 *            the rotation to set
+	 * @return rotation of the point
 	 */
-	public void setRotation(final double rotation) {
-		this.rotation = rotation;
+	public double getTopologicalRotation() {
+		return position.getTopologicalRotation();
 	}
 }

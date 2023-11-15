@@ -19,8 +19,6 @@ import java.util.List
 import org.eclipse.set.basis.geometry.Geometries
 import org.eclipse.set.basis.geometry.SegmentPosition
 import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
-import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.LineSegment
 import org.locationtech.jts.geom.LineString
@@ -28,6 +26,7 @@ import org.locationtech.jts.geom.LineString
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /** 
  * A GEO_Kante with additional cached metadata
@@ -206,7 +205,7 @@ class GEOKanteMetadata {
 		val SegmentPosition position = Geometries.getSegmentPosition(geometry,
 			geoKnoten.coordinate, scaledDistance)
 		val LineSegment tangent = geoKante.getTangent(position)
-		val SymbolArrangement<Coordinate> coordinate = GeoKanteExtensions.
+		val GeoPosition coordinate = GeoKanteExtensions.
 			getCoordinate(tangent, position, lateralDistance, wirkrichtung)
 		return new GEOKanteCoordinate(coordinate, segment.bereichObjekte,
 			getCRS())

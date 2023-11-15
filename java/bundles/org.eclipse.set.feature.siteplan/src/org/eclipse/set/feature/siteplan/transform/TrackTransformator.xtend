@@ -186,11 +186,11 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val guid = geoKante.identitaet.wert
 		if (result.type.length > 1) {
 			recordError(guid, String.format(ERROR_MULTIPLE_GLEIS_ART, guid),
-				positionService.transformCoordinate(center.geometricInformation,
+				positionService.transformCoordinate(center.getCoordinate,
 					geoKnotenA.CRS))
 		} else if (result.type.length == 0) {
 			recordError(guid, String.format(ERROR_NO_GLEIS_ART, guid),
-				positionService.transformCoordinate(center.geometricInformation,
+				positionService.transformCoordinate(center.getCoordinate,
 					geoKnotenA.CRS))
 		}
 

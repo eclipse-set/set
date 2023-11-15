@@ -262,7 +262,7 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 				val direction = coordinate.wirkrichtung?.wert
 				return positionService.transformCoordinate(
 					topKante.getCoordinate(abstand, 0, direction).
-						geometricInformation, crs)
+						getCoordinate, crs)
 			} catch (GeometryException exc) {
 				return null
 			}

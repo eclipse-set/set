@@ -20,10 +20,9 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.set.ppmodel.extensions.utils.Distance
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
-import org.locationtech.jts.geom.Coordinate
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * Extensions for {@link Punkt_Objekt_TOP_Kante_AttributeGroup} aka single
@@ -67,7 +66,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the position of this single point
 	 */
-	def static SymbolArrangement<Coordinate> getCoordinate(
+	def static GeoPosition getCoordinate(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
 		ENUMWirkrichtung direction
 	) {
@@ -83,7 +82,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the position of this single point
 	 */
-	def static SymbolArrangement<Coordinate> getCoordinate(
+	def static GeoPosition getCoordinate(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
 		val direction = singlePoint.wirkrichtung?.wert
@@ -145,7 +144,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return two positions defining a line perpendicular to the TOP_Kante at the offset of the point
 	 */
-	def static Pair<SymbolArrangement<Coordinate>, SymbolArrangement<Coordinate>> getPerpendicularLineAtPoint(
+	def static Pair<GeoPosition, GeoPosition> getPerpendicularLineAtPoint(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
 		val topKante = singlePoint.topKante

@@ -138,7 +138,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 	def static Coordinate getCoordinate(Punkt_Objekt punktObjekt) {
 		// we ignore all coordinates but the first
 		return punktObjekt.singlePoints.get(0).coordinate.
-			getGeometricInformation
+			getCoordinate
 	}
 
 	/**
@@ -157,6 +157,6 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 			// For a Punkt_Objekt without a direction, assume it is along the axis
 			direction = ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN
 		}
-		return point.getCoordinate(direction).rotation
+		return point.getCoordinate(direction).getEffectiveRotation
 	}
 }

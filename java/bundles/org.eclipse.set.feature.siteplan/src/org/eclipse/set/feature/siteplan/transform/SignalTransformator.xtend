@@ -137,17 +137,19 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	def SignalMount transform(SignalInfo signalInfo) {
 		var GEOKanteCoordinate point = getSignalObjectCoordinate(
 			signalInfo.firstSignal)
+		val effectiveRotation = point.effectiveRotation
 		if (signalInfo.baseMount !== null) {
 			// As a Signal_Befestigung does not specify a direction, 
 			// use the direction of the first signal
-			val rotation = point.rotation
 			point = getSignalObjectCoordinate(signalInfo.baseMount)
-			point.rotation = rotation
 		}
 
 		val signalMount = SiteplanFactory.eINSTANCE.createSignalMount()
 		signalMount.guid = signalInfo.signalGuid
 		signalMount.position = positionService.transformPosition(point)
+		// Signals are rotated according to their effective rotation
+		signalMount.position.rotation = effectiveRotation
+
 		signalMount.mountType = signalInfo.mountType
 		// Transform each attached signal
 		signalMount.attachedSignals.addAll(signalInfo.signals.map [

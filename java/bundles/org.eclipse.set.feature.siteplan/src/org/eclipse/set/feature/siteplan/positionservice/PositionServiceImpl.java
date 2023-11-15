@@ -19,7 +19,7 @@ import org.eclipse.set.feature.siteplan.trackservice.GEOKanteCoordinate;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement;
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem;
 import org.locationtech.proj4j.CRSFactory;
 import org.locationtech.proj4j.CoordinateReferenceSystem;
@@ -100,23 +100,19 @@ public class PositionServiceImpl implements PositionService {
 	}
 
 	@Override
-	public Position transformPosition(
-			final SymbolArrangement<org.locationtech.jts.geom.Coordinate> coordinate,
+	public Position transformPosition(final GeoPosition coordinate,
 			final ENUMGEOKoordinatensystem crs) {
 		final Position position = SiteplanFactory.eINSTANCE.createPosition();
-		transformCoordinate(position, coordinate.getGeometricInformation().x,
-				coordinate.getGeometricInformation().y, crs);
-		position.setRotation(coordinate.getRotation());
+		transformCoordinate(position, coordinate.getCoordinate().x,
+				coordinate.getCoordinate().y, crs);
+		position.setRotation(coordinate.getTopologicalRotation());
 		return position;
 	}
 
 	@Override
 	public Position transformPosition(final GEOKanteCoordinate geoPosition) {
-		final Position position = SiteplanFactory.eINSTANCE.createPosition();
-		transformCoordinate(position, geoPosition.getCoordinate().x,
-				geoPosition.getCoordinate().y, geoPosition.getCRS());
-		position.setRotation(geoPosition.getRotation());
-		return position;
+		return transformPosition(geoPosition.getCoordinate(),
+				geoPosition.getCRS());
 	}
 
 	private CoordinateReferenceSystem getCRSReference(

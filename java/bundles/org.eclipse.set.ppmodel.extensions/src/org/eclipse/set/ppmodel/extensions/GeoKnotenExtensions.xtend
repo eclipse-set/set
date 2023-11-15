@@ -17,7 +17,6 @@ import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
 import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
 import java.util.List
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,6 +28,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * This class extends {@link GEO_Knoten}.
@@ -115,7 +115,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		return geoPunkte.get(0)
 	}
 
-	package def static SymbolArrangement<Coordinate> getCoordinate(
+	package def static GeoPosition getCoordinate(
 		GEO_Knoten startGeoKnoten,
 		GEO_Kante lastGeoKante,
 		Basis_Objekt parentEdge,
@@ -152,7 +152,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 			seitlicherAbstand, wirkrichtung);
 	}
 
-	private def static SymbolArrangement<Coordinate> getCoordinate(
+	private def static GeoPosition getCoordinate(
 		GEO_Knoten startGeoKnoten,
 		GEO_Kante lastGeoKante,
 		List<GEO_Kante> geoKantenOnStart,
