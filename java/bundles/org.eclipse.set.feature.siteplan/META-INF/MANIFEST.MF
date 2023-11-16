@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Siteplan
 Bundle-SymbolicName: org.eclipse.set.feature.siteplan;singleton:=true
 Bundle-Version: 2.2.0.qualifier
+Export-Package: org.eclipse.set.feature.siteplan.json
 Automatic-Module-Name: org.eclipse.set.feature.siteplans
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: javax.activation,
