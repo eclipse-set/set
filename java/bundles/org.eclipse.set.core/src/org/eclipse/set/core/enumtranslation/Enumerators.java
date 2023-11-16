@@ -1,30 +1,32 @@
-  /**
-   * Copyright (c) 2023 DB Netz AG and others.
-   *
-   * All rights reserved. This program and the accompanying materials
-   * are made available under the terms of the Eclipse Public License v2.0
-   * which accompanies this distribution, and is available at
-   * http://www.eclipse.org/legal/epl-v20.html
-   */
-  package org.eclipse.set.core.enumtranslation;
+/**
+ * Copyright (c) 2023 DB Netz AG and others.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.core.enumtranslation;
 
-  import org.eclipse.set.core.AbstractMessageService;
-  import org.osgi.service.component.annotations.Activate;
-  import org.osgi.service.component.annotations.Component;
+import org.eclipse.set.core.AbstractMessageService;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 
-  /**
-   * Translations for enumerators.
-   *
-   * @generated
-   */
-  @Component(service = Enumerators.class)
-  public class Enumerators extends AbstractMessageService {
-  		@Activate
-  		private void setupLocalization()
-  				throws IllegalArgumentException, IllegalAccessException {
-  			super.setupLocalization(
-  					"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
-  		}
+/**
+ * Translations for enumerators.
+ *
+ * @generated
+ */
+@Component(service = Enumerators.class)
+public class Enumerators extends AbstractMessageService {
+	@SuppressWarnings("nls")
+	@Activate
+	private void setupLocalization()
+			throws IllegalArgumentException, IllegalAccessException {
+		super.setupLocalization(
+				"platform:/plugin/org.eclipse.set.core/translation/Enumerators");
+	}
+
 	/**
 	 * nein
 	 */
@@ -8556,7 +8558,7 @@
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Sorting;
 
 	/**
-	 * ZZS 
+	 * ZZS
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Alternative;
 
@@ -10791,7 +10793,7 @@
 	public String ENUMGUE_Bauart_GPE_90R_Sorting;
 
 	/**
-	 * GPE 90R
+	 * 90R
 	 */
 	public String ENUMGUE_Bauart_GPE_90R_Alternative;
 
@@ -10851,7 +10853,7 @@
 	public String ENUMGUE_Energieversorgung_Solar_Sorting;
 
 	/**
-	 * Solar
+	 * s
 	 */
 	public String ENUMGUE_Energieversorgung_Solar_Alternative;
 
@@ -10881,7 +10883,7 @@
 	public String ENUMGUE_Energieversorgung_Stellwerk_Sorting;
 
 	/**
-	 * Stellwerk
+	 * n
 	 */
 	public String ENUMGUE_Energieversorgung_Stellwerk_Alternative;
 
@@ -23616,7 +23618,7 @@
 	public String ENUMWirksamkeit_schaltbar_von_Signal_Sorting;
 
 	/**
-	 * schaltbar
+	 * ge
 	 */
 	public String ENUMWirksamkeit_schaltbar_von_Signal_Alternative;
 
@@ -23646,7 +23648,7 @@
 	public String ENUMWirksamkeit_staendig_wirksam_Sorting;
 
 	/**
-	 * ständig
+	 * siehe Sskp.ppmtab
 	 */
 	public String ENUMWirksamkeit_staendig_wirksam_Alternative;
 
