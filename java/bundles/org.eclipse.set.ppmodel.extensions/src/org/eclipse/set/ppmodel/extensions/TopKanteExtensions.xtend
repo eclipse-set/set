@@ -24,7 +24,6 @@ import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.basis.graph.DirectedElementImpl
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.ppmodel.extensions.utils.Distance
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
 import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
@@ -37,7 +36,6 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Lichtraum
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
