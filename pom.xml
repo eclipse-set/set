@@ -60,7 +60,7 @@
 		<module>java/bundles/org.eclipse.set.feature.enumtransformation</module>
 		<module>java/bundles/org.eclipse.set.feature.siteplan</module>
 		<module>java/bundles/org.eclipse.set.feature.siteplan.test</module>
-		<module>java/bundles/org.eclipse.set.feature.overviewplan</module
+		<module>java/bundles/org.eclipse.set.feature.overviewplan</module>
 		<module>java/bundles/org.eclipse.set.feature.projectdata</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecore.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.categorization.nl_de</module>
