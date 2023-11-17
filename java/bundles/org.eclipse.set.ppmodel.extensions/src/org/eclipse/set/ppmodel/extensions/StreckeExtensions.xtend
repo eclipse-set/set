@@ -12,11 +12,10 @@ import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.Strecke
 import org.eclipse.set.toolboxmodel.Geodaten.Strecke_Punkt
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
-import org.locationtech.jts.geom.Coordinate
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * Extensions for {@link Strecke}.
@@ -46,7 +45,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 		]
 	}
 
-	def static SymbolArrangement<Coordinate> getKilometerCoordinate(
+	def static GeoPosition getKilometerCoordinate(
 		Strecke strecke, double kilometer) {
 
 		val startEnd = strecke.startEnd

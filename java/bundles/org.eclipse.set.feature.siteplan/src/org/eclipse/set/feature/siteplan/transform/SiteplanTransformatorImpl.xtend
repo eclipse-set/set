@@ -52,16 +52,16 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 		MULTIPLE, policy=ReferencePolicy.
 		DYNAMIC, policyOption=ReferencePolicyOption.GREEDY)
 	public final List<Transformator> transformators = newArrayList
-	
+
 	static final Logger logger = LoggerFactory.getLogger(
 		typeof(SiteplanTransformator))
 
 	@Reference
 	protected TrackService trackService
-	
+
 	@Reference
 	protected PositionService positionService
-	
+
 	/**
 	 * Transforms a Container_AttributeGroup with PlanPro data to a Siteplan model
 	 * 
@@ -72,17 +72,17 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 		transformThreads.clear
 		return transform(modelSession.planProSchnittstelle)
 	}
-	
+
 	private static class SiteplanMultiConainer {
 		MultiContainer_AttributeGroup multiContainer
 		ContainerType type
-		
+
 		new(MultiContainer_AttributeGroup container, ContainerType type) {
 			this.multiContainer = container
 			this.type = type
 		}
 	}
-	
+
 	/**
 	 * Transforms a Container_AttributeGroup with PlanPro data to a Siteplan model
 	 * 
@@ -105,19 +105,26 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 
 		val multiContainer = planproSchnittstelle.multiContainer
 		// Determine the initial and final states
-		val initialLSTState = multiContainer.findFirst[type === ContainerType.INITIAL]?.multiContainer
-		val finalLSTState = multiContainer.findFirst[type === ContainerType.FINAL]?.multiContainer
-		val singleLSTState = multiContainer.findFirst[type === ContainerType.SINGLE]?.multiContainer
-		
+		val initialLSTState = multiContainer.findFirst [
+			type === ContainerType.INITIAL
+		]?.multiContainer
+		val finalLSTState = multiContainer.findFirst [
+			type === ContainerType.FINAL
+		]?.multiContainer
+		val singleLSTState = multiContainer.findFirst [
+			type === ContainerType.SINGLE
+		]?.multiContainer
+
 		if (initialLSTState !== null && finalLSTState !== null) {
-			val state = Collections.synchronizedMap(<ContainerType, SiteplanState> newHashMap)
+			val state = Collections.synchronizedMap(
+				<ContainerType, SiteplanState>newHashMap)
 			multiContainer.filter[type !== ContainerType.SINGLE].toList.
 				createTransformatorThread("TransformSiteplan", 2, [
-					synchronized(state) {
+					synchronized (state) {
 						state.put(it.type, transformState(it.multiContainer))
 					}
-				])	
-			
+				])
+
 			val initialState = state.get(ContainerType.INITIAL)
 			val finalState = state.get(ContainerType.FINAL)
 
@@ -142,21 +149,25 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 				siteplan.createDiffView(initialState, finalState, it)
 			]
 			// Add errors (no diff view) 
-			siteplan.initialState.errors.addAll(initialState.errors.sortBy[relevantGUIDs.get(0)] ?: #[])
-			siteplan.finalState.errors.addAll(finalState.errors.sortBy[relevantGUIDs.get(0)] ?: #[])
+			siteplan.initialState.errors.addAll(initialState.errors.sortBy [
+				relevantGUIDs.get(0)
+			] ?: #[])
+			siteplan.finalState.errors.addAll(finalState.errors.sortBy [
+				relevantGUIDs.get(0)
+			] ?: #[])
 		} else if (singleLSTState !== null) {
 			siteplan.commonState = transformState(singleLSTState)
 		}
 
 		siteplan.transformPlanningRegion(planproSchnittstelle)
-		val layoutTransform = new LayoutTransformator(planproSchnittstelle.planpro_layoutinfo, positionService)
+		val layoutTransform = new LayoutTransformator(
+			planproSchnittstelle.planpro_layoutinfo, positionService)
 		layoutTransform.transformLayout(siteplan)
-		
 
 		// Set the leading position for centering the view
 		siteplan.centerPosition = getLeadingPosition(planproSchnittstelle,
 			planproSchnittstelle.getContainer(ContainerType.FINAL))
-		
+
 		if (transformThreads.exists[interrupted]) {
 			logger.warn("Transformator Cancel")
 			trackService.clearMetaData
@@ -164,13 +175,14 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 		}
 		return siteplan
 	}
-	
-	private def List<SiteplanMultiConainer> getMultiContainer(PlanPro_Schnittstelle schnitstelle) {
-		return ContainerType.values.map[
+
+	private def List<SiteplanMultiConainer> getMultiContainer(
+		PlanPro_Schnittstelle schnitstelle) {
+		return ContainerType.values.map [
 			new SiteplanMultiConainer(schnitstelle.getContainer(it), it)
 		]
 	}
-	
+
 	private def createDiffView(Siteplan siteplan, SiteplanState start,
 		SiteplanState target, EReference ref) {
 
@@ -278,8 +290,10 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 
 	private def create SiteplanPackage.eINSTANCE.siteplanFactory.createSiteplanState transformState(
 		MultiContainer_AttributeGroup container) {
-		transformators.createTransformatorThread(this.class.name, transformators.size,
-			[transformator|
+		transformators.createTransformatorThread(
+			this.class.name,
+			transformators.size,
+			[ transformator |
 				transformator.transformContainer(it, container)
 			]
 		)
@@ -331,10 +345,10 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 			return null
 		}
 	}
-	
+
 	override void stopTransform() {
 		try {
-			transformThreads.forEach[
+			transformThreads.forEach [
 				if (alive) {
 					interrupt
 				}
@@ -343,5 +357,5 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 			return;
 		}
 	}
-	
+
 }

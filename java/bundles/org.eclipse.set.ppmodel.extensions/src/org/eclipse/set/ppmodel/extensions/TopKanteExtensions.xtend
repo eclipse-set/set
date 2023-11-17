@@ -52,6 +52,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * Diese Klasse erweitert {@link TOP_Kante}.
@@ -136,9 +137,9 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @param abstand the distance from the start of the TOP_Kante
 	 * @param seitlicherAbstand the lateral position at the distance from the TOP_Kante
 	 * @param wirkrichtung the direction to use for detemining the side of the lateral position
-	 * @return a SymbolArrangement<Coordinate> for the requested coordinate on the TOP_Kante
+	 * @return a GeoPosition for the requested coordinate on the TOP_Kante
 	 */
-	def static SymbolArrangement<Coordinate> getCoordinate(
+	def static GeoPosition getCoordinate(
 		TOP_Kante topKante,
 		double abstand,
 		double seitlicherAbstand,
@@ -155,9 +156,9 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @param abstand the distance from the start of the TOP_Kante
 	 * @param seitlicherAbstand the lateral position at the distance from the TOP_Kante
 	 * @param wirkrichtung the direction to use for detemining the side of the lateral position
-	 * @return a SymbolArrangement<Coordinate> for the requested coordinate on the TOP_Kante
+	 * @return a GeoPosition for the requested coordinate on the TOP_Kante
 	 */
-	def static SymbolArrangement<Coordinate> getCoordinate(
+	def static GeoPosition getCoordinate(
 		TOP_Kante topKante,
 		TOP_Knoten topStart,
 		double abstand,

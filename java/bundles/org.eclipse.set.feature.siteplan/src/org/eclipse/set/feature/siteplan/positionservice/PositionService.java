@@ -12,7 +12,7 @@ package org.eclipse.set.feature.siteplan.positionservice;
 import org.eclipse.set.feature.siteplan.trackservice.GEOKanteCoordinate;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.Position;
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement;
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem;
 
 /**
@@ -66,7 +66,7 @@ public interface PositionService {
 			final ENUMGEOKoordinatensystem crs);
 
 	/**
-	 * Transforms a SymbolArrangement<Coordinate> into the siteplan model
+	 * Transforms a GeoPosition into the siteplan model
 	 * 
 	 * @param coordinate
 	 *            coordinate to transform
@@ -74,8 +74,7 @@ public interface PositionService {
 	 *            The coordinate reference system to transform from
 	 * @return the same position in the siteplan model
 	 */
-	public Position transformPosition(
-			final SymbolArrangement<org.locationtech.jts.geom.Coordinate> coordinate,
+	public Position transformPosition(final GeoPosition coordinate,
 			final ENUMGEOKoordinatensystem crs);
 
 	/**
