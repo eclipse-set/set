@@ -9,17 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Lichtraum
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import java.math.BigDecimal
 import java.util.Collection
 import java.util.Collections
 import java.util.LinkedList
@@ -35,6 +25,18 @@ import org.eclipse.set.basis.graph.DirectedElementImpl
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
+import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.toolboxmodel.Gleis.Gleis_Lichtraum
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -390,6 +392,25 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		throw new IllegalArgumentException(singlePoint.identitaet)
 	}
 
+
+	/**
+	 * @param topKante this TOP Kante
+	 * @param singlePoint the single point
+	 * 
+	 * @return the Abstand of the given single point from the start of this TOP-Kante
+	 * 
+	 * @throws IllegalArgumentException if the single point is not connected to this TOP-Kante
+	 */
+	def static Pair<BigDecimal, BigDecimal> getAbstand(TOP_Kante topKante,
+		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		if (tb.IDTOPKante == topKante) {
+			return tb?.begrenzungA?.wert -> tb?.begrenzungB?.wert
+		}
+
+		throw new IllegalArgumentException()
+	}
+
+
 	/**
 	 * @param topKante this TOP Kante
 	 * @param topKnoten a TOP Knoten
@@ -427,6 +448,31 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 		return Math.max(d1, d2) - Math.min(d1, d2)
 	}
+	
+	
+	/**
+	 * @param topKante this TOP Kante
+	 * @param singlePoint1 a single point
+	 * @param point a single point
+	 * 
+	 * @return the Abstand of the given single points from each other on this TOP-Kante
+	 * 
+	 * @throws IllegalArgumentException if the single points are not connected to this TOP-Kante
+	 */
+	def static Pair<BigDecimal, BigDecimal> getAbstand(TOP_Kante topKante,
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint1,
+		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		val d1 = topKante.getAbstand(singlePoint1)
+		val d2 = topKante.getAbstand(tb)
+
+		val distanceA = d2.key.max(BigDecimal.valueOf(d1)) - d2.key.min(BigDecimal.valueOf(d1))
+		val distanceB = d2.value.max(BigDecimal.valueOf(d1)) - d2.value.min(BigDecimal.valueOf(d1))
+		
+		return distanceA -> distanceB
+	}
+	
+	
+
 
 	/**
 	 * @param topKante this TOP Kante
@@ -445,6 +491,25 @@ class TopKanteExtensions extends BasisObjektExtensions {
 				unique,
 			punktObjekt2.singlePoints.filter[topKante.isConnectedTo(it)].toSet.
 				unique
+		)
+	}
+	
+	/**
+	 * @param topKante this TOP Kante
+	 * @param punktObjekt1 a Punkt Objekt
+	 * @param tb the Bereich_Objekt_Teilbereich_AttributeGroup
+	 * 
+	 * @return the Abstand of the given Punkt Objekt and the point from each other on this TOP-Kante
+	 * 
+	 * @throws IllegalArgumentException if the Punkt Objekte are not
+	 * unambiguously connected to this TOP-Kante
+	 */
+	def static Pair<BigDecimal, BigDecimal> getAbstand(TOP_Kante topKante, Punkt_Objekt punktObjekt1,
+		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		return topKante.getAbstand(
+			punktObjekt1.singlePoints.filter[topKante.isConnectedTo(it)].toSet.
+				unique,
+			tb
 		)
 	}
 
@@ -490,6 +555,12 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	static def dispatch double getAbstandDispatch(TOP_Kante topKante,
 		Punkt_Objekt punktObject1, Punkt_Objekt punktObjekt2) {
 		return topKante.getAbstand(punktObject1, punktObjekt2)
+	}
+	
+	
+	static def Pair<BigDecimal, BigDecimal> getAbstandBO(TOP_Kante topKante,
+		Punkt_Objekt punktObject, Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		return topKante.getAbstand(punktObject, tb)
 	}
 
 	static def dispatch double getAbstandDispatch(TOP_Kante topKante,
