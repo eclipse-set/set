@@ -513,7 +513,6 @@
         <setEntry value="org.eclipse.set.basis.test@default:false"/>
         <setEntry value="org.eclipse.set.basis@default:default"/>
         <setEntry value="org.eclipse.set.browser.cef.win32@default:default"/>
-        <setEntry value="org.eclipse.set.core.rcp.dialogservice@default:default"/>
         <setEntry value="org.eclipse.set.core.services@default:default"/>
         <setEntry value="org.eclipse.set.core.test@default:false"/>
         <setEntry value="org.eclipse.set.core@default:default"/>

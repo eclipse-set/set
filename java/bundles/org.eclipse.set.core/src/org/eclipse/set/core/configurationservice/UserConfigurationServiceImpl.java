@@ -13,10 +13,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -50,6 +52,8 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	// we cannot apply JsonAnyGetter to records yet
 	protected static class UserConfiguration {
 		public Set<String> versions = new HashSet<>();
+
+		public Path lastFileOpenPath;
 
 		/**
 		 * Any unknown properties must be stored and preserverd, as new versions
@@ -103,21 +107,31 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 		}
 	}
 
-	protected void saveConfiguration() throws IOException {
+	protected void saveConfiguration() {
 		final File configurationFile = getFile();
 		// Create configuration file, when not exsits
 		if (!configurationFile.exists()) {
 			if (!configurationFile.getParentFile().exists()) {
 				configurationFile.getParentFile().mkdirs();
 			}
-			if (!configurationFile.createNewFile()) {
+
+			try {
+				if (!configurationFile.createNewFile()) {
+					LOGGER.error("Cannot write to file {}", FILENAME); //$NON-NLS-1$
+					return;
+				}
+			} catch (final IOException e) {
 				LOGGER.error("Cannot write to file {}", FILENAME); //$NON-NLS-1$
 				return;
 			}
 		}
 
-		mapper.writerWithDefaultPrettyPrinter().writeValue(configurationFile,
-				configuration);
+		try {
+			mapper.writerWithDefaultPrettyPrinter()
+					.writeValue(configurationFile, configuration);
+		} catch (final IOException e) {
+			LOGGER.error("Cannot save user configuration"); //$NON-NLS-1$
+		}
 	}
 
 	@Override
@@ -132,6 +146,19 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	public void addKnownVersions(final String version) throws IOException {
 		configuration.versions.add(version);
 		saveConfiguration();
+	}
+
+	@Override
+	public void setLastFileOpenPath(final Path path) {
+		configuration.lastFileOpenPath = path;
+
+		saveConfiguration();
+
+	}
+
+	@Override
+	public Optional<Path> getLastFileOpenPath() {
+		return Optional.ofNullable(configuration.lastFileOpenPath);
 	}
 
 }

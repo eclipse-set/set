@@ -64,7 +64,7 @@ public class AttachmentsImpl extends Attachments {
 			final List<ToolboxFileFilter> extensions)
 			throws InvalidFilterFilename {
 		final Optional<Path> optionalPath = dialogService.openFileDialog(shell,
-				extensions);
+				extensions, Optional.empty());
 		if (optionalPath.isPresent()) {
 			final Path path = optionalPath.get();
 			ToolboxFileFilter.check(extensions, path);

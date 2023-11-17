@@ -8,9 +8,13 @@
  */
 package org.eclipse.set.core.dialogservice;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiPredicate;
 
 import javax.annotation.PostConstruct;
@@ -37,7 +41,11 @@ import org.eclipse.set.basis.rename.RenameConfirmation;
 import org.eclipse.set.core.Messages;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
+import org.eclipse.set.custom.extensions.FileDialogExtensions;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +57,10 @@ import com.google.common.collect.Lists;
  * 
  * @author Schaefer
  */
-public abstract class DialogServiceCommonImpl implements DialogService {
+public class DialogServiceImpl implements DialogService {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DialogService.class);
+			.getLogger(DialogServiceImpl.class);
 
 	private List<ToolboxFileFilter> csvFileFilters;
 
@@ -120,11 +128,8 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 						path.getFileName().toString()),
 				messages.DialogService_ConfirmDeleteLabel);
 		final Wrapper<Boolean> result = new Wrapper<>();
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				result.setValue(Boolean.valueOf(confirmDialog.confirmed()));
-			}
+		Display.getDefault().syncExec(() -> {
+			result.setValue(Boolean.valueOf(confirmDialog.confirmed()));
 		});
 		return result.getValue().booleanValue();
 	}
@@ -138,13 +143,11 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 						path.getFileName().toString()),
 				utilMessages.Dialogs_confirmOverwriteLabel);
 		final Wrapper<Boolean> result = new Wrapper<>();
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				result.setValue(Boolean.valueOf(confirmDialog.confirmed()));
-			}
+		Display.getDefault().syncExec(() -> {
+			result.setValue(Boolean.valueOf(confirmDialog.confirmed()));
 		});
 		return result.getValue().booleanValue();
+
 	}
 
 	@Override
@@ -293,8 +296,7 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 		final ProjectFilenameInitialization dialog = new ProjectFilenameInitialization(
 				shell, messages, this);
 		dialog.setInitAction(initAction);
-		dialog.setCreateDirectoryPermission((dialogShell,
-				path) -> confirmCreateDirectory(dialogShell, path));
+		dialog.setCreateDirectoryPermission(this::confirmCreateDirectory);
 		return dialog.open();
 	}
 
@@ -428,4 +430,110 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 		throw new IllegalArgumentException("isPrimaryValid=" + isPrimaryValid //$NON-NLS-1$
 				+ " isSecondaryValid=" + isSecondaryValid); //$NON-NLS-1$
 	}
+
+	private static Optional<Path> selectFile(final int style, final Shell shell,
+			final List<ToolboxFileFilter> filters,
+			final Optional<Path> defaultPath, final Optional<String> title) {
+		final FileDialog fileDialog = new FileDialog(shell, style);
+		title.ifPresent(fileDialog::setText);
+		final Optional<Path> parent = defaultPath.map(Path::getParent);
+		final Optional<Path> fileName = defaultPath.map(Path::getFileName);
+		parent.ifPresent(p -> fileDialog.setFilterPath(p.toString()));
+		fileName.ifPresent(f -> fileDialog.setFileName(f.toString()));
+		fileDialog.setOverwrite(true);
+		FileDialogExtensions.setExtensionFilters(fileDialog, filters);
+		return Optional.ofNullable(fileDialog.open()).map(Paths::get);
+	}
+
+	@Override
+	public boolean createCompositePlanningWithInvalidInput(final Shell shell,
+			final boolean isPrimaryValid, final boolean isSecondaryValid) {
+		final int result = MessageDialog.open(MessageDialog.WARNING, shell,
+				messages.createCompositePlanningWithInvalidInputTitle,
+				String.format(
+						messages.createCompositePlanningWithInvalidInputPattern,
+						getPlanningDescription(isPrimaryValid,
+								isSecondaryValid)),
+				SWT.NONE, messages.DialogService_CreateCompositePlanningButton,
+				messages.DialogService_ReturnButton);
+		return result == 0;
+	}
+
+	@Override
+	public boolean doApplyAutofill(final Shell shell, final String date) {
+		final int buttonIndex = MessageDialog.open(MessageDialog.QUESTION,
+				shell, messages.DialogService_AutoFillConfirmation_Title,
+				String.format(
+						messages.DialogService_AutoFillConfirmation_Pattern,
+						date),
+				SWT.NONE,
+				messages.DialogService_AutoFillConfirmation_Button_Apply,
+				messages.DialogService_AutoFillConfirmation_Button_NotApply);
+		return buttonIndex == 0;
+	}
+
+	@Override
+	public void openDirectoryAfterExport(final Shell shell, final Path path) {
+		final int result = MessageDialog.open(MessageDialog.INFORMATION, shell,
+				messages.DialogService_OpenDirectoryAfterExport_Title,
+				messages.DialogService_OpenDirectoryAfterExport_Message,
+				SWT.NONE, IDialogConstants.OK_LABEL,
+				messages.DialogService_OpenDirectoryAfterExport_ShowDir);
+		if (result == 1) {
+			try {
+				Runtime.getRuntime().exec("explorer " + path.toString()); //$NON-NLS-1$
+			} catch (final IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	}
+
+	@Override
+	public Optional<Path> openFileDialog(final Shell shell,
+			final List<ToolboxFileFilter> filters,
+			final Optional<Path> filterPath) {
+		return selectFile(SWT.OPEN, shell, filters, filterPath,
+				Optional.empty());
+	}
+
+	@Override
+	public Optional<Path> saveFileDialog(final Shell shell,
+			final List<ToolboxFileFilter> filters, final Path defaultPath) {
+		return selectFile(SWT.SAVE, shell, filters,
+				Optional.ofNullable(defaultPath), Optional.empty());
+	}
+
+	@Override
+	public Optional<Path> saveFileDialog(final Shell shell,
+			final List<ToolboxFileFilter> filters, final Path defaultPath,
+			final String title) {
+		return selectFile(SWT.SAVE, shell, filters,
+				Optional.ofNullable(defaultPath), Optional.ofNullable(title));
+	}
+
+	@Override
+	public Optional<String> selectDirectory(final Shell shell,
+			final String pathFilter) {
+		final DirectoryDialog directoryDialog = new DirectoryDialog(shell);
+		directoryDialog.setFilterPath(pathFilter);
+		directoryDialog.setMessage(messages.DialogService_SelectDirectory);
+		final String dir = directoryDialog.open();
+		if (dir != null) {
+			final File dirFile = new File(dir);
+			if (!dirFile.exists()) {
+				dirFile.mkdir();
+			}
+		}
+		return Optional.ofNullable(dir);
+	}
+
+	@Override
+	public boolean sitePlanError(final Shell shell, final String filename) {
+		final LoadInvalidSiteplanDialog dialog = new LoadInvalidSiteplanDialog(
+				shell, filename, messages);
+		final int result = dialog.open();
+		dialog.close();
+		return result == IDialogConstants.OK_ID;
+	}
+
 }

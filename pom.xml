@@ -41,7 +41,6 @@
 		<module>java/bundles/org.eclipse.set.application.test</module>
 		<module>java/bundles/org.eclipse.set.basis</module>
 		<module>java/bundles/org.eclipse.set.basis.test</module>
-		<module>java/bundles/org.eclipse.set.core.rcp.dialogService</module>
 
 		<module>java/bundles/org.eclipse.set.core.services</module>
 		<module>java/bundles/org.eclipse.set.core.test</module>

@@ -9,6 +9,7 @@
 package org.eclipse.set.application.handler;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -19,6 +20,7 @@ import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.handler.AbstractOpenHandler;
 import org.eclipse.swt.widgets.Shell;
@@ -50,12 +52,16 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 	@Inject
 	EPartService partService;
 
+	@Inject
+	UserConfigurationService userConfigService;
+
 	@Override
 	protected Path chooseFile(final Shell shell) {
-		return getDialogService()
-				.openFileDialog(shell,
-						getDialogService().getPlanProFileFilters())
-				.orElse(null);
+		final Optional<Path> path = getDialogService().openFileDialog(shell,
+				getDialogService().getPlanProFileFilters(),
+				userConfigService.getLastFileOpenPath());
+		path.ifPresent(userConfigService::setLastFileOpenPath);
+		return path.orElse(null);
 	}
 
 	@Override

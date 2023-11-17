@@ -126,11 +126,6 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
-	public void fileDownload(final Shell shell, final Path path) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public List<ToolboxFileFilter> getCsvFileFilters() {
 		throw new UnsupportedOperationException();
 	}
@@ -183,7 +178,7 @@ public class MockDialogService implements DialogService {
 
 	@Override
 	public Optional<Path> openFileDialog(final Shell shell,
-			final List<ToolboxFileFilter> filters) {
+			final List<ToolboxFileFilter> filters, Optional<Path> lastSelectedFile) {
 		return openFileDialogHandler.apply(filters);
 	}
 
@@ -217,12 +212,6 @@ public class MockDialogService implements DialogService {
 	@Override
 	public void reportSavedSession(final Shell shell,
 			final IModelSession session) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public Optional<Path> saveFileDialog(final Shell shell,
-			final List<ToolboxFileFilter> filters) {
 		throw new UnsupportedOperationException();
 	}
 

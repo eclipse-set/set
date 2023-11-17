@@ -7,10 +7,9 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.core.rcp.dialogservice;
+package org.eclipse.set.core.dialogservice;
 
 import org.eclipse.set.core.Messages;
-import org.eclipse.set.core.dialogservice.AbstractFileDialog;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 
@@ -30,7 +29,7 @@ public class LoadInvalidSiteplanDialog extends AbstractFileDialog {
 		return new Point(size.x / 3 * 2, size.y * 2);
 	}
 
-	protected LoadInvalidSiteplanDialog(final Shell parentShell,
+	public LoadInvalidSiteplanDialog(final Shell parentShell,
 			final String filename, final Messages messages) {
 		super(parentShell);
 		this.filename = filename;

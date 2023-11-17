@@ -10,6 +10,8 @@
 package org.eclipse.set.core.services.configurationservice;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -28,5 +30,16 @@ public interface UserConfigurationService {
 	 * @throws IOException
 	 */
 	void addKnownVersions(String version) throws IOException;
+
+	/**
+	 * @param path
+	 *            the last file open path
+	 */
+	void setLastFileOpenPath(Path path);
+
+	/**
+	 * @return the last file open path if set
+	 */
+	Optional<Path> getLastFileOpenPath();
 
 }
