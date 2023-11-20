@@ -9,7 +9,6 @@
 package org.eclipse.set.swtbot.table;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,11 +18,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.freeze.FreezeLayer;
-import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
-import org.eclipse.nebula.widgets.nattable.layer.ILayer;
-import org.eclipse.set.utils.table.BodyLayerStack;
+import org.eclipse.set.swtbot.utils.SWTBotUtils;
+import org.eclipse.set.swtbot.utils.SWTBotUtils.NattableLayers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -36,8 +33,7 @@ public class FixedColumnTest extends AbstractTableTest {
 	@SuppressWarnings("boxing")
 	protected static Stream<Arguments> getPtTableToTestFixedColumn() {
 		return PtTable.tablesToTest.stream()
-				.filter(table -> table.fixedColumns().size() > 1
-						|| table.fixedColumns().get(0) != 0)
+				.filter(table -> table.fixedColumns().size() > 1 || table.fixedColumns().get(0) != 0)
 				.map(table -> Arguments.of(table));
 	}
 
@@ -52,15 +48,8 @@ public class FixedColumnTest extends AbstractTableTest {
 	}
 
 	protected void thenExistFixedColumn() {
-		final NatTable natTable = nattableBot.widget;
-		final ILayer layer = natTable.getLayer();
-		assertInstanceOf(GridLayer.class, layer);
-		final GridLayer gridLayer = (GridLayer) layer;
-
-		assertInstanceOf(BodyLayerStack.class, gridLayer.getBodyLayer());
-		final BodyLayerStack bodyLayerStack = (BodyLayerStack) gridLayer
-				.getBodyLayer();
-		freezeLayer = bodyLayerStack.getFreezeLayer();
+		final NattableLayers layers = SWTBotUtils.getNattableLayers(nattableBot);
+		freezeLayer = layers.freezeLayer();
 		assertNotNull(freezeLayer);
 		assertTrue(freezeLayer.isFrozen());
 	}
@@ -77,11 +66,9 @@ public class FixedColumnTest extends AbstractTableTest {
 			firstFixedColumn = Collections.min(cols).intValue();
 		}
 
-		assertEquals(firstFixedColumn,
-				freezeLayer.getTopLeftPosition().columnPosition);
+		assertEquals(firstFixedColumn, freezeLayer.getTopLeftPosition().columnPosition);
 		assertEquals(-1, freezeLayer.getTopLeftPosition().rowPosition);
-		assertEquals(lastFixedColumn,
-				freezeLayer.getBottomRightPosition().columnPosition);
+		assertEquals(lastFixedColumn, freezeLayer.getBottomRightPosition().columnPosition);
 		assertEquals(-1, freezeLayer.getBottomRightPosition().rowPosition);
 	}
 }

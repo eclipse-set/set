@@ -14,21 +14,14 @@ import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withTe
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVFormat.Builder;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
+import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.swt.widgets.ExpandItem;
-import org.eclipse.swtbot.nebula.nattable.finder.SWTNatTableBot;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
-import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotExpandItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.provider.Arguments;
@@ -40,21 +33,8 @@ import org.junit.jupiter.params.provider.Arguments;
  *
  */
 public abstract class AbstractTableTest extends AbstractPPHNTest {
-	protected static final String REFERENCE_DIR = "test_res/table_reference/";
-
-	protected static List<CSVRecord> loadReferenceFile(final String tableName)
-			throws IOException {
-
-		final String fileName = REFERENCE_DIR + tableName + "_reference.csv";
-		final Builder csvBuilder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
-		csvBuilder.setDelimiter(";");
-		try (InputStream inputStream = AbstractTableTest.class.getClassLoader()
-				.getResourceAsStream(fileName);
-				final Reader reader = new InputStreamReader(inputStream);
-				final CSVParser csvParser = new CSVParser(reader,
-						csvBuilder.build())) {
-			return csvParser.getRecords();
-		}
+	protected static List<CSVRecord> loadReferenceFile(final String tableName) throws IOException {
+		return AbstractPPHNTest.loadReferenceFile("table_reference/" + tableName + "_reference.csv");
 	}
 
 	protected static Stream<Arguments> providesPtTable() {
@@ -68,28 +48,14 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	public void beforeEach() throws Exception {
 		super.beforeEach();
 		@SuppressWarnings("unchecked")
-		final ExpandItem expandItem = bot.widget(
-				allOf(widgetOfType(ExpandItem.class), withText("Tabellen")));
-		final SWTBotExpandItem swtBotExpandItem = new SWTBotExpandItem(
-				expandItem);
+		final ExpandItem expandItem = bot.widget(allOf(widgetOfType(ExpandItem.class), withText("Tabellen")));
+		final SWTBotExpandItem swtBotExpandItem = new SWTBotExpandItem(expandItem);
 		assertNotNull(swtBotExpandItem);
 		swtBotExpandItem.expand();
 	}
 
 	protected void givenNattableBot(final PtTable table) {
 		bot.button(table.tableName()).click();
-		bot.waitUntil(new DefaultCondition() {
-
-			@Override
-			public String getFailureMessage() {
-				return "Faleid to load Table";
-			}
-
-			@Override
-			public boolean test() throws Exception {
-				nattableBot = new SWTNatTableBot().nattable();
-				return nattableBot != null;
-			}
-		}, 30000);
+		nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 	}
 }
