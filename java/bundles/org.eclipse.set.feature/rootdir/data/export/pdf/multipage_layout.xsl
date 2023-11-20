@@ -25,7 +25,7 @@
                 </fo:repeatable-page-master-alternatives>
             </fo:page-sequence-master>
         </fo:layout-master-set>
-        <fo:page-sequence master-reference="table-master-a">
+        <fo:page-sequence force-page-count="no-force" master-reference="table-master-a">
             <fo:static-content flow-name="folding-mark-region">
                 <xsl:call-template name="FoldingMarksTop"/>
                 <xsl:call-template name="WaterMark"/>
@@ -40,7 +40,7 @@
                 <xsl:apply-templates />
             </fo:flow>
         </fo:page-sequence>
-        <fo:page-sequence master-reference="page-sequence-master-b" initial-page-number="1">
+        <fo:page-sequence force-page-count="no-force" master-reference="page-sequence-master-b" initial-page-number="1">
             <fo:static-content flow-name="folding-mark-region">
                 <xsl:call-template name="FoldingMarksTop"/>
                 <xsl:call-template name="WaterMark"/>

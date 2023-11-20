@@ -25,6 +25,22 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ObjectScope implements Enumerator {
 	/**
+	 * The '<em><b>Layout</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LAYOUT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	LAYOUT(4, "Layout", "Layout"), /**
+	 * The '<em><b>Content</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CONTENT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	CONTENT(3, "Content", "Fachdaten"), /**
 	 * The '<em><b>Betrachtung</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -51,6 +67,28 @@ public enum ObjectScope implements Enumerator {
 	 * @ordered
 	 */
 	UNKNOWN(0, "Unknown", "");
+
+	/**
+	 * The '<em><b>Layout</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LAYOUT
+	 * @model name="Layout"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int LAYOUT_VALUE = 4;
+
+	/**
+	 * The '<em><b>Content</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #CONTENT
+	 * @model name="Content" literal="Fachdaten"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int CONTENT_VALUE = 3;
 
 	/**
 	 * The '<em><b>Betrachtung</b></em>' literal value.
@@ -93,6 +131,8 @@ public enum ObjectScope implements Enumerator {
 	 */
 	private static final ObjectScope[] VALUES_ARRAY =
 		new ObjectScope[] {
+			LAYOUT,
+			CONTENT,
 			BETRACHTUNG,
 			PLAN,
 			UNKNOWN,
@@ -152,6 +192,8 @@ public enum ObjectScope implements Enumerator {
 	 */
 	public static ObjectScope get(int value) {
 		switch (value) {
+			case LAYOUT_VALUE: return LAYOUT;
+			case CONTENT_VALUE: return CONTENT;
 			case BETRACHTUNG_VALUE: return BETRACHTUNG;
 			case PLAN_VALUE: return PLAN;
 			case UNKNOWN_VALUE: return UNKNOWN;

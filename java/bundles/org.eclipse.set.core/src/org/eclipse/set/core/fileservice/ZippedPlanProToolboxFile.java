@@ -33,6 +33,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.model.zipmanifest.Manifest;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Toolbox file support for zipped *.planpro files.
@@ -44,11 +45,11 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final int BUFFER_SIZE = 1024;
 	private static final String MANIFEST_FILE = "manifest.xml"; //$NON-NLS-1$
 	private static final String MEDIA_DIR = "media"; //$NON-NLS-1$
-	private static final String MODEL_FILE = "content.xml"; //$NON-NLS-1$
+	private static final String TECHNICAL_RESOURCE_TYPE_NAME = "content"; //$NON-NLS-1$
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
-	private static final String LAYOUT_FILE = "layout.xml"; //$NON-NLS-1$
-	private static final String DEFAULT_RESOURCE_CONTENT_TYPE = "content"; //$NON-NLS-1$
+	private static final String LAYOUT_RESOURCE_TYPE_NAME = "layout"; //$NON-NLS-1$
+	private static final String INTERNAL_FORMAT = "planpro"; //$NON-NLS-1$
 
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
@@ -92,6 +93,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.loadable = false;
 		this.temporaryDirectory = null;
 		this.role = role;
+		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
 	}
 
 	ZippedPlanProToolboxFile(final Path path, final Format format,
@@ -103,7 +105,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.loadable = loadable;
 		this.temporaryDirectory = null;
 		this.role = role;
-
+		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
 	}
 
 	ZippedPlanProToolboxFile(final ZippedPlanProToolboxFile toolboxFile) {
@@ -117,6 +119,16 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 				toolboxFile.getPlanProResource());
 		addResource(PathExtensions.getBaseFileName(toolboxFile.getLayoutPath()),
 				toolboxFile.getLayoutResource());
+	}
+
+	private XMLResource createPlanProResource() {
+		// Load the resource with the required type
+		final String contentType = INTERNAL_FORMAT;
+		final XMLResource newResource = (XMLResource) editingDomain
+				.getResourceSet().createResource(
+						URI.createURI(PlanProPackage.eNS_URI), contentType);
+		newResource.setEncoding(ENCODING);
+		return newResource;
 	}
 
 	@Override
@@ -212,8 +224,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public Path getModelPath() {
 		if (temporaryDirectory != null) {
-			return Paths.get(temporaryDirectory.toString(),
-					role.toDirectoryName(), MODEL_FILE).toAbsolutePath();
+			return Paths
+					.get(temporaryDirectory.toString(), role.toDirectoryName(),
+							TECHNICAL_RESOURCE_TYPE_NAME + ".xml") //$NON-NLS-1$
+					.toAbsolutePath();
 		}
 		throw new IllegalStateException("No temporary directory set."); //$NON-NLS-1$
 	}
@@ -221,8 +235,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public Path getLayoutPath() {
 		if (temporaryDirectory != null) {
-			return Paths.get(temporaryDirectory.toString(),
-					role.toDirectoryName(), LAYOUT_FILE).toAbsolutePath();
+			return Paths
+					.get(temporaryDirectory.toString(), role.toDirectoryName(),
+							LAYOUT_RESOURCE_TYPE_NAME + ".xml") //$NON-NLS-1$
+					.toAbsolutePath();
 		}
 		throw new IllegalStateException("No temporary directory set."); //$NON-NLS-1$
 	}
@@ -277,8 +293,13 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	public void save() throws IOException {
-		super.save();
-		this.saveResource(getLayoutResource());
+		resources.forEach((contentName, resource) -> {
+			try {
+				saveResource(resource);
+			} catch (final IOException e) {
+				throw new RuntimeException(e);
+			}
+		});
 		zip();
 	}
 
@@ -290,9 +311,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 			editingDomain.getCommandStack().flush();
 			loadable = true;
 		} else {
-			throw new IllegalStateException(Optional
-					.ofNullable(resource.getURI())
-					.map(u -> "Illegal uri " + u.toString()).orElse("no uri")); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalStateException(
+					Optional.ofNullable(resource.getURI())
+							.map(u -> "Illegal uri " + u.toString()) //$NON-NLS-1$
+							.orElse("no uri")); //$NON-NLS-1$
 		}
 	}
 
@@ -428,17 +450,17 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	protected String getContentType(final Path modelPath) {
-		return modelPath == null ? DEFAULT_RESOURCE_CONTENT_TYPE
+		return modelPath == null ? TECHNICAL_RESOURCE_TYPE_NAME
 				: PathExtensions.getBaseFileName(modelPath);
 	}
 
 	@Override
 	public XMLResource getPlanProResource() {
-		return getResource(PathExtensions.getBaseFileName(getModelPath()));
+		return getResource(TECHNICAL_RESOURCE_TYPE_NAME);
 	}
 
 	@Override
 	public XMLResource getLayoutResource() {
-		return getResource(PathExtensions.getBaseFileName(getLayoutPath()));
+		return getResource(LAYOUT_RESOURCE_TYPE_NAME);
 	}
 }

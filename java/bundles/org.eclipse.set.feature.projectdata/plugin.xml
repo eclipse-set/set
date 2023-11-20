@@ -1,40 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse version="3.4"?><plugin>
-        	
-    
     <extension point="org.eclipse.emf.ecp.view.model.provider.xmi.file">
-                
-        
+		<file filePath="viewmodel/Planung_Gruppe.view"/>
+		<file filePath="viewmodel/Planung_P_Allg_AttributeGroup.view"/>
+		<file filePath="viewmodel/Planung_Gruppe.view">
+			<filter key="detail" value="true"/>
+		</file>
         <file filePath="viewmodel/Planung_E_Ausgabe_Besonders_AttributeGroup.view"/>
-                		
-        
         <file filePath="viewmodel/Organisation.view"/>
-                		
-        
         <file filePath="viewmodel/Akteur_Zuordnung.view"/>
-                		
-        
         <file filePath="viewmodel/Akteur.view"/>
-                		
-        
         <file filePath="viewmodel/Planung_G_Fuehrende_Strecke_AttributeGroup.view"/>
-                		
-        
         <file filePath="viewmodel/Planung_G_Schriftfeld_AttributeGroup.view"/>
-                		
-        
-        <file filePath="viewmodel/Planung_Projekt.view"/>
-                		
-        
         <file filePath="viewmodel/Polygone_Betrachtungsbereich_AttributeGroup.view"/>
-                		
-        
         <file filePath="viewmodel/Polygone_Planungsbereich_AttributeGroup.view"/>
-                		
-        
-        <file filePath="viewmodel/Projektinitialisierung.view"/>
-                	
-    
-    </extension>
-        
+        <file filePath="viewmodel/Projektinitialisierung.view">
+        	<filter key="detail" value="false"/>
+        </file>
+	</extension>
 </plugin>

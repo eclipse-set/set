@@ -12,16 +12,20 @@ import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.MIXED_STRING;
 
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort;
 import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort;
+import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -66,5 +70,23 @@ public class SsktTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SsktTableView_Heading;
+	}
+
+	@Override
+	public ColumnDescriptor fillHeaderDescriptions(
+			final ColumnDescriptorModelBuilder builder) {
+		final ColumnDescriptor cd = super.fillHeaderDescriptions(builder);
+		// Merge all columns except M to O
+		cd.setMergeCommonValues(RowMergeMode.ENABLED);
+		List.of(SsktColumns.IP_Teilsystem_Art, //
+				SsktColumns.Teilsystem_TS_Blau, //
+				SsktColumns.Teilsystem_TS_Grau)
+				.forEach(it -> cols.forEach(col -> {
+					if (it.equals(col.getColumnPosition())) {
+						col.setMergeCommonValues(RowMergeMode.DISABLED);
+					}
+				}));
+
+		return cd;
 	}
 }

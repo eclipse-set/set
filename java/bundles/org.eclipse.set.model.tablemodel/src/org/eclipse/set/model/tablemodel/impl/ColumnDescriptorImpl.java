@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.ColumnWidthMode;
+import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
@@ -44,7 +45,7 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isUnit <em>Unit</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getHeight <em>Height</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isMergeCommonValues <em>Merge Common Values</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getMergeCommonValues <em>Merge Common Values</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getColumnPosition <em>Column Position</em>}</li>
  * </ul>
  *
@@ -192,24 +193,24 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	protected double height = HEIGHT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isMergeCommonValues() <em>Merge Common Values</em>}' attribute.
+	 * The default value of the '{@link #getMergeCommonValues() <em>Merge Common Values</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isMergeCommonValues()
+	 * @see #getMergeCommonValues()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean MERGE_COMMON_VALUES_EDEFAULT = false;
+	protected static final RowMergeMode MERGE_COMMON_VALUES_EDEFAULT = RowMergeMode.DEFAULT;
 
 	/**
-	 * The cached value of the '{@link #isMergeCommonValues() <em>Merge Common Values</em>}' attribute.
+	 * The cached value of the '{@link #getMergeCommonValues() <em>Merge Common Values</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isMergeCommonValues()
+	 * @see #getMergeCommonValues()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean mergeCommonValues = MERGE_COMMON_VALUES_EDEFAULT;
+	protected RowMergeMode mergeCommonValues = MERGE_COMMON_VALUES_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getColumnPosition() <em>Column Position</em>}' attribute.
@@ -469,7 +470,7 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 */
 	@Override
-	public boolean isMergeCommonValues() {
+	public RowMergeMode getMergeCommonValues() {
 		return mergeCommonValues;
 	}
 
@@ -479,9 +480,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 	 * @generated
 	 */
 	@Override
-	public void setMergeCommonValues(boolean newMergeCommonValues) {
-		boolean oldMergeCommonValues = mergeCommonValues;
-		mergeCommonValues = newMergeCommonValues;
+	public void setMergeCommonValues(RowMergeMode newMergeCommonValues) {
+		RowMergeMode oldMergeCommonValues = mergeCommonValues;
+		mergeCommonValues = newMergeCommonValues == null ? MERGE_COMMON_VALUES_EDEFAULT : newMergeCommonValues;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES, oldMergeCommonValues, mergeCommonValues));
 	}
@@ -570,7 +571,7 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 				return getHeight();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
-				return isMergeCommonValues();
+				return getMergeCommonValues();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
 				return getColumnPosition();
 		}
@@ -612,7 +613,7 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implement
 				setHeight((Double)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
-				setMergeCommonValues((Boolean)newValue);
+				setMergeCommonValues((RowMergeMode)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
 				setColumnPosition((String)newValue);

@@ -1,0 +1,36 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.codeActionsOnSave": {
+			"source.fixAll": true
+		},
+		"editor.formatOnSave": true,
+		"eslint.validate": [
+			"typescript",
+			"vue"
+		],
+		"eslint.format.enable": true,
+		"typescript.tsdk": "node_modules\\typescript\\lib",
+		"svg.preview.background": "transparent",
+		"eslint.lintTask.enable": true,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.tabSize": 2,
+		"[vue]": {
+			"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+		},
+	},
+	"launch": {
+		"configurations": [
+			{
+				"type": "chrome",
+				"name": "http://localhost:8080",
+				"request": "launch",
+				"url": "http://localhost:8080"
+			}
+		]
+	}
+}

@@ -216,8 +216,8 @@ class DistanceExtensions {
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint2
 	) {
 		try {
-			val c1 = singlePoint1.coordinate.geometricInformation
-			val c2 = singlePoint2.coordinate.geometricInformation
+			val c1 = singlePoint1.coordinate.getCoordinate
+			val c2 = singlePoint2.coordinate.getCoordinate
 			return c1.distance(c2)
 		} catch (GeometryException e) {
 			throw new IllegalArgumentException(e)
@@ -230,7 +230,7 @@ class DistanceExtensions {
 	) {
 		try {
 			val c1 = punktObjekt.coordinate
-			val c2 = singlePoint.coordinate.geometricInformation
+			val c2 = singlePoint.coordinate.getCoordinate
 			return c1.distance(c2)
 		} catch (GeometryException e) {
 			throw new IllegalArgumentException(e)

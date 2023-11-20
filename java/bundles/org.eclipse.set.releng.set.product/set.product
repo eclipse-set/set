@@ -42,7 +42,6 @@
       <feature id="org.eclipse.emf.common"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.set.i18n.nl_de.feature"/>
-      <feature id="org.eclipse.set.sessionservice.feature"/>
       <feature id="org.eclipse.emf.ecp.emfforms.runtime.feature"/>
       <feature id="org.eclipse.emf.common.ui"/>
       <feature id="org.eclipse.justj.openjdk.hotspot.jre.full.stripped" installMode="root"/>
@@ -65,6 +64,7 @@
       <plugin id="org.eclipse.set.sessionservice" autoStart="true" startLevel="2" />
       <property name="toolbox.tmpdir" value="$user.home$/.toolbox/" os="win32" />
       <property name="toolbox.curved.geometry.tolerance" value="0.001" />
+      <property name="toolbox.siteplan.mapsources" value="BKG_TOPPLUS|BKG_SENT" />
       <property name="toolbox.text.font" value="Courier New,10,normal" />
       <property name="toolbox.viewer.tags" value="dark_blue,white,normal" />
       <property name="toolbox.detailversion" value="${qualifiedVersion}R${buildNumber}" />
@@ -83,7 +83,11 @@
       <property name="toolbox.tables.scale" value="50.0" />
       <property name="toolbox.buildNumber" value="${buildNumber}" />
       <property name="logback.configurationFile" value="logback-runtime.xml" />
+      <property name="toolbox.siteplan.sheetcut_crs" value="DR0" />
       <property name="toolbox.table.tree.minimum" value="5" />
+      <property name="toolbox.siteplan.export_dpi" value="600" />
+      <property name="toolbox.siteplan.lod_scale" value="10000" />
+
    </configurations>
 
    <preferencesInfo>

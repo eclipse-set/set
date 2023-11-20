@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:toolbox="tag:scheidt-bachmann-st.com,2021:hs" viewBox="0 0 200 200" stroke="black" stroke-width="2.5">
+    <defs>
+        <g class="langsamfahrsignale" id="Lf1">
+            <path d="M0,0 L25,0 L12.5,22 z" fill="white" />
+            <circle r="2.5" cx="7.5" cy="37" />
+            <circle r="2.5" cx="17.5" cy="27" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="22" />
+            <toolbox:rectbound x="-2.125" y="-1.25" width="29.25" height="42" />
+        </g>
+
+        <g class="langsamfahrsignale" id="Lf1_Wiederholer">
+            <path d="M0,0 L25,0 L12.5,22 z" fill="white" />
+            <circle r="5" cx="12.5" cy="27" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="22" />
+            <toolbox:rectbound x="-2.125" y="-1.25" width="29.25" height="34.5" />
+        </g>
+
+        <g class="langsamfahrsignale" id="Lf2">
+            <rect width="25" height="35" fill="white" />
+            <!-- Selbst gemessen -->
+            <text font-size="30" stroke-width="0" x="3" y="28" font-family="siteplanfont">
+                A
+            </text>
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-2.125" y="-1.25" width="29.25" height="42" />
+        </g>
+
+        <g class="langsamfahrsignale" id="Lf2_Wiederholer">
+            <rect width="25" height="35" fill="white" />
+            <!-- Selbst gemessen -->
+            <text font-size="30" stroke-width="0" x="3" y="28" font-family="siteplanfont">
+                A
+            </text>
+            <circle r="5" cx="12.5" cy="40" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="47.5" />
+        </g>
+
+        <g class="langsamfahrsignale" id="Lf12">
+            <rect width="25" height="35" fill="white" />
+            <!-- Selbst gemessen -->
+            <!-- Kreis aus Bild in PLANPRO-4762 übernommen -->
+            <circle cx="12.5" cy="40" r="2" color="black" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="43.75" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="44.5" />
+        </g>
+
+        <g class="langsamfahrsignale" id="Lf3">
+            <rect width="25" height="35" fill="white" />
+            <!-- Selbst gemessen -->
+            <text font-size="30" stroke-width="0" x="3" y="28" font-family="siteplanfont">
+                E
+            </text>
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="37.5" />
+        </g>
+
+        <g class="langsamfahrsignale" id="Lf6">
+            <path d="M0,0 L25,0 L12.5,22 z" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="22" />
+            <toolbox:rectbound x="-2.125" y="-1.25" width="29.25" height="25.75" />
+        </g>
+
+        <g class="langsamfahrsignale" id="Lf7">
+            <rect width="25" height="35" fill="white" />
+            <toolbox:anchor id="mastAnkerTop" x="12.5" y="0" />
+            <toolbox:anchor id="mastAnkerBottom" x="12.5" y="35" />
+            <toolbox:rectbound x="-1.25" y="-1.25" width="27.5" height="37.5" />
+        </g>
+    </defs>
+
+    <g width="100" height="100" transform="translate(20,20)">
+        <use xlink:href="#Lf7" />
+    </g>
+</svg>

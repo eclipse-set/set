@@ -118,19 +118,19 @@ public class SskpColumns {
 	public static final String Messfehler = "T";
 
 	/**
+	 * Sskp.Gue.Messfehler
+	 */
+	public static final String Messstrecke = "U";
+
+	/**
 	 * Sskp.Gue.GUE_Anordnung
 	 */
-	public static final String GUE_Anordnung = "U";
+	public static final String GUE_Anordnung = "V";
 
 	/**
 	 * Sskp.Gue.GUE_Bauart
 	 */
-	public static final String GUE_Bauart = "V";
-
-	/**
-	 * Sskp.Gue.GUE_Bauform
-	 */
-	public static final String GUE_Bauform = "W";
+	public static final String GUE_Bauart = "W";
 
 	/**
 	 * Sskp.Gue.Montageort_Schaltkastens

@@ -175,7 +175,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	 */
 	def static double rotation(Signal signal) {
 		// we ignore all coordinates but the first
-		return signal.singlePoints.get(0).coordinate.getRotation
+		return signal.singlePoints.get(0).coordinate.getEffectiveRotation
 	}
 
 	/**

@@ -9,14 +9,12 @@
 
 package org.eclipse.set.utils.table.tree;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.nebula.widgets.nattable.command.ILayerCommand;
+import org.eclipse.nebula.widgets.nattable.command.StructuralRefreshCommand;
 import org.eclipse.nebula.widgets.nattable.config.ConfigRegistry;
 import org.eclipse.nebula.widgets.nattable.filterrow.FilterRowHeaderComposite;
 import org.eclipse.nebula.widgets.nattable.filterrow.IFilterStrategy;
@@ -27,9 +25,10 @@ import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.tree.TreeLayer;
 import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
 import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandAllCommand;
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandCollapseCommand;
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeExpandCollapseCommandHandler;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.table.BodyLayerStack;
-import org.eclipse.set.utils.table.TableRowData;
 import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
 import org.eclipse.set.utils.table.sorting.TableSortModel;
 import org.eclipse.swt.SWT;
@@ -73,6 +72,12 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 		treeLayer = new TreeLayer(bodyDataLayer, treeRowModel) {
 			@Override
 			public boolean doCommand(final ILayerCommand command) {
+				// Refresh hidden row index by data change
+				if (command instanceof StructuralRefreshCommand) {
+					treeLayer.doCommand(new TreeExpandAllCommand());
+					treeLayer.doCommand(new TreeCollapseAllCommand());
+					return true;
+				}
 				// Update hidden rows list in {@link TreeDataProvider}
 				treeData.doExpandCollapseCommand(command);
 				return super.doCommand(command);
@@ -109,19 +114,11 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 		@Override
 		public void applyFilter(
 				final Map<Integer, Object> filterIndexToObjectMap) {
-			final Stream<TableRowData> hiddenRows = treeDataProvider
-					.getHiddenRowsIndex().stream()
-					.map(treeDataProvider::getRowData);
 			// The hidden rows list in {@link TreeDataProvider} will not be
 			// change by direct call expland-collapse function
 			layer.expandAll();
 			treeDataProvider.applyFilter(filterIndexToObjectMap);
-			final Set<Integer> hiddenParentIndex = hiddenRows
-					.map(treeDataProvider::getParent).filter(Objects::nonNull)
-					.map(treeDataProvider::getCurrentRowIndex)
-					.collect(Collectors.toSet());
-			hiddenParentIndex.forEach(layer::collapseTreeRow);
-
+			treeLayer.doCommand(new TreeCollapseAllCommand());
 		}
 
 	}
@@ -156,11 +153,24 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 	public Button createExpandCollapseAllButton(final Composite parent,
 			final String expandAllLabel, final String collapseAllLabel) {
 		final Button button = new Button(parent, SWT.PUSH);
-		if (treeLayer.hasHiddenRows()) {
-			button.setText(expandAllLabel);
-		} else {
-			button.setText(collapseAllLabel);
-		}
+		button.setText(
+				treeLayer.hasHiddenRows() ? expandAllLabel : collapseAllLabel);
+
+		treeLayer.registerCommandHandler(
+				new TreeExpandCollapseCommandHandler(treeLayer) {
+					@Override
+					protected boolean doCommand(
+							final TreeExpandCollapseCommand command) {
+						final boolean doCommand = super.doCommand(command);
+						final String buttonText = treeLayer.hasHiddenRows()
+								? expandAllLabel
+								: collapseAllLabel;
+						if (!button.getText().equals(buttonText)) {
+							button.setText(buttonText);
+						}
+						return doCommand;
+					}
+				});
 		button.addSelectionListener(new SelectionListener() {
 
 			@Override
@@ -171,8 +181,7 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 
 			@Override
 			public void widgetDefaultSelected(final SelectionEvent e) {
-				toggleExpandCollapseAll(button, expandAllLabel,
-						collapseAllLabel);
+				widgetSelected(e);
 			}
 		});
 		return button;
@@ -180,12 +189,21 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 
 	private void toggleExpandCollapseAll(final Button button,
 			final String expandAllLabel, final String collapseAllLabel) {
-		if (treeLayer.hasHiddenRows()) {
+		if (button.getText().equals(expandAllLabel)) {
 			treeLayer.doCommand(new TreeExpandAllCommand());
 			button.setText(collapseAllLabel);
 		} else {
 			treeLayer.doCommand(new TreeCollapseAllCommand());
 			button.setText(expandAllLabel);
 		}
+	}
+
+	/**
+	 * Transform table cotent to csv
+	 * 
+	 * @return table contents als csv content
+	 */
+	public List<String> transformToCSV() {
+		return bodyDataProvider.transformToCSV();
 	}
 }

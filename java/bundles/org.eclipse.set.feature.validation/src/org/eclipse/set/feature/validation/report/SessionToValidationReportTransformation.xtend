@@ -25,7 +25,6 @@ import org.eclipse.set.feature.validation.Messages
 import org.eclipse.set.feature.validation.utils.FileInfoReader
 import org.eclipse.set.feature.validation.utils.XMLNodeFinder
 import org.eclipse.set.model.validationreport.ObjectScope
-import org.eclipse.set.model.validationreport.ObjectState
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.model.validationreport.ValidationSeverity
@@ -37,6 +36,11 @@ import org.xml.sax.SAXParseException
 
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
+
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.naturalOrder;
+import java.util.Collections
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -53,6 +57,7 @@ class SessionToValidationReportTransformation {
 	val EnumTranslationService enumService
 	val severityOrder = newLinkedList(ValidationSeverity.ERROR,
 		ValidationSeverity.WARNING, ValidationSeverity.SUCCESS)
+	val List<String> problemOrder
 	Class<?> validationSourceClass;
 
 	new(Messages messages, PlanProVersionService versionService,
@@ -60,6 +65,9 @@ class SessionToValidationReportTransformation {
 		this.messages = messages
 		this.versionService = versionService
 		this.enumService = enumService
+		this.problemOrder = newLinkedList(messages.IoProblemMsg,
+			messages.XsdProblemMsg, messages.XsdWarningMsg,
+			messages.NilTestProblem_Type)
 	}
 
 	/**
@@ -211,8 +219,14 @@ class SessionToValidationReportTransformation {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
-		} else if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+		}
+
+		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
+			if (validationSourceClass == PlanPro_Layoutinfo) {
+				objectScope = ObjectScope.LAYOUT
+			} else {
+				objectScope = ObjectScope.CONTENT
+			}
 		}
 		return
 	}
@@ -233,8 +247,14 @@ class SessionToValidationReportTransformation {
 			objectArt = xmlNode.objectType
 			objectScope = xmlNode.objectScope
 			objectState = xmlNode.objectState
-		} else if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+		}
+
+		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
+			if (validationSourceClass == PlanPro_Layoutinfo) {
+				objectScope = ObjectScope.LAYOUT
+			} else {
+				objectScope = ObjectScope.CONTENT
+			}
 		}
 		return
 	}
@@ -251,10 +271,12 @@ class SessionToValidationReportTransformation {
 		lineNumber = 0
 		message = exception.transformToMessage
 		objectArt = ""
-		objectScope = ObjectScope.UNKNOWN
 		attributeName = ""
+
 		if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+			objectScope = ObjectScope.LAYOUT
+		} else {
+			objectScope = ObjectScope.CONTENT
 		}
 		return
 	}
@@ -272,6 +294,14 @@ class SessionToValidationReportTransformation {
 		objectScope = problem.objectScope
 		objectState = problem.objectState
 		attributeName = problem.attributeName
+
+		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
+			if (validationSourceClass == PlanPro_Layoutinfo) {
+				objectScope = ObjectScope.LAYOUT
+			} else {
+				objectScope = ObjectScope.CONTENT
+			}
+		}
 		return
 	}
 
@@ -284,9 +314,9 @@ class SessionToValidationReportTransformation {
 		severity = ValidationSeverity.SUCCESS
 		severityText = severity.translate
 		if (validationSourceClass == PlanPro_Layoutinfo) {
-			objectState = ObjectState.LAYOUT
+			objectScope = ObjectScope.LAYOUT
 		} else {
-			objectState = ObjectState.INFO
+			objectScope = ObjectScope.CONTENT
 		}
 		it.message = message
 		return it
@@ -298,11 +328,11 @@ class SessionToValidationReportTransformation {
 		if (fachdaten === null)
 			return #[]
 		val subtypes = newHashMap
-		fachdaten.map[untergewerkArt?.wert?.toString].forEach [
-			if (!subtypes.containsKey(it)) {
+		fachdaten.map[untergewerkArt?.wert].filterNull.forEach [
+			if (!subtypes.containsKey(it.toString)) {
 				subtypes.put(it, 1)
 			} else {
-				val count = subtypes.get(it)
+				val count = subtypes.get(it.toString)
 				subtypes.put(it, count + 1)
 			}
 		]
@@ -312,22 +342,28 @@ class SessionToValidationReportTransformation {
 	}
 
 	/**
-	 * Sort problems by severity and line number, then set
-	 * id
+	 * Sort problems by:
+	 * 1) severity
+	 * 2) problem type
+	 * 3) object type
+	 * 4) attribute
+	 * 5) object scope
+	 * 6) line number
 	 * @param problems the list of problems
 	 */
 	private def void sortProblem(List<ValidationProblem> problems) {
-		problems.sort(new Comparator<ValidationProblem>() {
-			override compare(ValidationProblem o1, ValidationProblem o2) {
-				val compareSeverity = severityOrder.indexOf(o1.severity).
-					compareTo(severityOrder.indexOf(o2.severity))
-				if (compareSeverity === 0) {
-					return o1.lineNumber.compareTo(o2.lineNumber)
-				}
-				return compareSeverity
-			}
+		val comparator = Comparator.comparing [ ValidationProblem it |
+			severityOrder.indexOf(severity)
+		].thenComparing([problemOrder.indexOf(type)], nullsLast(naturalOrder)) //
+		.thenComparing([objectArt], nullsLast(naturalOrder)) //
+		.thenComparing(
+			[attributeName], nullsLast(naturalOrder)) //
+		.thenComparing(Collections.reverseOrder(comparing(
+			[ValidationProblem it|objectScope], nullsLast(naturalOrder)))) //
+		.thenComparing(
+			[lineNumber], nullsLast(naturalOrder))
 
-		})
+		problems.sort(comparator);
 		problems.forEach[it, index|id = index + 1]
 	}
 

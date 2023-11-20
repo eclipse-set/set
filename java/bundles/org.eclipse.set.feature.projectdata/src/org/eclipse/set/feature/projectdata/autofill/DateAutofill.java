@@ -21,6 +21,7 @@ import org.eclipse.set.basis.autofill.DefaultAutofill;
 import org.eclipse.set.basis.autofill.FillPathSetting;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
 import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
@@ -39,15 +40,14 @@ public class DateAutofill extends DefaultAutofill {
 			return false;
 		}
 		final XMLGregorianCalendar date = (XMLGregorianCalendar) value;
-		if (date.getYear() > MIN_DATE) {
-			return true;
-		}
-		return false;
+		return date.getYear() > MIN_DATE;
 	}
 
 	private Planung_Projekt planning;
 
 	private final PlanProTrigger trigger;
+
+	private FillPathSetting source;
 
 	/**
 	 * Create PlanPro specific auto filling.
@@ -92,19 +92,22 @@ public class DateAutofill extends DefaultAutofill {
 				.getPlanung_P_Allg_AttributeGroup_DatumAbschlussProjekt(),
 				PlanProPackage.eINSTANCE
 						.getDatum_Abschluss_Projekt_TypeClass_Wert());
-		final FillPathSetting source = new FillPathSetting(
-				PlanProFactory.eINSTANCE, planning,
+		source = new FillPathSetting(PlanProFactory.eINSTANCE, planning,
 				PlanProPackage.eINSTANCE.getPlanung_Projekt_PlanungPAllg(),
 				PlanProPackage.eINSTANCE
 						.getPlanung_P_Allg_AttributeGroup_DatumAbschlussProjekt(),
 				PlanProPackage.eINSTANCE
 						.getDatum_Abschluss_Projekt_TypeClass_Wert());
 		trigger.addCondition(() -> isValidDate(source.getValue()));
+	}
 
+	/**
+	 * @param group
+	 *            the PlanPro planing group
+	 */
+	public void setGroup(final Planung_Gruppe group) {
 		final FillPathSetting targetDatumAbschlussGruppe = new FillPathSetting(
-				PlanProFactory.eINSTANCE, planning,
-				PlanProPackage.eINSTANCE
-						.getPlanung_Projekt_LstPlanungErsteGruppe(),
+				PlanProFactory.eINSTANCE, group,
 				PlanProPackage.eINSTANCE.getPlanung_Gruppe_PlanungGAllg(),
 				PlanProPackage.eINSTANCE
 						.getPlanung_G_Allg_AttributeGroup_DatumAbschlussGruppe(),
@@ -114,9 +117,7 @@ public class DateAutofill extends DefaultAutofill {
 				new CopyValue(trigger, source, targetDatumAbschlussGruppe));
 
 		final FillPathSetting targetDatumAbschlussEinzel = new FillPathSetting(
-				PlanProFactory.eINSTANCE, planning,
-				PlanProPackage.eINSTANCE
-						.getPlanung_Projekt_LstPlanungErsteGruppe(),
+				PlanProFactory.eINSTANCE, group,
 				PlanProPackage.eINSTANCE.getPlanung_Gruppe_LSTPlanungEinzel(),
 				PlanProPackage.eINSTANCE.getPlanung_Einzel_PlanungEAllg(),
 				PlanProPackage.eINSTANCE

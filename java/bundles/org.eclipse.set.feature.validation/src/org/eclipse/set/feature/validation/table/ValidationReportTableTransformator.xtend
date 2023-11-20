@@ -14,10 +14,15 @@ import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.utils.table.tree.AbstractValidationProblemTransformator
+import org.eclipse.set.utils.table.TMFactory
+
+import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 
 class ValidationReportTableTransformator extends AbstractValidationProblemTransformator<ValidationReport> {
 	ValidationTableColumns columns;
 	protected val List<ColumnDescriptor> excludeColumns
+
+	static val SPECIFIC_VALUE_REGEX = "'[^']+'"
 
 	new(ValidationTableColumns columns) {
 		super()
@@ -44,6 +49,22 @@ class ValidationReportTableTransformator extends AbstractValidationProblemTransf
 		fill(instance, columns.Message, problem, [message])
 	}
 
+	override createGroupAbstractRow(TMFactory factory, List<TableRow> groupRows) {
+		val rootRow = super.createGroupAbstractRow(factory, groupRows)
+		val allMsg = groupRows.map [
+			//Replace specific value like attribute name in report message
+			getPlainStringValue(messagesColumn)?.replaceAll(
+				SPECIFIC_VALUE_REGEX, "...")
+		].filterNull.toSet
+		// Only generate general report message for group with same messages format
+		if (allMsg.length === 1) {
+			rootRow.set(messagesColumn, allMsg.get(0))
+		} else {
+			rootRow.set(messagesColumn, "")
+		}
+		return rootRow
+	}
+
 	override getExcludeColumns() {
 		return excludeColumns
 	}
@@ -51,9 +72,8 @@ class ValidationReportTableTransformator extends AbstractValidationProblemTransf
 	override getIndexColumn() {
 		return columns.RowIndex
 	}
-	
+
 	override getMessagesColumn() {
 		return columns.Message
 	}
-
 }

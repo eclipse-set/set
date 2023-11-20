@@ -21,7 +21,6 @@ import org.eclipse.set.basis.geometry.Geometries
 import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.basis.geometry.SegmentPosition
 import org.eclipse.set.basis.graph.DirectedElement
-import org.eclipse.set.ppmodel.extensions.utils.SymbolArrangement
 import org.locationtech.jts.algorithm.distance.DistanceToPoint
 import org.locationtech.jts.algorithm.distance.PointPairDistance
 import org.locationtech.jts.geom.Coordinate
@@ -38,6 +37,7 @@ import org.eclipse.set.utils.math.Clothoid
 import org.eclipse.set.utils.math.Bloss
 import java.util.ArrayList
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -109,7 +109,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val radiusB = (kante.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
 		val angle = kante.GEOKanteAllg.GEORichtungswinkel.wert.doubleValue
 		val coordinateA = kante.geoKnotenA.coordinate
-		var coordinateB = kante.coordinateKnoteB
+		var coordinateB = kante.coordinateKnotenB
 		val length = kante.GEOKanteAllg.GEOLaenge.wert.doubleValue
 		if (radiusA != 0 && radiusB != 0) {
 			// Clothoid connecting two curved tracks	
@@ -173,7 +173,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val radiusA = (kante.GEOKanteAllg?.GEORadiusA?.wert ?: 0).doubleValue
 		val radiusB = (kante.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
 		val coordinateA = kante.geoKnotenA.coordinate
-		var coordinateB = kante.coordinateKnoteB
+		var coordinateB = kante.coordinateKnotenB
 		val length = kante.GEOKanteAllg.GEOLaenge.wert.doubleValue
 		if (radiusA != 0 && radiusB != 0) {
 			// Bloss curve connecting two straight tracks
@@ -190,7 +190,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		}
 	}
 
-	def static SymbolArrangement<Coordinate> getCoordinate(
+	def static GeoPosition getCoordinate(
 		GEO_Kante geoKante,
 		GEO_Knoten startGeoKnoten,
 		double abstand,
@@ -216,7 +216,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 			wirkrichtung);
 	}
 
-	def static SymbolArrangement<Coordinate> getCoordinate(
+	def static GeoPosition getCoordinate(
 		LineSegment tangent,
 		SegmentPosition position,
 		double seitlicherAbstand,
@@ -225,6 +225,9 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val LineSegment lateralSegement = Geometries.clone(tangent)
 		Geometries.translate(lateralSegement, lateralSegement.p0,
 			position.getCoordinate())
+			
+				
+			
 		var double angle
 		if (seitlicherAbstand < 0) {
 			angle = 90
@@ -240,28 +243,15 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		val LineSegment direction = Geometries.clone(
 			directedLineSegment.getElement)
 		var double rotation = Geometries.getRotationToVertical(direction);
-		switch (wirkrichtung) {
-			case ENUM_WIRKRICHTUNG_BEIDE,
-			case ENUM_WIRKRICHTUNG_IN: {
-			}
-			case ENUM_WIRKRICHTUNG_GEGEN: {
-				rotation = rotation + 180
-			}
-			case null: {
-				rotation = 0
-			}
-			default:
-				throw new RuntimeException(
-					String.format("Wirkrichtung = %s", wirkrichtung))
-		}
-		return new SymbolArrangement<Coordinate>(lateralSegement.p1, rotation)
+
+		return new GeoPosition(lateralSegement.p1, rotation, wirkrichtung)
 	}
 
 	private def static Coordinate[] getCoordinates(GEO_Kante kante) {
-		return #[kante.geoKnotenA.coordinate, kante.coordinateKnoteB]
+		return #[kante.geoKnotenA.coordinate, kante.coordinateKnotenB]
 	}
 	
-	private def static Coordinate getCoordinateKnoteB(GEO_Kante kante) {
+	private def static Coordinate getCoordinateKnotenB(GEO_Kante kante) {
 		val knotenB = kante.geoKnotenB
 		var coordinateB = knotenB.coordinate
 		if (!kante.isCRSConsistent) {

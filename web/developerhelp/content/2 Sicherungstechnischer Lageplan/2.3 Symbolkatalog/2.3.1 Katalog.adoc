@@ -1,0 +1,9 @@
+---
+title: "2.3.1 Katalog"
+anchor: "sicherungstechnischer_lageplan.symbol.katalog"
+---
+
+Es werden alle Signalvarianten angezeigt, nachdem die Signalgruppe ausgewählt wurde.
+Es besteht die Möglichkeit, die Signale mit den unterschiedlichen Befestigungsvarianten darzustellen, indem der Haken bei "Mit Befestigung verbinden" gesetzt wird.
+
+image::img/katalog_modus.png[]

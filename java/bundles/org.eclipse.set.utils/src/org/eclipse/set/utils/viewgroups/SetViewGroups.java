@@ -28,83 +28,37 @@ public class SetViewGroups {
 	private static final ToolboxViewGroup TABLE;
 
 	static {
-		DEVELOPMENT = new ToolboxViewGroup(
-				// text
-				Messages.SetViewGroups_Development,
-				// image
-				SetImages.IC_BUILD_BLACK_18DP_1X,
-				// isInitiallyExpanded
-				false,
-				// isDevelopment
-				true,
-				// isInvisible
-				false);
-		EDIT = new ToolboxViewGroup(
-				// text
-				Messages.SetViewGroups_Edit,
-				// image
-				SetImages.IC_EDIT_BLACK_18DP_1X,
-				// isInitiallyExpanded
-				false,
-				// isDevelopment
-				false,
-				// isInvisible
-				false);
-		EXPORT = new ToolboxViewGroup(
-				// text
-				Messages.SetViewGroups_Export,
-				// image
-				SetImages.IC_FILE_DOWNLOAD_BLACK_18DP_1X,
-				// isInitiallyExpanded
-				false,
-				// isDevelopment
-				false,
-				// isInvisible
-				false);
-		INFORMATION = new ToolboxViewGroup(
-				// text
-				Messages.SetViewGroups_Information,
-				// image
-				SetImages.IC_INFO_OUTLINE_BLACK_18DP_1X,
-				// isInitiallyExpanded
-				true,
-				// isDevelopment
-				false,
-				// isInvisible
-				false);
-		INVISIBLE = new ToolboxViewGroup(
-				// text
-				"", //$NON-NLS-1$
-				// image
-				null,
-				// isInitiallyExpanded
-				false,
-				// isDevelopment
-				false,
-				// isInvisible
-				true);
-		SITEPLAN = new ToolboxViewGroup(
-				// text
-				Messages.SetViewGroups_Siteplan,
-				// image
-				SetImages.IC_MAP_BLACK_18DP_1X,
-				// isInitiallyExpanded
-				false,
-				// isDevelopment
-				false,
-				// isInvisible
-				false);
-		TABLE = new ToolboxViewGroup(
-				// text
-				Messages.SetViewGroups_Table,
-				// image
-				SetImages.IC_GRID_ON_BLACK_18DP_1X,
-				// isInitiallyExpanded
-				false,
-				// isDevelopment
-				false,
-				// isInvisible
-				false);
+		DEVELOPMENT = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Development)
+				.withIcon(SetImages.IC_BUILD_BLACK_18DP_1X)
+				.withOrderPriority(100).setDevelopment(true).build();
+		EDIT = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Edit)
+				.withIcon(SetImages.IC_EDIT_BLACK_18DP_1X)
+				.withOrderPriority(500).build();
+		EXPORT = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Export)
+				.withIcon(SetImages.IC_FILE_DOWNLOAD_BLACK_18DP_1X)
+				.withOrderPriority(200).build();
+
+		INFORMATION = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Information)
+				.withIcon(SetImages.IC_INFO_OUTLINE_BLACK_18DP_1X)
+				.withOrderPriority(600).setInitiallyExpanded(true).build();
+
+		INVISIBLE = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Information)
+				.withIcon(SetImages.IC_INFO_OUTLINE_BLACK_18DP_1X)
+				.setInvisible(true).build();
+
+		SITEPLAN = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Siteplan)
+				.withIcon(SetImages.IC_MAP_BLACK_18DP_1X).withOrderPriority(400)
+				.build();
+		TABLE = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Table)
+				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
+				.withOrderPriority(300).build();
 	}
 
 	/**

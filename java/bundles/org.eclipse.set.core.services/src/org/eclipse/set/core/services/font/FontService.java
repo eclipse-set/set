@@ -17,11 +17,6 @@ import java.nio.file.Path;
  * @author Stuecker
  */
 public interface FontService {
-	/**
-	 * @return the path to the font to use for the siteplan
-	 */
-	Path getSiteplanFont();
-
 	@SuppressWarnings("javadoc")
 
 	public record FopFont(Path path, String name, String weight, String style) {

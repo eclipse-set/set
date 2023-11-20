@@ -43,7 +43,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	private String md5checksum = null;
 
-	private HashMap<String, XMLResource> resources = new HashMap<>();
+	protected final HashMap<String, XMLResource> resources = new HashMap<>();
 
 	@Override
 	public void setXMLDocument(final String docName, final Document doc) {
@@ -119,8 +119,13 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		return resources.get(contentName);
 	}
 
+	protected void setResource(final String contentName,
+			final XMLResource resource) {
+		resources.put(contentName, resource);
+		modifyXmlDeclaration();
+	}
+
 	protected void setResourcePath(final Path path) {
-		final HashMap<String, XMLResource> newResources = new HashMap<>();
 		resources.forEach((contentName, resource) -> {
 			if (!resource.getURI().isFile()) {
 				// Use the file extension as content type
@@ -138,13 +143,12 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 				if (!resource.getContents().isEmpty()) {
 					newResource.getContents().addAll(resource.getContents());
 				}
-				newResources.put(contentName, newResource);
+				resources.put(contentName, newResource);
 				modifyXmlDeclaration();
 			} else {
 				resource.setURI(URI.createFileURI(path.toString()));
 			}
 		});
-		resources = newResources;
 	}
 
 	@Override

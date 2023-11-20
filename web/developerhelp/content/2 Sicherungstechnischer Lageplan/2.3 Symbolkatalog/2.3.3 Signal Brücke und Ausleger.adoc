@@ -1,0 +1,8 @@
+---
+title: "2.3.3 Signalbrücke und Ausleger"
+anchor: "sicherungstechnischer_lageplan.symbol.bruecke"
+---
+
+Diese Option bietet die Möglichkeit, Signalausleger zu betrachten.
+
+image::img/ausleger_bruecke.png[]

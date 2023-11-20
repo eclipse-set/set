@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.3</tycho-version>
+		<tycho-version>4.0.4</tycho-version>
 		<deploy-plugin-version>3.1.1</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
@@ -32,7 +32,6 @@
 		<module>java/bundles/org.eclipse.set.feature</module>
 		<module>java/bundles/org.eclipse.set.test.feature</module>
 		<module>java/bundles/org.eclipse.set.i18n.nl_de.feature</module>
-		<module>java/bundles/org.eclipse.set.sessionservice.feature</module>
 
 		<!-- ############################################################### -->
 		<!-- Bundles -->
@@ -57,6 +56,9 @@
 		<module>java/bundles/org.eclipse.set.feature.validation</module>
 		<module>java/bundles/org.eclipse.set.feature.plazmodel</module>
 		<module>java/bundles/org.eclipse.set.feature.enumtransformation</module>
+		<module>java/bundles/org.eclipse.set.feature.siteplan</module>
+		<module>java/bundles/org.eclipse.set.feature.siteplan.test</module>
+		<module>java/bundles/org.eclipse.set.feature.projectdata</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecore.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.categorization.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.core.nl_de</module>
@@ -76,11 +78,11 @@
 		<module>java/bundles/org.eclipse.set.model.titlebox.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.titlebox</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport.edit</module>
-		<module>java/bundles/org.eclipse.set.model.validationreport.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.validationreport</module>
 		<module>java/bundles/org.eclipse.set.model.zipmanifest</module>
 		<module>java/bundles/org.eclipse.set.model.plazmodel</module>
 		<module>java/bundles/org.eclipse.set.model.plazmodel.edit</module>
+		<module>java/bundles/org.eclipse.set.model.siteplan</module>
 
 		<module>java/bundles/org.eclipse.set.nattable.utils</module>
 		<module>java/bundles/org.eclipse.set.pdf.utils</module>
@@ -88,7 +90,6 @@
 		<module>java/bundles/org.eclipse.set.ppmodel.extensions</module>
 		<module>java/bundles/org.eclipse.set.ppmodel.extensions.container</module>
 		<module>java/bundles/org.eclipse.set.services</module>
-		<module>java/bundles/org.eclipse.set.sessionservice.test</module>
 		<module>java/bundles/org.eclipse.set.sessionservice</module>
 		<module>java/bundles/org.eclipse.set.unittest.utils</module>
 		<module>java/bundles/org.eclipse.set.utils</module>
@@ -182,7 +183,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>3.3.2</version>
 				<configuration>
 					<filesets>
 						<fileset>
@@ -236,7 +237,7 @@
 					<dependency>
 						<groupId>com.puppycrawl.tools</groupId>
 						<artifactId>checkstyle</artifactId>
-						<version>10.12.4</version>
+						<version>10.12.5</version>
 					</dependency>
 				</dependencies>
 				<configuration>
@@ -487,7 +488,7 @@
 			<url>https://maven.pkg.github.com/eclipse-set/set</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>dash-licenses-snapshots</id>

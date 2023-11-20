@@ -14,6 +14,7 @@ Import-Package: org.eclipse.set.feature.validation.session,
  org.eclipse.set.toolboxmodel.PlanPro,
  org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301,
  org.eclipse.set.unittest.utils,
+ org.eclipse.set.unittest.utils.session,
  org.eclipse.set.unittest.utils.toolboxfile,
  org.junit,
  org.junit.jupiter.api

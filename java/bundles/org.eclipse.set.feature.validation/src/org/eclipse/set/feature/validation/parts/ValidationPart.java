@@ -39,10 +39,8 @@ import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
-import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.model.validationreport.extensions.ValidationProblemExtensions;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
@@ -56,6 +54,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -174,19 +173,29 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 				final Composite composite = new Composite(innerParent,
 						SWT.NONE);
-				GridLayoutFactory.swtDefaults().numColumns(2)
+
+				GridLayoutFactory.swtDefaults().numColumns(3)
 						.applyTo(composite);
 				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
 						.grab(true, false).applyTo(composite);
 
-				// create the button
+				final Control natTable = tableView.create(innerParent,
+						validationReport);
+				// create the open view button
 				final Button showTableButton = new Button(composite, SWT.PUSH);
 				GridDataFactory.swtDefaults().align(SWT.LEFT, SWT.FILL)
-						.grab(true, false).applyTo(showTableButton);
+						.grab(false, false).applyTo(showTableButton);
+
 				showTableButton.setText(messages.ShowValidationTableMsg);
 				showTableButton.addListener(SWT.Selection,
 						event -> showValidationTable());
 				showTableButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION, 0);
+
+				// create the toggle collapsed button
+				final Button collapseAllButton = tableView
+						.createExpandCollapseAllButton(composite,
+								messages.ValidationTable_ExpandAllGroup,
+								messages.ValidationTable_CollapseAllGroup);
 
 				exportValidationButton = new Button(composite, SWT.PUSH);
 				GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.FILL)
@@ -194,12 +203,17 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				exportValidationButton.setText(messages.ExportValidationMsg);
 				exportValidationButton.addListener(SWT.Selection,
 						event -> exportValidation(this, messages,
-								validationReport));
+								tableView.transformToCSV()));
 				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
 						0);
 
-				final Control natTable = tableView.create(innerParent,
-						validationReport);
+				// Setup layout
+				showTableButton.setLayoutData(
+						new GridData(SWT.LEFT, SWT.TOP, false, true));
+				collapseAllButton.setLayoutData(
+						new GridData(SWT.LEFT, SWT.TOP, false, true));
+				exportValidationButton.setLayoutData(
+						new GridData(SWT.RIGHT, SWT.TOP, true, true));
 
 				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
 						.grab(true, true).hint(SWT.DEFAULT, 600)
@@ -255,11 +269,11 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	 *            the part
 	 * @param messages
 	 *            the messages class
-	 * @param report
-	 *            the validation report
+	 * @param csvData
+	 *            the validation report als csv
 	 */
 	public static void exportValidation(final BasePart part,
-			final Messages messages, final ValidationReport report) {
+			final Messages messages, final List<String> csvData) {
 		final Shell shell = part.getToolboxShell();
 		final Path location = part.getModelSession().getToolboxFile().getPath();
 		final Path parent = location.getParent();
@@ -273,10 +287,9 @@ public class ValidationPart extends AbstractEmfFormsPart {
 						Paths.get(defaultPath, defaultFileName),
 						messages.ExportValidationTitleMsg);
 		// export
-		final ExportToCSV<ValidationProblem> problemExport = new ExportToCSV<>(
+		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				CSV_HEADER_PATTERN);
-		problemExport.exportToCSV(optionalPath, report.getProblems(),
-				ValidationProblemExtensions::getCsvExport);
+		problemExport.exportToCSV(optionalPath, csvData);
 		optionalPath.ifPresent(
 				outputDir -> part.getDialogService().openDirectoryAfterExport(
 						part.getToolboxShell(), outputDir.getParent()));

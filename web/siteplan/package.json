@@ -1,0 +1,40 @@
+{
+  "name": "siteplan",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vite --port 8080",
+    "build": "vite build --mode development",
+    "build-prod": "vite build --mode production",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "@turf/boolean-disjoint": "^6.5.0",
+    "@turf/boolean-within": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "axios": "^1.6.2",
+    "geojson": "^0.5.0",
+    "jspdf": "^2.5.1",
+    "material-design-icons": "^3.0.1",
+    "ol": "^7.3.0",
+    "ol-mapbox-style": "^10.3.4",
+    "vue": "^3.3.8",
+    "vue-class-component": "^8.0.0-1",
+    "vue-router": "^4.2.5",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.13",
+    "@types/proj4": "^2.5.2",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-vue": "^9.18.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0"
+  }
+}

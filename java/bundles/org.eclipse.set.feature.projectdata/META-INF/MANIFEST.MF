@@ -2,13 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Toolbox Projectdata
 Bundle-SymbolicName: org.eclipse.set.feature.projectdata;singleton:=true
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Automatic-Module-Name: org.eclipse.set.feature.projectdata
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: com.google.common.base;version="15.0.0",
  com.google.common.collect;version="15.0.0",
- org.eclipse.set.model.modelservice,
  javax.inject;version="1.0.0",
  org.eclipse.core.runtime;version="3.5.0",
  org.eclipse.e4.core.contexts;version="1.7.0",
@@ -28,7 +27,7 @@ Import-Package: com.google.common.base;version="15.0.0",
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecp.ui.view;version="1.17.1",
  org.eclipse.emf.ecp.ui.view.swt;version="1.17.1",
- org.eclipse.emf.ecp.view.spi.model;version="1.17.1",
+ org.eclipse.emf.ecp.view.spi.model;version="1.27.0",
  org.eclipse.emf.edit.command,
  org.eclipse.emf.edit.domain,
  org.eclipse.set.basis,
@@ -43,6 +42,7 @@ Import-Package: com.google.common.base;version="15.0.0",
  org.eclipse.set.core.services,
  org.eclipse.set.core.services.cache,
  org.eclipse.set.core.services.dialog,
+ org.eclipse.set.core.services.enumtranslation,
  org.eclipse.set.core.services.files,
  org.eclipse.set.core.services.helpmessage,
  org.eclipse.set.core.services.modelloader,
@@ -73,6 +73,5 @@ Require-Bundle: com.google.guava,
  org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
  org.eclipse.set.toolboxmodel,
  org.eclipse.set.toolboxmodel.transform
-Service-Component: OSGI-INF/org.eclipse.set.feature.projectdata.descriptions.PlanProImportDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.projectdata.descriptions.ProjectPartDescriptionService.xml,
+Service-Component: OSGI-INF/org.eclipse.set.feature.projectdata.descriptions.ProjectPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.projectdata.patternviolation.ReportPatternViolationWithPlanProDescriptions.xml

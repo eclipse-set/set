@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.apache.tika.Tika;
 import org.eclipse.set.browser.RequestHandler;
 import org.eclipse.swt.widgets.Composite;
 
@@ -63,6 +64,7 @@ public class FileWebBrowser extends WebBrowser implements RequestHandler {
 
 	private static final String HOSTNAME = "toolbox"; //$NON-NLS-1$
 	private static final String BASE_URI = "https://" + HOSTNAME + "/"; //$NON-NLS-1$ //$NON-NLS-2$
+	private static final Tika tika = new Tika();
 
 	private final Map<String, RequestCallback> prefixUrlHandler = new HashMap<>();
 
@@ -174,7 +176,7 @@ public class FileWebBrowser extends WebBrowser implements RequestHandler {
 
 				else {
 					final Path filepath = file.toAbsolutePath();
-					final String contentType = Files.probeContentType(filepath);
+					final String contentType = tika.detect(filepath);
 					serveFile(fileuri, contentType, filepath);
 
 				}

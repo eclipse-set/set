@@ -19,6 +19,7 @@ import org.eclipse.set.model.tablemodel.TableRow
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import org.eclipse.set.model.tablemodel.RowGroup
 
 /**
  * IDataProvider implementation for Table
@@ -58,8 +59,11 @@ class TableDataProvider implements IDataProvider {
 		// The number of actual columns is the number of leaf column descriptors
 		// as each defines a single column in the table (rather than a heading)
 		this.columnCount = table.columndescriptors.flatMap[leaves].toSet.size
-		this.tableContents = table.tablecontent.rowgroups.flatMap[rows].indexed.
-			map[new TableRowData(key, value)].filter[filterMatch].toList
+		val rowGroups = table.tablecontent.rowgroups.sortWith(
+			tableRowGroupComparator).toList
+		this.tableContents = rowGroups.flatMap[rows].indexed.map [
+			new TableRowData(key, value)
+		].filter[filterMatch].toList
 	}
 
 	/**
@@ -74,9 +78,8 @@ class TableDataProvider implements IDataProvider {
 				var filterValue = filters.get(i).toString.toLowerCase
 				val isExcludeFilter = filterValue.substring(0, 1).equals(
 					EXCULDE_FILTER_SIGN)
-				filterValue = isExcludeFilter
-					? filterValue.substring(1)
-					: filterValue
+				filterValue = isExcludeFilter ? filterValue.
+					substring(1) : filterValue
 
 				// Equivalence logic
 				if (isExcludeFilter === content.contains(filterValue)) {
@@ -101,7 +104,7 @@ class TableDataProvider implements IDataProvider {
 
 	def TableRowData getRowData(int rowIndex) {
 		if (rowIndex >= 0 && rowIndex < tableContents.size) {
-			return tableContents.get(rowIndex)
+			return findRow(rowIndex)
 		}
 		return null
 	}
@@ -121,20 +124,36 @@ class TableDataProvider implements IDataProvider {
 		]
 	}
 
-	def String getObjectState(int row) {
-		val zustandColumn = table.columndescriptors.findFirst [
-			label !== null && label.equals('Zustand')
+	/**
+	 * Find row with original index
+	 * @param originalIndex 
+	 */
+	def TableRowData findRow(int originalIndex) {
+		return tableContents.findFirst [
+			row.rowIndex === originalIndex
 		]
-		if (zustandColumn === null) {
+	}
+
+	/**
+	 * @return the table row with current table position
+	 */
+	def TableRowData getRow(int tableRowPosition) {
+		return tableContents.get(tableRowPosition)
+	}
+
+	def String getObjectScope(int tableRowPosition) {
+		val scopeColumn = table.columndescriptors.findFirst [
+			label !== null && label.equals('Bereich')
+		]
+		if (scopeColumn === null) {
 			return null
 		}
-		val zustandCell = tableContents?.get(row)?.contents?.get(
-			table.columndescriptors.indexOf(zustandColumn) - 1)
+		val zustandCell = tableRowPosition.row?.contents?.get(
+			table.columndescriptors.indexOf(scopeColumn) - 1)
 		if (zustandCell === null) {
 			return null
 		}
 		return zustandCell.plainStringValue
-
 	}
 
 	override int getColumnCount() {
@@ -180,6 +199,14 @@ class TableDataProvider implements IDataProvider {
 		currentComparator = new Pair(column, comparator)
 	}
 
+	protected def Comparator<RowGroup> tableRowGroupComparator() {
+		return [ group1, group2 |
+			val lastRow1 = group1.rows.last
+			val lastRow2 = group2.rows.last
+			return lastRow1.rowIndex.compareTo(lastRow2.rowIndex)
+		]
+	}
+
 	protected def Comparator<TableRowData> tableRowDataComparator(int column,
 		Comparator<? super String> comparator) {
 		return [ row1, row2 |
@@ -200,6 +227,12 @@ class TableDataProvider implements IDataProvider {
 		return [ cells1, cells2 |
 			comparator.cellComparator.compare(cells1.get(column),
 				cells2.get(column))
+		]
+	}
+
+	def List<String> transformToCSV() {
+		return tableContents.map [
+			'''«FOR value : contents SEPARATOR ";"»"«value.plainStringValue»"«ENDFOR»«System.lineSeparator»'''
 		]
 	}
 }

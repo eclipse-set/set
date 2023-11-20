@@ -9,6 +9,7 @@
 package org.eclipse.set.core.services.rename;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
@@ -31,7 +32,8 @@ public interface RenameService {
 	 *            the PlanPro object
 	 * @param askUser
 	 *            whether to ask the user when renaming a file
-	 * 
+	 * @param saveAction
+	 *            save toolbox file action
 	 * @return the (new) toolbox file for the PlanPro object
 	 * 
 	 * @throws IOException
@@ -40,6 +42,6 @@ public interface RenameService {
 	 *             if the user aborts saving
 	 */
 	ToolboxFile save(Shell shell, ToolboxFile toolboxFile,
-			PlanPro_Schnittstelle planProObject, boolean askUser)
-			throws IOException, UserAbortion;
+			PlanPro_Schnittstelle planProObject, boolean askUser,
+			Consumer<ToolboxFile> saveAction) throws IOException, UserAbortion;
 }

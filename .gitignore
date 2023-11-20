@@ -47,7 +47,11 @@ dist/
 
 # Hugo documentation
 web/about/public
+web/news/public
 .vscode/settings.json
+
+# Generated siteplan model
+siteplan*.json
 
 # OSGI Declare Service
 **/OSGI-INF/*.xml

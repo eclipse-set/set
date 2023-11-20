@@ -1,0 +1,8 @@
+---
+title: "1.3 Beispielaufrufe"
+anchor: "headless.beispielaufrufe"
+---
+
+Der folgende Aufruf kann, wenn er im Verzeichnis des Werkzeugkoffers ausgeführt wird, dazu verwendet werden, das Beispielmodell PHausen auf Validität zu prüfen. Das Ergebnis der Prüfung findet sich nach der Ausführung im Unterordner `output` in der Datei `validationreport.xml`.
+
+`./werkzeugkoffer.exe -nosplash -headless -i examples/2015-12-10_P-Hausen_1.9.0.2_4.0_Status_Genehmigt_V02.ppxml -o output -validationReport`

@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.application.parts;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ import org.eclipse.set.browser.RequestHandler.Response;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.font.FontService;
 import org.eclipse.set.model.validationreport.ContainerContent;
-import org.eclipse.set.model.validationreport.ObjectState;
+import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.FileWebBrowser;
@@ -113,7 +111,6 @@ public class SourceWebTextViewPart extends BasePart {
 					SourceWebTextViewPart::serveProblems);
 			browser.serveFile(LAYOUT_XML, "text/plain",
 					session.getToolboxFile().getLayoutPath());
-			browser.serveUri("font", this::serveFont);
 
 			browser.setToolboxUrl("index.html");
 		} catch (final Exception e) {
@@ -151,16 +148,9 @@ public class SourceWebTextViewPart extends BasePart {
 
 	}
 
-	@SuppressWarnings("resource") // Stream is closed by the browser
-	private void serveFont(final Response response) throws IOException {
-		response.setMimeType("application/x-font-ttf");
-		response.setResponseData(
-				Files.newInputStream(fontService.getSiteplanFont()));
-	}
-
 	private void handleJumpToSourceLineEvent(
 			final JumpToSourceLineEvent event) {
-		final Pair<ObjectState, Integer> lineNumber = event.getLineNumber();
+		final Pair<ObjectScope, Integer> lineNumber = event.getLineNumber();
 		final String objectGuid = event.getObjectGuid();
 		if (lineNumber.getSecond().intValue() != -1) {
 			this.jumpToLine(lineNumber);
@@ -171,10 +161,10 @@ public class SourceWebTextViewPart extends BasePart {
 		}
 	}
 
-	private void jumpToLine(final Pair<ObjectState, Integer> lineNumber) {
+	private void jumpToLine(final Pair<ObjectScope, Integer> lineNumber) {
 		String modelName = ""; //$NON-NLS-1$
-		if (lineNumber.getFirst() == ObjectState.LAYOUT) {
-			modelName = ContainerContent.ATTACHMENT.getLiteral();
+		if (lineNumber.getFirst() == ObjectScope.LAYOUT) {
+			modelName = ContainerContent.LAYOUT.getLiteral();
 		} else {
 			modelName = ContainerContent.MODEL.getLiteral();
 		}

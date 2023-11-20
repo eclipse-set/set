@@ -90,6 +90,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 		switch (eDataType.getClassifierID()) {
 			case TablemodelPackage.COLUMN_WIDTH_MODE:
 				return createColumnWidthModeFromString(eDataType, initialValue);
+			case TablemodelPackage.ROW_MERGE_MODE:
+				return createRowMergeModeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -105,6 +107,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 		switch (eDataType.getClassifierID()) {
 			case TablemodelPackage.COLUMN_WIDTH_MODE:
 				return convertColumnWidthModeToString(eDataType, instanceValue);
+			case TablemodelPackage.ROW_MERGE_MODE:
+				return convertRowMergeModeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -259,6 +263,26 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 	 * @generated
 	 */
 	public String convertColumnWidthModeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RowMergeMode createRowMergeModeFromString(EDataType eDataType, String initialValue) {
+		RowMergeMode result = RowMergeMode.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertRowMergeModeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

@@ -25,6 +25,14 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum ObjectState implements Enumerator {
 	/**
+	 * The '<em><b>NONE</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	NONE(0, "NONE", ""), /**
 	 * The '<em><b>INITIAL</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -32,7 +40,7 @@ public enum ObjectState implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	INITIAL(0, "INITIAL", "Start"),
+	INITIAL(1, "INITIAL", "Start"),
 
 	/**
 	 * The '<em><b>FINAL</b></em>' literal object.
@@ -42,17 +50,9 @@ public enum ObjectState implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	FINAL(1, "FINAL", "Ziel"),
+	FINAL(2, "FINAL", "Ziel"),
 
 	/**
-	 * The '<em><b>LAYOUT</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #LAYOUT_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	LAYOUT(2, "LAYOUT", "Layoutinformationen"), /**
 	 * The '<em><b>INFO</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -63,6 +63,17 @@ public enum ObjectState implements Enumerator {
 	INFO(3, "INFO", "Information");
 
 	/**
+	 * The '<em><b>NONE</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #NONE
+	 * @model literal=""
+	 * @generated
+	 * @ordered
+	 */
+	public static final int NONE_VALUE = 0;
+
+	/**
 	 * The '<em><b>INITIAL</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -71,7 +82,7 @@ public enum ObjectState implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INITIAL_VALUE = 0;
+	public static final int INITIAL_VALUE = 1;
 
 	/**
 	 * The '<em><b>FINAL</b></em>' literal value.
@@ -82,18 +93,7 @@ public enum ObjectState implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int FINAL_VALUE = 1;
-
-	/**
-	 * The '<em><b>LAYOUT</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #LAYOUT
-	 * @model literal="Layoutinformationen"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int LAYOUT_VALUE = 2;
+	public static final int FINAL_VALUE = 2;
 
 	/**
 	 * The '<em><b>INFO</b></em>' literal value.
@@ -114,9 +114,9 @@ public enum ObjectState implements Enumerator {
 	 */
 	private static final ObjectState[] VALUES_ARRAY =
 		new ObjectState[] {
+			NONE,
 			INITIAL,
 			FINAL,
-			LAYOUT,
 			INFO,
 		};
 
@@ -174,9 +174,9 @@ public enum ObjectState implements Enumerator {
 	 */
 	public static ObjectState get(int value) {
 		switch (value) {
+			case NONE_VALUE: return NONE;
 			case INITIAL_VALUE: return INITIAL;
 			case FINAL_VALUE: return FINAL;
-			case LAYOUT_VALUE: return LAYOUT;
 			case INFO_VALUE: return INFO;
 		}
 		return null;

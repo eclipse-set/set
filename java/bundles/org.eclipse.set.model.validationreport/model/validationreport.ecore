@@ -42,6 +42,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="signals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ObjectScope">
+    <eLiterals name="Layout" value="4" literal="Layout"/>
+    <eLiterals name="Content" value="3" literal="Fachdaten"/>
     <eLiterals name="Betrachtung" value="2" literal="Betrachtung"/>
     <eLiterals name="Plan" value="1" literal="Planung"/>
     <eLiterals name="Unknown" literal=""/>
@@ -61,9 +63,9 @@
     <eLiterals name="ATTACHMENT" value="2" literal="Anhänge"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ObjectState">
-    <eLiterals name="INITIAL" literal="Start"/>
-    <eLiterals name="FINAL" value="1" literal="Ziel"/>
-    <eLiterals name="LAYOUT" value="2" literal="Layoutinformationen"/>
+    <eLiterals name="NONE" literal=""/>
+    <eLiterals name="INITIAL" value="1" literal="Start"/>
+    <eLiterals name="FINAL" value="2" literal="Ziel"/>
     <eLiterals name="INFO" value="3" literal="Information"/>
   </eClassifiers>
 </ecore:EPackage>

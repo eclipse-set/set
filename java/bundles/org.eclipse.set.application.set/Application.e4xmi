@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_D9x1kB5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ide.application" bindingContexts="_D9x1mR5jEeW1jPyxhgRGUg">
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmlns:ui="http://www.eclipse.org/ui/2010/UIModel/application/ui" xmi:id="_D9x1kB5jEeW1jPyxhgRGUg" elementId="org.eclipse.e4.ide.application" bindingContexts="_D9x1mR5jEeW1jPyxhgRGUg">
   <children xsi:type="basic:TrimmedWindow" xmi:id="_D9x1kR5jEeW1jPyxhgRGUg" elementId="planpro.mainwindow" selectedElement="_D9x1sB5jEeW1jPyxhgRGUg" label="%trimmedwindow.title" iconURI="">
     <persistedState/>
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_D9x1sB5jEeW1jPyxhgRGUg">
@@ -15,7 +15,7 @@
     <mainMenu xmi:id="_D9x1qR5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_D9x1qh5jEeW1jPyxhgRGUg" elementId="menu:org.eclipse.ui.main.menu.file" label="%menu.label.file">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1qx5jEeW1jPyxhgRGUg" elementId="item:org.eclipse.set.planpro.menu.file.openproject" label="%menu.label.file.open" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_folder_open_black_18dp_1x.png" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_R4SaoMB4EeaWZ76dmA8Scw" elementId="item:org.eclipse.set.planpro.menu.file.newproject" toBeRendered="false" visible="false" label="%menu.label.file.newproject" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_create_black_18dp_1x.png" command="_oWU2QMEuEea6HfDE-VF0AQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_R4SaoMB4EeaWZ76dmA8Scw" elementId="item:org.eclipse.set.planpro.menu.file.newproject" label="%menu.label.file.newproject" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_create_black_18dp_1x.png" command="_oWU2QMEuEea6HfDE-VF0AQ"/>
         <children xsi:type="menu:Menu" xmi:id="_gV-b8Bq8Eee8665UL49_kA" elementId="org.eclipse.set.planpro.application.menu.testmenu" label="%menu.label.file.exampleproject" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_lightbulb_outline_black_18dp_1x.png">
           <children xsi:type="menu:DynamicMenuContribution" xmi:id="_u-8UoBq1Eee8665UL49_kA" elementId="org.eclipse.set.planpro.application.dynamicmenucontribution.0" label="TestContribution" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.LoadExampleContribution"/>
         </children>
@@ -27,6 +27,9 @@
       </children>
       <children xsi:type="menu:Menu" xmi:id="_D9x1rh5jEeW1jPyxhgRGUg" label="%menu.label.help">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_6mUoYBJcEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handledmenuitem.help.news" label="%menu.label.help.toolboxnews" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png" command="_cHSywBJfEem7h5-_uEYOFw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_sG__QF0vEe6gKuocBy_cVw" elementId="org.eclipse.set.application.handledmenuitem.help.developerhelp" label="%menu.label.help.developerhelp" iconURI="platform:/plugin/org.eclipse.set.utils/icons/outline_help_center_black_24dp.png" command="_e2hnsF0vEe6gKuocBy_cVw">
+          <visibleWhen xsi:type="ui:ImperativeExpression" xmi:id="_vdHmgF0vEe6gKuocBy_cVw" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.DeveloperHelpHandler"/>
+        </children>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1rx5jEeW1jPyxhgRGUg" label="%menu.label.help.about" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_info_outline_black_24dp_1x.png" command="_D9x1ph5jEeW1jPyxhgRGUg"/>
       </children>
     </mainMenu>
@@ -57,6 +60,7 @@
   <handlers xmi:id="_PrAmUBJhEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handler.toolboxnews" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.ToolboxNews" command="_cHSywBJfEem7h5-_uEYOFw"/>
   <handlers xmi:id="_ot2bECiOEemmpqOXtBHImg" elementId="org.eclipse.set.application.handler.revert" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.RevertHandler" command="_jy488CiOEemmpqOXtBHImg"/>
   <handlers xmi:id="_tJU5UIYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.handler.restoreactionarea" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.RestoreActionAreaHandler" command="_HBip8IYxEeuNU-GyWYwVKw"/>
+  <handlers xmi:id="_kiN_MF0vEe6gKuocBy_cVw" elementId="org.eclipse.set.application.handler.developerHelpCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.DeveloperHelpHandler" command="_e2hnsF0vEe6gKuocBy_cVw"/>
   <bindingTables xmi:id="_D9x1nh5jEeW1jPyxhgRGUg" bindingContext="_D9x1mR5jEeW1jPyxhgRGUg">
     <bindings xmi:id="_D9x1nx5jEeW1jPyxhgRGUg" keySequence="M1+Q" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
     <bindings xmi:id="_D9x1oh5jEeW1jPyxhgRGUg" keySequence="M1+O" command="_D9x1oB5jEeW1jPyxhgRGUg"/>
@@ -74,6 +78,7 @@
   <commands xmi:id="_k_djsFYPEeWj9J5PLz_yfw" elementId="org.eclipse.set.application.closeSession" commandName="closeSessionCommand"/>
   <commands xmi:id="_D9x1ph5jEeW1jPyxhgRGUg" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
   <commands xmi:id="_xcZPcJUnEeaxG6q_hAfBDQ" elementId="org.eclipse.set.application.command.details" commandName="%toolbar.details"/>
+  <commands xmi:id="_e2hnsF0vEe6gKuocBy_cVw" elementId="org.eclipse.set.application.developerHelpCommand" commandName="developerHelpCommand"/>
   <commands xmi:id="_cHSywBJfEem7h5-_uEYOFw" elementId="org.eclipse.set.application.command.toolboxnews" commandName="Toolboxnews"/>
   <commands xmi:id="_jy488CiOEemmpqOXtBHImg" elementId="org.eclipse.set.application.command.revert" commandName="Revert"/>
   <commands xmi:id="_HBip8IYxEeuNU-GyWYwVKw" elementId="org.eclipse.set.application.set.command.restoreactionarea" commandName="RestoreActionArea"/>

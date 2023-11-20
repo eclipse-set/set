@@ -220,10 +220,8 @@ public class PlazErrorItemProvider
 			case PlazPackage.PLAZ_ERROR__OBJECT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
-			default:
-				super.notifyChanged(notification);
-				return;
-			}
+		}
+		super.notifyChanged(notification);
 	}
 
 	/**

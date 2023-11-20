@@ -1,0 +1,116 @@
+---
+title: "2.2 Konfiguration der Lageplandienste"
+anchor: "sicherungstechnischer_lageplan.konfiguration"
+---
+
+*toolbox.siteplan.mapsources* +
+Mit der Option `toolbox.siteplan.mapsources` können die im Werkzeugkoffer aktiven Kartenansichten angepasst werden.
+
+Hierbei sind die folgenden Kartenquellen verfügbar:
+
+
+[%autowidth,cols=3*,options=header]
+|===
+|Option
+|Art
+|Beschreibung
+
+|BKG_TOPPLUS
+|Topologisch
+|Topologisches Kartenmaterial bereitgestellt durch das Bundesamt für Kartographie und Geodäsie
+
+Siehe https://www.bkg.bund.de/SharedDocs/Produktinformationen/BKG/DE/P-2017/170922-TopPlus-Web-Open.html[^]
+
+|OSM
+|Topologisch
+|Topologisches Kartenmaterial von OpenStreetMap
+
+Siehe https://www.openstreetmap.de/[^]
+
+|ORM
+|Topologisch
+|Topologisches Kartenmaterial von OpenRailwayMap
+
+Siehe https://www.openrailwaymap.org/[^]
+
+|MAPBOX_TOP
+|Topologisch
+|Topologische Karte von Mapbox
+
+Erfordert die Konfiguration von `toolbox.siteplan.mapsources.mapbox_apikey`, da Mapbox die Verwendung eines API Schlüssels voraussetzt
+
+|HERE_TOP
+|Topologisch
+|Topologische Karte von Here Maps über die Here-Maps Server der DB
+
+Erfordert die Konfiguration von `toolbox.siteplan.mapsources.here_apikey`, da ein API Schlüssel benötigt wird. 
+
+|BKG_SENT
+|Satellitenansicht
+|Satellitenbilder bereitgestellt durch das Bundesamt für Kartographie und Geodäsie
+
+Siehe https://gdz.bkg.bund.de/index.php/default/webdienste/digitale-orthophotos/wms-deutschlandmosaik-aus-sentinel-2-daten-wms-sentinel2-de.html[^]
+
+|DOP20
+|Satellitenansicht
+|Digitale Orthophotos Bodenauflösung 20 cm bereitgestellt durch das Bundesamt für Kartographie und Geodäsie
+
+Erfordert die Konfiguration von `toolbox.siteplan.mapsources.dop20_apikey`, da ein API Schlüssel benötigt wird.
+
+Siehe https://gdzshopv-lpz.bkg.bund.de/index.php/default/wms-digitale-orthophotos-bodenauflosung-20-cm-wms-dop.html[^]
+
+|DOP20_INTERN
+|Satellitenansicht
+|Digitale Orthophotos Bodenauflösung 20 cm bereitgestellt durch das Bundesamt für Kartographie und Geodäsie
+
+Wie DOP20, jedoch ohne Angabe eines API Schlüssels. Funktioniert nur innerhalb des Netzwerks der DB Netz AG.
+
+|MAPBOX_SAT
+|Satellitenansicht
+|Satellitenbilder von Mapbox
+
+Erfordert die Konfiguration von `toolbox.siteplan.mapsources.mapbox_apikey`, da Mapbox die Verwendung eines API Schlüssels voraussetzt
+
+|ARCGIS
+|Satellitenansicht
+|Durch Esri bereitgestellte Satellitenbilder
+
+Siehe https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9[^]
+
+|HERE_SAT
+|Satellitenansicht
+|Satellitenbilder von Here Maps über die Here-Maps Server der DB
+
+Erfordert die Konfiguration von `toolbox.siteplan.mapsources.here_apikey`, da ein API Schlüssel benötigt wird.
+
+|===
+
+Um mehrere Kartenquellen parallel zu aktivieren, wird ein vertikaler Trennstrich verwendet. Soll beispielsweise das Kartenmaterial des Bundesamt für Kartographie und Geodäsie sowohl für die topologische Karte als auch für die Satellitenansicht verwendet werden, so wird die Option wie folgt angegeben:
+
+`toolbox.siteplan.mapsources=BKG_TOPPLUS|BKG_SENT`
+
+Weiterhin ist es möglich alle oben gelisteten Kartenquellen zu aktivieren, indem `toolbox.siteplan.mapsources=*` gesetzt wird.
+
+
+*toolbox.siteplan.mapsources.mapbox_apikey* +
+*toolbox.siteplan.mapsources.dop20_apikey* +
+*toolbox.siteplan.mapsources.here_apikey* +
+Da die Verwendung von einigen Datenquellen für die Kartendarstellung seitens der Diensteanbieter einen API Schlüssel erfordert, muss dieser ggf. mithilfe dieser Optionen angegeben werden. Ist beispielsweise der von Mapbox ausgestellte API Schlüssel `abcd1234`, dann wird die Option wie folgt angegeben:
+
+`toolbox.siteplan.mapsources.mapbox_apikey=abcd1234`
+
+Wenn die jeweiligen Datenquellen nicht verwendet werden sollen, muss diese Option nicht angegeben werden. Es erfolgt in der Anwendung keine Prüfung auf Korrektheit des angegebenen Schlüssels, wodurch ein falscher API Schlüssel zu unerwartetem Verhalten führt.
+
+*toolbox.siteplan.lod_scale*
+
+Gibt an, bei welcher Skalierung der Lageplan in den Level-of-Detail Modus wechselt, in welchem ausschließlich Gleise in einer vergrößerten Darstellung angezeigt werden. Soll der Lageplan beispielsweise bei einer Skalierung von 1:5000 in den Level-of-Detail Modus wechseln, so wird 
+
+`toolbox.siteplan.lod_scale=5000`
+
+gesetzt. Der Standardwert für diesen Konfigurationsparameter ist 10000.
+
+*toolbox.siteplan.export_dpi*
+
+Diese Option steuert, mit welcher Auflösung der PDF Export im Lageplan erstellt wird. Höhere Werte erhöhen dabei die Auflösung und ergeben eine klarere Zeichnung, benötigen jedoch mehr Zeit zur Generierung des Exports.
+
+Der Standardwert für diesen Konfigurationsparameter ist 600. Der PDF Export ist derzeit nur im Entwicklungsmodus verfügbar.
