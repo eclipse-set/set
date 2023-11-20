@@ -30,7 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author truong
  *
  */
-class TableDataTest extends AbstractTableTest {
+public class TableDataTest extends AbstractTableTest {
 
 	private static final String CELL_VALUE_REPLACE_REGEX = "[\\n\\r]";
 
