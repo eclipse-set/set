@@ -58,7 +58,7 @@ class PlaZModelTest extends AbstractPPHNTest {
 	}
 
 	protected void givenReferenceCSV() throws IOException {
-		referenceData = loadReferenceFile("plaz_model_reference.csv");
+		referenceData = loadReferenceFile("plaz_model");
 	}
 
 	/**
