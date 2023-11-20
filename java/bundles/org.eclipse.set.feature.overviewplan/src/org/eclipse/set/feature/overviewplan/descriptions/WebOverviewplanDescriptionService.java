@@ -22,7 +22,7 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * Part description for web siteplan development view.
+ * Part description for web overview development view.
  */
 @Component
 public class WebOverviewplanDescriptionService
