@@ -82,7 +82,7 @@ class PlaZModelTest extends AbstractPPHNTest {
 	}
 
 	private void whenOpeningPlaZModelNatTable() {
-		bot.button("PlaZ Modell").click();
+		bot.button("PlaZ-Modell").click();
 		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);
 	}
