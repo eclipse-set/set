@@ -321,7 +321,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	@Override
 	public void setPath(final Path path) {
 		this.path = path;
-		setResourcePath(getModelPath());
+		setResourcePath(getPlanProResource(), getModelPath());
+		if (getLayoutResource() != null) {
+			setResourcePath(getLayoutResource(), getLayoutPath());
+		}
 	}
 
 	@Override
