@@ -637,6 +637,15 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 		throw new IllegalArgumentException('''topKnoten=«topKnoten.identitaet.wert»''')
 	}
+	
+	def static ENUMTOPAnschluss getTOPAnschlussA(TOP_Kante topKante) {
+		return topKante.TOPKanteAllg.TOPAnschlussA.wert
+	}
+	
+	def static ENUMTOPAnschluss getTOPAnschlussB(TOP_Kante topKante) {
+		return topKante.TOPKanteAllg.TOPAnschlussB.wert
+	}
+	
 
 	/**
 	 * @param topKante this TOP Kante

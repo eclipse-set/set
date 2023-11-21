@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class WebOverviewplanPart extends BasePart {
 
-	private static final String WEB_PATH = "./web/siteplan";
+	private static final String WEB_PATH = "./web/siteplan"; //$NON-NLS-1$
 	@Inject
 	IEclipseContext context;
 
@@ -49,7 +49,6 @@ public class WebOverviewplanPart extends BasePart {
 			throws JsonProcessingException {
 		final OverviewplanTransformator overviewplanTransformator = context
 				.get(OverviewplanTransformator.class);
-
 		final Siteplan siteplan = overviewplanTransformator
 				.transform(getModelSession());
 		// Configure the EMF JSON mapper
