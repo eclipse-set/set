@@ -8,10 +8,21 @@
  */
 package org.eclipse.set.feature.overviewplan.transformator;
 
-import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.model.siteplan.Siteplan;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.set.feature.siteplan.transform.AbstractSiteplanTransformator;
+import org.eclipse.set.feature.siteplan.transform.Transformator;
+import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
+import org.eclipse.set.model.siteplan.SiteplanState;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * Implementation for {@link OverviewplanTransformator}
@@ -19,23 +30,28 @@ import org.osgi.service.component.annotations.Component;
  * @author Truong
  */
 @Component
-public class OverviewplanTransformatorImpl
+public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 		implements OverviewplanTransformator {
+	/**
+	 * List of transformator
+	 */
+	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY, target = "(component.name=org.eclipse.set.feature.overviewplan.transformator.*)")
+	public final List<Transformator> transformators = new ArrayList<>();
 
 	@Override
-	public Siteplan transform(final IModelSession modelSession) {
-		final Siteplan emptyPlan = SiteplanFactory.eINSTANCE.createSiteplan();
-		emptyPlan.setChangedFinalState(
-				SiteplanFactory.eINSTANCE.createSiteplanState());
-		emptyPlan.setChangedInitialState(
-				SiteplanFactory.eINSTANCE.createSiteplanState());
-		emptyPlan.setCommonState(
-				SiteplanFactory.eINSTANCE.createSiteplanState());
-		emptyPlan
-				.setFinalState(SiteplanFactory.eINSTANCE.createSiteplanState());
-		emptyPlan.setInitialState(
-				SiteplanFactory.eINSTANCE.createSiteplanState());
+	public SiteplanState transformState(
+			final MultiContainer_AttributeGroup container) {
+		final SiteplanState siteplanState = SiteplanFactory.eINSTANCE
+				.createSiteplanState();
+		transformators.forEach(transform -> transform
+				.transformContainer(siteplanState, container));
+		return siteplanState;
+	}
 
-		return emptyPlan;
+	@Override
+	public Position getLeadingPosition(
+			final PlanPro_Schnittstelle schnittstelle,
+			final MultiContainer_AttributeGroup container) {
+		return null;
 	}
 }

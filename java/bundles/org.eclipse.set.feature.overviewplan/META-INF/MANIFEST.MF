@@ -17,6 +17,7 @@ Import-Package: org.eclipse.e4.core.contexts;version="1.7.0",
  org.eclipse.emfcloud.jackson.module;version="2.2.0",
  org.eclipse.emfcloud.jackson.utils;version="2.2.0",
  org.eclipse.set.feature.siteplan.json,
+ org.eclipse.set.feature.siteplan.transform,
  org.eclipse.set.ppmodel.extensions,
  org.eclipse.set.ppmodel.extensions.container,
  org.eclipse.set.ppmodel.extensions.exception,
@@ -34,9 +35,14 @@ Require-Bundle: org.eclipse.set.toolboxmodel,
  com.fasterxml.jackson.core.jackson-databind;bundle-version="2.12.6",
  org.eclipse.osgi.services,
  org.eclipse.jface;bundle-version="3.28.0",
- org.eclipse.set.browser;bundle-version="2.2.0"
+ org.eclipse.set.browser;bundle-version="2.2.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.27.0",
+ org.locationtech.jts.jts-core;bundle-version="1.19.0",
+ org.eclipse.e4.core.contexts;bundle-version="1.11.0"
 Service-Component: OSGI-INF/org.eclipse.set.feature.overviewplan.descriptions.WebOverviewplanDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformatorImpl.xml
+ OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformatorImpl.xml,
+ OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.TrackTransformator.xml
 Automatic-Module-Name: org.eclipse.set.feature.overviewplan
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: org.eclipse.set.feature.overviewplan.transformator
