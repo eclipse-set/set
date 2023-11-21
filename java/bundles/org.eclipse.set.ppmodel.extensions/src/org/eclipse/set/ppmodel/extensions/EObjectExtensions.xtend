@@ -11,6 +11,8 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Extensions for {@link EObject}.
@@ -18,6 +20,8 @@ import org.eclipse.emf.ecore.EStructuralFeature
  * @author Stuecker
  */
 class EObjectExtensions {
+	static Logger logger = LoggerFactory.getLogger(EObjectExtensions)
+
 	/**
 	 * Fills an EObject with default values if not present
 	 * 
@@ -34,9 +38,14 @@ class EObjectExtensions {
 			filter [
 				!object.eIsSet(it)
 			].forEach [
-				val value = EcoreUtil.create(it.EReferenceType)
-				value.fillDefaults
-				object.eSet(it, value)
+				try {
+					val value = EcoreUtil.create(it.EReferenceType)
+					value.fillDefaults
+					object.eSet(it, value)
+				} catch (Exception e) {
+					logger.error(e.message)
+				}
+
 			]
 
 		// For all unsettable attributes, prefer unset to null values 
@@ -75,6 +84,7 @@ class EObjectExtensions {
 			a || b
 		])
 	}
+
 	/**
 	 * Returns all missing required values in an EObject
 	 * 
@@ -106,7 +116,7 @@ class EObjectExtensions {
 	static def String toCSV(EObject object) {
 		return String.join(";", object.eClass.EAttributes.map [
 			val attr = object.eGet(it)
-			if(attr === null)
+			if (attr === null)
 				return "";
 			if (attr instanceof String)
 				return attr.replace("\"", "\"\"")

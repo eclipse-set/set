@@ -102,6 +102,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 				}
 			}
 		}
+
 		addResource(getContentType(path), newResource);
 
 	}
@@ -125,30 +126,27 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		modifyXmlDeclaration();
 	}
 
-	protected void setResourcePath(final Path path) {
-		resources.forEach((contentName, resource) -> {
-			if (!resource.getURI().isFile()) {
-				// Use the file extension as content type
-				// This may not be the same as the extension of path if path is
-				// a
-				// temporary file (e.g. for zipped planpro files)
-				final String contentType = PathExtensions
-						.getExtension(getPath());
+	protected void setResourcePath(final Resource resource, final Path path) {
+		if (!resource.getURI().isFile()) {
+			// Use the file extension as content type
+			// This may not be the same as the extension of path if path is
+			// a
+			// temporary file (e.g. for zipped planpro files)
 
-				final XMLResource newResource = (XMLResource) getEditingDomain()
-						.getResourceSet()
-						.createResource(URI.createFileURI(path.toString()),
-								contentType);
-				newResource.setEncoding(ENCODING);
-				if (!resource.getContents().isEmpty()) {
-					newResource.getContents().addAll(resource.getContents());
-				}
-				resources.put(contentName, newResource);
-				modifyXmlDeclaration();
-			} else {
-				resource.setURI(URI.createFileURI(path.toString()));
+			final String contentType = PathExtensions.getExtension(getPath());
+
+			final XMLResource newResource = (XMLResource) getEditingDomain()
+					.getResourceSet().createResource(
+							URI.createFileURI(path.toString()), contentType);
+			newResource.setEncoding(ENCODING);
+			if (!resource.getContents().isEmpty()) {
+				newResource.getContents().addAll(resource.getContents());
 			}
-		});
+			resources.put(getContentType(path), newResource);
+			modifyXmlDeclaration();
+		} else {
+			resource.setURI(URI.createFileURI(path.toString()));
+		}
 	}
 
 	@Override
