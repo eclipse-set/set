@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.Arguments;
  */
 public abstract class AbstractTableTest extends AbstractPPHNTest {
 	protected static List<CSVRecord> loadReferenceFile(final String tableName) throws IOException {
-		return AbstractPPHNTest.loadReferenceFile("table_reference/" + tableName + "_reference.csv");
+		return AbstractPPHNTest.loadReferenceFile("table_reference/" + tableName);
 	}
 
 	protected static Stream<Arguments> providesPtTable() {
