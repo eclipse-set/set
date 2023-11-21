@@ -20,6 +20,8 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -74,6 +76,13 @@ public final class SskpTransformationService
 		if (cell.getContent() instanceof final StringCellContent cellContent) {
 			return cellContent.getValue().get(0);
 		}
+		if (cell.getContent() instanceof final CompareCellContent cellContent) {
+			return cellContent.getNewValue().get(0) + cellContent.getSeparator()
+					+ cellContent.getOldValue().get(0);
+		}
+		if (cell.getContent() instanceof final MultiColorCellContent cellContent) {
+			return cellContent.getValue().get(0).getMultiColorValue();
+		}
 		return null;
 	}
 
@@ -86,8 +95,9 @@ public final class SskpTransformationService
 				.sort("B", //$NON-NLS-1$
 						Comparator.comparing(
 								SskpTransformationService::getCellContent,
-								Comparator.comparing(gmOrder::indexOf,
-										Integer::compareUnsigned)))
+								Comparator.nullsLast(
+										Comparator.comparing(gmOrder::indexOf,
+												Integer::compareUnsigned))))
 				.build();
 
 	}
