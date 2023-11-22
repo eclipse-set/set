@@ -79,7 +79,7 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
-	public boolean confirmSetDefaultsGlobally(final Shell shell) {
+	public boolean confirmSetDefaultsManagement(final Shell shell) {
 		throw new UnsupportedOperationException();
 	}
 

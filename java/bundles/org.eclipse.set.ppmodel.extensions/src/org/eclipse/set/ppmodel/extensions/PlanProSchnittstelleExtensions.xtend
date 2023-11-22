@@ -96,7 +96,7 @@ class PlanProSchnittstelleExtensions {
 	 * @param schnittstelle this PlanPro Schnittstelle
 	 * @return whether fixes have been applied
 	 */
-	static def boolean fixManagementDefaults(
+	static def boolean containsUnfilledManagementValues(
 		PlanPro_Schnittstelle schnittstelle, XMLResource resource) {
 		val objman = schnittstelle?.LSTPlanung?.objektmanagement
 		val Iterable<Pair<EStructuralFeature, EObject>> unfilledValues = objman.
@@ -111,10 +111,15 @@ class PlanProSchnittstelleExtensions {
 			].empty
 
 		}
-
-		if (requiresDefaults)
-			objman.fillDefaults
 		return requiresDefaults
+	}
+
+	static def void fixManagementDefaults(PlanPro_Schnittstelle schnittstlle) {
+		schnittstlle?.LSTPlanung?.objektmanagement.unfilledValues.filter [ unfilled |
+			!schnittstlle.wzkInvalidIDReferences.exists [
+				target === unfilled.value && targetRef === unfilled.key
+			]
+		].forEach[value.fillDefaults]
 	}
 
 	/**
@@ -125,8 +130,7 @@ class PlanProSchnittstelleExtensions {
 	 */
 	static def boolean containsUnfilledValues(
 		PlanPro_Schnittstelle schnittstelle, XMLResource resource) {
-		val unfilledValues = schnittstelle.
-			unfilledValues.toList
+		val unfilledValues = schnittstelle.unfilledValues.toList
 
 		if (resource instanceof PlanProResourceImpl) {
 			return !unfilledValues.filter [ unfilled |
@@ -135,23 +139,13 @@ class PlanProSchnittstelleExtensions {
 				] === null
 			].empty
 		}
-		else 
 		/* TODO(1.10.0.1): Readd when temporary integartion is readded 
-		if (resource instanceof TemporaryintegrationResourceImpl) {
-			// Do not fill for integrations
-			return false
-		}
-		*/
+		 * if (resource instanceof TemporaryintegrationResourceImpl) {
+		 * 	// Do not fill for integrations
+		 * 	return false
+		 * }
+		 */
 		return !unfilledValues.empty
-	}
-
-	/**
-	 * Fills default values for the given PlanPro Schnittstelle if required.
-	 * 
-	 * @param schnittstelle this PlanPro Schnittstelle
-	 */
-	static def void fixDefaults(PlanPro_Schnittstelle schnittstelle) {
-		schnittstelle.fillDefaults
 	}
 
 	/**
@@ -344,7 +338,7 @@ class PlanProSchnittstelleExtensions {
 		val containerZiel = factory.createContainer_AttributeGroup();
 		zustandZiel.setContainer(containerZiel);
 		zustandZiel.fixGuids
-		planPro_Schnittstelle.fixDefaults
+		planPro_Schnittstelle.fillDefaults
 		return planPro_Schnittstelle
 	}
 
