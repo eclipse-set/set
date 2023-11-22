@@ -751,24 +751,19 @@ public class ModelSession implements IModelSession {
 			}
 			PlanProSchnittstelleExtensions.fix(getPlanProSchnittstelle());
 			saveFixResult = SaveFixResult.NONE;
-			if (PlanProSchnittstelleExtensions.fixManagementDefaults(
-					getPlanProSchnittstelle(),
-					toolboxFile.getPlanProResource())) {
+			// Ask user if all missing values in objectmanagement should be
+			// filled
+			if (PlanProSchnittstelleExtensions.containsUnfilledManagementValues(
+					getPlanProSchnittstelle(), toolboxFile.getPlanProResource())
+					&& serviceProvider.dialogService
+							.confirmSetDefaultsManagement(shell)) {
+				PlanProSchnittstelleExtensions
+						.fixManagementDefaults(planPro_Schnittstelle);
 				saveFixResult = SaveFixResult.OBJEKTMANAGEMENT;
 			}
 			PlanProSchnittstelleExtensions.updateErzeugung(
 					getPlanProSchnittstelle(), APPLICATION_NAME,
 					getToolboxFile().getEditingDomain());
-			// Ask user if all missing values should be filled
-			if (PlanProSchnittstelleExtensions.containsUnfilledValues(
-					getPlanProSchnittstelle(), toolboxFile.getPlanProResource())
-					&& serviceProvider.dialogService
-							.confirmSetDefaultsGlobally(shell)) {
-				PlanProSchnittstelleExtensions
-						.fixDefaults(getPlanProSchnittstelle());
-
-				saveFixResult = SaveFixResult.GLOBAL;
-			}
 
 			// rename
 			final Path oldPath = getToolboxFile().getPath();

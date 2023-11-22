@@ -260,6 +260,7 @@ public class SourceWebTextViewPart extends BasePart {
 	protected void updateViewer() {
 		if (isOutdated()) {
 			browser.refresh();
+			setOutdated(false);
 		}
 	}
 

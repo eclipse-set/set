@@ -419,7 +419,7 @@ public interface DialogService {
 	 *            the shell for the dialog
 	 * @return whether the user has confirmed to apply default values globally
 	 */
-	boolean confirmSetDefaultsGlobally(Shell shell);
+	boolean confirmSetDefaultsManagement(Shell shell);
 
 	/**
 	 * Create a siteplan Error dialog.

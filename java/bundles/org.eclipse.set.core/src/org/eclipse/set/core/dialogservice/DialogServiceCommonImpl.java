@@ -183,7 +183,7 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 	}
 
 	@Override
-	public boolean confirmSetDefaultsGlobally(final Shell shell) {
+	public boolean confirmSetDefaultsManagement(final Shell shell) {
 		return MessageDialog.openQuestion(shell,
 				messages.DialogService_ConfirmFillDefaults_Title,
 				messages.DialogService_ConfirmFillDefaults_Label);

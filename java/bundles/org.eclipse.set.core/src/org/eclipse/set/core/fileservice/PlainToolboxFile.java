@@ -33,6 +33,7 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 
 	private Path commonPath;
 	private final EditingDomain editingDomain;
+	private static final String TECHNICAL_RESOURCE_TYPE_NAME = "content"; //$NON-NLS-1$
 	private final Format format;
 	private boolean loadable;
 	private final SessionService sessionService;
@@ -187,12 +188,14 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	protected String getContentType(final Path modelPath) {
-		return "content"; //$NON-NLS-1$
+		return modelPath == null ? TECHNICAL_RESOURCE_TYPE_NAME
+				: PathExtensions.getBaseFileName(modelPath);
 	}
 
 	@Override
 	public XMLResource getPlanProResource() {
-		return getResource(getContentType(getModelPath()));
+		// Plain file contains only technical resource
+		return resources.values().iterator().next();
 	}
 
 	@Override
