@@ -264,6 +264,9 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 
 	@Override
 	public boolean hasMedia(final String id) {
+		if (id == null) {
+			return false;
+		}
 		final Path mediaPath = Paths.get(getMediaDirectory().toString(), id);
 		return Files.exists(mediaPath);
 	}
