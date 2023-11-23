@@ -338,7 +338,6 @@ class PlanProSchnittstelleExtensions {
 		val containerZiel = factory.createContainer_AttributeGroup();
 		zustandZiel.setContainer(containerZiel);
 		zustandZiel.fixGuids
-		planPro_Schnittstelle.fillDefaults
 		return planPro_Schnittstelle
 	}
 

@@ -197,6 +197,11 @@ public interface ToolboxFile {
 	void setXMLDocument(String docName, Document doc);
 
 	/**
+	 * Remove all storaged XML Document
+	 */
+	void clearXMLDocument();
+
+	/**
 	 * @return whether the toolbox file (true = detached) or the model (false =
 	 *         embedded) contain the attachments
 	 */

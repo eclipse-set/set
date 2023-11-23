@@ -39,7 +39,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	protected static final String ENCODING = StandardCharsets.UTF_8.name();
 
-	private final HashMap<String, Document> domDocument = new HashMap<>();
+	private HashMap<String, Document> domDocument = new HashMap<>();
 
 	private String md5checksum = null;
 
@@ -53,6 +53,11 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	@Override
 	public Document getXMLDocument(final String docName) {
 		return domDocument.get(docName);
+	}
+
+	@Override
+	public void clearXMLDocument() {
+		domDocument = new HashMap<>();
 	}
 
 	@Override
