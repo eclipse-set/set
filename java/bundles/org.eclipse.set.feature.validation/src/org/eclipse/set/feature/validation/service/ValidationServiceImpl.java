@@ -19,16 +19,16 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.emf.ecore.util.EObjectValidator;
 import org.eclipse.set.basis.PlanProSchemaDir;
 import org.eclipse.set.basis.ResourceLoader;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.validation.CustomValidator;
 import org.eclipse.set.core.services.validation.ValidationService;
+import org.eclipse.set.feature.validation.FilterDiagnostician;
 import org.eclipse.set.model.model11001.PlanPro.DocumentRoot;
 import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
@@ -123,9 +123,14 @@ public class ValidationServiceImpl implements ValidationService {
 	public <T extends EObject> ValidationResult emfValidation(final T object,
 			final ValidationResult result) {
 		if (object != null) {
-			final Diagnostic diagnostic = Diagnostician.INSTANCE
-					.validate(object);
-			result.put(diagnostic);
+			final FilterDiagnostician filterDiagnostician = new FilterDiagnostician();
+			// Discard cardinality errors, as those are handled by XSD and
+			// subtle differences between XSD and EMF cause unwanted error
+			// reporting here
+			filterDiagnostician.addFilter(diag -> !diag.getSource()
+					.equals(EObjectValidator.DIAGNOSTIC_SOURCE)
+					|| diag.getCode() != EObjectValidator.EOBJECT__EVERY_MULTIPCITY_CONFORMS);
+			result.put(filterDiagnostician.validate(object));
 		}
 		return result;
 	}

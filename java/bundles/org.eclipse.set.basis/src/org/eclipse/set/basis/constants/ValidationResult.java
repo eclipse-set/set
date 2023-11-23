@@ -149,6 +149,10 @@ public class ValidationResult {
 		if (!validationSupported) {
 			return Outcome.NOT_SUPPORTED;
 		}
+		// Any invalid XSD is also an invalid EMF model
+		if (getXsdOutcome() == Outcome.INVALID) {
+			return Outcome.INVALID;
+		}
 		if (diagnostic != null && ioErrors.isEmpty()
 				&& diagnostic.getSeverity() == Diagnostic.OK) {
 			return Outcome.VALID;
