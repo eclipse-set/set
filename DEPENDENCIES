@@ -507,7 +507,7 @@ npm/npmjs/-/object.fromentries/2.0.7, MIT, approved, #4600
 npm/npmjs/-/object.groupby/1.0.1, MIT, approved, #10360
 npm/npmjs/-/object.values/1.1.7, MIT, approved, #4665
 npm/npmjs/-/obuf/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/ol-mapbox-style/10.3.4, BSD-2-Clause AND (BSD-2-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT AND LicenseRef-BSD-style) AND ODbL-1.0, approved, #10721
+npm/npmjs/-/ol-mapbox-style/12.1.1, BSD-2-Clause AND MIT, approved, #11441
 npm/npmjs/-/ol-mapbox-style/9.7.0, BSD-3-Clause AND BSD-2-Clause AND MIT, approved, #7723
 npm/npmjs/-/ol/7.3.0, , approved, #7726
 npm/npmjs/-/on-finished/2.4.1, MIT, approved, clearlydefined
