@@ -532,6 +532,7 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public void refreshValidation() {
+		toolboxFile.clearXMLDocument();
 		init();
 	}
 
