@@ -21,14 +21,13 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.SignalMount#getAttachedSignals <em>Attached Signals</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.SignalMount#getMountType <em>Mount Type</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.SignalMount#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSignalMount()
  * @model
  * @generated
  */
-public interface SignalMount extends SiteplanObject {
+public interface SignalMount extends PositionedObject, RouteObject {
 	/**
 	 * Returns the value of the '<em><b>Attached Signals</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Signal}.
@@ -65,27 +64,5 @@ public interface SignalMount extends SiteplanObject {
 	 * @generated
 	 */
 	void setMountType(SignalMountType value);
-
-	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Position</em>' containment reference.
-	 * @see #setPosition(Position)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSignalMount_Position()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Position getPosition();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.SignalMount#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
-	 * @see #getPosition()
-	 * @generated
-	 */
-	void setPosition(Position value);
 
 } // SignalMount

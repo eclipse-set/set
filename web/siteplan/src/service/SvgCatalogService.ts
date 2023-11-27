@@ -14,11 +14,14 @@ import { PZB } from '@/model/PZB'
 import { ISvgElement, ISvgPoint, SvgElement, SvgPoint, ZusatzSignal } from '@/model/SvgElement'
 import TrackClose from '@/model/TrackClose'
 import TrackLock from '@/model/TrackLock'
+import UnknownObject from '@/model/UnknownObject'
 import { fromHTMLElement } from '@/util/ExtentExtension'
+import CantSVGCatalog from '@/util/SVG/SVGCatalog/CantCatalog'
 import DirectionBoardSVGCatalog from '@/util/SVG/SVGCatalog/DirectionBoardSVGCatalog'
 import ExternalElementControlSVGCatalog from '@/util/SVG/SVGCatalog/ExternalElementControlSVGCatalog'
 import FMAComponentCatalog from '@/util/SVG/SVGCatalog/FMAComponentCatalog'
 import LockKeySVGCatalog from '@/util/SVG/SVGCatalog/LockKeySVGCatalog'
+import OthersSVGCatalog from '@/util/SVG/SVGCatalog/OtherCatalog'
 import PZBCatalog from '@/util/SVG/SVGCatalog/PZBCatalog'
 import SignalMountSVGCatalog from '@/util/SVG/SVGCatalog/SignalMountSVGCatalog'
 import AdditiveSignalScreen from '@/util/SVG/SVGCatalog/Signals/AdditiveSignalScreen'
@@ -50,6 +53,8 @@ export default class SvgCatalogService {
   private signalMountCatalog: SignalMountSVGCatalog
   private eecCatalog: ExternalElementControlSVGCatalog
   private lockKeyCatalog: LockKeySVGCatalog
+  private othersCatalog: OthersSVGCatalog
+  private cantCatalog: CantSVGCatalog
   constructor (axios: AxiosStatic) {
     this.axios = axios
     this.loadSvgCatalog()
@@ -63,6 +68,8 @@ export default class SvgCatalogService {
     this.signalMountCatalog = new SignalMountSVGCatalog(this.catalog)
     this.eecCatalog = new ExternalElementControlSVGCatalog(this.catalog)
     this.lockKeyCatalog = new LockKeySVGCatalog(this.catalog)
+    this.cantCatalog = new CantSVGCatalog(this.catalog)
+    this.othersCatalog = new OthersSVGCatalog(this.catalog)
   }
 
   public getSignalSVGCatalog (): SignalSVGCatalog[] {
@@ -99,6 +106,10 @@ export default class SvgCatalogService {
         return this.eecCatalog.getExternalElementControlSvg(object as ExternalElementControl)
       case FeatureType.LockKey:
         return this.lockKeyCatalog.getLockKeySvg(object as LockKey)
+      case FeatureType.Cant:
+        return this.cantCatalog.getCantSvg()
+      case FeatureType.Unknown:
+        return this.othersCatalog.getUnknownSvg(object as UnknownObject)
       default:
         return null
     }

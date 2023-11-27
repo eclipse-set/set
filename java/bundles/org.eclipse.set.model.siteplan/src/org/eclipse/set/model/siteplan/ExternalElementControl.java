@@ -18,7 +18,6 @@ package org.eclipse.set.model.siteplan;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlArt <em>Control Art</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getElementType <em>Element Type</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlStation <em>Control Station</em>}</li>
@@ -29,29 +28,7 @@ package org.eclipse.set.model.siteplan;
  * @model
  * @generated
  */
-public interface ExternalElementControl extends RouteObject, SiteplanObject {
-	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Position</em>' containment reference.
-	 * @see #setPosition(Position)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getExternalElementControl_Position()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Position getPosition();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
-	 * @see #getPosition()
-	 * @generated
-	 */
-	void setPosition(Position value);
-
+public interface ExternalElementControl extends RouteObject, PositionedObject {
 	/**
 	 * Returns the value of the '<em><b>Control Art</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.ExternalElementControlArt}.

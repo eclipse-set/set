@@ -34,7 +34,9 @@ export enum FeatureType {
   TrackClose,
   ExternalElementControl,
   LockKey,
-  SheetCut
+  SheetCut,
+  Cant,
+  Unknown
 }
 
 export enum FeatureLayerType
@@ -51,7 +53,9 @@ export enum FeatureLayerType
     Signal,
     Collision,
     Flash,
-    SheetCut
+    SheetCut,
+    Cant,
+    Unknown
 }
 
 export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
@@ -90,13 +94,17 @@ export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
       return FeatureLayerType.Collision
     case FeatureType.SheetCut:
       return FeatureLayerType.SheetCut
+    case FeatureType.Cant:
+      return FeatureLayerType.Cant
+    case FeatureType.Unknown:
+      return FeatureLayerType.Unknown
     default: throw new Error('Missing layer for type: ' + type)
   }
 }
 
 export function getFeatureLayerDefaultVisibility (type: FeatureLayerType) : boolean | undefined {
-  // Only hide the collision layer by default
-  return type !== FeatureLayerType.Collision
+  // Hide collision layer, cants and unknown objects by default
+  return ![FeatureLayerType.Collision, FeatureLayerType.Cant, FeatureLayerType.Unknown].includes(type)
 }
 
 export function getFeatureLayerDisplayName (type: FeatureLayerType) : string {
@@ -114,6 +122,8 @@ export function getFeatureLayerDisplayName (type: FeatureLayerType) : string {
     case FeatureLayerType.Signal: return 'Signale'
     case FeatureLayerType.Flash: return 'Hervorhebungen'
     case FeatureLayerType.SheetCut: return 'Blattschnitte'
+    case FeatureLayerType.Cant: return 'Überhöhungen'
+    case FeatureLayerType.Unknown: return 'Weitere Objekte'
     default: throw new Error('Missing name for layer type: ' + type)
   }
 }
@@ -161,6 +171,10 @@ export function getFeatureName (type: FeatureType): string {
       return 'Schlüsselsperre'
     case FeatureType.SheetCut:
       return 'Blattschnitte'
+    case FeatureType.Cant:
+      return 'Überhöhung'
+    case FeatureType.Unknown:
+      return 'Unbekannt'
     default:
       console.error('Missing name for type: ' + type)
       return 'Unbenanntes Objekt'

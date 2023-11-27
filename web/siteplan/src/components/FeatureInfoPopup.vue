@@ -70,7 +70,9 @@ export default class FeatureInfoPopup extends Vue {
     FeatureType.Error,
     FeatureType.TrackLock,
     FeatureType.LockKey,
-    FeatureType.ExternalElementControl
+    FeatureType.ExternalElementControl,
+    FeatureType.Cant,
+    FeatureType.Unknown
   ]
 
   mounted (): void {

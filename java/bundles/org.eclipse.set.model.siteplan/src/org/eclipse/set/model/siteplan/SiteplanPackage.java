@@ -300,13 +300,31 @@ public interface SiteplanPackage extends EPackage {
 	int SITEPLAN_STATE__LOCKKEYS = 13;
 
 	/**
+	 * The feature id for the '<em><b>Cants</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITEPLAN_STATE__CANTS = 14;
+
+	/**
+	 * The feature id for the '<em><b>Unknown Objects</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SITEPLAN_STATE__UNKNOWN_OBJECTS = 15;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SITEPLAN_STATE_FEATURE_COUNT = 14;
+	int SITEPLAN_STATE_FEATURE_COUNT = 16;
 
 	/**
 	 * The number of operations of the '<em>State</em>' class.
@@ -355,6 +373,52 @@ public interface SiteplanPackage extends EPackage {
 	int SITEPLAN_OBJECT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.PositionedObjectImpl <em>Positioned Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.siteplan.impl.PositionedObjectImpl
+	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPositionedObject()
+	 * @generated
+	 */
+	int POSITIONED_OBJECT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POSITIONED_OBJECT__GUID = SITEPLAN_OBJECT__GUID;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POSITIONED_OBJECT__POSITION = SITEPLAN_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Positioned Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POSITIONED_OBJECT_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Positioned Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POSITIONED_OBJECT_OPERATION_COUNT = SITEPLAN_OBJECT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.CoordinateImpl <em>Coordinate</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -362,7 +426,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getCoordinate()
 	 * @generated
 	 */
-	int COORDINATE = 3;
+	int COORDINATE = 4;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -408,7 +472,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPosition()
 	 * @generated
 	 */
-	int POSITION = 4;
+	int POSITION = 5;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -463,7 +527,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getRouteObject()
 	 * @generated
 	 */
-	int ROUTE_OBJECT = 5;
+	int ROUTE_OBJECT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
@@ -500,7 +564,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getRouteLocation()
 	 * @generated
 	 */
-	int ROUTE_LOCATION = 6;
+	int ROUTE_LOCATION = 7;
 
 	/**
 	 * The feature id for the '<em><b>Km</b></em>' attribute.
@@ -546,7 +610,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalMount()
 	 * @generated
 	 */
-	int SIGNAL_MOUNT = 7;
+	int SIGNAL_MOUNT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -555,25 +619,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL_MOUNT__GUID = SITEPLAN_OBJECT__GUID;
-
-	/**
-	 * The feature id for the '<em><b>Attached Signals</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SIGNAL_MOUNT__ATTACHED_SIGNALS = SITEPLAN_OBJECT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Mount Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SIGNAL_MOUNT__MOUNT_TYPE = SITEPLAN_OBJECT_FEATURE_COUNT + 1;
+	int SIGNAL_MOUNT__GUID = POSITIONED_OBJECT__GUID;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -582,7 +628,34 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL_MOUNT__POSITION = SITEPLAN_OBJECT_FEATURE_COUNT + 2;
+	int SIGNAL_MOUNT__POSITION = POSITIONED_OBJECT__POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNAL_MOUNT__ROUTE_LOCATIONS = POSITIONED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Attached Signals</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNAL_MOUNT__ATTACHED_SIGNALS = POSITIONED_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Mount Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNAL_MOUNT__MOUNT_TYPE = POSITIONED_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Signal Mount</em>' class.
@@ -591,7 +664,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL_MOUNT_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 3;
+	int SIGNAL_MOUNT_FEATURE_COUNT = POSITIONED_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Signal Mount</em>' class.
@@ -600,7 +673,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL_MOUNT_OPERATION_COUNT = SITEPLAN_OBJECT_OPERATION_COUNT + 0;
+	int SIGNAL_MOUNT_OPERATION_COUNT = POSITIONED_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.SignalImpl <em>Signal</em>}' class.
@@ -610,7 +683,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignal()
 	 * @generated
 	 */
-	int SIGNAL = 8;
+	int SIGNAL = 9;
 
 	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
@@ -719,7 +792,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalScreen()
 	 * @generated
 	 */
-	int SIGNAL_SCREEN = 9;
+	int SIGNAL_SCREEN = 10;
 
 	/**
 	 * The feature id for the '<em><b>Screen</b></em>' attribute.
@@ -774,7 +847,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getLabel()
 	 * @generated
 	 */
-	int LABEL = 10;
+	int LABEL = 11;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -820,7 +893,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackSwitch()
 	 * @generated
 	 */
-	int TRACK_SWITCH = 11;
+	int TRACK_SWITCH = 12;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -884,7 +957,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackSwitchComponent()
 	 * @generated
 	 */
-	int TRACK_SWITCH_COMPONENT = 12;
+	int TRACK_SWITCH_COMPONENT = 13;
 
 	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
@@ -1002,7 +1075,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getContinuousTrackSegment()
 	 * @generated
 	 */
-	int CONTINUOUS_TRACK_SEGMENT = 13;
+	int CONTINUOUS_TRACK_SEGMENT = 14;
 
 	/**
 	 * The feature id for the '<em><b>Start</b></em>' containment reference.
@@ -1048,7 +1121,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrack()
 	 * @generated
 	 */
-	int TRACK = 14;
+	int TRACK = 15;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1103,7 +1176,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackSection()
 	 * @generated
 	 */
-	int TRACK_SECTION = 15;
+	int TRACK_SECTION = 16;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1158,7 +1231,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackSegment()
 	 * @generated
 	 */
-	int TRACK_SEGMENT = 16;
+	int TRACK_SEGMENT = 17;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute list.
@@ -1204,7 +1277,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getFMAComponent()
 	 * @generated
 	 */
-	int FMA_COMPONENT = 17;
+	int FMA_COMPONENT = 18;
 
 	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
@@ -1225,13 +1298,22 @@ public interface SiteplanPackage extends EPackage {
 	int FMA_COMPONENT__GUID = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FMA_COMPONENT__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 1;
+	int FMA_COMPONENT__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -1240,7 +1322,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int FMA_COMPONENT__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Right Side</b></em>' attribute.
@@ -1249,16 +1331,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FMA_COMPONENT__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 4;
+	int FMA_COMPONENT__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>FMA Component</em>' class.
@@ -1286,7 +1359,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getRoute()
 	 * @generated
 	 */
-	int ROUTE = 18;
+	int ROUTE = 19;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1341,7 +1414,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getRouteSection()
 	 * @generated
 	 */
-	int ROUTE_SECTION = 19;
+	int ROUTE_SECTION = 20;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1396,7 +1469,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getKMMarker()
 	 * @generated
 	 */
-	int KM_MARKER = 20;
+	int KM_MARKER = 21;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1442,7 +1515,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackSwitchEndMarker()
 	 * @generated
 	 */
-	int TRACK_SWITCH_END_MARKER = 21;
+	int TRACK_SWITCH_END_MARKER = 22;
 
 	/**
 	 * The feature id for the '<em><b>Leg ACoordinate</b></em>' containment reference.
@@ -1488,7 +1561,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getError()
 	 * @generated
 	 */
-	int ERROR = 22;
+	int ERROR = 23;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -1543,7 +1616,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZB()
 	 * @generated
 	 */
-	int PZB = 23;
+	int PZB = 24;
 
 	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
@@ -1564,13 +1637,22 @@ public interface SiteplanPackage extends EPackage {
 	int PZB__GUID = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Position</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PZB__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 1;
+	int PZB__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -1579,7 +1661,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__ELEMENT = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int PZB__ELEMENT = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Right Side</b></em>' attribute.
@@ -1588,7 +1670,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 3;
+	int PZB__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Effectivity</b></em>' attribute.
@@ -1597,16 +1679,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__EFFECTIVITY = ROUTE_OBJECT_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PZB__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 5;
+	int PZB__EFFECTIVITY = ROUTE_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>PZB</em>' class.
@@ -1634,7 +1707,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZBGU()
 	 * @generated
 	 */
-	int PZBGU = 24;
+	int PZBGU = 25;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1689,7 +1762,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackDesignation()
 	 * @generated
 	 */
-	int TRACK_DESIGNATION = 25;
+	int TRACK_DESIGNATION = 26;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1735,7 +1808,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackSwitchLeg()
 	 * @generated
 	 */
-	int TRACK_SWITCH_LEG = 26;
+	int TRACK_SWITCH_LEG = 27;
 
 	/**
 	 * The feature id for the '<em><b>Connection</b></em>' attribute.
@@ -1781,7 +1854,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getStation()
 	 * @generated
 	 */
-	int STATION = 27;
+	int STATION = 28;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1836,7 +1909,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPlatform()
 	 * @generated
 	 */
-	int PLATFORM = 28;
+	int PLATFORM = 29;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1900,7 +1973,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackLock()
 	 * @generated
 	 */
-	int TRACK_LOCK = 29;
+	int TRACK_LOCK = 30;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -1973,34 +2046,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackLockComponent()
 	 * @generated
 	 */
-	int TRACK_LOCK_COMPONENT = 30;
-
-	/**
-	 * The feature id for the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRACK_LOCK_COMPONENT__POSITION = 0;
-
-	/**
-	 * The feature id for the '<em><b>Track Lock Signal</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL = 1;
-
-	/**
-	 * The feature id for the '<em><b>Ejection Direction</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRACK_LOCK_COMPONENT__EJECTION_DIRECTION = 2;
+	int TRACK_LOCK_COMPONENT = 31;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -2009,7 +2055,34 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_LOCK_COMPONENT__GUID = 3;
+	int TRACK_LOCK_COMPONENT__GUID = POSITIONED_OBJECT__GUID;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACK_LOCK_COMPONENT__POSITION = POSITIONED_OBJECT__POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Track Lock Signal</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL = POSITIONED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ejection Direction</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACK_LOCK_COMPONENT__EJECTION_DIRECTION = POSITIONED_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Track Lock Component</em>' class.
@@ -2018,7 +2091,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_LOCK_COMPONENT_FEATURE_COUNT = 4;
+	int TRACK_LOCK_COMPONENT_FEATURE_COUNT = POSITIONED_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Track Lock Component</em>' class.
@@ -2027,7 +2100,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_LOCK_COMPONENT_OPERATION_COUNT = 0;
+	int TRACK_LOCK_COMPONENT_OPERATION_COUNT = POSITIONED_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.ObjectManagementImpl <em>Object Management</em>}' class.
@@ -2037,7 +2110,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getObjectManagement()
 	 * @generated
 	 */
-	int OBJECT_MANAGEMENT = 31;
+	int OBJECT_MANAGEMENT = 32;
 
 	/**
 	 * The feature id for the '<em><b>Planning Object IDs</b></em>' attribute list.
@@ -2083,7 +2156,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackClose()
 	 * @generated
 	 */
-	int TRACK_CLOSE = 32;
+	int TRACK_CLOSE = 33;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -2092,16 +2165,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_CLOSE__GUID = SITEPLAN_OBJECT__GUID;
-
-	/**
-	 * The feature id for the '<em><b>Track Close Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRACK_CLOSE__TRACK_CLOSE_TYPE = SITEPLAN_OBJECT_FEATURE_COUNT + 0;
+	int TRACK_CLOSE__GUID = POSITIONED_OBJECT__GUID;
 
 	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
@@ -2110,7 +2174,16 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_CLOSE__POSITION = SITEPLAN_OBJECT_FEATURE_COUNT + 1;
+	int TRACK_CLOSE__POSITION = POSITIONED_OBJECT__POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Track Close Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACK_CLOSE__TRACK_CLOSE_TYPE = POSITIONED_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Track Close</em>' class.
@@ -2119,7 +2192,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_CLOSE_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 2;
+	int TRACK_CLOSE_FEATURE_COUNT = POSITIONED_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Track Close</em>' class.
@@ -2128,7 +2201,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_CLOSE_OPERATION_COUNT = SITEPLAN_OBJECT_OPERATION_COUNT + 0;
+	int TRACK_CLOSE_OPERATION_COUNT = POSITIONED_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl <em>External Element Control</em>}' class.
@@ -2138,7 +2211,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getExternalElementControl()
 	 * @generated
 	 */
-	int EXTERNAL_ELEMENT_CONTROL = 33;
+	int EXTERNAL_ELEMENT_CONTROL = 34;
 
 	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
@@ -2229,7 +2302,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getLockKey()
 	 * @generated
 	 */
-	int LOCK_KEY = 34;
+	int LOCK_KEY = 35;
 
 	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
@@ -2311,7 +2384,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getLayoutinfo()
 	 * @generated
 	 */
-	int LAYOUTINFO = 35;
+	int LAYOUTINFO = 36;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -2366,7 +2439,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSheetCut()
 	 * @generated
 	 */
-	int SHEET_CUT = 36;
+	int SHEET_CUT = 37;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -2423,6 +2496,134 @@ public interface SiteplanPackage extends EPackage {
 	int SHEET_CUT_OPERATION_COUNT = SITEPLAN_OBJECT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.CantImpl <em>Cant</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.siteplan.impl.CantImpl
+	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getCant()
+	 * @generated
+	 */
+	int CANT = 38;
+
+	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT__GUID = SITEPLAN_OBJECT__GUID;
+
+	/**
+	 * The feature id for the '<em><b>Point A</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT__POINT_A = SITEPLAN_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Point B</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT__POINT_B = SITEPLAN_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Form</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT__FORM = SITEPLAN_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT__LENGTH = SITEPLAN_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Cant</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Cant</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT_OPERATION_COUNT = SITEPLAN_OBJECT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl <em>Unknown Positioned Object</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl
+	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getUnknownPositionedObject()
+	 * @generated
+	 */
+	int UNKNOWN_POSITIONED_OBJECT = 39;
+
+	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN_POSITIONED_OBJECT__GUID = POSITIONED_OBJECT__GUID;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN_POSITIONED_OBJECT__POSITION = POSITIONED_OBJECT__POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Object Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE = POSITIONED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Unknown Positioned Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN_POSITIONED_OBJECT_FEATURE_COUNT = POSITIONED_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Unknown Positioned Object</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN_POSITIONED_OBJECT_OPERATION_COUNT = POSITIONED_OBJECT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.SignalMountType <em>Signal Mount Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2430,7 +2631,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalMountType()
 	 * @generated
 	 */
-	int SIGNAL_MOUNT_TYPE = 37;
+	int SIGNAL_MOUNT_TYPE = 40;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.SignalRole <em>Signal Role</em>}' enum.
@@ -2440,7 +2641,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalRole()
 	 * @generated
 	 */
-	int SIGNAL_ROLE = 38;
+	int SIGNAL_ROLE = 41;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.SignalSystem <em>Signal System</em>}' enum.
@@ -2450,7 +2651,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalSystem()
 	 * @generated
 	 */
-	int SIGNAL_SYSTEM = 39;
+	int SIGNAL_SYSTEM = 42;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.MountDirection <em>Mount Direction</em>}' enum.
@@ -2460,7 +2661,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getMountDirection()
 	 * @generated
 	 */
-	int MOUNT_DIRECTION = 40;
+	int MOUNT_DIRECTION = 43;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TurnoutOperatingMode <em>Turnout Operating Mode</em>}' enum.
@@ -2470,7 +2671,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTurnoutOperatingMode()
 	 * @generated
 	 */
-	int TURNOUT_OPERATING_MODE = 41;
+	int TURNOUT_OPERATING_MODE = 44;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackShape <em>Track Shape</em>}' enum.
@@ -2480,7 +2681,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackShape()
 	 * @generated
 	 */
-	int TRACK_SHAPE = 42;
+	int TRACK_SHAPE = 45;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackType <em>Track Type</em>}' enum.
@@ -2490,7 +2691,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackType()
 	 * @generated
 	 */
-	int TRACK_TYPE = 43;
+	int TRACK_TYPE = 46;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.FMAComponentType <em>FMA Component Type</em>}' enum.
@@ -2500,7 +2701,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getFMAComponentType()
 	 * @generated
 	 */
-	int FMA_COMPONENT_TYPE = 44;
+	int FMA_COMPONENT_TYPE = 47;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.PZBType <em>PZB Type</em>}' enum.
@@ -2510,7 +2711,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZBType()
 	 * @generated
 	 */
-	int PZB_TYPE = 45;
+	int PZB_TYPE = 48;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.PZBElement <em>PZB Element</em>}' enum.
@@ -2520,7 +2721,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZBElement()
 	 * @generated
 	 */
-	int PZB_ELEMENT = 46;
+	int PZB_ELEMENT = 49;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.PZBEffectivity <em>PZB Effectivity</em>}' enum.
@@ -2530,7 +2731,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZBEffectivity()
 	 * @generated
 	 */
-	int PZB_EFFECTIVITY = 47;
+	int PZB_EFFECTIVITY = 50;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackLockLocation <em>Track Lock Location</em>}' enum.
@@ -2540,7 +2741,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackLockLocation()
 	 * @generated
 	 */
-	int TRACK_LOCK_LOCATION = 48;
+	int TRACK_LOCK_LOCATION = 51;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.LeftRight <em>Left Right</em>}' enum.
@@ -2550,7 +2751,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getLeftRight()
 	 * @generated
 	 */
-	int LEFT_RIGHT = 49;
+	int LEFT_RIGHT = 52;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.Direction <em>Direction</em>}' enum.
@@ -2560,7 +2761,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getDirection()
 	 * @generated
 	 */
-	int DIRECTION = 50;
+	int DIRECTION = 53;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackCloseType <em>Track Close Type</em>}' enum.
@@ -2570,7 +2771,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackCloseType()
 	 * @generated
 	 */
-	int TRACK_CLOSE_TYPE = 51;
+	int TRACK_CLOSE_TYPE = 54;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.ExternalElementControlArt <em>External Element Control Art</em>}' enum.
@@ -2580,7 +2781,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getExternalElementControlArt()
 	 * @generated
 	 */
-	int EXTERNAL_ELEMENT_CONTROL_ART = 52;
+	int EXTERNAL_ELEMENT_CONTROL_ART = 55;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.ControlStationType <em>Control Station Type</em>}' enum.
@@ -2590,7 +2791,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getControlStationType()
 	 * @generated
 	 */
-	int CONTROL_STATION_TYPE = 53;
+	int CONTROL_STATION_TYPE = 56;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.LockKeyType <em>Lock Key Type</em>}' enum.
@@ -2600,7 +2801,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getLockKeyType()
 	 * @generated
 	 */
-	int LOCK_KEY_TYPE = 54;
+	int LOCK_KEY_TYPE = 57;
 
 
 	/**
@@ -2866,6 +3067,28 @@ public interface SiteplanPackage extends EPackage {
 	EReference getSiteplanState_Lockkeys();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.siteplan.SiteplanState#getCants <em>Cants</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Cants</em>'.
+	 * @see org.eclipse.set.model.siteplan.SiteplanState#getCants()
+	 * @see #getSiteplanState()
+	 * @generated
+	 */
+	EReference getSiteplanState_Cants();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.siteplan.SiteplanState#getUnknownObjects <em>Unknown Objects</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Unknown Objects</em>'.
+	 * @see org.eclipse.set.model.siteplan.SiteplanState#getUnknownObjects()
+	 * @see #getSiteplanState()
+	 * @generated
+	 */
+	EReference getSiteplanState_UnknownObjects();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.SiteplanObject <em>Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2885,6 +3108,27 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getSiteplanObject_Guid();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.PositionedObject <em>Positioned Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Positioned Object</em>'.
+	 * @see org.eclipse.set.model.siteplan.PositionedObject
+	 * @generated
+	 */
+	EClass getPositionedObject();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.PositionedObject#getPosition <em>Position</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Position</em>'.
+	 * @see org.eclipse.set.model.siteplan.PositionedObject#getPosition()
+	 * @see #getPositionedObject()
+	 * @generated
+	 */
+	EReference getPositionedObject_Position();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.Coordinate <em>Coordinate</em>}'.
@@ -3023,17 +3267,6 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getSignalMount_MountType();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.SignalMount#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Position</em>'.
-	 * @see org.eclipse.set.model.siteplan.SignalMount#getPosition()
-	 * @see #getSignalMount()
-	 * @generated
-	 */
-	EReference getSignalMount_Position();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.Signal <em>Signal</em>}'.
@@ -3543,17 +3776,6 @@ public interface SiteplanPackage extends EPackage {
 	EAttribute getFMAComponent_RightSide();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.FMAComponent#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Position</em>'.
-	 * @see org.eclipse.set.model.siteplan.FMAComponent#getPosition()
-	 * @see #getFMAComponent()
-	 * @generated
-	 */
-	EReference getFMAComponent_Position();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.Route <em>Route</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3788,17 +4010,6 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPZB_Effectivity();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.PZB#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Position</em>'.
-	 * @see org.eclipse.set.model.siteplan.PZB#getPosition()
-	 * @see #getPZB()
-	 * @generated
-	 */
-	EReference getPZB_Position();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.PZBGU <em>PZBGU</em>}'.
@@ -4047,17 +4258,6 @@ public interface SiteplanPackage extends EPackage {
 	EClass getTrackLockComponent();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Position</em>'.
-	 * @see org.eclipse.set.model.siteplan.TrackLockComponent#getPosition()
-	 * @see #getTrackLockComponent()
-	 * @generated
-	 */
-	EReference getTrackLockComponent_Position();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getTrackLockSignal <em>Track Lock Signal</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4078,17 +4278,6 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTrackLockComponent_EjectionDirection();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.TrackLockComponent#getGuid <em>Guid</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Guid</em>'.
-	 * @see org.eclipse.set.model.siteplan.TrackLockComponent#getGuid()
-	 * @see #getTrackLockComponent()
-	 * @generated
-	 */
-	EAttribute getTrackLockComponent_Guid();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.ObjectManagement <em>Object Management</em>}'.
@@ -4144,17 +4333,6 @@ public interface SiteplanPackage extends EPackage {
 	EAttribute getTrackClose_TrackCloseType();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.TrackClose#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Position</em>'.
-	 * @see org.eclipse.set.model.siteplan.TrackClose#getPosition()
-	 * @see #getTrackClose()
-	 * @generated
-	 */
-	EReference getTrackClose_Position();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.ExternalElementControl <em>External Element Control</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4163,17 +4341,6 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getExternalElementControl();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Position</em>'.
-	 * @see org.eclipse.set.model.siteplan.ExternalElementControl#getPosition()
-	 * @see #getExternalElementControl()
-	 * @generated
-	 */
-	EReference getExternalElementControl_Position();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlArt <em>Control Art</em>}'.
@@ -4228,17 +4395,6 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getLockKey();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.LockKey#getPosition <em>Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Position</em>'.
-	 * @see org.eclipse.set.model.siteplan.LockKey#getPosition()
-	 * @see #getLockKey()
-	 * @generated
-	 */
-	EReference getLockKey_Position();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.LockKey#getLabel <em>Label</em>}'.
@@ -4347,6 +4503,81 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSheetCut_Polygon();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.Cant <em>Cant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cant</em>'.
+	 * @see org.eclipse.set.model.siteplan.Cant
+	 * @generated
+	 */
+	EClass getCant();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.Cant#getPointA <em>Point A</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Point A</em>'.
+	 * @see org.eclipse.set.model.siteplan.Cant#getPointA()
+	 * @see #getCant()
+	 * @generated
+	 */
+	EReference getCant_PointA();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.siteplan.Cant#getPointB <em>Point B</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Point B</em>'.
+	 * @see org.eclipse.set.model.siteplan.Cant#getPointB()
+	 * @see #getCant()
+	 * @generated
+	 */
+	EReference getCant_PointB();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.Cant#getForm <em>Form</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Form</em>'.
+	 * @see org.eclipse.set.model.siteplan.Cant#getForm()
+	 * @see #getCant()
+	 * @generated
+	 */
+	EAttribute getCant_Form();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.Cant#getLength <em>Length</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Length</em>'.
+	 * @see org.eclipse.set.model.siteplan.Cant#getLength()
+	 * @see #getCant()
+	 * @generated
+	 */
+	EAttribute getCant_Length();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.UnknownPositionedObject <em>Unknown Positioned Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Unknown Positioned Object</em>'.
+	 * @see org.eclipse.set.model.siteplan.UnknownPositionedObject
+	 * @generated
+	 */
+	EClass getUnknownPositionedObject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.UnknownPositionedObject#getObjectType <em>Object Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Object Type</em>'.
+	 * @see org.eclipse.set.model.siteplan.UnknownPositionedObject#getObjectType()
+	 * @see #getUnknownPositionedObject()
+	 * @generated
+	 */
+	EAttribute getUnknownPositionedObject_ObjectType();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.set.model.siteplan.SignalMountType <em>Signal Mount Type</em>}'.
@@ -4748,6 +4979,22 @@ public interface SiteplanPackage extends EPackage {
 		EReference SITEPLAN_STATE__LOCKKEYS = eINSTANCE.getSiteplanState_Lockkeys();
 
 		/**
+		 * The meta object literal for the '<em><b>Cants</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SITEPLAN_STATE__CANTS = eINSTANCE.getSiteplanState_Cants();
+
+		/**
+		 * The meta object literal for the '<em><b>Unknown Objects</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SITEPLAN_STATE__UNKNOWN_OBJECTS = eINSTANCE.getSiteplanState_UnknownObjects();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.SiteplanObjectImpl <em>Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4764,6 +5011,24 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SITEPLAN_OBJECT__GUID = eINSTANCE.getSiteplanObject_Guid();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.PositionedObjectImpl <em>Positioned Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.siteplan.impl.PositionedObjectImpl
+		 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPositionedObject()
+		 * @generated
+		 */
+		EClass POSITIONED_OBJECT = eINSTANCE.getPositionedObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference POSITIONED_OBJECT__POSITION = eINSTANCE.getPositionedObject_Position();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.CoordinateImpl <em>Coordinate</em>}' class.
@@ -4878,14 +5143,6 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SIGNAL_MOUNT__MOUNT_TYPE = eINSTANCE.getSignalMount_MountType();
-
-		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SIGNAL_MOUNT__POSITION = eINSTANCE.getSignalMount_Position();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.SignalImpl <em>Signal</em>}' class.
@@ -5284,14 +5541,6 @@ public interface SiteplanPackage extends EPackage {
 		EAttribute FMA_COMPONENT__RIGHT_SIDE = eINSTANCE.getFMAComponent_RightSide();
 
 		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference FMA_COMPONENT__POSITION = eINSTANCE.getFMAComponent_Position();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.RouteImpl <em>Route</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5478,14 +5727,6 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PZB__EFFECTIVITY = eINSTANCE.getPZB_Effectivity();
-
-		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PZB__POSITION = eINSTANCE.getPZB_Position();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.PZBGUImpl <em>PZBGU</em>}' class.
@@ -5686,14 +5927,6 @@ public interface SiteplanPackage extends EPackage {
 		EClass TRACK_LOCK_COMPONENT = eINSTANCE.getTrackLockComponent();
 
 		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRACK_LOCK_COMPONENT__POSITION = eINSTANCE.getTrackLockComponent_Position();
-
-		/**
 		 * The meta object literal for the '<em><b>Track Lock Signal</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5708,14 +5941,6 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRACK_LOCK_COMPONENT__EJECTION_DIRECTION = eINSTANCE.getTrackLockComponent_EjectionDirection();
-
-		/**
-		 * The meta object literal for the '<em><b>Guid</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRACK_LOCK_COMPONENT__GUID = eINSTANCE.getTrackLockComponent_Guid();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.ObjectManagementImpl <em>Object Management</em>}' class.
@@ -5762,14 +5987,6 @@ public interface SiteplanPackage extends EPackage {
 		EAttribute TRACK_CLOSE__TRACK_CLOSE_TYPE = eINSTANCE.getTrackClose_TrackCloseType();
 
 		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TRACK_CLOSE__POSITION = eINSTANCE.getTrackClose_Position();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl <em>External Element Control</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5778,14 +5995,6 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EClass EXTERNAL_ELEMENT_CONTROL = eINSTANCE.getExternalElementControl();
-
-		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXTERNAL_ELEMENT_CONTROL__POSITION = eINSTANCE.getExternalElementControl_Position();
 
 		/**
 		 * The meta object literal for the '<em><b>Control Art</b></em>' attribute feature.
@@ -5828,14 +6037,6 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EClass LOCK_KEY = eINSTANCE.getLockKey();
-
-		/**
-		 * The meta object literal for the '<em><b>Position</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LOCK_KEY__POSITION = eINSTANCE.getLockKey_Position();
 
 		/**
 		 * The meta object literal for the '<em><b>Label</b></em>' containment reference feature.
@@ -5920,6 +6121,66 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SHEET_CUT__POLYGON = eINSTANCE.getSheetCut_Polygon();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.CantImpl <em>Cant</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.siteplan.impl.CantImpl
+		 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getCant()
+		 * @generated
+		 */
+		EClass CANT = eINSTANCE.getCant();
+
+		/**
+		 * The meta object literal for the '<em><b>Point A</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CANT__POINT_A = eINSTANCE.getCant_PointA();
+
+		/**
+		 * The meta object literal for the '<em><b>Point B</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CANT__POINT_B = eINSTANCE.getCant_PointB();
+
+		/**
+		 * The meta object literal for the '<em><b>Form</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CANT__FORM = eINSTANCE.getCant_Form();
+
+		/**
+		 * The meta object literal for the '<em><b>Length</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CANT__LENGTH = eINSTANCE.getCant_Length();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl <em>Unknown Positioned Object</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl
+		 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getUnknownPositionedObject()
+		 * @generated
+		 */
+		EClass UNKNOWN_POSITIONED_OBJECT = eINSTANCE.getUnknownPositionedObject();
+
+		/**
+		 * The meta object literal for the '<em><b>Object Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE = eINSTANCE.getUnknownPositionedObject_ObjectType();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.SignalMountType <em>Signal Mount Type</em>}' enum.

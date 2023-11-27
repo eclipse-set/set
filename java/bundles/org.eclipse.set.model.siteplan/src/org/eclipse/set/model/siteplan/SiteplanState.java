@@ -35,6 +35,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.set.model.siteplan.SiteplanState#getTrackClosures <em>Track Closures</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.SiteplanState#getExternalElementControls <em>External Element Controls</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.SiteplanState#getLockkeys <em>Lockkeys</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SiteplanState#getCants <em>Cants</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SiteplanState#getUnknownObjects <em>Unknown Objects</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplanState()
@@ -209,5 +211,29 @@ public interface SiteplanState extends EObject {
 	 * @generated
 	 */
 	EList<LockKey> getLockkeys();
+
+	/**
+	 * Returns the value of the '<em><b>Cants</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Cant}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Cants</em>' containment reference list.
+	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplanState_Cants()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Cant> getCants();
+
+	/**
+	 * Returns the value of the '<em><b>Unknown Objects</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.UnknownPositionedObject}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Unknown Objects</em>' containment reference list.
+	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplanState_UnknownObjects()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<UnknownPositionedObject> getUnknownObjects();
 
 } // SiteplanState

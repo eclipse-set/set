@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
+import org.eclipse.set.model.siteplan.Cant;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.ExternalElementControl;
@@ -26,6 +27,7 @@ import org.eclipse.set.model.siteplan.PZB;
 import org.eclipse.set.model.siteplan.PZBGU;
 import org.eclipse.set.model.siteplan.Platform;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.Route;
 import org.eclipse.set.model.siteplan.RouteLocation;
 import org.eclipse.set.model.siteplan.RouteObject;
@@ -50,6 +52,7 @@ import org.eclipse.set.model.siteplan.TrackSwitch;
 import org.eclipse.set.model.siteplan.TrackSwitchComponent;
 import org.eclipse.set.model.siteplan.TrackSwitchEndMarker;
 import org.eclipse.set.model.siteplan.TrackSwitchLeg;
+import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -126,6 +129,13 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SiteplanPackage.POSITIONED_OBJECT: {
+				PositionedObject positionedObject = (PositionedObject)theEObject;
+				T result = casePositionedObject(positionedObject);
+				if (result == null) result = caseSiteplanObject(positionedObject);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case SiteplanPackage.COORDINATE: {
 				Coordinate coordinate = (Coordinate)theEObject;
 				T result = caseCoordinate(coordinate);
@@ -154,6 +164,8 @@ public class SiteplanSwitch<T> extends Switch<T> {
 			case SiteplanPackage.SIGNAL_MOUNT: {
 				SignalMount signalMount = (SignalMount)theEObject;
 				T result = caseSignalMount(signalMount);
+				if (result == null) result = casePositionedObject(signalMount);
+				if (result == null) result = caseRouteObject(signalMount);
 				if (result == null) result = caseSiteplanObject(signalMount);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -220,6 +232,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				FMAComponent fmaComponent = (FMAComponent)theEObject;
 				T result = caseFMAComponent(fmaComponent);
 				if (result == null) result = caseRouteObject(fmaComponent);
+				if (result == null) result = casePositionedObject(fmaComponent);
 				if (result == null) result = caseSiteplanObject(fmaComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -259,6 +272,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				PZB pzb = (PZB)theEObject;
 				T result = casePZB(pzb);
 				if (result == null) result = caseRouteObject(pzb);
+				if (result == null) result = casePositionedObject(pzb);
 				if (result == null) result = caseSiteplanObject(pzb);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -305,6 +319,8 @@ public class SiteplanSwitch<T> extends Switch<T> {
 			case SiteplanPackage.TRACK_LOCK_COMPONENT: {
 				TrackLockComponent trackLockComponent = (TrackLockComponent)theEObject;
 				T result = caseTrackLockComponent(trackLockComponent);
+				if (result == null) result = casePositionedObject(trackLockComponent);
+				if (result == null) result = caseSiteplanObject(trackLockComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -317,6 +333,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 			case SiteplanPackage.TRACK_CLOSE: {
 				TrackClose trackClose = (TrackClose)theEObject;
 				T result = caseTrackClose(trackClose);
+				if (result == null) result = casePositionedObject(trackClose);
 				if (result == null) result = caseSiteplanObject(trackClose);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -325,6 +342,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				ExternalElementControl externalElementControl = (ExternalElementControl)theEObject;
 				T result = caseExternalElementControl(externalElementControl);
 				if (result == null) result = caseRouteObject(externalElementControl);
+				if (result == null) result = casePositionedObject(externalElementControl);
 				if (result == null) result = caseSiteplanObject(externalElementControl);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -333,6 +351,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				LockKey lockKey = (LockKey)theEObject;
 				T result = caseLockKey(lockKey);
 				if (result == null) result = caseRouteObject(lockKey);
+				if (result == null) result = casePositionedObject(lockKey);
 				if (result == null) result = caseSiteplanObject(lockKey);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -348,6 +367,21 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				SheetCut sheetCut = (SheetCut)theEObject;
 				T result = caseSheetCut(sheetCut);
 				if (result == null) result = caseSiteplanObject(sheetCut);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SiteplanPackage.CANT: {
+				Cant cant = (Cant)theEObject;
+				T result = caseCant(cant);
+				if (result == null) result = caseSiteplanObject(cant);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SiteplanPackage.UNKNOWN_POSITIONED_OBJECT: {
+				UnknownPositionedObject unknownPositionedObject = (UnknownPositionedObject)theEObject;
+				T result = caseUnknownPositionedObject(unknownPositionedObject);
+				if (result == null) result = casePositionedObject(unknownPositionedObject);
+				if (result == null) result = caseSiteplanObject(unknownPositionedObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -397,6 +431,21 @@ public class SiteplanSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSiteplanObject(SiteplanObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Positioned Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Positioned Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePositionedObject(PositionedObject object) {
 		return null;
 	}
 
@@ -907,6 +956,36 @@ public class SiteplanSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSheetCut(SheetCut object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cant</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cant</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCant(Cant object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Unknown Positioned Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Unknown Positioned Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUnknownPositionedObject(UnknownPositionedObject object) {
 		return null;
 	}
 

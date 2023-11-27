@@ -50,6 +50,8 @@ import SignalPopup from '@/components/popup/SignalPopup.vue'
 import TrackLockPopup from '@/components/popup/TrackLockPopup.vue'
 import TrackSectionPopup from '@/components/popup/TrackSectionPopup.vue'
 import TrackSwitchPopup from '@/components/popup/TrackSwitchPopup.vue'
+import UnknownPopup from '@/components/popup/UnknownPopup.vue'
+import CantPopup from '@/components/popup/CantPopup.vue'
 import {
   FeatureType, getFeatureLabel,
   getFeatureName,
@@ -81,7 +83,9 @@ import { Options, Vue } from 'vue-class-component'
     TrackLockPopup,
     LockKeyPopup,
     EECPopup,
-    JumpMenuPopup
+    JumpMenuPopup,
+    CantPopup,
+    UnknownPopup
   },
   computed: {
     selectedPopup () {
@@ -112,6 +116,10 @@ import { Options, Vue } from 'vue-class-component'
             return LockKeyPopup
           case FeatureType.ExternalElementControl:
             return EECPopup
+          case FeatureType.Cant:
+            return CantPopup
+          case FeatureType.Unknown:
+            return UnknownPopup
           default:
             return this.$emit('removePopup')
         }

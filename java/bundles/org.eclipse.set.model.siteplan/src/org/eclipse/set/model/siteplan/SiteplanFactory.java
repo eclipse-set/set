@@ -55,6 +55,15 @@ public interface SiteplanFactory extends EFactory {
 	SiteplanObject createSiteplanObject();
 
 	/**
+	 * Returns a new object of class '<em>Positioned Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Positioned Object</em>'.
+	 * @generated
+	 */
+	PositionedObject createPositionedObject();
+
+	/**
 	 * Returns a new object of class '<em>Coordinate</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -359,6 +368,24 @@ public interface SiteplanFactory extends EFactory {
 	 * @generated
 	 */
 	SheetCut createSheetCut();
+
+	/**
+	 * Returns a new object of class '<em>Cant</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cant</em>'.
+	 * @generated
+	 */
+	Cant createCant();
+
+	/**
+	 * Returns a new object of class '<em>Unknown Positioned Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Unknown Positioned Object</em>'.
+	 * @generated
+	 */
+	UnknownPositionedObject createUnknownPositionedObject();
 
 	/**
 	 * Returns the package supported by this factory.

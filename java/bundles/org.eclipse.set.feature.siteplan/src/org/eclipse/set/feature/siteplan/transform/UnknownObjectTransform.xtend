@@ -1,0 +1,66 @@
+/**
+ * Copyright (c) 2023 DB Netz AG and others.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ */
+package org.eclipse.set.feature.siteplan.transform
+
+import org.eclipse.set.feature.siteplan.positionservice.PositionService
+import org.eclipse.set.feature.siteplan.trackservice.TrackService
+import org.eclipse.set.model.siteplan.SiteplanFactory
+import org.eclipse.set.model.siteplan.SiteplanPackage
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.toolboxmodel.PZB.PZB_Element
+import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.osgi.service.component.annotations.Component
+import org.osgi.service.component.annotations.Reference
+import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
+import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Gleis_Abschluss
+
+/**
+ * Transforms unknown PlanPro Punkt_Objekte to siteplan UnknownPositiondObject 
+ */
+@Component(service=Transformator)
+class UnknownObjectTransform extends BaseTransformator<Punkt_Objekt> {
+	@Reference
+	TrackService trackService
+
+	@Reference
+	PositionService positionService
+
+	override void transform(Punkt_Objekt pu) {
+		// Filter objects where a more concrete transformator exists
+		for (Class<?> cl : #[
+			FMA_Komponente,
+			PZB_Element,
+			Signal,
+			Signal_Befestigung,
+			W_Kr_Gsp_Komponente,
+			Ueberhoehung,
+			Gleis_Abschluss
+		]) {
+			if (cl.isInstance(pu))
+				return
+		}
+
+		transformUnknownObject(pu)
+	}
+
+	private def void transformUnknownObject(Punkt_Objekt p) {
+		val result = SiteplanFactory.eINSTANCE.createUnknownPositionedObject
+		result.guid = p.identitaet?.wert
+		result.position = positionService.transformPosition(
+			trackService.getCoordinate(p)
+		)
+		result.objectType = p.class.interfaces.get(0).simpleName
+		addSiteplanElement(result,
+			SiteplanPackage.eINSTANCE.siteplanState_UnknownObjects)
+	}
+
+}

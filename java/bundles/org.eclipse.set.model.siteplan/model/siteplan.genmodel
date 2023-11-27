@@ -175,9 +175,14 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/trackClosures"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/externalElementControls"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/lockkeys"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/cants"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SiteplanState/unknownObjects"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//SiteplanObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SiteplanObject/guid"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//PositionedObject">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//PositionedObject/position"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//Coordinate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Coordinate/x"/>
@@ -196,7 +201,6 @@
     <genClasses ecoreClass="siteplan.ecore#//SignalMount">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SignalMount/attachedSignals"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SignalMount/mountType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SignalMount/position"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//Signal">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/guid"/>
@@ -254,7 +258,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//FMAComponent/label"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//FMAComponent/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//FMAComponent/rightSide"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//FMAComponent/position"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//Route">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Route/sections"/>
@@ -283,7 +286,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZB/element"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZB/rightSide"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//PZB/effectivity"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//PZB/position"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//PZBGU">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//PZBGU/pzbs"/>
@@ -322,10 +324,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackLock/label"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//TrackLockComponent">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackLockComponent/position"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLockComponent/tracklockSignal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLockComponent/trackLockSignal"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLockComponent/ejectionDirection"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackLockComponent/guid"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//ObjectManagement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ObjectManagement/planningObjectIDs"/>
@@ -333,17 +333,14 @@
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//TrackClose">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackClose/trackCloseType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackClose/position"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//ExternalElementControl">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//ExternalElementControl/position"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ExternalElementControl/controlArt"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ExternalElementControl/elementType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//ExternalElementControl/controlStation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference siteplan.ecore#//ExternalElementControl/label"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//LockKey">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//LockKey/position"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//LockKey/label"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//LockKey/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//LockKey/locked"/>
@@ -356,6 +353,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SheetCut/label"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SheetCut/polygonDirection"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//SheetCut/polygon"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//Cant">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Cant/pointA"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Cant/pointB"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Cant/form"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Cant/length"/>
+    </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//UnknownPositionedObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//UnknownPositionedObject/objectType"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

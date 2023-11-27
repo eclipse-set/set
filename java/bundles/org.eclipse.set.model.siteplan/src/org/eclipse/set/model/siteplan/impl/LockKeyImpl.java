@@ -20,6 +20,7 @@ import org.eclipse.set.model.siteplan.Label;
 import org.eclipse.set.model.siteplan.LockKey;
 import org.eclipse.set.model.siteplan.LockKeyType;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
@@ -426,6 +427,12 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 				default: return -1;
 			}
 		}
+		if (baseClass == PositionedObject.class) {
+			switch (derivedFeatureID) {
+				case SiteplanPackage.LOCK_KEY__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -439,6 +446,12 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 		if (baseClass == SiteplanObject.class) {
 			switch (baseFeatureID) {
 				case SiteplanPackage.SITEPLAN_OBJECT__GUID: return SiteplanPackage.LOCK_KEY__GUID;
+				default: return -1;
+			}
+		}
+		if (baseClass == PositionedObject.class) {
+			switch (baseFeatureID) {
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.LOCK_KEY__POSITION;
 				default: return -1;
 			}
 		}

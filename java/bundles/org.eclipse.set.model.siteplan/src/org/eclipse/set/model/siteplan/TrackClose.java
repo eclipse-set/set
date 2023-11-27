@@ -19,14 +19,13 @@ package org.eclipse.set.model.siteplan;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType <em>Track Close Type</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.TrackClose#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackClose()
  * @model
  * @generated
  */
-public interface TrackClose extends SiteplanObject {
+public interface TrackClose extends PositionedObject {
 	/**
 	 * Returns the value of the '<em><b>Track Close Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.TrackCloseType}.
@@ -51,27 +50,5 @@ public interface TrackClose extends SiteplanObject {
 	 * @generated
 	 */
 	void setTrackCloseType(TrackCloseType value);
-
-	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Position</em>' containment reference.
-	 * @see #setPosition(Position)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackClose_Position()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Position getPosition();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackClose#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
-	 * @see #getPosition()
-	 * @generated
-	 */
-	void setPosition(Position value);
 
 } // TrackClose

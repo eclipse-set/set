@@ -28,6 +28,8 @@ import SvgCatalogService from './SvgCatalogService'
 import SvgColorService from './SvgColorService'
 import SvgDrawExternalElementControl from '@/util/SVG/Draw/SvgDrawExternalElementControl'
 import SvgDrawLockKey from '@/util/SVG/Draw/SvgDrawLockKey'
+import SvgDrawOthers from '@/util/SVG/Draw/SvgDrawOthers'
+import SvgDrawCant from '@/util/SVG/Draw/SvgDrawCant'
 
 export interface DrawSVGData<T> {
   data: T
@@ -55,6 +57,8 @@ export default class SvgService {
     this.drawFeatureClass.push(new SvgDrawTrackSwitch(this.catalogService))
     this.drawFeatureClass.push(new SvgDrawLockKey(this.catalogService))
     this.drawFeatureClass.push(new SvgDrawExternalElementControl(this.catalogService))
+    this.drawFeatureClass.push(new SvgDrawOthers(this.catalogService))
+    this.drawFeatureClass.push(new SvgDrawCant(this.catalogService))
   }
 
   /**

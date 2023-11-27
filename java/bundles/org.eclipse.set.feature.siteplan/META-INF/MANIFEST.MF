@@ -77,6 +77,7 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.siteplan.descriptions.WebSit
  OSGI-INF/org.eclipse.set.feature.siteplan.descriptions.WebSiteplanDevelopmentDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.positionservice.PositionServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.trackservice.TrackServiceImpl.xml,
+ OSGI-INF/org.eclipse.set.feature.siteplan.transform.CantTransform.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.ExternalElementControlTransform.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.FMAComponentTransformator.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.LockKeyTransformator.xml,
@@ -88,4 +89,5 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.siteplan.descriptions.WebSit
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.TrackCloseTransformator.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.TrackLockTransformator.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.TrackSwitchTransformator.xml,
- OSGI-INF/org.eclipse.set.feature.siteplan.transform.TrackTransformator.xml
+ OSGI-INF/org.eclipse.set.feature.siteplan.transform.TrackTransformator.xml,
+ OSGI-INF/org.eclipse.set.feature.siteplan.transform.UnknownObjectTransform.xml

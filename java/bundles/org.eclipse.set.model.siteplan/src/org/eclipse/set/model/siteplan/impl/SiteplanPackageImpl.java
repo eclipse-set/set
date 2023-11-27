@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.set.model.siteplan.Cant;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.ControlStationType;
 import org.eclipse.set.model.siteplan.Coordinate;
@@ -37,6 +38,7 @@ import org.eclipse.set.model.siteplan.PZBElement;
 import org.eclipse.set.model.siteplan.PZBType;
 import org.eclipse.set.model.siteplan.Platform;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.Route;
 import org.eclipse.set.model.siteplan.RouteLocation;
 import org.eclipse.set.model.siteplan.RouteObject;
@@ -70,6 +72,7 @@ import org.eclipse.set.model.siteplan.TrackSwitchEndMarker;
 import org.eclipse.set.model.siteplan.TrackSwitchLeg;
 import org.eclipse.set.model.siteplan.TrackType;
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode;
+import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -98,6 +101,13 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	private EClass siteplanObjectEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass positionedObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -336,6 +346,20 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	private EClass sheetCutEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cantEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass unknownPositionedObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -769,6 +793,26 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
+	public EReference getSiteplanState_Cants() {
+		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(14);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getSiteplanState_UnknownObjects() {
+		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(15);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getSiteplanObject() {
 		return siteplanObjectEClass;
 	}
@@ -781,6 +825,26 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	@Override
 	public EAttribute getSiteplanObject_Guid() {
 		return (EAttribute)siteplanObjectEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getPositionedObject() {
+		return positionedObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getPositionedObject_Position() {
+		return (EReference)positionedObjectEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -911,16 +975,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	@Override
 	public EAttribute getSignalMount_MountType() {
 		return (EAttribute)signalMountEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getSignalMount_Position() {
-		return (EReference)signalMountEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1399,16 +1453,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getFMAComponent_Position() {
-		return (EReference)fmaComponentEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EClass getRoute() {
 		return routeEClass;
 	}
@@ -1621,16 +1665,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	@Override
 	public EAttribute getPZB_Effectivity() {
 		return (EAttribute)pzbEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EReference getPZB_Position() {
-		return (EReference)pzbEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1869,18 +1903,8 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getTrackLockComponent_Position() {
-		return (EReference)trackLockComponentEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EAttribute getTrackLockComponent_TrackLockSignal() {
-		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1890,17 +1914,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EAttribute getTrackLockComponent_EjectionDirection() {
-		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getTrackLockComponent_Guid() {
-		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1959,16 +1973,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getTrackClose_Position() {
-		return (EReference)trackCloseEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EClass getExternalElementControl() {
 		return externalElementControlEClass;
 	}
@@ -1979,18 +1983,8 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getExternalElementControl_Position() {
-		return (EReference)externalElementControlEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EAttribute getExternalElementControl_ControlArt() {
-		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2000,7 +1994,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EAttribute getExternalElementControl_ElementType() {
-		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2010,7 +2004,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EAttribute getExternalElementControl_ControlStation() {
-		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2020,7 +2014,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EReference getExternalElementControl_Label() {
-		return (EReference)externalElementControlEClass.getEStructuralFeatures().get(4);
+		return (EReference)externalElementControlEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -2039,7 +2033,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getLockKey_Position() {
+	public EReference getLockKey_Label() {
 		return (EReference)lockKeyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -2049,18 +2043,8 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EReference getLockKey_Label() {
-		return (EReference)lockKeyEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EAttribute getLockKey_Type() {
-		return (EAttribute)lockKeyEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)lockKeyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -2070,7 +2054,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EAttribute getLockKey_Locked() {
-		return (EAttribute)lockKeyEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)lockKeyEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -2141,6 +2125,76 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	@Override
 	public EReference getSheetCut_Polygon() {
 		return (EReference)sheetCutEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getCant() {
+		return cantEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getCant_PointA() {
+		return (EReference)cantEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EReference getCant_PointB() {
+		return (EReference)cantEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCant_Form() {
+		return (EAttribute)cantEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCant_Length() {
+		return (EAttribute)cantEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getUnknownPositionedObject() {
+		return unknownPositionedObjectEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getUnknownPositionedObject_ObjectType() {
+		return (EAttribute)unknownPositionedObjectEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2377,9 +2431,14 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__TRACK_CLOSURES);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__EXTERNAL_ELEMENT_CONTROLS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__LOCKKEYS);
+		createEReference(siteplanStateEClass, SITEPLAN_STATE__CANTS);
+		createEReference(siteplanStateEClass, SITEPLAN_STATE__UNKNOWN_OBJECTS);
 
 		siteplanObjectEClass = createEClass(SITEPLAN_OBJECT);
 		createEAttribute(siteplanObjectEClass, SITEPLAN_OBJECT__GUID);
+
+		positionedObjectEClass = createEClass(POSITIONED_OBJECT);
+		createEReference(positionedObjectEClass, POSITIONED_OBJECT__POSITION);
 
 		coordinateEClass = createEClass(COORDINATE);
 		createEAttribute(coordinateEClass, COORDINATE__X);
@@ -2398,7 +2457,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		signalMountEClass = createEClass(SIGNAL_MOUNT);
 		createEReference(signalMountEClass, SIGNAL_MOUNT__ATTACHED_SIGNALS);
 		createEAttribute(signalMountEClass, SIGNAL_MOUNT__MOUNT_TYPE);
-		createEReference(signalMountEClass, SIGNAL_MOUNT__POSITION);
 
 		signalEClass = createEClass(SIGNAL);
 		createEAttribute(signalEClass, SIGNAL__GUID);
@@ -2456,7 +2514,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		createEReference(fmaComponentEClass, FMA_COMPONENT__LABEL);
 		createEAttribute(fmaComponentEClass, FMA_COMPONENT__TYPE);
 		createEAttribute(fmaComponentEClass, FMA_COMPONENT__RIGHT_SIDE);
-		createEReference(fmaComponentEClass, FMA_COMPONENT__POSITION);
 
 		routeEClass = createEClass(ROUTE);
 		createEReference(routeEClass, ROUTE__SECTIONS);
@@ -2485,7 +2542,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		createEAttribute(pzbEClass, PZB__ELEMENT);
 		createEAttribute(pzbEClass, PZB__RIGHT_SIDE);
 		createEAttribute(pzbEClass, PZB__EFFECTIVITY);
-		createEReference(pzbEClass, PZB__POSITION);
 
 		pzbguEClass = createEClass(PZBGU);
 		createEReference(pzbguEClass, PZBGU__PZBS);
@@ -2516,10 +2572,8 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		createEReference(trackLockEClass, TRACK_LOCK__LABEL);
 
 		trackLockComponentEClass = createEClass(TRACK_LOCK_COMPONENT);
-		createEReference(trackLockComponentEClass, TRACK_LOCK_COMPONENT__POSITION);
 		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL);
 		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__EJECTION_DIRECTION);
-		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__GUID);
 
 		objectManagementEClass = createEClass(OBJECT_MANAGEMENT);
 		createEAttribute(objectManagementEClass, OBJECT_MANAGEMENT__PLANNING_OBJECT_IDS);
@@ -2527,17 +2581,14 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 
 		trackCloseEClass = createEClass(TRACK_CLOSE);
 		createEAttribute(trackCloseEClass, TRACK_CLOSE__TRACK_CLOSE_TYPE);
-		createEReference(trackCloseEClass, TRACK_CLOSE__POSITION);
 
 		externalElementControlEClass = createEClass(EXTERNAL_ELEMENT_CONTROL);
-		createEReference(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__POSITION);
 		createEAttribute(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__CONTROL_ART);
 		createEAttribute(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE);
 		createEAttribute(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION);
 		createEReference(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__LABEL);
 
 		lockKeyEClass = createEClass(LOCK_KEY);
-		createEReference(lockKeyEClass, LOCK_KEY__POSITION);
 		createEReference(lockKeyEClass, LOCK_KEY__LABEL);
 		createEAttribute(lockKeyEClass, LOCK_KEY__TYPE);
 		createEAttribute(lockKeyEClass, LOCK_KEY__LOCKED);
@@ -2550,6 +2601,15 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		createEAttribute(sheetCutEClass, SHEET_CUT__LABEL);
 		createEReference(sheetCutEClass, SHEET_CUT__POLYGON_DIRECTION);
 		createEReference(sheetCutEClass, SHEET_CUT__POLYGON);
+
+		cantEClass = createEClass(CANT);
+		createEReference(cantEClass, CANT__POINT_A);
+		createEReference(cantEClass, CANT__POINT_B);
+		createEAttribute(cantEClass, CANT__FORM);
+		createEAttribute(cantEClass, CANT__LENGTH);
+
+		unknownPositionedObjectEClass = createEClass(UNKNOWN_POSITIONED_OBJECT);
+		createEAttribute(unknownPositionedObjectEClass, UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE);
 
 		// Create enums
 		signalMountTypeEEnum = createEEnum(SIGNAL_MOUNT_TYPE);
@@ -2600,27 +2660,32 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		positionedObjectEClass.getESuperTypes().add(this.getSiteplanObject());
 		positionEClass.getESuperTypes().add(this.getCoordinate());
-		signalMountEClass.getESuperTypes().add(this.getSiteplanObject());
+		signalMountEClass.getESuperTypes().add(this.getPositionedObject());
+		signalMountEClass.getESuperTypes().add(this.getRouteObject());
 		signalEClass.getESuperTypes().add(this.getRouteObject());
 		trackSwitchEClass.getESuperTypes().add(this.getSiteplanObject());
 		trackSwitchComponentEClass.getESuperTypes().add(this.getRouteObject());
 		trackEClass.getESuperTypes().add(this.getSiteplanObject());
 		fmaComponentEClass.getESuperTypes().add(this.getRouteObject());
-		fmaComponentEClass.getESuperTypes().add(this.getSiteplanObject());
+		fmaComponentEClass.getESuperTypes().add(this.getPositionedObject());
 		routeEClass.getESuperTypes().add(this.getSiteplanObject());
 		pzbEClass.getESuperTypes().add(this.getRouteObject());
-		pzbEClass.getESuperTypes().add(this.getSiteplanObject());
+		pzbEClass.getESuperTypes().add(this.getPositionedObject());
 		pzbguEClass.getESuperTypes().add(this.getSiteplanObject());
 		stationEClass.getESuperTypes().add(this.getSiteplanObject());
 		trackLockEClass.getESuperTypes().add(this.getSiteplanObject());
-		trackCloseEClass.getESuperTypes().add(this.getSiteplanObject());
+		trackLockComponentEClass.getESuperTypes().add(this.getPositionedObject());
+		trackCloseEClass.getESuperTypes().add(this.getPositionedObject());
 		externalElementControlEClass.getESuperTypes().add(this.getRouteObject());
-		externalElementControlEClass.getESuperTypes().add(this.getSiteplanObject());
+		externalElementControlEClass.getESuperTypes().add(this.getPositionedObject());
 		lockKeyEClass.getESuperTypes().add(this.getRouteObject());
-		lockKeyEClass.getESuperTypes().add(this.getSiteplanObject());
+		lockKeyEClass.getESuperTypes().add(this.getPositionedObject());
 		layoutinfoEClass.getESuperTypes().add(this.getSiteplanObject());
 		sheetCutEClass.getESuperTypes().add(this.getSiteplanObject());
+		cantEClass.getESuperTypes().add(this.getSiteplanObject());
+		unknownPositionedObjectEClass.getESuperTypes().add(this.getPositionedObject());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(siteplanEClass, Siteplan.class, "Siteplan", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2648,9 +2713,14 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEReference(getSiteplanState_TrackClosures(), this.getTrackClose(), null, "trackClosures", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSiteplanState_ExternalElementControls(), this.getExternalElementControl(), null, "externalElementControls", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSiteplanState_Lockkeys(), this.getLockKey(), null, "lockkeys", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_Cants(), this.getCant(), null, "cants", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_UnknownObjects(), this.getUnknownPositionedObject(), null, "unknownObjects", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(siteplanObjectEClass, SiteplanObject.class, "SiteplanObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSiteplanObject_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, SiteplanObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(positionedObjectEClass, PositionedObject.class, "PositionedObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPositionedObject_Position(), this.getPosition(), null, "position", null, 0, 1, PositionedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(coordinateEClass, Coordinate.class, "Coordinate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCoordinate_X(), ecorePackage.getEDouble(), "x", "0", 0, 1, Coordinate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2669,7 +2739,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEClass(signalMountEClass, SignalMount.class, "SignalMount", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSignalMount_AttachedSignals(), this.getSignal(), null, "attachedSignals", null, 0, -1, SignalMount.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSignalMount_MountType(), this.getSignalMountType(), "mountType", null, 0, 1, SignalMount.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSignalMount_Position(), this.getPosition(), null, "position", null, 0, 1, SignalMount.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(signalEClass, Signal.class, "Signal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSignal_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2727,7 +2796,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEReference(getFMAComponent_Label(), this.getLabel(), null, "label", null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFMAComponent_Type(), this.getFMAComponentType(), "type", null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFMAComponent_RightSide(), ecorePackage.getEBoolean(), "rightSide", null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFMAComponent_Position(), this.getPosition(), null, "position", null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(routeEClass, Route.class, "Route", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRoute_Sections(), this.getRouteSection(), null, "sections", null, 0, -1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2756,7 +2824,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEAttribute(getPZB_Element(), this.getPZBElement(), "element", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPZB_RightSide(), ecorePackage.getEBoolean(), "rightSide", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPZB_Effectivity(), this.getPZBEffectivity(), "effectivity", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPZB_Position(), this.getPosition(), null, "position", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pzbguEClass, org.eclipse.set.model.siteplan.PZBGU.class, "PZBGU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPZBGU_Pzbs(), this.getPZB(), null, "pzbs", null, 0, -1, org.eclipse.set.model.siteplan.PZBGU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2787,10 +2854,8 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEReference(getTrackLock_Label(), this.getLabel(), null, "label", null, 0, 1, TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(trackLockComponentEClass, TrackLockComponent.class, "TrackLockComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTrackLockComponent_Position(), this.getPosition(), null, "position", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrackLockComponent_TrackLockSignal(), ecorePackage.getEString(), "trackLockSignal", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrackLockComponent_EjectionDirection(), this.getLeftRight(), "ejectionDirection", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackLockComponent_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(objectManagementEClass, ObjectManagement.class, "ObjectManagement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getObjectManagement_PlanningObjectIDs(), ecorePackage.getEString(), "planningObjectIDs", null, 0, -1, ObjectManagement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2798,17 +2863,14 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 
 		initEClass(trackCloseEClass, TrackClose.class, "TrackClose", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTrackClose_TrackCloseType(), this.getTrackCloseType(), "trackCloseType", null, 0, 1, TrackClose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackClose_Position(), this.getPosition(), null, "position", null, 0, 1, TrackClose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(externalElementControlEClass, ExternalElementControl.class, "ExternalElementControl", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExternalElementControl_Position(), this.getPosition(), null, "position", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExternalElementControl_ControlArt(), this.getExternalElementControlArt(), "controlArt", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExternalElementControl_ElementType(), this.getExternalElementControlArt(), "elementType", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getExternalElementControl_ControlStation(), this.getControlStationType(), "controlStation", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getExternalElementControl_Label(), this.getLabel(), null, "label", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(lockKeyEClass, LockKey.class, "LockKey", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLockKey_Position(), this.getPosition(), null, "position", null, 0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLockKey_Label(), this.getLabel(), null, "label", null, 0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLockKey_Type(), this.getLockKeyType(), "type", null, 0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLockKey_Locked(), ecorePackage.getEBoolean(), "locked", null, 0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2821,6 +2883,15 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEAttribute(getSheetCut_Label(), ecorePackage.getEString(), "label", null, 0, 1, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSheetCut_PolygonDirection(), this.getCoordinate(), null, "polygonDirection", null, 0, 2, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSheetCut_Polygon(), this.getCoordinate(), null, "polygon", null, 0, -1, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(cantEClass, Cant.class, "Cant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCant_PointA(), this.getPositionedObject(), null, "pointA", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCant_PointB(), this.getPositionedObject(), null, "pointB", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCant_Form(), ecorePackage.getEString(), "form", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCant_Length(), ecorePackage.getEDouble(), "length", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(unknownPositionedObjectEClass, UnknownPositionedObject.class, "UnknownPositionedObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUnknownPositionedObject_ObjectType(), ecorePackage.getEString(), "objectType", null, 0, 1, UnknownPositionedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(signalMountTypeEEnum, SignalMountType.class, "SignalMountType");
