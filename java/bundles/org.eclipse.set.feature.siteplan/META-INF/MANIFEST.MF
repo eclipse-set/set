@@ -3,6 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Siteplan
 Bundle-SymbolicName: org.eclipse.set.feature.siteplan;singleton:=true
 Bundle-Version: 2.2.0.qualifier
+Export-Package: org.eclipse.set.feature.siteplan.json,
+ org.eclipse.set.feature.siteplan.transform
 Automatic-Module-Name: org.eclipse.set.feature.siteplans
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: javax.activation,
@@ -74,7 +76,6 @@ Require-Bundle: org.eclipse.set.core.services,
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.feature.siteplan.descriptions.WebSiteplanDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.siteplan.descriptions.WebSiteplanDevelopmentDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.positionservice.PositionServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.trackservice.TrackServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.ExternalElementControlTransform.xml,
