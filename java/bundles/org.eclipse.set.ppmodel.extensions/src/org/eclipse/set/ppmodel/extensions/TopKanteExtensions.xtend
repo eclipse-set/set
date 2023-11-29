@@ -658,15 +658,6 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static ENUMTOPAnschluss getTOPAnschlussB(TOP_Kante topKante) {
 		return topKante.TOPKanteAllg.TOPAnschlussB.wert
 	}
-	
-
-	def static ENUMTOPAnschluss getTOPAnschlussA(TOP_Kante topKante) {
-		return topKante.TOPKanteAllg.TOPAnschlussA.wert
-	}
-
-	def static ENUMTOPAnschluss getTOPAnschlussB(TOP_Kante topKante) {
-		return topKante.TOPKanteAllg.TOPAnschlussB.wert
-	}
 
 	/**
 	 * @param topKante this TOP Kante

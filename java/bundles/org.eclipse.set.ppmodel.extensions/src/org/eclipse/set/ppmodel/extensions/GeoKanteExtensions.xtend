@@ -585,7 +585,6 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 				
 				throw new IllegalArgumentException('''GEOKnoten: «geoKnoten.identitaet.wert» gehört nicht zu GEOKanten: «geoKante.identitaet.wert»''')
 			}
-				
 		}
 	}
 }
