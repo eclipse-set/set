@@ -40,7 +40,7 @@ class OverviewplanTransformatorTest extends AbstractToolboxTest {
 	 * @return the siteplan reference files
 	 */
 	protected static Stream<Arguments> getSiteplanReferenceFiles() {
-		return Stream.of(Arguments.of(OVERVIEW_TEST, "pphn"));
+		return Stream.of(Arguments.of(PPHN_1_10_0_1_20220517_PLANPRO, "pphn"));
 	}
 
 	// IMPROVE: OSGI-based test for dependency injection
