@@ -109,6 +109,22 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	}
 
 	/**
+	 * Get GEOKante at TOPKnoten
+	 * @param topKante this TOPKante
+	 * @parem topKnoten the TOP Knoten of this TOP Kante
+	 * @return the GEO Kante at the TOP Knoten on this TOP Kante
+	 */
+	def static GEO_Kante getGeoKanteAtKnoten(TOP_Kante topKante, TOP_Knoten topKnoten) {
+		val geoKnoten = topKnoten.GEOKnoten
+		val geoKanten = geoKnoten.getGeoKantenOnTopKante(topKante)
+		// The GEOKnoten reference to this TOP Knoten should have only one GEOKante on this TOPKante
+		if (geoKanten.size > 1) {
+			throw new IllegalArgumentException('''Auf TOP_Kante: «topKante.identitaet.wert» verweiss TOP_Knoten: «topKnoten.identitaet.wert» auf mehr als ein GEO_Kante''')
+		}
+		return geoKanten.get(0)
+	}
+
+	/**
 	 * This method returns a list of directed GEO edges (a "GEO path") in the
 	 * direction, implied by the directed TOP edge. If there is no complete
 	 * coverage of the given TOP edge by GEO edges, the method will return the
@@ -391,7 +407,6 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		throw new IllegalArgumentException(singlePoint.identitaet)
 	}
 
-
 	/**
 	 * @param topKante this TOP Kante
 	 * @param singlePoint the single point
@@ -408,7 +423,6 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 		throw new IllegalArgumentException()
 	}
-
 
 	/**
 	 * @param topKante this TOP Kante
@@ -447,8 +461,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 		return Math.max(d1, d2) - Math.min(d1, d2)
 	}
-	
-	
+
 	/**
 	 * @param topKante this TOP Kante
 	 * @param singlePoint1 a single point
@@ -464,14 +477,13 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val d1 = topKante.getAbstand(singlePoint1)
 		val d2 = topKante.getAbstand(tb)
 
-		val distanceA = d2.key.max(BigDecimal.valueOf(d1)) - d2.key.min(BigDecimal.valueOf(d1))
-		val distanceB = d2.value.max(BigDecimal.valueOf(d1)) - d2.value.min(BigDecimal.valueOf(d1))
-		
+		val distanceA = d2.key.max(BigDecimal.valueOf(d1)) -
+			d2.key.min(BigDecimal.valueOf(d1))
+		val distanceB = d2.value.max(BigDecimal.valueOf(d1)) -
+			d2.value.min(BigDecimal.valueOf(d1))
+
 		return distanceA -> distanceB
 	}
-	
-	
-
 
 	/**
 	 * @param topKante this TOP Kante
@@ -492,7 +504,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 				unique
 		)
 	}
-	
+
 	/**
 	 * @param topKante this TOP Kante
 	 * @param punktObjekt1 a Punkt Objekt
@@ -503,7 +515,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @throws IllegalArgumentException if the Punkt Objekte are not
 	 * unambiguously connected to this TOP-Kante
 	 */
-	def static Pair<BigDecimal, BigDecimal> getAbstand(TOP_Kante topKante, Punkt_Objekt punktObjekt1,
+	def static Pair<BigDecimal, BigDecimal> getAbstand(TOP_Kante topKante,
+		Punkt_Objekt punktObjekt1,
 		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 		return topKante.getAbstand(
 			punktObjekt1.singlePoints.filter[topKante.isConnectedTo(it)].toSet.
@@ -555,10 +568,10 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		Punkt_Objekt punktObject1, Punkt_Objekt punktObjekt2) {
 		return topKante.getAbstand(punktObject1, punktObjekt2)
 	}
-	
-	
+
 	static def Pair<BigDecimal, BigDecimal> getAbstandBO(TOP_Kante topKante,
-		Punkt_Objekt punktObject, Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		Punkt_Objekt punktObject,
+		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 		return topKante.getAbstand(punktObject, tb)
 	}
 
@@ -646,6 +659,14 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		return topKante.TOPKanteAllg.TOPAnschlussB.wert
 	}
 	
+
+	def static ENUMTOPAnschluss getTOPAnschlussA(TOP_Kante topKante) {
+		return topKante.TOPKanteAllg.TOPAnschlussA.wert
+	}
+
+	def static ENUMTOPAnschluss getTOPAnschlussB(TOP_Kante topKante) {
+		return topKante.TOPKanteAllg.TOPAnschlussB.wert
+	}
 
 	/**
 	 * @param topKante this TOP Kante

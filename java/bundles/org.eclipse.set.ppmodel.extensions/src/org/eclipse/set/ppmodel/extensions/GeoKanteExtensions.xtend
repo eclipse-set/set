@@ -564,4 +564,28 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 
 		return result
 	}
+	
+	def static Double getRadiusAtKnoten(GEO_Kante geoKante,
+		GEO_Knoten geoKnoten) {
+		switch (geoKante?.GEOKanteAllg?.GEOForm?.wert) {
+			case ENUMGEO_FORM_GERADE:
+				return 0.0
+			case ENUMGEO_FORM_BOGEN,
+			case ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON:
+				return (geoKante?.GEOKanteAllg?.GEORadiusA?.wert ?: 0).
+					doubleValue
+			default: {
+				if (geoKnoten === geoKante.geoKnotenA) {
+					return (geoKante?.GEOKanteAllg?.GEORadiusA?.wert ?: 0).doubleValue
+				}
+		
+				if (geoKnoten === geoKante.geoKnotenB) {
+					return (geoKante?.GEOKanteAllg?.GEORadiusB?.wert ?: 0).doubleValue
+				}
+				
+				throw new IllegalArgumentException('''GEOKnoten: «geoKnoten.identitaet.wert» gehört nicht zu GEOKanten: «geoKante.identitaet.wert»''')
+			}
+				
+		}
+	}
 }

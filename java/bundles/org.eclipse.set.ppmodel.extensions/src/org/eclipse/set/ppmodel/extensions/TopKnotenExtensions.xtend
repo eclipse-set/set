@@ -22,6 +22,8 @@ import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
+import org.locationtech.jts.geom.Coordinate
 
 /**
  * Diese Klasse erweitert {@link TOP_Knoten}.
@@ -37,6 +39,10 @@ class TopKnotenExtensions extends BasisObjektExtensions {
 	 */
 	def static GEO_Knoten getGEOKnoten(TOP_Knoten topKnoten) {
 		return topKnoten.IDGEOKnoten
+	}
+	
+	def static Coordinate getCoordinate(TOP_Knoten topKnoten) {
+		return topKnoten.GEOKnoten.coordinate
 	}
 
 	/**

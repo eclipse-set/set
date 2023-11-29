@@ -14,6 +14,7 @@ import java.util.List;
 import org.eclipse.set.feature.siteplan.transform.AbstractSiteplanTransformator;
 import org.eclipse.set.feature.siteplan.transform.Transformator;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.Siteplan;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
 import org.eclipse.set.model.siteplan.SiteplanState;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -53,5 +54,11 @@ public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 			final PlanPro_Schnittstelle schnittstelle,
 			final MultiContainer_AttributeGroup container) {
 		return null;
+	}
+
+	// This useless function need for UnitTest
+	@Override
+	public Siteplan transform(final PlanPro_Schnittstelle schnittstelle) {
+		return super.transform(schnittstelle);
 	}
 }
