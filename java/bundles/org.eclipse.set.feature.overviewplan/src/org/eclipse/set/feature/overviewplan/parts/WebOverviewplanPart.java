@@ -76,7 +76,7 @@ public class WebOverviewplanPart extends BasePart {
 			browser.serveRootDirectory(Paths.get(WEB_PATH));
 			browser.serveFile("?", "text/html", //$NON-NLS-1$ //$NON-NLS-2$
 					Paths.get(WEB_PATH, "index.html")); //$NON-NLS-1$
-			browser.serveUri("siteplan.json", this::serveOverviewplan);
+			browser.serveUri("overviewplan.json", this::serveOverviewplan); //$NON-NLS-1$
 			browser.setUrl("https://toolbox/?"); //$NON-NLS-1$
 		} catch (final IOException e) {
 			throw new RuntimeException(e);

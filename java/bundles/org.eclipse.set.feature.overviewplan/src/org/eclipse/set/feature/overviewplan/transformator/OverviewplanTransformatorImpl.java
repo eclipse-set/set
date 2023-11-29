@@ -30,7 +30,7 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
  * 
  * @author Truong
  */
-@Component
+@Component(service = OverviewplanTransformator.class)
 public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 		implements OverviewplanTransformator {
 	/**
@@ -56,7 +56,7 @@ public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 		return null;
 	}
 
-	// This useless function need for UnitTest
+	// This need for UnitTest
 	@Override
 	public Siteplan transform(final PlanPro_Schnittstelle schnittstelle) {
 		return super.transform(schnittstelle);

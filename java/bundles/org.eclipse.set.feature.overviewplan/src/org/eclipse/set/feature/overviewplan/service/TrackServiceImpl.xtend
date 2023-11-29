@@ -13,7 +13,9 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.basis.cache.Cache
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.feature.overviewplan.transformator.TOPKanteMetaData
+import org.osgi.service.component.annotations.Component
 
+@Component
 class TrackServiceImpl implements TrackService {
 	
 		/**

@@ -57,27 +57,12 @@ class TOPKanteMetaData {
 		return nodeB
 	}
 
-	def ENUMTOPAnschluss getTOPAnschlussAt(
-		(TOPKanteMetaData)=>TOP_Knoten node) {
-		return node?.apply(this)?.TOPAnschlussAt
-	}
-
 	def ENUMTOPAnschluss getTOPAnschlussAt(TOP_Knoten node) {
 		return edge?.getTOPAnschluss(node)
 	}
 
-	def List<W_Kr_Gsp_Komponente> getTrackSwitchAt(
-		(TOPKanteMetaData)=>TOP_Knoten node) {
-		return node?.apply(this)?.trackSwitchAt
-	}
-
 	def List<W_Kr_Gsp_Komponente> getTrackSwitchAt(TOP_Knoten node) {
 		return node?.WKrGspElement?.WKrGspKomponenten
-	}
-
-	def List<TOPKanteMetaData> getConnectEdgeAt(TrackService trackService,
-		(TOPKanteMetaData)=>TOP_Knoten node) {
-		return trackService.getConnectEdgeAt(node.apply(this))
 	}
 
 	def List<TOPKanteMetaData> getConnectEdgeAt(TrackService trackService,
@@ -89,11 +74,6 @@ class TOPKanteMetaData {
 			return result
 		}
 		throw new IllegalArgumentException('''TOP_Knoten: «node.identitaet.wert» verweiss auf mehr als 3 TOP_Kanten''')
-	}
-
-	def TOPKanteMetaData getContinuosEdgeAt(List<TOPKanteMetaData> connectEdges,
-		(TOPKanteMetaData)=>TOP_Knoten node) {
-		return connectEdges.getContinuosEdgeAt(node.apply(this))
 	}
 
 	def TOPKanteMetaData getContinuosEdgeAt(List<TOPKanteMetaData> connectEdges,
@@ -123,7 +103,8 @@ class TOPKanteMetaData {
 
 	private def boolean isLegalConnection(TOP_Knoten node,
 		List<TOPKanteMetaData> connectEdges) {
-		val clone = connectEdges.clone
+		val clone = newArrayList()
+		clone.addAll(connectEdges)
 		clone.add(this)
 		val connectTypes = clone.map[topKante.getTOPAnschluss(node)]
 		return connectTypes.toSet.size === 3 &&

@@ -40,6 +40,7 @@ Require-Bundle: org.eclipse.set.toolboxmodel,
  org.locationtech.jts.jts-core;bundle-version="1.19.0",
  org.eclipse.e4.core.contexts;bundle-version="1.11.0"
 Service-Component: OSGI-INF/org.eclipse.set.feature.overviewplan.descriptions.WebOverviewplanDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.overviewplan.service.TrackServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformatorImpl.xml,
  OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.TrackTransformator.xml
 Automatic-Module-Name: org.eclipse.set.feature.overviewplan

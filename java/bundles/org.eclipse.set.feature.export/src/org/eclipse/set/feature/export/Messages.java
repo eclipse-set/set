@@ -119,6 +119,11 @@ public class Messages {
 	public String selectNone;
 
 	/**
+	 * Lageplan und Uebersichtplan Modell Export
+	 */
+	public String SiteplanModelExportDescriptionService_ViewName;
+
+	/**
 	 * Schriftfeld
 	 */
 	public String TitleBoxPdfDescriptionService_ViewName;

@@ -32,36 +32,32 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		}
 		val md = trackService.getTOPKanteMetaData(topKante)
 		track.transformSection(md)
+		track.guid = topKante.identitaet.wert
 		state.tracks.add(track)
 
 	}
 
 	private def void transformSection(Track track, TOPKanteMetaData md) {
-		if (md === null || track.sections.exists [
-			guid === md.topKante.identitaet.wert
-		]) {
+		if (md === null) {
 			return
 		}
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.topKante.identitaet.wert
 		track.sections.add(section)
-		
-		val connectKantenAtA = md.getConnectEdgeAt(trackService, [TOPKnotenA])
-		val connectKantenAtB = md.getConnectEdgeAt(trackService, [TOPKnotenB])
 
-		if (!connectKantenAtA.empty) {
-			val continuosEdge = md.getContinuosEdgeAt(connectKantenAtA, [
-				TOPKnotenA
-			])
-			transformSection(track, continuosEdge)
-		}
+		val alreadyAddSection = track.sections.map[guid]
 
-		if (!connectKantenAtB.empty) {
-			val continuosEdge = md.getContinuosEdgeAt(connectKantenAtA, [
-				TOPKnotenA
-			])
+		#[md.TOPKnotenA, md.TOPKnotenB].forEach [
+			val connectEdges = md.getConnectEdgeAt(trackService, it)
+
+			if (connectEdges.empty || connectEdges.exists [
+				alreadyAddSection.contains(topKante.identitaet.wert)
+			]) {
+				return
+			}
+			val continuosEdge = md.getContinuosEdgeAt(connectEdges, it)
 			transformSection(track, continuosEdge)
-		}
+		]
 	}
 
 }
