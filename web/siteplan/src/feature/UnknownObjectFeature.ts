@@ -64,6 +64,6 @@ export default class UnknownObjectFeature extends LageplanFeature<UnknownObject>
   }
 
   compareChangedState (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
-    return super.compareChangedState(initial, final, [], cant => this.getObjectSvg(cant))
+    return super.compareChangedState(initial, final, [], unknowObject=> this.getObjectSvg(unknowObject))
   }
 }
