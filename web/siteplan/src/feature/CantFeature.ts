@@ -67,7 +67,8 @@ export default class CantFeature extends LageplanFeature<Cant> {
       cant.number.toString()
     )
 
-    const color = `hsl(${cant.number * 137.508},50%,75%)`
+    // Use golden angle to determine a pseudorandom color
+    const color = `hsl(${cant.number * 137.508},100%,65%)`
 
     feature.setStyle((_, resolution) => {
       if (store.state.visibleCants[cant.number]) {
