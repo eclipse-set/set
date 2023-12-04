@@ -17,7 +17,7 @@ import org.eclipse.set.feature.siteplan.trackservice.TrackServiceImpl;
 import org.eclipse.set.feature.siteplan.transform.ExternalElementControlTransform;
 import org.eclipse.set.feature.siteplan.transform.FMAComponentTransformator;
 import org.eclipse.set.feature.siteplan.transform.LockKeyTransformator;
-import org.eclipse.set.feature.siteplan.transform.CantTransform;
+import org.eclipse.set.feature.siteplan.transform.PZBTransform;
 import org.eclipse.set.feature.siteplan.transform.RouteTransformator;
 import org.eclipse.set.feature.siteplan.transform.SignalTransformator;
 import org.eclipse.set.feature.siteplan.transform.SiteplanTransformatorImpl;
@@ -50,7 +50,7 @@ public class SiteplanTest extends AbstractToolboxTest {
 			final SiteplanTransformatorImpl transformator) {
 		setupTransformator(transformator);
 		transformator.transformators.addAll(List.of(
-				new FMAComponentTransformator(), new CantTransform(),
+				new FMAComponentTransformator(), new PZBTransform(),
 				new RouteTransformator(), new SignalTransformator(),
 				new StationTransformator(), new TrackLockTransformator(),
 				new TrackSwitchTransformator(), new TrackTransformator(),
