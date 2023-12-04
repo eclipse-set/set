@@ -18,7 +18,6 @@ package org.eclipse.set.model.siteplan;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.LockKey#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.LockKey#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.LockKey#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.LockKey#isLocked <em>Locked</em>}</li>
@@ -28,29 +27,7 @@ package org.eclipse.set.model.siteplan;
  * @model
  * @generated
  */
-public interface LockKey extends RouteObject, SiteplanObject {
-	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Position</em>' containment reference.
-	 * @see #setPosition(Position)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getLockKey_Position()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Position getPosition();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.LockKey#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
-	 * @see #getPosition()
-	 * @generated
-	 */
-	void setPosition(Position value);
-
+public interface LockKey extends RouteObject, PositionedObject {
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

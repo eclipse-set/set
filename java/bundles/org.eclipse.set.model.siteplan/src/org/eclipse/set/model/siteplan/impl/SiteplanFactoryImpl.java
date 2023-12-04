@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import org.eclipse.set.model.siteplan.Cant;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.ControlStationType;
 import org.eclipse.set.model.siteplan.Coordinate;
@@ -40,6 +41,7 @@ import org.eclipse.set.model.siteplan.PZBGU;
 import org.eclipse.set.model.siteplan.PZBType;
 import org.eclipse.set.model.siteplan.Platform;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.Route;
 import org.eclipse.set.model.siteplan.RouteLocation;
 import org.eclipse.set.model.siteplan.RouteObject;
@@ -73,6 +75,7 @@ import org.eclipse.set.model.siteplan.TrackSwitchEndMarker;
 import org.eclipse.set.model.siteplan.TrackSwitchLeg;
 import org.eclipse.set.model.siteplan.TrackType;
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode;
+import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -121,6 +124,7 @@ public class SiteplanFactoryImpl extends EFactoryImpl implements SiteplanFactory
 			case SiteplanPackage.SITEPLAN: return createSiteplan();
 			case SiteplanPackage.SITEPLAN_STATE: return createSiteplanState();
 			case SiteplanPackage.SITEPLAN_OBJECT: return createSiteplanObject();
+			case SiteplanPackage.POSITIONED_OBJECT: return createPositionedObject();
 			case SiteplanPackage.COORDINATE: return createCoordinate();
 			case SiteplanPackage.POSITION: return createPosition();
 			case SiteplanPackage.ROUTE_OBJECT: return createRouteObject();
@@ -155,6 +159,8 @@ public class SiteplanFactoryImpl extends EFactoryImpl implements SiteplanFactory
 			case SiteplanPackage.LOCK_KEY: return createLockKey();
 			case SiteplanPackage.LAYOUTINFO: return createLayoutinfo();
 			case SiteplanPackage.SHEET_CUT: return createSheetCut();
+			case SiteplanPackage.CANT: return createCant();
+			case SiteplanPackage.UNKNOWN_POSITIONED_OBJECT: return createUnknownPositionedObject();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -289,6 +295,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl implements SiteplanFactory
 	public SiteplanObject createSiteplanObject() {
 		SiteplanObjectImpl siteplanObject = new SiteplanObjectImpl();
 		return siteplanObject;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public PositionedObject createPositionedObject() {
+		PositionedObjectImpl positionedObject = new PositionedObjectImpl();
+		return positionedObject;
 	}
 
 	/**
@@ -663,6 +680,28 @@ public class SiteplanFactoryImpl extends EFactoryImpl implements SiteplanFactory
 	public SheetCut createSheetCut() {
 		SheetCutImpl sheetCut = new SheetCutImpl();
 		return sheetCut;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Cant createCant() {
+		CantImpl cant = new CantImpl();
+		return cant;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public UnknownPositionedObject createUnknownPositionedObject() {
+		UnknownPositionedObjectImpl unknownPositionedObject = new UnknownPositionedObjectImpl();
+		return unknownPositionedObject;
 	}
 
 	/**

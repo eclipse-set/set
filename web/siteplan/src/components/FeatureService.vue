@@ -27,6 +27,8 @@ import ErrorFeature from '@/feature/ErrorFeature'
 import ExternalElementControlFeature from '@/feature/ExternalElementControlFeature'
 import { FeatureLayerType, getFeatureLayer } from '@/feature/FeatureInfo'
 import FMAFeature from '@/feature/FMAFeature'
+import CantFeature from '@/feature/CantFeature'
+import UnknownObjectFeature from '@/feature/UnknownObjectFeature'
 import { ILageplanFeature } from '@/feature/LageplanFeature'
 import LockKeyFeature from '@/feature/LockKeyFeature'
 import PlatformFeature from '@/feature/PlatformFeature'
@@ -327,6 +329,8 @@ export default class FeatureService extends Vue {
     this.listFeature.push(new ExternalElementControlFeature(this.map))
     this.listFeature.push(new LockKeyFeature(this.map))
     this.listFeature.push(new LayoutInfoFeature(this.map))
+    this.listFeature.push(new CantFeature(this.map))
+    this.listFeature.push(new UnknownObjectFeature(this.map))
   }
 
   private modelLoaded (model: SiteplanModel) {

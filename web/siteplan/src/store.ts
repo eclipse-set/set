@@ -58,6 +58,7 @@ export interface State {
   planningObjectGuids: { [key: string]: true, }
   sheetCutCRS: DBRef
   isSheetCutAvaiable: boolean
+  visibleCants: { [key: number]: true, }
 }
 
 export const state: InjectionKey<Store<State>> = Symbol('PlanProState')
@@ -104,7 +105,8 @@ export const store = createStore<State>({
     collisionEnabled: true,
     planningObjectGuids: {},
     sheetCutCRS: DBRef.DR0,
-    isSheetCutAvaiable: false
+    isSheetCutAvaiable: false,
+    visibleCants: {}
   },
   mutations: {
     setpptConfiguration (state, payload: ToolboxConfiguration) {
@@ -200,6 +202,14 @@ export const store = createStore<State>({
     },
     setSheetCutAvaiable (state, payload: boolean) {
       state.isSheetCutAvaiable = payload
+    },
+    setCantVisible (state, cant: number) {
+      state.visibleCants[cant] = true
+      store.commit('refreshMap')
+    },
+    setCantInvisible (state, cant: number) {
+      delete state.visibleCants[cant]
+      store.commit('refreshMap')
     }
   }
 })

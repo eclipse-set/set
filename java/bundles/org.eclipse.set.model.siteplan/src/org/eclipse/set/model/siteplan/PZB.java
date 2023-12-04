@@ -22,14 +22,13 @@ package org.eclipse.set.model.siteplan;
  *   <li>{@link org.eclipse.set.model.siteplan.PZB#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.PZB#isRightSide <em>Right Side</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.PZB#getEffectivity <em>Effectivity</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.PZB#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPZB()
  * @model
  * @generated
  */
-public interface PZB extends RouteObject, SiteplanObject {
+public interface PZB extends RouteObject, PositionedObject {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.PZBType}.
@@ -126,27 +125,5 @@ public interface PZB extends RouteObject, SiteplanObject {
 	 * @generated
 	 */
 	void setEffectivity(PZBEffectivity value);
-
-	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Position</em>' containment reference.
-	 * @see #setPosition(Position)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPZB_Position()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Position getPosition();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.PZB#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
-	 * @see #getPosition()
-	 * @generated
-	 */
-	void setPosition(Position value);
 
 } // PZB

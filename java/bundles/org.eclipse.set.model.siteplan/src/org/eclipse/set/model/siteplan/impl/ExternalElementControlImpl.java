@@ -21,6 +21,7 @@ import org.eclipse.set.model.siteplan.ExternalElementControl;
 import org.eclipse.set.model.siteplan.ExternalElementControlArt;
 import org.eclipse.set.model.siteplan.Label;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
@@ -481,6 +482,12 @@ public class ExternalElementControlImpl extends RouteObjectImpl implements Exter
 				default: return -1;
 			}
 		}
+		if (baseClass == PositionedObject.class) {
+			switch (derivedFeatureID) {
+				case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -494,6 +501,12 @@ public class ExternalElementControlImpl extends RouteObjectImpl implements Exter
 		if (baseClass == SiteplanObject.class) {
 			switch (baseFeatureID) {
 				case SiteplanPackage.SITEPLAN_OBJECT__GUID: return SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__GUID;
+				default: return -1;
+			}
+		}
+		if (baseClass == PositionedObject.class) {
+			switch (baseFeatureID) {
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION;
 				default: return -1;
 			}
 		}

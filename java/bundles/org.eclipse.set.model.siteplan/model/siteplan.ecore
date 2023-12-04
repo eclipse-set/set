@@ -48,9 +48,17 @@
         upperBound="-1" eType="#//ExternalElementControl" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lockkeys" upperBound="-1"
         eType="#//LockKey" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cants" upperBound="-1"
+        eType="#//Cant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unknownObjects" upperBound="-1"
+        eType="#//UnknownPositionedObject" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SiteplanObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PositionedObject" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Coordinate">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
@@ -70,12 +78,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="km" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="route" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SignalMount" eSuperTypes="#//SiteplanObject">
+  <eClassifiers xsi:type="ecore:EClass" name="SignalMount" eSuperTypes="#//PositionedObject #//RouteObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attachedSignals" upperBound="-1"
         eType="#//Signal" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mountType" eType="#//SignalMountType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Signal" eSuperTypes="#//RouteObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -216,13 +222,11 @@
     <eLiterals name="Other" value="6"/>
     <eLiterals name="PassingMainTrack" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FMAComponent" eSuperTypes="#//RouteObject #//SiteplanObject">
+  <eClassifiers xsi:type="ecore:EClass" name="FMAComponent" eSuperTypes="#//RouteObject #//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FMAComponentType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rightSide" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="FMAComponentType">
     <eLiterals name="None"/>
@@ -260,13 +264,11 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PZB" eSuperTypes="#//RouteObject #//SiteplanObject">
+  <eClassifiers xsi:type="ecore:EClass" name="PZB" eSuperTypes="#//RouteObject #//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//PZBType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="element" eType="#//PZBElement"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rightSide" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="effectivity" eType="#//PZBEffectivity"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PZBGU" eSuperTypes="#//SiteplanObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="pzbs" upperBound="-1" eType="#//PZB"
@@ -324,12 +326,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TrackLockComponent">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
-        containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackLockComponent" eSuperTypes="#//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackLockSignal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ejectionDirection" eType="#//LeftRight"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TrackLockLocation">
     <eLiterals name="BesideTrack" literal="BesideTrack"/>
@@ -348,10 +347,8 @@
     <eLiterals name="FORWARD" literal="FORWARD"/>
     <eLiterals name="OPPOSITE" value="1" literal="OPPOSITE"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TrackClose" eSuperTypes="#//SiteplanObject">
+  <eClassifiers xsi:type="ecore:EClass" name="TrackClose" eSuperTypes="#//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="trackCloseType" eType="#//TrackCloseType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
-        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TrackCloseType">
     <eLiterals name="FrictionBufferStop" literal="Bremsprellbock"/>
@@ -364,9 +361,7 @@
     <eLiterals name="InfrastructureBorder" value="7" literal="Infrastrukturgrenze"/>
     <eLiterals name="Other" value="8" literal="sonstige"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExternalElementControl" eSuperTypes="#//RouteObject #//SiteplanObject">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
-        containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalElementControl" eSuperTypes="#//RouteObject #//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlArt" eType="#//ExternalElementControlArt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="elementType" eType="#//ExternalElementControlArt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlStation" eType="#//ControlStationType"/>
@@ -392,9 +387,7 @@
     <eLiterals name="WithoutControl" value="5"/>
     <eLiterals name="OnlyRemoteControl" value="6"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LockKey" eSuperTypes="#//RouteObject #//SiteplanObject">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
-        containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LockKey" eSuperTypes="#//RouteObject #//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//Label"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//LockKeyType"/>
@@ -415,5 +408,16 @@
         eType="#//Coordinate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="polygon" upperBound="-1"
         eType="#//Coordinate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cant" eSuperTypes="#//SiteplanObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pointA" eType="#//PositionedObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pointB" eType="#//PositionedObject"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="form" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnknownPositionedObject" eSuperTypes="#//PositionedObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

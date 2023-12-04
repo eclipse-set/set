@@ -20,6 +20,7 @@ import org.eclipse.set.model.siteplan.FMAComponent;
 import org.eclipse.set.model.siteplan.FMAComponentType;
 import org.eclipse.set.model.siteplan.Label;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
@@ -32,10 +33,10 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getGuid <em>Guid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#isRightSide <em>Right Side</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -60,6 +61,16 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	 * @ordered
 	 */
 	protected String guid = GUID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected Position position;
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
@@ -110,16 +121,6 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	 * @ordered
 	 */
 	protected boolean rightSide = RIGHT_SIDE_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPosition()
-	 * @generated
-	 * @ordered
-	 */
-	protected Position position;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -307,10 +308,10 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SiteplanPackage.FMA_COMPONENT__LABEL:
-				return basicSetLabel(null, msgs);
 			case SiteplanPackage.FMA_COMPONENT__POSITION:
 				return basicSetPosition(null, msgs);
+			case SiteplanPackage.FMA_COMPONENT__LABEL:
+				return basicSetLabel(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -325,14 +326,14 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		switch (featureID) {
 			case SiteplanPackage.FMA_COMPONENT__GUID:
 				return getGuid();
+			case SiteplanPackage.FMA_COMPONENT__POSITION:
+				return getPosition();
 			case SiteplanPackage.FMA_COMPONENT__LABEL:
 				return getLabel();
 			case SiteplanPackage.FMA_COMPONENT__TYPE:
 				return getType();
 			case SiteplanPackage.FMA_COMPONENT__RIGHT_SIDE:
 				return isRightSide();
-			case SiteplanPackage.FMA_COMPONENT__POSITION:
-				return getPosition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -348,6 +349,9 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 			case SiteplanPackage.FMA_COMPONENT__GUID:
 				setGuid((String)newValue);
 				return;
+			case SiteplanPackage.FMA_COMPONENT__POSITION:
+				setPosition((Position)newValue);
+				return;
 			case SiteplanPackage.FMA_COMPONENT__LABEL:
 				setLabel((Label)newValue);
 				return;
@@ -356,9 +360,6 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 				return;
 			case SiteplanPackage.FMA_COMPONENT__RIGHT_SIDE:
 				setRightSide((Boolean)newValue);
-				return;
-			case SiteplanPackage.FMA_COMPONENT__POSITION:
-				setPosition((Position)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -375,6 +376,9 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 			case SiteplanPackage.FMA_COMPONENT__GUID:
 				setGuid(GUID_EDEFAULT);
 				return;
+			case SiteplanPackage.FMA_COMPONENT__POSITION:
+				setPosition((Position)null);
+				return;
 			case SiteplanPackage.FMA_COMPONENT__LABEL:
 				setLabel((Label)null);
 				return;
@@ -383,9 +387,6 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 				return;
 			case SiteplanPackage.FMA_COMPONENT__RIGHT_SIDE:
 				setRightSide(RIGHT_SIDE_EDEFAULT);
-				return;
-			case SiteplanPackage.FMA_COMPONENT__POSITION:
-				setPosition((Position)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -401,14 +402,14 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		switch (featureID) {
 			case SiteplanPackage.FMA_COMPONENT__GUID:
 				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
+			case SiteplanPackage.FMA_COMPONENT__POSITION:
+				return position != null;
 			case SiteplanPackage.FMA_COMPONENT__LABEL:
 				return label != null;
 			case SiteplanPackage.FMA_COMPONENT__TYPE:
 				return type != TYPE_EDEFAULT;
 			case SiteplanPackage.FMA_COMPONENT__RIGHT_SIDE:
 				return rightSide != RIGHT_SIDE_EDEFAULT;
-			case SiteplanPackage.FMA_COMPONENT__POSITION:
-				return position != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -426,6 +427,12 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 				default: return -1;
 			}
 		}
+		if (baseClass == PositionedObject.class) {
+			switch (derivedFeatureID) {
+				case SiteplanPackage.FMA_COMPONENT__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -439,6 +446,12 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		if (baseClass == SiteplanObject.class) {
 			switch (baseFeatureID) {
 				case SiteplanPackage.SITEPLAN_OBJECT__GUID: return SiteplanPackage.FMA_COMPONENT__GUID;
+				default: return -1;
+			}
+		}
+		if (baseClass == PositionedObject.class) {
+			switch (baseFeatureID) {
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.FMA_COMPONENT__POSITION;
 				default: return -1;
 			}
 		}

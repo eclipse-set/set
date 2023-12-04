@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.set.model.siteplan.Cant;
 import org.eclipse.set.model.siteplan.ExternalElementControl;
 import org.eclipse.set.model.siteplan.FMAComponent;
 import org.eclipse.set.model.siteplan.LockKey;
@@ -37,6 +38,7 @@ import org.eclipse.set.model.siteplan.TrackClose;
 import org.eclipse.set.model.siteplan.TrackLock;
 import org.eclipse.set.model.siteplan.TrackSwitch;
 import org.eclipse.set.model.siteplan.TrackSwitchEndMarker;
+import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -60,6 +62,8 @@ import org.eclipse.set.model.siteplan.TrackSwitchEndMarker;
  *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanStateImpl#getTrackClosures <em>Track Closures</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanStateImpl#getExternalElementControls <em>External Element Controls</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanStateImpl#getLockkeys <em>Lockkeys</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanStateImpl#getCants <em>Cants</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanStateImpl#getUnknownObjects <em>Unknown Objects</em>}</li>
  * </ul>
  *
  * @generated
@@ -204,6 +208,26 @@ public class SiteplanStateImpl extends MinimalEObjectImpl.Container implements S
 	 * @ordered
 	 */
 	protected EList<LockKey> lockkeys;
+
+	/**
+	 * The cached value of the '{@link #getCants() <em>Cants</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCants()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Cant> cants;
+
+	/**
+	 * The cached value of the '{@link #getUnknownObjects() <em>Unknown Objects</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUnknownObjects()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<UnknownPositionedObject> unknownObjects;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -412,6 +436,32 @@ public class SiteplanStateImpl extends MinimalEObjectImpl.Container implements S
 	 * @generated
 	 */
 	@Override
+	public EList<Cant> getCants() {
+		if (cants == null) {
+			cants = new EObjectContainmentEList<Cant>(Cant.class, this, SiteplanPackage.SITEPLAN_STATE__CANTS);
+		}
+		return cants;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EList<UnknownPositionedObject> getUnknownObjects() {
+		if (unknownObjects == null) {
+			unknownObjects = new EObjectContainmentEList<UnknownPositionedObject>(UnknownPositionedObject.class, this, SiteplanPackage.SITEPLAN_STATE__UNKNOWN_OBJECTS);
+		}
+		return unknownObjects;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.SITEPLAN_STATE__SIGNALS:
@@ -442,6 +492,10 @@ public class SiteplanStateImpl extends MinimalEObjectImpl.Container implements S
 				return ((InternalEList<?>)getExternalElementControls()).basicRemove(otherEnd, msgs);
 			case SiteplanPackage.SITEPLAN_STATE__LOCKKEYS:
 				return ((InternalEList<?>)getLockkeys()).basicRemove(otherEnd, msgs);
+			case SiteplanPackage.SITEPLAN_STATE__CANTS:
+				return ((InternalEList<?>)getCants()).basicRemove(otherEnd, msgs);
+			case SiteplanPackage.SITEPLAN_STATE__UNKNOWN_OBJECTS:
+				return ((InternalEList<?>)getUnknownObjects()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -482,6 +536,10 @@ public class SiteplanStateImpl extends MinimalEObjectImpl.Container implements S
 				return getExternalElementControls();
 			case SiteplanPackage.SITEPLAN_STATE__LOCKKEYS:
 				return getLockkeys();
+			case SiteplanPackage.SITEPLAN_STATE__CANTS:
+				return getCants();
+			case SiteplanPackage.SITEPLAN_STATE__UNKNOWN_OBJECTS:
+				return getUnknownObjects();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -551,6 +609,14 @@ public class SiteplanStateImpl extends MinimalEObjectImpl.Container implements S
 				getLockkeys().clear();
 				getLockkeys().addAll((Collection<? extends LockKey>)newValue);
 				return;
+			case SiteplanPackage.SITEPLAN_STATE__CANTS:
+				getCants().clear();
+				getCants().addAll((Collection<? extends Cant>)newValue);
+				return;
+			case SiteplanPackage.SITEPLAN_STATE__UNKNOWN_OBJECTS:
+				getUnknownObjects().clear();
+				getUnknownObjects().addAll((Collection<? extends UnknownPositionedObject>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -605,6 +671,12 @@ public class SiteplanStateImpl extends MinimalEObjectImpl.Container implements S
 			case SiteplanPackage.SITEPLAN_STATE__LOCKKEYS:
 				getLockkeys().clear();
 				return;
+			case SiteplanPackage.SITEPLAN_STATE__CANTS:
+				getCants().clear();
+				return;
+			case SiteplanPackage.SITEPLAN_STATE__UNKNOWN_OBJECTS:
+				getUnknownObjects().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -645,6 +717,10 @@ public class SiteplanStateImpl extends MinimalEObjectImpl.Container implements S
 				return externalElementControls != null && !externalElementControls.isEmpty();
 			case SiteplanPackage.SITEPLAN_STATE__LOCKKEYS:
 				return lockkeys != null && !lockkeys.isEmpty();
+			case SiteplanPackage.SITEPLAN_STATE__CANTS:
+				return cants != null && !cants.isEmpty();
+			case SiteplanPackage.SITEPLAN_STATE__UNKNOWN_OBJECTS:
+				return unknownObjects != null && !unknownObjects.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

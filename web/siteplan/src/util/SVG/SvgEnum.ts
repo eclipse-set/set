@@ -36,10 +36,11 @@ export enum AndereSignalGroup {
 export enum OtherSVGCatalog {
   FMAComponent = 'FMAKomponente',
   PZB = 'PZB',
-  TrackLock= 'Gleissperren',
-  TrackClose='Gleisabschuluesse',
-  ExternalElementControl='AEA',
-  LockKey='Schluesselsperren'
+  TrackLock = 'Gleissperren',
+  TrackClose = 'Gleisabschuluesse',
+  ExternalElementControl = 'AEA',
+  LockKey = 'Schluesselsperren',
+  Others = 'Sonstige'
 }
 
 export enum AnchorPoint {

@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.set.model.siteplan.Cant;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.ExternalElementControl;
@@ -28,6 +29,7 @@ import org.eclipse.set.model.siteplan.PZB;
 import org.eclipse.set.model.siteplan.PZBGU;
 import org.eclipse.set.model.siteplan.Platform;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.Route;
 import org.eclipse.set.model.siteplan.RouteLocation;
 import org.eclipse.set.model.siteplan.RouteObject;
@@ -52,6 +54,7 @@ import org.eclipse.set.model.siteplan.TrackSwitch;
 import org.eclipse.set.model.siteplan.TrackSwitchComponent;
 import org.eclipse.set.model.siteplan.TrackSwitchEndMarker;
 import org.eclipse.set.model.siteplan.TrackSwitchLeg;
+import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -120,6 +123,10 @@ public class SiteplanAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseSiteplanObject(SiteplanObject object) {
 				return createSiteplanObjectAdapter();
+			}
+			@Override
+			public Adapter casePositionedObject(PositionedObject object) {
+				return createPositionedObjectAdapter();
 			}
 			@Override
 			public Adapter caseCoordinate(Coordinate object) {
@@ -258,6 +265,14 @@ public class SiteplanAdapterFactory extends AdapterFactoryImpl {
 				return createSheetCutAdapter();
 			}
 			@Override
+			public Adapter caseCant(Cant object) {
+				return createCantAdapter();
+			}
+			@Override
+			public Adapter caseUnknownPositionedObject(UnknownPositionedObject object) {
+				return createUnknownPositionedObjectAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -316,6 +331,20 @@ public class SiteplanAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSiteplanObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.siteplan.PositionedObject <em>Positioned Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.siteplan.PositionedObject
+	 * @generated
+	 */
+	public Adapter createPositionedObjectAdapter() {
 		return null;
 	}
 
@@ -792,6 +821,34 @@ public class SiteplanAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSheetCutAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.siteplan.Cant <em>Cant</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.siteplan.Cant
+	 * @generated
+	 */
+	public Adapter createCantAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.siteplan.UnknownPositionedObject <em>Unknown Positioned Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.siteplan.UnknownPositionedObject
+	 * @generated
+	 */
+	public Adapter createUnknownPositionedObjectAdapter() {
 		return null;
 	}
 

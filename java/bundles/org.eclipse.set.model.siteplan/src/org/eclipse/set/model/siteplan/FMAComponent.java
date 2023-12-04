@@ -21,14 +21,13 @@ package org.eclipse.set.model.siteplan;
  *   <li>{@link org.eclipse.set.model.siteplan.FMAComponent#getLabel <em>Label</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.FMAComponent#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.FMAComponent#isRightSide <em>Right Side</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.FMAComponent#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getFMAComponent()
  * @model
  * @generated
  */
-public interface FMAComponent extends RouteObject, SiteplanObject {
+public interface FMAComponent extends RouteObject, PositionedObject {
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -97,27 +96,5 @@ public interface FMAComponent extends RouteObject, SiteplanObject {
 	 * @generated
 	 */
 	void setRightSide(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Position</em>' containment reference.
-	 * @see #setPosition(Position)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getFMAComponent_Position()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Position getPosition();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.FMAComponent#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
-	 * @see #getPosition()
-	 * @generated
-	 */
-	void setPosition(Position value);
 
 } // FMAComponent

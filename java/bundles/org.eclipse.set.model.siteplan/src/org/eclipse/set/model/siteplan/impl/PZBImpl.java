@@ -21,6 +21,7 @@ import org.eclipse.set.model.siteplan.PZBEffectivity;
 import org.eclipse.set.model.siteplan.PZBElement;
 import org.eclipse.set.model.siteplan.PZBType;
 import org.eclipse.set.model.siteplan.Position;
+import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
@@ -33,11 +34,11 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getGuid <em>Guid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getElement <em>Element</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#isRightSide <em>Right Side</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getEffectivity <em>Effectivity</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -62,6 +63,16 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	 * @ordered
 	 */
 	protected String guid = GUID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPosition()
+	 * @generated
+	 * @ordered
+	 */
+	protected Position position;
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -142,16 +153,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	 * @ordered
 	 */
 	protected PZBEffectivity effectivity = EFFECTIVITY_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPosition()
-	 * @generated
-	 * @ordered
-	 */
-	protected Position position;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -356,6 +357,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		switch (featureID) {
 			case SiteplanPackage.PZB__GUID:
 				return getGuid();
+			case SiteplanPackage.PZB__POSITION:
+				return getPosition();
 			case SiteplanPackage.PZB__TYPE:
 				return getType();
 			case SiteplanPackage.PZB__ELEMENT:
@@ -364,8 +367,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 				return isRightSide();
 			case SiteplanPackage.PZB__EFFECTIVITY:
 				return getEffectivity();
-			case SiteplanPackage.PZB__POSITION:
-				return getPosition();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -381,6 +382,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 			case SiteplanPackage.PZB__GUID:
 				setGuid((String)newValue);
 				return;
+			case SiteplanPackage.PZB__POSITION:
+				setPosition((Position)newValue);
+				return;
 			case SiteplanPackage.PZB__TYPE:
 				setType((PZBType)newValue);
 				return;
@@ -392,9 +396,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 				return;
 			case SiteplanPackage.PZB__EFFECTIVITY:
 				setEffectivity((PZBEffectivity)newValue);
-				return;
-			case SiteplanPackage.PZB__POSITION:
-				setPosition((Position)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -411,6 +412,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 			case SiteplanPackage.PZB__GUID:
 				setGuid(GUID_EDEFAULT);
 				return;
+			case SiteplanPackage.PZB__POSITION:
+				setPosition((Position)null);
+				return;
 			case SiteplanPackage.PZB__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
@@ -422,9 +426,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 				return;
 			case SiteplanPackage.PZB__EFFECTIVITY:
 				setEffectivity(EFFECTIVITY_EDEFAULT);
-				return;
-			case SiteplanPackage.PZB__POSITION:
-				setPosition((Position)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -440,6 +441,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		switch (featureID) {
 			case SiteplanPackage.PZB__GUID:
 				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
+			case SiteplanPackage.PZB__POSITION:
+				return position != null;
 			case SiteplanPackage.PZB__TYPE:
 				return type != TYPE_EDEFAULT;
 			case SiteplanPackage.PZB__ELEMENT:
@@ -448,8 +451,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 				return rightSide != RIGHT_SIDE_EDEFAULT;
 			case SiteplanPackage.PZB__EFFECTIVITY:
 				return effectivity != EFFECTIVITY_EDEFAULT;
-			case SiteplanPackage.PZB__POSITION:
-				return position != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -467,6 +468,12 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 				default: return -1;
 			}
 		}
+		if (baseClass == PositionedObject.class) {
+			switch (derivedFeatureID) {
+				case SiteplanPackage.PZB__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default: return -1;
+			}
+		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
@@ -480,6 +487,12 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		if (baseClass == SiteplanObject.class) {
 			switch (baseFeatureID) {
 				case SiteplanPackage.SITEPLAN_OBJECT__GUID: return SiteplanPackage.PZB__GUID;
+				default: return -1;
+			}
+		}
+		if (baseClass == PositionedObject.class) {
+			switch (baseFeatureID) {
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.PZB__POSITION;
 				default: return -1;
 			}
 		}
