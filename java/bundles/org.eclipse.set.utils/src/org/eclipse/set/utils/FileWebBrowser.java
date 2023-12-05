@@ -176,7 +176,7 @@ public class FileWebBrowser extends WebBrowser implements RequestHandler {
 
 				else {
 					final Path filepath = file.toAbsolutePath();
-					final String contentType = tika.detect(filepath);
+					final String contentType = tika.detect(filepath.toString());
 					serveFile(fileuri, contentType, filepath);
 
 				}
