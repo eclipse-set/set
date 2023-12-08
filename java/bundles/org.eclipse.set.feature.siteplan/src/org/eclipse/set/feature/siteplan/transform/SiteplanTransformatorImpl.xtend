@@ -247,6 +247,7 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 		var startValue = startIt.next
 		var targetValue = targetIt.next
 
+
 		while (true) {
 			val startGuid = keyFunc.apply(startValue)
 			val targetGuid = keyFunc.apply(targetValue)
@@ -254,17 +255,26 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 			if (startGuid > targetGuid) {
 				outList.add(null -> targetValue)
 				if (!startIt.hasNext) {
-					while (targetIt.hasNext)
-						outList.add(null -> targetIt.next)
+					outList.addAll(targetIt.map[null -> it].toList)
 					return outList
 				}
+				
+				if (!targetIt.hasNext) {
+					outList.addAll(startIt.map[it -> null].toList)
+					return outList
+				}
+				
 				targetValue = targetIt.next
 			} else if (startGuid < targetGuid) {
 				outList.add(startValue -> null)
 
 				if (!startIt.hasNext) {
-					while (targetIt.hasNext)
-						outList.add(null -> targetIt.next)
+					outList.addAll(targetIt.map[null -> it].toList)
+					return outList
+				}
+				
+				if (!targetIt.hasNext) {
+					outList.addAll(startIt.map[it -> null].toList)
 					return outList
 				}
 				startValue = startIt.next
@@ -272,14 +282,12 @@ class SiteplanTransformatorImpl implements SiteplanTransformator {
 				// startGuid === targetGuid
 				outList.add(startValue -> targetValue)
 				if (!startIt.hasNext) {
-					while (targetIt.hasNext)
-						outList.add(null -> targetIt.next)
+					outList.addAll(targetIt.map[null -> it].toList)
 					return outList
 				}
-
+				
 				if (!targetIt.hasNext) {
-					while (startIt.hasNext)
-						outList.add(startIt.next -> null)
+					outList.addAll(startIt.map[it -> null].toList)
 					return outList
 				}
 
