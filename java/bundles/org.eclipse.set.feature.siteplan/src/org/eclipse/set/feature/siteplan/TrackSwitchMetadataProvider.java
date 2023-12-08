@@ -74,27 +74,37 @@ public class TrackSwitchMetadataProvider {
 			}
 		}
 
+		final String designWithComma = design.replace(".", ","); //$NON-NLS-1$ //$NON-NLS-2$
+		TrackSwitchMetadata result = getTrackSwitchMetadata(md,
+				designWithComma);
+		if (result != null) {
+			return result;
+		}
+
 		// In some planning data, there are additional spaces
 		// around the W_Kr_Grundform entries. Attempt to match
 		// without them
-		final String designNoWhitespace = design.replace(" ", ""); //$NON-NLS-1$ //$NON-NLS-2$
-		for (final TrackSwitchMetadata entry : md) {
-			if (designNoWhitespace
-					.equals(entry.getDesignString().replace(" ", ""))) { //$NON-NLS-1$ //$NON-NLS-2$
-				return entry;
-			}
+		final String designNoWhitespace = designWithComma.replace(" ", ""); //$NON-NLS-1$ //$NON-NLS-2$
+		result = getTrackSwitchMetadata(md, designNoWhitespace);
+		if (result != null) {
+			return result;
 		}
-
 		// In some planning data, the type prefix is missing
 		// for the W_Kr_Grundform entries. Add it and attempt to match again
 		final String designWithPrefix = type.toString() + designNoWhitespace;
+		result = getTrackSwitchMetadata(md, designWithPrefix);
+
+		return result;
+	}
+
+	private static TrackSwitchMetadata getTrackSwitchMetadata(
+			final List<TrackSwitchMetadata> md, final String speziellDesign) {
 		for (final TrackSwitchMetadata entry : md) {
-			if (designWithPrefix
-					.equals(entry.getDesignString().replace(" ", ""))) { //$NON-NLS-1$ //$NON-NLS-2$
+			if (speziellDesign
+					.equals(entry.getDesignString().replaceAll(" |\"", ""))) { //$NON-NLS-1$ //$NON-NLS-2$
 				return entry;
 			}
 		}
-
 		return null;
 	}
 

@@ -45,7 +45,8 @@ public class TrackSwitchMetadata {
 	 */
 	public static TrackSwitchMetadata fromCSVLine(final String line) {
 		final TrackSwitchMetadata entry = new TrackSwitchMetadata();
-		final String[] columns = line.split(","); //$NON-NLS-1$
+		final String[] columns = line
+				.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"); //$NON-NLS-1$
 		if (columns.length < COLUMN_LENGTH_SIDE + 1) {
 			return null;
 		}
