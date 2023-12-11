@@ -248,7 +248,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					PZBElementZuordnungFstr.map [
 						val wirksamKeit = wirksamkeitFstr?.wert?.translate
 						val fstrZugRangier = IDFstrZugRangier.
-							getZugFstrBezeichnung([art|isZ(art)])
+							fstrZugRangierBezeichnung
 						return '''«wirksamKeit» «fstrZugRangier»'''
 					]
 				],
@@ -570,8 +570,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
-			: object?.bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
+			bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
@@ -587,9 +587,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(topGraph, pzb, signal).min)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0
-				? distance.toString
-				: '''«directionSign»«distance.toString»'''
+			return distance == 0 ? distance.
+				toString : '''«directionSign»«distance.toString»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
