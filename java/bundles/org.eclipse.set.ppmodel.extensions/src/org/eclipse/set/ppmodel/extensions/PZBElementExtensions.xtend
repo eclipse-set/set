@@ -45,13 +45,13 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	}
 
 	def static List<Basis_Objekt> getPZBElementBezugspunkt(PZB_Element pzb) {
-		return pzb.IDPZBElementZuordnung?.PZBElementZuordnungBP.map [
+		return pzb.IDPZBElementZuordnung?.PZBElementZuordnungBP?.map [
 			IDPZBElementBezugspunkt
 		]
 	}
 
 	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb) {
-		val bezugspunkts = pzb.PZBElementBezugspunkt.filter(Signal)
+		val bezugspunkts = pzb.PZBElementBezugspunkt?.filter(Signal)
 		val fstrFahrwegs = pzb.container.fstrFahrweg.filter [ fstrFarhweg |
 			bezugspunkts.exists[it === fstrFarhweg.IDStart]
 		]

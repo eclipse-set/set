@@ -329,7 +329,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 		)
 
-		if (pzb.PZBElementZuordnungBP.exists [
+		if (pzb.PZBElementZuordnungBP !== null && pzb.PZBElementZuordnungBP.exists [
 			PZBElementZuordnungINA !== null
 		] && (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
 			pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ)) {
