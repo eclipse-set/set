@@ -23,6 +23,7 @@ import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Nichthaltfall
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
+import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Art_TypeClass
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
@@ -41,6 +42,7 @@ import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueEinschaltungZuordnungExtension.*
 import static extension org.eclipse.set.ppmodel.extensions.BueGleisbezogenerGefahrraumExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrSignalisierungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
@@ -48,10 +50,8 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Art_TypeClass
 
 /**
  * This class extends {@link Fstr_Zug_Rangier}.
@@ -229,6 +229,37 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	) {
 		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.toSet
 	}
+	
+	def static <T> String getFstrZugRangierBezeichnung(Fstr_Zug_Rangier fstrZugRangier) {
+		if (fstrZugRangier?.fstrZug !== null) {
+			return fstrZugRangier.getZugFstrBezeichnung[isZ]
+		}
+		
+		if (fstrZugRangier?.fstrRangier !== null) {
+			return fstrZugRangier.getRangierFstrBezeichnung[isR]
+		}
+		return null
+	}
+	
+	def static String getRangierFstrBezeichnung(
+		Fstr_Zug_Rangier fstrZugRangier,
+		(Fstr_Zug_Rangier)=>boolean condition) {
+		if (!condition.apply(fstrZugRangier)) {
+			return null
+		}
+		val fstrFahrwegStartSignalBezeichnung = fstrZugRangier.fstrFahrweg?.
+			start?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
+		val fstrFahrwegZielSignalBezeichnung = fstrZugRangier.fstrFahrweg?.
+			zielSignal?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
+		val fstrReihenfolge = fstrZugRangier?.fstrZugRangierAllg?.
+			fstrReihenfolge?.wert.compareTo(BigInteger.ZERO)
+		if (fstrReihenfolge === 0) {
+			return '''«fstrFahrwegStartSignalBezeichnung»/«fstrFahrwegZielSignalBezeichnung»'''
+		}
+		if (fstrReihenfolge > 0) {
+			return '''«fstrFahrwegStartSignalBezeichnung»/«fstrFahrwegZielSignalBezeichnung» [U«fstrZugRangier.fstrZugRangierAllg.fstrReihenfolge.wert.toString»]'''
+		}
+	}
 
 	def static String getZugFstrBezeichnung(Fstr_Zug_Rangier fstrZugRangier,
 		(Fstr_Zug_Art_TypeClass)=>boolean condition) {
@@ -325,6 +356,11 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	) {
 		val lit = typeClazz?.wert?.literal
 		return lit !== null && lit.matches("Z.*")
+	}
+	
+	def static boolean isR(Fstr_Zug_Rangier fstrZugRangier) {
+		return fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.literal?.
+			substring(0, 1) == "R"
 	}
 
 	private def static dispatch int getVmax(Object object, Fstr_Fahrweg fw) {

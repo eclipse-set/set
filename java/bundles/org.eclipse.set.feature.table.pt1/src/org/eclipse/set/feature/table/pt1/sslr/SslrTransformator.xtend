@@ -57,7 +57,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
-		container.fstrZugRangier.filter[generalbedingung].forEach [ it |
+		container.fstrZugRangier.filter[isR].forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}
@@ -75,27 +75,10 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		val row = it
 
 		// A: Sslr.Grundsatzangaben.Bezeichnung
-		fillSwitch(
+		fill(
 			cols.getColumn(Bezeichnung),
 			fstrZugRangier,
-			new Case<Fstr_Zug_Rangier>(
-				[
-					fstrZugRangierAllg?.fstrReihenfolge?.wert.compareTo(
-						BigInteger.ZERO) == 0
-				],
-				[
-					'''«fstrFahrwegStartSignalBezeichnung»/«fstrFahrwegZielSignalBezeichnung»'''
-				]
-			),
-			new Case<Fstr_Zug_Rangier>(
-				[
-					fstrZugRangierAllg?.fstrReihenfolge?.wert.compareTo(
-						BigInteger.ZERO) > 0
-				],
-				[
-					'''«fstrFahrwegStartSignalBezeichnung»/«fstrFahrwegZielSignalBezeichnung» [U«fstrZugRangierAllg.fstrReihenfolge.wert.toString»]'''
-				]
-			)
+			[getRangierFstrBezeichnung[isR]]
 		)
 
 		// B: Sslr.Grundsatzangaben.Fahrweg.Start
@@ -199,8 +182,10 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 					return null
 				switch (gegenfahrtausschluss) {
 					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI: return "Inselgleis frei"
-					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA: return true.translate
-					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_NEIN: return false.translate
+					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA: return true.
+						translate
+					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_NEIN: return false.
+						translate
 				}
 			]
 		)
@@ -272,8 +257,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Aufloes_Fstr),
 			fstrZugRangier,
 			[
-				fstrFahrweg?.zielSignal?.signalFstr?.rangierstrasseRestaufloesung?.
-					wert?.translate
+				fstrFahrweg?.zielSignal?.signalFstr?.
+					rangierstrasseRestaufloesung?.wert?.translate
 			]
 		)
 
@@ -290,19 +275,20 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 					toString.trim
 			]
 		)
-		
+
 		val bedAnzeigeElemente = fstrZugRangier.fstrFahrweg?.abhaengigkeiten?.
 			map [
 				bedienAnzeigeElement
 			]?.filterNull ?: Collections.emptyList
 
-		val besondersRangierFstrs = fstrZugRangier.IDFstrAusschlussBesonders?.filter[
-			generalbedingung
-		]?.filterNull ?: Collections.emptyList
-		
-		val zugFstrs = fstrZugRangier.IDFstrAusschlussBesonders?.filter[
-			fstrZugRangier?.fstrRangier.fstrRangierArt.wert?.
-								literal?.substring(0, 1) == "Z"
+		val besondersRangierFstrs = fstrZugRangier.IDFstrAusschlussBesonders?.
+			filter [
+				isR
+			]?.filterNull ?: Collections.emptyList
+
+		val zugFstrs = fstrZugRangier.IDFstrAusschlussBesonders?.filter [
+			fstrZugRangier?.fstrRangier.fstrRangierArt.wert?.literal?.
+				substring(0, 1) == "Z"
 		]?.filterNull ?: Collections.emptyList
 		fillSwitch(
 			cols.getColumn(Bemerkung),
@@ -337,17 +323,13 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					!zugFstrs.empty
 				],
-				[ zugRangier|
-					val footnotes = footnoteTransformation.transform(zugRangier, row)
-					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr.getZugFstrBezeichnung([isZOrGz(it)])»«ENDFOR» «footnotes»'''
+				[ zugRangier |
+					val footnotes = footnoteTransformation.transform(zugRangier,
+						row)
+					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr.fstrZugRangierBezeichnung»«ENDFOR» «footnotes»'''
 				]
 			)
 		)
 		return
-	}
-
-	private def boolean getGeneralbedingung(Fstr_Zug_Rangier fstrZugRangier) {
-		return fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.literal?.
-			substring(0, 1) == "R"
 	}
 }
