@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.set.model.siteplan.Cant;
+import org.eclipse.set.model.siteplan.CantPoint;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.ControlStationType;
 import org.eclipse.set.model.siteplan.Coordinate;
@@ -160,6 +161,7 @@ public class SiteplanFactoryImpl extends EFactoryImpl implements SiteplanFactory
 			case SiteplanPackage.LAYOUTINFO: return createLayoutinfo();
 			case SiteplanPackage.SHEET_CUT: return createSheetCut();
 			case SiteplanPackage.CANT: return createCant();
+			case SiteplanPackage.CANT_POINT: return createCantPoint();
 			case SiteplanPackage.UNKNOWN_POSITIONED_OBJECT: return createUnknownPositionedObject();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -691,6 +693,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl implements SiteplanFactory
 	public Cant createCant() {
 		CantImpl cant = new CantImpl();
 		return cant;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public CantPoint createCantPoint() {
+		CantPointImpl cantPoint = new CantPointImpl();
+		return cantPoint;
 	}
 
 	/**

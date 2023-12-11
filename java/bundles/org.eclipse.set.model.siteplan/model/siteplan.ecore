@@ -410,12 +410,15 @@
         eType="#//Coordinate" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Cant" eSuperTypes="#//SiteplanObject">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pointA" eType="#//PositionedObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pointA" eType="#//CantPoint"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pointB" eType="#//PositionedObject"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pointB" eType="#//CantPoint"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="form" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="length" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CantPoint" eSuperTypes="#//PositionedObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnknownPositionedObject" eSuperTypes="#//PositionedObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

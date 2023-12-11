@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.set.model.siteplan.Cant;
+import org.eclipse.set.model.siteplan.CantPoint;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.ControlStationType;
 import org.eclipse.set.model.siteplan.Coordinate;
@@ -353,6 +354,13 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	private EClass cantEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cantPointEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2183,6 +2191,26 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
+	public EClass getCantPoint() {
+		return cantPointEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCantPoint_Height() {
+		return (EAttribute)cantPointEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getUnknownPositionedObject() {
 		return unknownPositionedObjectEClass;
 	}
@@ -2608,6 +2636,9 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		createEAttribute(cantEClass, CANT__FORM);
 		createEAttribute(cantEClass, CANT__LENGTH);
 
+		cantPointEClass = createEClass(CANT_POINT);
+		createEAttribute(cantPointEClass, CANT_POINT__HEIGHT);
+
 		unknownPositionedObjectEClass = createEClass(UNKNOWN_POSITIONED_OBJECT);
 		createEAttribute(unknownPositionedObjectEClass, UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE);
 
@@ -2685,6 +2716,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		layoutinfoEClass.getESuperTypes().add(this.getSiteplanObject());
 		sheetCutEClass.getESuperTypes().add(this.getSiteplanObject());
 		cantEClass.getESuperTypes().add(this.getSiteplanObject());
+		cantPointEClass.getESuperTypes().add(this.getPositionedObject());
 		unknownPositionedObjectEClass.getESuperTypes().add(this.getPositionedObject());
 
 		// Initialize classes, features, and operations; add parameters
@@ -2885,10 +2917,13 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEReference(getSheetCut_Polygon(), this.getCoordinate(), null, "polygon", null, 0, -1, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(cantEClass, Cant.class, "Cant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCant_PointA(), this.getPositionedObject(), null, "pointA", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCant_PointB(), this.getPositionedObject(), null, "pointB", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCant_PointA(), this.getCantPoint(), null, "pointA", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCant_PointB(), this.getCantPoint(), null, "pointB", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCant_Form(), ecorePackage.getEString(), "form", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCant_Length(), ecorePackage.getEDouble(), "length", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(cantPointEClass, CantPoint.class, "CantPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCantPoint_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, CantPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unknownPositionedObjectEClass, UnknownPositionedObject.class, "UnknownPositionedObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUnknownPositionedObject_ObjectType(), ecorePackage.getEString(), "objectType", null, 0, 1, UnknownPositionedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

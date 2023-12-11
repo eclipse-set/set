@@ -30,6 +30,7 @@ import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import java.util.Set
 import java.util.Map
 import org.apache.commons.text.StringSubstitutor
+import org.eclipse.set.model.validationreport.ValidationSeverity
 
 /**
  * Validates that Object isn't  planning- und consideration- region same time

@@ -28,6 +28,7 @@ import ExternalElementControlFeature from '@/feature/ExternalElementControlFeatu
 import { FeatureLayerType, getFeatureLayer } from '@/feature/FeatureInfo'
 import FMAFeature from '@/feature/FMAFeature'
 import CantFeature from '@/feature/CantFeature'
+import CantLineFeature from '@/feature/CantLineFeature'
 import UnknownObjectFeature from '@/feature/UnknownObjectFeature'
 import { ILageplanFeature } from '@/feature/LageplanFeature'
 import LockKeyFeature from '@/feature/LockKeyFeature'
@@ -330,6 +331,7 @@ export default class FeatureService extends Vue {
     this.listFeature.push(new LockKeyFeature(this.map))
     this.listFeature.push(new LayoutInfoFeature(this.map))
     this.listFeature.push(new CantFeature(this.map))
+    this.listFeature.push(new CantLineFeature(this.map))
     this.listFeature.push(new UnknownObjectFeature(this.map))
   }
 

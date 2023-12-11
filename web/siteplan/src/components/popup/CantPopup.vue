@@ -8,19 +8,21 @@
  -->
 <template>
   <div>
-    <h2>Überhöhung {{ cant.number }}</h2>
+    <h2>Überhöhungspunkt {{ cant.guid }}</h2>
     <ul>
       <li>GUID: {{ cant.guid }}</li>
-      <li>Form: {{ cant.form }}</li>
-      <li>Länge: {{ cant.length }}</li>
-      <li>
-        Überhöhungslinie anzeigen: <input
+      <li>Höhe: {{ cant.height }}</li>
+      <li
+        v-for="line in cantLines"
+        :key="line.guid"
+      >
+        Überhöhungslinie {{ line.guid }} anzeigen: <input
           id="checkbox"
-          v-model="checked"
+          :checked="checked(line)"
           type="checkbox"
-          @change="showCantLine"
+          @change="(event) => showCantLine(line, event)"
         >
-        <label for="checkbox">{{ checked }}</label>
+        <label for="checkbox">{{ checked(line) ? "Ja" : "Nein" }}</label>
       </li>
     </ul>
   </div>
@@ -33,24 +35,37 @@ import { Feature } from 'ol'
 import { Geometry } from 'ol/geom'
 
 import { store } from '@/store'
+import { Cant, CantPoint } from '@/model/Cant'
 
 const props = defineProps<{
   feature: Feature<Geometry>
 }>()
 
-const cant = computed(() => {
+const cant = computed<CantPoint>(() => {
   return getFeatureData(props.feature)
 })
 
-const checked = computed(() => {
-  return store.state.visibleCants[cant.value.number] ?? false
+const cantLines = computed(() => {
+  const cantFeature = getFeatureData(props.feature)
+  console.log(cantFeature)
+  if (!('cants' in cantFeature)) {
+    console.log('no lines')
+    return []
+  } else {
+    return cantFeature.cants
+  }
 })
 
-const showCantLine = (event: any) => {
+const checked = (line: Cant) => {
+  return store.state.visibleCants[line.guid] ?? false
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const showCantLine = (line: Cant, event: any) => {
   if (event.target.checked) {
-    store.commit('setCantVisible', cant.value.number)
+    store.commit('setCantVisible', line.guid)
   } else {
-    store.commit('setCantInvisible', cant.value.number)
+    store.commit('setCantInvisible', line.guid)
   }
 }
 

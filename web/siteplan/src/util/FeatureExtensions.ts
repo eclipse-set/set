@@ -19,6 +19,7 @@ import { Feature as GeoJSONFeature, FeatureCollection, GeometryCollection as Geo
 import LineString from 'ol/geom/LineString'
 import { SheetCutFeatureData } from '@/feature/LayoutInfoFeature'
 import TrackClose from '@/model/TrackClose'
+import { CantPoint } from '@/model/Cant'
 
 export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
   const name = getFeatureType(feature)
@@ -63,6 +64,12 @@ export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
     case FeatureType.TrackClose:
       const trackClose = getFeatureData(feature) as TrackClose
       return trackClose ? [trackClose.guid] : []
+    case FeatureType.Cant:
+      const cant = getFeatureData(feature) as CantPoint
+      return cant ? [cant.guid] : []
+    case FeatureType.CantLine:
+      const cantLine = getFeatureData(feature) as Cant
+      return cantLine ? [cantLine.guid] : []
     default:
       return []
   }

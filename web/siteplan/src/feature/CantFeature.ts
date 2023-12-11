@@ -14,11 +14,7 @@ import { ISvgElement } from '@/model/SvgElement'
 import Geometry from 'ol/geom/Geometry'
 import OlPoint from 'ol/geom/Point'
 import { createFeature, FeatureType } from './FeatureInfo'
-import { Cant } from '@/model/Cant'
-import PositionedObject from '@/model/PositionedObject'
-import { LineString } from 'ol/geom'
-import { Style, Stroke } from 'ol/style'
-import { store } from '@/store'
+import { Cant, CantPoint } from '@/model/Cant'
 import { Feature } from 'ol'
 
 /**
@@ -36,71 +32,54 @@ export default class CantFeature extends LageplanFeature<Cant> {
     )
   }
 
+  private ensureCantsSetExists (cant: CantPoint) {
+    if (!('cants' in cant)) {
+      (cant as CantPoint).cants = new Set()
+    }
+  }
+
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
-    return this.getObjectsModel(model).flatMap((element, index) => this.createCantFeature(element, index))
-  }
+    const cantLines = this.getObjectsModel(model)
+    const cantPoints = new Set<CantPoint>()
 
-  private createCantFeature (cant: Cant, index: number): Feature<Geometry>[] {
-    cant.number = index
-    return [
-      this.createCantLineFeature(cant),
-      this.createCantPointFeature(cant, cant.pointA),
-      this.createCantPointFeature(cant, cant.pointB)
-    ]
-  }
+    cantLines.forEach(line => {
+      this.ensureCantsSetExists(line.pointB)
 
-  private createCantLineFeature (cant: Cant): Feature<Geometry> {
-    const coords = [
-      [
-        cant.pointA.position.x,
-        cant.pointA.position.y
-      ],[
-        cant.pointB.position.x,
-        cant.pointB.position.y
-      ]
-    ]
-
-    const feature =  createFeature(
-      FeatureType.Cant,
-      cant,
-      new LineString(coords),
-      cant.number.toString()
-    )
-
-    // Use golden angle to determine a pseudorandom color
-    const color = `hsl(${cant.number * 137.508},100%,65%)`
-
-    feature.setStyle((_, resolution) => {
-      if (store.state.visibleCants[cant.number]) {
-        const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
-        const scale = baseResolution / resolution
-        return new Style({
-          stroke: new Stroke({
-            width: 5 * scale,
-            color: color
-          })
-        })
+      let existingPointA = [...cantPoints].find(cp => cp.guid === line.pointA.guid)
+      if (!existingPointA) {
+        this.ensureCantsSetExists(line.pointA)
+        cantPoints.add(line.pointA)
+        existingPointA = line.pointA
       }
 
-      return []
+      existingPointA.cants.add(line)
+
+      let existingPointB = [...cantPoints].find(cp => cp.guid === line.pointB.guid)
+      if (!existingPointB) {
+        this.ensureCantsSetExists(line.pointB)
+        cantPoints.add(line.pointB)
+        existingPointB = line.pointB
+      }
+
+      existingPointB.cants.add(line)
     })
 
-    return feature
+    return [...cantPoints].map(element => this.createCantFeature(element))
   }
 
-  private createCantPointFeature (cant: Cant, cantPoint: PositionedObject): Feature<Geometry> {
+  private createCantFeature (cantPoint: CantPoint): Feature<Geometry> {
     const feature = createFeature(
       FeatureType.Cant,
-      cant,
+      cantPoint,
       new OlPoint([cantPoint.position.x, cantPoint.position.y]),
-      cant.number.toString()
+      cantPoint.guid
     )
 
     feature.setStyle((_, resolution) => {
       const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
       const scale = baseResolution / resolution
 
-      // Determine style for the FMAComponent
+      // Determine style for the Cant
       const style = this.svgService.getFeatureStyle(cantPoint, FeatureType.Cant)
 
       // Rescale the feature according to the current zoom level
