@@ -87,6 +87,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 			)
 			err.type = "Planungs-/Betrachtungsbereich"
 			err.object = object
+			err.severity = ValidationSeverity.WARNING
 			return err
 		]
 
