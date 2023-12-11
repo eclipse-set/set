@@ -36,6 +36,7 @@ export enum FeatureType {
   LockKey,
   SheetCut,
   Cant,
+  CantLine,
   Unknown
 }
 
@@ -95,6 +96,7 @@ export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
     case FeatureType.SheetCut:
       return FeatureLayerType.SheetCut
     case FeatureType.Cant:
+    case FeatureType.CantLine:
       return FeatureLayerType.Cant
     case FeatureType.Unknown:
       return FeatureLayerType.Unknown
@@ -172,7 +174,9 @@ export function getFeatureName (type: FeatureType): string {
     case FeatureType.SheetCut:
       return 'Blattschnitte'
     case FeatureType.Cant:
-      return 'Überhöhung'
+      return 'Überhöhungspunkt'
+    case FeatureType.CantLine:
+      return 'Überhöhungslinie'
     case FeatureType.Unknown:
       return 'Unbekannt'
     default:

@@ -107,6 +107,7 @@ export default class SvgCatalogService {
       case FeatureType.LockKey:
         return this.lockKeyCatalog.getLockKeySvg(object as LockKey)
       case FeatureType.Cant:
+      case FeatureType.CantLine:
         return this.cantCatalog.getCantSvg()
       case FeatureType.Unknown:
         return this.othersCatalog.getUnknownSvg(object as UnknownObject)

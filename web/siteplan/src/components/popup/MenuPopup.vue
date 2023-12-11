@@ -52,6 +52,7 @@ import TrackSectionPopup from '@/components/popup/TrackSectionPopup.vue'
 import TrackSwitchPopup from '@/components/popup/TrackSwitchPopup.vue'
 import UnknownPopup from '@/components/popup/UnknownPopup.vue'
 import CantPopup from '@/components/popup/CantPopup.vue'
+import CantLinePopup from '@/components/popup/CantLinePopup.vue'
 import {
   FeatureType, getFeatureLabel,
   getFeatureName,
@@ -85,6 +86,7 @@ import { Options, Vue } from 'vue-class-component'
     EECPopup,
     JumpMenuPopup,
     CantPopup,
+    CantLinePopup,
     UnknownPopup
   },
   computed: {
@@ -118,6 +120,8 @@ import { Options, Vue } from 'vue-class-component'
             return EECPopup
           case FeatureType.Cant:
             return CantPopup
+          case FeatureType.CantLine:
+            return CantLinePopup
           case FeatureType.Unknown:
             return UnknownPopup
           default:

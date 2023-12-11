@@ -2569,6 +2569,61 @@ public interface SiteplanPackage extends EPackage {
 	int CANT_OPERATION_COUNT = SITEPLAN_OBJECT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.CantPointImpl <em>Cant Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.siteplan.impl.CantPointImpl
+	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getCantPoint()
+	 * @generated
+	 */
+	int CANT_POINT = 39;
+
+	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT_POINT__GUID = POSITIONED_OBJECT__GUID;
+
+	/**
+	 * The feature id for the '<em><b>Position</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT_POINT__POSITION = POSITIONED_OBJECT__POSITION;
+
+	/**
+	 * The feature id for the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT_POINT__HEIGHT = POSITIONED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Cant Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT_POINT_FEATURE_COUNT = POSITIONED_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Cant Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANT_POINT_OPERATION_COUNT = POSITIONED_OBJECT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl <em>Unknown Positioned Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2576,7 +2631,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getUnknownPositionedObject()
 	 * @generated
 	 */
-	int UNKNOWN_POSITIONED_OBJECT = 39;
+	int UNKNOWN_POSITIONED_OBJECT = 40;
 
 	/**
 	 * The feature id for the '<em><b>Guid</b></em>' attribute.
@@ -2631,7 +2686,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalMountType()
 	 * @generated
 	 */
-	int SIGNAL_MOUNT_TYPE = 40;
+	int SIGNAL_MOUNT_TYPE = 41;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.SignalRole <em>Signal Role</em>}' enum.
@@ -2641,7 +2696,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalRole()
 	 * @generated
 	 */
-	int SIGNAL_ROLE = 41;
+	int SIGNAL_ROLE = 42;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.SignalSystem <em>Signal System</em>}' enum.
@@ -2651,7 +2706,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getSignalSystem()
 	 * @generated
 	 */
-	int SIGNAL_SYSTEM = 42;
+	int SIGNAL_SYSTEM = 43;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.MountDirection <em>Mount Direction</em>}' enum.
@@ -2661,7 +2716,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getMountDirection()
 	 * @generated
 	 */
-	int MOUNT_DIRECTION = 43;
+	int MOUNT_DIRECTION = 44;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TurnoutOperatingMode <em>Turnout Operating Mode</em>}' enum.
@@ -2671,7 +2726,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTurnoutOperatingMode()
 	 * @generated
 	 */
-	int TURNOUT_OPERATING_MODE = 44;
+	int TURNOUT_OPERATING_MODE = 45;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackShape <em>Track Shape</em>}' enum.
@@ -2681,7 +2736,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackShape()
 	 * @generated
 	 */
-	int TRACK_SHAPE = 45;
+	int TRACK_SHAPE = 46;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackType <em>Track Type</em>}' enum.
@@ -2691,7 +2746,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackType()
 	 * @generated
 	 */
-	int TRACK_TYPE = 46;
+	int TRACK_TYPE = 47;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.FMAComponentType <em>FMA Component Type</em>}' enum.
@@ -2701,7 +2756,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getFMAComponentType()
 	 * @generated
 	 */
-	int FMA_COMPONENT_TYPE = 47;
+	int FMA_COMPONENT_TYPE = 48;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.PZBType <em>PZB Type</em>}' enum.
@@ -2711,7 +2766,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZBType()
 	 * @generated
 	 */
-	int PZB_TYPE = 48;
+	int PZB_TYPE = 49;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.PZBElement <em>PZB Element</em>}' enum.
@@ -2721,7 +2776,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZBElement()
 	 * @generated
 	 */
-	int PZB_ELEMENT = 49;
+	int PZB_ELEMENT = 50;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.PZBEffectivity <em>PZB Effectivity</em>}' enum.
@@ -2731,7 +2786,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getPZBEffectivity()
 	 * @generated
 	 */
-	int PZB_EFFECTIVITY = 50;
+	int PZB_EFFECTIVITY = 51;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackLockLocation <em>Track Lock Location</em>}' enum.
@@ -2741,7 +2796,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackLockLocation()
 	 * @generated
 	 */
-	int TRACK_LOCK_LOCATION = 51;
+	int TRACK_LOCK_LOCATION = 52;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.LeftRight <em>Left Right</em>}' enum.
@@ -2751,7 +2806,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getLeftRight()
 	 * @generated
 	 */
-	int LEFT_RIGHT = 52;
+	int LEFT_RIGHT = 53;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.Direction <em>Direction</em>}' enum.
@@ -2761,7 +2816,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getDirection()
 	 * @generated
 	 */
-	int DIRECTION = 53;
+	int DIRECTION = 54;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.TrackCloseType <em>Track Close Type</em>}' enum.
@@ -2771,7 +2826,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getTrackCloseType()
 	 * @generated
 	 */
-	int TRACK_CLOSE_TYPE = 54;
+	int TRACK_CLOSE_TYPE = 55;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.ExternalElementControlArt <em>External Element Control Art</em>}' enum.
@@ -2781,7 +2836,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getExternalElementControlArt()
 	 * @generated
 	 */
-	int EXTERNAL_ELEMENT_CONTROL_ART = 55;
+	int EXTERNAL_ELEMENT_CONTROL_ART = 56;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.ControlStationType <em>Control Station Type</em>}' enum.
@@ -2791,7 +2846,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getControlStationType()
 	 * @generated
 	 */
-	int CONTROL_STATION_TYPE = 56;
+	int CONTROL_STATION_TYPE = 57;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.LockKeyType <em>Lock Key Type</em>}' enum.
@@ -2801,7 +2856,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getLockKeyType()
 	 * @generated
 	 */
-	int LOCK_KEY_TYPE = 57;
+	int LOCK_KEY_TYPE = 58;
 
 
 	/**
@@ -4559,6 +4614,27 @@ public interface SiteplanPackage extends EPackage {
 	EAttribute getCant_Length();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.CantPoint <em>Cant Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cant Point</em>'.
+	 * @see org.eclipse.set.model.siteplan.CantPoint
+	 * @generated
+	 */
+	EClass getCantPoint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.CantPoint#getHeight <em>Height</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Height</em>'.
+	 * @see org.eclipse.set.model.siteplan.CantPoint#getHeight()
+	 * @see #getCantPoint()
+	 * @generated
+	 */
+	EAttribute getCantPoint_Height();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.siteplan.UnknownPositionedObject <em>Unknown Positioned Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6163,6 +6239,24 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CANT__LENGTH = eINSTANCE.getCant_Length();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.CantPointImpl <em>Cant Point</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.siteplan.impl.CantPointImpl
+		 * @see org.eclipse.set.model.siteplan.impl.SiteplanPackageImpl#getCantPoint()
+		 * @generated
+		 */
+		EClass CANT_POINT = eINSTANCE.getCantPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CANT_POINT__HEIGHT = eINSTANCE.getCantPoint_Height();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl <em>Unknown Positioned Object</em>}' class.

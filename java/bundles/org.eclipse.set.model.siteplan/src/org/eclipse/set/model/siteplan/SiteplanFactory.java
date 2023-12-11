@@ -379,6 +379,15 @@ public interface SiteplanFactory extends EFactory {
 	Cant createCant();
 
 	/**
+	 * Returns a new object of class '<em>Cant Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cant Point</em>'.
+	 * @generated
+	 */
+	CantPoint createCantPoint();
+
+	/**
 	 * Returns a new object of class '<em>Unknown Positioned Object</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

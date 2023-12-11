@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import org.eclipse.set.model.siteplan.Cant;
+import org.eclipse.set.model.siteplan.CantPoint;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.ExternalElementControl;
@@ -374,6 +375,14 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				Cant cant = (Cant)theEObject;
 				T result = caseCant(cant);
 				if (result == null) result = caseSiteplanObject(cant);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SiteplanPackage.CANT_POINT: {
+				CantPoint cantPoint = (CantPoint)theEObject;
+				T result = caseCantPoint(cantPoint);
+				if (result == null) result = casePositionedObject(cantPoint);
+				if (result == null) result = caseSiteplanObject(cantPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -971,6 +980,21 @@ public class SiteplanSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCant(Cant object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cant Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cant Point</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCantPoint(CantPoint object) {
 		return null;
 	}
 

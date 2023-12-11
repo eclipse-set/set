@@ -360,6 +360,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Cant/form"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Cant/length"/>
     </genClasses>
+    <genClasses ecoreClass="siteplan.ecore#//CantPoint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//CantPoint/height"/>
+    </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//UnknownPositionedObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//UnknownPositionedObject/objectType"/>
     </genClasses>

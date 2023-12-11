@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.set.model.siteplan.Cant;
+import org.eclipse.set.model.siteplan.CantPoint;
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.ExternalElementControl;
@@ -267,6 +268,10 @@ public class SiteplanAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseCant(Cant object) {
 				return createCantAdapter();
+			}
+			@Override
+			public Adapter caseCantPoint(CantPoint object) {
+				return createCantPointAdapter();
 			}
 			@Override
 			public Adapter caseUnknownPositionedObject(UnknownPositionedObject object) {
@@ -835,6 +840,20 @@ public class SiteplanAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCantAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.siteplan.CantPoint <em>Cant Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.siteplan.CantPoint
+	 * @generated
+	 */
+	public Adapter createCantPointAdapter() {
 		return null;
 	}
 

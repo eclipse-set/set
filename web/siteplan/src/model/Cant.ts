@@ -10,15 +10,26 @@ import { checkInstance } from '@/util/ObjectExtension'
 import SiteplanObject, { defaultObjectColorObj } from './SiteplanObject'
 import PositionedObject, { defaultPositionedObj } from './PositionedObject'
 
+export interface CantPoint extends PositionedObject
+{
+  height: number
+  // Not part of Java API
+  // eslint-disable-next-line no-use-before-define
+  cants: Set<Cant>
+}
+
 export interface Cant extends SiteplanObject
 {
     form: string
     length: number
-    pointA: PositionedObject
-    pointB: PositionedObject
+    pointA: CantPoint
+    pointB: CantPoint
+}
 
-    // Not provided from Java API
-    number: number // used to identify cants
+function defaultCantPointObj () : CantPoint {
+  const obj = defaultPositionedObj() as CantPoint
+  obj.cants = new Set()
+  return obj
 }
 
 export function defaultCantObj (): Cant {
@@ -26,10 +37,9 @@ export function defaultCantObj (): Cant {
     guid: '0',
     form: '',
     length: 0,
-    pointA: defaultPositionedObj(),
-    pointB: defaultPositionedObj(),
-    objectColors: [defaultObjectColorObj()],
-    number: 0
+    pointA: defaultCantPointObj(),
+    pointB: defaultCantPointObj(),
+    objectColors: [defaultObjectColorObj()]
   }
 }
 

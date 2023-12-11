@@ -34,12 +34,12 @@ public interface Cant extends SiteplanObject {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Point A</em>' containment reference.
-	 * @see #setPointA(PositionedObject)
+	 * @see #setPointA(CantPoint)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCant_PointA()
 	 * @model containment="true"
 	 * @generated
 	 */
-	PositionedObject getPointA();
+	CantPoint getPointA();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Cant#getPointA <em>Point A</em>}' containment reference.
@@ -49,19 +49,19 @@ public interface Cant extends SiteplanObject {
 	 * @see #getPointA()
 	 * @generated
 	 */
-	void setPointA(PositionedObject value);
+	void setPointA(CantPoint value);
 
 	/**
 	 * Returns the value of the '<em><b>Point B</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Point B</em>' containment reference.
-	 * @see #setPointB(PositionedObject)
+	 * @see #setPointB(CantPoint)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCant_PointB()
 	 * @model containment="true"
 	 * @generated
 	 */
-	PositionedObject getPointB();
+	CantPoint getPointB();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Cant#getPointB <em>Point B</em>}' containment reference.
@@ -71,7 +71,7 @@ public interface Cant extends SiteplanObject {
 	 * @see #getPointB()
 	 * @generated
 	 */
-	void setPointB(PositionedObject value);
+	void setPointB(CantPoint value);
 
 	/**
 	 * Returns the value of the '<em><b>Form</b></em>' attribute.

@@ -58,7 +58,7 @@ export interface State {
   planningObjectGuids: { [key: string]: true, }
   sheetCutCRS: DBRef
   isSheetCutAvaiable: boolean
-  visibleCants: { [key: number]: true, }
+  visibleCants: { [key: string]: true, }
 }
 
 export const state: InjectionKey<Store<State>> = Symbol('PlanProState')
@@ -203,11 +203,11 @@ export const store = createStore<State>({
     setSheetCutAvaiable (state, payload: boolean) {
       state.isSheetCutAvaiable = payload
     },
-    setCantVisible (state, cant: number) {
+    setCantVisible (state, cant: string) {
       state.visibleCants[cant] = true
       store.commit('refreshMap')
     },
-    setCantInvisible (state, cant: number) {
+    setCantInvisible (state, cant: string) {
       delete state.visibleCants[cant]
       store.commit('refreshMap')
     }

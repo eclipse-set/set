@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.set.model.siteplan.Cant;
-import org.eclipse.set.model.siteplan.PositionedObject;
+import org.eclipse.set.model.siteplan.CantPoint;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
@@ -45,7 +45,7 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * @generated
 	 * @ordered
 	 */
-	protected PositionedObject pointA;
+	protected CantPoint pointA;
 
 	/**
 	 * The cached value of the '{@link #getPointB() <em>Point B</em>}' containment reference.
@@ -55,7 +55,7 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * @generated
 	 * @ordered
 	 */
-	protected PositionedObject pointB;
+	protected CantPoint pointB;
 
 	/**
 	 * The default value of the '{@link #getForm() <em>Form</em>}' attribute.
@@ -122,7 +122,7 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * @generated
 	 */
 	@Override
-	public PositionedObject getPointA() {
+	public CantPoint getPointA() {
 		return pointA;
 	}
 
@@ -131,8 +131,8 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetPointA(PositionedObject newPointA, NotificationChain msgs) {
-		PositionedObject oldPointA = pointA;
+	public NotificationChain basicSetPointA(CantPoint newPointA, NotificationChain msgs) {
+		CantPoint oldPointA = pointA;
 		pointA = newPointA;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__POINT_A, oldPointA, newPointA);
@@ -147,7 +147,7 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * @generated
 	 */
 	@Override
-	public void setPointA(PositionedObject newPointA) {
+	public void setPointA(CantPoint newPointA) {
 		if (newPointA != pointA) {
 			NotificationChain msgs = null;
 			if (pointA != null)
@@ -167,7 +167,7 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * @generated
 	 */
 	@Override
-	public PositionedObject getPointB() {
+	public CantPoint getPointB() {
 		return pointB;
 	}
 
@@ -176,8 +176,8 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetPointB(PositionedObject newPointB, NotificationChain msgs) {
-		PositionedObject oldPointB = pointB;
+	public NotificationChain basicSetPointB(CantPoint newPointB, NotificationChain msgs) {
+		CantPoint oldPointB = pointB;
 		pointB = newPointB;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__POINT_B, oldPointB, newPointB);
@@ -192,7 +192,7 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	 * @generated
 	 */
 	@Override
-	public void setPointB(PositionedObject newPointB) {
+	public void setPointB(CantPoint newPointB) {
 		if (newPointB != pointB) {
 			NotificationChain msgs = null;
 			if (pointB != null)
@@ -297,10 +297,10 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.CANT__POINT_A:
-				setPointA((PositionedObject)newValue);
+				setPointA((CantPoint)newValue);
 				return;
 			case SiteplanPackage.CANT__POINT_B:
-				setPointB((PositionedObject)newValue);
+				setPointB((CantPoint)newValue);
 				return;
 			case SiteplanPackage.CANT__FORM:
 				setForm((String)newValue);
@@ -321,10 +321,10 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.CANT__POINT_A:
-				setPointA((PositionedObject)null);
+				setPointA((CantPoint)null);
 				return;
 			case SiteplanPackage.CANT__POINT_B:
-				setPointB((PositionedObject)null);
+				setPointB((CantPoint)null);
 				return;
 			case SiteplanPackage.CANT__FORM:
 				setForm(FORM_EDEFAULT);
