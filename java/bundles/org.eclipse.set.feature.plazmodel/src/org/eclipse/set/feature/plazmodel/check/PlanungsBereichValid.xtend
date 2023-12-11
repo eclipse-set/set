@@ -38,77 +38,84 @@ import org.apache.commons.text.StringSubstitutor
  */
 @Component(immediate=true)
 class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazCheck {
-	Set<String> planningsObjectID = newHashSet
-	Map<Ur_Objekt, Boolean> alreadyValidatedObjects = newHashMap
-	static val relevantObjects = #[
-		Signal, Signal_Rahmen, Signal_Befestigung, 
-		GEO_Kante, TOP_Kante, Bahnsteig_Anlage, Bahnsteig_Kante, W_Kr_Anlage,
-		W_Kr_Gsp_Element, W_Kr_Gsp_Komponente, Aussenelementansteuerung
+	Set<Ur_Objekt> planningsObjects = newHashSet
+
+	static val relevantTypeObjects = #[
+		Signal,
+		Signal_Rahmen,
+		Signal_Befestigung,
+		GEO_Kante,
+		TOP_Kante,
+		Bahnsteig_Anlage,
+		Bahnsteig_Kante,
+		W_Kr_Anlage,
+		W_Kr_Gsp_Element,
+		W_Kr_Gsp_Komponente,
+		Aussenelementansteuerung
 	]
 
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
-		modelSession.planProSchnittstelle.LSTPlanungGruppe.orElse(null)?.forEach[
-			LSTPlanungEinzel?.LSTObjektePlanungsbereich?.IDLSTObjektPlanungsbereich?.forEach[
-				val guid = identitaet?.wert
-				if (guid !== null && !planningsObjectID.contains(identitaet.wert)) {
-					planningsObjectID.add(guid)
-				}
-			]
+		modelSession.planProSchnittstelle.LSTPlanungGruppe.orElse(null)?.forEach [
+			planningsObjects.addAll(
+				LSTPlanungEinzel?.LSTObjektePlanungsbereich?.
+					IDLSTObjektPlanungsbereich)
 		]
-		
-		return container.allContents
-			.filter(Ur_Objekt)
-			.filter(obj | relevantObjects.exists[it.isInstance(obj)])
-			.map[
-				val guid = it.identitaet?.wert
-				if (guid !== null && !isPlanningObject(planningsObjectID.contains(guid))) {
-					val err = PlazFactory.eINSTANCE.createPlazError
-					err.message = transformErroMsg(Map.of("GUID", identitaet?.wert))
-					err.type = "Planungs-/Betrachtungsbereich"
-					err.object = it
-					return err
-				} 
-			]
-			.filterNull.toList
+
+		return container.urObjekt.filter(
+			obj |
+				relevantTypeObjects.exists[isInstance(obj)]
+		).flatMap[checkObject].toList
 	}
-	
-	private def boolean isPlanningObject(Ur_Objekt parent, boolean isPlanningObject) {
-		val alreadyValidate = alreadyValidatedObjects.get(parent)
-		if (alreadyValidate !== null) {
-			return alreadyValidate
+
+	private def Iterable<PlazError> checkObject(Ur_Objekt object) {
+		val guid = object.identitaet?.wert
+		if (guid === null) {
+			return #[]
 		}
-		val parentGUID = parent.identitaet?.wert
-		if (parentGUID !== null && planningsObjectID.contains(parentGUID) !== isPlanningObject) {
-			alreadyValidatedObjects.put(parent, false)
-			return false
-		} 
-		
-		val refObj = !parent.eCrossReferences
-			.filter(Ur_Objekt)
-			.filter[obj | relevantObjects.exists[
-				val objGuid = obj.identitaet?.wert
-				return objGuid !== null && isInstance(obj) && parentGUID !== objGuid
-			]]
-			.exists[!isPlanningObject(isPlanningObject)]
-		alreadyValidatedObjects.put(parent, refObj)
-		return refObj
-		
-		
+
+		val isPlanning = isPlanningObject(object)
+		val mismatchedObjects = object.referencedObjects.filter [
+			isPlanningObject(it) !== isPlanning
+		].filterNull
+
+		return mismatchedObjects.map [
+			val err = PlazFactory.eINSTANCE.createPlazError
+			err.message = transformErroMsg(
+				Map.of("GUID", guid, //
+				"TYP", it.eClass.name, //
+				"REF_GUID", identitaet?.wert)
+			)
+			err.type = "Planungs-/Betrachtungsbereich"
+			err.object = object
+			err.severity = ValidationSeverity.WARNING
+			return err
+		]
+
 	}
-	
+
+	private def Set<Ur_Objekt> getReferencedObjects(Ur_Objekt source) {
+		return source.eCrossReferences.filter(Ur_Objekt).filter [ obj |
+			relevantTypeObjects.exists[isInstance(obj) && obj != source]
+		].filterNull.toSet
+	}
+
+	private def boolean isPlanningObject(Ur_Objekt parent) {
+		return planningsObjects.contains(parent)
+	}
+
 	override checkType() {
 		return "Planungs-/Betrachtungsbereich"
 	}
-	
+
 	override getDescription() {
-		return "Objekte sind entweder im Planungs- oder Betrachtungsbereich verortet."
+		return "Objekte sind eindeutig im Planungs- oder Betrachtungsbereich verortet."
 	}
-	
+
 	override getGeneralErrMsg() {
-		return "Bestandteile des Objekts {GUID} sind sowohl im Planungs- als auch im Betrachtungsbereich verortet."
+		return "Das Objekt {GUID} verweist auf das zugehörige Objekt {TYP} {REF_GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
 	}
-	
+
 	override transformErroMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
+		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }
