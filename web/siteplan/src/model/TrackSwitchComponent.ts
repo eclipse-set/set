@@ -43,7 +43,7 @@ export default interface TrackSwitchComponent extends RouteObject
     pointDetectorCount: number
     start: Position
     labelPosition: Position
-    label: Label
+    label?: Label
     operatingMode: TurnoutOperatingMode
     mainLeg: TrackSwitchLeg
     sideLeg: TrackSwitchLeg

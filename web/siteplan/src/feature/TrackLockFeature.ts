@@ -41,7 +41,7 @@ export default class TrackLockFeature extends LageplanFeature<TrackLock> {
       FeatureType.TrackLock,
       trackLock,
       new Point([position.x, position.y]),
-      trackLock.label.text
+      trackLock.label?.text
     )
 
     let rotation = position.rotation

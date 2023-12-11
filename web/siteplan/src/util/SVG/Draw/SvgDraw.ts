@@ -77,7 +77,7 @@ export default class SvgDraw {
   }
 
   public static drawLabelAt (
-    label: Label,
+    label: Label | null,
     labelX: number,
     labelY: number,
     isTopMounted: boolean,
@@ -87,6 +87,10 @@ export default class SvgDraw {
     centerVertical?: boolean
   ): Element {
     const labelsvg = document.createElement('text')
+    if (!label) {
+      return labelsvg
+    }
+
     labelsvg.setAttribute('id', 'label')
     labelsvg.setAttribute('font-size', fontSize.toString())
     labelsvg.setAttribute('font-family', 'siteplanfont')
@@ -94,7 +98,7 @@ export default class SvgDraw {
     labelsvg.setAttribute('style', 'writing-mode: vertical-rl;')
     const textAnchor = this.getTextAnchor(centerText, label)
     labelsvg.setAttribute('text-anchor', textAnchor)
-    let labelRotation = rotate || 0
+    let labelRotation = rotate ?? 0
     // Rotate the text if required and set up the anchor point
     if (label.orientationInverted) {
       labelRotation += 180
