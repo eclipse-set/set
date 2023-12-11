@@ -46,7 +46,7 @@ export function isInstanceOfTrackLockComponent (obj: any): boolean {
 }
 
 export default interface TrackLock extends SiteplanObject {
-  label: Label
+  label?: Label
   preferredLocation: TrackLockLocation
   operatingMode: TurnoutOperatingMode
   components: TrackLockComponent[]

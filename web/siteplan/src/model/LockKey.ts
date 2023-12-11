@@ -20,7 +20,7 @@ export enum LockKeyType {
 
 export default interface LockKey extends SiteplanObject, RouteObject {
   guid: string
-  label: Label
+  label?: Label
   position: Position
   locked: boolean
   type: LockKeyType

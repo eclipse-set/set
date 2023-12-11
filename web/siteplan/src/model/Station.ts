@@ -15,7 +15,7 @@ export interface Platform
 {
     guid: string
     points: Position[]
-    label: Label
+    label?: Label
 }
 
 export function defaultPlatformObj (): Platform {
@@ -31,7 +31,7 @@ export function isInstanceOfPlatform (object: any): boolean {
 }
 export interface Station extends SiteplanObject {
     platforms: Platform[]
-    label: Label
+    label?: Label
 }
 
 export function defaultStationObj (): Station {

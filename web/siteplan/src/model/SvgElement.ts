@@ -82,7 +82,7 @@ export const MAX_BRIDGE_DIRECTION_OFFSET = 15.0
 export class SvgBridgeSignal extends SvgElement {
   mountOffset: number
   mountDirection: MountDirection
-  label: Label | null
+  label?: Label
 
   constructor (
     id: string,
@@ -91,7 +91,7 @@ export class SvgBridgeSignal extends SvgElement {
     nullpunkt: ISvgPoint | null,
     mountOffset: number,
     mountDirection: MountDirection,
-    signalLabel: Label | null,
+    signalLabel: Label | undefined,
     boundingBox: Extent[]
   ) {
     super(id, element, anchor, nullpunkt, boundingBox)
@@ -104,7 +104,7 @@ export class SvgBridgeSignal extends SvgElement {
     element: ISvgElement,
     mountOffset: number,
     mountDirection: MountDirection,
-    signalLabel: Label | null
+    signalLabel?: Label
   ): SvgBridgeSignal {
     return new SvgBridgeSignal(
       element.id,
