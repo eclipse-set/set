@@ -49,24 +49,32 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         "pdfjs/web/viewer.css",
-        "pdfjs/build/pdf.js",
         {
           from: "pdfjs/web/viewer.html",
           transform: (content) =>
             content
               .toString()
-              .replace("../build/pdf.js", "pdf.js")
+              .replace("../build/pdf.mjs", "pdf.js")
+              .replace("viewer.mjs", "viewer.js")
               .replace("</head>", '<script src="index.js"></script></head>'),
         },
         {
-          from: "pdfjs/web/viewer.js",
+          from: "pdfjs/build/pdf.mjs",
+          to: "pdf.js",
+          info: { minimized: true },
+        },
+        {
+          from: "pdfjs/web/viewer.mjs",
+          to: "viewer.js",
           transform: (content) =>
             content
               .toString()
-              .replace("../build/pdf.worker.js", "pdf.worker.js"),
+              .replaceAll("en-US", "de")
+              .replace("../build/pdf.worker.mjs", "pdf.worker.js"),
         },
         { from: "pdfjs/web/images", to: "images" },
-        { from: "pdfjs/web/locale", to: "locale" },
+        { from: "pdfjs/web/locale/de", to: "locale/de" },
+        { from: "pdfjs/web/locale/locale.json", to: "locale/locale.json" },
       ],
     }),
   ],
