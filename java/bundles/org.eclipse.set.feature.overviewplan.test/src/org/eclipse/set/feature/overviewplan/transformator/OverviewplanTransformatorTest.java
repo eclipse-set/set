@@ -46,6 +46,7 @@ class OverviewplanTransformatorTest extends AbstractToolboxTest {
 	// IMPROVE: OSGI-based test for dependency injection
 	protected static void setupTransformators(
 			final OverviewplanTransformatorImpl transformator) {
+		setupTransformator(transformator);
 		transformator.transformators.add(new TrackTransformator());
 		transformator.transformators
 				.forEach(OverviewplanTransformatorTest::setupTransformator);
@@ -62,6 +63,7 @@ class OverviewplanTransformatorTest extends AbstractToolboxTest {
 
 	private void whenTransformingToSiteplanModel() {
 		siteplan = testee.transform(planProSchnittstelle);
+
 	}
 
 	@ParameterizedTest

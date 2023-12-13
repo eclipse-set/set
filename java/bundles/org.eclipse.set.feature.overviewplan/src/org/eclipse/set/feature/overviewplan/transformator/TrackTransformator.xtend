@@ -8,12 +8,14 @@
  */
 package org.eclipse.set.feature.overviewplan.transformator
 
+import org.eclipse.set.feature.overviewplan.service.TOPKanteMetaData
 import org.eclipse.set.feature.overviewplan.service.TrackService
 import org.eclipse.set.feature.siteplan.transform.BaseTransformator
 import org.eclipse.set.feature.siteplan.transform.Transformator
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.Track
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -31,33 +33,33 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			return
 		}
 		val md = trackService.getTOPKanteMetaData(topKante)
-		track.transformSection(md)
+		#[md.topNodeA, md.topNodeB].forEach [
+			track.transformSection(md, it)
+		]
+
 		track.guid = topKante.identitaet.wert
 		state.tracks.add(track)
 
 	}
 
-	private def void transformSection(Track track, TOPKanteMetaData md) {
+	private def void transformSection(Track track, TOPKanteMetaData md,
+		TOP_Knoten node) {
 		if (md === null) {
 			return
 		}
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
-		section.guid = md.topKante.identitaet.wert
+		section.guid = md.topEdge.identitaet.wert
+
 		track.sections.add(section)
 
 		val alreadyAddSection = track.sections.map[guid]
-
-		#[md.TOPKnotenA, md.TOPKnotenB].forEach [
-			val connectEdges = md.getConnectEdgeAt(trackService, it)
-
-			if (connectEdges.empty || connectEdges.exists [
-				alreadyAddSection.contains(topKante.identitaet.wert)
-			]) {
-				return
-			}
-			val continuosEdge = md.getContinuosEdgeAt(connectEdges, it)
-			transformSection(track, continuosEdge)
-		]
+		val connectEdges = md.getIntersectEdgeAt(node)
+		if (connectEdges.empty || connectEdges.exists [
+			alreadyAddSection.contains(topEdge.identitaet.wert)
+		]) {
+			return
+		}
+		val continuosEdge = md.getContinuousEdgeAt(node)
+		transformSection(track, continuosEdge, md.getNextTopNode(node))
 	}
-
 }

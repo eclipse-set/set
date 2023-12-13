@@ -11,6 +11,7 @@ package org.eclipse.set.feature.overviewplan.transformator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.set.feature.overviewplan.service.TrackService;
 import org.eclipse.set.feature.siteplan.transform.AbstractSiteplanTransformator;
 import org.eclipse.set.feature.siteplan.transform.Transformator;
 import org.eclipse.set.model.siteplan.Position;
@@ -39,9 +40,13 @@ public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY, target = "(component.name=org.eclipse.set.feature.overviewplan.transformator.*)")
 	public final List<Transformator> transformators = new ArrayList<>();
 
+	@Reference
+	TrackService trackService;
+
 	@Override
 	public SiteplanState transformState(
 			final MultiContainer_AttributeGroup container) {
+		trackService.setupTrack(container);
 		final SiteplanState siteplanState = SiteplanFactory.eINSTANCE
 				.createSiteplanState();
 		transformators.forEach(transform -> transform
