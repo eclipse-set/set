@@ -154,37 +154,37 @@ jobs:
         uses: eclipse-set/build/.github/actions/setup-java@main
       
       - name: Fetch pdf viewer
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: pdfviewer-artifact
           path: web/pdf/dist
       
       - name: Fetch text viewer
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: textviewer-artifact
           path: web/textviewer/dist
       
       - name: Fetch about
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: about-artifact
           path: web/about/dist   
 
       - name: Fetch siteplan
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
 
       - name: Fetch developerhelp
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: developerhelp-artifact
           path: web/developerhelp/dist
 
       - name: Fetch news
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: news-artifact
           path: web/news/public
