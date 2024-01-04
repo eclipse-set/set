@@ -63,7 +63,7 @@ Siehe https://gdzshopv-lpz.bkg.bund.de/index.php/default/wms-digitale-orthophoto
 |Satellitenansicht
 |Digitale Orthophotos Bodenauflösung 20 cm bereitgestellt durch das Bundesamt für Kartographie und Geodäsie
 
-Wie DOP20, jedoch ohne Angabe eines API Schlüssels. Funktioniert nur innerhalb des Netzwerks der DB Netz AG.
+Wie DOP20, jedoch ohne Angabe eines API Schlüssels. Funktioniert nur innerhalb des Netzwerks der DB InfraGO AG.
 
 |MAPBOX_SAT
 |Satellitenansicht
