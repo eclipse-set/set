@@ -84,7 +84,7 @@ class DefaultValueServiceImpl implements DefaultValueService {
 		}
 
 		if (planungGAllg.verantwortlicheStelleDB.wert === null) {
-			planungGAllg.verantwortlicheStelleDB.wert = "DB Netze"
+			planungGAllg.verantwortlicheStelleDB.wert = "DB InfraGO"
 		}
 
 		if (planungGAllg.planProXSDVersion === null) {

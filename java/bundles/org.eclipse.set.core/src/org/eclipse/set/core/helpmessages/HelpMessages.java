@@ -106,7 +106,7 @@ public class HelpMessages {
 	public String HelpMessage_Planung_G_Allg_AttributeGroup_planProXSDVersion;
 
 	/**
-	 * z.B. DB Netze
+	 * z.B. DB InfraGO
 	 */
 	public String HelpMessage_Planung_G_Allg_AttributeGroup_verantwortlicheStelleDB;
 
