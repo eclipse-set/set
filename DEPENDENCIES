@@ -149,6 +149,7 @@ npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/atob/2.1.2, MIT OR Apache-2.0, approved, #1027
 npm/npmjs/-/available-typed-arrays/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/axios/1.6.2, MIT, approved, #11338
+npm/npmjs/-/axios/1.6.4, MIT, approved, #11338
 npm/npmjs/-/balanced-match/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/base64-arraybuffer/0.2.0, MIT, approved, clearlydefined
@@ -322,7 +323,7 @@ npm/npmjs/-/flat-cache/3.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/flatted/3.2.2, ISC AND (ISC AND MIT), approved, #2430
 npm/npmjs/-/flatted/3.2.5, ISC AND (ISC AND MIT), approved, #2430
 npm/npmjs/-/follow-redirects/1.15.1, MIT, approved, #10782
-npm/npmjs/-/follow-redirects/1.15.2, MIT, approved, #10782
+npm/npmjs/-/follow-redirects/1.15.4, MIT, approved, #10782
 npm/npmjs/-/for-each/0.3.3, MIT, approved, clearlydefined
 npm/npmjs/-/form-data/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/forwarded/0.2.0, MIT, approved, clearlydefined
@@ -663,8 +664,10 @@ npm/npmjs/-/supports-preserve-symlinks-flag/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/svg-pathdata/6.0.3, MIT AND 0BSD, approved, #3488
 npm/npmjs/-/tapable/2.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/tar/6.2.0, ISC, approved, #10508
+npm/npmjs/-/terser-webpack-plugin/5.3.10, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser-webpack-plugin/5.3.9, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser/5.19.4, BSD-2-Clause AND BSD-3-Clause AND BSD-2-Clause, approved, #9355
+npm/npmjs/-/terser/5.26.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #11968
 npm/npmjs/-/text-segmentation/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/text-table/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/thunky/1.1.0, MIT, approved, clearlydefined
@@ -773,6 +776,7 @@ npm/npmjs/@jridgewell/set-array/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/source-map/0.3.5, MIT, approved, #9304
 npm/npmjs/@jridgewell/sourcemap-codec/1.4.15, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/trace-mapping/0.3.19, MIT, approved, #9904
+npm/npmjs/@jridgewell/trace-mapping/0.3.20, MIT, approved, #9904
 npm/npmjs/@leichtgewicht/ip-codec/2.0.4, MIT, approved, clearlydefined
 npm/npmjs/@mapbox/jsonlint-lines-primitives/2.0.2, MIT, approved, clearlydefined
 npm/npmjs/@mapbox/mapbox-gl-style-spec/13.28.0, ISC AND MIT, approved, #7725
