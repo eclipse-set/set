@@ -4,14 +4,14 @@ anchor: "license_information"
 ---
 Eclipse Signalling Engineering Toolbox
 
-Copyright (c) 2015 - {localyear}, DB Netz AG - Zentrale und andere Beitragende
-Technologiemanagement LST, Mainzer Landstraße 201, 60326 Frankfurt a.M.
+Copyright (c) 2015 - {localyear}, DB InfraGO AG - Zentrale und andere Beitragende
+Bauartverantwortung Sicherungs- und Elektrotechnik, Adam-Riese-Str. 11-13, 60327 Frankfurt a. Main
 
 Die Veröffentlichung der Eclipse Signalling Engineering Toolbox erfolgt ohne jede
 Gewährleistung.
 
 Weitere Informationen unter +
-https://www.dbnetze.com/planpro +
+https://www.infrago.com/planpro +
 https://projects.eclipse.org/projects/technology.set
 
 Für Hinweise, Kritik, Informationen und Anfragen zum Quellcode wenden Sie sich
@@ -22,7 +22,7 @@ planpro@deutschebahn.com +
 
 Grundsätze Stellwerkstechnik
 
-DB Netz AG +
+DB InfraGO AG +
 Zentrale +
 Caroline-Michaelis-Straße 5-11, 10115 Berlin
 
