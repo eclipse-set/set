@@ -66,6 +66,7 @@ module.exports = {
         {
           from: "pdfjs/web/viewer.mjs",
           to: "viewer.js",
+          info: { minimized: true },
           transform: (content) =>
             content
               .toString()
