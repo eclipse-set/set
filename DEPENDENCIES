@@ -208,7 +208,7 @@ npm/npmjs/-/core-js/3.19.1, MIT, approved, clearlydefined
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
 npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/css-line-break/2.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/css-loader/6.8.1, MIT AND Apache-2.0, approved, #8759
+npm/npmjs/-/css-loader/6.9.0, MIT AND Apache-2.0, approved, #12670
 npm/npmjs/-/css-select/4.3.0, BSD-2-Clause AND MIT AND (MIT AND MIT-0), approved, #3227
 npm/npmjs/-/css-what/6.1.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/csscolorparser/1.0.3, MIT, approved, clearlydefined
@@ -548,7 +548,7 @@ npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/pkg-dir/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/postcss-modules-extract-imports/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-modules-local-by-default/4.0.3, MIT, approved, #8508
-npm/npmjs/-/postcss-modules-scope/3.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/postcss-modules-scope/3.1.0, ISC, approved, #12449
 npm/npmjs/-/postcss-modules-values/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-selector-parser/6.0.10, MIT, approved, #5056
 npm/npmjs/-/postcss-selector-parser/6.0.13, MIT, approved, #5056
@@ -655,7 +655,7 @@ npm/npmjs/-/strip-ansi/6.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/strip-bom/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/strip-final-newline/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/strip-json-comments/3.1.1, MIT, approved, clearlydefined
-npm/npmjs/-/style-loader/3.3.3, MIT, approved, clearlydefined
+npm/npmjs/-/style-loader/3.3.4, MIT, approved, #12669
 npm/npmjs/-/supports-color/7.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/supports-color/8.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/supports-preserve-symlinks-flag/1.0.0, MIT, approved, clearlydefined
