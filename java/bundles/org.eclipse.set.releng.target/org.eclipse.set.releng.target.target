@@ -477,15 +477,5 @@ DynamicImport-Package: *
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>org.jgrapht</groupId>
-					<artifactId>jgrapht-core</artifactId>
-					<version>1.5.2</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
 	</locations>
 </target>
