@@ -9,14 +9,15 @@
 package org.eclipse.set.feature.table.pt1.sskg
 
 import java.util.ArrayList
-import java.util.NoSuchElementException
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
 import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
 import org.eclipse.set.utils.table.TMFactory
@@ -29,7 +30,7 @@ import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensi
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ZugEinwirkungExtensions.*
-import static extension org.eclipse.set.basis.graph.Digraphs.*
+
 /**
  * Table transformation for a Gleisschaltmitteltabelle (SSKG).
  * 
@@ -37,15 +38,17 @@ import static extension org.eclipse.set.basis.graph.Digraphs.*
  */
 class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 
+	val TopologicalGraphService topGraphService;
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
+		EnumTranslationService enumTranslationService,
+		TopologicalGraphService topGraphService) {
 		super(cols, enumTranslationService)
+		this.topGraphService = topGraphService;
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 		val instances = new ArrayList<TableRow>
-		val topGraph = new TopGraph(container.TOPKante)
 
 		for (Zugeinwirkung ein : container.zugeinwirkung) {
 			if (Thread.currentThread.interrupted) {
@@ -129,12 +132,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					if (mp === null) {
 						return null
 					}
-					val paths = topGraph.getPaths(singlePoints, mp.singlePoints)
-					if (paths.empty) {
-						throw new NoSuchElementException("no path")
-					} else {
-						String.format("%.0f", paths.map[length].min)
-					}
+					String.format("%.0f", getShortestPathLength(ein, mp))
 				]
 			)
 
@@ -281,13 +279,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 						if (mp === null) {
 							return null
 						}
-						val paths = topGraph.getPaths(singlePoints,
-							mp.singlePoints)
-						if (paths.empty) {
-							throw new NoSuchElementException("no path")
-						} else {
-							String.format("%.0f", paths.map[length].min)
-						}
+						String.format("%.0f", getShortestPathLength(fma, mp))
 					]
 				)
 
@@ -336,5 +328,18 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		return factory.table;
+	}
+	
+	
+	def double getShortestPathLength(Punkt_Objekt p1,
+		Punkt_Objekt p2) {
+		val points1 = p1.singlePoints.map[new TopPoint(it)]
+		val points2 = p2.singlePoints.map[new TopPoint(it)]
+
+		return points1.flatMap [ pa |
+			points2.map [ pb |
+				topGraphService.findShortestPath(pa, pb)
+			]
+		].filter[present].map[asDouble].min
 	}
 }

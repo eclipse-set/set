@@ -66,7 +66,6 @@ import com.google.common.base.Strings;
  *
  */
 public final class TableServiceImpl implements TableService {
-	private final CacheService cacheService;
 
 	@Inject
 	private TableDiffService diffService;
@@ -74,16 +73,14 @@ public final class TableServiceImpl implements TableService {
 	@Inject
 	private IEventBroker broker;
 
+	@Inject
+	CacheService cacheService;
+
 	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
-	/**
-	 * constructor.
-	 */
-	public TableServiceImpl() {
-		super();
-		this.cacheService = ToolboxConfiguration.isDebugMode()
-				? Services.getNoCacheService()
-				: Services.getCacheService();
+	private CacheService getCache() {
+		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
+				: cacheService;
 	}
 
 	/**
@@ -178,7 +175,7 @@ public final class TableServiceImpl implements TableService {
 	@SuppressWarnings("unchecked")
 	public Map<String, Collection<TableError>> getTableErrors() {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
-		final Cache cache = cacheService
+		final Cache cache = getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS);
 		final Collection<String> tableShortcuts = cache.getKeys();
 		tableShortcuts.forEach(shortCut -> map.put(shortCut,
@@ -188,10 +185,10 @@ public final class TableServiceImpl implements TableService {
 
 	@SuppressWarnings("unchecked")
 	private boolean combineTableErrors(final String shortCut) {
-		final Collection<TableError> initialErrors = (Collection<TableError>) cacheService
+		final Collection<TableError> initialErrors = (Collection<TableError>) getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
 				.getIfPresent(shortCut);
-		final Collection<TableError> finalErrors = (Collection<TableError>) cacheService
+		final Collection<TableError> finalErrors = (Collection<TableError>) getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
 				.getIfPresent(shortCut);
 		if (initialErrors == null || finalErrors == null) {
@@ -200,8 +197,8 @@ public final class TableServiceImpl implements TableService {
 		final Collection<TableError> combined = new ArrayList<>();
 		combined.addAll(initialErrors);
 		combined.addAll(finalErrors);
-		cacheService.getCache(ToolboxConstants.CacheId.TABLE_ERRORS)
-				.set(shortCut, combined);
+		getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS).set(shortCut,
+				combined);
 		broker.post(Events.TABLEERROR_CHANGED, null);
 		return true;
 	}
@@ -212,11 +209,11 @@ public final class TableServiceImpl implements TableService {
 		errors.forEach(error -> error.setSource(shortName));
 		switch (tableType) {
 		case INITIAL:
-			cacheService.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+			getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
 					.set(shortCut, errors);
 			break;
 		case FINAL:
-			cacheService.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+			getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
 					.set(shortCut, errors);
 			break;
 		default:
@@ -318,7 +315,7 @@ public final class TableServiceImpl implements TableService {
 			final TableType tableType, final IModelSession modelSession) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
-		final Cache cache = cacheService.getCache(
+		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
 		return (Table) cache.get(shortCut, () -> loadTransform(shortCut,
 				tableType, modelSession, shortCut));
@@ -333,8 +330,8 @@ public final class TableServiceImpl implements TableService {
 
 	private void wireCacheSupplier() {
 		AbstractDirectedEdgePath.setEdgeToPointsCacheSupplier(
-				() -> new EdgeToPointsCacheProxy(cacheService));
-		Digraphs.setEdgeToSubPathCacheSupplier(() -> cacheService
+				() -> new EdgeToPointsCacheProxy(getCache()));
+		Digraphs.setEdgeToSubPathCacheSupplier(() -> getCache()
 				.getCache(ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
 	}
 }

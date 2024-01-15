@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.table.pt1.ssks;
 
+import java.math.BigDecimal
 import java.util.Collections
 import java.util.HashSet
 import java.util.LinkedList
@@ -15,12 +16,16 @@ import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Geodaten.Technischer_Punkt
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl10
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hl11
@@ -86,7 +91,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*
-import static org.eclipse.set.ppmodel.extensions.DistanceExtensions.MeasuringStrategy.*
 import static org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
 import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMAnschaltdauer.*
@@ -100,7 +104,7 @@ import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMTunnelsignal.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.DistanceExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
@@ -109,11 +113,11 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import java.math.BigDecimal
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -127,9 +131,13 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
 		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
 
+	val TopologicalGraphService topGraphService;
+
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
+		EnumTranslationService enumTranslationService,
+		TopologicalGraphService topGraphService) {
 		super(cols, enumTranslationService)
+		this.topGraphService = topGraphService
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -464,9 +472,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								signal,
 								[controlBox !== null],
 								[
-									distance(controlBox,
-										USE_BEELINE_IF_ROUTING_FAILS).
-										toTableDecimal
+									distance(controlBox).toTableDecimal
 								]
 							)
 
@@ -1349,4 +1355,22 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
 	}
+
+	private def double distance(
+		Punkt_Objekt punktObjekt,
+		Unterbringung unterbringung
+	) {
+		if (unterbringung.punktObjektTOPKante !== null) {
+			val points = punktObjekt.singlePoints.map[new TopPoint(it)]
+			val pb = new TopPoint(unterbringung.punktObjektTOPKante)
+			return points.map[topGraphService.findShortestPath(it, pb)].filter [
+				present
+			].map[asDouble].min
+		} else {
+			val c1 = punktObjekt.coordinate
+			val c2 = unterbringung.geoPunkt.coordinate
+			return c1.distance(c2)
+		}
+	}
+
 }

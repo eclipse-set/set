@@ -15,13 +15,15 @@ import java.util.List
 import java.util.Map
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt
@@ -31,11 +33,9 @@ import org.eclipse.set.utils.table.TMFactory
 import static org.eclipse.set.feature.table.pt1.ssli.SsliColumns.*
 import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
-import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
-import static extension org.eclipse.set.basis.graph.Digraphs.*
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -46,10 +46,13 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	var TMFactory factory = null
 	var MultiContainer_AttributeGroup container = null
+	val TopologicalGraphService topGraphService;
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
+		EnumTranslationService enumTranslationService,
+		TopologicalGraphService topGraphService) {
 		super(cols, enumTranslationService)
+		this.topGraphService = topGraphService
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -231,7 +234,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			val minLenFromA = begrenzungen.map [ signalB |
 				if (signalA === signalB)
 					return null
-				createDistances(signalA, signalB)
+				createDistances(signalA, signalB).toList
 			].filterNull.sortBy[stream.mapToDouble[d|d].sum]
 
 			if (minLenFromA.empty)
@@ -300,11 +303,17 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		return gleisBezeichnung?.bezeichnung?.bezGleisBezeichnung?.wert
 	}
 
-	private def List<Double> createDistances(Signal a, Signal b) {
-		val topGraph = new TopGraph(a.container.TOPKante)
-		val paths = topGraph.getPaths(a.singlePoints, b.singlePoints)
 
-		return paths.map[length].toList
+	private def Iterable<Double> createDistances(Punkt_Objekt p1,
+		Punkt_Objekt p2) {
+		val points1 = p1.singlePoints.map[new TopPoint(it)]
+		val points2 = p2.singlePoints.map[new TopPoint(it)]
+
+		return points1.flatMap [ pa |
+			points2.map [ pb |
+				topGraphService.findShortestPath(pa, pb)
+			]
+		].filter[present].map[asDouble].toList
 	}
 
 	private def boolean getGeneralbedingung(

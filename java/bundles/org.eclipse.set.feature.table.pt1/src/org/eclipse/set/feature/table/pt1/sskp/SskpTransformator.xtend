@@ -10,13 +10,14 @@ package org.eclipse.set.feature.table.pt1.sskp
 
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
-import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Kante
 import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
@@ -34,7 +35,6 @@ import org.eclipse.set.utils.table.TMFactory
 import static org.eclipse.set.basis.constants.ToolboxConstants.NUMERIC_COMPARATOR
 import static org.eclipse.set.feature.table.pt1.sskp.SskpColumns.*
 
-import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
@@ -42,7 +42,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
@@ -57,10 +56,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_60 = 450
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40_60 = 350
 	static final double ADDITION_SCHUTZSTRECKE_SOLL_40 = 210
+	TopologicalGraphService topGraphService;
 
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
+		EnumTranslationService enumTranslationService,
+		TopologicalGraphService topGraphService) {
 		super(cols, enumTranslationService)
+		this.topGraphService = topGraphService
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -188,7 +190,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				val markanteStelle = dweg?.IDPZBGefahrpunkt?.IDMarkanteStelle
 				if (markanteStelle instanceof Punkt_Objekt)
 					return AgateRounding.roundDown(
-						getPointsDistance(topGraph, markanteStelle,
+						getPointsDistance(markanteStelle,
 							dweg.IDFstrFahrweg?.IDStart).min).toString
 				else
 					return ""
@@ -319,8 +321,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val distance = bezugspunktSignals.filter [
 						pzbZuordnungSignals.contains(it)
 					].map [
-						AgateRounding.roundDown(
-							topGraph.getPointsDistance(pzb, it).min)
+						AgateRounding.roundDown(getPointsDistance(pzb, it).min)
 					].filter[it !== 0]
 					return distance.map[it.toString]
 				],
@@ -329,10 +330,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 		)
 
-		if (pzb.PZBElementZuordnungBP !== null && pzb.PZBElementZuordnungBP.exists [
-			PZBElementZuordnungINA !== null
-		] && (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
-			pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ)) {
+		if (pzb.PZBElementZuordnungBP !== null &&
+			pzb.PZBElementZuordnungBP.exists [
+				PZBElementZuordnungINA !== null
+			] && (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
+				pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ)) {
 			val inaGefahrstelles = pzb.PZBElementZuordnungBP.map [
 				INAGefahrstelle
 			].flatten
@@ -366,24 +368,25 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val markanteStelle = inaGefahrstelles.map [
 						IDMarkanterPunkt?.IDMarkanteStelle
 					].filter(Punkt_Objekt)
-					return getDistanceOfPoints(topGraph, markanteStelle, it)
+					return getDistanceOfPoints(markanteStelle, it)
 				]
 			)
 
 			val bahnSteigKantes = pzb?.PZBElementZuordnungBP?.map [
 				PZBElementZuordnungINA
-			]?.map[IDBahnsteigKante]
-			val bahnSteigAbstand = bahnSteigKantes.map [
-				pzb.getBahnsteigAbstand(it)
-			].flatten
+			]?.map[IDBahnsteigKante].toList
+
+			val bahnsteigDistance = SskpBahnsteigUtils.
+				getBahnsteigDistances(topGraphService, bahnSteigKantes, pzb)
+
 			// M: Sskp.Ina.Abstand_GM_2000_Bahnsteig.Abstand_GM_2000_Bahnsteig_Anfang
 			fillConditional(
 				instance,
 				cols.getColumn(Abstand_GM_2000_Bahnsteig_Anfang),
 				pzb,
-				[!bahnSteigKantes.empty],
+				[bahnsteigDistance.distanceStart.present],
 				[
-					bahnSteigAbstand.max.toTableInteger
+					bahnsteigDistance.distanceStart.getAsDouble.toTableInteger
 				]
 			)
 
@@ -392,9 +395,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Abstand_GM_2000_Bahnsteig_Ende),
 				pzb,
-				[!bahnSteigKantes.empty],
+				[bahnsteigDistance.distanceEnd.present],
 				[
-					bahnSteigAbstand.min.toTableInteger
+					bahnsteigDistance.distanceEnd.getAsDouble.toTableInteger
 				]
 			)
 
@@ -412,7 +415,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					PZBZuordnungSignal?.map[IDSignal].map [ signal |
-						getPointsDistance(topGraph, pzb, signal).min
+						getPointsDistance(pzb, signal).min
 					].filter[it.doubleValue === 0.0].map [
 						AgateRounding.roundDown(it).toString
 					]
@@ -434,7 +437,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					PZBZuordnungSignal?.map[IDSignal].map [ signal |
-						getPointsDistance(topGraph, pzb, signal).min
+						getPointsDistance(pzb, signal).min
 					].filter[it.doubleValue === 0.0].map [
 						AgateRounding.roundDown(it).toString
 					]
@@ -584,7 +587,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
 			val distance = AgateRounding.roundDown(
-				getPointsDistance(topGraph, pzb, signal).min)
+				getPointsDistance(pzb, signal).min)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
 			return distance == 0 ? distance.
@@ -609,27 +612,27 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (bueKantens.empty) {
 			return ""
 		}
-		return getDistanceOfPoints(topGraph, bueKantens, pzb)
+		return getDistanceOfPoints(bueKantens, pzb)
 
 	}
 
-	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
-		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
+	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph, PZB_Element pzb,
+		W_Kr_Gsp_Element gspElement) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null
 		]
 		if (gspKomponent.empty) {
 			throw new IllegalArgumentException('''«gspElement?.bezeichnung.bezeichnungTabelle?.wert» hast no Zungenpaar''')
 		}
-		return getDistanceOfPoints(topGraph, gspKomponent, pzb)
+		return getDistanceOfPoints(gspKomponent, pzb)
 	}
 
-	private def String getDistanceOfPoints(TopGraph topGraph,
-		Iterable<? extends Punkt_Objekt> p1s, Punkt_Objekt p2) {
+	private def String getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s, 
+		Punkt_Objekt p2) {
 		val distance = p1s?.fold(
 			Double.MAX_VALUE,
 			[ Double current, Punkt_Objekt p1 |
-				Math.min(current, topGraph.getPointsDistance(p1, p2).min)
+				Math.min(current, getPointsDistance(p1, p2).min)
 			]
 		)
 		if (distance.doubleValue === 0) {
@@ -638,17 +641,16 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		return AgateRounding.roundDown(distance).toString
 	}
 
-	private def Iterable<Double> getPointsDistance(TopGraph topGraph,
-		Punkt_Objekt p1, Punkt_Objekt p2) {
-		val distances = topGraph.getPaths(p1.singlePoints, p2.singlePoints)
-		return distances.isNullOrEmpty ? #[] : distances.map[it.length]
+	private def Iterable<Double> getPointsDistance(Punkt_Objekt p1,
+		Punkt_Objekt p2) {
+		val points1 = p1.singlePoints.map[new TopPoint(it)]
+		val points2 = p2.singlePoints.map[new TopPoint(it)]
+
+		return points1.flatMap [ pa |
+			points2.map [ pb |
+				topGraphService.findShortestPath(pa, pb)
+			]
+		].filter[present].map[asDouble].toList
 	}
 
-	private def Iterable<Double> getBahnsteigAbstand(PZB_Element pzb,
-		Bahnsteig_Kante bahnsteigKanten) {
-		return bahnsteigKanten.bereichObjektTeilbereich.flatMap [
-			val pair = IDTOPKante.getAbstandBO(pzb as Punkt_Objekt, it)
-			return #[pair.key.toDouble, pair.value.toDouble]
-		]
-	}
 }

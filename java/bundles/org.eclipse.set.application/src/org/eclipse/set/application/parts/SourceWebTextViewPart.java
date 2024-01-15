@@ -27,7 +27,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.browser.RequestHandler.Request;
 import org.eclipse.set.browser.RequestHandler.Response;
-import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.font.FontService;
 import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.ObjectScope;
@@ -78,6 +78,9 @@ public class SourceWebTextViewPart extends BasePart {
 	@Inject
 	FontService fontService;
 
+	@Inject
+	CacheService cacheService;
+
 	private FileWebBrowser browser;
 	private EventRegistration eventRegistration;
 
@@ -86,13 +89,6 @@ public class SourceWebTextViewPart extends BasePart {
 	private static final String PROBLEMS_JSON = "problems.json";
 	private static final String MODEL_PPXML = "model.ppxml";
 	private static final String LAYOUT_XML = "layout.xml";
-
-	/**
-	 * Constructor
-	 */
-	public SourceWebTextViewPart() {
-		super();
-	}
 
 	private void onProblemsChange() {
 		browser.executeJavascript(
@@ -107,8 +103,7 @@ public class SourceWebTextViewPart extends BasePart {
 			browser.serveRootDirectory(Path.of(TEXT_VIEWER_PATH));
 			browser.serveFile(MODEL_PPXML, "text/plain",
 					session.getToolboxFile().getModelPath());
-			browser.serveUri(PROBLEMS_JSON,
-					SourceWebTextViewPart::serveProblems);
+			browser.serveUri(PROBLEMS_JSON, this::serveProblems);
 			browser.serveFile(LAYOUT_XML, "text/plain",
 					session.getToolboxFile().getLayoutPath());
 
@@ -130,11 +125,11 @@ public class SourceWebTextViewPart extends BasePart {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void serveProblems(
+	private void serveProblems(
 			@SuppressWarnings("unused") final Request request,
 			final Response response) throws JsonProcessingException {
 		// Get the list of validation problems
-		final Iterable<Object> problems = Services.getCacheService()
+		final Iterable<Object> problems = cacheService
 				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE).values();
 		final List<ProblemMessage> problemMessages = new ArrayList<>();
 		problems.forEach(problemContainer -> problemMessages

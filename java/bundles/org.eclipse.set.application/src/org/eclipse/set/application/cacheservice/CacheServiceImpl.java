@@ -11,10 +11,14 @@ package org.eclipse.set.application.cacheservice;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.cache.NoCacheService;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 
 /**
@@ -22,30 +26,17 @@ import org.osgi.service.event.EventHandler;
  * 
  * @author Schaefer
  */
-public class CacheServiceImpl implements CacheService {
-	private IEventBroker broker;
-
-	private final EventHandler modelChangedHandler = event -> {
-		// Invalidate all caches if the model is changed
-		this.invalidate();
-	};
+@Component(property = EventConstants.EVENT_TOPIC + "="
+		+ Events.MODEL_CHANGED, service = { EventHandler.class,
+				CacheService.class })
+public class CacheServiceImpl implements CacheService, EventHandler {
 
 	/**
-	 * Sets the event broker and registers the cache service to toolbox events
-	 * 
-	 * Workaround for PLANPRO-3270
-	 * 
-	 * @param broker
-	 *            the event broker
+	 * Constructor
 	 */
-	public void setEventBroker(final IEventBroker broker) {
-		if (this.broker != null) {
-			this.broker.unsubscribe(modelChangedHandler);
-		}
-		this.broker = broker;
-		if (this.broker != null) {
-			this.broker.subscribe(Events.MODEL_CHANGED, modelChangedHandler);
-		}
+	public CacheServiceImpl() {
+		Services.setCacheService(this);
+		Services.setNoCacheService(new NoCacheService());
 	}
 
 	private final Map<String, Cache> caches = new HashMap<>();
@@ -66,5 +57,11 @@ public class CacheServiceImpl implements CacheService {
 
 	private void invalidate() {
 		caches.values().forEach(Cache::invalidate);
+	}
+
+	@Override
+	public void handleEvent(final Event event) {
+		// Invalidate all caches if the model is changed
+		this.invalidate();
 	}
 }

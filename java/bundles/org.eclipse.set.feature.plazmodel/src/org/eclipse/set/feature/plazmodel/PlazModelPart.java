@@ -28,7 +28,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
-import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.service.PlazModelService;
@@ -68,16 +68,11 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 	@Inject
 	TableMenuService tableMenuService;
 
+	@Inject
+	CacheService cacheService;
+
 	private PlazModelTableView tableView;
 	private PlazReport plazReport;
-
-	/**
-	 * Create the part.
-	 */
-	@Inject
-	public PlazModelPart() {
-		super();
-	}
 
 	@Override
 	protected void createFormsView(final Composite parent)
@@ -137,7 +132,7 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		setOutdated(false);
 
 		// record in cache service
-		final Cache cache = Services.getCacheService()
+		final Cache cache = cacheService
 				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
 		final List<ProblemMessage> problems = cache.get("plazReport", //$NON-NLS-1$
 				ArrayList::new);

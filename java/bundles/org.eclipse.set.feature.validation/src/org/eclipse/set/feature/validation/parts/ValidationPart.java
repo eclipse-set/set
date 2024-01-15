@@ -31,7 +31,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
-import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -115,6 +115,9 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	@Inject
 	UISynchronize sync;
 
+	@Inject
+	CacheService cacheService;
+
 	private Listener resizeListener;
 	private Composite resizeListenerObject;
 
@@ -150,7 +153,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 					messages, versionService, enumTranslationService);
 			validationReport = transformation.transform(getModelSession());
 
-			final Cache cache = Services.getCacheService()
+			final Cache cache = cacheService
 					.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
 			final List<ProblemMessage> problems = cache
 					.get(VIEW_VALIDATION_REPORT, ArrayList::new);

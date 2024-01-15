@@ -15,7 +15,6 @@
 			<unit id="org.apache.batik.transcoder" version="1.16.0.v20221027-0840"/>
 			<unit id="org.apache.batik.xml" version="1.16.0.v20221027-0840"/>
 			<unit id="org.apache.batik.svggen" version="1.16.0.v20221027-0840"/>
-			<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
 			<unit id="org.apache.commons.codec" version="1.14.0.v20221112-0806"/>
 			<unit id="org.apache.commons.io" version="2.8.0.v20210415-0900"/>
 			<unit id="org.apache.commons.compress" version="1.21.0.v20211103-2100"/>
@@ -308,6 +307,12 @@ DynamicImport-Package: *
 				</dependency>
 				<dependency>
 					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-lang3</artifactId>
+					<version>3.1</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.commons</groupId>
 					<artifactId>commons-math3</artifactId>
 					<version>3.6.1</version>
 					<type>jar</type>
@@ -471,6 +476,37 @@ DynamicImport-Package: *
 					<type>jar</type>
 				</dependency>
 			</dependencies>
+		</location>
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="JGraphT" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.apfloat</groupId>
+					<artifactId>apfloat</artifactId>
+					<version>1.12.0</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.jgrapht</groupId>
+					<artifactId>jgrapht-core</artifactId>
+					<version>1.5.2</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.jheaps</groupId>
+					<artifactId>jheaps</artifactId>
+					<version>0.14</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+			<instructions><![CDATA[
+Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
+version:               ${version_cleanup;${mvnVersion}}
+Bundle-SymbolicName:   maven.${mvnGroupId}.artifact.${mvnArtifactId}
+Bundle-Version:        ${version}
+Import-Package:        *;resolution:=optional
+Export-Package:        *;version="${version}";-noimport:=true
+DynamicImport-Package: *
+]]></instructions>
 		</location>
 	</locations>
 </target>
