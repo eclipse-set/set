@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023 DB Netz AG and others.
+ * Copyright (c) 2024 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -1213,7 +1213,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAussenelementansteuerung_Art_ESTW_A_Alternative;
 
 	/**
-	 * FeAk
+	 * FEAK
 	 */
 	public String ENUMAussenelementansteuerung_Art_FeAk_Presentation;
 
@@ -1223,9 +1223,24 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMAussenelementansteuerung_Art_FeAk_Sorting;
 
 	/**
-	 * FeAk
+	 * FEAK
 	 */
 	public String ENUMAussenelementansteuerung_Art_FeAk_Alternative;
+
+	/**
+	 * FEAS
+	 */
+	public String ENUMAussenelementansteuerung_Art_FeAS_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMAussenelementansteuerung_Art_FeAS_Sorting;
+
+	/**
+	 * FEAS
+	 */
+	public String ENUMAussenelementansteuerung_Art_FeAS_Alternative;
 
 	/**
 	 * GFK
