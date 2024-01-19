@@ -206,6 +206,7 @@ npm/npmjs/-/content-type/1.0.4, MIT, approved, #6950
 npm/npmjs/-/cookie-signature/1.0.6, MIT, approved, clearlydefined
 npm/npmjs/-/cookie/0.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/copy-webpack-plugin/12.0.1, MIT, approved, #12752
+npm/npmjs/-/copy-webpack-plugin/12.0.2, MIT, approved, #12752
 npm/npmjs/-/core-js/3.19.1, MIT, approved, clearlydefined
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
 npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, clearlydefined
