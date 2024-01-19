@@ -28,7 +28,7 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
-    "css-loader": "^6.9.0",
+    "css-loader": "^6.9.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.0"
   }
