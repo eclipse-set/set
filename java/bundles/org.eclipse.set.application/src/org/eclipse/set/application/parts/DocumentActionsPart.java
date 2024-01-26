@@ -62,6 +62,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.event.Event;
 import org.slf4j.Logger;
@@ -186,6 +187,15 @@ public class DocumentActionsPart implements ActionProvider {
 		bar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		bar.setSpacing(8);
+
+		// Overwrite default ExpandBar scrolling behavior (only scrolling 1px)
+		final ScrollBar vScrollBar = bar.getVerticalBar();
+		if (vScrollBar != null) {
+			vScrollBar.setIncrement(15);
+			vScrollBar.setPageIncrement(15);
+		} else {
+			logger.warn("Could not set scrolling increment"); //$NON-NLS-1$
+		}
 
 		// Add a logo zone
 		final Composite logoZone = new Composite(parent, SWT.NONE);
