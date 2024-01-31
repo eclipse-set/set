@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.set.feature.news"
+      label="Toolbox Release Notes"
+      version="2.2.0.qualifier"
+      provider-name="Eclipse Signalling Engineering Toolbox"
+      os="win32">
+
+   <description>
+      Eclipse Signalling Engineering Toolbox release notes feature, containing the release notes of the toolbox.
+   </description>
+
+   <copyright>
+      Copyright (c) 2024 DB InfraGO AG and others
+
+  This program and the accompanying materials are made available under the 
+  terms of the Eclipse Public License 2.0 which is available at
+  https://www.eclipse.org/legal/epl-2.0.
+ 
+  SPDX-License-Identifier: EPL-2.0
+   </copyright>
+
+</feature>
