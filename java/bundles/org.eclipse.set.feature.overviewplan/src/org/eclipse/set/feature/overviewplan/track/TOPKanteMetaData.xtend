@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.overviewplan.service
+package org.eclipse.set.feature.overviewplan.track
 
 import java.util.Collections
 import java.util.List

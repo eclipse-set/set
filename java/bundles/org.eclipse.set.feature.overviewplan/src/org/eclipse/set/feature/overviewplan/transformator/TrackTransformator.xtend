@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.feature.overviewplan.transformator
 
-import org.eclipse.set.feature.overviewplan.service.TOPKanteMetaData
-import org.eclipse.set.feature.overviewplan.service.TrackService
+import org.eclipse.set.feature.overviewplan.track.TOPKanteMetaData
+import org.eclipse.set.feature.overviewplan.track.TrackService
 import org.eclipse.set.feature.siteplan.transform.BaseTransformator
 import org.eclipse.set.feature.siteplan.transform.Transformator
 import org.eclipse.set.model.siteplan.SiteplanFactory

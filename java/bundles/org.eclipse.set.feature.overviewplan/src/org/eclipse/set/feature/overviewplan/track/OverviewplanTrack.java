@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.feature.overviewplan.service;
+package org.eclipse.set.feature.overviewplan.track;
 
 import java.util.ArrayList;
 import java.util.HashMap;
