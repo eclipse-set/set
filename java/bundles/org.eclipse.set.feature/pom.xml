@@ -44,21 +44,6 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>copy-about</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/about/web/about</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/../../../web/about/dist</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
 						<id>copy-textviewer</id>
 						<phase>prepare-package</phase>
 						<goals>
@@ -104,21 +89,6 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>copy-news</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/news/web/news</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/../../../web/news/public</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
 						<id>copy-developerhelp</id>
 						<phase>prepare-package</phase>
 						<goals>
@@ -149,10 +119,6 @@
 							<followSymlinks>false</followSymlinks>
 						</fileset>
 						<fileset>
-							<directory>about</directory>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-						<fileset>
 							<directory>textviewer</directory>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
@@ -166,10 +132,6 @@
 						</fileset>
 						<fileset>
 							<directory>developerhelp</directory>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-						<fileset>
-							<directory>news</directory>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
 					</filesets>
