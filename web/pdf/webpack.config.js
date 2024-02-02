@@ -8,10 +8,10 @@ const StreamZip = require("node-stream-zip");
 
 class ExtractPDFJSPlugin {
   async extractPdfJS() {
-    if (!existsSync("pdfjs-dist.zip")) return;
+    if (!existsSync("pdfjs.zip")) return;
 
     await fs.mkdir("pdfjs", { recursive: true });
-    const zip = new StreamZip.async({file: "./pdfjs-dist.zip" });
+    const zip = new StreamZip.async({file: "./pdfjs.zip" });
     await zip.extract(null, "./pdfjs");
     await zip.close();
   }
