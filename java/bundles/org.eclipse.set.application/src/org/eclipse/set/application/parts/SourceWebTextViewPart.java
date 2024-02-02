@@ -204,6 +204,10 @@ public class SourceWebTextViewPart extends BasePart {
 			tableState = "diff";
 			break;
 		}
+		case SINGLE: {
+			tableState = "single";
+			break;
+		}
 		default:
 			break;
 		}

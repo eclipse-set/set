@@ -180,8 +180,10 @@ export class App {
         return ModelContainer.INITIAL
       case TableType.DIFF:
         return getModelContainer(this.editor, this.editor.getPosition())
-      default:
+      case TableType.FINAL:
         return ModelContainer.FINAL
+      default:
+        return ModelContainer.SINGLE
     }
   }
 
