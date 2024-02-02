@@ -83,7 +83,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 			Validierung: %s
 			Werkzeugkofferversion: %s
 
-			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Meldung"
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
 			""";
 
 	private Exception createException;
