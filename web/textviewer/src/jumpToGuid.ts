@@ -9,10 +9,12 @@
 import * as monaco from 'monaco-editor'
 import { TextFileModel } from './model'
 
+/* eslint-disable no-unused-vars */
 export enum ModelContainer {
   INITIAL,
   FINAL,
-  LAYOUT
+  LAYOUT,
+  SINGLE
 }
 
 /**
@@ -59,7 +61,7 @@ export function switchModelToFindReference (
   viewModels.forEach((model, name) => {
     if (!Object.is(model, editor.getModel())) {
       const xml = new DOMParser().parseFromString(model.getValue(), 'text/xml')
-      const modelContainer = name === TextFileModel.LAYOUT ? ModelContainer.LAYOUT : [ModelContainer.INITIAL, ModelContainer.FINAL]
+      const modelContainer = name === TextFileModel.LAYOUT ? ModelContainer.LAYOUT : [ModelContainer.INITIAL, ModelContainer.FINAL, ModelContainer.SINGLE]
       const lineNumber = findObjectDefinitionLineByGUID(guid, model, xml, modelContainer)
       if (lineNumber) {
         (window as any).planproSwitchModel(name)
@@ -83,9 +85,18 @@ export function getModelContainer (editor: monaco.editor.IStandaloneCodeEditor, 
   if (isLayoutContainer) {
     return ModelContainer.LAYOUT
   }
-  const lstState = editor.getModel().findPreviousMatch('<LST_Zustand_(Start|Ziel)>', pos, true, false, null, true)
+  const lstState = editor.getModel().findPreviousMatch('<LST_Zustand(_Start|_Ziel)?>', pos, true, false, null, true)
+  console.log(lstState)
   if (lstState) {
-    return lstState.matches[1] === 'Start' ? ModelContainer.INITIAL : ModelContainer.FINAL
+    switch (lstState.matches[1]) {
+      case 'Start':
+        return ModelContainer.INITIAL
+      case 'Ziel':
+        return ModelContainer.FINAL
+      default:
+        return ModelContainer.SINGLE
+    }
+    // return lstState.matches[1] === 'Start' ? ModelContainer.INITIAL : ModelContainer.FINAL
   }
 }
 
@@ -199,6 +210,8 @@ function getContainerXPath (container: ModelContainer, guid: string) : string {
       return `.//LST_Zustand_Start/Container/*/Identitaet/Wert[text()="${guid}"]`
     case ModelContainer.FINAL:
       return `.//LST_Zustand_Ziel/Container/*/Identitaet/Wert[text()="${guid}"]`
+    case ModelContainer.SINGLE:
+      return `.//LST_Zustand/Container/*/Identitaet/Wert[text()="${guid}"]`
     case ModelContainer.LAYOUT:
       return `.//Identitaet/Wert[text()="${guid}"]`
   }

@@ -16,7 +16,8 @@ export enum TableType
 {
   INITIAL = 'initial',
   FINAL = 'final',
-  DIFF = 'diff'
+  DIFF = 'diff',
+  SINGLE= 'single'
 }
 let app !: App
 (window as any).initApp = async () => {
