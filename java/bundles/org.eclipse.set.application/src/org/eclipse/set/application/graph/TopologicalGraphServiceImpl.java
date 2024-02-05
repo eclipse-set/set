@@ -165,8 +165,8 @@ public class TopologicalGraphServiceImpl
 			}
 
 			// Add the initial distance of the TopPoint to the first TOP_Knoten
-			pathWeight = pathWeight.add(getDistance(startNode, from));
-			pathWeight = pathWeight.add(getDistance(endNode, to));
+			pathWeight = pathWeight.add(getDistance(startNode, from))
+					.add(getDistance(endNode, to));
 
 			// Add start/ending edges if not already part of the path
 			final List<TOP_Kante> fullPath = new ArrayList<>();
