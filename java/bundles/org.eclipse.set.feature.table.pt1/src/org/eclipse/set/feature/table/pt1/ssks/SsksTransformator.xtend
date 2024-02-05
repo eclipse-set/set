@@ -135,8 +135,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService,
-		BankService bankingService) {
+		TopologicalGraphService topGraphService, BankService bankingService) {
 		super(cols, enumTranslationService)
 		this.topGraphService = topGraphService
 		this.bankingService = bankingService
@@ -262,12 +261,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								cols.getColumn(Ueberhoehung),
 								signal,
 								[
-									gruppe.flatMap [
-										bankingService.findBankValue(
-											new TopPoint(it)).map [
-											multiply(new BigDecimal(1000)).
-												toTableInteger ?: ""
-										]
+									bankingService.findBankValue(
+										new TopPoint(signal)).map [
+										multiply(new BigDecimal(1000)).
+											toTableInteger ?: ""
 									]
 								],
 								null
