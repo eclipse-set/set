@@ -292,7 +292,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		]?.filterNull ?: Collections.emptyList
 		fillSwitch(
 			cols.getColumn(Bemerkung),
-			fstrZugRangier, 
+			fstrZugRangier,
 			new Case<Fstr_Zug_Rangier>(
 				[
 					!bedAnzeigeElemente.empty && !bedAnzeigeElemente.map [
