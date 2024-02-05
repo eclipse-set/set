@@ -44,10 +44,8 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 	val DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path
 	Ueberhoehungslinie bankingLine
 
-	static final Logger LOGGER = LoggerFactory. //
-	getLogger(
-		typeof(BankingInterval)
-	);
+	static final Logger LOGGER = LoggerFactory.getLogger(
+		typeof(BankingInterval));
 
 	private new(
 		DirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> path,
@@ -103,7 +101,6 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 	}
 
 	/**
-	 * @param graph the graph
 	 * @param singlePoint a single point
 	 * @param digraph the digraph
 	 * 
@@ -238,7 +235,7 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		}
 		return result.add(h_start)
 	}
-	
+
 	/**
 	 * BankingIntervall S-Form to Bloss
 	 * When x <= L / 2, then:
@@ -254,17 +251,13 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 		if (distanceFromLeft.compareTo(length.divideValue(2)) > 0) {
 			return h_between.bankingDefault
 		}
-		val a = h_between
-			.multiplyValue(3)
-			.divideValue(length.pow(2))
-			.multiply(distanceFromLeft.pow(2)) 
-		val b = h_between
-			.multiplyValue(2)
-			.divideValue(length.pow(3))
-			.multiply(distanceFromLeft.pow(3)) 
-		return a.add(b.negate) 
+		val a = h_between.multiplyValue(3).divideValue(length.pow(2)).multiply(
+			distanceFromLeft.pow(2))
+		val b = h_between.multiplyValue(2).divideValue(length.pow(3)).multiply(
+			distanceFromLeft.pow(3))
+		return a.add(b.negate)
 	}
-	
+
 	/**
 	 * BankingIntervall S-Form to Rampe
 	 * 1. Case: when x =< L/2 => u = 2 * U * x^2 / L^2
@@ -277,18 +270,14 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 	 */
 	private def BigDecimal bankingOfRampeS(BigDecimal h_between) {
 		if (distanceFromLeft.compareTo(length.divideValue(2)) < 1) {
-			return h_between
-				.multiplyValue(2)
-				.multiplyValue(distanceFromLeft.pow(2))
-				.divideValue(length.pow(2))
+			return h_between.multiplyValue(2).multiplyValue(
+				distanceFromLeft.pow(2)).divideValue(length.pow(2))
 		}
-		return h_between.add(h_between
-				.multiplyValue(2)
-				.multiplyValue(distanceFromRight.pow(2))
-				.divideValue(length.pow(2))
-				.negate)
+		return h_between.add(
+			h_between.multiplyValue(2).multiplyValue(distanceFromRight.pow(2)).
+				divideValue(length.pow(2)).negate)
 	}
-	
+
 	/**
 	 * Default BankingIntervall
 	 * 		u = U / L * x
@@ -298,9 +287,7 @@ class BankingInterval extends ValueInterval<BigDecimal, BigDecimal> {
 	 * 		x: distance form start of banking to point
 	 */
 	private def BigDecimal bankingDefault(BigDecimal h_between) {
-		return h_between
-				.multiplyValue(distanceFromLeft)
-				.divideValue(length)
+		return h_between.multiplyValue(distanceFromLeft).divideValue(length)
 	}
 
 	/**

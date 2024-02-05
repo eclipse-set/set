@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Comparator;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
@@ -41,6 +42,8 @@ public final class SskgTransformationService
 	private Messages messages;
 	@Reference
 	private EnumTranslationService enumTranslationService;
+	@Reference
+	private TopologicalGraphService topGraphService;
 
 	/**
 	 * constructor.
@@ -51,7 +54,8 @@ public final class SskgTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SskgTransformator(cols, enumTranslationService);
+		return new SskgTransformator(cols, enumTranslationService,
+				topGraphService);
 	}
 
 	@Override

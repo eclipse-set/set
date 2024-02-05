@@ -15,8 +15,6 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.set.basis.tables.Tables;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Helper class for handling tree like column headers in a nat table.
@@ -26,9 +24,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class NatTableColumnGroupHelper {
 	private static final String ZERO_WIDTH_SPACE = "\u200B"; //$NON-NLS-1$
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(NatTableColumnGroupHelper.class);
 
 	/**
 	 * Helper interface to wrap the method reference ::addColumnsIndexesToGroup
@@ -49,9 +44,7 @@ public final class NatTableColumnGroupHelper {
 			final int uniqueIndex = indices.length > 0 ? indices[0] : 0;
 			final String groupLabel = group.getLabel()
 					+ ZERO_WIDTH_SPACE.repeat(uniqueIndex);
-			logger.info("Create group {} with indices {}", //$NON-NLS-1$ log
-															// message
-					groupLabel, indices);
+
 			columnHeaderLayer.addColumnsIndexesToGroup(groupLabel, indices);
 		}
 	}

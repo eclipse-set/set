@@ -11,11 +11,12 @@ package org.eclipse.set.feature.table.pt1.ssld
 import java.math.RoundingMode
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
@@ -34,7 +35,6 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrDWegSpezifischExt
 import static extension org.eclipse.set.ppmodel.extensions.FstrDWegWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
-import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
@@ -44,22 +44,27 @@ import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
  */
 class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
+	val TopologicalGraphService topGraphService;
 	new(Set<ColumnDescriptor> cols,
-		EnumTranslationService enumTranslationService) {
+		EnumTranslationService enumTranslationService,
+		TopologicalGraphService topGraphService) {
 		super(cols, enumTranslationService)
+		this.topGraphService = topGraphService
 	}
 
-	def static double getShortestPathLength(TopGraph topGraph, Signal signal,
+	def double getShortestPathLength(Signal signal,
 		Punkt_Objekt p) {
-		val paths = topGraph.getPaths(signal.singlePoints, p.singlePoints)
-		if (paths.isNullOrEmpty) {
-			return 0.0
-		} else {
-			return paths.map[it.length].min
-		}
+		val points1 = signal.singlePoints.map[new TopPoint(it)]
+		val points2 = p.singlePoints.map[new TopPoint(it)]
+
+		return points1.flatMap [ pa |
+			points2.map [ pb |
+				topGraphService.findShortestPath(pa, pb)
+			]
+		].filter[present].map[asDouble].min
 	}
 
-	def static String getFreigemeldetLaenge(TopGraph topGraph, Fstr_DWeg dweg) {
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg) {
 		val fmas = dweg?.FMAs
 		if (fmas.empty) {
 			return ""
@@ -67,7 +72,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = fmas?.fold(
 			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
 				Math.max(current,
-					getShortestPathLength(topGraph, dweg?.fstrFahrweg?.start,
+					getShortestPathLength(dweg?.fstrFahrweg?.start,
 						grenze))
 			])
 		val roundedDistance = AgateRounding.roundDown(distance)
@@ -81,9 +86,6 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		MultiContainer_AttributeGroup container,
 		TMFactory factory
 	) {
-
-		val topGraph = new TopGraph(container.TOPKante)
-
 		val fstDwegList = container.fstrDWeg
 
 		// var footnoteNumber = 1;
@@ -173,7 +175,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph, dweg)]
+				[dweg.freigemeldetLaenge]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung

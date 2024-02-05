@@ -129,7 +129,7 @@ Import-Package: ch.qos.logback.classic;version="1.0.7",
  org.slf4j;version="1.7.2"
 Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServiceImpl.xml,
  OSGI-INF/org.eclipse.set.application.attachments.AttachmentContentServiceContextFunction.xml,
- OSGI-INF/org.eclipse.set.application.cacheservice.CacheServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.application.cacheservice.CacheServiceImpl.xml,
  OSGI-INF/org.eclipse.set.application.defaultvalue.DefaultValueServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.AboutPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.application.descriptions.AttachmentPartDescriptionService.xml,
