@@ -117,6 +117,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExten
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
 import org.eclipse.set.core.services.graph.BankService
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.OzBk
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -883,14 +884,23 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private static def boolean isSsksSignal(Signal signal) {
-		val signalArt = signal?.signalReal?.signalRealAktivSchirm?.signalArt?.
-			wert
-		val signalFunktion = signal?.signalReal?.signalFunktion?.wert
-		return signal?.signalFiktiv !== null ||
-			( signalArt !== null && signalArt != ENUM_SIGNAL_ART_ANDERE) ||
-			( signalFunktion !== null &&
+		if (signal?.signalFiktiv !== null) {
+			return true
+		}
+
+		val signalReal = signal?.signalReal
+		val signalRealAktiv = signalReal?.signalRealAktiv
+		val signalRealAktivSchirm = signalReal?.signalRealAktivSchirm
+		val signalArt = signalRealAktivSchirm?.signalArt?.wert
+		val signalFunktion = signalReal?.signalFunktion?.wert
+
+		return (signalArt !== null && signalArt != ENUM_SIGNAL_ART_ANDERE) ||
+			(signalFunktion !== null &&
 				signalFunktion ==
-					ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL)
+					ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL) ||
+			(signalReal !== null && signalRealAktiv === null &&
+				signalRealAktivSchirm === null &&
+				(signal.hasSignalbegriffID(Ne14) || signal.hasSignalbegriffID(OzBk)))
 	}
 
 	private static def boolean isSsksSignalNichtAndere(Signal signal) {
