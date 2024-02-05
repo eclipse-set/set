@@ -11,7 +11,7 @@ Die Veröffentlichung der Eclipse Signalling Engineering Toolbox erfolgt ohne je
 Gewährleistung.
 
 Weitere Informationen unter +
-https://www.infrago.com/planpro +
+https://www.dbinfrago.com/planpro +
 https://projects.eclipse.org/projects/technology.set
 
 Für Hinweise, Kritik, Informationen und Anfragen zum Quellcode wenden Sie sich
