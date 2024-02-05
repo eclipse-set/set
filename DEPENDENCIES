@@ -502,7 +502,7 @@ npm/npmjs/-/object.fromentries/2.0.7, MIT, approved, #4600
 npm/npmjs/-/object.groupby/1.0.1, MIT, approved, #10360
 npm/npmjs/-/object.values/1.1.7, MIT, approved, #4665
 npm/npmjs/-/obuf/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/ol-mapbox-style/12.1.1, BSD-2-Clause AND MIT, approved, #11441
+npm/npmjs/-/ol-mapbox-style/12.2.0, BSD-2-Clause AND BSD-3-Clause AND MIT, approved, #13028
 npm/npmjs/-/ol/8.2.0, BSD-2-Clause AND Apache-2.0, approved, #11592
 npm/npmjs/-/on-finished/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/on-headers/1.0.2, MIT, approved, clearlydefined
@@ -699,7 +699,7 @@ npm/npmjs/-/webpack-dev-middleware/5.3.3, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-dev-server/4.15.1, MIT, approved, #8400
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #2407
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
-npm/npmjs/-/webpack/5.90.0, MIT, approved, #12893
+npm/npmjs/-/webpack/5.90.1, MIT, approved, #12893
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/whatwg-url/5.0.0, MIT, approved, clearlydefined
