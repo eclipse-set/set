@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -37,6 +38,8 @@ public final class SsksTransformationService
 	private EnumTranslationService enumTranslationService;
 	@Reference
 	private TopologicalGraphService topGraphService;
+	@Reference
+	private BankService bankingService;
 
 	/**
 	 * constructor.
@@ -48,7 +51,7 @@ public final class SsksTransformationService
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SsksTransformator(cols, enumTranslationService,
-				topGraphService);
+				topGraphService, bankingService);
 	}
 
 	@Override

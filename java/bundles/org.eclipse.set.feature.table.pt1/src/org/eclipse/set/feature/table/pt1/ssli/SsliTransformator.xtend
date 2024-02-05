@@ -16,7 +16,6 @@ import java.util.Map
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
@@ -36,6 +35,7 @@ import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtauss
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -303,7 +303,6 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		return gleisBezeichnung?.bezeichnung?.bezGleisBezeichnung?.wert
 	}
 
-
 	private def Iterable<Double> createDistances(Punkt_Objekt p1,
 		Punkt_Objekt p2) {
 		val points1 = p1.singlePoints.map[new TopPoint(it)]
@@ -313,7 +312,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 			points2.map [ pb |
 				topGraphService.findShortestPath(pa, pb)
 			]
-		].filter[present].map[asDouble].toList
+		].filter[present].map[get.doubleValue]
 	}
 
 	private def boolean getGeneralbedingung(

@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2024 DB InfraGO AG and others
  *
- * This program and the accompanying materials are made available under the 
+ * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
  *
@@ -12,11 +12,12 @@ package org.eclipse.set.feature.table.pt1.sskp;
 
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.stream.Stream;
 
+import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
-import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint;
 import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Kante;
 import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup;
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
@@ -61,7 +62,7 @@ public class SskpBahnsteigUtils {
 			final Bereich_Objekt_Teilbereich_AttributeGroup botb,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup point) {
 		final double limitA = botb.getBegrenzungA().getWert().doubleValue();
-		final double limitB = botb.getBegrenzungA().getWert().doubleValue();
+		final double limitB = botb.getBegrenzungB().getWert().doubleValue();
 		final double position = point.getAbstand().getWert().doubleValue();
 		return limitA < position && position < limitB
 				|| limitB < position && position < limitA;
@@ -139,8 +140,8 @@ public class SskpBahnsteigUtils {
 						.flatMap(tb -> toTopPoints(tb)))
 				.map(point -> topGraphService.findShortestPathInDirection(
 						pzbPoint, point, searchDirection))
-				.filter(OptionalDouble::isPresent)
-				.mapToDouble(OptionalDouble::getAsDouble)
+				.filter(Optional::isPresent)
+				.mapToDouble(c -> c.get().doubleValue())
 				.collect(DoubleSummaryStatistics::new,
 						DoubleSummaryStatistics::accept,
 						DoubleSummaryStatistics::combine);
@@ -163,26 +164,25 @@ public class SskpBahnsteigUtils {
 						.flatMap(tb -> toTopPoints(tb)))
 				.map(point -> topGraphService.findShortestPathInDirection(
 						pzbPoint, point, !isWirkrichtungTopDirection))
-				.filter(OptionalDouble::isPresent)
-				.mapToDouble(OptionalDouble::getAsDouble).max();
+				.filter(Optional::isPresent)
+				.mapToDouble(c -> c.get().doubleValue()).max();
 
 		final OptionalDouble end = Streams.stream(bahnsteig)
 				.flatMap(bsk -> bsk.getBereichObjektTeilbereich().stream()
 						.flatMap(tb -> toTopPoints(tb)))
 				.map(point -> topGraphService.findShortestPathInDirection(
 						pzbPoint, point, isWirkrichtungTopDirection))
-				.filter(OptionalDouble::isPresent)
-				.mapToDouble(OptionalDouble::getAsDouble).map(c -> -c).min();
+				.filter(Optional::isPresent)
+				.mapToDouble(c -> c.get().doubleValue()).map(c -> -c).min();
 		return new BahnsteigDistance(start, end);
 	}
 
 	private static Stream<TopPoint> toTopPoints(
 			final Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 		return Stream.of(
+				new TopPoint(tb.getIDTOPKante(), tb.getBegrenzungA().getWert()),
 				new TopPoint(tb.getIDTOPKante(),
-						tb.getBegrenzungA().getWert().doubleValue()),
-				new TopPoint(tb.getIDTOPKante(),
-						tb.getBegrenzungB().getWert().doubleValue()));
+						tb.getBegrenzungB().getWert()));
 
 	}
 

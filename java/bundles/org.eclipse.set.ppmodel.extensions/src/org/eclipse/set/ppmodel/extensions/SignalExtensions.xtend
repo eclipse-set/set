@@ -8,14 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import java.math.BigDecimal
 import java.util.Collections
 import java.util.List
 import java.util.Set
 import org.eclipse.core.runtime.Assert
-import org.eclipse.set.basis.graph.Digraph
 import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
@@ -23,8 +22,6 @@ import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
@@ -41,6 +38,7 @@ import static org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelement
 import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 
+import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
@@ -50,8 +48,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensio
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.basis.graph.Digraphs.*
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
 /**
  * This class extends {@link Signal}.
@@ -248,39 +244,6 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		return signal?.signalFstrS?.IDAnrueckverschluss ?: Collections.emptyList
-	}
-
-	/**
-	 * @param signal this signal
-	 * @param digraph the digraph
-	 * @param signalBefestigung the Befestigung of signal
-	 * 
-	 * @return the Überhöhung at the signal; or {@code null}, if the signal does
-	 * not lie within a BankingInterval
-	 */
-	def static BigDecimal getUeberhoehung(
-		Signal signal,
-		Digraph<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> digraph,
-		Signal_Befestigung signalBefestigung
-	) {
-		return signal.getBankingInterval(digraph, signalBefestigung)?.banking
-	}
-
-	/**
-	 * @param signal this signal
-	 * @param digraph the digraph
-	 * @param signalBefestigung the Befestigung of signal
-	 * 
-	 * @return the BankingInterval of this signal; or {@code null}, if the
-	 * signal does not lie within a BankingInterval
-	 */
-	def static BankingInterval getBankingInterval(
-		Signal signal,
-		Digraph<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> digraph,
-		Signal_Befestigung signalBefestigung
-	) {
-		return BankingInterval.createInterval(
-			signal.getMountPoint(signalBefestigung), digraph)
 	}
 
 	/**
