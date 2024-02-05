@@ -334,7 +334,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 	def double getShortestPathLength(Punkt_Objekt p1,
 		Punkt_Objekt p2) {
 		val points1 = p1.singlePoints.map[new TopPoint(it)]
-		val points2 = p2.singlePoints.map[new TopPoint(it)] 
+		val points2 = p2.singlePoints.map[new TopPoint(it)]
 
 		return points1.flatMap [ pa |
 			points2.map [ pb |
