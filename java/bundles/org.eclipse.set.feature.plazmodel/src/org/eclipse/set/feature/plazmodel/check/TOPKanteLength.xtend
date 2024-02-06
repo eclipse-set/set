@@ -14,8 +14,6 @@ import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.osgi.service.component.annotations.Component
-import java.util.Map
-import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that a TOP_Kante of length zero has distinct 
@@ -60,9 +58,5 @@ class TOPKanteLength extends AbstractPlazContainerCheck implements PlazCheck {
 
 	override getGeneralErrMsg() {
 		return "Es gibt TOP_Kanten mit nicht eindeutigen Endknoten."
-	}
-
-	override transformErroMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

@@ -151,8 +151,13 @@ public interface ToolboxProperties {
 	 */
 	public static final String DEFAULT_SHEETCUT_CRS = "toolbox.siteplan.sheetcut_crs";
 
-  /**
+	/**
 	 * Property key for the minimum of content in table row group.
 	 */
 	public static final String TREE_MINIMUN = "toolbox.table.tree.minimum";
+
+	/**
+	 * Property key for the maximum bank line length offset to the top path
+	 */
+	public static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "toolbox.bank_line_offset_limit";
 }

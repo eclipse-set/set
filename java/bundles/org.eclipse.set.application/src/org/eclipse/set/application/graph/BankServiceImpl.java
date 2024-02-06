@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -32,6 +33,7 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
 import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung;
 import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehungslinie;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
@@ -47,46 +49,6 @@ import org.osgi.service.event.EventHandler;
 public class BankServiceImpl implements BankService, EventHandler {
 	@Reference
 	private TopologicalGraphService topGraph;
-
-	private record BankingInformation(Ueberhoehungslinie line, TopPath path) {
-
-		boolean isOnBankingLine(final TopPoint point) {
-			final BigDecimal pointDistance = point.distance();
-			if (path == null) {
-				final BigDecimal ueLeft = line.getIDUeberhoehungA()
-						.getPunktObjektTOPKante().get(0).getAbstand().getWert();
-				final BigDecimal ueRight = line.getIDUeberhoehungB()
-						.getPunktObjektTOPKante().get(0).getAbstand().getWert();
-				final BigDecimal min = ueLeft.min(ueRight);
-				final BigDecimal max = ueLeft.max(ueRight);
-
-				return min.compareTo(pointDistance) <= 0
-						&& max.compareTo(pointDistance) >= 0;
-			}
-
-			final Optional<BigDecimal> pDistance = path.getDistance(point);
-			if (!pDistance.isPresent()) {
-				return false;
-			}
-
-			// Validate bank line start is before the point object on the
-			// first edge, if the point is on the first edge
-			final Optional<BigDecimal> A = path
-					.getDistance(new TopPoint(line.getIDUeberhoehungA()));
-			final Optional<BigDecimal> B = path
-					.getDistance(new TopPoint(line.getIDUeberhoehungB()));
-
-			if (!A.isPresent() || !B.isPresent()) {
-				return false;
-			}
-			final BigDecimal min = A.get().min(B.get());
-			final BigDecimal max = A.get().max(B.get());
-
-			return min.compareTo(pDistance.get()) <= 0
-					&& max.compareTo(pDistance.get()) >= 0;
-
-		}
-	}
 
 	private HashMap<TOP_Kante, Set<BankingInformation>> topEdgeBanking;
 
@@ -110,10 +72,19 @@ public class BankServiceImpl implements BankService, EventHandler {
 		if (container == null) {
 			return;
 		}
-		container.getUeberhoehungslinie().forEach(this::findTOPBanking);
+		StreamSupport
+				.stream(container.getUeberhoehungslinie().spliterator(), false)
+				.map(this::findTOPBanking)
+				.forEach(info -> info.path().edges().forEach(edge -> {
+					topEdgeBanking.putIfAbsent(edge, new HashSet<>());
+					topEdgeBanking.get(edge).add(info);
+				}));
+
 	}
 
-	private void findTOPBanking(final Ueberhoehungslinie bankingLine) {
+	@Override
+	public BankingInformation findTOPBanking(
+			final Ueberhoehungslinie bankingLine) {
 		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA();
 		final Ueberhoehung end = bankingLine.getIDUeberhoehungB();
 
@@ -123,13 +94,10 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.getIDTOPKante();
 		if (beginEdge
 				.equals(end.getPunktObjektTOPKante().get(0).getIDTOPKante())) {
-			topEdgeBanking.putIfAbsent(beginEdge, new HashSet<>());
-			topEdgeBanking.get(beginEdge)
-					.add(new BankingInformation(bankingLine,
-							new TopPath(List.of(beginEdge),
-									beginEdge.getTOPKanteAllg().getTOPLaenge()
-											.getWert())));
-			return;
+
+			return new BankingInformation(bankingLine, new TopPath(
+					List.of(beginEdge),
+					beginEdge.getTOPKanteAllg().getTOPLaenge().getWert()));
 		}
 
 		// Otherwise find all possible paths and find the path with the smallest
@@ -150,16 +118,21 @@ public class BankServiceImpl implements BankService, EventHandler {
 			}
 		}
 
-		if (path == null) {
-			return;
+		if (path == null || minLengthDiff > ToolboxConfiguration
+				.getBankLineTopOffsetLimit()) {
+			return null;
 		}
 
-		final BankingInformation bankInfo = new BankingInformation(bankingLine,
-				path);
-		path.edges().forEach(e -> {
-			topEdgeBanking.putIfAbsent(e, new HashSet<>());
-			topEdgeBanking.get(e).add(bankInfo);
-		});
+		return new BankingInformation(bankingLine, path);
+	}
+
+	@Override
+	public List<BankingInformation> findRelevantLineBankings(
+			final TopPoint point) {
+		final Set<BankingInformation> bankingLines = topEdgeBanking
+				.get(point.edge());
+		return bankingLines.stream().filter(line -> line.isOnBankingLine(point))
+				.toList();
 	}
 
 	@Override
@@ -167,14 +140,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 		// If we have a banking line for this edge, use the line
 		if (topEdgeBanking.containsKey(point.edge())
 				&& !topEdgeBanking.get(point.edge()).isEmpty()) {
-
-			final Set<BankingInformation> bankingLines = topEdgeBanking
-					.get(point.edge());
-			final List<BankingInformation> relevantLineBankings = bankingLines
-					.stream().filter(line -> line.isOnBankingLine(point))
-					.toList();
-			final List<BigDecimal> lineBankings = relevantLineBankings.stream()
-					.map(line -> findBankingValue(point, line)).toList();
+			final List<BigDecimal> lineBankings = findRelevantLineBankings(
+					point).stream().map(line -> findBankingValue(point, line))
+							.toList();
 			if (!lineBankings.isEmpty()) {
 				return lineBankings;
 			}
@@ -229,7 +197,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 			final BankingInformation bankInfo) {
 
 		final Ueberhoehungslinie bankingLine = bankInfo.line();
-		final BigDecimal pointDistance = bankInfo.path.getDistance(point)
+		final BigDecimal pointDistance = bankInfo.path().getDistance(point)
 				.orElseThrow();
 
 		final BigDecimal ueLeft = bankingLine.getIDUeberhoehungA()
@@ -239,10 +207,10 @@ public class BankServiceImpl implements BankService, EventHandler {
 		final BigDecimal length = bankingLine.getUeberhoehungslinieAllg()
 				.getUeberhoehungslinieLaenge().getWert();
 
-		final BigDecimal leftPosition = bankInfo.path
+		final BigDecimal leftPosition = bankInfo.path()
 				.getDistance(new TopPoint(bankingLine.getIDUeberhoehungA()))
 				.orElseThrow();
-		final BigDecimal rightPosition = bankInfo.path
+		final BigDecimal rightPosition = bankInfo.path()
 				.getDistance(new TopPoint(bankingLine.getIDUeberhoehungB()))
 				.orElseThrow();
 		final BigDecimal distanceLeft = leftPosition.subtract(pointDistance)

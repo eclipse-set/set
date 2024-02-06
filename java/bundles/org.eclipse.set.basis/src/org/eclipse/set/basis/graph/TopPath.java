@@ -64,6 +64,9 @@ public class TopPath {
 
 		TOP_Kante previousEdge = null;
 		for (final TOP_Kante edge : edges()) {
+			final BigDecimal edgeLength = edge.getTOPKanteAllg().getTOPLaenge()
+					.getWert();
+
 			// If the point is on the current edge, check which direction to add
 			if (point.edge().equals(edge)) {
 				// in top direction?
@@ -76,16 +79,14 @@ public class TopPath {
 				}
 
 				// against top direction
-				return Optional.of(offset
-						.add(edge.getTOPKanteAllg().getTOPLaenge().getWert())
-						.subtract(point.distance()));
+				return Optional
+						.of(offset.add(edgeLength).subtract(point.distance()));
 
 			}
 
 			// Point not on this edge, check next edge
 			previousEdge = edge;
-			offset = offset
-					.add(edge.getTOPKanteAllg().getTOPLaenge().getWert());
+			offset = offset.add(edgeLength);
 		}
 		return Optional.empty();
 

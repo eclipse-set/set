@@ -48,7 +48,7 @@ class GuidOrder extends AbstractPlazContainerCheck implements PlazCheck {
 		return errors.distinctBy[eClass].map [
 			val err = PlazFactory.eINSTANCE.createPlazError
 			err.message = '''Die Elemente des Objekttyps «it.eClass.name» sind nicht sortiert.'''
-			err.message = transformErroMsg(Map.of("Objekttyp", it.eClass.name))
+			err.message = transformErrorMsg(Map.of("Objekttyp", it.eClass.name))
 			err.type = checkType
 			err.severity = ValidationSeverity.WARNING
 			err.object = it
@@ -68,7 +68,7 @@ class GuidOrder extends AbstractPlazContainerCheck implements PlazCheck {
 		return "Die Elemente des Objekttyps {Objekttyp} sind nicht sortiert."
 	}
 	
-	override transformErroMsg(Map<String, String> params) {
+	private def transformErrorMsg(Map<String, String> params) {
 		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

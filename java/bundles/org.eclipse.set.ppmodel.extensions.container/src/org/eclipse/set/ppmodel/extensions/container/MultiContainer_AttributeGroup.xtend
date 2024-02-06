@@ -317,6 +317,10 @@ class MultiContainer_AttributeGroup {
 	def Iterable<TOP_Kante> getTOPKante() {
 		return containers.flatMap[TOPKante]
 	}
+	
+	def Iterable<Ueberhoehungslinie> getUeberhoehungslinie() {
+		return containers.flatMap[ueberhoehungslinie]
+	}
 
 	def Iterable<W_Kr_Gsp_Komponente> getWKrGspKomponente() {
 		return containers.flatMap[WKrGspKomponente]
@@ -844,10 +848,6 @@ class MultiContainer_AttributeGroup {
 
 	def Iterable<Trasse_Knoten> getTrasseKnoten() {
 		return containers.flatMap[getTrasseKnoten]
-	}
-
-	def Iterable<Ueberhoehungslinie> getUeberhoehungslinie() {
-		return containers.flatMap[getUeberhoehungslinie]
 	}
 
 	def Iterable<Uebertragungsweg> getUebertragungsweg() {

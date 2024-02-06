@@ -170,18 +170,15 @@ public class TopologicalGraphServiceImpl
 
 			// Add start/ending edges if not already part of the path
 			final List<TOP_Kante> fullPath = new ArrayList<>();
-			if (path.getEdgeList().stream()
-					.noneMatch(c -> c.edge().equals(from.edge()))) {
-				fullPath.add(from.edge());
-			}
-
 			path.getEdgeList().stream().map(c -> c.edge())
 					.forEach(fullPath::add);
-			if (path.getEdgeList().stream()
-					.noneMatch(c -> c.edge().equals(to.edge()))) {
-				fullPath.add(to.edge());
+			if (!fullPath.contains(from.edge())) {
+				fullPath.add(0, from.edge());
 			}
 
+			if (!fullPath.contains(to.edge())) {
+				fullPath.add(to.edge());
+			}
 			resultPaths.add(new TopPath(fullPath, pathWeight));
 		});
 
