@@ -90,7 +90,6 @@ maven/mavencentral/org.jgrapht/jgrapht-core/1.5.2, EPL-2.0 AND (EPL-2.0 OR LGPL-
 maven/mavencentral/org.jheaps/jheaps/0.14, Apache-2.0, approved, CQ23788
 maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.9.1, EPL-2.0, approved, #3133
 maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.9.1, EPL-2.0, approved, #3125
-maven/mavencentral/org.junit.jupiter/junit-jupiter-params/5.9.1, EPL-2.0, approved, #3134
 maven/mavencentral/org.junit.platform/junit-platform-commons/1.9.1, EPL-2.0, approved, #3130
 maven/mavencentral/org.junit.platform/junit-platform-engine/1.9.1, EPL-2.0, approved, #3128
 maven/mavencentral/org.junit.platform/junit-platform-launcher/1.9.1, EPL-2.0, approved, #3132
@@ -118,7 +117,6 @@ maven/mavencentral/org.osgi/org.osgi.util.position/1.0.1, Apache-2.0, approved, 
 maven/mavencentral/org.osgi/org.osgi.util.promise/1.2.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.osgi/org.osgi.util.xml/1.0.2, Apache-2.0, approved, #799
 maven/mavencentral/org.osgi/osgi.annotation/8.0.1, Apache-2.0, approved, #6909
-maven/mavencentral/org.slf4j/slf4j-api/1.7.25, MIT, approved, CQ13368
 maven/mavencentral/org.slf4j/slf4j-api/1.7.36, MIT, approved, CQ13368
 maven/mavencentral/org.tukaani/xz/1.9, LicenseRef-Public-Domain, approved, CQ23498
 npm/npmjs/-/abbrev/1.1.1, ISC, approved, clearlydefined
