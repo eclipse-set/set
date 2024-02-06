@@ -23,10 +23,7 @@ import org.osgi.service.component.annotations.Reference
 import org.eclipse.set.utils.ToolboxConfiguration
 
 /**
- * Validates that a TOP_Kante of length zero has distinct 
- * start and end nodes (Error)
- * Validates that a TOP_Kante of length greater than zero has distinct 
- * start and end nodes (Warning)
+ * Validates that there's a valid top path for each bank line
  */
 @Component
 class BankValues extends AbstractPlazContainerCheck implements PlazCheck {
