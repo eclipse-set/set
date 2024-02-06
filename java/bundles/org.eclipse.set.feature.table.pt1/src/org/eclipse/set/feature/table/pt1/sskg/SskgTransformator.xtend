@@ -12,7 +12,6 @@ import java.util.ArrayList
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
@@ -30,6 +29,7 @@ import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensi
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ZugEinwirkungExtensions.*
+import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Table transformation for a Gleisschaltmitteltabelle (SSKG).
@@ -340,6 +340,6 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			points2.map [ pb |
 				topGraphService.findShortestPath(pa, pb)
 			]
-		].filter[present].map[asDouble].min
+		].filter[present].map[get.doubleValue].min
 	}
 }

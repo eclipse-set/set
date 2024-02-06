@@ -8,17 +8,15 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import java.util.List
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
+import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
-import org.osgi.service.component.annotations.Component
-import org.eclipse.set.model.validationreport.ValidationSeverity
-import java.util.Map
-import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that Bereich_Objekt_Teilbereich entries
@@ -74,20 +72,17 @@ class TeilbereichTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	private def getErrorSeverity(double limitA, double limitB) {
 		return ValidationSeverity.ERROR;
 	}
-	
+
 	override checkType() {
 		return "Teilbereichsgrenze"
 	}
-	
+
 	override getDescription() {
 		return "Teilbereichsgrenzen der LST-Objekte sind gültig."
 	}
-	
+
 	override getGeneralErrMsg() {
 		return "Ungültige Teilbereichsgrenzen für LST-Objekt."
 	}
 
-	override transformErroMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
-	}
 }

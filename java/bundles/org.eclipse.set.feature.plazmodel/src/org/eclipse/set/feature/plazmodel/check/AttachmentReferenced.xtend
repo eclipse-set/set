@@ -34,7 +34,7 @@ class AttachmentReferenced implements PlazCheck {
 				!attachments.contains(it)
 			].map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = transformErroMsg(Map.of("GUID", it))
+				err.message = transformErrorMsg(Map.of("GUID", it))
 				err.type = checkType
 				err.object = null
 				return err
@@ -57,7 +57,7 @@ class AttachmentReferenced implements PlazCheck {
 		return "Der Anhang {GUID} ist vorhanden, wird aber nicht referenziert."
 	}
 
-	override transformErroMsg(Map<String, String> params) {
+	private def transformErrorMsg(Map<String, String> params) {
 		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

@@ -33,7 +33,7 @@ class GuidStateUnique implements PlazCheck {
 					LSTPlanungEinzel?.LSTZustandZiel]
 			].notDistinctBy[identitaet?.wert].map [
 				val err = PlazFactory.eINSTANCE.createPlazError
-				err.message = transformErroMsg(Map.of("GUID", identitaet?.wert))
+				err.message = transformErrorMsg(Map.of("GUID", identitaet?.wert))
 				err.type = checkType
 				err.object = it?.identitaet
 				return err
@@ -54,7 +54,7 @@ class GuidStateUnique implements PlazCheck {
 		return "Die GUID des Zustands {GUID} ist nicht eindeutig!"
 	}
 	
-	override transformErroMsg(Map<String, String> params) {
+	private def transformErrorMsg(Map<String, String> params) {
 		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

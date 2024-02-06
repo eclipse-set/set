@@ -297,6 +297,15 @@ class MultiContainer_AttributeGroup {
 		return containers.map[eContents.size].reduce[sizeA, sizeB|sizeA + sizeB]
 	}
 
+	/**
+	 * Returns all entities of a given class type 
+	 * 
+	 * @return all entities of a given class type
+	 */
+	 def <T> Iterable<T> get(Class<T> clazz) {
+	 	return containers.flatMap[eContents.filter(clazz)]
+	 }
+
 	/* Generated methods follow. Each method simply forwards the call to all contained LST_Zustand objects
 	 * and constructs an Iterable from the results. This should reflect the API of Container_AttributeGroup
 	 * excluding the EObject functions
@@ -307,6 +316,10 @@ class MultiContainer_AttributeGroup {
 
 	def Iterable<TOP_Kante> getTOPKante() {
 		return containers.flatMap[TOPKante]
+	}
+	
+	def Iterable<Ueberhoehungslinie> getUeberhoehungslinie() {
+		return containers.flatMap[ueberhoehungslinie]
 	}
 
 	def Iterable<W_Kr_Gsp_Komponente> getWKrGspKomponente() {
@@ -835,10 +848,6 @@ class MultiContainer_AttributeGroup {
 
 	def Iterable<Trasse_Knoten> getTrasseKnoten() {
 		return containers.flatMap[getTrasseKnoten]
-	}
-
-	def Iterable<Ueberhoehungslinie> getUeberhoehungslinie() {
-		return containers.flatMap[getUeberhoehungslinie]
 	}
 
 	def Iterable<Uebertragungsweg> getUebertragungsweg() {

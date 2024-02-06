@@ -86,7 +86,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 
 		return mismatchedObjects.map [
 			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = transformErroMsg(
+			err.message = transformErrorMsg(
 				Map.of("GUID", guid, //
 				"TYP", it.eClass.name, //
 				"REF_GUID", identitaet?.wert)
@@ -121,7 +121,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 		return "Das Objekt {GUID} verweist auf das zugehörige Objekt {TYP} {REF_GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
 	}
 
-	override transformErroMsg(Map<String, String> params) {
+	private def transformErrorMsg(Map<String, String> params) {
 		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

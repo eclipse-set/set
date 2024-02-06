@@ -41,7 +41,7 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 						].flatten
 				if (identicals.size > 1) {
 					val err = PlazFactory.eINSTANCE.createPlazError
-					err.message = transformErroMsg(Map.of("GUID", object.identitaet?.wert))
+					err.message = transformErrorMsg(Map.of("GUID", object.identitaet?.wert))
 					err.type = checkType
 					err.object = object?.identitaet
 					return err
@@ -62,7 +62,7 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 		return "Es gibt mehrere identische Teilbereich in Objekt {GUID}."
 	}
 
-	override transformErroMsg(Map<String, String> params) {
+	private def transformErrorMsg(Map<String, String> params) {
 		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}	
 }

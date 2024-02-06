@@ -166,6 +166,7 @@ public class ToolboxConfiguration {
 	private static final String BASE_ZOOM_LEVEL = "20"; //$NON-NLS-1$
 	private static final String DEFAULT_COLLISIONS_ENABLED = "true"; //$NON-NLS-1$
 	private static final String DEFAULT_SHEETCUT_CRS = "DR0"; //$NON-NLS-1$
+	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "1"; //$NON-NLS-1$
 
 	/**
 	 * @return a string describing the map sources
@@ -260,6 +261,16 @@ public class ToolboxConfiguration {
 	public static String getDefaultSheetCutCRS() {
 		return System.getProperty(ToolboxProperties.DEFAULT_SHEETCUT_CRS,
 				DEFAULT_SHEETCUT_CRS);
+	}
+
+	/**
+	 * @return maximum offset between a banking line length to the topological
+	 *         path length
+	 */
+	public static double getBankLineTopOffsetLimit() {
+		return Double.parseDouble(System.getProperty(
+				ToolboxProperties.BANK_LINE_TOP_PATH_OFFSET_LIMIT,
+				BANK_LINE_TOP_PATH_OFFSET_LIMIT));
 	}
 
 }

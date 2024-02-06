@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="org.eclipse.set.application" uid="SET" id="org.eclipse.set.application.set.product_set" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="2.2.0.qualifier" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="false">
+<product name="org.eclipse.set.application" uid="SET" id="org.eclipse.set.application.set.product_set" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="2.2.0.qualifier" type="features" includeLaunchers="true" autoIncludeRequirements="false">
 
    <configIni use="default">
    </configIni>
@@ -87,7 +87,7 @@
       <property name="toolbox.table.tree.minimum" value="5" />
       <property name="toolbox.siteplan.export_dpi" value="600" />
       <property name="toolbox.siteplan.lod_scale" value="10000" />
-
+      <property name="toolbox.bank_line_offset_limit" value="1" />
    </configurations>
 
    <preferencesInfo>

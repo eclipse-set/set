@@ -12,7 +12,6 @@ import java.math.RoundingMode
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
@@ -36,6 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrDWegWKrExtensions
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Table transformation for a Durchrutschwegtabelle (SSLD).
@@ -45,6 +45,7 @@ import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	val TopologicalGraphService topGraphService;
+
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService) {
@@ -52,8 +53,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		this.topGraphService = topGraphService
 	}
 
-	def double getShortestPathLength(Signal signal,
-		Punkt_Objekt p) {
+	def double getShortestPathLength(Signal signal, Punkt_Objekt p) {
 		val points1 = signal.singlePoints.map[new TopPoint(it)]
 		val points2 = p.singlePoints.map[new TopPoint(it)]
 
@@ -61,7 +61,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 			points2.map [ pb |
 				topGraphService.findShortestPath(pa, pb)
 			]
-		].filter[present].map[asDouble].min
+		].filter[present].map[get.doubleValue].min
 	}
 
 	def String getFreigemeldetLaenge(Fstr_DWeg dweg) {
@@ -72,8 +72,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		val distance = fmas?.fold(
 			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
 				Math.max(current,
-					getShortestPathLength(dweg?.fstrFahrweg?.start,
-						grenze))
+					getShortestPathLength(dweg?.fstrFahrweg?.start, grenze))
 			])
 		val roundedDistance = AgateRounding.roundDown(distance)
 		if (roundedDistance == 0.0)
@@ -307,7 +306,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 					if (fstrs.empty) {
 						return ""
 					}
-					
+
 					val distance = fstrs?.fold(
 						Double.valueOf(0.0),
 						[ Double current, Fstr_Zug_Rangier fstr |

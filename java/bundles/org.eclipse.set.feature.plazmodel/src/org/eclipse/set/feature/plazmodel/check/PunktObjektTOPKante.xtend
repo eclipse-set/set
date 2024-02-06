@@ -33,7 +33,7 @@ class PunktObjektTOPKante extends AbstractPlazContainerCheck implements PlazChec
 			val topLength = it.topKante?.TOPKanteAllg?.TOPLaenge?.wert
 			if (distance === null || topLength === null)
 				return null;
-			val generalErroMsg = transformErroMsg(Map.of("Distance", distance.toString))
+			val generalErroMsg = transformErrorMsg(Map.of("Distance", distance.toString))
 			if (distance.doubleValue < 0) {
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = '''«generalErroMsg» Der Punktobjektabstand darf nicht negativ sein.'''
@@ -63,7 +63,7 @@ class PunktObjektTOPKante extends AbstractPlazContainerCheck implements PlazChec
 		return "Ungültiger Punktobjektabstand für LST-Objekt Abstand: {Distance}."
 	}
 
-	override transformErroMsg(Map<String, String> params) {
+	private def transformErrorMsg(Map<String, String> params) {
 		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

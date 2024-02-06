@@ -8,12 +8,10 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
 import org.osgi.service.component.annotations.Component
-import org.apache.commons.text.StringSubstitutor
-import java.util.Map
 
 /**
  * Validates that all GEO_Punkt_Allg have a defined and consistent coordinate reference system
@@ -53,10 +51,6 @@ class CRSValid extends AbstractPlazContainerCheck implements PlazCheck {
 
 	override getGeneralErrMsg() {
 		return "Es gibt Objekte mit ungültigen Koordinatensystemen. Der sicherungstechnische Lageplan kann unvollständig sein"
-	}
-
-	override transformErroMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 
 }

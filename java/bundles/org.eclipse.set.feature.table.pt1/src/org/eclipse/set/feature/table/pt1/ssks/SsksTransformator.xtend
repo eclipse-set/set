@@ -15,15 +15,14 @@ import java.util.LinkedList
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.toolboxmodel.Geodaten.Technischer_Punkt
@@ -103,7 +102,6 @@ import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMTunnelsignal.*
 
-import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
@@ -118,6 +116,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.core.services.graph.BankService
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -132,12 +131,14 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
 
 	val TopologicalGraphService topGraphService;
+	val BankService bankingService;
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService) {
+		TopologicalGraphService topGraphService, BankService bankingService) {
 		super(cols, enumTranslationService)
 		this.topGraphService = topGraphService
+		this.bankingService = bankingService
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -254,21 +255,17 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								],
 								null
 							)
-							val topGraph = new TopGraph(
-								signal.container.TOPKante)
+
 							fillIterable(
 								row,
 								cols.getColumn(Ueberhoehung),
 								signal,
 								[
-									val s = it
-									gruppe.map [
-										s.getUeberhoehung(topGraph, it)?. //
-										// Multiply by 1000, as the model specifies the value in meters, 
-										// but the table outputs millimeters
-										multiply(new BigDecimal(1000))?.
+									bankingService.findBankValue(
+										new TopPoint(signal)).map [
+										multiply(new BigDecimal(1000)).
 											toTableInteger ?: ""
-									].toSet
+									]
 								],
 								null
 							)
@@ -1365,7 +1362,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 			val pb = new TopPoint(unterbringung.punktObjektTOPKante)
 			return points.map[topGraphService.findShortestPath(it, pb)].filter [
 				present
-			].map[asDouble].min
+			].map[get.doubleValue].min
 		} else {
 			val c1 = punktObjekt.coordinate
 			val c2 = unterbringung.geoPunkt.coordinate

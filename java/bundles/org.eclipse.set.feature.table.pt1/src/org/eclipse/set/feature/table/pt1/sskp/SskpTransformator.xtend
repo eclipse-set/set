@@ -11,7 +11,6 @@ package org.eclipse.set.feature.table.pt1.sskp
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.core.services.graph.TopologicalGraphService.TopPoint
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
@@ -46,6 +45,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)
@@ -616,8 +616,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
-	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph, PZB_Element pzb,
-		W_Kr_Gsp_Element gspElement) {
+	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
+		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null
 		]
@@ -627,7 +627,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		return getDistanceOfPoints(gspKomponent, pzb)
 	}
 
-	private def String getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s, 
+	private def String getDistanceOfPoints(Iterable<? extends Punkt_Objekt> p1s,
 		Punkt_Objekt p2) {
 		val distance = p1s?.fold(
 			Double.MAX_VALUE,
@@ -650,7 +650,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			points2.map [ pb |
 				topGraphService.findShortestPath(pa, pb)
 			]
-		].filter[present].map[asDouble].toList
+		].filter[present].map[get.doubleValue].toList
 	}
 
 }

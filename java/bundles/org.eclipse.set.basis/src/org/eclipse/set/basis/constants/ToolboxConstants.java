@@ -58,11 +58,6 @@ public final class ToolboxConstants {
 		public static final String TOPKANTE_TO_ADJACENT_TOPKANTEN = "toolbox.cache.topkante-to-adjacent-topkanten";
 
 		/**
-		 * The id of the banking interval cache.
-		 */
-		public static final String BANKING_INTERVAL = "toolbox.cache.banking-interval";
-
-		/**
 		 * The id of the problem message cache.
 		 */
 		public static final String PROBLEM_MESSAGE = "toolbox.cache.problem-message";

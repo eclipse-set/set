@@ -57,7 +57,7 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		geoKantenWithMeridianSprung.forEach [
 			val err = PlazFactory.eINSTANCE.createPlazError
 			if (GEOKanteAllg?.GEOLaenge?.wert.doubleValue !== 0.0) {
-				err.message = transformErroMsg(Map.of("GUID", identitaet?.wert))
+				err.message = transformErrorMsg(Map.of("GUID", identitaet?.wert))
 				err.type = checkType
 				err.object = it
 				errList.add(err)
@@ -70,7 +70,7 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		return "Die GEO_Kante {GUID} mit der Länge > 0 hat unterschiedliche Koordinatensysteme. Der sicherungstechnische Lageplan kann unvollständig sein."
 	}
 	
-	override transformErroMsg(Map<String, String> params) {
+	private def transformErrorMsg(Map<String, String> params) {
 		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }
