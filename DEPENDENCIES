@@ -827,7 +827,6 @@ npm/npmjs/@types/serve-static/1.13.10, MIT, approved, clearlydefined
 npm/npmjs/@types/sockjs/0.3.33, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.5, MIT, approved, #6016
 npm/npmjs/@typescript-eslint/eslint-plugin/6.20.0, BSD-2-Clause AND (BSD-2-Clause AND ISC AND MIT) AND MIT, approved, #13030
-npm/npmjs/@typescript-eslint/parser/6.20.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/parser/6.21.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/6.20.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/6.21.0, MIT, approved, clearlydefined
