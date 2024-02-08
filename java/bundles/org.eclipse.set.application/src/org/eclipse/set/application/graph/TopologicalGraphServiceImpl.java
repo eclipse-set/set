@@ -249,7 +249,7 @@ public class TopologicalGraphServiceImpl
 			return Optional.empty();
 		}
 
-		BigDecimal pathWeight = getPathWeight(path,
+		final BigDecimal pathWeight = getPathWeight(path,
 				List.of(from.edge(), to.edge()));
 		// Determine whether the path crosses the end edge. If so, consider
 		// the path to end at knotenB
@@ -259,8 +259,6 @@ public class TopologicalGraphServiceImpl
 			endNode = to.edge().getIDTOPKnotenA();
 		} else {
 			endNode = to.edge().getIDTOPKnotenB();
-			pathWeight = pathWeight.subtract(
-					to.edge().getTOPKanteAllg().getTOPLaenge().getWert());
 		}
 
 		final BigDecimal startDistance = getDistance(startNode, from);
@@ -304,7 +302,7 @@ public class TopologicalGraphServiceImpl
 			return Optional.empty();
 		}
 
-		BigDecimal pathWeight = getPathWeight(path,
+		final BigDecimal pathWeight = getPathWeight(path,
 				List.of(from.edge(), to.edge()));
 
 		// Determine whether the path crosses the start edge. If so,
@@ -314,8 +312,6 @@ public class TopologicalGraphServiceImpl
 		if (!path.getEdgeList().isEmpty()
 				&& path.getEdgeList().get(0).equals(from.edge())) {
 			startNode = from.edge().getIDTOPKnotenB();
-			pathWeight = pathWeight.subtract(
-					from.edge().getTOPKanteAllg().getTOPLaenge().getWert());
 		}
 
 		// Determine whether the path crosses the end edge. If so, consider
@@ -324,8 +320,6 @@ public class TopologicalGraphServiceImpl
 		if (!path.getEdgeList().isEmpty() && path.getEdgeList()
 				.get(path.getEdgeList().size() - 1).equals(to.edge())) {
 			endNode = to.edge().getIDTOPKnotenB();
-			pathWeight = pathWeight.subtract(
-					to.edge().getTOPKanteAllg().getTOPLaenge().getWert());
 		}
 
 		// Add the initial distance of the TopPoint to the first TOP_Knoten
