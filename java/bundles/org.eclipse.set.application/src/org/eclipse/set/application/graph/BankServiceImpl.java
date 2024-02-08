@@ -15,6 +15,7 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.StreamSupport;
@@ -74,7 +75,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 		}
 		StreamSupport
 				.stream(container.getUeberhoehungslinie().spliterator(), false)
-				.map(this::findTOPBanking)
+				.map(this::findTOPBanking).filter(Objects::nonNull)
 				.forEach(info -> info.path().edges().forEach(edge -> {
 					topEdgeBanking.putIfAbsent(edge, new HashSet<>());
 					topEdgeBanking.get(edge).add(info);
