@@ -1,10 +1,10 @@
 PlaZ-Modell-Prüfung
 Datei: plaz_model_reference.csv
-Prüfungszeit: 2023-11-20 14:55:22
-Werkzeugkofferversion: -
+Prüfungszeit: 2024-02-09 15:23:17
+Werkzeugkofferversion: 60.13.0.202402061111R0db0328be49a41163ac20baecf2a9a68130b1331
 
 
-"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Meldung"
+"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
 "1..53";"Fehler";"Teilbereichsgrenze";"";"Fstr_Fahrweg";"Bereich_Objekt_Teilbereich";"Planung";"Start";"Ungültige Teilbereichsgrenzen für LST-Objekt."
 "1";"Fehler";"Teilbereichsgrenze";"18885";"Fstr_Fahrweg";"Bereich_Objekt_Teilbereich";"Planung";"Start";"Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: 102.959. Länge TOP-Kante: 102.958"
 "2";"Fehler";"Teilbereichsgrenze";"19158";"Fstr_Fahrweg";"Bereich_Objekt_Teilbereich";"Planung";"Start";"Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: 118.014. Länge TOP-Kante: 118.013"
@@ -129,17 +129,20 @@ Werkzeugkofferversion: -
 "118";"Fehler";"Teilbereichsgrenze";"147073";"Gleis_Art";"Bereich_Objekt_Teilbereich";"Betrachtung";"Ziel";"Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: 102.959. Länge TOP-Kante: 102.958"
 "119";"Fehler";"Teilbereichsgrenze";"147246";"Gleis_Art";"Bereich_Objekt_Teilbereich";"Betrachtung";"Ziel";"Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: 605.83. Länge TOP-Kante: 605.829"
 "120";"Fehler";"Teilbereichsgrenze";"147338";"Gleis_Art";"Bereich_Objekt_Teilbereich";"Betrachtung";"Ziel";"Ungültige Teilbereichsgrenzen für LST-Objekt. BegrenzungB: 796.134. Länge TOP-Kante: 796.133"
-"121";"Warnung";"Teilbereichslänge";"30601";"Fstr_Fahrweg";"Bereich_Objekt_Teilbereich";"Planung";"Start";"Sehr kleine Teilbereichslänge (<0.1 m). Die Länge des Teilbereichs ist 0.0 m."
-"122";"Warnung";"Teilbereichslänge";"129284";"Fstr_Fahrweg";"Bereich_Objekt_Teilbereich";"Planung";"Ziel";"Sehr kleine Teilbereichslänge (<0.1 m). Die Länge des Teilbereichs ist 0.0 m."
-"123";"Erfolg";"Anhänge";"";"";"";"Fachdaten";"";"Anhänge in der .planpro-Datei werden referenziert."
-"124";"Erfolg";"Anhänge";"";"";"";"Fachdaten";"";"Referenzierte Anhänge sind in der .planpro-Datei vorhanden."
-"125";"Erfolg";"GUID-Eindeutigkeit";"";"";"";"Fachdaten";"";"Die GUIDs aller Objekte sind eindeutig."
-"126";"Erfolg";"GUID-Sortierung";"";"";"";"Fachdaten";"";"Objekte vom gleichen Typ sind anhand ihrer GUID sortiert."
-"127";"Erfolg";"GUID-Zustände";"";"";"";"Fachdaten";"";"Die GUIDs aller Zustände sind eindeutig."
-"128";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein konsistentes Koordinatensystem."
-"129";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
-"130";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
-"131";"Erfolg";"Planungs-/Betrachtungsbereich";"";"";"";"Fachdaten";"";"Objekte sind entweder im Planungs- oder Betrachtungsbereich verortet."
-"132";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
-"133";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
-"134";"Erfolg";"Ungültiger ID-Verweis";"";"";"";"Fachdaten";"";"Verweise verweisen auf ein Objekt vom erwarteten Typ."
+"121";"Fehler";"Überhöhungslinie";"259855";"Ueberhoehungslinie";"Identitaet";"Planung";"Start";"Es konnte kein topologischer Pfad für die Überhöhungslinie 6B548A48-6B20-47D6-AFF4-63874D005E6C gefunden werden."
+"122";"Fehler";"Überhöhungslinie";"324772";"Ueberhoehungslinie";"Identitaet";"Planung";"Ziel";"Es konnte kein topologischer Pfad für die Überhöhungslinie 6B548A48-6B20-47D6-AFF4-63874D005E6C gefunden werden."
+"123";"Warnung";"Teilbereichslänge";"30601";"Fstr_Fahrweg";"Bereich_Objekt_Teilbereich";"Planung";"Start";"Sehr kleine Teilbereichslänge (<0.1 m). Die Länge des Teilbereichs ist 0.0 m."
+"124";"Warnung";"Teilbereichslänge";"129284";"Fstr_Fahrweg";"Bereich_Objekt_Teilbereich";"Planung";"Ziel";"Sehr kleine Teilbereichslänge (<0.1 m). Die Länge des Teilbereichs ist 0.0 m."
+"125";"Erfolg";"Anhänge";"";"";"";"Fachdaten";"";"Referenzierte Anhänge sind in der .planpro-Datei vorhanden."
+"126";"Erfolg";"Anhänge";"";"";"";"Fachdaten";"";"Anhänge in der .planpro-Datei werden referenziert."
+"127";"Erfolg";"GUID-Eindeutigkeit";"";"";"";"Fachdaten";"";"Die GUIDs aller Objekte sind eindeutig."
+"128";"Erfolg";"GUID-Sortierung";"";"";"";"Fachdaten";"";"Objekte vom gleichen Typ sind anhand ihrer GUID sortiert."
+"129";"Erfolg";"GUID-Zustände";"";"";"";"Fachdaten";"";"Die GUIDs aller Zustände sind eindeutig."
+"130";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein konsistentes Koordinatensystem."
+"131";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
+"132";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
+"133";"Erfolg";"Planungs-/Betrachtungsbereich";"";"";"";"Fachdaten";"";"Objekte sind eindeutig im Planungs- oder Betrachtungsbereich verortet."
+"134";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
+"135";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
+"136";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
+"137";"Erfolg";"Ungültiger ID-Verweis";"";"";"";"Fachdaten";"";"Verweise verweisen auf ein Objekt vom erwarteten Typ."

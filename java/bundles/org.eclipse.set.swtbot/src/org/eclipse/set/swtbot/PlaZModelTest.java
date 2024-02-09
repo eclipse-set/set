@@ -8,57 +8,66 @@
  */
 package org.eclipse.set.swtbot;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
-import org.eclipse.set.swtbot.utils.SWTBotUtils.NattableLayers;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test for changes in PlaZ Model
  */
-class PlaZModelTest extends AbstractPPHNTest {
+class PlaZModelTest extends AbstractTableTest {
 
-	private static final String CELL_VALUE_REPLACE_REGEX = "[\\n\\r]";
-	private int fixedColumnCount;
-	List<CSVRecord> referenceData = new LinkedList<>();
+	private static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
 
-	private NattableLayers layers;
+	private void whenOpeningPlaZModelNatTable() {
+		bot.button("PlaZ-Modell").click();
+		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
+				30000);
+		layers = SWTBotUtils.getNattableLayers(nattableBot);
+		bot.button("Alle ausklappen").click();
+	}
 
-	private void compareValue(final ILayer nattableLayer, final int startRow, final int endRow) {
+	@Override
+	protected void compareValue(final ILayer nattableLayer, final int startRow,
+			final int endRow) {
 
 		for (int rowIndex = 0; rowIndex < endRow; rowIndex++) {
-			for (int columnIndex = 0; columnIndex < nattableLayer.getPreferredColumnCount()
+			for (int columnIndex = 0; columnIndex < nattableLayer
+					.getPreferredColumnCount()
 					- fixedColumnCount; columnIndex++) {
-				final String cellValue = nattableLayer.getDataValueByPosition(columnIndex, rowIndex).toString()
-						.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
-				final String referenceValue = referenceData.get(rowIndex + startRow).get(columnIndex + 1)
-						.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
+				final String cellValue = nattableLayer
+						.getDataValueByPosition(columnIndex, rowIndex)
+						.toString().trim()
+						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
+						.replaceAll(RICHTEXT_REPLACE_REGEX, "")
+						.replaceAll(ZERO_WIDTH_SPACE, "");
+
+				final String referenceValue = referenceData
+						.get(rowIndex + startRow).get(columnIndex)
+						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
+						.replaceAll(ZERO_WIDTH_SPACE, "");
 				assertEquals(referenceValue, cellValue);
 			}
 		}
 	}
 
-	private void thenRowAndColumnCountEqualReferenceCSV() {
-		final int nattableColumnCount = layers.gridLayer().getPreferredColumnCount() - fixedColumnCount;
-		final int referenceColumnCount = referenceData.get(0).size();
-		assertEquals(referenceColumnCount, nattableColumnCount);
-		final int nattableRowCount = layers.columnHeaderLayer().getRowCount() + layers.selectionLayer().getRowCount();
-		final int referenceRowCount = referenceData.size();
-		assertEquals(referenceRowCount, nattableRowCount);
+	@Override
+	protected int getNattableHeaderRowCount() {
+		// Filter Row
+		return super.getNattableHeaderRowCount() - 1;
 	}
 
 	protected void givenReferenceCSV() throws IOException {
-		referenceData = loadReferenceFile("plaz_model");
+		referenceData = AbstractPPHNTest.loadReferenceFile("plaz_model");
+		// Remove CSV header info
+		referenceData = referenceData.subList(4, referenceData.size());
 	}
 
 	/**
@@ -67,23 +76,10 @@ class PlaZModelTest extends AbstractPPHNTest {
 	 * @throws Exception
 	 */
 	@Test
-	protected void testTableData() throws Exception {
+	void testTableData() throws Exception {
 		givenReferenceCSV();
 		whenOpeningPlaZModelNatTable();
 		thenRowAndColumnCountEqualReferenceCSV();
-		thenPtTableDataEqualsReferenceCSV();
-	}
-
-	private void thenPtTableDataEqualsReferenceCSV() {
-		final int rowCount = layers.columnHeaderLayer().getRowCount();
-		assertDoesNotThrow(() -> compareValue(layers.gridLayer().getColumnHeaderLayer(), 0, rowCount));
-		assertDoesNotThrow(
-				() -> compareValue(layers.selectionLayer(), rowCount, layers.selectionLayer().getRowCount()));
-	}
-
-	private void whenOpeningPlaZModelNatTable() {
-		bot.button("PlaZ-Modell").click();
-		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot, 30000);
-		layers = SWTBotUtils.getNattableLayers(nattableBot);
+		thenTableDataEqualReferenceCSV();
 	}
 }

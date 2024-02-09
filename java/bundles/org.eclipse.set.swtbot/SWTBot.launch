@@ -46,7 +46,7 @@
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.set.swtbot"/>
     <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.eclipse.swt.graphics.Resource.reportNonDisposed=true -Xmx4096M -Dorg.eclipse.set.browser.locale=de-DE -Dfile.encoding=UTF8 -Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel"/>
-    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="C:\Eclipse\SBIDER-2022-09.1\eclipse"/>
+    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="C:\Eclipse\SBIDER-2023-12\SBIDER-2023-12\eclipse"/>
     <stringAttribute key="pde.version" value="3.3"/>
     <stringAttribute key="product" value="org.eclipse.set.application.set.product_set"/>
     <booleanAttribute key="run_in_ui_thread" value="false"/>
@@ -101,6 +101,7 @@
         <setEntry value="javax.activation@default:default"/>
         <setEntry value="javax.annotation@default:default"/>
         <setEntry value="javax.inject@default:default"/>
+        <setEntry value="javax.measure.unit-api@default:default"/>
         <setEntry value="javax.xml@default:default"/>
         <setEntry value="junit-jupiter-api@default:default"/>
         <setEntry value="junit-jupiter-engine@default:default"/>
@@ -119,6 +120,7 @@
         <setEntry value="maven.org.apache.poi.artifact.poi@default:default"/>
         <setEntry value="maven.org.apache.xmlbeans.artifact.xmlbeans@default:default"/>
         <setEntry value="maven.org.apache.xmlgraphics.artifact.fop@default:default"/>
+        <setEntry value="maven.org.apfloat.artifact.apfloat@default:default"/>
         <setEntry value="org.apache.ant@default:default"/>
         <setEntry value="org.apache.batik.anim@default:default"/>
         <setEntry value="org.apache.batik.awt.util@default:default"/>
@@ -139,6 +141,7 @@
         <setEntry value="org.apache.commons.codec*1.14.0.v20221112-0806@default:default"/>
         <setEntry value="org.apache.commons.commons-collections4@default:default"/>
         <setEntry value="org.apache.commons.commons-csv@default:default"/>
+        <setEntry value="org.apache.commons.commons-text@default:default"/>
         <setEntry value="org.apache.commons.compress@default:default"/>
         <setEntry value="org.apache.commons.io@default:default"/>
         <setEntry value="org.apache.commons.jxpath@default:default"/>
@@ -150,6 +153,7 @@
         <setEntry value="org.apache.felix.gogo.shell@default:default"/>
         <setEntry value="org.apache.felix.scr@1:true"/>
         <setEntry value="org.apache.logging.log4j.api@default:default"/>
+        <setEntry value="org.apache.tika.core@default:default"/>
         <setEntry value="org.apache.xalan@default:default"/>
         <setEntry value="org.apache.xml.resolver@default:default"/>
         <setEntry value="org.apache.xml.serializer@default:default"/>
@@ -429,7 +433,11 @@
         <setEntry value="org.eclipse.set.browser@default:default"/>
         <setEntry value="org.eclipse.set.model.model11001.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.model11001.editor@default:default"/>
+        <setEntry value="org.eclipse.set.model.model11001@default:default"/>
         <setEntry value="org.eclipse.set.model.modelservice@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel.edit@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel.transform@default:default"/>
+        <setEntry value="org.eclipse.set.toolboxmodel@default:default"/>
         <setEntry value="org.eclipse.swt.nl_de@default:false"/>
         <setEntry value="org.eclipse.swt.win32.win32.x86_64@default:false"/>
         <setEntry value="org.eclipse.swt@default:default"/>
@@ -474,6 +482,8 @@
         <setEntry value="org.eclipse.xtext.xbase.lib@default:default"/>
         <setEntry value="org.hamcrest.core@default:default"/>
         <setEntry value="org.hamcrest.library@default:default"/>
+        <setEntry value="org.jgrapht.core@default:default"/>
+        <setEntry value="org.jheaps@default:default"/>
         <setEntry value="org.junit.jupiter.api@default:default"/>
         <setEntry value="org.junit.jupiter.engine@default:default"/>
         <setEntry value="org.junit.jupiter.migrationsupport@default:default"/>
@@ -522,6 +532,9 @@
         <setEntry value="org.eclipse.set.feature.export.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.export@default:default"/>
         <setEntry value="org.eclipse.set.feature.plazmodel@default:default"/>
+        <setEntry value="org.eclipse.set.feature.projectdata@default:default"/>
+        <setEntry value="org.eclipse.set.feature.siteplan.test@default:false"/>
+        <setEntry value="org.eclipse.set.feature.siteplan@default:default"/>
         <setEntry value="org.eclipse.set.feature.table.pt1@default:default"/>
         <setEntry value="org.eclipse.set.feature.table.test@default:false"/>
         <setEntry value="org.eclipse.set.feature.table@default:default"/>
@@ -532,9 +545,9 @@
         <setEntry value="org.eclipse.set.i18n.ecp.table.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.model.nl_de@default:false"/>
         <setEntry value="org.eclipse.set.i18n.validationreport.nl_de@default:false"/>
-        <setEntry value="org.eclipse.set.model.model11001@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.plazmodel@default:default"/>
+        <setEntry value="org.eclipse.set.model.siteplan@default:default"/>
         <setEntry value="org.eclipse.set.model.tablemodel.edit@default:default"/>
         <setEntry value="org.eclipse.set.model.tablemodel.extensions.test@default:false"/>
         <setEntry value="org.eclipse.set.model.tablemodel.extensions@default:default"/>
@@ -556,13 +569,8 @@
         <setEntry value="org.eclipse.set.rcp.extensions@default:default"/>
         <setEntry value="org.eclipse.set.releng.logging@default:false"/>
         <setEntry value="org.eclipse.set.services@default:default"/>
-        <setEntry value="org.eclipse.set.sessionservice.test@default:false"/>
         <setEntry value="org.eclipse.set.sessionservice@default:default"/>
         <setEntry value="org.eclipse.set.swtbot@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel.edit@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel.editor@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel.transform@default:default"/>
-        <setEntry value="org.eclipse.set.toolboxmodel@default:default"/>
         <setEntry value="org.eclipse.set.unittest.utils@default:default"/>
         <setEntry value="org.eclipse.set.utils.rcp@default:false"/>
         <setEntry value="org.eclipse.set.utils.table@default:default"/>
