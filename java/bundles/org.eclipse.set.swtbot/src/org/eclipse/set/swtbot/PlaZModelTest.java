@@ -15,23 +15,19 @@ import java.io.IOException;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
-import org.eclipse.set.swtbot.utils.SWTBotUtils;
-import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test for changes in PlaZ Model
  */
-class PlaZModelTest extends AbstractTableTest {
+public class PlaZModelTest extends AbstractTableTest {
 
 	private static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
 
 	private void whenOpeningPlaZModelNatTable() {
-		bot.button("PlaZ-Modell").click();
-		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
-		layers = SWTBotUtils.getNattableLayers(nattableBot);
+		givenNattableBot("PlaZ-Modell");
 		bot.button("Alle ausklappen").click();
+
 	}
 
 	@Override

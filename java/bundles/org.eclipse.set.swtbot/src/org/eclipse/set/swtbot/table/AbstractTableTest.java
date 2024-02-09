@@ -93,8 +93,8 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		return layers.columnHeaderLayer().getRowCount();
 	}
 
-	protected void givenNattableBot(final PtTable table) {
-		bot.button(table.tableName()).click();
+	protected void givenNattableBot(final String tableName) {
+		bot.button(tableName).click();
 		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
 				30000);
 		layers = SWTBotUtils.getNattableLayers(nattableBot);

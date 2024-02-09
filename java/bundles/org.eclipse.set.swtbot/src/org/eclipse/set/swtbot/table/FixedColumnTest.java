@@ -41,7 +41,7 @@ public class FixedColumnTest extends AbstractTableTest {
 	@ParameterizedTest
 	@MethodSource("getPtTableToTestFixedColumn")
 	protected void testFixedColumn(final PtTable table) {
-		givenNattableBot(table);
+		givenNattableBot(table.tableName());
 		thenExistFixedColumn();
 		thenFixedColumnsIsFixed(table.fixedColumns());
 	}

@@ -41,7 +41,7 @@ public class TableDataTest extends AbstractTableTest {
 	@ParameterizedTest
 	@MethodSource("providesPtTable")
 	protected void testTableData(final PtTable table) throws Exception {
-		givenNattableBot(table);
+		givenNattableBot(table.tableName());
 		givenReferenceCSV(table);
 		givenFixedColumnCount(table);
 		whenExistReferenceCSV();
