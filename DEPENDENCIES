@@ -42,6 +42,8 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.core/2.2.0-SNAPSHOT, EPL-2.0,
 maven/mavencentral/org.eclipse.set/org.eclipse.set.emfforms/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.enumtransformation/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.export/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.license/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.news/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.plazmodel/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.projectdata/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.siteplan/2.2.0-SNAPSHOT, EPL-2.0, approved, technology.set
