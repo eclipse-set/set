@@ -20,6 +20,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ValidationResult;
+import org.eclipse.set.basis.constants.ValidationResult.FileValidateState;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
@@ -182,6 +183,15 @@ public interface IModelSession {
 	 * @return {@link Outcome}
 	 */
 	Outcome getValidationsOutcome(Function<ValidationResult, Outcome> outcome);
+
+	/**
+	 * Get outcome result of validation
+	 * 
+	 * @param outcome
+	 *            outcome type
+	 * @return {@link Outcome}
+	 */
+	FileValidateState getFileValidateState();
 
 	/**
 	 * Validates and loads the model resource and the PlanPro Schnittstelle.

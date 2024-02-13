@@ -159,11 +159,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 					messages, versionService, enumTranslationService);
 			validationReport = transformation.transform(getModelSession());
 
-			final Cache cache = cacheService
-					.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
-			final List<ProblemMessage> problems = cache
-					.get(VIEW_VALIDATION_REPORT, ArrayList::new);
-			problems.clear();
+			storageReport();
 
 			// Add problems
 			validationReport.getProblems().stream()
@@ -270,6 +266,23 @@ public class ValidationPart extends AbstractEmfFormsPart {
 		}
 	}
 
+	private void storageReport() {
+		final Cache cache = cacheService
+				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE);
+		final List<ProblemMessage> problems = cache.get(VIEW_VALIDATION_REPORT,
+				ArrayList::new);
+		problems.clear();
+
+		// Add problems
+		validationReport.getProblems().stream().filter(
+				problem -> problem.getSeverity() != ValidationSeverity.SUCCESS)
+				.forEach(problem -> problems
+						.add(new ProblemMessage(problem.getMessage(),
+								problem.getType(), problem.getLineNumber(), 3,
+								problem.getObjectState().getLiteral())));
+		getBroker().post(Events.PROBLEMS_CHANGED, null);
+	}
+
 	/**
 	 * Export validation report to csv
 	 * 
@@ -320,7 +333,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 			// update validation report
 			validationReport = transformation.transform(getModelSession());
-
+			storageReport();
 			// reset outdated mark
 			setOutdated(false);
 

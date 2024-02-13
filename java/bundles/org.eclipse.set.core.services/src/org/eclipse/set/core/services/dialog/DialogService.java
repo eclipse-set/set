@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.function.BiPredicate;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -403,11 +405,48 @@ public interface DialogService {
 	void showProgressUISync(Shell shell, String message, Runnable runnable);
 
 	/**
+	 * Show Progress UI synchronized with return of callback func
+	 * 
+	 * @param <T>
+	 * @param shell
+	 *            the sell
+	 * @param message
+	 *            the progress message
+	 * @param callAble
+	 *            callbach func
+	 * @return result of callback func
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * 
+	 */
+	<T> T showProgressUISync(Shell shell, String message, Callable<T> callAble)
+			throws InterruptedException, ExecutionException;
+
+	/**
 	 * @param shell
 	 *            the shell for the dialog
 	 * @return whether the user has confirmed to apply default values globally
 	 */
 	boolean confirmSetDefaultsManagement(Shell shell);
+
+	/**
+	 * Dialog for choose value
+	 * 
+	 * @param shell
+	 *            the shell
+	 * @param title
+	 *            the dialog title
+	 * @param message
+	 *            the dialog messages
+	 * @param comboLabel
+	 *            the select combo label
+	 * @param selectItems
+	 *            the select option
+	 * @return selected value
+	 */
+	String selectValueDialog(final Shell shell, final String title,
+			final String message, final String comboLabel,
+			final List<String> selectItems);
 
 	/**
 	 * Create a siteplan Error dialog.

@@ -18,8 +18,6 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.constants.ValidationResult;
-import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.handler.AbstractOpenHandler;
@@ -97,21 +95,16 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 		if (modelSession == null) {
 			return null;
 		}
-
-		final Outcome validationOutcome = modelSession
-				.getValidationsOutcome(ValidationResult::getOutcome);
-		if (validationOutcome == Outcome.VALID
-				|| validationOutcome == Outcome.NOT_SUPPORTED) {
-			return modelSession;
+		switch (modelSession.getFileValidateState()) {
+		case INVALID: {
+			// Invalid file
+			if (!getDialogService().loadInvalidModel(shell, path.toString())) {
+				modelSession.close();
+				return null;
+			}
+			break;
 		}
-
-		final Outcome xsdOutcome = modelSession
-				.getValidationsOutcome(ValidationResult::getXsdOutcome);
-		final Outcome emfOutcome = modelSession
-				.getValidationsOutcome(ValidationResult::getEmfOutcome);
-		if ((xsdOutcome == Outcome.VALID || xsdOutcome == Outcome.NOT_SUPPORTED)
-				&& (emfOutcome == Outcome.VALID
-						|| emfOutcome == Outcome.NOT_SUPPORTED)) {
+		case INCOMPLETE: {
 			// Invalid, but only due to custom validations
 			// as a result, consider this an incomplete file
 
@@ -127,13 +120,11 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 				modelSession.close();
 				return null;
 			}
-			return modelSession;
+			break;
 		}
+		default:
+			break;
 
-		// Invalid file
-		if (!getDialogService().loadInvalidModel(shell, path.toString())) {
-			modelSession.close();
-			return null;
 		}
 		return modelSession;
 	}

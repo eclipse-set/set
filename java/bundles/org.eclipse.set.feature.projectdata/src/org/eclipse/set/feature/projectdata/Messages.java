@@ -76,19 +76,29 @@ public class Messages {
 	public String PlanProImportPart_fileFieldButtonText;
 
 	/**
-	 * Import von Fachdaten in einem LST-Zustand
+	 * Import von Fachdaten
 	 */
 	public String PlanProImportPart_importGroup;
 
 	/**
-	 * Projektdatei/Zustand Information für Import in Start-Zustand auswählen
+	 * Hinzufügen weitere Datei to Import
+	 */
+	public String PlanProImportPart_addFieldComboButton;
+
+	/**
+	 * PlanPro-Datei für Import in Start-Zustand auswählen
 	 */
 	public String PlanProImportPart_importStart;
 
 	/**
-	 * Projektdatei/Zustand Information für Import in Ziel-Zustand auswählen
+	 * PlanPro-Datei für Import in Ziel-Zustand auswählen
 	 */
 	public String PlanProImportPart_importZiel;
+
+	/**
+	 * PlanPro-Datei für Import neu Fachdaten auswählen
+	 */
+	public String PlanProImportPart_importSubwork;
 
 	/**
 	 * Unvollständige PlanPro-Datei
@@ -114,6 +124,27 @@ public class Messages {
 	 * Der Import von Fachdaten wird nur für LST-Planungen unterstützt.
 	 */
 	public String PlanProImportPart_notSupportedInfo;
+
+	/**
+	 * Fehl Untergewerkart
+	 */
+	public String PlanproImportPart_Subwork_Notset;
+
+	/**
+	 * Ausgewählt Fachdaten zu importieren enthält keine Untergewerk_Art. Bitte
+	 * wählen eine Art oder ändern Fachdaten
+	 */
+	public String PlanProImportPart_SelectSubworkMessage;
+
+	/**
+	 * Quell Fachdaten wählen
+	 */
+	public String PlanProImportPart_Subwork_NotSelected;
+
+	/**
+	 * Untergewerk Art
+	 */
+	public String PlanProImportPart_SelectSubworkLabel;
 
 	/**
 	 * Änderungen verwerfen
@@ -149,4 +180,10 @@ public class Messages {
 	 * Projektdaten bearbeiten
 	 */
 	public String ProjectPartDescriptionService_ViewName;
+
+	/**
+	 * Import Model zu %s Zustand wird nicht ausführen, da diese Model schon
+	 * importiert.
+	 */
+	public String PlanProImportPart_ImportSameData;
 }
