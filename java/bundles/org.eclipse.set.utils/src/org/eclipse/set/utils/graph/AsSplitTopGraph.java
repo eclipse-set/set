@@ -153,7 +153,7 @@ public class AsSplitTopGraph
 	public AsSplitTopGraph(final Graph<Node, Edge> base) {
 		baseGraph = new AsSubgraph<>(base);
 		pointEdgeGraph = new WeightedPseudograph<>(Edge.class);
-		unionGraph = new AsGraphUnion<>(base, pointEdgeGraph);
+		unionGraph = new AsGraphUnion<>(baseGraph, pointEdgeGraph);
 	}
 
 	/**
