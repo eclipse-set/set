@@ -23,6 +23,7 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
 public class TopPath {
 	private final List<TOP_Kante> edges;
 	private final BigDecimal length;
+	private final BigDecimal offset; // offset from start of first edge
 
 	/**
 	 * @param edges
@@ -31,10 +32,14 @@ public class TopPath {
 	 *            the total length of the path. may be less than the total
 	 *            length of the edges if the path does not cover the full extent
 	 *            of the edges
+	 * @param offset
+	 *            starting offset from the first TOP_Kante in edges
 	 */
-	public TopPath(final List<TOP_Kante> edges, final BigDecimal length) {
+	public TopPath(final List<TOP_Kante> edges, final BigDecimal length,
+			final BigDecimal offset) {
 		this.edges = edges;
 		this.length = length;
+		this.offset = offset;
 	}
 
 	/**
@@ -54,13 +59,22 @@ public class TopPath {
 	}
 
 	/**
+	 * @return the total length of the path. may be less than the total length
+	 *         of the edges if the path does not cover the full extent of the
+	 *         edges
+	 */
+	public BigDecimal offset() {
+		return offset;
+	}
+
+	/**
 	 * @param point
 	 *            a point to find the distance for
 	 * @return distance from the start of the path, or empty if the point is not
 	 *         on the path
 	 */
 	public Optional<BigDecimal> getDistance(final TopPoint point) {
-		BigDecimal offset = BigDecimal.ZERO;
+		BigDecimal pathOffset = this.offset.negate();
 
 		TOP_Kante previousEdge = null;
 		for (final TOP_Kante edge : edges()) {
@@ -75,18 +89,31 @@ public class TopPath {
 								.getIDTOPKnotenA()
 						|| previousEdge.getIDTOPKnotenA() == edge
 								.getIDTOPKnotenA()) {
-					return Optional.of(offset.add(point.distance()));
+					final BigDecimal pointDistance = pathOffset
+							.add(point.distance());
+					if (pointDistance.compareTo(BigDecimal.ZERO) < 0
+							|| pointDistance.compareTo(length) > 0) {
+						return Optional.empty();
+					}
+
+					return Optional.of(pointDistance);
 				}
 
 				// against top direction
-				return Optional
-						.of(offset.add(edgeLength).subtract(point.distance()));
+				final BigDecimal pointDistance = pathOffset.add(edgeLength)
+						.subtract(point.distance());
+				if (pointDistance.compareTo(BigDecimal.ZERO) < 0
+						|| pointDistance.compareTo(length) > 0) {
+					return Optional.empty();
+				}
+
+				return Optional.of(pointDistance);
 
 			}
 
 			// Point not on this edge, check next edge
 			previousEdge = edge;
-			offset = offset.add(edgeLength);
+			pathOffset = pathOffset.add(edgeLength);
 		}
 		return Optional.empty();
 

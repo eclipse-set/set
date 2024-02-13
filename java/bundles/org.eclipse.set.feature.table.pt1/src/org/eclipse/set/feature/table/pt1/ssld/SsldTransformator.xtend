@@ -59,7 +59,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		return points1.flatMap [ pa |
 			points2.map [ pb |
-				topGraphService.findShortestPath(pa, pb)
+				topGraphService.findShortestDistance(pa, pb)
 			]
 		].filter[present].map[get.doubleValue].min
 	}

@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.table.pt1.sslz
 
-import com.google.common.base.Stopwatch
 import java.math.BigInteger
 import java.time.Duration
 import java.util.Collection
@@ -91,9 +90,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory) {
 		val fstrZugRangierList = container.fstrZugRangier
 		val fstrZugRangierListSorted = fstrZugRangierList
-		val total = fstrZugRangierListSorted.size
 		var current = 0
-		val stopWatch = Stopwatch.createStarted
 
 		for (fstrZugRangier : fstrZugRangierListSorted) {
 			current++
@@ -626,12 +623,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						0, [sum,rg|sum+rg.rows.size])»''')
 				}
 			// Representation-GUIDs füllen
-			}
-
-			if (logger.infoEnabled) {
-				logger.info(
-					'''Entry «current»/«total» time=«stopWatch» estimated total time=«totalTime(stopWatch.elapsed, current, total)»'''
-				)
 			}
 		}
 
