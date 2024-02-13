@@ -138,7 +138,7 @@ public class SskpBahnsteigUtils {
 		final DoubleSummaryStatistics statistics = Streams.stream(bahnsteig)
 				.flatMap(bsk -> bsk.getBereichObjektTeilbereich().stream()
 						.flatMap(tb -> toTopPoints(tb)))
-				.map(point -> topGraphService.findShortestPathInDirection(
+				.map(point -> topGraphService.findShortestDistanceInDirection(
 						pzbPoint, point, searchDirection))
 				.filter(Optional::isPresent)
 				.mapToDouble(c -> c.get().doubleValue())
@@ -162,7 +162,7 @@ public class SskpBahnsteigUtils {
 		final OptionalDouble start = Streams.stream(bahnsteig)
 				.flatMap(bsk -> bsk.getBereichObjektTeilbereich().stream()
 						.flatMap(tb -> toTopPoints(tb)))
-				.map(point -> topGraphService.findShortestPathInDirection(
+				.map(point -> topGraphService.findShortestDistanceInDirection(
 						pzbPoint, point, !isWirkrichtungTopDirection))
 				.filter(Optional::isPresent)
 				.mapToDouble(c -> c.get().doubleValue()).max();
@@ -170,7 +170,7 @@ public class SskpBahnsteigUtils {
 		final OptionalDouble end = Streams.stream(bahnsteig)
 				.flatMap(bsk -> bsk.getBereichObjektTeilbereich().stream()
 						.flatMap(tb -> toTopPoints(tb)))
-				.map(point -> topGraphService.findShortestPathInDirection(
+				.map(point -> topGraphService.findShortestDistanceInDirection(
 						pzbPoint, point, isWirkrichtungTopDirection))
 				.filter(Optional::isPresent)
 				.mapToDouble(c -> c.get().doubleValue()).map(c -> -c).min();

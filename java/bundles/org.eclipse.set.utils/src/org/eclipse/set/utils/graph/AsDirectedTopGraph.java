@@ -12,8 +12,8 @@ package org.eclipse.set.utils.graph;
 
 import java.util.HashMap;
 
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
+import org.eclipse.set.utils.graph.AsSplitTopGraph.Edge;
+import org.eclipse.set.utils.graph.AsSplitTopGraph.Node;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.AsWeightedGraph;
 import org.jgrapht.graph.DirectedPseudograph;
@@ -32,7 +32,7 @@ public class AsDirectedTopGraph {
 	 *            whether the direction follows the top direction
 	 * 
 	 */
-	public record DirectedTOPEdge(TOP_Kante edge, boolean inTopDirection) {
+	public record DirectedTOPEdge(Edge edge, boolean inTopDirection) {
 	}
 
 	/**
@@ -42,19 +42,21 @@ public class AsDirectedTopGraph {
 	 *            undirected top graph to base off
 	 * @return a graph with all edges directed
 	 */
-	public static Graph<TOP_Knoten, DirectedTOPEdge> asDirectedTopGraph(
-			final Graph<TOP_Knoten, TOP_Kante> base) {
-		final Graph<TOP_Knoten, DirectedTOPEdge> graph = new AsWeightedGraph<>(
+	public static Graph<Node, DirectedTOPEdge> asDirectedTopGraph(
+			final Graph<Node, Edge> base) {
+		final Graph<Node, DirectedTOPEdge> graph = new AsWeightedGraph<>(
 				new DirectedPseudograph<>(DirectedTOPEdge.class),
 				new HashMap<>());
 
 		base.vertexSet().forEach(graph::addVertex);
 		base.edgeSet().forEach(edge -> {
 			final DirectedTOPEdge e1 = new DirectedTOPEdge(edge, true);
-			graph.addEdge(edge.getIDTOPKnotenA(), edge.getIDTOPKnotenB(), e1);
+			graph.addEdge(base.getEdgeSource(edge), base.getEdgeTarget(edge),
+					e1);
 			graph.setEdgeWeight(e1, base.getEdgeWeight(edge));
 			final DirectedTOPEdge e2 = new DirectedTOPEdge(edge, false);
-			graph.addEdge(edge.getIDTOPKnotenB(), edge.getIDTOPKnotenA(), e2);
+			graph.addEdge(base.getEdgeTarget(edge), base.getEdgeSource(edge),
+					e2);
 			graph.setEdgeWeight(e2, base.getEdgeWeight(edge));
 		});
 

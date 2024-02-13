@@ -80,7 +80,6 @@ public class BankServiceImpl implements BankService, EventHandler {
 					topEdgeBanking.putIfAbsent(edge, new HashSet<>());
 					topEdgeBanking.get(edge).add(info);
 				}));
-
 	}
 
 	@Override
@@ -88,31 +87,47 @@ public class BankServiceImpl implements BankService, EventHandler {
 			final Ueberhoehungslinie bankingLine) {
 		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA();
 		final Ueberhoehung end = bankingLine.getIDUeberhoehungB();
+		final BigDecimal bankingLineLength = bankingLine
+				.getUeberhoehungslinieAllg().getUeberhoehungslinieLaenge()
+				.getWert();
 
 		// If both Ueberhoehungen are on the same TOP_Kante, consider the path
-		// the relevant one
+		// the relevant one if lengths match
 		final TOP_Kante beginEdge = begin.getPunktObjektTOPKante().get(0)
 				.getIDTOPKante();
 		if (beginEdge
 				.equals(end.getPunktObjektTOPKante().get(0).getIDTOPKante())) {
+			final BigDecimal distanceA = begin.getPunktObjektTOPKante().get(0)
+					.getAbstand().getWert();
+			final BigDecimal distanceB = end.getPunktObjektTOPKante().get(0)
+					.getAbstand().getWert();
 
-			return new BankingInformation(bankingLine, new TopPath(
-					List.of(beginEdge),
-					beginEdge.getTOPKanteAllg().getTOPLaenge().getWert()));
+			final BigDecimal topLengthDifference = distanceA.subtract(distanceB)
+					.abs().subtract(bankingLineLength).abs();
+
+			if (topLengthDifference.doubleValue() <= ToolboxConfiguration
+					.getBankLineTopOffsetLimit()) {
+				return new BankingInformation(bankingLine,
+						new TopPath(
+								List.of(beginEdge), beginEdge.getTOPKanteAllg()
+										.getTOPLaenge().getWert(),
+								BigDecimal.ZERO));
+			}
 		}
 
 		// Otherwise find all possible paths and find the path with the smallest
 		// deviation from the banking line length
-		final List<TopPath> paths = topGraph
-				.findAllPathsBetween(new TopPoint(begin), new TopPoint(end));
-		final double bankingLineLength = bankingLine.getUeberhoehungslinieAllg()
-				.getUeberhoehungslinieLaenge().getWert().doubleValue();
+		// Add 1 to the limit to account for rounding errors
+		final int limit = (int) (bankingLineLength.doubleValue()
+				+ ToolboxConfiguration.getBankLineTopOffsetLimit() + 1);
+		final List<TopPath> paths = topGraph.findAllPathsBetween(
+				new TopPoint(begin), new TopPoint(end), limit);
 
 		TopPath path = null;
 		double minLengthDiff = Double.MAX_VALUE;
 		for (final TopPath foundPath : paths) {
-			final double diff = Math
-					.abs(foundPath.length().doubleValue() - bankingLineLength);
+			final double diff = Math.abs(foundPath.length().doubleValue()
+					- bankingLineLength.doubleValue());
 			if (diff < minLengthDiff) {
 				minLengthDiff = diff;
 				path = foundPath;
@@ -123,7 +138,6 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.getBankLineTopOffsetLimit()) {
 			return null;
 		}
-
 		return new BankingInformation(bankingLine, path);
 	}
 
@@ -139,8 +153,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 	@Override
 	public List<BigDecimal> findBankValue(final TopPoint point) {
 		// If we have a banking line for this edge, use the line
-		if (topEdgeBanking.containsKey(point.edge())
-				&& !topEdgeBanking.get(point.edge()).isEmpty()) {
+		if (topEdgeBanking.containsKey(point.edge())) {
 			final List<BigDecimal> lineBankings = findRelevantLineBankings(
 					point).stream().map(line -> findBankingValue(point, line))
 							.toList();

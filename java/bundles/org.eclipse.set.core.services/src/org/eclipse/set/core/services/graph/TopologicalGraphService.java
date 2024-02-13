@@ -27,10 +27,13 @@ public interface TopologicalGraphService {
 	 *            the source point
 	 * @param to
 	 *            the target point
+	 * @param limit
+	 *            maximum path distance to consider
 	 * @return a list of all possible not-self intersecting paths between the
 	 *         two points
 	 */
-	List<TopPath> findAllPathsBetween(final TopPoint from, final TopPoint to);
+	List<TopPath> findAllPathsBetween(final TopPoint from, final TopPoint to,
+			int limit);
 
 	/**
 	 * @param from
@@ -43,7 +46,7 @@ public interface TopologicalGraphService {
 	 * @return the shortest distance between from and to, or empty if no path is
 	 *         found
 	 */
-	Optional<BigDecimal> findShortestPathInDirection(final TopPoint from,
+	Optional<BigDecimal> findShortestDistanceInDirection(final TopPoint from,
 			final TopPoint to, final boolean searchInTopDirection);
 
 	/**
@@ -54,7 +57,17 @@ public interface TopologicalGraphService {
 	 * @return the shortest distance between from and to, or empty if no path is
 	 *         found
 	 */
-	Optional<BigDecimal> findShortestPath(final TopPoint from,
+	Optional<BigDecimal> findShortestDistance(final TopPoint from,
 			final TopPoint to);
+
+	/**
+	 * @param from
+	 *            starting point to search from
+	 * @param to
+	 *            end point to search towards
+	 * @return the shortest distance between from and to, or empty if no path is
+	 *         found
+	 */
+	Optional<TopPath> findShortestPath(final TopPoint from, final TopPoint to);
 
 }

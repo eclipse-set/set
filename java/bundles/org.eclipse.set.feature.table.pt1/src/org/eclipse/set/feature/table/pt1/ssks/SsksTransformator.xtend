@@ -1370,7 +1370,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (unterbringung.punktObjektTOPKante !== null) {
 			val points = punktObjekt.singlePoints.map[new TopPoint(it)]
 			val pb = new TopPoint(unterbringung.punktObjektTOPKante)
-			return points.map[topGraphService.findShortestPath(it, pb)].filter [
+			return points.map[topGraphService.findShortestDistance(it, pb)].filter [
 				present
 			].map[get.doubleValue].min
 		} else {
