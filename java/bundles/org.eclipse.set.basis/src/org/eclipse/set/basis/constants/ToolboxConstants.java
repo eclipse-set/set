@@ -153,6 +153,11 @@ public final class ToolboxConstants {
 	public static final String PROJECT_PART_ID = "org.eclipse.set.feature.projectdata.edit.ProjectPart";
 
 	/**
+	 * The id of the project part.
+	 */
+	public static final String PROJECT_IMPORTPART_ID = "org.eclipse.set.feature.projectdata.ppimport.PlanProImportPart";
+
+	/**
 	 * The id of the table key to table cache.
 	 */
 	public static final String SHORTCUT_TO_TABLE_CACHE_ID = "toolbox.cache.shortcut-to-table";

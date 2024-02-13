@@ -86,7 +86,7 @@ class ManifestTransformation {
 	private def Media create ZipmanifestFactory.eINSTANCE.createMedia
 	toMedia(Anhang attachment) {
 		guid = attachment?.identitaet?.wert
-		type = attachment?.anhangAllg?.dateityp?.wert.toType
+		type = attachment?.anhangAllg?.dateityp?.wert?.toType
 		return
 	}
 
