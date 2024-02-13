@@ -11,6 +11,11 @@ package org.eclipse.set.core.dialogservice;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.BiPredicate;
 
 import jakarta.annotation.PostConstruct;
@@ -190,6 +195,21 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 	}
 
 	@Override
+	public String selectValueDialog(final Shell shell, final String title,
+			final String message, final String comboLabel,
+			final List<String> selectItems) {
+		final SelectValueDialog dialog = new SelectValueDialog(shell, title,
+				message, selectItems);
+		dialog.open();
+		final Optional<String> firstResult = dialog.getFirstResult();
+
+		if (firstResult.isEmpty()) {
+			return null;
+		}
+		return firstResult.get();
+	}
+
+	@Override
 	public void error(final Shell shell, final Exception e) {
 		LOGGER.error(e.getMessage(), e);
 		final ErrorStatus status = new ExceptionTransformation(messages)
@@ -293,8 +313,7 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 		final ProjectFilenameInitialization dialog = new ProjectFilenameInitialization(
 				shell, messages, this);
 		dialog.setInitAction(initAction);
-		dialog.setCreateDirectoryPermission((dialogShell,
-				path) -> confirmCreateDirectory(dialogShell, path));
+		dialog.setCreateDirectoryPermission(this::confirmCreateDirectory);
 		return dialog.open();
 	}
 
@@ -355,6 +374,24 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 		dialog.open();
 		sync.syncExec(runnable);
 		dialog.close();
+	}
+
+	@Override
+	public <T> T showProgressUISync(final Shell shell, final String message,
+			final Callable<T> callAble)
+			throws InterruptedException, ExecutionException {
+		final MessageDialog dialog = new MessageDialog(shell,
+				messages.DialogService_ProgressUISyncTitle, null, message,
+				MessageDialog.INFORMATION, new String[] {}, 0);
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+		final Future<T> future = Executors.newSingleThreadExecutor()
+				.submit(callAble);
+		while (!future.isDone()) {
+			Thread.sleep(300);
+		}
+		dialog.close();
+		return future.get();
 	}
 
 	@PostConstruct

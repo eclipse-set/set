@@ -49,6 +49,26 @@ public class ValidationResult {
 		VALID
 	}
 
+	/**
+	 * Validate state of file
+	 */
+	public static enum FileValidateState {
+		/**
+		 * The file is not valid
+		 */
+		INVALID,
+
+		/**
+		 * XSD-valid, but otherwise invalid file
+		 */
+		INCOMPLETE,
+
+		/**
+		 * The file is valid.
+		 */
+		VALID
+	}
+
 	private final Class<? extends EObject> validatedSourceClass;
 
 	/**
