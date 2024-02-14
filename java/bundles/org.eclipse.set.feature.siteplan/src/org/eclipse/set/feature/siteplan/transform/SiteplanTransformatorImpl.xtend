@@ -35,7 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtension
  * 
  * @author Stuecker
  */
-@Component(service=SiteplanTransformator, property="transform=siteplan")
+@Component(service=SiteplanTransformator)
 class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 	@Reference(cardinality=ReferenceCardinality.
 		MULTIPLE, policy=ReferencePolicy.
