@@ -88,9 +88,9 @@ export function getModelContainer (editor: monaco.editor.IStandaloneCodeEditor, 
   const lstState = editor.getModel().findPreviousMatch('<LST_Zustand(_Start|_Ziel)?>', pos, true, false, null, true)
   if (lstState) {
     switch (lstState.matches[1]) {
-      case 'Start':
+      case '_Start':
         return ModelContainer.INITIAL
-      case 'Ziel':
+      case '_Ziel':
         return ModelContainer.FINAL
       default:
         return ModelContainer.SINGLE
