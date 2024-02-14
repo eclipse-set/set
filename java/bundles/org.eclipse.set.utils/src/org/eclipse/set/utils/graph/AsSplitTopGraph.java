@@ -169,24 +169,12 @@ public class AsSplitTopGraph
 	 * @param at
 	 *            the point where to split at
 	 * @param inTopDirection
-	 *            whether to split in top direction or against it
-	 * @return a node at the point where the graph was split
-	 */
-	public Node splitGraphAt(final TopPoint at, final boolean inTopDirection) {
-		return splitGraphAt(at, Boolean.valueOf(inTopDirection));
-	}
-
-	/**
-	 * @param at
-	 *            the point where to split at
-	 * @param inTopDirection
 	 *            whether to split in a single top direction or not. If TRUE,
 	 *            then split in top direction, if FALSE split against it, if
 	 *            null do not split in either top directions
-	 * 
 	 * @return a node at the point where the graph was split
 	 */
-	private Node splitGraphAt(final TopPoint at, final Boolean inTopDirection) {
+	public Node splitGraphAt(final TopPoint at, final Boolean inTopDirection) {
 		final TOP_Kante edge = at.edge();
 
 		final List<Edge> pointEdgeList = pointEdgeGraph.edgeSet().stream()
@@ -213,33 +201,46 @@ public class AsSplitTopGraph
 				"Cannot split graph on a point outside the graph"); //$NON-NLS-1$
 	}
 
-	private Node splitGraphAt(final Graph<Node, Edge> sourceGraph,
-			final TopPoint from, final Edge edge,
-			final Boolean inTopDirection) {
-		final Node node = new Node(from);
+	private Node addPointGraphNode(final TopPoint point) {
+		final Node node = new Node(point);
 		pointEdgeGraph.addVertex(node);
+		return node;
+	}
 
-		final Node sourceVertex = sourceGraph.getEdgeSource(edge);
-		final Node targetVertex = sourceGraph.getEdgeTarget(edge);
+	private void addPointGraphEdge(final Node from, final Node to,
+			final Edge edge) {
+		pointEdgeGraph.addEdge(from, to, edge);
+		pointEdgeGraph.setEdgeWeight(edge, edge.getWeight().doubleValue());
+	}
+
+	private Node splitGraphAt(final Graph<Node, Edge> sourceGraph,
+			final TopPoint point, final Edge existingEdge,
+			final Boolean inTopDirection) {
+		final Node topDirNode = addPointGraphNode(point);
+		final Node againstTopDirNode = addPointGraphNode(point);
+
+		final Node sourceVertex = sourceGraph.getEdgeSource(existingEdge);
+		final Node targetVertex = sourceGraph.getEdgeTarget(existingEdge);
 		pointEdgeGraph.addVertex(sourceVertex);
 		pointEdgeGraph.addVertex(targetVertex);
 
+		final Edge edge = new Edge(point, existingEdge, true);
+		addPointGraphEdge(sourceVertex, topDirNode, edge);
+		addPointGraphEdge(againstTopDirNode, targetVertex,
+				new Edge(point, existingEdge, false));
+
+		// If the graph is connected, add a connection between the two nodes
+		if (inTopDirection == null) {
+			addPointGraphEdge(topDirNode, againstTopDirNode,
+					new Edge(point.edge(), edge.offset, BigDecimal.ZERO));
+		}
+
+		sourceGraph.removeEdge(existingEdge);
+
 		if (inTopDirection == null || inTopDirection.equals(Boolean.TRUE)) {
-			final Edge sourceNodeEdge = new Edge(from, edge, true);
-			pointEdgeGraph.addEdge(sourceVertex, node, sourceNodeEdge);
-			pointEdgeGraph.setEdgeWeight(sourceNodeEdge,
-					sourceNodeEdge.getWeight().doubleValue());
+			return topDirNode;
 		}
-
-		if (inTopDirection == null || inTopDirection.equals(Boolean.FALSE)) {
-			final Edge targetNodeEdge = new Edge(from, edge, false);
-			pointEdgeGraph.addEdge(node, targetVertex, targetNodeEdge);
-			pointEdgeGraph.setEdgeWeight(targetNodeEdge,
-					targetNodeEdge.getWeight().doubleValue());
-		}
-
-		sourceGraph.removeEdge(edge);
-		return node;
+		return againstTopDirNode;
 	}
 
 	// Implement abstract methods by deferring to splitGraph

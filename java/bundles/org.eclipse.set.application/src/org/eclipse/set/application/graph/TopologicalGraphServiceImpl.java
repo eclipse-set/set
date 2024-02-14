@@ -130,7 +130,7 @@ public class TopologicalGraphServiceImpl
 			final boolean searchInTopDirection) {
 		final AsSplitTopGraph graphView = new AsSplitTopGraph(topGraphBase);
 		final Node fromNode = graphView.splitGraphAt(from,
-				searchInTopDirection);
+				Boolean.valueOf(searchInTopDirection));
 		final Node toNode = graphView.splitGraphAt(to);
 
 		return Optional.ofNullable( //
