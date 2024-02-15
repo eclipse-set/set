@@ -153,7 +153,7 @@ public class TopologicalGraphServiceImpl
 				.map(p -> new TopPath(
 						p.getEdgeList().stream().map(Edge::edge).distinct()
 								.toList(),
-						fromNode.point().distance(), getPathWeight(p)));
+						getPathWeight(p), fromNode.point().distance()));
 	}
 
 	private static BigDecimal getPathWeight(final GraphPath<Node, Edge> path) {
