@@ -149,7 +149,7 @@ public class SskpBahnsteigUtils {
 			return new BahnsteigDistance(OptionalDouble.empty(),
 					OptionalDouble.empty());
 		}
-		return new BahnsteigDistance(statistics.getMin(), statistics.getMax());
+		return new BahnsteigDistance(statistics.getMax(), statistics.getMin());
 	}
 
 	private static BahnsteigDistance getBahnsteigDistanceAtMagnet(
