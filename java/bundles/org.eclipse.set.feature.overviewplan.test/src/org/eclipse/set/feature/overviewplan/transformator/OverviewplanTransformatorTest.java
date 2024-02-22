@@ -61,7 +61,7 @@ class OverviewplanTransformatorTest extends AbstractToolboxTest {
 		setupTransformators(testee);
 	}
 
-	private void whenTransformingToSiteplanModel() {
+	private void whenTransformingToOverviewplanModel() {
 		siteplan = testee.transform(planProSchnittstelle);
 
 	}
