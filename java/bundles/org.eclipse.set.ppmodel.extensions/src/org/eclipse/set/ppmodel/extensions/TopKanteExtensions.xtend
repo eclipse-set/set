@@ -119,7 +119,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val geoKanten = geoKnoten.getGeoKantenOnTopKante(topKante)
 		// The GEOKnoten reference to this TOP Knoten should have only one GEOKante on this TOPKante
 		if (geoKanten.size > 1) {
-			throw new IllegalArgumentException('''Auf TOP_Kante: «topKante.identitaet.wert» verweiss TOP_Knoten: «topKnoten.identitaet.wert» auf mehr als ein GEO_Kante''')
+			throw new IllegalArgumentException('''The TOP_Knoten: «topKnoten.identitaet.wert» on TOP_Kante: «topKante.identitaet.wert» reference to more than one GEO_Kante''')
 		}
 		return geoKanten.get(0)
 	}

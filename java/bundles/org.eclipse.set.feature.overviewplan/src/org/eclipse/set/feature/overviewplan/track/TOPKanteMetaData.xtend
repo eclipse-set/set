@@ -1,10 +1,12 @@
 /**
- * Copyright (c) 2023 DB Netz AG and others.
+ * Copyright (c) 2024 DB InfraGO AG and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
  */
 package org.eclipse.set.feature.overviewplan.track
 
@@ -24,7 +26,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.utils.collection.MapExtensions.*
 
 class TOPKanteMetaData {
@@ -61,7 +63,7 @@ class TOPKanteMetaData {
 
 	def TOP_Knoten getNextTopNode(TOP_Knoten topNode) {
 		if (topNode !== topNodeA && topNode !== topNodeB) {
-			throw new IllegalArgumentException('''TOP_Knoten: «topNode.identitaet.wert» gehört nicht zu TOP_Katen: «topEdge.identitaet.wert»''')
+			throw new IllegalArgumentException('''TOP_Knoten: «topNode.identitaet.wert» doesn't belong to TOP_Katen: «topEdge.identitaet.wert»''')
 		}
 		return #[topNodeA, topNodeB].findFirst[it !== topNode]
 	}
@@ -132,7 +134,7 @@ class TOPKanteMetaData {
 			intersectTopEdges.put(topNode, intersectKanten)
 			return intersectKanten
 		}
-		throw new IllegalArgumentException('''TOP_Knoten: «topNode.identitaet.wert» verweiss auf mehr als 3 TOP_Kanten''')
+		throw new IllegalArgumentException('''TOP_Knoten: «topNode.identitaet.wert» reference to more than three TOP_Kanten''')
 	}
 
 	private def TOPKanteMetaData getContinuousEdge(TOP_Knoten topNode) {
@@ -177,15 +179,15 @@ class TOPKanteMetaData {
 		}
 
 		if (!isLegalConnection(topNode, intersectEdges)) {
-			throw new IllegalArgumentException('''Illegal TOP_Anschluss bei TOP_Knoten: «topNode.identitaet.wert»''')
+			throw new IllegalArgumentException('''Illegal TOP_Anschluss by TOP_Knoten: «topNode.identitaet.wert»''')
 		}
 
 		val component = topNode.WKrGspElement?.WKrGspKomponenten.filter [
-			TOPKante.exists[intersectEdges.map[topEdge].contains(it)]
+			topKanten.exists[intersectEdges.map[topEdge].contains(it)]
 		]
 
 		if (component.empty || component.size > 1) {
-			throw new IllegalArgumentException('''Bei TOP_Knoten: {«topNode.identitaet.wert»} gibt es keine Weiche oder die Weiche verweiss auf falsche TOP_Kante ''')
+			throw new IllegalArgumentException('''By TOP_Knoten: {«topNode.identitaet.wert»} doesn't exist TrackSwtich or The Switch reference to wrong TOP_Kante''')
 		}
 
 		val mainConnector = component.get(0).mainTrackConnector

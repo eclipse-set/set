@@ -72,7 +72,7 @@ class OverviewplanTransformatorTest extends AbstractToolboxTest {
 		givenSiteplanTransformator();
 		givenPlanProFile(file);
 
-		assertDoesNotThrow(() -> whenTransformingToSiteplanModel());
+		assertDoesNotThrow(() -> whenTransformingToOverviewplanModel());
 		// then no exception occurs
 	}
 }

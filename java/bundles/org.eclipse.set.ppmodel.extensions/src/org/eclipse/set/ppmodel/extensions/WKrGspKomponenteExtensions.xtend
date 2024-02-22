@@ -66,8 +66,4 @@ class WKrGspKomponenteExtensions extends PunktObjektExtensions {
 	def static boolean hasZungenpaar(W_Kr_Gsp_Komponente komponente) {
 		return komponente.zungenpaar !== null
 	}
-	
-	def static List<TOP_Kante> getTOPKante(W_Kr_Gsp_Komponente komponente) {
-		return komponente.punktObjektTOPKante.map[topKante]
-	}
 }
