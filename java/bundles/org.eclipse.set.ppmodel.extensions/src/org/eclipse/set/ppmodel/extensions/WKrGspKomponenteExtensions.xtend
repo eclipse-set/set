@@ -17,8 +17,6 @@ import java.util.Set
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 
 /**
  * This class extends {@link W_Kr_Gsp_Komponente}.
