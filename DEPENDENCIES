@@ -717,7 +717,7 @@ npm/npmjs/-/utils-merge/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/utrie/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #2438
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/vite/5.1.3, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #13202
+npm/npmjs/-/vite/5.1.4, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #13202
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/9.4.2, MIT, approved, #12750
 npm/npmjs/-/vue-router/4.2.5, MIT, approved, clearlydefined
@@ -1281,6 +1281,7 @@ p2/orbit/p2.eclipse.plugin/org.hamcrest.core/1.3.0.v20180420-1519, BSD-2-Clause,
 p2/orbit/p2.eclipse.plugin/org.hamcrest.library/1.3.0.v20180524-2246, BSD-2-Clause, approved, CQ7219
 p2/orbit/p2.eclipse.plugin/org.junit.jupiter.api/5.9.1.v20221103-2317, EPL-2.0, approved, #3133
 p2/orbit/p2.eclipse.plugin/org.junit.jupiter.params/5.9.1.v20221103-2317, EPL-2.0, approved, #10228
+p2/orbit/p2.eclipse.plugin/org.junit.platform.commons/1.9.1.v20221103-2317, EPL-2.0, approved, #8777
 p2/orbit/p2.eclipse.plugin/org.junit.platform.engine/1.9.1.v20221103-2317, EPL-2.0, approved, #8778
 p2/orbit/p2.eclipse.plugin/org.junit.platform.launcher/1.9.1.v20221103-2317, EPL-2.0, approved, #8779
 p2/orbit/p2.eclipse.plugin/org.junit.platform.suite.api/1.9.1.v20221103-2317, EPL-2.0, approved, #10227
