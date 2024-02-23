@@ -81,11 +81,6 @@ public class Messages {
 	public String PlanProImportPart_importGroup;
 
 	/**
-	 * Hinzufügen weitere Datei to Import
-	 */
-	public String PlanProImportPart_addFieldComboButton;
-
-	/**
 	 * PlanPro-Datei für Import in Start-Zustand auswählen
 	 */
 	public String PlanProImportPart_importStart;
