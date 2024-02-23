@@ -25,7 +25,9 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.widgets.ComboValues;
 
 /**
+ * Combo values for selection sub work type
  * 
+ * @author Truong
  */
 public class SubworkComboSelection extends AbstractEnumerator {
 

@@ -12,11 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.IOException;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.set.feature.siteplan.transform.utils.SiteplanTest;
 import org.eclipse.set.model.siteplan.Siteplan;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -39,9 +36,6 @@ public class SiteplanTransformatorTest extends SiteplanTest {
 	}
 
 	private void whenTransformingToSiteplanModel() {
-		final PlanPro_Schnittstelle copy = EcoreUtil.copy(planProSchnittstelle);
-		IDReferenceUtils.retargetIDReferences(planProSchnittstelle, copy);
-
 		siteplan = testee.transform(planProSchnittstelle);
 	}
 
