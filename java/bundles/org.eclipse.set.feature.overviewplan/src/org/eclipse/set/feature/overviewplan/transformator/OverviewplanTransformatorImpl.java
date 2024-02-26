@@ -13,7 +13,7 @@ package org.eclipse.set.feature.overviewplan.transformator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.set.feature.overviewplan.track.TrackService;
+import org.eclipse.set.feature.overviewplan.track.TrackNetworkService;
 import org.eclipse.set.feature.siteplan.transform.AbstractSiteplanTransformator;
 import org.eclipse.set.feature.siteplan.transform.Transformator;
 import org.eclipse.set.model.siteplan.Position;
@@ -43,7 +43,7 @@ public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 	public final List<Transformator> transformators = new ArrayList<>();
 
 	@Reference
-	TrackService trackService;
+	TrackNetworkService trackService;
 
 	@Override
 	public SiteplanState transformState(

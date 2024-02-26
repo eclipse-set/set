@@ -11,7 +11,6 @@
 package org.eclipse.set.feature.overviewplan.transformator
 
 import org.eclipse.set.feature.overviewplan.track.TOPKanteMetaData
-import org.eclipse.set.feature.overviewplan.track.TrackService
 import org.eclipse.set.feature.siteplan.transform.BaseTransformator
 import org.eclipse.set.feature.siteplan.transform.Transformator
 import org.eclipse.set.model.siteplan.SiteplanFactory
@@ -20,12 +19,13 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
+import org.eclipse.set.feature.overviewplan.track.TrackNetworkService
 
 @Component(service=Transformator)
 class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 	@Reference
-	TrackService trackService
+	TrackNetworkService trackService
 
 	override transform(TOP_Kante topKante) {
 		if (state.tracks.flatMap[sections].exists [

@@ -41,7 +41,7 @@ Require-Bundle: org.eclipse.set.toolboxmodel,
  org.eclipse.e4.core.contexts;bundle-version="1.11.0",
  org.slf4j.api;bundle-version="1.7.30"
 Service-Component: OSGI-INF/org.eclipse.set.feature.overviewplan.descriptions.WebOverviewplanDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.overviewplan.track.TrackServiceImpl.xml,
+ OSGI-INF/org.eclipse.set.feature.overviewplan.track.TrackNetworkServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformatorImpl.xml,
  OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.TrackTransformator.xml
 Automatic-Module-Name: org.eclipse.set.feature.overviewplan

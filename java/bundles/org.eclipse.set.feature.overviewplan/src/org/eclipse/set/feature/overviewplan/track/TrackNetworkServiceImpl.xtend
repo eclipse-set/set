@@ -22,9 +22,9 @@ import org.slf4j.LoggerFactory
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 
 @Component
-class TrackServiceImpl implements TrackService {
+class TrackNetworkServiceImpl implements TrackNetworkService {
 
-	static final Logger logger = LoggerFactory.getLogger(TrackServiceImpl)
+	static final Logger logger = LoggerFactory.getLogger(TrackNetworkServiceImpl)
 	List<OverviewplanTrack> tracksCache = newArrayList
 
 	override getTracksCache() {
@@ -58,7 +58,7 @@ class TrackServiceImpl implements TrackService {
 		}
 		md.defineTrack
 
-		container.setupAnotherTrackNetz
+		container.setupAnotherTrackNet
 	}
 
 	private def boolean isMissingTOPKanteMetaData(
@@ -68,7 +68,7 @@ class TrackServiceImpl implements TrackService {
 		]
 	}
 
-	private def void setupAnotherTrackNetz(
+	private def void setupAnotherTrackNet(
 		MultiContainer_AttributeGroup container) {
 		if (!container.isMissingTOPKanteMetaData) {
 			return
@@ -84,7 +84,7 @@ class TrackServiceImpl implements TrackService {
 			tracksCache = new ArrayList
 			tracksCache.addAll(clone)
 		}
-		container.setupAnotherTrackNetz
+		container.setupAnotherTrackNet
 	}
 
 	private def OverviewplanTrack defineTrack(TOPKanteMetaData md) {

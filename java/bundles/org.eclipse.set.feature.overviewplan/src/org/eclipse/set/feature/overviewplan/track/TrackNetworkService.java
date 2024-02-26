@@ -20,7 +20,7 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
  * @author truong
  *
  */
-public interface TrackService {
+public interface TrackNetworkService {
 	/**
 	 * Get TOPKanteMetaData belong to this TOPKante
 	 * 

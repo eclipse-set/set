@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.eclipse.set.feature.overviewplan.track.TrackServiceImpl;
+import org.eclipse.set.feature.overviewplan.track.TrackNetworkServiceImpl;
 import org.eclipse.set.model.siteplan.Siteplan;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,7 +30,7 @@ class OverviewplanTransformatorTest extends AbstractToolboxTest {
 
 		try {
 			FieldUtils.writeField(transformator, "trackService", //$NON-NLS-1$
-					new TrackServiceImpl(), true);
+					new TrackNetworkServiceImpl(), true);
 		} catch (final IllegalAccessException e) {
 			// ignore (test will fail)
 		}
