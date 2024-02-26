@@ -1,13 +1,15 @@
 /**
- * Copyright (c) 2020 DB Netz AG and others.
+ * Copyright (c) 2024 DB InfraGO AG and others
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  */
 
-package org.eclipse.set.feature.siteplan.descriptions;
+package org.eclipse.set.feature.export.descriptions;
 
 import javax.inject.Inject;
 
@@ -17,15 +19,18 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.siteplan.Messages;
+import org.eclipse.set.feature.export.Messages;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * Part description for web siteplan development view.
+ * Part description for siteplan export view.
+ * 
+ * @author truong
+ *
  */
 @Component
-public class WebSiteplanDevelopmentDescriptionService
+public class SiteplanModelExportDescriptionService
 		implements PartDescriptionService {
 	private static class InjectionHelper {
 
@@ -46,9 +51,9 @@ public class WebSiteplanDevelopmentDescriptionService
 				// ID
 				this.getClass().getName(),
 				// contributionURI
-				"bundleclass://org.eclipse.set.feature.siteplan/org.eclipse.set.feature.siteplan.parts.WebSiteplanDevelopmentPart", //$NON-NLS-1$
+				"bundleclass://org.eclipse.set.feature.export/org.eclipse.set.feature.export.parts.SiteplanModelExportPart", //$NON-NLS-1$
 				// toolboxViewName
-				injectionHelper.messages.WebSiteplanDevelopmentDescriptionService_ViewName,
+				injectionHelper.messages.SiteplanModelExportDescriptionService_ViewName,
 				// toolboxViewToolTip
 				"", //$NON-NLS-1$
 				// toolboxViewType

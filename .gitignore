@@ -58,3 +58,6 @@ siteplan*.json
 # Currently tycho-ds-plugin cannot service from overide methode generated
 !**/OSGI-INF/org.eclipse.set.emfforms.labelservice.ToolboxLabelProvider.xml
 org.sonarlint.eclipse.core.prefs
+
+# Temporary PlanPro-file unzip direcotry of JUnit tests
+**/res/toolbox

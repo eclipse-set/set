@@ -38,9 +38,12 @@ Require-Bundle: org.eclipse.set.toolboxmodel,
  org.eclipse.set.browser;bundle-version="2.2.0",
  org.eclipse.xtext.xbase.lib;bundle-version="2.27.0",
  org.locationtech.jts.jts-core;bundle-version="1.19.0",
- org.eclipse.e4.core.contexts;bundle-version="1.11.0"
+ org.eclipse.e4.core.contexts;bundle-version="1.11.0",
+ org.slf4j.api;bundle-version="1.7.30"
 Service-Component: OSGI-INF/org.eclipse.set.feature.overviewplan.descriptions.WebOverviewplanDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformatorImpl.xml
+ OSGI-INF/org.eclipse.set.feature.overviewplan.track.TrackNetworkServiceImpl.xml,
+ OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformatorImpl.xml,
+ OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.TrackTransformator.xml
 Automatic-Module-Name: org.eclipse.set.feature.overviewplan
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-17
