@@ -48,7 +48,7 @@ public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 	@Override
 	public SiteplanState transformState(
 			final MultiContainer_AttributeGroup container) {
-		trackService.setupTrackNetz(container);
+		trackService.setupTrackNet(container);
 		final SiteplanState siteplanState = SiteplanFactory.eINSTANCE
 				.createSiteplanState();
 		transformators.forEach(transform -> transform

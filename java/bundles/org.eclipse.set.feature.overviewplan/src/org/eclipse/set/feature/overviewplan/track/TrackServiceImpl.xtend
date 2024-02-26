@@ -76,11 +76,10 @@ class TrackServiceImpl implements TrackService {
 	}
 
 	override getTOPKanteMetaData(TOP_Knoten topKnoten) {
-		val topKanten = topKnoten.topKanten
-		return topKanten.map[TOPKanteMetaData]
+		return topKnoten.topKanten.map[TOPKanteMetaData]
 	}
 
-	override setupTrackNetz(MultiContainer_AttributeGroup container) {
+	override setupTrackNet(MultiContainer_AttributeGroup container) {
 		val md = container.TOPKante.get(0).TOPKanteMetaData
 		md.defineTrack
 

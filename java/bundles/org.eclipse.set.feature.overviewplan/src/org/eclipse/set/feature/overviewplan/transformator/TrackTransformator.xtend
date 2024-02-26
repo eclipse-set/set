@@ -35,9 +35,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			return
 		}
 		val md = trackService.getTOPKanteMetaData(topKante)
-		#[md.topNodeA, md.topNodeB].forEach [
-			track.transformSection(md, it)
-		]
+		track.transformSection(md, md.topNodeA)
+		track.transformSection(md, md.topNodeB)
+
 
 		track.guid = topKante.identitaet.wert
 		state.tracks.add(track)
