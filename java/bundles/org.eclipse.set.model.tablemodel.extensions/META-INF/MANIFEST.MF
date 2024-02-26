@@ -4,7 +4,7 @@ Bundle-Name: Tablemodel extensions
 Bundle-SymbolicName: org.eclipse.set.model.tablemodel.extensions
 Bundle-Version: 2.3.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: com.google.guava,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,

@@ -19,4 +19,4 @@ Import-Package: org.eclipse.set.feature.siteplan.transform,
  org.junit.jupiter.params;version="5.9.1",
  org.junit.jupiter.params.provider;version="5.9.1"
 Automatic-Module-Name: org.eclipse.set.feature.overviewplan.test
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21

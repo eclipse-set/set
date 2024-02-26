@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.eclipse.set.i18n.validationreport.nl_de
 Bundle-Version: 2.3.0.qualifier
 Fragment-Host: org.eclipse.set.model.validationreport.edit;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.set.i18n.validationreport.edit
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

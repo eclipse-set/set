@@ -4,5 +4,5 @@ Bundle-Name: Log Configuration
 Bundle-SymbolicName: org.eclipse.set.releng.logging
 Bundle-Version: 2.3.0.qualifier
 Fragment-Host: ch.qos.logback.classic;bundle-version="1.0.7"
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox

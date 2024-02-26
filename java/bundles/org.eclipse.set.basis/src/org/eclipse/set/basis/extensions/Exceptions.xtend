@@ -33,8 +33,8 @@ class Exceptions {
 		return false
 	}
 
-	private static def dispatch boolean isCausedByThreadDeathDispatch(ThreadDeath e) {
-		return true
+	private static def dispatch boolean isCausedByThreadDeathDispatch(Thread thread) {
+		return thread.isInterrupted
 	}
 
 	private static def dispatch boolean isCausedByThreadDeathDispatch(

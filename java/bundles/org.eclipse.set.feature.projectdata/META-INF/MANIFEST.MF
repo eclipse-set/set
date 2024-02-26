@@ -4,7 +4,7 @@ Bundle-Name: Toolbox Projectdata
 Bundle-SymbolicName: org.eclipse.set.feature.projectdata;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Automatic-Module-Name: org.eclipse.set.feature.projectdata
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: com.google.common.base;version="15.0.0",
  com.google.common.collect;version="15.0.0",

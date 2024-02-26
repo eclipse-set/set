@@ -31,7 +31,7 @@ Require-Bundle: org.eclipse.core.runtime,
  com.fasterxml.jackson.core.jackson-databind,
  com.fasterxml.jackson.core.jackson-core,
  org.eclipse.emfcloud.emfjson-jackson
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Import-Package: ch.qos.logback.classic;version="1.0.7",
  ch.qos.logback.classic.spi;version="1.0.7",
