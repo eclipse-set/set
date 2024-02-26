@@ -13,8 +13,11 @@ package org.eclipse.set.feature.overviewplan.track;
 
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.core.services.Services;
@@ -38,6 +41,26 @@ public class MetaDataCache {
 	 * Default Constructor
 	 */
 	private MetaDataCache() {
+	}
+
+	/**
+	 * Get all storage edge metadata
+	 * 
+	 * @param container
+	 *            the container
+	 * @return all metadatas
+	 */
+	public static List<TOPKanteMetaData> getAllMetaData(
+			final MultiContainer_AttributeGroup container) {
+		if (!ToolboxConfiguration.isDevelopmentMode()) {
+			final Cache cache = Services.getCacheService()
+					.getCache(getCacheString(container));
+			final List<TOPKanteMetaData> metadatas = cache.getKeys().stream()
+					.map(key -> (TOPKanteMetaData) cache.getIfPresent(key))
+					.filter(Objects::nonNull).toList();
+			return metadatas;
+		}
+		return new ArrayList<>(topCache.values());
 	}
 
 	/**

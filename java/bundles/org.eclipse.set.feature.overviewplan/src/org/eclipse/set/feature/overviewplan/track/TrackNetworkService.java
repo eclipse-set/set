@@ -6,12 +6,13 @@
  * https://www.eclipse.org/legal/epl-2.0.
  *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  */
 package org.eclipse.set.feature.overviewplan.track;
 
 import java.util.List;
 
+import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
@@ -53,4 +54,24 @@ public interface TrackNetworkService {
 	 */
 	List<OverviewplanTrack> getTracksCache();
 
+	/**
+	 * @param md
+	 * @return {@link OverviewplanTrack}
+	 */
+	OverviewplanTrack getTrack(TOPKanteMetaData md);
+
+	/**
+	 * @param node
+	 * @param track
+	 * @return position of node
+	 */
+	Position getTOPNodePosition(TOP_Knoten node, OverviewplanTrack track);
+
+	/**
+	 * Clear storage cache
+	 * 
+	 * @param container
+	 *            the container
+	 */
+	void clean(MultiContainer_AttributeGroup container);
 }

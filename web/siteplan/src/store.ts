@@ -42,6 +42,7 @@ export interface State {
   routeVisible: boolean
   trackSectionMarkerVisible: boolean
   trackOutlineVisible: boolean
+  trackSectionColorVisible: boolean
   loading: boolean
   error: IError
   selectedSourceMap: string
@@ -87,6 +88,7 @@ export const store = createStore<State>({
     routeVisible: false,
     trackSectionMarkerVisible: false,
     trackOutlineVisible: false,
+    trackSectionColorVisible: false,
     loading: false,
     error: {
       iserror: false,
@@ -139,6 +141,10 @@ export const store = createStore<State>({
     },
     setTrackOutlineVisible (state, payload: boolean) {
       state.trackOutlineVisible = payload
+      store.commit('refreshMap')
+    },
+    setTrackSectionColorVisible (state, payload: boolean) {
+      state.trackSectionColorVisible = payload
       store.commit('refreshMap')
     },
     resetMap (state) {

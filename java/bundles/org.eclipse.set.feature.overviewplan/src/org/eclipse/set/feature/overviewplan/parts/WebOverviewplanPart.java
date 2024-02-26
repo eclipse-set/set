@@ -20,7 +20,10 @@ import org.eclipse.emfcloud.jackson.module.EMFModule;
 import org.eclipse.emfcloud.jackson.module.EMFModule.Feature;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.browser.RequestHandler.Response;
+import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformator;
+import org.eclipse.set.feature.siteplan.browserfunctions.GetSessionStateBrowserFunction;
+import org.eclipse.set.feature.siteplan.browserfunctions.JumpToSourceLineBrowserFunction;
 import org.eclipse.set.feature.siteplan.json.SiteplanEObjectSerializer;
 import org.eclipse.set.model.siteplan.Siteplan;
 import org.eclipse.set.utils.BasePart;
@@ -36,9 +39,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class WebOverviewplanPart extends BasePart {
 
-	private static final String WEB_PATH = "./web/siteplan"; //$NON-NLS-1$
+	private static final String WEB_PATH = "./web/overviewplan"; //$NON-NLS-1$
 	@Inject
 	IEclipseContext context;
+
+	@Inject
+	ToolboxPartService partService;
 
 	/**
 	 * Create the part.
@@ -80,8 +86,17 @@ public class WebOverviewplanPart extends BasePart {
 					Paths.get(WEB_PATH, "index.html")); //$NON-NLS-1$
 			browser.serveUri("overviewplan.json", this::serveOverviewplan); //$NON-NLS-1$
 			browser.setUrl("https://toolbox/?"); //$NON-NLS-1$
+			registerJavascriptFunctions(browser);
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
+
+	}
+
+	private void registerJavascriptFunctions(final FileWebBrowser browser) {
+		browser.registerJSFunction(new GetSessionStateBrowserFunction(browser,
+				"planproGetSessionState", getModelSession())); //$NON-NLS-1$
+		browser.registerJSFunction(new JumpToSourceLineBrowserFunction(browser,
+				"planproJumpToTextView", getBroker(), partService)); //$NON-NLS-1$
 	}
 }

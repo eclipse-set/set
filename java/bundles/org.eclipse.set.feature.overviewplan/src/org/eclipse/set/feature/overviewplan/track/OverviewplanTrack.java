@@ -11,12 +11,14 @@
 
 package org.eclipse.set.feature.overviewplan.track;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
+import org.eclipse.xtext.xbase.lib.Pair;
 
 /**
  * Overviewplan Track contains TOPKanteMetadata of this track and left- right-
@@ -26,16 +28,41 @@ import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
  *
  */
 public class OverviewplanTrack {
-	List<TOPKanteMetaData> topEdges = new ArrayList<>();
-
 	/**
 	 * Left intersect track
 	 */
 	public Map<TOP_Knoten, OverviewplanTrack> leftTracks = new HashMap<>();
+
+	/**
+	 * Track Lvl
+	 */
+	public int lvl;
+
+	/**
+	 * First found out track will fixed
+	 */
+	public boolean fixedLvl = false;
 	/**
 	 * Right intersect track
 	 */
 	public Map<TOP_Knoten, OverviewplanTrack> rightTracks = new HashMap<>();
+
+	private final List<TOPKanteMetaData> topEdges = new LinkedList<>();
+
+	private final List<TOP_Knoten> topNodes = new LinkedList<>();
+
+	/**
+	 * @param edge
+	 *            TOPKanteMetaData
+	 */
+	public OverviewplanTrack(final TOPKanteMetaData edge) {
+		lvl = 0;
+		topEdges.add(edge);
+		addTrackSections(edge, edge.getTopNodeA());
+		Collections.reverse(topEdges);
+		addTrackSections(edge, edge.getTopNodeB());
+
+	}
 
 	/**
 	 * @return the TOPKanteMetaData of this track
@@ -45,31 +72,33 @@ public class OverviewplanTrack {
 	}
 
 	/**
-	 * @param edge
-	 *            TOPKanteMetaData
+	 * Give list of TOP_Knoten with sort by start to end of Track
+	 * 
+	 * @return list TOP_Knoten
 	 */
-	public OverviewplanTrack(final TOPKanteMetaData edge) {
-		topEdges.add(edge);
-	}
-
-	/**
-	 * @param edge
-	 *            TOPKanteMetaData
-	 */
-	public void addTrackSections(final TOPKanteMetaData edge) {
-		topEdges.add(edge);
-	}
-
-	/**
-	 * @return the TOPKanteMetaData, which have only one continuous track
-	 */
-	public TOPKanteMetaData getFirstEdge() {
-		if (isSingleEdgeTrack()) {
-			return topEdges.get(0);
+	public List<TOP_Knoten> getTopNodes() {
+		if (!topNodes.isEmpty()) {
+			return topNodes;
 		}
-		return topEdges.stream()
-				.filter(edge -> edge.getContinuousEdges().size() == 1).toList()
-				.get(0);
+		final TOPKanteMetaData first = topEdges.get(0);
+		final List<Pair<TOP_Knoten, TOPKanteMetaData>> continuousEdges = first
+				.getContinuousEdges();
+		if (continuousEdges.isEmpty()) {
+			topNodes.add(first.getTopNodeA());
+			topNodes.add(first.getTopNodeB());
+			return topNodes;
+		}
+		final Pair<TOP_Knoten, TOPKanteMetaData> pair = continuousEdges.get(0);
+		TOP_Knoten connectNode = pair.getKey();
+		topNodes.add(first.getNextTopNode(connectNode));
+		TOPKanteMetaData continuous = pair.getValue();
+		while (continuous != null) {
+			topNodes.add(connectNode);
+			connectNode = continuous.getNextTopNode(connectNode);
+			continuous = continuous.getContinuousEdgeAt(connectNode);
+		}
+		topNodes.add(connectNode);
+		return topNodes;
 	}
 
 	/**
@@ -77,5 +106,18 @@ public class OverviewplanTrack {
 	 */
 	public boolean isSingleEdgeTrack() {
 		return topEdges.size() == 1;
+	}
+
+	private void addTrackSections(final TOPKanteMetaData md,
+			final TOP_Knoten topNode) {
+		if (md == null) {
+			return;
+		}
+		final TOPKanteMetaData continuous = md.getContinuousEdgeAt(topNode);
+		if (continuous == null || topEdges.contains(continuous)) {
+			return;
+		}
+		topEdges.add(continuous);
+		addTrackSections(continuous, continuous.getNextTopNode(topNode));
 	}
 }

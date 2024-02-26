@@ -103,9 +103,9 @@ public class TopologicalGraphServiceImpl
 		final Node fromNode = graphView.splitGraphAt(from);
 		final Node toNode = graphView.splitGraphAt(to);
 
-		final Graph<Node, DirectedTOPEdge> directedGraph = AsDirectedTopGraph
+		final Graph<Node, DirectedTOPEdge<Edge>> directedGraph = AsDirectedTopGraph
 				.asDirectedTopGraph(graphView);
-		final List<GraphPath<Node, DirectedTOPEdge>> paths = new AllDirectedPaths<>(
+		final List<GraphPath<Node, DirectedTOPEdge<Edge>>> paths = new AllDirectedPaths<>(
 				directedGraph).getAllPaths(fromNode, toNode, true,
 						Integer.valueOf(limit));
 
@@ -118,7 +118,7 @@ public class TopologicalGraphServiceImpl
 	}
 
 	private static BigDecimal getDirectedPathWeight(
-			final GraphPath<Node, DirectedTOPEdge> graphPath) {
+			final GraphPath<Node, DirectedTOPEdge<Edge>> graphPath) {
 		return graphPath.getEdgeList().stream()
 				.map(edge -> edge.edge().getWeight())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);

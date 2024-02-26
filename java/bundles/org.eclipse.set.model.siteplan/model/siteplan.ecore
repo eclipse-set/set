@@ -189,13 +189,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="designations" upperBound="-1"
         eType="#//TrackDesignation" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TrackSection">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSection" eSuperTypes="#//SiteplanObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="shape" eType="#//TrackShape"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="segments" upperBound="-1"
         eType="#//TrackSegment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="color" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TrackSegment">
+  <eClassifiers xsi:type="ecore:EClass" name="TrackSegment" eSuperTypes="#//SiteplanObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" upperBound="-1" eType="#//TrackType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="positions" upperBound="-1"
         eType="#//Coordinate" containment="true"/>

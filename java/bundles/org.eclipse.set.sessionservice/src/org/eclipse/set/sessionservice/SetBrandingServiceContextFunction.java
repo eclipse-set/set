@@ -21,7 +21,9 @@ import org.osgi.service.component.annotations.Component;
  * 
  * @author Schaefer
  */
-@Component(service = IContextFunction.class, property = "service.context.key:String=org.eclipse.set.core.services.branding.BrandingService")
+@Component(service = IContextFunction.class, property = {
+		"service.context.key:String=org.eclipse.set.core.services.branding.BrandingService",
+		"service.ranking:Integer=100" })
 public class SetBrandingServiceContextFunction extends ContextFunction {
 
 	@Override

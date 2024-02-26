@@ -16,7 +16,7 @@ import java.util.List
 import java.util.function.Supplier
 
 class MapExtensions {
-	
+
 	def static <T, U> void add(Map<T, List<U>> map, T key, U value) {
 		val values = map.get(key)
 		if (values !== null) {
@@ -25,7 +25,7 @@ class MapExtensions {
 		}
 		map.put(key, newArrayList(value))
 	}
-	
+
 	def static <T, U> void add(Map<T, List<U>> map, T key, List<U> values) {
 		val value = map.get(key)
 		if (value !== null) {
@@ -43,4 +43,17 @@ class MapExtensions {
 		}
 		return value
 	}
+
+	def static <T, U> Map<T, U> clone(Map<T, U> map) {
+		val result = newHashMap
+		result.putAll(map)
+		return result
+	}
+
+	def static <T, U> Map<T, U> cloneLinkedHashMap(Map<T, U> map) {
+		val result = newLinkedHashMap
+		result.putAll(map)
+		return result
+	}
+
 }

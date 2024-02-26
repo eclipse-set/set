@@ -63,7 +63,6 @@ class OverviewplanTransformatorTest extends AbstractToolboxTest {
 
 	private void whenTransformingToOverviewplanModel() {
 		siteplan = testee.transform(planProSchnittstelle);
-
 	}
 
 	@ParameterizedTest

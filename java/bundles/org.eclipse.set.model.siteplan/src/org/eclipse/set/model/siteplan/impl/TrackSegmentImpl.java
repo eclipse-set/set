@@ -16,9 +16,6 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -42,7 +39,7 @@ import org.eclipse.set.model.siteplan.TrackType;
  *
  * @generated
  */
-public class TrackSegmentImpl extends MinimalEObjectImpl.Container implements TrackSegment {
+public class TrackSegmentImpl extends SiteplanObjectImpl implements TrackSegment {
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute list.
 	 * <!-- begin-user-doc -->

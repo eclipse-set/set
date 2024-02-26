@@ -47,6 +47,14 @@
                 >
                 <label for="checkbox-track">Gleisbreite anzeigen</label>
               </li>
+              <li>
+                <input
+                  id="checkbox-trackoutline"
+                  v-model="trackSectionColorVisbile"
+                  type="checkbox"
+                >
+                <label for="checkbox-track">Gleisabschnitt anzeigen</label>
+              </li>
             </ul>
           </li>
           <li>Weichen: {{ getCounts((model) => model.trackSwitches) }}</li>
@@ -92,6 +100,10 @@ import SideInfoControl from '@/components/SideInfoControl.vue'
     trackOutlineVisible (value: boolean) {
       this.trackOutlineVisible = value
       store.commit('setTrackOutlineVisible', value)
+    },
+    trackSectionColorVisbile (value: boolean) {
+      this.trackSectionColorVisbile = value
+      store.commit('setTrackSectionColorVisible', value)
     }
   },
   beforeUnmount () {
@@ -102,6 +114,7 @@ export default class ModelSummaryControl extends Vue {
   routeVisible = store.state.routeVisible
   trackEndMarkerVisible = store.state.trackSectionMarkerVisible
   trackOutlineVisible = store.state.trackOutlineVisible
+  trackSectionColorVisbile = store.state.trackSectionColorVisible
   model: SiteplanModel | null = store.state.model
   unsubscribe: SubscribeOptions | undefined
 
