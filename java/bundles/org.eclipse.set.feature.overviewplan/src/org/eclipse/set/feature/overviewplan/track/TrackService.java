@@ -46,7 +46,7 @@ public interface TrackService {
 	/**
 	 * @param container
 	 */
-	void setupTrackNetz(MultiContainer_AttributeGroup container);
+	void setupTrackNet(MultiContainer_AttributeGroup container);
 
 	/**
 	 * @return list of track

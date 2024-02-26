@@ -6,7 +6,7 @@
  * https://www.eclipse.org/legal/epl-2.0.
  *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  */
 package org.eclipse.set.feature.overviewplan.track
 
@@ -28,6 +28,7 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.utils.collection.MapExtensions.*
+import static org.eclipse.set.feature.overviewplan.track.MetaDataCache.*
 
 class TOPKanteMetaData {
 	TOP_Kante topEdge
@@ -38,11 +39,9 @@ class TOPKanteMetaData {
 	Map<TOP_Knoten, List<TOPKanteMetaData>> leftTopEdge = newHashMap
 	Map<TOP_Knoten, List<TOPKanteMetaData>> rightTopEdge = newHashMap
 	Map<TOP_Knoten, Boolean> changeLeftRightNode = newHashMap
-	TrackService trackService
-
-	new(TOP_Kante topKante, TrackService trackService) {
+	
+	new(TOP_Kante topKante) {
 		this.topEdge = topKante
-		this.trackService = trackService
 		topNodeA = topKante?.IDTOPKnotenA
 		topNodeB = topKante?.IDTOPKnotenB
 		changeLeftRightNode.put(topNodeA, false)
@@ -128,7 +127,13 @@ class TOPKanteMetaData {
 
 	private def List<TOPKanteMetaData> getInterstectEdges(TOP_Knoten topNode) {
 		val intersectKanten = topNode?.topKanten?.filter[it !== topEdge].map [
-			trackService.getTOPKanteMetaData(it)
+				val value = getMetaData(it)
+				if (value !== null) {
+					return value
+				}
+				val metadata = new TOPKanteMetaData(it)
+				setMetaData(it, metadata)
+				return metadata
 		].toList
 		if (intersectKanten.size < 3) {
 			intersectTopEdges.put(topNode, intersectKanten)

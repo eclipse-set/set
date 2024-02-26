@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2024 DB InfraGO AG and others
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
@@ -12,12 +12,9 @@ package org.eclipse.set.feature.overviewplan.track
 
 import java.util.ArrayList
 import java.util.List
-import java.util.Map
-import org.eclipse.set.core.services.Services
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
 import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.utils.ToolboxConfiguration
 import org.osgi.service.component.annotations.Component
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -28,46 +25,20 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 class TrackServiceImpl implements TrackService {
 
 	static final Logger logger = LoggerFactory.getLogger(TrackServiceImpl)
-	/**
-	 * The id of the used cache for a caching map for mapping TOPKanteMetadata
-	 */
-	static final String METADATA_CACHE_ID = "toolbox.cache.overviewplan.trackservice.metadata";
-	static Map<String, TOPKanteMetaData> metadataCache = newHashMap
-	static List<OverviewplanTrack> tracksCache = newArrayList
-
-	private def TOPKanteMetaData getCache(String guid) {
-		if (!ToolboxConfiguration.developmentMode) {
-			// Cache objects are of type List<TOPKanteMetaData>>
-			val cache = Services.cacheService.getCache(METADATA_CACHE_ID)
-			return cache.getIfPresent(guid) as TOPKanteMetaData
-		}
-
-		return metadataCache.getOrDefault(guid, null)
-	}
-
-	private def void setCache(String guid, TOPKanteMetaData metadata) {
-		if (!ToolboxConfiguration.developmentMode) {
-			// Cache objects are of type List<TOPKanteMetaData>>
-			val cache = Services.cacheService.getCache(METADATA_CACHE_ID)
-			cache.set(guid, metadata)
-			return
-		}
-		metadataCache.put(guid, metadata)
-	}
+	List<OverviewplanTrack> tracksCache = newArrayList
 
 	override getTracksCache() {
 		return tracksCache
 	}
 
 	override getTOPKanteMetaData(TOP_Kante topKante) {
-		val key = topKante.identitaet.wert
-		val value = key.getCache
+		val value = MetaDataCache.getMetaData(topKante)
 		if (value !== null) {
 			return value
 		}
-
-		val metadata = new TOPKanteMetaData(topKante, this)
-		key.setCache(metadata)
+		
+		val metadata = new TOPKanteMetaData(topKante)
+		MetaDataCache.setMetaData(topKante, metadata)
 		return metadata
 	}
 
@@ -80,7 +51,11 @@ class TrackServiceImpl implements TrackService {
 	}
 
 	override setupTrackNet(MultiContainer_AttributeGroup container) {
-		val md = container.TOPKante.get(0).TOPKanteMetaData
+		MetaDataCache.clearCache(container)
+		val md = container.TOPKante.get(0)?.TOPKanteMetaData
+		if (md === null) {
+			return
+		}
 		md.defineTrack
 
 		container.setupAnotherTrackNetz
@@ -88,7 +63,9 @@ class TrackServiceImpl implements TrackService {
 
 	private def boolean isMissingTOPKanteMetaData(
 		MultiContainer_AttributeGroup container) {
-		return container.TOPKante.exists[identitaet.wert.cache === null]
+		return container.TOPKante.exists [
+			MetaDataCache.getMetaData(it) === null
+		]
 	}
 
 	private def void setupAnotherTrackNetz(
@@ -99,8 +76,9 @@ class TrackServiceImpl implements TrackService {
 		logger.warn("It give more than one track network")
 		val clone = tracksCache.clone
 		tracksCache = new ArrayList
-		val md = container.TOPKante.findFirst[identitaet.wert.cache === null].
-			TOPKanteMetaData
+		val md = container.TOPKante.findFirst [
+			MetaDataCache.getMetaData(it) === null
+		].TOPKanteMetaData
 		md.defineTrack
 		if (tracksCache.size < clone.size) {
 			tracksCache = new ArrayList

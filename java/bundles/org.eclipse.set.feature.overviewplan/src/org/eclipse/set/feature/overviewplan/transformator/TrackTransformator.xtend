@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2024 DB InfraGO AG and others
- *
+ * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
@@ -28,16 +28,15 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 	TrackService trackService
 
 	override transform(TOP_Kante topKante) {
-		val track = SiteplanFactory.eINSTANCE.createTrack()
 		if (state.tracks.flatMap[sections].exists [
 			guid === topKante.identitaet.wert
 		]) {
 			return
 		}
+		val track = SiteplanFactory.eINSTANCE.createTrack()
 		val md = trackService.getTOPKanteMetaData(topKante)
 		track.transformSection(md, md.topNodeA)
 		track.transformSection(md, md.topNodeB)
-
 
 		track.guid = topKante.identitaet.wert
 		state.tracks.add(track)
