@@ -7,7 +7,7 @@ Bundle-ClassPath: .
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Localization: plugin
 Automatic-Module-Name: org.eclipse.set.model.zipmanifest
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.model.zipmanifest,
  org.eclipse.set.model.zipmanifest.impl,
  org.eclipse.set.model.zipmanifest.util

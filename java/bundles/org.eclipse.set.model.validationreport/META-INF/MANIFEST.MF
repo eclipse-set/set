@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.model.validationreport;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.set.model.validationreport
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.model.validationreport,
  org.eclipse.set.model.validationreport.impl,
  org.eclipse.set.model.validationreport.util

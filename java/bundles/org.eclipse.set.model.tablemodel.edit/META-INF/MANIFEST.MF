@@ -8,7 +8,7 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.tablemodel.provider.TablemodelEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.model.tablemodel.format.provider,
  org.eclipse.set.model.tablemodel.provider
 Require-Bundle: org.eclipse.core.runtime,

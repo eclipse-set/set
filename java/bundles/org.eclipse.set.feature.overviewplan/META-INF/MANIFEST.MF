@@ -46,5 +46,5 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.overviewplan.descriptions.We
  OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.TrackTransformator.xml
 Automatic-Module-Name: org.eclipse.set.feature.overviewplan
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.feature.overviewplan.transformator

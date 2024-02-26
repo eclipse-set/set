@@ -8,7 +8,7 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.plazmodel.provider.PlazEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.model.plazmodel.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.set.model.plazmodel;visibility:=reexport,

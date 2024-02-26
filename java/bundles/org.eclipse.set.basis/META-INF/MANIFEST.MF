@@ -4,7 +4,7 @@ Bundle-Name: Toolbox Basis
 Bundle-SymbolicName: org.eclipse.set.basis
 Bundle-Version: 2.3.0.qualifier
 Automatic-Module-Name: org.eclipse.set.basis
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.basis,
  org.eclipse.set.basis.attachments,

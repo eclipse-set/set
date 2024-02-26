@@ -4,7 +4,7 @@ Bundle-Name: PlanPro Model extensions test
 Bundle-SymbolicName: org.eclipse.set.ppmodel.extensions.test
 Bundle-Version: 2.3.0.qualifier
 Fragment-Host: org.eclipse.set.ppmodel.extensions
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.hamcrest.core
 Import-Package: org.eclipse.set.core.services.cache,

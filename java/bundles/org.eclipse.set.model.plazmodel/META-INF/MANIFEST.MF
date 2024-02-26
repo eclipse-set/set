@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-Name: %pluginName
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-SymbolicName: org.eclipse.set.model.plazmodel;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.plazmodel
 Bundle-Vendor: %providerName

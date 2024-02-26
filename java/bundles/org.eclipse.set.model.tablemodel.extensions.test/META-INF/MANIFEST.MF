@@ -4,7 +4,7 @@ Bundle-Name: Tablemodel extensions test
 Bundle-SymbolicName: org.eclipse.set.model.tablemodel.extensions.test
 Bundle-Version: 2.3.0.qualifier
 Fragment-Host: org.eclipse.set.model.tablemodel.extensions;bundle-version="0.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.hamcrest.core
 Import-Package: org.junit.jupiter.api,
  org.junit.jupiter.api.function,

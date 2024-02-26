@@ -8,7 +8,7 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.integrationview.provider.IntegrationviewEditPlugin$Implementation
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.model.integrationview.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.set.model.integrationview;visibility:=reexport,

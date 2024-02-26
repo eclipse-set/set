@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho-version>4.0.4</tycho-version>
+		<tycho-version>4.0.5</tycho-version>
 		<deploy-plugin-version>3.1.1</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
@@ -155,8 +155,8 @@
 							<showWarnings>true</showWarnings>
 							<showDeprecation>true</showDeprecation>
 							<useProjectSettings>true</useProjectSettings>
-							<compilerVersion>17</compilerVersion>
-							<release>17</release>
+							<compilerVersion>21</compilerVersion>
+							<release>21</release>
 							<log>plain</log>
 						</configuration>
 					</plugin>
@@ -191,7 +191,7 @@
 					<plugin>
 						<groupId>org.eclipse.xtend</groupId>
 						<artifactId>xtend-maven-plugin</artifactId>
-						<version>2.27.0</version>
+						<version>2.33.0</version>
 						<executions>
 							<execution>
 								<goals>
@@ -290,7 +290,7 @@
 						<artifactId>target-platform-configuration</artifactId>
 						<version>${tycho-version}</version>
 						<configuration>
-							<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-17</executionEnvironment>
+							<executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-21</executionEnvironment>
 							<target>
 								<artifact>
 									<groupId>org.eclipse.set</groupId>

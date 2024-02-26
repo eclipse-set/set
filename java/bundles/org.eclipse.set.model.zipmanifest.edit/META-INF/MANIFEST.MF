@@ -8,7 +8,7 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.zipmanifest.provider.ZipmanifestEditPlugin$Implementation
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.eclipse.set.model.zipmanifest.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.set.model.zipmanifest;visibility:=reexport,

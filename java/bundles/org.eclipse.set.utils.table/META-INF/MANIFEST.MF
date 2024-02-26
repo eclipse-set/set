@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.set.utils.table
 Bundle-Version: 2.3.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Automatic-Module-Name: org.eclipse.set.utils.table
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.set.model.tablemodel,
  org.eclipse.set.model.tablemodel.extensions,
  com.google.guava,
