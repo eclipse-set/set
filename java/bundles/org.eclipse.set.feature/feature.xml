@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.eclipse.set.feature" label="Eclipse Signalling Engineering Toolbox Feature" version="2.2.0.qualifier" provider-name="Eclipse Signalling Engineering Toolbox" os="win32">
+<feature id="org.eclipse.set.feature" label="Eclipse Signalling Engineering Toolbox Feature" version="2.2.0" provider-name="Eclipse Signalling Engineering Toolbox" os="win32">
 
       <description>
       Eclipse Signalling Engineering Toolbox main feature, containing the entirety of the toolbox.

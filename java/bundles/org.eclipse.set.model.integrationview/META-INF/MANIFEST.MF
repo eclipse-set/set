@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.integrationview;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.integrationview
-Bundle-Version: 2.2.0.qualifier
+Bundle-Version: 2.2.0
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Localization: plugin

@@ -183,19 +183,19 @@
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.browser.cef.win32</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.browser.lib</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.browser</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -211,25 +211,25 @@
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.toolboxmodel.edit</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.toolboxmodel.editor</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.toolboxmodel.transform</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.toolboxmodel</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
@@ -428,25 +428,25 @@ DynamicImport-Package: *
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.model11001.edit</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.model11001.editor</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.model11001</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.modelservice</artifactId>
-          <version>2.2.0-SNAPSHOT</version>
+          <version>2.2.0</version>
           <type>jar</type>
         </dependency>
       </dependencies>
