@@ -26,76 +26,90 @@ import org.hamcrest.SelfDescribing;
 /**
  * Helper widget for the SET Browser
  */
-@SWTBotWidget(clasz = Browser.class, preferredName = "browser", referenceBy = { ReferenceBy.LABEL })
+@SWTBotWidget(clasz = Browser.class, preferredName = "browser", referenceBy = {
+		ReferenceBy.LABEL })
 public class PlanProSWTBotBrowser extends AbstractSWTBotControl<Browser> {
 	/**
-	 * @param browser the browser
-	 */
-	public PlanProSWTBotBrowser(Browser browser) {
-		this(browser, null);
-	}
-	
-	/**
-	 * @param browser the browser
-	 * @param description a descripion for the object
-	 */
-	public PlanProSWTBotBrowser(Browser browser, SelfDescribing description) {
-		super(browser, description);
-	}
-
-	/**
-	 * @param bot an swtbot instance
+	 * @param bot
+	 *            an swtbot instance
 	 * @return the first browser instance to be found
 	 */
-	public static PlanProSWTBotBrowser get(SWTBot bot) {
-		Matcher<Browser> matcher = widgetOfType(org.eclipse.set.browser.Browser.class);
+	public static PlanProSWTBotBrowser get(final SWTBot bot) {
+		final Matcher<Browser> matcher = widgetOfType(
+				org.eclipse.set.browser.Browser.class);
 		return new PlanProSWTBotBrowser(bot.widget(matcher, 0));
 	}
 
 	Exception ex = null;
 
 	/**
+	 * @param browser
+	 *            the browser
+	 */
+	public PlanProSWTBotBrowser(final Browser browser) {
+		this(browser, null);
+	}
+
+	/**
+	 * @param browser
+	 *            the browser
+	 * @param description
+	 *            a descripion for the object
+	 */
+	public PlanProSWTBotBrowser(final Browser browser,
+			final SelfDescribing description) {
+		super(browser, description);
+	}
+
+	/**
 	 * Evaluates some Javascript
-	 * @param script the Javascript
+	 * 
+	 * @param script
+	 *            the Javascript
 	 * @return the value returned from Javascript
-	 * @throws Exception on error
+	 * @throws Exception
+	 *             on error
 	 */
 	public Object evaluate(final String script) throws Exception {
 		ex = null;
-		Object result = UIThreadRunnable.syncExec(() -> {
+		final Object result = UIThreadRunnable.syncExec(() -> {
 			try {
 				return widget.evaluate(script);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ex = e;
 				return null;
 			}
 		});
-		if (ex != null)
+		if (ex != null) {
 			throw ex;
+		}
 		return result;
 	}
 
 	/**
 	 * Waits for some Javascript to fulfil a condidition
-	 * @param script the script to retrieve data from
-	 * @param pred the condition which must be matched to continue
+	 * 
+	 * @param script
+	 *            the script to retrieve data from
+	 * @param pred
+	 *            the condition which must be matched to continue
 	 */
-	public void waitJS(String script, Predicate<Object> pred) {
+	public void waitJS(final String script, final Predicate<Object> pred) {
 		new SWTBot().waitUntil(new DefaultCondition() {
-
-			@Override
-			public boolean test() throws Exception {
-				try {
-					Object result = evaluate(script);
-					return pred.test(result);
-				} catch (SWTException e) {
-					return false;
-				}
-			}
 
 			@Override
 			public String getFailureMessage() {
 				return "Failed to wait for Javascript expression";
+			}
+
+			@Override
+			public boolean test() throws Exception {
+				try {
+					final Object result = evaluate(script);
+					return pred.test(result);
+				} catch (final SWTException e) {
+					return false;
+				}
 			}
 
 		}, 1000000);

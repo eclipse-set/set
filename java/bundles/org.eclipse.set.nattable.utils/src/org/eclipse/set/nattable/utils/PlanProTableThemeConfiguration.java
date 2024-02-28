@@ -83,7 +83,7 @@ public class PlanProTableThemeConfiguration
 			final LocalResourceManager localResourceManager,
 			final ImageDescriptor imageDescriptor) {
 		if (imageDescriptor != null) {
-			return localResourceManager.createImage(imageDescriptor);
+			return localResourceManager.create(imageDescriptor);
 		}
 		return null;
 	}
@@ -281,7 +281,7 @@ public class PlanProTableThemeConfiguration
 	}
 
 	private Color createColor(final ColorDescriptor descriptor) {
-		return resourceManager.createColor(descriptor);
+		return resourceManager.create(descriptor);
 	}
 
 	private Color createColor(final String colorKey, final Color defaultColor) {

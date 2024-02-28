@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.exceptions.UserAbortion;

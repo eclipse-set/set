@@ -12,10 +12,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
-
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.application.Messages;
@@ -48,6 +44,10 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Displays PlanPro model as source text via the monaco editor.

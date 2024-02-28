@@ -11,7 +11,7 @@ package org.eclipse.set.application.defaultvalue
 import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt
 import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
-import javax.inject.Inject
+import jakarta.inject.Inject
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService
 import org.eclipse.set.core.services.version.PlanProVersionService

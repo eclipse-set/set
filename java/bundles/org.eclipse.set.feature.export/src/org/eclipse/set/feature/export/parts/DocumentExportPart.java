@@ -12,8 +12,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.inject.Inject;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -54,6 +52,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.inject.Inject;
 
 /**
  * Viewpart for the export of documents.
@@ -251,7 +251,7 @@ public abstract class DocumentExportPart extends BasePart {
 		final FontDescriptor descriptor = FontDescriptor
 				.createFrom(section.getFont())
 				.setHeight(SECTION_FONT_HEIGHT - 2 * step);
-		final Font font = localResourceManager.createFont(descriptor);
+		final Font font = localResourceManager.create(descriptor);
 		section.setFont(font);
 		section.setText(headingText);
 		return section;

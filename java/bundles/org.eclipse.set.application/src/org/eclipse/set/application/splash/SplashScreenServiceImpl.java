@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.application.splash;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.equinox.app.IApplicationContext;
@@ -18,6 +16,7 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
+import org.eclipse.set.core.services.splash.SplashScreenService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -28,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
-import org.eclipse.set.core.services.splash.SplashScreenService;
+import jakarta.inject.Inject;
 
 /**
  * Implementation for {@link SplashScreenService}.
@@ -42,7 +41,7 @@ public class SplashScreenServiceImpl implements SplashScreenService {
 		final Label label = new Label(shell, SWT.BORDER);
 		final LocalResourceManager localResourceManager = new LocalResourceManager(
 				JFaceResources.getResources(), shell);
-		final Image image = localResourceManager.createImage(descriptor);
+		final Image image = localResourceManager.create(descriptor);
 		label.setImage(image);
 		final ProgressBar progressBar = new ProgressBar(shell,
 				SWT.INDETERMINATE);

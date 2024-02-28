@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.EventObject;
 import java.util.Optional;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.runtime.Assert;

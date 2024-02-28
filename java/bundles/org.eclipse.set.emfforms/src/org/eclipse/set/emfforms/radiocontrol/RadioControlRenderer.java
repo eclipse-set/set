@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.emfforms.radiocontrol;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.UpdateValueStrategy;

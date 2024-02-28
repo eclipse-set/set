@@ -10,7 +10,7 @@ package org.eclipse.set.core.helpmessages
 
 import org.eclipse.set.basis.emfforms.RendererContext
 import org.eclipse.set.core.services.helpmessage.HelpMessageService
-import javax.inject.Inject
+import jakarta.inject.Inject
 import org.eclipse.e4.core.services.nls.Translation
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.slf4j.Logger

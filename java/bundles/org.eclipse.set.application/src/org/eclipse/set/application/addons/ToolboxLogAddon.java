@@ -10,8 +10,6 @@ package org.eclipse.set.application.addons;
 
 import java.io.PrintStream;
 
-import javax.annotation.PostConstruct;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.slf4j.LoggerFactory;
@@ -22,6 +20,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.ConsoleAppender;
 import ch.qos.logback.core.FileAppender;
 import ch.qos.logback.core.util.StatusPrinter;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Toolbox specific logging.

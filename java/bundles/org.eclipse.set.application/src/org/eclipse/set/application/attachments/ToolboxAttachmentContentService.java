@@ -10,7 +10,7 @@ package org.eclipse.set.application.attachments;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
