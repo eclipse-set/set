@@ -12,8 +12,6 @@ package org.eclipse.set.application.about;
 import java.nio.file.Path;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.application.Messages;
@@ -32,6 +30,8 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+
+import jakarta.inject.Inject;
 
 /**
  * This part displays about info

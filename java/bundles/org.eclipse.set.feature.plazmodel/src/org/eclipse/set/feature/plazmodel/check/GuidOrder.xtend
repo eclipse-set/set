@@ -20,7 +20,6 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import java.util.Map
-import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that objects are in order
@@ -66,9 +65,5 @@ class GuidOrder extends AbstractPlazContainerCheck implements PlazCheck {
 	
 	override getGeneralErrMsg() {
 		return "Die Elemente des Objekttyps {Objekttyp} sind nicht sortiert."
-	}
-	
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

@@ -13,8 +13,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.function.BiPredicate;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;

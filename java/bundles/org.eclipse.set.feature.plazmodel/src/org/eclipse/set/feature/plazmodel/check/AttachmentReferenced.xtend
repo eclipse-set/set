@@ -8,13 +8,12 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
-import org.eclipse.set.basis.IModelSession
-import org.eclipse.set.model.plazmodel.PlazFactory
-import org.osgi.service.component.annotations.Component
 import java.io.IOException
 import java.util.Map
-import org.apache.commons.text.StringSubstitutor
+import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.model.plazmodel.PlazFactory
+import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.osgi.service.component.annotations.Component
 
 /**
  * Validates that all attachment files on the filesystem are referenced
@@ -55,9 +54,5 @@ class AttachmentReferenced implements PlazCheck {
 
 	override getGeneralErrMsg() {
 		return "Der Anhang {GUID} ist vorhanden, wird aber nicht referenziert."
-	}
-
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

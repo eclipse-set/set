@@ -10,7 +10,7 @@ package org.eclipse.set.application.contribution;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.ui.di.AboutToShow;
 import org.eclipse.e4.ui.model.application.ui.menu.MDirectMenuItem;

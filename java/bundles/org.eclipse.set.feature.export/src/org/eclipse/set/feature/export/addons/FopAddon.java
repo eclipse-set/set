@@ -9,7 +9,7 @@
 
 package org.eclipse.set.feature.export.addons;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.fop.image.loader.batik.ImageLoaderFactorySVG;
 import org.apache.fop.image.loader.batik.PreloaderSVG;

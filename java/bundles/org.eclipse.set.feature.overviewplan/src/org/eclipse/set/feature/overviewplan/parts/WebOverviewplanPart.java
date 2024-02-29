@@ -13,7 +13,7 @@ package org.eclipse.set.feature.overviewplan.parts;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.emfcloud.jackson.module.EMFModule;

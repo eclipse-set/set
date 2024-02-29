@@ -9,8 +9,8 @@
 
 package org.eclipse.set.utils;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.basis.part.ToolboxPart;

@@ -248,8 +248,7 @@ public class InformationDialog extends Dialog {
 
 		final LocalResourceManager localResourceManager = new LocalResourceManager(
 				JFaceResources.getResources(), container);
-		final Font infoFont = localResourceManager
-				.createFont(INFO_FONT_DESCRIPTOR);
+		final Font infoFont = localResourceManager.create(INFO_FONT_DESCRIPTOR);
 
 		final Text infoText = new Text(container, SWT.CENTER);
 		infoText.setLayoutData(

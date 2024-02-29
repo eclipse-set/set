@@ -10,7 +10,6 @@ Export-Package: org.eclipse.set.swtbot,
 Automatic-Module-Name: org.eclipse.set.swtbot
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.swt,
- org.junit.jupiter.api,
  org.eclipse.swtbot.swt.finder,
  org.eclipse.swtbot.eclipse.junit5.headless,
  org.eclipse.set.basis,
@@ -25,8 +24,7 @@ Require-Bundle: org.eclipse.swt,
  org.hamcrest.core,
  org.eclipse.swtbot.nebula.nattable.finder,
  org.apache.commons.commons-csv
-Service-Component: OSGI-INF/org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction.xml
-Import-Package: javax.inject,
+Import-Package: jakarta.inject,
  org.eclipse.e4.core.di,
  org.eclipse.e4.ui.di,
  org.eclipse.nebula.widgets.nattable,
@@ -45,9 +43,11 @@ Import-Package: javax.inject,
  org.junit.jupiter.api.function,
  org.junit.jupiter.params,
  org.junit.jupiter.params.provider,
+ org.junit.platform.engine,
  org.slf4j
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  test_res/table_reference/,
  test_res/test_file/,
  test_res/
+Service-Component: OSGI-INF/org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction.xml

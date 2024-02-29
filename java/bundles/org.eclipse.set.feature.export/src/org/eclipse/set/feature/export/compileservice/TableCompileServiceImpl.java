@@ -11,7 +11,7 @@ package org.eclipse.set.feature.export.compileservice;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;

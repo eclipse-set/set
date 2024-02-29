@@ -10,8 +10,8 @@ package org.eclipse.set.application.handler;
 
 import java.nio.file.Paths;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import org.eclipse.e4.core.di.annotations.Execute;
 

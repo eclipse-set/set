@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.e4.core.services.nls.Translation;

@@ -18,9 +18,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.contexts.RunAndTrack;
@@ -69,6 +66,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 /**
  * @author bleidiessel
@@ -205,8 +205,7 @@ public class DocumentActionsPart implements ActionProvider {
 		logoLabel.setLayoutData(
 				new GridData(GridData.CENTER, GridData.CENTER, true, false));
 		brandingService.getActionLogo().ifPresent(descriptor -> {
-			final Image actionLogo = localResourceManager
-					.createImage(descriptor);
+			final Image actionLogo = localResourceManager.create(descriptor);
 			logoLabel.setText("LOGO"); //$NON-NLS-1$
 			logoLabel.setImage(actionLogo);
 		});
@@ -311,7 +310,7 @@ public class DocumentActionsPart implements ActionProvider {
 		expandItem.setHeight(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		expandItem.setControl(composite);
 		final Image image = localResourceManager
-				.createImage(group.imageDescriptor());
+				.create(group.imageDescriptor());
 		expandItem.setImage(image);
 		expandItem.setControl(composite);
 		expandItem.setExpanded(group.isInitiallyExpanded());

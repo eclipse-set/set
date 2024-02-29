@@ -9,7 +9,7 @@
 
 package org.eclipse.set.feature.validation;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.basis.exceptions.CustomValidationProblem;

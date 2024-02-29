@@ -10,8 +10,6 @@ package org.eclipse.set.feature.export.parts;
 
 import java.nio.file.Paths;
 
-import javax.inject.Inject;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
@@ -28,6 +26,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import jakarta.inject.Inject;
+
 /**
  * This part renders the titlebox as an image.
  * 
@@ -41,7 +41,7 @@ public class TitleBoxImagePart extends BasePart {
 			final LocalResourceManager localResourceManager) {
 		final ImageDescriptor titleboxDescriptor = ImageDescriptor
 				.createFromFile(null, image);
-		return localResourceManager.createImage(titleboxDescriptor);
+		return localResourceManager.create(titleboxDescriptor);
 	}
 
 	private static void createTitlebox(final Composite parent) {

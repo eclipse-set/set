@@ -10,7 +10,7 @@ package org.eclipse.set.application.handler;
 
 import java.nio.file.Path;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;

@@ -83,7 +83,7 @@ public class Banderole {
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(label);
 		localResourceManager = new LocalResourceManager(
 				JFaceResources.getResources(), parent);
-		final Font font = localResourceManager.createFont(Fonts.TABLE_HEADING);
+		final Font font = localResourceManager.create(Fonts.TABLE_HEADING);
 		label.setFont(font);
 		originalColor = label.getBackground();
 

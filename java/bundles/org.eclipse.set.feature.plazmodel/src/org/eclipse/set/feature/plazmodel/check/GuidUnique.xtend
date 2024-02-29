@@ -9,12 +9,11 @@
 package org.eclipse.set.feature.plazmodel.check
 
 import java.util.List
+import java.util.Map
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.osgi.service.component.annotations.Component
-import java.util.Map
-import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that GUIDs are unique
@@ -50,9 +49,5 @@ class GuidUnique extends AbstractPlazContainerCheck implements PlazCheck {
 
 	override getGeneralErrMsg() {
 		return "Die GUID {GUID} ist nicht eindeutig!"
-	}
-
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

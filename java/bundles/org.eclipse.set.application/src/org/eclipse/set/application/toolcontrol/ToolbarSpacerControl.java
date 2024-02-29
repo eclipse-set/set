@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.application.toolcontrol;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;

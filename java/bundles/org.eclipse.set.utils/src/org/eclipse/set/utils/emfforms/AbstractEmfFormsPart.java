@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.utils.emfforms;
 
-import javax.annotation.PreDestroy;
-import javax.inject.Inject;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.command.CommandStack;

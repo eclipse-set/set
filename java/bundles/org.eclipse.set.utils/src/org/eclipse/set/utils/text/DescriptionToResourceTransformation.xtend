@@ -117,7 +117,7 @@ class DescriptionToResourceTransformation {
 		int style
 	) {
 		val descriptor = FontDescriptor.createFrom(name, height, style)
-		val font = resourceManager.createFont(descriptor)
+		val font = resourceManager.create(descriptor)
 		value = font
 		return
 	}

@@ -11,7 +11,7 @@ package org.eclipse.set.emfforms.basisattribute;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.emf.ecore.EClassifier;

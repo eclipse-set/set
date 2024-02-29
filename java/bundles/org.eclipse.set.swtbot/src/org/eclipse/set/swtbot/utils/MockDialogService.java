@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.operation.IRunnableWithProgress;

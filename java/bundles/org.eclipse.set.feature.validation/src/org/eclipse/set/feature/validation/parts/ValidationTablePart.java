@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.validation.parts;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.ecp.ui.view.ECPRendererException;
