@@ -123,8 +123,6 @@
         <setEntry value="maven.org.apache.xmlbeans.artifact.xmlbeans@default:default"/>
         <setEntry value="maven.org.apache.xmlgraphics.artifact.fop@default:default"/>
         <setEntry value="maven.org.apfloat.artifact.apfloat@default:default"/>
-        <setEntry value="maven.xalan.artifact.xalan@default:default"/>
-        <setEntry value="maven.xml-apis.artifact.xml-apis-ext@default:default"/>
         <setEntry value="org.apache.ant@default:default"/>
         <setEntry value="org.apache.aries.spifly.dynamic.bundle@default:default"/>
         <setEntry value="org.apache.batik.anim@default:default"/>
@@ -144,7 +142,7 @@
         <setEntry value="org.apache.batik.util@default:default"/>
         <setEntry value="org.apache.batik.xml@default:default"/>
         <setEntry value="org.apache.commons.codec*1.14.0.v20221112-0806@default:default"/>
-        <setEntry value="org.apache.commons.commons-collections4@default:default"/>
+        <setEntry value="org.apache.commons.collections4@default:default"/>
         <setEntry value="org.apache.commons.commons-compress@default:default"/>
         <setEntry value="org.apache.commons.commons-csv@default:default"/>
         <setEntry value="org.apache.commons.commons-io@default:default"/>
@@ -159,6 +157,8 @@
         <setEntry value="org.apache.felix.scr@1:true"/>
         <setEntry value="org.apache.logging.log4j.api@default:default"/>
         <setEntry value="org.apache.tika.core@default:default"/>
+        <setEntry value="org.apache.xalan@default:default"/>
+        <setEntry value="org.apache.xerces@default:default"/>
         <setEntry value="org.apache.xml.resolver@default:default"/>
         <setEntry value="org.apache.xml.serializer@default:default"/>
         <setEntry value="org.apache.xmlgraphics@default:default"/>
@@ -430,10 +430,11 @@
         <setEntry value="org.eclipse.nebula.widgets.nattable.extension.nebula@default:default"/>
         <setEntry value="org.eclipse.nebula.widgets.richtext@default:default"/>
         <setEntry value="org.eclipse.net4j.util@default:default"/>
+        <setEntry value="org.eclipse.orbit.xml-apis-ext@default:default"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
         <setEntry value="org.eclipse.osgi.services@default:default"/>
         <setEntry value="org.eclipse.osgi@1:true"/>
-        <setEntry value="org.eclipse.pde.junit.runtime.nl_de@default:default"/>
+        <setEntry value="org.eclipse.pde.junit.runtime.nl_de@default:false"/>
         <setEntry value="org.eclipse.pde.junit.runtime@default:default"/>
         <setEntry value="org.eclipse.set.browser.lib@default:default"/>
         <setEntry value="org.eclipse.set.browser@default:default"/>

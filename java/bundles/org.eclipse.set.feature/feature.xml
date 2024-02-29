@@ -1216,10 +1216,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.apache.commons.commons-collections4"
-         version="0.0.0"/>
-
-   <plugin
          id="maven.org.apache.poi.artifact.poi"
          version="0.0.0"/>
 
@@ -1376,10 +1372,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="maven.xalan.artifact.xalan"
-         version="0.0.0"/>
-
-   <plugin
          id="jakarta.annotation-api"
          version="0.0.0"/>
 
@@ -1432,10 +1424,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="maven.xml-apis.artifact.xml-apis-ext"
-         version="0.0.0"/>
-
-   <plugin
          id="org.apache.aries.spifly.dynamic.bundle"
          version="0.0.0"/>
 
@@ -1457,6 +1445,30 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.objectweb.asm.tree.analysis"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.collections4"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.xalan"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.orbit.xml-apis-ext"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.xerces"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.xml.resolver"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.xml.serializer"
          version="0.0.0"/>
 
 </feature>

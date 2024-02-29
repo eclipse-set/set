@@ -24,7 +24,6 @@ Require-Bundle: org.eclipse.swt,
  org.hamcrest.core,
  org.eclipse.swtbot.nebula.nattable.finder,
  org.apache.commons.commons-csv
-Service-Component: OSGI-INF/org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction.xml
 Import-Package: jakarta.inject,
  org.eclipse.e4.core.di,
  org.eclipse.e4.ui.di,
@@ -51,3 +50,4 @@ Bundle-ClassPath: .,
  test_res/table_reference/,
  test_res/test_file/,
  test_res/
+Service-Component: OSGI-INF/org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction.xml
