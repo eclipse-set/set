@@ -16,7 +16,6 @@ import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.apache.commons.text.StringSubstitutor
 
 /**
  * Checks if GUIDs of LST states are unique
@@ -52,9 +51,5 @@ class GuidStateUnique implements PlazCheck {
 	
 	override getGeneralErrMsg() {
 		return "Die GUID des Zustands {GUID} ist nicht eindeutig!"
-	}
-	
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

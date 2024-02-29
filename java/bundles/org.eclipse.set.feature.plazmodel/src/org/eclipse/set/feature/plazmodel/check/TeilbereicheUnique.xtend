@@ -8,16 +8,16 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.osgi.service.component.annotations.Component
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import java.util.List
-import org.eclipse.set.model.plazmodel.PlazError
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
-import org.eclipse.set.model.plazmodel.PlazFactory
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
 import java.util.Map
-import org.apache.commons.text.StringSubstitutor
+import org.eclipse.set.model.plazmodel.PlazError
+import org.eclipse.set.model.plazmodel.PlazFactory
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
+import org.osgi.service.component.annotations.Component
+
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Validates that Bereich_Objekt_Teilbereich in Object not identical
@@ -61,8 +61,4 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 	override getGeneralErrMsg() {
 		return "Es gibt mehrere identische Teilbereich in Objekt {GUID}."
 	}
-
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
-	}	
 }

@@ -8,14 +8,13 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
+import java.util.Map
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
-import org.osgi.service.component.annotations.Component
-import java.util.Map
-import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that all GEO_Kanten have a valid coordinate reference system.
@@ -68,9 +67,5 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 	
 	override getGeneralErrMsg() {
 		return "Die GEO_Kante {GUID} mit der Länge > 0 hat unterschiedliche Koordinatensysteme. Der sicherungstechnische Lageplan kann unvollständig sein."
-	}
-	
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

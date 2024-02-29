@@ -8,29 +8,28 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.set.feature.plazmodel.check.PlazCheck
 import java.util.List
+import java.util.Map
+import java.util.Set
 import org.eclipse.set.model.plazmodel.PlazError
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.model.plazmodel.PlazFactory
-import org.osgi.service.component.annotations.Component
-import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.model.validationreport.ValidationSeverity
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Anlage
 import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Kante
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Anlage
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import java.util.Set
-import java.util.Map
-import org.apache.commons.text.StringSubstitutor
-import org.eclipse.set.model.validationreport.ValidationSeverity
+import org.osgi.service.component.annotations.Component
+
+import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 
 /**
  * Validates that Object isn't  planning- und consideration- region same time
@@ -119,9 +118,5 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 
 	override getGeneralErrMsg() {
 		return "Das Objekt {GUID} verweist auf das zugehörige Objekt {TYP} {REF_GUID}, die Objekte liegen aber uneinheitlich in Planungs- und Betrachtungsbereich."
-	}
-
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 	}
 }

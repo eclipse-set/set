@@ -8,16 +8,15 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import java.util.List
+import java.util.Map
+import org.eclipse.set.model.plazmodel.PlazError
+import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
-import org.eclipse.set.model.plazmodel.PlazFactory
-import org.eclipse.set.model.plazmodel.PlazError
-import org.osgi.service.component.annotations.Component
-import java.util.Map
-import org.apache.commons.text.StringSubstitutor
 
 /**
  * Validates that GUID references point to object which exists
@@ -61,9 +60,5 @@ class PunktObjektTOPKante extends AbstractPlazContainerCheck implements PlazChec
 	
 	override getGeneralErrMsg() {
 		return "Ungültiger Punktobjektabstand für LST-Objekt Abstand: {Distance}."
-	}
-
-	private def transformErrorMsg(Map<String, String> params) {
-		return StringSubstitutor.replace(getGeneralErrMsg(), params, "{", "}"); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }
