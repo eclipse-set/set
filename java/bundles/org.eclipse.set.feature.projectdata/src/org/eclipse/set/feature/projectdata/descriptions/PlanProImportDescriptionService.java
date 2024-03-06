@@ -9,8 +9,6 @@
 
 package org.eclipse.set.feature.projectdata.descriptions;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -21,6 +19,8 @@ import org.eclipse.set.core.services.part.PartDescriptionService;
 import org.eclipse.set.feature.projectdata.Messages;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
+
+import jakarta.inject.Inject;
 
 /**
  * Part description for import view.
