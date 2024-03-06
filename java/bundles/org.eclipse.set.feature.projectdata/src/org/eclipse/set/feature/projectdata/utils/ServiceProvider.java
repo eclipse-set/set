@@ -10,13 +10,13 @@
  */
 package org.eclipse.set.feature.projectdata.utils;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.core.services.modelloader.ModelLoader;
 import org.eclipse.set.feature.projectdata.Messages;
+
+import jakarta.inject.Inject;
 
 /**
  * Injection helper class
