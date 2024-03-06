@@ -14,12 +14,13 @@ import java.util.Map
 import java.util.function.UnaryOperator
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider
 import org.eclipse.set.model.tablemodel.CellContent
+import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
-import org.eclipse.set.model.tablemodel.RowGroup
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * IDataProvider implementation for Table
@@ -201,8 +202,8 @@ class TableDataProvider implements IDataProvider {
 
 	protected def Comparator<RowGroup> tableRowGroupComparator() {
 		return [ group1, group2 |
-			val lastRow1 = group1.rows.last
-			val lastRow2 = group2.rows.last
+			val lastRow1 = group1.rows.lastOrNull
+			val lastRow2 = group2.rows.lastOrNull
 			return lastRow1.rowIndex.compareTo(lastRow2.rowIndex)
 		]
 	}

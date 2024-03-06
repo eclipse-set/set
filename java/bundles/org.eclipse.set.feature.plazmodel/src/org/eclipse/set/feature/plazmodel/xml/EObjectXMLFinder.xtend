@@ -9,22 +9,22 @@
 package org.eclipse.set.feature.plazmodel.xml
 
 import java.io.IOException
+import java.nio.file.Path
+import java.util.List
+import java.util.stream.IntStream
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.util.ExtendedMetaData
+import org.eclipse.set.basis.files.ToolboxFile
+import org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader
+import org.eclipse.set.model.validationreport.ObjectScope
+import org.eclipse.set.model.validationreport.ObjectState
+import org.eclipse.set.utils.xml.LineNumberXMLReader
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 import org.xml.sax.SAXException
-import org.eclipse.emf.ecore.util.ExtendedMetaData
-import java.util.List
-import org.eclipse.set.utils.xml.LineNumberXMLReader
-import org.eclipse.set.feature.plazmodel.xml.EObjectXMLFinder.XmlParseException
-import org.eclipse.set.feature.plazmodel.xml.EObjectXMLFinder.LineNotFoundException
-import org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader
-import org.eclipse.set.basis.files.ToolboxFile
-import java.util.stream.IntStream
-import org.eclipse.set.model.validationreport.ObjectScope
-import java.nio.file.Path
-import org.eclipse.set.model.validationreport.ObjectState
+
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /** 
  * Resolves an EObject to its line number within a XML document
@@ -87,13 +87,16 @@ class EObjectXMLFinder {
 			return null
 		}
 		val children = node.childNodes
-		val childrenStream = IntStream.range(0, children.length).mapToObj[i | children.item(i)]
-		return childrenStream.filter[sanetizedName.equals(name)].skip(n).findFirst.orElse(null)
+		val childrenStream = IntStream.range(0, children.length).mapToObj [ i |
+			children.item(i)
+		]
+		return childrenStream.filter [
+			sanetizedName !== null && sanetizedName.equals(name)].skip(n).findFirst.orElse(null)
 	}
 
 	def private String getSanetizedName(Node node) {
 		// XML node names can contain a prefix while the EMF model names don't
-		return node.nodeName.split(":").last
+		return node.nodeName.split(":").lastOrNull
 	}
 
 	/** 

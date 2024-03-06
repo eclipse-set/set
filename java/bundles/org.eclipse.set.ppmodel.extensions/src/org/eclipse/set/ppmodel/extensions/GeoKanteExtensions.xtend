@@ -8,12 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import java.util.ArrayList
 import java.util.List
 import org.eclipse.set.basis.geometry.Chord
 import org.eclipse.set.basis.geometry.Circle
@@ -21,6 +16,16 @@ import org.eclipse.set.basis.geometry.Geometries
 import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.basis.geometry.SegmentPosition
 import org.eclipse.set.basis.graph.DirectedElement
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
+import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
+import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.utils.math.Bloss
+import org.eclipse.set.utils.math.Clothoid
 import org.locationtech.jts.algorithm.distance.DistanceToPoint
 import org.locationtech.jts.algorithm.distance.PointPairDistance
 import org.locationtech.jts.geom.Coordinate
@@ -33,11 +38,7 @@ import org.slf4j.LoggerFactory
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
-import org.eclipse.set.utils.math.Clothoid
-import org.eclipse.set.utils.math.Bloss
-import java.util.ArrayList
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -97,7 +98,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		]
 		// Rotate the curve so that the last coordinates from the GEO_Kante and curve line up
 		val angleA = fromCoordinate.getAngleBetweenPoints(toCoordinate)
-		val angleB = fromCoordinate.getAngleBetweenPoints(coordinates.last)
+		val angleB = fromCoordinate.getAngleBetweenPoints(coordinates.lastOrNull)
 		val angleOffset = angleA - angleB
 		return getGeometryFactory().createLineString(coordinates.map [
 			rotateAroundPoint(angleOffset, fromCoordinate)
@@ -162,7 +163,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		]
 		// Rotate the curve so that the last coordinates from the GEO_Kante and curve line up
 		val angleA = fromCoordinate.getAngleBetweenPoints(toCoordinate)
-		val angleB = fromCoordinate.getAngleBetweenPoints(coordinates.last)
+		val angleB = fromCoordinate.getAngleBetweenPoints(coordinates.lastOrNull)
 		val angleOffset = angleA - angleB
 		return getGeometryFactory().createLineString(coordinates.map [
 			rotateAroundPoint(angleOffset, fromCoordinate)

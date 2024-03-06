@@ -21,6 +21,7 @@ import static extension org.eclipse.set.model.titlebox.extensions.TitleboxExtens
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.XMLGregorianCalendarExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Transformation from PlanPro Schnittstelle to Titlebox.
@@ -65,7 +66,7 @@ class PlanProToTitleboxTransformation {
 		val planungEinzel = schnittstelle?.planungEinzel
 
 		val lastPlanungEErstellung = planungEinzel?.planungEHandlung?.
-			planungEErstellung?.last
+			planungEErstellung?.lastOrNull
 		it.set(83,
 			lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?:
 				"")
@@ -74,7 +75,7 @@ class PlanProToTitleboxTransformation {
 				"")
 
 		val lastPlanungPruefung = planungEinzel?.planungEHandlung?.
-			planungEPruefung?.last
+			planungEPruefung?.lastOrNull
 		it.set(88,
 			lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
 		it.set(89,
@@ -82,7 +83,7 @@ class PlanProToTitleboxTransformation {
 				"")
 
 		val lastPlanungFreigabe = planungEinzel?.planungEHandlung?.
-			planungEFreigabe?.last
+			planungEFreigabe?.lastOrNull
 		it.set(91,
 			lastPlanungFreigabe?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
 		it.set(92,
@@ -90,9 +91,9 @@ class PlanProToTitleboxTransformation {
 				"")
 
 		val lastPlanungAbnahme = planungEinzel?.planungEHandlung?.
-			planungEAbnahme?.last
+			planungEAbnahme?.lastOrNull
 		val lastPlanungUebernahme = planungEinzel?.planungEHandlung?.
-			planungEUebernahme?.last
+			planungEUebernahme?.lastOrNull
 
 		val planungAllgemein = schnittstelle?.planungAllgemein;
 		val idPlanungBasis = schnittstelle?.referenzPlanungBasis;

@@ -9,16 +9,17 @@
 
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 import java.util.List
 import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
+import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
+import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Debugging Extensions for {@link PlanPro_Schnittstelle}.
@@ -85,7 +86,7 @@ class PlanProSchnittstelleDebugExtensions {
 		val topFirst = topEdge.tail.GEOKnoten
 		val topLast = topEdge.head.GEOKnoten
 		val geoFirst = geoEdges.head.tail
-		val geoLast = geoEdges.last.head
+		val geoLast = geoEdges.lastOrNull?.head
 
 		return topFirst === geoFirst && topLast === geoLast
 	}
