@@ -32,6 +32,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Extensions for {@link Bereich_Objekt}.
@@ -476,9 +477,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			return areaIntersects(teilbereich, path.start, edges.get(0),
 				path.end)
 		}
-		val middleEdges = edges.filter[it !== edges.head && it !== edges.last]
+		val middleEdges = edges.filter[it !== edges.head && it !== edges.lastOrNull]
 		return areaIntersects(teilbereich, path.start, edges.head) ||
-			areaIntersects(teilbereich, edges.last, path.end) ||
+			areaIntersects(teilbereich, edges.lastOrNull, path.end) ||
 			middleEdges.exists[areaIntersects(teilbereich, it)]
 	}
 

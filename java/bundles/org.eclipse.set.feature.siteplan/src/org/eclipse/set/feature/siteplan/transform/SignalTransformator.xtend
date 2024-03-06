@@ -40,6 +40,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExte
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
@@ -91,7 +92,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 					mount?.signalBefestigungen
 				].flatten
 				val merged = mergedSignalInfo.findFirst [ msi |
-					msi.mounts.contains(signalMounts.last)
+					msi.mounts.contains(signalMounts.lastOrNull)
 				]
 				if (merged === null) {
 					val mounts = new HashSet<Signal_Befestigung>()
