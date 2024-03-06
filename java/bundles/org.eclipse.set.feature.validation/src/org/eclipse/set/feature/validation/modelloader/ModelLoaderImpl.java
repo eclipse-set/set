@@ -12,8 +12,6 @@ import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
@@ -25,6 +23,8 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
+
+import jakarta.inject.Inject;
 
 /**
  * Implementation of {@link ModelLoader}.
