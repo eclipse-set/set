@@ -88,4 +88,9 @@ public interface BankService {
 	 *         top path
 	 */
 	BankingInformation findTOPBanking(Ueberhoehungslinie bankingLine);
+
+	/**
+	 * @return true, if find banking handle is complete
+	 */
+	boolean isFindBankingComplete();
 }

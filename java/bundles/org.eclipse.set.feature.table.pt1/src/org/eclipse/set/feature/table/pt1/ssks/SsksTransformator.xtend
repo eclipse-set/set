@@ -14,13 +14,16 @@ import java.util.HashSet
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
+import org.eclipse.e4.core.services.events.IEventBroker
 import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.BankService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
@@ -56,6 +59,7 @@ import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsWsRtWs
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.MsWsSwWs
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Ne14
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Ne2
+import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.OzBk
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Sh1
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Vr0
 import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Vr1
@@ -85,7 +89,12 @@ import org.eclipse.set.toolboxmodel.Signale.Signal
 import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
 import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
 import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
+import org.eclipse.set.utils.events.TableDataChangeEvent
+import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
+import org.osgi.service.event.Event
+import org.osgi.service.event.EventAdmin
+import org.osgi.service.event.EventConstants
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -102,7 +111,9 @@ import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.toolboxmodel.Signale.ENUMTunnelsignal.*
 
+import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
@@ -116,8 +127,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import org.eclipse.set.core.services.graph.BankService
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.OzBk
+import org.eclipse.set.utils.events.ToolboxEvents
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -133,13 +143,16 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	val TopologicalGraphService topGraphService;
 	val BankService bankingService;
+	val EventAdmin eventAdmin;
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
-		TopologicalGraphService topGraphService, BankService bankingService) {
+		TopologicalGraphService topGraphService, BankService bankingService,
+		EventAdmin eventAdmin) {
 		super(cols, enumTranslationService)
 		this.topGraphService = topGraphService
 		this.bankingService = bankingService
+		this.eventAdmin = eventAdmin
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -202,8 +215,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[
 								signal?.signalFiktiv?.fiktivesSignalFunktion?.
-									map[wert?.translate] ?:
-									Collections.emptyList
+									map [
+										wert?.translate
+									] ?: Collections.emptyList
 							],
 							null
 						)
@@ -257,19 +271,24 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								null
 							)
 
-							fillIterable(
-								row,
-								cols.getColumn(Ueberhoehung),
-								signal,
-								[
-									bankingService.findBankValue(
-										new TopPoint(signal)).map [
-										multiply(new BigDecimal(1000)).
-											toTableInteger ?: ""
-									]
-								],
-								null
-							)
+							if (bankingService.isFindBankingComplete) {
+								fillIterable(
+									row,
+									cols.getColumn(Ueberhoehung),
+									signal,
+									[
+										bankingService.findBankValue(
+											new TopPoint(signal)).map [
+											multiply(new BigDecimal(1000)).
+												toTableInteger ?: ""
+										]
+									],
+									null
+								)
+							} else {
+								// Fill Banking through thread, when find process not complete
+								row.fillUeberhoehung(signal)
+							}
 
 							// Abstand Mastmitte
 							val abstandMastmitteLinks = new HashSet<Long>
@@ -764,9 +783,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 					}
 				}
 			} catch (Exception e) {
-				LOGGER.
-					error('''«e.class.simpleName»: «e.message» - failed to transform table contents''',
-						e)
+				LOGGER.error('''«e.
+
+class .simpleName»: «e.message» - failed to transform table contents''', e)
 				val TableRow row = factory.newTableRow(signal);
 				fill(
 					row,
@@ -813,7 +832,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		]
 	}
 
-	// IMPROVE use explicit structure
+// IMPROVE use explicit structure
 	private static def List<List<Signal_Befestigung>> getBefestigungsgruppen(
 		Signal signal) {
 		val result = new LinkedList<List<Signal_Befestigung>>
@@ -900,7 +919,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 					ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL) ||
 			(signalReal !== null && signalRealAktiv === null &&
 				signalRealAktivSchirm === null &&
-				(signal.hasSignalbegriffID(Ne14) || signal.hasSignalbegriffID(OzBk)))
+				(signal.hasSignalbegriffID(Ne14) ||
+					signal.hasSignalbegriffID(OzBk)))
 	}
 
 	private static def boolean isSsksSignalNichtAndere(Signal signal) {
@@ -972,7 +992,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		val kombinationen = signalRahmen.filter [
 			rahmenArt.wert == ENUM_RAHMEN_ART_ZUSATZANZEIGER
 		].map[signalbegriffe.toSet].map[map[signalbegriffID.typeName].toSet].
-			filter[size > 1]
+			filter [
+				size > 1
+			]
 		return kombinationen.map[fillSignalisierungKombination]
 	}
 
@@ -1228,7 +1250,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 			wert
 		val zlSignal = signal.signalReal?.signalRealAktiv?.autoEinstellung?.wert
 		val signalFiktivFunktion = signal.signalFiktiv?.fiktivesSignalFunktion?.
-			map[wert]?.filterNull
+			map [
+				wert
+			]?.filterNull
 		val signalFiktivAutoEinstellung = signal.signalFiktiv?.autoEinstellung?.
 			wert
 
@@ -1370,9 +1394,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (unterbringung.punktObjektTOPKante !== null) {
 			val points = punktObjekt.singlePoints.map[new TopPoint(it)]
 			val pb = new TopPoint(unterbringung.punktObjektTOPKante)
-			return points.map[topGraphService.findShortestDistance(it, pb)].filter [
-				present
-			].map[get.doubleValue].min
+			return points.map[topGraphService.findShortestDistance(it, pb)].
+				filter [
+					present
+				].map[get.doubleValue].min
 		} else {
 			val c1 = punktObjekt.coordinate
 			val c2 = unterbringung.geoPunkt.coordinate
@@ -1380,4 +1405,55 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 	}
 
+	private def void fillUeberhoehung(TableRow row, Signal signal) {
+		val containerType = signal.container.containerType
+		// Because find bank value process can take a long time,
+		// therefore the bank column will be fill during find process.
+		new Thread([
+			try {
+				val bankValue = row.getUeberhoehung(signal).map [
+					multiply(new BigDecimal(1000)).toTableInteger ?: ""
+				]
+				val changeProperties = new Pt1TableChangeProperties(
+					containerType, row, cols.getColumn(Ueberhoehung), bankValue,
+					ITERABLE_FILLING_SEPARATOR)
+				val updateValuesEvent = new TableDataChangeEvent(
+					"org.eclipse.set.feature.table.ssks", changeProperties)
+				val properties = newHashMap
+				properties.put(EventConstants.EVENT_TOPIC, updateValuesEvent.topic)
+				properties.put(ToolboxEvents.TOOLBOX_EVENT, updateValuesEvent)
+				properties.put(IEventBroker.DATA, updateValuesEvent)
+				// Send update event after find bank value process complete
+				// or relevant bank value was found
+				eventAdmin.sendEvent(new Event(updateValuesEvent.topic, properties))
+			} catch (Exception exc) {
+				throw new RuntimeException(exc)
+			}
+		]).start
+	}
+
+	private def List<BigDecimal> getUeberhoehung(TableRow row,
+		Signal signal) throws Exception {
+		val topPoint = new TopPoint(signal)
+		var bankValue = bankingService.findBankValue(topPoint)
+		// Fill Hourglass icon, when values is empty and find bank process still running.
+		if (bankValue.isEmpty && !bankingService.isFindBankingComplete)
+			fill(
+				row,
+				cols.getColumn(Ueberhoehung),
+				signal,
+				[
+					CellContentExtensions.HOURGLASS_ICON
+				]
+			)
+		// Get bank value again during the find bank process.
+		while (bankValue.isNullOrEmpty) {
+			bankValue = bankingService.findBankValue(topPoint)
+			if (bankingService.isFindBankingComplete) {
+				return bankValue
+			}
+			Thread.sleep(5000)
+		}
+		return bankValue
+	}
 }

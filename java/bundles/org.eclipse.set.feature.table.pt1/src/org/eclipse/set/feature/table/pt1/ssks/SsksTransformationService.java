@@ -18,6 +18,9 @@ import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
+import org.osgi.service.event.EventHandler;
 
 /**
  * Service for creating the ssks table model. org.eclipse.set.feature.table
@@ -26,11 +29,11 @@ import org.osgi.service.component.annotations.Reference;
  * 
  * @usage production
  */
-@Component(service = {
-		PlanPro2TableTransformationService.class }, immediate = true, property = {
+@Component(service = { PlanPro2TableTransformationService.class,
+		EventHandler.class }, immediate = true, property = {
 				"table.shortcut=ssks" })
-public final class SsksTransformationService
-		extends AbstractPlanPro2TableTransformationService {
+public final class SsksTransformationService extends
+		AbstractPlanPro2TableTransformationService implements EventHandler {
 
 	@Reference
 	private Messages messages;
@@ -40,6 +43,9 @@ public final class SsksTransformationService
 	private TopologicalGraphService topGraphService;
 	@Reference
 	private BankService bankingService;
+
+	@Reference
+	private EventAdmin eventAdmin;
 
 	/**
 	 * constructor.
@@ -51,7 +57,7 @@ public final class SsksTransformationService
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SsksTransformator(cols, enumTranslationService,
-				topGraphService, bankingService);
+				topGraphService, bankingService, eventAdmin);
 	}
 
 	@Override
@@ -64,5 +70,11 @@ public final class SsksTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SsksTableView_Heading;
+	}
+
+	@Override
+	public void handleEvent(final Event event) {
+		// do nothing
+
 	}
 }

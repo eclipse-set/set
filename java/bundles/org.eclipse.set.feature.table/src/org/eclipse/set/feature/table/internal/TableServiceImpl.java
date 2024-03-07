@@ -16,8 +16,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.set.basis.IModelSession;
@@ -47,6 +45,8 @@ import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableTransformationService;
 
 import com.google.common.base.Strings;
+
+import jakarta.inject.Inject;
 
 /**
  * TableService implementation with the task of transforming the planpro model

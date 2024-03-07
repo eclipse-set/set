@@ -61,7 +61,7 @@ public abstract class AbstractTableTransformationService<T>
 	 *            the builder class
 	 * @return the root descriptor
 	 */
-	public abstract ColumnDescriptor fillHeaderDescriptions(
+	protected abstract ColumnDescriptor fillHeaderDescriptions(
 			final ColumnDescriptorModelBuilder builder);
 
 	@SuppressWarnings("static-method")

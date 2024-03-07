@@ -24,7 +24,10 @@ import com.google.common.collect.Maps;
  */
 public class ToolboxEvents {
 
-	private static final String TOOLBOX_EVENT = "event"; //$NON-NLS-1$
+	/**
+	 * Toolbox event key
+	 */
+	public static final String TOOLBOX_EVENT = "event"; //$NON-NLS-1$
 
 	/**
 	 * @param broker

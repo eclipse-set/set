@@ -54,4 +54,14 @@ public interface Events {
 	 * The collected table errrors changed.
 	 */
 	String TABLEERROR_CHANGED = "modelsession/change/tableerror";
+
+	/**
+	 * The find baking information process is done
+	 */
+	String BANKING_PROCESS_DONE = "bankingservice/done";
+
+	/**
+	 * Require doing plaz check
+	 */
+	String DO_PLAZ_CHECK = "plazmodel/check";
 }

@@ -29,7 +29,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.set.toolboxmodel,
  com.fasterxml.jackson.core.jackson-databind,
  com.fasterxml.jackson.core.jackson-core,
- org.eclipse.emfcloud.emfjson-jackson
+ org.eclipse.emfcloud.emfjson-jackson,
+ slf4j.api,
+ slf4j.simple;bundle-version="2.0.9"
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Import-Package: ch.qos.logback.classic;version="1.0.7",
@@ -138,8 +140,7 @@ Import-Package: ch.qos.logback.classic;version="1.0.7",
  org.jgrapht.alg.shortestpath;version="1.5.2",
  org.jgrapht.graph;version="1.5.2",
  org.osgi.service.component.annotations;version="1.2.0",
- org.osgi.service.event;version="1.4.0",
- org.slf4j
+ org.osgi.service.event;version="1.4.0"
 Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServiceImpl.xml,
  OSGI-INF/org.eclipse.set.application.attachments.AttachmentContentServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.cacheservice.CacheServiceImpl.xml,

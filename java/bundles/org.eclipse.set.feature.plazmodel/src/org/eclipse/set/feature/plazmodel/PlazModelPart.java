@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.inject.Inject;
-
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -31,9 +30,11 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.feature.plazmodel.check.PlazCheck;
 import org.eclipse.set.feature.plazmodel.service.PlazModelService;
 import org.eclipse.set.feature.plazmodel.table.PlazModelTableView;
 import org.eclipse.set.model.plazmodel.PlazReport;
+import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
@@ -46,6 +47,11 @@ import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventHandler;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 /**
  * @author Stuecker
@@ -73,6 +79,43 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 
 	private PlazModelTableView tableView;
 	private PlazReport plazReport;
+
+	@SuppressWarnings("unchecked")
+	@PostConstruct
+	private void postConstruct() {
+		getBroker().subscribe(Events.DO_PLAZ_CHECK, new EventHandler() {
+
+			@Override
+			public void handleEvent(final Event event) {
+				final Object property = event.getProperty(IEventBroker.DATA);
+				if (property instanceof final Class<?> clazz
+						&& PlazCheck.class.isAssignableFrom(clazz)) {
+					final PlazReport newReport = plazModelService.runPlazModel(
+							getModelSession(),
+							(Class<? extends PlazCheck>) clazz);
+					if (plazReport == null
+							|| plazReport.getEntries().isEmpty()) {
+						tableView.updateView(newReport);
+						return;
+					}
+
+					final List<String> objectArts = newReport.getEntries()
+							.stream().map(ValidationProblem::getObjectArt)
+							.distinct().toList();
+					final List<ValidationProblem> oldReports = plazReport
+							.getEntries().stream().filter(entry -> objectArts
+									.contains(entry.getObjectArt()))
+							.toList();
+					plazReport.getEntries().removeAll(oldReports);
+					plazReport.getEntries().addAll(newReport.getEntries());
+					PlazModelService
+							.sortAndIndexedProblems(plazReport.getEntries());
+					tableView.updateView(plazReport);
+				}
+
+			}
+		});
+	}
 
 	@Override
 	protected void createFormsView(final Composite parent)
@@ -206,5 +249,4 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 			final List<Notification> notifications) {
 		updatePlazModel();
 	}
-
 }

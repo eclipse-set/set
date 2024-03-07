@@ -12,12 +12,15 @@ package org.eclipse.set.application.graph;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -38,8 +41,11 @@ import org.eclipse.set.utils.ToolboxConfiguration;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of BankingService
@@ -51,21 +57,48 @@ public class BankServiceImpl implements BankService, EventHandler {
 	@Reference
 	private TopologicalGraphService topGraph;
 
-	private HashMap<TOP_Kante, Set<BankingInformation>> topEdgeBanking;
+	@Reference
+	private EventAdmin eventAdmin;
+
+	private Map<TOP_Kante, Set<BankingInformation>> topEdgeBanking;
+	private Map<Ueberhoehungslinie, Optional<BankingInformation>> bankingInformations;
+
+	private boolean isComplete = false;
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(BankServiceImpl.class);
 
 	@Override
 	public void handleEvent(final Event event) {
 		final PlanPro_Schnittstelle planProSchnittstelle = (PlanPro_Schnittstelle) event
 				.getProperty(IEventBroker.DATA);
 
-		topEdgeBanking = new HashMap<>();
+		topEdgeBanking = new ConcurrentHashMap<>();
+		bankingInformations = new ConcurrentHashMap<>();
+		// final Use thread for final find banking value,
+		// because this process can take a long time
+		new Thread() {
+			@Override
+			public void run() {
+				isComplete = false;
+				addBankingForContainer(
+						PlanProSchnittstelleExtensions.getContainer(
+								planProSchnittstelle, ContainerType.INITIAL));
+				addBankingForContainer(
+						PlanProSchnittstelleExtensions.getContainer(
+								planProSchnittstelle, ContainerType.FINAL));
+				addBankingForContainer(
+						PlanProSchnittstelleExtensions.getContainer(
+								planProSchnittstelle, ContainerType.SINGLE));
+				isComplete = true;
+				final HashMap<String, Object> properties = new HashMap<>();
+				properties.put(EventConstants.EVENT_TOPIC,
+						Events.BANKING_PROCESS_DONE);
+				eventAdmin.sendEvent(
+						new Event(Events.BANKING_PROCESS_DONE, properties));
+			}
+		}.start();
 
-		addBankingForContainer(PlanProSchnittstelleExtensions
-				.getContainer(planProSchnittstelle, ContainerType.INITIAL));
-		addBankingForContainer(PlanProSchnittstelleExtensions
-				.getContainer(planProSchnittstelle, ContainerType.FINAL));
-		addBankingForContainer(PlanProSchnittstelleExtensions
-				.getContainer(planProSchnittstelle, ContainerType.SINGLE));
 	}
 
 	private void addBankingForContainer(
@@ -85,6 +118,12 @@ public class BankServiceImpl implements BankService, EventHandler {
 	@Override
 	public BankingInformation findTOPBanking(
 			final Ueberhoehungslinie bankingLine) {
+		if (bankingInformations.containsKey(bankingLine)) {
+			final Optional<BankingInformation> optional = bankingInformations
+					.get(bankingLine);
+			return optional.isEmpty() ? null : optional.get();
+		}
+
 		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA();
 		final Ueberhoehung end = bankingLine.getIDUeberhoehungB();
 		final BigDecimal bankingLineLength = bankingLine
@@ -107,11 +146,17 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 			if (topLengthDifference.doubleValue() <= ToolboxConfiguration
 					.getBankLineTopOffsetLimit()) {
-				return new BankingInformation(bankingLine,
+				final BankingInformation bankingInformation = new BankingInformation(
+						bankingLine,
 						new TopPath(
 								List.of(beginEdge), beginEdge.getTOPKanteAllg()
 										.getTOPLaenge().getWert(),
 								BigDecimal.ZERO));
+				bankingInformations.put(bankingLine,
+						Optional.of(bankingInformation));
+				logger.debug("Found Topologie path for Ueberhoehungslinie: {}", //$NON-NLS-1$
+						bankingLine.getIdentitaet().getWert());
+				return bankingInformation;
 			}
 		}
 
@@ -136,9 +181,19 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 		if (path == null || minLengthDiff > ToolboxConfiguration
 				.getBankLineTopOffsetLimit()) {
+			bankingInformations.put(bankingLine, Optional.empty());
+			logger.debug(
+					"Can't found Topologie path for Ueberhoehungslinie: {}", //$NON-NLS-1$
+					bankingLine.getIdentitaet().getWert());
 			return null;
 		}
-		return new BankingInformation(bankingLine, path);
+		final BankingInformation bankingInformation = new BankingInformation(
+				bankingLine, path);
+
+		bankingInformations.put(bankingLine, Optional.of(bankingInformation));
+		logger.debug("Found Topologie path for Ueberhoehungslinie: {}", //$NON-NLS-1$
+				bankingLine.getIdentitaet().getWert());
+		return bankingInformation;
 	}
 
 	@Override
@@ -160,6 +215,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 			if (!lineBankings.isEmpty()) {
 				return lineBankings;
 			}
+		}
+
+		// If find banking process not complete, then return empty list
+		if (!isFindBankingComplete()) {
+			return Collections.emptyList();
 		}
 
 		// Otherwise find the nearest banking points left/right of the point on
@@ -316,6 +376,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
 		return h_between.multiply(distanceFromLeft).divide(length,
 				RoundingMode.HALF_EVEN);
+	}
+
+	@Override
+	public boolean isFindBankingComplete() {
+		return isComplete;
 	}
 
 }
