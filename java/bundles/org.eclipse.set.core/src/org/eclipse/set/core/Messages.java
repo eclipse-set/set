@@ -130,6 +130,17 @@ public class Messages extends AbstractMessageService {
 	public String DialogService_ConfirmRename_Title;
 
 	/**
+	 * Export den fehlenden Informationen Tabelle
+	 */
+	public String DialogService_ConfirmExportNotCompleteTable_Title;
+
+	/**
+	 * Die Tabelle ist noch nicht vollständig geladen. Möchten Sie die Tabelle
+	 * mit den fehlenden Informationen exportieren?
+	 */
+	public String DialogService_ConfirExportNotCompleteTable_Label;
+
+	/**
 	 * Verbundplanung erstellen
 	 */
 	public String DialogService_CreateCompositePlanningButton;
@@ -518,5 +529,4 @@ public class Messages extends AbstractMessageService {
 	 * Lageplan schließen
 	 */
 	public String LoadInvalidCRSDialog_CloseLabel;
-
 }

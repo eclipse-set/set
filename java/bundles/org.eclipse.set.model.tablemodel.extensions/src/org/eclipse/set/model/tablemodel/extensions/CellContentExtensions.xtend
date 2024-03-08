@@ -31,7 +31,7 @@ class CellContentExtensions {
 	public static val String WARNING_MARK_YELLOW = "<!-- warning-mark-yellow -->"
 	public static val String WARNING_MARK_RED = "<!-- warning-mark-red -->"
 	public static val String WARNING_MARK_BLACK = "<!-- warning-mark-black -->"
-	public static val String HOURGLASS_ICON = "<span>&#9203;</span>"
+	public static val String HOURGLASS_ICON = "⏳"
 	static val String ERROR_PREFIX = "Error:"
 
 	/**
@@ -174,7 +174,7 @@ class CellContentExtensions {
 		}
 		
 		if (value.equals(HOURGLASS_ICON)) {
-			return value
+			return '''<span>«value»</span>'''
 		}
 
 		switch (warning_mark) {
@@ -216,7 +216,7 @@ class CellContentExtensions {
 		val contentValue = content.value.iterableToString(content.separator)
 		if (contentValue.isErrorText && !ToolboxConfiguration.developmentMode) {
 			return WARNING_MARK_BLACK
-		} else if (contentValue.equals(org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.HOURGLASS_ICON)) {
+		} else if (contentValue.equals(HOURGLASS_ICON)) {
 			return contentValue
 		}
 		return contentValue.htmlString

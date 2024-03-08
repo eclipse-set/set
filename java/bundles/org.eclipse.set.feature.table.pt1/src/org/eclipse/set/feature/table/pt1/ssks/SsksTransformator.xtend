@@ -141,18 +141,20 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
 		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
 
-	val TopologicalGraphService topGraphService;
-	val BankService bankingService;
-	val EventAdmin eventAdmin;
-
+	val TopologicalGraphService topGraphService
+	val BankService bankingService
+	val EventAdmin eventAdmin
+	val String tableShortCut
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService, BankService bankingService,
-		EventAdmin eventAdmin) {
+		EventAdmin eventAdmin,
+		String tableShortCut) {
 		super(cols, enumTranslationService)
 		this.topGraphService = topGraphService
 		this.bankingService = bankingService
 		this.eventAdmin = eventAdmin
+		this.tableShortCut = tableShortCut
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -1409,6 +1411,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		val containerType = signal.container.containerType
 		// Because find bank value process can take a long time,
 		// therefore the bank column will be fill during find process.
+		val threadName = '''«tableShortCut.toLowerCase»/«signal.identitaet.wert»'''
 		new Thread([
 			try {
 				val bankValue = row.getUeberhoehung(signal).map [
@@ -1418,7 +1421,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					containerType, row, cols.getColumn(Ueberhoehung), bankValue,
 					ITERABLE_FILLING_SEPARATOR)
 				val updateValuesEvent = new TableDataChangeEvent(
-					"org.eclipse.set.feature.table.ssks", changeProperties)
+					tableShortCut.toLowerCase, changeProperties)
 				val properties = newHashMap
 				properties.put(EventConstants.EVENT_TOPIC, updateValuesEvent.topic)
 				properties.put(ToolboxEvents.TOOLBOX_EVENT, updateValuesEvent)
@@ -1429,7 +1432,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			} catch (Exception exc) {
 				throw new RuntimeException(exc)
 			}
-		]).start
+		], threadName).start
 	}
 
 	private def List<BigDecimal> getUeberhoehung(TableRow row,

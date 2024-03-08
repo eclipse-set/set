@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -243,7 +244,9 @@ public final class ToolboxTableView extends BasePart {
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
 				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(getToolboxPart().getElementId()));
+				TableDataChangeEvent.getTopic(tableService
+						.extractShortcut(getToolboxPart().getElementId())
+						.toLowerCase()));
 
 	}
 
@@ -505,6 +508,16 @@ public final class ToolboxTableView extends BasePart {
 	void export() {
 		final String id = getToolboxPart().getElementId();
 		final String shortcut = tableService.extractShortcut(id);
+		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
+				.stream()
+				.filter(t -> t != null
+						&& t.getName().startsWith(shortcut.toLowerCase())
+						&& t.isAlive())
+				.toList();
+		if (!transformatorThreads.isEmpty() && !getDialogService()
+				.confirmExportNotCompleteTable(getToolboxShell())) {
+			return;
+		}
 		final Map<TableType, Table> tables = compileService.compile(shortcut,
 				getModelSession());
 		final Optional<String> optionalOutputDir = getDialogService()
@@ -533,6 +546,7 @@ public final class ToolboxTableView extends BasePart {
 					outputDir -> getDialogService().openDirectoryAfterExport(
 							getToolboxShell(), Paths.get(outputDir)));
 		} catch (InvocationTargetException | InterruptedException e) {
+			Thread.currentThread().interrupt();
 			getDialogService().error(getToolboxShell(), e);
 		}
 	}
@@ -581,6 +595,7 @@ public final class ToolboxTableView extends BasePart {
 			tableInstances.clear();
 			MApplicationElementExtensions.setViewState(part,
 					ToolboxViewState.CANCELED);
+			Thread.currentThread().interrupt();
 			return;
 		}
 		// flag creation

@@ -57,7 +57,8 @@ public final class SsksTransformationService extends
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
 		return new SsksTransformator(cols, enumTranslationService,
-				topGraphService, bankingService, eventAdmin);
+				topGraphService, bankingService, eventAdmin,
+				messages.ToolboxTableNameSsksShort);
 	}
 
 	@Override
