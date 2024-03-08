@@ -177,7 +177,7 @@ class TrackNetworkServiceImpl implements TrackNetworkService {
 				println("TEST")
 			}
 			return new Pair(it,
-				Range.between(nodePositions.min, nodePositions.max))
+				Range.of(nodePositions.min, nodePositions.max))
 		]
 		tracksPositionRange.forEach [ current |
 			current.defineTrackLvl(tracksPositionRange.filter [

@@ -29,7 +29,6 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.utils.collection.MapExtensions.*
-import static org.eclipse.set.ppmodel.extensions.TopKanteExtensions.connectionTo
 import static org.eclipse.set.feature.overviewplan.track.MetaDataCache.*
 
 class TOPKanteMetaData {

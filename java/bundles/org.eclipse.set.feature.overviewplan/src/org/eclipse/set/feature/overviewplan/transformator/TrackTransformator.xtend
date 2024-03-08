@@ -86,7 +86,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				if (connectTrack.size > 1) {
 					throw new IllegalArgumentException('''By TOP_Knoten: «identitaet.wert» exist more than two track''')
 				}
-				val edgeRange = Range.between(position.x, nextNodePosition.x)
+				val edgeRange = Range.of(position.x, nextNodePosition.x)
 				val lvlDifferent = Math.abs(position.y - mdTrack.lvl)
 				var transformX = position.x + lvlDifferent
 				if (!edgeRange.contains(transformX)) {
