@@ -15,8 +15,6 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
@@ -25,6 +23,8 @@ import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.basis.rename.RenameConfirmation;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.swt.widgets.Shell;
+
+import jakarta.inject.Inject;
 
 /**
  * Mocked dialog service to handle native dialogs
@@ -54,6 +54,11 @@ public class MockDialogService implements DialogService {
 	@Override
 	public boolean confirmDeletion(final Shell shell, final Path path) {
 		return true;
+	}
+
+	@Override
+	public boolean confirmExportNotCompleteTable(final Shell shell) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -264,7 +269,7 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
-	public boolean sitePlanError(Shell shell, String filename) {
+	public boolean sitePlanError(final Shell shell, final String filename) {
 		throw new UnsupportedOperationException();
 	}
 
