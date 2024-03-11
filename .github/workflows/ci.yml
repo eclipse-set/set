@@ -97,23 +97,6 @@ jobs:
           name: siteplan-artifact
           path: web/siteplan/dist
           retention-days: 1
-    
-  overviewplan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build
-        run: |
-          npm ci
-          npm run build-prod
-        working-directory: web/overviewplan
-      - name: Store artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: overviewplan-artifact
-          path: web/overviewplan/dist
-          retention-days: 1
-
 
   news:
     runs-on: ubuntu-latest
@@ -145,7 +128,6 @@ jobs:
       - siteplan
       - developerhelp
       - news
-      - overviewplan
     permissions:
       contents: write
       packages: write
@@ -194,12 +176,6 @@ jobs:
         with:
           name: siteplan-artifact
           path: web/siteplan/dist
-          
-      - name: Fetch overviewplan
-        uses: actions/download-artifact@v4
-        with:
-          name: overviewplan-artifact
-          path: web/overviewplan/dist
 
       - name: Fetch developerhelp
         uses: actions/download-artifact@v4

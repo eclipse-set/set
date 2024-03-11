@@ -13,10 +13,10 @@
       ref="map-root"
     >
       <div class="custom-control-container">
-        <MapSourceSelection />
-        <LayerControl v-if="isDevelopmentMode" />
+        <MapSourceSelection v-if="isSiteplan()" />
+        <LayerControl v-if="isDevelopmentMode && isSiteplan()" />
         <ModelSummaryControl v-if="isDevelopmentMode" />
-        <SettingEditor v-if="isDevelopmentMode" />
+        <SettingEditor v-if="isDevelopmentMode && isSiteplan()" />
       </div>
     </div>
     <div
@@ -35,7 +35,7 @@ import { Vue, Options } from 'vue-class-component'
 import RotateViewControl from '@/util/Controls/RotateViewControl'
 import ScaleBarControl from '@/util/Controls/ScaleBarControl'
 import { setMapScale } from '@/util/MapScale'
-import { store } from '@/store'
+import { PlanProModelType, store } from '@/store'
 import LayerControl from '@/components/development/LayerControl.vue'
 import SettingEditor from '@/components/development/SettingEditor.vue'
 import ModelSummaryControl from '@/components/development/ModelSummaryControl.vue'
@@ -74,28 +74,29 @@ export default class MapContainer extends Vue {
     view.setRotation(0)
 
     // Allow clicking the scale bar to force a 1:1000 scale
-    this.scaleLine = new ScaleBarControl(() => {
-      this.scaleLocked = 1000
-      setMapScale(this.map.getView(), this.scaleLocked)
-    })
-    this.map.addControl(this.scaleLine)
-
-    // Reapply zoom level after moving
-    this.map.on('rendercomplete', () => {
-      // Allow a minimal offset to avoid constant rescaling
-      const ALLOWED_OFFSET = 0.01
-      if (!this.scaleLocked) {
-        return
-      }
-
-      const scale = this.getMapScale()
-      if (
-        scale > this.scaleLocked + ALLOWED_OFFSET ||
-        scale < this.scaleLocked - ALLOWED_OFFSET
-      ) {
+    if (store.state.planproModelType === PlanProModelType.SITEPLAN) {
+      this.scaleLine = new ScaleBarControl(() => {
+        this.scaleLocked = 1000
         setMapScale(this.map.getView(), this.scaleLocked)
-      }
-    })
+      })
+      this.map.addControl(this.scaleLine)
+      // Reapply zoom level after moving
+      this.map.on('rendercomplete', () => {
+      // Allow a minimal offset to avoid constant rescaling
+        const ALLOWED_OFFSET = 0.01
+        if (!this.scaleLocked) {
+          return
+        }
+
+        const scale = this.getMapScale()
+        if (
+          scale > this.scaleLocked + ALLOWED_OFFSET ||
+        scale < this.scaleLocked - ALLOWED_OFFSET
+        ) {
+          setMapScale(this.map.getView(), this.scaleLocked)
+        }
+      })
+    }
 
     // Disable locked scale after manually zooming
     this.map.on('movestart', e => {
@@ -122,6 +123,10 @@ export default class MapContainer extends Vue {
 
   getMapScale (): number {
     return this.scaleLine.getScaleForResolution()
+  }
+
+  isSiteplan () {
+    return store.state.planproModelType === PlanProModelType.SITEPLAN
   }
 }
 </script>

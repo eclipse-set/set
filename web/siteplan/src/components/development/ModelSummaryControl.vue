@@ -31,7 +31,7 @@
           <li>
             Gleise: {{ getCounts((model) => model.tracks) }}
             <ul>
-              <li>
+              <li v-if="isSiteplan()">
                 <input
                   id="checkbox-track"
                   v-model="trackEndMarkerVisible"
@@ -39,7 +39,7 @@
                 >
                 <label for="checkbox-track">Enden anzeigen</label>
               </li>
-              <li>
+              <li v-if="isSiteplan()">
                 <input
                   id="checkbox-trackoutline"
                   v-model="trackOutlineVisible"
@@ -73,7 +73,7 @@
  */
 import { Vue, Options } from 'vue-class-component'
 import { SubscribeOptions } from 'vuex'
-import { store } from '@/store'
+import { PlanProModelType, store } from '@/store'
 import SiteplanModel, { SiteplanState } from '@/model/SiteplanModel'
 import SideInfoControl from '@/components/SideInfoControl.vue'
 
@@ -131,6 +131,10 @@ export default class ModelSummaryControl extends Vue {
       // changedFinalState is not shown as the size is the same as of
       // changedInitialState
     ]
+  }
+
+  isSiteplan () {
+    return store.state.planproModelType === PlanProModelType.SITEPLAN
   }
 }
 </script>

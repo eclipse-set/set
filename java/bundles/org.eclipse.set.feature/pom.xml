@@ -89,21 +89,6 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>copy-overviewplan</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/overviewplan/web/overviewplan</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/../../../web/overviewplan/dist</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
 						<id>copy-developerhelp</id>
 						<phase>prepare-package</phase>
 						<goals>

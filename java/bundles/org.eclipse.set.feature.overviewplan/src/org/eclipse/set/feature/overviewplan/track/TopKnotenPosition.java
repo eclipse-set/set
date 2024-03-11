@@ -96,9 +96,7 @@ public class TopKnotenPosition {
 		final int edgeLength = intersectEdge.getLength();
 		final boolean newDirection = isSameDirection ? inDirection
 				: !inDirection;
-		// By default the length will multiply with factor 10
-		final double nextNodePosX = posX
-				+ (newDirection ? 10 : -10) * edgeLength;
+		final double nextNodePosX = posX + (newDirection ? 1 : -1) * edgeLength;
 		findTOPNodeHorizontalCoor(intersectEdge, nextNode, nextNodePosX,
 				newDirection);
 	}

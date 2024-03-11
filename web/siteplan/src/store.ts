@@ -23,6 +23,11 @@ export interface IError {
   msg: string
 }
 
+export enum PlanProModelType {
+  SITEPLAN = 'siteplan',
+  OVERVIEWPLAN = 'overviewplan'
+}
+
 export enum TableType
 {
   INITIAL = 'initial',
@@ -32,7 +37,7 @@ export enum TableType
 }
 
 export interface State {
-
+  planproModelType: PlanProModelType
   planproToolboxConfiguration: ToolboxConfiguration | null
   selectedFeatureGuid: string
   selectedFeatureOffset: number
@@ -108,7 +113,8 @@ export const store = createStore<State>({
     planningObjectGuids: {},
     sheetCutCRS: DBRef.DR0,
     isSheetCutAvaiable: false,
-    visibleCants: {}
+    visibleCants: {},
+    planproModelType: PlanProModelType.SITEPLAN
   },
   mutations: {
     setpptConfiguration (state, payload: ToolboxConfiguration) {
@@ -216,6 +222,9 @@ export const store = createStore<State>({
     setCantInvisible (state, cant: string) {
       delete state.visibleCants[cant]
       store.commit('refreshMap')
+    },
+    setPlanProModelType (state, type: PlanProModelType) {
+      state.planproModelType = type
     }
   }
 })

@@ -14,7 +14,7 @@ import { getColor } from '@/model/SiteplanObject'
 import Track, { defaultTrackObj } from '@/model/Track'
 import TrackSection, { TrackShape } from '@/model/TrackSection'
 import TrackSegment, { TrackType } from '@/model/TrackSegment'
-import { store } from '@/store'
+import { PlanProModelType, store } from '@/store'
 import Configuration from '@/util/Configuration'
 import { getMapScale } from '@/util/MapScale'
 import { compare, getpropertypeName } from '@/util/ObjectExtension'
@@ -123,7 +123,15 @@ export default class TrackFeature extends LageplanFeature<Track> {
     trackSegment: TrackSegment
   ): Feature<Geometry> {
     const coordinates: OlCoordinate[] = []
-    trackSegment.positions.forEach((position: Coordinate) => coordinates.push([position.x, position.y]))
+    if (store.state.planproModelType === PlanProModelType.OVERVIEWPLAN) {
+      trackSection.segments.forEach(segment =>
+        segment.positions.forEach((position:Coordinate) =>
+          coordinates.push([position.x, position.y])))
+      coordinates.sort((a, b) => a[0] - b[0])
+    } else {
+      trackSegment.positions.forEach((position: Coordinate) => coordinates.push([position.x, position.y]))
+    }
+
     if (coordinates.length < 1) {
       throw Error('Error creating track section with GUID ' + trackSection.guid)
     }

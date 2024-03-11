@@ -29,7 +29,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
-import org.eclipse.set.feature.siteplan.SiteplanConstants
 
 /**
  * Transforms the PlanPro data model into the siteplan data model 
