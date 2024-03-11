@@ -124,7 +124,9 @@ abstract class AbstractSiteplanTransformator implements SiteplanTransformator {
 				SiteplanPackage.eINSTANCE.getSiteplanState_TrackClosures(),
 				SiteplanPackage.eINSTANCE.
 					getSiteplanState_ExternalElementControls(),
-				SiteplanPackage.eINSTANCE.getSiteplanState_Lockkeys()
+				SiteplanPackage.eINSTANCE.getSiteplanState_Lockkeys(),
+				SiteplanPackage.eINSTANCE.getSiteplanState_Cants(),
+				SiteplanPackage.eINSTANCE.getSiteplanState_UnknownObjects()
 			].forEach [
 				siteplan.createDiffView(initialState, finalState, it)
 			]
