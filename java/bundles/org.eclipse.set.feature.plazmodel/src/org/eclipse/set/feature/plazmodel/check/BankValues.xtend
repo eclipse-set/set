@@ -31,12 +31,12 @@ import org.osgi.service.event.EventHandler
 /**
  * Validates that there's a valid top path for each bank line
  */
-@Component(property = EventConstants.EVENT_TOPIC + "="
-		+ Events.BANKING_PROCESS_DONE)
+@Component(property=EventConstants.EVENT_TOPIC + "=" +
+	Events.BANKING_PROCESS_DONE)
 class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventHandler {
 	@Reference
 	BankService bankService;
-	
+
 	@Reference
 	EventAdmin eventAdmin;
 
@@ -45,36 +45,32 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 			return List.of(createProcessingWarning)
 		}
 		return container.getUeberhoehungslinie.map [
-			try {
-				val bankinfo = bankService.findTOPBanking(it)
-				if (bankinfo === null) {
-					return createError(
-						"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
-						Map.of("GUID", it.identitaet?.wert))
-				}
-
-				val bankLength = bankinfo.line.ueberhoehungslinieAllg.
-					ueberhoehungslinieLaenge.wert
-				val pathLength = bankinfo.path.length
-				val diff = (bankLength - pathLength).doubleValue
-				if (diff > ToolboxConfiguration.bankLineTopOffsetLimit) {
-					return createError(
-						"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
-						Map.of(
-							"GUID",
-							it.identitaet?.wert,
-							"PFAD",
-							pathLength.toString,
-							"UEBERHOEHUNG",
-							bankLength.toString
-						))
-				}
-				return null
-			} catch (InterruptedException exc) {
-				throw new RuntimeException("auto-generated try/catch", exc)
+			val bankinfo = bankService.findTOPBanking(it)
+			if (bankinfo === null) {
+				return createError(
+					"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
+					Map.of("GUID", it.identitaet?.wert))
 			}
 
+			val bankLength = bankinfo.line.ueberhoehungslinieAllg.
+				ueberhoehungslinieLaenge.wert
+			val pathLength = bankinfo.path.length
+			val diff = (bankLength - pathLength).doubleValue
+			if (diff > ToolboxConfiguration.bankLineTopOffsetLimit) {
+				return createError(
+					"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
+					Map.of(
+						"GUID",
+						it.identitaet?.wert,
+						"PFAD",
+						pathLength.toString,
+						"UEBERHOEHUNG",
+						bankLength.toString
+					))
+			}
+			return null
 		].filterNull.toList
+
 	}
 
 	private def createError(Ueberhoehungslinie object, String message,
@@ -109,11 +105,11 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 	static def String getProcessingWarningMsg() {
 		return "Die Suchung nach Topologischen Pfade for Überhöhungslinien ist noch nicht beendet."
 	}
-	
+
 	override handleEvent(Event event) {
 		val properties = newHashMap;
-		properties.put("org.eclipse.e4.data", this.class); //$NON-NLS-1$
+		properties.put("org.eclipse.e4.data", this.class); // $NON-NLS-1$
 		eventAdmin.sendEvent(new Event(Events.DO_PLAZ_CHECK, properties));
 	}
-	
+
 }

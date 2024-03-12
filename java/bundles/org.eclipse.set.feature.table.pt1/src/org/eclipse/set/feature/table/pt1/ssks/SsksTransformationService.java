@@ -35,7 +35,8 @@ import org.osgi.service.event.EventHandler;
 @Component(service = { PlanPro2TableTransformationService.class,
 		EventHandler.class }, immediate = true, property = {
 				"table.shortcut=ssks",
-				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_PART })
+				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_PART,
+				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION, })
 public final class SsksTransformationService extends
 		AbstractPlanPro2TableTransformationService implements EventHandler {
 
@@ -80,7 +81,8 @@ public final class SsksTransformationService extends
 	@Override
 	public void handleEvent(final Event event) {
 		final String property = (String) event.getProperty(IEventBroker.DATA);
-		if (property.equals(messages.ToolboxTableNameSsksShort.toLowerCase())) {
+		if (property.equals(messages.ToolboxTableNameSsksShort.toLowerCase())
+				|| event.getTopic().equals(Events.CLOSE_SESSION)) {
 			Thread.getAllStackTraces().keySet().forEach(thread -> {
 				if (thread.getName().startsWith(
 						messages.ToolboxTableNameSsksShort.toLowerCase())) {
