@@ -1429,14 +1429,14 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				// Send update event after find bank value process complete
 				// or relevant bank value was found
 				eventAdmin.sendEvent(new Event(updateValuesEvent.topic, properties))
-			} catch (Exception exc) {
-				throw new RuntimeException(exc)
+			} catch (InterruptedException exc) {
+				Thread.currentThread.interrupt
 			}
 		], threadName).start
 	}
 
 	private def List<BigDecimal> getUeberhoehung(TableRow row,
-		Signal signal) throws Exception {
+		Signal signal) throws InterruptedException {
 		val topPoint = new TopPoint(signal)
 		var bankValue = bankingService.findBankValue(topPoint)
 		// Fill Hourglass icon, when values is empty and find bank process still running.

@@ -56,6 +56,16 @@ public interface Events {
 	String TABLEERROR_CHANGED = "modelsession/change/tableerror";
 
 	/**
+	 * The session is close
+	 */
+	String CLOSE_SESSION = "modelsession/close";
+
+	/**
+	 * The part is close
+	 */
+	String CLOSE_PART = "modelsession/part/close";
+
+	/**
 	 * The find baking information process is done
 	 */
 	String BANKING_PROCESS_DONE = "bankingservice/done";

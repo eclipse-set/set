@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.table.pt1.ssks;
 
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
@@ -20,6 +22,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 
 /**
@@ -31,7 +34,8 @@ import org.osgi.service.event.EventHandler;
  */
 @Component(service = { PlanPro2TableTransformationService.class,
 		EventHandler.class }, immediate = true, property = {
-				"table.shortcut=ssks" })
+				"table.shortcut=ssks",
+				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_PART })
 public final class SsksTransformationService extends
 		AbstractPlanPro2TableTransformationService implements EventHandler {
 
@@ -75,7 +79,14 @@ public final class SsksTransformationService extends
 
 	@Override
 	public void handleEvent(final Event event) {
-		// do nothing
-
+		final String property = (String) event.getProperty(IEventBroker.DATA);
+		if (property.equals(messages.ToolboxTableNameSsksShort.toLowerCase())) {
+			Thread.getAllStackTraces().keySet().forEach(thread -> {
+				if (thread.getName().startsWith(
+						messages.ToolboxTableNameSsksShort.toLowerCase())) {
+					thread.interrupt();
+				}
+			});
+		}
 	}
 }

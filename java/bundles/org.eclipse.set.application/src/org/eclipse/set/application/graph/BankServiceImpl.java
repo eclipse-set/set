@@ -17,11 +17,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -50,9 +48,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Implementation of BankingService
  */
-@Component(property = EventConstants.EVENT_TOPIC + "="
-		+ Events.TOPMODEL_CHANGED, service = { EventHandler.class,
-				BankService.class })
+@Component(property = {
+		EventConstants.EVENT_TOPIC + "=" + Events.TOPMODEL_CHANGED,
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
+				EventHandler.class, BankService.class })
 public class BankServiceImpl implements BankService, EventHandler {
 	@Reference
 	private TopologicalGraphService topGraph;
@@ -68,51 +67,90 @@ public class BankServiceImpl implements BankService, EventHandler {
 	private static final Logger logger = LoggerFactory
 			.getLogger(BankServiceImpl.class);
 
+	private Thread findBankingThread;
+
 	@Override
 	public void handleEvent(final Event event) {
-		final PlanPro_Schnittstelle planProSchnittstelle = (PlanPro_Schnittstelle) event
-				.getProperty(IEventBroker.DATA);
+		final String topic = event.getTopic();
+		if (topic.equals(Events.TOPMODEL_CHANGED)) {
+			final PlanPro_Schnittstelle planProSchnittstelle = (PlanPro_Schnittstelle) event
+					.getProperty(IEventBroker.DATA);
 
-		topEdgeBanking = new ConcurrentHashMap<>();
-		bankingInformations = new ConcurrentHashMap<>();
-		// final Use thread for final find banking value,
-		// because this process can take a long time
-		new Thread() {
-			@Override
-			public void run() {
-				isComplete = false;
-				addBankingForContainer(
-						PlanProSchnittstelleExtensions.getContainer(
-								planProSchnittstelle, ContainerType.INITIAL));
-				addBankingForContainer(
-						PlanProSchnittstelleExtensions.getContainer(
-								planProSchnittstelle, ContainerType.FINAL));
-				addBankingForContainer(
-						PlanProSchnittstelleExtensions.getContainer(
-								planProSchnittstelle, ContainerType.SINGLE));
-				isComplete = true;
-				final HashMap<String, Object> properties = new HashMap<>();
-				properties.put(EventConstants.EVENT_TOPIC,
-						Events.BANKING_PROCESS_DONE);
-				eventAdmin.sendEvent(
-						new Event(Events.BANKING_PROCESS_DONE, properties));
-			}
-		}.start();
+			topEdgeBanking = new ConcurrentHashMap<>();
+			bankingInformations = new ConcurrentHashMap<>();
+			// final Use thread for final find banking value,
+			// because this process can take a long time
+			findBankingThread = new Thread() {
+				@Override
+				public void run() {
+					try {
+						isComplete = false;
+						addBankingForContainer(PlanProSchnittstelleExtensions
+								.getContainer(planProSchnittstelle,
+										ContainerType.INITIAL));
+						addBankingForContainer(PlanProSchnittstelleExtensions
+								.getContainer(planProSchnittstelle,
+										ContainerType.FINAL));
+						addBankingForContainer(PlanProSchnittstelleExtensions
+								.getContainer(planProSchnittstelle,
+										ContainerType.SINGLE));
+						isComplete = true;
+						final HashMap<String, Object> properties = new HashMap<>();
+						properties.put(EventConstants.EVENT_TOPIC,
+								Events.BANKING_PROCESS_DONE);
+						eventAdmin.sendEvent(new Event(
+								Events.BANKING_PROCESS_DONE, properties));
+					} catch (final InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}
+				}
+			};
+			findBankingThread.start();
 
+		}
+
+		if (topic.equals(Events.CLOSE_SESSION) && findBankingThread.isAlive()
+				&& !findBankingThread.isInterrupted()) {
+			findBankingThread.interrupt();
+		}
 	}
 
 	private void addBankingForContainer(
-			final MultiContainer_AttributeGroup container) {
+			final MultiContainer_AttributeGroup container)
+			throws InterruptedException {
 		if (container == null) {
 			return;
 		}
-		StreamSupport
-				.stream(container.getUeberhoehungslinie().spliterator(), false)
-				.map(this::findTOPBanking).filter(Objects::nonNull)
-				.forEach(info -> info.path().edges().forEach(edge -> {
-					topEdgeBanking.putIfAbsent(edge, new HashSet<>());
-					topEdgeBanking.get(edge).add(info);
-				}));
+		for (final Ueberhoehungslinie line : container
+				.getUeberhoehungslinie()) {
+			final BankingInformation bankingInformation = findTOPBanking(line);
+			if (Thread.currentThread().isInterrupted()) {
+				throw new InterruptedException();
+			}
+			if (bankingInformation == null) {
+				logger.debug("Can't find TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
+						line.getIdentitaet().getWert());
+				bankingInformations.put(line, Optional.empty());
+			} else {
+				logger.debug("Found TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
+						line.getIdentitaet().getWert());
+				bankingInformations.put(line, Optional.of(bankingInformation));
+			}
+		}
+
+		for (final Optional<BankingInformation> bankingInfo : bankingInformations
+				.values()) {
+			if (Thread.currentThread().isInterrupted()) {
+				throw new InterruptedException();
+			}
+			if (bankingInfo.isEmpty()) {
+				continue;
+			}
+			bankingInfo.get().path().edges().forEach(edge -> {
+				topEdgeBanking.putIfAbsent(edge, new HashSet<>());
+				topEdgeBanking.get(edge).add(bankingInfo.get());
+			});
+		}
 	}
 
 	@Override
@@ -146,17 +184,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 			if (topLengthDifference.doubleValue() <= ToolboxConfiguration
 					.getBankLineTopOffsetLimit()) {
-				final BankingInformation bankingInformation = new BankingInformation(
-						bankingLine,
+				return new BankingInformation(bankingLine,
 						new TopPath(
 								List.of(beginEdge), beginEdge.getTOPKanteAllg()
 										.getTOPLaenge().getWert(),
 								BigDecimal.ZERO));
-				bankingInformations.put(bankingLine,
-						Optional.of(bankingInformation));
-				logger.debug("Found TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
-						bankingLine.getIdentitaet().getWert());
-				return bankingInformation;
 			}
 		}
 
@@ -181,19 +213,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 		if (path == null || minLengthDiff > ToolboxConfiguration
 				.getBankLineTopOffsetLimit()) {
-			bankingInformations.put(bankingLine, Optional.empty());
-			logger.debug(
-					"Can't find TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
-					bankingLine.getIdentitaet().getWert());
 			return null;
 		}
-		final BankingInformation bankingInformation = new BankingInformation(
-				bankingLine, path);
-
-		bankingInformations.put(bankingLine, Optional.of(bankingInformation));
-		logger.debug("Found TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
-				bankingLine.getIdentitaet().getWert());
-		return bankingInformation;
+		return new BankingInformation(bankingLine, path);
 	}
 
 	@Override

@@ -45,6 +45,7 @@ import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCom
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxViewState;
@@ -127,6 +128,7 @@ public final class ToolboxTableView extends BasePart {
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
 	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
+	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 
 	private int scrollToPositionRequested = -1;
 
@@ -232,7 +234,7 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.subscribe(getBroker(), TableSelectRowByGuidEvent.class,
 				tableSelectRowHandler);
 
-		final ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
+		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final TableDataChangeEvent t) {
 				if (t.getProperties() instanceof final Pt1TableChangeProperties properties) {
@@ -255,6 +257,10 @@ public final class ToolboxTableView extends BasePart {
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
 		ToolboxEvents.unsubscribe(getBroker(), newTableTypeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
+		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
+		getBroker().send(Events.CLOSE_PART,
+				tableService.extractShortcut(getToolboxPart().getElementId())
+						.toLowerCase());
 	}
 
 	private Void showExportEndDialog(final Shell shell) {
