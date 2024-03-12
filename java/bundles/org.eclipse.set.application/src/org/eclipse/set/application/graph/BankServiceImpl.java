@@ -154,7 +154,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 								BigDecimal.ZERO));
 				bankingInformations.put(bankingLine,
 						Optional.of(bankingInformation));
-				logger.debug("Found Topologie path for Ueberhoehungslinie: {}", //$NON-NLS-1$
+				logger.debug("Found TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
 						bankingLine.getIdentitaet().getWert());
 				return bankingInformation;
 			}
@@ -183,7 +183,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.getBankLineTopOffsetLimit()) {
 			bankingInformations.put(bankingLine, Optional.empty());
 			logger.debug(
-					"Can't found Topologie path for Ueberhoehungslinie: {}", //$NON-NLS-1$
+					"Can't find TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
 					bankingLine.getIdentitaet().getWert());
 			return null;
 		}
@@ -191,7 +191,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 				bankingLine, path);
 
 		bankingInformations.put(bankingLine, Optional.of(bankingInformation));
-		logger.debug("Found Topologie path for Ueberhoehungslinie: {}", //$NON-NLS-1$
+		logger.debug("Found TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
 				bankingLine.getIdentitaet().getWert());
 		return bankingInformation;
 	}
