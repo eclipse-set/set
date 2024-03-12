@@ -11,5 +11,6 @@
   "trackWidthInterval": "1,10|0.5,8|0.25,3|0.5,3",
   "baseZoomLevel": 20,
   "defaultCollisionsEnabled": true,
-  "defaultSheetCutCRS": "DR0"
+  "defaultSheetCutCRS": "DR0",
+  "planproModelType": "overviewplan"
 }

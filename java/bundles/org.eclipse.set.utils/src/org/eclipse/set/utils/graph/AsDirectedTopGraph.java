@@ -26,13 +26,16 @@ public class AsDirectedTopGraph {
 	/**
 	 * Helper record for providing a TOP_Kante with a direction
 	 * 
+	 * @param <T>
+	 *            edge type
+	 * 
 	 * @param edge
 	 *            the edge
 	 * @param inTopDirection
 	 *            whether the direction follows the top direction
 	 * 
 	 */
-	public record DirectedTOPEdge(Edge edge, boolean inTopDirection) {
+	public record DirectedTOPEdge<T>(T edge, boolean inTopDirection) {
 	}
 
 	/**
@@ -42,19 +45,19 @@ public class AsDirectedTopGraph {
 	 *            undirected top graph to base off
 	 * @return a graph with all edges directed
 	 */
-	public static Graph<Node, DirectedTOPEdge> asDirectedTopGraph(
+	public static Graph<Node, DirectedTOPEdge<Edge>> asDirectedTopGraph(
 			final Graph<Node, Edge> base) {
-		final Graph<Node, DirectedTOPEdge> graph = new AsWeightedGraph<>(
+		final Graph<Node, DirectedTOPEdge<Edge>> graph = new AsWeightedGraph<>(
 				new DirectedPseudograph<>(DirectedTOPEdge.class),
 				new HashMap<>());
 
 		base.vertexSet().forEach(graph::addVertex);
 		base.edgeSet().forEach(edge -> {
-			final DirectedTOPEdge e1 = new DirectedTOPEdge(edge, true);
+			final DirectedTOPEdge<Edge> e1 = new DirectedTOPEdge<>(edge, true);
 			graph.addEdge(base.getEdgeSource(edge), base.getEdgeTarget(edge),
 					e1);
 			graph.setEdgeWeight(e1, base.getEdgeWeight(edge));
-			final DirectedTOPEdge e2 = new DirectedTOPEdge(edge, false);
+			final DirectedTOPEdge<Edge> e2 = new DirectedTOPEdge<>(edge, false);
 			graph.addEdge(base.getEdgeTarget(edge), base.getEdgeSource(edge),
 					e2);
 			graph.setEdgeWeight(e2, base.getEdgeWeight(edge));

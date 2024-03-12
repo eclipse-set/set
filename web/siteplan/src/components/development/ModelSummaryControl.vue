@@ -31,7 +31,7 @@
           <li>
             Gleise: {{ getCounts((model) => model.tracks) }}
             <ul>
-              <li>
+              <li v-if="isSiteplan()">
                 <input
                   id="checkbox-track"
                   v-model="trackEndMarkerVisible"
@@ -39,13 +39,21 @@
                 >
                 <label for="checkbox-track">Enden anzeigen</label>
               </li>
-              <li>
+              <li v-if="isSiteplan()">
                 <input
                   id="checkbox-trackoutline"
                   v-model="trackOutlineVisible"
                   type="checkbox"
                 >
                 <label for="checkbox-track">Gleisbreite anzeigen</label>
+              </li>
+              <li>
+                <input
+                  id="checkbox-trackoutline"
+                  v-model="trackSectionColorVisbile"
+                  type="checkbox"
+                >
+                <label for="checkbox-track">Gleisabschnitt anzeigen</label>
               </li>
             </ul>
           </li>
@@ -65,7 +73,7 @@
  */
 import { Vue, Options } from 'vue-class-component'
 import { SubscribeOptions } from 'vuex'
-import { store } from '@/store'
+import { PlanProModelType, store } from '@/store'
 import SiteplanModel, { SiteplanState } from '@/model/SiteplanModel'
 import SideInfoControl from '@/components/SideInfoControl.vue'
 
@@ -92,6 +100,10 @@ import SideInfoControl from '@/components/SideInfoControl.vue'
     trackOutlineVisible (value: boolean) {
       this.trackOutlineVisible = value
       store.commit('setTrackOutlineVisible', value)
+    },
+    trackSectionColorVisbile (value: boolean) {
+      this.trackSectionColorVisbile = value
+      store.commit('setTrackSectionColorVisible', value)
     }
   },
   beforeUnmount () {
@@ -102,6 +114,7 @@ export default class ModelSummaryControl extends Vue {
   routeVisible = store.state.routeVisible
   trackEndMarkerVisible = store.state.trackSectionMarkerVisible
   trackOutlineVisible = store.state.trackOutlineVisible
+  trackSectionColorVisbile = store.state.trackSectionColorVisible
   model: SiteplanModel | null = store.state.model
   unsubscribe: SubscribeOptions | undefined
 
@@ -118,6 +131,10 @@ export default class ModelSummaryControl extends Vue {
       // changedFinalState is not shown as the size is the same as of
       // changedInitialState
     ]
+  }
+
+  isSiteplan () {
+    return store.state.planproModelType === PlanProModelType.SITEPLAN
   }
 }
 </script>

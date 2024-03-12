@@ -63,4 +63,10 @@ class ListExtensions extends CollectionExtensions {
 	static def <T> void addAllNew(List<T> list, Collection<T> items) {
 		items.forEach[list.addNew(it)]
 	}
+	
+	static def <T> List<T> cloneLinkedList(List<T> list) {
+		val clone = newLinkedList
+		clone.addAll(list)
+		return clone
+	}
 }

@@ -246,9 +246,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//Track/designations"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//TrackSection">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSection/guid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSection/shape"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSection/segments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSection/color"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//TrackSegment">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSegment/type"/>

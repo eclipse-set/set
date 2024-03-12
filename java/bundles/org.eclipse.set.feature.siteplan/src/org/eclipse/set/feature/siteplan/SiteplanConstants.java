@@ -9,6 +9,9 @@
 
 package org.eclipse.set.feature.siteplan;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Constant for WebSiteplan
  * 
@@ -49,5 +52,10 @@ public class SiteplanConstants {
 	 * The id of signal table
 	 */
 	public static final String SIGNAL_TABLE = "org.eclipse.set.feature.table.ssks";
+
+	/**
+	 * Color of TOP_Kante
+	 */
+	public static final Map<String, String> TOP_KANTEN_COLOR = new HashMap<>();
 
 }

@@ -136,19 +136,20 @@ export default class FeatureService extends Vue {
 
   private loadModel () {
     // Download the current model
+    const modelType = store.state.planproModelType
     axios
-      .get<SiteplanModel>('/siteplan.json')
+      .get<SiteplanModel>(`/${modelType}.json`)
       .then(response => {
         this.modelLoaded(response.data)
         store.commit('setLoading', false)
       })
       .catch(e => {
-        console.error('Could not load siteplan.json')
+        console.error(`Could not load ${modelType}.json`)
         console.error(e)
         store.commit('setLoading', false)
         store.commit('setError', {
           iserror: true,
-          msg: 'Could not load siteplan.json'
+          msg: `Could not load ${modelType}.json`
         })
       })
   }

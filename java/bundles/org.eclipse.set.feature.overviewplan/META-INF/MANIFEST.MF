@@ -1,11 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Overview Plan
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-SymbolicName: org.eclipse.set.feature.overviewplan;singleton:=true
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-Version: 2.3.0.qualifier
-Import-Package: jakarta.inject;version="2.0.1",
+Export-Package: org.eclipse.set.feature.overviewplan,
+ org.eclipse.set.feature.overviewplan.transformator
+Import-Package: org.apache.commons.lang3;version="3.1.0",
  org.eclipse.e4.core.contexts;version="1.7.0",
+ jakarta.inject;version="2.0.1",
  org.eclipse.e4.core.di;version="1.7.0",
  org.eclipse.e4.core.services.events,
  org.eclipse.e4.core.services.nls,
@@ -17,6 +21,8 @@ Import-Package: jakarta.inject;version="2.0.1",
  org.eclipse.emfcloud.jackson.databind.ser;version="2.2.0",
  org.eclipse.emfcloud.jackson.module;version="2.2.0",
  org.eclipse.emfcloud.jackson.utils;version="2.2.0",
+ org.eclipse.set.feature.siteplan,
+ org.eclipse.set.feature.siteplan.browserfunctions,
  org.eclipse.set.feature.siteplan.json,
  org.eclipse.set.feature.siteplan.transform,
  org.eclipse.set.ppmodel.extensions,
@@ -24,6 +30,9 @@ Import-Package: jakarta.inject;version="2.0.1",
  org.eclipse.set.ppmodel.extensions.exception,
  org.eclipse.set.ppmodel.extensions.utils,
  org.eclipse.set.utils,
+ org.eclipse.set.utils.collection,
+ org.eclipse.set.utils.graph,
+ org.eclipse.set.utils.math,
  org.eclipse.set.utils.viewgroups
 Require-Bundle: org.eclipse.set.toolboxmodel,
  org.eclipse.set.core.services,
@@ -39,11 +48,9 @@ Require-Bundle: org.eclipse.set.toolboxmodel,
  org.eclipse.xtext.xbase.lib;bundle-version="2.27.0",
  org.locationtech.jts.jts-core;bundle-version="1.19.0",
  org.eclipse.e4.core.contexts;bundle-version="1.11.0",
- slf4j.api
-Automatic-Module-Name: org.eclipse.set.feature.overviewplan
+ slf4j.api,
+ org.jgrapht.core;bundle-version="1.5.2"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-21
-Export-Package: org.eclipse.set.feature.overviewplan.transformator
 Service-Component: OSGI-INF/org.eclipse.set.feature.overviewplan.descriptions.WebOverviewplanDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.overviewplan.track.TrackNetworkServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.overviewplan.transformator.OverviewplanTransformatorImpl.xml,

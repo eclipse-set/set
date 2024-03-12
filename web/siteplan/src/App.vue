@@ -54,6 +54,7 @@ import Configuration from './util/Configuration'
       .then(response => {
         store.commit('setpptConfiguration', response.data)
         store.commit('setSheetCutCRS', response.data.defaultSheetCutCRS)
+        store.commit('setPlanProModelType', response.data.planproModelType)
         // run unit tests
         if (Configuration.developmentMode()) {
           PlanProToolboxTest.run()

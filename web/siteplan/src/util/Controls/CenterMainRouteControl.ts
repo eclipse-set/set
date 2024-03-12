@@ -10,6 +10,7 @@ import SiteplanModel from '@/model/SiteplanModel'
 import { Control } from 'ol/control'
 import View from 'ol/View'
 import { setMapScale } from '../MapScale'
+import { PlanProModelType, store } from '@/store'
 
 /**
  * Control to reset the map view to the leading coordinate of
@@ -67,6 +68,7 @@ export default class CenterMainRouteControl extends Control {
 
     this.view.setCenter([this.model.centerPosition.x, this.model.centerPosition.y])
     this.view.setRotation(((-this.model.centerPosition.rotation + 90) * Math.PI) / 180)
-    setMapScale(this.view, 1000)
+    const scale = store.state.planproModelType === PlanProModelType.SITEPLAN ? 1000 : 100000
+    setMapScale(this.view, scale)
   }
 }

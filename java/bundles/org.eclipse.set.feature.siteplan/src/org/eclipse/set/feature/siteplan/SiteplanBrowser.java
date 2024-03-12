@@ -24,11 +24,9 @@ import org.eclipse.set.browser.DownloadListener;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.feature.siteplan.json.SiteplanEObjectSerializer;
-import org.eclipse.set.feature.siteplan.transform.LayoutTransformator;
 import org.eclipse.set.feature.siteplan.transform.SiteplanTransformator;
 import org.eclipse.set.model.siteplan.Siteplan;
 import org.eclipse.set.utils.FileWebBrowser;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -94,42 +92,11 @@ public class SiteplanBrowser extends FileWebBrowser
 		response.setResponseData(Files.newInputStream(PATH_OSIFONT));
 	}
 
-	/**
-	 * Helper record for creating the JSON configuration
-	 *
-	 * This class must match the ToolboxConfiguration class in the frontend
-	 * application
-	 */
-	private record SiteplanConfiguration(boolean developmentMode,
-			String mapSources, String hereApiKey, String mapboxApiKey,
-			String dop20ApiKey, String dop20InternUrl, int lodScale,
-			int exportDPI, String trackWidth, String trackWidthInterval,
-			int baseZoomLevel, boolean defaultCollisionsEnabled,
-			String defaultSheetCutCRS) {
-		SiteplanConfiguration() {
-			this(ToolboxConfiguration.isDevelopmentMode(),
-					ToolboxConfiguration.getMapSources(),
-					ToolboxConfiguration.getHereApiKey(),
-					ToolboxConfiguration.getMapboxApiKey(),
-					ToolboxConfiguration.getDop20ApiKey(),
-					ToolboxConfiguration.getDop20InternUrl(),
-					ToolboxConfiguration.getLodScale(),
-					ToolboxConfiguration.getExportDPI(),
-					ToolboxConfiguration.getTrackWidth(),
-					ToolboxConfiguration.getTrackWidthIntervall(),
-					ToolboxConfiguration.getBaseZoomLevel(),
-					ToolboxConfiguration.getDefaultCollisionsEnabled(),
-					LayoutTransformator.selectedCRS == null
-							? ToolboxConfiguration.getDefaultSheetCutCRS()
-							: LayoutTransformator.selectedCRS.getLiteral());
-		}
-	}
-
 	private void serveConfiguration(final Response response)
 			throws JsonProcessingException {
 		response.setMimeType("application/json;charset=UTF-8"); //$NON-NLS-1$
 		final String json = new ObjectMapper().writerWithDefaultPrettyPrinter()
-				.writeValueAsString(new SiteplanConfiguration());
+				.writeValueAsString(new SiteplanConfiguration("siteplan")); //$NON-NLS-1$
 		response.setResponseData(json);
 	}
 

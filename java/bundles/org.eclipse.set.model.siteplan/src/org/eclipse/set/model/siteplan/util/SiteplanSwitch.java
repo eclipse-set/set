@@ -220,12 +220,14 @@ public class SiteplanSwitch<T> extends Switch<T> {
 			case SiteplanPackage.TRACK_SECTION: {
 				TrackSection trackSection = (TrackSection)theEObject;
 				T result = caseTrackSection(trackSection);
+				if (result == null) result = caseSiteplanObject(trackSection);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SiteplanPackage.TRACK_SEGMENT: {
 				TrackSegment trackSegment = (TrackSegment)theEObject;
 				T result = caseTrackSegment(trackSegment);
+				if (result == null) result = caseSiteplanObject(trackSegment);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

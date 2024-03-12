@@ -14,7 +14,7 @@ import { getColor } from '@/model/SiteplanObject'
 import Track, { defaultTrackObj } from '@/model/Track'
 import TrackSection, { TrackShape } from '@/model/TrackSection'
 import TrackSegment, { TrackType } from '@/model/TrackSegment'
-import { store } from '@/store'
+import { PlanProModelType, store } from '@/store'
 import Configuration from '@/util/Configuration'
 import { getMapScale } from '@/util/MapScale'
 import { compare, getpropertypeName } from '@/util/ObjectExtension'
@@ -123,7 +123,15 @@ export default class TrackFeature extends LageplanFeature<Track> {
     trackSegment: TrackSegment
   ): Feature<Geometry> {
     const coordinates: OlCoordinate[] = []
-    trackSegment.positions.forEach((position: Coordinate) => coordinates.push([position.x, position.y]))
+    if (store.state.planproModelType === PlanProModelType.OVERVIEWPLAN) {
+      trackSection.segments.forEach(segment =>
+        segment.positions.forEach((position:Coordinate) =>
+          coordinates.push([position.x, position.y])))
+      coordinates.sort((a, b) => a[0] - b[0])
+    } else {
+      trackSegment.positions.forEach((position: Coordinate) => coordinates.push([position.x, position.y]))
+    }
+
     if (coordinates.length < 1) {
       throw Error('Error creating track section with GUID ' + trackSection.guid)
     }
@@ -172,7 +180,7 @@ export default class TrackFeature extends LageplanFeature<Track> {
       const width = widthSet.size === 1 ? widthSet.values().next().value : this.getTrackSectionWidth(TrackType.Other)
       const style = new Style({
         stroke: new Stroke({
-          color: this.getTrackColor(track, trackSection.shape, trackSection.guid),
+          color: this.getTrackColor(track, trackSection, trackSection.shape),
           width: scale * width
         })
       })
@@ -212,7 +220,15 @@ export default class TrackFeature extends LageplanFeature<Track> {
     }
   }
 
-  private getTrackColor (track: Track, sectionType: TrackShape, sectionGUID: string): number[] {
+  private getTrackColor (
+    track: Track,
+    section: TrackSection,
+    sectionType: TrackShape
+  ): string|number[] {
+    if (store.state.trackSectionColorVisible && section.color !== null) {
+      return section.color
+    }
+
     switch (sectionType) {
       case TrackShape.Straight:
       case TrackShape.Curve:
@@ -223,7 +239,7 @@ export default class TrackFeature extends LageplanFeature<Track> {
       case TrackShape.KmJump:
       case TrackShape.Other:
       // use the track color or black for implemented types
-        return getColor(track, sectionGUID) ?? [0, 0, 0]
+        return getColor(track, section.guid) ?? [0, 0, 0]
       default:
       // blue for not yet implemented types
         return [0, 0, 255]

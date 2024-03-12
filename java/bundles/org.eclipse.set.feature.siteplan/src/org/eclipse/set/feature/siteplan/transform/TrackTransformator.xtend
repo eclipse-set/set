@@ -46,6 +46,7 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.feature.siteplan.SiteplanConstants
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -61,6 +62,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 	static val ERROR_NO_GLEIS_ART = "Keine Gleisart für Segment der GEO_Kante '%s' gefunden."
 	static val ERROR_MULTIPLE_GLEIS_ART = "Mehrere Gleisarten für Segment der GEO_Kante '%s' gefunden."
+	var sectionColor = ''
 
 	/**
 	 * Transforms a PlanPro TOP_Kante to a Siteplan track
@@ -76,7 +78,12 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val track = SiteplanFactory.eINSTANCE.createTrack()
 		track.guid = topKante.identitaet.wert
 		val geoKantes = trackService.getGeoKanten(topKante)
-
+		sectionColor = SiteplanConstants.TOP_KANTEN_COLOR.get(track.guid)
+		if (sectionColor.nullOrEmpty) {
+			sectionColor = '''hsl(«(SiteplanConstants.TOP_KANTEN_COLOR.size + 1) * 137.5», 100%, 65%)'''
+			SiteplanConstants.TOP_KANTEN_COLOR.put(track.guid, sectionColor)
+		}
+		
 		geoKantes.createTransformatorThread(this.class.name + "_" + track.guid,
 			Runtime.runtime.availableProcessors, [
 				val section = transformTrackSection(it)
@@ -97,6 +104,8 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
+
+		section.color = sectionColor
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
 		]

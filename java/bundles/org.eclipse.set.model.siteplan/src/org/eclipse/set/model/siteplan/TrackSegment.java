@@ -10,8 +10,6 @@ package org.eclipse.set.model.siteplan;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Track Segment</b></em>'.
@@ -29,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface TrackSegment extends EObject {
+public interface TrackSegment extends SiteplanObject {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute list.
 	 * The list contents are of type {@link org.eclipse.set.model.siteplan.TrackType}.

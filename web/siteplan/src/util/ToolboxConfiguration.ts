@@ -24,4 +24,5 @@ export interface ToolboxConfiguration {
   baseZoomLevel: number
   defaultCollisionsEnabled: boolean
   defaultSheetCutCRS: string
+  planproModelType: string
 }

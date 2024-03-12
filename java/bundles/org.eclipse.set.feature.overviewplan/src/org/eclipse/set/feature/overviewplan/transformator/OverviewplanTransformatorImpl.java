@@ -48,6 +48,7 @@ public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 	@Override
 	public SiteplanState transformState(
 			final MultiContainer_AttributeGroup container) {
+		trackService.clean(container);
 		trackService.setupTrackNet(container);
 		final SiteplanState siteplanState = SiteplanFactory.eINSTANCE
 				.createSiteplanState();
@@ -60,7 +61,11 @@ public class OverviewplanTransformatorImpl extends AbstractSiteplanTransformator
 	public Position getLeadingPosition(
 			final PlanPro_Schnittstelle schnittstelle,
 			final MultiContainer_AttributeGroup container) {
-		return null;
+		final Position position = SiteplanFactory.eINSTANCE.createPosition();
+		position.setX(0);
+		position.setY(0);
+		position.setRotation(90);
+		return position;
 	}
 
 	// This need for UnitTest

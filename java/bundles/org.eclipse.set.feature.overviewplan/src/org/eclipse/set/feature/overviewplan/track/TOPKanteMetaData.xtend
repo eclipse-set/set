@@ -13,6 +13,7 @@ package org.eclipse.set.feature.overviewplan.track
 import java.util.Collections
 import java.util.List
 import java.util.Map
+import java.util.Optional
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
 import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
@@ -38,7 +39,9 @@ class TOPKanteMetaData {
 	Map<TOP_Knoten, TOPKanteMetaData> continuousTopEdge = newHashMap
 	Map<TOP_Knoten, List<TOPKanteMetaData>> leftTopEdge = newHashMap
 	Map<TOP_Knoten, List<TOPKanteMetaData>> rightTopEdge = newHashMap
-	Map<TOP_Knoten, Boolean> changeLeftRightNode = newHashMap
+	public Map<TOP_Knoten, Boolean> changeLeftRightNode = newHashMap
+	Optional<Integer> length
+	List<CyclePath> cyclePaths = newArrayList
 	
 	new(TOP_Kante topKante) {
 		this.topEdge = topKante
@@ -46,6 +49,7 @@ class TOPKanteMetaData {
 		topNodeB = topKante?.IDTOPKnotenB
 		changeLeftRightNode.put(topNodeA, false)
 		changeLeftRightNode.put(topNodeB, isChangeLeftRightEdge ? true : false)
+		length = Optional.empty
 	}
 
 	def TOP_Kante getTopEdge() {
@@ -58,6 +62,30 @@ class TOPKanteMetaData {
 
 	def TOP_Knoten getTopNodeB() {
 		return topNodeB
+	}
+	
+	def List<TOP_Knoten> getTopNodes() {
+		return topEdge.TOPKnoten
+	}
+	
+	def List<CyclePath> getCyclePaths() {
+		return cyclePaths
+	}
+	
+	def void addCyclePath(CyclePath path) {
+		cyclePaths.add(path)
+	} 
+	
+	def int getLength() {
+		return alreadyRegistedLength ? length.get.intValue : 1
+	}
+	
+	def void setLength(int value) {
+		length = Optional.of(value)
+	}
+	
+	def boolean alreadyRegistedLength() {
+		return length.present
 	}
 
 	def TOP_Knoten getNextTopNode(TOP_Knoten topNode) {
@@ -194,7 +222,6 @@ class TOPKanteMetaData {
 		if (component.empty || component.size > 1) {
 			throw new IllegalArgumentException('''By TOP_Knoten: {«topNode.identitaet.wert»} doesn't exist TrackSwtich or The Switch reference to wrong TOP_Kante''')
 		}
-
 		val mainConnector = component.get(0).mainTrackConnector
 		if (mainConnector !== null) {
 			return getContinousEdgeAt(intersectEdges, topNode, mainConnector)
@@ -332,7 +359,7 @@ class TOPKanteMetaData {
 		]
 	}
 
-	def void defineLeftRightEdge(TOP_Knoten topNode) {
+	private def void defineLeftRightEdge(TOP_Knoten topNode) {
 		val intersectEdges = getIntersectEdgeAt(topNode)
 		if (intersectEdges.empty) {
 			return
@@ -408,12 +435,26 @@ class TOPKanteMetaData {
 		}
 	}
 
-	def boolean isChangeLeftRightEdge() {
+	private def boolean isChangeLeftRightEdge() {
 		val connector = #[topNodeA.topConnectorAt, topNodeB.topConnectorAt]
 		return connector.forall[it === ENUMTOP_ANSCHLUSS_SPITZE] ||
 			connector.forall [
 				it === ENUMTOP_ANSCHLUSS_LINKS ||
 					it === ENUMTOP_ANSCHLUSS_RECHTS
 			]
+	}
+	
+	/**
+	 * Check if the edge have same direction
+	 * @param the edge to check
+	 */
+	def boolean isSameDirection(TOPKanteMetaData target) {
+		val connectNode = connectionTo(topEdge,
+				target.getTopEdge());
+
+		return getTopConnectorAt(
+				connectNode) == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SPITZE
+				|| target.getTopConnectorAt(
+						connectNode) == ENUMTOPAnschluss.ENUMTOP_ANSCHLUSS_SPITZE;
 	}
 }

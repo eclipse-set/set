@@ -28,13 +28,15 @@ export default interface TrackSection
     guid: string
     shape: TrackShape
     segments: TrackSegment[]
+    color: string
 }
 
 export function defaultTrackSectionObj (): TrackSection {
   return {
     guid: '123',
     shape: TrackShape.BlossCurvedSimple,
-    segments: [defaultTrackSegmentObj()]
+    segments: [defaultTrackSegmentObj()],
+    color: 'black'
   }
 }
 
