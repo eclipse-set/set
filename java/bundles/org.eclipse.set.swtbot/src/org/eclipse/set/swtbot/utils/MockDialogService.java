@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
@@ -246,6 +248,13 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
+	public String selectValueDialog(final Shell shell, final String title,
+			final String message, final String comboLabel,
+			final List<String> selectItems) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public void showDistance(final Shell shell, final double distance) {
 		throw new UnsupportedOperationException();
 	}
@@ -258,13 +267,20 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
+	public <T> T showProgressUISync(final Shell shell, final String message,
+			final Callable<T> callAble)
+			throws InterruptedException, ExecutionException {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public void showProgressUISync(final Shell shell, final String message,
 			final Runnable runnable) {
 		sync.syncExec(runnable);
 	}
 
 	@Override
-	public boolean sitePlanError(Shell shell, String filename) {
+	public boolean sitePlanError(final Shell shell, final String filename) {
 		throw new UnsupportedOperationException();
 	}
 

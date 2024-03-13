@@ -46,6 +46,7 @@ import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ValidationResult;
+import org.eclipse.set.basis.constants.ValidationResult.FileValidateState;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.extensions.IModelSessionExtensions;
@@ -61,11 +62,13 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.core.services.initialization.InitializationService;
 import org.eclipse.set.core.services.initialization.InitializationStep.Configuration;
+import org.eclipse.set.core.services.modelloader.ModelLoader;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
+import org.eclipse.set.feature.validation.utils.ValidationOutcome;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -138,6 +141,9 @@ public class ModelSession implements IModelSession {
 
 		@Inject
 		public ValidationService validationService;
+
+		@Inject
+		public ModelLoader modelLoader;
 
 	}
 
@@ -459,18 +465,29 @@ public class ModelSession implements IModelSession {
 		return null;
 	}
 
+	private void setValidationResult(final ValidationResult result) {
+		if (result.getValidatedSourceClass()
+				.isAssignableFrom(PlanPro_Schnittstelle.class)) {
+			schnittstelleValidationResult = result;
+		} else if (result.getValidatedSourceClass()
+				.isAssignableFrom(PlanPro_Layoutinfo.class)) {
+			layoutinfoValidationResult = result;
+		}
+	}
+
 	@Override
 	public Outcome getValidationsOutcome(
 			final Function<ValidationResult, Outcome> outcome) {
-		final Stream<ValidationResult> resultsStream = Stream
+		return ValidationOutcome.getValidationsOutcome(Stream
 				.of(schnittstelleValidationResult, layoutinfoValidationResult)
-				.filter(Objects::nonNull);
+				.filter(Objects::nonNull).toList(), outcome);
+	}
 
-		if (resultsStream
-				.anyMatch(result -> outcome.apply(result) == Outcome.INVALID)) {
-			return Outcome.INVALID;
-		}
-		return Outcome.VALID;
+	@Override
+	public FileValidateState getFileValidateState() {
+		return ValidationOutcome.getFileValidateState(Stream
+				.of(schnittstelleValidationResult, layoutinfoValidationResult)
+				.filter(Objects::nonNull).toList());
 	}
 
 	@Override
@@ -667,38 +684,6 @@ public class ModelSession implements IModelSession {
 		 */
 	}
 
-	private void readPlanProModel() {
-		schnittstelleValidationResult = new ValidationResult(
-				PlanPro_Schnittstelle.class);
-		setPlanProSchnittstelle(serviceProvider.validationService
-				.checkLoad(getToolboxFile(), path -> {
-					getToolboxFile().openModel();
-					return toolboxFile.getPlanProResource();
-				}, PlanProSchnittstelleExtensions::readFrom,
-						schnittstelleValidationResult));
-		schnittstelleValidationResult = serviceProvider.validationService
-				.validateSource(schnittstelleValidationResult,
-						getToolboxFile());
-	}
-
-	private void readLayoutInformationen() {
-		final Path layoutPath = getToolboxFile().getLayoutPath();
-		if (layoutPath != null && layoutPath.toFile().exists()) {
-			layoutinfoValidationResult = new ValidationResult(
-					PlanPro_Layoutinfo.class);
-			serviceProvider.validationService.checkLoad(getToolboxFile(),
-					path -> {
-						getToolboxFile().openLayout();
-						return toolboxFile.getLayoutResource();
-					}, null, layoutinfoValidationResult);
-
-			layoutinfoValidationResult = serviceProvider.validationService
-					.validateSource(
-							new ValidationResult(PlanPro_Layoutinfo.class),
-							toolboxFile);
-		}
-	}
-
 	private void removeContentAdapter(final EObject object) {
 		if (object != null && contentAdapter != null) {
 			object.eAdapters().remove(contentAdapter);
@@ -863,8 +848,8 @@ public class ModelSession implements IModelSession {
 		if (toolboxFile.getFormat().isTemporaryIntegration()) {
 			readMergeModel();
 		} else {
-			readPlanProModel();
-			readLayoutInformationen();
+			setPlanProSchnittstelle(serviceProvider.modelLoader
+					.loadModel(toolboxFile, this::setValidationResult));
 		}
 	}
 
