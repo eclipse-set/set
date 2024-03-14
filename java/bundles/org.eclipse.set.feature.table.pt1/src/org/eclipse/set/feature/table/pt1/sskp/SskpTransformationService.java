@@ -9,10 +9,12 @@
 package org.eclipse.set.feature.table.pt1.sskp;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getFirstOrNull;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
@@ -23,6 +25,7 @@ import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
+import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -78,14 +81,24 @@ public final class SskpTransformationService
 
 	private static String getCellContent(final TableCell cell) {
 		if (cell.getContent() instanceof final StringCellContent cellContent) {
-			return cellContent.getValue().get(0);
+			return getFirstOrNull(cellContent.getValue());
 		}
 		if (cell.getContent() instanceof final CompareCellContent cellContent) {
+			if (cellContent.getNewValue().isEmpty()
+					|| cellContent.getOldValue().isEmpty()) {
+				return Optional
+						.ofNullable(getFirstOrNull(cellContent.getNewValue()))
+						.orElse(getFirstOrNull(cellContent.getOldValue()));
+			}
 			return cellContent.getNewValue().get(0) + cellContent.getSeparator()
 					+ cellContent.getOldValue().get(0);
 		}
 		if (cell.getContent() instanceof final MultiColorCellContent cellContent) {
-			return cellContent.getValue().get(0).getMultiColorValue();
+			final MultiColorContent firstOrNull = getFirstOrNull(
+					cellContent.getValue());
+
+			return firstOrNull != null ? firstOrNull.getMultiColorValue()
+					: null;
 		}
 		return null;
 	}
