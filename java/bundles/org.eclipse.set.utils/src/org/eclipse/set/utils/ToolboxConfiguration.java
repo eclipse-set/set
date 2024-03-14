@@ -166,7 +166,7 @@ public class ToolboxConfiguration {
 	private static final String BASE_ZOOM_LEVEL = "20"; //$NON-NLS-1$
 	private static final String DEFAULT_COLLISIONS_ENABLED = "true"; //$NON-NLS-1$
 	private static final String DEFAULT_SHEETCUT_CRS = "DR0"; //$NON-NLS-1$
-	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "1"; //$NON-NLS-1$
+	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "0.2"; //$NON-NLS-1$
 
 	/**
 	 * @return a string describing the map sources
