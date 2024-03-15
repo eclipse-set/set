@@ -27,6 +27,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.InitializationData;
 import org.eclipse.set.basis.ProjectInitializationData;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.SetFormat;
@@ -121,6 +122,7 @@ public class SetSessionService implements SessionService {
 	@Override
 	public boolean close(final IModelSession modelSession) {
 		if (modelSession == null) {
+			serviceProvider.broker.send(Events.CLOSE_SESSION, null);
 			return true;
 		}
 
@@ -135,7 +137,7 @@ public class SetSessionService implements SessionService {
 
 			// remove the session from the application context
 			getApplication().getContext().set(IModelSession.class, null);
-
+			serviceProvider.broker.send(Events.CLOSE_SESSION, null);
 			return true;
 		}
 

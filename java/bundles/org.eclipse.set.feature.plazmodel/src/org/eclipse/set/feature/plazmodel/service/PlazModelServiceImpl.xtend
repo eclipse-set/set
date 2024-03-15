@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.plazmodel.service
 
-import java.util.Comparator
 import java.util.List
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.feature.plazmodel.check.PlazCheck
@@ -17,6 +16,8 @@ import org.eclipse.set.feature.plazmodel.xml.EObjectXMLFinder.LineNotFoundExcept
 import org.eclipse.set.feature.plazmodel.xml.EObjectXMLFinder.XmlParseException
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
+import org.eclipse.set.model.plazmodel.PlazReport
+import org.eclipse.set.model.validationreport.ObjectScope
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.model.validationreport.ValidationreportFactory
@@ -26,8 +27,6 @@ import org.osgi.service.component.annotations.ReferenceCardinality
 import org.osgi.service.component.annotations.ReferencePolicy
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.eclipse.set.model.plazmodel.PlazReport
-import org.eclipse.set.model.validationreport.ObjectScope
 
 @Component
 class PlazModelServiceImpl implements PlazModelService {
@@ -38,10 +37,18 @@ class PlazModelServiceImpl implements PlazModelService {
 	static final Logger logger = LoggerFactory.getLogger(PlazModelServiceImpl)
 	EObjectXMLFinder finder
 
-	val severityOrder = newLinkedList(ValidationSeverity.ERROR,
-		ValidationSeverity.WARNING, ValidationSeverity.SUCCESS)
+	override runPlazModel(IModelSession modelSession) {
+		return runPlazModel(modelSession, checks)
+	}
 
-	override PlazReport runPlazModel(IModelSession modelSession) {
+	override <T extends PlazCheck> PlazReport runPlazModel(
+		IModelSession modelSession, Class<T> checkClass) {
+		return runPlazModel(modelSession,
+			checks.filter(checkClass) as Iterable<PlazCheck>)
+	}
+
+	private def PlazReport runPlazModel(IModelSession modelSession,
+		Iterable<PlazCheck> plazChecks) {
 		val PlazReport report = PlazFactory.eINSTANCE.createPlazReport
 		try {
 			finder = new EObjectXMLFinder(modelSession.toolboxFile,
@@ -52,7 +59,7 @@ class PlazModelServiceImpl implements PlazModelService {
 		}
 
 		val errors = <PlazCheck, List<PlazError>>newHashMap
-		checks.forEach [
+		plazChecks.forEach [
 			errors.put(it, it.run(modelSession))
 		]
 		val entries = <ValidationProblem>newLinkedList
@@ -74,15 +81,8 @@ class PlazModelServiceImpl implements PlazModelService {
 				]
 			}
 		}
-		// Sort entry by severity, type and line number
-		val comparator = Comparator.comparing [ ValidationProblem it |
-			severityOrder.indexOf(severity)
-		] //
-		.thenComparing([ValidationProblem it|type]) //
-		.thenComparing([ValidationProblem it|lineNumber])
 
-		entries.sort(comparator)
-		entries.forEach[it, i|id = i + 1]
+		entries.sortAndIndexedProblems
 		report.entries.addAll(entries)
 		return report
 	}

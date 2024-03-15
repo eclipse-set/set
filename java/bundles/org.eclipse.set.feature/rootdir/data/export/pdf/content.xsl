@@ -24,13 +24,13 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="StringContent[starts-with(.,'Error:')]" priority="1">
+	<xsl:template match="StringContent[starts-with(.,'Error:') or starts-with(.,'&#9203;')]" priority="1">
 		<fo:block>
 			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_black.svg" fox:alt-text="Error"/>
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="StringContent[starts-with(.,'E​r​r​o​r​:')]" priority="2">
+	<xsl:template match="StringContent[starts-with(.,'Error:') or starts-with(.,'&#9203;')]" priority="2">
 		<fo:block>
 			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_black.svg" fox:alt-text="Error"/>
 		</fo:block>
@@ -50,7 +50,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="UnchangedValue[starts-with(.,'Error:')]" priority="1">
+	<xsl:template match="UnchangedValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]" priority="1">
 		<fo:block>
 			<fo:inline>
 				<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_yellow.svg" fox:alt-text="Error"/>
@@ -74,7 +74,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="OldValue[starts-with(.,'Error:')]" priority="1">
+	<xsl:template match="OldValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]" priority="1">
 		<fo:block>
 			<fo:inline>
 				<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_yellow.svg" fox:alt-text="Error"/>
@@ -82,7 +82,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="OldValue[starts-with(.,'E​r​r​o​r​:')]" priority="2">
+	<xsl:template match="OldValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]" priority="2">
 		<fo:block>
 			<fo:inline>
 				<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_yellow.svg" fox:alt-text="Error"/>
@@ -106,7 +106,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="NewValue[starts-with(.,'Error:')]" priority="1">
+	<xsl:template match="NewValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]" priority="1">
 		<fo:block>
 			<fo:inline color="#cd0000">
 				<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_red.svg" fox:alt-text="Error"/>
@@ -114,7 +114,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="NewValue[starts-with(.,'E​r​r​o​r​:')]" priority="2">
+	<xsl:template match="NewValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]" priority="2">
 		<fo:block>
 			<fo:inline color="#cd0000">
 				<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_red.svg" fox:alt-text="Error"/>
@@ -134,7 +134,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:inline>
 	</xsl:template>
 
-	<xsl:template match="SimpleValue[starts-with(.,'Error:')]">
+	<xsl:template match="SimpleValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]">
 		<fo:block>
 			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_black.svg" fox:alt-text="Error"/>
 		</fo:block>
@@ -156,7 +156,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block>
 	</xsl:template>
 
-	<xsl:template match="MultiColorValue[starts-with(.,'Error:')]">
+	<xsl:template match="MultiColorValue[starts-with(.,'Error:') or starts-with(.,'&#9203;')]">
 		<fo:block>
 			<fo:external-graphic xsl:use-attribute-sets="external-graphic-style" src="data/pictures/warning_black.svg" fox:alt-text="Error"/>
 		</fo:block>

@@ -16,10 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.inject.Inject;
-
+import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -31,7 +28,6 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
-import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultCornerDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultRowHeaderDataProvider;
@@ -49,6 +45,7 @@ import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCom
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxViewState;
@@ -80,11 +77,13 @@ import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
+import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.RowSelectionListener;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
@@ -97,6 +96,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
 
 /**
  * View class for all toolbox table views. This class is responsible for
@@ -125,6 +128,7 @@ public final class ToolboxTableView extends BasePart {
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
 	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
+	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 
 	private int scrollToPositionRequested = -1;
 
@@ -152,6 +156,8 @@ public final class ToolboxTableView extends BasePart {
 	 */
 	@Inject
 	MessagesWrapper wrapper;
+
+	private TableModelInstanceBodyDataProvider bodyDataProvider;
 
 	/**
 	 * constructor
@@ -227,6 +233,23 @@ public final class ToolboxTableView extends BasePart {
 
 		ToolboxEvents.subscribe(getBroker(), TableSelectRowByGuidEvent.class,
 				tableSelectRowHandler);
+
+		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
+			@Override
+			public void accept(final TableDataChangeEvent t) {
+				if (t.getProperties() instanceof final Pt1TableChangeProperties properties) {
+					bodyDataProvider.updateContent(tableType, properties);
+					natTable.refresh();
+				}
+
+			}
+		};
+		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
+				tableDataChangeHandler,
+				TableDataChangeEvent.getTopic(tableService
+						.extractShortcut(getToolboxPart().getElementId())
+						.toLowerCase()));
+
 	}
 
 	@PreDestroy
@@ -234,6 +257,10 @@ public final class ToolboxTableView extends BasePart {
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
 		ToolboxEvents.unsubscribe(getBroker(), newTableTypeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
+		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
+		getBroker().send(Events.CLOSE_PART,
+				tableService.extractShortcut(getToolboxPart().getElementId())
+						.toLowerCase());
 	}
 
 	private Void showExportEndDialog(final Shell shell) {
@@ -284,6 +311,7 @@ public final class ToolboxTableView extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
+
 		// initialize table type
 		tableType = getModelSession().getTableType();
 		if (tableType == null) {
@@ -320,8 +348,7 @@ public final class ToolboxTableView extends BasePart {
 		// the abstract constructor is called before the subclass constructor
 		// is called
 		Assert.isNotNull(tableInstances);
-
-		final ISpanningDataProvider bodyDataProvider = new TableModelInstanceBodyDataProvider(
+		bodyDataProvider = new TableModelInstanceBodyDataProvider(
 				TableExtensions.getPropertyCount(table), tableInstances);
 		final SpanningDataLayer bodyDataLayer = new SpanningDataLayer(
 				bodyDataProvider);
@@ -330,6 +357,7 @@ public final class ToolboxTableView extends BasePart {
 
 		bodyLayerStack.freezeColumns(
 				tableService.getFixedColumns(getToolboxPart().getElementId()));
+
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
 		selectionLayer.addConfiguration(
@@ -486,6 +514,16 @@ public final class ToolboxTableView extends BasePart {
 	void export() {
 		final String id = getToolboxPart().getElementId();
 		final String shortcut = tableService.extractShortcut(id);
+		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
+				.stream()
+				.filter(t -> t != null
+						&& t.getName().startsWith(shortcut.toLowerCase())
+						&& t.isAlive())
+				.toList();
+		if (!transformatorThreads.isEmpty() && !getDialogService()
+				.confirmExportNotCompleteTable(getToolboxShell())) {
+			return;
+		}
 		final Map<TableType, Table> tables = compileService.compile(shortcut,
 				getModelSession());
 		final Optional<String> optionalOutputDir = getDialogService()
@@ -514,6 +552,7 @@ public final class ToolboxTableView extends BasePart {
 					outputDir -> getDialogService().openDirectoryAfterExport(
 							getToolboxShell(), Paths.get(outputDir)));
 		} catch (InvocationTargetException | InterruptedException e) {
+			Thread.currentThread().interrupt();
 			getDialogService().error(getToolboxShell(), e);
 		}
 	}
@@ -562,6 +601,7 @@ public final class ToolboxTableView extends BasePart {
 			tableInstances.clear();
 			MApplicationElementExtensions.setViewState(part,
 					ToolboxViewState.CANCELED);
+			Thread.currentThread().interrupt();
 			return;
 		}
 		// flag creation

@@ -199,6 +199,11 @@ public final class ToolboxConstants {
 	public static final String VALIDATION_PART_ID = "org.eclipse.set.feature.validation.parts.ValidationPart";
 
 	/**
+	 * The id of the plaz model part
+	 */
+	public static final String PLAZ_MODEL_PART_ID = "org.eclipse.set.feature.plazmodel.PlaZModelPart";
+
+	/**
 	 * The id of the validation table part.
 	 */
 	public static final String VALIDATION_TABLE_PART_ID = "org.eclipse.set.feature.validation.parts.ValidationTablePart";

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -186,7 +186,10 @@ class TableRowExtensions {
 	def static TableCell getCell(TableRow row, ColumnDescriptor column) {
 		for (TableCell cell : row.cells)
 			if (cell.columndescriptor == column ||
-				cell.columndescriptor.isDescendantOf(column))
+				cell.columndescriptor.isDescendantOf(column) ||
+				!cell.columndescriptor.columnPosition.nullOrEmpty &&
+					cell.columndescriptor.columnPosition.equals(
+						column.columnPosition))
 				return cell
 		throw new IllegalArgumentException("no column found: " + column.label);
 	}

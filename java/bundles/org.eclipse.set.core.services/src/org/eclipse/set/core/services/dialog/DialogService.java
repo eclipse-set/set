@@ -96,6 +96,13 @@ public interface DialogService {
 	/**
 	 * @param shell
 	 *            the shell for the dialog
+	 * @return whether the user has confirmed to export
+	 */
+	boolean confirmExportNotCompleteTable(Shell shell);
+
+	/**
+	 * @param shell
+	 *            the shell for the dialog
 	 * @param oldFilename
 	 *            the old filename
 	 * @param newFilename

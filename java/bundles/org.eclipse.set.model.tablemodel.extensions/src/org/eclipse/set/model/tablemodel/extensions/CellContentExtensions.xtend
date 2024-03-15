@@ -31,6 +31,7 @@ class CellContentExtensions {
 	public static val String WARNING_MARK_YELLOW = "<!-- warning-mark-yellow -->"
 	public static val String WARNING_MARK_RED = "<!-- warning-mark-red -->"
 	public static val String WARNING_MARK_BLACK = "<!-- warning-mark-black -->"
+	public static val String HOURGLASS_ICON = "⏳"
 	static val String ERROR_PREFIX = "Error:"
 
 	/**
@@ -171,6 +172,10 @@ class CellContentExtensions {
 		if (value.isErrorText) {
 			return warning_mark
 		}
+		
+		if (value.equals(HOURGLASS_ICON)) {
+			return '''<span>«value»</span>'''
+		}
 
 		switch (warning_mark) {
 			case WARNING_MARK_BLACK: {
@@ -190,13 +195,15 @@ class CellContentExtensions {
 		if (content.value.isEmpty) {
 			return ""
 		}
+
 		return '''«FOR element : content.value SEPARATOR content.separator»«element.multiColorFormat»«ENDFOR»'''
 	}
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		val value = '''<span style="background-color:rgb(255,255, 0)">«content
@@ -209,9 +216,10 @@ class CellContentExtensions {
 		val contentValue = content.value.iterableToString(content.separator)
 		if (contentValue.isErrorText && !ToolboxConfiguration.developmentMode) {
 			return WARNING_MARK_BLACK
-		} else {
-			return contentValue.htmlString
+		} else if (contentValue.equals(HOURGLASS_ICON)) {
+			return contentValue
 		}
+		return contentValue.htmlString
 	}
 
 	private static def String getMultiColorValueHtmlString(

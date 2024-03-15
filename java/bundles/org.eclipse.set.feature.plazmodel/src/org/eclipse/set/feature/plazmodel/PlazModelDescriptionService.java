@@ -8,16 +8,17 @@
  */
 package org.eclipse.set.feature.plazmodel;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
+
+import jakarta.inject.Inject;
 
 /**
  * Part description for PlaZ model view.
@@ -43,7 +44,7 @@ public class PlazModelDescriptionService implements PartDescriptionService {
 				.make(InjectionHelper.class, context);
 		return new PartDescription(
 				// ID
-				this.getClass().getName(),
+				ToolboxConstants.PLAZ_MODEL_PART_ID,
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.plazmodel/org.eclipse.set.feature.plazmodel.PlazModelPart", //$NON-NLS-1$
 				// toolboxViewName

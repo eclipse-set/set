@@ -8,13 +8,18 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.BasisTypen.Zeiger_TypeClass
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.core.services.Services
-import org.eclipse.set.basis.constants.ToolboxConstants
-import org.eclipse.set.ppmodel.extensions.utils.UrObjectLoader
 import java.util.concurrent.ExecutionException
+import org.eclipse.set.basis.constants.ContainerType
+import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.core.services.Services
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.UrObjectLoader
+import org.eclipse.set.toolboxmodel.BasisTypen.Zeiger_TypeClass
+import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+
+import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 
 class MultiContainer_AttributeGroupExtensions {
 	def static <T extends Ur_Objekt> T getObject(
@@ -24,7 +29,7 @@ class MultiContainer_AttributeGroupExtensions {
 	) {
 		return container.getObject(clazz, id?.wert)
 	}
-	
+
 	def static <T extends Ur_Objekt> T getObject(
 		MultiContainer_AttributeGroup container,
 		Class<T> clazz,
@@ -48,5 +53,39 @@ class MultiContainer_AttributeGroupExtensions {
 		} catch (ExecutionException exc) {
 			throw new RuntimeException(exc)
 		}
+	}
+
+	def static ContainerType getContainerType(
+		MultiContainer_AttributeGroup container) {
+		val lstZustand = container.firstLSTZustand
+		var parent = lstZustand.eContainer
+		while (parent !== null && !(parent instanceof PlanPro_Schnittstelle)) {
+			parent = parent.eContainer
+		}
+		val schnittStelle = parent as PlanPro_Schnittstelle
+		if (schnittStelle?.LSTZustand !== null) {
+			return ContainerType.SINGLE
+		}
+
+		val projects = schnittStelle.LSTPlanungGruppe
+		if (projects.isEmpty) {
+			return null
+		}
+
+		val initialZustands = projects.get.map [
+			LSTPlanungEinzel?.LSTZustandStart?.identitaet?.wert
+		].filterNull
+		if (initialZustands.exists[it.equals(lstZustand.identitaet.wert)]) {
+			return ContainerType.INITIAL
+		}
+
+		val finalZustands = projects.get.map [
+			LSTPlanungEinzel?.LSTZustandZiel?.identitaet?.wert
+		].filterNull
+		if (finalZustands.exists[it.equals(lstZustand.identitaet.wert)]) {
+			return ContainerType.FINAL
+		}
+
+		throw new IllegalArgumentException('''PlanProSchinttStelle not contains LST_Zustand: «lstZustand.identitaet.wert»''')
 	}
 }

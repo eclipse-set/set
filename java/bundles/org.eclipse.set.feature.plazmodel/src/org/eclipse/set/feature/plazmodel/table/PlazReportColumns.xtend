@@ -8,10 +8,11 @@
  */
 package org.eclipse.set.feature.plazmodel.table
 
-import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder
-import org.eclipse.set.utils.table.GroupBuilder
+import org.eclipse.set.feature.plazmodel.Messages
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.nattable.utils.AbstractColumns
+import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder
+import org.eclipse.set.utils.table.GroupBuilder
 
 /** 
  * Plaz Model table columns
@@ -32,7 +33,7 @@ class PlazReportColumns extends AbstractColumns {
 	/** 
 	 * @param messages the messages
 	 */
-	new(org.eclipse.set.feature.plazmodel.Messages messages) {
+	new(Messages messages) {
 		super()
 		RowIndex = createNew(messages.PlazReportColumns_RowIndex)
 		Severity = createNew(messages.PlazReportColumns_Severity)

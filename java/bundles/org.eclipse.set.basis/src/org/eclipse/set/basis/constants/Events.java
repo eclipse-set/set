@@ -54,4 +54,24 @@ public interface Events {
 	 * The collected table errrors changed.
 	 */
 	String TABLEERROR_CHANGED = "modelsession/change/tableerror";
+
+	/**
+	 * The session is close
+	 */
+	String CLOSE_SESSION = "modelsession/close";
+
+	/**
+	 * The part is close
+	 */
+	String CLOSE_PART = "modelsession/part/close";
+
+	/**
+	 * The find baking information process is done
+	 */
+	String BANKING_PROCESS_DONE = "bankingservice/done";
+
+	/**
+	 * Require doing plaz check
+	 */
+	String DO_PLAZ_CHECK = "plazmodel/check";
 }

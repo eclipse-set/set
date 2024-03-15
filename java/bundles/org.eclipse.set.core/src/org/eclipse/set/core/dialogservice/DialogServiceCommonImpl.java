@@ -13,9 +13,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.function.BiPredicate;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -43,6 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 /**
  * Implementation of {@link DialogService}.
@@ -187,6 +187,13 @@ public abstract class DialogServiceCommonImpl implements DialogService {
 		return MessageDialog.openQuestion(shell,
 				messages.DialogService_ConfirmFillDefaults_Title,
 				messages.DialogService_ConfirmFillDefaults_Label);
+	}
+
+	@Override
+	public boolean confirmExportNotCompleteTable(final Shell shell) {
+		return MessageDialog.openQuestion(shell,
+				messages.DialogService_ConfirmExportNotCompleteTable_Title,
+				messages.DialogService_ConfirExportNotCompleteTable_Label);
 	}
 
 	@Override

@@ -9,10 +9,18 @@
 package org.eclipse.set.utils.table;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
 import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
+import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.TablemodelFactory;
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,5 +97,73 @@ public class TableModelInstanceBodyDataProvider
 		final int spanSize = spanUp + spanDown + 1;
 
 		return new DataCell(column, startRow, 1, spanSize);
+	}
+
+	/**
+	 * Update table value
+	 * 
+	 * @param tableType
+	 *            the table type
+	 * @param properties
+	 *            update value event
+	 */
+	public void updateContent(final TableType tableType,
+			final Pt1TableChangeProperties properties) {
+		if (tableType != TableType.DIFF) {
+			if (tableType.getContainerForTable() == properties.getContainerType()) {
+				final Optional<TableRow> first = instances.stream()
+						.filter(e -> e.equals(properties.getRow())).findFirst();
+				if (first.isEmpty()) {
+					return;
+				}
+				TableRowExtensions.set(first.get(), properties.getChangeDataColumn(),
+						properties.getNewValues(), properties.getSeperator());
+			}
+			return;
+		}
+
+		// Find relevant row
+		final List<TableRow> filterRows = instances.stream()
+				.filter(e -> TableRowExtensions.getLeadingObjectGuid(e)
+						.equals(TableRowExtensions
+								.getLeadingObjectGuid(properties.getRow())))
+				.filter(e -> {
+					final Optional<String> cellContent = Optional.ofNullable(
+							TableRowExtensions.getPlainStringValue(e,
+									properties.getChangeDataColumn()));
+					return !cellContent.isEmpty()
+							&& !cellContent.get().isBlank()
+							&& !cellContent.get().isEmpty();
+				}).toList();
+		if (filterRows.isEmpty()) {
+			return;
+		}
+		filterRows.forEach(row -> {
+			final TableCell cell = TableRowExtensions.getCell(row,
+					properties.getChangeDataColumn());
+			final List<String> oldValues = TableCellExtensions
+					.getIterableStringValue(cell).stream().toList();
+			if (oldValues.size() == 1 && oldValues.get(0)
+					.equals(CellContentExtensions.HOURGLASS_ICON)) {
+				TableRowExtensions.set(row, properties.getChangeDataColumn(),
+						properties.getNewValues(), properties.getSeperator());
+				return;
+			}
+
+			if (!oldValues.equals(properties.getNewValues())) {
+				final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
+						.createCompareCellContent();
+				if (properties.getContainerType() == ContainerType.INITIAL) {
+					compareContent.getOldValue().addAll(properties.getNewValues());
+					compareContent.getNewValue().addAll(oldValues);
+				} else {
+					compareContent.getOldValue().addAll(oldValues);
+					compareContent.getNewValue().addAll(properties.getNewValues());
+				}
+
+				cell.setContent(compareContent);
+			}
+
+		});
 	}
 }
