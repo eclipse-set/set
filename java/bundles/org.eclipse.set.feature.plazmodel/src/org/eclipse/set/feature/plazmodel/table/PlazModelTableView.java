@@ -14,6 +14,7 @@ import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.model.plazmodel.PlazReport;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
 import org.eclipse.swt.widgets.Composite;
@@ -70,8 +71,16 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		final Table table = service.transform(validationReport);
 		this.createTableBodyData(table, rowIndex -> validationReport
 				.getEntries().get(rowIndex - 1).getLineNumber());
-		tableMenuService.createDefaultMenuItems(part, table, bodyDataProvider,
-				bodyLayerStack.getSelectionLayer());
+		final TableBodyMenuItem showInTextViewItem = tableMenuService
+				.createShowInTextViewItem(createJumpToTextViewEvent(part),
+						selectedRow -> {
+							// Subtract header and filter row
+							final int originalRowIndex = bodyDataProvider
+									.getOriginalRowIndex(selectedRow - 2);
+							return bodyDataProvider
+									.getObjectSourceLine(originalRowIndex) > -1;
+						});
+		tableMenuService.addMenuItem(showInTextViewItem);
 		natTable = createTable(parent, table, tableMenuService);
 
 		return natTable;

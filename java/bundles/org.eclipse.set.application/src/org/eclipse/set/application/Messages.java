@@ -155,4 +155,9 @@ public class Messages {
 	 * Werkzeugkoffer-Hilfe für Entwickler
 	 */
 	public String WebDeveloperHelpPartDescriptionService_ViewName;
+
+	/**
+	 * Zeige in Textsicht
+	 */
+	public String TableMenuService_TextView;
 }

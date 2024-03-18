@@ -10,20 +10,25 @@
 package org.eclipse.set.utils.table.menu;
 
 import java.util.Set;
+import java.util.function.IntPredicate;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.AbstractUiBindingConfiguration;
 import org.eclipse.nebula.widgets.nattable.grid.GridRegion;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.selection.command.SelectRowsCommand;
+import org.eclipse.nebula.widgets.nattable.ui.NatEventData;
 import org.eclipse.nebula.widgets.nattable.ui.binding.UiBindingRegistry;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
 import org.eclipse.nebula.widgets.nattable.ui.menu.IMenuItemProvider;
+import org.eclipse.nebula.widgets.nattable.ui.menu.IMenuItemState;
 import org.eclipse.nebula.widgets.nattable.ui.menu.PopupMenuAction;
 import org.eclipse.nebula.widgets.nattable.ui.menu.PopupMenuBuilder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 /**
  * Create Nattable body menu
@@ -32,6 +37,31 @@ import org.eclipse.swt.widgets.Menu;
  *
  */
 public class TableBodyMenuConfiguration extends AbstractUiBindingConfiguration {
+
+	/**
+	 * @param label
+	 *            the item label
+	 * @param selectionListener
+	 *            the {@link SelectionListener}
+	 * @param enablePredicate
+	 *            the condition for enable this item
+	 */
+	public record TableBodyMenuItem(String label,
+			SelectionListener selectionListener, IntPredicate enablePredicate)
+			implements IMenuItemProvider, IMenuItemState {
+		@Override
+		public void addMenuItem(final NatTable natTable, final Menu popupMenu) {
+			final MenuItem menuItem = new MenuItem(popupMenu, SWT.PUSH);
+			menuItem.setText(label);
+			menuItem.addSelectionListener(selectionListener);
+		}
+
+		@Override
+		public boolean isActive(final NatEventData natEventData) {
+			return enablePredicate.test(natEventData.getRowPosition());
+		}
+
+	}
 
 	protected final Menu bodyMenu;
 
@@ -52,15 +82,17 @@ public class TableBodyMenuConfiguration extends AbstractUiBindingConfiguration {
 	 */
 	public TableBodyMenuConfiguration(final NatTable natTable,
 			final SelectionLayer selectionLayer,
-			final Set<IMenuItemProvider> menuItems) {
+			final Set<TableBodyMenuItem> menuItems) {
 		this.selectionLayer = selectionLayer;
 		this.bodyMenu = createBodyMenu(natTable, menuItems).build();
 	}
 
 	protected static PopupMenuBuilder createBodyMenu(final NatTable natTable,
-			final Set<IMenuItemProvider> menuItems) {
+			final Set<TableBodyMenuItem> menuItems) {
 		final PopupMenuBuilder popupMenu = new PopupMenuBuilder(natTable);
-		menuItems.forEach(popupMenu::withMenuItemProvider);
+		menuItems.forEach(
+				item -> popupMenu.withMenuItemProvider(item.label, item)
+						.withEnabledState(item.label, item));
 		return popupMenu;
 	}
 

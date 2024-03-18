@@ -13,6 +13,7 @@ import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
 import org.eclipse.swt.widgets.Composite;
@@ -61,11 +62,24 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 				messages);
 
 		final Table table = service.transform(validationReport);
-		this.createTableBodyData(table,
-				rowIndex -> Integer.valueOf(validationReport.getProblems()
-						.get(rowIndex.intValue() - 1).getLineNumber()));
-		tableMenuService.createDefaultMenuItems(part, table, bodyDataProvider,
-				bodyLayerStack.getSelectionLayer());
+		this.createTableBodyData(table, rowIndex -> {
+			if (rowIndex.intValue() < 0) {
+				return Integer.valueOf(-1);
+			}
+			return Integer.valueOf(validationReport.getProblems()
+					.get(rowIndex.intValue() - 1).getLineNumber());
+		});
+		final TableBodyMenuItem showInTextViewItem = tableMenuService
+				.createShowInTextViewItem(createJumpToTextViewEvent(part),
+						selectedRow -> {
+							// Subtract header and filter row
+							final int originalRowIndex = bodyDataProvider
+									.getOriginalRowIndex(selectedRow - 2);
+							return bodyDataProvider
+									.getObjectSourceLine(originalRowIndex) > -1;
+						});
+
+		tableMenuService.addMenuItem(showInTextViewItem);
 		natTable = createTable(parent, table, tableMenuService);
 		return natTable;
 	}

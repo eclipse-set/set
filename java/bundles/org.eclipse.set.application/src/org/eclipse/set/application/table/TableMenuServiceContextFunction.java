@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.sessionservice;
+package org.eclipse.set.application.table;
 
 import org.eclipse.e4.core.contexts.ContextFunction;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
@@ -23,12 +23,12 @@ import org.osgi.service.component.annotations.Component;
  *
  */
 @Component(service = IContextFunction.class, property = "service.context.key:String=org.eclipse.set.utils.table.menu.TableMenuService")
-public class SetTableMenuServiceContextFunction extends ContextFunction {
+public class TableMenuServiceContextFunction extends ContextFunction {
 	@Override
 	public Object compute(final IEclipseContext context,
 			final String contextKey) {
 		final TableMenuService impl = ContextInjectionFactory
-				.make(SetTableMenuService.class, context);
+				.make(TableMenuServiceImpl.class, context);
 		context.set(TableMenuService.class, impl);
 		return impl;
 	}
