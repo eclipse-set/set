@@ -174,7 +174,7 @@ npm/npmjs/-/arraybuffer.prototype.slice/1.0.2, MIT, approved, #9657
 npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/atob/2.1.2, MIT OR Apache-2.0, approved, #1027
 npm/npmjs/-/available-typed-arrays/1.0.5, MIT, approved, clearlydefined
-npm/npmjs/-/axios/1.6.7, MIT, approved, #11338
+npm/npmjs/-/axios/1.6.8, MIT, approved, #11338
 npm/npmjs/-/balanced-match/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/base64-arraybuffer/0.2.0, MIT, approved, clearlydefined
@@ -346,7 +346,7 @@ npm/npmjs/-/find-up/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/flat-cache/3.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/flatted/3.2.2, ISC AND (ISC AND MIT), approved, #2430
 npm/npmjs/-/flatted/3.2.5, ISC AND (ISC AND MIT), approved, #2430
-npm/npmjs/-/follow-redirects/1.15.4, MIT, approved, #10782
+npm/npmjs/-/follow-redirects/1.15.6, MIT, approved, #10782
 npm/npmjs/-/for-each/0.3.3, MIT, approved, clearlydefined
 npm/npmjs/-/foreground-child/3.1.1, ISC, approved, #8232
 npm/npmjs/-/form-data/4.0.0, MIT, approved, clearlydefined
