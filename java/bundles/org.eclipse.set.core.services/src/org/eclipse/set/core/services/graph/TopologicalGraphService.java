@@ -13,6 +13,7 @@ package org.eclipse.set.core.services.graph;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
@@ -34,6 +35,20 @@ public interface TopologicalGraphService {
 	 */
 	List<TopPath> findAllPathsBetween(final TopPoint from, final TopPoint to,
 			int limit);
+
+	/**
+	 * @param from
+	 *            the source point
+	 * @param to
+	 *            the target point
+	 * @param limit
+	 *            maximum path distance to consider
+	 * @param condition
+	 *            the condition
+	 * @return the path, which satisfy the condition
+	 */
+	TopPath findPathBetween(final TopPoint from, final TopPoint to, int limit,
+			Predicate<TopPath> condition);
 
 	/**
 	 * @param from

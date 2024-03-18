@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -117,6 +118,13 @@ public class TopologicalGraphServiceImpl
 				.toList();
 	}
 
+	@Override
+	public TopPath findPathBetween(final TopPoint from, final TopPoint to,
+			final int limit, final Predicate<TopPath> condition) {
+		return AsDirectedTopGraph.getPath(new AsSplitTopGraph(topGraphBase),
+				from, to, Integer.valueOf(limit), condition);
+	}
+
 	private static BigDecimal getDirectedPathWeight(
 			final GraphPath<Node, DirectedTOPEdge<Edge>> graphPath) {
 		return graphPath.getEdgeList().stream()
@@ -166,5 +174,4 @@ public class TopologicalGraphServiceImpl
 			final TopPoint to) {
 		return findShortestPath(from, to).map(TopPath::length);
 	}
-
 }

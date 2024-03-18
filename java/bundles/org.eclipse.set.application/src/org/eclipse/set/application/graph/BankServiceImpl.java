@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -197,22 +199,16 @@ public class BankServiceImpl implements BankService, EventHandler {
 		// Add 1 to the limit to account for rounding errors
 		final int limit = (int) (bankingLineLength.doubleValue()
 				+ ToolboxConfiguration.getBankLineTopOffsetLimit() + 1);
-		final List<TopPath> paths = topGraph.findAllPathsBetween(
-				new TopPoint(begin), new TopPoint(end), limit);
 
-		TopPath path = null;
-		double minLengthDiff = Double.MAX_VALUE;
-		for (final TopPath foundPath : paths) {
-			final double diff = Math.abs(foundPath.length().doubleValue()
-					- bankingLineLength.doubleValue());
-			if (diff < minLengthDiff) {
-				minLengthDiff = diff;
-				path = foundPath;
-			}
-		}
+		final Predicate<TopPath> predicate = (t) -> {
+			final double diff = Math.abs(
+					t.length().doubleValue() - bankingLineLength.doubleValue());
+			return diff < ToolboxConfiguration.getBankLineTopOffsetLimit();
+		};
+		final TopPath path = topGraph.findPathBetween(new TopPoint(begin),
+				new TopPoint(end), limit, predicate);
 
-		if (path == null || minLengthDiff > ToolboxConfiguration
-				.getBankLineTopOffsetLimit()) {
+		if (path == null) {
 			return null;
 		}
 		return new BankingInformation(bankingLine, path);
