@@ -29,7 +29,7 @@ import org.jgrapht.graph.GraphWalk;
  * Helper class to find directed path between two Node
  * 
  */
-public class DirectedPath {
+public class DirectedPathSearch {
 	private final Graph<Node, DirectedTOPEdge<Edge>> graph;
 
 	/**
@@ -89,7 +89,7 @@ public class DirectedPath {
 	 * @param maxPathLength
 	 *            max weight of the path
 	 */
-	public DirectedPath(final Graph<Node, DirectedTOPEdge<Edge>> graph,
+	public DirectedPathSearch(final Graph<Node, DirectedTOPEdge<Edge>> graph,
 			final Node startNode, final Node endNode,
 			final List<DirectedTOPEdge<Edge>> path, final int maxPathLength) {
 		this.graph = graph;
@@ -112,7 +112,7 @@ public class DirectedPath {
 	 * @param maxPathLength
 	 *            max length of the path
 	 */
-	public DirectedPath(final Graph<Node, DirectedTOPEdge<Edge>> graph,
+	public DirectedPathSearch(final Graph<Node, DirectedTOPEdge<Edge>> graph,
 			final Node startNode, final Node endNode, final int maxPathLength) {
 		this(graph, startNode, endNode, new LinkedList<>(), maxPathLength);
 	}
@@ -120,8 +120,8 @@ public class DirectedPath {
 	/**
 	 * @return new path
 	 */
-	public DirectedPath clonePath() {
-		return new DirectedPath(graph, startNode, endNode,
+	public DirectedPathSearch clonePath() {
+		return new DirectedPathSearch(graph, startNode, endNode,
 				new LinkedList<>(path), maxPathWeight);
 	}
 
@@ -184,6 +184,13 @@ public class DirectedPath {
 		return maxPathWeight != 0
 				&& getDirectedPathWeight(path).add(BigDecimal.valueOf(weight))
 						.compareTo(BigDecimal.valueOf(maxPathWeight)) < 1;
+	}
+
+	public boolean isRelevantPathWeight(final BigDecimal weight) {
+		return maxPathWeight != 0 && BigDecimal.valueOf(maxPathWeight)
+				.subtract(getDirectedPathWeight(path).add(weight))
+				.compareTo(BigDecimal.ZERO) >= 0;
+
 	}
 
 	/**

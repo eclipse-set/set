@@ -12,9 +12,11 @@ package org.eclipse.set.utils.graph;
 
 import java.math.BigDecimal;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.function.Predicate;
@@ -23,6 +25,7 @@ import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Edge;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Node;
+import org.eclipse.set.utils.math.BigDecimalExtensions;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.AsWeightedGraph;
 import org.jgrapht.graph.DirectedPseudograph;
@@ -126,8 +129,8 @@ public class AsDirectedTopGraph {
 		}
 		// When start and end node are same
 		if (startNode == endNode) {
-			final DirectedPath directedPath = new DirectedPath(graph, startNode,
-					endNode, maxPathWeight);
+			final DirectedPathSearch directedPath = new DirectedPathSearch(
+					graph, startNode, endNode, maxPathWeight);
 
 			final TopPath topPath = directedPath.getTopPath(relevantCondition);
 			if (topPath != null) {
@@ -135,14 +138,14 @@ public class AsDirectedTopGraph {
 			}
 		}
 
-		final Map<DirectedTOPEdge<Edge>, Integer> edgeWeightBackwards = edgeMinDistancesBackwards(
+		final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget = findRelevantEdgesFromTarget(
 				graph, endNode, maxPathWeight);
 		for (final DirectedTOPEdge<Edge> edge : graph
 				.outgoingEdgesOf(startNode)) {
-			final DirectedPath path = new DirectedPath(graph, startNode,
-					endNode, maxPathWeight);
+			final DirectedPathSearch path = new DirectedPathSearch(graph,
+					startNode, endNode, maxPathWeight);
 			path.addEdge(edge);
-			final TopPath topPath = getPath(path, edgeWeightBackwards,
+			final TopPath topPath = getPath(path, relevantEdgesFromTarget,
 					relevantCondition);
 			if (topPath != null) {
 				return topPath;
@@ -151,22 +154,22 @@ public class AsDirectedTopGraph {
 		return null;
 	}
 
-	private static TopPath getPath(final DirectedPath incomplePath,
-			final Map<DirectedTOPEdge<Edge>, Integer> edgeWeightBackwards,
+	private static TopPath getPath(final DirectedPathSearch incompletePath,
+			final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget,
 			final Predicate<TopPath> relevantCondition) {
-		final Deque<DirectedPath> incompletePaths = new LinkedList<>();
-		incompletePaths.add(incomplePath);
-		final Graph<Node, DirectedTOPEdge<Edge>> graph = incomplePath.graph();
+		final Deque<DirectedPathSearch> incompletePaths = new LinkedList<>();
+		incompletePaths.add(incompletePath);
+		final Graph<Node, DirectedTOPEdge<Edge>> graph = incompletePath.graph();
 		// Walkthrough graph to find relevant path
-		for (DirectedPath path; (path = incompletePaths.poll()) != null;) {
+		for (DirectedPathSearch path; (path = incompletePaths
+				.poll()) != null;) {
 			final DirectedTOPEdge<Edge> lastEdge = path.path().getLast();
 			final Node lastNode = graph.getEdgeTarget(lastEdge);
 			for (final DirectedTOPEdge<Edge> edge : graph
 					.outgoingEdgesOf(lastNode)) {
-				if (edgeWeightBackwards.containsKey(edge)
-						&& path.isRelevantPathWeight(edgeWeightBackwards
-								.get(edge).intValue())) {
-					final DirectedPath newPath = path.clonePath();
+				if (relevantEdgesFromTarget.contains(edge)
+						&& path.isRelevantPathWeight(edge.edge().getWeight())) {
+					final DirectedPathSearch newPath = path.clonePath();
 					if (!newPath.addEdge(edge)) {
 						continue;
 					}
@@ -193,19 +196,20 @@ public class AsDirectedTopGraph {
 	 * @param maxPathWeight
 	 * @return relevant edges around end node
 	 */
-	private static Map<DirectedTOPEdge<Edge>, Integer> edgeMinDistancesBackwards(
+	private static List<DirectedTOPEdge<Edge>> findRelevantEdgesFromTarget(
 			final Graph<Node, DirectedTOPEdge<Edge>> graph, final Node target,
 			final int maxPathWeight) {
-		final Map<DirectedTOPEdge<Edge>, Integer> edgesDistance = new HashMap<>();
-		final Map<Node, Integer> nodeWithDistanceFromEnd = new HashMap<>();
+		final List<DirectedTOPEdge<Edge>> edgesDistance = new ArrayList<>();
+		final Map<Node, BigDecimal> remainingWeigthFromEnd = new HashMap<>();
 		final Queue<Node> nodesToProcess = new ArrayDeque<>();
-
 		nodesToProcess.add(target);
-		nodeWithDistanceFromEnd.put(target, Integer.valueOf(0));
+		final BigDecimal tmpMaxWeight = BigDecimalExtensions
+				.toBigDecimal(Integer.valueOf(maxPathWeight));
+		remainingWeigthFromEnd.put(target, tmpMaxWeight);
 		for (Node vertex; (vertex = nodesToProcess.poll()) != null;) {
-			assert nodeWithDistanceFromEnd.containsKey(vertex);
-			final int currentDistance = nodeWithDistanceFromEnd.get(vertex)
-					.intValue();
+			assert remainingWeigthFromEnd.containsKey(vertex);
+			final BigDecimal currentRemaining = remainingWeigthFromEnd
+					.get(vertex);
 
 			// Check whether the incoming edges of this node are correctly
 			// decorated
@@ -213,28 +217,19 @@ public class AsDirectedTopGraph {
 					.incomingEdgesOf(vertex)) {
 				// Mark the edge if needed
 				final BigDecimal weight = edge.edge().getWeight();
-				final int childDistance = weight
-						.add(BigDecimal.valueOf(currentDistance)).toBigInteger()
-						.intValue();
-				if (childDistance > maxPathWeight) {
+				final BigDecimal remainingWeight = currentRemaining
+						.subtract(weight);
+
+				if (remainingWeight.compareTo(BigDecimal.ZERO) < 1) {
 					continue;
 				}
-				if (edgesDistance
-						.computeIfAbsent(edge,
-								t -> Integer.valueOf(childDistance))
-						.intValue() > childDistance) {
-					edgesDistance.put(edge, Integer.valueOf(childDistance));
-				}
-
+				edgesDistance.add(edge);
 				// Mark the edge's source vertex if needed
 				final Node edgeSource = graph.getEdgeSource(edge);
-				if (!nodeWithDistanceFromEnd.containsKey(edgeSource)
-						|| nodeWithDistanceFromEnd.get(edgeSource)
-								.intValue() > childDistance) {
-					nodeWithDistanceFromEnd.put(edgeSource,
-							Integer.valueOf(childDistance));
+				remainingWeigthFromEnd.computeIfAbsent(edgeSource, v -> {
 					nodesToProcess.add(edgeSource);
-				}
+					return remainingWeight;
+				});
 			}
 		}
 		assert nodesToProcess.isEmpty();
