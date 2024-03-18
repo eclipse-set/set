@@ -251,7 +251,7 @@ public class DirectedPath {
 		if (edges.isEmpty()) {
 			return GraphWalk.singletonWalk(directedGraph, startNode, 0);
 		}
-		final Node source = directedGraph.getEdgeSource(edges.get(0));
+		final Node source = directedGraph.getEdgeSource(edges.getFirst());
 		final Node target = directedGraph.getEdgeTarget(edges.getLast());
 		final double weight = edges.stream()
 				.mapToDouble(directedGraph::getEdgeWeight).sum();

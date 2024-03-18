@@ -157,7 +157,7 @@ public class AsDirectedTopGraph {
 		final Deque<DirectedPath> incompletePaths = new LinkedList<>();
 		incompletePaths.add(incomplePath);
 		final Graph<Node, DirectedTOPEdge<Edge>> graph = incomplePath.graph();
-		// Walkthrough graph to find relevan path
+		// Walkthrough graph to find relevant path
 		for (DirectedPath path; (path = incompletePaths.poll()) != null;) {
 			final DirectedTOPEdge<Edge> lastEdge = path.path().getLast();
 			final Node lastNode = graph.getEdgeTarget(lastEdge);
