@@ -11,7 +11,6 @@ package org.eclipse.set.pdf.utils;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import org.apache.tika.Tika;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.set.browser.DownloadListener;
 import org.eclipse.set.core.services.pdf.PdfViewer;
@@ -28,7 +27,6 @@ public class BrowserPdfViewer implements PdfViewer, DownloadListener {
 	private static final String PDF_VIEWER_PATH = "./web/pdf"; //$NON-NLS-1$
 	private static final String PDF_FILE_PATH_PREFIX = "pdffile/"; //$NON-NLS-1$
 	private static final String HTML_PDF_VIEWER_PATH = "viewer.html"; //$NON-NLS-1$
-	private static final String PDF_MIME = "application/pdf"; //$NON-NLS-1$
 
 	private FileWebBrowser browser;
 	private SaveListener saveListener;
@@ -69,19 +67,14 @@ public class BrowserPdfViewer implements PdfViewer, DownloadListener {
 						.grab(true, true).span(2, 1)
 						.applyTo(browser.getControl());
 			}
-			final Tika tika = new Tika();
-			final String mime = tika.detect(path);
-			String serverPath = path.getFileName().toString();
-			String viewerUrl = "https://toolbox/"; //$NON-NLS-1$
 
-			if (mime.equals(PDF_MIME)) {
-				serverPath = PDF_FILE_PATH_PREFIX + serverPath;
-				viewerUrl += HTML_PDF_VIEWER_PATH + "?file=/" //$NON-NLS-1$
-						+ serverPath;
-			} else {
-				viewerUrl += serverPath;
-			}
-			browser.serveFile(serverPath, mime, path);
+			final String serverPath = PDF_FILE_PATH_PREFIX
+					+ path.getFileName().toString();
+			browser.serveFile(serverPath, "application/pdf", path); //$NON-NLS-1$
+
+			final String viewerUrl = "https://toolbox/" + HTML_PDF_VIEWER_PATH //$NON-NLS-1$
+					+ "?file=/" //$NON-NLS-1$
+					+ serverPath;
 			browser.setUrl(viewerUrl);
 		} catch (final Exception e) {
 			throw new RuntimeException("Fehler beim Anzeigen der PDF-Datei.", //$NON-NLS-1$

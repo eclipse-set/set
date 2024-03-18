@@ -10,8 +10,6 @@ package org.eclipse.set.application.parts;
 
 import java.util.List;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
@@ -41,6 +39,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import com.google.common.collect.Lists;
+
+import jakarta.inject.Inject;
 
 /**
  * This parts lists all attachments available in the document and offers the
@@ -101,7 +101,8 @@ public class AttachmentPart extends BasePart {
 		attachmentTable.setModel(transformation.toAttachment(model));
 		attachmentTable.setTempDir(getModelSession().getTempDir().toString());
 		if (rendererService != null) {
-			attachmentTable.setPdfViewer(path -> partService.showPdfPart(path));
+			attachmentTable
+					.setAttahcmentViewer(path -> partService.showAttachmentPart(path));
 		}
 		attachmentTable.createControl();
 		return attachmentTable;

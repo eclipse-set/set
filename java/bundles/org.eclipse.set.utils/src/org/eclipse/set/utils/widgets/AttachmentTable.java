@@ -18,12 +18,9 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 import org.eclipse.core.runtime.Assert;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -32,6 +29,7 @@ import org.eclipse.set.basis.DomainElementList.ChangeListener;
 import org.eclipse.set.basis.attachments.Attachment;
 import org.eclipse.set.basis.attachments.AttachmentInfo;
 import org.eclipse.set.basis.attachments.FileKind;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.AttachmentContentService;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
@@ -39,13 +37,12 @@ import org.eclipse.set.basis.files.ToolboxFileFilter.InvalidFilterFilename;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.basis.observable.ObservableValue;
 import org.eclipse.set.core.services.dialog.DialogService;
+import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
 import org.eclipse.set.utils.Messages;
 import org.eclipse.set.utils.attachment.Attachments;
 import org.eclipse.set.utils.internal.DomainElementListContentProvider;
 import org.eclipse.set.utils.internal.FileKindEditingSupport;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -67,6 +64,12 @@ import org.slf4j.LoggerFactory;
  * @author Schaefer
  */
 public class AttachmentTable {
+	// Chromium support format:
+	// Audio/Video : https://www.chromium.org/audio-video/
+	// Image:
+	// https://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support
+	private static final List<ENUMDateityp> unSupportFileFormats = List.of(
+			ENUMDateityp.ENUM_DATEITYP_MPEG, ENUMDateityp.ENUM_DATEITYP_TIF);
 
 	static final Logger logger = LoggerFactory.getLogger(AttachmentTable.class);
 
@@ -85,7 +88,7 @@ public class AttachmentTable {
 	private List<Attachment> attachments = null;
 	private final AttachmentContentService contentProvider;
 	private List<ToolboxFileFilter> extensions = null;
-	private Consumer<Path> pdfViewer = null;
+	private Consumer<Path> attachmentViewer = null;
 	private String tempDir;
 	private final ToolboxFile toolboxFile;
 	DomainElementList<Attachment, AttachmentInfo<Attachment>> attachmentList = null;
@@ -152,7 +155,7 @@ public class AttachmentTable {
 			final DomainElementList<Attachment, AttachmentInfo<Attachment>> attachmentList,
 			final List<FileKind> fileKinds) {
 		Assert.isNotNull(fileKinds);
-		Assert.isTrue(fileKinds.size() > 0);
+		Assert.isTrue(!fileKinds.isEmpty());
 		this.attachmentList = attachmentList;
 		this.fileKinds = fileKinds;
 	}
@@ -168,11 +171,11 @@ public class AttachmentTable {
 	}
 
 	/**
-	 * @param pdfViewer
-	 *            the pdf viewer
+	 * @param attchmentViewer
+	 *            the attachment viewer
 	 */
-	public void setPdfViewer(final Consumer<Path> pdfViewer) {
-		this.pdfViewer = pdfViewer;
+	public void setAttahcmentViewer(final Consumer<Path> attchmentViewer) {
+		this.attachmentViewer = attchmentViewer;
 	}
 
 	/**
@@ -196,14 +199,14 @@ public class AttachmentTable {
 	// IMPROVE replace java.util.Observer
 	@SuppressWarnings("deprecation")
 	private void createButton(final ButtonRow buttonRow, final String message,
-			final Consumer<Void> action, final BooleanSupplier condition) {
+			final Runnable action, final BooleanSupplier condition) {
 		final Button button = buttonRow.add(message);
 		button.setEnabled(false);
 		final Listener selectionListener = new Listener() {
 			@Override
 			public void handleEvent(final Event e) {
 				if (e.type == SWT.Selection) {
-					action.accept(null);
+					action.run();
 				}
 			}
 		};
@@ -260,39 +263,25 @@ public class AttachmentTable {
 			viewer.setInput(attachmentList);
 
 			// refresh the viewer...
-			final ChangeListener<Attachment> changeListener = new ChangeListener<>() {
-				@Override
-				public void listChanged(final Notification msg) {
-					viewer.refresh(true);
-				}
-			};
+			final ChangeListener<Attachment> changeListener = msg -> viewer
+					.refresh();
 			attachmentList.addChangeListener(changeListener);
 			// ...as long as its control is not disposed
-			viewer.getControl().addDisposeListener(new DisposeListener() {
-				@Override
-				public void widgetDisposed(final DisposeEvent e) {
-					attachmentList.removeChangeListener(changeListener);
-				}
-			});
+			viewer.getControl().addDisposeListener(
+					e -> attachmentList.removeChangeListener(changeListener));
 		} else {
 			viewer.setContentProvider(new ArrayContentProvider());
 			viewer.setInput(attachments);
 		}
 
 		// selections
-		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		viewer.addSelectionChangedListener(event -> {
+			final ISelection selection = event.getSelection();
+			if (selection instanceof final StructuredSelection structuredSelection
+					&& structuredSelection.size() == 1) {
+				final Object element = structuredSelection.getFirstElement();
+				selectedAttachment.setValue((Attachment) element);
 
-			@Override
-			public void selectionChanged(final SelectionChangedEvent event) {
-				final ISelection selection = event.getSelection();
-				if (selection instanceof StructuredSelection) {
-					final StructuredSelection structuredSelection = (StructuredSelection) selection;
-					if (structuredSelection.size() == 1) {
-						final Object element = structuredSelection
-								.getFirstElement();
-						selectedAttachment.setValue((Attachment) element);
-					}
-				}
 			}
 
 		});
@@ -335,23 +324,22 @@ public class AttachmentTable {
 		final ButtonRow buttonRow = new ButtonRow(parent);
 
 		createButton(buttonRow, messages.AttachmentTable_export,
-				(Void) -> getSelectedAttachment()
-						.ifPresent((attachment) -> Attachments
+				() -> getSelectedAttachment()
+						.ifPresent(attachment -> Attachments
 								.export(getTableParent().getShell(), attachment,
 										dialogService, toolboxFile.getPath()
 												.getParent().toString())),
 				() -> true);
 
-		// view pdf
+		// view attachment
 		createButton(buttonRow, messages.AttachmentTable_viewPdf,
-				(Void) -> getSelectedAttachment()
-						.ifPresent((attachment) -> viewPdf(attachment)),
-				() -> pdfViewer != null);
+				() -> getSelectedAttachment().ifPresent(this::viewAttachment),
+				() -> attachmentViewer != null);
 
 		if (hasSupportForListManipulation()) {
-			createButton(buttonRow, messages.AttachmentTable_remove, (Void) -> {
+			createButton(buttonRow, messages.AttachmentTable_remove, () -> {
 				getSelectedAttachment().ifPresent(
-						(attachment) -> attachmentList.remove(attachment));
+						attachment -> attachmentList.remove(attachment));
 				selectedAttachment.setValue(null);
 			}, () -> true);
 		}
@@ -382,7 +370,7 @@ public class AttachmentTable {
 		return attachmentList != null;
 	}
 
-	private void savePdf(final Attachment attachment, final Path path) {
+	private void saveAttachment(final Attachment attachment, final Path path) {
 		try {
 			final byte[] content = contentProvider.getContent(attachment);
 			final Path parent = path.getParent();
@@ -395,9 +383,17 @@ public class AttachmentTable {
 		}
 	}
 
-	private void startPdfViewer(final Path path) {
-		if (pdfViewer != null) {
-			pdfViewer.accept(path);
+	private void startAttachmentViewer(final Path path) {
+		final String extension = PathExtensions.getExtension(path);
+		final ENUMDateityp enumDateityp = ENUMDateityp.get(extension);
+		if (unSupportFileFormats.contains(enumDateityp)) {
+			dialogService.openInformation(tableParent.getShell(),
+					messages.AttachmentTable_UnsupportFormatTitle,
+					messages.AttachmentTable_UnsupportFormatMsg);
+			return;
+		}
+		if (attachmentViewer != null) {
+			attachmentViewer.accept(path);
 		}
 	}
 
@@ -424,11 +420,11 @@ public class AttachmentTable {
 		return selectedAttachment.getValue();
 	}
 
-	void viewPdf(final Attachment attachment) {
+	void viewAttachment(final Attachment attachment) {
 		final Path path = Paths.get(tempDir, attachment.getId(),
 				attachment.getFullFilename());
-		savePdf(attachment, path);
-		startPdfViewer(path);
+		saveAttachment(attachment, path);
+		startAttachmentViewer(path);
 	}
 
 	/**

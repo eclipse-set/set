@@ -138,9 +138,9 @@ public final class ToolboxConstants {
 			"(?<numberN>[0-9]+)");
 
 	/**
-	 * The id of the pdf viewer part.
+	 * The id of the attachment viewer part.
 	 */
-	public static final String PDF_VIEWER_PART_ID = "org.eclipse.set.application.parts.ViewPdfPart";
+	public static final String ATTACHMENT_VIEWER_PART_ID = "org.eclipse.set.application.parts.AttachmentViewerPart";
 
 	/**
 	 * The id of the project part.

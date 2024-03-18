@@ -124,17 +124,17 @@ public class Messages {
 	/**
 	 * Export PDF File Button Text
 	 */
-	public String ViewPdfPart_ExportButton;
+	public String AttachmentViewerPart_ExportButton;
 
 	/**
 	 * Export PDF File Error Message
 	 */
-	public String ViewPdfPart_ExportErrorText;
+	public String AttachmentViewerPart_ExportErrorText;
 
 	/**
 	 * Export PDF File Error Title
 	 */
-	public String ViewPdfPart_ExportErrorTitle;
+	public String AttachmentViewerPart_ExportErrorTitle;
 
 	/**
 	 * Versions- und Lizenz-Informationen

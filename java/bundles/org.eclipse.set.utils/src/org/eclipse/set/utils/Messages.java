@@ -56,6 +56,16 @@ public class Messages {
 	public String AttachmentTable_viewPdf;
 
 	/**
+	 * Nicht ünterstütz Dateityp
+	 */
+	public String AttachmentTable_UnsupportFormatTitle;
+
+	/**
+	 * Intern Browser unterstützt diese Dateityp nicht!
+	 */
+	public String AttachmentTable_UnsupportFormatMsg;
+
+	/**
 	 * Wollen Sie die vorhandene Datei "%s" löschen?
 	 */
 	public String Dialogs_confirmDeletionMessagePattern;
