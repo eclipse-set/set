@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import jakarta.annotation.PreDestroy;
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -61,6 +58,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
 
 /**
  * This part can display status and validation details about the current model
@@ -166,7 +166,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 					.forEach(problem -> problems
 							.add(new ProblemMessage(problem.getMessage(),
 									problem.getType(), problem.getLineNumber(),
-									3, problem.getObjectState().getLiteral())));
+									3, problem.getObjectScope().getLiteral())));
 			getBroker().post(Events.PROBLEMS_CHANGED, null);
 
 			// Register nattable injector

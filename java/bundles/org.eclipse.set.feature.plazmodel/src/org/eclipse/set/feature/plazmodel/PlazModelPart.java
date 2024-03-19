@@ -185,7 +185,7 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 				.forEach(entry -> problems
 						.add(new ProblemMessage(entry.getMessage(),
 								entry.getType(), entry.getLineNumber(), 2,
-								entry.getObjectState().getLiteral())));
+								entry.getObjectScope().getLiteral())));
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
 	}
 
