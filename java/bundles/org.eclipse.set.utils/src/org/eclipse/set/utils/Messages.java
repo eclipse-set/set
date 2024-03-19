@@ -61,7 +61,7 @@ public class Messages {
 	public String AttachmentTable_UnsupportFormatTitle;
 
 	/**
-	 * Intern Browser unterstützt diese Dateityp nicht!
+	 * Die Anwendung unterstützt diese Dateityp nicht!
 	 */
 	public String AttachmentTable_UnsupportFormatMsg;
 
