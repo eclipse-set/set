@@ -45,6 +45,7 @@ import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
+import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -199,6 +200,23 @@ public abstract class AbstractSortByColumnTables {
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider));
 		return natTable;
+	}
+
+	protected abstract TableMenuService getTableMenuService();
+
+	protected TableBodyMenuItem createJumToTextViewMenuItem(
+			final BasePart part) {
+		if (getTableMenuService() == null) {
+			return null;
+		}
+		return getTableMenuService().createShowInTextViewItem(
+				createJumpToTextViewEvent(part), selectedRowIndex -> {
+					// Subtract header and filter row
+					final int originalRowIndex = bodyDataProvider
+							.getOriginalRowIndex(selectedRowIndex - 2);
+					return originalRowIndex > 0 && bodyDataProvider
+							.getObjectSourceLine(originalRowIndex) > 0;
+				});
 	}
 
 	protected JumpToSourceLineEvent createJumpToTextViewEvent(

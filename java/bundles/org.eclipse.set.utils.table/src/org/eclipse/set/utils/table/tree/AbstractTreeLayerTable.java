@@ -43,7 +43,8 @@ import org.eclipse.swt.widgets.Composite;
  * @author Truong
  *
  */
-public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
+public abstract class AbstractTreeLayerTable
+		extends AbstractSortByColumnTables {
 
 	/**
 	 * The table data provider
@@ -206,4 +207,5 @@ public class AbstractTreeLayerTable extends AbstractSortByColumnTables {
 	public List<String> transformToCSV() {
 		return bodyDataProvider.transformToCSV();
 	}
+
 }
