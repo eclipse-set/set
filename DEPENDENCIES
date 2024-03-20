@@ -4,7 +4,6 @@ git/github/jsnjack/kraiklyn/a2f56a7af778fcdda5939de14bcf8a4a6cd88291, MIT, appro
 maven/mavencentral/aopalliance/aopalliance/1.0, LicenseRef-Public-Domain, approved, CQ2918
 maven/mavencentral/ch.qos.logback/logback-classic/1.4.11, EPL-1.0 OR LGPL-2.1-only, approved, #3435
 maven/mavencentral/ch.qos.logback/logback-core/1.4.11, EPL-1.0 OR LGPL-2.1-only, approved, #3373
-maven/mavencentral/com.github.virtuald/curvesapi/1.06, BSD-3-Clause, approved, clearlydefined
 maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, Apache-2.0, approved, #20
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.18.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.23.0, Apache-2.0, approved, #11083
@@ -17,17 +16,12 @@ maven/mavencentral/com.google.j2objc/j2objc-annotations/2.8, Apache-2.0, approve
 maven/mavencentral/com.ibm.icu/icu4j/74.1, , approved, #11348
 maven/mavencentral/com.jcraft/jsch/0.1.55, BSD-3-Clause, approved, CQ19435
 maven/mavencentral/com.sun.mail/javax.mail/1.6.2, CDDL-1.0 AND Apache-2.0, approved, CQ18739
-maven/mavencentral/com.zaxxer/SparseBitSet/1.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/commons-codec/commons-codec/1.15, Apache-2.0 AND BSD-3-Clause AND LicenseRef-Public-Domain, approved, CQ22641
 maven/mavencentral/commons-io/commons-io/2.15.0, Apache-2.0, approved, #11244
 maven/mavencentral/commons-logging/commons-logging/1.0.4, Apache-2.0, approved, CQ1029
-maven/mavencentral/de.rototor.pdfbox/graphics2d/0.30, Apache-2.0, approved, clearlydefined
-maven/mavencentral/jakarta.activation/jakarta.activation-api/1.2.1, EPL-2.0 OR BSD-3-Clause OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.jaf
 maven/mavencentral/jakarta.annotation/jakarta.annotation-api/2.1.1, EPL-2.0 OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.ca
 maven/mavencentral/jakarta.inject/jakarta.inject-api/2.0.1, Apache-2.0, approved, ee4j.cdi
 maven/mavencentral/jakarta.servlet/jakarta.servlet-api/6.0.0, EPL-2.0 OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.servlet
 maven/mavencentral/jakarta.transaction/jakarta.transaction-api/1.3.3, EPL-2.0 OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.jta
-maven/mavencentral/jakarta.xml.bind/jakarta.xml.bind-api/2.3.2, BSD-3-Clause, approved, ee4j.jaxb
 maven/mavencentral/javax.activation/activation/1.1, CDDL-1.0, approved, CQ134
 maven/mavencentral/javax.measure/unit-api/2.1.3, BSD-3-Clause, approved, #5504
 maven/mavencentral/junit/junit/4.13.2, EPL-2.0, approved, CQ23636
@@ -36,8 +30,6 @@ maven/mavencentral/net.bytebuddy/byte-buddy/1.14.9, Apache-2.0 AND BSD-3-Clause,
 maven/mavencentral/net.java.dev.jna/jna-platform/5.13.0, Apache-2.0 OR LGPL-2.1-or-later, approved, #6707
 maven/mavencentral/net.java.dev.jna/jna/5.13.0, Apache-2.0 AND LGPL-2.1-or-later, approved, #6709
 maven/mavencentral/org.apache.aries.spifly/org.apache.aries.spifly.dynamic.bundle/1.3.7, Apache-2.0, approved, #6708
-maven/mavencentral/org.apache.commons/commons-collections4/4.4, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.commons/commons-compress/1.20, Apache-2.0 AND BSD-3-Clause AND LicenseRef-Public-Domain, approved, CQ21771
 maven/mavencentral/org.apache.commons/commons-compress/1.25.0, Apache-2.0, approved, #11600
 maven/mavencentral/org.apache.commons/commons-csv/1.9.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.commons/commons-lang3/3.13.0, Apache-2.0, approved, #9820
@@ -48,55 +40,17 @@ maven/mavencentral/org.apache.felix/org.apache.felix.gogo.runtime/1.1.6, Apache-
 maven/mavencentral/org.apache.felix/org.apache.felix.gogo.shell/1.1.4, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.felix/org.apache.felix.scr/2.2.6, Apache-2.0 AND BSD-3-Clause AND MIT, approved, #798
 maven/mavencentral/org.apache.logging.log4j/log4j-api/2.18.0, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.pdfbox/fontbox/2.0.22, Apache-2.0 AND BSD-3-Clause AND OFL-1.1, approved, #3390
-maven/mavencentral/org.apache.pdfbox/pdfbox/2.0.22, Apache-2.0 AND BSD-3-Clause AND APAFML AND Adobe-Glyph AND Unicode-DFS-2015 AND Zlib AND OFL-1.1, approved, CQ13673
 maven/mavencentral/org.apache.poi/poi-ooxml-lite/5.0.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.apache.poi/poi-ooxml/5.0.0, Apache-2.0 AND BSD-3-Clause AND MIT AND Apache-2.0, approved, #8428
 maven/mavencentral/org.apache.poi/poi/5.0.0, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.santuario/xmlsec/2.2.1, Apache-2.0 AND BSD-3-Clause AND MIT AND W3C AND W3C-19980720, approved, #1547
 maven/mavencentral/org.apache.tika/tika-core/2.4.1, Apache-2.0 AND BSD-2-Clause, approved, #11609
-maven/mavencentral/org.apache.xmlbeans/xmlbeans/4.0.0, Apache-2.0, approved, #13650
 maven/mavencentral/org.apache.xmlbeans/xmlbeans/5.1.1, Apache-2.0, approved, #8429
-maven/mavencentral/org.apache.xmlgraphics/batik-all/1.13, Apache-2.0 AND W3C AND CC-BY-SA-2.5, approved, #13648
-maven/mavencentral/org.apache.xmlgraphics/batik-anim/1.13, Apache-2.0, approved, CQ22608
-maven/mavencentral/org.apache.xmlgraphics/batik-awt-util/1.13, Apache-2.0, approved, CQ22611
-maven/mavencentral/org.apache.xmlgraphics/batik-bridge/1.13, Apache-2.0, approved, CQ22621
-maven/mavencentral/org.apache.xmlgraphics/batik-codec/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-constants/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-css/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-dom/1.13, Apache-2.0 AND W3C, approved, CQ22617
-maven/mavencentral/org.apache.xmlgraphics/batik-ext/1.13, Apache-2.0, approved, CQ22613
-maven/mavencentral/org.apache.xmlgraphics/batik-extension/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-gui-util/1.13, Apache-2.0, approved, CQ23045
-maven/mavencentral/org.apache.xmlgraphics/batik-gvt/1.13, Apache-2.0, approved, CQ22618
-maven/mavencentral/org.apache.xmlgraphics/batik-i18n/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-parser/1.13, Apache-2.0, approved, CQ22616
-maven/mavencentral/org.apache.xmlgraphics/batik-rasterizer-ext/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-rasterizer/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-script/1.13, Apache-2.0, approved, CQ22620
-maven/mavencentral/org.apache.xmlgraphics/batik-shared-resources/1.13, Apache-2.0, approved, CQ22615
-maven/mavencentral/org.apache.xmlgraphics/batik-slideshow/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-squiggle-ext/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-squiggle/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-svg-dom/1.13, Apache-2.0 AND W3C, approved, CQ22619
-maven/mavencentral/org.apache.xmlgraphics/batik-svgbrowser/1.13, Apache-2.0 AND CC-BY-SA-2.5, approved, #13651
-maven/mavencentral/org.apache.xmlgraphics/batik-svggen/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-svgpp/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-svgrasterizer/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-swing/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-transcoder/1.13, Apache-2.0, approved, CQ22610
-maven/mavencentral/org.apache.xmlgraphics/batik-ttf2svg/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-util/1.13, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.xmlgraphics/batik-xml/1.13, Apache-2.0, approved, CQ22614
 maven/mavencentral/org.apache.xmlgraphics/fop/2.6, Apache-2.0, approved, #968
-maven/mavencentral/org.apache.xmlgraphics/xmlgraphics-commons/2.4, Apache-2.0, approved, CQ22305
 maven/mavencentral/org.apache.xmlgraphics/xmlgraphics-commons/2.9, Apache-2.0, approved, #10159
 maven/mavencentral/org.apfloat/apfloat/1.10.1, MIT, approved, clearlydefined
 maven/mavencentral/org.apfloat/apfloat/1.12.0, MIT, approved, #12775
 maven/mavencentral/org.apiguardian/apiguardian-api/1.1.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcpg-jdk18on/1.77, Apache-2.0, approved, #11594
-maven/mavencentral/org.bouncycastle/bcpkix-jdk15on/1.68, MIT, approved, clearlydefined
-maven/mavencentral/org.bouncycastle/bcprov-jdk15on/1.68, MIT, approved, CQ23714
 maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.77, MIT AND CC0-1.0, approved, #11595
 maven/mavencentral/org.checkerframework/checker-qual/3.41.0, MIT, approved, #12032
 maven/mavencentral/org.codehaus.mojo/animal-sniffer-annotations/1.9, MIT, approved, clearlydefined
@@ -206,13 +160,8 @@ maven/mavencentral/org.ow2.asm/asm-commons/9.6, BSD-3-Clause, approved, #10775
 maven/mavencentral/org.ow2.asm/asm-tree/9.6, BSD-3-Clause, approved, #10773
 maven/mavencentral/org.ow2.asm/asm-util/9.6, BSD-3-Clause, approved, #10777
 maven/mavencentral/org.ow2.asm/asm/9.6, BSD-3-Clause, approved, #10776
-maven/mavencentral/org.slf4j/jcl-over-slf4j/1.7.30, Apache-2.0, approved, CQ12843
 maven/mavencentral/org.slf4j/slf4j-api/2.0.9, MIT, approved, #5915
 maven/mavencentral/org.tukaani/xz/1.9, LicenseRef-Public-Domain, approved, CQ23498
-maven/mavencentral/xalan/serializer/2.7.2, Apache-2.0, approved, CQ16417
-maven/mavencentral/xalan/xalan/2.7.2, Apache-2.0, approved, CQ9587
-maven/mavencentral/xml-apis/xml-apis-ext/1.3.04, Apache-2.0, approved, CQ1448
-maven/mavencentral/xml-apis/xml-apis/1.4.01, Apache-2.0 OR LicenseRef-Public-Domain OR W3C, approved, CQ9621
 npm/npmjs/-/abbrev/1.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/accepts/1.3.8, MIT, approved, clearlydefined
 npm/npmjs/-/acorn-import-assertions/1.9.0, MIT, approved, clearlydefined
@@ -2148,11 +2097,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.source/2.3.0, EPL-2.0, approved
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.rcp.dialogservice.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.rcp.dialogservice/2.3.0, EPL-2.0, approved, technology.set
@@ -2206,13 +2152,9 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit.source/2.3
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.edit.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.editor.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.editor/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit/2.3.0, EPL-2.0, approved, technology.set
@@ -2266,12 +2208,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice.source/2.3.0, EPL-2.0,
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.editor.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.editor/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils.source/2.3.0, EPL-2.0, approved, technology.set
