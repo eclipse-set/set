@@ -43,6 +43,11 @@ public class WebBrowser {
 	 *            The SWT parent object
 	 */
 	public WebBrowser(final Composite parent) {
+		// Enable browser debug in development mode
+		if (ToolboxConfiguration.isDevelopmentMode()) {
+			System.setProperty("org.eclipse.set.browser.remote-debugging-port", //$NON-NLS-1$
+					"9999"); //$NON-NLS-1$
+		}
 		browser = createBrowser(parent);
 	}
 

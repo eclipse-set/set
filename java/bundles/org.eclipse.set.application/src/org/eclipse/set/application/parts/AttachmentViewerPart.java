@@ -111,9 +111,52 @@ public class AttachmentViewerPart extends BasePart
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL).grab(true, true)
 				.span(2, 1).applyTo(fileWebBrowser.getControl());
 		final String serverPath = path.getFileName().toString();
-		final String viewerUrl = "https://toolbox/" + serverPath; //$NON-NLS-1$
-		fileWebBrowser.serveFile(serverPath, mime, path);
-		fileWebBrowser.setUrl(viewerUrl);
+		final String attachmentUrl = "https://toolbox/attachmentSource"; //$NON-NLS-1$
+		final String htmlSite = createAttachmentViewerHTML(serverPath,
+				attachmentUrl, mime);
+		fileWebBrowser.serveFile("attachmentSource", mime, path); //$NON-NLS-1$
+		fileWebBrowser.serveUri(serverPath, respone -> {
+			respone.setMimeType("text/html"); //$NON-NLS-1$
+			respone.setStatus(200);
+			respone.setResponseData(htmlSite);
+		});
+		fileWebBrowser.setUrl("https://toolbox/" + serverPath); //$NON-NLS-1$
+
+	}
+
+	@SuppressWarnings("nls")
+	protected static String createAttachmentViewerHTML(final String sourceName,
+			final String attachmentSource, final String mime) {
+		String htmlTag = "";
+		if (mime.startsWith("image")) {
+			htmlTag = String.format("""
+					<image src="%s">
+					""", attachmentSource);
+		} else if (mime.startsWith("video")) {
+			htmlTag = String.format("""
+						<video controls>
+							<source src="%s" type="%s">
+						</video>
+					""", attachmentSource, mime);
+		}
+		return String.format(
+				"""
+							<!DOCTYPE html>
+							<html lang="">
+									<head>
+											<meta charset="utf-8" />
+											<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+											<title>%s</title>
+									</head>
+									<body>
+											<div>
+													%s
+											</div>
+									</body>
+							</html>
+						""",
+				sourceName, htmlTag);
+
 	}
 
 	@Override
