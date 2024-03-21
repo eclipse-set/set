@@ -10,14 +10,12 @@
 package org.eclipse.set.utils.table.menu;
 
 import java.util.Set;
+import java.util.function.IntPredicate;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
-import org.eclipse.nebula.widgets.nattable.ui.menu.IMenuItemProvider;
-import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.utils.BasePart;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.set.utils.events.JumpToSourceLineEvent;
+import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 
 /**
  * Service for table menu
@@ -29,36 +27,12 @@ public interface TableMenuService {
 	/**
 	 * @return list of menu item
 	 */
-	Set<IMenuItemProvider> getMenuItems();
+	Set<TableBodyMenuItem> getMenuItems();
 
 	/**
 	 * @param menuItem
 	 */
-	void addMenuItem(IMenuItemProvider menuItem);
-
-	/**
-	 * Create default items for the menu (e.g show text view)
-	 * 
-	 * @param part
-	 *            the part of table
-	 * @param table
-	 *            the {@link Table}
-	 * @param tableDataProvider
-	 *            table data provider
-	 * @param selectionLayer
-	 *            selection layer
-	 */
-	void createDefaultMenuItems(BasePart part, Table table,
-			final IDataProvider tableDataProvider,
-			SelectionLayer selectionLayer);
-
-	/**
-	 * @param label
-	 * @param selectionListerner
-	 * @return menu item
-	 */
-	IMenuItemProvider createMenuItem(final String label,
-			final SelectionListener selectionListerner);
+	void addMenuItem(TableBodyMenuItem menuItem);
 
 	/**
 	 * craete menu configuration for the table
@@ -71,4 +45,16 @@ public interface TableMenuService {
 	 */
 	TableBodyMenuConfiguration createMenuConfiguration(final NatTable natTable,
 			final SelectionLayer selectionLayer);
+
+	/**
+	 * @param jumpEvent
+	 *            the {@link JumpToSourceLineEvent}
+	 * @param enablePredicate
+	 *            condition for enable this item
+	 * @return show text view item
+	 */
+	TableBodyMenuItem createShowInTextViewItem(
+			final JumpToSourceLineEvent jumpEvent,
+			IntPredicate enablePredicate);
+
 }

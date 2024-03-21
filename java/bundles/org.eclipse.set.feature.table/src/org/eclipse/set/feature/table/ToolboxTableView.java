@@ -12,6 +12,7 @@ import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelT
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,6 +41,7 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
@@ -63,6 +65,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.model.titlebox.extensions.TitleboxExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
@@ -76,6 +79,7 @@ import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
+import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
@@ -440,8 +444,15 @@ public final class ToolboxTableView extends BasePart {
 		natTable = new NatTable(parent, gridLayer, false);
 		GridDataFactory.fillDefaults().grab(true, true).minSize(-1, 500)
 				.applyTo(natTable);
-		tableMenuService.createDefaultMenuItems(this, table, bodyDataProvider,
-				selectionLayer);
+		tableMenuService.addMenuItem(tableMenuService.createShowInTextViewItem(
+				createJumpToSourceLineEvent(), rowPosition -> {
+					final int headerRowCount = columnGroup4HeaderLayer
+							.getRowCount();
+					final List<TableRow> tableRows = TableExtensions
+							.getTableRows(table);
+					return TableRowExtensions.getLeadingObjectGuid(tableRows
+							.get(rowPosition - headerRowCount)) != null;
+				}));
 		natTable.addConfiguration(tableMenuService
 				.createMenuConfiguration(natTable, selectionLayer));
 
@@ -610,5 +621,24 @@ public final class ToolboxTableView extends BasePart {
 
 		tableInstances.clear();
 		tableInstances.addAll(TableExtensions.getTableRows(table));
+	}
+
+	protected JumpToSourceLineEvent createJumpToSourceLineEvent() {
+		return new JumpToSourceLineEvent(this) {
+			@Override
+			public String getObjectGuid() {
+				final Collection<ILayerCell> selectedCells = bodyLayerStack
+						.getSelectionLayer().getSelectedCells();
+				if (selectedCells.isEmpty()) {
+					return null;
+				}
+				final int rowPosition = selectedCells.iterator().next()
+						.getRowPosition();
+				final List<TableRow> tableRows = TableExtensions
+						.getTableRows(table);
+				return TableRowExtensions
+						.getLeadingObjectGuid(tableRows.get(rowPosition));
+			}
+		};
 	}
 }

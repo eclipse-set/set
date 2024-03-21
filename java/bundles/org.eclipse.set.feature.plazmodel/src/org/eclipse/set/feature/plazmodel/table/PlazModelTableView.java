@@ -70,8 +70,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		final Table table = service.transform(validationReport);
 		this.createTableBodyData(table, rowIndex -> validationReport
 				.getEntries().get(rowIndex - 1).getLineNumber());
-		tableMenuService.createDefaultMenuItems(part, table, bodyDataProvider,
-				bodyLayerStack.getSelectionLayer());
+		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		natTable = createTable(parent, table, tableMenuService);
 
 		return natTable;
@@ -90,5 +89,10 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 			bodyDataProvider.refresh(service.transform(report));
 			natTable.refresh();
 		}
+	}
+
+	@Override
+	protected TableMenuService getTableMenuService() {
+		return tableMenuService;
 	}
 }

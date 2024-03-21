@@ -22,6 +22,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.TableError;
+import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -121,5 +122,10 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 		final TableErrorTransformationService service = new TableErrorTransformationService(
 				messages);
 		return service.transform(tableErrors);
+	}
+
+	@Override
+	protected TableMenuService getTableMenuService() {
+		throw new UnsupportedOperationException();
 	}
 }

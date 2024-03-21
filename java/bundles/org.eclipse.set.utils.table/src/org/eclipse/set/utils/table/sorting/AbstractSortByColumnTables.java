@@ -9,6 +9,7 @@
 
 package org.eclipse.set.utils.table.sorting;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
@@ -27,18 +28,24 @@ import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.grid.layer.RowHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.model.RowGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
+import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
+import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
+import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -193,5 +200,47 @@ public abstract class AbstractSortByColumnTables {
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider));
 		return natTable;
+	}
+
+	protected abstract TableMenuService getTableMenuService();
+
+	protected TableBodyMenuItem createJumpToTextViewMenuItem(
+			final BasePart part) {
+		if (getTableMenuService() == null) {
+			return null;
+		}
+		return getTableMenuService().createShowInTextViewItem(
+				createJumpToTextViewEvent(part), selectedRowIndex -> {
+					// Subtract header and filter row
+					final int originalRowIndex = bodyDataProvider
+							.getOriginalRowIndex(selectedRowIndex - 2);
+					return originalRowIndex > 0 && bodyDataProvider
+							.getObjectSourceLine(originalRowIndex) > 0;
+				});
+	}
+
+	protected JumpToSourceLineEvent createJumpToTextViewEvent(
+			final BasePart part) {
+		return new JumpToSourceLineEvent(part) {
+
+			@Override
+			public Pair<ObjectScope, Integer> getLineNumber() {
+				final Collection<ILayerCell> selectedCells = getSelectionLayer()
+						.getSelectedCells();
+				if (selectedCells.isEmpty()) {
+					return new Pair<>(null, Integer.valueOf(-1));
+				}
+				final int rowPosition = selectedCells.iterator().next()
+						.getRowPosition();
+				final int originalRow = bodyDataProvider
+						.getOriginalRowIndex(rowPosition);
+				final String objectScope = bodyDataProvider
+						.getObjectScope(rowPosition);
+				final ObjectScope scope = ObjectScope.get(objectScope);
+				final Integer lineNumber = Integer.valueOf(
+						bodyDataProvider.getObjectSourceLine(originalRow));
+				return new Pair<>(scope, lineNumber);
+			}
+		};
 	}
 }
