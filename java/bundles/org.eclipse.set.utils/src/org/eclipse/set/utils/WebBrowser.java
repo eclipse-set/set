@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.eclipse.set.browser.Browser;
+import org.eclipse.set.browser.cef.ChromiumStatic;
 import org.eclipse.set.browser.swt.BrowserFunction;
 import org.eclipse.set.browser.swt.WindowEvent;
 import org.eclipse.swt.SWT;
@@ -43,6 +44,10 @@ public class WebBrowser {
 	 *            The SWT parent object
 	 */
 	public WebBrowser(final Composite parent) {
+		// Enable browser debug in development mode
+		if (ToolboxConfiguration.isDevelopmentMode()) {
+			ChromiumStatic.getCEFConfiguration().DebugPort = 9999;
+		}
 		browser = createBrowser(parent);
 	}
 
