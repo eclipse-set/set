@@ -8,23 +8,23 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Umfahrpunkt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Umfahrpunkt
+import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
@@ -47,8 +47,8 @@ import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
-import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
+import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.basis.graph.DirectedEdgePathExtension.*
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
@@ -82,7 +82,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Startsignal
 	 */
 	def static Signal getStart(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDStart
+		return fahrweg.IDStart?.value
 	}
 
 	/**
@@ -91,7 +91,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Zielobjekt
 	 */
 	def static Basis_Objekt getZielObjekt(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDZiel
+		return fahrweg.IDZiel?.value
 	}
 
 	/**
@@ -100,7 +100,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Zielpunkt
 	 */
 	def static Markanter_Punkt getZielPunkt(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDZiel as Markanter_Punkt
+		return fahrweg.IDZiel.value as Markanter_Punkt
 	}
 
 	/**
@@ -133,7 +133,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Zielsignal
 	 */
 	def static Signal getZielSignal(Fstr_Fahrweg fahrweg) {
-		return fahrweg.IDZiel as Signal
+		return fahrweg?.IDZiel?.value as Signal
 	}
 
 	/**
@@ -145,7 +145,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		Fstr_Fahrweg fahrweg) {
 		val result = new LinkedList<Fstr_Abhaengigkeit>
 		for (abhaengigkeit : fahrweg.container.fstrAbhaengigkeit) {
-			if (abhaengigkeit.IDFstrFahrweg.identitaet?.wert ==
+			if (abhaengigkeit.IDFstrFahrweg?.value.identitaet?.wert ==
 				fahrweg.identitaet.wert) {
 				result.add(abhaengigkeit)
 			}
@@ -413,7 +413,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 
 	def static List<Fstr_Umfahrpunkt> getUmfahrpunkte(Fstr_Fahrweg fahrweg) {
 		return fahrweg.container.fstrUmfahrpunkt.filter [
-			IDFstrFahrweg?.identitaet?.wert == fahrweg.identitaet.wert
+			IDFstrFahrweg?.value?.identitaet?.wert == fahrweg.identitaet.wert
 		].toList
 	}
 

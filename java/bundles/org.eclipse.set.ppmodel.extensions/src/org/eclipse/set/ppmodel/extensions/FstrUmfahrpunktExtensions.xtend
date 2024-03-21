@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Umfahrpunkt
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Umfahrpunkt
 
 /**
  * This class extends {@link Fstr_Umfahrpunkt}.
@@ -24,6 +24,6 @@ class FstrUmfahrpunktExtensions extends BasisObjektExtensions {
 	 * @return the element this Umfahrpunkt is derived from 
 	 */
 	static def Basis_Objekt getUmfahrpunkt(Fstr_Umfahrpunkt umfahrpunkt) {
-		return umfahrpunkt.IDUmfahrpunkt
+		return umfahrpunkt.IDUmfahrpunkt?.value
 	}
 }

@@ -22,8 +22,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import jakarta.inject.Inject;
-
 import org.apache.commons.io.FileUtils;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -66,14 +64,14 @@ import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo;
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
@@ -85,6 +83,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jakarta.inject.Inject;
 
 /**
  * Implementation of model session.
@@ -156,6 +156,7 @@ public class ModelSession implements IModelSession {
 	private boolean isNewProject = false;
 	private final DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
+	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
 	private final SessionService sessionService;
 	private double symbolRotation;
@@ -407,6 +408,11 @@ public class ModelSession implements IModelSession {
 	@Override
 	public PlanPro_Schnittstelle getPlanProSchnittstelle() {
 		return planPro_Schnittstelle;
+	}
+
+	@Override
+	public PlanPro_Layoutinfo getLayoutInformation() {
+		return layoutInfo;
 	}
 
 	/**

@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Bedien_Anzeige_Element
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
 
 /**
  * Extensions for {@link NB_Bedien_Anzeige_Element}.
@@ -25,7 +25,7 @@ class NbBedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 */
 	static def Bedien_Anzeige_Element getBedienAnzeigeElement(
 		NB_Bedien_Anzeige_Element nbBedienAnzeigeElement) {
-		return nbBedienAnzeigeElement.IDBedienAnzeigeElement
+		return nbBedienAnzeigeElement.IDBedienAnzeigeElement?.value
 	}
 
 	/**
@@ -35,6 +35,6 @@ class NbBedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 */
 	static def NB_Zone getNbZone(
 		NB_Bedien_Anzeige_Element nbBedienAnzeigeElement) {
-		return nbBedienAnzeigeElement.IDNBZone
+		return nbBedienAnzeigeElement.IDNBZone?.value
 	}
 }

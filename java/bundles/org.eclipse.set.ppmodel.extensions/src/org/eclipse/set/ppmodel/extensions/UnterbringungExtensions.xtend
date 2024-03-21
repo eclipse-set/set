@@ -8,12 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMUnterbringungArt
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
-import org.eclipse.set.toolboxmodel.Geodaten.Strecke
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMUnterbringungArt
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import java.util.List
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMTueranschlag
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMTueranschlag
 
 /**
  * Extensions for {@link Unterbringung}.
@@ -36,7 +36,7 @@ class UnterbringungExtensions extends BasisObjektExtensions {
 	 */
 	def static GEO_Punkt getGeoPunkt(Unterbringung unterbringung) {
 		// TODO(1.10.0.1): There are now multiple ID_GEO_Punkt
-		return unterbringung.IDGEOPunkt.get(0)
+		return unterbringung.IDGEOPunkt.get(0)?.value
 
 	}
 
@@ -65,7 +65,7 @@ class UnterbringungExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Strecke> getStrecken(Unterbringung unterbringung) {
 		return unterbringung?.punktObjektStrecke?.map [
-			IDStrecke
+			IDStrecke?.value
 		];
 	}
 	

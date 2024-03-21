@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Freimelde_Zuordnung
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Freimelde_Zuordnung
 
 /**
  * Extensions for {@link Fla_Freimelde_Zuordnung}.
@@ -22,6 +22,6 @@ class FlaFreimeldeZuordnungExtensions extends BasisObjektExtensions {
 	 * @return the freizuprüfende Flankenschutzraum 
 	 */
 	def static FMA_Anlage getFmaAnlage(Fla_Freimelde_Zuordnung zuordnung) {
-		return zuordnung.IDFMAAnlage
+		return zuordnung.IDFMAAnlage?.value
 	}
 }

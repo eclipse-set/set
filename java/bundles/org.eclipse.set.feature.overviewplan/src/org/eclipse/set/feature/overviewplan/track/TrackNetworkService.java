@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 
 /**
  * @author truong

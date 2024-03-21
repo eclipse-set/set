@@ -42,7 +42,7 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.NilValidator;
 import org.eclipse.set.feature.validation.session.ModelSession.ServiceProvider;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.service.component.annotations.Component;
 

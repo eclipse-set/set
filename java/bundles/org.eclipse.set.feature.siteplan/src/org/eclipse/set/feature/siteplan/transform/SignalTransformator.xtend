@@ -22,15 +22,15 @@ import org.eclipse.set.model.siteplan.SignalScreen
 import org.eclipse.set.model.siteplan.SignalSystem
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Art
-import org.eclipse.set.toolboxmodel.Signale.ENUMBefestigungArt
-import org.eclipse.set.toolboxmodel.Signale.ENUMSignalBefestigungsart
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
+import org.eclipse.set.model.planpro.Gleis.Gleis_Art
+import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
+import org.eclipse.set.model.planpro.Signale.ENUMSignalBefestigungsart
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 

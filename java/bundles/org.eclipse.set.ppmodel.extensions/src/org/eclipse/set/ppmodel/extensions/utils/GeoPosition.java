@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils;
 
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung;
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.locationtech.jts.geom.Coordinate;
 
 /**

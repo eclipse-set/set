@@ -18,12 +18,12 @@ import java.util.stream.Stream;
 
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
-import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Kante;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Seitliche_Lage_TypeClass;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Wirkrichtung_TypeClass;
-import org.eclipse.set.toolboxmodel.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Kante;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Basisobjekte.Seitliche_Lage_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Wirkrichtung_TypeClass;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
 
 import com.google.common.collect.Streams;
 
@@ -180,8 +180,9 @@ public class SskpBahnsteigUtils {
 	private static Stream<TopPoint> toTopPoints(
 			final Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 		return Stream.of(
-				new TopPoint(tb.getIDTOPKante(), tb.getBegrenzungA().getWert()),
-				new TopPoint(tb.getIDTOPKante(),
+				new TopPoint(tb.getIDTOPKante().getValue(),
+						tb.getBegrenzungA().getWert()),
+				new TopPoint(tb.getIDTOPKante().getValue(),
 						tb.getBegrenzungB().getWert()));
 
 	}

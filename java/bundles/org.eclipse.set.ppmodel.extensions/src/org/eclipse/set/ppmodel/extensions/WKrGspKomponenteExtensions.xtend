@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import java.util.List
 import java.util.Set
 
@@ -32,7 +32,7 @@ class WKrGspKomponenteExtensions extends PunktObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWKrGspElement(
 		W_Kr_Gsp_Komponente komponente) {
-		return komponente?.IDWKrGspElement
+		return komponente?.IDWKrGspElement?.value
 	}
 
 	/**
@@ -42,7 +42,7 @@ class WKrGspKomponenteExtensions extends PunktObjektExtensions {
 	 */
 	def static List<Regelzeichnung> getRegelzeichnungen(
 		W_Kr_Gsp_Komponente komponente) {
-		return komponente?.IDRegelzeichnung
+		return komponente?.IDRegelzeichnung?.map[value]?.filterNull?.toList
 	}
 
 	/**

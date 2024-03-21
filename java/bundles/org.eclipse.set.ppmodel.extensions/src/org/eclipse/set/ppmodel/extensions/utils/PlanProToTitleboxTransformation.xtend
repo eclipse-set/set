@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_E_Allg_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_G_Schriftfeld_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.PlanPro.Planung_E_Allg_AttributeGroup
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel
+import org.eclipse.set.model.planpro.PlanPro.Planung_G_Schriftfeld_AttributeGroup
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe
 import org.eclipse.set.model.titlebox.Titlebox
 import org.eclipse.set.model.titlebox.TitleboxFactory
 import org.eclipse.set.utils.ToolboxConfiguration

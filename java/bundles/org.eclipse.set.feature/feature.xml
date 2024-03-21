@@ -468,9 +468,13 @@ http://www.eclipse.org/legal/epl-v20.html
 
       <plugin id="org.eclipse.swt" version="0.0.0"/>
 
+      <<<<<<< HEAD
       <plugin id="org.eclipse.set.emfforms" version="0.0.0"/>
 
       <plugin id="org.eclipse.set.model.model11001.editor" version="0.0.0"/>
+=======
+      <plugin id="org.eclipse.emfforms.swt.controlgrid" version="0.0.0"/>
+>>>>>>> fdf03090 (Update model to use transient data for ID references)
 
       <plugin id="org.eclipse.emfforms.swt.controlgrid" version="0.0.0"/>
 
@@ -568,6 +572,7 @@ http://www.eclipse.org/legal/epl-v20.html
 
       <plugin id="org.eclipse.set.utils.table" version="0.0.0"/>
 
+      <<<<<<< HEAD
       <plugin id="org.eclipse.set.toolboxmodel" version="0.0.0"/>
 
       <plugin id="org.eclipse.set.toolboxmodel.transform" version="0.0.0"/>
@@ -577,6 +582,9 @@ http://www.eclipse.org/legal/epl-v20.html
       <plugin id="org.eclipse.set.toolboxmodel.editor" version="0.0.0"/>
 
       <plugin id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
+=======
+      <plugin id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
+>>>>>>> fdf03090 (Update model to use transient data for ID references)
 
       <plugin id="org.eclipse.emfcloud.emfjson-jackson" version="0.0.0"/>
 
@@ -759,5 +767,11 @@ http://www.eclipse.org/legal/epl-v20.html
       <plugin id="org.apache.xml.resolver" version="0.0.0"/>
 
       <plugin id="org.apache.xml.serializer" version="0.0.0"/>
+
+      <plugin id="org.eclipse.set.model.planpro" version="0.0.0"/>
+
+      <plugin id="org.eclipse.set.model.planpro.edit" version="0.0.0"/>
+
+      <plugin id="org.eclipse.set.model.planpro.editor" version="0.0.0"/>
 
 </feature>

@@ -24,7 +24,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.extensions.SourceExtensions;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.w3c.dom.ls.LSInput;
@@ -159,7 +159,7 @@ public class PlanProSchemaDir {
 
 	private static final String PLANPRO_SCHEMA_NAME = "PlanPro.xsd"; //$NON-NLS-1$
 
-	private static final String SCHEMA_DIR = "schema-planpro"; //$NON-NLS-1$
+	private static final String SCHEMA_DIR = "schema"; //$NON-NLS-1$
 
 	private static final String SCHEMA_PATTERN = "*.xsd"; //$NON-NLS-1$
 

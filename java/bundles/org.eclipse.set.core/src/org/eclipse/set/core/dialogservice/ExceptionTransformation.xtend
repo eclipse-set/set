@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.core.dialogservice
 
-import org.eclipse.set.toolboxmodel.BasisTypen.Zeiger_TypeClass
+import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass
 import org.eclipse.set.basis.exceptions.ErrorStatus
 import org.eclipse.set.basis.exceptions.FileExportException
 import org.eclipse.set.basis.exceptions.IllegalReference

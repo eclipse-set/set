@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
-import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 
 /**
  * This class extends {@link Fstr_Signalisierung}.
@@ -30,7 +30,7 @@ class FstrSignalisierungExtensions extends BasisObjektExtensions {
 				'''Fstr_Signalisierung «sig.identitaet.wert» has not the required IDSignalSignalbegriff value'''
 			)
 		}
-		return sig.IDSignalSignalbegriff
+		return sig.IDSignalSignalbegriff?.value
 	}
 
 	/**
@@ -40,6 +40,6 @@ class FstrSignalisierungExtensions extends BasisObjektExtensions {
 	 */
 	def static Signal_Signalbegriff getSignalSignalbegriffZiel(
 		Fstr_Signalisierung sig) {
-		return sig.IDSignalSignalbegriffZiel
+		return sig.IDSignalSignalbegriffZiel?.value
 	}
 }

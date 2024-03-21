@@ -24,7 +24,7 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
 
 /**

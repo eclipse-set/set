@@ -24,7 +24,7 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.tablemodel.TablemodelPackage
 import org.eclipse.set.model.tablemodel.extensions.internal.TableToFootnoteText
 import org.eclipse.set.model.tablemodel.format.TextAlignment
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*

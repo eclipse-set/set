@@ -15,8 +15,8 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander_Zuordnung
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander_Zuordnung
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.*

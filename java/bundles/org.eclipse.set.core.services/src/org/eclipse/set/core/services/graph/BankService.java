@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehungslinie;
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie;
 
 /**
  * Helper service to calculate bank values for points
@@ -39,9 +39,9 @@ public interface BankService {
 		public boolean isOnBankingLine(final TopPoint point) {
 			final BigDecimal pointDistance = point.distance();
 			if (path == null) {
-				final BigDecimal ueLeft = line.getIDUeberhoehungA()
+				final BigDecimal ueLeft = line.getIDUeberhoehungA().getValue()
 						.getPunktObjektTOPKante().get(0).getAbstand().getWert();
-				final BigDecimal ueRight = line.getIDUeberhoehungB()
+				final BigDecimal ueRight = line.getIDUeberhoehungB().getValue()
 						.getPunktObjektTOPKante().get(0).getAbstand().getWert();
 				final BigDecimal min = ueLeft.min(ueRight);
 				final BigDecimal max = ueLeft.max(ueRight);
@@ -57,10 +57,10 @@ public interface BankService {
 
 			// Validate bank line start is before the point object on the
 			// first edge, if the point is on the first edge
-			final Optional<BigDecimal> a = path
-					.getDistance(new TopPoint(line.getIDUeberhoehungA()));
-			final Optional<BigDecimal> b = path
-					.getDistance(new TopPoint(line.getIDUeberhoehungB()));
+			final Optional<BigDecimal> a = path.getDistance(
+					new TopPoint(line.getIDUeberhoehungA().getValue()));
+			final Optional<BigDecimal> b = path.getDistance(
+					new TopPoint(line.getIDUeberhoehungB().getValue()));
 
 			if (!a.isPresent() || !b.isPresent()) {
 				return false;

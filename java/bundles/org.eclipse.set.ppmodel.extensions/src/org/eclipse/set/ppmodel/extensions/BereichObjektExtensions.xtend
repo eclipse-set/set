@@ -10,12 +10,12 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.DirectedEdgePath
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.eclipse.set.ppmodel.extensions.utils.TopKantePath
 import java.math.BigDecimal
@@ -410,8 +410,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
-		val sameTopKante = teilbereich.IDTOPKante.identitaet?.wert ==
-			singlePoint.IDTOPKante.identitaet?.wert
+		val sameTopKante = teilbereich.IDTOPKante?.value.identitaet?.wert ==
+			singlePoint.IDTOPKante?.value?.identitaet?.wert
 
 		if (sameTopKante) {
 			val A = teilbereich.begrenzungA.wert.doubleValue
@@ -448,7 +448,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	def static TOP_Kante getTopKante(
 		Bereich_Objekt_Teilbereich_AttributeGroup portion
 	) {
-		return portion.IDTOPKante
+		return portion.IDTOPKante?.value
 	}
 
 	/**
@@ -572,7 +572,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		TOP_Kante topKante,
 		double distance
 	) {
-		if (teilbereich.IDTOPKante.identitaet?.wert != topKante.identitaet.wert)
+		if (teilbereich.IDTOPKante?.value.identitaet?.wert != topKante.identitaet.wert)
 			return false;
 
 		val A = teilbereich.begrenzungA.wert.doubleValue

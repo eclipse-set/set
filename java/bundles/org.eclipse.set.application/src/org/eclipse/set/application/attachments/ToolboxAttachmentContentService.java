@@ -10,14 +10,14 @@ package org.eclipse.set.application.attachments;
 
 import java.io.IOException;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.attachments.Attachment;
 import org.eclipse.set.basis.files.AttachmentContentService;
 import org.eclipse.set.basis.guid.Guid;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
+
+import jakarta.inject.Inject;
 
 /**
  * Implementation for {@link AttachmentContentService}.

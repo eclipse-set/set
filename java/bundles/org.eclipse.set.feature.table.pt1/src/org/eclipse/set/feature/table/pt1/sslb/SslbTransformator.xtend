@@ -17,8 +17,8 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Block.Block_Element
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMOertlichkeitArt
+import org.eclipse.set.model.planpro.Block.Block_Element
+import org.eclipse.set.model.planpro.Geodaten.ENUMOertlichkeitArt
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sslb.SslbColumns.*
@@ -30,7 +30,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BlockAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockStreckeExtensions.*
-import org.eclipse.set.toolboxmodel.Block.Block_Anlage
+import org.eclipse.set.model.planpro.Block.Block_Anlage
 
 /**
  * Table transformation for a Inselgleistabelle (Sslb).
@@ -109,7 +109,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					getBetriebsStelle(
 						[blockAnlagenStart],
-						[IDBlockElementB]
+						[IDBlockElementB?.value]
 					)
 				],
 				"/",
@@ -137,7 +137,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Streckenziel_Start),
 			blockElement,
 			[!blockElement.blockAnlagenStart.isEmpty],
-			[blockElement?.IDSignal?.bezeichnung?.bezeichnungTabelle?.wert]
+			[
+				blockElement?.IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.
+					wert
+			]
 		)
 
 		// G: Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
@@ -149,7 +152,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					getBetriebsStelle(
 						[blockAnlagenZiel],
-						[IDBlockElementA]
+						[IDBlockElementA?.value]
 					)
 				],
 				"/",
@@ -177,7 +180,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Streckenziel_Ziel),
 			blockElement,
 			[!blockElement.blockAnlagenZiel.isEmpty],
-			[blockElement?.IDSignal?.bezeichnung?.bezeichnungTabelle?.wert]
+			[
+				blockElement?.IDSignal?.value?.bezeichnung?.bezeichnungTabelle?.
+					wert
+			]
 		)
 
 		// J: Sslb.Grundsatzangaben.Blockschaltung
@@ -382,7 +388,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val oertlichkeitAbk = oertlichkeit?.bezeichnung?.
 			oertlichkeitAbkuerzung?.wert
 		val oertlichkeitAwanst = oertlichkeit?.IDOertlichkeitAwanstBedient?.
-			bezeichnung?.oertlichkeitAbkuerzung
+			value?.bezeichnung?.oertlichkeitAbkuerzung
 		return '''«oertlichkeitAbk» («oertlichkeitAwanst»)'''
 	}
 

@@ -29,9 +29,9 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.validation.CustomValidator;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.FilterDiagnostician;
-import org.eclipse.set.model.model11001.PlanPro.DocumentRoot;
-import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -78,7 +78,7 @@ public class ValidationServiceImpl implements ValidationService {
 			final ValidationResult result) {
 		xsdValidation(toolboxFile.getModelPath(), result);
 		final DocumentRoot planProSourceModel = toolboxFile
-				.getPlanProSourceModel();
+				.getPlanProDocumentRoot();
 		if (planProSourceModel != null) {
 			emfValidation(planProSourceModel.getPlanProSchnittstelle(), result);
 		}
@@ -88,8 +88,8 @@ public class ValidationServiceImpl implements ValidationService {
 	private void validateLayoutinfo(final ToolboxFile toolboxFile,
 			final ValidationResult result) {
 		xsdValidation(toolboxFile.getLayoutPath(), result);
-		final org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot layoutSourceModel = toolboxFile
-				.getLayoutSourceModel();
+		final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot layoutSourceModel = toolboxFile
+				.getLayoutDocumentRoot();
 		if (layoutSourceModel != null) {
 			emfValidation(layoutSourceModel.getPlanProLayoutinfo(), result);
 		}

@@ -15,10 +15,10 @@ import org.eclipse.set.model.siteplan.Label
 import org.eclipse.set.model.siteplan.RouteObject
 import org.eclipse.set.model.siteplan.Siteplan
 import org.eclipse.set.model.siteplan.SiteplanFactory
-import org.eclipse.set.toolboxmodel.BasisTypen.Bezeichnung_Element_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.BasisTypen.Bezeichnung_Element_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 
@@ -77,7 +77,7 @@ class TransformUtils {
 		routeObject.routeLocations.addAll(punktObjektStrecke.map[
 			val location = SiteplanFactory.eINSTANCE.createRouteLocation
 			location.km = it.streckeKm?.wert
-			location.route = it.IDStrecke?.bezeichnung?.bezeichnungStrecke?.wert ?: UNKNOWN_ROUTE
+			location.route = it.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: UNKNOWN_ROUTE
 			return location
 		])
 	}
@@ -89,8 +89,8 @@ class TransformUtils {
 				val objectManagement = SiteplanFactory.eINSTANCE.createObjectManagement
 				objectManagement.planningGroupID = identitaet?.wert
 				LSTPlanungEinzel?.LSTObjektePlanungsbereich?.IDLSTObjektPlanungsbereich?.forEach[
-						if (!objectManagement.planningObjectIDs.contains(identitaet.wert)) {
-							objectManagement.planningObjectIDs.add(identitaet.wert)
+						if (!objectManagement.planningObjectIDs.contains(value.identitaet.wert)) {
+							objectManagement.planningObjectIDs.add(value.identitaet.wert)
 						}
 					]
 				siteplan.objectManagement.add(objectManagement)

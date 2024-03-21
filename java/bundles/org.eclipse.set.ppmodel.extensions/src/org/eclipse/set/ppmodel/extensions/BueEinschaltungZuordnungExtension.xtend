@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung_Zuordnung
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Einschaltung
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Einschaltung_Zuordnung
 
 /**
  * Extensions for {@link BUE_Einschaltung_Zuordnung}.
@@ -25,6 +25,6 @@ class BueEinschaltungZuordnungExtension extends BasisObjektExtensions {
 	 */
 	static def BUE_Einschaltung getEinschaltung(
 		BUE_Einschaltung_Zuordnung zuordnung) {
-		return zuordnung.IDBUEEinschaltung
+		return zuordnung.IDBUEEinschaltung?.value
 	}
 }

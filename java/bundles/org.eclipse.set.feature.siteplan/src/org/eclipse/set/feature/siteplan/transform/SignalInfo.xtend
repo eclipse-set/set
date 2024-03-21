@@ -9,8 +9,8 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.util.Set
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 

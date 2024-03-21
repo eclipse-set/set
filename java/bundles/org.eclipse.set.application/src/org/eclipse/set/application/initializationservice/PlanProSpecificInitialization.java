@@ -14,11 +14,11 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions;
 import org.osgi.service.component.annotations.Component;
 
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
-import org.eclipse.set.toolboxmodel.PlanPro.Fuehrende_Oertlichkeit_TypeClass;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_E_Allg_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.Fuehrende_Oertlichkeit_TypeClass;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_E_Allg_AttributeGroup;
 
 /**
  * PlanPro specific initialization step.

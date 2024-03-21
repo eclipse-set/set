@@ -16,27 +16,27 @@ import org.eclipse.set.basis.graph.Digraphs
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.ppmodel.extensions.utils.TopRouting
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
-import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
-import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
-import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
-import static org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung.*
-import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
+import static org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
+import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
+import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 
 import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
@@ -70,7 +70,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	) {
 		return signal.container.flaSchutz.filter [
 			flaSchutzSignal !== null &&
-				flaSchutzSignal.IDFlaSignal.identitaet.wert ==
+				flaSchutzSignal.IDFlaSignal?.value.identitaet.wert ==
 					signal.identitaet.wert
 		].toList
 	}
@@ -104,9 +104,9 @@ class SignalExtensions extends PunktObjektExtensions {
 		for (Fstr_Zug_Rangier zugRangier : signal.container.fstrZugRangier) {
 			var String IDEnd
 			if (isStart) {
-				IDEnd = zugRangier?.fstrFahrweg?.IDStart?.identitaet?.wert
+				IDEnd = zugRangier?.fstrFahrweg?.IDStart?.value?.identitaet?.wert
 			} else {
-				IDEnd = zugRangier?.fstrFahrweg?.IDZiel?.identitaet?.wert
+				IDEnd = zugRangier?.fstrFahrweg?.IDZiel?.value?.identitaet?.wert
 			}
 			if (zugRangier?.fstrRangier !== null &&
 				signal.identitaet.wert.equals(IDEnd)) {
@@ -156,7 +156,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		List<Signal_Befestigung> gruppe) {
 		return signal.signalRahmen.filter [
 			gruppe.map[identitaet.wert].contains(
-				IDSignalBefestigung.identitaet?.wert)
+				IDSignalBefestigung?.value.identitaet?.wert)
 		].toList
 	}
 
@@ -243,7 +243,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static List<Schaltmittel_Zuordnung> getAnrueckverschluss(
 		Signal signal
 	) {
-		return signal?.signalFstrS?.IDAnrueckverschluss ?: Collections.emptyList
+		return signal?.signalFstrS?.IDAnrueckverschluss?.map[value]?.filterNull?.toList ?: Collections.emptyList
 	}
 
 	/**
@@ -267,7 +267,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @return the Signal Real Aktiv Stellelement
 	 */
 	def static Stellelement getRealAktivStellelement(Signal signal) {
-		return signal.signalReal?.signalRealAktiv?.IDStellelement
+		return signal.signalReal?.signalRealAktiv?.IDStellelement?.value
 	}
 
 	/**
@@ -279,7 +279,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		val signalRealAktiv = signal.signalReal?.signalRealAktiv
-		return signalRealAktiv?.IDStellelement
+		return signalRealAktiv?.IDStellelement?.value
 	}
 
 	/**
@@ -289,7 +289,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWKrGspElement(Signal signal) {
 		val weichenElemente = signal.container.WKrGspElement.filter [
-			weicheElement?.IDGrenzzeichen?.identitaet?.wert ==
+			weicheElement?.IDGrenzzeichen?.value?.identitaet?.wert ==
 				signal.identitaet.wert
 		]
 		if (weichenElemente.empty) {
@@ -338,7 +338,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		return (
-			signal?.signalFstrAusInselgleis?.IDRaFahrtGleichzeitigVerbot ?:
+			signal?.signalFstrAusInselgleis?.IDRaFahrtGleichzeitigVerbot?.map[value]?.filterNull ?:
 			Collections.emptySet
 		).toSet
 	}
@@ -353,7 +353,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		return (
-			signal?.signalFstrAusInselgleis?.IDZgFahrtGleichzeitigVerbot ?:
+			signal?.signalFstrAusInselgleis?.IDZgFahrtGleichzeitigVerbot?.map[value]?.filterNull ?:
 			Collections.emptySet
 		).toSet
 	}
@@ -366,7 +366,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	static def Schaltmittel_Zuordnung getZweitesHaltfallkriterium(
 		Signal signal
 	) {
-		return signal?.signalFstrS?.IDZweitesHaltfallkriterium
+		return signal?.signalFstrS?.IDZweitesHaltfallkriterium?.value
 	}
 
 	/**

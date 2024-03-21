@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 

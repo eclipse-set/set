@@ -11,7 +11,6 @@ package org.eclipse.set.basis.commands;
 import java.io.IOException;
 
 import org.eclipse.emf.common.command.AbstractCommand;
-
 import org.eclipse.set.basis.MediaInfo;
 
 /**

@@ -17,13 +17,13 @@ import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.basis.geometry.SegmentPosition
 import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.utils.math.Bloss
 import org.eclipse.set.utils.math.Clothoid
 import org.locationtech.jts.algorithm.distance.DistanceToPoint
@@ -311,7 +311,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static GEO_Knoten getGeoKnotenA(
 		GEO_Kante kante
 	) {
-		return kante.IDGEOKnotenA
+		return kante.IDGEOKnotenA?.value
 	}
 
 	/**
@@ -322,7 +322,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static GEO_Knoten getGeoKnotenB(
 		GEO_Kante kante
 	) {
-		return kante.IDGEOKnotenB
+		return kante.IDGEOKnotenB?.value
 	}
 
 	/**
@@ -356,7 +356,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static Basis_Objekt getGeoArt(
 		GEO_Kante kante
 	) {
-		return kante.IDGEOArt
+		return kante.IDGEOArt?.value
 	}
 
 	/**

@@ -13,15 +13,14 @@ package org.eclipse.set.feature.overviewplan.track
 import java.util.Collections
 import java.util.List
 import java.util.Map
-import java.util.Optional
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 
-import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
@@ -30,6 +29,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.utils.collection.MapExtensions.*
 import static org.eclipse.set.feature.overviewplan.track.MetaDataCache.*
+import java.util.Optional
 
 class TOPKanteMetaData {
 	TOP_Kante topEdge
@@ -45,8 +45,8 @@ class TOPKanteMetaData {
 	
 	new(TOP_Kante topKante) {
 		this.topEdge = topKante
-		topNodeA = topKante?.IDTOPKnotenA
-		topNodeB = topKante?.IDTOPKnotenB
+		topNodeA = topKante?.IDTOPKnotenA?.value
+		topNodeB = topKante?.IDTOPKnotenB?.value
 		changeLeftRightNode.put(topNodeA, false)
 		changeLeftRightNode.put(topNodeB, isChangeLeftRightEdge ? true : false)
 		length = Optional.empty

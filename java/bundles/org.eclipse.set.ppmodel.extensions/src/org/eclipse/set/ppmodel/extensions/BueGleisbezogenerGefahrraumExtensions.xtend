@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung_Zuordnung
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Gleisbezogener_Gefahrraum
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Einschaltung_Zuordnung
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Gleisbezogener_Gefahrraum
 import java.util.List
 
 /**
@@ -27,7 +27,7 @@ class BueGleisbezogenerGefahrraumExtensions extends BereichObjektExtensions {
 	static def List<BUE_Einschaltung_Zuordnung> getEinschaltungZuordnungen(
 		BUE_Gleisbezogener_Gefahrraum raum) {
 		return raum.container.BUEEinschaltungZuordnung.filter [
-			it.IDBUEGleisbezGefahrraum.identitaet?.wert == raum.identitaet.wert
+			it.IDBUEGleisbezGefahrraum?.value.identitaet?.wert == raum.identitaet.wert
 		].toList
 	}
 }

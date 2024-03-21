@@ -12,9 +12,9 @@ package org.eclipse.set.ppmodel.extensions
 import java.util.List
 import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*

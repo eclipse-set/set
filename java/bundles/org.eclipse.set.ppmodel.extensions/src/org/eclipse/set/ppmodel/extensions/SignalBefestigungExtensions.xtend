@@ -9,7 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 
 /**
  * This class extends {@link Signal_Befestigung}.
@@ -23,7 +23,7 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 	 */
 	def static Signal_Befestigung getSignalBefestigung(
 		Signal_Befestigung befestigung) {
-		return befestigung.IDSignalBefestigung
+		return befestigung.IDSignalBefestigung?.value
 	}
 
 	/**

@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Anlage
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import java.util.List
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 
 /**
  * Extensions for {@link W_Kr_Anlage}.
@@ -25,7 +25,7 @@ class WKrAnlageExtensions extends BasisObjektExtensions {
 	 */
 	static def List<W_Kr_Gsp_Element> getWKrGspElemente(W_Kr_Anlage anlage) {
 		return anlage.container.WKrGspElement.filter [
-			IDWKrAnlage?.identitaet?.wert == anlage.identitaet.wert
+			IDWKrAnlage?.value?.identitaet?.wert == anlage.identitaet.wert
 		].toList
 	}
 	

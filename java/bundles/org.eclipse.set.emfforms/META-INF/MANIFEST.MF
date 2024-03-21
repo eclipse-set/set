@@ -17,7 +17,7 @@ Require-Bundle: org.eclipse.e4.ui.workbench,
  org.eclipse.emf.ecp.view.custom.model;bundle-version="1.10.0",
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.core.databinding.beans;bundle-version="1.4.100",
- org.eclipse.set.toolboxmodel,
+ org.eclipse.set.model.planpro,
  slf4j.api
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: com.google.common.base;version="15.0.0",
@@ -91,6 +91,7 @@ Import-Package: com.google.common.base;version="15.0.0",
  org.osgi.framework;version="1.8.0",
  org.osgi.service.component.annotations;version="1.2.0"
 Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.set.emfforms.utils
 Service-Component: OSGI-INF/org.eclipse.set.emfforms.attachment.AttachmentListRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeBooleanRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.basisattribute.BasisAttributeDateRendererService.xml,
@@ -107,4 +108,3 @@ Service-Component: OSGI-INF/org.eclipse.set.emfforms.attachment.AttachmentListRe
  OSGI-INF/org.eclipse.set.emfforms.text.TextFieldService.xml,
  OSGI-INF/org.eclipse.set.emfforms.text.TextWithButtonControlSWTRendererService.xml,
  OSGI-INF/org.eclipse.set.emfforms.view.ViewRendererService.xml
-Export-Package: org.eclipse.set.emfforms.utils

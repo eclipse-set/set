@@ -60,7 +60,7 @@ import org.eclipse.swt.widgets.TypedListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup;
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 
 /**
  * Render a {@link BasisAttribut_AttributeGroup} date element.

@@ -16,15 +16,15 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*
-import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion.*
+import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.DwegExtensions.*
@@ -132,7 +132,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(PZB_Gefahrpunkt),
 				dweg,
-				[IDPZBGefahrpunkt?.bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				[IDPZBGefahrpunkt?.value?.bezeichnung?.bezeichnungMarkanterPunkt?.wert]
 			)
 
 			// E: Ssld.Grundsatzangaben.Bezeichnung
@@ -290,7 +290,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[dweg.fstrDWegSpezifisch !== null],
 				[
-					fstrDWegSpezifisch.fmaAnlageZielgleis.IDGleisAbschnitt.
+					fstrDWegSpezifisch.fmaAnlageZielgleis.IDGleisAbschnitt?.value.
 						bezeichnung.bezeichnungTabelle.wert
 				]
 			)
@@ -311,9 +311,9 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 						Double.valueOf(0.0),
 						[ Double current, Fstr_Zug_Rangier fstr |
 							Math.max(current,
-								fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.
-									IDGleisAbschnitt?.
-									getOverlappingLength(fstr.IDFstrFahrweg).
+								fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.value?.
+									IDGleisAbschnitt?.value?.
+									getOverlappingLength(fstr.IDFstrFahrweg?.value).
 									doubleValue)
 						]
 					)

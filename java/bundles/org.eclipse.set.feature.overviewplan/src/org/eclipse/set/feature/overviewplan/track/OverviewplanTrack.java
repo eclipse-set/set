@@ -17,8 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
 import org.eclipse.xtext.xbase.lib.Pair;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 
 /**
  * Overviewplan Track contains TOPKanteMetadata of this track and left- right-

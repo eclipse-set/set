@@ -10,12 +10,12 @@ package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
 import java.util.Set
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Gleis_Abschluss
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Gleis.Gleis_Schaltgruppe
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
@@ -52,7 +52,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	 * @returns the Gleisabschlüsse of this FMA Anlage
 	 */
 	def static Set<Gleis_Abschluss> getGleisAbschluesse(FMA_Anlage anlage) {
-		return anlage.IDGleisAbschnitt.filterContained(
+		return anlage.IDGleisAbschnitt?.value.filterContained(
 			anlage.container.gleisAbschluss).toSet
 	}
 
@@ -62,7 +62,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	 * @returns the table name of this FMA Anlage
 	 */
 	def static String getTableName(FMA_Anlage anlage) {
-		val name = anlage.IDGleisAbschnitt.bezeichnung.bezeichnungTabelle.wert
+		val name = anlage.IDGleisAbschnitt?.value.bezeichnung.bezeichnungTabelle.wert
 		var kaskadeBez = anlage?.FMAAnlageKaskade?.FMAKaskadeBezeichnung?.wert
 		if (kaskadeBez === null) {
 			kaskadeBez = ""
@@ -77,7 +77,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	 * @returns the BZ-Bezeichner of this FMA Anlage
 	 */
 	def static String getBzBezeichner(FMA_Anlage anlage) {
-		val gleisabschnitt = anlage.IDGleisAbschnitt
+		val gleisabschnitt = anlage.IDGleisAbschnitt?.value
 		val kennzahl = gleisabschnitt?.bezeichnung?.kennzahl?.wert
 		val kennbuchstabe = anlage?.bezeichnung?.bezeichnungKennbuchstabe?.
 			wert?.toString
@@ -95,7 +95,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	def static List<Schaltmittel_Zuordnung> getSchaltmittelZuordnungen(
 		FMA_Anlage anlage) {
 		return anlage.container.schaltmittelZuordnung.filter [
-			IDSchalter?.identitaet?.wert == anlage?.identitaet?.wert
+			IDSchalter?.value?.identitaet?.wert == anlage?.identitaet?.wert
 		].toList
 	}
 
@@ -106,7 +106,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Gleis_Schaltgruppe> getGleisSchaltgruppen(
 		FMA_Anlage anlage) {
-		val gleisabschnitt = anlage.IDGleisAbschnitt
+		val gleisabschnitt = anlage.IDGleisAbschnitt?.value
 		return anlage.container.gleisSchaltgruppe.filter [
 			intersectsStrictly(gleisabschnitt)
 		].toList

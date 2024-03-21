@@ -80,4 +80,4 @@ Require-Bundle: org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolut
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
- org.eclipse.set.toolboxmodel
+ org.eclipse.set.model.planpro

@@ -19,10 +19,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.set.basis.autofill.CopyValue;
 import org.eclipse.set.basis.autofill.DefaultAutofill;
 import org.eclipse.set.basis.autofill.FillPathSetting;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 

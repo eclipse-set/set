@@ -8,23 +8,23 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import java.util.List
 import org.eclipse.set.feature.siteplan.TrackSwitchMetadata
 import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.Coordinate
 import org.eclipse.set.model.siteplan.Position
 
-import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 
 /**

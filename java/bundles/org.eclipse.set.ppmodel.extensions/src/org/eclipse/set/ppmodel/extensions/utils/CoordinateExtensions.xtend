@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.proj4j.CRSFactory
 import org.locationtech.proj4j.CoordinateReferenceSystem

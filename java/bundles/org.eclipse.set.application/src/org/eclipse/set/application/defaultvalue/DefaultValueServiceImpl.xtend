@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.application.defaultvalue
 
-import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import jakarta.inject.Inject
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.core.services.defaultvalue.DefaultValueService

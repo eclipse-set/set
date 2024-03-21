@@ -21,7 +21,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
-import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -30,13 +29,13 @@ import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung;
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.graph.TopObjectIterator;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung;
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehungslinie;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -164,8 +163,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 			return optional.isEmpty() ? null : optional.get();
 		}
 
-		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA();
-		final Ueberhoehung end = bankingLine.getIDUeberhoehungB();
+		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA().getValue();
+		final Ueberhoehung end = bankingLine.getIDUeberhoehungB().getValue();
 		final BigDecimal bankingLineLength = bankingLine
 				.getUeberhoehungslinieAllg().getUeberhoehungslinieLaenge()
 				.getWert();
@@ -173,9 +172,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 		// If both Ueberhoehungen are on the same TOP_Kante, consider the path
 		// the relevant one if lengths match
 		final TOP_Kante beginEdge = begin.getPunktObjektTOPKante().get(0)
-				.getIDTOPKante();
-		if (beginEdge
-				.equals(end.getPunktObjektTOPKante().get(0).getIDTOPKante())) {
+				.getIDTOPKante().getValue();
+		if (beginEdge.equals(end.getPunktObjektTOPKante().get(0).getIDTOPKante()
+				.getValue())) {
 			final BigDecimal distanceA = begin.getPunktObjektTOPKante().get(0)
 					.getAbstand().getWert();
 			final BigDecimal distanceB = end.getPunktObjektTOPKante().get(0)
@@ -292,18 +291,20 @@ public class BankServiceImpl implements BankService, EventHandler {
 		final BigDecimal pointDistance = bankInfo.path().getDistance(point)
 				.orElseThrow();
 
-		final BigDecimal ueLeft = bankingLine.getIDUeberhoehungA()
+		final BigDecimal ueLeft = bankingLine.getIDUeberhoehungA().getValue()
 				.getUeberhoehungAllg().getUeberhoehungHoehe().getWert();
-		final BigDecimal ueRight = bankingLine.getIDUeberhoehungB()
+		final BigDecimal ueRight = bankingLine.getIDUeberhoehungB().getValue()
 				.getUeberhoehungAllg().getUeberhoehungHoehe().getWert();
 		final BigDecimal length = bankingLine.getUeberhoehungslinieAllg()
 				.getUeberhoehungslinieLaenge().getWert();
 
 		final BigDecimal leftPosition = bankInfo.path()
-				.getDistance(new TopPoint(bankingLine.getIDUeberhoehungA()))
+				.getDistance(new TopPoint(
+						bankingLine.getIDUeberhoehungA().getValue()))
 				.orElseThrow();
 		final BigDecimal rightPosition = bankInfo.path()
-				.getDistance(new TopPoint(bankingLine.getIDUeberhoehungB()))
+				.getDistance(new TopPoint(
+						bankingLine.getIDUeberhoehungB().getValue()))
 				.orElseThrow();
 		final BigDecimal distanceLeft = leftPosition.subtract(pointDistance)
 				.abs();

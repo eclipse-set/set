@@ -17,15 +17,15 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Element
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Grenze
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Element
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssln.SslnColumns.*

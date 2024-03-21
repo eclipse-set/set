@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions.exception
 
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import java.util.List
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import java.util.Set
 
 /**

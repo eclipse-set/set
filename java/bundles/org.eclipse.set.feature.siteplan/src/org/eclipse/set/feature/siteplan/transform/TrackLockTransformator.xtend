@@ -15,10 +15,10 @@ import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.siteplan.TrackLockLocation
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMGleissperreVorzugslage
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrGspStellart
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMGleissperreVorzugslage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 

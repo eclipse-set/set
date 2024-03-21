@@ -20,8 +20,8 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationServ
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung;
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
 import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;

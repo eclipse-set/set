@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Bezirk
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Zentrale
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Zentrale
 
 /**
  * Extensions for {@link Bedien_Bezirk}.
@@ -23,6 +23,6 @@ class BedienBezirkExtensions extends BasisObjektExtensions {
 	 * @return the Bedien_Zentrale
 	 */
 	def static Bedien_Zentrale getBedienZentrale(Bedien_Bezirk bedienBezirk) {
-		return bedienBezirk.IDBedienZentrale
+		return bedienBezirk.IDBedienZentrale?.value
 	}
 }
