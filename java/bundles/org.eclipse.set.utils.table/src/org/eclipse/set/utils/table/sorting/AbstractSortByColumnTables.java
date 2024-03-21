@@ -204,7 +204,7 @@ public abstract class AbstractSortByColumnTables {
 
 	protected abstract TableMenuService getTableMenuService();
 
-	protected TableBodyMenuItem createJumToTextViewMenuItem(
+	protected TableBodyMenuItem createJumpToTextViewMenuItem(
 			final BasePart part) {
 		if (getTableMenuService() == null) {
 			return null;
