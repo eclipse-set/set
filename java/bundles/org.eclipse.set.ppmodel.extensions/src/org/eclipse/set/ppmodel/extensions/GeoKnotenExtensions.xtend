@@ -12,11 +12,11 @@ import com.google.common.base.Predicate
 import org.locationtech.jts.geom.Coordinate
 import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.basis.Lists
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
+import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import java.util.List
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -26,8 +26,8 @@ import static org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
@@ -50,7 +50,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	) {
 		return knoten.container.GEOPunkt.filter [
 			IDGEOKnoten !== null &&
-				IDGEOKnoten.identitaet.wert == knoten.identitaet.wert
+				IDGEOKnoten?.value.identitaet.wert == knoten.identitaet.wert
 		].toList
 	}
 
@@ -246,8 +246,8 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 */
 	def static Iterable<GEO_Kante> getGeoKanten(GEO_Knoten geoKnoten) {
 		return geoKnoten.container.GEOKante.filter [ kante |
-			kante.IDGEOKnotenA.identitaet.wert == geoKnoten.identitaet.wert ||
-				kante.IDGEOKnotenB.identitaet.wert == geoKnoten.identitaet.wert
+			kante.IDGEOKnotenA?.value.identitaet.wert == geoKnoten.identitaet.wert ||
+				kante.IDGEOKnotenB?.value.identitaet.wert == geoKnoten.identitaet.wert
 		]
 	}
 

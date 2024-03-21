@@ -20,7 +20,7 @@ import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem;
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.locationtech.proj4j.CRSFactory;
 import org.locationtech.proj4j.CoordinateReferenceSystem;
 import org.locationtech.proj4j.CoordinateTransformFactory;

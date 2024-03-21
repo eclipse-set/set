@@ -12,8 +12,8 @@ import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehungslinie
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 import org.eclipse.set.model.siteplan.CantPoint
@@ -44,8 +44,8 @@ class CantTransform extends BaseTransformator<Ueberhoehungslinie> {
 		if (ueLength !== null)
 			length = ueLength.doubleValue
 
-		pointA = transformUeberhoehung(ue.IDUeberhoehungA)
-		pointB = transformUeberhoehung(ue.IDUeberhoehungB)
+		pointA = transformUeberhoehung(ue.IDUeberhoehungA.value)
+		pointB = transformUeberhoehung(ue.IDUeberhoehungB.value)
 
 		addSiteplanElement(it, SiteplanPackage.eINSTANCE.siteplanState_Cants)
 	}

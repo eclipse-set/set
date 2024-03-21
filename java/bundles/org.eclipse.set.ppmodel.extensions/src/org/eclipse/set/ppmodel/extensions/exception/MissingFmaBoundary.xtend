@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.exception
 
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 
 /**
  * No unique FMA-Anlage found for given boundaries. 

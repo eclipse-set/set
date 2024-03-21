@@ -16,13 +16,13 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.set.ppmodel.extensions.DwegExtensions;
 import org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg;
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage;
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg;
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
 
 /**
  * Provides common functions for model 1.8.0.0.

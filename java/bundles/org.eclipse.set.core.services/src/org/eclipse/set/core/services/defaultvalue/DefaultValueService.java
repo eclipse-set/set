@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.core.services.defaultvalue;
 
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 
 /**
  * Describes, how default values for a PlanPro Schnittstelle are set.

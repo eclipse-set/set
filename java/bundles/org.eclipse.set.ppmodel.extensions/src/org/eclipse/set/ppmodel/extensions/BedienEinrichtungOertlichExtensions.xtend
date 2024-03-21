@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
 import java.util.List
 
 /**
@@ -29,7 +29,7 @@ class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
 	static def List<Bedien_Anzeige_Element> getBedienAnzeigeElemente(
 		Bedien_Einrichtung_Oertlich einrichtung) {
 		return einrichtung.container.bedienAnzeigeElement.filter [
-			IDBedienEinrichtungOertlich?.identitaet?.wert ==
+			IDBedienEinrichtungOertlich?.value?.identitaet?.wert ==
 				einrichtung.identitaet.wert
 		].toList
 	}
@@ -41,12 +41,12 @@ class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
 	 */
 	static def Unterbringung getUnterbringung(
 		Bedien_Einrichtung_Oertlich einrichtung) {
-		return einrichtung?.IDUnterbringung
+		return einrichtung?.IDUnterbringung?.value
 	}
 
 	static def Aussenelementansteuerung getAussenelementansteuerung(
 		Bedien_Einrichtung_Oertlich einrichtung
 	) {
-		return einrichtung?.IDAussenelementansteuerung
+		return einrichtung?.IDAussenelementansteuerung?.value
 	}
 }

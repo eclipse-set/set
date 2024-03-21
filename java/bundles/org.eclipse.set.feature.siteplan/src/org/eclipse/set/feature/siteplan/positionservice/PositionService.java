@@ -13,7 +13,7 @@ import org.eclipse.set.feature.siteplan.trackservice.GEOKanteCoordinate;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem;
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 
 /**
  * @author truong

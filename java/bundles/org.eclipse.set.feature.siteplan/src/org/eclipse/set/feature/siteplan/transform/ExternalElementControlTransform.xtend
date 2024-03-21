@@ -12,9 +12,9 @@ import org.eclipse.set.model.siteplan.ControlStationType
 import org.eclipse.set.model.siteplan.ExternalElementControlArt
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ENUMAussenelementansteuerungArt
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Platz
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Platz
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.transformPunktObjektStrecke

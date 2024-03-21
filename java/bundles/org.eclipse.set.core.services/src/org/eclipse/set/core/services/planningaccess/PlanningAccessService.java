@@ -9,9 +9,9 @@
 
 package org.eclipse.set.core.services.planningaccess;
 
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 
 /**
  * Provide access to certain Planung Projekt and Planung Gruppe instances. By

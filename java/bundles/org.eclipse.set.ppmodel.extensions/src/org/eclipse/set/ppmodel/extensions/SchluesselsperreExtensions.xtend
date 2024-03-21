@@ -9,8 +9,8 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
-import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 
 /**
  * Extensions for {@link Schluesselsperre}.
@@ -23,6 +23,6 @@ class SchluesselsperreExtensions extends BasisObjektExtensions {
 	 * @returns the Unterbringung
 	 */
 	def static Unterbringung getUnterbringung(Schluesselsperre ssp) {
-		return ssp.IDUnterbringung
+		return ssp.IDUnterbringung?.value
 	}
 }

@@ -9,8 +9,8 @@
 package org.eclipse.set.core.fileservice
 
 import com.google.common.collect.Lists
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp
 import java.nio.charset.StandardCharsets
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.XMLResource

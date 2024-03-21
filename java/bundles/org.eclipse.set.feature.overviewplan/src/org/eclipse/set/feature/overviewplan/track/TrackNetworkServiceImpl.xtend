@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -14,8 +14,8 @@ import java.util.ArrayList
 import java.util.Collections
 import java.util.List
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.osgi.service.component.annotations.Component
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -27,7 +27,8 @@ import java.util.Set
 @Component
 class TrackNetworkServiceImpl implements TrackNetworkService {
 
-	static final Logger logger = LoggerFactory.getLogger(TrackNetworkServiceImpl)
+	static final Logger logger = LoggerFactory.getLogger(
+		TrackNetworkServiceImpl)
 	List<OverviewplanTrack> tracksCache = newArrayList
 	TopKnotenPosition topKnotenPosition
 
@@ -101,7 +102,7 @@ class TrackNetworkServiceImpl implements TrackNetworkService {
 		].TOPKanteMetaData
 		md.defineTrack(0)
 		val newMetadataSet = MetaDataCache.getAllMetaData(container)
-		
+
 		// When another track network fewer track and edge than track network from before,
 		// then restore track network from before
 		if (tracksCache.size < clone.size &&
@@ -176,8 +177,7 @@ class TrackNetworkServiceImpl implements TrackNetworkService {
 			if (nodePositions.nullOrEmpty || nodePositions.contains(null)) {
 				println("TEST")
 			}
-			return new Pair(it,
-				Range.of(nodePositions.min, nodePositions.max))
+			return new Pair(it, Range.of(nodePositions.min, nodePositions.max))
 		]
 		tracksPositionRange.forEach [ current |
 			current.defineTrackLvl(tracksPositionRange.filter [
@@ -238,9 +238,8 @@ class TrackNetworkServiceImpl implements TrackNetworkService {
 					// Else change level one of them
 					val emptySideTrack = #[current.key, collisionTrack.key].
 						findFirst [
-							current.key.lvl > 0
-								? leftTracks.empty
-								: rightTracks.empty
+							current.key.lvl > 0 ? leftTracks.
+								empty : rightTracks.empty
 						]
 					if (emptySideTrack !== null) {
 						var fixed = false
@@ -322,26 +321,25 @@ class TrackNetworkServiceImpl implements TrackNetworkService {
 		// When both of tracks have same start and end point
 		if (sourceRange.isStartedBy(targetRange.minimum) &&
 			sourceRange.isEndedBy(targetRange.maximum)) {
-			return source.key.lvl === target.key.lvl
-				? CollisionType.CONTAINS
-				: CollisionType.NONE
+			return source.key.lvl === target.key.lvl ? CollisionType.
+				CONTAINS : CollisionType.NONE
 		}
 
 		// When the target track lie complete in source track,
 		// so sourceTrack.minimun < targetTrack.minimum and targetTrack.maximum < sourTrack.maximum
 		// and the target track level is greate than source track, when source track level > 0
 		// or the target track level is smaller than source track, when source track level < 0
-		if (sourceRange.containsRange(targetRange) && (source.key.lvl > 0
-			? !leftTracks.contains(target.key)
-			: !rightTracks.contains(target.key)) && isTargetLvlGreater) {
+		if (sourceRange.containsRange(targetRange) &&
+			(source.key.lvl > 0 ? !leftTracks.contains(
+				target.key) : !rightTracks.contains(target.key)) &&
+			isTargetLvlGreater) {
 			return CollisionType.CONTAINS
 		}
 
 		// Opposite from over condition, source track lie complete in targetTrack
-		if (targetRange.containsRange(sourceRange) &&
-			(source.key.lvl > 0 ? !rightTracks.contains(
-				target.key) : !leftTracks.contains(target.key)) &&
-			!isTargetLvlGreater) {
+		if (targetRange.containsRange(sourceRange) && (source.key.lvl > 0
+			? !rightTracks.contains(target.key)
+			: !leftTracks.contains(target.key)) && !isTargetLvlGreater) {
 			return CollisionType.CONTAINS
 		}
 

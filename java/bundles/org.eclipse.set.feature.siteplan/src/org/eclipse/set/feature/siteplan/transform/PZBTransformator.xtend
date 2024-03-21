@@ -16,11 +16,11 @@ import org.eclipse.set.model.siteplan.PZBElement
 import org.eclipse.set.model.siteplan.PZBType
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.toolboxmodel.PZB.ENUMGUEAnordnung
-import org.eclipse.set.toolboxmodel.PZB.ENUMPZBArt
-import org.eclipse.set.toolboxmodel.PZB.ENUMWirksamkeit
-import org.eclipse.set.toolboxmodel.PZB.PZB_Element
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.PZB.ENUMGUEAnordnung
+import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
+import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeit
+import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 

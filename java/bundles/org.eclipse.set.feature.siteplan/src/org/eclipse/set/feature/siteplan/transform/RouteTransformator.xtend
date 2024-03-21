@@ -15,8 +15,8 @@ import org.eclipse.set.model.siteplan.KMMarker
 import org.eclipse.set.model.siteplan.RouteSection
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.Strecke
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 

@@ -21,7 +21,7 @@ import org.eclipse.set.model.siteplan.Siteplan;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
 import org.eclipse.set.model.siteplan.SiteplanState;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;

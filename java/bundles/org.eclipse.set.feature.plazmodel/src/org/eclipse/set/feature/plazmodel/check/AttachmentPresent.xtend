@@ -11,7 +11,7 @@ package org.eclipse.set.feature.plazmodel.check
 import java.util.Map
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.plazmodel.PlazFactory
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
 import org.osgi.service.component.annotations.Component
 
 /**

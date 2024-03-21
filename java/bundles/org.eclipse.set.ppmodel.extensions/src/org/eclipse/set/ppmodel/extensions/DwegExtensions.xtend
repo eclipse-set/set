@@ -10,16 +10,16 @@ package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
 import java.util.Set
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg_W_Kr
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg_W_Kr
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
@@ -50,7 +50,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	def static Fstr_Fahrweg getFstrFahrweg(
 		Fstr_DWeg dweg
 	) {
-		return dweg.IDFstrFahrweg
+		return dweg.IDFstrFahrweg?.value
 	}
 
 	/**
@@ -59,7 +59,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @returns the FMA Anlage Freimeldung set of this Durchrutschweg
 	 */
 	def static Set<FMA_Anlage> getFmaAnlageFreimeldung(Fstr_DWeg dweg) {
-		return dweg?.IDFMAAnlageFreimeldung?.toSet
+		return dweg?.IDFMAAnlageFreimeldung?.map[value].filterNull.toSet
 	}
 
 	/**
@@ -164,7 +164,7 @@ class DwegExtensions extends BasisObjektExtensions {
 		}
 
 		val fmaAnlageOnZiel = fahrweg?.container?.FMAAnlage?.filter [
-			IDGleisAbschnitt?.topKanten.exists [
+			IDGleisAbschnitt?.value?.topKanten.exists [
 				topEndFahrweg.contains(it)
 			] && !dweg.fmaAnlageFreimeldung.contains(it)
 		].toSet

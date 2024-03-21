@@ -15,14 +15,14 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Schaltgruppe
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Gleis.Gleis_Schaltgruppe
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sskf.SskfColumns.*
-import static org.eclipse.set.toolboxmodel.Ortung.ENUMFMAArt.*
-import static org.eclipse.set.toolboxmodel.Ortung.ENUMUebertragungFMinfoRichtung.*
+import static org.eclipse.set.model.planpro.Ortung.ENUMFMAArt.*
+import static org.eclipse.set.model.planpro.Ortung.ENUMUebertragungFMinfoRichtung.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
@@ -99,7 +99,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Auswertung_AeA),
 				fmaAnlage,
 				[
-					IDGleisfreimeldeInnenanlage?.bezeichnung?.
+					IDGleisfreimeldeInnenanlage?.value?.bezeichnung?.
 						bezeichnungAEA?.wert ?: ""
 				]
 			)
@@ -114,7 +114,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 						wert === ENUM_UEBERTRAGUNG_FMINFO_RICHTUNG_KOMMEND
 				],
 				[
-					FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo?.
+					FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo?.value?.
 						oertlichkeitNamensgebend?.bezeichnung?.
 						oertlichkeitAbkuerzung?.wert
 				]
@@ -131,7 +131,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 
-					FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo?.
+					FMAAnlageUebertragungFMinfo.IDUebertragungFMinfo?.value?.
 						oertlichkeitNamensgebend?.bezeichnung?.
 						oertlichkeitAbkuerzung?.wert
 				]
@@ -208,7 +208,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[FMAAnlageElektrMerkmale.FMALaengeBeeinflusst.wert.toString]
 			)
-			
+
 			// P: Sonstiges.Rbmin
 			fillConditional(
 				instance,
@@ -246,7 +246,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				[schaltgruppen.map[bezeichnung?.bezeichnungTabelle?.wert ?: ""]],
 				MIXED_STRING_COMPARATOR
 			)
-			
+
 			// S: Sskf.Sonstiges.Weiche
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichen = new Wrapper
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichenZK = new Wrapper
@@ -256,7 +256,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Sonstiges_Weiche),
 				fmaAnlage,
 				[
-					weichen.value = IDGleisAbschnitt.filterContained(
+					weichen.value = IDGleisAbschnitt?.value.filterContained(
 						container.WKrGspKomponente
 					).map[WKrGspElement]
 
@@ -275,15 +275,15 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				MIXED_STRING_COMPARATOR,
 				ITERABLE_FILLING_SEPARATOR
 			)
-			
-			//T: Sonstiges.zul_v
+
+			// T: Sonstiges.zul_v
 			fill(
 				instance,
 				cols.getColumn(Sonstiges_zul_Geschwindigkeit),
 				fmaAnlage,
-				[IDGleisAbschnitt?.geschwindigkeit?.wert?.toString ?: ""]
+				[IDGleisAbschnitt?.value?.geschwindigkeit?.wert?.toString ?: ""]
 			)
-			
+
 			// U: Sonstiges.HFmeldung
 			fill(
 				instance,

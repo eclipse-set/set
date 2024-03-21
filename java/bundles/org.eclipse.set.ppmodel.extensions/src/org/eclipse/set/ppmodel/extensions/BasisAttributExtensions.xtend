@@ -10,12 +10,12 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand
-import org.eclipse.set.toolboxmodel.PlanPro.impl.Ausgabe_FachdatenImpl
-import org.eclipse.set.toolboxmodel.PlanPro.impl.Fachdaten_AttributeGroupImpl
-import org.eclipse.set.toolboxmodel.PlanPro.impl.LST_ZustandImpl
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup
+import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
+import org.eclipse.set.model.planpro.PlanPro.impl.Ausgabe_FachdatenImpl
+import org.eclipse.set.model.planpro.PlanPro.impl.Fachdaten_AttributeGroupImpl
+import org.eclipse.set.model.planpro.PlanPro.impl.LST_ZustandImpl
 
 /**
  * Extensions for {@link BasisAttribut_AttributeGroup}.

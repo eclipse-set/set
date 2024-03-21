@@ -8,11 +8,13 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.ExtendedMetaData
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.osgi.service.component.annotations.Component
+import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.set.model.planpro.Verweise.VerweisePackage
 
 /**
  * Check if that GUID references point to correct object
@@ -22,19 +24,24 @@ import org.osgi.service.component.annotations.Component
 @Component(immediate=true)
 class GuidRefInvalid implements PlazCheck {
 	override run(IModelSession modelSession) {
-		return modelSession.planProSchnittstelle.wzkInvalidIDReferences.filter [
-			guid !== null && !sourceRef.many
+		return modelSession.planProSchnittstelle.eAllContents.filter(
+			Zeiger_TypeClass).filter [
+			eGet(getValidFeature(it)).equals(Boolean.TRUE)
 		].map [
 			val err = PlazFactory.eINSTANCE.createPlazError
-			if (target.eGet(targetRef) === null) {
-				err.message = '''Für den Verweis «ExtendedMetaData.INSTANCE.getName(sourceRef)» im Objekt «source.eClass.name» kann das Zielobjekt nicht gefunden werden.'''
-			} else {
-				err.message = '''Der ID-Verweis «ExtendedMetaData.INSTANCE.getName(sourceRef)» im Objekt «source.eClass.name» verweist auf ein Objekt mit falschem Typ («(source.eGet(sourceRef) as EObject).eClass.name»)'''
-			}
+			err.message = '''Der ID-Verweis «ExtendedMetaData.INSTANCE.getName(it.eClass)» im Objekt «it.eContainer.eClass.name» verweist auf ein falsches Objekt.'''
+
 			err.type = checkType
-			err.object = target
+			err.object = it
 			return err
 		].toList
+	}
+
+	def EStructuralFeature getValidFeature(Zeiger_TypeClass ref) {
+		return ref.eClass().getEStructuralFeature(
+			VerweisePackage.eINSTANCE.
+				getID_Anforderer_Element_TypeClass_InvalidReference().
+				getName());
 	}
 
 	override checkType() {

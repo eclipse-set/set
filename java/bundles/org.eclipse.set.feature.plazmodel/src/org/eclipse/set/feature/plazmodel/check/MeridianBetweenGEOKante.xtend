@@ -37,10 +37,10 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 
 	override protected run(MultiContainer_AttributeGroup container) {
 		val geoKantenWithMeridianSprung = container.GEOKante.filter [
-			val crsA = IDGEOKnotenA.geoPunkte.map [
+			val crsA = IDGEOKnotenA.value.geoPunkte.map [
 				GEOPunktAllg?.GEOKoordinatensystem?.wert
 			].toSet
-			val crsB = IDGEOKnotenB.geoPunkte.map [
+			val crsB = IDGEOKnotenB.value.geoPunkte.map [
 				GEOPunktAllg?.GEOKoordinatensystem?.wert
 			].toSet
 			return crsA.exists [ a |

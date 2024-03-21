@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt;
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt;
 
 /**
  * Reads metadata from the Weichenbauformen.csv

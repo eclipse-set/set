@@ -15,7 +15,7 @@ import java.nio.file.Paths
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.basis.files.ToolboxFileRole
 import org.eclipse.set.core.services.files.ToolboxFileFormatService
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage
 import org.eclipse.set.unittest.utils.toolboxfile.AbstractToolboxFileTest
 import org.junit.jupiter.api.Test
 
@@ -72,7 +72,7 @@ class ZippedToolboxFileTest extends AbstractToolboxFileTest {
 	@Test
 	def void testAutoclose() throws IOException {
 		PlanProPackage.eINSTANCE.eClass();
-		org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eINSTANCE.
+		org.eclipse.set.model.planpro.PlanPro.PlanProPackage.eINSTANCE.
 			eClass();
 
 		ToolboxFileRole.SESSION.whenOpenAndAutoclose

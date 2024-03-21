@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.Strecke
-import org.eclipse.set.toolboxmodel.Geodaten.Strecke_Punkt
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.Strecke
+import org.eclipse.set.model.planpro.Geodaten.Strecke_Punkt
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
@@ -31,7 +31,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 		Strecke strecke
 	) {
 		return strecke.container.GEOKante.filter [ k |
-			k.IDGEOArt.identitaet.wert == strecke.identitaet.wert
+			k.IDGEOArt?.value.identitaet.wert == strecke.identitaet.wert
 		]
 	}
 
@@ -41,7 +41,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 	 */
 	def static Iterable<Strecke_Punkt> getStreckenPunkte(Strecke strecke) {
 		return strecke.container.streckePunkt.filter [ k |
-			k.IDStrecke.identitaet.wert == strecke.identitaet.wert
+			k.IDStrecke?.value.identitaet.wert == strecke.identitaet.wert
 		]
 	}
 

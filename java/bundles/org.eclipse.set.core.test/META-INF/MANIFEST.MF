@@ -8,11 +8,9 @@ Automatic-Module-Name: org.eclipse.set.core.test
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: org.eclipse.set.feature.validation.session,
- org.eclipse.set.model.model11001.PlanPro,
- org.eclipse.set.model.model11001.Signalbegriffe_Ril_301,
+ org.eclipse.set.model.planpro.PlanPro,
+ org.eclipse.set.model.planpro.Signalbegriffe_Ril_301,
  org.eclipse.set.sessionservice,
- org.eclipse.set.toolboxmodel.PlanPro,
- org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301,
  org.eclipse.set.unittest.utils,
  org.eclipse.set.unittest.utils.session,
  org.eclipse.set.unittest.utils.toolboxfile,

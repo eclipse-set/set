@@ -35,13 +35,11 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.set.core.modelservice.PlanningAccessServiceImpl;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.NoCacheService;
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
-import org.eclipse.set.toolboxmodel.PlanPro.util.ToolboxModelService;
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
-import org.eclipse.set.toolboxmodel.transform.ToolboxModelServiceImpl;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -140,26 +138,17 @@ public class AbstractToolboxTest {
 		// Required for EMF Initialization according to EMF FAQ
 		// See
 		// https://wiki.eclipse.org/EMF/FAQ#How_do_I_use_EMF_in_standalone_applications_.28such_as_an_ordinary_main.29.3F
-		org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage.eINSTANCE.eClass();
-		org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
+		org.eclipse.set.model.planpro.PlanPro.PlanProPackage.eINSTANCE.eClass();
+		org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
 				.eClass();
-		org.eclipse.set.toolboxmodel.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
-				.eClass();
-
-		org.eclipse.set.model.model11001.PlanPro.PlanProPackage.eINSTANCE
-				.eClass();
-		org.eclipse.set.model.model11001.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package.eINSTANCE
-				.eClass();
-		org.eclipse.set.model.model11001.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
+		org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage.eINSTANCE
 				.eClass();
 
 		Services.setCacheService(new NoCacheService());
 		Services.setPlanningAccessService(new PlanningAccessServiceImpl());
 
 		final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
-		final ToolboxModelService toolboxModelService = new ToolboxModelServiceImpl();
-		resourceFactory
-				.setToolboxModelServiceProvider(() -> toolboxModelService);
+
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
 				.put("ppxml", resourceFactory); //$NON-NLS-1$
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", //$NON-NLS-1$

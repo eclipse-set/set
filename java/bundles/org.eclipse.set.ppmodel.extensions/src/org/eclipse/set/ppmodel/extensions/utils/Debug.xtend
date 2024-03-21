@@ -8,29 +8,29 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Art
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_10_TypeClass
-import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_5_TypeClass
-import org.eclipse.set.toolboxmodel.PlanPro.Name_Akteur_TypeClass
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
-import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
-import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
+import org.eclipse.set.model.planpro.Gleis.Gleis_Art
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.PlanPro.Name_Akteur_10_TypeClass
+import org.eclipse.set.model.planpro.PlanPro.Name_Akteur_5_TypeClass
+import org.eclipse.set.model.planpro.PlanPro.Name_Akteur_TypeClass
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import java.util.Collection
 import org.eclipse.emf.common.command.Command
 import org.eclipse.emf.edit.command.SetCommand
@@ -118,7 +118,7 @@ class Debug {
 	}
 
 	static def dispatch String debugString(Signal_Rahmen rahmen) {
-		return '''«rahmen.typeName» id=«rahmen?.identitaet?.wert» befestigung=«rahmen?.getIDSignalBefestigung.identitaet.wert»'''
+		return '''«rahmen.typeName» id=«rahmen?.identitaet?.wert» befestigung=«rahmen?.getIDSignalBefestigung?.value.identitaet.wert»'''
 	}
 
 	static def dispatch String debugString(Signal_Befestigung befestigung) {
@@ -219,7 +219,7 @@ class Debug {
 	static def dispatch String debugString(
 		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich
 	) {
-		return '''topKante=«teilbereich.IDTOPKante.identitaet.wert» begrenzungA=«teilbereich.begrenzungA.wert» begrenzungB=«teilbereich.begrenzungB.wert»'''
+		return '''topKante=«teilbereich.IDTOPKante?.value.identitaet.wert» begrenzungA=«teilbereich.begrenzungA.wert» begrenzungB=«teilbereich.begrenzungB.wert»'''
 	}
 
 	/**

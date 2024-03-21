@@ -12,7 +12,7 @@ import java.util.List
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.getLSTZustand

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.set.model.planpro.ATO.ATOPackage;
 import org.eclipse.set.model.tablemodel.CellAnnotation;
 import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -33,13 +34,32 @@ import org.eclipse.set.model.tablemodel.TableContent;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Ansteuerung_ElementPackage;
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisTypenPackage;
-import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage;
-import org.eclipse.set.toolboxmodel.Bedienung.BedienungPackage;
-import org.eclipse.set.toolboxmodel.Geodaten.GeodatenPackage;
-import org.eclipse.set.toolboxmodel.Gleis.GleisPackage;
-import org.eclipse.set.toolboxmodel.Medien_und_Trassen.Medien_und_TrassenPackage;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Ansteuerung_ElementPackage;
+import org.eclipse.set.model.planpro.Bahnsteig.BahnsteigPackage;
+import org.eclipse.set.model.planpro.Bahnuebergang.BahnuebergangPackage;
+import org.eclipse.set.model.planpro.Balisentechnik_ETCS.Balisentechnik_ETCSPackage;
+import org.eclipse.set.model.planpro.BasisTypen.BasisTypenPackage;
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjektePackage;
+import org.eclipse.set.model.planpro.Bedienung.BedienungPackage;
+import org.eclipse.set.model.planpro.Block.BlockPackage;
+import org.eclipse.set.model.planpro.Fahrstrasse.FahrstrassePackage;
+import org.eclipse.set.model.planpro.Flankenschutz.FlankenschutzPackage;
+import org.eclipse.set.model.planpro.Geodaten.GeodatenPackage;
+import org.eclipse.set.model.planpro.Gleis.GleisPackage;
+import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage;
+import org.eclipse.set.model.planpro.Medien_und_Trassen.Medien_und_TrassenPackage;
+import org.eclipse.set.model.planpro.Nahbedienung.NahbedienungPackage;
+import org.eclipse.set.model.planpro.Ortung.OrtungPackage;
+import org.eclipse.set.model.planpro.PZB.PZBPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.Regelzeichnung.RegelzeichnungPackage;
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.SchluesselabhaengigkeitenPackage;
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriffe_StrukturPackage;
+import org.eclipse.set.model.planpro.Signale.SignalePackage;
+import org.eclipse.set.model.planpro.Verweise.VerweisePackage;
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Weichen_und_GleissperrenPackage;
+import org.eclipse.set.model.planpro.Zuglenkung.ZuglenkungPackage;
+import org.eclipse.set.model.planpro.Zugnummernmeldeanlage.ZugnummernmeldeanlagePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -208,6 +228,26 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		BedienungPackage.eINSTANCE.eClass();
 		Ansteuerung_ElementPackage.eINSTANCE.eClass();
 		Medien_und_TrassenPackage.eINSTANCE.eClass();
+		VerweisePackage.eINSTANCE.eClass();
+		ATOPackage.eINSTANCE.eClass();
+		PlanProPackage.eINSTANCE.eClass();
+		BahnsteigPackage.eINSTANCE.eClass();
+		Balisentechnik_ETCSPackage.eINSTANCE.eClass();
+		BlockPackage.eINSTANCE.eClass();
+		BahnuebergangPackage.eINSTANCE.eClass();
+		OrtungPackage.eINSTANCE.eClass();
+		FlankenschutzPackage.eINSTANCE.eClass();
+		FahrstrassePackage.eINSTANCE.eClass();
+		SignalePackage.eINSTANCE.eClass();
+		LayoutinformationenPackage.eINSTANCE.eClass();
+		NahbedienungPackage.eINSTANCE.eClass();
+		PZBPackage.eINSTANCE.eClass();
+		RegelzeichnungPackage.eINSTANCE.eClass();
+		SchluesselabhaengigkeitenPackage.eINSTANCE.eClass();
+		Weichen_und_GleissperrenPackage.eINSTANCE.eClass();
+		ZuglenkungPackage.eINSTANCE.eClass();
+		ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
+		Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theTablemodelPackage.createPackageContents();

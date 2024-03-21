@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.set.basis.integration.DiffLabelProvider
 import org.eclipse.set.basis.integration.Matcher
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 import static com.google.common.base.Strings.*
 

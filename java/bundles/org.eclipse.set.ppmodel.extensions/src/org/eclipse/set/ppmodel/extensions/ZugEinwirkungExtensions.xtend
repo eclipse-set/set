@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
-import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
-import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
+import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import java.util.List
 
 /**
@@ -18,14 +18,14 @@ import java.util.List
  */
 class ZugEinwirkungExtensions extends BasisObjektExtensions {
 	def static Markanter_Punkt getMarkanterPunkt(Zugeinwirkung einwirkung) {
-		return einwirkung.IDBezugspunkt
+		return einwirkung.IDBezugspunkt?.value
 	}
 
 	def static List<Schaltmittel_Zuordnung> getSchaltMittelZuordnung(
 		Zugeinwirkung einwirkung
 	) {
 		return einwirkung.container.schaltmittelZuordnung.filter [
-			einwirkung?.identitaet?.wert == IDSchalter?.identitaet?.wert
+			einwirkung?.identitaet?.wert == IDSchalter?.value?.identitaet?.wert
 		].toList
 	}
 }

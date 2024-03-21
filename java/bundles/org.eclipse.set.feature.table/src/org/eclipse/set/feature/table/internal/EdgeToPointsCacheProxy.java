@@ -16,7 +16,7 @@ import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 
 /**
  * A Proxy of the directed edge to single points cache dealing with abstract

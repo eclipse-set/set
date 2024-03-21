@@ -10,12 +10,12 @@ package org.eclipse.set.feature.siteplan.trackservice;
 
 import java.util.List;
 
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Geodaten.Strecke;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Geodaten.Strecke;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.xtext.xbase.lib.Pair;
 
 /**

@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan;
 
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt;
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt;
 
 /**
  * Container for track switch metadata

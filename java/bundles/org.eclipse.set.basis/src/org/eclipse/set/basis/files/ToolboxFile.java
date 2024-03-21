@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.guid.Guid;
 import org.w3c.dom.Document;
@@ -172,12 +171,12 @@ public interface ToolboxFile {
 	/**
 	 * @return the planpro schnittstelle resources
 	 */
-	XMLResource getPlanProResource();
+	PlanProFileResource getPlanProResource();
 
 	/**
 	 * @return the planpro layout resource
 	 */
-	XMLResource getLayoutResource();
+	PlanProFileResource getLayoutResource();
 
 	/**
 	 * @param contentName
@@ -268,7 +267,7 @@ public interface ToolboxFile {
 	 * 
 	 * @return the planpro model
 	 */
-	org.eclipse.set.model.model11001.PlanPro.DocumentRoot getPlanProSourceModel();
+	org.eclipse.set.model.planpro.PlanPro.DocumentRoot getPlanProDocumentRoot();
 
 	/**
 	 * Return the loaded PlanPro Layout model. Note that this model is *not* the
@@ -277,6 +276,6 @@ public interface ToolboxFile {
 	 * 
 	 * @return the planpro layout model
 	 */
-	org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot getLayoutSourceModel();
+	org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot getLayoutDocumentRoot();
 
 }

@@ -22,7 +22,7 @@ import java.util.Objects;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.utils.ToolboxConfiguration;
 
 /**

@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup;
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.helpmessage.HelpMessageService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
