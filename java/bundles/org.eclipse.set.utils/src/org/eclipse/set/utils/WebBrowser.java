@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.eclipse.set.browser.Browser;
+import org.eclipse.set.browser.cef.ChromiumStatic;
 import org.eclipse.set.browser.swt.BrowserFunction;
 import org.eclipse.set.browser.swt.WindowEvent;
 import org.eclipse.swt.SWT;
@@ -45,8 +46,7 @@ public class WebBrowser {
 	public WebBrowser(final Composite parent) {
 		// Enable browser debug in development mode
 		if (ToolboxConfiguration.isDevelopmentMode()) {
-			System.setProperty("org.eclipse.set.browser.remote-debugging-port", //$NON-NLS-1$
-					"9999"); //$NON-NLS-1$
+			ChromiumStatic.getCEFConfiguration().DebugPort = 9999;
 		}
 		browser = createBrowser(parent);
 	}
