@@ -102,7 +102,7 @@ public class AttachmentPart extends BasePart {
 		attachmentTable.setTempDir(getModelSession().getTempDir().toString());
 		if (rendererService != null) {
 			attachmentTable
-					.setAttahcmentViewer(path -> partService.showAttachmentPart(path));
+					.setAttachmentViewer(path -> partService.showAttachmentPart(path));
 		}
 		attachmentTable.createControl();
 		return attachmentTable;

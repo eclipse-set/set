@@ -174,7 +174,7 @@ public class AttachmentTable {
 	 * @param attchmentViewer
 	 *            the attachment viewer
 	 */
-	public void setAttahcmentViewer(final Consumer<Path> attchmentViewer) {
+	public void setAttachmentViewer(final Consumer<Path> attchmentViewer) {
 		this.attachmentViewer = attchmentViewer;
 	}
 

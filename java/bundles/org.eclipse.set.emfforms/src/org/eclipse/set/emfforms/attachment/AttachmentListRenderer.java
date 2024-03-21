@@ -316,7 +316,7 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 		attachmentTable.setTempDir(tempDir);
 		final ToolboxPartService partService = toolboxViewModelService
 				.get(ToolboxPartService.class);
-		attachmentTable.setAttahcmentViewer(partService::showAttachmentPart);
+		attachmentTable.setAttachmentViewer(partService::showAttachmentPart);
 		attachmentTable.setExtensionFilter(getExtensionFilter());
 		return attachmentTable.createControl();
 	}
