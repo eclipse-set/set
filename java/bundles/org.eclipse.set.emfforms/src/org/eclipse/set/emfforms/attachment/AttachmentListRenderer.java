@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecp.view.spi.context.ViewModelContext;
@@ -59,6 +57,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+
+import jakarta.inject.Inject;
 
 /**
  * Renders a list of attachments.
@@ -316,7 +316,7 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 		attachmentTable.setTempDir(tempDir);
 		final ToolboxPartService partService = toolboxViewModelService
 				.get(ToolboxPartService.class);
-		attachmentTable.setPdfViewer(partService::showPdfPart);
+		attachmentTable.setAttachmentViewer(partService::showAttachmentPart);
 		attachmentTable.setExtensionFilter(getExtensionFilter());
 		return attachmentTable.createControl();
 	}

@@ -23,15 +23,16 @@ import org.osgi.service.component.annotations.Component;
  * @author Schaefer
  */
 @Component
-public class ViewPdfPartDescriptionService implements PartDescriptionService {
+public class AttachmentViewertPartDescriptionService
+		implements PartDescriptionService {
 
 	@Override
 	public PartDescription getDescription(final IEclipseContext context) {
 		return new PartDescription(
 				// ID
-				ToolboxConstants.PDF_VIEWER_PART_ID,
+				ToolboxConstants.ATTACHMENT_VIEWER_PART_ID,
 				// contributionURI
-				"bundleclass://org.eclipse.set.application/org.eclipse.set.application.parts.ViewPdfPart", //$NON-NLS-1$
+				"bundleclass://org.eclipse.set.application/org.eclipse.set.application.parts.AttachmentViewerPart", //$NON-NLS-1$
 				// toolboxViewName
 				"", //$NON-NLS-1$
 				// toolboxViewToolTip

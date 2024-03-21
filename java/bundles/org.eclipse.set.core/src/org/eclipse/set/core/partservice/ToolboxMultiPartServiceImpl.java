@@ -16,9 +16,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.contexts.RunAndTrack;
@@ -71,6 +68,9 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 
 /**
  * Implementation of {@link ToolboxPartService} with multi-part support.
@@ -126,8 +126,8 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 		return part;
 	}
 
-	private static String getPdfPartId(final Path path) {
-		return ToolboxConstants.PDF_VIEWER_PART_ID + ":" + path; //$NON-NLS-1$
+	private static String getAttachmentViewerPartId(final Path path) {
+		return ToolboxConstants.ATTACHMENT_VIEWER_PART_ID + ":" + path; //$NON-NLS-1$
 	}
 
 	private MPart actionPart;
@@ -244,13 +244,28 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 	}
 
 	@Override
-	public void showPdfPart(final Path path) {
-		final String pdfPartId = getPdfPartId(path);
-		final MPart pdfPart = partService.findPart(pdfPartId);
-		if (pdfPart == null) {
-			createAndPlacePdfPart(pdfPartId, path);
+	public void showAttachmentPart(final Path path) {
+		final String attViewerPartId = getAttachmentViewerPartId(path);
+		final MPart attViewerPart = partService.findPart(attViewerPartId);
+		if (attViewerPart == null) {
+			// create the part
+			final PartDescription description = getRegisteredDescription(
+					ToolboxConstants.ATTACHMENT_VIEWER_PART_ID);
+			final MPart part = createPart(description);
+
+			// modify part
+			final Path fileName = path.getFileName();
+			if (fileName != null) {
+				part.setLabel(fileName.toString());
+			}
+			part.setElementId(attViewerPartId);
+			part.getTransientData().put(ToolboxConstants.FILE_PARAMETER,
+					path.toString());
+
+			// place the part
+			getPrimaryPartStack().getChildren().add(part);
 		}
-		showPart(pdfPartId);
+		showPart(attViewerPartId);
 	}
 
 	private void closeOpenParts() {
@@ -271,27 +286,6 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 			return;
 		}
 		partStack.getChildren().add(part);
-	}
-
-	private void createAndPlacePdfPart(final String pdfPartId,
-			final Path path) {
-
-		// create the part
-		final PartDescription description = getRegisteredDescription(
-				ToolboxConstants.PDF_VIEWER_PART_ID);
-		final MPart part = createPart(description);
-
-		// modify part
-		final Path fileName = path.getFileName();
-		if (fileName != null) {
-			part.setLabel(fileName.toString());
-		}
-		part.setElementId(pdfPartId);
-		part.getTransientData().put(ToolboxConstants.FILE_PARAMETER,
-				path.toString());
-
-		// place the part
-		getPrimaryPartStack().getChildren().add(part);
 	}
 
 	private PartDescription createDescription(

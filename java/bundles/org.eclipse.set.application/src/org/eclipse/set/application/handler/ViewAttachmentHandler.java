@@ -22,7 +22,7 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
  * 
  * @author Schaefer
  */
-public class ViewPdfHandler {
+public class ViewAttachmentHandler {
 
 	@Inject
 	ToolboxPartService partService;
@@ -30,6 +30,6 @@ public class ViewPdfHandler {
 	@Execute
 	private void execute(
 			@Named("org.eclipse.set.application.commandparameter.file") final String file) {
-		partService.showPdfPart(Paths.get(file));
+		partService.showAttachmentPart(Paths.get(file));
 	}
 }

@@ -117,12 +117,12 @@ public interface ToolboxPartService {
 	public boolean showPart(String id);
 
 	/**
-	 * Show a part with the given pdf file.
+	 * Show a part with the given attachment file.
 	 * 
 	 * @param path
-	 *            the path to the pdf file
+	 *            the path to the attachment file
 	 */
-	public void showPdfPart(Path path);
+	public void showAttachmentPart(Path path);
 
 	/**
 	 * Returns the registerred toolbox view groups
