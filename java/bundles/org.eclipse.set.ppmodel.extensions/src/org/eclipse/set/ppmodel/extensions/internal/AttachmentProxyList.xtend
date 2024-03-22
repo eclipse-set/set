@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.internal
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
 import org.eclipse.set.basis.DomainElementList
 import org.eclipse.set.basis.DomainElementList.ChangeListener
 import org.eclipse.set.basis.attachments.Attachment

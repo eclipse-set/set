@@ -17,7 +17,7 @@ import org.apache.commons.text.StringSubstitutor
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*

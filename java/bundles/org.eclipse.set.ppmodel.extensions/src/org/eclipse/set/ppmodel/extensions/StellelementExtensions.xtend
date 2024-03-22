@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 
 /**
  * This class extends {@link Stellelement}.
@@ -23,7 +23,7 @@ class StellelementExtensions extends BasisObjektExtensions {
 	 * Stellelement 
 	 */
 	def static Aussenelementansteuerung getEnergie(Stellelement stellelement) {
-		return stellelement.IDEnergie
+		return stellelement.IDEnergie?.value
 	}
 
 	/**
@@ -34,6 +34,6 @@ class StellelementExtensions extends BasisObjektExtensions {
 	 */
 	def static Aussenelementansteuerung getInformation(
 		Stellelement stellelement) {
-		return stellelement.IDInformation
+		return stellelement.IDInformation?.value
 	}
 }

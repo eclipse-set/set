@@ -34,7 +34,7 @@ Import-Package: org.apache.commons.lang3;version="3.1.0",
  org.eclipse.set.utils.graph,
  org.eclipse.set.utils.math,
  org.eclipse.set.utils.viewgroups
-Require-Bundle: org.eclipse.set.toolboxmodel,
+Require-Bundle: org.eclipse.set.model.planpro,
  org.eclipse.set.core.services,
  com.google.guava,
  org.eclipse.set.basis,

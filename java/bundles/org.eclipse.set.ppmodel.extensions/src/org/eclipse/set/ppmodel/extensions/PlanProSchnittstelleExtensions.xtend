@@ -32,23 +32,23 @@ import org.eclipse.set.basis.constants.ExportType
 import org.eclipse.set.basis.guid.Guid
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
-import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory
-import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage
-import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass
-import org.eclipse.set.toolboxmodel.PlanPro.Akteur_Allg_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.Akteur_Zuordnung
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot
-import org.eclipse.set.toolboxmodel.PlanPro.ENUMPlanungEArt
-import org.eclipse.set.toolboxmodel.PlanPro.ENUMPlanungPhase
-import org.eclipse.set.toolboxmodel.PlanPro.Organisation
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_E_Allg_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjektePackage
+import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass
+import org.eclipse.set.model.planpro.PlanPro.Akteur_Allg_AttributeGroup
+import org.eclipse.set.model.planpro.PlanPro.Akteur_Zuordnung
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot
+import org.eclipse.set.model.planpro.PlanPro.ENUMPlanungEArt
+import org.eclipse.set.model.planpro.PlanPro.ENUMPlanungPhase
+import org.eclipse.set.model.planpro.PlanPro.Organisation
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.PlanPro.Planung_E_Allg_AttributeGroup
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe
+import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt
+import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceImpl
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -57,6 +57,7 @@ import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.planpro.Verweise.VerweiseFactory
 
 /**
  * Extensions for {@link PlanPro_Schnittstelle}.
@@ -102,24 +103,13 @@ class PlanProSchnittstelleExtensions {
 		val Iterable<Pair<EStructuralFeature, EObject>> unfilledValues = objman.
 			unfilledValues
 		var requiresDefaults = !unfilledValues.empty
-		if (resource instanceof PlanProResourceImpl) {
-			// Ignore references that couldn't be resolved during load
-			requiresDefaults = !unfilledValues.filter [ unfilled |
-				schnittstelle.wzkInvalidIDReferences.findFirst [
-					it.target == unfilled.value && it.targetRef == unfilled.key
-				] === null
-			].empty
-
-		}
 		return requiresDefaults
 	}
 
 	static def void fixManagementDefaults(PlanPro_Schnittstelle schnittstlle) {
-		schnittstlle?.LSTPlanung?.objektmanagement.unfilledValues.filter [ unfilled |
-			!schnittstlle.wzkInvalidIDReferences.exists [
-				target === unfilled.value && targetRef === unfilled.key
-			]
-		].forEach[value.fillDefaults]
+		schnittstlle?.LSTPlanung?.objektmanagement.unfilledValues.forEach [
+			value.fillDefaults
+		]
 	}
 
 	/**
@@ -133,11 +123,7 @@ class PlanProSchnittstelleExtensions {
 		val unfilledValues = schnittstelle.unfilledValues.toList
 
 		if (resource instanceof PlanProResourceImpl) {
-			return !unfilledValues.filter [ unfilled |
-				schnittstelle.wzkInvalidIDReferences.findFirst [
-					it.target == unfilled.value && it.targetRef == unfilled.key
-				] === null
-			].empty
+			return !unfilledValues.empty
 		}
 		/* TODO(1.10.0.1): Readd when temporary integartion is readded 
 		 * if (resource instanceof TemporaryintegrationResourceImpl) {
@@ -308,7 +294,11 @@ class PlanProSchnittstelleExtensions {
 		val fachdaten = factory.createFachdaten_AttributeGroup
 		val ausgabeFachdaten = factory.createAusgabe_Fachdaten
 		ausgabeFachdaten.fixGuids
-		planungEinzel.IDAusgabeFachdaten = ausgabeFachdaten
+		planungEinzel.IDAusgabeFachdaten = VerweiseFactory.eINSTANCE.
+			createID_Ausgabe_Fachdaten_ohne_Proxy_TypeClass
+		planungEinzel.IDAusgabeFachdaten.value = ausgabeFachdaten
+		planungEinzel.IDAusgabeFachdaten.wert = ausgabeFachdaten.identitaet.wert
+
 		fachdaten.ausgabeFachdaten.add(ausgabeFachdaten)
 		planungEinzel.LSTPlanung.fachdaten = fachdaten
 		planungEinzel.planungEHandlung = factory.

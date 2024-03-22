@@ -32,7 +32,7 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;

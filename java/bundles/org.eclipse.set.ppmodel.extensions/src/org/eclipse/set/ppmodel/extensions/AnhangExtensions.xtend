@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
 
 /**
  * Extensions for {@link Anhang}.

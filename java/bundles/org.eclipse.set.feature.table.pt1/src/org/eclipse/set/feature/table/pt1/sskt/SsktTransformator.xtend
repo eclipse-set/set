@@ -15,12 +15,12 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.TSO_IP_AB_Teilsystem_AttributeGroup
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Bedienung.BSO_IP_AB_Teilsystem_AttributeGroup
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
+import org.eclipse.set.model.planpro.Ansteuerung_Element.TSO_IP_AB_Teilsystem_AttributeGroup
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Bedienung.BSO_IP_AB_Teilsystem_AttributeGroup
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort
 import org.eclipse.set.utils.table.RowFactory
 import org.eclipse.set.utils.table.TMFactory
 

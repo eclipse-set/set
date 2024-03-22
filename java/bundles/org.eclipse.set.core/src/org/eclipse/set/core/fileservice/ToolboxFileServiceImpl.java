@@ -23,12 +23,11 @@ import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -87,8 +86,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 		documentRoot.setPlanProSchnittstelle(newschnittstelle);
 		newToolboxFile.getPlanProResource().getContents().add(documentRoot);
 		newToolboxFile.setPath(newPath);
-		IDReferenceUtils.retargetIDReferences(oldschnittstelle,
-				newschnittstelle);
+		ToolboxIDResolver.resolveIDReferences(newschnittstelle);
 		return newToolboxFile;
 	}
 

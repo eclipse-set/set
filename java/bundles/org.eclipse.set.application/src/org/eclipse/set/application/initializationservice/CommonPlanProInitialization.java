@@ -22,11 +22,11 @@ import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.ToolboxVersion;
 import org.osgi.service.component.annotations.Component;
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass;
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle_Allg_AttributeGroup;
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
+import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle_Allg_AttributeGroup;
 
 /**
  * Common PlanPro initialization step for all use cases.

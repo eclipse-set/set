@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup
 import java.util.List
 
 /**
@@ -24,7 +24,7 @@ class FmaKomponenteAchszaehlpunktExtensions extends BasisObjektExtensions {
 	 */
 	def static Aussenelementansteuerung getAussenelementEnergie(
 		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
-		return komp?.IDEnergie
+		return komp?.IDEnergie?.value
 	}
 
 	/**
@@ -34,6 +34,6 @@ class FmaKomponenteAchszaehlpunktExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Aussenelementansteuerung> getAussenelementInformation(
 		FMA_Komponente_Achszaehlpunkt_AttributeGroup komp) {
-		return komp?.IDInformation
+		return komp?.IDInformation?.map[value]?.filterNull?.toList
 	}
 }

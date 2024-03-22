@@ -13,8 +13,8 @@ import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.LockKeyType
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schloss
-import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -41,7 +41,7 @@ class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 		result.locked = transformLockStatus(lockkey)
 		result.type = transformLockKeyType(lockkey)
 		val coor = trackService.getCoordinateAt(
-			lockkey.IDUnterbringung?.punktObjektTOPKante, 0.0)
+			lockkey.IDUnterbringung?.value?.punktObjektTOPKante, 0.0)
 		if (coor !== null) {
 			result.position = positionService.transformPosition(coor)
 		} else {
@@ -50,7 +50,7 @@ class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 			return
 		}
 
-		lockkey.IDUnterbringung?.punktObjektStrecke?.
+		lockkey.IDUnterbringung?.value?.punktObjektStrecke?.
 			transformPunktObjektStrecke(result)
 		addSiteplanElement(result,
 			SiteplanPackage.eINSTANCE.siteplanState_Lockkeys)

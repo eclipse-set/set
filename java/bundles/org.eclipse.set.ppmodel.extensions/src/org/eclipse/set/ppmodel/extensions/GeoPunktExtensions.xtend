@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
+import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
 import org.locationtech.jts.geom.Coordinate
 
 /**

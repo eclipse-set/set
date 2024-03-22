@@ -12,9 +12,9 @@ package org.eclipse.set.basis.graph;
 
 import java.math.BigDecimal;
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 
 /**
  * Helper record to indicate a point on a TOP_Kante (class instead of record due
@@ -62,6 +62,6 @@ public class TopPoint {
 	 *            a Punkt_Objekt_TOP_Kante_AttributeGroup
 	 */
 	public TopPoint(final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		this(potk.getIDTOPKante(), potk.getAbstand().getWert());
+		this(potk.getIDTOPKante().getValue(), potk.getAbstand().getWert());
 	}
 }

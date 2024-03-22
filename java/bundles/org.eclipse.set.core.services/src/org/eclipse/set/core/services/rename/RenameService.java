@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
 
 /**

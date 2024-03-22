@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.basis.FreeFieldInfo
 import org.eclipse.set.basis.IModelSession
 

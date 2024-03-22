@@ -31,7 +31,7 @@ import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;

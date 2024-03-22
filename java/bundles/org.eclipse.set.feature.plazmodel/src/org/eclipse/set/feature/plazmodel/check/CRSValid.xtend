@@ -10,7 +10,7 @@ package org.eclipse.set.feature.plazmodel.check
 
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Punkt
+import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
 import org.osgi.service.component.annotations.Component
 
 /**

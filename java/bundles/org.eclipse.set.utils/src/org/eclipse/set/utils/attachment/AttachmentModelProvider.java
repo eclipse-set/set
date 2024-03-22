@@ -16,8 +16,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang;
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 
 import com.google.common.collect.Iterables;
 

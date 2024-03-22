@@ -8,14 +8,14 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang_Art_TypeClass
-import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjekteFactory
-import org.eclipse.set.toolboxmodel.Basisobjekte.Dateiname_TypeClass
-import org.eclipse.set.toolboxmodel.Basisobjekte.Dateityp_TypeClass
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMAnhangArt
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp
-import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang_Art_TypeClass
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory
+import org.eclipse.set.model.planpro.Basisobjekte.Dateiname_TypeClass
+import org.eclipse.set.model.planpro.Basisobjekte.Dateityp_TypeClass
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMAnhangArt
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp
+import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass
 import org.eclipse.set.basis.attachments.Attachment
 import org.eclipse.set.basis.attachments.AttachmentInfo
 import org.eclipse.set.basis.guid.Guid

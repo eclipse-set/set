@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions.exception
 
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
-import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import java.util.List
 
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*

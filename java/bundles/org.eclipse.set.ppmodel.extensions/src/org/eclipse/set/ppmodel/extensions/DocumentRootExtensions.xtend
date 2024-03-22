@@ -9,8 +9,8 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.basis.PlanProSchemaDir
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage
 
 import static extension org.eclipse.set.basis.extensions.PathExtensions.*
 

@@ -21,19 +21,19 @@ import org.eclipse.set.model.siteplan.TrackSection
 import org.eclipse.set.model.siteplan.TrackSegment
 import org.eclipse.set.model.siteplan.TrackShape
 import org.eclipse.set.model.siteplan.TrackType
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOForm
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Form_TypeClass
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Art
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm
+import org.eclipse.set.model.planpro.Geodaten.GEO_Form_TypeClass
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Gleis.Gleis_Art
+import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
-import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
@@ -263,7 +263,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		]
 
 		// Is the stretch within this GEO_Kante?	
-		if (maxTB.IDTOPKante?.identitaet?.wert !=
+		if (maxTB.IDTOPKante?.value?.identitaet?.wert !=
 			md.geoKante.topKante.identitaet?.wert)
 			return null
 

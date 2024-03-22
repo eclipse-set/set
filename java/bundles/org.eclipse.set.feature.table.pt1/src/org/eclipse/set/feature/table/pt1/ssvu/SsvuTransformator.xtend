@@ -17,17 +17,17 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Uebertragungsweg
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Schnittstelle
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Bezirk
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Zentrale
-import org.eclipse.set.toolboxmodel.PZB.PZB_Element
-import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Schnittstelle
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Zentrale
+import org.eclipse.set.model.planpro.PZB.PZB_Element
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssvu.SsvuColumns.*
@@ -107,13 +107,13 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		return
 	}
 
-	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegVon?.identitaet?.wert) transformToVon(
+	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegVon?.value?.identitaet?.wert) transformToVon(
 		Uebertragungsweg uebertragungsweg
 	) {
 		return
 	}
 
-	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegNach?.identitaet?.wert) transformToNach(
+	private def String create createUebertragungswegByID(uebertragungsweg?.IDUebertragungswegNach?.value?.identitaet?.wert) transformToNach(
 		Uebertragungsweg uebertragungsweg
 	) {
 		return
@@ -213,24 +213,24 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def dispatch String getIdStellelement(Signal element) {
-		return element?.signalReal?.signalRealAktiv?.IDStellelement?.
+		return element?.signalReal?.signalRealAktiv?.IDStellelement?.value?.
 			identitaet?.wert;
 	}
 
 	private def dispatch String getIdStellelement(W_Kr_Gsp_Element element) {
-		return element?.IDStellelement?.identitaet?.wert
+		return element?.IDStellelement?.value?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(Schluesselsperre element) {
-		return element?.IDStellelement?.identitaet?.wert
+		return element?.IDStellelement?.value?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(PZB_Element element) {
-		return element?.IDStellelement?.identitaet?.wert
+		return element?.IDStellelement?.value?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(BUE_Schnittstelle element) {
-		return element?.IDStellelement?.identitaet?.wert
+		return element?.IDStellelement?.value?.identitaet?.wert
 	}
 
 	private def dispatch String getIdStellelement(Bedien_Bezirk element) {
@@ -270,10 +270,10 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getElementBezeichnung(PZB_Element element) {
 		val pzbZuordnungSignal = container?.PZBZuordnungSignal.findFirst [
-			identitaet?.wert == element?.IDPZBElementZuordnung?.identitaet?.wert
+			identitaet?.wert == element?.IDPZBElementZuordnung?.value?.identitaet?.wert
 		]
 		return container?.signal.findFirst [
-			identitaet?.wert == pzbZuordnungSignal?.IDSignal?.identitaet?.wert
+			identitaet?.wert == pzbZuordnungSignal?.IDSignal?.value?.identitaet?.wert
 		]?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
@@ -281,7 +281,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		BUE_Schnittstelle element) {
 		// IMPROVE use cache
 		val bueAnlage = container?.BUEAnlage.findFirst [
-			IDBUESchnittstelle?.identitaet?.wert == element?.identitaet?.wert
+			IDBUESchnittstelle?.value?.identitaet?.wert == element?.identitaet?.wert
 		]
 		return bueAnlage?.bezeichnung?.bezeichnungTabelle?.wert
 	}

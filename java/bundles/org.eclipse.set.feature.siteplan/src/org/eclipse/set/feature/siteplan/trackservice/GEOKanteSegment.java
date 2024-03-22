@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.locationtech.jts.geom.Coordinate;
 
 /**

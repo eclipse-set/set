@@ -9,14 +9,14 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Freimelde_Zuordnung
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Freimelde_Zuordnung
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 
 /**
  * Extensions for {@link Fla_Schutz}.
@@ -29,7 +29,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Anforderer of this Flankenschutz
 	 */
 	def static Basis_Objekt getAnforderer(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzAnforderer.IDAnfordererElement
+		return flaSchutz.flaSchutzAnforderer.IDAnfordererElement?.value
 	}
 
 	/**
@@ -39,7 +39,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 */
 	def static W_Kr_Gsp_Element getWeicheGleissperreElement(
 		Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzWGsp.IDFlaWGspElement
+		return flaSchutz.flaSchutzWGsp.IDFlaWGspElement?.value
 	}
 
 	/**
@@ -67,7 +67,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Signal providing Flankenschutz
 	 */
 	def static Signal getSignal(Fla_Schutz flaSchutz) {
-		return flaSchutz.flaSchutzSignal.IDFlaSignal
+		return flaSchutz.flaSchutzSignal.IDFlaSignal?.value
 	}
 
 	/**
@@ -76,7 +76,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Flankenschutzmaßnahme of the left Weitergabe
 	 */
 	def static Fla_Schutz getWeitergabeL(Fla_Schutz flaSchutz) {
-		return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL
+		return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeL?.value
 	}
 
 	/**
@@ -85,7 +85,7 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	 * @return the Flankenschutzmaßnahme of the right Weitergabe
 	 */
 	def static Fla_Schutz getWeitergabeR(Fla_Schutz flaSchutz) {
-		return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR
+		return flaSchutz?.flaSchutzWeitergabe?.IDFlaWeitergabeR?.value
 	}
 
 	/**
@@ -96,14 +96,14 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	def static List<Fla_Freimelde_Zuordnung> getFreimeldeZuordnungen(
 		Fla_Schutz flaSchutz) {
 		return flaSchutz.container.flaFreimeldeZuordnung.filter [
-			it?.IDFlaSchutz?.identitaet?.wert == flaSchutz?.identitaet?.wert &&
-				it?.IDFlaSchutz?.identitaet?.wert !== null
+			it?.IDFlaSchutz?.value?.identitaet?.wert == flaSchutz?.identitaet?.wert &&
+				it?.IDFlaSchutz?.value?.identitaet?.wert !== null
 		].toList
 	}
 
 	def static String getAnfordererBezeichnung(Fla_Schutz anforderer,
 		W_Kr_Gsp_Element wKrGspElement) {
-		val wKrArt = wKrGspElement?.IDWKrAnlage?.WKrAnlageAllg?.WKrArt?.wert
+		val wKrArt = wKrGspElement?.IDWKrAnlage?.value?.WKrAnlageAllg?.WKrArt?.wert
 		if (wKrArt === ENUMWKrArt.ENUMW_KR_ART_EKW &&
 			anforderer?.flaSchutzAnforderer?.EKWKrAnteil?.wert) {
 			return '''«wKrGspElement?.bezeichnung?.kennzahl»Kr«wKrGspElement.bezeichnung.oertlicherElementname»'''

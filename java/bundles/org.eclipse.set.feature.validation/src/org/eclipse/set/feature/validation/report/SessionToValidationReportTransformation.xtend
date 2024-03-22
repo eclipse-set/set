@@ -29,8 +29,8 @@ import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.model.validationreport.ValidationreportFactory
-import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.xml.sax.SAXParseException
 

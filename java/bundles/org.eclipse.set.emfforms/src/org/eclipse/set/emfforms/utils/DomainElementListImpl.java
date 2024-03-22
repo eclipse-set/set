@@ -24,7 +24,6 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-
 import org.eclipse.set.basis.DomainElementList;
 import org.eclipse.set.basis.MediaInfo;
 import org.eclipse.set.basis.commands.AddAttachmentData;

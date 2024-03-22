@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.xtend.lib.annotations.Accessors
 
 /**

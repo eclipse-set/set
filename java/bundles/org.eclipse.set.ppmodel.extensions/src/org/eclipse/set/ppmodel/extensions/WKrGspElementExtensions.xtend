@@ -12,20 +12,20 @@ import java.util.Collections
 import java.util.List
 import java.util.Set
 import org.eclipse.core.runtime.Assert
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Regelzeichnung.Regelzeichnung
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.GZ_Freimeldung_L_AttributeGroup
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.GZ_Freimeldung_R_AttributeGroup
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Anlage
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.GZ_Freimeldung_L_AttributeGroup
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.GZ_Freimeldung_R_AttributeGroup
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 
-import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -45,7 +45,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * @return the Weiche/Kreuzung Anlage this element is part of
 	 */
 	def static W_Kr_Anlage getWKrAnlage(W_Kr_Gsp_Element wKrGspElement) {
-		return wKrGspElement.IDWKrAnlage
+		return wKrGspElement.IDWKrAnlage?.value
 	}
 
 	/**
@@ -59,7 +59,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 			return Collections.emptyList
 		}
 		return wKrGspElement.container.WKrGspKomponente.filter [
-			IDWKrGspElement.identitaet?.wert == wKrGspElement.identitaet.wert
+			IDWKrGspElement?.value.identitaet?.wert == wKrGspElement.identitaet.wert
 		].toList
 	}
 
@@ -70,7 +70,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 */
 	def static Regelzeichnung getRegelzeichnung(
 		W_Kr_Gsp_Element wKrGspElement) {
-		return wKrGspElement.IDRegelzeichnung
+		return wKrGspElement.IDRegelzeichnung?.value
 	}
 
 	/**
@@ -80,7 +80,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * Grenzzeichenfreiheit of the left or right Weichenschenkel 
 	 */
 	def static Basis_Objekt getElement(GZ_Freimeldung_R_AttributeGroup group) {
-		return group.IDElement
+		return group.IDElement?.value
 	}
 
 	/**
@@ -90,7 +90,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * Grenzzeichenfreiheit of the left or right Weichenschenkel 
 	 */
 	def static Basis_Objekt getElement(GZ_Freimeldung_L_AttributeGroup group) {
-		return group.IDElement
+		return group.IDElement?.value
 	}
 
 	/**
@@ -152,7 +152,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * @return the Stellelement of this Weiche, Kreuzung oder Gleissperre
 	 */
 	static def Stellelement getStellelement(W_Kr_Gsp_Element wKrGspElement) {
-		return wKrGspElement.IDStellelement
+		return wKrGspElement.IDStellelement?.value
 	}
 
 	private def static TOP_Kante getTopKanteWithAnschluss(
@@ -181,8 +181,8 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	static def Set<Fstr_Zug_Rangier> getFstrZugCrossingLeg(
 		W_Kr_Gsp_Element element, TOP_Kante legTopKante) {
 		return element.container.fstrZugRangier.filter [
-			val fstrFW = IDFstrFahrweg
-			fstrZug !== null && IDFstrFahrweg.bereichObjektTeilbereich.map [
+			val fstrFW = IDFstrFahrweg?.value
+			fstrZug !== null && IDFstrFahrweg?.value.bereichObjektTeilbereich.map [
 				topKante
 			].contains(legTopKante) && element.getWKrGspKomponenten.exists [
 				fstrFW.intersects(it)

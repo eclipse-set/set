@@ -14,8 +14,8 @@ import java.io.IOException
 import java.nio.file.Files
 import java.util.ArrayList
 import java.util.List
-import org.eclipse.set.model.model11001.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.model.model11001.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 
 /**
  * Extensions for {@link IModelSession}.

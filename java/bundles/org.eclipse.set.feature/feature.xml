@@ -132,14 +132,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.set.model.model11001"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.set.model.model11001.edit"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.emfforms.core.bazaar"
          version="0.0.0"/>
 
@@ -888,10 +880,6 @@ http://www.eclipse.org/legal/epl-v20.html
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.set.model.model11001.editor"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.emfforms.swt.controlgrid"
          version="0.0.0"/>
 
@@ -1085,22 +1073,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.eclipse.set.utils.table"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.set.toolboxmodel"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.set.toolboxmodel.transform"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.set.toolboxmodel.edit"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.set.toolboxmodel.editor"
          version="0.0.0"/>
 
    <plugin
@@ -1469,6 +1441,18 @@ http://www.eclipse.org/legal/epl-v20.html
 
    <plugin
          id="org.apache.xml.serializer"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.model.planpro"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.model.planpro.edit"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.set.model.planpro.editor"
          version="0.0.0"/>
 
 </feature>

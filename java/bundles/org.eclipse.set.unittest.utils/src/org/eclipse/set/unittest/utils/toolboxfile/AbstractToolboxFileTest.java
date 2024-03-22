@@ -24,10 +24,10 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.files.ToolboxFileFormatService;
-import org.eclipse.set.toolboxmodel.Layoutinformationen.LayoutinformationenPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceFactoryImpl;
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
+import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceFactoryImpl;
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Signalbegriffe_Ril_301Package;
 import org.eclipse.set.unittest.utils.AbstractToolboxTest;
 import org.junit.jupiter.api.BeforeEach;
 

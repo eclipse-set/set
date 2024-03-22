@@ -18,12 +18,12 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*
-import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
+import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
@@ -196,7 +196,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZugRangier,
 			[
 				fmaAnlageRangierFrei?.map [
-					IDGleisAbschnitt?.bezeichnung?.bezeichnungTabelle?.wert
+					IDGleisAbschnitt?.value?.bezeichnung?.bezeichnungTabelle?.wert
 				].toSet
 			],
 			MIXED_STRING_COMPARATOR
@@ -247,7 +247,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZugRangier,
 			[
 				(fstrFahrweg?.zielSignal?.signalFstr?.
-					IDRaZielErlaubnisabhaengig?.identitaet?.wert !== null).
+					IDRaZielErlaubnisabhaengig?.value?.identitaet?.wert !== null).
 					translate
 			]
 		)
@@ -283,7 +283,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val besondersRangierFstrs = fstrZugRangier.IDFstrAusschlussBesonders?.
 			filter [
-				isR
+				value.isR
 			]?.filterNull ?: Collections.emptyList
 
 		val zugFstrs = fstrZugRangier.IDFstrAusschlussBesonders?.filter [
@@ -311,7 +311,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					val fahrWegStartZiel = IDFstrAusschlussBesonders.map [
-						fstrFahrweg.transformFahrwegStartZiel
+						value.fstrFahrweg.transformFahrwegStartZiel
 					]
 
 					val footnotes = footnoteTransformation.transform(it, row)
@@ -326,7 +326,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				[ zugRangier |
 					val footnotes = footnoteTransformation.transform(zugRangier,
 						row)
-					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr.fstrZugRangierBezeichnung»«ENDFOR» «footnotes»'''
+					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr?.value?.fstrZugRangierBezeichnung»«ENDFOR» «footnotes»'''
 				]
 			)
 		)

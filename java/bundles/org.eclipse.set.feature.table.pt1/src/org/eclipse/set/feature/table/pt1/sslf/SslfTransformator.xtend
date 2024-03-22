@@ -13,15 +13,15 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Grenze
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sslf.SslfColumns.*
-import static org.eclipse.set.toolboxmodel.Flankenschutz.ENUMFahrtUeber.*
+import static org.eclipse.set.model.planpro.Flankenschutz.ENUMFahrtUeber.*
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
@@ -143,7 +143,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 					freimeldeZuordnungen.filter[flaRaumFreimeldung.wert].map [
 						fmaAnlage?.IDGleisAbschnitt
 					].filterNull.map [
-						bezeichnung?.bezeichnungTabelle?.wert
+						value?.bezeichnung?.bezeichnungTabelle?.wert
 					]
 				],
 				MIXED_STRING_COMPARATOR
@@ -158,7 +158,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 					freimeldeZuordnungen.filter[!flaRaumFreimeldung.wert].map [
 						fmaAnlage?.IDGleisAbschnitt
 					].filterNull.map [
-						bezeichnung?.bezeichnungTabelle?.wert
+						value?.bezeichnung?.bezeichnungTabelle?.wert
 					]
 				],
 				MIXED_STRING_COMPARATOR
@@ -233,7 +233,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 		val anforderer = flaSchutz.anforderer
 
 		if (anforderer instanceof NB_Zone_Grenze) {
-			return anforderer?.IDMarkanterPunkt?.bezeichnung?.
+			return anforderer?.IDMarkanterPunkt?.value?.bezeichnung?.
 				bezeichnungMarkanterPunkt?.wert ?: ""
 		}
 
@@ -247,7 +247,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getBezeichnungTabelle(Fla_Schutz flaSchutz,
 		W_Kr_Gsp_Element wKrGspElement) {
-		val wkrArt = wKrGspElement?.IDWKrAnlage?.WKrAnlageArt
+		val wkrArt = wKrGspElement?.IDWKrAnlage?.value?.WKrAnlageArt
 		if (wkrArt === ENUMWKrArt.ENUMW_KR_ART_EKW &&
 			flaSchutz?.flaSchutzAnforderer?.EKWKrAnteil?.wert === true) {
 			return '''«wKrGspElement?.bezeichnung?.kennzahl?.wert»Kr«wKrGspElement?.bezeichnung?.oertlicherElementname?.wert»'''
@@ -258,8 +258,8 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getBezeichnungTabelle(Fla_Schutz flaSchutz,
 		NB_Zone_Grenze nbZoneGrenze) {
-		val zone = nbZoneGrenze.IDNBZone
-		val nb = zone.IDNB
+		val zone = nbZoneGrenze.IDNBZone?.value
+		val nb = zone.IDNB?.value
 		return '''«nb?.bezeichnung?.kennzahl?.wert» Nb«nb?.bezeichnung?.bezeichnungNB?.wert.intValue»/«zone?.bezeichnung?.bezeichnungNBZone?.wert.intValue»'''
 	}
 }

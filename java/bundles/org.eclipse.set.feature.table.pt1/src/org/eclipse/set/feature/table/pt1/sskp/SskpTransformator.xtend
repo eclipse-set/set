@@ -17,17 +17,17 @@ import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.PZB.ENUMPZBArt
-import org.eclipse.set.toolboxmodel.PZB.ENUMWirksamkeitFstr
-import org.eclipse.set.toolboxmodel.PZB.PZB_Element
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Ne5
-import org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt
-import org.eclipse.set.toolboxmodel.Signale.ENUMSignalFunktion
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
+import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeitFstr
+import org.eclipse.set.model.planpro.PZB.PZB_Element
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ne5
+import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
+import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 
@@ -125,7 +125,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			dweg,
 			[isPZB2000],
 			[
-				IDPZBGefahrpunkt?.bezeichnung?.bezeichnungMarkanterPunkt?.wert
+				IDPZBGefahrpunkt?.value?.bezeichnung?.bezeichnungMarkanterPunkt?.wert
 			]
 		)
 
@@ -187,11 +187,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				isPZB2000 && IDPZBGefahrpunkt !== null
 			],
 			[
-				val markanteStelle = dweg?.IDPZBGefahrpunkt?.IDMarkanteStelle
+				val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.IDMarkanteStelle
 				if (markanteStelle instanceof Punkt_Objekt)
 					return AgateRounding.roundDown(
 						getPointsDistance(markanteStelle,
-							dweg.IDFstrFahrweg?.IDStart).min).toString
+							dweg.IDFstrFahrweg?.value?.IDStart?.value).min).toString
 				else
 					return ""
 			]
@@ -249,7 +249,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					PZBElementZuordnungFstr.map [
 						val wirksamKeit = wirksamkeitFstr?.wert?.translate
-						val fstrZugRangier = IDFstrZugRangier.
+						val fstrZugRangier = IDFstrZugRangier?.value?.
 							fstrZugRangierBezeichnung
 						return '''«wirksamKeit» «fstrZugRangier»'''
 					]
@@ -265,10 +265,10 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				],
 				[
-					IDPZBElementZuordnung?.PZBElementZuordnungFstr.flatMap [
+					IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr.flatMap [
 						wirksamkeitFstr?.IDBearbeitungsvermerk
 					].map [
-						bearbeitungsvermerkAllg?.kurztext?.wert
+						value?.bearbeitungsvermerkAllg?.kurztext?.wert
 					].filterNull
 				],
 				ITERABLE_FILLING_SEPARATOR,
@@ -278,7 +278,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[!bueSpezifischeSignals.empty],
 				[
 					bueSpezifischeSignals.map [
-						IDBUEAnlage?.bezeichnung?.bezeichnungTabelle?.wert
+						IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert
 					]
 				],
 				ITERABLE_FILLING_SEPARATOR,
@@ -350,7 +350,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[isGefahrstelle],
 				[
 					inaGefahrstelles.map [
-						IDMarkanterPunkt?.bezeichnung?.
+						IDMarkanterPunkt?.value?.bezeichnung?.
 							bezeichnungMarkanterPunkt?.wert
 					]
 				],
@@ -366,7 +366,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[isGefahrstelle],
 				[
 					val markanteStelle = inaGefahrstelles.map [
-						IDMarkanterPunkt?.IDMarkanteStelle
+						IDMarkanterPunkt?.value?.IDMarkanteStelle
 					].filter(Punkt_Objekt)
 					return getDistanceOfPoints(markanteStelle, it)
 				]
@@ -374,7 +374,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			val bahnSteigKantes = pzb?.PZBElementZuordnungBP?.map [
 				PZBElementZuordnungINA
-			]?.map[IDBahnsteigKante].toList
+			]?.map[IDBahnsteigKante?.value].toList
 
 			val bahnsteigDistance = SskpBahnsteigUtils.
 				getBahnsteigDistances(topGraphService, bahnSteigKantes, pzb)
@@ -407,14 +407,14 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(H_Tafel_Abstand),
 				pzb,
 				[
-					PZBZuordnungSignal?.map[IDSignal?.signalRahmen].flatten.map [
+					PZBZuordnungSignal?.map[IDSignal?.value?.signalRahmen].flatten.map [
 						signalbegriffe
 					].flatten.exists [
 						hasSignalbegriffID(Ne5)
 					]
 				],
 				[
-					PZBZuordnungSignal?.map[IDSignal].map [ signal |
+					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
 					].filter[it.doubleValue === 0.0].map [
 						AgateRounding.roundDown(it).toString
@@ -430,13 +430,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Abstand_vorsignalWdh_GM_2000),
 				pzb,
 				[
-					PZBZuordnungSignal?.map[IDSignal].exists [
+					PZBZuordnungSignal?.map[IDSignal?.value].exists [
 						signalReal?.signalRealAktivSchirm?.signalArt?.wert ===
 							ENUMSignalArt.ENUM_SIGNAL_ART_VORSIGNALWIEDERHOLER
 					]
 				],
 				[
-					PZBZuordnungSignal?.map[IDSignal].map [ signal |
+					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
 						getPointsDistance(pzb, signal).min
 					].filter[it.doubleValue === 0.0].map [
 						AgateRounding.roundDown(it).toString
@@ -532,7 +532,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Montageort_Schaltkastens),
 				pzb,
 				[
-					IDUnterbringung?.unterbringungAllg?.
+					IDUnterbringung?.value?.unterbringungAllg?.
 						unterbringungBefestigung?.wert.translate
 				]
 			)

@@ -26,8 +26,8 @@ import static extension org.eclipse.set.basis.extensions.NodeListExtensions.*
 import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
 import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
 import org.eclipse.set.core.services.validation.CustomValidator
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 import org.eclipse.set.model.validationreport.ObjectScope
 
 /** 

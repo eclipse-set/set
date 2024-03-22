@@ -9,12 +9,12 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import java.math.BigDecimal
 import java.util.HashSet
 import java.util.List
@@ -57,7 +57,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	def static TOP_Kante getTopKante(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
-		return singlePoint.IDTOPKante
+		return singlePoint.IDTOPKante?.value
 	}
 
 	/**

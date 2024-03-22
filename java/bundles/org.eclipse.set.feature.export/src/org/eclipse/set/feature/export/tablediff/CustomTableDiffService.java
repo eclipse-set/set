@@ -25,8 +25,8 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.table.TableDiffService;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Identitaet_TypeClass;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.osgi.service.component.annotations.Component;
 
 /**

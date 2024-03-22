@@ -10,7 +10,7 @@ package org.eclipse.set.feature.siteplan.transform
 
 import org.eclipse.set.feature.siteplan.transform.SiteplanTransformator
 import org.eclipse.set.model.siteplan.Siteplan
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.model.siteplan.SiteplanState

@@ -8,14 +8,14 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Ra12
-import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12
+import org.eclipse.set.model.planpro.Signale.Signal
 import java.util.List
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.locationtech.jts.geom.Coordinate
@@ -74,7 +74,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 	def static ENUMWirkrichtung getWirkrichtung(Punkt_Objekt punktObjekt,
 		TOP_Kante topKante) {
 		val wirkrichtungen = punktObjekt.singlePoints.filter [
-			IDTOPKante.identitaet?.wert == topKante.identitaet.wert
+			IDTOPKante?.value.identitaet?.wert == topKante.identitaet.wert
 		].map[wirkrichtung?.wert].toSet
 		if (wirkrichtungen.size == 0) {
 			throw new IllegalArgumentException(

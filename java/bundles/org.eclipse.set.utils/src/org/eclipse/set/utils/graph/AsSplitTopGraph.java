@@ -17,8 +17,8 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.set.basis.graph.TopPoint;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphType;
 import org.jgrapht.graph.AbstractGraph;

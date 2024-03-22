@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions.exception
 
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import java.util.List
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 
 class AreaNotContinuous extends RuntimeException {
 	
@@ -43,6 +43,6 @@ class AreaNotContinuous extends RuntimeException {
 	}
 	
 	private static def String getMsgString(TOP_Kante kante) {
-		return '''[«kante.IDTOPKnotenA.identitaet.wert» «kante.IDTOPKnotenB.identitaet.wert»]'''
+		return '''[«kante.IDTOPKnotenA?.value.identitaet.wert» «kante.IDTOPKnotenB?.value.identitaet.wert»]'''
 	}
 }

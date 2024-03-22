@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 
 /**
  * Helper class to represent a path of edges on the topological graph Not a Java
