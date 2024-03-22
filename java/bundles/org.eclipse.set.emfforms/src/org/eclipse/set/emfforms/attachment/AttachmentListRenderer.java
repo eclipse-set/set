@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.emfforms.attachment;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -51,8 +49,6 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.utils.Messages;
 import org.eclipse.set.utils.widgets.AttachmentTable;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -281,12 +277,13 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 				.getString(getClass(), FILTER_NAME);
 		final List<String> extensions = Arrays.stream(ENUMDateityp.values())
 				.map(ENUMDateityp::getLiteral).collect(Collectors.toList());
-		return newArrayList(ToolboxFileFilterBuilder.forName(filterName)
+		return List.of(ToolboxFileFilterBuilder.forName(filterName)
 				.add(extensions).create());
 	}
 
 	@Override
-	protected Control createControl(final Composite parent)
+	protected org.eclipse.swt.widgets.Control createControl(
+			final org.eclipse.swt.widgets.Composite parent)
 			throws DatabindingFailedException {
 		final ToolboxViewModelService toolboxViewModelService = Services
 				.getToolboxViewModelService();

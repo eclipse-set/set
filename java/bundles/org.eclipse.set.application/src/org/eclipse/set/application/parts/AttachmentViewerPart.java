@@ -22,6 +22,7 @@ import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.browser.DownloadListener;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
 import org.eclipse.set.core.services.pdf.PdfViewer;
 import org.eclipse.set.core.services.pdf.PdfViewer.SaveListener;
@@ -30,7 +31,6 @@ import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.FileWebBrowser;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -54,6 +54,9 @@ public class AttachmentViewerPart extends BasePart
 	@Inject
 	@Translation
 	Messages messages;
+
+	@Inject
+	UserConfigurationService userConfigService;
 
 	/**
 	 * Create the part.
@@ -144,7 +147,7 @@ public class AttachmentViewerPart extends BasePart
 	protected void export(final Path source) {
 		final java.util.Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
-						ToolboxConfiguration.getDefaultPath().toString());
+						userConfigService.getLastExportPath().toString());
 		optionalOutputDir.ifPresent(outputDir -> {
 			final Path dest = Paths.get(outputDir,
 					source.getFileName().toString());

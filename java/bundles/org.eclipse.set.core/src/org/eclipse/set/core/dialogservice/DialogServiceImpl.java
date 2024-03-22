@@ -487,7 +487,8 @@ public class DialogServiceImpl implements DialogService {
 				messages.DialogService_OpenDirectoryAfterExport_ShowDir);
 		if (result == 1) {
 			try {
-				Runtime.getRuntime().exec("explorer " + path.toString()); //$NON-NLS-1$
+				Runtime.getRuntime()
+						.exec(new String[] { "explorer", path.toString() }); //$NON-NLS-1$
 			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}

@@ -42,4 +42,8 @@ public interface UserConfigurationService {
 	 */
 	Optional<Path> getLastFileOpenPath();
 
+	void setLastExportPath(Path path);
+
+	Path getLastExportPath();
+
 }

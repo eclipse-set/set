@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,8 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 		public Set<String> versions = new HashSet<>();
 
 		public Path lastFileOpenPath;
+
+		public Path lastFileExportPath;
 
 		/**
 		 * Any unknown properties must be stored and preserverd, as new versions
@@ -155,8 +158,22 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	}
 
 	@Override
+	public void setLastExportPath(final Path path) {
+		configuration.lastFileExportPath = path;
+		saveConfiguration();
+	}
+
+	@Override
 	public Optional<Path> getLastFileOpenPath() {
 		return Optional.ofNullable(configuration.lastFileOpenPath);
+	}
+
+	@Override
+	public Path getLastExportPath() {
+		if (configuration.lastFileExportPath == null) {
+			return ToolboxConfiguration.getDefaultPath();
+		}
+		return configuration.lastFileExportPath;
 	}
 
 }
