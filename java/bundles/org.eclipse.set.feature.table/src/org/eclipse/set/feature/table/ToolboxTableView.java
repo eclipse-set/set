@@ -11,7 +11,7 @@ package org.eclipse.set.feature.table;
 import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration.toPixel;
 
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +53,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.threads.Threads;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroupGroupGroupHeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper;
@@ -76,7 +77,6 @@ import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
@@ -150,6 +150,9 @@ public final class ToolboxTableView extends BasePart {
 
 	@Inject
 	TableMenuService tableMenuService;
+
+	@Inject
+	UserConfigurationService userConfigService;
 
 	TableType tableType;
 
@@ -539,7 +542,7 @@ public final class ToolboxTableView extends BasePart {
 				getModelSession());
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
-						ToolboxConfiguration.getDefaultPath().toString());
+						userConfigService.getLastExportPath().toString());
 		try {
 			getDialogService().showProgress(getToolboxShell(),
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
@@ -559,9 +562,11 @@ public final class ToolboxTableView extends BasePart {
 								new ExceptionHandler(getToolboxShell(),
 										getDialogService()));
 					}));
-			optionalOutputDir.ifPresent(
-					outputDir -> getDialogService().openDirectoryAfterExport(
-							getToolboxShell(), Paths.get(outputDir)));
+			optionalOutputDir.ifPresent(outputDir -> {
+				getDialogService().openDirectoryAfterExport(getToolboxShell(),
+						Path.of(outputDir).getParent());
+				userConfigService.setLastExportPath(Path.of(outputDir));
+			});
 		} catch (InvocationTargetException | InterruptedException e) {
 			Thread.currentThread().interrupt();
 			getDialogService().error(getToolboxShell(), e);

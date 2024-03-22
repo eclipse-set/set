@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.plazmodel;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,7 @@ import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.check.PlazCheck;
@@ -76,6 +76,9 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 
 	@Inject
 	CacheService cacheService;
+
+	@Inject
+	UserConfigurationService userConfigService;
 
 	private PlazModelTableView tableView;
 	private PlazReport plazReport;
@@ -203,24 +206,24 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 	private void exportPlazModel() {
 		final Shell shell = getToolboxShell();
 		final Path location = getModelSession().getToolboxFile().getPath();
-		final Path parent = location.getParent();
-		final String defaultPath = parent == null ? "" : parent.toString(); //$NON-NLS-1$
 		final String defaultFileName = String.format(
 				messages.PlazModellPart_ExportCsvFilePattern,
 				PathExtensions.getBaseFileName(location));
 
 		final Optional<Path> optionalPath = getDialogService().saveFileDialog(
 				shell, getDialogService().getCsvFileFilters(),
-				Paths.get(defaultPath, defaultFileName),
+				userConfigService.getLastExportPath().resolve(defaultFileName),
 				messages.PlazModellPart_ExportTitleMsg);
 
 		// export
 		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				HEADER_PATTERN);
 		problemExport.exportToCSV(optionalPath, tableView.transformToCSV());
-		optionalPath.ifPresent(
-				outputDir -> getDialogService().openDirectoryAfterExport(
-						getToolboxShell(), outputDir.getParent()));
+		optionalPath.ifPresent(outputDir -> {
+			getDialogService().openDirectoryAfterExport(getToolboxShell(),
+					outputDir.getParent());
+			userConfigService.setLastExportPath(outputDir.getParent());
+		});
 	}
 
 	@Override

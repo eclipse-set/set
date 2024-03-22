@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.validation.parts;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +28,7 @@ import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -39,7 +39,6 @@ import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
@@ -76,8 +75,11 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 	private static final String INJECT_VIEW_VALIDATION_NATTABLE = "validationTableNattable"; //$NON-NLS-1$
 
+	/**
+	 * Header for CSV export
+	 */
 	@SuppressWarnings("nls")
-	private static String CSV_HEADER_PATTERN = """
+	public static String CSV_HEADER_PATTERN = """
 			Validierungsmeldungen
 			Datei: %s
 			Validierung: %s
@@ -117,6 +119,9 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 	@Inject
 	CacheService cacheService;
+
+	@Inject
+	UserConfigurationService userConfigService;
 
 	private Listener resizeListener;
 	private Composite resizeListenerObject;
@@ -205,8 +210,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 						.grab(true, false).applyTo(exportValidationButton);
 				exportValidationButton.setText(messages.ExportValidationMsg);
 				exportValidationButton.addListener(SWT.Selection,
-						event -> exportValidation(this, messages,
-								tableView.transformToCSV()));
+						event -> exportValidation(tableView.transformToCSV()));
 				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
 						0);
 
@@ -268,34 +272,28 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	/**
 	 * Export validation report to csv
 	 * 
-	 * @param part
-	 *            the part
-	 * @param messages
-	 *            the messages class
 	 * @param csvData
 	 *            the validation report als csv
 	 */
-	public static void exportValidation(final BasePart part,
-			final Messages messages, final List<String> csvData) {
-		final Shell shell = part.getToolboxShell();
-		final Path location = part.getModelSession().getToolboxFile().getPath();
-		final Path parent = location.getParent();
-		final String defaultPath = parent == null ? "" : parent.toString(); //$NON-NLS-1$
+	private void exportValidation(final List<String> csvData) {
+		final Shell shell = getToolboxShell();
+		final Path location = getModelSession().getToolboxFile().getPath();
 		final String defaultFileName = String.format(messages.ExportFilePattern,
 				PathExtensions.getBaseFileName(location));
 
-		final Optional<Path> optionalPath = part.getDialogService()
-				.saveFileDialog(shell,
-						part.getDialogService().getCsvFileFilters(),
-						Paths.get(defaultPath, defaultFileName),
-						messages.ExportValidationTitleMsg);
+		final Optional<Path> optionalPath = getDialogService().saveFileDialog(
+				shell, getDialogService().getCsvFileFilters(),
+				userConfigService.getLastExportPath().resolve(defaultFileName),
+				messages.ExportValidationTitleMsg);
 		// export
 		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				CSV_HEADER_PATTERN);
 		problemExport.exportToCSV(optionalPath, csvData);
-		optionalPath.ifPresent(
-				outputDir -> part.getDialogService().openDirectoryAfterExport(
-						part.getToolboxShell(), outputDir.getParent()));
+		optionalPath.ifPresent(outputDir -> {
+			getDialogService().openDirectoryAfterExport(getToolboxShell(),
+					outputDir.getParent());
+			userConfigService.setLastExportPath(outputDir.getParent());
+		});
 	}
 
 	void showValidationTable() {

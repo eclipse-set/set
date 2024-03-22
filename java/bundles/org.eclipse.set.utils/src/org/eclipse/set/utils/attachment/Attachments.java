@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.eclipse.set.basis.attachments.Attachment;
 import org.eclipse.set.basis.attachments.FileKind;
@@ -111,11 +112,19 @@ public abstract class Attachments {
 	 *            the dialog service
 	 * @param exportDir
 	 *            the export directory
+	 * @param newExportDirConsumer
+	 *            the consumer for the new export directory
 	 */
 	public static void export(final Shell shell, final Attachment attachment,
-			final DialogService dialogService, final String exportDir) {
-		IMPL.exportInternal(shell, attachment, dialogService, exportDir);
+			final DialogService dialogService, final Path exportDir,
+			final Consumer<Path> newExportDirConsumer) {
+		IMPL.exportInternal(shell, attachment, dialogService, exportDir,
+				newExportDirConsumer);
 	}
+
+	protected abstract void exportInternal(Shell shell, Attachment attachment,
+			DialogService dialogService, Path exportDir,
+			Consumer<Path> newExportDirConsumer);
 
 	/**
 	 * @param path
@@ -154,9 +163,6 @@ public abstract class Attachments {
 			throws InvalidFilterFilename {
 		return IMPL.loadInternal(shell, fileKind, dialogService, extensions);
 	}
-
-	abstract void exportInternal(final Shell shell, final Attachment attachment,
-			final DialogService dialogService, final String tempDir);
 
 	abstract Attachment loadInternal(final Shell shell, final FileKind fileKind,
 			final DialogService dialogService,

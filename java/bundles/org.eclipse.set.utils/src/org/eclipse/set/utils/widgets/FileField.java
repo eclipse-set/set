@@ -141,7 +141,7 @@ public class FileField {
 
 	protected void selectFile(final Shell shell) {
 		final Optional<Path> optionalSelectedPath = dialogService
-				.openFileDialog(shell, filters);
+				.openFileDialog(shell, filters, Optional.empty());
 		if (optionalSelectedPath.isPresent()) {
 			final Path selectedPath = optionalSelectedPath.get();
 			if (isValid(selectedPath)) {

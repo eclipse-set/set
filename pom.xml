@@ -43,7 +43,6 @@
 		<module>java/bundles/org.eclipse.set.application.test</module>
 		<module>java/bundles/org.eclipse.set.basis</module>
 		<module>java/bundles/org.eclipse.set.basis.test</module>
-		<module>java/bundles/org.eclipse.set.core.rcp.dialogService</module>
 
 		<module>java/bundles/org.eclipse.set.core.services</module>
 		<module>java/bundles/org.eclipse.set.core.test</module>
@@ -308,13 +307,6 @@
 							</environments>
 							<dependency-resolution>
 								<optionalDependencies>ignore</optionalDependencies>
-								<extraRequirements>
-									<requirement>
-										<type>eclipse-plugin</type>
-										<id>org.eclipse.set.rcp.compatibility</id>
-										<versionRange>0.0.0</versionRange>
-									</requirement>
-								</extraRequirements>
 							</dependency-resolution>
 						</configuration>
 					</plugin>

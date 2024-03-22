@@ -24,6 +24,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.extensions.Exceptions;
 import org.eclipse.set.basis.threads.Threads;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.feature.export.Messages;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxModel;
@@ -35,7 +36,6 @@ import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -71,7 +71,10 @@ public abstract class DocumentExportPart extends BasePart {
 
 	private Button exportButton;
 	private boolean isSessionDirty;
-	private Path selectedDir = ToolboxConfiguration.getDefaultPath();
+	private Path selectedDir;
+
+	@Inject
+	UserConfigurationService userConfigService;
 
 	Button checkOverrideButton;
 
@@ -229,6 +232,7 @@ public abstract class DocumentExportPart extends BasePart {
 							selectedDir = dir;
 							directoryPath
 									.setText(getSelectedDirectory().toString());
+							userConfigService.setLastExportPath(selectedDir);
 						});
 			}
 		});
@@ -296,6 +300,7 @@ public abstract class DocumentExportPart extends BasePart {
 			// export finished
 			getDialogService().openDirectoryAfterExport(getToolboxShell(),
 					getSelectedDirectory());
+			userConfigService.setLastExportPath(getSelectedDirectory());
 		}
 	}
 
@@ -303,6 +308,7 @@ public abstract class DocumentExportPart extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
+		selectedDir = userConfigService.getLastExportPath();
 		parent.setLayout(new FillLayout());
 		final Composite content = new Composite(parent, SWT.NONE);
 		content.setLayout(new GridLayout(1, false));

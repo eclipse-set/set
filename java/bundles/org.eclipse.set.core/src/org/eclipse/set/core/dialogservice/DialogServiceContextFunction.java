@@ -6,16 +6,15 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.core.rcp.dialogservice;
+package org.eclipse.set.core.dialogservice;
 
 import org.eclipse.e4.core.contexts.ContextFunction;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.osgi.service.component.annotations.Component;
-
 import org.eclipse.set.core.services.dialog.DialogService;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * Create and publish {@link DialogService}.
@@ -32,7 +31,7 @@ public class DialogServiceContextFunction extends ContextFunction {
 	public Object compute(final IEclipseContext context,
 			final String contextKey) {
 		final DialogService reporterImpl = ContextInjectionFactory
-				.make(DialogServiceRcpImpl.class, context);
+				.make(DialogServiceImpl.class, context);
 		final MApplication application = context.get(MApplication.class);
 		application.getContext().set(DialogService.class, reporterImpl);
 		return reporterImpl;

@@ -8,8 +8,6 @@
  */
 package org.eclipse.set.emfforms.attachment;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -38,6 +36,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.basis.files.ToolboxFileFilterBuilder;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -51,8 +50,6 @@ import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 import org.eclipse.set.utils.Messages;
 import org.eclipse.set.utils.widgets.AttachmentTable;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -250,6 +247,9 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 				.collect(Collectors.toList());
 	}
 
+	@Inject
+	private UserConfigurationService userConfigService;
+
 	/**
 	 * @param vElement
 	 *            the element to be rendered
@@ -281,12 +281,13 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 				.getString(getClass(), FILTER_NAME);
 		final List<String> extensions = Arrays.stream(ENUMDateityp.values())
 				.map(ENUMDateityp::getLiteral).collect(Collectors.toList());
-		return newArrayList(ToolboxFileFilterBuilder.forName(filterName)
+		return List.of(ToolboxFileFilterBuilder.forName(filterName)
 				.add(extensions).create());
 	}
 
 	@Override
-	protected Control createControl(final Composite parent)
+	protected org.eclipse.swt.widgets.Control createControl(
+			final org.eclipse.swt.widgets.Composite parent)
 			throws DatabindingFailedException {
 		final ToolboxViewModelService toolboxViewModelService = Services
 				.getToolboxViewModelService();
@@ -305,7 +306,8 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 				.get(AttachmentContentService.class);
 		Assert.isNotNull(contentService);
 		final AttachmentTable attachmentTable = new AttachmentTable(parent,
-				messages, contentService, dialogService, getToolboxFile());
+				messages, contentService, dialogService, getToolboxFile(),
+				userConfigService);
 		final AnhangTransformation transformation = AnhangTransformation
 				.createTransformation(translationService, contentService);
 		attachmentTable.setModel(transformation.toAttachment(domainElementList),

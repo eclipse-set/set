@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Text;
 public class InformationDialog extends Dialog {
 
 	private static final String DIALOG_FONT_NAME = "Segoe UI Semibold"; //$NON-NLS-1$
-	private final static FontDescriptor INFO_FONT_DESCRIPTOR = FontDescriptor
+	private static final FontDescriptor INFO_FONT_DESCRIPTOR = FontDescriptor
 			.createFrom(DIALOG_FONT_NAME, 10, SWT.BOLD);
 
 	private static Point computeControl(final Control control) {

@@ -188,16 +188,6 @@ public interface DialogService {
 			Exception e);
 
 	/**
-	 * Opens a file dialog and provide a link to download the file
-	 * 
-	 * @param shell
-	 *            the parent shell
-	 * @param path
-	 *            path to downloadable file
-	 */
-	void fileDownload(Shell shell, Path path);
-
-	/**
 	 * @return the toolbox file filters for csv files
 	 */
 	List<ToolboxFileFilter> getCsvFileFilters();
@@ -269,10 +259,13 @@ public interface DialogService {
 	 *            the shell, used to center the dialog
 	 * @param filters
 	 *            the toolbox file filters
+	 * @param filterPath
+	 *            an optional path to open the selection dialog at
 	 * 
 	 * @return an (optional) path with the selected file
 	 */
-	Optional<Path> openFileDialog(Shell shell, List<ToolboxFileFilter> filters);
+	Optional<Path> openFileDialog(Shell shell, List<ToolboxFileFilter> filters,
+			Optional<Path> filterPath);
 
 	/**
 	 * @param shell
@@ -325,18 +318,6 @@ public interface DialogService {
 	 *            the model session
 	 */
 	void reportSavedSession(Shell shell, IModelSession session);
-
-	/**
-	 * Opens a dialog for selecting a file to write.
-	 * 
-	 * @param shell
-	 *            the shell, used to center the dialog
-	 * @param filters
-	 *            the toolbox file filters
-	 * 
-	 * @return an (optional) path with the selected file
-	 */
-	Optional<Path> saveFileDialog(Shell shell, List<ToolboxFileFilter> filters);
 
 	/**
 	 * Opens a dialog for selecting a file to write.
@@ -439,4 +420,5 @@ public interface DialogService {
 	 *         the loading should be aborted (<code>false</code>)
 	 */
 	boolean sitePlanError(Shell shell, String filename);
+
 }
