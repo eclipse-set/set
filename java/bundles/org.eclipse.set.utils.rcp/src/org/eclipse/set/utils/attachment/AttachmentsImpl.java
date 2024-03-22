@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.eclipse.set.basis.attachments.Attachment;
 import org.eclipse.set.basis.attachments.FileKind;
@@ -31,11 +32,30 @@ import org.eclipse.swt.widgets.Shell;
 public class AttachmentsImpl extends Attachments {
 
 	@Override
-	void exportInternal(final Shell shell, final Attachment attachment,
-			final DialogService dialogService, final String exportDir) {
+	Attachment loadInternal(final Shell shell, final FileKind fileKind,
+			final DialogService dialogService,
+			final List<ToolboxFileFilter> extensions)
+			throws InvalidFilterFilename {
+		final Optional<Path> optionalPath = dialogService.openFileDialog(shell,
+				extensions, Optional.empty());
+		if (optionalPath.isPresent()) {
+			final Path path = optionalPath.get();
+			ToolboxFileFilter.check(extensions, path);
+			byte[] content = null;
+			final Path pathFilename = path.getFileName();
+			content = getContent(path);
+			return new AttachmentImpl(pathFilename, fileKind, content);
+		}
+		return null;
+	}
+
+	@Override
+	protected void exportInternal(final Shell shell,
+			final Attachment attachment, final DialogService dialogService,
+			final Path exportDir, final Consumer<Path> newExportDirConsumer) {
 		final DirectoryDialog dialog = new DirectoryDialog(shell);
 		if (exportDir != null) {
-			dialog.setFilterPath(exportDir);
+			dialog.setFilterPath(exportDir.toString());
 		}
 		final String dirname = dialog.open();
 		if (dirname != null) {
@@ -52,27 +72,10 @@ public class AttachmentsImpl extends Attachments {
 					path.toString());) {
 				stream.write(data);
 				dialogService.openDirectoryAfterExport(shell, path.getParent());
+				newExportDirConsumer.accept(path.getParent());
 			} catch (final IOException e1) {
 				dialogService.error(shell, e1);
 			}
 		}
-	}
-
-	@Override
-	Attachment loadInternal(final Shell shell, final FileKind fileKind,
-			final DialogService dialogService,
-			final List<ToolboxFileFilter> extensions)
-			throws InvalidFilterFilename {
-		final Optional<Path> optionalPath = dialogService.openFileDialog(shell,
-				extensions, Optional.empty());
-		if (optionalPath.isPresent()) {
-			final Path path = optionalPath.get();
-			ToolboxFileFilter.check(extensions, path);
-			byte[] content = null;
-			final Path pathFilename = path.getFileName();
-			content = getContent(path);
-			return new AttachmentImpl(pathFilename, fileKind, content);
-		}
-		return null;
 	}
 }

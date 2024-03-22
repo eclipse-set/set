@@ -11,7 +11,7 @@ package org.eclipse.set.feature.table;
 import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration.toPixel;
 
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -562,9 +562,11 @@ public final class ToolboxTableView extends BasePart {
 								new ExceptionHandler(getToolboxShell(),
 										getDialogService()));
 					}));
-			optionalOutputDir.ifPresent(
-					outputDir -> getDialogService().openDirectoryAfterExport(
-							getToolboxShell(), Paths.get(outputDir)));
+			optionalOutputDir.ifPresent(outputDir -> {
+				getDialogService().openDirectoryAfterExport(getToolboxShell(),
+						Path.of(outputDir).getParent());
+				userConfigService.setLastExportPath(Path.of(outputDir));
+			});
 		} catch (InvocationTargetException | InterruptedException e) {
 			Thread.currentThread().interrupt();
 			getDialogService().error(getToolboxShell(), e);

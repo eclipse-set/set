@@ -206,8 +206,6 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 	private void exportPlazModel() {
 		final Shell shell = getToolboxShell();
 		final Path location = getModelSession().getToolboxFile().getPath();
-		final Path parent = location.getParent();
-		final String defaultPath = parent == null ? "" : parent.toString(); //$NON-NLS-1$
 		final String defaultFileName = String.format(
 				messages.PlazModellPart_ExportCsvFilePattern,
 				PathExtensions.getBaseFileName(location));
@@ -221,9 +219,11 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				HEADER_PATTERN);
 		problemExport.exportToCSV(optionalPath, tableView.transformToCSV());
-		optionalPath.ifPresent(
-				outputDir -> getDialogService().openDirectoryAfterExport(
-						getToolboxShell(), outputDir.getParent()));
+		optionalPath.ifPresent(outputDir -> {
+			getDialogService().openDirectoryAfterExport(getToolboxShell(),
+					outputDir.getParent());
+			userConfigService.setLastExportPath(outputDir.getParent());
+		});
 	}
 
 	@Override

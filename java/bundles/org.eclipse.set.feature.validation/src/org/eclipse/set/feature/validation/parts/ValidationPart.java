@@ -272,14 +272,10 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	/**
 	 * Export validation report to csv
 	 * 
-	 * @param part
-	 *            the part
-	 * @param messages
-	 *            the messages class
 	 * @param csvData
 	 *            the validation report als csv
 	 */
-	public void exportValidation(final List<String> csvData) {
+	private void exportValidation(final List<String> csvData) {
 		final Shell shell = getToolboxShell();
 		final Path location = getModelSession().getToolboxFile().getPath();
 		final String defaultFileName = String.format(messages.ExportFilePattern,
@@ -293,8 +289,11 @@ public class ValidationPart extends AbstractEmfFormsPart {
 		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				CSV_HEADER_PATTERN);
 		problemExport.exportToCSV(optionalPath, csvData);
-		optionalPath.ifPresent(outputDir -> getDialogService()
-				.openDirectoryAfterExport(shell, outputDir.getParent()));
+		optionalPath.ifPresent(outputDir -> {
+			getDialogService().openDirectoryAfterExport(getToolboxShell(),
+					outputDir.getParent());
+			userConfigService.setLastExportPath(outputDir.getParent());
+		});
 	}
 
 	void showValidationTable() {

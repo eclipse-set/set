@@ -36,6 +36,7 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.basis.files.ToolboxFileFilterBuilder;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
@@ -246,6 +247,9 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 				.collect(Collectors.toList());
 	}
 
+	@Inject
+	private UserConfigurationService userConfigService;
+
 	/**
 	 * @param vElement
 	 *            the element to be rendered
@@ -302,7 +306,8 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 				.get(AttachmentContentService.class);
 		Assert.isNotNull(contentService);
 		final AttachmentTable attachmentTable = new AttachmentTable(parent,
-				messages, contentService, dialogService, getToolboxFile());
+				messages, contentService, dialogService, getToolboxFile(),
+				userConfigService);
 		final AnhangTransformation transformation = AnhangTransformation
 				.createTransformation(translationService, contentService);
 		attachmentTable.setModel(transformation.toAttachment(domainElementList),

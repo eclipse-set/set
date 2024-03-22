@@ -36,6 +36,7 @@ import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.basis.files.ToolboxFileFilter.InvalidFilterFilename;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.basis.observable.ObservableValue;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
 import org.eclipse.set.utils.Messages;
@@ -99,6 +100,8 @@ public class AttachmentTable {
 	Composite tableParent;
 	TableViewer viewer;
 
+	private final UserConfigurationService userConfigService;
+
 	/**
 	 * @param parent
 	 *            the parent
@@ -110,15 +113,19 @@ public class AttachmentTable {
 	 *            the dialog service
 	 * @param toolboxFile
 	 *            the toolbox file
+	 * @param userConfigService
+	 *            the configuration service for export paths
 	 */
 	public AttachmentTable(final Composite parent, final Messages messages,
 			final AttachmentContentService contentProvider,
-			final DialogService dialogService, final ToolboxFile toolboxFile) {
+			final DialogService dialogService, final ToolboxFile toolboxFile,
+			final UserConfigurationService userConfigService) {
 		this.tableParent = parent;
 		this.messages = messages;
 		this.contentProvider = contentProvider;
 		this.dialogService = dialogService;
 		this.toolboxFile = toolboxFile;
+		this.userConfigService = userConfigService;
 	}
 
 	/**
@@ -327,8 +334,10 @@ public class AttachmentTable {
 				() -> getSelectedAttachment()
 						.ifPresent(attachment -> Attachments
 								.export(getTableParent().getShell(), attachment,
-										dialogService, toolboxFile.getPath()
-												.getParent().toString())),
+										dialogService,
+										userConfigService.getLastExportPath(),
+										path -> userConfigService
+												.setLastExportPath(path))),
 				() -> true);
 
 		// view attachment

@@ -18,6 +18,7 @@ import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.files.AttachmentContentService;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
@@ -79,6 +80,9 @@ public class AttachmentPart extends BasePart {
 	ToolboxPartService partService;
 
 	@Inject
+	UserConfigurationService userConfigService;
+
+	@Inject
 	@Translation
 	org.eclipse.set.utils.Messages utilMessages;
 
@@ -95,14 +99,14 @@ public class AttachmentPart extends BasePart {
 			final Composite parent, final List<Anhang> model) {
 		final AttachmentTable attachmentTable = new AttachmentTable(parent,
 				utilMessages, contentService, getDialogService(),
-				getModelSession().getToolboxFile());
+				getModelSession().getToolboxFile(), userConfigService);
 		final AnhangTransformation transformation = AnhangTransformation
 				.createTransformation(translationService, contentService);
 		attachmentTable.setModel(transformation.toAttachment(model));
 		attachmentTable.setTempDir(getModelSession().getTempDir().toString());
 		if (rendererService != null) {
-			attachmentTable
-					.setAttachmentViewer(path -> partService.showAttachmentPart(path));
+			attachmentTable.setAttachmentViewer(
+					path -> partService.showAttachmentPart(path));
 		}
 		attachmentTable.createControl();
 		return attachmentTable;

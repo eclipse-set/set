@@ -108,7 +108,10 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 		final ExportToCSV<String> problemExport = new ExportToCSV<>(
 				ValidationPart.CSV_HEADER_PATTERN);
 		problemExport.exportToCSV(optionalPath, tableView.transformToCSV());
-		optionalPath.ifPresent(outputDir -> getDialogService()
-				.openDirectoryAfterExport(shell, outputDir.getParent()));
+		optionalPath.ifPresent(outputDir -> {
+			getDialogService().openDirectoryAfterExport(getToolboxShell(),
+					outputDir.getParent());
+			userConfigService.setLastExportPath(outputDir);
+		});
 	}
 }
