@@ -105,7 +105,6 @@ public abstract class DocumentExportPart extends BasePart {
 	 */
 	protected DocumentExportPart() {
 		super();
-		selectedDir = userConfigService.getLastExportPath();
 	}
 
 	/**
@@ -309,6 +308,7 @@ public abstract class DocumentExportPart extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
+		selectedDir = userConfigService.getLastExportPath();
 		parent.setLayout(new FillLayout());
 		final Composite content = new Composite(parent, SWT.NONE);
 		content.setLayout(new GridLayout(1, false));
