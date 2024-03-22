@@ -147,7 +147,6 @@ public class DialogServiceImpl implements DialogService {
 			result.setValue(Boolean.valueOf(confirmDialog.confirmed()));
 		});
 		return result.getValue().booleanValue();
-
 	}
 
 	@Override
