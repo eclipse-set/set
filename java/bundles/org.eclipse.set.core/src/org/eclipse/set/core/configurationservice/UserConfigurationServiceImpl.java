@@ -151,9 +151,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	@Override
 	public void setLastFileOpenPath(final Path path) {
 		configuration.lastFileOpenPath = path;
-
 		saveConfiguration();
-
 	}
 
 	@Override
