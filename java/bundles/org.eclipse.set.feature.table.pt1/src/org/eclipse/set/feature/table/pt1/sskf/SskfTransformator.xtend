@@ -221,33 +221,8 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[FMAAnlageElektrMerkmale?.bettungswiderstand?.wert?.toString]
 			)
-
-			val List<Gleis_Schaltgruppe> schaltgruppen = fmaAnlage.
-				gleisSchaltgruppen
-
-			// Q: Sonstiges.OlA.Schaltgruppe
-			fillIterable(
-				instance,
-				cols.getColumn(Sonstiges_OlA_Schaltgruppe),
-				fmaAnlage,
-				[
-					schaltgruppen.map [
-						bezeichnung?.bezeichnungAussenanlage?.wert ?: ""
-					]
-				],
-				MIXED_STRING_COMPARATOR
-			)
-
-			// R: Sonstiges.OlA.Bezeichner
-			fillIterable(
-				instance,
-				cols.getColumn(Sonstiges_OlA_Bezeichner),
-				fmaAnlage,
-				[schaltgruppen.map[bezeichnung?.bezeichnungTabelle?.wert ?: ""]],
-				MIXED_STRING_COMPARATOR
-			)
 			
-			// S: Sskf.Sonstiges.Weiche
+			// Q: Sskf.Sonstiges.Weiche
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichen = new Wrapper
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichenZK = new Wrapper
 
@@ -274,6 +249,31 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				MIXED_STRING_COMPARATOR,
 				ITERABLE_FILLING_SEPARATOR
+			)
+
+			val List<Gleis_Schaltgruppe> schaltgruppen = fmaAnlage.
+				gleisSchaltgruppen
+
+			// R: Sonstiges.OlA.Schaltgruppe
+			fillIterable(
+				instance,
+				cols.getColumn(Sonstiges_OlA_Schaltgruppe),
+				fmaAnlage,
+				[
+					schaltgruppen.map [
+						bezeichnung?.bezeichnungAussenanlage?.wert ?: ""
+					]
+				],
+				MIXED_STRING_COMPARATOR
+			)
+
+			// S: Sonstiges.OlA.Bezeichner
+			fillIterable(
+				instance,
+				cols.getColumn(Sonstiges_OlA_Bezeichner),
+				fmaAnlage,
+				[schaltgruppen.map[bezeichnung?.bezeichnungTabelle?.wert ?: ""]],
+				MIXED_STRING_COMPARATOR
 			)
 			
 			//T: Sonstiges.zul_v
