@@ -100,19 +100,19 @@ public class SskfColumns {
 	public static final String Sonstiges_Rbmin = "P";
 
 	/**
+	 * Sskf.Sonstiges.Weiche
+	 */
+	public static final String Sonstiges_Weiche = "Q";
+
+	/**
 	 * Sskf.Sonstiges.OlA.Schaltgruppe
 	 */
-	public static final String Sonstiges_OlA_Schaltgruppe = "Q";
+	public static final String Sonstiges_OlA_Schaltgruppe = "R";
 
 	/**
 	 * Sskf.Sonstiges.OlA.Bezeichner
 	 */
-	public static final String Sonstiges_OlA_Bezeichner = "R";
-
-	/**
-	 * Sskf.Sonstiges.Weiche
-	 */
-	public static final String Sonstiges_Weiche = "S";
+	public static final String Sonstiges_OlA_Bezeichner = "S";
 
 	/**
 	 * Sskf.Sonstiges.zul_v
