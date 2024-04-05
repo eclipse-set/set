@@ -31,6 +31,7 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -687,22 +688,27 @@ public class ModelSession implements IModelSession {
 						getToolboxFile());
 	}
 
-	private void readLayoutInformationen() {
+	private void readLayoutInformation() {
 		final Path layoutPath = getToolboxFile().getLayoutPath();
 		if (layoutPath != null && layoutPath.toFile().exists()) {
 			layoutinfoValidationResult = new ValidationResult(
 					PlanPro_Layoutinfo.class);
-			serviceProvider.validationService.checkLoad(getToolboxFile(),
-					path -> {
+			layoutInfo = serviceProvider.validationService
+					.checkLoad(getToolboxFile(), path -> {
 						getToolboxFile().openLayout();
 						return toolboxFile.getLayoutResource();
-					}, null, layoutinfoValidationResult);
+					}, this::readLayoutFromResource,
+							layoutinfoValidationResult);
 
 			layoutinfoValidationResult = serviceProvider.validationService
 					.validateSource(
 							new ValidationResult(PlanPro_Layoutinfo.class),
 							toolboxFile);
 		}
+	}
+
+	private PlanPro_Layoutinfo readLayoutFromResource(final Resource res) {
+		return (PlanPro_Layoutinfo) res.getContents().getFirst();
 	}
 
 	private void removeContentAdapter(final EObject object) {
@@ -870,7 +876,7 @@ public class ModelSession implements IModelSession {
 			readMergeModel();
 		} else {
 			readPlanProModel();
-			readLayoutInformationen();
+			readLayoutInformation();
 		}
 	}
 

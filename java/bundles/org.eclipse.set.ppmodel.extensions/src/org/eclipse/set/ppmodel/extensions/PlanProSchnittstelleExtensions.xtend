@@ -100,10 +100,7 @@ class PlanProSchnittstelleExtensions {
 	static def boolean containsUnfilledManagementValues(
 		PlanPro_Schnittstelle schnittstelle, XMLResource resource) {
 		val objman = schnittstelle?.LSTPlanung?.objektmanagement
-		val Iterable<Pair<EStructuralFeature, EObject>> unfilledValues = objman.
-			unfilledValues
-		var requiresDefaults = !unfilledValues.empty
-		return requiresDefaults
+		return !objman.unfilledValues.empty
 	}
 
 	static def void fixManagementDefaults(PlanPro_Schnittstelle schnittstlle) {
