@@ -119,8 +119,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Weiche_Gleissperre_Bezeichnung_W),
 			flaZwieSchutz,
 			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
-					flaSchutzWGsp?.IDFlaWGspElement?.value?.bezeichnung?.
+				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp?.
+					IDFlaWGspElement?.value?.bezeichnung?.
 					bezeichnungTabelle?.wert
 			]
 		)
@@ -177,7 +177,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 					flaSchutzWeitergabe
 				val anforderer = weitergabe?.
 					IDFlaWeitergabeLR(isWeitergabeLeft)?.flaSchutzAnforderer?.
-					IDAnfordererElement
+					IDAnfordererElement?.value
 
 				return (anforderer instanceof W_Kr_Gsp_Element) &&
 					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.value?.
@@ -186,8 +186,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				(flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer?.
-					IDAnfordererElement as W_Kr_Gsp_Element)?.bezeichnung?.
-					bezeichnungTabelle?.wert
+					IDAnfordererElement?.value as W_Kr_Gsp_Element)?.
+					bezeichnung?.bezeichnungTabelle?.wert
 			])
 		]
 
@@ -196,7 +196,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val flaAnforderer = flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer
-				val anforderer = flaAnforderer?.IDAnfordererElement
+				val anforderer = flaAnforderer?.IDAnfordererElement?.value
 
 				return (anforderer instanceof W_Kr_Gsp_Element) &&
 					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.value?.
@@ -206,8 +206,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				(flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer?.
-					IDAnfordererElement as W_Kr_Gsp_Element)?.bezeichnung?.
-					bezeichnungTabelle?.wert
+					IDAnfordererElement?.value as W_Kr_Gsp_Element)?.
+					bezeichnung?.bezeichnungTabelle?.wert
 			])
 		]
 		val bezWKrEKW_Kr_LR = [ boolean isWeitergabeLeft |
@@ -215,7 +215,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val flaAnforderer = flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer
-				val anforderer = flaAnforderer?.IDAnfordererElement
+				val anforderer = flaAnforderer?.IDAnfordererElement?.value
 
 				// The case 
 				return (anforderer instanceof W_Kr_Gsp_Element) &&
@@ -226,7 +226,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val bezeichnung = (flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer?.
-					IDAnfordererElement as W_Kr_Gsp_Element)?.bezeichnung
+					IDAnfordererElement?.value as W_Kr_Gsp_Element)?.bezeichnung
 				return bezeichnung.kennzahl + "Kr" +
 					bezeichnung.oertlicherElementname
 			])
@@ -346,9 +346,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	def Fla_Schutz IDFlaWeitergabeLR(
 		Fla_Schutz_Weitergabe_AttributeGroup flaWeitergabe,
 		boolean isWeitergabeLeft) {
-		return isWeitergabeLeft
-			? flaWeitergabe?.IDFlaWeitergabeL?.value
-			: flaWeitergabe?.IDFlaWeitergabeR?.value
+		return isWeitergabeLeft ? flaWeitergabe?.IDFlaWeitergabeL?.
+			value : flaWeitergabe?.IDFlaWeitergabeR?.value
 	}
 
 	def Massnahme_TypeClass massnameLR(
@@ -358,7 +357,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	def Fla_Schutz IDFlaSchutz(Fla_Zwieschutz_Element_AttributeGroup element,
 		boolean isLeft) {
-		return isLeft ? element.IDFlaSchutzL?.value : element.IDFlaSchutzR?.value
+		return isLeft ? element.IDFlaSchutzL?.value : element.IDFlaSchutzR?.
+			value
 	}
 
 }

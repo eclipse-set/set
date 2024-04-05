@@ -1,2 +1,0 @@
-Service-Component: OSGI-INF/org.eclipse.set.core.rcp.dialogservice.DialogServiceContextFunction.xml
-Bundle-ActivationPolicy: lazy
