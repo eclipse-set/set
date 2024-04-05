@@ -61,13 +61,13 @@ class BueBedienAnzeigeExtensions extends BasisObjektExtensions {
 	 
 	 def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(BUE_Einschaltung bueEin) {
 	 	return bueEin?.container.schaltmittelZuordnung.filter[
-	 		IDAnforderung === bueEin
+	 		IDAnforderung.value === bueEin
 	 	].toList
 	 }
 	 
 	 def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(BUE_Ausschaltung bueAus) {
 	 	return bueAus?.container.schaltmittelZuordnung.filter[
-	 		IDAnforderung === bueAus
+	 		IDAnforderung.value === bueAus
 	 	].toList
 	 }
 }

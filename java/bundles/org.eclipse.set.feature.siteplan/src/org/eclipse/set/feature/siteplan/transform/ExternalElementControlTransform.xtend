@@ -75,7 +75,7 @@ class ExternalElementControlTransform extends BaseTransformator<Aussenelementans
 	
 	def ControlStationType transformControlStation(Aussenelementansteuerung aea) {
 		val controlStation = container.allContents.filter(Bedien_Platz)
-			.findFirst[it.IDUnterbringung === aea.unterbringung]
+			.findFirst[it.IDUnterbringung.value === aea.unterbringung]
 		if (controlStation === null) {
 			return ControlStationType.WITHOUT_CONTROL	
 		}

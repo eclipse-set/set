@@ -193,7 +193,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				bue_Eins_Schalmittle.map [
-					val schalter = IDSchalter
+					val schalter = IDSchalter?.value
 					if (schalter instanceof Zugeinwirkung) {
 						return schalter?.bezeichnung?.bezeichnungTabelle?.wert
 					} else if (schalter instanceof FMA_Komponente) {
@@ -216,7 +216,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				bue_Aus_Schalmittles.map [
-					val schalter = IDSchalter
+					val schalter = IDSchalter?.value
 					if (schalter instanceof Zugeinwirkung) {
 						return schalter?.bezeichnung?.bezeichnungTabelle?.wert
 					}

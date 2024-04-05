@@ -657,7 +657,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		val ziel = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value as Signal
 
 		val startFahrweg = ziel.container.contents.filter(Fstr_Fahrweg).filter [
-			ziel == IDStart
+			ziel == IDStart?.value
 		]
 		val start = ziel.container.contents.filter(Fstr_Zug_Rangier).filter [
 			fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&

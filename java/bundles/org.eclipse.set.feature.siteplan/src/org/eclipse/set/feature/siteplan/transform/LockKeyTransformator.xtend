@@ -71,7 +71,7 @@ class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 	def Boolean transformLockStatus(Schluesselsperre schluesselsperre) {
 		return container.allContents.filter(Schloss).
 			filter[schlossSsp !== null].findFirst [
-				schlossSsp.IDSchluesselsperre == schluesselsperre
+				schlossSsp.IDSchluesselsperre?.value == schluesselsperre
 			]?.schluesselInGrdstEingeschl?.wert ?: false
 
 	}

@@ -70,7 +70,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val topGraph = new TopGraph(container.TOPKante)
 		for (PZB_Element pzb : container.PZBElement.filter [
-			PZBElementGUE?.IDPZBElementMitnutzung === null
+			PZBElementGUE?.IDPZBElementMitnutzung?.value === null
 		]) {
 			if (Thread.currentThread.interrupted) {
 				return null
@@ -187,7 +187,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				isPZB2000 && IDPZBGefahrpunkt !== null
 			],
 			[
-				val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.IDMarkanteStelle
+				val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.IDMarkanteStelle?.value
 				if (markanteStelle instanceof Punkt_Objekt)
 					return AgateRounding.roundDown(
 						getPointsDistance(markanteStelle,
@@ -231,7 +231,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb.PZBElementBezugspunkt.filter(Signal).filter [
 				signalReal.signalFunktion.wert === ENUMSignalFunktion.
 					ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			].exists[signal|signal === IDSignal]
+			].exists[signal|signal === IDSignal.value]
 		]
 		fillSwitch(
 			instance,
@@ -239,7 +239,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			new Case<PZB_Element>(
 				[
-					!PZBElementZuordnungFstr.map[IDFstrZugRangier].empty ||
+					!PZBElementZuordnungFstr.map[IDFstrZugRangier?.value].empty ||
 						(PZBElementGUE !== null &&
 							PZBElementZuordnungFstr.exists [
 								wirksamkeitFstr?.wert === ENUMWirksamkeitFstr.
@@ -316,7 +316,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					val bezugspunktSignals = PZBElementBezugspunkt.filter(
 						Signal)
 					val pzbZuordnungSignals = PZBZuordnungSignal.map [
-						IDSignal
+						IDSignal?.value
 					]
 					val distance = bezugspunktSignals.filter [
 						pzbZuordnungSignals.contains(it)
@@ -366,7 +366,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[isGefahrstelle],
 				[
 					val markanteStelle = inaGefahrstelles.map [
-						IDMarkanterPunkt?.value?.IDMarkanteStelle
+						IDMarkanterPunkt?.value?.IDMarkanteStelle?.value
 					].filter(Punkt_Objekt)
 					return getDistanceOfPoints(markanteStelle, it)
 				]
@@ -596,7 +596,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.
 			filter [
-				IDSignal === signal
+				IDSignal?.value === signal
 			]
 
 		if (bueSpezifischesSignal.empty) {

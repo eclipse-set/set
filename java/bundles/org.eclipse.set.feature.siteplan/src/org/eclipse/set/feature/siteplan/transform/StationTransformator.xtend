@@ -44,7 +44,7 @@ class StationTransformator extends BaseTransformator<Bahnsteig_Anlage> {
 		result.label.text = station.bezeichnung?.bezeichnungBahnsteigAnlage?.
 			wert
 		result.platforms.addAll(station.container.bahnsteigKante.filter [
-			IDBahnsteigAnlage === station
+			IDBahnsteigAnlage.value === station
 		].map[transform])
 		result.addSiteplanElement(
 			SiteplanPackage.eINSTANCE.siteplanState_Stations)

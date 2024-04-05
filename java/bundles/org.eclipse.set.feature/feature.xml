@@ -92,10 +92,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
       <plugin id="org.eclipse.nebula.widgets.richtext" version="0.0.0"/>
 
-      <plugin id="org.eclipse.set.model.model11001" version="0.0.0"/>
-
-      <plugin id="org.eclipse.set.model.model11001.edit" version="0.0.0"/>
-
       <plugin id="org.eclipse.emfforms.core.bazaar" version="0.0.0"/>
 
       <plugin id="org.eclipse.core.resources" version="0.0.0"/>
@@ -104,19 +100,9 @@ http://www.eclipse.org/legal/epl-v20.html
 
       <plugin id="org.eclipse.emfforms.swt.control.multiattribute" version="0.0.0"/>
 
-      <plugin id="org.eclipse.set.model.modelservice" version="0.0.0"/>
-
       <plugin id="org.eclipse.set.model.validationreport" version="0.0.0"/>
 
       <plugin id="org.eclipse.set.model.validationreport.edit" version="0.0.0"/>
-
-      <plugin id="org.eclipse.emf.ecp.common" version="0.0.0"/>
-
-      <plugin id="org.eclipse.emf.ecp.common.ui" version="0.0.0"/>
-
-      <plugin id="org.eclipse.emf.ecp.core" version="0.0.0"/>
-
-      <plugin id="org.eclipse.emf.ecp.edit" version="0.0.0"/>
 
       <plugin id="org.eclipse.emf.ecp.edit.swt" version="0.0.0"/>
 
@@ -468,13 +454,7 @@ http://www.eclipse.org/legal/epl-v20.html
 
       <plugin id="org.eclipse.swt" version="0.0.0"/>
 
-      <<<<<<< HEAD
       <plugin id="org.eclipse.set.emfforms" version="0.0.0"/>
-
-      <plugin id="org.eclipse.set.model.model11001.editor" version="0.0.0"/>
-=======
-      <plugin id="org.eclipse.emfforms.swt.controlgrid" version="0.0.0"/>
->>>>>>> fdf03090 (Update model to use transient data for ID references)
 
       <plugin id="org.eclipse.emfforms.swt.controlgrid" version="0.0.0"/>
 
@@ -572,19 +552,7 @@ http://www.eclipse.org/legal/epl-v20.html
 
       <plugin id="org.eclipse.set.utils.table" version="0.0.0"/>
 
-      <<<<<<< HEAD
-      <plugin id="org.eclipse.set.toolboxmodel" version="0.0.0"/>
-
-      <plugin id="org.eclipse.set.toolboxmodel.transform" version="0.0.0"/>
-
-      <plugin id="org.eclipse.set.toolboxmodel.edit" version="0.0.0"/>
-
-      <plugin id="org.eclipse.set.toolboxmodel.editor" version="0.0.0"/>
-
       <plugin id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
-=======
-      <plugin id="com.fasterxml.jackson.core.jackson-databind" version="0.0.0"/>
->>>>>>> fdf03090 (Update model to use transient data for ID references)
 
       <plugin id="org.eclipse.emfcloud.emfjson-jackson" version="0.0.0"/>
 

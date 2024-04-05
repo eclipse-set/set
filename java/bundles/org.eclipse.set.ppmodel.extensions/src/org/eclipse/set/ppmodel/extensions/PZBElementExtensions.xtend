@@ -53,7 +53,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb) {
 		val bezugspunkts = pzb.PZBElementBezugspunkt?.filter(Signal)
 		val fstrFahrwegs = pzb.container.fstrFahrweg.filter [ fstrFarhweg |
-			bezugspunkts.exists[it === fstrFarhweg.IDStart]
+			bezugspunkts.exists[it === fstrFarhweg.IDStart?.value]
 		]
 		return fstrFahrwegs.map[fstrDweg].flatten
 	}

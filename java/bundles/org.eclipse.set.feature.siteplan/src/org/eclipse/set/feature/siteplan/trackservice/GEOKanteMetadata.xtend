@@ -80,7 +80,7 @@ class GEOKanteMetadata {
 		val relevantBOs = bereichObjekte.filter([ bo |
 			bo.bereichObjektTeilbereich.exists([ tb |
 				// Only consider Bereich_Objekte which are on the same TOP_Kante
-				if (tb.IDTOPKante !== topKante) {
+				if (tb.IDTOPKante?.value !== topKante) {
 					return false
 				}
 				val begrenzungA = tb.begrenzungA?.wert

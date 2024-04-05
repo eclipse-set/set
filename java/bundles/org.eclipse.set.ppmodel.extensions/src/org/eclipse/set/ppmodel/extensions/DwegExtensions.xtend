@@ -39,7 +39,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @returns the Zug-/Rangierstraßen for this Durchrutschweg
 	 */
 	def static List<Fstr_Zug_Rangier> fstrZugRangier(Fstr_DWeg dweg) {
-		return dweg?.container?.fstrZugRangier?.filter[fstrZug?.fstrZugDWeg?.IDFstrDWeg === dweg]?.toList
+		return dweg?.container?.fstrZugRangier?.filter[fstrZug?.fstrZugDWeg?.IDFstrDWeg?.value === dweg]?.toList
 	}
 
 	/**
@@ -80,7 +80,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @returns the Weichen/Kreuzungen-Zuordnungen
 	 */
 	def static List<Fstr_DWeg_W_Kr> zuordnungen(Fstr_DWeg dweg) {
-		return dweg?.container?.fstrDWegWKr?.filter[IDFstrDWeg === dweg]?.toList
+		return dweg?.container?.fstrDWegWKr?.filter[IDFstrDWeg?.value === dweg]?.toList
 	}
 
 	/**

@@ -72,7 +72,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 	def static List<Technik_Standort> getTechnikStandort(
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 		return estw_zentraleinheit.container.technikStandort.filter [
-			IDUnterbringung === estw_zentraleinheit.IDUnterbringung
+			IDUnterbringung?.value === estw_zentraleinheit.IDUnterbringung?.value
 		].toList
 	}
 

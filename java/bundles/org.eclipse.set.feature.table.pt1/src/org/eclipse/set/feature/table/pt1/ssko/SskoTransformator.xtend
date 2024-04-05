@@ -376,7 +376,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		Schluesselsperre schluesselsperre) {
 		val c = schluesselsperre.container
 		return c.fstrAbhaengigkeit.filter [
-			fstrAbhaengigkeitSsp?.IDSchluesselsperre === schluesselsperre
+			fstrAbhaengigkeitSsp?.IDSchluesselsperre?.value === schluesselsperre
 		].flatMap [
 			val fahrweg = it.fstrFahrweg
 			c.fstrZugRangier.filter[IDFstrFahrweg === fahrweg]

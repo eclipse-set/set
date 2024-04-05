@@ -108,7 +108,6 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
  org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
- org.eclipse.set.model.modelservice,
  org.eclipse.set.model.planpro
 Export-Package: org.eclipse.set.core,
  org.eclipse.set.core.configurationservice,

@@ -57,7 +57,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
 		modelSession.planProSchnittstelle.LSTPlanungGruppe.orElse(null)?.forEach [
 			val objects = LSTPlanungEinzel?.LSTObjektePlanungsbereich?.
-				IDLSTObjektPlanungsbereich?.map[it === null ? null : it.value]
+				IDLSTObjektPlanungsbereich?.filterNull?.map[value]
 			if (objects.nullOrEmpty) {
 				return
 			}
