@@ -80,7 +80,7 @@ public class Pt1TableChangeProperties {
 	/**
 	 * @return the seperator character
 	 */
-	public String getSeperator() {
+	public String getSeparator() {
 		return seperator;
 	}
 }

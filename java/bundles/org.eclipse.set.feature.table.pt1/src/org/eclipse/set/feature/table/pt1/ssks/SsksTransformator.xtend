@@ -14,15 +14,19 @@ import java.util.HashSet
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
-import org.eclipse.e4.core.services.events.IEventBroker
+import org.apache.commons.lang3.ThreadUtils
 import org.eclipse.set.basis.MixedStringComparator
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.BankService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl11
@@ -89,13 +93,14 @@ import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 import org.eclipse.set.utils.events.TableDataChangeEvent
-import org.eclipse.set.utils.events.ToolboxEvents
 import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
-import org.osgi.service.event.Event
+import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.geom.LineString
 import org.osgi.service.event.EventAdmin
-import org.osgi.service.event.EventConstants
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -113,6 +118,7 @@ import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMTunnelsignal.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -125,6 +131,7 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
@@ -295,18 +302,29 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							}
 
 							// Abstand Mastmitte
-							val abstandMastmitteLinks = new HashSet<Long>
-							val abstandMastmitteRechts = new HashSet<Long>
+							if (!Services.cacheService.existCache(
+								ToolboxConstants.CacheId.GEOKANTE_GEOMETRY) ||
+								ThreadUtils.allThreads.filterNull.exists [
+									name.startsWith(ToolboxConstants.CacheId.
+										GEOKANTE_GEOMETRY) && isAlive
+								]) {
+
+								row.fillSideDistanceSync(signal)
+							} else {
+							val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
+							val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+
+							signal.initAbstandMastmitte(signal.signalRahmen,
+								abstandMastmitteLinks, abstandMastmitteRechts);
 
 							fillIterable(
 								row,
 								cols.getColumn(Mastmitte_Links),
 								signal,
 								[
-									initAbstandMastmitte(signalRahmen,
-										abstandMastmitteLinks,
-										abstandMastmitteRechts);
-									abstandMastmitteLinks
+									abstandMastmitteLinks.map [
+										'''«key» «IF value > 0»(«value»)«ENDIF»'''
+									]
 								],
 								null,
 								[toString]
@@ -316,11 +334,16 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								row,
 								cols.getColumn(Mastmitte_Rechts),
 								signal,
-								[abstandMastmitteRechts],
+								[
+									abstandMastmitteRechts.map [
+										'''«key» «IF value > 0»(«value»)«ENDIF»'''
+									]
+								],
 								null,
 								[toString]
 							)
-
+							}
+							// Sichtbarkeit Soll
 							fillConditional(
 								row,
 								cols.getColumn(Sichtbarkeit_Soll),
@@ -805,11 +828,60 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return factory.table
 	}
 
+	private def void fillSideDistanceSync(TableRow row, Signal signal) {
+
+		#[Mastmitte_Links, Mastmitte_Rechts].forEach [
+			fill(
+				row,
+				cols.getColumn(it),
+				signal,
+				[CellContentExtensions.HOURGLASS_ICON]
+			)
+		]
+		val threadName = '''«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»'''
+		if (!Thread.allStackTraces.keySet.exists[name.startsWith(threadName)]) {
+			new Thread([
+			signal.container.GEOKante.forEach[geometry]
+		], threadName).start	
+		}
+
+		new Thread([
+			while (Thread.allStackTraces.keySet.exists [
+				name.startsWith(ToolboxConstants.CacheId.GEOKANTE_GEOMETRY)
+			]) {
+				try {
+					Thread.sleep(3000)
+				} catch (InterruptedException exc) {
+					throw new RuntimeException("auto-generated try/catch", exc)
+				}
+			}
+			val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
+			val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+			val containerType = signal.container.containerType
+			signal.initAbstandMastmitte(signal.signalRahmen,
+				abstandMastmitteLinks, abstandMastmitteRechts);
+			val leftDistance = new Pt1TableChangeProperties(containerType, row,
+				cols.getColumn(Mastmitte_Links), abstandMastmitteLinks.map [
+					'''«key» «IF value > 0»(«value»)«ENDIF»'''
+				].toList, ITERABLE_FILLING_SEPARATOR)
+
+			val rightDistance = new Pt1TableChangeProperties(containerType, row,
+				cols.getColumn(Mastmitte_Rechts), abstandMastmitteRechts.map [
+					'''«key» «IF value > 0»(«value»)«ENDIF»'''
+				].toList, ITERABLE_FILLING_SEPARATOR)
+			val updateValuesEvent = new TableDataChangeEvent(tableShortCut.toLowerCase,
+				#[leftDistance, rightDistance])
+			TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
+		], '''«tableShortCut.toLowerCase»/«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»/«signal.cacheKey»''').
+			start
+
+	}
+
 	private def void initAbstandMastmitte(
 		Signal signal,
 		List<Signal_Rahmen> signalRahmen,
-		Set<Long> abstandMastmitteLinks,
-		Set<Long> abstandMastmitteRechts
+		Set<Pair<Long, Long>> abstandMastmitteLinks,
+		Set<Pair<Long, Long>> abstandMastmitteRechts
 	) {
 		signalRahmen.map [
 			signalBefestigungIterator.findFirst [
@@ -818,23 +890,66 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					signalBefestigungAllg.befestigungArt.wert ==
 						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
 			]
-		].filterNull.map[singlePoints].flatten.forEach [ p |
+		].filterNull.map[singlePoints].flatten.toSet.forEach [ p |
 			val seitlicherAbstand = Math.round(
 				p.seitlicherAbstand.wert.doubleValue * 1000)
 			val wirkrichtung = signal.getWirkrichtung(p.topKante)
+
+			val distanceFromPoint = 7000 - Math.abs(seitlicherAbstand)
+			val perpendicularRotation = wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
+					seitlicherAbstand > 0 ? 90 : -90
+			var opposideSideDistance = 0.0
+			try {
+				opposideSideDistance = p.opposideSideDistance(
+					p.coordinate.effectiveRotation + perpendicularRotation,
+					distanceFromPoint / 1000)
+			} catch (Exception e) {
+				LOGGER.error(e.message)
+			}
 			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 				seitlicherAbstand > 0) ||
 				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
 					seitlicherAbstand < 0)) {
-				abstandMastmitteLinks.add(Math.abs(seitlicherAbstand))
+				abstandMastmitteLinks.add(Math.abs(seitlicherAbstand) ->
+					Math.round(opposideSideDistance * 1000))
 			}
 			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 				seitlicherAbstand < 0) ||
 				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
 					seitlicherAbstand > 0)) {
-				abstandMastmitteRechts.add(Math.abs(seitlicherAbstand))
+				abstandMastmitteRechts.add(Math.abs(seitlicherAbstand) ->
+					Math.round(opposideSideDistance * 1000))
 			}
 		]
+	}
+
+	private def Double opposideSideDistance(
+		Punkt_Objekt_TOP_Kante_AttributeGroup potk, double angle,
+		double distance) {
+		val position = potk.coordinate
+		val rad = angle * Math.PI / 180
+		val transformX = Math.sin(rad) * distance + position.coordinate.x
+		val transformY = Math.cos(rad) * distance + position.coordinate.y
+		val geometryFactory = new GeometryFactory()
+		val perpendicularLine = geometryFactory.createLineString(
+			#[position.coordinate, new Coordinate(transformX, transformY)])
+		val relevantGeoKante = potk.container.GEOKante.filter[geoArt instanceof TOP_Kante &&geoArt !== potk.IDTOPKante].map [geometry].filterNull.toList
+		return relevantGeoKante.getDistanceOpposide(perpendicularLine, position)
+	}
+
+	private def Double getDistanceOpposide(
+		Iterable<LineString> relevantGeoKante, LineString line,
+		GeoPosition position) {
+		val intersectionPoint = relevantGeoKante.filter[intersects(line)].map [
+			intersection(line)
+		]
+		val trackDistance = intersectionPoint.map [
+			coordinate.distance(position.coordinate)
+		].toList
+		if (trackDistance.isNullOrEmpty) {
+			return 0.0
+		}
+		return trackDistance.min
 	}
 
 // IMPROVE use explicit structure
@@ -1414,7 +1529,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		val containerType = signal.container.containerType
 		// Because find bank value process can take a long time,
 		// therefore the bank column will be fill during find process.
-		val threadName = '''«tableShortCut.toLowerCase»/«signal.identitaet.wert»'''
+		val threadName = '''«tableShortCut.toLowerCase»/Banking/«signal.cacheKey»'''
 		new Thread([
 			try {
 				val bankValue = row.getUeberhoehung(signal).map [
@@ -1425,15 +1540,9 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					ITERABLE_FILLING_SEPARATOR)
 				val updateValuesEvent = new TableDataChangeEvent(
 					tableShortCut.toLowerCase, changeProperties)
-				val properties = newHashMap
-				properties.put(EventConstants.EVENT_TOPIC,
-					updateValuesEvent.topic)
-				properties.put(ToolboxEvents.TOOLBOX_EVENT, updateValuesEvent)
-				properties.put(IEventBroker.DATA, updateValuesEvent)
 				// Send update event after find bank value process complete
 				// or relevant bank value was found
-				eventAdmin.sendEvent(
-					new Event(updateValuesEvent.topic, properties))
+				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
 			} catch (InterruptedException exc) {
 				Thread.currentThread.interrupt
 			}

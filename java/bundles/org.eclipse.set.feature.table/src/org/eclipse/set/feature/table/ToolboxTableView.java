@@ -244,10 +244,12 @@ public final class ToolboxTableView extends BasePart {
 		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final TableDataChangeEvent t) {
-				if (t.getProperties() instanceof final Pt1TableChangeProperties properties) {
-					bodyDataProvider.updateContent(tableType, properties);
-					natTable.refresh();
-				}
+				t.getProperties().forEach(ele -> {
+					if (ele instanceof final Pt1TableChangeProperties property) {
+						bodyDataProvider.updateContent(tableType, property);
+						natTable.refresh();
+					}
+				});
 
 			}
 		};

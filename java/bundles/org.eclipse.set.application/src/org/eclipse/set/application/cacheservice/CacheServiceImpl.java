@@ -64,4 +64,9 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 		// Invalidate all caches if the model is changed
 		this.invalidate();
 	}
+
+	@Override
+	public Boolean existCache(final String cacheID) {
+		return Boolean.valueOf(caches.keySet().contains(cacheID));
+	}
 }
