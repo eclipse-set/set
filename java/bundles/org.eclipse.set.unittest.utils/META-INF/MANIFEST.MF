@@ -9,7 +9,7 @@ Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.hamcrest.core,
  org.eclipse.emf.ecore,
  org.eclipse.set.model.planpro,
- org.eclipse.set.model.planpro.transform,
+ 
  junit-platform-commons,
  junit-platform-launcher,
  junit-platform-runner
