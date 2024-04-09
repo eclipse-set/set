@@ -15,18 +15,18 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz_Weitergabe_AttributeGroup
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Zwieschutz
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Zwieschutz_Element_AttributeGroup
-import org.eclipse.set.toolboxmodel.Flankenschutz.Massnahme_TypeClass
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz_Weitergabe_AttributeGroup
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz_Element_AttributeGroup
+import org.eclipse.set.model.planpro.Flankenschutz.Massnahme_TypeClass
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sslw.SslwColumns.*
-import static org.eclipse.set.toolboxmodel.Flankenschutz.ENUMMassnahme.*
-import static org.eclipse.set.toolboxmodel.Flankenschutz.ENUMZwieschutzArt.*
-import static org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMWKrArt.*
+import static org.eclipse.set.model.planpro.Flankenschutz.ENUMMassnahme.*
+import static org.eclipse.set.model.planpro.Flankenschutz.ENUMZwieschutzArt.*
+import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
@@ -119,8 +119,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Weiche_Gleissperre_Bezeichnung_W),
 			flaZwieSchutz,
 			[
-				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
-					flaSchutzWGsp?.IDFlaWGspElement?.bezeichnung?.
+				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp?.
+					IDFlaWGspElement?.value?.bezeichnung?.
 					bezeichnungTabelle?.wert
 			]
 		)
@@ -155,7 +155,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			flaZwieSchutz,
 			[
 				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzSignal?.
-					IDFlaSignal?.bezeichnung?.bezeichnungTabelle?.wert
+					IDFlaSignal?.value?.bezeichnung?.bezeichnungTabelle?.wert
 			]
 		)
 
@@ -177,17 +177,17 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 					flaSchutzWeitergabe
 				val anforderer = weitergabe?.
 					IDFlaWeitergabeLR(isWeitergabeLeft)?.flaSchutzAnforderer?.
-					IDAnfordererElement
+					IDAnfordererElement?.value
 
 				return (anforderer instanceof W_Kr_Gsp_Element) &&
-					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.
+					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.value?.
 						WKrAnlageAllg?.WKrArt?.wert !== ENUMW_KR_ART_EKW)
 			], [
 				(flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer?.
-					IDAnfordererElement as W_Kr_Gsp_Element)?.bezeichnung?.
-					bezeichnungTabelle?.wert
+					IDAnfordererElement?.value as W_Kr_Gsp_Element)?.
+					bezeichnung?.bezeichnungTabelle?.wert
 			])
 		]
 
@@ -196,18 +196,18 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val flaAnforderer = flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer
-				val anforderer = flaAnforderer?.IDAnfordererElement
+				val anforderer = flaAnforderer?.IDAnfordererElement?.value
 
 				return (anforderer instanceof W_Kr_Gsp_Element) &&
-					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.
+					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.value?.
 						WKrAnlageAllg?.WKrArt?.wert === ENUMW_KR_ART_EKW) &&
 					flaAnforderer?.EKWKrAnteil?.wert != Boolean.TRUE
 			], [
 				(flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer?.
-					IDAnfordererElement as W_Kr_Gsp_Element)?.bezeichnung?.
-					bezeichnungTabelle?.wert
+					IDAnfordererElement?.value as W_Kr_Gsp_Element)?.
+					bezeichnung?.bezeichnungTabelle?.wert
 			])
 		]
 		val bezWKrEKW_Kr_LR = [ boolean isWeitergabeLeft |
@@ -215,18 +215,18 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val flaAnforderer = flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer
-				val anforderer = flaAnforderer?.IDAnfordererElement
+				val anforderer = flaAnforderer?.IDAnfordererElement?.value
 
 				// The case 
 				return (anforderer instanceof W_Kr_Gsp_Element) &&
-					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.
+					((anforderer as W_Kr_Gsp_Element).IDWKrAnlage?.value?.
 						WKrAnlageAllg?.WKrArt?.wert === ENUMW_KR_ART_EKW) &&
 					flaAnforderer?.EKWKrAnteil?.wert == Boolean.TRUE
 			], [
 				val bezeichnung = (flaZwieschutzElement?.IDFlaSchutz(isLeft)?.
 					flaSchutzWeitergabe?.IDFlaWeitergabeLR(isWeitergabeLeft)?.
 					flaSchutzAnforderer?.
-					IDAnfordererElement as W_Kr_Gsp_Element)?.bezeichnung
+					IDAnfordererElement?.value as W_Kr_Gsp_Element)?.bezeichnung
 				return bezeichnung.kennzahl + "Kr" +
 					bezeichnung.oertlicherElementname
 			])
@@ -301,7 +301,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 					freimeldeZuordnungen?.filter [
 						flaRaumFreimeldung?.wert
 					] ?: newLinkedList())?.map [
-					fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
+					fmaAnlage?.IDGleisAbschnitt?.value?.bezeichnung?.
 						bezeichnungTabelle?.wert
 				]
 			],
@@ -318,7 +318,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 					freimeldeZuordnungen?.filter [
 						!flaRaumFreimeldung?.wert
 					] ?: newLinkedList())?.map [
-					fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
+					fmaAnlage?.IDGleisAbschnitt?.value?.bezeichnung?.
 						bezeichnungTabelle?.wert
 				]
 			],
@@ -346,9 +346,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	def Fla_Schutz IDFlaWeitergabeLR(
 		Fla_Schutz_Weitergabe_AttributeGroup flaWeitergabe,
 		boolean isWeitergabeLeft) {
-		return isWeitergabeLeft
-			? flaWeitergabe?.IDFlaWeitergabeL
-			: flaWeitergabe?.IDFlaWeitergabeR
+		return isWeitergabeLeft ? flaWeitergabe?.IDFlaWeitergabeL?.
+			value : flaWeitergabe?.IDFlaWeitergabeR?.value
 	}
 
 	def Massnahme_TypeClass massnameLR(
@@ -358,7 +357,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	def Fla_Schutz IDFlaSchutz(Fla_Zwieschutz_Element_AttributeGroup element,
 		boolean isLeft) {
-		return isLeft ? element.IDFlaSchutzL : element.IDFlaSchutzR
+		return isLeft ? element.IDFlaSchutzL?.value : element.IDFlaSchutzR?.
+			value
 	}
 
 }

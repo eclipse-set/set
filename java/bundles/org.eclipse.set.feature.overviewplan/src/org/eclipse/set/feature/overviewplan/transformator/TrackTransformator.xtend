@@ -21,7 +21,7 @@ import org.eclipse.set.feature.siteplan.transform.Transformator
 import org.eclipse.set.model.siteplan.Position
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.Track
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 

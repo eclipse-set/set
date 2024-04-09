@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
 

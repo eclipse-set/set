@@ -23,10 +23,10 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.graph.AsDirectedTopGraph;
 import org.eclipse.set.utils.graph.AsDirectedTopGraph.DirectedTOPEdge;
 import org.eclipse.set.utils.graph.AsSplitTopGraph;
@@ -86,8 +86,8 @@ public class TopologicalGraphServiceImpl
 	}
 
 	private void addEdge(final TOP_Kante edge) {
-		final Node a = new Node(edge.getIDTOPKnotenA());
-		final Node b = new Node(edge.getIDTOPKnotenB());
+		final Node a = new Node(edge.getIDTOPKnotenA().getValue());
+		final Node b = new Node(edge.getIDTOPKnotenB().getValue());
 		topGraphBase.addVertex(a);
 		topGraphBase.addVertex(b);
 		final Edge graphEdge = new Edge(edge);
@@ -122,7 +122,7 @@ public class TopologicalGraphServiceImpl
 	public TopPath findPathBetween(final TopPoint from, final TopPoint to,
 			final int limit, final Predicate<TopPath> condition) {
 		return AsDirectedTopGraph.getPath(new AsSplitTopGraph(topGraphBase),
-				from, to, Integer.valueOf(limit), condition);
+				from, to, limit, condition);
 	}
 
 	private static BigDecimal getDirectedPathWeight(

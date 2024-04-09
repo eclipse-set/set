@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort
 import java.util.List
 
 /**
@@ -28,7 +28,7 @@ class TechnikStandortExtensions extends BasisObjektExtensions {
 	static def List<Bedien_Standort> getBedienStandort(
 		Technik_Standort standort
 	) {
-		return standort.IDBedienStandort
+		return standort.IDBedienStandort?.map[value]?.filterNull?.toList
 	}
 
 	/**
@@ -37,7 +37,7 @@ class TechnikStandortExtensions extends BasisObjektExtensions {
 	 * @return the Unterbringung this Technikstandort is installed in
 	 */
 	static def Unterbringung getUnterbringung(Technik_Standort standort) {
-		return standort?.IDUnterbringung
+		return standort?.IDUnterbringung?.value
 
 	}
 }

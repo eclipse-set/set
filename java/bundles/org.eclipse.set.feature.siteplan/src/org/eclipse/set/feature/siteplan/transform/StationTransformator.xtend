@@ -13,10 +13,10 @@ import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.Platform
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Anlage
-import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Kante
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Anlage
+import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Kante
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -44,7 +44,7 @@ class StationTransformator extends BaseTransformator<Bahnsteig_Anlage> {
 		result.label.text = station.bezeichnung?.bezeichnungBahnsteigAnlage?.
 			wert
 		result.platforms.addAll(station.container.bahnsteigKante.filter [
-			IDBahnsteigAnlage === station
+			IDBahnsteigAnlage.value === station
 		].map[transform])
 		result.addSiteplanElement(
 			SiteplanPackage.eINSTANCE.siteplanState_Stations)
@@ -67,12 +67,12 @@ class StationTransformator extends BaseTransformator<Bahnsteig_Anlage> {
 				lateralDistance = -lateralDistance
 
 			// Find start and end points	
-			val topKante = tb.IDTOPKante
+			val topKante = tb?.IDTOPKante?.value
 			val start = trackService.getCoordinate(topKante,
-				topKante.IDTOPKnotenA, tb.begrenzungA.wert.doubleValue,
+				topKante?.IDTOPKnotenA?.value, tb.begrenzungA.wert.doubleValue,
 				lateralDistance, tb.richtungsbezug.wert)
 			val end = trackService.getCoordinate(topKante,
-				topKante.IDTOPKnotenA, tb.begrenzungB.wert.doubleValue,
+				topKante?.IDTOPKnotenA?.value, tb.begrenzungB.wert.doubleValue,
 				lateralDistance, tb.richtungsbezug.wert)
 			result.points.add(positionService.transformPosition(start))
 			result.points.add(positionService.transformPosition(end))

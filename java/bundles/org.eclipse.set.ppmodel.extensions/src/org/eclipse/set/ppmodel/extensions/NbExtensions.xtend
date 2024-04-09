@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB
+import org.eclipse.set.model.planpro.Nahbedienung.NB
 import java.util.List
 
 /**

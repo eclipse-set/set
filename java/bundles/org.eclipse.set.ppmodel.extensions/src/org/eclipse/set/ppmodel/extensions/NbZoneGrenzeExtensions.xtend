@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
-import org.eclipse.set.toolboxmodel.Flankenschutz.Fla_Schutz
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone
-import org.eclipse.set.toolboxmodel.Nahbedienung.NB_Zone_Grenze
+import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
 import java.util.List
 
 /**
@@ -25,7 +25,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 	 * @return the Nahbedienbereichszone this Bereichsgrenze is defined for
 	 */
 	def static NB_Zone getNbZone(NB_Zone_Grenze nbZoneGrenze) {
-		return nbZoneGrenze.IDNBZone
+		return nbZoneGrenze.IDNBZone?.value
 	}
 
 	/**
@@ -34,7 +34,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 	 * @return the Markanter Punkt of this Bereichsgrenze
 	 */
 	def static Markanter_Punkt getMarkanterPunkt(NB_Zone_Grenze nbZoneGrenze) {
-		return nbZoneGrenze.IDMarkanterPunkt
+		return nbZoneGrenze.IDMarkanterPunkt?.value
 	}
 
 	/**
@@ -44,7 +44,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Fla_Schutz> getFlaSchutz(NB_Zone_Grenze nbZoneGrenze) {
 		return nbZoneGrenze.container.flaSchutz.filter [
-			flaSchutzAnforderer.IDAnfordererElement.identitaet.wert ==
+			flaSchutzAnforderer.IDAnfordererElement?.value.identitaet.wert ==
 				nbZoneGrenze.identitaet.wert
 		].toList
 	}

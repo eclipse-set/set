@@ -8,8 +8,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Require-Bundle: org.hamcrest.core,
  org.eclipse.emf.ecore,
- org.eclipse.set.toolboxmodel,
- org.eclipse.set.toolboxmodel.transform,
+ org.eclipse.set.model.planpro,
+ 
  junit-platform-commons,
  junit-platform-launcher,
  junit-platform-runner
@@ -24,9 +24,6 @@ Import-Package: org.eclipse.emf.common.util,
  org.eclipse.set.core.services.files,
  org.eclipse.set.core.services.planningaccess,
  org.eclipse.set.core.services.session,
- org.eclipse.set.model.model11001.Layoutinformationen,
- org.eclipse.set.model.model11001.PlanPro,
- org.eclipse.set.model.model11001.Signalbegriffe_Ril_301,
  org.junit.jupiter.api,
  org.junit.jupiter.api.function,
  org.junit.jupiter.params,

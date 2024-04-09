@@ -9,15 +9,15 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.util.Set
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Block.Block_Anlage
-import org.eclipse.set.toolboxmodel.Block.Block_Element
-import org.eclipse.set.toolboxmodel.Block.Block_Strecke
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
-import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Anzeige_Element
+import org.eclipse.set.model.planpro.Block.Block_Anlage
+import org.eclipse.set.model.planpro.Block.Block_Element
+import org.eclipse.set.model.planpro.Block.Block_Strecke
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
+import org.eclipse.set.model.planpro.Signale.Signal
 
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
@@ -34,7 +34,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	 * @returns the Block_Strecke
 	 */
 	def static Block_Strecke getBlockStrecke(Block_Element blockElement) {
-		return blockElement.IDBlockStrecke
+		return blockElement.IDBlockStrecke?.value
 	}
 
 	/**
@@ -45,7 +45,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenStart(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it.IDBlockElementA.identitaet?.wert == blockElement.identitaet.wert
+			it.IDBlockElementA?.value.identitaet?.wert == blockElement.identitaet.wert
 		].toSet;
 	}
 
@@ -57,7 +57,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenZiel(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it?.IDBlockElementB?.identitaet?.wert ==
+			it?.IDBlockElementB?.value?.identitaet?.wert ==
 				blockElement.identitaet.wert
 		].toSet;
 	}
@@ -68,13 +68,13 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	 * @returns Name of the "Raeumungspruefung"
 	 */
 	def static String getRaeumungspruefung(Block_Element blockElement) {
-		val schaltmittel = blockElement.IDRaeumungspruefung
+		val schaltmittel = blockElement.IDRaeumungspruefung?.value
 
 		if (schaltmittel !== null &&
-			schaltmittel.IDSchalter?.identitaet?.wert !== null) {
+			schaltmittel.IDSchalter?.value?.identitaet?.wert !== null) {
 
 			try {
-				val fmaAnlage = schaltmittel.IDSchalter as FMA_Anlage
+				val fmaAnlage = schaltmittel.IDSchalter?.value as FMA_Anlage
 				if (fmaAnlage !== null) {
 					return fmaAnlage.bzBezeichner
 				}
@@ -82,7 +82,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 				// nothing to do
 			}
 			try {
-				val fmaKomponente = schaltmittel.IDSchalter as FMA_Komponente
+				val fmaKomponente = schaltmittel.IDSchalter?.value as FMA_Komponente
 				if (fmaKomponente !== null) {
 					return fmaKomponente.bezeichnung?.bezeichnungTabelle?.wert
 				}
@@ -90,7 +90,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 				// nothing to do
 			}
 			try {
-				val zugeinwirkung = schaltmittel.IDSchalter as Zugeinwirkung
+				val zugeinwirkung = schaltmittel.IDSchalter?.value as Zugeinwirkung
 
 				if (zugeinwirkung !== null) {
 					return zugeinwirkung.bezeichnung?.bezeichnungTabelle?.wert
@@ -110,7 +110,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	 */
 	def static Bedien_Anzeige_Element getBedienanzeigeElement(
 		Block_Element blockElement) {
-		return blockElement.IDZugschlussmeldung
+		return blockElement.IDZugschlussmeldung?.value
 	}
 
 	/**
@@ -122,7 +122,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 
 		try {
 			for (Signal signal : blockElement.container.signal) {
-				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.identitaet?.
+				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.value?.identitaet?.
 					wert == blockElement?.identitaet?.wert) {
 					return signal
 				}
@@ -142,7 +142,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 			for (Fstr_Zug_Rangier zugRangier : blockElement.container.
 				fstrZugRangier) {
 				if (zugRangier?.fstrFahrweg?.zielPunkt?.
-					IDDWegErlaubnisabhaengig?.identitaet?.wert ==
+					IDDWegErlaubnisabhaengig?.value?.identitaet?.wert ==
 					blockElement?.identitaet?.wert) {
 					return zugRangier
 				}

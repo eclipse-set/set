@@ -13,7 +13,7 @@ import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.osgi.service.component.annotations.Component;
 
-import org.eclipse.set.toolboxmodel.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 
 /**
  * Revise the initialization (this should always be done as the last step).

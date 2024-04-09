@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Begrenzung_A_TypeClass
-import org.eclipse.set.toolboxmodel.Basisobjekte.Begrenzung_B_TypeClass
-import org.eclipse.set.toolboxmodel.Basisobjekte.Abstand_TypeClass
+import org.eclipse.set.model.planpro.Basisobjekte.Begrenzung_A_TypeClass
+import org.eclipse.set.model.planpro.Basisobjekte.Begrenzung_B_TypeClass
+import org.eclipse.set.model.planpro.Basisobjekte.Abstand_TypeClass
 
 /**
  * Extensions for {@link Begrenzung_A_TypeClass} and {@link Begrenzung_B_TypeClass}.

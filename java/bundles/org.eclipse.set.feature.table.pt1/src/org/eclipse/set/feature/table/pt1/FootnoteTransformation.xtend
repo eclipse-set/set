@@ -12,8 +12,8 @@ import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.model.tablemodel.Footnote
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
@@ -39,7 +39,7 @@ class FootnoteTransformation {
 	}
 
 	private def void addFootnotes(Basis_Objekt object) {
-		object.IDBearbeitungsvermerk.forEach[addFootnote]
+		object.IDBearbeitungsvermerk.forEach[value?.addFootnote]
 	}
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {

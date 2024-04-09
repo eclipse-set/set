@@ -35,5 +35,5 @@ Import-Package: com.google.common.collect;version="15.0.0",
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
-Require-Bundle: org.eclipse.set.toolboxmodel
+Require-Bundle: org.eclipse.set.model.planpro
 Service-Component: OSGI-INF/org.eclipse.set.feature.enumtransformation.descriptions.EnumImportDescriptionService.xml

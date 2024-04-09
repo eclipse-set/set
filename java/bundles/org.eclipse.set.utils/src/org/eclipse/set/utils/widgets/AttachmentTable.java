@@ -38,7 +38,7 @@ import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.basis.observable.ObservableValue;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp;
 import org.eclipse.set.utils.Messages;
 import org.eclipse.set.utils.attachment.Attachments;
 import org.eclipse.set.utils.internal.DomainElementListContentProvider;

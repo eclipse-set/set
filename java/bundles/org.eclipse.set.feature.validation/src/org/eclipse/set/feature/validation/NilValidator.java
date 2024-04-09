@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EObjectValidator;
-import org.eclipse.set.toolboxmodel.Layoutinformationen.LayoutinformationenPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 
 /**
  * Extra validator to report EMF errors if an unset value is present in the

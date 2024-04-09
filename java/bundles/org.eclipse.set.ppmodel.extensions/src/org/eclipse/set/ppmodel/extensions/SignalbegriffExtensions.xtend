@@ -8,9 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
-import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
-import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import java.util.Collection
 
 /**
@@ -24,7 +24,7 @@ class SignalbegriffExtensions extends BasisObjektExtensions {
 	 * @return the Signalrahmen containing this Signalbegriff
 	 */
 	def static Signal_Rahmen signalRahmen(Signal_Signalbegriff signalBegriff) {
-		return signalBegriff.IDSignalRahmen
+		return signalBegriff.IDSignalRahmen?.value
 	}
 
 	/**

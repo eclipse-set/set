@@ -18,10 +18,10 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.set.basis.graph.TopPath;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.ppmodel.extensions.BasisAttributExtensions;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante;
 
 /**
  * Helper functions to iterate with objects on topological edges
@@ -54,7 +54,7 @@ public class TopObjectIterator {
 				.stream(BasisAttributExtensions.getContainer(edge)
 						.get(classType).spliterator(), false)
 				.filter(c -> c.getPunktObjektTOPKante().get(0).getIDTOPKante()
-						.equals(edge))
+						.getValue().equals(edge))
 				.sorted(comp);
 	}
 
@@ -88,7 +88,7 @@ public class TopObjectIterator {
 				.stream(BasisAttributExtensions.getContainer(edge)
 						.get(classType).spliterator(), false)
 				.filter(c -> c.getPunktObjektTOPKante().get(0).getIDTOPKante()
-						.equals(edge))
+						.getValue().equals(edge))
 				.filter(c -> {
 					final int value = c.getPunktObjektTOPKante().get(0)
 							.getAbstand().getWert().compareTo(startAt);
@@ -155,7 +155,7 @@ public class TopObjectIterator {
 		return getPathObjects(path, classType).filter(c -> {
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk = c
 					.getPunktObjektTOPKante().get(0);
-			final TOP_Kante tk = potk.getIDTOPKante();
+			final TOP_Kante tk = potk.getIDTOPKante().getValue();
 			if (tk == firstEdge
 					&& potk.getAbstand().getWert().compareTo(startLimit) < 0) {
 				return false;

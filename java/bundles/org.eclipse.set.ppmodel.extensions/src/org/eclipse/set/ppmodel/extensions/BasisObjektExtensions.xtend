@@ -11,9 +11,9 @@ package org.eclipse.set.ppmodel.extensions
 import com.google.common.collect.Lists
 import java.util.List
 import org.eclipse.set.ppmodel.extensions.utils.LstObjectAttribute
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bearbeitungsvermerk
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 
 /**
  * Diese Klasse erweitert {@link Basis_Objekt}.
@@ -43,6 +43,6 @@ class BasisObjektExtensions extends UrObjectExtensions {
 
 	def static Iterable<Bearbeitungsvermerk> getBearbeitungsvermerk(
 		Basis_Objekt object) {
-		return object.IDBearbeitungsvermerk
+		return object.IDBearbeitungsvermerk?.map[value]?.filterNull
 	}
 }

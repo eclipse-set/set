@@ -8,6 +8,6 @@ Automatic-Module-Name: org.eclipse.set.ppmodel.extensions.container
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.xtend.lib,
  org.eclipse.core.resources,
- org.eclipse.set.toolboxmodel
+ org.eclipse.set.model.planpro
 Export-Package: org.eclipse.set.ppmodel.extensions.container
 Import-Package: org.eclipse.core.runtime

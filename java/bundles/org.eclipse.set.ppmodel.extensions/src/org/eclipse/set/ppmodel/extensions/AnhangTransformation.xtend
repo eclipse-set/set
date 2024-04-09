@@ -9,9 +9,9 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
-import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMAnhangArt
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjektePackage
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMAnhangArt
 import org.eclipse.set.basis.DomainElementList
 import org.eclipse.set.basis.attachments.Attachment
 import org.eclipse.set.basis.attachments.AttachmentInfo
@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.command.SetCommand
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain
 import org.eclipse.xtend.lib.annotations.Accessors
 
-import static org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp.*
+import static org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp.*
 
 /**
  * This class extends {@link Anhang}.

@@ -24,22 +24,22 @@ import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.basis.graph.DirectedElementImpl
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.ppmodel.extensions.utils.Distance
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Lichtraum
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Gleis.Gleis_Lichtraum
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.eclipse.set.toolboxmodel.Geodaten.ENUMTOPAnschluss.*
+import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ContainerExtensions.*
@@ -87,7 +87,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static TOP_Knoten getTOPKnotenA(
 		TOP_Kante topKante
 	) {
-		return topKante.IDTOPKnotenA
+		return topKante.IDTOPKnotenA?.value
 	}
 
 	/**
@@ -98,7 +98,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static TOP_Knoten getTOPKnotenB(
 		TOP_Kante topKante
 	) {
-		return topKante.IDTOPKnotenB
+		return topKante.IDTOPKnotenB?.value
 	}
 
 	def static List<GEO_Kante> getGeoKanten(
@@ -625,7 +625,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		Collection<Punkt_Objekt_TOP_Kante_AttributeGroup> singlePoints
 	) {
 		return singlePoints.filter [
-			IDTOPKante.identitaet?.wert == topKante.identitaet.wert
+			IDTOPKante?.value.identitaet?.wert == topKante.identitaet.wert
 		].toSet
 	}
 
@@ -640,11 +640,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val idA = topKante.IDTOPKnotenA
 		val idB = topKante.IDTOPKnotenB
 
-		if (topKnoten.identitaet.wert == idA.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idA?.value.identitaet?.wert) {
 			return topKante.TOPKanteAllg.TOPAnschlussA.wert
 		}
 
-		if (topKnoten.identitaet.wert == idB.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idB?.value.identitaet?.wert) {
 			return topKante.TOPKanteAllg.TOPAnschlussB.wert
 		}
 
@@ -669,11 +669,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val idA = topKante.IDTOPKnotenA
 		val idB = topKante.IDTOPKnotenB
 
-		if (topKnoten.identitaet.wert == idA.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idA?.value.identitaet?.wert) {
 			return topKante.TOPKnotenB
 		}
 
-		if (topKnoten.identitaet.wert == idB.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idB?.value.identitaet?.wert) {
 			return topKante.TOPKnotenA
 		}
 

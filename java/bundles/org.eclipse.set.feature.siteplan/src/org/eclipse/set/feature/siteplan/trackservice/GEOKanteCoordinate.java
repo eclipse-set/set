@@ -11,8 +11,8 @@ package org.eclipse.set.feature.siteplan.trackservice;
 import java.util.Set;
 
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt;
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.locationtech.jts.geom.Coordinate;
 
 /**

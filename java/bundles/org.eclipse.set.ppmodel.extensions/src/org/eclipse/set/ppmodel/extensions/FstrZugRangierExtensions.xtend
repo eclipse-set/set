@@ -16,28 +16,28 @@ import org.eclipse.set.basis.graph.DirectedEdgePoint
 import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
 import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche
 import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Nichthaltfall
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Signalisierung
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Art_TypeClass
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
-import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Kl
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Signalbegriff
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Rangier_Fla_Zuordnung
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Art_TypeClass
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Kl
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
 
-import static org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt.*
+import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueEinschaltungZuordnungExtension.*
@@ -69,7 +69,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		val result = new LinkedList<Fstr_Signalisierung>
 		val signalisierungen = fstr.container.fstrSignalisierung
 		for (signalisierung : signalisierungen) {
-			if (signalisierung.IDFstrZugRangier.identitaet?.wert ==
+			if (signalisierung.IDFstrZugRangier?.value?.identitaet?.wert ==
 				fstr.identitaet.wert) {
 				result.add(signalisierung)
 			}
@@ -85,7 +85,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Fstr_DWeg getFstrDWeg(
 		Fstr_Zug_Rangier zugRangier
 	) {
-		return zugRangier?.fstrZug?.fstrZugDWeg?.IDFstrDWeg
+		return zugRangier?.fstrZug?.fstrZugDWeg?.IDFstrDWeg?.value
 	}
 
 	/**
@@ -96,7 +96,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Fstr_Fahrweg getFstrFahrweg(
 		Fstr_Zug_Rangier zugRangier
 	) {
-		return zugRangier.IDFstrFahrweg
+		return zugRangier.IDFstrFahrweg?.value
 	}
 
 	/**
@@ -107,7 +107,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Iterable<Fstr_Rangier_Fla_Zuordnung> getFstrRangierFlaZuordnung(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier.container.fstrRangierFlaZuordnung.filter [
-			IDFstrRangier === fstrZugRangier
+			IDFstrRangier?.value === fstrZugRangier
 		]
 	}
 
@@ -119,8 +119,8 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static List<Fstr_Nichthaltfall> getFstrNichthaltfall(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier.container.fstrNichthaltfall.filter [
-			it.IDFstrFahrweg.identitaet?.wert ==
-				fstrZugRangier.IDFstrFahrweg.identitaet?.wert
+			it.IDFstrFahrweg?.value.identitaet?.wert ==
+				fstrZugRangier.IDFstrFahrweg?.value.identitaet?.wert
 		].toList
 	}
 
@@ -182,7 +182,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			gleisbezogeneGefahrraeume.map [
 				einschaltungZuordnungen
 			].flatten.toSet.map[einschaltung].exists [
-				fstrZugRangier.fstrZug.IDBUEEinschaltung.map[identitaet.wert].
+				fstrZugRangier.fstrZug.IDBUEEinschaltung.map[value.identitaet.wert].
 					contains(
 						identitaet.wert
 					)
@@ -227,7 +227,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Set<FMA_Anlage> getFmaAnlageRangierFrei(
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
-		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.toSet
+		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.map[value]?.filterNull?.toSet
 	}
 	
 	def static <T> String getFstrZugRangierBezeichnung(Fstr_Zug_Rangier fstrZugRangier) {

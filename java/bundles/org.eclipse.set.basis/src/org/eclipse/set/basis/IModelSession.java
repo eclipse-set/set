@@ -23,8 +23,9 @@ import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -124,6 +125,11 @@ public interface IModelSession {
 	 * @return root of the PlanPro model
 	 */
 	PlanPro_Schnittstelle getPlanProSchnittstelle();
+
+	/**
+	 * @return root of the layout info
+	 */
+	PlanPro_Layoutinfo getLayoutInformation();
 
 	/**
 	 * @return the total symbol rotation (counterclockwise in degrees)

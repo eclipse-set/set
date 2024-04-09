@@ -16,7 +16,7 @@ import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.Siteplan
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 import org.osgi.service.component.annotations.ReferenceCardinality
@@ -29,6 +29,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 
 /**
  * Transforms the PlanPro data model into the siteplan data model 
@@ -55,14 +56,12 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 			trackService.clearMetaData
 			return null;
 		}
-		siteplan.transformLayout(modelSession.planProSchnittstelle)
+		siteplan.transformLayout(modelSession.layoutInformation)
 		return siteplan
 	}
 
-	def void transformLayout(Siteplan siteplan,
-		PlanPro_Schnittstelle schnittStelle) {
-		val layoutTransform = new LayoutTransformator(
-			schnittStelle.planpro_layoutinfo, positionService)
+	def void transformLayout(Siteplan siteplan, PlanPro_Layoutinfo layoutinfo) {
+		val layoutTransform = new LayoutTransformator(layoutinfo, positionService)
 		layoutTransform.transformLayout(siteplan)
 	}
 

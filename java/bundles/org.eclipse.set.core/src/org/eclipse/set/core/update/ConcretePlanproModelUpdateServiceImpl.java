@@ -18,15 +18,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.set.core.services.update.ConcreteModelUpdateService;
+import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
+import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten;
-import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
-import org.eclipse.set.toolboxmodel.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.xtext.xbase.lib.IteratorExtensions;
 import org.osgi.service.component.annotations.Component;
 
@@ -69,7 +69,7 @@ public class ConcretePlanproModelUpdateServiceImpl
 		}
 		Ausgabe_Fachdaten ausgabeFachdaten = null;
 		if (planungEinzel != null) {
-			ausgabeFachdaten = planungEinzel.getIDAusgabeFachdaten();
+			ausgabeFachdaten = planungEinzel.getIDAusgabeFachdaten().getValue();
 		}
 
 		final Untergewerk_Art_TypeClass untergewerkArt = PlanProFactory.eINSTANCE

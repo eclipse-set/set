@@ -15,18 +15,18 @@ import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Anlage
-import org.eclipse.set.toolboxmodel.Bahnsteig.Bahnsteig_Kante
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
-import org.eclipse.set.toolboxmodel.Signale.Signal_Rahmen
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Anlage
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Anlage
+import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Kante
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
@@ -57,7 +57,7 @@ class PlanungsBereichValid extends AbstractPlazContainerCheck implements PlazChe
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
 		modelSession.planProSchnittstelle.LSTPlanungGruppe.orElse(null)?.forEach [
 			val objects = LSTPlanungEinzel?.LSTObjektePlanungsbereich?.
-				IDLSTObjektPlanungsbereich
+				IDLSTObjektPlanungsbereich?.filterNull?.map[value]
 			if (objects.nullOrEmpty) {
 				return
 			}

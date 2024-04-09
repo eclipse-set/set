@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.Strecke_Punkt
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
+import org.eclipse.set.model.planpro.Geodaten.Strecke_Punkt
 
 /**
  * Extensions for {@link Strecke_Punkt}.
@@ -22,7 +22,7 @@ class StreckePunktExtensions extends BasisObjektExtensions {
 	 * @returns the GEO_Knoten for the route point
 	 */
 	static def GEO_Knoten getGeoKnoten(Strecke_Punkt routePoint) {
-		return routePoint.IDGEOKnoten
+		return routePoint.IDGEOKnoten?.value
 	}
 
 }

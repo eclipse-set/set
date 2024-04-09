@@ -11,15 +11,15 @@ package org.eclipse.set.application.nameservice
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.core.services.name.NameService
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
-import org.eclipse.set.toolboxmodel.BasisTypen.BasisAttribut_AttributeGroup
-import org.eclipse.set.toolboxmodel.Basisobjekte.Anhang
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Anhang
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

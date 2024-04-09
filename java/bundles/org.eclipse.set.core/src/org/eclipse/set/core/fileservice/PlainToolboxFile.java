@@ -18,11 +18,13 @@ import java.util.Optional;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceImpl;
 
 /**
  * Toolbox file support for plain files.
@@ -151,6 +153,10 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 		if (isLoadable()) {
 			generateMD5CheckSum();
 			loadResource(getModelPath(), editingDomain);
+			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
+					.getContents().getFirst();
+			ToolboxIDResolver
+					.resolveIDReferences(doc.getPlanProSchnittstelle());
 		} else {
 			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$
 		}
@@ -193,13 +199,13 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
-	public XMLResource getPlanProResource() {
+	public PlanProFileResource getPlanProResource() {
 		// Plain file contains only technical resource
 		return resources.values().iterator().next();
 	}
 
 	@Override
-	public XMLResource getLayoutResource() {
+	public PlanProFileResource getLayoutResource() {
 		throw new UnsupportedOperationException();
 	}
 

@@ -9,10 +9,10 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Markanter_Punkt
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 
 /**
  * This class extends {@link FMA_Komponente}.
@@ -29,7 +29,7 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 	 */
 	def static boolean belongsTo(FMA_Komponente komp, FMA_Anlage anlage) {
 		return !komp?.IDFMAgrenze?.filter [
-			it.identitaet.wert == anlage?.identitaet?.wert
+			it?.value.identitaet.wert == anlage?.identitaet?.wert
 		].nullOrEmpty
 	}
 
@@ -41,19 +41,19 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 	def static List<FMA_Anlage> getAngrenzendeFMA(
 		FMA_Komponente komp
 	) {
-		return komp.IDFMAgrenze
+		return komp.IDFMAgrenze.map[value].filterNull.toList
 	}
 
 	def static Markanter_Punkt getMarkanterPunkt(FMA_Komponente komp) {
-		return komp.IDBezugspunkt
+		return komp.IDBezugspunkt?.value
 	}
 
 	def static Schaltmittel_Zuordnung getSchaltmittelZuordnung(
 		FMA_Komponente komp) {
 		for (Schaltmittel_Zuordnung zuord : komp.container.
 			schaltmittelZuordnung) {
-			if (zuord?.IDSchalter?.identitaet?.wert !== null &&
-				zuord?.IDSchalter?.identitaet?.wert.equals(
+			if (zuord?.IDSchalter?.value?.identitaet?.wert !== null &&
+				zuord?.IDSchalter?.value?.identitaet?.wert.equals(
 					komp.identitaet.wert)) {
 				return zuord;
 			}

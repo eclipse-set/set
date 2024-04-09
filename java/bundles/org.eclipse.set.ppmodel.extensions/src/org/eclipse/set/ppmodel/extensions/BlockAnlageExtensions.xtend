@@ -9,8 +9,8 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
-import org.eclipse.set.toolboxmodel.Block.Block_Anlage
+import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.model.planpro.Block.Block_Anlage
 
 /**
  * Extensions for {@link Block_Anlage}.
@@ -22,6 +22,6 @@ class BlockAnlageExtensions extends BasisObjektExtensions {
 	 * @returns the Gleis_Bezeichnung
 	 */
 	def static Gleis_Bezeichnung getGleisBezeichnung(Block_Anlage blockAnlage) {
-		return blockAnlage.IDGleisBezeichnung
+		return blockAnlage.IDGleisBezeichnung?.value
 	}
 }

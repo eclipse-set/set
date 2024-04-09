@@ -29,11 +29,13 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
 import org.eclipse.set.model.zipmanifest.Manifest;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
 
 /**
  * Toolbox file support for zipped *.planpro files.
@@ -49,7 +51,6 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
 	private static final String LAYOUT_RESOURCE_TYPE_NAME = "layout"; //$NON-NLS-1$
-	private static final String INTERNAL_FORMAT = "planpro"; //$NON-NLS-1$
 
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
@@ -121,12 +122,11 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 				toolboxFile.getLayoutResource());
 	}
 
-	private XMLResource createPlanProResource() {
-		// Load the resource with the required type
-		final String contentType = INTERNAL_FORMAT;
-		final XMLResource newResource = (XMLResource) editingDomain
-				.getResourceSet().createResource(
-						URI.createURI(PlanProPackage.eNS_URI), contentType);
+	private PlanProFileResource createPlanProResource() {
+		final PlanProFileResource newResource = new PlanProFileResource(
+				URI.createURI(PlanProPackage.eNS_URI));
+		editingDomain.getResourceSet().getResources().add(newResource);
+
 		newResource.setEncoding(ENCODING);
 		return newResource;
 	}
@@ -282,6 +282,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 			generateMD5CheckSum();
 			unzip();
 			loadResource(getModelPath(), editingDomain);
+			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
+					.getContents().getFirst();
+			ToolboxIDResolver
+					.resolveIDReferences(doc.getPlanProSchnittstelle());
 		} else {
 			throw new IllegalStateException("Toolbox file not loadable."); //$NON-NLS-1$
 		}
@@ -291,6 +295,9 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	public void openLayout() throws IOException {
 		if (Files.exists(getLayoutPath())) {
 			loadResource(getLayoutPath(), editingDomain);
+			final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot doc = (org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot) getLayoutResource()
+					.getContents().getFirst();
+			ToolboxIDResolver.resolveIDReferences(doc.getPlanProLayoutinfo());
 		}
 	}
 
@@ -461,12 +468,12 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
-	public XMLResource getPlanProResource() {
+	public PlanProFileResource getPlanProResource() {
 		return getResource(TECHNICAL_RESOURCE_TYPE_NAME);
 	}
 
 	@Override
-	public XMLResource getLayoutResource() {
+	public PlanProFileResource getLayoutResource() {
 		return getResource(LAYOUT_RESOURCE_TYPE_NAME);
 	}
 }

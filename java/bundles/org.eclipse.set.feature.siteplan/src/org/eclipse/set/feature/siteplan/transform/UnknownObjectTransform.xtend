@@ -12,16 +12,16 @@ import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.PZB.PZB_Element
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Signale.Signal_Befestigung
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.PZB.PZB_Element
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
-import org.eclipse.set.toolboxmodel.Geodaten.Ueberhoehung
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Gleis_Abschluss
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 
 /**
  * Transforms unknown PlanPro Punkt_Objekte to siteplan UnknownPositiondObject 

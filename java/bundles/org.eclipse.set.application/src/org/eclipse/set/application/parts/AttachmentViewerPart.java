@@ -27,7 +27,7 @@ import org.eclipse.set.core.services.pdf.PdfRendererService;
 import org.eclipse.set.core.services.pdf.PdfViewer;
 import org.eclipse.set.core.services.pdf.PdfViewer.SaveListener;
 import org.eclipse.set.core.services.pdf.PdfViewerPart;
-import org.eclipse.set.toolboxmodel.Basisobjekte.ENUMDateityp;
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.FileWebBrowser;
 import org.eclipse.set.utils.SelectableAction;

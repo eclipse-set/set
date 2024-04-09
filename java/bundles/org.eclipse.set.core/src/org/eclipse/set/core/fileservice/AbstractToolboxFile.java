@@ -23,10 +23,10 @@ import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.basis.files.ExtendedPlanProValidator;
+import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.model.model11001.PlanPro.DocumentRoot;
-import org.eclipse.set.model.model11001.PlanPro.util.PlanProResourceImpl;
-import org.eclipse.set.ppmodel.extensions.PlanProResourceImplExtensions;
+import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.w3c.dom.Document;
 
 /**
@@ -43,7 +43,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 
 	private String md5checksum = null;
 
-	protected final HashMap<String, XMLResource> resources = new HashMap<>();
+	protected final HashMap<String, PlanProFileResource> resources = new HashMap<>();
 
 	@Override
 	public void setXMLDocument(final String docName, final Document doc) {
@@ -74,28 +74,23 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	}
 
 	private void modifyXmlDeclaration() {
-		if (getPlanProResource() instanceof final PlanProResourceImpl planproResource) {
-			PlanProResourceImplExtensions.setStandalone(planproResource, NO);
-		}
+		getPlanProResource().setStandalone(NO);
 	}
 
 	protected void loadResource(final Path path,
 			final EditingDomain editingDomain) throws IOException {
+		ExtendedPlanProValidator.registerValidator();
 		final ResourceSet resourceSet = editingDomain.getResourceSet();
 
 		// Allow file extesion with Uppercase
 		final URI resourceUri = URI.createFileURI(
 				PathExtensions.toLowerCaseExtension(path).toString());
-		XMLResource newResource = (XMLResource) resourceSet
+		PlanProFileResource newResource = (PlanProFileResource) resourceSet
 				.getResource(resourceUri, false);
 		if (newResource == null) {
-			// Use the file extension as content type
-			// This may not be the same as the extension of path if path is a
-			// temporary file (e.g. for zipped planpro files)
-			final String contentType = PathExtensions.getExtension(getPath());
 			// Load the resource
-			newResource = (XMLResource) resourceSet.createResource(resourceUri,
-					contentType);
+			newResource = new PlanProFileResource(resourceUri);
+			resourceSet.getResources().add(newResource);
 			// Allow ppxml files with unknown features to be loaded
 			// by ignoring wrapped FeatureNotFoundExceptions
 			try {
@@ -113,7 +108,7 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	}
 
 	protected void addResource(final String contentName,
-			final XMLResource resource) {
+			final PlanProFileResource resource) {
 		if (contentName == null || resource == null) {
 			return;
 		}
@@ -121,28 +116,21 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		modifyXmlDeclaration();
 	}
 
-	protected XMLResource getResource(final String contentName) {
+	protected PlanProFileResource getResource(final String contentName) {
 		return resources.get(contentName);
 	}
 
 	protected void setResource(final String contentName,
-			final XMLResource resource) {
+			final PlanProFileResource resource) {
 		resources.put(contentName, resource);
 		modifyXmlDeclaration();
 	}
 
 	protected void setResourcePath(final Resource resource, final Path path) {
 		if (!resource.getURI().isFile()) {
-			// Use the file extension as content type
-			// This may not be the same as the extension of path if path is
-			// a
-			// temporary file (e.g. for zipped planpro files)
-
-			final String contentType = PathExtensions.getExtension(getPath());
-
-			final XMLResource newResource = (XMLResource) getEditingDomain()
-					.getResourceSet().createResource(
-							URI.createFileURI(path.toString()), contentType);
+			final PlanProFileResource newResource = new PlanProFileResource(
+					URI.createFileURI(path.toString()));
+			getEditingDomain().getResourceSet().getResources().add(newResource);
 			newResource.setEncoding(ENCODING);
 			if (!resource.getContents().isEmpty()) {
 				newResource.getContents().addAll(resource.getContents());
@@ -166,24 +154,24 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 	}
 
 	@Override
-	public DocumentRoot getPlanProSourceModel() {
-		final XMLResource planProResource = getPlanProResource();
+	public DocumentRoot getPlanProDocumentRoot() {
+		final PlanProFileResource planProResource = getPlanProResource();
 		if (planProResource == null) {
 			return null;
 		}
-		return ((org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl) planProResource)
-				.getSourceModel();
+		return (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
+				.getContents().getFirst();
 	}
 
 	@Override
-	public org.eclipse.set.model.model11001.Layoutinformationen.DocumentRoot getLayoutSourceModel() {
+	public org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot getLayoutDocumentRoot() {
 		try {
-			final XMLResource layoutResource = getLayoutResource();
+			final PlanProFileResource layoutResource = getLayoutResource();
 			if (layoutResource == null) {
 				return null;
 			}
-			return ((org.eclipse.set.toolboxmodel.PlanPro.util.PlanProResourceImpl) layoutResource)
-					.getLayoutModel();
+			return (org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot) getLayoutResource()
+					.getContents().getFirst();
 		} catch (final UnsupportedOperationException e) {
 			return null;
 		}

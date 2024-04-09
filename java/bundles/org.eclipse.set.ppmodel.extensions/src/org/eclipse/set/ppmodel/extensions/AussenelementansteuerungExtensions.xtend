@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Geodaten.Oertlichkeit
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit
 import java.util.List
 
 /**
@@ -26,7 +26,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Unterbringung getUnterbringung(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.IDUnterbringung
+		return aussenelementansteuerung.IDUnterbringung?.value
 	}
 
 	/**
@@ -37,7 +37,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static List<Aussenelementansteuerung> getAussenelementansteuerungInformationSekundaer(
 		Aussenelementansteuerung aussenelementansteuerung
 	) {
-		return aussenelementansteuerung.IDInformationSekundaer
+		return aussenelementansteuerung.IDInformationSekundaer?.map[value]?.filterNull?.toList
 	}
 
 	/**
@@ -47,7 +47,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Basis_Objekt getAussenelementansteuerungEnergiePrimaer(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergiePrimaer
+		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergiePrimaer?.value
 	}
 
 	/**
@@ -57,6 +57,6 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Oertlichkeit getOertlichkeitNamensgebend(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.IDOertlichkeitNamensgebend
+		return aussenelementansteuerung.IDOertlichkeitNamensgebend?.value
 	}
 }

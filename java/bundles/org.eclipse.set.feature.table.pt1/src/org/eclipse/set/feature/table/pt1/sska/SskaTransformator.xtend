@@ -19,15 +19,15 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions
 import org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.ESTW_Zentraleinheit
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Technik_Standort
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sska.SskaColumns.*
-import static org.eclipse.set.toolboxmodel.Bedienung.ENUMBedienPlatzArt.*
+import static org.eclipse.set.model.planpro.Bedienung.ENUMBedienPlatzArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
@@ -328,7 +328,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		elementList.addAll(element.container.ESTWZentraleinheit)
 
 		return elementList.filter [
-			element.IDInformationPrimaer.map[identitaet?.wert].contains(
+			element.IDInformationPrimaer.map[value?.identitaet?.wert].contains(
 				identitaet.wert)
 		].map[bezeichner]
 	}
@@ -508,25 +508,25 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def Basis_Objekt getElementEnergiePrimaer(
 		Aussenelementansteuerung element) {
 		return element.container.getElementEnergie(
-			element.AEAEnergieversorgung.IDEnergiePrimaer)
+			element.AEAEnergieversorgung.IDEnergiePrimaer.value)
 	}
 
 	private dispatch def Basis_Objekt getElementEnergiePrimaer(
 		ESTW_Zentraleinheit element) {
 		return element.container.getElementEnergie(
-			element.ESTWZEEnergieversorgung.IDEnergiePrimaer)
+			element.ESTWZEEnergieversorgung.IDEnergiePrimaer.value)
 	}
 
 	private dispatch def Basis_Objekt getElementEnergieSekundaer(
 		Aussenelementansteuerung element) {
 		return element.container.getElementEnergie(
-			element.AEAEnergieversorgung.IDEnergieSekundaer)
+			element.AEAEnergieversorgung.IDEnergieSekundaer.value)
 	}
 
 	private dispatch def Basis_Objekt getElementEnergieSekundaer(
 		ESTW_Zentraleinheit element) {
 		return element.container.getElementEnergie(
-			element.ESTWZEEnergieversorgung.IDEnergieSekundaer)
+			element.ESTWZEEnergieversorgung.IDEnergieSekundaer.value)
 	}
 
 	private def Basis_Objekt getElementEnergie(

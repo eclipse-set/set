@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Unterbringung
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Standort
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort
 
 /** 
  * Extensions for {@link Bedien_Standort}.
@@ -24,6 +24,6 @@ class BedienStandortExtensions extends BasisObjektExtensions {
 	 * @return the Unterbringung this Technikstandort is installed in
 	 */
 	static def Unterbringung getUnterbringung(Bedien_Standort standort) {
-		return standort?.IDUnterbringung
+		return standort?.IDUnterbringung?.value
 	}
 }

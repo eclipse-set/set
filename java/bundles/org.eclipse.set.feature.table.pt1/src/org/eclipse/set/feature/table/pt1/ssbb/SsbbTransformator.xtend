@@ -15,12 +15,12 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Ansteuerung_Element.Stellelement
-import org.eclipse.set.toolboxmodel.Bedienung.Bedien_Einrichtung_Oertlich
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Komponente
-import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
-import org.eclipse.set.toolboxmodel.Signale.Signal
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
+import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssbb.SsbbColumns.*
@@ -193,7 +193,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				bue_Eins_Schalmittle.map [
-					val schalter = IDSchalter
+					val schalter = IDSchalter?.value
 					if (schalter instanceof Zugeinwirkung) {
 						return schalter?.bezeichnung?.bezeichnungTabelle?.wert
 					} else if (schalter instanceof FMA_Komponente) {
@@ -216,7 +216,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				bue_Aus_Schalmittles.map [
-					val schalter = IDSchalter
+					val schalter = IDSchalter?.value
 					if (schalter instanceof Zugeinwirkung) {
 						return schalter?.bezeichnung?.bezeichnungTabelle?.wert
 					}

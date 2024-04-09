@@ -8,10 +8,10 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import java.util.Comparator
 import java.util.HashSet
 import java.util.LinkedList
@@ -56,7 +56,7 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 		}
 
 		val cacheKeyPathEnds = #[start, end].map [
-			#[abstand?.wert, IDTOPKante?.identitaet?.wert, wirkrichtung?.wert,
+			#[abstand?.wert, IDTOPKante?.value?.identitaet?.wert, wirkrichtung?.wert,
 				seitlicheLage?.wert, seitlicherAbstand?.wert]
 		].flatten.join
 		cacheKey = bereich?.identitaet?.wert + cacheKeyPathEnds

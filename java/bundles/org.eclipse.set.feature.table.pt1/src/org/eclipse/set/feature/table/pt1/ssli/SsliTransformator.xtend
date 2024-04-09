@@ -22,15 +22,15 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
-import org.eclipse.set.toolboxmodel.Signale.ENUMSignalArt
-import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss
+import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
+import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssli.SsliColumns.*
-import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
+import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMRangierGegenfahrtausschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -256,10 +256,10 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		Signal signal
 	) {
 		addAll(container.fstrFahrweg.filter [
-			IDZiel?.identitaet?.wert == signal?.identitaet?.wert
+			IDZiel?.value?.identitaet?.wert == signal?.identitaet?.wert
 		].map [ fw |
 			container.fstrZugRangier.filter [
-				IDFstrFahrweg?.identitaet?.wert == fw?.identitaet?.wert
+				IDFstrFahrweg?.value?.identitaet?.wert == fw?.identitaet?.wert
 			]
 		].flatten.toSet.map[fstrRangier?.rangierGegenfahrtausschluss?.wert])
 		return
@@ -286,13 +286,13 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		signals.forEach [ signal |
 			val rafahrt = signal?.signalFstrAusInselgleis?.
 				IDRaFahrtGleichzeitigVerbot
-			rafahrt?.filter[gl|result.containsKey(gl.identitaet?.wert)]?.forEach [ gl |
-				result.get(gl.identitaet?.wert).raFahrtVerbot.add(signal)
+			rafahrt?.filter[gl|result.containsKey(gl?.value.identitaet?.wert)]?.forEach [ gl |
+				result.get(gl?.value.identitaet?.wert).raFahrtVerbot.add(signal)
 			]
 			val zgfahrt = signal?.signalFstrAusInselgleis?.
 				IDZgFahrtGleichzeitigVerbot
-			zgfahrt?.filter[gl|result.containsKey(gl.identitaet?.wert)]?.forEach [ gl |
-				result.get(gl.identitaet?.wert).zgFahrtVerbot.add(signal)
+			zgfahrt?.filter[gl|result.containsKey(gl?.value.identitaet?.wert)]?.forEach [ gl |
+				result.get(gl?.value.identitaet?.wert).zgFahrtVerbot.add(signal)
 			]
 		]
 

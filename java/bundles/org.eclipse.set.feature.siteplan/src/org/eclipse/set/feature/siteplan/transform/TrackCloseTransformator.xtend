@@ -13,8 +13,8 @@ import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.siteplan.TrackCloseType
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.ENUMGleisAbschlussArt
-import org.eclipse.set.toolboxmodel.Weichen_und_Gleissperren.Gleis_Abschluss
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMGleisAbschlussArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 

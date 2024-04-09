@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.table.pt1.sslz
 
 import java.math.BigInteger
-import java.time.Duration
 import java.util.Collection
 import java.util.Collections
 import java.util.List
@@ -22,33 +21,33 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.extensions.Utils
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Basisobjekte.Basis_Objekt
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Abhaengigkeit
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Abschnitt
-import org.eclipse.set.toolboxmodel.Gleis.Gleis_Bezeichnung
-import org.eclipse.set.toolboxmodel.Ortung.FMA_Anlage
-import org.eclipse.set.toolboxmodel.Ortung.Zugeinwirkung
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Hp0
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Kl
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.ZlO
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs13
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs2v
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs3v
-import org.eclipse.set.toolboxmodel.Signalbegriffe_Ril_301.Zs6
-import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
+import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
+import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hp0
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Kl
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.ZlO
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs13
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs2
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs2v
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs6
+import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.utils.table.TMFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.feature.table.pt1.sslz.SslzColumns.*
-import static org.eclipse.set.toolboxmodel.Bahnuebergang.ENUMBUESicherungsart.*
-import static org.eclipse.set.toolboxmodel.Fahrstrasse.ENUMFstrZugArt.*
-import static org.eclipse.set.toolboxmodel.Gleis.ENUMGleisart.*
+import static org.eclipse.set.model.planpro.Bahnuebergang.ENUMBUESicherungsart.*
+import static org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt.*
+import static org.eclipse.set.model.planpro.Gleis.ENUMGleisart.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienAnzeigeElementExtensions.*
@@ -117,11 +116,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 				fillConditional(instance, cols.getColumn(Ziel),
 					fstrZugRangier, [
-						val zielSignal = IDFstrFahrweg.IDZiel
+						val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
 						return zielSignal.container.contents.filter(
 							Fstr_Zug_Rangier).findFirst [
 							fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
-								IDFstrFahrweg?.IDStart == zielSignal
+								IDFstrFahrweg?.value?.IDStart?.value == zielSignal
 						] === null
 					], [fahrwegZiel], [fahrwegZielBlock])
 
@@ -240,7 +239,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					fstrZugRangier,
 					[
 						fstrNichthaltfall.map [
-							fmaAnlage?.IDGleisAbschnitt?.bezeichnung?.
+							fmaAnlage?.IDGleisAbschnitt?.value?.bezeichnung?.
 								bezeichnungTabelle?.wert
 						]
 					],
@@ -271,7 +270,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								anrueckverschluss?.map[schalter]?.toSet ?:
 								Collections.emptySet
 							gleisabschnitte.value = schaltmittel.value.filter(
-								FMA_Anlage).map[IDGleisAbschnitt].toSet
+								FMA_Anlage).map[IDGleisAbschnitt?.value].filterNull.toSet
 							!gleisabschnitte.value.empty
 						],
 						[
@@ -586,7 +585,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					new Case<Fstr_Zug_Rangier>([
 						fstrZugRangier.container.contents.filter(
 							Fstr_Abhaengigkeit).map [
-							IDBedienAnzeigeElement?.bedienAnzeigeElementAllg
+							IDBedienAnzeigeElement?.value?.bedienAnzeigeElementAllg
 						].findFirst[it?.taste !== null || it?.schalter !== null] !==
 							null
 					], [
@@ -604,7 +603,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					], [
 						val fstrAusschlussBesonders = IDFstrAusschlussBesonders.
 							map [
-								getZugFstrBezeichnung([art | isZ(art)])
+								value?.getZugFstrBezeichnung([art | isZ(art)])
 							]
 						val footnotes = footnoteTransformation.transform(it,
 							instance)
@@ -627,16 +626,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		return factory.table
-	}
-
-	private static def String totalTime(
-		Duration duration,
-		int current,
-		int total
-	) {
-		val estimated = duration.dividedBy(current).multipliedBy(total).
-			toSeconds
-		return '''«estimated / 3600»h «(estimated % 3600) / 60»m «estimated % 60»s'''
 	}
 
 	def List<String> fillInselgleis(
@@ -665,16 +654,16 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def String fahrwegZielBlock(
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
-		val ziel = fstrZugRangier?.IDFstrFahrweg?.IDZiel as Signal
+		val ziel = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value as Signal
 
 		val startFahrweg = ziel.container.contents.filter(Fstr_Fahrweg).filter [
-			ziel == IDStart
+			ziel == IDStart?.value
 		]
 		val start = ziel.container.contents.filter(Fstr_Zug_Rangier).filter [
 			fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
 				startFahrweg.contains(IDFstrFahrweg)
 		].map [
-			(IDFstrFahrweg?.IDZiel as Signal)?.bezeichnung?.bezeichnungTabelle?.
+			(IDFstrFahrweg?.value?.IDZiel?.value as Signal)?.bezeichnung?.bezeichnungTabelle?.
 				wert
 		].filterNull.join(" ")
 
@@ -693,9 +682,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def Fstr_Zug_Rangier getZielFstrZugRangier(Fstr_Zug_Rangier it) {
-		val zielSignal = IDFstrFahrweg.IDZiel
+		val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
 		return zielSignal.container.contents.filter(Fstr_Zug_Rangier).findFirst [
-			IDFstrFahrweg?.IDStart == zielSignal &&
+			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B
 		]
 	}

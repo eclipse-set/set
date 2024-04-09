@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.set.basis.Pair;
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Knoten;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.utils.graph.AsDirectedTopGraph.DirectedTOPEdge;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;

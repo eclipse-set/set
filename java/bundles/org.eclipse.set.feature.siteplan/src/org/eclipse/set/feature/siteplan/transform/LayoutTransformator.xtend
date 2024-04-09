@@ -14,9 +14,9 @@ import org.eclipse.set.model.siteplan.Coordinate
 import org.eclipse.set.model.siteplan.SheetCut
 import org.eclipse.set.model.siteplan.Siteplan
 import org.eclipse.set.model.siteplan.SiteplanFactory
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
-import org.eclipse.set.toolboxmodel.Layoutinformationen.Lageplan_Blattschnitt
-import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.model.planpro.Layoutinformationen.Lageplan_Blattschnitt
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 import org.eclipse.set.utils.ToolboxConfiguration
 
 /**
@@ -52,7 +52,7 @@ class LayoutTransformator {
 			layoutInfo.guid = identitaet?.wert
 			layoutInfo.label = bezeichnung?.bezeichnungLageplan?.wert
 			IDLageplanBlattschnitt.forEach [
-				layoutInfo.sheetsCut.add(transformSheetCut)
+				layoutInfo.sheetsCut.add(value.transformSheetCut)
 			]
 			siteplan.layoutInfo.add(layoutInfo)
 		]

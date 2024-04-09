@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.feature.siteplan.trackservice
 
-import org.eclipse.set.toolboxmodel.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.toolboxmodel.Basisobjekte.Bereich_Objekt
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Kante
-import org.eclipse.set.toolboxmodel.Geodaten.GEO_Knoten
-import org.eclipse.set.toolboxmodel.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.List
@@ -25,7 +25,7 @@ import org.locationtech.jts.geom.LineString
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
-import org.eclipse.set.toolboxmodel.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /** 
@@ -80,7 +80,7 @@ class GEOKanteMetadata {
 		val relevantBOs = bereichObjekte.filter([ bo |
 			bo.bereichObjektTeilbereich.exists([ tb |
 				// Only consider Bereich_Objekte which are on the same TOP_Kante
-				if (tb.IDTOPKante !== topKante) {
+				if (tb.IDTOPKante?.value !== topKante) {
 					return false
 				}
 				val begrenzungA = tb.begrenzungA?.wert

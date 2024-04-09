@@ -14,9 +14,9 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schloss
-import org.eclipse.set.toolboxmodel.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssko.SskoColumns.*
@@ -376,7 +376,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		Schluesselsperre schluesselsperre) {
 		val c = schluesselsperre.container
 		return c.fstrAbhaengigkeit.filter [
-			fstrAbhaengigkeitSsp?.IDSchluesselsperre === schluesselsperre
+			fstrAbhaengigkeitSsp?.IDSchluesselsperre?.value === schluesselsperre
 		].flatMap [
 			val fahrweg = it.fstrFahrweg
 			c.fstrZugRangier.filter[IDFstrFahrweg === fahrweg]

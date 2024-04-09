@@ -8,11 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Aneinander_Zuordnung
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.toolboxmodel.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.toolboxmodel.Signale.Signal
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander_Zuordnung
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Signale.Signal
 import java.util.LinkedList
 import java.util.List
 
@@ -32,7 +32,7 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 	def static Fstr_Aneinander getFstrAneinander(
 		Fstr_Aneinander_Zuordnung fstrAneinanderZuordnung
 	) {
-		return fstrAneinanderZuordnung.IDFstrAneinander
+		return fstrAneinanderZuordnung.IDFstrAneinander?.value
 	}
 
 	/**
@@ -43,7 +43,7 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 	def static Fstr_Zug_Rangier getFstrZugRangier(
 		Fstr_Aneinander_Zuordnung fstrAneinanderZuordnung
 	) {
-		return fstrAneinanderZuordnung.IDFstrZugRangier
+		return fstrAneinanderZuordnung.IDFstrZugRangier?.value
 	}
 
 	/**
@@ -55,7 +55,7 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 		Fstr_Aneinander fstrAneinander) {
 		val result = new LinkedList<Fstr_Aneinander_Zuordnung>
 		for (zuordnung : fstrAneinander.container.fstrAneinanderZuordnung) {
-			if (zuordnung.IDFstrAneinander.identitaet.wert ==
+			if (zuordnung.IDFstrAneinander?.value.identitaet.wert ==
 				fstrAneinander.identitaet.wert) {
 				result.add(zuordnung)
 			}
@@ -103,9 +103,9 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 			zuordnungen
 		for (zuordnung : zuordnungen) {
 			if (!zuordnungen?.map [
-				fstrZugRangier?.fstrFahrweg?.IDStart?.identitaet?.wert
+				fstrZugRangier?.fstrFahrweg?.IDStart?.value?.identitaet?.wert
 			].contains(
-				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDZiel?.identitaet?.
+				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDZiel?.value?.identitaet?.
 					wert)) {
 				return zuordnung
 			}
@@ -124,9 +124,9 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 		List<Fstr_Aneinander_Zuordnung> zuordnungen) {
 		for (zuordnung : zuordnungen) {
 			if (!zuordnungen.map [
-				fstrZugRangier?.fstrFahrweg?.IDZiel?.identitaet?.wert
+				fstrZugRangier?.fstrFahrweg?.IDZiel?.value?.identitaet?.wert
 			].contains(
-				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDStart?.identitaet?.
+				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDStart?.value?.identitaet?.
 					wert)) {
 				return zuordnung
 			}

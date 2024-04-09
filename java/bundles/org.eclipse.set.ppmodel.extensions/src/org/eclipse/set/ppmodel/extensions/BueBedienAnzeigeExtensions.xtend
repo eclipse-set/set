@@ -8,12 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Bedien_Anzeige_Element
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Anlage
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Bedien_Anzeige_Element
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import java.util.List
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Einschaltung
-import org.eclipse.set.toolboxmodel.Bahnuebergang.BUE_Ausschaltung
-import org.eclipse.set.toolboxmodel.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Einschaltung
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Ausschaltung
+import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 
 /**
  * Extensions for {@link BUE_Bedien_Anzeige_Element}
@@ -30,7 +30,7 @@ class BueBedienAnzeigeExtensions extends BasisObjektExtensions {
 	def static List<BUE_Anlage> getBueAnlage(
 		BUE_Bedien_Anzeige_Element bueAnzEle) {
 		return bueAnzEle?.container.BUEAnlage.filter [
-			bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.
+			bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.value?.
 				identitaet?.wert === identitaet?.wert
 		].toList
 	}
@@ -42,7 +42,7 @@ class BueBedienAnzeigeExtensions extends BasisObjektExtensions {
 	 */
 	 def static List<BUE_Einschaltung> getBueEin(BUE_Bedien_Anzeige_Element bueAnzEle) {
 	 	return bueAnzEle?.container.BUEEinschaltung.filter[
-	 		bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.
+	 		bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.value?.
 				identitaet?.wert === identitaet?.wert
 	 	].toList
 	 }
@@ -54,20 +54,20 @@ class BueBedienAnzeigeExtensions extends BasisObjektExtensions {
 	 */
 	 def static List<BUE_Ausschaltung> getBueAus(BUE_Bedien_Anzeige_Element bueAnzEle) {
 	 	return bueAnzEle?.container.BUEAusschaltung.filter[
-	 		bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.
+	 		bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.value?.
 				identitaet?.wert === identitaet?.wert
 	 	].toList
 	 }
 	 
 	 def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(BUE_Einschaltung bueEin) {
 	 	return bueEin?.container.schaltmittelZuordnung.filter[
-	 		IDAnforderung === bueEin
+	 		IDAnforderung.value === bueEin
 	 	].toList
 	 }
 	 
 	 def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(BUE_Ausschaltung bueAus) {
 	 	return bueAus?.container.schaltmittelZuordnung.filter[
-	 		IDAnforderung === bueAus
+	 		IDAnforderung.value === bueAus
 	 	].toList
 	 }
 }
