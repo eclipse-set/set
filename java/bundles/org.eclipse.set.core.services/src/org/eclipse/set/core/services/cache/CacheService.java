@@ -40,4 +40,13 @@ public interface CacheService {
 	 */
 	public Cache getCache(String cacheId, String containerCacheId)
 			throws IllegalArgumentException;
+
+	/**
+	 * check if already storage cache
+	 * 
+	 * @param cacheID
+	 *            the id for the cache
+	 * @return true, if the cache already storage
+	 */
+	public Boolean existCache(String cacheID);
 }

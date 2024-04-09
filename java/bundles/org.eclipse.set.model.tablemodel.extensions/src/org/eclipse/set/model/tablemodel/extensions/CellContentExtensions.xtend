@@ -173,7 +173,7 @@ class CellContentExtensions {
 			return warning_mark
 		}
 		
-		if (value.equals(HOURGLASS_ICON)) {
+		if (value.contains(HOURGLASS_ICON)) {
 			return '''<span>«value»</span>'''
 		}
 

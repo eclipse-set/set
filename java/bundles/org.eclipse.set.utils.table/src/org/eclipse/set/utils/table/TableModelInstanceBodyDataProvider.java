@@ -8,19 +8,23 @@
  */
 package org.eclipse.set.utils.table;
 
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.HOURGLASS_ICON;
+import static org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.getStringValueIterable;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.nebula.widgets.nattable.data.ISpanningDataProvider;
 import org.eclipse.nebula.widgets.nattable.layer.cell.DataCell;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
+import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
-import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
-import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,14 +114,16 @@ public class TableModelInstanceBodyDataProvider
 	public void updateContent(final TableType tableType,
 			final Pt1TableChangeProperties properties) {
 		if (tableType != TableType.DIFF) {
-			if (tableType.getContainerForTable() == properties.getContainerType()) {
+			if (tableType.getContainerForTable() == properties
+					.getContainerType()) {
 				final Optional<TableRow> first = instances.stream()
 						.filter(e -> e.equals(properties.getRow())).findFirst();
 				if (first.isEmpty()) {
 					return;
 				}
-				TableRowExtensions.set(first.get(), properties.getChangeDataColumn(),
-						properties.getNewValues(), properties.getSeperator());
+				TableRowExtensions.set(first.get(),
+						properties.getChangeDataColumn(),
+						properties.getNewValues(), properties.getSeparator());
 			}
 			return;
 		}
@@ -141,29 +147,89 @@ public class TableModelInstanceBodyDataProvider
 		filterRows.forEach(row -> {
 			final TableCell cell = TableRowExtensions.getCell(row,
 					properties.getChangeDataColumn());
-			final List<String> oldValues = TableCellExtensions
-					.getIterableStringValue(cell).stream().toList();
-			if (oldValues.size() == 1 && oldValues.get(0)
-					.equals(CellContentExtensions.HOURGLASS_ICON)) {
-				TableRowExtensions.set(row, properties.getChangeDataColumn(),
-						properties.getNewValues(), properties.getSeperator());
-				return;
-			}
-
-			if (!oldValues.equals(properties.getNewValues())) {
-				final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
-						.createCompareCellContent();
-				if (properties.getContainerType() == ContainerType.INITIAL) {
-					compareContent.getOldValue().addAll(properties.getNewValues());
-					compareContent.getNewValue().addAll(oldValues);
-				} else {
-					compareContent.getOldValue().addAll(oldValues);
-					compareContent.getNewValue().addAll(properties.getNewValues());
-				}
-
-				cell.setContent(compareContent);
-			}
-
+			final CellContent newContent = getNewContent(cell.getContent(),
+					properties);
+			cell.setContent(newContent);
 		});
+	}
+
+	private static CellContent getNewContent(final CellContent oldContent,
+			final Pt1TableChangeProperties properties) {
+		if (oldContent instanceof final StringCellContent stringCOntent) {
+			return getNewContent(stringCOntent, properties);
+		} else if (oldContent instanceof final CompareCellContent compareContent) {
+			return getNewContent(compareContent, properties);
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	private static CellContent getNewContent(final StringCellContent oldContent,
+			final Pt1TableChangeProperties properties) {
+		final List<String> currentValues = StreamSupport
+				.stream(getStringValueIterable(oldContent).spliterator(), false)
+				.toList();
+		if (currentValues.size() == 1
+				&& currentValues.getFirst().equals(HOURGLASS_ICON)) {
+			final StringCellContent newContent = TablemodelFactory.eINSTANCE
+					.createStringCellContent();
+			newContent.getValue().addAll(properties.getNewValues());
+			newContent.setSeparator(properties.getSeparator());
+			return newContent;
+		}
+
+		if (!equalsValues(currentValues, properties.getNewValues())) {
+			if (properties.getContainerType() == ContainerType.INITIAL) {
+				return createCompareCellContent(properties.getNewValues(),
+						currentValues, oldContent.getSeparator());
+			}
+			return createCompareCellContent(currentValues,
+					properties.getNewValues(), oldContent.getSeparator());
+		}
+
+		return null;
+	}
+
+	private static CellContent getNewContent(
+			final CompareCellContent oldContent,
+			final Pt1TableChangeProperties properties) {
+		final ContainerType containerType = properties.getContainerType();
+		switch (containerType) {
+		case FINAL:
+			if (!equalsValues(oldContent.getNewValue(),
+					properties.getNewValues())) {
+				return createCompareCellContent(oldContent.getOldValue(),
+						properties.getNewValues(), oldContent.getSeparator());
+			}
+			break;
+		case INITIAL:
+			if (!equalsValues(oldContent.getOldValue(),
+					properties.getNewValues())) {
+				return createCompareCellContent(properties.getNewValues(),
+						oldContent.getNewValue(), oldContent.getSeparator());
+			}
+			break;
+		default:
+			throw new IllegalArgumentException(
+					"SingelState can't have compare cell content"); //$NON-NLS-1$
+		}
+		return null;
+	}
+
+	private static CompareCellContent createCompareCellContent(
+			final List<String> oldValues, final List<String> newValues,
+			final String separator) {
+		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
+				.createCompareCellContent();
+		compareContent.getOldValue().addAll(oldValues);
+		compareContent.getNewValue().addAll(newValues);
+		compareContent.setSeparator(separator);
+		return compareContent;
+	}
+
+	private static boolean equalsValues(final List<String> oldValues,
+			final List<String> newValues) {
+		return oldValues.size() == newValues.size()
+				&& oldValues.stream().allMatch(newValues::contains);
 	}
 }

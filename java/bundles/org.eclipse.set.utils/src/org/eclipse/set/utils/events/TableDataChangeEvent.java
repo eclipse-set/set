@@ -10,6 +10,14 @@
  */
 package org.eclipse.set.utils.events;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.eclipse.e4.core.services.events.IEventBroker;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
+
 /**
  * Update table data at run time
  * 
@@ -30,26 +38,38 @@ public class TableDataChangeEvent implements ToolboxEvent {
 		return TOPIC + table.replace(".", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private final Object properties;
+	private final List<Object> properties;
 	private final String tableName;
 
 	/**
 	 * @param tableName
 	 *            name of table
-	 * @param properties
-	 *            the properties for change data
+	 * @param property
+	 *            the property for change data
 	 */
-	public TableDataChangeEvent(final String tableName,
-			final Object properties) {
-		this.properties = properties;
+	public TableDataChangeEvent(final String tableName, final Object property) {
+		this.properties = new ArrayList<>();
+		properties.add(property);
 		this.tableName = tableName;
 
 	}
 
 	/**
+	 * @param tableName
+	 *            the name of table
+	 * @param properties
+	 *            the properties for change data
+	 */
+	public TableDataChangeEvent(final String tableName,
+			final List<Object> properties) {
+		this.properties = properties;
+		this.tableName = tableName;
+	}
+
+	/**
 	 * @return properties object
 	 */
-	public Object getProperties() {
+	public List<Object> getProperties() {
 		return properties;
 	}
 
@@ -58,4 +78,20 @@ public class TableDataChangeEvent implements ToolboxEvent {
 		return getTopic(tableName);
 	}
 
+	/**
+	 * Create & send osgi event
+	 * 
+	 * @param eventAdmin
+	 *            the event admin
+	 * @param dataChangeEvent
+	 *            the toolbox event
+	 */
+	public static void sendEvent(final EventAdmin eventAdmin,
+			final TableDataChangeEvent dataChangeEvent) {
+		final HashMap<String, Object> eventProperties = new HashMap<>();
+		eventProperties.put(ToolboxEvents.TOOLBOX_EVENT, dataChangeEvent);
+		eventProperties.put(IEventBroker.DATA, dataChangeEvent);
+		eventAdmin.sendEvent(
+				new Event(dataChangeEvent.getTopic(), eventProperties));
+	}
 }

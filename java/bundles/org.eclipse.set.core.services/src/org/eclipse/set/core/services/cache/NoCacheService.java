@@ -29,4 +29,9 @@ public class NoCacheService implements CacheService {
 			throws IllegalArgumentException {
 		return new NoCache();
 	}
+
+	@Override
+	public Boolean existCache(final String cacheID) {
+		throw new UnsupportedOperationException();
+	}
 }

@@ -58,6 +58,11 @@ public final class ToolboxConstants {
 		public static final String TOPKANTE_TO_ADJACENT_TOPKANTEN = "toolbox.cache.topkante-to-adjacent-topkanten";
 
 		/**
+		 * The geometry of the GEO_Kante
+		 */
+		public static final String GEOKANTE_GEOMETRY = "toolbox.cache.geokante-geometry";
+
+		/**
 		 * The id of the problem message cache.
 		 */
 		public static final String PROBLEM_MESSAGE = "toolbox.cache.problem-message";
