@@ -254,7 +254,7 @@ npm/npmjs/-/core-js/3.19.1, MIT, approved, clearlydefined
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
 npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/css-line-break/2.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/css-loader/6.11.0, MIT AND Apache-2.0, approved, #14221
+npm/npmjs/-/css-loader/7.0.0, MIT AND Apache-2.0, approved, #14230
 npm/npmjs/-/css-select/4.3.0, BSD-2-Clause AND MIT AND (MIT AND MIT-0), approved, #3227
 npm/npmjs/-/css-what/6.1.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/csscolorparser/1.0.3, MIT, approved, clearlydefined
@@ -735,7 +735,7 @@ npm/npmjs/-/typed-array-byte-length/1.0.0, MIT, approved, #9659
 npm/npmjs/-/typed-array-byte-offset/1.0.0, MIT, approved, #9407
 npm/npmjs/-/typed-array-length/1.0.4, MIT, approved, #6246
 npm/npmjs/-/typescript/4.7.4, Apache-2.0 AND CC-BY-4.0 AND LicenseRef-scancode-khronos AND LicenseRef-scancode-unicode AND MIT AND W3C-20150513, approved, #3357
-npm/npmjs/-/typescript/5.4.3, Apache-2.0 AND MIT AND CC-BY-4.0 AND Unicode-DFS-2016 AND W3C-20150513, approved, #13647
+npm/npmjs/-/typescript/5.4.4, Apache-2.0 AND MIT AND CC-BY-4.0 AND Unicode-DFS-2016 AND W3C-20150513, approved, #13647
 npm/npmjs/-/unbox-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/unicorn-magic/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/unpipe/1.0.0, MIT, approved, clearlydefined
@@ -2138,10 +2138,9 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit.source/2.3
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001.editor/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.model11001/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.modelservice/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.edit/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.editor/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.source/2.3.0, EPL-2.0, approved, technology.set
@@ -2194,10 +2193,6 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice.source/2.3.0, EPL-2.0,
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.editor/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel.transform/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.toolboxmodel/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils.source/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.rcp.source/2.3.0, EPL-2.0, approved, technology.set
