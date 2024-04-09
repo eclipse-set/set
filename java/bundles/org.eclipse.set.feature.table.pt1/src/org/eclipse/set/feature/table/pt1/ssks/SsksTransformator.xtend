@@ -13,6 +13,7 @@ import java.util.Collections
 import java.util.HashSet
 import java.util.LinkedList
 import java.util.List
+import java.util.Map
 import java.util.Set
 import org.apache.commons.lang3.ThreadUtils
 import org.eclipse.set.basis.MixedStringComparator
@@ -305,43 +306,45 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							if (!Services.cacheService.existCache(
 								ToolboxConstants.CacheId.GEOKANTE_GEOMETRY) ||
 								ThreadUtils.allThreads.filterNull.exists [
-									name.startsWith(ToolboxConstants.CacheId.
-										GEOKANTE_GEOMETRY) && isAlive
+									name.
+										startsWith('''«tableShortCut»/«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»''') &&
+										isAlive
 								]) {
 
 								row.fillSideDistanceSync(signal)
 							} else {
-							val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-							val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+								val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
+								val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
 
-							signal.initAbstandMastmitte(signal.signalRahmen,
-								abstandMastmitteLinks, abstandMastmitteRechts);
+								signal.initAbstandMastmitte(signal.signalRahmen,
+									abstandMastmitteLinks,
+									abstandMastmitteRechts);
 
-							fillIterable(
-								row,
-								cols.getColumn(Mastmitte_Links),
-								signal,
-								[
-									abstandMastmitteLinks.map [
-										'''«key» «IF value > 0»(«value»)«ENDIF»'''
-									]
-								],
-								null,
-								[toString]
-							)
+								fillIterable(
+									row,
+									cols.getColumn(Mastmitte_Links),
+									signal,
+									[
+										abstandMastmitteLinks.map [
+											'''«key» «IF value > 0»(«value»)«ENDIF»'''
+										]
+									],
+									null,
+									[toString]
+								)
 
-							fillIterable(
-								row,
-								cols.getColumn(Mastmitte_Rechts),
-								signal,
-								[
-									abstandMastmitteRechts.map [
-										'''«key» «IF value > 0»(«value»)«ENDIF»'''
-									]
-								],
-								null,
-								[toString]
-							)
+								fillIterable(
+									row,
+									cols.getColumn(Mastmitte_Rechts),
+									signal,
+									[
+										abstandMastmitteRechts.map [
+											'''«key» «IF value > 0»(«value»)«ENDIF»'''
+										]
+									],
+									null,
+									[toString]
+								)
 							}
 							// Sichtbarkeit Soll
 							fillConditional(
@@ -828,6 +831,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return factory.table
 	}
 
+	static Map<TableRow, Signal> waitingFillSideDistanceSignal = newHashMap
+
 	private def void fillSideDistanceSync(TableRow row, Signal signal) {
 
 		#[Mastmitte_Links, Mastmitte_Rechts].forEach [
@@ -838,43 +843,36 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				[CellContentExtensions.HOURGLASS_ICON]
 			)
 		]
-		val threadName = '''«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»'''
+		waitingFillSideDistanceSignal.put(row, signal)
+		val threadName = '''«tableShortCut»/«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»'''
 		if (!Thread.allStackTraces.keySet.exists[name.startsWith(threadName)]) {
 			new Thread([
-			signal.container.GEOKante.forEach[geometry]
-		], threadName).start	
+				signal.container.GEOKante.forEach[geometry]
+				val changeProperties = newArrayList
+				waitingFillSideDistanceSignal.forEach [ r, s |
+					val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
+					val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+					val containerType = s.container.containerType
+					s.initAbstandMastmitte(s.signalRahmen,
+						abstandMastmitteLinks, abstandMastmitteRechts);
+					val leftDistance = new Pt1TableChangeProperties(
+						containerType, r, cols.getColumn(Mastmitte_Links),
+						abstandMastmitteLinks.map [
+							'''«key» «IF value > 0»(«value»)«ENDIF»'''
+						].toList, ITERABLE_FILLING_SEPARATOR)
+					changeProperties.add(leftDistance)
+					val rightDistance = new Pt1TableChangeProperties(
+						containerType, r, cols.getColumn(Mastmitte_Rechts),
+						abstandMastmitteRechts.map [
+							'''«key» «IF value > 0»(«value»)«ENDIF»'''
+						].toList, ITERABLE_FILLING_SEPARATOR)
+					changeProperties.add(rightDistance)
+				]
+				val updateValuesEvent = new TableDataChangeEvent(
+					tableShortCut.toLowerCase, changeProperties)
+				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
+			], threadName).start
 		}
-
-		new Thread([
-			while (Thread.allStackTraces.keySet.exists [
-				name.startsWith(ToolboxConstants.CacheId.GEOKANTE_GEOMETRY)
-			]) {
-				try {
-					Thread.sleep(3000)
-				} catch (InterruptedException exc) {
-					throw new RuntimeException("auto-generated try/catch", exc)
-				}
-			}
-			val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-			val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
-			val containerType = signal.container.containerType
-			signal.initAbstandMastmitte(signal.signalRahmen,
-				abstandMastmitteLinks, abstandMastmitteRechts);
-			val leftDistance = new Pt1TableChangeProperties(containerType, row,
-				cols.getColumn(Mastmitte_Links), abstandMastmitteLinks.map [
-					'''«key» «IF value > 0»(«value»)«ENDIF»'''
-				].toList, ITERABLE_FILLING_SEPARATOR)
-
-			val rightDistance = new Pt1TableChangeProperties(containerType, row,
-				cols.getColumn(Mastmitte_Rechts), abstandMastmitteRechts.map [
-					'''«key» «IF value > 0»(«value»)«ENDIF»'''
-				].toList, ITERABLE_FILLING_SEPARATOR)
-			val updateValuesEvent = new TableDataChangeEvent(tableShortCut.toLowerCase,
-				#[leftDistance, rightDistance])
-			TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
-		], '''«tableShortCut.toLowerCase»/«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»/«signal.cacheKey»''').
-			start
-
 	}
 
 	private def void initAbstandMastmitte(
@@ -933,7 +931,9 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		val geometryFactory = new GeometryFactory()
 		val perpendicularLine = geometryFactory.createLineString(
 			#[position.coordinate, new Coordinate(transformX, transformY)])
-		val relevantGeoKante = potk.container.GEOKante.filter[geoArt instanceof TOP_Kante &&geoArt !== potk.IDTOPKante].map [geometry].filterNull.toList
+		val relevantGeoKante = potk.container.GEOKante.filter [
+			geoArt instanceof TOP_Kante && geoArt !== potk.IDTOPKante
+		].map[geometry].filterNull.toList
 		return relevantGeoKante.getDistanceOpposide(perpendicularLine, position)
 	}
 

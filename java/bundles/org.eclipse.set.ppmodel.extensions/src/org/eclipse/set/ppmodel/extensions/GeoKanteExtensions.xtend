@@ -39,6 +39,9 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
+import org.eclipse.set.core.services.Services
+import org.eclipse.set.basis.constants.ToolboxConstants
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -439,25 +442,30 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	 * @returns the geometry of this GEO Kante
 	 */
 	def static LineString getGeometry(GEO_Kante kante) {
-		val ENUMGEOForm form = kante.GEOKanteAllg.GEOForm.wert
-		switch (form) {
-			case ENUMGEO_FORM_GERADE,
-			case ENUMGEO_FORM_SONSTIGE,
-			case ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON,
-			case ENUMGEO_FORM_KM_SPRUNG:
-				return getGeometryFactory().createLineString(kante.coordinates)
-			case ENUMGEO_FORM_BOGEN:
-				return kante.arc
-			case ENUMGEO_FORM_KLOTHOIDE:
-				return kante.clothoid
-			case ENUMGEO_FORM_BLOSSKURVE,
-			case ENUMGEO_FORM_BLOSS_EINFACH_GESCHWUNGEN:
-				return kante.blosscurve
-			default: {
-				logger.warn("Form {} not supported.", form.getName())
-				return getGeometryFactory().createLineString(kante.coordinates)
+		val cache = Services.cacheService.getCache(ToolboxConstants.CacheId.GEOKANTE_GEOMETRY)
+		return cache.get(kante.cacheKey, [
+			val ENUMGEOForm form = kante.GEOKanteAllg.GEOForm.wert
+			switch (form) {
+				case ENUMGEO_FORM_GERADE,
+				case ENUMGEO_FORM_SONSTIGE,
+				case ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON,
+				case ENUMGEO_FORM_KM_SPRUNG:
+					return getGeometryFactory().createLineString(
+						kante.coordinates)
+				case ENUMGEO_FORM_BOGEN:
+					return kante.arc
+				case ENUMGEO_FORM_KLOTHOIDE:
+					return kante.clothoid
+				case ENUMGEO_FORM_BLOSSKURVE,
+				case ENUMGEO_FORM_BLOSS_EINFACH_GESCHWUNGEN:
+					return kante.blosscurve
+				default: {
+					logger.warn("Form {} not supported.", form.getName())
+					return getGeometryFactory().createLineString(
+						kante.coordinates)
+				}
 			}
-		}
+		])
 	}
 
 	/**
