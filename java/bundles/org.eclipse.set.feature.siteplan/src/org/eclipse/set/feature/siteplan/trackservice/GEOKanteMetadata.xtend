@@ -27,6 +27,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
+import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions
 
 /** 
  * A GEO_Kante with additional cached metadata
@@ -69,7 +70,7 @@ class GEOKanteMetadata {
 		this.geoKante = geoKante
 		this.start = start
 		this.length = length
-		this.geometry = geoKante.geometry
+		this.geometry = GEOKanteGeometryExtensions.getGeometry(geoKante)
 		this.geoKnoten = geoKnoten
 		val double end = getEnd()
 		// Determine segments
@@ -160,7 +161,7 @@ class GEOKanteMetadata {
 		this.start = start
 		this.length = (geoKante.GEOKanteAllg?.GEOLaenge?.wert ?:
 			BigDecimal.ZERO).doubleValue
-		this.geometry = geoKante.geometry
+		this.geometry = GEOKanteGeometryExtensions.getGeometry(geoKante)
 		this.geoKnoten = geoKnoten
 		// As there is no segmenting information, only use one segment
 		segments.add(new GEOKanteSegment(start, length))

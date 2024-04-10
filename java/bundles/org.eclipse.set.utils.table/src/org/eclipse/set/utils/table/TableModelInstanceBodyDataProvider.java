@@ -187,7 +187,7 @@ public class TableModelInstanceBodyDataProvider
 					properties.getNewValues(), oldContent.getSeparator());
 		}
 
-		return null;
+		return oldContent;
 	}
 
 	private static CellContent getNewContent(

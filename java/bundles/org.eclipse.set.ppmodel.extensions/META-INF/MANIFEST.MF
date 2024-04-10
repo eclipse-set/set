@@ -6,6 +6,7 @@ Bundle-Version: 2.3.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.ppmodel.extensions,
  org.eclipse.set.ppmodel.extensions.exception,
+ org.eclipse.set.ppmodel.extensions.geometry,
  org.eclipse.set.ppmodel.extensions.graph,
  org.eclipse.set.ppmodel.extensions.utils
 Require-Bundle: org.eclipse.xtend.lib,
@@ -15,7 +16,10 @@ Require-Bundle: org.eclipse.xtend.lib,
  org.eclipse.core.resources,
  org.eclipse.set.model.planpro,
  org.eclipse.set.utils,
- org.locationtech.proj4j
+ org.locationtech.proj4j,
+ org.eclipse.osgi.services;bundle-version="3.11.200",
+ slf4j.api;bundle-version="2.0.9"
+Service-Component: OSGI-INF/org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: jakarta.inject;version="1.0.0",
  org.apache.commons.lang3,
@@ -50,6 +54,5 @@ Import-Package: jakarta.inject;version="1.0.0",
  org.locationtech.jts.algorithm,
  org.locationtech.jts.algorithm.distance,
  org.locationtech.jts.geom,
- org.osgi.service.component.annotations;version="1.2.0",
- org.slf4j;version="1.7.2"
+ org.osgi.service.component.annotations;version="1.2.0"
 Bundle-ActivationPolicy: lazy

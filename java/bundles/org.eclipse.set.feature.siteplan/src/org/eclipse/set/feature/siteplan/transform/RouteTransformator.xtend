@@ -22,6 +22,7 @@ import org.osgi.service.component.annotations.Reference
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
+import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions
 
 /**
  * Transforms a Strecke from the PlanPro model to a siteplan route
@@ -50,9 +51,10 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 		shape = TrackTransformator.transformGeoForm(
 			geoKante.GEOKanteAllg.GEOForm)
 		val crs = geoKante.CRS
-		positions.addAll(geoKante.geometry.coordinates.map [
-			positionService.transformCoordinate(it, crs)
-		])
+		positions.addAll(GEOKanteGeometryExtensions.getGeometry(geoKante).
+			coordinates.map [
+				positionService.transformCoordinate(it, crs)
+			])
 		return it
 	}
 
