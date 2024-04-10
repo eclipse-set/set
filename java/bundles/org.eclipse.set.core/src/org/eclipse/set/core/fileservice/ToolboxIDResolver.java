@@ -14,13 +14,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.set.model.planpro.BasisTypen.BasisTypenPackage;
+import org.eclipse.set.model.planpro.BasisTypen.ID_Bearbeitungsvermerk_TypeClass;
 import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.Verweise.VerweisePackage;
 
 /**
- * 
+ * Helper class to resolve ID reference GUIDs to their respective EMF objects
  */
 public class ToolboxIDResolver {
 	private final GuidCache guidCache = new GuidCache();
@@ -41,18 +42,7 @@ public class ToolboxIDResolver {
 	 *            the model
 	 */
 	public static void resolveIDReferences(final PlanPro_Schnittstelle model) {
-		final ToolboxIDResolver resolver = new ToolboxIDResolver(model);
-
-		final EClass pointer = BasisTypenPackage.eINSTANCE
-				.getZeiger_TypeClass();
-
-		model.eAllContents().forEachRemaining(eo -> {
-			if (!pointer.isSuperTypeOf(eo.eClass())) {
-				return;
-			}
-
-			resolver.resolveIDReference((Zeiger_TypeClass) eo);
-		});
+		resolveIDReferences(model, new ToolboxIDResolver(model));
 	}
 
 	/**
@@ -63,28 +53,42 @@ public class ToolboxIDResolver {
 	 *            the model
 	 */
 	public static void resolveIDReferences(final PlanPro_Layoutinfo model) {
-		final ToolboxIDResolver resolver = new ToolboxIDResolver(model);
+		resolveIDReferences(model, new ToolboxIDResolver(model));
+	}
+
+	private static void resolveIDReferences(final EObject model,
+			final ToolboxIDResolver resolver) {
 
 		final EClass pointer = BasisTypenPackage.eINSTANCE
 				.getZeiger_TypeClass();
+		final EClass bearbeitungsvermerk = BasisTypenPackage.eINSTANCE
+				.getID_Bearbeitungsvermerk_TypeClass();
 
 		model.eAllContents().forEachRemaining(eo -> {
-			if (!pointer.isSuperTypeOf(eo.eClass())) {
+			// Resolve all regular pointers
+			if (pointer.isSuperTypeOf(eo.eClass())) {
+				resolver.resolveIDReference((Zeiger_TypeClass) eo);
 				return;
 			}
 
-			resolver.resolveIDReference((Zeiger_TypeClass) eo);
+			// Also resolve all ID_Bearbeitungsvermerk (not a subclass of
+			// Zeiger)
+			if (bearbeitungsvermerk.equals(eo.eClass())) {
+				resolver.resolveIDReference(
+						(ID_Bearbeitungsvermerk_TypeClass) eo);
+				return;
+			}
 		});
+
 	}
 
-	private static EReference getValueFeature(final Zeiger_TypeClass ref) {
+	private static EReference getValueFeature(final EObject ref) {
 		return (EReference) ref.eClass()
 				.getEStructuralFeature(VerweisePackage.eINSTANCE
 						.getID_Anforderer_Element_TypeClass_Value().getName());
 	}
 
-	private static EStructuralFeature getValidFeature(
-			final Zeiger_TypeClass ref) {
+	private static EStructuralFeature getValidFeature(final EObject ref) {
 		return ref.eClass()
 				.getEStructuralFeature(VerweisePackage.eINSTANCE
 						.getID_Anforderer_Element_TypeClass_InvalidReference()
@@ -92,8 +96,15 @@ public class ToolboxIDResolver {
 	}
 
 	private void resolveIDReference(final Zeiger_TypeClass ref) {
-		final String guid = ref.getWert();
+		resolveIDReference(ref, ref.getWert());
+	}
 
+	private void resolveIDReference(
+			final ID_Bearbeitungsvermerk_TypeClass ref) {
+		resolveIDReference(ref, ref.getWert());
+	}
+
+	private void resolveIDReference(final EObject ref, final String guid) {
 		if (guid == null) {
 			// xsi:nil GUID -> null value, but valid reference
 			return;
@@ -109,8 +120,7 @@ public class ToolboxIDResolver {
 		ref.eSet(getValidFeature(ref), Boolean.FALSE);
 	}
 
-	private static void setIDReference(final Zeiger_TypeClass ref,
-			final EObject value) {
+	private static void setIDReference(final EObject ref, final EObject value) {
 
 		final EClass referenceType = getValueFeature(ref).getEReferenceType();
 
