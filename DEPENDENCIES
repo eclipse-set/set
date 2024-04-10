@@ -559,7 +559,7 @@ npm/npmjs/-/object.groupby/1.0.1, MIT, approved, #10360
 npm/npmjs/-/object.values/1.1.7, MIT, approved, #4665
 npm/npmjs/-/obuf/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/ol-mapbox-style/12.3.0, BSD-2-Clause AND BSD-3-Clause AND MIT, approved, #14196
-npm/npmjs/-/ol/9.1.0, BSD-2-Clause AND BSD-3-Clause AND Apache-2.0, approved, #14179
+npm/npmjs/-/ol/8.2.0, BSD-2-Clause AND Apache-2.0, approved, #11592
 npm/npmjs/-/on-finished/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/on-headers/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/once/1.4.0, ISC, approved, clearlydefined
