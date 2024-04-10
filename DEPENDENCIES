@@ -324,7 +324,7 @@ npm/npmjs/-/eslint-plugin-import/2.29.1, MIT, approved, #11187
 npm/npmjs/-/eslint-plugin-n/16.6.2, MIT, approved, #12657
 npm/npmjs/-/eslint-plugin-node/11.1.0, MIT, approved, #7730
 npm/npmjs/-/eslint-plugin-promise/6.1.1, ISC, approved, clearlydefined
-npm/npmjs/-/eslint-plugin-vue/9.24.0, MIT, approved, #14171
+npm/npmjs/-/eslint-plugin-vue/9.24.1, MIT, approved, #14171
 npm/npmjs/-/eslint-scope/5.1.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-scope/7.2.2, BSD-2-Clause, approved, #9916
 npm/npmjs/-/eslint-utils/2.1.0, MIT, approved, #2498
@@ -707,7 +707,7 @@ npm/npmjs/-/strip-ansi/7.1.0, MIT, approved, #8735
 npm/npmjs/-/strip-bom/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/strip-final-newline/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/strip-json-comments/3.1.1, MIT, approved, clearlydefined
-npm/npmjs/-/style-loader/3.3.4, MIT, approved, #12669
+npm/npmjs/-/style-loader/4.0.0, MIT, approved, #14251
 npm/npmjs/-/supports-color/7.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/supports-color/8.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/supports-preserve-symlinks-flag/1.0.0, MIT, approved, clearlydefined
