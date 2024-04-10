@@ -49,20 +49,12 @@ public class TableDataChangeEvent implements ToolboxEvent {
 	 */
 	public TableDataChangeEvent(final String tableName, final Object property) {
 		this.properties = new ArrayList<>();
-		properties.add(property);
-		this.tableName = tableName;
+		if (property instanceof final List<?> list) {
+			properties.addAll(list);
+		} else {
+			properties.add(property);
+		}
 
-	}
-
-	/**
-	 * @param tableName
-	 *            the name of table
-	 * @param properties
-	 *            the properties for change data
-	 */
-	public TableDataChangeEvent(final String tableName,
-			final List<Object> properties) {
-		this.properties = properties;
 		this.tableName = tableName;
 	}
 
