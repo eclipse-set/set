@@ -1369,7 +1369,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		bemerkungen.addAll(
 			signalRahmen.map[IDSignal?.value]?.flatMap[signalRahmen].map [
 			signalBefestigung
-		]?.map[IDBefestigungBauwerk.value].filter(Technischer_Punkt).map [
+		]?.map[IDBefestigungBauwerk?.value].filter(Technischer_Punkt).map [
 			TPBeschreibung?.wert
 		].filterNull.map [
 			'''Befestigung an «it» '''
