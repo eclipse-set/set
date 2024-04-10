@@ -30,7 +30,6 @@ import org.eclipse.set.basis.guid.Guid
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.Basisobjekte.Anhang
 import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory
-import org.eclipse.set.model.planpro.Basisobjekte.BasisobjektePackage
 import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass
 import org.eclipse.set.model.planpro.PlanPro.Akteur_Allg_AttributeGroup
 import org.eclipse.set.model.planpro.PlanPro.Akteur_Zuordnung
@@ -52,7 +51,6 @@ import org.eclipse.set.utils.ToolboxConfiguration
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
-import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -835,7 +833,6 @@ class PlanProSchnittstelleExtensions {
 		val newAusgabeFachdaten = newSchnittstelle.LSTPlanungProjekt.
 			planungGruppe.LSTPlanungEinzel.ausgabeFachdaten
 		newAusgabeFachdaten.LSTZustandStart = copyContainer
-		IDReferenceUtils.retargetIDReferences(singleStateContainer, copyContainer, source.wzkInvalidIDReferences, newSchnittstelle.wzkInvalidIDReferences)
 		return newSchnittstelle
 	}
 }

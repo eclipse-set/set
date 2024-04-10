@@ -160,16 +160,6 @@ public class ValidationPart extends AbstractEmfFormsPart {
 
 			storageReport();
 
-			// Add problems
-			validationReport.getProblems().stream()
-					.filter(problem -> problem
-							.getSeverity() != ValidationSeverity.SUCCESS)
-					.forEach(problem -> problems
-							.add(new ProblemMessage(problem.getMessage(),
-									problem.getType(), problem.getLineNumber(),
-									3, problem.getObjectScope().getLiteral())));
-			getBroker().post(Events.PROBLEMS_CHANGED, null);
-
 			// Register nattable injector
 			tableView = new ValidationTableView(this, messages,
 					tableMenuService);

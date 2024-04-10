@@ -13,10 +13,10 @@ package org.eclipse.set.ppmodel.extensions;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
-import org.eclipse.set.toolboxmodel.PlanPro.Untergewerk_Art_TypeClass;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
+import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
 
 /**
  * 

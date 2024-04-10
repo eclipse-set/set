@@ -113,6 +113,7 @@ Export-Package: org.eclipse.set.core,
  org.eclipse.set.core.configurationservice,
  org.eclipse.set.core.dialogservice,
  org.eclipse.set.core.enumtranslation,
+ org.eclipse.set.core.fileservice,
  org.eclipse.set.core.modelservice
 Service-Component: OSGI-INF/org.eclipse.set.core.Messages.xml,
  OSGI-INF/org.eclipse.set.core.configurationservice.UserConfigurationServiceImpl.xml,

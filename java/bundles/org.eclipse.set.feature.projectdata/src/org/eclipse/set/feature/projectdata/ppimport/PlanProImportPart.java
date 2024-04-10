@@ -22,20 +22,21 @@ import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.feature.projectdata.ppimport.ImportControl.ImportTarget;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
+import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
+import org.eclipse.set.model.planpro.PlanPro.LST_Zustand;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
+import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungGruppeExtensions;
-import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten;
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt;
-import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProFactory;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
-import org.eclipse.set.toolboxmodel.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -88,7 +89,7 @@ public class PlanProImportPart extends BasePart {
 	@Override
 	protected void createView(final Composite parent) {
 		importModel = new ImportControl(serviceProvider, getModelSession(),
-				ImportTarget.MODEL);
+				ImportTarget.SUBWORK);
 		importInitial = new ImportControl(serviceProvider, getModelSession(),
 				ImportTarget.INITIAL);
 		importFinal = new ImportControl(serviceProvider, getModelSession(),
@@ -162,18 +163,17 @@ public class PlanProImportPart extends BasePart {
 	}
 
 	protected void modelImport(final Shell shell) {
-		boolean isSomethingImported = false;
 		try {
-			final List<ImportControl> of = List.of(importModel, importInitial,
-					importFinal);
-			for (final ImportControl control : of) {
-				final boolean imported = importModel(control, shell);
-				isSomethingImported = imported || isSomethingImported;
-			}
-
+			final List<ImportControl> controlList = List.of(importModel,
+					importInitial, importFinal);
+			controlList.forEach(control -> importModel(control, shell));
+			final boolean isSomethingImported = controlList.stream()
+					.anyMatch(ImportControl::isImported);
 			if (isSomethingImported) {
 				// IMPROVE: Here should we the invalid id references again
 				// resolve after we emf model modification
+				ToolboxIDResolver.resolveIDReferences(
+						getModelSession().getPlanProSchnittstelle());
 				getModelSession().save(shell);
 				getDialogService().reportImported(shell);
 				resetImportGroup();
@@ -192,10 +192,10 @@ public class PlanProImportPart extends BasePart {
 		}
 	}
 
-	private boolean importModel(final ImportControl importControl,
+	private void importModel(final ImportControl importControl,
 			final Shell shell) {
 		if (!importControl.isEnabled()) {
-			return false;
+			return;
 		}
 
 		Function<Ausgabe_Fachdaten, LST_Zustand> getContainerFunc = null;
@@ -215,24 +215,22 @@ public class PlanProImportPart extends BasePart {
 
 		// When data is already import then skip import from this control
 		if (importModel.isEnabled()
-				&& importControl.getImportTarget() != ImportTarget.MODEL
+				&& importControl.getImportTarget() != ImportTarget.SUBWORK
 				&& importModel.isSameImportData(importControl)) {
 			getDialogService().openInformation(shell, getViewTitle(),
 					String.format(
 							serviceProvider.messages.PlanProImportPart_ImportSameData,
 							dialogMessage));
-			return false;
+			return;
 		}
 
-		final boolean result = importModel(importControl, getContainerFunc,
-				shell);
+		importModel(importControl, getContainerFunc, shell);
 		ModelImportUtils.updateForImport(
 				getModelSession().getPlanProSchnittstelle(),
 				getModelSession().getEditingDomain(), importControl);
-		return result;
 	}
 
-	private boolean importModel(final ImportControl importControl,
+	private void importModel(final ImportControl importControl,
 			final Function<Ausgabe_Fachdaten, LST_Zustand> getContainerFunc,
 			final Shell shell)
 			throws NullPointerException, IllegalArgumentException {
@@ -241,12 +239,12 @@ public class PlanProImportPart extends BasePart {
 		final Optional<Iterable<Planung_Gruppe>> lstPlanungGruppe = PlanProSchnittstelleExtensions
 				.getLSTPlanungGruppe(planProSchnittstelle);
 		if (lstPlanungGruppe.isEmpty()) {
-			return false;
+			return;
 		}
 		final String selectedSubwork = getSelectedSubwork(importControl);
 		if (selectedSubwork == null || selectedSubwork.isBlank()) {
 			logger.error("Missing subwork to import"); //$NON-NLS-1$
-			return false;
+			return;
 		}
 		final Optional<Planung_Gruppe> sourcePlanungGruppe = PlanungGruppeExtensions
 				.getPlanungGruppe(planProSchnittstelle, selectedSubwork);
@@ -256,15 +254,24 @@ public class PlanProImportPart extends BasePart {
 
 		// Fall current model doen't contains this subwork type
 		if (sourcePlanungGruppe.isEmpty()) {
-			return ModelImportUtils.doImportSubworkCommands(getModelSession(),
-					importControl, null);
+			if (importControl.getImportTarget() == ImportTarget.SUBWORK) {
+				ModelImportUtils.doImportSubwork(getModelSession(),
+						importControl, null);
+			} else {
+				ModelImportUtils.doImportContainer(getModelSession(),
+						importControl, importControl.comboField
+								.getContainerCombo().getSelectionValue());
+			}
+
+			importControl.setImported(true);
+			return;
 		}
 		// Fall current project already contains selected sub work
-		return replaceData(importControl, getContainerFunc, shell,
+		replaceData(importControl, getContainerFunc, shell,
 				sourcePlanungGruppe.get(), selectedData);
 	}
 
-	private boolean replaceData(final ImportControl importControl,
+	private void replaceData(final ImportControl importControl,
 			final Function<Ausgabe_Fachdaten, LST_Zustand> getContainerFunc,
 			final Shell shell, final Planung_Gruppe sourcePlanungGruppe,
 			final Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData) {
@@ -275,15 +282,16 @@ public class PlanProImportPart extends BasePart {
 		// Fall replace whole subwork
 		if (sourceZustand == null) {
 			if (getDialogService().confirmOverwriteOperationalData(shell)) {
-				return ModelImportUtils.doImportSubworkCommands(
-						getModelSession(), importControl, new Pair<>(
-								sourcePlanungGruppe, sourceAusgabeFachdaten));
+				ModelImportUtils.doImportSubwork(getModelSession(),
+						importControl, new Pair<>(sourcePlanungGruppe,
+								sourceAusgabeFachdaten));
+				importControl.setImported(true);
 			}
-			return false;
+			return;
 		}
 		if (!sourceZustand.getContainer().eContents().isEmpty()
 				&& !getDialogService().confirmOverwriteOperationalData(shell)) {
-			return false;
+			return;
 		}
 
 		// By create new project only in Planung_Gruppe set subwork type,
@@ -292,10 +300,10 @@ public class PlanProImportPart extends BasePart {
 			sourceAusgabeFachdaten.setUntergewerkArt(EcoreUtil
 					.copy(selectedData.getSecond().getUntergewerkArt()));
 		}
-		return ModelImportUtils.doImportContainerCommand(getModelSession(),
-				sourceZustand, importControl, importControl.comboField
-						.getContainerCombo().getSelectionValue());
-
+		ModelImportUtils.doImportContainer(getModelSession(), sourceZustand,
+				importControl, importControl.comboField.getContainerCombo()
+						.getSelectionValue());
+		importControl.setImported(true);
 	}
 
 	private String getSelectedSubwork(final ImportControl importControl) {

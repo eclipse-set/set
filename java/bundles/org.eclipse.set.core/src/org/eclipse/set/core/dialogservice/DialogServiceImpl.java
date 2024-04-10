@@ -17,8 +17,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.BiPredicate;
 
 import org.eclipse.e4.core.services.nls.Translation;
@@ -416,13 +419,14 @@ public class DialogServiceImpl implements DialogService {
 				MessageDialog.INFORMATION, new String[] {}, 0);
 		dialog.setBlockOnOpen(false);
 		dialog.open();
-		final Future<T> future = Executors.newSingleThreadExecutor()
-				.submit(callAble);
-		while (!future.isDone()) {
-			Thread.sleep(300);
+		try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
+			final Future<T> future = executor.submit(callAble);
+			final T t = future.get(120, TimeUnit.SECONDS);
+			dialog.close();
+			return t;
+		} catch (final TimeoutException e) {
+			throw new ExecutionException(e);
 		}
-		dialog.close();
-		return future.get();
 	}
 
 	@PostConstruct

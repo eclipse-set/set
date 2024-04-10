@@ -26,15 +26,16 @@ import org.eclipse.set.basis.constants.ValidationResult.FileValidateState;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
+import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
 import org.eclipse.set.feature.validation.utils.ValidationOutcome;
+import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungGruppeExtensions;
-import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
 import org.eclipse.set.utils.widgets.ComboValues;
 import org.eclipse.set.utils.widgets.Option;
 import org.eclipse.swt.SWT;
@@ -59,7 +60,7 @@ public class ImportControl {
 		/**
 		 * Import whole sub work (include INITIAL and FINAL container)
 		 */
-		MODEL,
+		SUBWORK,
 
 		/**
 		 * Import to current initial container of selected sub work
@@ -82,6 +83,8 @@ public class ImportControl {
 	private final IModelSession modelSession;
 	private final ImportTarget importType;
 
+	private boolean imported;
+
 	private Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData = null;
 
 	/**
@@ -97,6 +100,7 @@ public class ImportControl {
 		this.serviceProvider = serviceProvider;
 		this.modelSession = modelSession;
 		this.importType = importType;
+		this.setImported(false);
 	}
 
 	/**
@@ -123,6 +127,7 @@ public class ImportControl {
 		comboField.setDefaultCombo(serviceProvider.messages);
 		option.getButton().setSelection(false);
 		comboField.setEnabled(false);
+		imported = false;
 	}
 
 	/**
@@ -154,6 +159,7 @@ public class ImportControl {
 		if (!PlanProSchnittstelleExtensions.isPlanning(schnittstelle)) {
 			final PlanPro_Schnittstelle newSchnitStelle = PlanProSchnittstelleExtensions
 					.transformSingleState(schnittstelle);
+			ToolboxIDResolver.resolveIDReferences(newSchnitStelle);
 			final Ausgabe_Fachdaten ausgabeFachdaten = newSchnitStelle
 					.getLSTPlanung().getFachdaten().getAusgabeFachdaten()
 					.get(0);
@@ -221,8 +227,8 @@ public class ImportControl {
 		}
 
 		// Not considered import to initial or final
-		if (importType != ImportTarget.MODEL && anotherImportControl
-				.getImportTarget() != ImportTarget.MODEL) {
+		if (importType != ImportTarget.SUBWORK && anotherImportControl
+				.getImportTarget() != ImportTarget.SUBWORK) {
 			return false;
 		}
 		if (!schnittstelle.getIdentitaet().getWert().equals(
@@ -424,5 +430,20 @@ public class ImportControl {
 					containerValues.getItems().length > 1 && !comboField
 							.isNotSelected(comboField.getSubworkCombo()));
 		}
+	}
+
+	/**
+	 * @return true, if data is imported
+	 */
+	public boolean isImported() {
+		return imported;
+	}
+
+	/**
+	 * @param imported
+	 *            set imported status
+	 */
+	public void setImported(final boolean imported) {
+		this.imported = imported;
 	}
 }
