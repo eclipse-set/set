@@ -36,10 +36,9 @@ import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.report.SessionToValidationReportTransformation;
 import org.eclipse.set.feature.validation.table.ValidationTableView;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
@@ -160,16 +159,6 @@ public class ValidationPart extends AbstractEmfFormsPart {
 			validationReport = transformation.transform(getModelSession());
 
 			storageReport();
-
-			// Add problems
-			validationReport.getProblems().stream()
-					.filter(problem -> problem
-							.getSeverity() != ValidationSeverity.SUCCESS)
-					.forEach(problem -> problems
-							.add(new ProblemMessage(problem.getMessage(),
-									problem.getType(), problem.getLineNumber(),
-									3, problem.getObjectScope().getLiteral())));
-			getBroker().post(Events.PROBLEMS_CHANGED, null);
 
 			// Register nattable injector
 			tableView = new ValidationTableView(this, messages,

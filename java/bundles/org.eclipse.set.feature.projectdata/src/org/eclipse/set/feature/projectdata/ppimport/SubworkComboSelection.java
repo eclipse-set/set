@@ -19,9 +19,9 @@ import java.util.Optional;
 import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.feature.projectdata.Messages;
-import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten;
-import org.eclipse.set.toolboxmodel.PlanPro.ENUMUntergewerkArt;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
+import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.widgets.ComboValues;
 
 /**

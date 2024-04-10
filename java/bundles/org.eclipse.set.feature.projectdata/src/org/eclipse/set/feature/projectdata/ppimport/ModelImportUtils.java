@@ -29,33 +29,34 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.feature.projectdata.ppimport.ImportControl.ImportTarget;
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjektePackage;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.LST_Zustand;
+import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
+import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Projekt;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
-import org.eclipse.set.toolboxmodel.Basisobjekte.BasisobjektePackage;
-import org.eclipse.set.toolboxmodel.Basisobjekte.Ur_Objekt;
-import org.eclipse.set.toolboxmodel.PlanPro.Ausgabe_Fachdaten;
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.toolboxmodel.PlanPro.LST_Zustand;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanProPackage;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Gruppe;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Projekt;
-import org.eclipse.set.toolboxmodel.transform.IDReferenceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * Helper class for import data
  */
 public class ModelImportUtils {
 	static final Logger logger = LoggerFactory
 			.getLogger(ModelImportUtils.class);
 
 	private ModelImportUtils() {
+
 	}
 
 	/**
-	 * Create command for add/replace
+	 * Import data from whole subwork
 	 * {@link Ausgabe_Fachdaten}/{@link Planung_Gruppe} into current project
 	 * 
 	 * @param modelSession
@@ -64,14 +65,13 @@ public class ModelImportUtils {
 	 *            the import control
 	 * @param oldData
 	 *            the old date should be replace
-	 * @return command to import new data
 	 * @throws NullPointerException
 	 *             {@link NullPointerException}
 	 * @throws IllegalArgumentException
 	 *             {@link IllegalArgumentException}
 	 */
-	public static boolean doImportSubworkCommands(
-			final IModelSession modelSession, final ImportControl importControl,
+	public static void doImportSubwork(final IModelSession modelSession,
+			final ImportControl importControl,
 			final Pair<Planung_Gruppe, Ausgabe_Fachdaten> oldData)
 			throws NullPointerException, IllegalArgumentException {
 		final EditingDomain editingDomain = modelSession.getEditingDomain();
@@ -79,33 +79,27 @@ public class ModelImportUtils {
 				.getPlanProSchnittstelle();
 		final Pair<Planung_Gruppe, Ausgabe_Fachdaten> newData = importControl
 				.getSelectedData();
-		// Import technical data command
+		// Import technical data
 		final Ausgabe_Fachdaten copy = EcoreUtil.copy(newData.getSecond());
-		boolean isSomethingImported = false;
-		final boolean importedSubwork = doImportCommand(editingDomain,
+		doImportCommand(editingDomain,
 				oldData == null ? null : oldData.getSecond(), copy,
 				schnittstelle.getLSTPlanung().getFachdaten(),
 				PlanProPackage.eINSTANCE
 						.getFachdaten_AttributeGroup_AusgabeFachdaten());
 
-		IDReferenceUtils.retargetIDReferences(newData.getSecond(), copy,
-				importControl.schnittstelle.getWzkInvalidIDReferences(),
-				schnittstelle.getWzkInvalidIDReferences());
-		isSomethingImported = isSomethingImported || importedSubwork;
-		// Import plan group command
+		// Import plan group
 		final Planung_Projekt owner = oldData == null
 				? schnittstelle.getLSTPlanung().getObjektmanagement()
 						.getLSTPlanungProjekt().get(0)
 				: (Planung_Projekt) oldData.getFirst().eContainer();
-		final boolean importPlanung = doImportCommand(editingDomain,
+		doImportCommand(editingDomain,
 				oldData == null ? null : oldData.getFirst(), newData.getFirst(),
 				owner,
 				PlanProPackage.eINSTANCE.getPlanung_Projekt_LSTPlanungGruppe());
-		return isSomethingImported || importPlanung;
 	}
 
 	/**
-	 * Create import command for relevant {@link LST_Zustand}
+	 * Import data from selected container to available subwork
 	 * 
 	 * @param modelSession
 	 *            the session
@@ -116,25 +110,28 @@ public class ModelImportUtils {
 	 * @param containerValue
 	 *            which {@link LST_Zustand} (Initial/Final) of importResource
 	 *            was selected
-	 * @return {@link Command} command to replace oldZustand
 	 * @throws NullPointerException
 	 *             {@link NullPointerException}
 	 * @throws IllegalArgumentException
 	 *             {@link IllegalArgumentException}
 	 */
-	public static boolean doImportContainerCommand(
-			final IModelSession modelSession, final LST_Zustand oldZustand,
-			final ImportControl importControl,
+	public static void doImportContainer(final IModelSession modelSession,
+			final LST_Zustand oldZustand, final ImportControl importControl,
 			final ContainerComboSelection containerValue)
 			throws NullPointerException, IllegalArgumentException {
 		if (containerValue == null) {
 			logger.error("Container to import isn't selected"); //$NON-NLS-1$
 			throw new IllegalArgumentException();
 		}
+		if (oldZustand == null) {
+			doImportContainer(modelSession, importControl, containerValue);
+			return;
+		}
 		final EditingDomain editingDomain = modelSession.getEditingDomain();
 		LST_Zustand importZuStand = null;
-		final Ausgabe_Fachdaten importResource = importControl.getSelectedData()
-				.getSecond();
+		final Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData = importControl
+				.getSelectedData();
+		final Ausgabe_Fachdaten importResource = selectedData.getSecond();
 		switch (containerValue) {
 		case START, ZUSTAND_INFORMATION:
 			importZuStand = importResource.getLSTZustandStart();
@@ -154,19 +151,75 @@ public class ModelImportUtils {
 				.execute(SetCommand.create(editingDomain, oldZustand,
 						PlanProPackage.eINSTANCE.getLST_Zustand_Container(),
 						copy));
-		IDReferenceUtils.retargetIDReferences(importZuStand.getContainer(),
-				copy, importControl.schnittstelle.getWzkInvalidIDReferences(),
-				modelSession.getPlanProSchnittstelle()
-						.getWzkInvalidIDReferences());
-
-		return true;
 	}
 
-	private static boolean doImportCommand(final EditingDomain editingDomain,
+	/**
+	 * Create and import selected subwork with data from selected container.
+	 * 
+	 * @param modelSession
+	 *            the session
+	 * @param importControl
+	 *            the import control
+	 * @param containerValue
+	 *            which {@link LST_Zustand} (Initial/Final) of importResource
+	 *            was selected
+	 * @throws NullPointerException
+	 *             {@link NullPointerException}
+	 * @throws IllegalArgumentException
+	 *             {@link IllegalArgumentException}
+	 */
+	public static void doImportContainer(final IModelSession modelSession,
+			final ImportControl importControl,
+			final ContainerComboSelection containerValue)
+			throws NullPointerException, IllegalArgumentException {
+		if (containerValue == null) {
+			logger.error("Container to import isn't selected"); //$NON-NLS-1$
+			throw new IllegalArgumentException();
+		}
+		final PlanPro_Schnittstelle schnittstelle = modelSession
+				.getPlanProSchnittstelle();
+		final EditingDomain editingDomain = modelSession.getEditingDomain();
+		final Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData = importControl
+				.getSelectedData();
+
+		// Import technical data
+		final Ausgabe_Fachdaten copy = EcoreUtil.copy(selectedData.getSecond());
+		final LST_Zustand emptyState = PlanProFactory.eINSTANCE
+				.createLST_Zustand();
+		emptyState.setContainer(
+				PlanProFactory.eINSTANCE.createContainer_AttributeGroup());
+		// Import only data from selected container
+		switch (containerValue) {
+		case START, ZUSTAND_INFORMATION:
+			copy.setLSTZustandZiel(emptyState);
+			break;
+		case ZIEL:
+			copy.setLSTZustandStart(emptyState);
+			break;
+		default:
+			logger.error("Unexpected value: {}", containerValue); //$NON-NLS-1$
+			throw new IllegalArgumentException();
+		}
+
+		doImportCommand(editingDomain, null, copy,
+				schnittstelle.getLSTPlanung().getFachdaten(),
+				PlanProPackage.eINSTANCE
+						.getFachdaten_AttributeGroup_AusgabeFachdaten());
+
+		// Import plan group command
+		final Planung_Projekt planungProject = schnittstelle.getLSTPlanung()
+				.getObjektmanagement().getLSTPlanungProjekt().get(0);
+		doImportCommand(editingDomain, null, selectedData.getFirst(),
+				planungProject,
+				PlanProPackage.eINSTANCE.getPlanung_Projekt_LSTPlanungGruppe());
+
+	}
+
+	private static void doImportCommand(final EditingDomain editingDomain,
 			final Ur_Objekt oldValue, final Ur_Objekt newValue,
 			final EObject owner, final EReference feature) {
 		if (newValue == null) {
-			return false;
+			return;
 		}
 		Command command = null;
 		if (owner.eGet(feature) instanceof Collection) {
@@ -183,10 +236,8 @@ public class ModelImportUtils {
 		}
 		if (command != null) {
 			editingDomain.getCommandStack().execute(command);
-			return true;
-		}
-		return false;
 
+		}
 	}
 
 	/**
@@ -264,7 +315,7 @@ public class ModelImportUtils {
 		final Planung_Einzel lstPlanungEinzel = planungGruppe.get()
 				.getLSTPlanungEinzel();
 		// new GUIDs for LST_Zustand_Start
-		if (importControl.getImportTarget() == ImportTarget.MODEL
+		if (importControl.getImportTarget() == ImportTarget.SUBWORK
 				|| importControl.getImportTarget() == ImportTarget.INITIAL) {
 			editingDomain.getCommandStack().execute(createSetGuidCommand(
 					editingDomain,
@@ -272,7 +323,7 @@ public class ModelImportUtils {
 		}
 
 		// new GUIDs for LST_Zustand_Ziel
-		if (importControl.getImportTarget() == ImportTarget.MODEL
+		if (importControl.getImportTarget() == ImportTarget.SUBWORK
 				|| importControl.getImportTarget() == ImportTarget.FINAL) {
 			editingDomain.getCommandStack().execute(createSetGuidCommand(
 					editingDomain,

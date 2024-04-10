@@ -12,13 +12,13 @@ package org.eclipse.set.feature.projectdata.ppimport;
 
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.feature.projectdata.Messages;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions;
-import org.eclipse.set.toolboxmodel.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.toolboxmodel.PlanPro.Planung_Einzel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;

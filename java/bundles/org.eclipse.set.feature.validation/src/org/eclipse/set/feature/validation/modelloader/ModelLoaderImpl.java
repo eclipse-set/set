@@ -19,9 +19,9 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.modelloader.ModelLoader;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.set.toolboxmodel.Layoutinformationen.PlanPro_Layoutinfo;
-import org.eclipse.set.toolboxmodel.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.swt.widgets.Shell;
 
 import jakarta.inject.Inject;
