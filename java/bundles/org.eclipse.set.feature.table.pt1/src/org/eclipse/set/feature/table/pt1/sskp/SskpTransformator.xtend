@@ -462,7 +462,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
-			filter[IDPZBElementMitnutzung === pzb] + #[pzb.PZBElementGUE]).
+			filter[IDPZBElementMitnutzung?.value === pzb] + #[pzb.PZBElementGUE]).
 			filterNull
 
 		if (!pzbGUEs.empty) {
