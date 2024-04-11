@@ -24,7 +24,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
  * 
  * @author Truong
  */
- @Component
+@Component
 class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements PlazCheck {
 
 	override checkType() {
@@ -37,12 +37,14 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 
 	override protected run(MultiContainer_AttributeGroup container) {
 		val geoKantenWithMeridianSprung = container.GEOKante.filter [
-			val crsA = IDGEOKnotenA.value.geoPunkte.map [
+			val crsA = IDGEOKnotenA?.value?.geoPunkte?.map [
 				GEOPunktAllg?.GEOKoordinatensystem?.wert
-			].toSet
-			val crsB = IDGEOKnotenB.value.geoPunkte.map [
+			]?.toSet
+			val crsB = IDGEOKnotenB?.value?.geoPunkte?.map [
 				GEOPunktAllg?.GEOKoordinatensystem?.wert
-			].toSet
+			]?.toSet
+			if (crsA === null || crsB === null)
+				return false
 			return crsA.exists [ a |
 				crsB.exists [ b |
 					a != b
@@ -56,7 +58,8 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		geoKantenWithMeridianSprung.forEach [
 			val err = PlazFactory.eINSTANCE.createPlazError
 			if (GEOKanteAllg?.GEOLaenge?.wert.doubleValue !== 0.0) {
-				err.message = transformErrorMsg(Map.of("GUID", identitaet?.wert))
+				err.message = transformErrorMsg(
+					Map.of("GUID", identitaet?.wert ?: "[Keine GUID]"))
 				err.type = checkType
 				err.object = it
 				errList.add(err)
@@ -64,7 +67,7 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		]
 		return errList
 	}
-	
+
 	override getGeneralErrMsg() {
 		return "Die GEO_Kante {GUID} mit der Länge > 0 hat unterschiedliche Koordinatensysteme. Der sicherungstechnische Lageplan kann unvollständig sein."
 	}

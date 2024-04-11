@@ -328,7 +328,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[dweg.fstrDWegSpezifisch !== null],
 				[
-					fstrDWegSpezifisch.aufloesungVerzoegerung.wert.toString
+					fstrDWegSpezifisch?.aufloesungVerzoegerung?.wert?.toString
 				]
 			)
 

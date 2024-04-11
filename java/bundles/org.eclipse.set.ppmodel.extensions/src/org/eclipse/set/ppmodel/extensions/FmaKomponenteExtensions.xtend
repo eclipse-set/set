@@ -29,7 +29,7 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 	 */
 	def static boolean belongsTo(FMA_Komponente komp, FMA_Anlage anlage) {
 		return !komp?.IDFMAgrenze?.filter [
-			it?.value.identitaet.wert == anlage?.identitaet?.wert
+			it?.value?.identitaet?.wert == anlage?.identitaet?.wert
 		].nullOrEmpty
 	}
 
