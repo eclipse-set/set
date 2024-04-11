@@ -48,7 +48,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 			val bankinfo = bankService.findTOPBanking(it)
 			if (bankinfo === null) {
 				return createError(
-					"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
+					"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
 					Map.of("GUID", it.identitaet?.wert))
 			}
 
