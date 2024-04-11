@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList
 import org.eclipse.set.model.siteplan.SiteplanObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.xbase.lib.Functions.Function1
+import java.util.Iterator
 
 abstract class AbstractSiteplanTransformator implements SiteplanTransformator {
 	static class SiteplanMultiConainer {
@@ -219,50 +220,46 @@ abstract class AbstractSiteplanTransformator implements SiteplanTransformator {
 
 		if (!startIt.hasNext)
 			return target.map[null -> it]
-
-		var startValue = startIt.next
-		var targetValue = targetIt.next
-
-		while (true) {
-			val startGuid = keyFunc.apply(startValue)
-			val targetGuid = keyFunc.apply(targetValue)
-
-			if (startGuid > targetGuid) {
-				outList.add(null -> targetValue)
-				if (!startIt.hasNext) {
-					while (targetIt.hasNext)
-						outList.add(null -> targetIt.next)
-					return outList
+		
+		// Helper for missing break statement in Xtend
+		val iterate = [|
+			var startValue = startIt.next
+			var targetValue = targetIt.next
+			while (true) {
+				val startGuid = keyFunc.apply(startValue)
+				val targetGuid = keyFunc.apply(targetValue)
+	
+				if (startGuid > targetGuid) {
+					outList.add(null -> targetValue)
+					if (!startIt.hasNext || !targetIt.hasNext) {
+						return
+					}
+					targetValue = targetIt.next
+				} else if (startGuid < targetGuid) {
+					outList.add(startValue -> null)
+					if (!startIt.hasNext || !targetIt.hasNext) {
+						return
+					}
+					startValue = startIt.next
+				} else {
+					// startGuid === targetGuid
+					outList.add(startValue -> targetValue)
+					if (!startIt.hasNext || !targetIt.hasNext) {
+						return
+					}
+					startValue = startIt.next
+					targetValue = targetIt.next
 				}
-				targetValue = targetIt.next
-			} else if (startGuid < targetGuid) {
-				outList.add(startValue -> null)
+			}]
+		iterate.apply()
 
-				if (!startIt.hasNext) {
-					while (targetIt.hasNext)
-						outList.add(null -> targetIt.next)
-					return outList
-				}
-				startValue = startIt.next
-			} else {
-				// startGuid === targetGuid
-				outList.add(startValue -> targetValue)
-				if (!startIt.hasNext) {
-					while (targetIt.hasNext)
-						outList.add(null -> targetIt.next)
-					return outList
-				}
+		// Add remaining objects
+		while (startIt.hasNext)
+			outList.add(startIt.next -> null)
+		while (targetIt.hasNext)
+			outList.add(null -> targetIt.next)
+		return outList
 
-				if (!targetIt.hasNext) {
-					while (startIt.hasNext)
-						outList.add(startIt.next -> null)
-					return outList
-				}
-
-				startValue = startIt.next
-				targetValue = targetIt.next
-			}
-		}
 	}
 
 	override void stopTransform() {
