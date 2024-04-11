@@ -85,10 +85,10 @@ public class TopPath {
 			if (point.edge().equals(edge)) {
 				// in top direction?
 				if (previousEdge == null
-						|| previousEdge.getIDTOPKnotenB() == edge
-								.getIDTOPKnotenA()
+						|| previousEdge.getIDTOPKnotenB().getValue() == edge
+								.getIDTOPKnotenA().getValue()
 						|| previousEdge.getIDTOPKnotenA() == edge
-								.getIDTOPKnotenA()) {
+								.getIDTOPKnotenA().getValue()) {
 					final BigDecimal pointDistance = pathOffset
 							.add(point.distance());
 					if (pointDistance.compareTo(BigDecimal.ZERO) < 0
