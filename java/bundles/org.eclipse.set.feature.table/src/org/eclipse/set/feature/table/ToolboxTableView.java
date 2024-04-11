@@ -60,6 +60,7 @@ import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -73,7 +74,6 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
-import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -564,7 +564,7 @@ public final class ToolboxTableView extends BasePart {
 					}));
 			optionalOutputDir.ifPresent(outputDir -> {
 				getDialogService().openDirectoryAfterExport(getToolboxShell(),
-						Path.of(outputDir).getParent());
+						Path.of(outputDir));
 				userConfigService.setLastExportPath(Path.of(outputDir));
 			});
 		} catch (InvocationTargetException | InterruptedException e) {
