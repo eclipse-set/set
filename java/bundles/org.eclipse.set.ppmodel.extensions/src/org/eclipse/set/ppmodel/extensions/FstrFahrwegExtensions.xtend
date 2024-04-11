@@ -16,6 +16,6 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 class FstrFahrwegExtensions {
 	
 	static def Iterable<Fstr_DWeg> getFstrDweg(Fstr_Fahrweg farhweg) {
-		return farhweg.container.fstrDWeg.filter[IDFstrFahrweg === farhweg]
+		return farhweg.container.fstrDWeg.filter[IDFstrFahrweg.value === farhweg]
 	}
 }
