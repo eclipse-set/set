@@ -26,7 +26,7 @@ class GuidUnique extends AbstractPlazContainerCheck implements PlazCheck {
 		val knownGUIDs = newHashSet
 		return container.urObjekt.map [
 			val guid = it.identitaet?.wert
-			if (knownGUIDs.contains(guid)) {
+			if (guid !== null && knownGUIDs.contains(guid)) {
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = transformErrorMsg(Map.of("GUID", guid))
 				err.type = checkType

@@ -86,7 +86,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				val instance = rg.newTableRow()
 				fillRowGroupContent(instance, pzb, null, topGraph)
 			} else {
-				pzb.fstrDWegs.forEach [
+				pzb?.fstrDWegs?.forEach [
 					val instance = rg.newTableRow()
 					fillRowGroupContent(instance, pzb, it, topGraph)
 				]
