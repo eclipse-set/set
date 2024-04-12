@@ -79,5 +79,4 @@ Require-Bundle: com.google.guava,
  org.eclipse.set.model.planpro;bundle-version="2.3.0"
 Service-Component: OSGI-INF/org.eclipse.set.feature.projectdata.descriptions.PlanProImportDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.projectdata.descriptions.ProjectPartDescriptionService.xml,
- OSGI-INF/org.eclipse.set.feature.projectdata.patternviolation.ReportPatternViolationWithPlanProDescriptions.xml,
  OSGI-INF/org.eclipse.set.feature.projectdata.utils.ServiceProviderContextFunction.xml
