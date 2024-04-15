@@ -12,7 +12,7 @@ Gewährleistung.
 
 Weitere Informationen unter +
 https://www.dbinfrago.com/planpro +
-https://projects.eclipse.org/projects/technology.set
+https://eclipse.org/set
 
 Für Hinweise, Kritik, Informationen und Anfragen zum Quellcode wenden Sie sich
 bitte an:
