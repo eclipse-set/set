@@ -69,9 +69,10 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory) {
 
 		val topGraph = new TopGraph(container.TOPKante)
-		for (PZB_Element pzb : container.PZBElement.filter [
-			PZBElementGUE?.IDPZBElementMitnutzung?.value === null
-		]) {
+		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
+			filter [
+				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
+			]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -125,7 +126,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			dweg,
 			[isPZB2000],
 			[
-				IDPZBGefahrpunkt?.value?.bezeichnung?.bezeichnungMarkanterPunkt?.wert
+				IDPZBGefahrpunkt?.value?.bezeichnung?.
+					bezeichnungMarkanterPunkt?.wert
 			]
 		)
 
@@ -187,11 +189,13 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				isPZB2000 && IDPZBGefahrpunkt !== null
 			],
 			[
-				val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.IDMarkanteStelle?.value
+				val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.
+					IDMarkanteStelle?.value
 				if (markanteStelle instanceof Punkt_Objekt)
 					return AgateRounding.roundDown(
 						getPointsDistance(markanteStelle,
-							dweg.IDFstrFahrweg?.value?.IDStart?.value).min).toString
+							dweg.IDFstrFahrweg?.value?.IDStart?.value).min).
+						toString
 				else
 					return ""
 			]
@@ -239,12 +243,12 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			new Case<PZB_Element>(
 				[
-					!PZBElementZuordnungFstr.map[IDFstrZugRangier?.value].empty ||
-						(PZBElementGUE !== null &&
-							PZBElementZuordnungFstr.exists [
-								wirksamkeitFstr?.wert === ENUMWirksamkeitFstr.
-									ENUM_WIRKSAMKEIT_FSTR_STAENDIG_WIRKSAM_WENN_FAHRSTRASSE_EINGESTELLT
-							])
+					!PZBElementZuordnungFstr.map[IDFstrZugRangier?.value].
+						empty || (PZBElementGUE !== null &&
+						PZBElementZuordnungFstr.exists [
+							wirksamkeitFstr?.wert === ENUMWirksamkeitFstr.
+								ENUM_WIRKSAMKEIT_FSTR_STAENDIG_WIRKSAM_WENN_FAHRSTRASSE_EINGESTELLT
+						])
 				],
 				[
 					PZBElementZuordnungFstr.map [
@@ -265,11 +269,12 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				],
 				[
-					IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr.flatMap [
-						wirksamkeitFstr?.IDBearbeitungsvermerk
-					].map [
-						value?.bearbeitungsvermerkAllg?.kurztext?.wert
-					].filterNull
+					IDPZBElementZuordnung?.value?.PZBElementZuordnungFstr.
+						flatMap [
+							wirksamkeitFstr?.IDBearbeitungsvermerk
+						].map [
+							value?.bearbeitungsvermerkAllg?.kurztext?.wert
+						].filterNull
 				],
 				ITERABLE_FILLING_SEPARATOR,
 				MIXED_STRING_COMPARATOR
@@ -278,7 +283,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				[!bueSpezifischeSignals.empty],
 				[
 					bueSpezifischeSignals.map [
-						IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert
+						IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.
+							wert
 					]
 				],
 				ITERABLE_FILLING_SEPARATOR,
@@ -407,11 +413,12 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(H_Tafel_Abstand),
 				pzb,
 				[
-					PZBZuordnungSignal?.map[IDSignal?.value?.signalRahmen].flatten.map [
-						signalbegriffe
-					].flatten.exists [
-						hasSignalbegriffID(Ne5)
-					]
+					PZBZuordnungSignal?.map[IDSignal?.value?.signalRahmen].
+						flatten.map [
+							signalbegriffe
+						].flatten.exists [
+							hasSignalbegriffID(Ne5)
+						]
 				],
 				[
 					PZBZuordnungSignal?.map[IDSignal?.value].map [ signal |
@@ -462,8 +469,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		val pzbGUEs = (pzb.container.PZBElement.map[PZBElementGUE].filterNull.
-			filter[IDPZBElementMitnutzung?.value === pzb] + #[pzb.PZBElementGUE]).
-			filterNull
+			filter[IDPZBElementMitnutzung?.value === pzb] +
+			#[pzb.PZBElementGUE]).filterNull
 
 		if (!pzbGUEs.empty) {
 			// R: Sskp.Gue.Pruefgeschwindigkeit
@@ -573,8 +580,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
-			bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
+			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
@@ -590,8 +597,9 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0 ? distance.
-				toString : '''«directionSign»«distance.toString»'''
+			return distance == 0
+				? distance.toString
+				: '''«directionSign»«distance.toString»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.

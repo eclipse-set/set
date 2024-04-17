@@ -53,6 +53,8 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def Table create factory.table transformToTable(
 		MultiContainer_AttributeGroup container) {
 		(container.technikStandort + container.bedienStandort).filter [
+			isPlanningObject
+		].filter [
 			generalbedingung
 		].forEach [
 			if (Thread.currentThread.interrupted) {

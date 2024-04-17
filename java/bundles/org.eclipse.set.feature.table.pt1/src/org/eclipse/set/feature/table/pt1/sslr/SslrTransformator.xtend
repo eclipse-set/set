@@ -57,7 +57,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
-		container.fstrZugRangier.filter[isR].forEach [ it |
+		container.fstrZugRangier.filter[isPlanningObject].filter[isR].forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}
@@ -181,11 +181,12 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				if (gegenfahrtausschluss === null)
 					return null
 				switch (gegenfahrtausschluss) {
-					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI: return "Inselgleis frei"
-					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA: return true.
-						translate
-					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_NEIN: return false.
-						translate
+					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_INSELGLEIS_FREI:
+						return "Inselgleis frei"
+					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_JA:
+						return true.translate
+					case ENUM_RANGIER_GEGENFAHRTAUSSCHLUSS_NEIN:
+						return false.translate
 				}
 			]
 		)
@@ -196,7 +197,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZugRangier,
 			[
 				fmaAnlageRangierFrei?.map [
-					IDGleisAbschnitt?.value?.bezeichnung?.bezeichnungTabelle?.wert
+					IDGleisAbschnitt?.value?.bezeichnung?.bezeichnungTabelle?.
+						wert
 				].toSet
 			],
 			MIXED_STRING_COMPARATOR
@@ -247,8 +249,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZugRangier,
 			[
 				(fstrFahrweg?.zielSignal?.signalFstr?.
-					IDRaZielErlaubnisabhaengig?.value?.identitaet?.wert !== null).
-					translate
+					IDRaZielErlaubnisabhaengig?.value?.identitaet?.wert !==
+					null).translate
 			]
 		)
 

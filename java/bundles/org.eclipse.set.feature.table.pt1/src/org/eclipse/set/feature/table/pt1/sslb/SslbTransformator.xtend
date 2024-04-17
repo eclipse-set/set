@@ -54,7 +54,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
-		container.blockElement.forEach [ it |
+		container.blockElement.filter[isPlanningObject].forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}

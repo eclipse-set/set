@@ -56,7 +56,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
-		container.bedienEinrichtungOertlich.filter [
+		container.bedienEinrichtungOertlich.filter[isPlanningObject].filter [
 			bedienAnzeigeElemente.forall[bueBedienAnzeigeElemente.empty]
 		].forEach [ it |
 			if (Thread.currentThread.interrupted) {

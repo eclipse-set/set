@@ -45,4 +45,6 @@ class BasisObjektExtensions extends UrObjectExtensions {
 		Basis_Objekt object) {
 		return object.IDBearbeitungsvermerk?.map[value]?.filterNull
 	}
+	
+
 }

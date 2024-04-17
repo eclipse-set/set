@@ -30,6 +30,7 @@ import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static org.eclipse.set.feature.table.pt1.ssvu.SsvuColumns.*
 
 /**
@@ -56,7 +57,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
-		container.uebertragungsweg.forEach [ it |
+		container.uebertragungsweg.filter[isPlanningObject].forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}
@@ -270,10 +271,12 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getElementBezeichnung(PZB_Element element) {
 		val pzbZuordnungSignal = container?.PZBZuordnungSignal.findFirst [
-			identitaet?.wert == element?.IDPZBElementZuordnung?.value?.identitaet?.wert
+			identitaet?.wert ==
+				element?.IDPZBElementZuordnung?.value?.identitaet?.wert
 		]
 		return container?.signal.findFirst [
-			identitaet?.wert == pzbZuordnungSignal?.IDSignal?.value?.identitaet?.wert
+			identitaet?.wert ==
+				pzbZuordnungSignal?.IDSignal?.value?.identitaet?.wert
 		]?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
@@ -281,7 +284,8 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		BUE_Schnittstelle element) {
 		// IMPROVE use cache
 		val bueAnlage = container?.BUEAnlage.findFirst [
-			IDBUESchnittstelle?.value?.identitaet?.wert == element?.identitaet?.wert
+			IDBUESchnittstelle?.value?.identitaet?.wert ==
+				element?.identitaet?.wert
 		]
 		return bueAnlage?.bezeichnung?.bezeichnungTabelle?.wert
 	}
