@@ -87,7 +87,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
-		val weichen = container.WKrGspElement
+		val weichen = container.WKrGspElement.filter[isPlanningObject]
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {
@@ -251,8 +251,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			// J: Sskw.Weiche.Antriebe
 			val elementKomponenten = element.container.WKrGspKomponente.filter [
-				IDWKrGspElement?.value?.identitaet?.wert == element.identitaet.wert &&
-					zungenpaar !== null
+				IDWKrGspElement?.value?.identitaet?.wert ==
+					element.identitaet.wert && zungenpaar !== null
 			].toList
 
 			fillMultiColorIterable(
@@ -376,7 +376,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ew_abw_ibw_kloth_dw_sonstige_mit_zungenpaar],
 					[
-						val isPMaxR = element.isGeschwindigkeitPMax(element.topKanteR)
+						val isPMaxR = element.
+							isGeschwindigkeitPMax(element.topKanteR)
 						wKrGspKomponenten.map [
 							zungenpaar
 						].printGeschwindingkeitR(isPMaxR)
@@ -385,7 +386,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ekw || art_dkw],
 					[
-						val isPMaxR = element.isGeschwindigkeitPMax(element.topKanteR)
+						val isPMaxR = element.
+							isGeschwindigkeitPMax(element.topKanteR)
 						wKrGspKomponenten.filter [
 							zungenpaar?.kreuzungsgleis?.wert ==
 								ENUM_LINKS_RECHTS_LINKS
@@ -418,7 +420,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ekw],
 					[
-						val isPMaxL = element.isGeschwindigkeitPMax(element.topKanteL)
+						val isPMaxL = element.
+							isGeschwindigkeitPMax(element.topKanteL)
 						getKreuzungEKWGroup(wKrGspKomponenten,
 							ENUM_LINKS_RECHTS_LINKS).
 							printGeschwindingkeitL(isPMaxL)
@@ -427,7 +430,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_dkw && exKrLinksKomponenten],
 					[
-						val isPMaxL = element.isGeschwindigkeitPMax(element.topKanteL)
+						val isPMaxL = element.
+							isGeschwindigkeitPMax(element.topKanteL)
 						krLinksKomponenten.map [
 							zungenpaar
 						].toList.printGeschwindingkeitL(isPMaxL)
@@ -436,7 +440,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_kr_flachkreuzung_sonstige_mit_kreuzung],
 					[
-						val isPMaxL = element.isGeschwindigkeitPMax(element.topKanteL)
+						val isPMaxL = element.
+							isGeschwindigkeitPMax(element.topKanteL)
 						wKrGspKomponenten.map[kreuzung].
 							printGeschwindingkeitL(isPMaxL)
 					]
@@ -463,7 +468,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_ekw],
 					[
-						val isPMaxR = element.isGeschwindigkeitPMax(element.topKanteR)
+						val isPMaxR = element.
+							isGeschwindigkeitPMax(element.topKanteR)
 						getKreuzungEKWGroup(wKrGspKomponenten,
 							ENUM_LINKS_RECHTS_RECHTS).
 							printGeschwindingkeitR(isPMaxR)
@@ -472,7 +478,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_dkw && exKrRechtsKomponenten],
 					[
-						val isPMaxR = element.isGeschwindigkeitPMax(element.topKanteR)
+						val isPMaxR = element.
+							isGeschwindigkeitPMax(element.topKanteR)
 						krRechtsKomponenten.map [
 							zungenpaar
 						].toList.printGeschwindingkeitR(isPMaxR)
@@ -481,7 +488,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				fillingIterableCase(
 					[art_kr_flachkreuzung_sonstige_mit_kreuzung],
 					[
-						val isPMaxR = element.isGeschwindigkeitPMax(element.topKanteR)
+						val isPMaxR = element.
+							isGeschwindigkeitPMax(element.topKanteR)
 						wKrGspKomponenten.map[kreuzung].
 							printGeschwindingkeitR(isPMaxR)
 					]

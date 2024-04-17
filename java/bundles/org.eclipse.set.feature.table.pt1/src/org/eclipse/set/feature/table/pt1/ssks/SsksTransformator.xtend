@@ -145,11 +145,11 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	val BankService bankingService
 	val EventAdmin eventAdmin
 	val String tableShortCut
+
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService, BankService bankingService,
-		EventAdmin eventAdmin,
-		String tableShortCut) {
+		EventAdmin eventAdmin, String tableShortCut) {
 		super(cols, enumTranslationService)
 		this.topGraphService = topGraphService
 		this.bankingService = bankingService
@@ -160,7 +160,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 		// iterate signal-wise
-		for (Signal signal : container.signal.filter[ssksSignal]) {
+		for (Signal signal : container.signal.filter[isPlanningObject].filter [
+			ssksSignal
+		]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -657,8 +659,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 										r.signalNachordnung.bezeichnung.
 											bezeichnungTabelle.wert
 									] + container.signalRahmen.filter [ r |
-										r?.IDSignalNachordnung?.value?.identitaet?.
-											wert == signal.identitaet.wert
+										r?.IDSignalNachordnung?.value?.
+											identitaet?.wert ==
+											signal.identitaet.wert
 									].map [ r |
 										r.signal.bezeichnung.bezeichnungTabelle.
 											wert
@@ -1423,12 +1426,14 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				val updateValuesEvent = new TableDataChangeEvent(
 					tableShortCut.toLowerCase, changeProperties)
 				val properties = newHashMap
-				properties.put(EventConstants.EVENT_TOPIC, updateValuesEvent.topic)
+				properties.put(EventConstants.EVENT_TOPIC,
+					updateValuesEvent.topic)
 				properties.put(ToolboxEvents.TOOLBOX_EVENT, updateValuesEvent)
 				properties.put(IEventBroker.DATA, updateValuesEvent)
 				// Send update event after find bank value process complete
 				// or relevant bank value was found
-				eventAdmin.sendEvent(new Event(updateValuesEvent.topic, properties))
+				eventAdmin.sendEvent(
+					new Event(updateValuesEvent.topic, properties))
 			} catch (InterruptedException exc) {
 				Thread.currentThread.interrupt
 			}

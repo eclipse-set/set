@@ -87,7 +87,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
-		val fstrZugRangierList = container.fstrZugRangier
+		val fstrZugRangierList = container.fstrZugRangier.filter [
+			isPlanningObject
+		]
 		val fstrZugRangierListSorted = fstrZugRangierList
 		var current = 0
 
@@ -103,13 +105,13 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (isZ) {
 				val instance = factory.newTableRow(fstrZugRangier)
 
-				fill (
+				fill(
 					instance,
 					cols.getColumn(Grundsatzangaben_Bezeichnung),
 					fstrZugRangier,
 					[getZugFstrBezeichnung([isZ(it)])]
 				)
-				
+
 				fill(instance, cols.getColumn(Start), fstrZugRangier, [
 					fahrwegStart
 				])
@@ -120,7 +122,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						return zielSignal.container.contents.filter(
 							Fstr_Zug_Rangier).findFirst [
 							fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
-								IDFstrFahrweg?.value?.IDStart?.value == zielSignal
+								IDFstrFahrweg?.value?.IDStart?.value ==
+									zielSignal
 						] === null
 					], [fahrwegZiel], [fahrwegZielBlock])
 
@@ -270,7 +273,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								anrueckverschluss?.map[schalter]?.toSet ?:
 								Collections.emptySet
 							gleisabschnitte.value = schaltmittel.value.filter(
-								FMA_Anlage).map[IDGleisAbschnitt?.value].filterNull.toSet
+								FMA_Anlage).map[IDGleisAbschnitt?.value].
+								filterNull.toSet
 							!gleisabschnitte.value.empty
 						],
 						[
@@ -300,7 +304,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fill(instance, cols.getColumn(Hg), fstrZugRangier, [
 					fstrZugRangier?.fstrFahrweg?.fstrVHg?.wert?.toString
 				])
-				
+
 				fillConditional(instance, cols.getColumn(Fahrweg),
 					fstrZugRangier, [
 						fstrZugRangier.geschwindigkeit == Integer.MAX_VALUE
@@ -314,7 +318,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fill(instance, cols.getColumn(Besonders), fstrZugRangier, [
 					fstrZugRangier?.fstrZugRangierAllg?.fstrV?.wert?.toString
 				])
-
 
 				fillSwitch(
 					instance,
@@ -542,8 +545,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								fstrZugRangier.fstrSignalisierung.exists [ b2 |
 									b2.signalSignalbegriff === b1
 								]
-						]?.signalRahmen?.signal?.bezeichnung?.bezeichnungTabelle?.
-							wert
+						]?.signalRahmen?.signal?.bezeichnung?.
+							bezeichnungTabelle?.wert
 					]
 				)
 
@@ -585,9 +588,12 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					new Case<Fstr_Zug_Rangier>([
 						fstrZugRangier.container.contents.filter(
 							Fstr_Abhaengigkeit).map [
-							IDBedienAnzeigeElement?.value?.bedienAnzeigeElementAllg
-						].findFirst[it?.taste !== null || it?.schalter !== null] !==
-							null
+							IDBedienAnzeigeElement?.value?.
+								bedienAnzeigeElementAllg
+						].
+							findFirst [
+								it?.taste !== null || it?.schalter !== null
+							] !== null
 					], [
 						val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.
 							map [
@@ -603,7 +609,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					], [
 						val fstrAusschlussBesonders = IDFstrAusschlussBesonders.
 							map [
-								value?.getZugFstrBezeichnung([art | isZ(art)])
+								value?.getZugFstrBezeichnung([art|isZ(art)])
 							]
 						val footnotes = footnoteTransformation.transform(it,
 							instance)
@@ -635,8 +641,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			toSet.toList
 	}
 
-
-
 	private def String fahrwegStart(
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
@@ -663,8 +667,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
 				startFahrweg.contains(IDFstrFahrweg)
 		].map [
-			(IDFstrFahrweg?.value?.IDZiel?.value as Signal)?.bezeichnung?.bezeichnungTabelle?.
-				wert
+			(IDFstrFahrweg?.value?.IDZiel?.value as Signal)?.bezeichnung?.
+				bezeichnungTabelle?.wert
 		].filterNull.join(" ")
 
 		return '''«ziel?.bezeichnung?.bezeichnungTabelle?.wert» [«start»]'''

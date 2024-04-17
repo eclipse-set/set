@@ -43,7 +43,9 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 		MultiContainer_AttributeGroup container,
 		TMFactory factory
 	) {
-		val flaSchutzList = container.flaSchutz.filter[generalbedingung].sortBy [
+		val flaSchutzList = container.flaSchutz.filter[isPlanningObject].filter [
+			generalbedingung
+		].sortBy [
 			wLageNbGrenze
 		]
 

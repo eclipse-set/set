@@ -85,7 +85,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		MultiContainer_AttributeGroup container,
 		TMFactory factory
 	) {
-		val fstDwegList = container.fstrDWeg
+		val fstDwegList = container.fstrDWeg.filter[isPlanningObject]
 
 		// var footnoteNumber = 1;
 		for (dweg : fstDwegList) {
@@ -132,7 +132,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(PZB_Gefahrpunkt),
 				dweg,
-				[IDPZBGefahrpunkt?.value?.bezeichnung?.bezeichnungMarkanterPunkt?.wert]
+				[
+					IDPZBGefahrpunkt?.value?.bezeichnung?.
+						bezeichnungMarkanterPunkt?.wert
+				]
 			)
 
 			// E: Ssld.Grundsatzangaben.Bezeichnung
@@ -290,8 +293,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[dweg.fstrDWegSpezifisch !== null],
 				[
-					fstrDWegSpezifisch.fmaAnlageZielgleis.IDGleisAbschnitt?.value.
-						bezeichnung.bezeichnungTabelle.wert
+					fstrDWegSpezifisch.fmaAnlageZielgleis.IDGleisAbschnitt?.
+						value.bezeichnung.bezeichnungTabelle.wert
 				]
 			)
 
@@ -311,10 +314,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 						Double.valueOf(0.0),
 						[ Double current, Fstr_Zug_Rangier fstr |
 							Math.max(current,
-								fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.value?.
-									IDGleisAbschnitt?.value?.
-									getOverlappingLength(fstr.IDFstrFahrweg?.value).
-									doubleValue)
+								fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.
+									value?.IDGleisAbschnitt?.value?.
+									getOverlappingLength(
+										fstr.IDFstrFahrweg?.value).doubleValue)
 						]
 					)
 					return AgateRounding.roundDown(distance).toString

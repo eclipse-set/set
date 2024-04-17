@@ -48,7 +48,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 		MultiContainer_AttributeGroup container,
 		TMFactory factory
 	) {
-		val flaZwieSchutzList = container.flaZwieschutz;
+		val flaZwieSchutzList = container.flaZwieschutz.filter[isPlanningObject]
 		for (flaZwieSchutz : flaZwieSchutzList) {
 			if (Thread.currentThread.interrupted) {
 				return null
@@ -346,8 +346,9 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	def Fla_Schutz IDFlaWeitergabeLR(
 		Fla_Schutz_Weitergabe_AttributeGroup flaWeitergabe,
 		boolean isWeitergabeLeft) {
-		return isWeitergabeLeft ? flaWeitergabe?.IDFlaWeitergabeL?.
-			value : flaWeitergabe?.IDFlaWeitergabeR?.value
+		return isWeitergabeLeft
+			? flaWeitergabe?.IDFlaWeitergabeL?.value
+			: flaWeitergabe?.IDFlaWeitergabeR?.value
 	}
 
 	def Massnahme_TypeClass massnameLR(
@@ -357,8 +358,9 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	def Fla_Schutz IDFlaSchutz(Fla_Zwieschutz_Element_AttributeGroup element,
 		boolean isLeft) {
-		return isLeft ? element.IDFlaSchutzL?.value : element.IDFlaSchutzR?.
-			value
+		return isLeft
+			? element.IDFlaSchutzL?.value
+			: element.IDFlaSchutzR?.value
 	}
 
 }

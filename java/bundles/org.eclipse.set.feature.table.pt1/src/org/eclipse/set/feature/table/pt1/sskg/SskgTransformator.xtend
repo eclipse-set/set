@@ -50,7 +50,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory) {
 		val instances = new ArrayList<TableRow>
 
-		for (Zugeinwirkung ein : container.zugeinwirkung) {
+		for (Zugeinwirkung ein : container.zugeinwirkung.filter[isPlanningObject]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}

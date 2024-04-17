@@ -53,7 +53,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container) {
-		container.bedienEinrichtungOertlich.filter [
+		container.bedienEinrichtungOertlich.filter[isPlanningObject].filter [
 			!bedienAnzeigeElemente.map[bueBedienAnzeigeElemente].flatten.
 				filterNull.empty
 		].forEach [
