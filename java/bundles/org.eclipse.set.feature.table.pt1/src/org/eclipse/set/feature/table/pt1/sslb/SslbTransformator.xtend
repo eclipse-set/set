@@ -39,6 +39,7 @@ import java.util.HashMap
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Table transformation for a Inselgleistabelle (Sslb).
@@ -58,7 +59,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich placeArea) {
 		this.factory = factory
 		return container.transform
 	}

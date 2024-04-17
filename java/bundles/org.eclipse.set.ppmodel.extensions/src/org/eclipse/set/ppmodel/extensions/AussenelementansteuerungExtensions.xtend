@@ -8,11 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit
-import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 
 /**
  * Extensions for {@link Aussenelementansteuerung}.
@@ -37,7 +39,8 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static List<Aussenelementansteuerung> getAussenelementansteuerungInformationSekundaer(
 		Aussenelementansteuerung aussenelementansteuerung
 	) {
-		return aussenelementansteuerung.IDInformationSekundaer?.map[value]?.filterNull?.toList
+		return aussenelementansteuerung.IDInformationSekundaer?.map[value]?.
+			filterNull?.toList
 	}
 
 	/**
@@ -47,7 +50,8 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Basis_Objekt getAussenelementansteuerungEnergiePrimaer(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergiePrimaer?.value
+		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergiePrimaer?.
+			value
 	}
 
 	/**
@@ -58,5 +62,27 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static Oertlichkeit getOertlichkeitNamensgebend(
 		Aussenelementansteuerung aussenelementansteuerung) {
 		return aussenelementansteuerung.IDOertlichkeitNamensgebend?.value
+	}
+
+	def static dispatch String getElementBezeichnung(Basis_Objekt element) {
+		throw new IllegalArgumentException(element.class.simpleName)
+	}
+
+	def static dispatch String getElementBezeichnung(
+		Aussenelementansteuerung element) {
+		return element?.bezeichnung?.bezeichnungAEA?.wert ?: "";
+	}
+
+	def static dispatch String getElementBezeichnung(
+		ESTW_Zentraleinheit element) {
+		return element?.bezeichnung?.bezeichnungESTWZE?.wert ?: "";
+	}
+
+	def static Iterable<Stellelement> getStellelements(
+		Aussenelementansteuerung aussenelementansteuerung) {
+		return aussenelementansteuerung.container.stellelement.filter [
+			IDInformation.value === aussenelementansteuerung ||
+				IDEnergie.value === aussenelementansteuerung
+		]
 	}
 }

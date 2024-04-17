@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +27,6 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.emf.common.command.CommandStack;
-import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -67,6 +65,7 @@ import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
@@ -81,6 +80,7 @@ import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.SelectionPlaceArea;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Display;
@@ -161,7 +161,8 @@ public class ModelSession implements IModelSession {
 	private EContentAdapter contentAdapter;
 	private final Guid guid;
 	private boolean isNewProject = false;
-	private final DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
+	private DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
+	private DefaultToolboxEventHandler<SelectionPlaceArea> selectionPlaceAreaHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
@@ -181,6 +182,7 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
+	Map<Stell_Bereich, ContainerType> placeAreas = new HashMap<>();
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -203,37 +205,46 @@ public class ModelSession implements IModelSession {
 		this.serviceProvider = serviceProvider;
 		final IModelSession session = this;
 		final EditingDomain editingDomain = toolboxFile.getEditingDomain();
-		editingDomain.getCommandStack()
-				.addCommandStackListener(new CommandStackListener() {
-					@Override
-					public void commandStackChanged(final EventObject event) {
-						setTitleFilename(IModelSessionExtensions
-								.getTitleFilename(session,
-										ModelSession.this.serviceProvider.messages.ModelSession_ChangeIndicator));
-						ModelSession.this.serviceProvider.broker.post(
-								UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,
-								UIEvents.ALL_ELEMENT_ID);
-						checkForDirtyEvent();
-					}
-				});
+		editingDomain.getCommandStack().addCommandStackListener(event -> {
+			setTitleFilename(IModelSessionExtensions.getTitleFilename(session,
+					ModelSession.this.serviceProvider.messages.ModelSession_ChangeIndicator));
+			ModelSession.this.serviceProvider.broker.post(
+					UIEvents.REQUEST_ENABLEMENT_UPDATE_TOPIC,
+					UIEvents.ALL_ELEMENT_ID);
+			checkForDirtyEvent();
+		});
 		guid = Guid.create();
+
 		createTempDir();
 		toolboxFile.setTemporaryDirectory(getTempDir());
 		toolboxPaths = new ToolboxPathsImpl(this);
+		subcribeToolboxEvent();
+		logger.debug("created session {}", this); //$NON-NLS-1$
+	}
 
+	private void subcribeToolboxEvent() {
 		// register for table type changes
 		newTableTypeHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final NewTableTypeEvent e) {
 				tableType = e.getTableType();
-				logger.debug("Global type is " + tableType.toString()); //$NON-NLS-1$
+				logger.debug("Global type is {}", tableType); //$NON-NLS-1$
 			}
 		};
 
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
 				NewTableTypeEvent.class, newTableTypeHandler);
 
-		logger.debug("created session {}", this); //$NON-NLS-1$
+		selectionPlaceAreaHandler = new DefaultToolboxEventHandler<>() {
+
+			@Override
+			public void accept(final SelectionPlaceArea t) {
+				t.getPlaceAreas().forEach(area -> placeAreas.put(area.area(),
+						area.containerType()));
+			}
+		};
+		ToolboxEvents.subscribe(this.serviceProvider.broker,
+				SelectionPlaceArea.class, selectionPlaceAreaHandler);
 	}
 
 	@Override
@@ -277,6 +288,8 @@ public class ModelSession implements IModelSession {
 			// unsubscribe event handler
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
 					newTableTypeHandler);
+			ToolboxEvents.unsubscribe(serviceProvider.broker,
+					selectionPlaceAreaHandler);
 		} catch (final IOException e) {
 			logger.warn("clean up failed: exception={} message={}", //$NON-NLS-1$
 					e.getClass().getSimpleName(), e.getMessage());
@@ -336,11 +349,10 @@ public class ModelSession implements IModelSession {
 				ExportType.PLANNING_RECORDS);
 
 		// test if model file exists
-		if (Files.exists(modelPath)) {
-			if (!serviceProvider.dialogService.confirmOverwrite(shell,
-					modelPath)) {
-				throw new UserAbortion();
-			}
+		if (Files.exists(modelPath) && !serviceProvider.dialogService
+				.confirmOverwrite(shell, modelPath)) {
+			throw new UserAbortion();
+
 		}
 
 		// write new model
@@ -437,6 +449,11 @@ public class ModelSession implements IModelSession {
 	@Override
 	public TableType getTableType() {
 		return tableType;
+	}
+
+	@Override
+	public Map<Stell_Bereich, ContainerType> getPlaceAreas() {
+		return placeAreas;
 	}
 
 	@Override

@@ -13,13 +13,14 @@ import java.util.Collections
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sslr.SslrColumns.*
@@ -34,6 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExte
 import static extension org.eclipse.set.ppmodel.extensions.FstrRangierFlaZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Rangierstraßentabelle (Sslr).
@@ -50,7 +52,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich placeArea) {
 		this.factory = factory
 		return container.transform
 	}

@@ -11,6 +11,7 @@ package org.eclipse.set.utils.table;
 import java.util.Collection;
 import java.util.Comparator;
 
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 
@@ -43,10 +44,20 @@ public interface TableTransformationService<T> {
 	 * 
 	 * @param model
 	 *            the model to be used
-	 * 
 	 * @return the transformed table
 	 */
 	Table transform(T model);
+
+	/**
+	 * Transforms a model within place area to a table model.
+	 * 
+	 * @param model
+	 *            the model to be used
+	 * @param placeArea
+	 *            the {@link Stell_Bereich}
+	 * @return the transformed table
+	 */
+	Table transform(T model, Stell_Bereich placeArea);
 
 	/**
 	 * Errors that occurred during transformation
