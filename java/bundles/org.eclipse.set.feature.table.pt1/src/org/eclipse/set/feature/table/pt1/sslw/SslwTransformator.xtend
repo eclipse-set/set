@@ -11,16 +11,17 @@ package org.eclipse.set.feature.table.pt1.sslw
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz_Weitergabe_AttributeGroup
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz_Element_AttributeGroup
 import org.eclipse.set.model.planpro.Flankenschutz.Massnahme_TypeClass
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sslw.SslwColumns.*
@@ -31,6 +32,7 @@ import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.
 import static extension org.eclipse.set.ppmodel.extensions.FlaFreimeldeZuordnungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaSchutzExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Zwieschutzweichentabelle (SSLW).
@@ -46,7 +48,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
-		TMFactory factory
+		TMFactory factory,
+		Stell_Bereich placeArea
 	) {
 		val flaZwieSchutzList = container.flaZwieschutz.filter[isPlanningObject]
 		for (flaZwieSchutz : flaZwieSchutzList) {

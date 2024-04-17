@@ -34,6 +34,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 /**
  * Extensions for {@link Table}.
@@ -86,7 +87,10 @@ class TableExtensions {
 	 * @return the rows of this table
 	 */
 	static def List<TableRow> getTableRows(Table table) {
-		val content = table.tablecontent
+		val content = table?.tablecontent
+		if (content === null) {
+			return #[]
+		}
 		var rows = newLinkedList();
 		for (RowGroup rowgroup : content.rowgroups)
 			rows.addAll(rowgroup.rows)
@@ -162,6 +166,46 @@ class TableExtensions {
 		table.columns.forEach[newRow.cells.add(createTableCell)]
 		values.indexed.forEach[newRow.set(key, value)]
 		return newRow
+	}
+
+	def static void addRowGroup(Table table, RowGroup groupToAdd) {
+		val clone = EcoreUtil.copy(groupToAdd)
+		if (table.tablecontent === null) {
+			val tableContent = TablemodelFactory.eINSTANCE.createTableContent
+			tableContent.rowgroups.add(clone)
+			table.tablecontent = tableContent
+			return
+		}
+		val leadingObject = groupToAdd.leadingObject
+		if (leadingObject !== null && table.tablecontent.rowgroups.forall[leadingObject !== null]) {
+			if (!table.tablecontent.rowgroups.exists [
+			it.leadingObject?.identitaet?.wert.equals(leadingObject?.identitaet?.wert)
+		]) {
+			table.tablecontent.rowgroups.add(clone)
+		}
+			return
+		}
+
+		val cloumnLabels = table.columndescriptors.map[label]
+		val mapRowToAdd = clone.rows.map [ row |
+			cloumnLabels.map[column|row.getPlainStringValue(column)].
+				join("")
+		].toList
+		val alreadyExistsRowContent = table.tablecontent.rowgroups.exists [
+			rows.size === groupToAdd.rows.size &&
+			rows.forall [ row |
+				val plainString = cloumnLabels.map [ column |
+					row.getPlainStringValue(column)
+				].join("")
+				mapRowToAdd.exists [ rowToAddString |
+					rowToAddString.equals(plainString)
+				]
+			]
+		]
+		if (!alreadyExistsRowContent) {
+			table.tablecontent.rowgroups.add(clone)
+		}
+
 	}
 
 	/**
@@ -252,8 +296,8 @@ class TableExtensions {
 	static def TableRow getMatchingRow(Table table, TableRow row) {
 		val group = row.group
 		val rowIndex = group.rows.indexOf(row)
-		return table.getGroupByLeadingObject(group.leadingObject, group.leadingObjectIndex)?.rows?.get(
-			rowIndex)
+		return table.getGroupByLeadingObject(group.leadingObject,
+			group.leadingObjectIndex)?.rows?.get(rowIndex)
 	}
 
 	/**
@@ -264,9 +308,11 @@ class TableExtensions {
 	 * @return the first group of this table with the given leading object (or
 	 * <code>null</code> if no such row exists)
 	 */
-	static def RowGroup getGroupByLeadingObject(Table table, Ur_Objekt object, int index) {
+	static def RowGroup getGroupByLeadingObject(Table table, Ur_Objekt object,
+		int index) {
 		return table.tablecontent.rowgroups.findFirst [
-			leadingObject?.identitaet?.wert == object?.identitaet?.wert && leadingObjectIndex === index
+			leadingObject?.identitaet?.wert == object?.identitaet?.wert &&
+				leadingObjectIndex === index
 		]
 	}
 
@@ -280,7 +326,8 @@ class TableExtensions {
 	 */
 	static def RowGroup getGroupById(Table table, String groupId, int index) {
 		return table.tablecontent.rowgroups.findFirst [
-			leadingObject?.identitaet?.wert == groupId && leadingObjectIndex === index
+			leadingObject?.identitaet?.wert == groupId &&
+				leadingObjectIndex === index
 		]
 	}
 
@@ -296,6 +343,7 @@ class TableExtensions {
 			it.setTextAlignment(columnIdx, textAlignment)
 		]
 	}
+
 	/**
 	 * @param table this table
 	 * @param filename the filename
@@ -311,7 +359,6 @@ class TableExtensions {
 		resource.contents.add(table)
 		resource.save(Collections.EMPTY_MAP)
 	}
-
 
 	/**
 	 * @param filepath the file path
@@ -362,25 +409,27 @@ class TableExtensions {
 		}
 		return -1;
 	}
-	
-	static def Iterable<Pair<Integer, String>> getAllFootnotes(Table table)
-	{
-		return (table.eAllContents.filter(SimpleFootnoteContainer).map[footnotes] + 
-			table.eAllContents.filter(CompareFootnoteContainer).map[oldFootnotes] +
-			table.eAllContents.filter(CompareFootnoteContainer).map[unchangedFootnotes] + 
-			table.eAllContents.filter(CompareFootnoteContainer).map[newFootnotes]).toList.flatten.toSet.indexed.map
-			[(key +1) -> value]
+
+	static def Iterable<Pair<Integer, String>> getAllFootnotes(Table table) {
+		return (table.eAllContents.filter(SimpleFootnoteContainer).map [
+			footnotes
+		] + table.eAllContents.filter(CompareFootnoteContainer).map [
+			oldFootnotes
+		] + table.eAllContents.filter(CompareFootnoteContainer).map [
+			unchangedFootnotes
+		] + table.eAllContents.filter(CompareFootnoteContainer).map [
+			newFootnotes
+		]).toList.flatten.toSet.indexed.map[(key + 1) -> value]
 	}
-	
+
 	static def int getFootnoteNumber(Table table, String fn) {
 		return table.allFootnotes.findFirst[value == fn].key
 	}
-	
-		
+
 	static def int getFootnoteNumber(EObject tableContent, String fn) {
 		var object = tableContent
-		while(!(object instanceof Table)) {
-			object = object.eContainer	
+		while (!(object instanceof Table)) {
+			object = object.eContainer
 		}
 		return getFootnoteNumber(object as Table, fn)
 	}

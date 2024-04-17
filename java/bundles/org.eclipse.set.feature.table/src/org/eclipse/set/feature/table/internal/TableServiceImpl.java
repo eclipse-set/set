@@ -11,6 +11,7 @@ package org.eclipse.set.feature.table.internal;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,11 +27,13 @@ import org.eclipse.e4.ui.model.application.ui.MElementContainer;
 import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -45,9 +48,11 @@ import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -134,11 +139,14 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private Table createDiffTable(final String elementId,
-			final IModelSession modelSession) {
+			final IModelSession modelSession, final Stell_Bereich placeArea) {
+
 		final Table startTable = transformToTable(elementId, TableType.INITIAL,
-				modelSession);
+				modelSession, placeArea == null ? Collections.emptyMap()
+						: Map.of(placeArea, ContainerType.INITIAL));
 		final Table zielTable = transformToTable(elementId, TableType.FINAL,
-				modelSession);
+				modelSession, placeArea == null ? Collections.emptyMap()
+						: Map.of(placeArea, ContainerType.FINAL));
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
@@ -253,16 +261,19 @@ public final class TableServiceImpl implements TableService {
 
 	private Object loadTransform(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final String shortCut) {
+			final Stell_Bereich placeArea) {
+		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
 		final Table transformedTable;
 		if (tableType == TableType.DIFF) {
-			transformedTable = createDiffTable(elementId, modelSession);
+			transformedTable = createDiffTable(elementId, modelSession,
+					placeArea);
 			modelService.format(transformedTable);
 		} else {
-			transformedTable = modelService.transform(modelSession
-					.getContainer(tableType.getContainerForTable()));
+			transformedTable = modelService.transform(
+					modelSession.getContainer(tableType.getContainerForTable()),
+					placeArea);
 			saveTableError(shortCut, tableType, modelService.getTableErrors());
 		}
 		if (Thread.currentThread().isInterrupted()
@@ -272,23 +283,18 @@ public final class TableServiceImpl implements TableService {
 		// sorting
 		ECollections.sort(transformedTable.getTablecontent().getRowgroups(),
 				modelService.getRowGroupComparator());
-
 		return transformedTable;
 	}
 
 	/**
 	 * removes a model service.
 	 * 
-	 * @param service
-	 *            the service
 	 * @param properties
 	 *            the service properties
 	 * @throws IllegalAccessException
 	 *             if the table.shortcut property is not set
 	 */
-	public void removeModelService(
-			final PlanPro2TableTransformationService service,
-			final Map<String, Object> properties)
+	public void removeModelService(final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final String elementId = TableServiceContextFunction
 				.getElementId(properties);
@@ -297,9 +303,10 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public String transformToCsv(final String elementId,
-			final TableType tableType, final IModelSession modelSession) {
-		final Table table = transformToTable(elementId, tableType,
-				modelSession);
+			final TableType tableType, final IModelSession modelSession,
+			final Map<Stell_Bereich, ContainerType> placeAreas) {
+		final Table table = transformToTable(elementId, tableType, modelSession,
+				placeAreas);
 		return transformToCsv(table);
 	}
 
@@ -341,13 +348,58 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public Table transformToTable(final String elementId,
+			final TableType tableType, final IModelSession modelSession,
+			final Map<Stell_Bereich, ContainerType> placeAreas) {
+		final String shortCut = extractShortcut(elementId);
+		final String containerId = getContainerCacheId(modelSession, tableType);
+		final Cache cache = getCache().getCache(
+				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
+		if (placeAreas.isEmpty()) {
+			return (Table) cache.get(String.format("%s/empty", shortCut), //$NON-NLS-1$
+					() -> loadTransform(shortCut, tableType, modelSession,
+							null));
+		}
+		final Table resultTable = TablemodelFactory.eINSTANCE.createTable();
+		placeAreas.forEach((area, type) -> {
+			if (!type.getDefaultTableType().equals(tableType)
+					&& tableType != TableType.DIFF) {
+				return;
+			}
+			final String areaCacheKey = String.format("%s/%s", shortCut, //$NON-NLS-1$
+					area.getIdentitaet().getWert());
+			final Table table = (Table) cache.get(areaCacheKey,
+					() -> loadTransform(shortCut, tableType, modelSession,
+							area));
+			if (resultTable.getColumndescriptors().isEmpty()) {
+				resultTable.getColumndescriptors().addAll(
+						EcoreUtil.copyAll(table.getColumndescriptors()));
+				resultTable.setTablecontent(
+						EcoreUtil.copy(table.getTablecontent()));
+			} else {
+				table.getTablecontent().getRowgroups()
+						.forEach(rowGroup -> TableExtensions
+								.addRowGroup(resultTable, rowGroup));
+			}
+		});
+
+		// sorting
+		if (resultTable.getTablecontent() != null) {
+			ECollections.sort(resultTable.getTablecontent().getRowgroups(),
+					getModelService(shortCut).getRowGroupComparator());
+		}
+
+		return resultTable;
+	}
+
+	@Override
+	public Table transformToTable(final String elementId,
 			final TableType tableType, final IModelSession modelSession) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		return (Table) cache.get(shortCut, () -> loadTransform(shortCut,
-				tableType, modelSession, shortCut));
+		return (Table) cache.get(shortCut,
+				() -> loadTransform(shortCut, tableType, modelSession, null));
 	}
 
 	@Override

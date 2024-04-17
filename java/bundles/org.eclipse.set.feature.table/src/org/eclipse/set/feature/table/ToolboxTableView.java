@@ -40,11 +40,13 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
+import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
@@ -59,6 +61,7 @@ import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -82,6 +85,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.SelectionPlaceArea;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
@@ -127,12 +131,14 @@ public final class ToolboxTableView extends BasePart {
 	private ExportService exportService;
 	private NatTable natTable;
 
-	private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
+	// private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
 	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
+
+	private ToolboxEventHandler<SelectionPlaceArea> selectionPlaceAreaHandler;
 
 	private int scrollToPositionRequested = -1;
 
@@ -157,6 +163,8 @@ public final class ToolboxTableView extends BasePart {
 	UserConfigurationService userConfigService;
 
 	TableType tableType;
+
+	Map<Stell_Bereich, ContainerType> placeAreas;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -273,14 +281,28 @@ public final class ToolboxTableView extends BasePart {
 						.extractShortcut(getToolboxPart().getElementId())
 						.toLowerCase()));
 
+		selectionPlaceAreaHandler = new DefaultToolboxEventHandler<>() {
+			@Override
+			public void accept(final SelectionPlaceArea t) {
+				placeAreas.clear();
+				t.getPlaceAreas().forEach(area -> placeAreas.put(area.area(),
+						area.containerType()));
+				tableType = t.getTableType();
+				updateTableView();
+			}
+		};
+
+		ToolboxEvents.subscribe(getBroker(), SelectionPlaceArea.class,
+				selectionPlaceAreaHandler);
 	}
 
 	@PreDestroy
 	private void preDestroy() {
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
-		ToolboxEvents.unsubscribe(getBroker(), newTableTypeHandler);
+		// ToolboxEvents.unsubscribe(getBroker(), newTableTypeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
+		ToolboxEvents.unsubscribe(getBroker(), selectionPlaceAreaHandler);
 		getBroker().send(Events.CLOSE_PART,
 				tableService.extractShortcut(getToolboxPart().getElementId())
 						.toLowerCase());
@@ -314,13 +336,14 @@ public final class ToolboxTableView extends BasePart {
 	 */
 	private Table transformToTableModel(final String elementId,
 			final IModelSession modelSession) {
-		return tableService.transformToTable(elementId, tableType,
-				modelSession);
+		return tableService.transformToTable(elementId, tableType, modelSession,
+				placeAreas);
 	}
 
 	private void updateTableView() {
 		tableService.updateTable(this, () -> {
 			updateModel(getToolboxPart(), getModelSession());
+			natTable.doCommand(new RowHeightResetCommand());
 			natTable.refresh();
 			updateButtons();
 
@@ -347,6 +370,7 @@ public final class ToolboxTableView extends BasePart {
 			tableType = getModelSession().getNature().getDefaultContainer()
 					.getTableTypeForTables();
 		}
+		placeAreas = getModelSession().getPlaceAreas();
 
 		tableService.updateTable(this,
 				() -> updateModel(getToolboxPart(), getModelSession()),
