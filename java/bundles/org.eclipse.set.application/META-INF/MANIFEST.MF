@@ -9,7 +9,8 @@ Export-Package: org.eclipse.set.application,
  org.eclipse.set.application.controlarea,
  org.eclipse.set.application.geometry,
  org.eclipse.set.application.handler,
- org.eclipse.set.application.nameservice
+ org.eclipse.set.application.nameservice,
+ org.eclipse.set.application.placearea
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.services,
