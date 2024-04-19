@@ -12,15 +12,14 @@ package org.eclipse.set.feature.projectdata.ppimport;
 
 import java.util.List;
 
+import org.eclipse.nebula.jface.tablecomboviewer.TableComboViewer;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.feature.projectdata.Messages;
 import org.eclipse.set.utils.widgets.FileField;
-import org.eclipse.set.utils.widgets.SelectionCombo;
-import org.eclipse.swt.SWT;
+import org.eclipse.set.utils.widgets.MultiSelectionCombo;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -30,8 +29,8 @@ import org.eclipse.swt.widgets.Composite;
  * @author Truong
  */
 public class ImportComboFileField extends FileField {
-	private final SelectionCombo<SubworkComboSelection> subworkCombo;
-	private final SelectionCombo<ContainerComboSelection> containerCombo;
+	private final MultiSelectionCombo<SubworkComboSelection> subworkCombo;
+	private final MultiSelectionCombo<ContainerComboSelection> containerCombo;
 
 	/**
 	 * @param parent
@@ -47,23 +46,21 @@ public class ImportComboFileField extends FileField {
 			final DialogService dialogService) {
 		super(parent, filters, dialogService);
 		composite.setLayout(new GridLayout(4, false));
-		subworkCombo = new SelectionCombo<>(composite, SWT.NONE,
-				SubworkComboSelection.class);
-		containerCombo = new SelectionCombo<>(composite, SWT.NONE,
-				ContainerComboSelection.class);
+		subworkCombo = new MultiSelectionCombo<>(composite);
+		containerCombo = new MultiSelectionCombo<>(composite);
 	}
 
 	/**
 	 * @return combo for selection subwork
 	 */
-	public SelectionCombo<SubworkComboSelection> getSubworkCombo() {
+	public MultiSelectionCombo<SubworkComboSelection> getSubworkCombo() {
 		return subworkCombo;
 	}
 
 	/**
 	 * @return combo for selection container
 	 */
-	public SelectionCombo<ContainerComboSelection> getContainerCombo() {
+	public MultiSelectionCombo<ContainerComboSelection> getContainerCombo() {
 		return containerCombo;
 	}
 
@@ -99,15 +96,13 @@ public class ImportComboFileField extends FileField {
 	 * @return true, if combo is selected (value not equal NOT_SELECTD_SUBWORK
 	 *         or NOT_SELECTED)
 	 */
-	public boolean isNotSelected(final Combo combo) {
+	public boolean isNotSelected(final TableComboViewer combo) {
 		if (combo.equals(subworkCombo)) {
-			return subworkCombo.getSelectionValue().getName()
-					.equals(SubworkComboSelection.NOT_SELECTED_SUBWORK);
+			return subworkCombo.getSelectedItems().isEmpty();
 		}
 
 		if (combo.equals(containerCombo)) {
-			return containerCombo.getSelectionValue()
-					.equals(ContainerComboSelection.NOT_SELECTED);
+			return containerCombo.getSelectedItems().isEmpty();
 		}
 
 		throw new IllegalArgumentException(

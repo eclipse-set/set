@@ -32,6 +32,13 @@ public interface ComboValues<T> {
 	public int getIndex(T value);
 
 	/**
+	 * @param stringValue
+	 *            the string value
+	 * @return the index
+	 */
+	public int getIndex(String stringValue);
+
+	/**
 	 * @return the items
 	 */
 	public String[] getItems();

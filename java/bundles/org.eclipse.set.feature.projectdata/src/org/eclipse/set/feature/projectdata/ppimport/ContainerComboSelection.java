@@ -10,6 +10,7 @@ package org.eclipse.set.feature.projectdata.ppimport;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.feature.projectdata.Messages;
 import org.eclipse.set.utils.widgets.ComboValues;
@@ -66,6 +67,11 @@ public enum ContainerComboSelection {
 		@Override
 		public int getIndex(final ContainerComboSelection value) {
 			return Arrays.asList(itemValues).indexOf(value);
+		}
+
+		@Override
+		public int getIndex(final String stringValue) {
+			return ArrayUtils.indexOf(itemsMessages, stringValue);
 		}
 
 		@Override

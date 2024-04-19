@@ -13,6 +13,7 @@ package org.eclipse.set.feature.projectdata.ppimport;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -74,7 +75,6 @@ public class ImportControl {
 
 	PlanPro_Schnittstelle schnittstelle;
 	ImportComboFileField comboField;
-
 	private Function<ImportComboFileField, Boolean> comboValidCheck;
 	private boolean isValid = false;
 	Option option;
@@ -85,7 +85,7 @@ public class ImportControl {
 
 	private boolean imported;
 
-	private Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData = null;
+	private List<Pair<Planung_Gruppe, Ausgabe_Fachdaten>> selectedData = null;
 
 	/**
 	 * @param serviceProvider
@@ -100,6 +100,7 @@ public class ImportControl {
 		this.serviceProvider = serviceProvider;
 		this.modelSession = modelSession;
 		this.importType = importType;
+		this.selectedData = new ArrayList<>();
 		this.setImported(false);
 	}
 
@@ -143,16 +144,14 @@ public class ImportControl {
 	 * 
 	 * @return Pair<Planung_Gruppe, Ausgabe_Fachdaten>
 	 */
-	public Pair<Planung_Gruppe, Ausgabe_Fachdaten> getSelectedData() {
-		if (selectedData != null) {
+	public List<Pair<Planung_Gruppe, Ausgabe_Fachdaten>> getSelectedData() {
+		if (!selectedData.isEmpty()) {
 			return selectedData;
 		}
-		final SubworkComboSelection subworkValue = comboField.getSubworkCombo()
-				.getSelectionValue();
-		if (subworkValue.getLiteral()
-				.equals(serviceProvider.messages.ContainerValues_NotSelected)
-				|| schnittstelle == null) {
-			return null;
+		final List<SubworkComboSelection> subworkValues = comboField
+				.getSubworkCombo().getSelectionValues();
+		if (subworkValues.isEmpty() || schnittstelle == null) {
+			return Collections.emptyList();
 		}
 
 		// Fall import single state model
@@ -166,25 +165,29 @@ public class ImportControl {
 			final Planung_Gruppe planungGruppe = newSchnitStelle.getLSTPlanung()
 					.getObjektmanagement().getLSTPlanungProjekt().get(0)
 					.getLSTPlanungGruppe().get(0);
-			selectedData = new Pair<>(planungGruppe, ausgabeFachdaten);
+			selectedData.add(new Pair<>(planungGruppe, ausgabeFachdaten));
 
 			// Replace singe state model with normal model
 			schnittstelle = newSchnitStelle;
 			return selectedData;
 		}
 
-		final Optional<Planung_Gruppe> planungGruppe = PlanungGruppeExtensions
-				.getPlanungGruppe(schnittstelle, subworkValue.getLiteral());
-		if (planungGruppe.isEmpty()) {
-			throw new IllegalArgumentException(
-					String.format("The model not contain sub work type: %s", //$NON-NLS-1$
-							subworkValue.getLiteral()));
-		}
-		final Planung_Einzel planungEinzel = planungGruppe.get()
-				.getLSTPlanungEinzel();
+		subworkValues.forEach(subworkValue -> {
+			final Optional<Planung_Gruppe> planungGruppe = PlanungGruppeExtensions
+					.getPlanungGruppe(schnittstelle, subworkValue.getLiteral());
+			if (planungGruppe.isEmpty()) {
+				throw new IllegalArgumentException(
+						String.format("The model not contain sub work type: %s", //$NON-NLS-1$
+								subworkValue.getLiteral()));
+			}
+			final Planung_Einzel planungEinzel = planungGruppe.get()
+					.getLSTPlanungEinzel();
 
-		selectedData = new Pair<>(planungGruppe.get(),
-				PlanungEinzelExtensions.getAusgabeFachdaten(planungEinzel));
+			selectedData
+					.add(new Pair<>(planungGruppe.get(), PlanungEinzelExtensions
+							.getAusgabeFachdaten(planungEinzel)));
+		});
+
 		return selectedData;
 
 	}
@@ -210,6 +213,7 @@ public class ImportControl {
 		option = createImportOption(parent, text, comboUpdateHandle);
 		comboField = createImportFileFieldCombo(parent, shell, role,
 				comboUpdateHandle);
+
 		comboValidCheck = validCheck;
 	}
 
@@ -236,9 +240,13 @@ public class ImportControl {
 			return false;
 		}
 
-		if (!comboField.getSubworkCombo().getSelectionValue()
-				.equals(anotherImportControl.comboField.getSubworkCombo()
-						.getSelectionValue())) {
+		final List<SubworkComboSelection> currentSelectionsSubworks = comboField
+				.getSubworkCombo().getSelectionValues();
+		final List<SubworkComboSelection> anotherSelectionsSubworks = anotherImportControl.comboField
+				.getSubworkCombo().getSelectionValues();
+		if (currentSelectionsSubworks.size() != anotherSelectionsSubworks.size()
+				&& !currentSelectionsSubworks
+						.containsAll(anotherSelectionsSubworks)) {
 			return false;
 		}
 
@@ -359,6 +367,7 @@ public class ImportControl {
 				setComboValues(PlanProFileNature.PLANNING);
 			} else {
 				setComboValues(PlanProFileNature.INFORMATION_STATE);
+
 				// By single state project given't option for choose subwork or
 				// container
 				isValid = comboValidCheck.apply(comboField).booleanValue();

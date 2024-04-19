@@ -140,6 +140,12 @@ public class SubworkComboSelection extends AbstractEnumerator {
 		}
 
 		@Override
+		public int getIndex(final String stringValue) {
+			return itemValues.stream().map(SubworkComboSelection::getLiteral)
+					.toList().indexOf(stringValue);
+		}
+
+		@Override
 		public String[] getItems() {
 			return itemValues.stream().map(SubworkComboSelection::getLiteral)
 					.toArray(String[]::new);
