@@ -11,6 +11,7 @@ package org.eclipse.set.feature.validation.session;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.extensions.PathExtensions;
@@ -67,18 +68,18 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 	private String getTableModel(final String shortcut,
 			final ExportType exportType) {
 		return String.format(TABLE_MODEL_EXPORT_PATTERN,
-				getModelBaseName(exportType), shortcut);
+				getModelBaseName(exportType), StringUtils.capitalize(shortcut));
 	}
 
 	private String getTablePdfExport(final String shortcut,
 			final ExportType exportType) {
 		return String.format(TABLE_PDF_EXPORT_PATTERN,
-				getModelBaseName(exportType), shortcut);
+				getModelBaseName(exportType), StringUtils.capitalize(shortcut));
 	}
 
 	private String getTableXlsxExport(final String shortcut,
 			final ExportType exportType) {
 		return String.format(TABLE_XLSX_EXPORT_PATTERN,
-				getModelBaseName(exportType), shortcut);
+				getModelBaseName(exportType), StringUtils.capitalize(shortcut));
 	}
 }
