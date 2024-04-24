@@ -40,6 +40,8 @@ import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.custom.extensions.FileDialogExtensions;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -167,10 +169,31 @@ public class DialogServiceImpl implements DialogService {
 		return confirmDialog.confirmed();
 	}
 
+	// Helper class to widen the rename message dialog
+	private static class RenameMessageDialog extends MessageDialog {
+
+		public RenameMessageDialog(final Shell parentShell,
+				final String dialogTitle, final Image dialogTitleImage,
+				final String dialogMessage, final int dialogImageType,
+				final String[] dialogButtonLabels, final int defaultIndex) {
+			super(parentShell, dialogTitle, dialogTitleImage, dialogMessage,
+					dialogImageType, dialogButtonLabels, defaultIndex);
+		}
+
+		@Override
+		protected Point getInitialSize() {
+			final Point size = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT,
+					true);
+			size.x = (int) (size.x * 1.2);
+			return size;
+		}
+
+	}
+
 	@Override
 	public RenameConfirmation confirmRename(final Shell shell,
 			final String oldFilename, final String newFilename) {
-		final MessageDialog messageDialog = new MessageDialog(shell,
+		final MessageDialog messageDialog = new RenameMessageDialog(shell,
 				messages.DialogService_ConfirmRename_Title, null,
 				String.format(
 						messages.DialogService_ConfirmRename_MessagePattern,
