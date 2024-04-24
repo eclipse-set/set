@@ -57,6 +57,8 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensio
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
 import org.eclipse.set.model.planpro.Verweise.VerweiseFactory
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Extensions for {@link PlanPro_Schnittstelle}.
@@ -719,12 +721,14 @@ class PlanProSchnittstelleExtensions {
 		val bauzustand = schnittstelle.bauzustandKurzbezeichnung.orElse(
 			"(bauzustand)"
 		)
-
+		
+		val timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm"));
+		
 		var String filename
 		if (exportType === ExportType.INVENTORY_RECORDS) {
-			filename = '''«oertlichkeit»_«index»_«lfdNummer»_B_«bauzustand».«fileExtension»'''
+			filename = '''«oertlichkeit»_«index»_«lfdNummer»_B_«bauzustand»_«timestamp».«fileExtension»'''
 		} else {
-			filename = '''«oertlichkeit»_«index»_«lfdNummer»_«bauzustand».«fileExtension»'''
+			filename = '''«oertlichkeit»_«index»_«lfdNummer»_«bauzustand»_«timestamp».«fileExtension»'''
 		}
 
 		// revise filename		
