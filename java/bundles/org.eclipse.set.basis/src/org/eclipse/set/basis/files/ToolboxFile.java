@@ -146,6 +146,15 @@ public interface ToolboxFile {
 	byte[] getMedia(Guid guid) throws IOException;
 
 	/**
+	 * @param guid
+	 *            the guid
+	 * 
+	 * @return the media path
+	 * 
+	 */
+	Path getMediaPath(Guid guid);
+
+	/**
 	 * Return the model path of the toolbox file. This may be the toolbox file
 	 * itself or a temporary content file on the file system. The returned file
 	 * is always a plain, uncompressed xml file.

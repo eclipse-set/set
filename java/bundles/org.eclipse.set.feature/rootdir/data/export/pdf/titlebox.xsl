@@ -630,11 +630,7 @@ http://www.eclipse.org/legal/epl-v20.html
 									</fo:table-row>
 									<!-- Zeile 4 -->
 									<fo:table-row height="{5 - $titlebox-SB - $titlebox-WB}mm">
-										<fo:table-cell height="{5+5+10-3*$titlebox-WB}mm" column-number="1" number-columns-spanned="2" number-rows-spanned="3" border-style="solid" border-width="0px">
-											<xsl:apply-templates select="Field[@address=93]">
-												<xsl:with-param name="fontSize" select="'3.5mm'"/>
-											</xsl:apply-templates>
-										</fo:table-cell>
+										<xsl:apply-templates select="PlanningOffice"/>
 										<fo:table-cell height="inherit" column-number="3" border-style="solid" border-width="0px" border-left="{$titlebox-wide-border-style}" border-bottom="{$titlebox-wide-border-style}">
 											<xsl:apply-templates select="Field[@address=94]">
 												<xsl:with-param name="fontSize" select="'2.5mm'"/>
@@ -717,4 +713,91 @@ http://www.eclipse.org/legal/epl-v20.html
 		</fo:block-container>
 	</xsl:template>
 
+	<xsl:template match="PlanningOffice[@variant='logo-side']">
+		<fo:table-cell margin="0" padding="0" height="{5+5+10-3*$titlebox-WB}mm" column-number="1" number-columns-spanned="2" number-rows-spanned="3">
+			<fo:block>
+				<fo:table table-layout="fixed">
+					<fo:table-column column-number="1" column-width="30%" />
+					<fo:table-column column-number="2" column-width="70%" />
+					<fo:table-body>
+						<fo:table-row>
+							<fo:table-cell column-number="1">
+								<fo:block>
+									<fo:external-graphic src="{@logo}" height="{5+5+10-7*$titlebox-WB}mm" content-height="scale-down-to-fit" content-width="scale-down-to-fit" />
+								</fo:block>
+							</fo:table-cell>
+							<fo:table-cell column-number="2">
+								<fo:block margin-left="1pt" text-align="left">
+									<fo:block font-size="{./Name/@fontsize}">
+										<xsl:value-of select="./Name" />
+									</fo:block>
+									<fo:block font-size="{./Group/@fontsize}">
+										<xsl:value-of select="./Group" />
+									</fo:block>
+									<fo:block font-size="{./Location/@fontsize}">
+										<xsl:value-of select="./Location"/>
+									</fo:block>
+									<fo:block font-size="{./Phone/@fontsize}">
+										<xsl:value-of select="./Phone" />
+									</fo:block>
+									<fo:block font-size="{./Email/@fontsize}">
+										<xsl:value-of select="./Email" />
+									</fo:block>
+								</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+			</fo:block>
+		</fo:table-cell>
+	</xsl:template>
+	<xsl:template match="PlanningOffice[@variant='logo-top']">
+		<fo:table-cell margin="0" padding="0" height="{5+5+10-3*$titlebox-WB}mm" column-number="1" number-columns-spanned="2" number-rows-spanned="3" border-style="solid" border-width="0px">
+			<fo:block-container height="7mm">
+				<fo:block margin-top="-0.5mm">
+					<fo:external-graphic src="{@logo}" content-height="7mm" />
+				</fo:block>
+			</fo:block-container>
+			<fo:block-container margin-left="2pt" text-align="left" height="12mm">
+				<fo:block font-size="{./Name/@fontsize}">
+					<xsl:value-of select="./Name" />
+				</fo:block>
+				<fo:block font-size="{./Group/@fontsize}">
+					<xsl:value-of select="./Group" />
+				</fo:block>
+				<fo:block font-size="{./Location/@fontsize}">
+					<xsl:value-of select="./Location"/>
+				</fo:block>
+				<fo:block font-size="{./Phone/@fontsize}">
+					<xsl:value-of select="./Phone" />
+				</fo:block>
+				<fo:block font-size="{./Email/@fontsize}">
+					<xsl:value-of select="./Email" />
+				</fo:block>
+			</fo:block-container>
+		</fo:table-cell>
+	</xsl:template>
+	<xsl:template match="PlanningOffice[@variant='no-logo']">
+		<fo:table-cell margin="0" padding="0" height="{5+5+10-3*$titlebox-WB}mm" column-number="1" number-columns-spanned="2" number-rows-spanned="3">
+			<fo:block>
+				<fo:block margin-left="1pt" text-align="center">
+					<fo:block font-size="{./Name/@fontsize}">
+						<xsl:value-of select="./Name" />
+					</fo:block>
+					<fo:block font-size="{./Group/@fontsize}">
+						<xsl:value-of select="./Group" />
+					</fo:block>
+					<fo:block font-size="{./Location/@fontsize}">
+						<xsl:value-of select="./Location"/>
+					</fo:block>
+					<fo:block font-size="{./Phone/@fontsize}">
+						<xsl:value-of select="./Phone" />
+					</fo:block>
+					<fo:block font-size="{./Email/@fontsize}">
+						<xsl:value-of select="./Email" />
+					</fo:block>
+				</fo:block>
+			</fo:block>
+		</fo:table-cell>
+	</xsl:template>
 </xsl:stylesheet>

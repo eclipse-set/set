@@ -37,6 +37,24 @@ public interface TitleboxFactory extends EFactory {
 	Titlebox createTitlebox();
 
 	/**
+	 * Returns a new object of class '<em>Planning Office</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Planning Office</em>'.
+	 * @generated
+	 */
+	PlanningOffice createPlanningOffice();
+
+	/**
+	 * Returns a new object of class '<em>String Field</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>String Field</em>'.
+	 * @generated
+	 */
+	StringField createStringField();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

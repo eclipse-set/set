@@ -63,6 +63,8 @@ public class TitleboxFactoryImpl extends EFactoryImpl implements TitleboxFactory
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case TitleboxPackage.TITLEBOX: return createTitlebox();
+			case TitleboxPackage.PLANNING_OFFICE: return createPlanningOffice();
+			case TitleboxPackage.STRING_FIELD: return createStringField();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -77,6 +79,28 @@ public class TitleboxFactoryImpl extends EFactoryImpl implements TitleboxFactory
 	public Titlebox createTitlebox() {
 		TitleboxImpl titlebox = new TitleboxImpl();
 		return titlebox;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public PlanningOffice createPlanningOffice() {
+		PlanningOfficeImpl planningOffice = new PlanningOfficeImpl();
+		return planningOffice;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public StringField createStringField() {
+		StringFieldImpl stringField = new StringFieldImpl();
+		return stringField;
 	}
 
 	/**

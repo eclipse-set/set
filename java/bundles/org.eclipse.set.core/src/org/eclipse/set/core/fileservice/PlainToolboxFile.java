@@ -104,6 +104,11 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 	}
 
 	@Override
+	public Path getMediaPath(final Guid guid) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public List<String> getAllMedia() throws IOException {
 		return new ArrayList<>();
 	}

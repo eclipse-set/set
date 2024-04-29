@@ -360,7 +360,8 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		return Paths.get(getUnzipDirectory().toString(), MEDIA_DIR);
 	}
 
-	private Path getMediaPath(final Guid guid) {
+	@Override
+	public Path getMediaPath(final Guid guid) {
 		return Paths.get(getMediaDirectory().toString(), guid.toString());
 	}
 

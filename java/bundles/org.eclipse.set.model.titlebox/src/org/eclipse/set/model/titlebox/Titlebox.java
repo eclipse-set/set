@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.titlebox.Titlebox#getFieldList <em>Field</em>}</li>
+ *   <li>{@link org.eclipse.set.model.titlebox.Titlebox#getPlanningOffice <em>Planning Office</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.titlebox.TitleboxPackage#getTitlebox()
@@ -79,5 +80,27 @@ public interface Titlebox extends EObject {
 	 * @generated
 	 */
 	EList<String> getFieldList();
+
+	/**
+	 * Returns the value of the '<em><b>Planning Office</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Planning Office</em>' containment reference.
+	 * @see #setPlanningOffice(PlanningOffice)
+	 * @see org.eclipse.set.model.titlebox.TitleboxPackage#getTitlebox_PlanningOffice()
+	 * @model containment="true"
+	 * @generated
+	 */
+	PlanningOffice getPlanningOffice();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.titlebox.Titlebox#getPlanningOffice <em>Planning Office</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Planning Office</em>' containment reference.
+	 * @see #getPlanningOffice()
+	 * @generated
+	 */
+	void setPlanningOffice(PlanningOffice value);
 
 } // Titlebox

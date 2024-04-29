@@ -52,6 +52,7 @@ import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
+import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
@@ -203,12 +204,18 @@ public final class ToolboxTableView extends BasePart {
 		return planProToFreeField.transform(getModelSession());
 	}
 
+	private Path getAttachmentPath(final String guid) {
+		return getModelSession().getToolboxFile()
+				.getMediaPath(Guid.create(guid));
+	}
+
 	private Titlebox getTitlebox(final String shortcut) {
 		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 				.create();
 		final Titlebox titlebox = planProToTitlebox.transform(
 				getModelSession().getPlanProSchnittstelle(),
-				tableService.getTableNameInfo(shortcut));
+				tableService.getTableNameInfo(shortcut),
+				this::getAttachmentPath);
 		updateTitlebox(titlebox);
 		return titlebox;
 	}
