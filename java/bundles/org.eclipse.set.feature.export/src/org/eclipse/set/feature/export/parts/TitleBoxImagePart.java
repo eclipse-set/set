@@ -70,8 +70,12 @@ public class TitleBoxImagePart extends BasePart {
 	private MApplication application;
 
 	private Path getAttachmentPath(final String guid) {
-		return getModelSession().getToolboxFile()
-				.getMediaPath(Guid.create(guid));
+		try {
+			return getModelSession().getToolboxFile()
+					.getMediaPath(Guid.create(guid));
+		} catch (final UnsupportedOperationException e) {
+			return null; // .ppxml-Files do not support attachments
+		}
 	}
 
 	private void createTitleboxImage(
