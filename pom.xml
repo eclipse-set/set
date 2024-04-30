@@ -10,7 +10,7 @@
 
 	<properties>
 		<tycho-version>4.0.5</tycho-version>
-		<deploy-plugin-version>3.1.1</deploy-plugin-version>
+		<deploy-plugin-version>3.1.2</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
