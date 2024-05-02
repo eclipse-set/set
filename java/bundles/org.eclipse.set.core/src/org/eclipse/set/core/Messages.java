@@ -410,6 +410,11 @@ public class Messages extends AbstractMessageService {
 	public String ExceptionTransformation_NotWriteablePattern;
 
 	/**
+	 * Der Zugriff auf die Datei "%s" wurde verweigert.
+	 */
+	public String ExceptionTransformation_AccessDeniedPattern;
+
+	/**
 	 * Es ist ein unerwarteter Fehler aufgetreten.
 	 */
 	public String ExceptionTransformation_NullPointerException_Message;
