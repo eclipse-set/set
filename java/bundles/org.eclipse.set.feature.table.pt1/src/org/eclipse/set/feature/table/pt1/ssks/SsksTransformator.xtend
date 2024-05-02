@@ -324,7 +324,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									signal,
 									[
 										abstandMastmitteLinks.map [
-											'''«key» «IF value > 0»(«value»)«ENDIF»'''
+											'''«key»«IF value > 0» («value»)«ENDIF»'''
 										]
 									],
 									null,
@@ -337,7 +337,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									signal,
 									[
 										abstandMastmitteRechts.map [
-											'''«key» «IF value > 0»(«value»)«ENDIF»'''
+											'''«key»«IF value > 0» («value»)«ENDIF»'''
 										]
 									],
 									null,
