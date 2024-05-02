@@ -48,10 +48,10 @@ public enum RenameConfirmation {
 		final Optional<RenameConfirmation> findAny = Arrays
 				.stream(RenameConfirmation.values())
 				.filter(c -> c.getDialogResult() == dialogResult).findAny();
-		return findAny.orElseThrow();
+		return findAny.orElse(ABORT);
 	}
 
-	private int dialogResult;
+	private final int dialogResult;
 
 	private RenameConfirmation(final int dialogResult) {
 		this.dialogResult = dialogResult;
