@@ -50,13 +50,14 @@ class ExceptionTransformation {
 	 * 
 	 * @return the status
 	 */
-	def ErrorStatus create new ErrorStatusImpl() transform(Throwable e, String technicalMessage) {
+	def ErrorStatus create new ErrorStatusImpl() transform(Throwable e,
+		String technicalMessage) {
 		bundle = FrameworkUtil.getBundle(this.class)
 		this.technicalMessage = technicalMessage
 		errorTitle = e.transformToTitle
 		userMessage = e.transformToUserMessage
 		status = e.transformToStatus(false)
-		
+
 		return
 	}
 
@@ -122,20 +123,19 @@ class ExceptionTransformation {
 	) {
 		return messages.ExceptionTransformation_FileNotFoundException_Message
 	}
-	
-	
+
 	private def dispatch String transformToUserMessage(
 		AccessDeniedException e
 	) {
 		return messages.ExceptionTransformation_FileNotFoundException_Message
 	}
-	
+
 	private def dispatch String transformToUserMessage(
 		FileSystemException e
 	) {
 		return messages.ExceptionTransformation_FileNotFoundException_Message
 	}
-	
+
 	private def dispatch String transformToUserMessage(
 		IllegalReference e
 	) {
@@ -144,7 +144,7 @@ class ExceptionTransformation {
 			e.transformToObject
 		)
 	}
-	
+
 	private def dispatch String transformToTechnicalMessage(
 		Void e,
 		boolean showType
@@ -170,6 +170,14 @@ class ExceptionTransformation {
 			message = e.message
 		}
 		return message
+	}
+
+	private def dispatch String transformToTechnicalMessage(
+		AccessDeniedException e,
+		boolean showType
+	) {
+		return String.format(
+			messages.ExceptionTransformation_AccessDeniedPattern, e.message);
 	}
 
 	private def dispatch String transformToTechnicalMessage(
@@ -240,7 +248,8 @@ class ExceptionTransformation {
 		if (showType) {
 			return e.class.simpleName
 		}
-		return messages.ExceptionTransformation_IndexOutOfBoundsException_DetailMessage
+		return messages.
+			ExceptionTransformation_IndexOutOfBoundsException_DetailMessage
 	}
 
 	private def dispatch IStatus create new MultiStatus(bundle.symbolicName, 0, null.transformToTechnicalMessage(showType), null)
