@@ -23,6 +23,9 @@ import org.eclipse.core.runtime.MultiStatus
 import org.eclipse.core.runtime.Status
 import org.osgi.framework.Bundle
 import org.osgi.framework.FrameworkUtil
+import java.nio.file.AccessDeniedException
+import java.nio.file.FileSystemException
+
 /**
  * Transform an {@link Throwable} to an {@link IStatus}.
  * 
@@ -119,7 +122,20 @@ class ExceptionTransformation {
 	) {
 		return messages.ExceptionTransformation_FileNotFoundException_Message
 	}
-
+	
+	
+	private def dispatch String transformToUserMessage(
+		AccessDeniedException e
+	) {
+		return messages.ExceptionTransformation_FileNotFoundException_Message
+	}
+	
+	private def dispatch String transformToUserMessage(
+		FileSystemException e
+	) {
+		return messages.ExceptionTransformation_FileNotFoundException_Message
+	}
+	
 	private def dispatch String transformToUserMessage(
 		IllegalReference e
 	) {
