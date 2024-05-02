@@ -65,10 +65,9 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		val ppschnittstelle = object.planProSchnittstelle
 		val planData = ppschnittstelle?.LSTPlanung?.objektmanagement?.
 			LSTPlanungProjekt?.flatMap [
-				it?.LSTPlanungGruppe?.flatMap [
-					it?.LSTPlanungEinzel?.LSTObjektePlanungsbereich?.
-						IDLSTObjektPlanungsbereich
-				]
+				it?.LSTPlanungGruppe?.map [
+					it?.LSTPlanungEinzel?.LSTObjektePlanungsbereich
+				].filterNull.flatMap[IDLSTObjektPlanungsbereich]
 			].filterNull ?: #[]
 
 		return planData.exists[wert == guid]
