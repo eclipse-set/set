@@ -31,10 +31,10 @@ import org.locationtech.jts.geom.LineSegment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.getGeometry
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -53,7 +53,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		double seitlicherAbstand,
 		ENUMWirkrichtung wirkrichtung
 	) {
-		val geometry = getGeometry(geoKante)
+		val geometry = geoKante.getGeometry
 		// If the geometry size is smaller than the GEO_Laenge of the GEO_Kante
 		// adjust the distance to fit within the GEO_Kante
 		val edgeLength = Math.abs(
@@ -303,7 +303,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		double tolerance
 	) {
 		try {
-			return getGeometry(directedEdge).segments.getSegmentWith(coordinate,
+			return directedEdge.getGeometry.segments.getSegmentWith(coordinate,
 				tolerance)
 		} catch (GeometryException e) {
 			throw new RuntimeException(e)
@@ -340,7 +340,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	) {
 		val result = new ArrayList<Pair<Coordinate, Double>>
 		val coordinates = getGeometry(geoKante).coordinates
-
+		geoKante.container
 		// Add the first coordinate
 		var lastCoordinate = coordinates.head
 		var double distance = 0

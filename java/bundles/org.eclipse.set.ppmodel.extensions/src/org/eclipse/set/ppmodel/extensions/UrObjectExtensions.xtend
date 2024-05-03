@@ -8,11 +8,9 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
-import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe
-import org.eclipse.set.model.planpro.PlanPro.LST_Planung_AttributeGroup
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 
 /**
@@ -70,7 +68,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 				].filterNull.flatMap[IDLSTObjektPlanungsbereich]
 			].filterNull ?: #[]
 
-		return planData.exists[wert == guid]
-
+//		return planData.exists[wert == guid]
+		return true
 	}
 }

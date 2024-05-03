@@ -8,26 +8,26 @@
  */
 package org.eclipse.set.feature.siteplan.trackservice
 
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
-import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
-import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.List
 import org.eclipse.set.basis.geometry.Geometries
 import org.eclipse.set.basis.geometry.SegmentPosition
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.ppmodel.extensions.GeoKanteExtensions
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.LineSegment
 import org.locationtech.jts.geom.LineString
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
-import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
-import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions
+import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
 /** 
  * A GEO_Kante with additional cached metadata
@@ -70,7 +70,7 @@ class GEOKanteMetadata {
 		this.geoKante = geoKante
 		this.start = start
 		this.length = length
-		this.geometry = GEOKanteGeometryExtensions.getGeometry(geoKante)
+		this.geometry = geoKante.getGeometry
 		this.geoKnoten = geoKnoten
 		val double end = getEnd()
 		// Determine segments
@@ -161,7 +161,7 @@ class GEOKanteMetadata {
 		this.start = start
 		this.length = (geoKante.GEOKanteAllg?.GEOLaenge?.wert ?:
 			BigDecimal.ZERO).doubleValue
-		this.geometry = GEOKanteGeometryExtensions.getGeometry(geoKante)
+		this.geometry = geoKante.getGeometry
 		this.geoKnoten = geoKnoten
 		// As there is no segmenting information, only use one segment
 		segments.add(new GEOKanteSegment(start, length))

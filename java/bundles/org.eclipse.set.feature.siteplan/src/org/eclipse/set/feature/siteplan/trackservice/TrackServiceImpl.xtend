@@ -13,8 +13,7 @@ import java.util.ArrayList
 import java.util.List
 import org.eclipse.set.basis.cache.Cache
 import org.eclipse.set.basis.geometry.GeometryException
-import org.eclipse.set.ppmodel.extensions.TopKanteExtensions
-import org.eclipse.set.ppmodel.extensions.TopKnotenExtensions
+import org.eclipse.set.core.services.cache.CacheService
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -24,7 +23,10 @@ import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.ppmodel.extensions.TopKanteExtensions
+import org.eclipse.set.ppmodel.extensions.TopKnotenExtensions
 import org.osgi.service.component.annotations.Component
+import org.osgi.service.component.annotations.Reference
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -35,14 +37,12 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import org.eclipse.set.core.services.cache.CacheService
-import org.osgi.service.component.annotations.Reference
 
 @Component
 class TrackServiceImpl implements TrackService {
 	@Reference
 	CacheService cacheService;
-
+	
 	// Acceptable tolerance between the length of all GEO_Kante on a TOP_Kante
 	// and the length of the TOP_Kante
 	static val double GEO_LENGTH_DEVIATION_TOLERANCE = 0.001

@@ -90,8 +90,6 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions
-import org.eclipse.set.ppmodel.extensions.utils.CacheUtils
 import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 import org.eclipse.set.utils.events.TableDataChangeEvent
@@ -131,6 +129,7 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
@@ -152,12 +151,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	val BankService bankingService
 	val EventAdmin eventAdmin
 	val String tableShortCut
+	static val MAX_OPOSIDE_DISTANCE = 7000;
 
 	// Container the thread, which will be refresh table after all thread is done
-	List<Thread> waitingFillValueThread = newArrayList
-	List<Pt1TableChangeProperties> changeProperties = Collections.
-		synchronizedList(newArrayList)
-
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService, BankService bankingService,
@@ -172,7 +168,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 		// iterate signal-wise
-		for (Signal signal : container.signal.filter[isPlanningObject].filter [
+		val waitingFileSideDistanceSignal = newHashMap
+		for (Signal signal : container?.signal?.filter[isPlanningObject].filter [
 			ssksSignal
 		]) {
 			if (Thread.currentThread.interrupted) {
@@ -307,9 +304,18 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							}
 
 							// Abstand Mastmitte
-							if (!GEOKanteGeometryExtensions.
+							if (!
 								isFindGeometryComplete) {
-								row.fillSideDistanceSync(signal)
+
+								#[Mastmitte_Links, Mastmitte_Rechts].forEach [
+									fill(
+										row,
+										cols.getColumn(it),
+										signal,
+										[CellContentExtensions.HOURGLASS_ICON]
+									)
+								]
+								waitingFileSideDistanceSignal.put(row, signal)
 							} else {
 								val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
 								val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
@@ -826,18 +832,21 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 		}
 
-		// Thread for send refresh table event after all process done		
+		// Thread for send refresh table event after all process done	
 		new Thread([
-			for (Thread t : waitingFillValueThread) {
-				if (t.alive && !t.interrupted) {
-					try {
-						t.join
-					} catch (InterruptedException exc) {
-						Thread.currentThread.interrupt
-						return
-					}
+			// Wait for find geometry process done
+			while (!isFindGeometryComplete) {
+				try {
+					Thread.sleep(5000)
+				} catch (InterruptedException exc) {
+					Thread.currentThread.interrupt
+					return
 				}
 			}
+			val changeProperties = newArrayList
+			waitingFileSideDistanceSignal.forEach [ row, signal |
+				row.refillSideDistance(signal, changeProperties)
+			]
 			val updateValuesEvent = new TableDataChangeEvent(
 				tableShortCut.toLowerCase, changeProperties)
 			TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
@@ -847,49 +856,23 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return factory.table
 	}
 
-	private def void fillSideDistanceSync(TableRow row, Signal signal) {
-
-		#[Mastmitte_Links, Mastmitte_Rechts].forEach [
-			fill(
-				row,
-				cols.getColumn(it),
-				signal,
-				[CellContentExtensions.HOURGLASS_ICON]
-			)
-		]
-
-		val threadName = '''«tableShortCut»/«ToolboxConstants.CacheId.GEOKANTE_GEOMETRY»/«CacheUtils.getCacheKey(signal)»'''
-		val fillSideDistanceThread = new Thread([
-			// Wait for find geometry process done
-			while (!GEOKanteGeometryExtensions.isFindGeometryComplete) {
-				try {
-					Thread.sleep(30000)
-				} catch (InterruptedException exc) {
-					Thread.currentThread.interrupt
-					return
-				}
-			}
-			val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-			val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
-			val containerType = signal.container.containerType
-			signal.initAbstandMastmitte(signal.signalRahmen,
-				abstandMastmitteLinks, abstandMastmitteRechts);
-			val leftDistance = new Pt1TableChangeProperties(containerType, row,
-				cols.getColumn(Mastmitte_Links), abstandMastmitteLinks.map [
-					'''«key» «IF value > 0»(«value»)«ENDIF»'''
-				].toList, ITERABLE_FILLING_SEPARATOR)
-			changeProperties.add(leftDistance)
-			val rightDistance = new Pt1TableChangeProperties(containerType, row,
-				cols.getColumn(Mastmitte_Rechts), abstandMastmitteRechts.map [
-					'''«key» «IF value > 0»(«value»)«ENDIF»'''
-				].toList, ITERABLE_FILLING_SEPARATOR)
-			changeProperties.add(rightDistance)
-		], threadName)
-		// We need all GEO_Kante geometry to calculation side distance
-		// and the calculation process doesn't take much time, 
-		// because of the talbe will be refesh only after all process done
-		waitingFillValueThread.add(fillSideDistanceThread)
-		fillSideDistanceThread.start
+	private def void refillSideDistance(TableRow row, Signal signal,
+		List<Pt1TableChangeProperties> changeProperties) {
+		val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
+		val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+		val containerType = signal.container.containerType
+		signal.initAbstandMastmitte(signal.signalRahmen, abstandMastmitteLinks,
+			abstandMastmitteRechts);
+		val leftDistance = new Pt1TableChangeProperties(containerType, row,
+			cols.getColumn(Mastmitte_Links), abstandMastmitteLinks.map [
+				'''«key» «IF value > 0»(«value»)«ENDIF»'''
+			].toList, ITERABLE_FILLING_SEPARATOR)
+		changeProperties.add(leftDistance)
+		val rightDistance = new Pt1TableChangeProperties(containerType, row,
+			cols.getColumn(Mastmitte_Rechts), abstandMastmitteRechts.map [
+				'''«key» «IF value > 0»(«value»)«ENDIF»'''
+			].toList, ITERABLE_FILLING_SEPARATOR)
+		changeProperties.add(rightDistance)
 	}
 
 	private def void initAbstandMastmitte(
@@ -910,7 +893,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				p.seitlicherAbstand.wert.doubleValue * 1000)
 			val wirkrichtung = signal.getWirkrichtung(p.topKante)
 
-			val distanceFromPoint = 7000 - Math.abs(seitlicherAbstand)
+			val distanceFromPoint = MAX_OPOSIDE_DISTANCE -
+				Math.abs(seitlicherAbstand)
 			val perpendicularRotation = wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 					seitlicherAbstand > 0 ? 90 : -90
 			var opposideSideDistance = 0.0
@@ -950,7 +934,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			#[position.coordinate, new Coordinate(transformX, transformY)])
 		val relevantGeoKante = potk.container.GEOKante.filter [
 			geoArt instanceof TOP_Kante && geoArt !== potk.IDTOPKante
-		].map[GEOKanteGeometryExtensions.getGeometry(it)].filterNull.toList
+		].map[getGeometry].filterNull.toList
 		return relevantGeoKante.getDistanceOpposide(perpendicularLine, position)
 	}
 
