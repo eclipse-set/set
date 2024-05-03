@@ -71,7 +71,12 @@ public interface FopService {
 		/**
 		 * PDF-A Mode 1b
 		 */
-		PDF_A_1b("PDF/A-1b"); //$NON-NLS-1$
+		PDF_A_1b("PDF/A-1b"), //$NON-NLS-1$
+
+		/**
+		 * PDF-A3 Mode a
+		 */
+		PDF_A_3a("PDF/A-3a"); //$NON-NLS-1$
 
 		private final String modeString;
 

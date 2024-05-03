@@ -78,6 +78,18 @@ public class TitleboxSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TitleboxPackage.PLANNING_OFFICE: {
+				PlanningOffice planningOffice = (PlanningOffice)theEObject;
+				T result = casePlanningOffice(planningOffice);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TitleboxPackage.STRING_FIELD: {
+				StringField stringField = (StringField)theEObject;
+				T result = caseStringField(stringField);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -94,6 +106,36 @@ public class TitleboxSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTitlebox(Titlebox object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Planning Office</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Planning Office</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePlanningOffice(PlanningOffice object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>String Field</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>String Field</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStringField(StringField object) {
 		return null;
 	}
 

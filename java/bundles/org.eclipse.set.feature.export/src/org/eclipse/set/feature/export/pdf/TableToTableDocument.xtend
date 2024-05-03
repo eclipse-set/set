@@ -36,6 +36,8 @@ import static extension org.eclipse.set.utils.StringExtensions.*
 import org.eclipse.set.utils.table.TableSpanUtils
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.titlebox.PlanningOffice
+import org.eclipse.set.model.titlebox.StringField
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -266,10 +268,14 @@ class TableToTableDocument {
 	private def dispatch Element createContent(CompareCellContent content,
 		int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
-		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.forEach[
-			val child = content.getCompareContentValueFormat([createCompareValueElement($0, $1)], it)
-			element.appendChild(addContentToElement(child,columnNumber, isRemarkColumn))
-		]
+		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.
+			forEach [
+				val child = content.getCompareContentValueFormat([
+					createCompareValueElement($0, $1)
+				], it)
+				element.appendChild(
+					addContentToElement(child, columnNumber, isRemarkColumn))
+			]
 		return element
 	}
 
@@ -312,9 +318,11 @@ class TableToTableDocument {
 		}
 		// IMPROVE: currently the order of multicolor content is static.
 		// The underlying issue is a limitation in XSL 1.0 and string splitting.
-		val multiColorElement = content.stringFormat.replace("%s", "").createContentElement("MultiColorValue",
-			columnNumber, isRemarkColumn)
-		multiColorElement.setAttribute("multicolorValue", content.multiColorValue)
+		val multiColorElement = content.stringFormat.replace("%s", "").
+			createContentElement("MultiColorValue", columnNumber,
+				isRemarkColumn)
+		multiColorElement.setAttribute("multicolorValue",
+			content.multiColorValue)
 		return multiColorElement
 	}
 
@@ -353,7 +361,27 @@ class TableToTableDocument {
 		titlebox.field.indexed.forEach [
 			titleboxElement.appendChild(transform(it.key, it.value))
 		]
+
+		titleboxElement.appendChild(transform(titlebox.planningOffice))
 		return
+	}
+
+	private def Element create doc.createElement("PlanningOffice") transform(
+		PlanningOffice po) {
+		attributeNode = po.variant.transformToAttr("variant")
+		attributeNode = po.logo.transformToAttr("logo")
+		appendChild(po.name.transform("Name"))
+		appendChild(po.group.transform("Group"))
+		appendChild(po.location.transform("Location"))
+		appendChild(po.phone.transform("Phone"))
+		appendChild(po.email.transform("Email"))
+		return
+	}
+
+	private def Element create doc.createElement(name) transform(StringField sf,
+		String name) {
+		textContent = sf.text
+		attributeNode = sf.fontsize.transformToAttr("fontsize")
 	}
 
 	private def Element create doc.createElement("Field") transform(int index,
@@ -363,11 +391,16 @@ class TableToTableDocument {
 		return
 	}
 
-	private def Attr create doc.createAttribute("address") transformToAddressAttr(
+	private def Attr transformToAddressAttr(
 		int index) {
 		val address = index + 1
-		value = address.toString
-		return
+		return transformToAttr(address.toString, "address")
+	}
+
+	private def Attr transformToAttr(String value, String attr) {
+		val it = doc.createAttribute(attr)
+		it.value = value
+		return it
 	}
 
 	private def Element create doc.createElement("Freefield") transform(

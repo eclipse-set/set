@@ -5,5 +5,25 @@
   <eClassifiers xsi:type="ecore:EClass" name="Titlebox">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="field" unique="false" lowerBound="1"
         upperBound="100" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="planningOffice" eType="#//PlanningOffice"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlanningOffice">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variant" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="name" eType="#//StringField"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="group" eType="#//StringField"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="location" eType="#//StringField"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="phone" eType="#//StringField"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="email" ordered="false"
+        eType="#//StringField" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="logo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringField">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontsize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

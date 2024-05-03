@@ -14,8 +14,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
@@ -23,14 +21,15 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.extensions.PathExtensions;
+import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.pdf.PdfRendererService;
 import org.eclipse.set.core.services.pdf.PdfViewer;
 import org.eclipse.set.core.services.pdf.PdfViewer.SaveListener;
 import org.eclipse.set.feature.export.Messages;
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -39,6 +38,8 @@ import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
+
+import jakarta.inject.Inject;
 
 /**
  * This part renders the titlebox as an PDF-File.
@@ -103,12 +104,21 @@ public class TitleBoxPdfPart extends BasePart implements SaveListener {
 		}
 	}
 
+	private Path getAttachmentPath(final String guid) {
+		try {
+			return getModelSession().getToolboxFile()
+					.getMediaPath(Guid.create(guid));
+		} catch (final UnsupportedOperationException e) {
+			return null; // .ppxml-Files do not support attachments
+		}
+	}
+
 	void createTitleboxPdf(final PlanPro_Schnittstelle planProSchnittstelle)
 			throws Exception {
 		final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 				.create();
 		final Titlebox titlebox = planProToTitlebox
-				.transform(planProSchnittstelle, null);
+				.transform(planProSchnittstelle, null, this::getAttachmentPath);
 		exportService.exportTitleboxPdf(titlebox, getTitleBoxPath(),
 				OverwriteHandling.forCheckbox(true),
 				new ExceptionHandler(getToolboxShell(), getDialogService()));

@@ -78,6 +78,14 @@ public class TitleboxAdapterFactory extends AdapterFactoryImpl {
 				return createTitleboxAdapter();
 			}
 			@Override
+			public Adapter casePlanningOffice(PlanningOffice object) {
+				return createPlanningOfficeAdapter();
+			}
+			@Override
+			public Adapter caseStringField(StringField object) {
+				return createStringFieldAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -108,6 +116,34 @@ public class TitleboxAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTitleboxAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.titlebox.PlanningOffice <em>Planning Office</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.titlebox.PlanningOffice
+	 * @generated
+	 */
+	public Adapter createPlanningOfficeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.titlebox.StringField <em>String Field</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.titlebox.StringField
+	 * @generated
+	 */
+	public Adapter createStringFieldAdapter() {
 		return null;
 	}
 
