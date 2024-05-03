@@ -70,7 +70,7 @@ class GEOKanteMetadata {
 		this.geoKante = geoKante
 		this.start = start
 		this.length = length
-		this.geometry = geoKante.getGeometry
+		this.geometry = geoKante.geometry
 		this.geoKnoten = geoKnoten
 		val double end = getEnd()
 		// Determine segments
@@ -161,7 +161,7 @@ class GEOKanteMetadata {
 		this.start = start
 		this.length = (geoKante.GEOKanteAllg?.GEOLaenge?.wert ?:
 			BigDecimal.ZERO).doubleValue
-		this.geometry = geoKante.getGeometry
+		this.geometry = geoKante.geometry
 		this.geoKnoten = geoKnoten
 		// As there is no segmenting information, only use one segment
 		segments.add(new GEOKanteSegment(start, length))
