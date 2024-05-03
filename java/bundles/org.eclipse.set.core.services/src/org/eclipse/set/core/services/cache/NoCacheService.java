@@ -32,6 +32,6 @@ public class NoCacheService implements CacheService {
 
 	@Override
 	public Boolean existCache(final String cacheID) {
-		throw new UnsupportedOperationException();
+		return Boolean.FALSE;
 	}
 }
