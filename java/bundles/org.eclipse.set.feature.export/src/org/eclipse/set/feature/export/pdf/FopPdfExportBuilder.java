@@ -176,7 +176,7 @@ public class FopPdfExportBuilder implements TableExport {
 						tableDocumentText);
 			}
 			createTablePdf(tableDocumentText, outputPath, shortcut, tableType,
-					PdfAMode.PDF_A_1a, overwriteHandling);
+					PdfAMode.PDF_A_3a, overwriteHandling);
 		} catch (final ParserConfigurationException | TransformerException
 				| IOException | SAXException e) {
 			throw new FileExportException(outputPath, e);
