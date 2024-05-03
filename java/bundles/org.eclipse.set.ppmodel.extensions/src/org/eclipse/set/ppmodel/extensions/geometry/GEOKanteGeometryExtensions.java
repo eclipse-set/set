@@ -25,44 +25,31 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.set.basis.constants.ContainerType;
-import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.geometry.Chord;
 import org.eclipse.set.basis.geometry.Geometries;
+import org.eclipse.set.basis.graph.DirectedEdge;
 import org.eclipse.set.basis.graph.DirectedElement;
+import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions;
 import org.eclipse.set.utils.math.Bloss;
 import org.eclipse.set.utils.math.Clothoid;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventConstants;
-import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Find geometry for the GEO_Kante
  */
-@Component(service = { EventHandler.class }, property = {
-		EventConstants.EVENT_TOPIC + "=" + Events.TOPMODEL_CHANGED,
-		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
-public class GEOKanteGeometryExtensions implements EventHandler {
+public class GEOKanteGeometryExtensions {
 	static final Logger logger = LoggerFactory
 			.getLogger(GEOKanteGeometryExtensions.class);
 	// Configuration options for Bloss curves
@@ -74,75 +61,29 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 	private static final int CLOTHOID_SEGMENTS_MIN = 10;
 	private static final double CLOTHOID_SEGMENTS_PER_LENGTH = 0.5;
 	private static final int CLOTHOID_PRECISION = 5;
-	private GeometryFactory geometryFactory;
-	private Thread findGeometryThread;
 
-	private static boolean isFindProcessComplete = false;
+	private static GeometryFactory geomeryFactory;
 
-	private static Map<GEO_Kante, LineString> edgeGeometry;
-
-	private static void createEdgeGeometryInstance() {
-		edgeGeometry = new ConcurrentHashMap<>();
+	private static GeometryFactory getGeometryFactory() {
+		if (geomeryFactory == null) {
+			geomeryFactory = new GeometryFactory();
+		}
+		return geomeryFactory;
 	}
 
-	private static void putEdgeGeometry(final GEO_Kante edge,
-			final LineString geometry) {
-		edgeGeometry.put(edge, geometry);
-	}
-
-	@Override
-	public void handleEvent(final Event event) {
-		final String topic = event.getTopic();
-		if (topic.equals(Events.TOPMODEL_CHANGED) && event.getProperty(
-				IEventBroker.DATA) instanceof final PlanPro_Schnittstelle schnitstelle) {
-			geometryFactory = new GeometryFactory();
-			createEdgeGeometryInstance();
-			findGeometryThread = new Thread(() -> {
-				try {
-					setProcessStatus(false);
-					findGeoKanteGeometry(PlanProSchnittstelleExtensions
-							.getContainer(schnitstelle, ContainerType.INITIAL));
-					findGeoKanteGeometry(PlanProSchnittstelleExtensions
-							.getContainer(schnitstelle, ContainerType.FINAL));
-					findGeoKanteGeometry(PlanProSchnittstelleExtensions
-							.getContainer(schnitstelle, ContainerType.SINGLE));
-					setProcessStatus(true);
-				} catch (final InterruptedException e) {
-					Thread.currentThread().interrupt();
-				}
-			}, ToolboxConstants.CacheId.GEOKANTE_GEOMETRY);
-			findGeometryThread.start();
-		}
-
-		if (topic.equals(Events.CLOSE_SESSION) && findGeometryThread.isAlive()
-				&& !findGeometryThread.isInterrupted()) {
-			findGeometryThread.interrupt();
-		}
-	}
-
-	private void findGeoKanteGeometry(
-			final MultiContainer_AttributeGroup container)
-			throws InterruptedException {
-		if (container == null) {
-			return;
-		}
-		for (final GEO_Kante edge : container.getGEOKante()) {
-			if (Thread.currentThread().isInterrupted()) {
-				throw new InterruptedException();
-			}
-			final LineString geometry = defineEdgeGeometry(edge);
-			if (geometry != null) {
-				putEdgeGeometry(edge, geometry);
-			}
-		}
-	}
-
-	private LineString defineEdgeGeometry(final GEO_Kante edge) {
+	/**
+	 * findout geometry of the {@link GEO_Kante}
+	 * 
+	 * @param edge
+	 *            the {@link GEO_Kante}
+	 * @return line string geometry
+	 */
+	public static LineString defineEdgeGeometry(final GEO_Kante edge) {
 		final ENUMGEOForm geoForm = edge.getGEOKanteAllg().getGEOForm()
 				.getWert();
 		switch (geoForm) {
 		case ENUMGEO_FORM_GERADE, ENUMGEO_FORM_SONSTIGE, ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON, ENUMGEO_FORM_KM_SPRUNG:
-			return geometryFactory.createLineString(getCoordinates(edge));
+			return getGeometryFactory().createLineString(getCoordinates(edge));
 		case ENUMGEO_FORM_BOGEN:
 			return arc(edge);
 		case ENUMGEO_FORM_KLOTHOIDE:
@@ -151,23 +92,22 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 			return blosscurve(edge);
 		default: {
 			logger.warn("Form {} not supported.", geoForm.getName()); //$NON-NLS-1$
-			return geometryFactory.createLineString(getCoordinates(edge));
+			return getGeometryFactory().createLineString(getCoordinates(edge));
 		}
 		}
-
 	}
 
-	private LineString arc(final GEO_Kante edge) {
+	private static LineString arc(final GEO_Kante edge) {
 		final Coordinate[] coordinates = getCoordinates(edge);
 		final double radius = edge.getGEOKanteAllg().getGEORadiusA().getWert()
 				.doubleValue();
-		return Geometries.createArc(geometryFactory,
+		return Geometries.createArc(getGeometryFactory(),
 				new Chord(coordinates[0], coordinates[1], Math.abs(radius),
 						radius < 0 ? Chord.Orientation.ARC_RIGHT
 								: Chord.Orientation.ARC_LEFT));
 	}
 
-	private LineString clothoid(final GEO_Kante edge) {
+	private static LineString clothoid(final GEO_Kante edge) {
 		final double radiusA = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusA().getWert())
 				.orElse(BigDecimal.ZERO).doubleValue();
@@ -207,7 +147,7 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 			final List<Coordinate> segment = new ArrayList<>();
 			segment.addAll(Arrays.asList(segmentA));
 			segment.addAll(Arrays.asList(segmentB));
-			return geometryFactory
+			return getGeometryFactory()
 					.createLineString(segment.toArray(new Coordinate[0]));
 
 		} else if (radiusA == 0) {
@@ -220,7 +160,7 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 		return clothoid(coordinateB, coordinateA, -radiusA, length);
 	}
 
-	private LineString clothoid(final Coordinate fromCoordinate,
+	private static LineString clothoid(final Coordinate fromCoordinate,
 			final Coordinate toCoordinate, final double radius,
 			final double length) {
 		// Calculate the base clothoid
@@ -249,12 +189,12 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 		final double angleB = getAngleBetweenPoints(fromCoordinate,
 				getLastOrNull(coordinates));
 		final double angleOffset = angleA - angleB;
-		return geometryFactory.createLineString(coordinates.stream().map(
+		return getGeometryFactory().createLineString(coordinates.stream().map(
 				coor -> rotateAroundPoint(coor, angleOffset, fromCoordinate))
 				.toList().toArray(new Coordinate[0]));
 	}
 
-	private LineString blosscurve(final GEO_Kante edge) {
+	private static LineString blosscurve(final GEO_Kante edge) {
 		final double radiusA = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusA().getWert())
 				.orElse(BigDecimal.ZERO).doubleValue();
@@ -269,7 +209,7 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 		if (radiusA != 0 && radiusB != 0) {
 			// Bloss curve connecting two straight tracks
 			logger.warn("Form Bloss between straight tracks not supported."); //$NON-NLS-1$
-			return geometryFactory.createLineString(getCoordinates(edge));
+			return getGeometryFactory().createLineString(getCoordinates(edge));
 		} else if (radiusA == 0) {
 			// Curve from node B to node A
 			return blosscurve(coordinateB, coordinateA, radiusB, length);
@@ -281,7 +221,7 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 
 	}
 
-	private LineString blosscurve(final Coordinate fromCoordinate,
+	private static LineString blosscurve(final Coordinate fromCoordinate,
 			final Coordinate toCoordinate, final double radius,
 			final double length) {
 		final Bloss bloss = new Bloss(Math.abs(radius), length,
@@ -306,7 +246,7 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 		final double angleB = getAngleBetweenPoints(fromCoordinate,
 				getLastOrNull(coordinates));
 		final double angleOffset = angleA - angleB;
-		return geometryFactory.createLineString(coordinates.stream().map(
+		return getGeometryFactory().createLineString(coordinates.stream().map(
 				coor -> rotateAroundPoint(coor, angleOffset, fromCoordinate))
 				.toList().toArray(new Coordinate[0]));
 	}
@@ -329,45 +269,32 @@ public class GEOKanteGeometryExtensions implements EventHandler {
 	}
 
 	/**
+	 * See {@link GeoKanteGeometryService#getGeometry(GEO_Kante)}
+	 * 
 	 * @param edge
 	 *            the geo kante
 	 * @return the line string of this GEO Kante
 	 */
 	public static LineString getGeometry(final GEO_Kante edge) {
-		while (!isFindProcessComplete) {
-			try {
-				Thread.sleep(4000);
-			} catch (final InterruptedException e) {
-				Thread.currentThread().interrupt();
-				return null;
-			}
-		}
-		return edgeGeometry.getOrDefault(edge, null);
+		return Services.getGeometryService().getGeometry(edge);
 	}
 
 	/**
+	 * See {@link GeoKanteGeometryService#getGeometry(DirectedElement)}
+	 * 
 	 * @param directedEdge
-	 *            the GEO_Kante with direction
-	 * @return the line string of this GEO Kante (with the implied direction of
-	 *         the GEO Kante)
+	 *            the {@link DirectedEdge}
+	 * @return the line string geometry
 	 */
 	public static LineString getGeometry(
 			final DirectedElement<GEO_Kante> directedEdge) {
-		final LineString geometry = getGeometry(directedEdge.getElement());
-		if (geometry == null) {
-			return null;
-		}
-		return directedEdge.isForwards() ? geometry : geometry.reverse();
-	}
-
-	private static void setProcessStatus(final boolean status) {
-		isFindProcessComplete = status;
+		return Services.getGeometryService().getGeometry(directedEdge);
 	}
 
 	/**
-	 * @return true, if the process is done
+	 * @return {@link GeoKanteGeometryService#isFindGeometryComplete()}
 	 */
 	public static boolean isFindGeometryComplete() {
-		return isFindProcessComplete;
+		return Services.getGeometryService().isFindGeometryComplete();
 	}
 }

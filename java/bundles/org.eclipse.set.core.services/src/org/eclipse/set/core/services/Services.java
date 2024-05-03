@@ -10,6 +10,7 @@ package org.eclipse.set.core.services;
 
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 
@@ -23,6 +24,8 @@ public class Services {
 	private static PlanningAccessService planningAccessService;
 	private static ToolboxViewModelService toolboxViewModelService;
 	private static NoCacheService noCacheService;
+
+	private static GeoKanteGeometryService geometryService;
 
 	/**
 	 * @return the cache service
@@ -88,5 +91,23 @@ public class Services {
 
 	private Services() {
 		// hide constructor
+	}
+
+	/**
+	 * @return {@link GeoKanteGeometryService}
+	 */
+	public static GeoKanteGeometryService getGeometryService() {
+		return geometryService;
+	}
+
+	/**
+	 * Set geometry service for geo kante
+	 * 
+	 * @param geometryService
+	 *            the service
+	 */
+	public static void setGeometryService(
+			final GeoKanteGeometryService geometryService) {
+		Services.geometryService = geometryService;
 	}
 }
