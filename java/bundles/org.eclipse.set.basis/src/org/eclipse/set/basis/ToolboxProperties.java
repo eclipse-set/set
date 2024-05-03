@@ -160,4 +160,9 @@ public interface ToolboxProperties {
 	 * Property key for the maximum bank line length offset to the top path
 	 */
 	public static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "toolbox.bank_line_offset_limit";
+
+	/**
+	 * Property key for indicating, the table show only planing elment or not
+	 */
+	public static final String TABLE_ONLY_PLANING_ELEMENT = "toolbox.table.only.planing.element";
 }
