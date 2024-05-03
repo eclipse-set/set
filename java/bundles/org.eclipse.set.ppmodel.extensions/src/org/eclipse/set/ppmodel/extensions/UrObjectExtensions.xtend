@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.utils.ToolboxConfiguration
 
 /**
  * Diese Klasse erweitert {@link Ur_Objekt}.
@@ -59,6 +60,10 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	def static boolean isPlanningObject(Ur_Objekt object) {
+		if (!ToolboxConfiguration.onlyPlaningElement) {
+			return true;
+		}
+		
 		val guid = object?.identitaet?.wert
 		val ppschnittstelle = object.planProSchnittstelle
 		val planData = ppschnittstelle?.LSTPlanung?.objektmanagement?.
@@ -68,7 +73,6 @@ class UrObjectExtensions extends BasisAttributExtensions {
 				].filterNull.flatMap[IDLSTObjektPlanungsbereich]
 			].filterNull ?: #[]
 
-//		return planData.exists[wert == guid]
-		return true
+		return planData.exists[wert == guid]
 	}
 }
