@@ -66,9 +66,6 @@ public class TitleBoxImagePart extends BasePart {
 		super();
 	}
 
-	@Inject
-	private MApplication application;
-
 	private Path getAttachmentPath(final String guid) {
 		try {
 			return getModelSession().getToolboxFile()
