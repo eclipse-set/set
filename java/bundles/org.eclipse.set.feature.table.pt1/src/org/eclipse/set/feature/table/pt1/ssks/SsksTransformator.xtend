@@ -151,7 +151,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	val BankService bankingService
 	val EventAdmin eventAdmin
 	val String tableShortCut
-	static val MAX_OPOSIDE_DISTANCE = 7000;
+	static val MAX_OPOSIDE_DISTANCE = 8000;
 
 	// Container the thread, which will be refresh table after all thread is done
 	new(Set<ColumnDescriptor> cols,
