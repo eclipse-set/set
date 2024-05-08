@@ -1435,4 +1435,8 @@ http://www.eclipse.org/legal/epl-v20.html
          id="org.eclipse.emf.ecp.core"
          version="0.0.0"/>
 
+   <plugin
+         id="org.eclipse.nebula.widgets.tablecombo"
+         version="0.0.0"/>
+
 </feature>
