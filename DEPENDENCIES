@@ -661,6 +661,7 @@ npm/npmjs/-/selfsigned/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.5.4, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.6.0, ISC, approved, #14659
+npm/npmjs/-/semver/7.6.1, ISC, approved, #14659
 npm/npmjs/-/send/0.18.0, MIT, approved, clearlydefined
 npm/npmjs/-/serialize-javascript/6.0.2, BSD-3-Clause, approved, #12680
 npm/npmjs/-/serve-index/1.9.1, MIT, approved, clearlydefined
@@ -894,12 +895,14 @@ npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
 npm/npmjs/@typescript-eslint/eslint-plugin/7.6.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #14254
+npm/npmjs/@typescript-eslint/eslint-plugin/7.8.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #14611
 npm/npmjs/@typescript-eslint/parser/7.7.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/parser/7.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/7.6.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/7.7.1, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/7.8.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/type-utils/7.6.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/7.8.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/types/7.6.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/types/7.7.1, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/types/7.8.0, MIT, approved, clearlydefined
@@ -907,6 +910,7 @@ npm/npmjs/@typescript-eslint/typescript-estree/7.6.0, BSD-2-Clause AND MIT AND (
 npm/npmjs/@typescript-eslint/typescript-estree/7.7.1, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #14390
 npm/npmjs/@typescript-eslint/typescript-estree/7.8.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #14612
 npm/npmjs/@typescript-eslint/utils/7.6.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #14255
+npm/npmjs/@typescript-eslint/utils/7.8.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #14613
 npm/npmjs/@typescript-eslint/visitor-keys/7.6.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/7.7.1, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/7.8.0, MIT, approved, clearlydefined
