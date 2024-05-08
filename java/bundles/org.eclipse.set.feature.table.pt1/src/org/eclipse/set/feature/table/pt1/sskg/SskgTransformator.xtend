@@ -181,7 +181,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			instances.add(row);
 		}
 
-		for (FMA_Komponente fma : container.FMAKomponente) {
+		for (FMA_Komponente fma : container.FMAKomponente.filter[isPlanningObject]) {
 			if (fma.FMAKomponenteAchszaehlpunkt !== null) {
 				val TableRow row = factory.newTableRow(fma);
 				// A: Sskg.Grundsatzangaben.Bezeichnung
