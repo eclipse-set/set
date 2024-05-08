@@ -85,7 +85,7 @@ public class FileFieldCombo<T> extends FileField {
 	 */
 	public void setComboValues(final ComboValues<T> values) {
 		this.values = values;
-		combo.setItems(values.getItems());
-		combo.select(values.getDefault());
+		combo.setItems(values.getComboValues());
+		combo.select(values.getDefaultIndex());
 	}
 }

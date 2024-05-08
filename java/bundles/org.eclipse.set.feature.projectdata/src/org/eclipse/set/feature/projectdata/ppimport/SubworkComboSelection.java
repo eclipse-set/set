@@ -82,11 +82,11 @@ public class SubworkComboSelection extends AbstractEnumerator {
 								messages.PlanproImportPart_Subwork_Notset)));
 				break;
 			case PLANNING:
-				final List<SubworkComboSelection> test = new ArrayList<>();
-				test.add(new SubworkComboSelection(0, NOT_SELECTED_SUBWORK,
+				final List<SubworkComboSelection> items = new ArrayList<>();
+				items.add(new SubworkComboSelection(0, NOT_SELECTED_SUBWORK,
 						messages.ContainerValues_NotSelected));
-				test.addAll(getSubworks());
-				createItems(test);
+				items.addAll(getSubworks());
+				createItems(items);
 				break;
 			default:
 				throw new IllegalArgumentException(fileNature.toString());
@@ -124,7 +124,7 @@ public class SubworkComboSelection extends AbstractEnumerator {
 		}
 
 		@Override
-		public int getDefault() {
+		public int getDefaultIndex() {
 			if (fileNature == null) {
 				return 0;
 			}
@@ -135,13 +135,35 @@ public class SubworkComboSelection extends AbstractEnumerator {
 		}
 
 		@Override
+		public String getDefaultValue() {
+			if (fileNature == PlanProFileNature.INFORMATION_STATE) {
+				return getValue(NOT_SET_SUBWORK).getLiteral();
+			}
+			return getValue(NOT_SELECTED_SUBWORK).getLiteral();
+		}
+
+		@Override
 		public int getIndex(final SubworkComboSelection value) {
 			return value.getValue();
 		}
 
 		@Override
-		public String[] getItems() {
+		public int getIndex(final String stringValue) {
 			return itemValues.stream().map(SubworkComboSelection::getLiteral)
+					.toList().indexOf(stringValue);
+		}
+
+		@Override
+		public String[] getComboValues() {
+			return itemValues.stream().map(SubworkComboSelection::getLiteral)
+					.toArray(String[]::new);
+		}
+
+		@Override
+		public String[] getValuesWithoutDefault() {
+			return itemValues.stream()
+					.filter(item -> getIndex(item) != getDefaultIndex())
+					.map(SubworkComboSelection::getLiteral)
 					.toArray(String[]::new);
 		}
 

@@ -187,8 +187,6 @@ public interface IModelSession {
 	/**
 	 * Get outcome result of validation
 	 * 
-	 * @param outcome
-	 *            outcome type
 	 * @return {@link Outcome}
 	 */
 	FileValidateState getFileValidateState();

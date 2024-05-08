@@ -32,11 +32,8 @@ public class SelectionCombo<T> extends Combo {
 	 *            the parent
 	 * @param style
 	 *            the style
-	 * @param type
-	 *            type of the values
 	 */
-	public SelectionCombo(final Composite parent, final int style,
-			final Class<T> type) {
+	public SelectionCombo(final Composite parent, final int style) {
 		super(parent, style);
 	}
 
@@ -69,8 +66,8 @@ public class SelectionCombo<T> extends Combo {
 			return;
 		}
 		this.values = values;
-		setItems(values.getItems());
-		select(values.getDefault());
+		setItems(values.getComboValues());
+		select(values.getDefaultIndex());
 	}
 
 	@Override

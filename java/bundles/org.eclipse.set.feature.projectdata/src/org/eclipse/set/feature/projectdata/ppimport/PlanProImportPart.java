@@ -8,41 +8,25 @@
  */
 package org.eclipse.set.feature.projectdata.ppimport;
 
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.feature.projectdata.ppimport.ImportControl.ImportTarget;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
-import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.model.planpro.PlanPro.ENUMUntergewerkArt;
-import org.eclipse.set.model.planpro.PlanPro.LST_Zustand;
-import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
-import org.eclipse.set.model.planpro.PlanPro.PlanProPackage;
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
-import org.eclipse.set.model.planpro.PlanPro.Untergewerk_Art_TypeClass;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
-import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
-import org.eclipse.set.ppmodel.extensions.PlanungGruppeExtensions;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.set.utils.widgets.SelectionCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -89,11 +73,11 @@ public class PlanProImportPart extends BasePart {
 	@Override
 	protected void createView(final Composite parent) {
 		importModel = new ImportControl(serviceProvider, getModelSession(),
-				ImportTarget.SUBWORK);
+				ImportTarget.SUBWORK, this::updateImportButton);
 		importInitial = new ImportControl(serviceProvider, getModelSession(),
-				ImportTarget.INITIAL);
+				ImportTarget.INITIAL, this::updateImportButton);
 		importFinal = new ImportControl(serviceProvider, getModelSession(),
-				ImportTarget.FINAL);
+				ImportTarget.FINAL, this::updateImportButton);
 
 		if (PlanProSchnittstelleExtensions
 				.isPlanning(getModelSession().getPlanProSchnittstelle())) {
@@ -115,33 +99,16 @@ public class PlanProImportPart extends BasePart {
 
 		importModel.createControl(group,
 				serviceProvider.messages.PlanProImportPart_importSubwork, shell,
-				ToolboxFileRole.SECONDARY_PLANNING,
-				comboField -> Boolean.valueOf(!comboField.isEnabled()
-						|| !comboField.getText().getText().isEmpty()
-								&& !comboField.getSubworkCombo()
-										.getSelectionValue().getName()
-										.equals(SubworkComboSelection.NOT_SELECTED_SUBWORK)),
-				this::updateImportButton);
-		importModel.comboField.getContainerCombo().dispose();
-
-		final Function<ImportComboFileField, Boolean> checkComboValidFunc = comboField -> Boolean
-				.valueOf(!comboField.isEnabled() || !comboField.getText()
-						.getText().isEmpty()
-						&& !comboField.getSubworkCombo().getSelectionValue()
-								.getName()
-								.equals(SubworkComboSelection.NOT_SELECTED_SUBWORK)
-						&& !comboField.getContainerCombo().getSelectionValue()
-								.equals(ContainerComboSelection.NOT_SELECTED));
+				ToolboxFileRole.SECONDARY_PLANNING);
+		importModel.getComboField().getContainerCombo().dispose();
 
 		importInitial.createControl(group,
 				serviceProvider.messages.PlanProImportPart_importStart, shell,
-				ToolboxFileRole.IMPORT_INITIAL_STATE, checkComboValidFunc,
-				this::updateImportButton);
+				ToolboxFileRole.IMPORT_INITIAL_STATE);
 
 		importFinal.createControl(group,
 				serviceProvider.messages.PlanProImportPart_importZiel, shell,
-				ToolboxFileRole.IMPORT_FINAL_STATE, checkComboValidFunc,
-				this::updateImportButton);
+				ToolboxFileRole.IMPORT_FINAL_STATE);
 	}
 
 	private void createImportButton(final Composite parent) {
@@ -166,12 +133,19 @@ public class PlanProImportPart extends BasePart {
 		try {
 			final List<ImportControl> controlList = List.of(importModel,
 					importInitial, importFinal);
-			controlList.forEach(control -> importModel(control, shell));
+			final List<ImportControl> enableControl = controlList.stream()
+					.filter(c -> c.isEnabled()).toList();
+
+			// The import data from each control should be different
+			if (isExistSameImportData(enableControl)) {
+				getDialogService().openInformation(shell, getViewTitle(),
+						serviceProvider.messages.PlanProImportPart_ImportSameData);
+				return;
+			}
+			controlList.forEach(control -> control.doImport(shell));
 			final boolean isSomethingImported = controlList.stream()
 					.anyMatch(ImportControl::isImported);
 			if (isSomethingImported) {
-				// IMPROVE: Here should we the invalid id references again
-				// resolve after we emf model modification
 				ToolboxIDResolver.resolveIDReferences(
 						getModelSession().getPlanProSchnittstelle());
 				getModelSession().save(shell);
@@ -192,197 +166,6 @@ public class PlanProImportPart extends BasePart {
 		}
 	}
 
-	private void importModel(final ImportControl importControl,
-			final Shell shell) {
-		if (!importControl.isEnabled()) {
-			return;
-		}
-
-		Function<Ausgabe_Fachdaten, LST_Zustand> getContainerFunc = null;
-		String dialogMessage = ""; //$NON-NLS-1$
-		switch (importControl.getImportTarget()) {
-		case INITIAL:
-			getContainerFunc = Ausgabe_Fachdaten::getLSTZustandStart;
-			dialogMessage = serviceProvider.messages.ContainerValues_Start;
-			break;
-		case FINAL:
-			getContainerFunc = Ausgabe_Fachdaten::getLSTZustandZiel;
-			dialogMessage = serviceProvider.messages.ContainerValues_Ziel;
-			break;
-		default:
-			break;
-		}
-
-		// When data is already import then skip import from this control
-		if (importModel.isEnabled()
-				&& importControl.getImportTarget() != ImportTarget.SUBWORK
-				&& importModel.isSameImportData(importControl)) {
-			getDialogService().openInformation(shell, getViewTitle(),
-					String.format(
-							serviceProvider.messages.PlanProImportPart_ImportSameData,
-							dialogMessage));
-			return;
-		}
-
-		importModel(importControl, getContainerFunc, shell);
-		ModelImportUtils.updateForImport(
-				getModelSession().getPlanProSchnittstelle(),
-				getModelSession().getEditingDomain(), importControl);
-	}
-
-	private void importModel(final ImportControl importControl,
-			final Function<Ausgabe_Fachdaten, LST_Zustand> getContainerFunc,
-			final Shell shell)
-			throws NullPointerException, IllegalArgumentException {
-		final PlanPro_Schnittstelle planProSchnittstelle = getModelSession()
-				.getPlanProSchnittstelle();
-		final Optional<Iterable<Planung_Gruppe>> lstPlanungGruppe = PlanProSchnittstelleExtensions
-				.getLSTPlanungGruppe(planProSchnittstelle);
-		if (lstPlanungGruppe.isEmpty()) {
-			return;
-		}
-		final String selectedSubwork = getSelectedSubwork(importControl);
-		if (selectedSubwork == null || selectedSubwork.isBlank()) {
-			logger.error("Missing subwork to import"); //$NON-NLS-1$
-			return;
-		}
-		final Optional<Planung_Gruppe> sourcePlanungGruppe = PlanungGruppeExtensions
-				.getPlanungGruppe(planProSchnittstelle, selectedSubwork);
-
-		final Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData = importControl
-				.getSelectedData();
-
-		// Fall current model doen't contains this subwork type
-		if (sourcePlanungGruppe.isEmpty()) {
-			if (importControl.getImportTarget() == ImportTarget.SUBWORK) {
-				ModelImportUtils.doImportSubwork(getModelSession(),
-						importControl, null);
-			} else {
-				ModelImportUtils.doImportContainer(getModelSession(),
-						importControl, importControl.comboField
-								.getContainerCombo().getSelectionValue());
-			}
-
-			importControl.setImported(true);
-			return;
-		}
-		// Fall current project already contains selected sub work
-		replaceData(importControl, getContainerFunc, shell,
-				sourcePlanungGruppe.get(), selectedData);
-	}
-
-	private void replaceData(final ImportControl importControl,
-			final Function<Ausgabe_Fachdaten, LST_Zustand> getContainerFunc,
-			final Shell shell, final Planung_Gruppe sourcePlanungGruppe,
-			final Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData) {
-		final Ausgabe_Fachdaten sourceAusgabeFachdaten = PlanungEinzelExtensions
-				.getAusgabeFachdaten(sourcePlanungGruppe.getLSTPlanungEinzel());
-		final LST_Zustand sourceZustand = getContainerFunc == null ? null
-				: getContainerFunc.apply(sourceAusgabeFachdaten);
-		// Fall replace whole subwork
-		if (sourceZustand == null) {
-			if (getDialogService().confirmOverwriteOperationalData(shell)) {
-				ModelImportUtils.doImportSubwork(getModelSession(),
-						importControl, new Pair<>(sourcePlanungGruppe,
-								sourceAusgabeFachdaten));
-				importControl.setImported(true);
-			}
-			return;
-		}
-		if (!sourceZustand.getContainer().eContents().isEmpty()
-				&& !getDialogService().confirmOverwriteOperationalData(shell)) {
-			return;
-		}
-
-		// By create new project only in Planung_Gruppe set subwork type,
-		// and it is missing in Ausgabe_Fachdaten
-		if (sourceAusgabeFachdaten.getUntergewerkArt() == null) {
-			sourceAusgabeFachdaten.setUntergewerkArt(EcoreUtil
-					.copy(selectedData.getSecond().getUntergewerkArt()));
-		}
-		ModelImportUtils.doImportContainer(getModelSession(), sourceZustand,
-				importControl, importControl.comboField.getContainerCombo()
-						.getSelectionValue());
-		importControl.setImported(true);
-	}
-
-	private String getSelectedSubwork(final ImportControl importControl) {
-		String selectedSubwork = importControl.comboField.getSubworkCombo()
-				.getSelectionValue().getLiteral();
-		final Pair<Planung_Gruppe, Ausgabe_Fachdaten> selectedData = importControl
-				.getSelectedData();
-		// Fall missing sub work, then the user must choose one
-		if (selectedSubwork == null || selectedSubwork.isEmpty()
-				|| selectedSubwork.equals(
-						serviceProvider.messages.PlanproImportPart_Subwork_Notset)) {
-			final List<String> subworkType = Arrays
-					.stream(ENUMUntergewerkArt.values())
-					.map(e -> e.getLiteral()).toList();
-			selectedSubwork = getDialogService().selectValueDialog(
-					getToolboxShell(), getViewTitle(),
-					serviceProvider.messages.PlanProImportPart_SelectSubworkMessage,
-					serviceProvider.messages.PlanProImportPart_SelectSubworkLabel,
-					subworkType);
-			if (selectedSubwork == null || selectedSubwork.isEmpty()) {
-				return null;
-			}
-			final ENUMUntergewerkArt enumUntergewerkArt = ENUMUntergewerkArt
-					.get(selectedSubwork);
-
-			// Set new subwork for import control
-			final SubworkComboSelection subworkComboSelection = new SubworkComboSelection(
-					0, enumUntergewerkArt.getName(),
-					enumUntergewerkArt.getLiteral());
-			importControl.comboField.getSubworkCombo()
-					.setComboValues(SubworkComboSelection.getComboValues(
-							serviceProvider.messages,
-							List.of(subworkComboSelection)));
-			importControl.comboField.getSubworkCombo().select(0);
-
-			try {
-				// Set new subwork type in Planung_Gruppe and Ausgabe_Fachdaten
-				setSubworkType(selectedData.getFirst(), List.of(
-						PlanProPackage.eINSTANCE
-								.getPlanung_Gruppe_PlanungGAllg(),
-						PlanProPackage.eINSTANCE
-								.getPlanung_G_Allg_AttributeGroup_UntergewerkArt()),
-						enumUntergewerkArt);
-				setSubworkType(selectedData.getSecond(),
-						List.of(PlanProPackage.eINSTANCE
-								.getAusgabe_Fachdaten_UntergewerkArt()),
-						enumUntergewerkArt);
-			} catch (final NullPointerException e) {
-				throw new RuntimeException();
-			}
-
-		}
-		return selectedSubwork;
-	}
-
-	private static void setSubworkType(final EObject parent,
-			final List<EReference> referencesToGetSubworkType,
-			final ENUMUntergewerkArt type) {
-		EObject containerObject = parent;
-		for (int i = 0; i < referencesToGetSubworkType.size(); i++) {
-			final EReference reference = referencesToGetSubworkType.get(i);
-			final EClass eClass = reference.getEReferenceType();
-			final Optional<EObject> object = Optional
-					.ofNullable((EObject) containerObject.eGet(reference));
-			if (object.isEmpty()) {
-				final EObject eObject = PlanProFactory.eINSTANCE.create(eClass);
-				containerObject.eSet(reference, eObject);
-				containerObject = eObject;
-			} else {
-				containerObject = object.get();
-			}
-
-			if (i == referencesToGetSubworkType.size() - 1
-					&& containerObject instanceof final Untergewerk_Art_TypeClass untergewerkArtTyeClass) {
-				untergewerkArtTyeClass.setWert(type);
-			}
-		}
-	}
-
 	private void resetImportGroup() {
 		importModel.resetControl();
 		importInitial.resetControl();
@@ -396,6 +179,56 @@ public class PlanProImportPart extends BasePart {
 				.filter(i -> i.isEnabled()).toList();
 		importButton.setEnabled(!enableImport.isEmpty()
 				&& enableImport.stream().allMatch(i -> i.isValid()));
+	}
+
+	private static boolean isExistSameImportData(
+			final List<ImportControl> controls) {
+		if (controls.size() < 2) {
+			return false;
+		}
+		for (int i = 0; i < controls.size() - 1; i++) {
+			for (int j = i + 1; j < controls.size(); j++) {
+				final boolean isSame = importDataComparator()
+						.compare(controls.get(i), controls.get(j)) > 0;
+				if (isSame) {
+					return isSame;
+				}
+			}
+		}
+		return false;
+	}
+
+	private static Comparator<ImportControl> importDataComparator() {
+		return (first, second) -> {
+			final String firstFileFiledText = first.getComboField().getText()
+					.getText();
+			final String secondFileFiledText = second.getComboField().getText()
+					.getText();
+			if (!firstFileFiledText.equals(secondFileFiledText)) {
+				return 0;
+			}
+
+			final List<String> firstSubworkSelections = first.getComboField()
+					.getSubworkCombo().getSelectValuesString();
+			final List<String> secondSubworkSelections = second.getComboField()
+					.getSubworkCombo().getSelectValuesString();
+			if (firstSubworkSelections.stream()
+					.noneMatch(secondSubworkSelections::contains)) {
+				return 0;
+			}
+
+			final SelectionCombo<ContainerComboSelection> firstContainerCombo = first
+					.getComboField().getContainerCombo();
+			final SelectionCombo<ContainerComboSelection> secondContainerCombo = second
+					.getComboField().getContainerCombo();
+
+			if (firstContainerCombo.isDisposed()
+					|| secondContainerCombo.isDisposed()) {
+				return 1;
+			}
+			return firstContainerCombo.getSelectionValue()
+					.equals(secondContainerCombo.getSelectionValue()) ? 1 : 0;
+		};
 	}
 
 	@Override

@@ -12,11 +12,14 @@ package org.eclipse.set.feature.projectdata.ppimport;
 
 import java.util.List;
 
+import org.eclipse.nebula.jface.tablecomboviewer.TableComboViewer;
 import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.feature.projectdata.Messages;
+import org.eclipse.set.utils.widgets.ComboValues;
 import org.eclipse.set.utils.widgets.FileField;
+import org.eclipse.set.utils.widgets.MultiSelectionCombo;
 import org.eclipse.set.utils.widgets.SelectionCombo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,8 +33,12 @@ import org.eclipse.swt.widgets.Composite;
  * @author Truong
  */
 public class ImportComboFileField extends FileField {
-	private final SelectionCombo<SubworkComboSelection> subworkCombo;
+	private final MultiSelectionCombo<SubworkComboSelection> subworkCombo;
+
+	// Container Combo is use only by import to single container, therefore this
+	// combo shouldn't multi selection
 	private final SelectionCombo<ContainerComboSelection> containerCombo;
+	private final Messages messages;
 
 	/**
 	 * @param parent
@@ -41,23 +48,54 @@ public class ImportComboFileField extends FileField {
 	 *            the used toolbox file filters
 	 * @param dialogService
 	 *            the dialog Service
+	 * @param messages
+	 *            the messages container
 	 */
 	public ImportComboFileField(final Composite parent,
 			final List<ToolboxFileFilter> filters,
-			final DialogService dialogService) {
+			final DialogService dialogService, final Messages messages) {
 		super(parent, filters, dialogService);
 		composite.setLayout(new GridLayout(4, false));
-		subworkCombo = new SelectionCombo<>(composite, SWT.NONE,
-				SubworkComboSelection.class);
-		containerCombo = new SelectionCombo<>(composite, SWT.NONE,
-				ContainerComboSelection.class);
+		subworkCombo = new MultiSelectionCombo<>(composite,
+				messages.PlanProImportPart_Subwork_All);
+		containerCombo = new SelectionCombo<>(composite, SWT.NONE);
+		this.messages = messages;
+	}
+
+	@Override
+	public void setEnabled(final boolean value) {
+		super.setEnabled(value);
+		updateSubworkComboState();
+		updateContainerComboState();
 	}
 
 	/**
 	 * @return combo for selection subwork
 	 */
-	public SelectionCombo<SubworkComboSelection> getSubworkCombo() {
+	public MultiSelectionCombo<SubworkComboSelection> getSubworkCombo() {
 		return subworkCombo;
+	}
+
+	/**
+	 * Set values for subwork combo
+	 * 
+	 * @param values
+	 *            the combo values
+	 */
+	public void setSubworkComboValues(
+			final ComboValues<SubworkComboSelection> values) {
+		subworkCombo.setComboValues(values);
+		updateSubworkComboState();
+	}
+
+	private void updateSubworkComboState() {
+		if (subworkCombo.isDisposed()) {
+			return;
+		}
+
+		subworkCombo.setEnabled(isEnabled()
+				&& subworkCombo.getComboValues() != null
+				&& subworkCombo.getComboValues().getComboValues().length > 1);
 	}
 
 	/**
@@ -68,12 +106,34 @@ public class ImportComboFileField extends FileField {
 	}
 
 	/**
-	 * Set combos values and state to default
+	 * Set value for container combo
 	 * 
-	 * @param messages
-	 *            the messages
+	 * @param values
+	 *            the combo values
 	 */
-	public void setDefaultCombo(final Messages messages) {
+	public void setContainerComboValues(
+			final ComboValues<ContainerComboSelection> values) {
+		if (containerCombo.isDisposed()) {
+			return;
+		}
+		containerCombo.setComboValues(values);
+		updateSubworkComboState();
+	}
+
+	private void updateContainerComboState() {
+		if (containerCombo.isDisposed()) {
+			return;
+		}
+		containerCombo.setEnabled(isEnabled() && containerCombo.isEnabled()
+				&& containerCombo.getComboValues() != null
+				&& containerCombo.getComboValues().getComboValues().length > 1
+				&& !isNotSelected(subworkCombo));
+	}
+
+	/**
+	 * Set combos values and state to default
+	 */
+	public void setDefaultCombo() {
 		if (!subworkCombo.isDisposed()) {
 
 			subworkCombo.setComboValues(SubworkComboSelection
@@ -92,6 +152,37 @@ public class ImportComboFileField extends FileField {
 	}
 
 	/**
+	 * Combo file field is valid, when this file field is active and avaible
+	 * combo have selected value
+	 * 
+	 * @return whether combo file field is valid
+	 */
+	public boolean isValid() {
+		return isEnabled() && !getText().getText().isEmpty()
+				&& !subworkCombo.isDisposed() && !isNotSelected(subworkCombo)
+				&& (containerCombo.isDisposed()
+						|| !isNotSelected(containerCombo));
+	}
+
+	/**
+	 * Check if combo is selected
+	 * 
+	 * @param combo
+	 *            the combo to check
+	 * @return true, if at least one value was selected
+	 */
+	public boolean isNotSelected(final TableComboViewer combo) {
+		// When the model to import missing subwork type or this is a single
+		// state model
+		if (subworkCombo.getItems().length == 1
+				&& subworkCombo.getComboValues().getValue(0).getName()
+						.equals(SubworkComboSelection.NOT_SET_SUBWORK)) {
+			return false;
+		}
+		return subworkCombo.getSelectionValues().isEmpty();
+	}
+
+	/**
 	 * Check if combo is selected
 	 * 
 	 * @param combo
@@ -100,17 +191,7 @@ public class ImportComboFileField extends FileField {
 	 *         or NOT_SELECTED)
 	 */
 	public boolean isNotSelected(final Combo combo) {
-		if (combo.equals(subworkCombo)) {
-			return subworkCombo.getSelectionValue().getName()
-					.equals(SubworkComboSelection.NOT_SELECTED_SUBWORK);
-		}
-
-		if (combo.equals(containerCombo)) {
-			return containerCombo.getSelectionValue()
-					.equals(ContainerComboSelection.NOT_SELECTED);
-		}
-
-		throw new IllegalArgumentException(
-				"The file field combo not contain this combo"); //$NON-NLS-1$
+		return containerCombo.getSelectionValue()
+				.equals(ContainerComboSelection.NOT_SELECTED);
 	}
 }

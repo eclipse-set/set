@@ -79,6 +79,6 @@ public class PlanProImportDescriptionService implements PartDescriptionService {
 
 	@Override
 	public ToolboxViewGroup getToolboxViewGroup() {
-		return SetViewGroups.getDevelopment();
+		return SetViewGroups.getEdit();
 	}
 }

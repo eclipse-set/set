@@ -137,6 +137,11 @@ public class Messages {
 	public String PlanProImportPart_Subwork_NotSelected;
 
 	/**
+	 * Alle Fachdaten
+	 */
+	public String PlanProImportPart_Subwork_All;
+
+	/**
 	 * Untergewerk Art
 	 */
 	public String PlanProImportPart_SelectSubworkLabel;
@@ -177,8 +182,8 @@ public class Messages {
 	public String ProjectPartDescriptionService_ViewName;
 
 	/**
-	 * Import Model zu %s Zustand wird nicht ausführen, da diese Model schon
-	 * importiert.
+	 * Sie haben dasselbe ausgewählen, Fachdaten oder Container zu importieren.
+	 * Bitte ändern Sie die Auswahl.
 	 */
 	public String PlanProImportPart_ImportSameData;
 }
