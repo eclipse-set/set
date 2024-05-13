@@ -70,8 +70,8 @@ class UrObjectExtensions extends BasisAttributExtensions {
 			LSTPlanungProjekt?.flatMap [
 				it?.LSTPlanungGruppe?.map [
 					it?.LSTPlanungEinzel?.LSTObjektePlanungsbereich
-				].filterNull.flatMap[IDLSTObjektPlanungsbereich]
-			].filterNull ?: #[]
+				]?.filterNull?.flatMap[IDLSTObjektPlanungsbereich]
+			]?.filterNull ?: #[]
 
 		return planData.exists[wert == guid]
 	}

@@ -800,7 +800,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								null
 							)
 						} else {
-							for (var int j = 5; j < 48; j++) {
+							// Blank out everything from Sonstige_Zulaessige_Anordnung to Ueberwachung_Zs_2v
+							for (var int j = 6; j < 48; j++) {
 								fillBlank(row, j)
 							}
 						}
