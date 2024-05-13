@@ -13,9 +13,6 @@ import java.util.LinkedList
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.graph.DirectedEdgePoint
-import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
-import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche
-import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
@@ -36,6 +33,9 @@ import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.CrossingRoute
+import org.eclipse.set.ppmodel.extensions.utils.GestellteWeiche
+import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
 
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
 
@@ -131,7 +131,18 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	 */
 	def static List<GestellteWeiche> getEntscheidungsweichen(
 		Fstr_Zug_Rangier fstrZugRangier, List<ENUMGleisart> notUsable) {
+
 		val fstrFahrweg = fstrZugRangier.fstrFahrweg
+
+		// Check if at least two Fstr_Fahrweg exist for this path. If not
+		// no Entscheidungsweiche may be present
+		if (fstrZugRangier.container.fstrFahrweg.exists [
+			it !== fstrFahrweg && IDStart.value === fstrFahrweg.IDStart.value &&
+				IDZiel.value === fstrFahrweg.IDZiel.value
+		]) {
+			return newArrayList
+		}
+
 		val path = fstrFahrweg.path
 		val fwSinglePoints = path.pointIterator.toList
 		val wKomponenten = fwSinglePoints.map[punktObjekt].filter(
@@ -182,10 +193,11 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			gleisbezogeneGefahrraeume.map [
 				einschaltungZuordnungen
 			].flatten.toSet.map[einschaltung].exists [
-				fstrZugRangier.fstrZug.IDBUEEinschaltung.map[value.identitaet.wert].
-					contains(
-						identitaet.wert
-					)
+				fstrZugRangier.fstrZug.IDBUEEinschaltung.map [
+					value.identitaet.wert
+				].contains(
+					identitaet.wert
+				)
 			]
 		].toSet
 	}
@@ -227,22 +239,23 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static Set<FMA_Anlage> getFmaAnlageRangierFrei(
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
-		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.map[value]?.filterNull?.toSet
+		return fstrZugRangier?.fstrRangier?.IDFMAAnlageRangierFrei?.map[value]?.
+			filterNull?.toSet
 	}
-	
-	def static <T> String getFstrZugRangierBezeichnung(Fstr_Zug_Rangier fstrZugRangier) {
+
+	def static <T> String getFstrZugRangierBezeichnung(
+		Fstr_Zug_Rangier fstrZugRangier) {
 		if (fstrZugRangier?.fstrZug !== null) {
 			return fstrZugRangier.getZugFstrBezeichnung[isZ]
 		}
-		
+
 		if (fstrZugRangier?.fstrRangier !== null) {
 			return fstrZugRangier.getRangierFstrBezeichnung[isR]
 		}
 		return null
 	}
-	
-	def static String getRangierFstrBezeichnung(
-		Fstr_Zug_Rangier fstrZugRangier,
+
+	def static String getRangierFstrBezeichnung(Fstr_Zug_Rangier fstrZugRangier,
 		(Fstr_Zug_Rangier)=>boolean condition) {
 		if (!condition.apply(fstrZugRangier)) {
 			return null
@@ -357,7 +370,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		val lit = typeClazz?.wert?.literal
 		return lit !== null && lit.matches("Z.*")
 	}
-	
+
 	def static boolean isR(Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier?.fstrRangier?.fstrRangierArt?.wert?.literal?.
 			substring(0, 1) == "R"
