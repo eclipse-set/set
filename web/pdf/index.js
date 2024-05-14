@@ -7,7 +7,7 @@ const hide = () => {
 
     // Hide toolbar buttons
     document.getElementById("presentationMode").hidden = true
-    document.getElementById("openFile").hidden = true
+    document.getElementById("secondaryOpenFile").hidden = true
     document.getElementById("viewBookmark").hidden = true
 }
 
