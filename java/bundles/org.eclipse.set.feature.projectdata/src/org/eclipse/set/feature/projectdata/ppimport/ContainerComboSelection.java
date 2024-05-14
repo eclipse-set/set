@@ -94,6 +94,21 @@ public enum ContainerComboSelection {
 			return itemValues[selectionIndex];
 		}
 
+		@Override
+		public ContainerComboSelection getValue(final String valueString) {
+			for (final ContainerComboSelection value : itemValues) {
+				if (getMessage(value).equals(valueString)) {
+					return value;
+				}
+			}
+			return null;
+		}
+
+		@Override
+		public int size() {
+			return itemValues.length;
+		}
+
 		private void createItems() {
 			switch (fileNature) {
 			case INVALID:

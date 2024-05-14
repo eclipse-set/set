@@ -68,6 +68,7 @@ public class SelectionCombo<T> extends Combo {
 		this.values = values;
 		setItems(values.getComboValues());
 		select(values.getDefaultIndex());
+		setEnabled(values.getComboValues().length > 1);
 	}
 
 	@Override

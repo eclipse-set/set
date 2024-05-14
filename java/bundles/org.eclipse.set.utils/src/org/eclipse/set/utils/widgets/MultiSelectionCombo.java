@@ -83,7 +83,8 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 
 		private boolean isSelected(final Object element) {
 			if (element instanceof final String strElement) {
-				return selectionCombo.getSelectValuesString().contains(strElement);
+				return selectionCombo.getSelectValuesString()
+						.contains(strElement);
 			}
 			return false;
 		}
@@ -99,7 +100,23 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 	 */
 	public MultiSelectionCombo(final Composite parent,
 			final String selectionAllLabel) {
-		super(parent);
+		this(parent, selectionAllLabel,
+				SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param selectionAllLabel
+	 *            the selection all label
+	 * @param style
+	 *            SWT style
+	 */
+	public MultiSelectionCombo(final Composite parent,
+			final String selectionAllLabel, final int style) {
+		super(parent, style);
 		selectedItems = new ArrayList<>();
 		this.selectionAllLabel = selectionAllLabel;
 		this.setContentProvider(ArrayContentProvider.getInstance());
@@ -126,6 +143,7 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 	 *            the values
 	 */
 	public void setComboValues(final ComboValues<T> values) {
+		removeAll();
 		if (getTableCombo().isDisposed()
 				|| getTableCombo().getTable().isDisposed()) {
 			return;
@@ -136,6 +154,11 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 		items.addAll(Arrays.asList(comboValues));
 		if (comboValues.length > 2) {
 			items.add(selectionAllLabel);
+		}
+
+		if (comboValues.length == 1) {
+			getTableCombo().setEnabled(false);
+			selectedItems.add(values.getDefaultValue());
 		}
 		this.setInput(items.toArray(new String[0]));
 		select(values.getDefaultIndex());
@@ -179,6 +202,9 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 	 * @return the selected values string
 	 */
 	public List<String> getSelectValuesString() {
+		if (values != null && values.size() < 2) {
+			return selectedItems;
+		}
 		return selectedItems.stream()
 				.filter(item -> !item.equals(values.getDefaultValue()))
 				.toList();
@@ -194,10 +220,22 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 	/**
 	 * @return selection values
 	 */
-	@SuppressWarnings("boxing")
 	public List<T> getSelectionValues() {
-		return getSelectValuesString().stream().map(item -> values.getIndex(item))
-				.map(index -> values.getValue(index)).toList();
+		if (values != null && values.size() < 2) {
+			return List.of(values.getValue(values.getDefaultIndex()));
+		}
+		return selectedItems.stream()
+				.filter(item -> !item.equals(values.getDefaultValue()))
+				.map(item -> values.getValue(item)).toList();
+	}
+
+	/**
+	 * Remove all combo values
+	 */
+	public void removeAll() {
+		getTableCombo().clearSelection();
+		getTableCombo().getTable().removeAll();
+		selectedItems.clear();
 	}
 
 	private ISelectionChangedListener getSelectionChangedListener() {
@@ -228,7 +266,10 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 		}
 	}
 
-	private String getComboText() {
+	/**
+	 * @return combo text
+	 */
+	public String getComboText() {
 		if (selectedItems.size() == 1
 				&& selectedItems.getFirst().equals(values.getDefaultValue())) {
 			return values.getDefaultValue();
@@ -240,15 +281,23 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 	}
 
 	private void toogleSelection(final String item) {
-		final List<String> itemsWithoutDefault = Arrays
-				.asList(values.getValuesWithoutDefault());
+		final List<String> comboValues = new ArrayList<>();
+		comboValues.addAll(Arrays.asList(values.getComboValues()));
+		// Remove default value, by select all
+		if (comboValues.size() > 1) {
+			comboValues.remove(values.getDefaultValue());
+		}
 		if (item.equals(values.getDefaultValue())
 				|| item.equals(selectionAllLabel)
-						&& selectedItems.containsAll(itemsWithoutDefault)) {
+						&& selectedItems.containsAll(comboValues)) {
 			selectedItems.clear();
 			selectedItems.add(values.getDefaultValue());
 		} else if (item.equals(selectionAllLabel)) {
-			selectedItems.addAll(itemsWithoutDefault);
+			comboValues.forEach(ele -> {
+				if (!selectedItems.contains(ele)) {
+					selectedItems.add(ele);
+				}
+			});
 		} else if (selectedItems.contains(item)) {
 			selectedItems.remove(item);
 			if (selectedItems.isEmpty()) {

@@ -125,21 +125,12 @@ public class SubworkComboSelection extends AbstractEnumerator {
 
 		@Override
 		public int getDefaultIndex() {
-			if (fileNature == null) {
-				return 0;
-			}
-			if (fileNature == PlanProFileNature.INFORMATION_STATE) {
-				return getValue(NOT_SET_SUBWORK).getValue();
-			}
-			return getValue(NOT_SELECTED_SUBWORK).getValue();
+			return 0;
 		}
 
 		@Override
 		public String getDefaultValue() {
-			if (fileNature == PlanProFileNature.INFORMATION_STATE) {
-				return getValue(NOT_SET_SUBWORK).getLiteral();
-			}
-			return getValue(NOT_SELECTED_SUBWORK).getLiteral();
+			return getValue(getDefaultIndex()).getLiteral();
 		}
 
 		@Override
@@ -177,19 +168,19 @@ public class SubworkComboSelection extends AbstractEnumerator {
 			return first.get();
 		}
 
-		/**
-		 * @param name
-		 *            the name of value
-		 * 
-		 * @return the value
-		 */
+		@Override
 		public SubworkComboSelection getValue(final String name) {
 			final Optional<SubworkComboSelection> first = itemValues.stream()
-					.filter(e -> e.getName().equals(name)).findFirst();
+					.filter(e -> e.getLiteral().equals(name)).findFirst();
 			if (first.isEmpty()) {
 				return null;
 			}
 			return first.get();
+		}
+
+		@Override
+		public int size() {
+			return itemValues.size();
 		}
 	}
 

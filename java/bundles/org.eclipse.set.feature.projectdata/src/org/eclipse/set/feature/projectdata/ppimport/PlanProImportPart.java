@@ -200,14 +200,6 @@ public class PlanProImportPart extends BasePart {
 
 	private static Comparator<ImportControl> importDataComparator() {
 		return (first, second) -> {
-			final String firstFileFiledText = first.getComboField().getText()
-					.getText();
-			final String secondFileFiledText = second.getComboField().getText()
-					.getText();
-			if (!firstFileFiledText.equals(secondFileFiledText)) {
-				return 0;
-			}
-
 			final List<String> firstSubworkSelections = first.getComboField()
 					.getSubworkCombo().getSelectValuesString();
 			final List<String> secondSubworkSelections = second.getComboField()

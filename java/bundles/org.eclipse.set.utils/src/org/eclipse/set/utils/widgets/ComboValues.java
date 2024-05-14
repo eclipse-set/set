@@ -37,19 +37,20 @@ public interface ComboValues<T> {
 	public int getIndex(T value);
 
 	/**
+	 * 
 	 * @param stringValue
-	 *            the string value
+	 *            the value string value
 	 * @return the index
 	 */
 	public int getIndex(String stringValue);
 
 	/**
-	 * @return the values
+	 * @return the values in string
 	 */
 	public String[] getComboValues();
 
 	/**
-	 * @return the values without default value
+	 * @return the values string withoud default value
 	 */
 	public String[] getValuesWithoutDefault();
 
@@ -60,4 +61,16 @@ public interface ComboValues<T> {
 	 * @return the value
 	 */
 	public T getValue(int selectionIndex);
+
+	/**
+	 * @param valueString
+	 *            the value in string
+	 * @return the value
+	 */
+	public T getValue(String valueString);
+
+	/**
+	 * @return the values size
+	 */
+	public int size();
 }
