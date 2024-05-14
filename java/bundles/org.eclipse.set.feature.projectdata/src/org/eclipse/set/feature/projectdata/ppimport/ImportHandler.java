@@ -175,7 +175,7 @@ public class ImportHandler {
 
 		// Only import to planing group, when current model not
 		// exsit group with this subwork type or import whole subwork
-		if (target != ImportTarget.SUBWORK && sourceGroup.isPresent()) {
+		if (target != ImportTarget.ALL && sourceGroup.isPresent()) {
 			return;
 		}
 		doImportCommand(editingDomian, sourceGroup.orElse(null), importGroup,
@@ -191,7 +191,7 @@ public class ImportHandler {
 			final EditingDomain editingDomain) {
 		// Whenn source model not contain import subwork type
 		// or import whole subwork
-		if (target == ImportTarget.SUBWORK || sourceSubwork.isEmpty()
+		if (target == ImportTarget.ALL || sourceSubwork.isEmpty()
 				|| sourceState.isEmpty()) {
 			doImportCommand(editingDomain, sourceSubwork.orElse(null),
 					importSubwork, source.getLSTPlanung().getFachdaten(),
@@ -346,7 +346,7 @@ public class ImportHandler {
 
 	private Ausgabe_Fachdaten filterImportContainer(
 			final Ausgabe_Fachdaten subwork) {
-		if (target == ImportTarget.SUBWORK) {
+		if (target == ImportTarget.ALL) {
 			return subwork;
 		}
 
@@ -460,14 +460,14 @@ public class ImportHandler {
 		final Planung_Einzel lstPlanungEinzel = newPlaningGroup.get()
 				.getLSTPlanungEinzel();
 		// new GUIDs for LST_Zustand_Start
-		if (target == ImportTarget.SUBWORK || target == ImportTarget.INITIAL) {
+		if (target == ImportTarget.ALL || target == ImportTarget.INITIAL) {
 			editingDomain.getCommandStack().execute(createSetGuidCommand(
 					editingDomain,
 					PlanungEinzelExtensions.LSTZustandStart(lstPlanungEinzel)));
 		}
 
 		// new GUIDs for LST_Zustand_Ziel
-		if (target == ImportTarget.SUBWORK || target == ImportTarget.FINAL) {
+		if (target == ImportTarget.ALL || target == ImportTarget.FINAL) {
 			editingDomain.getCommandStack().execute(createSetGuidCommand(
 					editingDomain,
 					PlanungEinzelExtensions.LSTZustandZiel(lstPlanungEinzel)));

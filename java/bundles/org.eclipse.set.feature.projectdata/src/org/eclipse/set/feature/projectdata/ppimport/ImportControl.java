@@ -55,7 +55,7 @@ public class ImportControl {
 		/**
 		 * Import whole sub work (include INITIAL and FINAL container)
 		 */
-		SUBWORK,
+		ALL,
 
 		/**
 		 * Import to current initial container of selected sub work

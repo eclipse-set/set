@@ -73,7 +73,7 @@ public class PlanProImportPart extends BasePart {
 	@Override
 	protected void createView(final Composite parent) {
 		importModel = new ImportControl(serviceProvider, getModelSession(),
-				ImportTarget.SUBWORK, this::updateImportButton);
+				ImportTarget.ALL, this::updateImportButton);
 		importInitial = new ImportControl(serviceProvider, getModelSession(),
 				ImportTarget.INITIAL, this::updateImportButton);
 		importFinal = new ImportControl(serviceProvider, getModelSession(),
