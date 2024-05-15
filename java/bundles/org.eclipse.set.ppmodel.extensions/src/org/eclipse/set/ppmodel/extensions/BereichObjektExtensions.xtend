@@ -512,7 +512,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	) {
 		val tTopKante = teilbereich.IDTOPKante
 		val eTopKante = edge.element
-		if (tTopKante.wert != eTopKante.identitaet.wert) {
+		if (tTopKante?.wert != eTopKante.identitaet.wert) {
 			return false
 		}
 		val tA = teilbereich.begrenzungA.wert.doubleValue
@@ -535,7 +535,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	) {
 		val tTopKante = teilbereich.IDTOPKante
 		val eTopKante = edge.element
-		if (tTopKante.wert != eTopKante.identitaet.wert) {
+		if (tTopKante?.wert != eTopKante.identitaet.wert) {
 			return false
 		}
 		val tA = teilbereich.begrenzungA.wert.doubleValue
@@ -557,7 +557,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	) {
 		val tTopKante = teilbereich.IDTOPKante
 		val eTopKante = edge.element
-		return tTopKante.wert == eTopKante.identitaet.wert
+		return tTopKante?.wert == eTopKante.identitaet.wert
 	}
 
 	/**
