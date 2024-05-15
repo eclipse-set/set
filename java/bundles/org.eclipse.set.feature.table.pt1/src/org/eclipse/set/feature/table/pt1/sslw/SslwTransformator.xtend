@@ -108,7 +108,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 				#{
 					ENUM_MASSNAHME_VERSCHLUSS,
 					ENUM_MASSNAHME_VERSCHLUSS_ERSATZSCHUTZ
-				}.contains(flaZwieschutzElement?.massnameLR(isLeft))
+				}.contains(flaZwieschutzElement?.massnameLR(isLeft)?.wert)
 			],
 			["x"]
 		)
