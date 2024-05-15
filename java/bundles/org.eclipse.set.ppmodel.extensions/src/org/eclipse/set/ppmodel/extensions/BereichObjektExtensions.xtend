@@ -410,8 +410,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
-		val sameTopKante = teilbereich.IDTOPKante?.value.identitaet?.wert ==
-			singlePoint.IDTOPKante?.value?.identitaet?.wert
+		val sameTopKante = teilbereich.IDTOPKante?.wert ==
+			singlePoint.IDTOPKante?.wert
 
 		if (sameTopKante) {
 			val A = teilbereich.begrenzungA.wert.doubleValue
@@ -572,7 +572,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		TOP_Kante topKante,
 		double distance
 	) {
-		if (teilbereich.IDTOPKante?.value.identitaet?.wert != topKante.identitaet.wert)
+		if (teilbereich.IDTOPKante?.wert != topKante.identitaet.wert)
 			return false;
 
 		val A = teilbereich.begrenzungA.wert.doubleValue

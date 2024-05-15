@@ -288,16 +288,16 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		signals.forEach [ signal |
 			val rafahrt = signal?.signalFstrAusInselgleis?.
 				IDRaFahrtGleichzeitigVerbot
-			rafahrt?.filter[gl|result.containsKey(gl?.value.identitaet?.wert)]?.
+			rafahrt?.filter[gl|result.containsKey(gl?.wert)]?.
 				forEach [ gl |
-					result.get(gl?.value.identitaet?.wert).raFahrtVerbot.add(
+					result.get(gl?.wert).raFahrtVerbot.add(
 						signal)
 				]
 			val zgfahrt = signal?.signalFstrAusInselgleis?.
 				IDZgFahrtGleichzeitigVerbot
-			zgfahrt?.filter[gl|result.containsKey(gl?.value.identitaet?.wert)]?.
+			zgfahrt?.filter[gl|result.containsKey(gl?.wert)]?.
 				forEach [ gl |
-					result.get(gl?.value.identitaet?.wert).zgFahrtVerbot.add(
+					result.get(gl?.wert).zgFahrtVerbot.add(
 						signal)
 				]
 		]

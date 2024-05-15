@@ -45,7 +45,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenStart(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it.IDBlockElementA?.value.identitaet?.wert == blockElement.identitaet.wert
+			it.IDBlockElementA?.wert == blockElement.identitaet.wert
 		].toSet;
 	}
 
@@ -57,7 +57,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenZiel(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it?.IDBlockElementB?.value?.identitaet?.wert ==
+			it?.IDBlockElementB?.wert ==
 				blockElement.identitaet.wert
 		].toSet;
 	}

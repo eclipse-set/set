@@ -31,7 +31,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 		Strecke strecke
 	) {
 		return strecke.container.GEOKante.filter [ k |
-			k.IDGEOArt?.value.identitaet.wert == strecke.identitaet.wert
+			k.IDGEOArt?.wert == strecke.identitaet.wert
 		]
 	}
 
@@ -41,7 +41,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 	 */
 	def static Iterable<Strecke_Punkt> getStreckenPunkte(Strecke strecke) {
 		return strecke.container.streckePunkt.filter [ k |
-			k.IDStrecke?.value.identitaet.wert == strecke.identitaet.wert
+			k.IDStrecke?.wert == strecke.identitaet.wert
 		]
 	}
 

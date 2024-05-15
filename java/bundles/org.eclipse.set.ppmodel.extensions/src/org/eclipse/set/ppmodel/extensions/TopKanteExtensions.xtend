@@ -625,7 +625,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		Collection<Punkt_Objekt_TOP_Kante_AttributeGroup> singlePoints
 	) {
 		return singlePoints.filter [
-			IDTOPKante?.value.identitaet?.wert == topKante.identitaet.wert
+			IDTOPKante?.wert == topKante.identitaet.wert
 		].toSet
 	}
 
@@ -640,11 +640,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val idA = topKante.IDTOPKnotenA
 		val idB = topKante.IDTOPKnotenB
 
-		if (topKnoten.identitaet.wert == idA?.value.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idA?.wert) {
 			return topKante.TOPKanteAllg.TOPAnschlussA.wert
 		}
 
-		if (topKnoten.identitaet.wert == idB?.value.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idB?.wert) {
 			return topKante.TOPKanteAllg.TOPAnschlussB.wert
 		}
 
@@ -669,11 +669,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val idA = topKante.IDTOPKnotenA
 		val idB = topKante.IDTOPKnotenB
 
-		if (topKnoten.identitaet.wert == idA?.value.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idA?.wert) {
 			return topKante.TOPKnotenB
 		}
 
-		if (topKnoten.identitaet.wert == idB?.value.identitaet?.wert) {
+		if (topKnoten.identitaet.wert == idB?.wert) {
 			return topKante.TOPKnotenA
 		}
 

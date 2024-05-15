@@ -27,7 +27,7 @@ class BueGleisbezogenerGefahrraumExtensions extends BereichObjektExtensions {
 	static def List<BUE_Einschaltung_Zuordnung> getEinschaltungZuordnungen(
 		BUE_Gleisbezogener_Gefahrraum raum) {
 		return raum.container.BUEEinschaltungZuordnung.filter [
-			it.IDBUEGleisbezGefahrraum?.value.identitaet?.wert == raum.identitaet.wert
+			it.IDBUEGleisbezGefahrraum?.wert == raum.identitaet.wert
 		].toList
 	}
 }

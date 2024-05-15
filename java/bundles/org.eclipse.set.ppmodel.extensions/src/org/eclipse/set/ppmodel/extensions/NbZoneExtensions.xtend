@@ -47,7 +47,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 */
 	def static List<NB_Zone_Element> getNBZoneElemente(NB_Zone nbZone) {
 		return nbZone.container.NBZoneElement.filter [
-			IDNBZone?.value.identitaet.wert == nbZone.identitaet.wert
+			IDNBZone?.wert == nbZone.identitaet.wert
 		].toList
 	}
 
@@ -58,7 +58,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	 */
 	def static List<NB_Zone_Grenze> getNBZoneGrenzen(NB_Zone nbZone) {
 		return nbZone.container.NBZoneGrenze.filter [
-			IDNBZone?.value.identitaet.wert == nbZone.identitaet.wert
+			IDNBZone?.wert == nbZone.identitaet.wert
 		].toList
 	}
 
@@ -70,7 +70,7 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	def static List<NB_Bedien_Anzeige_Element> getNBBedienAnzeigeElemente(
 		NB_Zone nbZone) {
 		return nbZone.container.NBBedienAnzeigeElement.filter [
-			IDNBZone?.value.identitaet.wert == nbZone.identitaet.wert
+			IDNBZone?.wert == nbZone.identitaet.wert
 		].toList
 	}
 
