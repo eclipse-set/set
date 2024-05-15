@@ -253,558 +253,544 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[punktObjektStrecke.unique.streckeKm.wert]
 						)
 
-						if (signal.isSsksSignalNichtAndere) {
-							fill(
-								row,
-								cols.getColumn(Sonstige_Zulaessige_Anordnung),
-								signal,
-								[
-									signal?.signalReal?.signalRealAktiv?.
-										sonstigeZulaessigeAnordnung?.wert?.
+						fill(
+							row,
+							cols.getColumn(Sonstige_Zulaessige_Anordnung),
+							signal,
+							[
+								signal?.signalReal?.signalRealAktiv?.
+									sonstigeZulaessigeAnordnung?.wert?.translate
+							]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Lichtraumprofil),
+							signal,
+							[
+								val s = it
+								val mountpoints = gruppe.map [
+									s.getMountPoint(it)
+								]
+								val topEdges = mountpoints.map[topKante].toSet
+								topEdges.map [
+									gleisLichtraum?.lichtraumprofil?.wert?.
 										translate
 								]
-							)
+							],
+							null
+						)
 
+						if (bankingService.isFindBankingComplete) {
 							fillIterable(
 								row,
-								cols.getColumn(Lichtraumprofil),
+								cols.getColumn(Ueberhoehung),
 								signal,
 								[
-									val s = it
-									val mountpoints = gruppe.map [
-										s.getMountPoint(it)
-									]
-									val topEdges = mountpoints.map[topKante].
-										toSet
-									topEdges.map [
-										gleisLichtraum?.lichtraumprofil?.wert?.
-											translate
+									bankingService.findBankValue(
+										new TopPoint(signal)).map [
+										multiply(new BigDecimal(1000)).
+											toTableInteger ?: ""
 									]
 								],
 								null
 							)
+						} else {
+							// Fill Banking through thread, when find process not complete
+							row.fillUeberhoehung(signal)
+						}
 
-							if (bankingService.isFindBankingComplete) {
-								fillIterable(
-									row,
-									cols.getColumn(Ueberhoehung),
-									signal,
-									[
-										bankingService.findBankValue(
-											new TopPoint(signal)).map [
-											multiply(new BigDecimal(1000)).
-												toTableInteger ?: ""
-										]
-									],
-									null
-								)
-							} else {
-								// Fill Banking through thread, when find process not complete
-								row.fillUeberhoehung(signal)
-							}
-
-							// Abstand Mastmitte
-							if (!
+						// Abstand Mastmitte
+						if (!
 								isFindGeometryComplete) {
 
-								#[Mastmitte_Links, Mastmitte_Rechts].forEach [
-									fill(
-										row,
-										cols.getColumn(it),
-										signal,
-										[CellContentExtensions.HOURGLASS_ICON]
-									)
-								]
-								waitingFileSideDistanceSignal.put(row, signal)
-							} else {
-								val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-								val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
-
-								signal.initAbstandMastmitte(signal.signalRahmen,
-									abstandMastmitteLinks,
-									abstandMastmitteRechts);
-
-								fillIterable(
+							#[Mastmitte_Links, Mastmitte_Rechts].forEach [
+								fill(
 									row,
-									cols.getColumn(Mastmitte_Links),
+									cols.getColumn(it),
 									signal,
-									[
-										abstandMastmitteLinks.map [
-											'''«key»«IF value > 0» («value»)«ENDIF»'''
-										]
-									],
-									null,
-									[toString]
+									[CellContentExtensions.HOURGLASS_ICON]
 								)
+							]
+							waitingFileSideDistanceSignal.put(row, signal)
+						} else {
+							val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
+							val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
 
-								fillIterable(
-									row,
-									cols.getColumn(Mastmitte_Rechts),
-									signal,
-									[
-										abstandMastmitteRechts.map [
-											'''«key»«IF value > 0» («value»)«ENDIF»'''
-										]
-									],
-									null,
-									[toString]
-								)
-							}
-							// Sichtbarkeit Soll
-							fillConditional(
-								row,
-								cols.getColumn(Sichtbarkeit_Soll),
-								signal,
-								[isHauptbefestigung],
-								[
-									signalReal?.signalsichtSoll?.wert?.toString
-								]
-							)
-
-							fillConditional(
-								row,
-								cols.getColumn(Sichtbarkeit_Mindest),
-								signal,
-								[isHauptbefestigung],
-								[
-									signalReal?.signalsichtMindest?.wert?.
-										toString
-								]
-							)
-
-							fillConditional(
-								row,
-								cols.getColumn(Sichtbarkeit_Ist),
-								signal,
-								[isHauptbefestigung],
-								[
-									signalReal?.signalsichtErreichbar?.wert?.
-										toString
-								]
-							)
-
-							fillConditional(
-								row,
-								cols.getColumn(Entfernung),
-								signal,
-								[isHauptbefestigung],
-								[
-									signalReal?.signalRealAktivSchirm?.
-										richtpunktentfernung?.wert?.toString
-								]
-							)
-
-							fillConditional(
-								row,
-								cols.getColumn(Richtpunkt),
-								signal,
-								[isHauptbefestigung],
-								[
-									signalReal?.signalRealAktivSchirm?.
-										richtpunkt?.wert
-								]
-							)
+							signal.initAbstandMastmitte(signal.signalRahmen,
+								abstandMastmitteLinks, abstandMastmitteRechts);
 
 							fillIterable(
 								row,
-								cols.getColumn(Befestigung),
-								signalRahmen,
-								[map[signalBefestigung.fillBefestigung].toSet],
-								null,
-								[toString]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Anordnung_Regelzeichnung),
-								signalRahmen,
-								[fillRegelzeichnung.toSet],
-								null,
-								[toString]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Obere_Lichtpunkthoehe),
-								signalRahmen,
+								cols.getColumn(Mastmitte_Links),
+								signal,
 								[
-									filter[
-										rahmenArt.wert == ENUM_RAHMEN_ART_SCHIRM
-									].map [
-										signalBefestigung?.
-											signalBefestigungAllg?.
-											obereLichtpunkthoehe?.wert
-									].toSet.map [ b |
-										if (b !== null)
-											(Math.round(b.doubleValue * 1000)).
-												toString
-										else
-											""
+									abstandMastmitteLinks.map [
+										'''«key»«IF value > 0» («value»)«ENDIF»'''
 									]
 								],
 								null,
-								[it]
-							)
-
-							fillConditional(
-								row,
-								cols.getColumn(Streuscheibe_Art),
-								signal,
-								[isHauptbefestigung],
-								[
-									signalReal?.signalRealAktivSchirm?.
-										streuscheibeArt?.wert?.translate
-								]
-							)
-
-							fillConditional(
-								row,
-								cols.getColumn(Streuscheibe_Stellung),
-								signal,
-								[isHauptbefestigung],
-								[
-									signalReal?.signalRealAktivSchirm?.
-										streuscheibeBetriebsstellung?.wert?.
-										translate
-								]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Fundament_Art_Regelzeichnung),
-								signalRahmen,
-								[
-									val regelzeichnung = map[fundament].
-										filterNull.flatMap[IDRegelzeichnung].map [
-											value?.fillRegelzeichnung
-										].filterNull
-									val fundament = map[
-										fundament?.signalBefestigungAllg?.
-											fundamentArt?.wert
-									].filterNull.map[translate].filterNull
-									return (regelzeichnung + fundament).toSet
-								],
-								null,
 								[toString]
 							)
 
 							fillIterable(
 								row,
-								cols.getColumn(Fundament_Hoehe),
-								signalRahmen,
+								cols.getColumn(Mastmitte_Rechts),
+								signal,
 								[
-									map[
-										fundament?.signalBefestigungAllg?.
-											hoeheFundamentoberkante?.wert
-									].filterNull.toSet
+									abstandMastmitteRechts.map [
+										'''«key»«IF value > 0» («value»)«ENDIF»'''
+									]
 								],
 								null,
-								[toTableInteger(1000)]
+								[toString]
 							)
+						}
+						// Sichtbarkeit Soll
+						fillConditional(
+							row,
+							cols.getColumn(Sichtbarkeit_Soll),
+							signal,
+							[isHauptbefestigung],
+							[
+								signalReal?.signalsichtSoll?.wert?.toString
+							]
+						)
 
-							fillConditional(
-								row,
-								cols.getColumn(Schaltkasten_Bezeichnung),
-								signal,
-								[
-									stellelement?.energie?.AEAAllg?.
-										aussenelementansteuerungArt?.wert ==
-										ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER
-								],
-								[
-									stellelement?.energie?.bezeichnung?.
-										bezeichnungAEA?.wert
+						fillConditional(
+							row,
+							cols.getColumn(Sichtbarkeit_Mindest),
+							signal,
+							[isHauptbefestigung],
+							[
+								signalReal?.signalsichtMindest?.wert?.toString
+							]
+						)
+
+						fillConditional(
+							row,
+							cols.getColumn(Sichtbarkeit_Ist),
+							signal,
+							[isHauptbefestigung],
+							[
+								signalReal?.signalsichtErreichbar?.wert?.
+									toString
+							]
+						)
+
+						fillConditional(
+							row,
+							cols.getColumn(Entfernung),
+							signal,
+							[isHauptbefestigung],
+							[
+								signalReal?.signalRealAktivSchirm?.
+									richtpunktentfernung?.wert?.toString
+							]
+						)
+
+						fillConditional(
+							row,
+							cols.getColumn(Richtpunkt),
+							signal,
+							[isHauptbefestigung],
+							[
+								signalReal?.signalRealAktivSchirm?.
+									richtpunkt?.wert
+							]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Befestigung),
+							signalRahmen,
+							[map[signalBefestigung.fillBefestigung].toSet],
+							null,
+							[toString]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Anordnung_Regelzeichnung),
+							signalRahmen,
+							[fillRegelzeichnung.toSet],
+							null,
+							[toString]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Obere_Lichtpunkthoehe),
+							signalRahmen,
+							[
+								filter[
+									rahmenArt.wert == ENUM_RAHMEN_ART_SCHIRM
+								].map [
+									signalBefestigung?.signalBefestigungAllg?.
+										obereLichtpunkthoehe?.wert
+								].toSet.map [ b |
+									if (b !== null)
+										(Math.round(b.doubleValue * 1000)).
+											toString
+									else
+										""
 								]
-							)
+							],
+							null,
+							[it]
+						)
 
-							fillConditional(
-								row,
-								cols.getColumn(Schaltkasten_Entfernung),
-								signal,
-								[controlBox !== null],
-								[
-									distance(controlBox).toTableDecimal
-								]
-							)
+						fillConditional(
+							row,
+							cols.getColumn(Streuscheibe_Art),
+							signal,
+							[isHauptbefestigung],
+							[
+								signalReal?.signalRealAktivSchirm?.
+									streuscheibeArt?.wert?.translate
+							]
+						)
 
-							fillConditional(
-								row,
-								cols.getColumn(
-									Schaltkasten_Separat_Bezeichnung),
-								signal,
-								[hasSchaltkastenSeparatBezeichnung],
-								[
-									stellelement?.information?.bezeichnung?.
-										bezeichnungAEA?.wert
-								]
-							)
+						fillConditional(
+							row,
+							cols.getColumn(Streuscheibe_Stellung),
+							signal,
+							[isHauptbefestigung],
+							[
+								signalReal?.signalRealAktivSchirm?.
+									streuscheibeBetriebsstellung?.wert?.
+									translate
+							]
+						)
 
+						fillIterable(
+							row,
+							cols.getColumn(Fundament_Art_Regelzeichnung),
+							signalRahmen,
+							[
+								val regelzeichnung = map[fundament].filterNull.
+									flatMap[IDRegelzeichnung].map [
+										value?.fillRegelzeichnung
+									].filterNull
+								val fundament = map[
+									fundament?.signalBefestigungAllg?.
+										fundamentArt?.wert
+								].filterNull.map[translate].filterNull
+								return (regelzeichnung + fundament).toSet
+							],
+							null,
+							[toString]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Fundament_Hoehe),
+							signalRahmen,
+							[
+								map[
+									fundament?.signalBefestigungAllg?.
+										hoeheFundamentoberkante?.wert
+								].filterNull.toSet
+							],
+							null,
+							[toTableInteger(1000)]
+						)
+
+						fillConditional(
+							row,
+							cols.getColumn(Schaltkasten_Bezeichnung),
+							signal,
+							[
+								stellelement?.energie?.AEAAllg?.
+									aussenelementansteuerungArt?.wert ==
+									ENUM_AUSSENELEMENTANSTEUERUNG_ART_OBJEKTCONTROLLER
+							],
+							[
+								stellelement?.energie?.bezeichnung?.
+									bezeichnungAEA?.wert
+							]
+						)
+
+						fillConditional(
+							row,
+							cols.getColumn(Schaltkasten_Entfernung),
+							signal,
+							[controlBox !== null],
+							[
+								distance(controlBox).toTableDecimal
+							]
+						)
+
+						fillConditional(
+							row,
+							cols.getColumn(Schaltkasten_Separat_Bezeichnung),
+							signal,
+							[hasSchaltkastenSeparatBezeichnung],
+							[
+								stellelement?.information?.bezeichnung?.
+									bezeichnungAEA?.wert
+							]
+						)
+
+						if (signal.isSsksSignalNichtAndere) {
 							fillConditional(
 								row,
 								cols.getColumn(Dauerhaft_Nacht),
 								signal,
 								[isHauptbefestigung],
 								[
-									(signalReal?.signalRealAktiv?.tunnelsignal?.
-										wert ==
+									(signalReal?.signalRealAktiv?.
+										tunnelsignal?.wert ==
 										ENUM_TUNNELSIGNAL_MIT_DAUERNACHTSCHALTUNG).
 										translate
 								]
 							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Schirm_Hp_Hl),
-								signalRahmen,
-								[fillSignalisierungHpHl],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Schirm_Ks_Vr),
-								signalRahmen,
-								[fillSignalisierungKsVr],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Schirm_Zl_Kl),
-								signalRahmen,
-								[fillSignalisierungZlKl],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillSwitch(
-								row,
-								cols.getColumn(Schirm_Ra_Sh),
-								signal,
-								new Case<Signal>(
-									[
-										hasSignalbegriffID(Sh1) &&
-											signalReal?.geltungsbereich?.wert ==
-												ENUMGeltungsbereich.
-													ENUM_GELTUNGSBEREICH_DV
-									],
-									["Ra 12"]
-								),
-								new Case<Signal>(
-									[
-										hasSignalbegriffID(Sh1) &&
-											signalReal?.geltungsbereich?.wert ==
-												ENUMGeltungsbereich.
-													ENUM_GELTUNGSBEREICH_DS
-									],
-									["Sh 1"]
-								),
-								new Case<Signal>([hasSignalbegriffID(Sh1)], ["x"])
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Schirm_Zs),
-								signalRahmen,
-								[fillSignalisierungSchirmZs],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Zusatzanzeiger_Zs_2),
-								signalRahmen,
-								[fillSignalisierungSymbol(typeof(Zs2))],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Zusatzanzeiger_Zs_2v),
-								signalRahmen,
-								[fillSignalisierungSymbol(typeof(Zs2v))],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Zusatzanzeiger_Zs_3),
-								signalRahmen,
-								[fillSignalisierungSymbolGeschaltet(typeof(Zs3))],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Zusatzanzeiger_Zs_3v),
-								signalRahmen,
-								[
-									fillSignalisierungSymbolGeschaltet(
-										typeof(Zs3v))
-								],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Zusatzanzeiger_Zs),
-								signalRahmen,
-								[fillSignalisierungZusatzanzeigerZs],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Zusatzanzeiger_Zp),
-								signalRahmen,
-								[fillSignalisierungZp],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Zusatzanzeiger_Kombination),
-								signalRahmen,
-								[fillSignalisierungKombination],
-								null,
-								[it],
-								", "
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Nachgeordnetes_Signal),
-								signalRahmen,
-								[
-									filter[r|r.IDSignalNachordnung !== null].map [ r |
-										r.signalNachordnung.bezeichnung.
-											bezeichnungTabelle.wert
-									] + container.signalRahmen.filter [ r |
-										r?.IDSignalNachordnung?.value?.
-											identitaet?.wert ==
-											signal.identitaet.wert
-									].map [ r |
-										r.signal.bezeichnung.bezeichnungTabelle.
-											wert
-									]
-								],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Mastschild),
-								signalRahmen,
-								[fillSignalisierungMastschild],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Weitere_Regelzeichnung_Nr),
-								signalRahmen,
-								[fillSignalisierungWeitere],
-								MIXED_STRING_COMPARATOR,
-								[it]
-							)
-
-							fill(
-								row,
-								cols.getColumn(Automatische_Fahrtstellung),
-								signal,
-								[fillSonstigesAutomatischeFahrtstellung]
-							)
-
-							fill(
-								row,
-								cols.getColumn(Dunkelschaltung),
-								signal,
-								[fillSonstigesDunkelschaltung]
-							)
-
-							fill(
-								row,
-								cols.getColumn(Durchfahrt_Erlaubt),
-								signal,
-								[fillSonstigesDurchfahrtErlaubt]
-							)
-
-							fillConditional(
-								row,
-								cols.getColumn(Besetzte_Ausfahrt),
-								signal,
-								[signalFstr?.besetzteAusfahrt?.wert !== null],
-								[signalFstr.besetzteAusfahrt.wert.translate]
-							)
-
-							fill(
-								row,
-								cols.getColumn(Loeschung_Zs_1__Zs_7),
-								signalRahmen,
-								[fillSonstigesLoeschungZs1Zs7]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Ueberwachung_Zs_2),
-								signal,
-								[
-									val zs2 = getSignalbegriffe(Zs2).filterNull
-									// Is there any Zs2 without zs2Ueberwacht = true?
-									if (zs2.empty || zs2.findFirst [
-										signalSignalbegriffAllg?.
-											zs2Ueberwacht === null ||
-											signalSignalbegriffAllg.
-												zs2Ueberwacht.wert == false
-									] !== null)
-										return #[""]
-
-									return zs2.map [
-										signalbegriffID?.symbol ?: "?"
-									]
-								],
-								null
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Ueberwachung_Zs_2v),
-								signal,
-								[
-									val zs2v = getSignalbegriffe(Zs2v).
-										filterNull
-									// Is there any Zs2v without zs2Ueberwacht = true?
-									if (zs2v.empty || zs2v.findFirst [
-										signalSignalbegriffAllg?.
-											zs2Ueberwacht === null ||
-											signalSignalbegriffAllg.
-												zs2Ueberwacht.wert == false
-									] !== null)
-										return #[""]
-
-									return zs2v.map [
-										signalbegriffID?.symbol ?: "?"
-									]
-								],
-								null
-							)
-						} else {
-							// Blank out everything from Sonstige_Zulaessige_Anordnung to Ueberwachung_Zs_2v
-							for (var int j = 6; j < 48; j++) {
-								fillBlank(row, j)
-							}
 						}
+
+						fillIterable(
+							row,
+							cols.getColumn(Schirm_Hp_Hl),
+							signalRahmen,
+							[fillSignalisierungHpHl],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Schirm_Ks_Vr),
+							signalRahmen,
+							[fillSignalisierungKsVr],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Schirm_Zl_Kl),
+							signalRahmen,
+							[fillSignalisierungZlKl],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillSwitch(
+							row,
+							cols.getColumn(Schirm_Ra_Sh),
+							signal,
+							new Case<Signal>(
+								[
+									hasSignalbegriffID(Sh1) &&
+										signalReal?.geltungsbereich?.wert ==
+											ENUMGeltungsbereich.
+												ENUM_GELTUNGSBEREICH_DV
+								],
+								["Ra 12"]
+							),
+							new Case<Signal>(
+								[
+									hasSignalbegriffID(Sh1) &&
+										signalReal?.geltungsbereich?.wert ==
+											ENUMGeltungsbereich.
+												ENUM_GELTUNGSBEREICH_DS
+								],
+								["Sh 1"]
+							),
+							new Case<Signal>([hasSignalbegriffID(Sh1)], ["x"])
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Schirm_Zs),
+							signalRahmen,
+							[fillSignalisierungSchirmZs],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Zusatzanzeiger_Zs_2),
+							signalRahmen,
+							[fillSignalisierungSymbol(typeof(Zs2))],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Zusatzanzeiger_Zs_2v),
+							signalRahmen,
+							[fillSignalisierungSymbol(typeof(Zs2v))],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Zusatzanzeiger_Zs_3),
+							signalRahmen,
+							[fillSignalisierungSymbolGeschaltet(typeof(Zs3))],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Zusatzanzeiger_Zs_3v),
+							signalRahmen,
+							[
+								fillSignalisierungSymbolGeschaltet(typeof(Zs3v))
+							],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Zusatzanzeiger_Zs),
+							signalRahmen,
+							[fillSignalisierungZusatzanzeigerZs],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Zusatzanzeiger_Zp),
+							signalRahmen,
+							[fillSignalisierungZp],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Zusatzanzeiger_Kombination),
+							signalRahmen,
+							[fillSignalisierungKombination],
+							null,
+							[it],
+							", "
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Nachgeordnetes_Signal),
+							signalRahmen,
+							[
+								filter[r|r.IDSignalNachordnung !== null].map [ r |
+									r.signalNachordnung.bezeichnung.
+										bezeichnungTabelle.wert
+								] + container.signalRahmen.filter [ r |
+									r?.IDSignalNachordnung?.value?.
+										identitaet?.wert ==
+										signal.identitaet.wert
+								].map [ r |
+									r.signal.bezeichnung.bezeichnungTabelle.wert
+								]
+							],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Mastschild),
+							signalRahmen,
+							[fillSignalisierungMastschild],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Weitere_Regelzeichnung_Nr),
+							signalRahmen,
+							[fillSignalisierungWeitere],
+							MIXED_STRING_COMPARATOR,
+							[it]
+						)
+
+						fill(
+							row,
+							cols.getColumn(Automatische_Fahrtstellung),
+							signal,
+							[fillSonstigesAutomatischeFahrtstellung]
+						)
+
+						fill(
+							row,
+							cols.getColumn(Dunkelschaltung),
+							signal,
+							[fillSonstigesDunkelschaltung]
+						)
+
+						fill(
+							row,
+							cols.getColumn(Durchfahrt_Erlaubt),
+							signal,
+							[fillSonstigesDurchfahrtErlaubt]
+						)
+
+						fillConditional(
+							row,
+							cols.getColumn(Besetzte_Ausfahrt),
+							signal,
+							[signalFstr?.besetzteAusfahrt?.wert !== null],
+							[signalFstr.besetzteAusfahrt.wert.translate]
+						)
+
+						fill(
+							row,
+							cols.getColumn(Loeschung_Zs_1__Zs_7),
+							signalRahmen,
+							[fillSonstigesLoeschungZs1Zs7]
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Ueberwachung_Zs_2),
+							signal,
+							[
+								val zs2 = getSignalbegriffe(Zs2).filterNull
+								// Is there any Zs2 without zs2Ueberwacht = true?
+								if (zs2.empty || zs2.findFirst [
+									signalSignalbegriffAllg?.
+										zs2Ueberwacht === null ||
+										signalSignalbegriffAllg.
+											zs2Ueberwacht.wert == false
+								] !== null)
+									return #[""]
+
+								return zs2.map [
+									signalbegriffID?.symbol ?: "?"
+								]
+							],
+							null
+						)
+
+						fillIterable(
+							row,
+							cols.getColumn(Ueberwachung_Zs_2v),
+							signal,
+							[
+								val zs2v = getSignalbegriffe(Zs2v).filterNull
+								// Is there any Zs2v without zs2Ueberwacht = true?
+								if (zs2v.empty || zs2v.findFirst [
+									signalSignalbegriffAllg?.
+										zs2Ueberwacht === null ||
+										signalSignalbegriffAllg.
+											zs2Ueberwacht.wert == false
+								] !== null)
+									return #[""]
+
+								return zs2v.map [
+									signalbegriffID?.symbol ?: "?"
+								]
+							],
+							null
+						)
 
 						fill(
 							row,
