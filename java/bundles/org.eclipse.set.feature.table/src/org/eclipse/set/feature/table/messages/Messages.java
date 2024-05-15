@@ -27,7 +27,7 @@ public class Messages {
 	public String TableErrorTableColumns_LeadingObject;
 
 	/**
-	 * Fehlertext
+	 * technischer Fehlertext
 	 */
 	public String TableErrorTableColumns_Message;
 
