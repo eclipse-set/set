@@ -521,10 +521,10 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	
 	/**
 	 * @params row the table row for which the leading object shall be delivered
-	 * @returns the leading object value of the given row which is either the value of the first cell
+	 * @returns the leading object identifier of the given row which is either the value of the first cell
 	 *          or the GUID of the leading object entity if the first cell is empty or shows an error
 	 */
-	def private getLeadingObject(TableRow row) {
+	def private getLeadingObjectIdentifier(TableRow row) {
 		var firstCellValue = row.getPlainStringValue(0)
 		if (firstCellValue === null || firstCellValue.startsWith(ERROR_PREFIX)) {
 			return row.group.leadingObject?.identitaet?.wert
@@ -532,12 +532,12 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		return firstCellValue
 	}
 
-	def dispatch private handleFillingException(
+	def private handleFillingException(
 		Exception e,
 		TableRow row,
 		ColumnDescriptor column
 	) {
-		var leadingObject = getLeadingObject(row)
+		var leadingObject = getLeadingObjectIdentifier(row)
 		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObject»"'''
 		tableErrors.add(
 			new TableError(leadingObject, "",
@@ -545,20 +545,6 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («row.group.leadingObject?.identitaet?.wert»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
-	}
-
-	def dispatch private handleFillingException(
-		UnsupportedOperationException e,
-		TableRow row,
-		ColumnDescriptor column
-	) {
-		var errorMsg = '''«e.message» for leading object «row.group.leadingObject?.identitaet?.wert»'''
-		tableErrors.add(
-			new TableError(row.group.leadingObject?.identitaet?.wert, "",
-				errorMsg, row.rowIndex + 1))
-		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
-		logger.
-			error('''«e.class.simpleName» in column "«column.debugString»". «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
 
 	/**
