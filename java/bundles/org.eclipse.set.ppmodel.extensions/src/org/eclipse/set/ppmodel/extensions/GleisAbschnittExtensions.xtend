@@ -25,6 +25,6 @@ class GleisAbschnittExtensions extends BereichObjektExtensions {
 	 * @returns the FMA Anlagen monitoring this Gleisabschnitt
 	 */
 	def static List<FMA_Anlage> getFmaAnlagen(Gleis_Abschnitt abschnitt) {
-		return abschnitt.container.FMAAnlage.filter[IDGleisAbschnitt?.value.identitaet.wert == abschnitt.identitaet.wert].toList
+		return abschnitt.container.FMAAnlage.filter[IDGleisAbschnitt?.wert == abschnitt.identitaet.wert].toList
 	}
 }

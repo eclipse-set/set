@@ -119,8 +119,8 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static List<Fstr_Nichthaltfall> getFstrNichthaltfall(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier.container.fstrNichthaltfall.filter [
-			it.IDFstrFahrweg?.value.identitaet?.wert ==
-				fstrZugRangier.IDFstrFahrweg?.value.identitaet?.wert
+			it.IDFstrFahrweg?.wert ==
+				fstrZugRangier.IDFstrFahrweg?.wert
 		].toList
 	}
 

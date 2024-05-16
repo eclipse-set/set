@@ -145,7 +145,7 @@ class FahrwegExtensions extends BereichObjektExtensions {
 		Fstr_Fahrweg fahrweg) {
 		val result = new LinkedList<Fstr_Abhaengigkeit>
 		for (abhaengigkeit : fahrweg.container.fstrAbhaengigkeit) {
-			if (abhaengigkeit.IDFstrFahrweg?.value.identitaet?.wert ==
+			if (abhaengigkeit.IDFstrFahrweg?.wert ==
 				fahrweg.identitaet.wert) {
 				result.add(abhaengigkeit)
 			}

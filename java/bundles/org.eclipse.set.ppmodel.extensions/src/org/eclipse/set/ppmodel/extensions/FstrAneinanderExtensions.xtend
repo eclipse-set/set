@@ -55,7 +55,7 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 		Fstr_Aneinander fstrAneinander) {
 		val result = new LinkedList<Fstr_Aneinander_Zuordnung>
 		for (zuordnung : fstrAneinander.container.fstrAneinanderZuordnung) {
-			if (zuordnung.IDFstrAneinander?.value.identitaet.wert ==
+			if (zuordnung.IDFstrAneinander?.wert ==
 				fstrAneinander.identitaet.wert) {
 				result.add(zuordnung)
 			}

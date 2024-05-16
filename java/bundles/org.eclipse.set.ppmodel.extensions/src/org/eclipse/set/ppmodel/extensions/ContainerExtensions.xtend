@@ -107,7 +107,7 @@ class ContainerExtensions {
 	) {
 		val planning = container.planProSchnittstelle.LSTPlanung.
 			objektmanagement.eAllContents.filter(Planung_Einzel).filter [
-				IDAusgabeFachdaten?.value.identitaet.wert ==
+				IDAusgabeFachdaten?.wert ==
 					container.ausgabeFachdaten.identitaet.wert
 			].toSet
 

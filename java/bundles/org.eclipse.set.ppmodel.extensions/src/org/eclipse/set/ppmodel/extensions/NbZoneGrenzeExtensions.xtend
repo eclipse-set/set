@@ -44,7 +44,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 	 */
 	def static List<Fla_Schutz> getFlaSchutz(NB_Zone_Grenze nbZoneGrenze) {
 		return nbZoneGrenze.container.flaSchutz.filter [
-			flaSchutzAnforderer.IDAnfordererElement?.value.identitaet.wert ==
+			flaSchutzAnforderer.IDAnfordererElement?.wert ==
 				nbZoneGrenze.identitaet.wert
 		].toList
 	}

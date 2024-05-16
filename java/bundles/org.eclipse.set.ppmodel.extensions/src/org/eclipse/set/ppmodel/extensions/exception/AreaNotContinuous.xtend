@@ -43,6 +43,6 @@ class AreaNotContinuous extends RuntimeException {
 	}
 	
 	private static def String getMsgString(TOP_Kante kante) {
-		return '''[«kante.IDTOPKnotenA?.value.identitaet.wert» «kante.IDTOPKnotenB?.value.identitaet.wert»]'''
+		return '''[«kante.IDTOPKnotenA?.wert» «kante.IDTOPKnotenB?.wert»]'''
 	}
 }

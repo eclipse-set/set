@@ -90,13 +90,13 @@ class TopKnotenExtensions extends BasisObjektExtensions {
 		val singlePoint = singlePoints.get(0)
 		val topKante = singlePoint.topKante
 
-		if (topKante.IDTOPKnotenA?.value.identitaet?.wert ==
+		if (topKante.IDTOPKnotenA?.wert ==
 			topKnoten.identitaet.wert) {
 			return Distance.compare(0, singlePoint.abstand.wert.doubleValue) ==
 				0
 		}
 
-		if (topKante.IDTOPKnotenB?.value.identitaet?.wert ==
+		if (topKante.IDTOPKnotenB?.wert ==
 			topKnoten.identitaet.wert) {
 			return Distance.compare(
 				topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue,
