@@ -522,7 +522,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object «row.group.leadingObject?.identitaet?.wert»'''
 		tableErrors.add(
 			new TableError(row.group.leadingObject?.identitaet?.wert, "",
-				errorMsg))
+				errorMsg, row.rowIndex + 1))
 		row.set(column, '''Error: «errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object «row.group.leadingObject?.identitaet?.wert». «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
@@ -536,7 +536,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		var errorMsg = '''«e.message» for leading object «row.group.leadingObject?.identitaet?.wert»'''
 		tableErrors.add(
 			new TableError(row.group.leadingObject?.identitaet?.wert, "",
-				errorMsg))
+				errorMsg, row.rowIndex + 1))
 		row.set(column, '''Error: «errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»". «e.message»«System.lineSeparator»«e.stackTraceAsString»''')

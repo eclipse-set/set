@@ -25,6 +25,7 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 		for (error : errors) {
 			val instance = factory.newTableRow()
 			fill(instance, columns.Source, error, [error.source])
+			fill(instance, columns.RowNumber, error, [error.rowNumber])
 			fill(instance, columns.LeadingObject, error, [error.leadingObject])
 			fill(instance, columns.Message, error, [error.message])		
 		}

@@ -18,6 +18,7 @@ public class TableError {
 	private final String leadingObject;
 	private String source;
 	private final String message;
+	private final int rowNumber;
 
 	/**
 	 * @param leadingObject
@@ -26,12 +27,15 @@ public class TableError {
 	 *            the source table
 	 * @param message
 	 *            a description of the error
+	 * @param rowNumber
+	 *            the row number where the error occurred
 	 */
 	public TableError(final String leadingObject, final String source,
-			final String message) {
+			final String message, final int rowNumber) {
 		this.leadingObject = leadingObject;
 		this.source = source;
 		this.message = message;
+		this.rowNumber = rowNumber;
 	}
 
 	/**
@@ -61,5 +65,12 @@ public class TableError {
 	 */
 	public String getMessage() {
 		return message;
+	}
+
+	/**
+	 * @return the row number where the error occurred
+	 */
+	public String getRowNumber() {
+		return String.valueOf(rowNumber);
 	}
 }

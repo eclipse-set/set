@@ -32,6 +32,11 @@ public class Messages {
 	public String TableErrorTableColumns_Message;
 
 	/**
+	 * Zeilennummer
+	 */
+	public String TableErrorTableColumns_RowNumber;
+
+	/**
 	 * Quelle
 	 */
 	public String TableErrorTableColumns_Source;
