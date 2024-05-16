@@ -19,7 +19,10 @@ import org.w3c.dom.NodeList;
  *
  */
 public class ValidationObjectTypeProvider {
-	private static final String IDENTITY_ATTRIBUTE_NAME = "Identitaet"; //$NON-NLS-1$
+	/**
+	 * Identity node name
+	 */
+	public static final String IDENTITY_ATTRIBUTE_NAME = "Identitaet"; //$NON-NLS-1$
 
 	/**
 	 * @param node

@@ -32,7 +32,12 @@ public class ValidationObjectScopeProvider {
 	private static final String NODE_WERT = "Wert"; //$NON-NLS-1$
 	private static final String XPATH_PLANUNGSBEREICH = "//ID_LST_Objekt_Planungsbereich/Wert/text()"; //$NON-NLS-1$
 
-	private static String findNearestNodeGUID(final Node node) {
+	/**
+	 * @param node
+	 *            the node
+	 * @return guid of the object contain this node
+	 */
+	public static String findNearestNodeGUID(final Node node) {
 		if (node == null) {
 			return null;
 		}

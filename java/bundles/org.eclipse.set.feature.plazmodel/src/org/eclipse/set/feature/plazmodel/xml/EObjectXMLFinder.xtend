@@ -25,6 +25,7 @@ import org.w3c.dom.Node
 import org.xml.sax.SAXException
 
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.feature.validation.utils.ValidationObjectScopeProvider
 
 /** 
  * Resolves an EObject to its line number within a XML document
@@ -156,5 +157,9 @@ class EObjectXMLFinder {
 	 */
 	def ObjectScope getObjectScope(Node node) {
 		return ObjectMetadataXMLReader.getObjectScope(node)
+	}
+	
+	def String getObjectGuid(Node node) {
+		return ValidationObjectScopeProvider.findNearestNodeGUID(node);
 	}
 }
