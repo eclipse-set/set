@@ -137,6 +137,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private int scrollToPositionRequested = -1;
 
+	private Text tableFooting;
+
 	@Inject
 	@Translation
 	Messages messages;
@@ -321,6 +323,9 @@ public final class ToolboxTableView extends BasePart {
 		updateModel(getToolboxPart(), getModelSession(), getToolboxShell());
 		natTable.refresh();
 		updateButtons();
+
+		// Update footnotes
+		tableFooting.setText(TableExtensions.getFootnotesText(table));
 	}
 
 	private void updateTitlebox(final Titlebox titlebox) {
@@ -484,9 +489,11 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		final Text tableFooting = new Text(parent, SWT.MULTI);
+		tableFooting = new Text(parent, SWT.MULTI);
 		tableFooting.setText(TableExtensions.getFootnotesText(table));
 		tableFooting.setEditable(false);
+		GridDataFactory.fillDefaults().grab(true, false).minSize(-1, 500)
+				.applyTo(tableFooting);
 
 		// export action
 		getBanderole().setExportAction(new SelectableAction() {
