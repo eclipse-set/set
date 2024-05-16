@@ -82,6 +82,7 @@ import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.SelectedRowEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
@@ -89,7 +90,6 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
-import org.eclipse.set.utils.table.RowSelectionListener;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
@@ -387,9 +387,9 @@ public final class ToolboxTableView extends BasePart {
 
 		final SelectionLayer selectionLayer = bodyLayerStack
 				.getSelectionLayer();
-		selectionLayer.addConfiguration(
-				new RowSelectionListener(getToolboxPart().getElementId(),
-						selectionLayer, tableInstances, getBroker()));
+		// selectionLayer.addConfiguration(
+		// new RowSelectionListener(getToolboxPart().getElementId(),
+		// selectionLayer, tableInstances, getBroker()));
 
 		// column header stack
 		final IDataProvider columnHeaderDataProvider = new DefaultColumnHeaderDataProvider(
@@ -476,6 +476,8 @@ public final class ToolboxTableView extends BasePart {
 					return TableRowExtensions.getLeadingObjectGuid(tableRows
 							.get(rowPosition - headerRowCount)) != null;
 				}));
+		tableMenuService.addMenuItem(tableMenuService.createShowInSitePlanItem(
+				createJumpToSiteplanEvent(), rowPosition -> true));
 		natTable.addConfiguration(tableMenuService
 				.createMenuConfiguration(natTable, selectionLayer));
 
@@ -665,6 +667,24 @@ public final class ToolboxTableView extends BasePart {
 						.getTableRows(table);
 				return TableRowExtensions
 						.getLeadingObjectGuid(tableRows.get(rowPosition));
+			}
+		};
+	}
+
+	protected SelectedRowEvent createJumpToSiteplanEvent() {
+		return new SelectedRowEvent(getToolboxPart().getElementId()) {
+			@Override
+			public TableRow getRow() {
+				final Collection<ILayerCell> selectedCells = bodyLayerStack
+						.getSelectionLayer().getSelectedCells();
+				if (selectedCells.isEmpty()) {
+					return null;
+				}
+				final int rowPosition = selectedCells.iterator().next()
+						.getRowPosition();
+				final List<TableRow> tableRows = TableExtensions
+						.getTableRows(table);
+				return tableRows.get(rowPosition);
 			}
 		};
 	}

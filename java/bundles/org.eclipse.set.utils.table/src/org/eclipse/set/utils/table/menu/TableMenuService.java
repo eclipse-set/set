@@ -15,6 +15,8 @@ import java.util.function.IntPredicate;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
+import org.eclipse.set.utils.events.SelectedRowEvent;
+import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 
 /**
@@ -55,6 +57,16 @@ public interface TableMenuService {
 	 */
 	TableBodyMenuItem createShowInTextViewItem(
 			final JumpToSourceLineEvent jumpEvent,
+			IntPredicate enablePredicate);
+
+	/**
+	 * @param jumpEvent
+	 *            the {@link TableSelectRowByGuidEvent}
+	 * @param enablePredicate
+	 *            condition for enable this item
+	 * @return show in siteplace item
+	 */
+	TableBodyMenuItem createShowInSitePlanItem(final SelectedRowEvent jumpEvent,
 			IntPredicate enablePredicate);
 
 }

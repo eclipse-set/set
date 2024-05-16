@@ -18,7 +18,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
  *
  */
 public class SelectedRowEvent implements ToolboxEvent {
-	private static final String TOPIC = "toolboxevents/table/selectedRow/"; //$NON-NLS-1$
+	private static final String TOPIC = "toolboxevents/table/selectedRow"; //$NON-NLS-1$
 
 	/**
 	 * Returns the topic for a specific table that the event should affect
@@ -28,13 +28,18 @@ public class SelectedRowEvent implements ToolboxEvent {
 	 * @return a topic for the event
 	 */
 	public static String getTopic(final String table) {
-		return TOPIC + table.replace('.', '/');
+		return TOPIC;
 
 	}
 
 	TableRow row;
 
 	String table;
+
+	public SelectedRowEvent(final String table) {
+		this.table = table;
+		this.row = null;
+	}
 
 	/**
 	 * @param table
@@ -63,7 +68,7 @@ public class SelectedRowEvent implements ToolboxEvent {
 
 	@Override
 	public String getTopic() {
-		return getTopic(this.table);
+		return TOPIC;
 	}
 
 }

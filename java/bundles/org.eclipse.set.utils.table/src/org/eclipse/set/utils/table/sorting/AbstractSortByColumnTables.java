@@ -43,6 +43,7 @@ import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
+import org.eclipse.set.utils.events.SelectedRowEvent;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
@@ -240,6 +241,40 @@ public abstract class AbstractSortByColumnTables {
 				final Integer lineNumber = Integer.valueOf(
 						bodyDataProvider.getObjectSourceLine(originalRow));
 				return new Pair<>(scope, lineNumber);
+			}
+		};
+	}
+
+	protected TableBodyMenuItem createJumpToSiteplanMenuItem() {
+		if (getTableMenuService() == null) {
+			return null;
+		}
+		return getTableMenuService().createShowInSitePlanItem(
+				creataJumpToSiteplanEvent(), rowIndex -> {
+					final Collection<ILayerCell> selectedCells = bodyLayerStack
+							.getSelectionLayer().getSelectedCells();
+					if (selectedCells.isEmpty()) {
+						return false;
+					}
+					final int rowPosition = selectedCells.iterator().next()
+							.getRowPosition();
+					final TableRow row = bodyDataProvider.getRow(rowPosition)
+							.getRow();
+				});
+	}
+
+	protected SelectedRowEvent creataJumpToSiteplanEvent() {
+		return new SelectedRowEvent("") {
+			@Override
+			public TableRow getRow() {
+				final Collection<ILayerCell> selectedCells = bodyLayerStack
+						.getSelectionLayer().getSelectedCells();
+				if (selectedCells.isEmpty()) {
+					return null;
+				}
+				final int rowPosition = selectedCells.iterator().next()
+						.getRowPosition();
+				return bodyDataProvider.getRow(rowPosition).getRow();
 			}
 		};
 	}

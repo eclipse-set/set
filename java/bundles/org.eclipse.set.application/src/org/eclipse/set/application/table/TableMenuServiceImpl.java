@@ -20,6 +20,7 @@ import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
+import org.eclipse.set.utils.events.SelectedRowEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
@@ -37,6 +38,7 @@ import jakarta.inject.Inject;
  */
 public class TableMenuServiceImpl implements TableMenuService {
 	private static final String SOURCE_TEXT_VIEWER_PART_ID = "org.eclipse.set.application.descriptions.SourceWebTextViewDescriptionService"; //$NON-NLS-1$
+	private static final String SITE_PLAN_PART_ID = "org.eclipse.set.feature.siteplan.descriptions.WebSiteplanDescriptionService"; //$NON-NLS-1$
 
 	@Inject
 	ToolboxPartService toolboxPartService;
@@ -85,6 +87,25 @@ public class TableMenuServiceImpl implements TableMenuService {
 						}
 						toolboxPartService.showPart(SOURCE_TEXT_VIEWER_PART_ID);
 						ToolboxEvents.send(broker, toolboxEvent);
+					}
+				}, enablePredicate);
+	}
+
+	@Override
+	public TableBodyMenuItem createShowInSitePlanItem(
+			final SelectedRowEvent jumpEvent,
+			final IntPredicate enablePredicate) {
+		return new TableBodyMenuItem(messages.TableMenuService_Siteplan,
+				new SelectionAdapter() {
+					@Override
+					public void widgetSelected(final SelectionEvent e) {
+
+						if (tableBodyMenuConfiguration.selectionLayer
+								.getSelectedCells().isEmpty()) {
+							return;
+						}
+						toolboxPartService.showPart(SITE_PLAN_PART_ID);
+						ToolboxEvents.send(broker, jumpEvent);
 					}
 				}, enablePredicate);
 	}
