@@ -35,6 +35,11 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	 * constant for non-filled content.
 	 */
 	static final String NOT_FILLED = "n.b.";
+	
+	/**
+	 * constant prefix for cells that show errors 
+	 */
+	static final String ERROR_PREFIX = "Error: ";
 
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(AbstractTableModelTransformator))
@@ -513,19 +518,33 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	) {
 		return '''«FOR element : sequence.sortWith(comparator) SEPARATOR separator»«element»«ENDFOR»'''
 	}
+	
+	/**
+	 * @params row the table row for which the leading object shall be delivered
+	 * @returns the leading object value of the given row which is either the value of the first cell
+	 *          or the GUID of the leading object entity if the first cell is empty or shows an error
+	 */
+	def private getLeadingObject(TableRow row) {
+		var firstCellValue = row.getPlainStringValue(0)
+		if (firstCellValue === null || firstCellValue.startsWith(ERROR_PREFIX)) {
+			return row.group.leadingObject?.identitaet?.wert
+		}
+		return firstCellValue
+	}
 
 	def dispatch private handleFillingException(
 		Exception e,
 		TableRow row,
 		ColumnDescriptor column
 	) {
-		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object «row.group.leadingObject?.identitaet?.wert»'''
+		var leadingObject = getLeadingObject(row)
+		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObject»"'''
 		tableErrors.add(
-			new TableError(row.group.leadingObject?.identitaet?.wert, "",
+			new TableError(leadingObject, "",
 				errorMsg, row.rowIndex + 1))
-		row.set(column, '''Error: «errorMsg»''')
+		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
-			error('''«e.class.simpleName» in column "«column.debugString»" for leading object «row.group.leadingObject?.identitaet?.wert». «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
+			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («row.group.leadingObject?.identitaet?.wert»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
 
 	def dispatch private handleFillingException(
@@ -537,7 +556,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		tableErrors.add(
 			new TableError(row.group.leadingObject?.identitaet?.wert, "",
 				errorMsg, row.rowIndex + 1))
-		row.set(column, '''Error: «errorMsg»''')
+		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»". «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
