@@ -893,7 +893,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				LOGGER.error(e.message)
 			}
 			val distanceBetweenTracks = opposideSideDistance >
-					0 ? seitlicherAbstand +
+					0 ? Math.abs(seitlicherAbstand) +
 					Math.round(opposideSideDistance * 1000) : 0
 			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 				seitlicherAbstand > 0) ||
