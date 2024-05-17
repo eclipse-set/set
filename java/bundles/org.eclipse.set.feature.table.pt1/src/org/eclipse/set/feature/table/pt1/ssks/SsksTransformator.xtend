@@ -892,19 +892,22 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			} catch (Exception e) {
 				LOGGER.error(e.message)
 			}
+			val distanceBetweenTracks = opposideSideDistance >
+					0 ? seitlicherAbstand +
+					Math.round(opposideSideDistance * 1000) : 0
 			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 				seitlicherAbstand > 0) ||
 				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
 					seitlicherAbstand < 0)) {
 				abstandMastmitteLinks.add(Math.abs(seitlicherAbstand) ->
-					Math.round(opposideSideDistance * 1000))
+					distanceBetweenTracks)
 			}
 			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 				seitlicherAbstand < 0) ||
 				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
 					seitlicherAbstand > 0)) {
 				abstandMastmitteRechts.add(Math.abs(seitlicherAbstand) ->
-					Math.round(opposideSideDistance * 1000))
+					distanceBetweenTracks)
 			}
 		]
 	}
