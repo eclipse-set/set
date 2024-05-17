@@ -8,15 +8,11 @@
  */
 package org.eclipse.set.feature.table.pt1
 
-import org.eclipse.set.basis.Wrapper
-import org.eclipse.set.model.tablemodel.Footnote
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
-
-import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.TablemodelFactory
 
 /**
  * Transform basis objects to footnotes.
@@ -35,7 +31,8 @@ class FootnoteTransformation {
 	def String transform(Basis_Objekt object, TableRow row) {
 		this.row = row
 		object.addFootnotes
-		return row.footnoteText
+		// return row.footnoteText
+		return ""
 	}
 
 	private def void addFootnotes(Basis_Objekt object) {
@@ -44,20 +41,14 @@ class FootnoteTransformation {
 
 	private def void addFootnote(Bearbeitungsvermerk comment) {
 		val footnote = comment.createFootnote
-		row.footnotes.add(footnote)
+		if (row.footnotes === null)
+			row.footnotes = TablemodelFactory.eINSTANCE.
+				createSimpleFootnoteContainer()
+		(row.footnotes as SimpleFootnoteContainer).footnotes.add(footnote)
 	}
 
-	private def Footnote createFootnote(Bearbeitungsvermerk comment) {
-		val footnote = TablemodelFactory.eINSTANCE.createFootnote
-		val number = comment.transform
-		footnote.number = number.value.intValue
-		footnote.text = comment?.bearbeitungsvermerkAllg?.kommentar?.wert
-		return footnote
+	private def String createFootnote(Bearbeitungsvermerk comment) {
+		return comment?.bearbeitungsvermerkAllg?.kommentar?.wert
 	}
 
-	private def Wrapper<Integer> create new Wrapper()
-	transform(Bearbeitungsvermerk vermerk) {
-		value = row.table.nextFootnoteNumber
-		return
-	}
 }

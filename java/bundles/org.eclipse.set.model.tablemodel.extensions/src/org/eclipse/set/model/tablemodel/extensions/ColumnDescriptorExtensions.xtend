@@ -484,6 +484,13 @@ class ColumnDescriptorExtensions {
 			it.getColumnCells(descriptor)
 		].flatten.toList
 	}
+	
+	/**
+	 * @return true if the column should include numeric references to footnotes 
+	 */
+	def static boolean isFootnoteReferenceColumn(ColumnDescriptor descriptor) {
+		return descriptor?.parent?.label == "Bemerkung" // IMPROVE: This should not be a string comparision
+	}
 
 	private static def boolean testEqualChildren(ColumnDescriptor descriptor,
 		ColumnDescriptor other) {

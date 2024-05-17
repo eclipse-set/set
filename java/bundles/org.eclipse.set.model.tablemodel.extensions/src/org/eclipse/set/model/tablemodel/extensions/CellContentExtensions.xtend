@@ -12,11 +12,16 @@ import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.FootnoteContainer
 import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.utils.ToolboxConfiguration
+
+import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
@@ -32,6 +37,7 @@ class CellContentExtensions {
 	public static val String WARNING_MARK_RED = "<!-- warning-mark-red -->"
 	public static val String WARNING_MARK_BLACK = "<!-- warning-mark-black -->"
 	public static val String HOURGLASS_ICON = "⏳"
+	 static val String FOOTNOTE_SEPARATOR = ", "
 	static val String ERROR_PREFIX = "Error:"
 
 	/**
@@ -77,6 +83,87 @@ class CellContentExtensions {
 
 	static def dispatch String getRichTextValue(MultiColorCellContent content) {
 		return '''<p style="text-align:«content.textAlign»">«content.multiColorFormat»</p>'''
+	}
+
+	/**
+	 * Returns a formatted string representation intended for rendering as
+	 * rich text. This method should only be called in the context of rendering
+	 * the content, e.g. in NatTable content providers.
+	 * 
+	 * @param content this cell content
+	 * 
+	 * @return a formatted string representation of the cell content
+	 */
+	static def dispatch String getRichTextValueWithFootnotes(
+		CellContent content, FootnoteContainer fc) {
+		return '''Content «content.class.simpleName» not supported.'''
+	}
+
+	static def dispatch String getRichTextValueWithFootnotes(Void content,
+		Void fc) {
+		return ""
+	}
+
+	static def dispatch String getRichTextValueWithFootnotes(
+		StringCellContent content, Void fc) {
+		return '''<p style="text-align:«content.textAlign»">«content.valueFormat»</p>'''
+	}
+
+	static def dispatch String getRichTextValueWithFootnotes(
+		StringCellContent content, SimpleFootnoteContainer fc) {
+		val footnoteText = 	fc.footnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR)
+		
+		if (footnoteText != "")
+			return '''<p style="text-align:«content.textAlign»">«content.valueFormat» «footnoteText»</p>'''
+		return '''<p style="text-align:«content.textAlign»">«content.valueFormat»</p>'''
+	}
+
+	static def dispatch String getRichTextValueWithFootnotes(
+		StringCellContent content, CompareFootnoteContainer fc) {
+		val result = <String>newLinkedList
+
+		content.value.forEach [
+			result.add(getCompareValueFormat(WARNING_MARK_BLACK, it))
+		]
+
+		val oldFootnotes = getCompareValueFormat(WARNING_MARK_YELLOW, fc.oldFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
+		val newFootnotes = getCompareValueFormat(WARNING_MARK_RED, fc.newFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
+		val unchangedFootnotes = getCompareValueFormat(WARNING_MARK_BLACK, fc.unchangedFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
+		
+		result.addAll(#[oldFootnotes, unchangedFootnotes, newFootnotes])
+
+		return '''<p style="text-align:«content.textAlign»">«
+		»«result.filter[it.length > 0].iterableToString(content.separator === null || content.separator.equals("\r\n")
+			? "<br></br>" 
+			: content.separator
+		)»</p>'''
+	}
+
+	static def dispatch String getRichTextValueWithFootnotes(
+		CompareCellContent content, CompareFootnoteContainer fc) {
+		if (content.oldValue.equals(content.newValue)) {
+			return '''<p style="text-align:«content.textAlign»">«
+			»«content.newValue.iterableToString(content.separator).htmlString»</p>'''
+		}
+		val result = <String>newLinkedList
+		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.
+			forEach [
+				result.add(content.getCompareContentValueFormat([
+					getCompareValueFormat($0, $1)
+				], it))
+			]
+
+		val oldFootnotes = getCompareValueFormat(WARNING_MARK_YELLOW, fc.oldFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
+		val newFootnotes = getCompareValueFormat(WARNING_MARK_RED, fc.newFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
+		val unchangedFootnotes = getCompareValueFormat(WARNING_MARK_BLACK, fc.unchangedFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
+		
+		result.addAll(#[oldFootnotes, unchangedFootnotes, newFootnotes])
+
+		return '''<p style="text-align:«content.textAlign»">«
+		»«result.iterableToString(content.separator === null || content.separator.equals("\r\n")
+			? "<br></br>" 
+			: content.separator
+		)»</p>'''
 	}
 
 	/**
@@ -172,7 +259,7 @@ class CellContentExtensions {
 		if (value.isErrorText) {
 			return warning_mark
 		}
-		
+
 		if (value.contains(HOURGLASS_ICON)) {
 			return '''<span>«value»</span>'''
 		}
@@ -201,9 +288,8 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat)
-				? ""
-				: content.stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
+				stringFormat.htmlString
 		}
 
 		val value = '''<span style="background-color:rgb(255,255, 0)">«content

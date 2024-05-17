@@ -103,15 +103,6 @@ class RowGroupExtensions {
 	}
 
 	/**
-	 * @param table this row group
-	 * 
-	 * @return the maximum footnote number for this row group
-	 */
-	static def int getMaxFootnoteNumber(RowGroup group) {
-		return group.rows.fold(0, [n, r|Math.max(n, r.maxFootnoteNumber)])
-	}
-
-	/**
 	 * Find group for the row. 
 	 * 
 	 * @params row the table row

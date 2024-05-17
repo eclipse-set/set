@@ -339,22 +339,22 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE_ROW__CELLS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Footnotes</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TABLE_ROW__FOOTNOTES = 1;
-
-	/**
 	 * The feature id for the '<em><b>Row Index</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TABLE_ROW__ROW_INDEX = 2;
+	int TABLE_ROW__ROW_INDEX = 1;
+
+	/**
+	 * The feature id for the '<em><b>Footnotes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE_ROW__FOOTNOTES = 2;
 
 	/**
 	 * The number of structural features of the '<em>Table Row</em>' class.
@@ -596,53 +596,6 @@ public interface TablemodelPackage extends EPackage {
 	int CELL_ANNOTATION_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl <em>Footnote</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
-	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
-	 * @generated
-	 */
-	int FOOTNOTE = 10;
-
-	/**
-	 * The feature id for the '<em><b>Number</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOOTNOTE__NUMBER = 0;
-
-	/**
-	 * The feature id for the '<em><b>Text</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOOTNOTE__TEXT = 1;
-
-	/**
-	 * The number of structural features of the '<em>Footnote</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOOTNOTE_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Footnote</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOOTNOTE_OPERATION_COUNT = 0;
-
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl <em>Multi Color Cell Content</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -650,7 +603,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorCellContent()
 	 * @generated
 	 */
-	int MULTI_COLOR_CELL_CONTENT = 11;
+	int MULTI_COLOR_CELL_CONTENT = 10;
 
 	/**
 	 * The feature id for the '<em><b>Separator</b></em>' attribute.
@@ -696,7 +649,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorContent()
 	 * @generated
 	 */
-	int MULTI_COLOR_CONTENT = 12;
+	int MULTI_COLOR_CONTENT = 11;
 
 	/**
 	 * The feature id for the '<em><b>Multi Color Value</b></em>' attribute.
@@ -735,6 +688,126 @@ public interface TablemodelPackage extends EPackage {
 	int MULTI_COLOR_CONTENT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl <em>Footnote Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnoteContainer()
+	 * @generated
+	 */
+	int FOOTNOTE_CONTAINER = 12;
+
+	/**
+	 * The number of structural features of the '<em>Footnote Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE_CONTAINER_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Footnote Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTNOTE_CONTAINER_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl <em>Compare Footnote Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareFootnoteContainer()
+	 * @generated
+	 */
+	int COMPARE_FOOTNOTE_CONTAINER = 13;
+
+	/**
+	 * The feature id for the '<em><b>Old Footnotes</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>New Footnotes</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Compare Footnote Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Compare Footnote Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPARE_FOOTNOTE_CONTAINER_OPERATION_COUNT = FOOTNOTE_CONTAINER_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl <em>Simple Footnote Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl
+	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getSimpleFootnoteContainer()
+	 * @generated
+	 */
+	int SIMPLE_FOOTNOTE_CONTAINER = 14;
+
+	/**
+	 * The feature id for the '<em><b>Footnotes</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Simple Footnote Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Simple Footnote Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_FOOTNOTE_CONTAINER_OPERATION_COUNT = FOOTNOTE_CONTAINER_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -742,7 +815,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
-	int COLUMN_WIDTH_MODE = 13;
+	int COLUMN_WIDTH_MODE = 15;
 
 
 	/**
@@ -753,7 +826,7 @@ public interface TablemodelPackage extends EPackage {
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 	 * @generated
 	 */
-	int ROW_MERGE_MODE = 14;
+	int ROW_MERGE_MODE = 16;
 
 
 	/**
@@ -994,10 +1067,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableRow_Cells();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes <em>Footnotes</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes <em>Footnotes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Footnotes</em>'.
+	 * @return the meta object for the containment reference '<em>Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableRow#getFootnotes()
 	 * @see #getTableRow()
 	 * @generated
@@ -1143,38 +1216,6 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCellAnnotation();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.Footnote <em>Footnote</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Footnote</em>'.
-	 * @see org.eclipse.set.model.tablemodel.Footnote
-	 * @generated
-	 */
-	EClass getFootnote();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.Footnote#getNumber <em>Number</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Number</em>'.
-	 * @see org.eclipse.set.model.tablemodel.Footnote#getNumber()
-	 * @see #getFootnote()
-	 * @generated
-	 */
-	EAttribute getFootnote_Number();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.Footnote#getText <em>Text</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Text</em>'.
-	 * @see org.eclipse.set.model.tablemodel.Footnote#getText()
-	 * @see #getFootnote()
-	 * @generated
-	 */
-	EAttribute getFootnote_Text();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent <em>Multi Color Cell Content</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1226,6 +1267,80 @@ public interface TablemodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMultiColorContent_StringFormat();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.FootnoteContainer <em>Footnote Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Footnote Container</em>'.
+	 * @see org.eclipse.set.model.tablemodel.FootnoteContainer
+	 * @generated
+	 */
+	EClass getFootnoteContainer();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer <em>Compare Footnote Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Compare Footnote Container</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+	 * @generated
+	 */
+	EClass getCompareFootnoteContainer();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes <em>Old Footnotes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Old Footnotes</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes()
+	 * @see #getCompareFootnoteContainer()
+	 * @generated
+	 */
+	EAttribute getCompareFootnoteContainer_OldFootnotes();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes <em>New Footnotes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>New Footnotes</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes()
+	 * @see #getCompareFootnoteContainer()
+	 * @generated
+	 */
+	EAttribute getCompareFootnoteContainer_NewFootnotes();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes <em>Unchanged Footnotes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Unchanged Footnotes</em>'.
+	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes()
+	 * @see #getCompareFootnoteContainer()
+	 * @generated
+	 */
+	EAttribute getCompareFootnoteContainer_UnchangedFootnotes();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer <em>Simple Footnote Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Simple Footnote Container</em>'.
+	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
+	 * @generated
+	 */
+	EClass getSimpleFootnoteContainer();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes <em>Footnotes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Footnotes</em>'.
+	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes()
+	 * @see #getSimpleFootnoteContainer()
+	 * @generated
+	 */
+	EAttribute getSimpleFootnoteContainer_Footnotes();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}'.
@@ -1457,7 +1572,7 @@ public interface TablemodelPackage extends EPackage {
 		EReference TABLE_ROW__CELLS = eINSTANCE.getTableRow_Cells();
 
 		/**
-		 * The meta object literal for the '<em><b>Footnotes</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Footnotes</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1579,32 +1694,6 @@ public interface TablemodelPackage extends EPackage {
 		EClass CELL_ANNOTATION = eINSTANCE.getCellAnnotation();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.FootnoteImpl <em>Footnote</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.set.model.tablemodel.impl.FootnoteImpl
-		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnote()
-		 * @generated
-		 */
-		EClass FOOTNOTE = eINSTANCE.getFootnote();
-
-		/**
-		 * The meta object literal for the '<em><b>Number</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute FOOTNOTE__NUMBER = eINSTANCE.getFootnote_Number();
-
-		/**
-		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute FOOTNOTE__TEXT = eINSTANCE.getFootnote_Text();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl <em>Multi Color Cell Content</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1647,6 +1736,68 @@ public interface TablemodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MULTI_COLOR_CONTENT__STRING_FORMAT = eINSTANCE.getMultiColorContent_StringFormat();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl <em>Footnote Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnoteContainer()
+		 * @generated
+		 */
+		EClass FOOTNOTE_CONTAINER = eINSTANCE.getFootnoteContainer();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl <em>Compare Footnote Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareFootnoteContainer()
+		 * @generated
+		 */
+		EClass COMPARE_FOOTNOTE_CONTAINER = eINSTANCE.getCompareFootnoteContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Old Footnotes</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_OldFootnotes();
+
+		/**
+		 * The meta object literal for the '<em><b>New Footnotes</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_NewFootnotes();
+
+		/**
+		 * The meta object literal for the '<em><b>Unchanged Footnotes</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_UnchangedFootnotes();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl <em>Simple Footnote Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl
+		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getSimpleFootnoteContainer()
+		 * @generated
+		 */
+		EClass SIMPLE_FOOTNOTE_CONTAINER = eINSTANCE.getSimpleFootnoteContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Footnotes</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = eINSTANCE.getSimpleFootnoteContainer_Footnotes();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.
