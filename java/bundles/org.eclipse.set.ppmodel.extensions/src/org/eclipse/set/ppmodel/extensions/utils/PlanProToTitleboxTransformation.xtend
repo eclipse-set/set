@@ -148,22 +148,22 @@ class PlanProToTitleboxTransformation {
 			lastPlanungEErstellung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")
 		it.set(70,
-			lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?:
+			lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
 				"")
 		it.set(59,
 			lastPlanungPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")
 		it.set(71,
-			lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
+			lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
 		it.set(60,
 			lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
 		it.set(72,
-			lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
+			lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT) ?: "")
 		it.set(61,
 			lastPlanungUebernahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")
 		it.set(73,
-			lastPlanungUebernahme?.datum?.wert?.toString(DATE_FORMAT_LONG) ?:
+			lastPlanungUebernahme?.datum?.wert?.toString(DATE_FORMAT) ?:
 				"")
 
 		it.set(48, planungAllgemein.buildLastEditionNumber)
