@@ -12,7 +12,7 @@
     "@turf/boolean-disjoint": "^6.5.0",
     "@turf/boolean-within": "^6.5.0",
     "@turf/helpers": "^6.5.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.0",
     "geojson": "^0.5.0",
     "jspdf": "^2.5.1",
     "material-design-icons": "^3.0.1",
