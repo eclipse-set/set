@@ -18,6 +18,8 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import java.util.Set
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.tablemodel.TablemodelFactory
+import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
 	protected val FootnoteTransformation footnoteTransformation = new FootnoteTransformation()
@@ -36,10 +38,15 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		this.enumTranslationService = enumTranslationService
 		this.cols.addAll(cols)
 	}
-	
-	protected def void fillFootnotes(TableRow row, Basis_Objekt object)
-	{
+
+	protected def void fillFootnotes(TableRow row, Basis_Objekt object) {
 		footnoteTransformation.transform(object, row)
+
+		// Ensure a cell exists for the last column to fill footnotes into
+		val column = this.cols.filter[columnPosition !== null].sortBy[columnPosition].last
+		val cell = row.getCell(column)
+		if (cell.content === null)
+			cell.content = TablemodelFactory.eINSTANCE.createStringCellContent
 	}
 
 	/**

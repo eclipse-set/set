@@ -26,7 +26,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExt
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 
 /**
  * Extensions for {@link TableRow}.
