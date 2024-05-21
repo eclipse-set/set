@@ -110,7 +110,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		fillIterable(
 			cols.getColumn(Fahrweg_Entscheidungsweiche),
 			fstrZugRangier,
-			[getRangierEntscheidungsweichen().map[bezeichnung]],
+			[getEntscheidungsweichen(newLinkedList).map[bezeichnung]],
 			MIXED_STRING_COMPARATOR,
 			[it]
 		)

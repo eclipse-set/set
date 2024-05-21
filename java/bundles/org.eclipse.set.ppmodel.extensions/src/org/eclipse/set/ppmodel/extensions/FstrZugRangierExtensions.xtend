@@ -123,22 +123,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		].toList
 	}
 
-	def static List<GestellteWeiche> getRangierEntscheidungsweichen(
-		Fstr_Zug_Rangier fstrZugRangier) {
-		val fstrFahrweg = fstrZugRangier.fstrFahrweg
-		// Check if at least two Fstr_Fahrweg exist for this path. If not
-		// no Entscheidungsweiche may be present
-		if (!fstrZugRangier.container.fstrFahrweg.exists [
-			it !== fstrFahrweg && IDStart.value === fstrFahrweg.IDStart.value &&
-				IDZiel.value === fstrFahrweg.IDZiel.value
-		]) {
-			return newArrayList
-		}
-
-		// Defer to the topological path search
-		return getEntscheidungsweichen(fstrZugRangier, newArrayList)
-	}
-
 	/**
 	 * @param fstrZugRangier this Fstr_Zug_Rangier
 	 * 
