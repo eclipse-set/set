@@ -118,7 +118,7 @@ class Debug {
 	}
 
 	static def dispatch String debugString(Signal_Rahmen rahmen) {
-		return '''«rahmen.typeName» id=«rahmen?.identitaet?.wert» befestigung=«rahmen?.getIDSignalBefestigung?.value.identitaet.wert»'''
+		return '''«rahmen.typeName» id=«rahmen?.identitaet?.wert» befestigung=«rahmen?.getIDSignalBefestigung?.wert»'''
 	}
 
 	static def dispatch String debugString(Signal_Befestigung befestigung) {
@@ -219,7 +219,7 @@ class Debug {
 	static def dispatch String debugString(
 		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich
 	) {
-		return '''topKante=«teilbereich.IDTOPKante?.value.identitaet.wert» begrenzungA=«teilbereich.begrenzungA.wert» begrenzungB=«teilbereich.begrenzungB.wert»'''
+		return '''topKante=«teilbereich.IDTOPKante?.wert» begrenzungA=«teilbereich.begrenzungA.wert» begrenzungB=«teilbereich.begrenzungB.wert»'''
 	}
 
 	/**

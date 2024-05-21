@@ -59,7 +59,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 			return Collections.emptyList
 		}
 		return wKrGspElement.container.WKrGspKomponente.filter [
-			IDWKrGspElement?.value.identitaet?.wert == wKrGspElement.identitaet.wert
+			IDWKrGspElement?.wert == wKrGspElement.identitaet.wert
 		].toList
 	}
 

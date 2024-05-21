@@ -74,7 +74,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 	def static ENUMWirkrichtung getWirkrichtung(Punkt_Objekt punktObjekt,
 		TOP_Kante topKante) {
 		val wirkrichtungen = punktObjekt.singlePoints.filter [
-			IDTOPKante?.value.identitaet?.wert == topKante.identitaet.wert
+			IDTOPKante?.wert == topKante.identitaet.wert
 		].map[wirkrichtung?.wert].toSet
 		if (wirkrichtungen.size == 0) {
 			throw new IllegalArgumentException(

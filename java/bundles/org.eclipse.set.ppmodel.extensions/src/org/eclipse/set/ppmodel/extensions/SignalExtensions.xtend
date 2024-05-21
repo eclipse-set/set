@@ -70,7 +70,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	) {
 		return signal.container.flaSchutz.filter [
 			flaSchutzSignal !== null &&
-				flaSchutzSignal.IDFlaSignal?.value.identitaet.wert ==
+				flaSchutzSignal.IDFlaSignal?.wert ==
 					signal.identitaet.wert
 		].toList
 	}
@@ -156,7 +156,7 @@ class SignalExtensions extends PunktObjektExtensions {
 		List<Signal_Befestigung> gruppe) {
 		return signal.signalRahmen.filter [
 			gruppe.map[identitaet.wert].contains(
-				IDSignalBefestigung?.value.identitaet?.wert)
+				IDSignalBefestigung?.wert)
 		].toList
 	}
 

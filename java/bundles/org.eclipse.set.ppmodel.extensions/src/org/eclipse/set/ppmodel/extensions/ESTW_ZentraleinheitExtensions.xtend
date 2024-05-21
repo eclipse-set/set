@@ -39,7 +39,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 
 		return estw_zentraleinheit.container.bedienPlatz.filter [ b |
-			b.IDESTWZentraleinheit?.value.identitaet?.wert ==
+			b.IDESTWZentraleinheit?.wert ==
 				estw_zentraleinheit.identitaet.wert
 		].toList;
 	}

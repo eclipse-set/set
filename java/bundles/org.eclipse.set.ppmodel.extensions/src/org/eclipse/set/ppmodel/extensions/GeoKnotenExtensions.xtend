@@ -50,7 +50,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	) {
 		return knoten.container.GEOPunkt.filter [
 			IDGEOKnoten !== null &&
-				IDGEOKnoten?.value.identitaet.wert == knoten.identitaet.wert
+				IDGEOKnoten?.wert == knoten.identitaet.wert
 		].toList
 	}
 
@@ -246,8 +246,8 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 */
 	def static Iterable<GEO_Kante> getGeoKanten(GEO_Knoten geoKnoten) {
 		return geoKnoten.container.GEOKante.filter [ kante |
-			kante.IDGEOKnotenA?.value.identitaet.wert == geoKnoten.identitaet.wert ||
-				kante.IDGEOKnotenB?.value.identitaet.wert == geoKnoten.identitaet.wert
+			kante.IDGEOKnotenA?.wert == geoKnoten.identitaet.wert ||
+				kante.IDGEOKnotenB?.wert == geoKnoten.identitaet.wert
 		]
 	}
 

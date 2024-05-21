@@ -8573,7 +8573,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Sorting;
 
 	/**
-	 * ZZS
+	 * ZZS 
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Strecke_Alternative;
 
@@ -20518,7 +20518,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Art_VRL_Alternative;
 
 	/**
-	 * HG2
+	 * HG1
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_Presentation;
 
@@ -20528,7 +20528,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_Sorting;
 
 	/**
-	 * HG2
+	 * HG1
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_Alternative;
 
@@ -20548,7 +20548,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG1_gw_Alternative;
 
 	/**
-	 * HG3
+	 * HG2
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_Presentation;
 
@@ -20558,7 +20558,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_Sorting;
 
 	/**
-	 * HG3
+	 * HG2
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_Alternative;
 
@@ -20578,7 +20578,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG2_gw_Alternative;
 
 	/**
-	 * HG4
+	 * HG3
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_Presentation;
 
@@ -20588,7 +20588,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_Sorting;
 
 	/**
-	 * HG4
+	 * HG3
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_Alternative;
 
@@ -20608,7 +20608,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG3_gw_Alternative;
 
 	/**
-	 * HG5
+	 * HG4
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG4_Presentation;
 
@@ -20618,7 +20618,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMStreuscheibe_Betriebsstellung_HG4_Sorting;
 
 	/**
-	 * HG5
+	 * HG4
 	 */
 	public String ENUMStreuscheibe_Betriebsstellung_HG4_Alternative;
 
