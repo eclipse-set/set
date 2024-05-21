@@ -90,7 +90,6 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def TableRow create factory.newTableRow(gleisBezeichnungBegrenzung.gleisBezeichnung) transform(
 		Gleis_BezeichnungBegrenzung gleisBezeichnungBegrenzung
 	) {
-		val row = it
 		val gleisBezeichnung = gleisBezeichnungBegrenzung.gleisBezeichnung
 		val begrenzungen = gleisBezeichnungBegrenzung.zgFahrtVerbot +
 			gleisBezeichnungBegrenzung.raFahrtVerbot +
@@ -199,11 +198,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// H: Ssli.Bemerkung
-		fill(
-			cols.getColumn(Bemerkung),
-			gleisBezeichnung,
-			[footnoteTransformation.transform(it, row)]
-		)
+		fillFootnotes(gleisBezeichnung)
 
 		return
 	}

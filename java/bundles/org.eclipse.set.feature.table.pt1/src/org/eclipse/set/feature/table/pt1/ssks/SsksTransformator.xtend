@@ -1490,11 +1490,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			bemerkungen.add("Rahmenhöhen beachten")
 		}
 
-		val commentStr = footnoteTransformation.transform(signal, row)
+		fillFootnotes(row, signal)
 
-		if (commentStr !== null && commentStr.length > 0) {
-			bemerkungen.add(commentStr)
-		}
 		return '''«FOR bemerkung : bemerkungen SEPARATOR ", "»«bemerkung»«ENDFOR»'''
 	}
 

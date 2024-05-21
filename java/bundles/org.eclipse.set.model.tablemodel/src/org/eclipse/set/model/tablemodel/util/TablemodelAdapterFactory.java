@@ -114,16 +114,24 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 				return createCellAnnotationAdapter();
 			}
 			@Override
-			public Adapter caseFootnote(Footnote object) {
-				return createFootnoteAdapter();
-			}
-			@Override
 			public Adapter caseMultiColorCellContent(MultiColorCellContent object) {
 				return createMultiColorCellContentAdapter();
 			}
 			@Override
 			public Adapter caseMultiColorContent(MultiColorContent object) {
 				return createMultiColorContentAdapter();
+			}
+			@Override
+			public Adapter caseFootnoteContainer(FootnoteContainer object) {
+				return createFootnoteContainerAdapter();
+			}
+			@Override
+			public Adapter caseCompareFootnoteContainer(CompareFootnoteContainer object) {
+				return createCompareFootnoteContainerAdapter();
+			}
+			@Override
+			public Adapter caseSimpleFootnoteContainer(SimpleFootnoteContainer object) {
+				return createSimpleFootnoteContainerAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -286,20 +294,6 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.tablemodel.Footnote <em>Footnote</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.set.model.tablemodel.Footnote
-	 * @generated
-	 */
-	public Adapter createFootnoteAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent <em>Multi Color Cell Content</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -324,6 +318,48 @@ public class TablemodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMultiColorContentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.tablemodel.FootnoteContainer <em>Footnote Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.tablemodel.FootnoteContainer
+	 * @generated
+	 */
+	public Adapter createFootnoteContainerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer <em>Compare Footnote Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+	 * @generated
+	 */
+	public Adapter createCompareFootnoteContainerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer <em>Simple Footnote Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
+	 * @generated
+	 */
+	public Adapter createSimpleFootnoteContainerAdapter() {
 		return null;
 	}
 

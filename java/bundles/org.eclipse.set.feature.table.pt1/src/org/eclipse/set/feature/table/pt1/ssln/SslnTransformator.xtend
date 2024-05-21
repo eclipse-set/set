@@ -73,7 +73,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def TableRow create factory.newTableRow(nbZone) transform(
 		NB_Zone nbZone) {
-		val row = it
+
 
 		// A: Ssln.Grundsatzangaben.Bereich_Zone
 		fill(cols.getColumn(Bereich_Zone), nbZone, [getBezeichnung(it)])
@@ -233,11 +233,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// N: Ssln.Bemerkung
-		fill(
-			cols.getColumn(Bemerkung),
-			nbZone,
-			[footnoteTransformation.transform(it, row)]
-		)
+		fillFootnotes(nbZone)
 
 		return
 	}

@@ -72,9 +72,10 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 			case TablemodelPackage.STRING_CELL_CONTENT: return createStringCellContent();
 			case TablemodelPackage.COMPARE_CELL_CONTENT: return createCompareCellContent();
 			case TablemodelPackage.CELL_ANNOTATION: return createCellAnnotation();
-			case TablemodelPackage.FOOTNOTE: return createFootnote();
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT: return createMultiColorCellContent();
 			case TablemodelPackage.MULTI_COLOR_CONTENT: return createMultiColorContent();
+			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER: return createCompareFootnoteContainer();
+			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER: return createSimpleFootnoteContainer();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -219,17 +220,6 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 	 * @generated
 	 */
 	@Override
-	public Footnote createFootnote() {
-		FootnoteImpl footnote = new FootnoteImpl();
-		return footnote;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public MultiColorCellContent createMultiColorCellContent() {
 		MultiColorCellContentImpl multiColorCellContent = new MultiColorCellContentImpl();
 		return multiColorCellContent;
@@ -244,6 +234,28 @@ public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFac
 	public MultiColorContent createMultiColorContent() {
 		MultiColorContentImpl multiColorContent = new MultiColorContentImpl();
 		return multiColorContent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public CompareFootnoteContainer createCompareFootnoteContainer() {
+		CompareFootnoteContainerImpl compareFootnoteContainer = new CompareFootnoteContainerImpl();
+		return compareFootnoteContainer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public SimpleFootnoteContainer createSimpleFootnoteContainer() {
+		SimpleFootnoteContainerImpl simpleFootnoteContainer = new SimpleFootnoteContainerImpl();
+		return simpleFootnoteContainer;
 	}
 
 	/**

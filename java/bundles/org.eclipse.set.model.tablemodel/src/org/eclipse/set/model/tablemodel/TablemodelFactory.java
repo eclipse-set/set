@@ -109,15 +109,6 @@ public interface TablemodelFactory extends EFactory {
 	CellAnnotation createCellAnnotation();
 
 	/**
-	 * Returns a new object of class '<em>Footnote</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Footnote</em>'.
-	 * @generated
-	 */
-	Footnote createFootnote();
-
-	/**
 	 * Returns a new object of class '<em>Multi Color Cell Content</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -134,6 +125,24 @@ public interface TablemodelFactory extends EFactory {
 	 * @generated
 	 */
 	MultiColorContent createMultiColorContent();
+
+	/**
+	 * Returns a new object of class '<em>Compare Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Compare Footnote Container</em>'.
+	 * @generated
+	 */
+	CompareFootnoteContainer createCompareFootnoteContainer();
+
+	/**
+	 * Returns a new object of class '<em>Simple Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Simple Footnote Container</em>'.
+	 * @generated
+	 */
+	SimpleFootnoteContainer createSimpleFootnoteContainer();
 
 	/**
 	 * Returns the package supported by this factory.

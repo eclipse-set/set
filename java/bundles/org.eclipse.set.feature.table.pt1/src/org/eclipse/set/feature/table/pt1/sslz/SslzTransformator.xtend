@@ -590,18 +590,16 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							Fstr_Abhaengigkeit).map [
 							IDBedienAnzeigeElement?.value?.
 								bedienAnzeigeElementAllg
-						].
-							findFirst [
-								it?.taste !== null || it?.schalter !== null
-							] !== null
+						].findFirst [
+							it?.taste !== null || it?.schalter !== null
+						] !== null
 					], [
 						val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.
 							map [
 								bedienAnzeigeElement
 							]?.filterNull ?: Collections.emptyList
-						val footnotes = footnoteTransformation.transform(it,
-							instance)
-						'''«FOR bae : bedAnzeigeElemente»«bae.comment[translate]»«bae» «ENDFOR» «footnotes»'''.
+
+						'''«FOR bae : bedAnzeigeElemente»«bae.comment[translate]»«bae» «ENDFOR»'''.
 							toString.trim
 					]),
 					new Case<Fstr_Zug_Rangier>([
@@ -611,12 +609,13 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							map [
 								value?.getZugFstrBezeichnung([art|isZ(art)])
 							]
-						val footnotes = footnoteTransformation.transform(it,
-							instance)
-						'''«FOR fstr : fstrAusschlussBesonders»«fstr» «ENDFOR» «footnotes»'''.
+
+						'''«FOR fstr : fstrAusschlussBesonders»«fstr» «ENDFOR»'''.
 							toString.trim
 					])
 				)
+
+				fillFootnotes(instance, fstrZugRangier)
 
 				if (logger.debugEnabled) {
 					logger.debug(Utils.debugString(

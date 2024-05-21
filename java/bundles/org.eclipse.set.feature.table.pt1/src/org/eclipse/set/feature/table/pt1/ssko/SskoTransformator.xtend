@@ -360,12 +360,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// V: Ssko.Bemerkung
-			fill(
-				instance,
-				cols.getColumn(Bemerkung),
-				schloss,
-				[footnoteTransformation.transform(it, instance)]
-			)
+			fillFootnotes(instance, schloss)
 
 		}
 

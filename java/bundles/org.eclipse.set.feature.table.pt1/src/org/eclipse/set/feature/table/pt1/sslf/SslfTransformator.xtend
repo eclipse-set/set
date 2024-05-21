@@ -167,13 +167,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// M: Sslf.Bemerkung
-			fill(
-				instance,
-				cols.getColumn(Bemerkung),
-				flaSchutz,
-				[footnoteTransformation.transform(it, instance)]
-			)
-
+			fillFootnotes(instance, flaSchutz)
 		}
 
 		return factory.table

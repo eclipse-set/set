@@ -227,13 +227,8 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// J: Ssbb.Bemerkung
-		fill(
-			instance,
-			cols.getColumn(Bemerkung),
-			einrichtung,
-			[footnoteTransformation.transform(it, instance)]
-		)
-
+		fillFootnotes(instance, einrichtung)
+		
 		return
 	}
 

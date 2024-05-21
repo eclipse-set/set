@@ -435,11 +435,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// Y: Sslb.Bemerkung
-		fill(
-			cols.getColumn(Bemerkung),
-			blockElement,
-			[footnoteTransformation.transform(it, row)]
-		)
+		fillFootnotes(row, blockElement)
 
 		return
 	}

@@ -272,8 +272,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.map [
 					bedienAnzeigeElement
 				]?.filterNull ?: Collections.emptyList
-				val footnotes = footnoteTransformation.transform(it, row)
-				'''«FOR bae : bedAnzeigeElemente.map[comment[translate]].filterNull SEPARATOR ", "»«bae»«ENDFOR» «footnotes»'''.
+				'''«FOR bae : bedAnzeigeElemente.map[comment[translate]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
 					toString.trim
 			]
 		)
@@ -302,8 +301,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 					].filterNull.empty
 				],
 				[
-					val footnotes = footnoteTransformation.transform(it, row)
-					'''«FOR bae : bedAnzeigeElemente.map[comment[translate]].filterNull SEPARATOR ", "»«bae»«ENDFOR» «footnotes»'''.
+					'''«FOR bae : bedAnzeigeElemente.map[comment[translate]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
 						toString.trim
 				]
 			),
@@ -316,8 +314,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 						value.fstrFahrweg.transformFahrwegStartZiel
 					]
 
-					val footnotes = footnoteTransformation.transform(it, row)
-					'''«FOR fwsz : fahrWegStartZiel.filterNull SEPARATOR ", "»«fwsz»«ENDFOR» «footnotes»'''.
+					'''«FOR fwsz : fahrWegStartZiel.filterNull SEPARATOR ", "»«fwsz»«ENDFOR»'''.
 						toString.trim
 				]
 			),
@@ -326,12 +323,12 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 					!zugFstrs.empty
 				],
 				[ zugRangier |
-					val footnotes = footnoteTransformation.transform(zugRangier,
-						row)
-					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr?.value?.fstrZugRangierBezeichnung»«ENDFOR» «footnotes»'''
+					'''«FOR fstr : zugFstrs SEPARATOR ", "»«fstr?.value?.fstrZugRangierBezeichnung»«ENDFOR»'''
 				]
 			)
 		)
+
+		fillFootnotes(row, fstrZugRangier)
 		return
 	}
 }

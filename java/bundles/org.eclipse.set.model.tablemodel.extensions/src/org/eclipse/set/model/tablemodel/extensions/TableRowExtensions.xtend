@@ -26,6 +26,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExt
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 
 /**
  * Extensions for {@link TableRow}.
@@ -244,24 +245,6 @@ class TableRowExtensions {
 	def static List<CellContent> getContent(TableRow row) {
 		val contentMap = row.createContentMap
 		return row.group.content.table.columns.map[contentMap.get(it)]
-	}
-
-	/**
-	 * @param tableRow this table row
-	 * 
-	 * @return the footnote summary for the comment cell of this row
-	 */
-	static def String getFootnoteText(TableRow row) {
-		return '''«FOR footnote : row.footnotes.sortBy[number] SEPARATOR ', '»*«footnote.number»«ENDFOR»'''
-	}
-
-	/**
-	 * @param tableRow this table row
-	 * 
-	 * @return the maximum footnote number for this row
-	 */
-	static def int getMaxFootnoteNumber(TableRow row) {
-		return row.footnotes.fold(0, [n, f|Math.max(n, f.number)])
 	}
 
 	/**

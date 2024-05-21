@@ -22,11 +22,13 @@ import org.eclipse.set.model.tablemodel.CellContent;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.ColumnWidthMode;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
-import org.eclipse.set.model.tablemodel.Footnote;
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
 import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.RowMergeMode;
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
@@ -143,13 +145,6 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass footnoteEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass multiColorCellContentEClass = null;
 
 	/**
@@ -158,6 +153,27 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	private EClass multiColorContentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass footnoteContainerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass compareFootnoteContainerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass simpleFootnoteContainerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -490,7 +506,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 */
 	@Override
 	public EReference getTableRow_Footnotes() {
-		return (EReference)tableRowEClass.getEStructuralFeatures().get(1);
+		return (EReference)tableRowEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -500,7 +516,7 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 */
 	@Override
 	public EAttribute getTableRow_RowIndex() {
-		return (EAttribute)tableRowEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)tableRowEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -629,36 +645,6 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
-	public EClass getFootnote() {
-		return footnoteEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getFootnote_Number() {
-		return (EAttribute)footnoteEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public EAttribute getFootnote_Text() {
-		return (EAttribute)footnoteEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EClass getMultiColorCellContent() {
 		return multiColorCellContentEClass;
 	}
@@ -701,6 +687,76 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	@Override
 	public EAttribute getMultiColorContent_StringFormat() {
 		return (EAttribute)multiColorContentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getFootnoteContainer() {
+		return footnoteContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getCompareFootnoteContainer() {
+		return compareFootnoteContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCompareFootnoteContainer_OldFootnotes() {
+		return (EAttribute)compareFootnoteContainerEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCompareFootnoteContainer_NewFootnotes() {
+		return (EAttribute)compareFootnoteContainerEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getCompareFootnoteContainer_UnchangedFootnotes() {
+		return (EAttribute)compareFootnoteContainerEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getSimpleFootnoteContainer() {
+		return simpleFootnoteContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getSimpleFootnoteContainer_Footnotes() {
+		return (EAttribute)simpleFootnoteContainerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -778,8 +834,8 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		tableRowEClass = createEClass(TABLE_ROW);
 		createEReference(tableRowEClass, TABLE_ROW__CELLS);
-		createEReference(tableRowEClass, TABLE_ROW__FOOTNOTES);
 		createEAttribute(tableRowEClass, TABLE_ROW__ROW_INDEX);
+		createEReference(tableRowEClass, TABLE_ROW__FOOTNOTES);
 
 		tableCellEClass = createEClass(TABLE_CELL);
 		createEReference(tableCellEClass, TABLE_CELL__CONTENT);
@@ -798,16 +854,22 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		cellAnnotationEClass = createEClass(CELL_ANNOTATION);
 
-		footnoteEClass = createEClass(FOOTNOTE);
-		createEAttribute(footnoteEClass, FOOTNOTE__NUMBER);
-		createEAttribute(footnoteEClass, FOOTNOTE__TEXT);
-
 		multiColorCellContentEClass = createEClass(MULTI_COLOR_CELL_CONTENT);
 		createEReference(multiColorCellContentEClass, MULTI_COLOR_CELL_CONTENT__VALUE);
 
 		multiColorContentEClass = createEClass(MULTI_COLOR_CONTENT);
 		createEAttribute(multiColorContentEClass, MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE);
 		createEAttribute(multiColorContentEClass, MULTI_COLOR_CONTENT__STRING_FORMAT);
+
+		footnoteContainerEClass = createEClass(FOOTNOTE_CONTAINER);
+
+		compareFootnoteContainerEClass = createEClass(COMPARE_FOOTNOTE_CONTAINER);
+		createEAttribute(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES);
+		createEAttribute(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES);
+		createEAttribute(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES);
+
+		simpleFootnoteContainerEClass = createEClass(SIMPLE_FOOTNOTE_CONTAINER);
+		createEAttribute(simpleFootnoteContainerEClass, SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
@@ -848,6 +910,8 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		stringCellContentEClass.getESuperTypes().add(this.getCellContent());
 		compareCellContentEClass.getESuperTypes().add(this.getCellContent());
 		multiColorCellContentEClass.getESuperTypes().add(this.getCellContent());
+		compareFootnoteContainerEClass.getESuperTypes().add(this.getFootnoteContainer());
+		simpleFootnoteContainerEClass.getESuperTypes().add(this.getFootnoteContainer());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(tableEClass, Table.class, "Table", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -876,8 +940,8 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		initEClass(tableRowEClass, TableRow.class, "TableRow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTableRow_Cells(), this.getTableCell(), null, "cells", null, 1, -1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTableRow_Footnotes(), this.getFootnote(), null, "footnotes", null, 0, -1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTableRow_RowIndex(), ecorePackage.getEInt(), "rowIndex", null, 0, 1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTableRow_Footnotes(), this.getFootnoteContainer(), null, "footnotes", null, 0, 1, TableRow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableCellEClass, TableCell.class, "TableCell", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTableCell_Content(), this.getCellContent(), null, "content", null, 0, 1, TableCell.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -896,16 +960,22 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 
 		initEClass(cellAnnotationEClass, CellAnnotation.class, "CellAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(footnoteEClass, Footnote.class, "Footnote", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFootnote_Number(), ecorePackage.getEInt(), "number", null, 1, 1, Footnote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFootnote_Text(), ecorePackage.getEString(), "text", null, 0, 1, Footnote.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(multiColorCellContentEClass, MultiColorCellContent.class, "MultiColorCellContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMultiColorCellContent_Value(), this.getMultiColorContent(), null, "value", null, 0, -1, MultiColorCellContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(multiColorContentEClass, MultiColorContent.class, "MultiColorContent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMultiColorContent_MultiColorValue(), ecorePackage.getEString(), "multiColorValue", null, 0, 1, MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMultiColorContent_StringFormat(), ecorePackage.getEString(), "stringFormat", null, 0, 1, MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(footnoteContainerEClass, FootnoteContainer.class, "FootnoteContainer", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(compareFootnoteContainerEClass, CompareFootnoteContainer.class, "CompareFootnoteContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCompareFootnoteContainer_OldFootnotes(), ecorePackage.getEString(), "oldFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompareFootnoteContainer_NewFootnotes(), ecorePackage.getEString(), "newFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompareFootnoteContainer_UnchangedFootnotes(), ecorePackage.getEString(), "unchangedFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(simpleFootnoteContainerEClass, SimpleFootnoteContainer.class, "SimpleFootnoteContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSimpleFootnoteContainer_Footnotes(), ecorePackage.getEString(), "footnotes", null, 0, -1, SimpleFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class, "ColumnWidthMode");

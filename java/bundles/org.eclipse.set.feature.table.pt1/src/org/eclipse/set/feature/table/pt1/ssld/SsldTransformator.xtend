@@ -198,9 +198,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[fstrDWegSpezifisch !== null],
 				[
-					zuordnungen.filter[elementVerschluss?.wert == Boolean.TRUE].map [
-						WKrGspElement.bezeichnung.bezeichnungTabelle.wert
-					]
+					zuordnungen.filter[elementVerschluss?.wert == Boolean.TRUE].
+						map [
+							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
+						]
 				],
 				MIXED_STRING_COMPARATOR,
 				[""],
@@ -214,9 +215,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[fstrDWegSpezifisch !== null],
 				[
-					zuordnungen.filter[elementVerschluss?.wert == Boolean.FALSE].map [
-						WKrGspElement.bezeichnung.bezeichnungTabelle.wert
-					]
+					zuordnungen.
+						filter[elementVerschluss?.wert == Boolean.FALSE].map [
+							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
+						]
 				],
 				MIXED_STRING_COMPARATOR,
 				[""],
@@ -336,12 +338,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// T: Ssld.Bemerkung
-			fill(
-				instance,
-				cols.getColumn("T"),
-				dweg,
-				[footnoteTransformation.transform(it, instance)]
-			)
+			fillFootnotes(instance, dweg)
 
 		}
 

@@ -11,7 +11,6 @@ package org.eclipse.set.feature.export.parts;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;

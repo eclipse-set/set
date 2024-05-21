@@ -16,6 +16,8 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import java.util.Set
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
 	protected val FootnoteTransformation footnoteTransformation = new FootnoteTransformation()
@@ -33,6 +35,11 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		super()
 		this.enumTranslationService = enumTranslationService
 		this.cols.addAll(cols)
+	}
+	
+	protected def void fillFootnotes(TableRow row, Basis_Objekt object)
+	{
+		footnoteTransformation.transform(object, row)
 	}
 
 	/**
