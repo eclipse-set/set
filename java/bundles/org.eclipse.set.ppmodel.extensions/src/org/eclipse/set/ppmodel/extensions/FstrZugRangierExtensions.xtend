@@ -119,31 +119,8 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 	def static List<Fstr_Nichthaltfall> getFstrNichthaltfall(
 		Fstr_Zug_Rangier fstrZugRangier) {
 		return fstrZugRangier.container.fstrNichthaltfall.filter [
-			it.IDFstrFahrweg?.wert ==
-				fstrZugRangier.IDFstrFahrweg?.wert
+			it.IDFstrFahrweg?.wert == fstrZugRangier.IDFstrFahrweg?.wert
 		].toList
-	}
-
-	def static List<GestellteWeiche> getRangierEntscheidungsweichen(
-		Fstr_Zug_Rangier fstrZugRangier) {
-		val fstrFahrweg = fstrZugRangier.fstrFahrweg
-
-		// Find all shunt routes
-		val fstrZugRangierAll = fstrZugRangier.container.fstrZugRangier.filter [
-			fstrRangier?.fstrRangierArt?.wert?.literal?.substring(0, 1) == "R"
-		].map[it.fstrFahrweg]
-
-		// Check if at least two Fstr_Fahrweg exist for this path. If not
-		// no Entscheidungsweiche may be present
-		if (!fstrZugRangierAll.exists [
-			it !== fstrFahrweg && IDStart.value === fstrFahrweg.IDStart.value &&
-				IDZiel.value === fstrFahrweg.IDZiel.value
-		]) {
-			return newArrayList
-		}
-
-		// Defer to the topological path search
-		return getEntscheidungsweichen(fstrZugRangier, newArrayList)
 	}
 
 	/**
