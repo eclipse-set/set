@@ -608,12 +608,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// Y: Sskw.Bemerkung
-			fill(
-				instance,
-				cols.getColumn(Bemerkung),
-				element,
-				[footnoteTransformation.transform(it, instance)]
-			)
+			fillFootnotes(instance, element)
 		}
 
 		return factory.table

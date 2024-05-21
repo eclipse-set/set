@@ -107,13 +107,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// G: Ssla.Bemerkung
-			fill(
-				instance,
-				cols.getColumn(Bemerkung),
-				fstrAneinander,
-				[footnoteTransformation.transform(it, instance)]
-			)
-
+			fillFootnotes(instance, fstrAneinander)
 		}
 
 		return factory.table

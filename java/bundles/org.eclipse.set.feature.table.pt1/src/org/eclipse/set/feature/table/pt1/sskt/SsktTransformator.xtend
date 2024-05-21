@@ -180,13 +180,7 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// P: Sskt.Bemerkung
-		val row = it
-		fill(
-			cols.getColumn(Bemerkung),
-			standort,
-			[footnoteTransformation.transform(it, row)]
-		)
-
+		fillFootnotes(standort)
 	}
 
 	private def TableRow create rg.newTableRow transformToRow(RowFactory rg,
@@ -275,12 +269,7 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// P: Sskt.Bemerkung
-		val row = it
-		fill(
-			cols.getColumn(Bemerkung),
-			standort,
-			[footnoteTransformation.transform(it, row)]
-		)
+		fillFootnotes(standort)
 
 		return
 	}

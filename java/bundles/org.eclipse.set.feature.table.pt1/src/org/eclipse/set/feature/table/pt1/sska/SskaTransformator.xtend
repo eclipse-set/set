@@ -145,9 +145,9 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			// J: Sska.Verknüpfungen.Information.sekundaer
 			fillIterable(
-				instance, 
+				instance,
 				cols.getColumn(Information_sekundaer),
-				element, 
+				element,
 				[elementVerknuepfungenInformationSekundaer],
 				MIXED_STRING_COMPARATOR
 			)
@@ -249,12 +249,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// W: Bemerkung
-			fill(
-				instance,
-				cols.getColumn(Bemerkung),
-				element,
-				[footnoteTransformation.transform(it, instance)]
-			)
+			fillFootnotes(instance, element)
 		}
 
 		return factory.table

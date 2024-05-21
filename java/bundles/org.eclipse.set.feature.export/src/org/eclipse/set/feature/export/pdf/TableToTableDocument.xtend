@@ -8,19 +8,25 @@
  */
 package org.eclipse.set.feature.export.pdf
 
-import com.google.common.collect.Maps
+import java.util.List
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.FootnoteContainer
+import org.eclipse.set.model.tablemodel.MultiColorCellContent
+import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.titlebox.PlanningOffice
+import org.eclipse.set.model.titlebox.StringField
 import org.eclipse.set.model.titlebox.Titlebox
 import org.eclipse.set.utils.ToolboxConfiguration
-import java.util.List
-import java.util.Map
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
+import org.eclipse.set.utils.table.TableSpanUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.w3c.dom.Attr
@@ -32,14 +38,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.utils.table.TableSpanUtils
-import org.eclipse.set.model.tablemodel.MultiColorCellContent
-import org.eclipse.set.model.tablemodel.MultiColorContent
-import org.eclipse.set.model.titlebox.PlanningOffice
-import org.eclipse.set.model.titlebox.StringField
-import org.eclipse.set.model.tablemodel.FootnoteContainer
-import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
-import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.

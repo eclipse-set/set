@@ -69,7 +69,6 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def TableRow create factory.newTableRow(einrichtung) transform(
 		Bedien_Einrichtung_Oertlich einrichtung) {
-		val row = it
 
 		val lBedienAnzeigeElemente = einrichtung.bedienAnzeigeElemente
 		val lNbBedienAnzeigeElemente = lBedienAnzeigeElemente.map [
@@ -294,11 +293,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// R: Bemerkung
-		fill(
-			cols.getColumn(Bemerkung),
-			einrichtung,
-			[footnoteTransformation.transform(it, row)]
-		)
+		fillFootnotes(einrichtung)
 
 		return
 	}

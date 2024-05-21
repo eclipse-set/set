@@ -45,7 +45,9 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 		// Maßgebendes Objekt: FMA_Anlage
-		val Iterable<FMA_Anlage> fmaAnlageList = container.FMAAnlage.filter[isPlanningObject]
+		val Iterable<FMA_Anlage> fmaAnlageList = container.FMAAnlage.filter [
+			isPlanningObject
+		]
 
 		for (fmaAnlage : fmaAnlageList) {
 			if (Thread.currentThread.interrupted) {
@@ -221,7 +223,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[FMAAnlageElektrMerkmale?.bettungswiderstand?.wert?.toString]
 			)
-			
+
 			// Q: Sskf.Sonstiges.Weiche
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichen = new Wrapper
 			val Wrapper<Iterable<W_Kr_Gsp_Element>> weichenZK = new Wrapper
@@ -275,8 +277,8 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				[schaltgruppen.map[bezeichnung?.bezeichnungTabelle?.wert ?: ""]],
 				MIXED_STRING_COMPARATOR
 			)
-			
-			//T: Sonstiges.zul_v
+
+			// T: Sonstiges.zul_v
 			fill(
 				instance,
 				cols.getColumn(Sonstiges_zul_Geschwindigkeit),
@@ -306,13 +308,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// W: Bemerkung
-			fill(
-				instance,
-				cols.getColumn(Bemerkung),
-				fmaAnlage,
-				[footnoteTransformation.transform(it, instance)]
-			)
-
+			fillFootnotes(instance, fmaAnlage)
 		}
 
 		return factory.table

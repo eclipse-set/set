@@ -25,20 +25,12 @@ class FootnoteTransformation {
 
 	/**
 	 * @param row the table row
-	 * 
-	 * @return the footnote list for the given row
 	 */
-	def String transform(Basis_Objekt object, TableRow row) {
+	def void transform(Basis_Objekt object, TableRow row) {
 		this.row = row
-		object.addFootnotes
-		// return row.footnoteText
-		return ""
+		object.IDBearbeitungsvermerk?.forEach[value?.addFootnote]
 	}
-
-	private def void addFootnotes(Basis_Objekt object) {
-		object.IDBearbeitungsvermerk.forEach[value?.addFootnote]
-	}
-
+	
 	private def void addFootnote(Bearbeitungsvermerk comment) {
 		val footnote = comment.createFootnote
 		if (row.footnotes === null)

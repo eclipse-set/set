@@ -39,6 +39,7 @@ import org.eclipse.set.basis.graph.TopPoint
 class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	val TopologicalGraphService topGraphService;
+
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService) {
@@ -50,7 +51,9 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory) {
 		val instances = new ArrayList<TableRow>
 
-		for (Zugeinwirkung ein : container.zugeinwirkung.filter[isPlanningObject]) {
+		for (Zugeinwirkung ein : container.zugeinwirkung.filter [
+			isPlanningObject
+		]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -172,16 +175,13 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// M: Sskg.Bemerkung
-			fill(
-				row,
-				cols.getColumn(Bemerkung),
-				ein,
-				[footnoteTransformation.transform(it, row)]
-			)
+			fillFootnotes(row, ein)
 			instances.add(row);
 		}
 
-		for (FMA_Komponente fma : container.FMAKomponente.filter[isPlanningObject]) {
+		for (FMA_Komponente fma : container.FMAKomponente.filter [
+			isPlanningObject
+		]) {
 			if (fma.FMAKomponenteAchszaehlpunkt !== null) {
 				val TableRow row = factory.newTableRow(fma);
 				// A: Sskg.Grundsatzangaben.Bezeichnung
@@ -317,22 +317,15 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				)
 
 				// M: Sskg.Bemerkung
-				fill(
-					row,
-					cols.getColumn(Bemerkung),
-					fma,
-					[footnoteTransformation.transform(it, row)]
-				)
+				fillFootnotes(row, fma)
 				instances.add(row);
 			}
 		}
 
 		return factory.table;
 	}
-	
-	
-	def double getShortestPathLength(Punkt_Objekt p1,
-		Punkt_Objekt p2) {
+
+	def double getShortestPathLength(Punkt_Objekt p1, Punkt_Objekt p2) {
 		val points1 = p1.singlePoints.map[new TopPoint(it)]
 		val points2 = p2.singlePoints.map[new TopPoint(it)]
 

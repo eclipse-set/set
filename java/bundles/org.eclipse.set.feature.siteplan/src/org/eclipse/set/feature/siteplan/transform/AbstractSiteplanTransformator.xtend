@@ -30,7 +30,6 @@ import org.eclipse.emf.common.util.EList
 import org.eclipse.set.model.siteplan.SiteplanObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.xbase.lib.Functions.Function1
-import java.util.Iterator
 
 abstract class AbstractSiteplanTransformator implements SiteplanTransformator {
 	static class SiteplanMultiConainer {
