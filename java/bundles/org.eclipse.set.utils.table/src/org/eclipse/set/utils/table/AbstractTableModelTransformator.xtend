@@ -101,6 +101,10 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		(T)=>String filling
 	) {
 		try {
+			if(object === null) {
+				row.set(column, BLANK)
+				return	
+			}
 			var text = filling.apply(object)
 			if (text !== null) {
 				row.set(column, text)

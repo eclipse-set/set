@@ -174,4 +174,35 @@ public class TopologicalGraphServiceImpl
 			final TopPoint to) {
 		return findShortestPath(from, to).map(TopPath::length);
 	}
+
+	@Override
+	public Optional<TopPoint> findClosestPoint(final TopPoint from,
+			final List<TopPoint> points, final boolean searchInTopDirection) {
+		final AsSplitTopGraph graphView = new AsSplitTopGraph(topGraphBase);
+		final Node fromNode = graphView.splitGraphAt(from,
+				Boolean.valueOf(searchInTopDirection));
+
+		BigDecimal minWeight = BigDecimal.valueOf(1000000);
+		Optional<TopPoint> minPoint = Optional.empty();
+		for (final TopPoint point : points) {
+			Node toNode = null;
+			try {
+				toNode = graphView.splitGraphAt(point);
+			} catch (final IllegalArgumentException e) {
+				continue;
+			}
+			final GraphPath<Node, Edge> path = DijkstraShortestPath
+					.findPathBetween(graphView, fromNode, toNode);
+			if (path == null) {
+				continue;
+			}
+			final BigDecimal weight = getPathWeight(path);
+			if (minPoint.isEmpty() || weight.compareTo(minWeight) < 0) {
+				minWeight = weight;
+				minPoint = Optional.of(point);
+			}
+		}
+
+		return minPoint;
+	}
 }
