@@ -114,10 +114,7 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		val first = result.get(0)
 		// Either entirely numeric or at most 1 character text
 		if (result.length == 1) {
-			if (isInteger(first))
-				return result.get(0) -> ""
-			else
-				return "" -> result.get(0)
+			return isInteger(first) ? result.get(0) -> "" :  "" -> result.get(0)
 		}
 		// Length: 2 - Either entirely text or mixed
 		val second = result.get(1)
