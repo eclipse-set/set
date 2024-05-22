@@ -89,6 +89,15 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		return #[content.newValue, content.oldValue].flatten.toSet
 	}
 
+	private def boolean isInteger(String text) {
+		try {
+			Integer.parseInt(text)
+			return true
+		} catch (NumberFormatException e) {
+			return false
+		}
+	}
+
 	/**
 	 * Extract a numeric prefix from a string. For example
 	 * "60P42" -> 60, "P42"
@@ -97,51 +106,49 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 	 * "" -> null, ""
 	 *   
 	 */
-	private def Pair<Integer, String> extractNumericPrefix(String text) {
+	private def Pair<String, String> splitNumericPrefix(String text) {
 		if (text === null)
-			return null -> ""
+			return "" -> ""
 
 		val result = text.split("((?=\\D)|(?<=\\D))", 2)
-
+		val first = result.get(0)
 		// Either entirely numeric or at most 1 character text
 		if (result.length == 1) {
-			try {
-				// Try reading as int
-				return Integer.parseInt(result.get(0)) -> ""
-			} catch (NumberFormatException e) {
-				// Otherwise it is text
-				return null -> result.get(0)
-			}
+			if (isInteger(first))
+				return result.get(0) -> ""
+			else
+				return "" -> result.get(0)
 		}
 		// Length: 2 - Either entirely text or mixed
-		val first = result.get(0)
 		val second = result.get(1)
-		try {
-			// Try reading first element as number and second as text 
-			return Integer.parseInt(first) -> second
-		} catch (NumberFormatException e) {
-			// Otherwise it is all text
-			return null -> first + second
-		}
+		if (isInteger(first))
+			return first -> second
+		else
+			return "" -> first + second
 	}
 
 	def int compareCell(Iterable<String> iterable1,
 		Iterable<String> iterable2) {
 		// For compare, the separator should be empty
-		val text1 = iterable1.iterableToString("")
-		val text2 = iterable2.iterableToString("")
-		val item1 = extractNumericPrefix(text1)
-		val item2 = extractNumericPrefix(text2)
+		val text1 = iterable1.iterableToString("").splitNumericPrefix
+		val text2 = iterable2.iterableToString("").splitNumericPrefix
 
-		if (item1.key !== null && item2.key !== null) {
-			val intCompare = item1.key.compareInt(item2.key)
+		// Find minimum integer prefix
+		val minPrefixLength = Math.min(text1.key.length, text2.key.length)
+
+		// Split each text into an integral prefix of equal length and a text suffix 
+		val intPrefix1 = text1.key.substring(0, minPrefixLength)
+		val intPrefix2 = text2.key.substring(0, minPrefixLength)
+		val textSuffix1 = text1.key.substring(minPrefixLength) + text1.value
+		val textSuffix2 = text2.key.substring(minPrefixLength) + text2.value
+
+		if (minPrefixLength > 0) {
+			val intCompare = Integer.parseInt(intPrefix1).compareInt(
+				Integer.parseInt(intPrefix2))
 			if (intCompare !== 0)
 				return intCompare
-
-			return item1.value.compareString(item2.value)
 		}
-
-		return item1.value.compareString(item2.value)
+		return textSuffix1.compareString(textSuffix2)
 	}
 
 	def int compareString(String text1, String text2)
