@@ -118,10 +118,7 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		}
 		// Length: 2 - Either entirely text or mixed
 		val second = result.get(1)
-		if (isInteger(first))
-			return first -> second
-		else
-			return "" -> first + second
+		return isInteger(first) ? first -> second : "" -> first + second
 	}
 
 	def int compareCell(Iterable<String> iterable1,
