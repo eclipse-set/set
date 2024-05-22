@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2019 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -23,13 +23,14 @@ import static extension org.eclipse.set.model.tablemodel.extensions.CellContentE
 package abstract class AbstractCellComparator implements Comparator<TableCell> {
 
 	protected SortDirectionEnum direction
+
 	/**
 	 * @param direction the sort direction
 	 */
 	new(SortDirectionEnum direction) {
 		this.direction = direction
 	}
-	
+
 	override int compare(TableCell cell1, TableCell cell2) {
 		return cell1.content.compareDispatch(cell2.content)
 	}
@@ -62,8 +63,8 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		CompareCellContent c2
 	) {
 		val newResult = c1.newValue.compareCell(c2.newValue);
-		
-		if (newResult != 0){
+
+		if (newResult != 0) {
 			return newResult
 		}
 		return c1.oldValue.compareCell(c2.oldValue)
@@ -83,30 +84,74 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		return c1.compareCellContentString.compareCell(c2.value)
 	}
 
-	private def Iterable<String> compareCellContentString(CompareCellContent content) {
-		return #[content.newValue,content.oldValue].flatten.toSet
+	private def Iterable<String> compareCellContentString(
+		CompareCellContent content) {
+		return #[content.newValue, content.oldValue].flatten.toSet
 	}
-	
-	def int compareCell(Iterable<String> iterable1, Iterable<String> iterable2) {
-		// For compare, the separator should be empty
-		val text1 = iterable1.iterableToString("")
-		val text2 = iterable2.iterableToString("")
+
+	private def boolean isInteger(String text) {
 		try {
-			val number1 = Integer.parseInt(text1)
-			val number2 = Integer.parseInt(text2)
-			return number1.compareInt(number2)
+			Integer.parseInt(text)
+			return true
 		} catch (NumberFormatException e) {
-			return text1.compareString(text2)
+			return false
 		}
 	}
 
+	/**
+	 * Extract a numeric prefix from a string. For example
+	 * "60P42" -> 60, "P42"
+	 * "60" -> 60, null
+	 * "P42" -> null, "P42"
+	 * "" -> null, ""
+	 *   
+	 */
+	private def Pair<String, String> splitNumericPrefix(String text) {
+		if (text === null)
+			return "" -> ""
+
+		val result = text.split("((?=\\D)|(?<=\\D))", 2)
+		val first = result.get(0)
+		// Either entirely numeric or at most 1 character text
+		if (result.length == 1) {
+			return isInteger(first) ? result.get(0) -> "" :  "" -> result.get(0)
+		}
+		// Length: 2 - Either entirely text or mixed
+		val second = result.get(1)
+		return isInteger(first) ? first -> second : "" -> first + second
+	}
+
+	def int compareCell(Iterable<String> iterable1,
+		Iterable<String> iterable2) {
+		// For compare, the separator should be empty
+		val text1 = iterable1.iterableToString("").splitNumericPrefix
+		val text2 = iterable2.iterableToString("").splitNumericPrefix
+
+		// Find minimum integer prefix
+		val minPrefixLength = Math.min(text1.key.length, text2.key.length)
+
+		// Split each text into an integral prefix of equal length and a text suffix 
+		val intPrefix1 = text1.key.substring(0, minPrefixLength)
+		val intPrefix2 = text2.key.substring(0, minPrefixLength)
+		val textSuffix1 = text1.key.substring(minPrefixLength) + text1.value
+		val textSuffix2 = text2.key.substring(minPrefixLength) + text2.value
+
+		if (minPrefixLength > 0) {
+			val intCompare = Integer.parseInt(intPrefix1).compareInt(
+				Integer.parseInt(intPrefix2))
+			if (intCompare !== 0)
+				return intCompare
+		}
+		return textSuffix1.compareString(textSuffix2)
+	}
+
 	def int compareString(String text1, String text2)
-	
+
 	def compareInt(int number1, int number2) {
 		if (direction == SortDirectionEnum.ASC) {
 			return number1.compareTo(number2)
 		}
 		return number2.compareTo(number1)
 	}
-	
+
 }
