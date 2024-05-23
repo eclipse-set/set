@@ -70,7 +70,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rotation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="0"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RouteObject">
+  <eClassifiers xsi:type="ecore:EClass" name="RouteObject" eSuperTypes="#//SiteplanObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="routeLocations" upperBound="-1"
         eType="#//RouteLocation" containment="true"/>
   </eClassifiers>
@@ -84,7 +84,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mountType" eType="#//SignalMountType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Signal" eSuperTypes="#//RouteObject">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="#//SignalRole"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="system" eType="#//SignalSystem"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="screen" upperBound="-1"
@@ -150,7 +149,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TrackSwitchComponent" eSuperTypes="#//RouteObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="preferredLocation" eType="#//LeftRight"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="guid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointDetectorCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//Position"
         containment="true"/>

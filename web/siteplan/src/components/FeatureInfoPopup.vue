@@ -164,6 +164,7 @@ export default class FeatureInfoPopup extends Vue {
       return
     }
 
+    console.log(features)
     this.infoPopup?.setPosition(event.mapBrowserEvent.coordinate)
   }
 

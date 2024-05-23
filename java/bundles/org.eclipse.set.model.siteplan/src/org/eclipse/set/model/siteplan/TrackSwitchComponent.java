@@ -19,7 +19,6 @@ package org.eclipse.set.model.siteplan;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getPreferredLocation <em>Preferred Location</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getGuid <em>Guid</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getPointDetectorCount <em>Point Detector Count</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getLabelPosition <em>Label Position</em>}</li>
@@ -58,28 +57,6 @@ public interface TrackSwitchComponent extends RouteObject {
 	 * @generated
 	 */
 	void setPreferredLocation(LeftRight value);
-
-	/**
-	 * Returns the value of the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Guid</em>' attribute.
-	 * @see #setGuid(String)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitchComponent_Guid()
-	 * @model
-	 * @generated
-	 */
-	String getGuid();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getGuid <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Guid</em>' attribute.
-	 * @see #getGuid()
-	 * @generated
-	 */
-	void setGuid(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Point Detector Count</b></em>' attribute.

@@ -530,13 +530,22 @@ public interface SiteplanPackage extends EPackage {
 	int ROUTE_OBJECT = 6;
 
 	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROUTE_OBJECT__GUID = SITEPLAN_OBJECT__GUID;
+
+	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROUTE_OBJECT__ROUTE_LOCATIONS = 0;
+	int ROUTE_OBJECT__ROUTE_LOCATIONS = SITEPLAN_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Route Object</em>' class.
@@ -545,7 +554,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROUTE_OBJECT_FEATURE_COUNT = 1;
+	int ROUTE_OBJECT_FEATURE_COUNT = SITEPLAN_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Route Object</em>' class.
@@ -554,7 +563,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROUTE_OBJECT_OPERATION_COUNT = 0;
+	int ROUTE_OBJECT_OPERATION_COUNT = SITEPLAN_OBJECT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.set.model.siteplan.impl.RouteLocationImpl <em>Route Location</em>}' class.
@@ -686,6 +695,15 @@ public interface SiteplanPackage extends EPackage {
 	int SIGNAL = 9;
 
 	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNAL__GUID = ROUTE_OBJECT__GUID;
+
+	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -695,22 +713,13 @@ public interface SiteplanPackage extends EPackage {
 	int SIGNAL__ROUTE_LOCATIONS = ROUTE_OBJECT__ROUTE_LOCATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SIGNAL__GUID = ROUTE_OBJECT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Role</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL__ROLE = ROUTE_OBJECT_FEATURE_COUNT + 1;
+	int SIGNAL__ROLE = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>System</b></em>' attribute.
@@ -719,7 +728,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL__SYSTEM = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int SIGNAL__SYSTEM = ROUTE_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Screen</b></em>' containment reference list.
@@ -728,7 +737,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL__SCREEN = ROUTE_OBJECT_FEATURE_COUNT + 3;
+	int SIGNAL__SCREEN = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -737,7 +746,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 4;
+	int SIGNAL__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Lateral Distance</b></em>' attribute list.
@@ -746,7 +755,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL__LATERAL_DISTANCE = ROUTE_OBJECT_FEATURE_COUNT + 5;
+	int SIGNAL__LATERAL_DISTANCE = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Signal Direction</b></em>' attribute.
@@ -755,7 +764,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL__SIGNAL_DIRECTION = ROUTE_OBJECT_FEATURE_COUNT + 6;
+	int SIGNAL__SIGNAL_DIRECTION = ROUTE_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Mount Position</b></em>' containment reference.
@@ -764,7 +773,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL__MOUNT_POSITION = ROUTE_OBJECT_FEATURE_COUNT + 7;
+	int SIGNAL__MOUNT_POSITION = ROUTE_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Signal</em>' class.
@@ -773,7 +782,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNAL_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 8;
+	int SIGNAL_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Signal</em>' class.
@@ -960,6 +969,15 @@ public interface SiteplanPackage extends EPackage {
 	int TRACK_SWITCH_COMPONENT = 13;
 
 	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACK_SWITCH_COMPONENT__GUID = ROUTE_OBJECT__GUID;
+
+	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -978,22 +996,13 @@ public interface SiteplanPackage extends EPackage {
 	int TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRACK_SWITCH_COMPONENT__GUID = ROUTE_OBJECT_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Point Detector Count</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Start</b></em>' containment reference.
@@ -1002,7 +1011,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT__START = ROUTE_OBJECT_FEATURE_COUNT + 3;
+	int TRACK_SWITCH_COMPONENT__START = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Label Position</b></em>' containment reference.
@@ -1011,7 +1020,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT__LABEL_POSITION = ROUTE_OBJECT_FEATURE_COUNT + 4;
+	int TRACK_SWITCH_COMPONENT__LABEL_POSITION = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -1020,7 +1029,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 5;
+	int TRACK_SWITCH_COMPONENT__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Operating Mode</b></em>' attribute.
@@ -1029,7 +1038,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT__OPERATING_MODE = ROUTE_OBJECT_FEATURE_COUNT + 6;
+	int TRACK_SWITCH_COMPONENT__OPERATING_MODE = ROUTE_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Main Leg</b></em>' containment reference.
@@ -1038,7 +1047,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT__MAIN_LEG = ROUTE_OBJECT_FEATURE_COUNT + 7;
+	int TRACK_SWITCH_COMPONENT__MAIN_LEG = ROUTE_OBJECT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Side Leg</b></em>' containment reference.
@@ -1047,7 +1056,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT__SIDE_LEG = ROUTE_OBJECT_FEATURE_COUNT + 8;
+	int TRACK_SWITCH_COMPONENT__SIDE_LEG = ROUTE_OBJECT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Track Switch Component</em>' class.
@@ -1056,7 +1065,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_SWITCH_COMPONENT_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 9;
+	int TRACK_SWITCH_COMPONENT_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of operations of the '<em>Track Switch Component</em>' class.
@@ -1298,6 +1307,15 @@ public interface SiteplanPackage extends EPackage {
 	int FMA_COMPONENT = 18;
 
 	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FMA_COMPONENT__GUID = ROUTE_OBJECT__GUID;
+
+	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1307,22 +1325,13 @@ public interface SiteplanPackage extends EPackage {
 	int FMA_COMPONENT__ROUTE_LOCATIONS = ROUTE_OBJECT__ROUTE_LOCATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FMA_COMPONENT__GUID = ROUTE_OBJECT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 1;
+	int FMA_COMPONENT__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -1331,7 +1340,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int FMA_COMPONENT__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -1340,7 +1349,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 3;
+	int FMA_COMPONENT__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Right Side</b></em>' attribute.
@@ -1349,7 +1358,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 4;
+	int FMA_COMPONENT__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>FMA Component</em>' class.
@@ -1358,7 +1367,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FMA_COMPONENT_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 5;
+	int FMA_COMPONENT_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>FMA Component</em>' class.
@@ -1637,6 +1646,15 @@ public interface SiteplanPackage extends EPackage {
 	int PZB = 24;
 
 	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PZB__GUID = ROUTE_OBJECT__GUID;
+
+	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1646,22 +1664,13 @@ public interface SiteplanPackage extends EPackage {
 	int PZB__ROUTE_LOCATIONS = ROUTE_OBJECT__ROUTE_LOCATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PZB__GUID = ROUTE_OBJECT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 1;
+	int PZB__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -1670,7 +1679,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int PZB__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -1679,7 +1688,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__ELEMENT = ROUTE_OBJECT_FEATURE_COUNT + 3;
+	int PZB__ELEMENT = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Right Side</b></em>' attribute.
@@ -1688,7 +1697,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 4;
+	int PZB__RIGHT_SIDE = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Effectivity</b></em>' attribute.
@@ -1697,7 +1706,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB__EFFECTIVITY = ROUTE_OBJECT_FEATURE_COUNT + 5;
+	int PZB__EFFECTIVITY = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>PZB</em>' class.
@@ -1706,7 +1715,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PZB_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 6;
+	int PZB_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>PZB</em>' class.
@@ -2232,6 +2241,15 @@ public interface SiteplanPackage extends EPackage {
 	int EXTERNAL_ELEMENT_CONTROL = 34;
 
 	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_ELEMENT_CONTROL__GUID = ROUTE_OBJECT__GUID;
+
+	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2241,22 +2259,13 @@ public interface SiteplanPackage extends EPackage {
 	int EXTERNAL_ELEMENT_CONTROL__ROUTE_LOCATIONS = ROUTE_OBJECT__ROUTE_LOCATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXTERNAL_ELEMENT_CONTROL__GUID = ROUTE_OBJECT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXTERNAL_ELEMENT_CONTROL__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 1;
+	int EXTERNAL_ELEMENT_CONTROL__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Control Art</b></em>' attribute.
@@ -2265,7 +2274,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXTERNAL_ELEMENT_CONTROL__CONTROL_ART = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int EXTERNAL_ELEMENT_CONTROL__CONTROL_ART = ROUTE_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Element Type</b></em>' attribute.
@@ -2274,7 +2283,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE = ROUTE_OBJECT_FEATURE_COUNT + 3;
+	int EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Control Station</b></em>' attribute.
@@ -2283,7 +2292,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION = ROUTE_OBJECT_FEATURE_COUNT + 4;
+	int EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -2292,7 +2301,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXTERNAL_ELEMENT_CONTROL__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 5;
+	int EXTERNAL_ELEMENT_CONTROL__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>External Element Control</em>' class.
@@ -2301,7 +2310,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXTERNAL_ELEMENT_CONTROL_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 6;
+	int EXTERNAL_ELEMENT_CONTROL_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>External Element Control</em>' class.
@@ -2323,6 +2332,15 @@ public interface SiteplanPackage extends EPackage {
 	int LOCK_KEY = 35;
 
 	/**
+	 * The feature id for the '<em><b>Guid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCK_KEY__GUID = ROUTE_OBJECT__GUID;
+
+	/**
 	 * The feature id for the '<em><b>Route Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2332,22 +2350,13 @@ public interface SiteplanPackage extends EPackage {
 	int LOCK_KEY__ROUTE_LOCATIONS = ROUTE_OBJECT__ROUTE_LOCATIONS;
 
 	/**
-	 * The feature id for the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOCK_KEY__GUID = ROUTE_OBJECT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Position</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCK_KEY__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 1;
+	int LOCK_KEY__POSITION = ROUTE_OBJECT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -2356,7 +2365,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCK_KEY__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 2;
+	int LOCK_KEY__LABEL = ROUTE_OBJECT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -2365,7 +2374,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCK_KEY__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 3;
+	int LOCK_KEY__TYPE = ROUTE_OBJECT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Locked</b></em>' attribute.
@@ -2374,7 +2383,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCK_KEY__LOCKED = ROUTE_OBJECT_FEATURE_COUNT + 4;
+	int LOCK_KEY__LOCKED = ROUTE_OBJECT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Lock Key</em>' class.
@@ -2383,7 +2392,7 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCK_KEY_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 5;
+	int LOCK_KEY_FEATURE_COUNT = ROUTE_OBJECT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Lock Key</em>' class.
@@ -3352,17 +3361,6 @@ public interface SiteplanPackage extends EPackage {
 	EClass getSignal();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.Signal#getGuid <em>Guid</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Guid</em>'.
-	 * @see org.eclipse.set.model.siteplan.Signal#getGuid()
-	 * @see #getSignal()
-	 * @generated
-	 */
-	EAttribute getSignal_Guid();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.Signal#getRole <em>Role</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3577,17 +3575,6 @@ public interface SiteplanPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTrackSwitchComponent_PreferredLocation();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getGuid <em>Guid</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Guid</em>'.
-	 * @see org.eclipse.set.model.siteplan.TrackSwitchComponent#getGuid()
-	 * @see #getTrackSwitchComponent()
-	 * @generated
-	 */
-	EAttribute getTrackSwitchComponent_Guid();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.siteplan.TrackSwitchComponent#getPointDetectorCount <em>Point Detector Count</em>}'.
@@ -5249,14 +5236,6 @@ public interface SiteplanPackage extends EPackage {
 		EClass SIGNAL = eINSTANCE.getSignal();
 
 		/**
-		 * The meta object literal for the '<em><b>Guid</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SIGNAL__GUID = eINSTANCE.getSignal_Guid();
-
-		/**
 		 * The meta object literal for the '<em><b>Role</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5423,14 +5402,6 @@ public interface SiteplanPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION = eINSTANCE.getTrackSwitchComponent_PreferredLocation();
-
-		/**
-		 * The meta object literal for the '<em><b>Guid</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRACK_SWITCH_COMPONENT__GUID = eINSTANCE.getTrackSwitchComponent_Guid();
 
 		/**
 		 * The meta object literal for the '<em><b>Point Detector Count</b></em>' attribute feature.

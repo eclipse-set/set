@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.validation.utils;
+package org.eclipse.set.utils.xml;
 
 import org.eclipse.set.model.validationreport.ObjectState;
 import org.w3c.dom.Node;
@@ -17,7 +17,7 @@ import org.w3c.dom.Node;
  * @author Stuecker
  *
  */
-public class ValidationObjectStateProvider {
+public class NodeObjectStateProvider {
 	private static final String NODE_ZUSTAND_START = "LST_Zustand_Start"; //$NON-NLS-1$
 	private static final String NODE_ZUSTAND_ZIEL = "LST_Zustand_Ziel"; //$NON-NLS-1$
 	private static final String NODE_ZUSTAND_INFO = "LST_Zustand"; //$NON-NLS-1$

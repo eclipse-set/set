@@ -29,11 +29,6 @@ public class SiteplanConstants {
 	public static final String SITEPLAN_DIRECTORY = "./web/siteplan";
 
 	/**
-	 * The id of the siteplan
-	 */
-	public static final String SITEPLAN_CACHE_ID = "toolbox.cache.siteplan";
-
-	/**
 	 * The id of the siteplan available
 	 */
 	public static final String SITEPLAN_CACHE_AVAILABLE_ID = "siteplan-available";

@@ -9,9 +9,9 @@
 package org.eclipse.set.feature.siteplan.browserfunctions;
 
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.browser.swt.BrowserFunction;
 import org.eclipse.set.core.services.cache.CacheService;
-import org.eclipse.set.feature.siteplan.SiteplanConstants;
 import org.eclipse.set.feature.siteplan.transform.LayoutTransformator;
 import org.eclipse.set.utils.WebBrowser;
 
@@ -49,7 +49,7 @@ public class LayoutChangeCRSBrowserFunction extends BrowserFunction {
 	private final void execute(final String crs) {
 		LayoutTransformator.setCRS(crs);
 		final Cache cache = cacheService
-				.getCache(SiteplanConstants.SITEPLAN_CACHE_ID);
+				.getCache(ToolboxConstants.CacheId.SITEPLAN_CACHE_ID);
 		cache.invalidate();
 	}
 

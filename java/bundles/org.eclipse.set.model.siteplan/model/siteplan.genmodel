@@ -203,7 +203,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//SignalMount/mountType"/>
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//Signal">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/guid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/role"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//Signal/system"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference siteplan.ecore#//Signal/screen"/>
@@ -228,7 +227,6 @@
     </genClasses>
     <genClasses ecoreClass="siteplan.ecore#//TrackSwitchComponent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/preferredLocation"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/guid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute siteplan.ecore#//TrackSwitchComponent/pointDetectorCount"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchComponent/start"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference siteplan.ecore#//TrackSwitchComponent/labelPosition"/>

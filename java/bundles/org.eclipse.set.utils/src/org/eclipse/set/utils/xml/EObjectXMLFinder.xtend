@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.plazmodel.xml
+package org.eclipse.set.utils.xml
 
 import java.io.IOException
 import java.nio.file.Path
@@ -16,16 +16,13 @@ import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.ExtendedMetaData
 import org.eclipse.set.basis.files.ToolboxFile
-import org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader
+import org.eclipse.set.utils.xml.ObjectMetadataXMLReader
 import org.eclipse.set.model.validationreport.ObjectScope
 import org.eclipse.set.model.validationreport.ObjectState
 import org.eclipse.set.utils.xml.LineNumberXMLReader
 import org.w3c.dom.Document
 import org.w3c.dom.Node
 import org.xml.sax.SAXException
-
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.feature.validation.utils.ValidationObjectScopeProvider
 
 /** 
  * Resolves an EObject to its line number within a XML document
@@ -97,7 +94,7 @@ class EObjectXMLFinder {
 
 	def private String getSanetizedName(Node node) {
 		// XML node names can contain a prefix while the EMF model names don't
-		return node.nodeName.split(":").lastOrNull
+		return IterableExtensions.last(node.nodeName.split(":"))
 	}
 
 	/** 
@@ -157,9 +154,5 @@ class EObjectXMLFinder {
 	 */
 	def ObjectScope getObjectScope(Node node) {
 		return ObjectMetadataXMLReader.getObjectScope(node)
-	}
-	
-	def String getObjectGuid(Node node) {
-		return ValidationObjectScopeProvider.findNearestNodeGUID(node);
 	}
 }

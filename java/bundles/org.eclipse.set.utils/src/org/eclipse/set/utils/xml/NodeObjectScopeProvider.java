@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.validation.utils;
+package org.eclipse.set.utils.xml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,51 +26,10 @@ import org.w3c.dom.NodeList;
  * @author Stuecker
  *
  */
-public class ValidationObjectScopeProvider {
+public class NodeObjectScopeProvider {
 	private static final String NODE_AUSGABE_FACHDATEN = "Ausgabe_Fachdaten"; //$NON-NLS-1$
-	private static final String NODE_IDENTITAET = "Identitaet"; //$NON-NLS-1$
-	private static final String NODE_WERT = "Wert"; //$NON-NLS-1$
+
 	private static final String XPATH_PLANUNGSBEREICH = "//ID_LST_Objekt_Planungsbereich/Wert/text()"; //$NON-NLS-1$
-
-	/**
-	 * @param node
-	 *            the node
-	 * @return guid of the object contain this node
-	 */
-	public static String findNearestNodeGUID(final Node node) {
-		if (node == null) {
-			return null;
-		}
-
-		// Try to find <Identitaet><Wert>[GUID]</Identitaet></Wert>
-		// as a child node of the current node
-		final Node identitaet = getChildNodeByName(node, NODE_IDENTITAET);
-		if (identitaet != null) {
-			// Read <Wert>[GUID]</Wert> from the <Identitaet> node
-			final Node valueNode = getChildNodeByName(identitaet, NODE_WERT);
-			if (valueNode != null) {
-				final Node firstChild = valueNode.getFirstChild();
-				if (firstChild != null) {
-					return firstChild.getNodeValue();
-				}
-			}
-		}
-
-		// Walk up the XML tree
-		return findNearestNodeGUID(node.getParentNode());
-	}
-
-	private static Node getChildNodeByName(final Node node, final String name) {
-		final NodeList children = node.getChildNodes();
-
-		for (int i = 0; i < children.getLength(); ++i) {
-			final Node child = children.item(i);
-			if (child.getNodeName().equals(name)) {
-				return child;
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Checks whether a node is inside a Ausgabe_Fachdaten container
@@ -110,7 +69,7 @@ public class ValidationObjectScopeProvider {
 		if (!isFachdaten(node)) {
 			return ObjectScope.UNKNOWN;
 		}
-		final String guid = findNearestNodeGUID(node);
+		final String guid = XMLNodeFinder.findNearestNodeGUID(node);
 		if (guid == null) {
 			return ObjectScope.UNKNOWN;
 		}

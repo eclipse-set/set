@@ -15,12 +15,13 @@ declare function planproJumpToTextView(guid: string): void;
 declare function planproSelectFolderDialog(key: string): void;
 declare function planproGetSessionState(): TableType
 declare function planproChangeLayoutCRS(crs: DBRef): void;
+declare function planproSiteplanLoadingState(state: boolean): void;
 
 // This callback function is called from PPT
 declare global {
   interface Window {
     planproSelectFolderDialogCallback: (key: string, folder: string | null) => void
-    planproSelectSignal: (guid: string) => void
+    planproJumpToElement: (guid: string) => void
     planproNewTableType: (state: TableType) => void
   }
 }
@@ -122,8 +123,15 @@ export default abstract class PlanProToolbox {
    * Store Guid of selected Signal
    * @param guid signal guid
    */
-  public static selectSignalGuid (guid: string): void {
-    store.commit('selectFeature', guid)
+  public static jumpToElement (guid: string): void {
+    let intervalId = 0
+    const jumpEvent = () => {
+      if (!store.state.loading) {
+        store.commit('selectFeature', guid)
+        clearInterval(intervalId)
+      }
+    }
+    intervalId = setInterval(jumpEvent, 200)
   }
 
   /**
@@ -139,11 +147,20 @@ export default abstract class PlanProToolbox {
     PlanProToolbox.planproSelectFolderDialogCallbacks.delete(key)
     callback(folder)
   }
+
+  public static setSiteplanLoadingState (state: boolean): void {
+    if (!this.inPPT()) {
+      console.warn('PlanProToolbox.planproSelectFolderDialog called outside PPT')
+      return
+    }
+
+    planproSiteplanLoadingState(state)
+  }
 }
 
 /**
  * Register select Signal function
  */
-window.planproSelectSignal = PlanProToolbox.selectSignalGuid
+window.planproJumpToElement = PlanProToolbox.jumpToElement
 window.planproSelectFolderDialogCallback = PlanProToolbox.selectFolderDialogCallback
 window.planproNewTableType = PlanProToolbox.updateSessionState

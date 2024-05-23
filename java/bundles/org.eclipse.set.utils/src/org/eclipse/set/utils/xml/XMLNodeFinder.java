@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.validation.utils;
+package org.eclipse.set.utils.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.utils.xml.LineNumberXMLReader;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -27,6 +26,8 @@ import org.xml.sax.SAXException;
  */
 public class XMLNodeFinder {
 	Node rootNode;
+	private static final String NODE_IDENTITAET = "Identitaet"; //$NON-NLS-1$
+	private static final String NODE_WERT = "Wert"; //$NON-NLS-1$
 
 	/**
 	 * Returns the node for a line number. This attempts to find the most local
@@ -42,7 +43,7 @@ public class XMLNodeFinder {
 
 	private Node findNodeByLineNumber(final Node currentNode,
 			final int lineNumber) {
-		if (currentNode == null) {
+		if (currentNode == null || lineNumber < 0) {
 			return null;
 		}
 		final NodeList children = currentNode.getChildNodes();
@@ -130,6 +131,45 @@ public class XMLNodeFinder {
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			// Discard exceptions
 		}
+	}
+
+	/**
+	 * @param node
+	 *            the node
+	 * @return guid of the object contain this node
+	 */
+	public static String findNearestNodeGUID(final Node node) {
+		if (node == null) {
+			return null;
+		}
+		// Try to find <Identitaet><Wert>[GUID]</Identitaet></Wert>
+		// as a child node of the current node
+		final Node identitaet = getChildNodeByName(node, NODE_IDENTITAET);
+		if (identitaet != null) {
+			// Read <Wert>[GUID]</Wert> from the <Identitaet> node
+			final Node valueNode = getChildNodeByName(identitaet, NODE_WERT);
+			if (valueNode != null) {
+				final Node firstChild = valueNode.getFirstChild();
+				if (firstChild != null) {
+					return firstChild.getNodeValue();
+				}
+			}
+		}
+
+		// Walk up the XML tree
+		return findNearestNodeGUID(node.getParentNode());
+	}
+
+	private static Node getChildNodeByName(final Node node, final String name) {
+		final NodeList children = node.getChildNodes();
+
+		for (int i = 0; i < children.getLength(); ++i) {
+			final Node child = children.item(i);
+			if (child.getNodeName().equals(name)) {
+				return child;
+			}
+		}
+		return null;
 	}
 
 }

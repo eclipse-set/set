@@ -54,7 +54,7 @@ import UnknownPopup from '@/components/popup/UnknownPopup.vue'
 import CantPopup from '@/components/popup/CantPopup.vue'
 import CantLinePopup from '@/components/popup/CantLinePopup.vue'
 import {
-  FeatureType, getFeatureLabel,
+  FeatureType, FlashFeatureData, getFeatureData, getFeatureLabel,
   getFeatureName,
   getFeatureType
 } from '@/feature/FeatureInfo'
@@ -93,6 +93,10 @@ import { Options, Vue } from 'vue-class-component'
     selectedPopup () {
       if (this.selectedFeature == null) {
         return this.$emit('removePopup')
+      }
+
+      if (getFeatureType(this.selectedFeature) === FeatureType.Flash) {
+        this.selectedFeature = (getFeatureData(this.selectedFeature) as FlashFeatureData).refFeature
       }
 
       if (this.mouseButton === LeftRight.LEFT) {
@@ -148,7 +152,11 @@ export default class MenuPopup extends Vue {
       return []
     }
 
-    return this.features
+    return this.features.filter(ele => {
+      const featureType = getFeatureType(ele)
+      return featureType !== FeatureType.Collision &&
+        featureType !== FeatureType.Flash
+    })
   }
 
   getFeatureName (feature: Feature<Geometry>): string {

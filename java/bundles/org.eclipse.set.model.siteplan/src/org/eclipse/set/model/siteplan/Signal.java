@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.Signal#getGuid <em>Guid</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.Signal#getRole <em>Role</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.Signal#getSystem <em>System</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.Signal#getScreen <em>Screen</em>}</li>
@@ -36,28 +35,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Signal extends RouteObject {
-	/**
-	 * Returns the value of the '<em><b>Guid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Guid</em>' attribute.
-	 * @see #setGuid(String)
-	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSignal_Guid()
-	 * @model
-	 * @generated
-	 */
-	String getGuid();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Signal#getGuid <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Guid</em>' attribute.
-	 * @see #getGuid()
-	 * @generated
-	 */
-	void setGuid(String value);
-
 	/**
 	 * Returns the value of the '<em><b>Role</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.SignalRole}.

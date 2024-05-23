@@ -15,11 +15,14 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.emfcloud.jackson.module.EMFModule;
 import org.eclipse.emfcloud.jackson.module.EMFModule.Feature;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.cache.Cache;
+import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.browser.DownloadListener;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -47,6 +50,7 @@ public class SiteplanBrowser extends FileWebBrowser
 	private final UISynchronize ui;
 	private final Shell shell;
 	private Path selectedOutputDir;
+	private final IEventBroker broker;
 
 	/**
 	 * Creates a new web siteplan server on a random free port
@@ -57,13 +61,15 @@ public class SiteplanBrowser extends FileWebBrowser
 	 *            Eclipse context for retrieving services
 	 * @param shell
 	 *            Shell to create dialogs for
+	 * @param broker
+	 *            the event broker
 	 * 
 	 * @throws IOException
 	 *             If the application is missing
 	 */
 	public SiteplanBrowser(final Composite parent,
-			final IEclipseContext context, final Shell shell)
-			throws IOException {
+			final IEclipseContext context, final Shell shell,
+			final IEventBroker broker) throws IOException {
 		super(parent);
 
 		transformator = context.get(SiteplanTransformator.class);
@@ -71,6 +77,7 @@ public class SiteplanBrowser extends FileWebBrowser
 		dialogService = context.get(DialogService.class);
 		ui = context.get(UISynchronize.class);
 		cacheService = context.get(CacheService.class);
+		this.broker = broker;
 		this.shell = shell;
 
 		serveRootDirectory(Paths.get(SiteplanConstants.SITEPLAN_DIRECTORY));
@@ -102,13 +109,14 @@ public class SiteplanBrowser extends FileWebBrowser
 
 	private void serveSiteplan(final Response response)
 			throws JsonProcessingException {
-
 		// Transform the planpro data to the siteplan data
 		final Cache cache = cacheService
-				.getCache(SiteplanConstants.SITEPLAN_CACHE_ID);
-		final Siteplan siteplan = cache.get(
-				SiteplanConstants.SITEPLAN_TRANSFORMATION_CACHE_ID,
-				() -> transformator.transform(modelSession));
+				.getCache(ToolboxConstants.CacheId.SITEPLAN_CACHE_ID);
+		final Siteplan siteplan = cache
+				.get(SiteplanConstants.SITEPLAN_TRANSFORMATION_CACHE_ID, () -> {
+					broker.send(Events.SITEPLAN_OPEN_FIRST_TIME, Boolean.TRUE);
+					return transformator.transform(modelSession);
+				});
 		// Configure the EMF JSON mapper
 		final ObjectMapper mapper = new ObjectMapper();
 		final EMFModule module = new EMFModule();

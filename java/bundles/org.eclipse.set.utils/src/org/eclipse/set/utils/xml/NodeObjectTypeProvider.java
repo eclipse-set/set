@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.feature.validation.utils;
+package org.eclipse.set.utils.xml;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
  * @author Truong
  *
  */
-public class ValidationObjectTypeProvider {
+public class NodeObjectTypeProvider {
 	/**
 	 * Identity node name
 	 */

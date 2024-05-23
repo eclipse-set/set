@@ -17,39 +17,47 @@ import org.eclipse.set.model.tablemodel.TableRow;
  * @author Truong
  *
  */
-public class SelectedRowEvent implements ToolboxEvent {
+public class JumpToSiteplanEvent implements ToolboxEvent {
 	private static final String TOPIC = "toolboxevents/table/selectedRow"; //$NON-NLS-1$
 
-	/**
-	 * Returns the topic for a specific table that the event should affect
-	 * 
-	 * @param table
-	 *            the element id for the table component
-	 * @return a topic for the event
-	 */
-	public static String getTopic(final String table) {
-		return TOPIC;
-
-	}
-
 	TableRow row;
+	String guid;
 
-	String table;
-
-	public SelectedRowEvent(final String table) {
-		this.table = table;
+	/**
+	 * Default Constructor
+	 */
+	public JumpToSiteplanEvent() {
 		this.row = null;
+		this.guid = null;
 	}
 
 	/**
-	 * @param table
-	 *            name of table
+	 * @param row
+	 *            the table row
+	 * @param guid
+	 *            the row reference object guid
+	 */
+	public JumpToSiteplanEvent(final TableRow row, final String guid) {
+		this.row = row;
+		this.guid = guid;
+	}
+
+	/**
+	 * @param guid
+	 *            the row reference object guid
+	 */
+	public JumpToSiteplanEvent(final String guid) {
+		this.row = null;
+		this.guid = guid;
+	}
+
+	/**
 	 * @param row
 	 *            the row
 	 */
-	public SelectedRowEvent(final String table, final TableRow row) {
-		this.table = table;
+	public JumpToSiteplanEvent(final TableRow row) {
 		this.row = row;
+		this.guid = null;
 	}
 
 	/**
@@ -60,10 +68,10 @@ public class SelectedRowEvent implements ToolboxEvent {
 	}
 
 	/**
-	 * @return name of table
+	 * @return the row referenct object guid
 	 */
-	public String getTable() {
-		return table;
+	public String getGuid() {
+		return guid;
 	}
 
 	@Override

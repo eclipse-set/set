@@ -18,15 +18,19 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.set.application.Messages;
+import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
-import org.eclipse.set.utils.events.SelectedRowEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventHandler;
 
 import jakarta.inject.Inject;
 
@@ -51,14 +55,11 @@ public class TableMenuServiceImpl implements TableMenuService {
 	protected IEventBroker broker;
 	protected Set<TableBodyMenuItem> menuItems = new HashSet<>();
 
-	protected TableBodyMenuConfiguration tableBodyMenuConfiguration;
-
 	@Override
 	public TableBodyMenuConfiguration createMenuConfiguration(
 			final NatTable natTable, final SelectionLayer selectionLayer) {
-		tableBodyMenuConfiguration = new TableBodyMenuConfiguration(natTable,
-				selectionLayer, menuItems);
-		return tableBodyMenuConfiguration;
+		return new TableBodyMenuConfiguration(natTable, selectionLayer,
+				menuItems);
 	}
 
 	@Override
@@ -74,15 +75,15 @@ public class TableMenuServiceImpl implements TableMenuService {
 	@Override
 	public TableBodyMenuItem createShowInTextViewItem(
 			final JumpToSourceLineEvent toolboxEvent,
+			final SelectionLayer selectionlayer,
 			final IntPredicate enablePredicate) {
 
 		return new TableBodyMenuItem(messages.TableMenuService_TextView,
-				new SelectionAdapter() {
+				selectionlayer, new SelectionAdapter() {
 					@Override
 					public void widgetSelected(final SelectionEvent e) {
 
-						if (tableBodyMenuConfiguration.selectionLayer
-								.getSelectedCells().isEmpty()) {
+						if (selectionlayer.getSelectedCells().isEmpty()) {
 							return;
 						}
 						toolboxPartService.showPart(SOURCE_TEXT_VIEWER_PART_ID);
@@ -93,20 +94,49 @@ public class TableMenuServiceImpl implements TableMenuService {
 
 	@Override
 	public TableBodyMenuItem createShowInSitePlanItem(
-			final SelectedRowEvent jumpEvent,
+			final JumpToSiteplanEvent jumpEvent,
+			final SelectionLayer selectionlayer,
 			final IntPredicate enablePredicate) {
 		return new TableBodyMenuItem(messages.TableMenuService_Siteplan,
-				new SelectionAdapter() {
+				selectionlayer, new SelectionAdapter() {
 					@Override
 					public void widgetSelected(final SelectionEvent e) {
 
-						if (tableBodyMenuConfiguration.selectionLayer
-								.getSelectedCells().isEmpty()) {
+						if (selectionlayer.getSelectedCells().isEmpty()) {
 							return;
 						}
 						toolboxPartService.showPart(SITE_PLAN_PART_ID);
-						ToolboxEvents.send(broker, jumpEvent);
+						// When opening the site plan for the first time,
+						// it takes a moment to transform PlanPro objects into
+						// SitePlan objects.
+						// Therefore, wait until the site plan has finished
+						// loading, then send jump event.
+						if (Services.getSiteplanService()
+								.isNotFirstTimeOpenSiteplan()) {
+							ToolboxEvents.send(broker, jumpEvent);
+						} else {
+							broker.subscribe(Events.SITEPLAN_OPENING,
+									handleSiteplanLoadingEvent(jumpEvent));
+						}
 					}
 				}, enablePredicate);
+	}
+
+	private EventHandler handleSiteplanLoadingEvent(
+			final JumpToSiteplanEvent jumpEvent) {
+		return new EventHandler() {
+
+			@Override
+			public void handleEvent(final Event event) {
+				if (event.getTopic().equals(Events.SITEPLAN_OPENING)
+						&& event.getProperty(
+								IEventBroker.DATA) instanceof final Boolean isLoading
+						&& !isLoading.booleanValue()) {
+					ToolboxEvents.send(broker, jumpEvent);
+					broker.unsubscribe(this);
+				}
+			}
+		};
+
 	}
 }

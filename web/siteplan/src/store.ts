@@ -17,6 +17,7 @@ import { ToolboxConfiguration } from './util/ToolboxConfiguration'
 import { TrackWidth } from './util/Configuration'
 import { createEmpty, Extent } from 'ol/extent'
 import { DBRef } from './model/Position'
+import PlanProToolbox from './util/PlanProToolbox'
 
 export interface IError {
   iserror: boolean
@@ -161,6 +162,9 @@ export const store = createStore<State>({
     },
     setLoading (state, payload: boolean) {
       state.loading = payload
+      if (PlanProToolbox.inPPT()) {
+        PlanProToolbox.setSiteplanLoadingState(payload)
+      }
     },
     setError (state, payload: IError) {
       state.error = payload

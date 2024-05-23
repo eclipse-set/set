@@ -37,7 +37,8 @@ export enum FeatureType {
   SheetCut,
   Cant,
   CantLine,
-  Unknown
+  Unknown,
+  Flash
 }
 
 export enum FeatureLayerType
@@ -53,10 +54,10 @@ export enum FeatureLayerType
     ElementControl,
     Signal,
     Collision,
-    Flash,
     SheetCut,
     Cant,
-    Unknown
+    Unknown,
+    Flash,
 }
 
 export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
@@ -265,4 +266,9 @@ export function getFeatureData (feature: Feature<Geometry>): ModelType {
 
 export function getFeatureGUID (feature: Feature<Geometry>): ModelType {
   return (feature.get('data') as FeatureMetadata).guid
+}
+
+export interface FlashFeatureData {
+  guid: string
+  refFeature: Feature<Geometry>
 }

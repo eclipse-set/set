@@ -9,12 +9,14 @@
 
 package org.eclipse.set.utils.table.menu;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.function.IntPredicate;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.config.AbstractUiBindingConfiguration;
 import org.eclipse.nebula.widgets.nattable.grid.GridRegion;
+import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.selection.command.SelectRowsCommand;
 import org.eclipse.nebula.widgets.nattable.ui.NatEventData;
@@ -41,12 +43,14 @@ public class TableBodyMenuConfiguration extends AbstractUiBindingConfiguration {
 	/**
 	 * @param label
 	 *            the item label
+	 * @param selectionLayer
+	 *            the selection layer
 	 * @param selectionListener
 	 *            the {@link SelectionListener}
 	 * @param enablePredicate
 	 *            the condition for enable this item
 	 */
-	public record TableBodyMenuItem(String label,
+	public record TableBodyMenuItem(String label, SelectionLayer selectionLayer,
 			SelectionListener selectionListener, IntPredicate enablePredicate)
 			implements IMenuItemProvider, IMenuItemState {
 		@Override
@@ -58,7 +62,13 @@ public class TableBodyMenuConfiguration extends AbstractUiBindingConfiguration {
 
 		@Override
 		public boolean isActive(final NatEventData natEventData) {
-			return enablePredicate.test(natEventData.getRowPosition());
+			final Collection<ILayerCell> selectedCells = selectionLayer
+					.getSelectedCells();
+			if (selectedCells.isEmpty()) {
+				return false;
+			}
+			return enablePredicate
+					.test(selectedCells.iterator().next().getRowPosition());
 		}
 
 	}
@@ -68,7 +78,7 @@ public class TableBodyMenuConfiguration extends AbstractUiBindingConfiguration {
 	/**
 	 * Selection Layer
 	 */
-	public final SelectionLayer selectionLayer;
+	private final SelectionLayer selectionLayer;
 
 	/**
 	 * Create table drop down menu when right click

@@ -54,6 +54,7 @@ import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.basis.threads.Threads;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroupGroupGroupHeaderLayer;
@@ -61,6 +62,7 @@ import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
@@ -80,9 +82,9 @@ import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
+import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectedRowEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
@@ -467,17 +469,8 @@ public final class ToolboxTableView extends BasePart {
 		natTable = new NatTable(parent, gridLayer, false);
 		GridDataFactory.fillDefaults().grab(true, true).minSize(-1, 500)
 				.applyTo(natTable);
-		tableMenuService.addMenuItem(tableMenuService.createShowInTextViewItem(
-				createJumpToSourceLineEvent(), rowPosition -> {
-					final int headerRowCount = columnGroup4HeaderLayer
-							.getRowCount();
-					final List<TableRow> tableRows = TableExtensions
-							.getTableRows(table);
-					return TableRowExtensions.getLeadingObjectGuid(tableRows
-							.get(rowPosition - headerRowCount)) != null;
-				}));
-		tableMenuService.addMenuItem(tableMenuService.createShowInSitePlanItem(
-				createJumpToSiteplanEvent(), rowPosition -> true));
+
+		addMenuItems();
 		natTable.addConfiguration(tableMenuService
 				.createMenuConfiguration(natTable, selectionLayer));
 
@@ -652,6 +645,23 @@ public final class ToolboxTableView extends BasePart {
 		tableInstances.addAll(TableExtensions.getTableRows(table));
 	}
 
+	private void addMenuItems() {
+		tableMenuService.addMenuItem(tableMenuService.createShowInTextViewItem(
+				createJumpToSourceLineEvent(),
+				bodyLayerStack.getSelectionLayer(),
+				rowPosition -> getRowReferenceObjectGuid(rowPosition) != null));
+		tableMenuService.addMenuItem(tableMenuService.createShowInSitePlanItem(
+				createJumpToSiteplanEvent(), bodyLayerStack.getSelectionLayer(),
+				rowPosition -> {
+					final List<TableRow> tableRows = TableExtensions
+							.getTableRows(table);
+					final Ur_Objekt object = TableRowExtensions
+							.getLeadingObject(tableRows.get(rowPosition));
+					return object != null && Services.getSiteplanService()
+							.isSiteplanElement(object);
+				}));
+	}
+
 	protected JumpToSourceLineEvent createJumpToSourceLineEvent() {
 		return new JumpToSourceLineEvent(this) {
 			@Override
@@ -671,8 +681,8 @@ public final class ToolboxTableView extends BasePart {
 		};
 	}
 
-	protected SelectedRowEvent createJumpToSiteplanEvent() {
-		return new SelectedRowEvent(getToolboxPart().getElementId()) {
+	protected JumpToSiteplanEvent createJumpToSiteplanEvent() {
+		return new JumpToSiteplanEvent(getToolboxPart().getElementId()) {
 			@Override
 			public TableRow getRow() {
 				final Collection<ILayerCell> selectedCells = bodyLayerStack
@@ -688,4 +698,11 @@ public final class ToolboxTableView extends BasePart {
 			}
 		};
 	}
+
+	private String getRowReferenceObjectGuid(final int rowPosition) {
+		final List<TableRow> tableRows = TableExtensions.getTableRows(table);
+		return TableRowExtensions
+				.getLeadingObjectGuid(tableRows.get(rowPosition));
+	}
+
 }

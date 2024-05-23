@@ -26,6 +26,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExt
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 /**
  * Extensions for {@link TableRow}.
@@ -253,6 +254,10 @@ class TableRowExtensions {
 	 */
 	static def String getLeadingObjectGuid(TableRow tableRow) {
 		return tableRow.group.leadingObject?.identitaet?.wert
+	}
+	
+	static def Ur_Objekt getLeadingObject(TableRow tableRow) {
+		return tableRow.group.leadingObject
 	}
 
 	def static String toDebugString(TableRow row, int groupNumber,
