@@ -721,14 +721,18 @@ class PlanProSchnittstelleExtensions {
 		val bauzustand = schnittstelle.bauzustandKurzbezeichnung.orElse(
 			"(bauzustand)"
 		)
+		  
+		val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm")
 		
-		val timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm"));
+		val timestamp = schnittstelle.erzeugungZeitstempel.map["_" + it.toGregorianCalendar.toZonedDateTime.format(formatter)].orElse("")
+		
+		
 		
 		var String filename
 		if (exportType === ExportType.INVENTORY_RECORDS) {
-			filename = '''«oertlichkeit»_«index»_«lfdNummer»_B_«bauzustand»_«timestamp».«fileExtension»'''
+			filename = '''«oertlichkeit»_«index»_«lfdNummer»_B_«bauzustand»«timestamp».«fileExtension»'''
 		} else {
-			filename = '''«oertlichkeit»_«index»_«lfdNummer»_«bauzustand»_«timestamp».«fileExtension»'''
+			filename = '''«oertlichkeit»_«index»_«lfdNummer»_«bauzustand»«timestamp».«fileExtension»'''
 		}
 
 		// revise filename		
