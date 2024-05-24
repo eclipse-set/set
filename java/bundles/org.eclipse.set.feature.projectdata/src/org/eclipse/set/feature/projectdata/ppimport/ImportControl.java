@@ -294,11 +294,8 @@ public class ImportControl {
 				setComboValues(PlanProFileNature.PLANNING);
 			} else {
 				setComboValues(PlanProFileNature.INFORMATION_STATE);
-
-				// By single state project given't option for choose subwork or
-				// container
-				handleControlChange.run();
 			}
+			handleControlChange.run();
 		};
 	}
 
