@@ -9,8 +9,8 @@
 
 package org.eclipse.set.application.table;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.IntPredicate;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -53,7 +53,7 @@ public class TableMenuServiceImpl implements TableMenuService {
 
 	@Inject
 	protected IEventBroker broker;
-	protected Set<TableBodyMenuItem> menuItems = new HashSet<>();
+	protected List<TableBodyMenuItem> menuItems = new LinkedList<>();
 
 	@Override
 	public TableBodyMenuConfiguration createMenuConfiguration(
@@ -68,7 +68,7 @@ public class TableMenuServiceImpl implements TableMenuService {
 	}
 
 	@Override
-	public Set<TableBodyMenuItem> getMenuItems() {
+	public List<TableBodyMenuItem> getMenuItems() {
 		return this.menuItems;
 	}
 

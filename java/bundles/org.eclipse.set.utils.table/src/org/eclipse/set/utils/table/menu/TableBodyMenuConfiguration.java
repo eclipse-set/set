@@ -10,7 +10,7 @@
 package org.eclipse.set.utils.table.menu;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 import java.util.function.IntPredicate;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
@@ -92,13 +92,13 @@ public class TableBodyMenuConfiguration extends AbstractUiBindingConfiguration {
 	 */
 	public TableBodyMenuConfiguration(final NatTable natTable,
 			final SelectionLayer selectionLayer,
-			final Set<TableBodyMenuItem> menuItems) {
+			final List<TableBodyMenuItem> menuItems) {
 		this.selectionLayer = selectionLayer;
 		this.bodyMenu = createBodyMenu(natTable, menuItems).build();
 	}
 
 	protected static PopupMenuBuilder createBodyMenu(final NatTable natTable,
-			final Set<TableBodyMenuItem> menuItems) {
+			final List<TableBodyMenuItem> menuItems) {
 		final PopupMenuBuilder popupMenu = new PopupMenuBuilder(natTable);
 		menuItems.forEach(
 				item -> popupMenu.withMenuItemProvider(item.label, item)

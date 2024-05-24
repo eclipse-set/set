@@ -9,7 +9,7 @@
 
 package org.eclipse.set.utils.table.menu;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.IntPredicate;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
@@ -29,7 +29,7 @@ public interface TableMenuService {
 	/**
 	 * @return list of menu item
 	 */
-	Set<TableBodyMenuItem> getMenuItems();
+	List<TableBodyMenuItem> getMenuItems();
 
 	/**
 	 * @param menuItem
