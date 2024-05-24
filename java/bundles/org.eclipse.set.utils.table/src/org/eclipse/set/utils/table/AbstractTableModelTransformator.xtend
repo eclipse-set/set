@@ -524,10 +524,10 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	 * @returns the leading object identifier of the given row which is either the value of the first cell
 	 *          or the GUID of the leading object entity if the first cell is empty or shows an error
 	 */
-	def private getLeadingObjectIdentifier(TableRow row) {
+	def private getLeadingObjectIdentifier(TableRow row, String guid) {
 		var firstCellValue = row.getPlainStringValue(0)
 		if (firstCellValue === null || firstCellValue.startsWith(ERROR_PREFIX)) {
-			return row.group.leadingObject?.identitaet?.wert
+			return guid
 		}
 		return firstCellValue
 	}
@@ -537,14 +537,16 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		TableRow row,
 		ColumnDescriptor column
 	) {
-		var leadingObject = getLeadingObjectIdentifier(row)
+		var guid = row.group.leadingObject?.identitaet?.wert
+		var leadingObject = getLeadingObjectIdentifier(row, guid)
 		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObject»"'''
+		
 		tableErrors.add(
-			new TableError(leadingObject, "",
-				errorMsg, row.rowIndex + 1))
+			new TableError(guid, leadingObject, "",
+				errorMsg, row.trueRowIndex + 1))
 		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
-			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («row.group.leadingObject?.identitaet?.wert»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
+			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
 
 	/**

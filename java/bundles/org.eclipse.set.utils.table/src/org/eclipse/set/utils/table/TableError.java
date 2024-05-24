@@ -15,12 +15,15 @@ package org.eclipse.set.utils.table;
  *
  */
 public class TableError {
+	private final String guid;
 	private final String leadingObject;
 	private String source;
 	private final String message;
 	private final int rowNumber;
 
 	/**
+	 * @param guid
+	 *            the guid of the affected leading object
 	 * @param leadingObject
 	 *            the affected leading object
 	 * @param source
@@ -30,12 +33,20 @@ public class TableError {
 	 * @param rowNumber
 	 *            the row number where the error occurred
 	 */
-	public TableError(final String leadingObject, final String source,
-			final String message, final int rowNumber) {
+	public TableError(final String guid, final String leadingObject,
+			final String source, final String message, final int rowNumber) {
+		this.guid = guid;
 		this.leadingObject = leadingObject;
 		this.source = source;
 		this.message = message;
 		this.rowNumber = rowNumber;
+	}
+
+	/**
+	 * @return the guid of the affected leading object
+	 */
+	public String getGuid() {
+		return guid;
 	}
 
 	/**

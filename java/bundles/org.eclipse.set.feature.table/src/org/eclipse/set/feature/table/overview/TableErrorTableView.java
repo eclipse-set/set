@@ -90,7 +90,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 							.skip(originalRow).findFirst();
 					if (rowElement.isPresent()) {
 						final TableError element = rowElement.get();
-						final String guid = element.getLeadingObject();
+						final String guid = element.getGuid();
 						final String shortCut = element.getSource()
 								.toLowerCase();
 

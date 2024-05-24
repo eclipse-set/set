@@ -220,6 +220,26 @@ class TableRowExtensions {
 	def static Table getTable(TableRow row) {
 		return row.group.table
 	}
+	
+		
+	/**
+	 * @param table the table
+	 * @param row the row to get the row index for
+	 * 
+	 * @return the index of the row or -1 if row not found in the table
+	 */
+	def static int getTrueRowIndex(TableRow row) {
+		var rowIndex = 0;
+		for (RowGroup rowGroup : row.table.tablecontent.rowgroups) {
+			for (TableRow r : rowGroup.rows) {
+				if (r.equals(row)) {
+					return rowIndex;
+				}
+				rowIndex++;
+			}
+		}
+		return -1;
+	}
 
 	/**
 	 * @param row this table row

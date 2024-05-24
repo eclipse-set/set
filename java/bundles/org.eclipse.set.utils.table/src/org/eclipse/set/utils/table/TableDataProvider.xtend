@@ -20,6 +20,7 @@ import org.eclipse.set.model.tablemodel.TableRow
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
@@ -92,11 +93,11 @@ class TableDataProvider implements IDataProvider {
 	}
 
 	/** 
-	 * @param row the current table row (after filters are applied)
-	 * @return the original row index(before filters were applied)
+	 * @param row the current table row index (after filters are applied)
+	 * @return the original row index (before filters were applied)
 	 */
 	def int getOriginalRowIndex(int row) {
-		return tableContents.get(row).row.rowIndex
+		return tableContents.get(row).row.trueRowIndex
 	}
 
 	def int getObjectSourceLine(int row) {
