@@ -353,7 +353,7 @@ class PlanProToTitleboxTransformation {
 		return '''
 			«schriftfeld?.bezeichnungAnlage?.wert»
 			«schriftfeld?.bezeichnungUnteranlage?.wert»
-			«tableName?.getFullDisplayName ?: "<Planart>"»
+			«tableName?.getFullDisplayName ?: "<Planzeichen> – <Planart>"»
 		'''
 	}
 }
