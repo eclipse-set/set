@@ -120,23 +120,12 @@ export default class JumpToGuid extends Vue {
 
   private createFlashFeature (originalFeature: Feature<Geometry>) {
     const geometryType = originalFeature.getGeometry()?.getType()
-    const guids = getFeatureGUIDs(originalFeature)
     const featureData: FlashFeatureData = {
       guid: this.guid,
       refFeature: originalFeature
     }
     if (geometryType && geometryType === 'Point') {
-      let extent = originalFeature.getGeometry()?.getExtent()
-      // In most cases, the point coordinates do not lie at the center of the feature.
-      // Therefore, use the center of the bounding box of this feature instead.
-      const collisionLayer = this.featureLayers.find(layer => layer.getLayerType() === FeatureLayerType.Collision)
-      const collisionFeature = collisionLayer?.getSource()
-        ?.getFeatures()
-        .find(feature => guids.length > 0 && this.featureHasGuid(feature, guids[0]))
-      if (collisionFeature) {
-        extent = collisionFeature.getGeometry()?.getExtent()
-      }
-
+      const extent = originalFeature.getGeometry()?.getExtent()
       return extent !== undefined
         ? createFeature(FeatureType.Flash, featureData,new OlPoint(getCenter(extent)))
         : null
