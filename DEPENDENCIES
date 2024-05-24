@@ -254,7 +254,7 @@ npm/npmjs/-/core-js/3.19.1, MIT, approved, clearlydefined
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
 npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/css-line-break/2.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/css-loader/7.1.1, MIT AND Apache-2.0, approved, #14252
+npm/npmjs/-/css-loader/7.1.2, MIT AND Apache-2.0, approved, #14252
 npm/npmjs/-/css-select/4.3.0, BSD-2-Clause AND MIT AND (MIT AND MIT-0), approved, #3227
 npm/npmjs/-/css-what/6.1.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/csscolorparser/1.0.3, MIT, approved, clearlydefined
