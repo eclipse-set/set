@@ -91,8 +91,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 					sum.add(getOverlappingLength(fmaTrack.value, rtt))
 				])
 
-			fmaTrack.value.length.divide(BigDecimal.TWO).compareTo(
-				overlappingDistance) > 0
+			fmaTrack.value.length.divide(BigDecimal.TWO) < overlappingDistance 
 		].forEach [
 			val fmaObject = it.key
 			value.bereichObjektTeilbereich?.filter[IDTOPKante?.value !== null].
@@ -235,8 +234,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 						wert === ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN);
 				if (closestPoint.empty)
 					return ""
-
-				val fma = fmaCache.get(closestPoint)
+				val fma = fmaCache.get(closestPoint.get())
 				return fma?.bzBezeichner
 			]
 		)
