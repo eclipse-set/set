@@ -117,7 +117,8 @@ public class ToolboxIDResolver {
 		}
 
 		// non-nil GUID but object not found -> mark invalid
-		ref.eSet(getValidFeature(ref), Boolean.FALSE);
+		ref.eSet(getValidFeature(ref), Boolean.TRUE);
+		ref.eSet(getValueFeature(ref), null);
 	}
 
 	private static void setIDReference(final EObject ref, final EObject value) {
@@ -129,7 +130,8 @@ public class ToolboxIDResolver {
 		final Class<?> referenceClass = referenceType.getInstanceClass();
 		if (!referenceClass.isAssignableFrom(valueClass)) {
 			// object found, but has wrong type -> mark invalid
-			ref.eSet(getValidFeature(ref), Boolean.FALSE);
+			ref.eSet(getValidFeature(ref), Boolean.TRUE);
+			ref.eSet(getValueFeature(ref), null);
 			return;
 		}
 

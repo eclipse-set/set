@@ -19,9 +19,14 @@ package org.eclipse.set.utils.widgets;
 public interface ComboValues<T> {
 
 	/**
+	 * @return the default value index
+	 */
+	public int getDefaultIndex();
+
+	/**
 	 * @return the default value
 	 */
-	public int getDefault();
+	public String getDefaultValue();
 
 	/**
 	 * @param value
@@ -32,9 +37,22 @@ public interface ComboValues<T> {
 	public int getIndex(T value);
 
 	/**
-	 * @return the items
+	 * 
+	 * @param stringValue
+	 *            the value string value
+	 * @return the index
 	 */
-	public String[] getItems();
+	public int getIndex(String stringValue);
+
+	/**
+	 * @return the values in string
+	 */
+	public String[] getComboValues();
+
+	/**
+	 * @return the values string withoud default value
+	 */
+	public String[] getValuesWithoutDefault();
 
 	/**
 	 * @param selectionIndex
@@ -43,4 +61,16 @@ public interface ComboValues<T> {
 	 * @return the value
 	 */
 	public T getValue(int selectionIndex);
+
+	/**
+	 * @param valueString
+	 *            the value in string
+	 * @return the value
+	 */
+	public T getValue(String valueString);
+
+	/**
+	 * @return the values size
+	 */
+	public int size();
 }

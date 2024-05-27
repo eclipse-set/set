@@ -15,6 +15,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.BiPredicate;
 
 import org.eclipse.e4.core.services.nls.Translation;
@@ -215,6 +222,21 @@ public class DialogServiceImpl implements DialogService {
 	}
 
 	@Override
+	public String selectValueDialog(final Shell shell, final String title,
+			final String message, final String comboLabel,
+			final List<String> selectItems) {
+		final SelectValueDialog dialog = new SelectValueDialog(shell, title,
+				message, selectItems);
+		dialog.open();
+		final Optional<String> firstResult = dialog.getFirstResult();
+
+		if (firstResult.isEmpty()) {
+			return null;
+		}
+		return firstResult.get();
+	}
+
+	@Override
 	public boolean confirmExportNotCompleteTable(final Shell shell) {
 		return MessageDialog.openQuestion(shell,
 				messages.DialogService_ConfirmExportNotCompleteTable_Title,
@@ -386,6 +408,25 @@ public class DialogServiceImpl implements DialogService {
 		dialog.open();
 		sync.syncExec(runnable);
 		dialog.close();
+	}
+
+	@Override
+	public <T> T showProgressUISync(final Shell shell, final String message,
+			final Callable<T> callAble)
+			throws InterruptedException, ExecutionException {
+		final MessageDialog dialog = new MessageDialog(shell,
+				messages.DialogService_ProgressUISyncTitle, null, message,
+				MessageDialog.INFORMATION, new String[] {}, 0);
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+		try (ExecutorService executor = Executors.newSingleThreadExecutor()) {
+			final Future<T> future = executor.submit(callAble);
+			final T t = future.get(120, TimeUnit.SECONDS);
+			dialog.close();
+			return t;
+		} catch (final TimeoutException e) {
+			throw new ExecutionException(e);
+		}
 	}
 
 	@PostConstruct

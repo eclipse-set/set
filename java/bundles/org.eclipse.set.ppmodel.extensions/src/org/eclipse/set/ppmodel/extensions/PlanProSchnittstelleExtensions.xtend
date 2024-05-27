@@ -18,10 +18,8 @@ import java.util.Set
 import javax.xml.datatype.DatatypeConfigurationException
 import javax.xml.datatype.DatatypeFactory
 import javax.xml.datatype.XMLGregorianCalendar
-import org.eclipse.emf.common.util.Diagnostic
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.util.Diagnostician
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.xmi.XMLResource
 import org.eclipse.emf.edit.command.SetCommand
@@ -32,7 +30,6 @@ import org.eclipse.set.basis.guid.Guid
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.Basisobjekte.Anhang
 import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory
-import org.eclipse.set.model.planpro.Basisobjekte.BasisobjektePackage
 import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass
 import org.eclipse.set.model.planpro.PlanPro.Akteur_Allg_AttributeGroup
 import org.eclipse.set.model.planpro.PlanPro.Akteur_Zuordnung
@@ -50,13 +47,10 @@ import org.eclipse.set.model.planpro.PlanPro.util.PlanProResourceImpl
 import org.eclipse.set.model.planpro.Verweise.VerweiseFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.ToolboxConfiguration
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 import static extension org.eclipse.set.ppmodel.extensions.EObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
-import static extension org.eclipse.set.utils.StringExtensions.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -66,10 +60,6 @@ import java.time.format.DateTimeFormatter
  * @author Schaefer
  */
 class PlanProSchnittstelleExtensions {
-
-	static final Logger logger = LoggerFactory.getLogger(
-		typeof(PlanProSchnittstelleExtensions));
-
 	/**
 	 * @param schnittstelle this PlanPro Schnittstelle
 	 * 
@@ -757,119 +747,6 @@ class PlanProSchnittstelleExtensions {
 	}
 
 	/**
-	 * Update a planning for the primary planning of a planning integration.
-	 * This will update several attributes used to derive the path of the model.
-	 * 
-	 * @param schnittstelle the PlanPro Schnittstelle
-	 */
-	static def void updateForIntegrationCopy(
-		PlanPro_Schnittstelle schnittstelle, EditingDomain domain) {
-		schnittstelle.updateForImport(domain, true, true)
-
-		// update Kurzbezeichnung Bauzustand
-		val kurzbezeichnung = schnittstelle.bauzustandKurzbezeichnung.orElse("")
-		val kurzbezeichnungShort1 = kurzbezeichnung.shortenBy(1)
-		val kurzbezeichnungShort2 = kurzbezeichnung.shortenBy(2)
-		val kurzbezeichnung_G = '''«kurzbezeichnung»_G'''
-		val kurzbezeichnungShort1_G = '''«kurzbezeichnungShort1»_G'''
-		val kurzbezeichnungShort2_G = '''«kurzbezeichnungShort2»_G'''
-		val bauzustandKurzbezeichnung = schnittstelle.LSTPlanungProjekt.
-			planungGruppe.LSTPlanungEinzel.planungEAllg.
-			bauzustandKurzbezeichnung
-		bauzustandKurzbezeichnung.wert = kurzbezeichnung_G
-		var Diagnostic diagnostic = Diagnostician.INSTANCE.validate(
-			bauzustandKurzbezeichnung);
-		if (diagnostic.getSeverity() != Diagnostic.OK) {
-			bauzustandKurzbezeichnung.wert = kurzbezeichnungShort1_G
-			diagnostic = Diagnostician.INSTANCE.validate(
-				bauzustandKurzbezeichnung);
-			if (diagnostic.getSeverity() != Diagnostic.OK) {
-				bauzustandKurzbezeichnung.wert = kurzbezeichnungShort2_G
-			}
-		}
-	}
-
-	/**
-	 * Update a planning for the primary planning of a planning import. This
-	 * will update several attributes used to derive the path of the model.
-	 * 
-	 * @param schnittstelle the PlanPro Schnittstelle
-	 * @param updateInitial whether to update the initial state guid
-	 * @param updateFinal whether to update the final state guid
-	 */
-	static def void updateForImport(
-		PlanPro_Schnittstelle schnittstelle,
-		EditingDomain domain,
-		boolean updateInitial,
-		boolean updateFinal
-	) {
-		// increase Ausgabe Nummer
-		val lfdNrStr = schnittstelle.laufendeNummerAusgabe.orElse("0")
-		var lfdNrInt = 0
-		try {
-			lfdNrInt = Integer.parseInt(lfdNrStr)
-		} catch (NumberFormatException e) {
-			logger.error(
-				'''LaufendeNummerAusgabe=«lfdNrStr» is no number. Zero is assumed for updateForImport.'''
-			)
-		}
-		lfdNrInt++
-		val setLaufendeNummer = SetCommand.create(
-			domain,
-			schnittstelle.LSTPlanungProjekt.planungGruppe.LSTPlanungEinzel.
-				planungEAllg.laufendeNummerAusgabe,
-			PlanProPackage.eINSTANCE.laufende_Nummer_Ausgabe_TypeClass_Wert,
-			String.format("%02d", lfdNrInt)
-		)
-		domain.commandStack.execute(setLaufendeNummer)
-
-		// new GUIDs
-		val setPlanungProjektGuid = SetCommand.create(
-			domain,
-			schnittstelle.LSTPlanungProjekt.identitaet,
-			BasisobjektePackage.eINSTANCE.identitaet_TypeClass_Wert,
-			Guid.create.toString
-		)
-		domain.commandStack.execute(setPlanungProjektGuid)
-		val setPlanungGruppeGuid = SetCommand.create(
-			domain,
-			schnittstelle.LSTPlanungProjekt.planungGruppe.identitaet,
-			BasisobjektePackage.eINSTANCE.identitaet_TypeClass_Wert,
-			Guid.create.toString
-		)
-		domain.commandStack.execute(setPlanungGruppeGuid)
-		val setPlanungEinzelGuid = SetCommand.create(
-			domain,
-			schnittstelle.LSTPlanungProjekt.planungGruppe.LSTPlanungEinzel.
-				identitaet,
-			BasisobjektePackage.eINSTANCE.identitaet_TypeClass_Wert,
-			Guid.create.toString
-		)
-		domain.commandStack.execute(setPlanungEinzelGuid)
-
-		if (updateInitial) {
-			val setStartGuid = SetCommand.create(
-				domain,
-				schnittstelle.LSTPlanungProjekt.planungGruppe.LSTPlanungEinzel.
-					LSTZustandStart.identitaet,
-				BasisobjektePackage.eINSTANCE.identitaet_TypeClass_Wert,
-				Guid.create.toString
-			)
-			domain.commandStack.execute(setStartGuid)
-		}
-		if (updateFinal) {
-			val setFinalGuid = SetCommand.create(
-				domain,
-				schnittstelle.LSTPlanungProjekt.planungGruppe.LSTPlanungEinzel.
-					LSTZustandZiel.identitaet,
-				BasisobjektePackage.eINSTANCE.identitaet_TypeClass_Wert,
-				Guid.create.toString
-			)
-			domain.commandStack.execute(setFinalGuid)
-		}
-	}
-
-	/**
 	 * @param schnittstelle the PlanPro Schnittstelle
 	 * 
 	 * @return the (via PlanningAccessService) defined LST Planung Projekt of the Schnittstelle
@@ -939,5 +816,23 @@ class PlanProSchnittstelleExtensions {
 	static def List<Anhang> getAttachments(
 		PlanPro_Schnittstelle schnittstelle) {
 		return schnittstelle.eAllContents.filter(Anhang).toList
+	}
+
+	static def PlanPro_Schnittstelle transformSingleState(
+		PlanPro_Schnittstelle source) {
+		if (source.planning) {
+			return source;
+		}
+		
+		val singleStateContainer = source.LSTZustand
+		val copyContainer = EcoreUtil.copy(singleStateContainer)
+		val newSchnittstelle = createEmptyModel
+		val guid = BasisobjekteFactory.eINSTANCE.createIdentitaet_TypeClass;
+		guid.setWert = source.identitaet.wert
+		newSchnittstelle.identitaet = guid
+		val newAusgabeFachdaten = newSchnittstelle.LSTPlanungProjekt.
+			planungGruppe.LSTPlanungEinzel.ausgabeFachdaten
+		newAusgabeFachdaten.LSTZustandStart = copyContainer
+		return newSchnittstelle
 	}
 }
