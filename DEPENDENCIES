@@ -1071,7 +1071,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.glazed
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.glazedlists.source.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.nebula.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.nebula.source.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
-p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.richtext.feature/1.5.1.202303072132, EPL-2.0, approved, technology.nebula
+p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.richtext.feature/1.5.1.202402011804, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.feature/org.eclipse.net4j.util/4.22.0.v20231129-1234, EPL-1.0, approved, modeling.emf.cdo
 p2/orbit/p2.eclipse.feature/org.eclipse.pde.source/3.15.200.v20231201-0110, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.feature/org.eclipse.pde.spies.source/1.0.200.v20231108-1957, EPL-2.0, approved, eclipse.pde
@@ -1976,8 +1976,9 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.extension.glazedl
 p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.extension.glazedlists/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
 p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.extension.nebula.source/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
 p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.nattable.extension.nebula/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
-p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.richtext.source/1.5.1.202303072132, EPL-2.0, approved, technology.nebula
-p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.richtext/1.5.1.202303072132, EPL-2.0, approved, technology.nebula
+p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.richtext.source/1.5.1.202402011804, EPL-2.0, approved, technology.nebula
+p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.richtext/1.5.1.202402011804, EPL-2.0, approved, technology.nebula
+p2/orbit/p2.eclipse.plugin/org.eclipse.nebula.widgets.tablecombo/1.2.0.202402011804, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.plugin/org.eclipse.net4j.util/3.23.0.v20231129-1234, EPL-1.0, approved, modeling.emf.cdo
 p2/orbit/p2.eclipse.plugin/org.eclipse.orbit.xml-apis-ext/1.0.0.v20230923-0644, EPL-2.0, approved, tools.orbit
 p2/orbit/p2.eclipse.plugin/org.eclipse.osgi.compatibility.state.source/1.2.900.v20231106-0859, EPL-2.0, approved, eclipse.equinox
