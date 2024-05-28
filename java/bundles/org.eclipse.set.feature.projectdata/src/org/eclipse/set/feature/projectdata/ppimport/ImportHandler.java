@@ -45,6 +45,7 @@ import org.eclipse.set.core.fileservice.ToolboxIDResolver;
 import org.eclipse.set.feature.projectdata.ppimport.ImportControl.ImportTarget;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
 import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
+import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
 import org.eclipse.set.model.planpro.Basisobjekte.BasisobjektePackage;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Ausgabe_Fachdaten;
@@ -155,8 +156,8 @@ public class ImportHandler {
 				return false;
 
 			}
-			importPlaningGroup(source, sourceGruppe, data.getFirst(),
-					editingDomain);
+			importPlaningGroup(source, sourceGruppe,
+					EcoreUtil.copy(data.getFirst()), editingDomain);
 			importSubwork(source, sourceSubwork, sourceContainer,
 					data.getSecond(), editingDomain);
 			if (modelSession.getToolboxFile().getFormat().isZippedPlanPro()) {
@@ -362,15 +363,20 @@ public class ImportHandler {
 		final ContainerComboSelection selectionValue = containerCombo
 				.getSelectionValue();
 		final Ausgabe_Fachdaten newSubwork = EcoreUtil.copy(subwork);
+		final LST_Zustand emptyZustand = PlanProFactory.eINSTANCE
+				.createLST_Zustand();
+		emptyZustand.setContainer(
+				PlanProFactory.eINSTANCE.createContainer_AttributeGroup());
+		emptyZustand.setIdentitaet(
+				BasisobjekteFactory.eINSTANCE.createIdentitaet_TypeClass());
+		emptyZustand.getIdentitaet().setWert(Guid.create().toString());
 		switch (selectionValue) {
 		case START, ZUSTAND_INFORMATION: {
-			newSubwork.setLSTZustandZiel(
-					PlanProFactory.eINSTANCE.createLST_Zustand());
+			newSubwork.setLSTZustandZiel(emptyZustand);
 			break;
 		}
 		case ZIEL: {
-			newSubwork.setLSTZustandStart(
-					PlanProFactory.eINSTANCE.createLST_Zustand());
+			newSubwork.setLSTZustandStart(emptyZustand);
 			break;
 		}
 		default:
