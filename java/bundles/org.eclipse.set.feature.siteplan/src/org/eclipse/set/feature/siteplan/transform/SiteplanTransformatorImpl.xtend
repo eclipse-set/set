@@ -11,12 +11,15 @@ package org.eclipse.set.feature.siteplan.transform
 import java.text.ParseException
 import java.util.List
 import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.core.services.siteplan.SiteplanService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.feature.siteplan.trackservice.TrackService
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.siteplan.Siteplan
+import org.eclipse.set.model.siteplan.SiteplanObject
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 import org.osgi.service.component.annotations.ReferenceCardinality
@@ -29,7 +32,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
-import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 
 /**
  * Transforms the PlanPro data model into the siteplan data model 
@@ -40,8 +42,8 @@ import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 	@Reference(cardinality=ReferenceCardinality.
 		MULTIPLE, policy=ReferencePolicy.
-		DYNAMIC, policyOption=ReferencePolicyOption.GREEDY,
-		target="(component.name=org.eclipse.set.feature.siteplan.transform.*)")
+		DYNAMIC, policyOption=ReferencePolicyOption.
+		GREEDY, target="(component.name=org.eclipse.set.feature.siteplan.transform.*)")
 	public final List<Transformator> transformators = newArrayList
 
 	@Reference
@@ -50,6 +52,9 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 	@Reference
 	protected PositionService positionService
 
+	@Reference
+	protected SiteplanService siteplanService
+
 	override Siteplan transform(IModelSession modelSession) {
 		val siteplan = super.transform(modelSession)
 		if (siteplan === null) {
@@ -57,11 +62,16 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 			return null;
 		}
 		siteplan.transformLayout(modelSession.layoutInformation)
+		siteplan.eAllContents.filter(SiteplanObject).filter[guid !== null].
+			forEach [
+				siteplanService.addSiteplanElement(it)
+			]
 		return siteplan
 	}
 
 	def void transformLayout(Siteplan siteplan, PlanPro_Layoutinfo layoutinfo) {
-		val layoutTransform = new LayoutTransformator(layoutinfo, positionService)
+		val layoutTransform = new LayoutTransformator(layoutinfo,
+			positionService)
 		layoutTransform.transformLayout(siteplan)
 	}
 

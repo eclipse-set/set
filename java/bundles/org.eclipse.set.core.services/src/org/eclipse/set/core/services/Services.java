@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 DB Netz AG and others.
+, * Copyright (c) 2018 DB Netz AG and others.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
@@ -12,6 +12,7 @@ import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
+import org.eclipse.set.core.services.siteplan.SiteplanService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 
 /**
@@ -24,8 +25,26 @@ public class Services {
 	private static PlanningAccessService planningAccessService;
 	private static ToolboxViewModelService toolboxViewModelService;
 	private static NoCacheService noCacheService;
-
 	private static GeoKanteGeometryService geometryService;
+	private static SiteplanService siteplanService;
+
+	/**
+	 * @return the siteplan service
+	 */
+	public static SiteplanService getSiteplanService() {
+		return siteplanService;
+	}
+
+	/**
+	 * Set siteplan service
+	 * 
+	 * @param siteplanService
+	 *            the siteplan service
+	 */
+	public static void setSiteplanService(
+			final SiteplanService siteplanService) {
+		Services.siteplanService = siteplanService;
+	}
 
 	/**
 	 * @return the cache service

@@ -11,9 +11,6 @@ package org.eclipse.set.feature.plazmodel.service
 import java.util.List
 import org.eclipse.set.basis.IModelSession
 import org.eclipse.set.feature.plazmodel.check.PlazCheck
-import org.eclipse.set.feature.plazmodel.xml.EObjectXMLFinder
-import org.eclipse.set.feature.plazmodel.xml.EObjectXMLFinder.LineNotFoundException
-import org.eclipse.set.feature.plazmodel.xml.EObjectXMLFinder.XmlParseException
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.plazmodel.PlazReport
@@ -21,6 +18,9 @@ import org.eclipse.set.model.validationreport.ObjectScope
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.model.validationreport.ValidationreportFactory
+import org.eclipse.set.utils.xml.EObjectXMLFinder
+import org.eclipse.set.utils.xml.EObjectXMLFinder.LineNotFoundException
+import org.eclipse.set.utils.xml.EObjectXMLFinder.XmlParseException
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 import org.osgi.service.component.annotations.ReferenceCardinality

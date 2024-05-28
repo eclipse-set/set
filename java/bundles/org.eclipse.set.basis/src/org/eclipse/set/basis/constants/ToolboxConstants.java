@@ -82,6 +82,11 @@ public final class ToolboxConstants {
 		 */
 		public static final String TABLE_ERRORS = "toolbox.cache.table-errors";
 
+		/**
+		 * The id of the siteplan
+		 */
+		public static final String SITEPLAN_CACHE_ID = "toolbox.cache.siteplan";
+
 	}
 
 	/**

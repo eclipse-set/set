@@ -35,6 +35,7 @@ import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
 import org.eclipse.set.basis.Pair;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -42,13 +43,16 @@ import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
+import org.eclipse.set.utils.xml.XMLNodeFinder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.w3c.dom.Node;
 
 /**
  * Table with sorting function, when column header click
@@ -204,19 +208,17 @@ public abstract class AbstractSortByColumnTables {
 
 	protected abstract TableMenuService getTableMenuService();
 
+	protected abstract XMLNodeFinder getXMLNodeFinder();
+
 	protected TableBodyMenuItem createJumpToTextViewMenuItem(
 			final BasePart part) {
 		if (getTableMenuService() == null) {
 			return null;
 		}
 		return getTableMenuService().createShowInTextViewItem(
-				createJumpToTextViewEvent(part), selectedRowIndex -> {
-					// Subtract header and filter row
-					final int originalRowIndex = bodyDataProvider
-							.getOriginalRowIndex(selectedRowIndex - 2);
-					return originalRowIndex > 0 && bodyDataProvider
-							.getObjectSourceLine(originalRowIndex) > 0;
-				});
+				createJumpToTextViewEvent(part), getSelectionLayer(),
+				selectedRowIndex -> selectedRowIndex > 0
+						&& getXmlLineNumber(selectedRowIndex).intValue() > 0);
 	}
 
 	protected JumpToSourceLineEvent createJumpToTextViewEvent(
@@ -232,15 +234,68 @@ public abstract class AbstractSortByColumnTables {
 				}
 				final int rowPosition = selectedCells.iterator().next()
 						.getRowPosition();
-				final int originalRow = bodyDataProvider
-						.getOriginalRowIndex(rowPosition);
 				final String objectScope = bodyDataProvider
 						.getObjectScope(rowPosition);
 				final ObjectScope scope = ObjectScope.get(objectScope);
-				final Integer lineNumber = Integer.valueOf(
-						bodyDataProvider.getObjectSourceLine(originalRow));
-				return new Pair<>(scope, lineNumber);
+				return new Pair<>(scope, getXmlLineNumber(rowPosition));
 			}
 		};
+	}
+
+	protected TableBodyMenuItem createJumpToSiteplanMenuItem() {
+		if (getTableMenuService() == null) {
+			return null;
+		}
+		return getTableMenuService().createShowInSitePlanItem(
+				creataJumpToSiteplanEvent(), getSelectionLayer(), rowIndex -> {
+					final Collection<ILayerCell> selectedCells = bodyLayerStack
+							.getSelectionLayer().getSelectedCells();
+					if (selectedCells.isEmpty()) {
+						return false;
+					}
+					final int rowPosition = selectedCells.iterator().next()
+							.getRowPosition();
+					final String guid = getTableRowReferenceObjectGuid(
+							rowPosition);
+					if (guid == null || guid.isBlank()) {
+						return false;
+					}
+					// When siteplan never opended before, then active the item
+					return Services.getSiteplanService()
+							.isSiteplanElement(guid);
+				});
+	}
+
+	protected JumpToSiteplanEvent creataJumpToSiteplanEvent() {
+		return new JumpToSiteplanEvent() {
+			@Override
+			public String getGuid() {
+				final Collection<ILayerCell> selectedCells = bodyLayerStack
+						.getSelectionLayer().getSelectedCells();
+				if (selectedCells.isEmpty()) {
+					return null;
+				}
+				final int rowPosition = selectedCells.iterator().next()
+						.getRowPosition();
+				return getTableRowReferenceObjectGuid(rowPosition);
+			}
+		};
+	}
+
+	protected Integer getXmlLineNumber(final int rowPosition) {
+		final int originalRow = bodyDataProvider
+				.getOriginalRowIndex(rowPosition);
+		if (originalRow < 0) {
+			return originalRow;
+		}
+		return Integer
+				.valueOf(bodyDataProvider.getObjectSourceLine(originalRow));
+	}
+
+	protected String getTableRowReferenceObjectGuid(final int rowPosition) {
+		final Integer xmlLineNumber = getXmlLineNumber(rowPosition);
+		final Node nodeByLineNumber = getXMLNodeFinder()
+				.findNodeByLineNumber(xmlLineNumber.intValue());
+		return XMLNodeFinder.findNearestNodeGUID(nodeByLineNumber);
 	}
 }

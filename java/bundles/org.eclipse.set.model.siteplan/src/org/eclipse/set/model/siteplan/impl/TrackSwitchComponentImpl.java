@@ -33,7 +33,6 @@ import org.eclipse.set.model.siteplan.TurnoutOperatingMode;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getPreferredLocation <em>Preferred Location</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getGuid <em>Guid</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getPointDetectorCount <em>Point Detector Count</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getStart <em>Start</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getLabelPosition <em>Label Position</em>}</li>
@@ -65,26 +64,6 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSw
 	 * @ordered
 	 */
 	protected LeftRight preferredLocation = PREFERRED_LOCATION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGuid()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String GUID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGuid()
-	 * @generated
-	 * @ordered
-	 */
-	protected String guid = GUID_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPointDetectorCount() <em>Point Detector Count</em>}' attribute.
@@ -216,29 +195,6 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSw
 		preferredLocation = newPreferredLocation == null ? PREFERRED_LOCATION_EDEFAULT : newPreferredLocation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION, oldPreferredLocation, preferredLocation));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getGuid() {
-		return guid;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setGuid(String newGuid) {
-		String oldGuid = guid;
-		guid = newGuid;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__GUID, oldGuid, guid));
 	}
 
 	/**
@@ -544,8 +500,6 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSw
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION:
 				return getPreferredLocation();
-			case SiteplanPackage.TRACK_SWITCH_COMPONENT__GUID:
-				return getGuid();
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT:
 				return getPointDetectorCount();
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__START:
@@ -574,9 +528,6 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSw
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION:
 				setPreferredLocation((LeftRight)newValue);
-				return;
-			case SiteplanPackage.TRACK_SWITCH_COMPONENT__GUID:
-				setGuid((String)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT:
 				setPointDetectorCount((Integer)newValue);
@@ -614,9 +565,6 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSw
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION:
 				setPreferredLocation(PREFERRED_LOCATION_EDEFAULT);
 				return;
-			case SiteplanPackage.TRACK_SWITCH_COMPONENT__GUID:
-				setGuid(GUID_EDEFAULT);
-				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT:
 				setPointDetectorCount(POINT_DETECTOR_COUNT_EDEFAULT);
 				return;
@@ -652,8 +600,6 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSw
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION:
 				return preferredLocation != PREFERRED_LOCATION_EDEFAULT;
-			case SiteplanPackage.TRACK_SWITCH_COMPONENT__GUID:
-				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT:
 				return pointDetectorCount != POINT_DETECTOR_COUNT_EDEFAULT;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__START:
@@ -684,8 +630,6 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSw
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (preferredLocation: ");
 		result.append(preferredLocation);
-		result.append(", guid: ");
-		result.append(guid);
 		result.append(", pointDetectorCount: ");
 		result.append(pointDetectorCount);
 		result.append(", operatingMode: ");

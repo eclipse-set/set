@@ -9,12 +9,14 @@
 package org.eclipse.set.feature.validation.table;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
+import org.eclipse.set.utils.xml.XMLNodeFinder;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -30,6 +32,7 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 	private NatTable natTable;
 
 	private final TableMenuService tableMenuService;
+	private final XMLNodeFinder xmlNodeFinder;
 
 	/**
 	 * @param part
@@ -44,6 +47,9 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 		this.part = part;
 		this.messages = messages;
 		this.tableMenuService = tableMenuService;
+		final ToolboxFile toolboxFile = part.getModelSession().getToolboxFile();
+		this.xmlNodeFinder = new XMLNodeFinder();
+		xmlNodeFinder.read(toolboxFile, toolboxFile.getModelPath());
 	}
 
 	/**
@@ -66,6 +72,7 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 						.get(rowIndex.intValue() - 1).getLineNumber()));
 
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
+		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
 		natTable = createTable(parent, table, tableMenuService);
 		return natTable;
 	}
@@ -86,5 +93,10 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 	@Override
 	protected TableMenuService getTableMenuService() {
 		return tableMenuService;
+	}
+
+	@Override
+	protected XMLNodeFinder getXMLNodeFinder() {
+		return xmlNodeFinder;
 	}
 }

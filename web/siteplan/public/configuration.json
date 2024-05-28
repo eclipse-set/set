@@ -12,5 +12,5 @@
   "baseZoomLevel": 20,
   "defaultCollisionsEnabled": true,
   "defaultSheetCutCRS": "DR0",
-  "planproModelType": "overviewplan"
+  "planproModelType": "siteplan"
 }

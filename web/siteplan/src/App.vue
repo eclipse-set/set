@@ -24,6 +24,7 @@ import PlanProToolboxTest from './util/PlanProToolboxTest'
 import Configuration from './util/Configuration'
 @Options({
   async created () {
+    store.commit('setLoading', true)
     // Download the siteplan font
     await axios({
       method: 'GET',

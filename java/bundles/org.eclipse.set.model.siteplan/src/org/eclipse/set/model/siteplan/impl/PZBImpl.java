@@ -22,7 +22,6 @@ import org.eclipse.set.model.siteplan.PZBElement;
 import org.eclipse.set.model.siteplan.PZBType;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.PositionedObject;
-import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
@@ -33,7 +32,6 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getGuid <em>Guid</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getElement <em>Element</em>}</li>
@@ -44,26 +42,6 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * @generated
  */
 public class PZBImpl extends RouteObjectImpl implements PZB {
-	/**
-	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGuid()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String GUID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGuid()
-	 * @generated
-	 * @ordered
-	 */
-	protected String guid = GUID_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -171,29 +149,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	@Override
 	protected EClass eStaticClass() {
 		return SiteplanPackage.Literals.PZB;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getGuid() {
-		return guid;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setGuid(String newGuid) {
-		String oldGuid = guid;
-		guid = newGuid;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZB__GUID, oldGuid, guid));
 	}
 
 	/**
@@ -355,8 +310,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SiteplanPackage.PZB__GUID:
-				return getGuid();
 			case SiteplanPackage.PZB__POSITION:
 				return getPosition();
 			case SiteplanPackage.PZB__TYPE:
@@ -379,9 +332,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SiteplanPackage.PZB__GUID:
-				setGuid((String)newValue);
-				return;
 			case SiteplanPackage.PZB__POSITION:
 				setPosition((Position)newValue);
 				return;
@@ -409,9 +359,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SiteplanPackage.PZB__GUID:
-				setGuid(GUID_EDEFAULT);
-				return;
 			case SiteplanPackage.PZB__POSITION:
 				setPosition((Position)null);
 				return;
@@ -439,8 +386,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SiteplanPackage.PZB__GUID:
-				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
 			case SiteplanPackage.PZB__POSITION:
 				return position != null;
 			case SiteplanPackage.PZB__TYPE:
@@ -462,12 +407,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == SiteplanObject.class) {
-			switch (derivedFeatureID) {
-				case SiteplanPackage.PZB__GUID: return SiteplanPackage.SITEPLAN_OBJECT__GUID;
-				default: return -1;
-			}
-		}
 		if (baseClass == PositionedObject.class) {
 			switch (derivedFeatureID) {
 				case SiteplanPackage.PZB__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
@@ -484,12 +423,6 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == SiteplanObject.class) {
-			switch (baseFeatureID) {
-				case SiteplanPackage.SITEPLAN_OBJECT__GUID: return SiteplanPackage.PZB__GUID;
-				default: return -1;
-			}
-		}
 		if (baseClass == PositionedObject.class) {
 			switch (baseFeatureID) {
 				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.PZB__POSITION;
@@ -509,9 +442,7 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (guid: ");
-		result.append(guid);
-		result.append(", type: ");
+		result.append(" (type: ");
 		result.append(type);
 		result.append(", element: ");
 		result.append(element);

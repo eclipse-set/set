@@ -160,4 +160,9 @@ public class Messages {
 	 * Zeige in Textsicht
 	 */
 	public String TableMenuService_TextView;
+
+	/**
+	 * Zeige in Siteplan
+	 */
+	public String TableMenuService_Siteplan;
 }

@@ -16,14 +16,14 @@ import org.eclipse.set.basis.exceptions.CustomValidationProblem
 import org.eclipse.set.basis.files.ToolboxFile
 import org.eclipse.set.feature.validation.AbstractCustomValidator
 import org.eclipse.set.feature.validation.CustomValidationProblemImpl
-import org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader
+import org.eclipse.set.utils.xml.ObjectMetadataXMLReader
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.osgi.service.component.annotations.Component
 import org.w3c.dom.Node
 import org.xml.sax.SAXException
 
 import static extension org.eclipse.set.basis.extensions.NodeListExtensions.*
-import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
+import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
 import static extension org.eclipse.set.utils.xml.LineNumberXMLReader.*
 import org.eclipse.set.core.services.validation.CustomValidator
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle

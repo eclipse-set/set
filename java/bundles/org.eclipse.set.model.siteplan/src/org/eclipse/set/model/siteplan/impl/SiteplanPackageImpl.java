@@ -1001,7 +1001,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getSignal_Guid() {
+	public EAttribute getSignal_Role() {
 		return (EAttribute)signalEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1011,7 +1011,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getSignal_Role() {
+	public EAttribute getSignal_System() {
 		return (EAttribute)signalEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1021,18 +1021,8 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getSignal_System() {
-		return (EAttribute)signalEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EReference getSignal_Screen() {
-		return (EReference)signalEClass.getEStructuralFeatures().get(3);
+		return (EReference)signalEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1042,7 +1032,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EReference getSignal_Label() {
-		return (EReference)signalEClass.getEStructuralFeatures().get(4);
+		return (EReference)signalEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1052,7 +1042,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EAttribute getSignal_LateralDistance() {
-		return (EAttribute)signalEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)signalEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1062,7 +1052,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EAttribute getSignal_SignalDirection() {
-		return (EAttribute)signalEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)signalEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1072,7 +1062,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EReference getSignal_MountPosition() {
-		return (EReference)signalEClass.getEStructuralFeatures().get(7);
+		return (EReference)signalEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1211,7 +1201,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getTrackSwitchComponent_Guid() {
+	public EAttribute getTrackSwitchComponent_PointDetectorCount() {
 		return (EAttribute)trackSwitchComponentEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1221,18 +1211,8 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 * @generated
 	 */
 	@Override
-	public EAttribute getTrackSwitchComponent_PointDetectorCount() {
-		return (EAttribute)trackSwitchComponentEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public EReference getTrackSwitchComponent_Start() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(3);
+		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1242,7 +1222,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_LabelPosition() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(4);
+		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1252,7 +1232,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_Label() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(5);
+		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1262,7 +1242,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EAttribute getTrackSwitchComponent_OperatingMode() {
-		return (EAttribute)trackSwitchComponentEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)trackSwitchComponentEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1272,7 +1252,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_MainLeg() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(7);
+		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1282,7 +1262,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_SideLeg() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(8);
+		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -2487,7 +2467,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		createEAttribute(signalMountEClass, SIGNAL_MOUNT__MOUNT_TYPE);
 
 		signalEClass = createEClass(SIGNAL);
-		createEAttribute(signalEClass, SIGNAL__GUID);
 		createEAttribute(signalEClass, SIGNAL__ROLE);
 		createEAttribute(signalEClass, SIGNAL__SYSTEM);
 		createEReference(signalEClass, SIGNAL__SCREEN);
@@ -2512,7 +2491,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 
 		trackSwitchComponentEClass = createEClass(TRACK_SWITCH_COMPONENT);
 		createEAttribute(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION);
-		createEAttribute(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__GUID);
 		createEAttribute(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT);
 		createEReference(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__START);
 		createEReference(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__LABEL_POSITION);
@@ -2693,6 +2671,7 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		// Add supertypes to classes
 		positionedObjectEClass.getESuperTypes().add(this.getSiteplanObject());
 		positionEClass.getESuperTypes().add(this.getCoordinate());
+		routeObjectEClass.getESuperTypes().add(this.getSiteplanObject());
 		signalMountEClass.getESuperTypes().add(this.getPositionedObject());
 		signalMountEClass.getESuperTypes().add(this.getRouteObject());
 		signalEClass.getESuperTypes().add(this.getRouteObject());
@@ -2775,7 +2754,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 		initEAttribute(getSignalMount_MountType(), this.getSignalMountType(), "mountType", null, 0, 1, SignalMount.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(signalEClass, Signal.class, "Signal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSignal_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSignal_Role(), this.getSignalRole(), "role", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSignal_System(), this.getSignalSystem(), "system", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSignal_Screen(), this.getSignalScreen(), null, "screen", null, 0, -1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2800,7 +2778,6 @@ public class SiteplanPackageImpl extends EPackageImpl implements SiteplanPackage
 
 		initEClass(trackSwitchComponentEClass, TrackSwitchComponent.class, "TrackSwitchComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTrackSwitchComponent_PreferredLocation(), this.getLeftRight(), "preferredLocation", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackSwitchComponent_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getTrackSwitchComponent_PointDetectorCount(), ecorePackage.getEInt(), "pointDetectorCount", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTrackSwitchComponent_Start(), this.getPosition(), null, "start", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTrackSwitchComponent_LabelPosition(), this.getPosition(), null, "labelPosition", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
