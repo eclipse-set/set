@@ -227,6 +227,9 @@ public class ImportHandler {
 		importAttachments.forEach(attachment -> {
 			final String guid = attachment.getIdentitaet().getWert();
 			final byte[] value = importAttachmentSource.get(guid);
+			if (guid == null || value == null) {
+				return;
+			}
 			try {
 				sourceToolboxfile.createMedia(Guid.create(guid), value);
 			} catch (final IOException e) {
@@ -358,23 +361,16 @@ public class ImportHandler {
 
 		final ContainerComboSelection selectionValue = containerCombo
 				.getSelectionValue();
-		final Ausgabe_Fachdaten newSubwork = PlanProFactory.eINSTANCE
-				.createAusgabe_Fachdaten();
-		newSubwork.setIdentitaet(EcoreUtil.copy(subwork.getIdentitaet()));
+		final Ausgabe_Fachdaten newSubwork = EcoreUtil.copy(subwork);
 		switch (selectionValue) {
 		case START, ZUSTAND_INFORMATION: {
-			newSubwork.setLSTZustandStart(
-					EcoreUtil.copy(subwork.getLSTZustandStart()));
 			newSubwork.setLSTZustandZiel(
 					PlanProFactory.eINSTANCE.createLST_Zustand());
 			break;
 		}
-
 		case ZIEL: {
 			newSubwork.setLSTZustandStart(
 					PlanProFactory.eINSTANCE.createLST_Zustand());
-			newSubwork.setLSTZustandZiel(
-					EcoreUtil.copy(subwork.getLSTZustandZiel()));
 			break;
 		}
 		default:
@@ -412,14 +408,21 @@ public class ImportHandler {
 	private void updateGuidAfterImport(final PlanPro_Schnittstelle source,
 			final Pair<Planung_Gruppe, Ausgabe_Fachdaten> dataToImport,
 			final EditingDomain editingDomain) {
-		final Optional<Planung_Gruppe> newPlaningGroup = getPlanungGruppe(
-				source, getUntergewerkArt(dataToImport.getFirst()),
-				dataToImport.getFirst().getIdentitaet().getWert());
+		final ENUMUntergewerkArt untergewerkArt = getUntergewerkArt(
+				dataToImport.getFirst());
+		final Optional<Planung_Gruppe> newPlaningGroup = target == ImportTarget.ALL
+				? getPlanungGruppe(source, untergewerkArt,
+						dataToImport.getFirst().getIdentitaet().getWert())
+				: getPlanungGruppe(source, untergewerkArt);
 		final Optional<Ausgabe_Fachdaten> newSubwork = getAusgabeFachdaten(
-				source, newPlaningGroup);
+				source, untergewerkArt);
+
+		final boolean importSubworkSuccess = target == ImportTarget.ALL
+				&& newSubwork.isPresent()
+				&& !newSubwork.get().getIdentitaet().getWert().equals(
+						dataToImport.getSecond().getIdentitaet().getWert());
 		if (newPlaningGroup.isEmpty() || newSubwork.isEmpty()
-				|| !newSubwork.get().getIdentitaet().getWert().equals(
-						dataToImport.getSecond().getIdentitaet().getWert())) {
+				|| importSubworkSuccess) {
 			logger.error("The Import process wasn't successfull");
 			throw new IllegalArgumentException();
 		}
