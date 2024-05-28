@@ -112,22 +112,26 @@ class GuidCache {
 			}
 			case Planning: {
 				return planProSchnittstelle?.getLSTPlanung?.fachdaten?.
-					ausgabeFachdaten?.flatMap [
-						LSTZustandZiel?.container?.eContents
+					ausgabeFachdaten?.map[LSTZustandZiel?.container].filterNull.
+					flatMap [
+						eContents
 					]?.filter(Ur_Objekt)
 			}
 			case Initial: {
 				return planProSchnittstelle?.getLSTPlanung?.fachdaten?.
-					ausgabeFachdaten?.flatMap [
-						LSTZustandStart?.container?.eContents
+					ausgabeFachdaten?.map [
+						LSTZustandStart?.container
+					].filterNull.flatMap [
+						eContents
 					]?.filter(Ur_Objekt)
 			}
 			case Global: {
 				return planProSchnittstelle?.getLSTPlanung?.fachdaten?.
 					ausgabeFachdaten?.flatMap [
-						#[LSTZustandStart, LSTZustandZiel].flatMap [
-							container?.eContents
-						]
+						#[LSTZustandStart, LSTZustandZiel].map[container].
+							filterNull.flatMap [
+								eContents
+							]
 					]?.filter(Ur_Objekt)
 			}
 			case Layout: {
@@ -141,9 +145,10 @@ class GuidCache {
 		// Do not recurse into object containers
 		if (object instanceof Container_AttributeGroup) return #[]
 		// Ignore non-Ur_Objekts (which cannot be referred to by GUID)
-		if (!(object instanceof Ur_Objekt)) return object.eContents.flatMap [
-			getCommonObjects
-		]
+		if (!(object instanceof Ur_Objekt))
+			return object.eContents.flatMap [
+				getCommonObjects
+			]
 		// Recurse into contents 
 		return #[object as Ur_Objekt] + object.eContents.flatMap [
 			getCommonObjects
@@ -155,8 +160,8 @@ class GuidCache {
 		// The top level node has been reached (-> Global type)
 		// or A Container_AttributeGroup has been reached (-> Signle/Initial/Planning type)  
 		if (referenceObject === null) return ContainerType::Global
-		if (!(referenceObject instanceof Container_AttributeGroup)) return getContainerType(
-			referenceObject.eContainer())
+		if (!(referenceObject instanceof Container_AttributeGroup))
+			return getContainerType(referenceObject.eContainer())
 
 		// referenceObject is now of type Container_AttributeGroup
 		// Check whether it is contained within Ausgabe_Fachdaten (Initial/Planning) or PlanPro_Schnittstelle (Single)
