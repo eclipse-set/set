@@ -130,18 +130,6 @@ class IterableExtensions {
 	}
 	
 	/**
-	 * This Function avoid false function call,
-	 * because Java 21 give same function like xtend for List,
-	 * but the function from Java 21 will throw Exception,
-	 * when the list is empty.
-	 * @param iterable the iterable
-	 * @return last element
-	 */
-	static def <T> T getLastOrNull(Iterable<T> iterable) {
-		return iterable.last
-	}
-	
-	/**
 	 * Get first element of iterable. Return null, when the iterable is empty
 	 * @param iterable the iterable
 	 * @return first element
