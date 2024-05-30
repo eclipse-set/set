@@ -49,14 +49,14 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
-		return container.transformToTable
+		return container.transformToTable(placeArea)
 	}
 
 	private def Table create factory.table transformToTable(
-		MultiContainer_AttributeGroup container) {
+		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
 		(container.technikStandort + container.bedienStandort).filter [
 			isPlanningObject
-		].filter [
+		].filterObjectsInPlaceArea(placeArea).filter [
 			generalbedingung
 		].forEach [
 			if (Thread.currentThread.interrupted) {

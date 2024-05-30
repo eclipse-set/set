@@ -46,7 +46,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		for (Schloss schloss : container.schloss.filter[isPlanningObject]) {
+		for (Schloss schloss : container.schloss.filter[isPlanningObject].filterObjectsInPlaceArea(placeArea)) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}

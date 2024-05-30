@@ -53,19 +53,20 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
-		return container.transform
+		return container.transform(placeArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container) {
-		container.bedienEinrichtungOertlich.filter[isPlanningObject].filter [
-			bedienAnzeigeElemente.forall[bueBedienAnzeigeElemente.empty]
-		].forEach [ it |
-			if (Thread.currentThread.interrupted) {
-				return
-			}
-			it.transform
-		]
+		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
+		container.bedienEinrichtungOertlich.filter[isPlanningObject].
+			filterObjectsInPlaceArea(placeArea).filter [
+				bedienAnzeigeElemente.forall[bueBedienAnzeigeElemente.empty]
+			].forEach [ it |
+				if (Thread.currentThread.interrupted) {
+					return
+				}
+				it.transform
+			]
 		return
 	}
 

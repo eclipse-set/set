@@ -170,9 +170,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
 		val waitingFileSideDistanceSignal = newHashMap
-		for (Signal signal : container?.signal?.filter[isPlanningObject].filter [
-			ssksSignal
-		]) {
+		for (Signal signal : container?.signal?.filter[isPlanningObject]
+			.filterObjectsInPlaceArea(placeArea)
+			.filter [ssksSignal]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -893,9 +893,10 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			} catch (Exception e) {
 				LOGGER.error(e.message)
 			}
-			val distanceBetweenTracks = opposideSideDistance >
-					0 ? Math.abs(seitlicherAbstand) +
-					Math.round(opposideSideDistance * 1000) : 0
+			val distanceBetweenTracks = opposideSideDistance > 0
+					? Math.abs(seitlicherAbstand) +
+					Math.round(opposideSideDistance * 1000)
+					: 0
 			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 				seitlicherAbstand > 0) ||
 				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
