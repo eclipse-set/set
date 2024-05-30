@@ -31,13 +31,12 @@ jobs:
           maven-version: 3.9.3
         
       - name: Fetch SET
-        uses: dawidd6/action-download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
-          workflow: Build model
-          workflow_conclusion: success
-          branch: ${{github.ref}}
           name: startsWith('eclipse-set-snapshot')
-          name_is_regexp: true
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          workflows: Build SET
+          run-id: 117
           path: application-under-test
 
       - name: Run Test
