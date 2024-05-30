@@ -33,7 +33,7 @@ jobs:
       - name: Fetch SET
         uses: actions/download-artifact@v4
         with:
-          name: startsWith('eclipse-set-snapshot')
+          name: eclipse-set-snapshot-117
           github-token: ${{secrets.GITHUB_TOKEN}}
           run-id: 117
           path: application-under-test
