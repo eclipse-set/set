@@ -1,0 +1,46 @@
+name: SWTBot Test
+
+on: workflow_dispatch
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  uitest:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      packages: write
+      checks: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: temurin
+          overwrite-settings: false
+          server-id: set-github
+          cache: maven
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@07fbbe97d97ef44336b7382563d66743297e442f # v4.5
+        with:
+          maven-version: 3.9.3
+        
+      - name: Fetch SET
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: Build model
+          workflow_conclusion: success
+          branch: ${{github.ref}}
+          name: startsWith('eclipse-set-snapshot')
+          name_is_regexp: true
+          path: application-under-test
+
+      - name: Run Test
+        run: mvn -T 1.5C -U -B clean verify --settings ${{ github.workspace }}/.github/settings.xml -Dapplication-version="2.0.0" -Dapplication-under-test='${{ github.workspace}}/application-under-test/'
+        working-directory: java-test/org.eclipse.set.swtbot.parent
+  
