@@ -543,7 +543,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		
 		tableErrors.add(
 			new TableError(guid, leadingObject, "",
-				errorMsg, row.trueRowIndex + 1))
+				errorMsg, row))
 		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')

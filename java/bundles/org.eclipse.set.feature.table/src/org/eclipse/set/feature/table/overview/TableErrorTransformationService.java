@@ -8,14 +8,20 @@
  */
 package org.eclipse.set.feature.table.overview;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
+
 import java.util.Collection;
+import java.util.Comparator;
 
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.utils.table.AbstractTableTransformationService;
 import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableModelTransformator;
+import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 
 /**
  * Transformation service for the table error table
@@ -48,5 +54,13 @@ public class TableErrorTransformationService
 			final ColumnDescriptorModelBuilder builder) {
 		columns = new TableErrorTableColumns(messages);
 		return columns.fillHeaderDescriptions(builder);
+	}
+
+	@Override
+	public Comparator<RowGroup> getRowGroupComparator() {
+		// default comparator
+		return TableRowGroupComparator.builder().sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort("B", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.build();
 	}
 }

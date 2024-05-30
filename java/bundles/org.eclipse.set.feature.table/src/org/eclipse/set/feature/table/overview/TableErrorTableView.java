@@ -10,15 +10,17 @@ package org.eclipse.set.feature.table.overview;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.messages.Messages;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.TableError;
@@ -83,22 +85,19 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 					final int row = selectedCells.iterator().next()
 							.getRowPosition();
 
-					final int originalRow = bodyDataProvider
-							.getOriginalRowIndex(row);
+					final RowGroup group = TableRowExtensions
+							.getGroup(bodyDataProvider.getRow(row).getRow());
 
-					final Optional<TableError> rowElement = tableErrors.stream()
-							.skip(originalRow).findFirst();
-					if (rowElement.isPresent()) {
-						final TableError element = rowElement.get();
-						final String guid = element.getGuid();
-						final String shortCut = element.getSource()
-								.toLowerCase();
+					final TableError element = (TableError) group
+							.getLeadingObject();
 
-						toolboxPartService
-								.showPart(TABLE_PART_ID_PREFIX + shortCut);
-						ToolboxEvents.send(broker,
-								new TableSelectRowByGuidEvent(guid));
-					}
+					final String guid = element.getGuid();
+					final String shortCut = element.getSource().toLowerCase();
+
+					toolboxPartService
+							.showPart(TABLE_PART_ID_PREFIX + shortCut);
+					ToolboxEvents.send(broker,
+							new TableSelectRowByGuidEvent(guid));
 
 				});
 		return natTable;
@@ -121,7 +120,11 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 	private Table getTable() {
 		final TableErrorTransformationService service = new TableErrorTransformationService(
 				messages);
-		return service.transform(tableErrors);
+		final Table table = service.transform(tableErrors);
+
+		ECollections.sort(table.getTablecontent().getRowgroups(),
+				service.getRowGroupComparator());
+		return table;
 	}
 
 	@Override

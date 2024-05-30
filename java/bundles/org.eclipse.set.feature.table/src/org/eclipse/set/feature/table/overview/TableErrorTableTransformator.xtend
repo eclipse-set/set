@@ -23,7 +23,7 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 	
 	override transformTableContent(Collection<TableError> errors, TMFactory factory) {
 		for (error : errors) {
-			val instance = factory.newTableRow()
+			val instance = factory.newTableRow(error)
 			fill(instance, columns.Source, error, [error.source])
 			fill(instance, columns.RowNumber, error, [error.rowNumber])
 			fill(instance, columns.LeadingObject, error, [error.leadingObject])

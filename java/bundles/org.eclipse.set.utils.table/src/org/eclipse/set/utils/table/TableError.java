@@ -8,18 +8,22 @@
  */
 package org.eclipse.set.utils.table;
 
+import org.eclipse.set.model.planpro.Basisobjekte.impl.Ur_ObjektImpl;
+import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+
 /**
- * Errors that occured during table transformation
+ * Errors that occurred during table transformation
  * 
  * @author Peters
  *
  */
-public class TableError {
+public class TableError extends Ur_ObjektImpl {
 	private final String guid;
 	private final String leadingObject;
 	private String source;
 	private final String message;
-	private final int rowNumber;
+	private final TableRow row;
 
 	/**
 	 * @param guid
@@ -30,16 +34,16 @@ public class TableError {
 	 *            the source table
 	 * @param message
 	 *            a description of the error
-	 * @param rowNumber
-	 *            the row number where the error occurred
+	 * @param row
+	 *            the row where the error occurred
 	 */
 	public TableError(final String guid, final String leadingObject,
-			final String source, final String message, final int rowNumber) {
+			final String source, final String message, final TableRow row) {
 		this.guid = guid;
 		this.leadingObject = leadingObject;
 		this.source = source;
 		this.message = message;
-		this.rowNumber = rowNumber;
+		this.row = row;
 	}
 
 	/**
@@ -82,6 +86,6 @@ public class TableError {
 	 * @return the row number where the error occurred
 	 */
 	public String getRowNumber() {
-		return String.valueOf(rowNumber);
+		return String.valueOf(TableRowExtensions.getTrueRowIndex(row) + 1);
 	}
 }
