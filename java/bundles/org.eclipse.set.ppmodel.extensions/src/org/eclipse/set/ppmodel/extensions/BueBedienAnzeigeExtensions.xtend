@@ -30,44 +30,48 @@ class BueBedienAnzeigeExtensions extends BasisObjektExtensions {
 	def static List<BUE_Anlage> getBueAnlage(
 		BUE_Bedien_Anzeige_Element bueAnzEle) {
 		return bueAnzEle?.container.BUEAnlage.filter [
-			bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.value?.
-				identitaet?.wert === identitaet?.wert
+			bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.
+				value?.identitaet?.wert == identitaet?.wert
 		].toList
 	}
-	
+
 	/**
 	 * @param bueAnzEle {@link BUE_Bedien_Anzeige_Element}
 	 * 
 	 * @return {@link BUE_Einschaltung}
 	 */
-	 def static List<BUE_Einschaltung> getBueEin(BUE_Bedien_Anzeige_Element bueAnzEle) {
-	 	return bueAnzEle?.container.BUEEinschaltung.filter[
-	 		bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.value?.
-				identitaet?.wert === identitaet?.wert
-	 	].toList
-	 }
-	 
-	 	/**
+	def static List<BUE_Einschaltung> getBueEin(
+		BUE_Bedien_Anzeige_Element bueAnzEle) {
+		return bueAnzEle?.container.BUEEinschaltung.filter [
+			bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.
+				value?.identitaet?.wert == identitaet?.wert
+		].toList
+	}
+
+	/**
 	 * @param bueAnzEle {@link BUE_Bedien_Anzeige_Element}
 	 * 
 	 * @return {@link BUE_Ausschaltung}
 	 */
-	 def static List<BUE_Ausschaltung> getBueAus(BUE_Bedien_Anzeige_Element bueAnzEle) {
-	 	return bueAnzEle?.container.BUEAusschaltung.filter[
-	 		bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.value?.
-				identitaet?.wert === identitaet?.wert
-	 	].toList
-	 }
-	 
-	 def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(BUE_Einschaltung bueEin) {
-	 	return bueEin?.container.schaltmittelZuordnung.filter[
-	 		IDAnforderung.value === bueEin
-	 	].toList
-	 }
-	 
-	 def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(BUE_Ausschaltung bueAus) {
-	 	return bueAus?.container.schaltmittelZuordnung.filter[
-	 		IDAnforderung.value === bueAus
-	 	].toList
-	 }
+	def static List<BUE_Ausschaltung> getBueAus(
+		BUE_Bedien_Anzeige_Element bueAnzEle) {
+		return bueAnzEle?.container.BUEAusschaltung.filter [
+			bueAnzEle?.BUEBedienAnzElementAllg?.IDHandschaltWirkfunktion?.
+				value?.identitaet?.wert == identitaet?.wert
+		].toList
+	}
+
+	def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(
+		BUE_Einschaltung bueEin) {
+		return bueEin?.container.schaltmittelZuordnung.filter [
+			IDAnforderung.value === bueEin
+		].toList
+	}
+
+	def static List<Schaltmittel_Zuordnung> getSchaltmittel_Zuordnung(
+		BUE_Ausschaltung bueAus) {
+		return bueAus?.container.schaltmittelZuordnung.filter [
+			IDAnforderung.value === bueAus
+		].toList
+	}
 }
