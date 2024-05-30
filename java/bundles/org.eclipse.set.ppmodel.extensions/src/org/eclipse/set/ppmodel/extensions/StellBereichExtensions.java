@@ -15,6 +15,7 @@ import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableOb
 import java.util.stream.StreamSupport;
 
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -90,5 +91,23 @@ public class StellBereichExtensions {
 			final Stell_Bereich area) {
 		return getNullableObject(area,
 				e -> e.getIDAussenelementansteuerung().getValue()).orElse(null);
+	}
+
+	/**
+	 * The list of technik standort in this area
+	 * 
+	 * @param area
+	 *            the {@link Stell_Bereich}
+	 * @return list of {@link Technik_Standort}
+	 */
+	public static List<Technik_Standort> getTechnikStandorts(
+			final Stell_Bereich area) {
+		final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
+				area);
+		final List<ESTW_Zentraleinheit> estwZentraleinheits = getESTWZentraleinheits(
+				aussenElementAnsteuerung);
+		return estwZentraleinheits.stream()
+				.flatMap(estw -> getTechnikStandort(estw).stream())
+				.filter(Objects::nonNull).toList();
 	}
 }

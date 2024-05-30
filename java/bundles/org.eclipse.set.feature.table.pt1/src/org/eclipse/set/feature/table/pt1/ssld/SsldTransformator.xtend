@@ -88,7 +88,9 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory,
 		Stell_Bereich controlArea
 	) {
-		val fstDwegList = container.fstrDWeg.filter[isPlanningObject]
+		val fstDwegList = container.fstrDWeg
+			.filter[isPlanningObject]
+			.filterObjectsInPlaceArea(placeArea)
 
 		// var footnoteNumber = 1;
 		for (dweg : fstDwegList) {

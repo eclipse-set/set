@@ -29,8 +29,11 @@ import org.slf4j.LoggerFactory
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.apache.commons.lang3.Range
 
 /**
  * Extensions for {@link Bereich_Objekt}.
@@ -408,8 +411,21 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt bereich,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
+		return bereich.contains(singlePoint)
+	}
+
+	/**
+	 * @param bereich this Bereichsobjekt
+	 * @param singlePoint the single point
+	 * @param tolerant the tolerant distance
+	 * 
+	 * @returns whether this Bereichsobjekt contains the given 
+	 * 			single point with tolerant distance
+	 */
+	def static boolean contains(Bereich_Objekt bereich,
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, double tolerant) {
 		return bereich.bereichObjektTeilbereich.exists [
-			contains(singlePoint)
+			contains(singlePoint, tolerant)
 		]
 	}
 
@@ -441,6 +457,81 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 
 		return false
+	}
+
+	/**
+	 * @param teilbereich the Teilbereich
+	 * @param singlePoint the single point
+	 * @param tolerant the tolerant distance
+	 * 
+	 * @returns whether this teilbereich contains the given 
+	 * 			single point with tolerant distance
+	 */
+	def static boolean contains(
+		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich,
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
+		double tolerant
+	) {
+		val teilBereichTopKante = teilbereich.IDTOPKante?.value
+		// The point should lie on the TOP_Kante of teilbereich 
+		// or the connect TOP_Kanten of this TOP_Kante
+		if (teilBereichTopKante.adjacentTopKanten.forall [
+			it !== singlePoint.topKante
+		]) {
+			return false;
+		}
+		val isContains = teilbereich.contains(singlePoint)
+		// When the point lie within teibereich
+		if (isContains) {
+			return true;
+		}
+		val clone = EcoreUtil.copy(teilbereich)
+
+		val A = teilbereich.begrenzungA.wert.doubleValue
+		val B = teilbereich.begrenzungB.wert.doubleValue
+		val topKanteRange = Range.of(0.0, teilBereichTopKante.laenge)
+		val sameTopKante = teilbereich.IDTOPKante?.wert ==
+			singlePoint.IDTOPKante?.wert
+		if (sameTopKante) {
+			if (A === 0 && B === teilBereichTopKante.laenge) {
+				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
+			}
+
+			clone.begrenzungA.wert = BigDecimal.valueOf(
+				topKanteRange.isStartedBy(A) ? A : topKanteRange.fit(A -
+					tolerant))
+			clone.begrenzungB.wert = BigDecimal.valueOf(
+				topKanteRange.isEndedBy(B)
+					? B
+					: topKanteRange.fit(A + tolerant))
+			return clone.contains(singlePoint)
+		}
+
+		// When the point and the teilbereich not in same TopKante,
+		// then the teilbereich with tolerant muss out of topkante range
+		if (topKanteRange.contains(A - tolerant) &&
+			topKanteRange.contains(B + tolerant)) {
+			return false
+		}
+		val tolerantDistanceFromA = topKanteRange.
+				isStartedBy(A) ? tolerant : tolerant - A
+		val tolerantDistanceFromB = topKanteRange.
+				isEndedBy(B) ? tolerant : (tolerant + B) - topKanteRange.maximum
+		return teilbereich.containsWithinTolerant(singlePoint,
+			teilBereichTopKante.TOPKnotenA, tolerantDistanceFromA) ||
+			teilbereich.containsWithinTolerant(singlePoint,
+				teilBereichTopKante.TOPKnotenB, tolerantDistanceFromB)
+	}
+
+	private def static boolean containsWithinTolerant(
+		Bereich_Objekt_Teilbereich_AttributeGroup botb,
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, TOP_Knoten topKnote,
+		double tolerant) {
+		val targetTopKante = topKnote.topKanten.findFirst [
+			it !== botb.topKante && it === singlePoint.IDTOPKante?.value
+		]
+		return targetTopKante !== null &&
+			targetTopKante.getAbstand(topKnote, singlePoint) <= tolerant
 	}
 
 	/**
