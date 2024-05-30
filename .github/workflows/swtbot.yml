@@ -35,7 +35,6 @@ jobs:
         with:
           name: startsWith('eclipse-set-snapshot')
           github-token: ${{secrets.GITHUB_TOKEN}}
-          repository: truongquangsb/set/actions/workflows/ci.yml
           run-id: 117
           path: application-under-test
 
