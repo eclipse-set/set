@@ -88,6 +88,11 @@ public class Messages {
 	public String TableOverviewPart_WithErrorsDesc;
 
 	/**
+	 * Debug-Mode: Tabellen können immer wieder neu überprüft werden
+	 */
+	public String TableOverviewPart_DebugModeHint;
+
+	/**
 	 * Exportieren
 	 */
 	public String ToolboxTableView_Export;

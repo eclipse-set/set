@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.PreDestroy;
-import jakarta.inject.Inject;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -30,9 +27,10 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.table.TableError;
@@ -48,6 +46,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.osgi.service.event.EventHandler;
+
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
 
 /**
  * Overview of all tables and their errors
@@ -203,9 +204,15 @@ public class TableOverviewPart extends BasePart {
 
 	private void update() {
 		final Collection<String> missingTables = getMissingTables();
-		missingTablesText.setText(tableList2DisplayString(missingTables));
-		completenessHint.setVisible(!missingTables.isEmpty());
-		calculateMissing.setEnabled(!missingTables.isEmpty());
+
+		if (!ToolboxConfiguration.isDebugMode()) {
+			missingTablesText.setText(tableList2DisplayString(missingTables));
+			completenessHint.setVisible(!missingTables.isEmpty());
+			calculateMissing.setEnabled(!missingTables.isEmpty());
+		} else {
+			missingTablesText.setText(messages.TableOverviewPart_DebugModeHint);
+			completenessHint.setVisible(false);
+		}
 
 		final Collection<String> tablesWithErrors = getTablesContainingErrors();
 
@@ -225,7 +232,11 @@ public class TableOverviewPart extends BasePart {
 
 		final ArrayList<String> missingTables = new ArrayList<>();
 		missingTables.addAll(allTableInfos);
-		missingTables.removeAll(computedErrors.keySet());
+		if (!ToolboxConfiguration.isDebugMode()) {
+			// in debug mode we want to be able to recompute the errors
+			// that's why we mark all as missing
+			missingTables.removeAll(computedErrors.keySet());
+		}
 		return missingTables;
 	}
 
