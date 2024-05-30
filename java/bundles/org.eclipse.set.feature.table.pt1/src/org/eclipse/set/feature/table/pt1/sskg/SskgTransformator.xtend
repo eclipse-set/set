@@ -55,7 +55,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		for (Zugeinwirkung ein : container.zugeinwirkung.filter [
 			isPlanningObject
-		]) {
+		].filterObjectsInPlaceArea(placeArea)) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}

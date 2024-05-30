@@ -328,7 +328,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch Iterable<String> getElementVerknuepfungenInformationSekundaer(
 		Aussenelementansteuerung element) {
-		return element.aussenelementansteuerungInformationSekundaer.map [
+		return element.informationSekundaer.map [
 			bezeichner
 		]
 	}

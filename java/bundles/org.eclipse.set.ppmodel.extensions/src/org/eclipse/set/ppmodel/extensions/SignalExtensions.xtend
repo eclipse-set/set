@@ -45,9 +45,11 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 
 /**
  * This class extends {@link Signal}.
@@ -69,9 +71,8 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		return signal.container.flaSchutz.filter [
-			flaSchutzSignal !== null &&
-				flaSchutzSignal.IDFlaSignal?.wert ==
-					signal.identitaet.wert
+			flaSchutzSignal !== null && flaSchutzSignal.IDFlaSignal?.wert ==
+				signal.identitaet.wert
 		].toList
 	}
 
@@ -104,7 +105,8 @@ class SignalExtensions extends PunktObjektExtensions {
 		for (Fstr_Zug_Rangier zugRangier : signal.container.fstrZugRangier) {
 			var String IDEnd
 			if (isStart) {
-				IDEnd = zugRangier?.fstrFahrweg?.IDStart?.value?.identitaet?.wert
+				IDEnd = zugRangier?.fstrFahrweg?.IDStart?.value?.identitaet?.
+					wert
 			} else {
 				IDEnd = zugRangier?.fstrFahrweg?.IDZiel?.value?.identitaet?.wert
 			}
@@ -140,9 +142,34 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
 		Signal signal, Punkt_Objekt object) {
-		return topGraph.getPaths(signal.singlePoints, object.singlePoints).
-			flatMap[edges].forall[isForwards == true]
+		return topGraph.isInWirkrichtungOfSignal(signal, object.singlePoints)
+	}
 
+	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
+		Signal signal, TOP_Kante topKante) {
+		if (signal.topKanten.exists[it === topKante]) {
+			return false
+		}
+		val allPunktOnTopKante = topKante.connected
+		val punktNearstA = allPunktOnTopKante.reduce [ p1, p2 |
+			topKante.getAbstand(topKante.TOPKnotenA, p1) <
+				topKante.getAbstand(topKante.TOPKnotenA, p2) ? p1 : p2
+		]
+
+		val punkNearstB = allPunktOnTopKante.reduce [ p1, p2 |
+			topKante.getAbstand(topKante.TOPKnotenB, p1) <
+				topKante.getAbstand(topKante.TOPKnotenB, p2) ? p1 : p2
+		]
+		return topGraph.isInWirkrichtungOfSignal(signal,
+			List.of(punktNearstA)) &&
+			topGraph.isInWirkrichtungOfSignal(signal, List.of(punkNearstB))
+	}
+
+	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
+		Signal signal, List<Punkt_Objekt_TOP_Kante_AttributeGroup> potks) {
+		return topGraph.getPaths(signal.singlePoints, potks).flatMap [
+			edges
+		].forall[isForwards == true]
 	}
 
 	/**
@@ -155,8 +182,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static List<Signal_Rahmen> signalRahmenForBefestigung(Signal signal,
 		Iterable<Signal_Befestigung> gruppe) {
 		return signal.signalRahmen.filter [
-			gruppe.map[identitaet.wert].contains(
-				IDSignalBefestigung?.wert)
+			gruppe.map[identitaet.wert].contains(IDSignalBefestigung?.wert)
 		].toList
 	}
 
@@ -243,7 +269,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static List<Schaltmittel_Zuordnung> getAnrueckverschluss(
 		Signal signal
 	) {
-		return signal?.signalFstrS?.IDAnrueckverschluss?.map[value]?.filterNull?.toList ?: Collections.emptyList
+		return signal?.signalFstrS?.IDAnrueckverschluss?.map[value]?.
+			filterNull?.toList ?: Collections.emptyList
 	}
 
 	/**
@@ -338,8 +365,9 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		return (
-			signal?.signalFstrAusInselgleis?.IDRaFahrtGleichzeitigVerbot?.map[value]?.filterNull ?:
-			Collections.emptySet
+			signal?.signalFstrAusInselgleis?.IDRaFahrtGleichzeitigVerbot?.map [
+			value
+		]?.filterNull ?: Collections.emptySet
 		).toSet
 	}
 
@@ -353,8 +381,9 @@ class SignalExtensions extends PunktObjektExtensions {
 		Signal signal
 	) {
 		return (
-			signal?.signalFstrAusInselgleis?.IDZgFahrtGleichzeitigVerbot?.map[value]?.filterNull ?:
-			Collections.emptySet
+			signal?.signalFstrAusInselgleis?.IDZgFahrtGleichzeitigVerbot?.map [
+			value
+		]?.filterNull ?: Collections.emptySet
 		).toSet
 	}
 

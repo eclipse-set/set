@@ -60,20 +60,22 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		this.container = container
-		return container.transform
+		return container.transform(placeArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container) {
-		transformToBegrenzungen(container.gleisBezeichnung.filter [
+		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
+		val gleisBezeichnung = container.gleisBezeichnung.filter [
 			isPlanningObject
-		], container.signal.filter[isPlanningObject]).filter[generalbedingung].
-			forEach [ it |
-				if (Thread.currentThread.interrupted) {
-					return
-				}
-				it.transform
-			]
+		].filterObjectsInPlaceArea(placeArea)
+		transformToBegrenzungen(gleisBezeichnung, container.signal.filter [
+			isPlanningObject
+		]).filter[generalbedingung].forEach [ it |
+			if (Thread.currentThread.interrupted) {
+				return
+			}
+			it.transform
+		]
 		return
 	}
 
@@ -284,18 +286,14 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		signals.forEach [ signal |
 			val rafahrt = signal?.signalFstrAusInselgleis?.
 				IDRaFahrtGleichzeitigVerbot
-			rafahrt?.filter[gl|result.containsKey(gl?.wert)]?.
-				forEach [ gl |
-					result.get(gl?.wert).raFahrtVerbot.add(
-						signal)
-				]
+			rafahrt?.filter[gl|result.containsKey(gl?.wert)]?.forEach [ gl |
+				result.get(gl?.wert).raFahrtVerbot.add(signal)
+			]
 			val zgfahrt = signal?.signalFstrAusInselgleis?.
 				IDZgFahrtGleichzeitigVerbot
-			zgfahrt?.filter[gl|result.containsKey(gl?.wert)]?.
-				forEach [ gl |
-					result.get(gl?.wert).zgFahrtVerbot.add(
-						signal)
-				]
+			zgfahrt?.filter[gl|result.containsKey(gl?.wert)]?.forEach [ gl |
+				result.get(gl?.wert).zgFahrtVerbot.add(signal)
+			]
 		]
 
 		return result.values
