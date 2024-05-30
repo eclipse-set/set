@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.tablemodel.RowGroup;
@@ -46,6 +47,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 	private Collection<TableError> tableErrors = new ArrayList<>();
 	private final IEventBroker broker;
 	private final ToolboxPartService toolboxPartService;
+	private final EnumTranslationService enumTranslationService;
 
 	/**
 	 * @param messages
@@ -54,13 +56,17 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 	 *            the event broker
 	 * @param toolboxPartService
 	 *            the part service
+	 * @param enumTranslationService
+	 *            the enum translation service
 	 */
 	public TableErrorTableView(final Messages messages,
 			final IEventBroker broker,
-			final ToolboxPartService toolboxPartService) {
+			final ToolboxPartService toolboxPartService,
+			final EnumTranslationService enumTranslationService) {
 		this.messages = messages;
 		this.broker = broker;
 		this.toolboxPartService = toolboxPartService;
+		this.enumTranslationService = enumTranslationService;
 	}
 
 	/**
@@ -119,7 +125,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 
 	private Table getTable() {
 		final TableErrorTransformationService service = new TableErrorTransformationService(
-				messages);
+				messages, enumTranslationService);
 		final Table table = service.transform(tableErrors);
 
 		ECollections.sort(table.getTablecontent().getRowgroups(),

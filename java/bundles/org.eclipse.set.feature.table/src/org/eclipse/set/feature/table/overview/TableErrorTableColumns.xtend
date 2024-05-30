@@ -23,6 +23,7 @@ class TableErrorTableColumns extends AbstractColumns {
 	public final ColumnDescriptor LeadingObject;
 	public final ColumnDescriptor RowNumber;
 	public final ColumnDescriptor Source;
+	public final ColumnDescriptor TableType;
 	public final ColumnDescriptor Message;
 
 	/** 
@@ -31,6 +32,7 @@ class TableErrorTableColumns extends AbstractColumns {
 	new(Messages messages) {
 		super()
 		Source = createNew(messages.TableErrorTableColumns_Source)
+		TableType = createNew(messages.TableErrorTableColumns_TableType)
 		LeadingObject = createNew(messages.TableErrorTableColumns_LeadingObject)
 		Message = createNew(messages.TableErrorTableColumns_Message)
 		RowNumber = createNew(messages.TableErrorTableColumns_RowNumber)
@@ -40,7 +42,8 @@ class TableErrorTableColumns extends AbstractColumns {
 	def ColumnDescriptor fillHeaderDescriptions(
 		ColumnDescriptorModelBuilder builder) {
 		val GroupBuilder root = builder.createRootColumn()
-		root.add(Source).widthPercent(10)
+		root.add(Source).widthPercent(5)
+		root.add(TableType).widthPercent(5)
 		root.add(RowNumber).widthPercent(5)
 		root.add(LeadingObject).widthPercent(20)
 		root.add(Message).widthPercent(65)

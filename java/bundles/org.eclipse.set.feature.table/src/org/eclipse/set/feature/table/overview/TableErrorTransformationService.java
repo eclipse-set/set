@@ -14,6 +14,7 @@ import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparat
 import java.util.Collection;
 import java.util.Comparator;
 
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.RowGroup;
@@ -36,17 +37,24 @@ public class TableErrorTransformationService
 
 	private final Messages messages;
 
+	private final EnumTranslationService enumTranslationService;
+
 	/**
 	 * @param messages
 	 *            the messages
+	 * @param enumTranslationService
+	 *            the enum translation service
 	 */
-	public TableErrorTransformationService(final Messages messages) {
+	public TableErrorTransformationService(final Messages messages,
+			final EnumTranslationService enumTranslationService) {
 		this.messages = messages;
+		this.enumTranslationService = enumTranslationService;
 	}
 
 	@Override
 	public TableModelTransformator<Collection<TableError>> createTransformator() {
-		return new TableErrorTableTransformator(columns);
+		return new TableErrorTableTransformator(columns,
+				enumTranslationService);
 	}
 
 	@Override
@@ -60,7 +68,7 @@ public class TableErrorTransformationService
 	public Comparator<RowGroup> getRowGroupComparator() {
 		// default comparator
 		return TableRowGroupComparator.builder().sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
-				.sort("B", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort("C", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
 				.build();
 	}
 }

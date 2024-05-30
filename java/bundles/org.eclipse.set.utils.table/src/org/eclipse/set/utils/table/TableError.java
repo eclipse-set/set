@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.utils.table;
 
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.planpro.Basisobjekte.impl.Ur_ObjektImpl;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
@@ -22,6 +23,7 @@ public class TableError extends Ur_ObjektImpl {
 	private final String guid;
 	private final String leadingObject;
 	private String source;
+	private TableType tableType;
 	private final String message;
 	private final TableRow row;
 
@@ -73,6 +75,21 @@ public class TableError extends Ur_ObjektImpl {
 	 */
 	public void setSource(final String source) {
 		this.source = source;
+	}
+
+	/**
+	 * @return the table type
+	 */
+	public TableType getTableType() {
+		return tableType;
+	}
+
+	/**
+	 * @param tableType
+	 *            sets the table type
+	 */
+	public void setTableType(final TableType tableType) {
+		this.tableType = tableType;
 	}
 
 	/**

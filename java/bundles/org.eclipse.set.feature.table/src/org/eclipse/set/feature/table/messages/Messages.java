@@ -42,6 +42,11 @@ public class Messages {
 	public String TableErrorTableColumns_Source;
 
 	/**
+	 * Tabellentyp
+	 */
+	public String TableErrorTableColumns_TableType;
+
+	/**
 	 * Tabellenübersicht
 	 */
 	public String TableOverviewDescriptionService_ViewName;

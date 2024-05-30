@@ -23,6 +23,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
@@ -63,6 +64,9 @@ public class TableOverviewPart extends BasePart {
 	@Inject
 	@Translation
 	protected Messages messages;
+
+	@Inject
+	private EnumTranslationService enumTranslationService;
 
 	@Inject
 	private ToolboxPartService toolboxPartService;
@@ -150,7 +154,7 @@ public class TableOverviewPart extends BasePart {
 
 		// Create table problem table view
 		tableErrorTableView = new TableErrorTableView(messages, getBroker(),
-				toolboxPartService);
+				toolboxPartService, enumTranslationService);
 		tableErrorTableView.create(parent);
 
 		getBroker().subscribe(Events.TABLEERROR_CHANGED,
