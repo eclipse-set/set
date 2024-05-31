@@ -80,6 +80,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	static val String EMPTY_FILLING = ""
 
+	static val String WARNING_SYMBOL = "\u26A0"
+
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService) {
 		super(cols, enumTranslationService)
@@ -147,12 +149,17 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					fstrZugRangier, [
 						val bezeichnung = fstrZugRangier?.fstrDWeg?.
 							bezeichnung?.bezeichnungFstrDWeg?.wert
-						if (bezeichnung === null ||
-							!fstrZugRangier?.fstrZug?.fstrZugDWeg?.DWegVorzug?.
-								wert)
-							bezeichnung
+						if (bezeichnung === null)
+							return null
+
+						val vorzug = fstrZugRangier?.fstrZug?.fstrZugDWeg?.
+							DWegVorzug?.wert
+						if (vorzug === null)
+							return '''«bezeichnung» «WARNING_SYMBOL»'''
+						if (vorzug)
+							return '''«bezeichnung»*'''
 						else
-							bezeichnung + "*"
+							return bezeichnung
 					])
 
 				fillSwitch(
