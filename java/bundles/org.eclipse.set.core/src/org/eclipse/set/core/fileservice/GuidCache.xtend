@@ -112,7 +112,7 @@ class GuidCache {
 			}
 			case Planning: {
 				return planProSchnittstelle?.getLSTPlanung?.fachdaten?.
-					ausgabeFachdaten?.map[LSTZustandZiel?.container].filterNull.
+					ausgabeFachdaten?.map[LSTZustandZiel?.container]?.filterNull?.
 					flatMap [
 						eContents
 					]?.filter(Ur_Objekt)
@@ -121,7 +121,7 @@ class GuidCache {
 				return planProSchnittstelle?.getLSTPlanung?.fachdaten?.
 					ausgabeFachdaten?.map [
 						LSTZustandStart?.container
-					].filterNull.flatMap [
+					]?.filterNull?.flatMap [
 						eContents
 					]?.filter(Ur_Objekt)
 			}
