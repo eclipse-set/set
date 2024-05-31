@@ -83,7 +83,8 @@ public class GeoKanteGeometryServiceImpl
 			findGeometryThread.start();
 		}
 
-		if (topic.equals(Events.CLOSE_SESSION) && findGeometryThread.isAlive()
+		if (topic.equals(Events.CLOSE_SESSION) && findGeometryThread != null
+				&& findGeometryThread.isAlive()
 				&& !findGeometryThread.isInterrupted()) {
 			findGeometryThread.interrupt();
 			isProcessComplete = false;
