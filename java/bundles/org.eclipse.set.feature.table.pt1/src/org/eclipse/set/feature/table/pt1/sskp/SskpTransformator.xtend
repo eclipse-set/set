@@ -571,15 +571,15 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
-	private dispatch def String fillBezugsElement(Basis_Objekt object) {
+	static dispatch def String fillBezugsElement(Basis_Objekt object) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
-	private dispatch def String fillBezugsElement(W_Kr_Gsp_Element object) {
+	static dispatch def String fillBezugsElement(W_Kr_Gsp_Element object) {
 		return object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
-	private dispatch def String fillBezugsElement(Signal object) {
+	static dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
 			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''

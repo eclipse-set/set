@@ -627,4 +627,34 @@ public class Messages extends AbstractMessageService {
 	 * Übertragungswegtabelle (Ssvu)
 	 */
 	public String SsvuTableView_Heading;
+
+	/**
+	 * Ssza (Datenpunkttabelle)
+	 */
+	public String SszaDescriptionService_ViewName;
+
+	/**
+	 * Datenpunkttabelle
+	 */
+	public String SszaDescriptionService_ViewTooltip;
+
+	/**
+	 * Datenpunkttabelle
+	 */
+	public String ToolboxTableNameSszaLong;
+
+	/**
+	 * 
+	 */
+	public String ToolboxTableNameSszaPlanningNumber;
+
+	/**
+	 * Ssza
+	 */
+	public String ToolboxTableNameSszaShort;
+
+	/**
+	 * Datenpunkttabelle - Ssza
+	 */
+	public String SszaTableView_Heading;
 }
