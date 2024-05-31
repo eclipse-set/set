@@ -640,14 +640,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		return factory.table
 	}
 
-	def Boolean getNul2(Boolean boolean1) {
-		return true
-	}
-
-	def Boolean nul(Boolean boolean1) {
-		return null
-	}
-
 	def List<String> fillInselgleis(
 		Collection<Gleis_Bezeichnung> tracks
 	) {
