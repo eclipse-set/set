@@ -264,6 +264,10 @@ class PlanProToTitleboxTransformation {
 		return null
 	}
 
+	private def String nonBreaking(String text) {
+		return text?.replace(' ', '\u00A0')
+	}
+
 	def String getFiletypeSuffix(ENUMDateityp dateityp) {
 		switch (dateityp) {
 			case ENUM_DATEITYP_JPG: return "jpg"
@@ -301,7 +305,15 @@ class PlanProToTitleboxTransformation {
 			schriftfeld?.planungsbuero?.organisationseinheit?.wert)
 		if (schriftfeld?.planungsbuero?.adressePLZOrt?.wert !== null ||
 			schriftfeld?.planungsbuero?.adresseStrasseNr?.wert !== null) {
-			it.location = fillPlanningOfficeField('''«schriftfeld?.planungsbuero?.adresseStrasseNr?.wert», «schriftfeld?.planungsbuero?.adressePLZOrt?.wert ?: ''»''')
+			val addrPLZ = schriftfeld?.planungsbuero?.adressePLZOrt?.wert.
+				nonBreaking ?: ''
+			val addrStr = schriftfeld?.planungsbuero?.adresseStrasseNr?.wert.
+				nonBreaking ?: ''
+			if (variant == "no-logo") {
+				it.location = fillPlanningOfficeField(addrStr + "\n" + addrPLZ)
+			} else {
+				it.location = fillPlanningOfficeField('''«addrStr», «addrPLZ»''')
+			}
 		} else {
 			it.location = fillPlanningOfficeField("")
 		}
