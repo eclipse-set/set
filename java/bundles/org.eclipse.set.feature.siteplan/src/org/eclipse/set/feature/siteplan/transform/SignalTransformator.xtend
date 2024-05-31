@@ -40,7 +40,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExte
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
