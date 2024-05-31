@@ -30,6 +30,7 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
 import static extension org.eclipse.set.ppmodel.extensions.SchlossExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SchluesselExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
@@ -48,8 +49,9 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		for (Schloss schloss : container.schloss.filter[isPlanningObject].
-			filterObjectsInPlaceArea(placeArea)) {
+		for (Schloss schloss : container.getObjectInPlaceArea(placeArea).filter [
+			isPlanningObject
+		]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -392,6 +394,8 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Iterable<Schloss> getObjectInPlaceArea(
 		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
+		val result = newHashSet
+		// 1. Condition
 		val stellelements = placeArea.aussenElementAnsteuerung.
 			informationSekundaer.filterNull.flatMap[stellelements]
 		val ssp = container.schluesselsperre.filter [ ssp |
@@ -400,6 +404,26 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		val schluesels = container.schloss.filter [ schloss |
 			ssp.exists[it === schloss.schlossSsp.IDSchluesselsperre.value]
 		].map[schluesel].filterNull
-		return container.schloss.filter[schluesel !== null && schluesels.contains(schluesel)]
+		result.addAll(schluesels.flatMap[schloesser])
+		
+		// 2.Condition
+		result.filter[schlossSk?.hauptschloss.wert].flatMap [ schloss |
+			schloss.schlossSk.IDSchlosskombination?.value.schloesser.filter [
+				it.schlossSk !== null && !it.schlossSk.hauptschloss.wert
+			]
+		].filterNull.map[schluesel].flatMap[schloesser].forEach[result.add(it)]
+
+		// 3. Condition
+		container.schloss.filter [ schloss |
+			placeArea.wkrGspElement.exists [ gspElement |
+				schloss.schlossW?.IDWKrElement?.value === gspElement ||
+					schloss.schlossGsp?.IDGspElement?.value === gspElement ||
+					schloss.schlossSonderanlage?.IDSonderanlage?.value ==
+						gspElement
+			]
+		].map[schluesel].flatMap[schloesser].toSet.filter [
+			technischBerechtigter?.wert
+		].forEach[result.add(it)]
+		return result
 	}
 }
