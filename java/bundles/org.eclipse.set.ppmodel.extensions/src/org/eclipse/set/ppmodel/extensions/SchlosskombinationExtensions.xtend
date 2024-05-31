@@ -11,6 +11,7 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.ppmodel.extensions.BasisObjektExtensions
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schlosskombination
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
 
 /**
  * Extensions for {@link Schlosskombination}.
@@ -25,6 +26,14 @@ class SchlosskombinationExtensions extends BasisObjektExtensions {
 	def static Unterbringung getUnterbringung(
 		Schlosskombination schlosskombination) {
 		return schlosskombination.IDUnterbringung?.value
+	}
+
+	def static Iterable<Schloss> getSchloesser(Schlosskombination schlossKombi) {
+		return schlossKombi === null
+			? #[]
+			: schlossKombi.container.schloss.filter [
+			schlossSk?.IDSchlosskombination?.value === schlossKombi
+		]
 	}
 
 }

@@ -31,6 +31,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 
 /**
  * This class extends {@link W_Kr_Gsp_Element}.
@@ -182,11 +183,20 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 		W_Kr_Gsp_Element element, TOP_Kante legTopKante) {
 		return element.container.fstrZugRangier.filter [
 			val fstrFW = IDFstrFahrweg?.value
-			fstrZug !== null && IDFstrFahrweg?.value.bereichObjektTeilbereich.map [
-				topKante
-			].contains(legTopKante) && element.getWKrGspKomponenten.exists [
-				fstrFW.intersects(it)
-			]
+			fstrZug !== null &&
+				IDFstrFahrweg?.value.bereichObjektTeilbereich.map [
+					topKante
+				].contains(legTopKante) && element.getWKrGspKomponenten.exists [
+					fstrFW.intersects(it)
+				]
 		].filterNull.toSet
+	}
+
+	static def List<Gleis_Abschnitt> getGleisAbschnitt(
+		W_Kr_Gsp_Element element) {
+		return #[element.weicheElement.GZFreimeldungL.element,
+			element.weicheElement.GZFreimeldungR.element].filter(
+			Gleis_Abschnitt).toList
+
 	}
 }
