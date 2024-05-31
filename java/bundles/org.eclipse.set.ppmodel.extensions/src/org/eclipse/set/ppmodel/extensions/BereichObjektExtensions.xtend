@@ -585,7 +585,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	def static BigDecimal getOverlappingLength(
 		Bereich_Objekt_Teilbereich_AttributeGroup tba,
 		Bereich_Objekt_Teilbereich_AttributeGroup tbb) {
-		if (tba.IDTOPKante?.wert !== tbb.IDTOPKante?.wert)
+		if (tba.IDTOPKante?.wert != tbb.IDTOPKante?.wert)
 			return BigDecimal.ZERO
 
 		val taA = tba.begrenzungA?.wert

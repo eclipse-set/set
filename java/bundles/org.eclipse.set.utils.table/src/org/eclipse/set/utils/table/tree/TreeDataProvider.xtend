@@ -285,7 +285,7 @@ class TreeDataProvider extends TableDataProvider implements ITreeData<TableRowDa
 			return
 		}
 		val childsIndex = parentRow.children.map[rowIndex]
-		if (hiddenRowsIndex.containsAll(childsIndex)) {
+		if (childsIndex.exists[hiddenRowsIndex.contains(it)]) {
 			hiddenRowsIndex.removeAll(childsIndex)
 		} else {
 			hiddenRowsIndex.addAll(childsIndex)

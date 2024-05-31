@@ -48,7 +48,7 @@ class TrackNetworkServiceImpl implements TrackNetworkService {
 	}
 
 	override getTOPKanteMetaData(List<TOP_Kante> topKanten, String guid) {
-		return topKanten.findFirst[identitaet.wert === guid]?.TOPKanteMetaData
+		return topKanten.findFirst[identitaet?.wert == guid]?.TOPKanteMetaData
 	}
 
 	override getTOPKanteMetaData(TOP_Knoten topKnoten) {
