@@ -903,7 +903,7 @@ npm/npmjs/@typescript-eslint/typescript-estree/7.10.0, BSD-2-Clause AND MIT AND 
 npm/npmjs/@typescript-eslint/utils/7.10.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #14837
 npm/npmjs/@typescript-eslint/visitor-keys/7.10.0, MIT, approved, clearlydefined
 npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
-npm/npmjs/@vitejs/plugin-vue/5.0.4, MIT, approved, #12651
+npm/npmjs/@vitejs/plugin-vue/5.0.5, MIT, approved, #12651
 npm/npmjs/@vue/compiler-core/3.4.27, MIT, approved, #12582
 npm/npmjs/@vue/compiler-dom/3.4.27, MIT, approved, #12581
 npm/npmjs/@vue/compiler-sfc/3.4.27, MIT, approved, #12654
