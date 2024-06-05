@@ -20,7 +20,7 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
 import jakarta.inject.Inject;
 
 /**
- * Helper clasf for injection service
+ * Helper class for injection service
  */
 @SuppressWarnings("javadoc")
 public class ServiceProvider {
