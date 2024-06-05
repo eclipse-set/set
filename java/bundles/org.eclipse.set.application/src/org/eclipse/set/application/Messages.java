@@ -168,11 +168,12 @@ public class Messages {
 
 	/**
 	 * Select alle Stellbereich
+	 * Alle Stellbereiche
 	 */
 	public String PlaceAreaCombo_All;
 
 	/**
-	 * gesamter Planungsinhalt
+	 * Gesamter Planungsinhalt
 	 */
 	public String PlaceAreaCombo_Default_Value;
 }
