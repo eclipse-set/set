@@ -2,10 +2,16 @@
 name: Build SET
 
 on: 
+  repository_dispatch:
+  pull_request:
   push:
+    tags:
+      - 'v**'
+    branches:
+      - 'release/**'
+      - 'main'
     paths-ignore:
       - DEPENDENCIES
-  repository_dispatch:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -9,12 +9,14 @@
 
 package org.eclipse.set.utils.table.menu;
 
-import java.util.Set;
+import java.util.List;
 import java.util.function.IntPredicate;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
+import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
+import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 
 /**
@@ -27,7 +29,7 @@ public interface TableMenuService {
 	/**
 	 * @return list of menu item
 	 */
-	Set<TableBodyMenuItem> getMenuItems();
+	List<TableBodyMenuItem> getMenuItems();
 
 	/**
 	 * @param menuItem
@@ -49,12 +51,26 @@ public interface TableMenuService {
 	/**
 	 * @param jumpEvent
 	 *            the {@link JumpToSourceLineEvent}
+	 * @param selectionLayer
+	 *            the selection layer
 	 * @param enablePredicate
 	 *            condition for enable this item
 	 * @return show text view item
 	 */
 	TableBodyMenuItem createShowInTextViewItem(
 			final JumpToSourceLineEvent jumpEvent,
-			IntPredicate enablePredicate);
+			final SelectionLayer selectionLayer, IntPredicate enablePredicate);
 
+	/**
+	 * @param jumpEvent
+	 *            the {@link TableSelectRowByGuidEvent}
+	 * @param selectionLayer
+	 *            the selection layer
+	 * @param enablePredicate
+	 *            condition for enable this item
+	 * @return show in siteplace item
+	 */
+	TableBodyMenuItem createShowInSitePlanItem(
+			final JumpToSiteplanEvent jumpEvent,
+			final SelectionLayer selectionLayer, IntPredicate enablePredicate);
 }

@@ -44,8 +44,8 @@
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//TableRow">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/cells"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/footnotes"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//TableRow/rowIndex"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableRow/footnotes"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//TableCell">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tablemodel.ecore#//TableCell/content"/>
@@ -63,16 +63,21 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//CompareCellContent/newValue"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//CellAnnotation"/>
-    <genClasses ecoreClass="tablemodel.ecore#//Footnote">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//Footnote/number"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//Footnote/text"/>
-    </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//MultiColorCellContent">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tablemodel.ecore#//MultiColorCellContent/value"/>
     </genClasses>
     <genClasses ecoreClass="tablemodel.ecore#//MultiColorContent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorContent/multiColorValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorContent/stringFormat"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tablemodel.ecore#//FootnoteContainer"/>
+    <genClasses ecoreClass="tablemodel.ecore#//CompareFootnoteContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute tablemodel.ecore#//CompareFootnoteContainer/oldFootnotes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute tablemodel.ecore#//CompareFootnoteContainer/newFootnotes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//CompareFootnoteContainer/unchangedFootnotes"/>
+    </genClasses>
+    <genClasses ecoreClass="tablemodel.ecore#//SimpleFootnoteContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute tablemodel.ecore#//SimpleFootnoteContainer/footnotes"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

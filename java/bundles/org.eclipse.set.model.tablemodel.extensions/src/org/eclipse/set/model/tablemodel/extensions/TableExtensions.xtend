@@ -16,21 +16,24 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 import org.eclipse.set.model.tablemodel.RowGroup
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.tablemodel.TablemodelPackage
 import org.eclipse.set.model.tablemodel.extensions.internal.TableToFootnoteText
 import org.eclipse.set.model.tablemodel.format.TextAlignment
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import org.eclipse.emf.ecore.EObject
 
 /**
  * Extensions for {@link Table}.
@@ -309,25 +312,6 @@ class TableExtensions {
 		resource.save(Collections.EMPTY_MAP)
 	}
 
-	/**
-	 * @param table this table
-	 * 
-	 * @return the next footnote number for this table
-	 */
-	static def int getNextFootnoteNumber(Table table) {
-		return table.maxFootnoteNumber + 1
-	}
-
-	/**
-	 * @param table this table
-	 * 
-	 * @return the maximum footnote number for this table
-	 */
-	static def int getMaxFootnoteNumber(Table table) {
-		return table.tablecontent.rowgroups.fold(0, [ n, g |
-			Math.max(n, g.maxFootnoteNumber)
-		])
-	}
 
 	/**
 	 * @param filepath the file path
@@ -377,5 +361,27 @@ class TableExtensions {
 			rowIndex += rowGroup.getRows().size();
 		}
 		return -1;
+	}
+	
+	static def Iterable<Pair<Integer, String>> getAllFootnotes(Table table)
+	{
+		return (table.eAllContents.filter(SimpleFootnoteContainer).map[footnotes] + 
+			table.eAllContents.filter(CompareFootnoteContainer).map[oldFootnotes] +
+			table.eAllContents.filter(CompareFootnoteContainer).map[unchangedFootnotes] + 
+			table.eAllContents.filter(CompareFootnoteContainer).map[newFootnotes]).toList.flatten.toSet.indexed.map
+			[(key +1) -> value]
+	}
+	
+	static def int getFootnoteNumber(Table table, String fn) {
+		return table.allFootnotes.findFirst[value == fn].key
+	}
+	
+		
+	static def int getFootnoteNumber(EObject tableContent, String fn) {
+		var object = tableContent
+		while(!(object instanceof Table)) {
+			object = object.eContainer	
+		}
+		return getFootnoteNumber(object as Table, fn)
 	}
 }

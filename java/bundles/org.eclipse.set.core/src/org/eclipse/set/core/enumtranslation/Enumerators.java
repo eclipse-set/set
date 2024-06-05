@@ -18673,7 +18673,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchienenprofil_R65_Alternative;
 
 	/**
-	 * S 49
+	 * 49 E 5 (S 49)
 	 */
 	public String ENUMSchienenprofil_S49_Presentation;
 
@@ -18683,12 +18683,12 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchienenprofil_S49_Sorting;
 
 	/**
-	 * S 49
+	 * 49 E 5 (S 49)
 	 */
 	public String ENUMSchienenprofil_S49_Alternative;
 
 	/**
-	 * S 54
+	 * 54 E 4 (S 54)
 	 */
 	public String ENUMSchienenprofil_S54_Presentation;
 
@@ -18698,7 +18698,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchienenprofil_S54_Sorting;
 
 	/**
-	 * S 54
+	 * 54 E 4 (S 54)
 	 */
 	public String ENUMSchienenprofil_S54_Alternative;
 
@@ -18718,7 +18718,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchienenprofil_sonstige_Alternative;
 
 	/**
-	 * UIC 60
+	 * 60 E 2 (UIC 60)
 	 */
 	public String ENUMSchienenprofil_UIC60_Presentation;
 
@@ -18728,7 +18728,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMSchienenprofil_UIC60_Sorting;
 
 	/**
-	 * UIC 60
+	 * 60 E 2 (UIC 60)
 	 */
 	public String ENUMSchienenprofil_UIC60_Alternative;
 

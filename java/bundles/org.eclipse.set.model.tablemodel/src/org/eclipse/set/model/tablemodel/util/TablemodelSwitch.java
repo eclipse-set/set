@@ -134,12 +134,6 @@ public class TablemodelSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case TablemodelPackage.FOOTNOTE: {
-				Footnote footnote = (Footnote)theEObject;
-				T result = caseFootnote(footnote);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT: {
 				MultiColorCellContent multiColorCellContent = (MultiColorCellContent)theEObject;
 				T result = caseMultiColorCellContent(multiColorCellContent);
@@ -150,6 +144,26 @@ public class TablemodelSwitch<T> extends Switch<T> {
 			case TablemodelPackage.MULTI_COLOR_CONTENT: {
 				MultiColorContent multiColorContent = (MultiColorContent)theEObject;
 				T result = caseMultiColorContent(multiColorContent);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TablemodelPackage.FOOTNOTE_CONTAINER: {
+				FootnoteContainer footnoteContainer = (FootnoteContainer)theEObject;
+				T result = caseFootnoteContainer(footnoteContainer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER: {
+				CompareFootnoteContainer compareFootnoteContainer = (CompareFootnoteContainer)theEObject;
+				T result = caseCompareFootnoteContainer(compareFootnoteContainer);
+				if (result == null) result = caseFootnoteContainer(compareFootnoteContainer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER: {
+				SimpleFootnoteContainer simpleFootnoteContainer = (SimpleFootnoteContainer)theEObject;
+				T result = caseSimpleFootnoteContainer(simpleFootnoteContainer);
+				if (result == null) result = caseFootnoteContainer(simpleFootnoteContainer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -307,20 +321,6 @@ public class TablemodelSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Footnote</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Footnote</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseFootnote(Footnote object) {
-		return null;
-	}
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Multi Color Cell Content</em>'.
@@ -349,6 +349,51 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMultiColorContent(MultiColorContent object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Footnote Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFootnoteContainer(FootnoteContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Compare Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Compare Footnote Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCompareFootnoteContainer(CompareFootnoteContainer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Simple Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Simple Footnote Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSimpleFootnoteContainer(SimpleFootnoteContainer object) {
 		return null;
 	}
 

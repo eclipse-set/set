@@ -22,6 +22,7 @@ import org.eclipse.set.core.services.version.PlanProVersionService;
 import org.eclipse.set.model.validationreport.ContainerContent;
 import org.eclipse.set.model.validationreport.FileInfo;
 import org.eclipse.set.model.validationreport.ValidationreportFactory;
+import org.eclipse.set.utils.xml.XMLNodeFinder;
 import org.w3c.dom.Node;
 
 /**

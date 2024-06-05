@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.plazmodel.table;
 
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.Messages;
 import org.eclipse.set.model.plazmodel.PlazReport;
@@ -16,6 +17,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
+import org.eclipse.set.utils.xml.XMLNodeFinder;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -32,6 +34,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 	private NatTable natTable;
 
 	private final TableMenuService tableMenuService;
+	private final XMLNodeFinder xmlNodeFinder;
 
 	/**
 	 * @param part
@@ -50,6 +53,9 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		this.messages = messages;
 		this.tableMenuService = tableMenuService;
 		this.enumTranslationService = enumTranslationService;
+		final ToolboxFile toolboxFile = part.getModelSession().getToolboxFile();
+		this.xmlNodeFinder = new XMLNodeFinder();
+		xmlNodeFinder.read(toolboxFile, toolboxFile.getModelPath());
 	}
 
 	/**
@@ -71,6 +77,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 		this.createTableBodyData(table, rowIndex -> validationReport
 				.getEntries().get(rowIndex - 1).getLineNumber());
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
+		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
 		natTable = createTable(parent, table, tableMenuService);
 
 		return natTable;
@@ -94,5 +101,10 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 	@Override
 	protected TableMenuService getTableMenuService() {
 		return tableMenuService;
+	}
+
+	@Override
+	protected XMLNodeFinder getXMLNodeFinder() {
+		return xmlNodeFinder;
 	}
 }

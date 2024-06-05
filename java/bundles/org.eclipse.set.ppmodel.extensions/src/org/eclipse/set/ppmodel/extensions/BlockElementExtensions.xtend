@@ -57,8 +57,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 	def static Set<Block_Anlage> getBlockAnlagenZiel(
 		Block_Element blockElement) {
 		return blockElement.container.blockAnlage.filter [
-			it?.IDBlockElementB?.wert ==
-				blockElement.identitaet.wert
+			it?.IDBlockElementB?.wert == blockElement.identitaet.wert
 		].toSet;
 	}
 
@@ -82,7 +81,8 @@ class BlockElementExtensions extends BasisObjektExtensions {
 				// nothing to do
 			}
 			try {
-				val fmaKomponente = schaltmittel.IDSchalter?.value as FMA_Komponente
+				val fmaKomponente = schaltmittel.IDSchalter?.
+					value as FMA_Komponente
 				if (fmaKomponente !== null) {
 					return fmaKomponente.bezeichnung?.bezeichnungTabelle?.wert
 				}
@@ -90,7 +90,8 @@ class BlockElementExtensions extends BasisObjektExtensions {
 				// nothing to do
 			}
 			try {
-				val zugeinwirkung = schaltmittel.IDSchalter?.value as Zugeinwirkung
+				val zugeinwirkung = schaltmittel.IDSchalter?.
+					value as Zugeinwirkung
 
 				if (zugeinwirkung !== null) {
 					return zugeinwirkung.bezeichnung?.bezeichnungTabelle?.wert
@@ -122,8 +123,8 @@ class BlockElementExtensions extends BasisObjektExtensions {
 
 		try {
 			for (Signal signal : blockElement.container.signal) {
-				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.value?.identitaet?.
-					wert == blockElement?.identitaet?.wert) {
+				if (signal?.signalFstr?.IDRaZielErlaubnisabhaengig?.wert ==
+					blockElement?.identitaet?.wert) {
 					return signal
 				}
 			}
@@ -142,7 +143,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 			for (Fstr_Zug_Rangier zugRangier : blockElement.container.
 				fstrZugRangier) {
 				if (zugRangier?.fstrFahrweg?.zielPunkt?.
-					IDDWegErlaubnisabhaengig?.value?.identitaet?.wert ==
+					IDDWegErlaubnisabhaengig?.wert ==
 					blockElement?.identitaet?.wert) {
 					return zugRangier
 				}

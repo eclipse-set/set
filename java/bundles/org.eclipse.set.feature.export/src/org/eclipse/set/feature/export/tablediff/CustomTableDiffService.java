@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
-import org.eclipse.set.model.tablemodel.Footnote;
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.RowGroup;
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableCell;
@@ -25,8 +28,6 @@ import org.eclipse.set.model.tablemodel.TablemodelFactory;
 import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.table.TableDiffService;
-import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -86,13 +87,6 @@ public class CustomTableDiffService implements TableDiffService {
 		}
 	}
 
-	private static void copyFootnotes(final TableRow source,
-			final TableRow destination) {
-		final List<Footnote> destinationFootnotes = destination.getFootnotes();
-		source.getFootnotes().stream()
-				.forEach(f -> destinationFootnotes.add(EcoreUtil.copy(f)));
-	}
-
 	private static void createDiffContent(final int i, final TableRow row,
 			final TableRow match) {
 		final TableCell oldCell = row.getCells().get(i);
@@ -125,13 +119,44 @@ public class CustomTableDiffService implements TableDiffService {
 
 	private static void matchRow(final TableRow row, final Table newTable) {
 		final TableRow match = TableExtensions.getMatchingRow(newTable, row);
+		// Create diff content
 		for (int i = 0; i < row.getCells().size(); i++) {
 			createDiffContent(i, row, match);
 		}
-		row.getFootnotes().clear();
-		if (match != null) {
-			copyFootnotes(match, row);
+
+		// Create diff footnotes
+		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
+				.createCompareFootnoteContainer();
+
+		final List<String> oldFootnotes = getFootnotes(row);
+		final List<String> newFootnotes = getFootnotes(match);
+
+		for (final String footnote : oldFootnotes) {
+			if (newFootnotes.stream().anyMatch(c -> c.equals(footnote))) {
+				diffFootnotes.getUnchangedFootnotes().add(footnote);
+			} else {
+				diffFootnotes.getOldFootnotes().add(footnote);
+			}
 		}
+
+		for (final String footnote : newFootnotes) {
+			if (oldFootnotes.stream().anyMatch(c -> c.equals(footnote))) {
+				// do nothing (already added by for loop above)
+			} else {
+				diffFootnotes.getNewFootnotes().add(footnote);
+			}
+		}
+
+		row.setFootnotes(diffFootnotes);
+	}
+
+	private static List<String> getFootnotes(final TableRow row) {
+		if (row == null || row.getFootnotes() == null
+				|| ((SimpleFootnoteContainer) row.getFootnotes())
+						.getFootnotes() == null) {
+			return List.of();
+		}
+		return ((SimpleFootnoteContainer) row.getFootnotes()).getFootnotes();
 	}
 
 	private static Table matchRows(final Table expanded, final Table newTable) {

@@ -43,7 +43,6 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getGuid <em>Guid</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getRole <em>Role</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getSystem <em>System</em>}</li>
  *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getScreen <em>Screen</em>}</li>
@@ -56,26 +55,6 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * @generated
  */
 public class SignalImpl extends RouteObjectImpl implements Signal {
-	/**
-	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGuid()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String GUID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getGuid()
-	 * @generated
-	 * @ordered
-	 */
-	protected String guid = GUID_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getRole() <em>Role</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -193,29 +172,6 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	@Override
 	protected EClass eStaticClass() {
 		return SiteplanPackage.Literals.SIGNAL;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String getGuid() {
-		return guid;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void setGuid(String newGuid) {
-		String oldGuid = guid;
-		guid = newGuid;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__GUID, oldGuid, guid));
 	}
 
 	/**
@@ -429,8 +385,6 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SiteplanPackage.SIGNAL__GUID:
-				return getGuid();
 			case SiteplanPackage.SIGNAL__ROLE:
 				return getRole();
 			case SiteplanPackage.SIGNAL__SYSTEM:
@@ -458,9 +412,6 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SiteplanPackage.SIGNAL__GUID:
-				setGuid((String)newValue);
-				return;
 			case SiteplanPackage.SIGNAL__ROLE:
 				setRole((SignalRole)newValue);
 				return;
@@ -496,9 +447,6 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SiteplanPackage.SIGNAL__GUID:
-				setGuid(GUID_EDEFAULT);
-				return;
 			case SiteplanPackage.SIGNAL__ROLE:
 				setRole(ROLE_EDEFAULT);
 				return;
@@ -532,8 +480,6 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SiteplanPackage.SIGNAL__GUID:
-				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
 			case SiteplanPackage.SIGNAL__ROLE:
 				return role != ROLE_EDEFAULT;
 			case SiteplanPackage.SIGNAL__SYSTEM:
@@ -562,9 +508,7 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (guid: ");
-		result.append(guid);
-		result.append(", role: ");
+		result.append(" (role: ");
 		result.append(role);
 		result.append(", system: ");
 		result.append(system);

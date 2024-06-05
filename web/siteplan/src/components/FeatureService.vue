@@ -105,10 +105,10 @@ import PlanProToolbox from '@/util/PlanProToolbox'
   }
 })
 export default class FeatureService extends Vue {
-  static COLOR_UNCHANGED_VIEW = [140, 150, 157]
-  static COLOR_UNCHANGED_PLANNING = [0, 0, 0]
-  static COLOR_ADDED = [179, 40, 33] // RAL3016
-  static COLOR_REMOVED = [241, 221, 56] // RAL1016
+  static readonly COLOR_UNCHANGED_VIEW = [140, 150, 157]
+  static readonly COLOR_UNCHANGED_PLANNING = [0, 0, 0]
+  static readonly COLOR_ADDED = [179, 40, 33] // RAL3016
+  static readonly COLOR_REMOVED = [241, 221, 56] // RAL1016
 
   featureLayers: NamedFeatureLayer[] = []
   unsubscribe: SubscribeOptions|undefined
@@ -234,7 +234,7 @@ export default class FeatureService extends Vue {
               .map(state => featureClass.getFeatures(state))
               .flat()
               .map(feature => featureClass.setFeatureColor(feature))
-          case TableType.DIFF:
+          case TableType.DIFF:{
             const compareState = featureClass.compareChangedState(
               model.changedInitialState,
               model.changedFinalState
@@ -259,6 +259,7 @@ export default class FeatureService extends Vue {
                     SiteplanColorValue.COLOR_REMOVED
                   ))
             ].flat()
+          }
         }
       } else {
         return [model.commonState, model.finalState, model.changedInitialState]

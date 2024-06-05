@@ -82,6 +82,11 @@ public final class ToolboxConstants {
 		 */
 		public static final String TABLE_ERRORS = "toolbox.cache.table-errors";
 
+		/**
+		 * The id of the siteplan
+		 */
+		public static final String SITEPLAN_CACHE_ID = "toolbox.cache.siteplan";
+
 	}
 
 	/**
@@ -151,6 +156,11 @@ public final class ToolboxConstants {
 	 * The id of the project part.
 	 */
 	public static final String PROJECT_PART_ID = "org.eclipse.set.feature.projectdata.edit.ProjectPart";
+
+	/**
+	 * The id of the project part.
+	 */
+	public static final String PROJECT_IMPORTPART_ID = "org.eclipse.set.feature.projectdata.ppimport.PlanProImportPart";
 
 	/**
 	 * The id of the table key to table cache.

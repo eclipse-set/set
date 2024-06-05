@@ -74,4 +74,14 @@ public interface Events {
 	 * Require doing plaz check
 	 */
 	String DO_PLAZ_CHECK = "plazmodel/check";
+
+	/**
+	 * When open siteplan
+	 */
+	String SITEPLAN_OPENING = "siteplan/open";
+
+	/**
+	 * When open siteplan firsttime
+	 */
+	String SITEPLAN_OPEN_FIRST_TIME = "siteplan/open/firsttime";
 }

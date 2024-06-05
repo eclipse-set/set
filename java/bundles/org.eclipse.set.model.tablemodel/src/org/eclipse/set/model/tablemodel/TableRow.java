@@ -26,8 +26,8 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.TableRow#getCells <em>Cells</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes <em>Footnotes</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row Index</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes <em>Footnotes</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getTableRow()
@@ -51,19 +51,26 @@ public interface TableRow extends EObject {
 	EList<TableCell> getCells();
 
 	/**
-	 * Returns the value of the '<em><b>Footnotes</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.tablemodel.Footnote}.
+	 * Returns the value of the '<em><b>Footnotes</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * List of footnotes for the row.
-	 * <!-- end-model-doc -->
-	 * @return the value of the '<em>Footnotes</em>' containment reference list.
+	 * @return the value of the '<em>Footnotes</em>' containment reference.
+	 * @see #setFootnotes(FootnoteContainer)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getTableRow_Footnotes()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Footnote> getFootnotes();
+	FootnoteContainer getFootnotes();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes <em>Footnotes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Footnotes</em>' containment reference.
+	 * @see #getFootnotes()
+	 * @generated
+	 */
+	void setFootnotes(FootnoteContainer value);
 
 	/**
 	 * Returns the value of the '<em><b>Row Index</b></em>' attribute.

@@ -8,20 +8,25 @@
  */
 package org.eclipse.set.feature.export.pdf
 
-import com.google.common.collect.Maps
+import java.util.List
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
-import org.eclipse.set.model.tablemodel.Footnote
+import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+import org.eclipse.set.model.tablemodel.FootnoteContainer
+import org.eclipse.set.model.tablemodel.MultiColorCellContent
+import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.titlebox.PlanningOffice
+import org.eclipse.set.model.titlebox.StringField
 import org.eclipse.set.model.titlebox.Titlebox
 import org.eclipse.set.utils.ToolboxConfiguration
-import java.util.List
-import java.util.Map
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
+import org.eclipse.set.utils.table.TableSpanUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.w3c.dom.Attr
@@ -33,11 +38,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.utils.table.TableSpanUtils
-import org.eclipse.set.model.tablemodel.MultiColorCellContent
-import org.eclipse.set.model.tablemodel.MultiColorContent
-import org.eclipse.set.model.titlebox.PlanningOffice
-import org.eclipse.set.model.titlebox.StringField
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -52,8 +52,9 @@ class TableToTableDocument {
 	val Document doc
 	var String tablename
 	var int groupNumber
-	val Map<Integer, Footnote> footnotes = Maps.newHashMap
 	var TableSpanUtils spanUtils
+
+	static val String FOOTNOTE_SEPARATOR = ", "
 
 	private new() throws ParserConfigurationException {
 		val docFactory = DocumentBuilderFactory.newInstance
@@ -96,7 +97,7 @@ class TableToTableDocument {
 	private def Element create doc.createElement("Table") transform(Table table,
 		Titlebox titlebox, FreeFieldInfo freeFieldInfo) {
 		appendChild(table.tablecontent.transform)
-		appendChild(footnotes.transformToFootnotes)
+		appendChild(transformToFootnotes(table))
 		appendChild(titlebox.transform)
 		appendChild(freeFieldInfo.transform)
 		return
@@ -164,13 +165,10 @@ class TableToTableDocument {
 
 			if (rowSpan > 0) {
 				rowElement.appendChild(
-					value.createCell(key + 1, rowSpan, isRemarkColumn))
+					value.createCell(row.footnotes, key + 1, rowSpan,
+						isRemarkColumn))
 			}
 		]
-
-		// remember footnotes for later
-		row.footnotes.forEach[footnotes.put(number, it)]
-
 		return
 	}
 
@@ -182,40 +180,28 @@ class TableToTableDocument {
 	}
 
 	private def dispatch Element createCell(CellContent content,
+		FootnoteContainer fc, int columnNumber, int rowSpan,
+		boolean isRemarkColumn) {
+		val cellElement = doc.createElement("Cell")
+
+		cellElement.attributeNode = createColumnAttribute(columnNumber)
+		cellElement.attributeNode = createRowSpanAttribute(rowSpan)
+		cellElement.appendChild(
+			content.createContent(fc, columnNumber, isRemarkColumn))
+
+		return cellElement
+	}
+
+	private def dispatch Element createCell(Void content, FootnoteContainer fc,
 		int columnNumber, int rowSpan, boolean isRemarkColumn) {
 		val cellElement = doc.createElement("Cell")
 
 		cellElement.attributeNode = createColumnAttribute(columnNumber)
 		cellElement.attributeNode = createRowSpanAttribute(rowSpan)
 		cellElement.appendChild(
-			content.createContent(columnNumber, isRemarkColumn))
+			null.createContent(fc, columnNumber, isRemarkColumn))
 
 		return cellElement
-	}
-
-	private def dispatch Element createCell(Void content, int columnNumber,
-		int rowSpan, boolean isRemarkColumn) {
-		val cellElement = doc.createElement("Cell")
-
-		cellElement.attributeNode = createColumnAttribute(columnNumber)
-		cellElement.attributeNode = createRowSpanAttribute(rowSpan)
-		cellElement.appendChild(
-			null.createContent(columnNumber, isRemarkColumn))
-
-		return cellElement
-	}
-
-	private def Element create doc.createElement("Footnote") transform(
-		Footnote footnote) {
-		attributeNode = footnote.createFootnoteAttribute
-		textContent = footnote.text
-		return
-	}
-
-	private def Attr createFootnoteAttribute(Footnote footnote) {
-		val footnoteAttr = doc.createAttribute("footnote-number")
-		footnoteAttr.value = Integer.toString(footnote.number)
-		return footnoteAttr
 	}
 
 	private def boolean isRemarkColumn(CellContent content,
@@ -245,28 +231,45 @@ class TableToTableDocument {
 	}
 
 	private def dispatch Element createContent(CellContent content,
-		int columnNumber, boolean isRemarkColumn) {
-		val element = doc.createElement("StringContent")
+		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
+		var element = doc.createElement("StringContent")
+		if (isRemarkColumn)
+			element = doc.createElement("DiffContent")
+
 		val stringValue = content.plainStringValue
-		element.textContent = if (isRemarkColumn)
-			stringValue.checkForTestOutput(columnNumber)
-		else
-			stringValue.checkForTestOutput(columnNumber).
-				intersperseWithZeroSpacesSC
+		if (isRemarkColumn) {
+			val child = createCompareValueElement(WARNING_MARK_BLACK,
+				stringValue)
+			element.appendChild(
+				stringValue.addContentToElement(child, columnNumber,
+					isRemarkColumn))
+			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
+		} else {
+			element.textContent = if (isRemarkColumn)
+				stringValue.checkForTestOutput(columnNumber)
+			else
+				stringValue.checkForTestOutput(columnNumber).
+					intersperseWithZeroSpacesSC
+
+		}
+
 		return element
 	}
 
-	private def dispatch Element createContent(Void content, int columnNumber,
-		boolean isRemarkColumn) {
+	private def dispatch Element createContent(Void content,
+		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("StringContent")
 		element.textContent = "".checkForTestOutput(columnNumber)
-		logger.
-			warn('''no content at groupNumber=«groupNumber» column=«columnNumber»''')
+		if (isRemarkColumn) {
+			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
+		} else
+			logger.
+				warn('''no content at groupNumber=«groupNumber» column=«columnNumber»''')
 		return element
 	}
 
 	private def dispatch Element createContent(CompareCellContent content,
-		int columnNumber, boolean isRemarkColumn) {
+		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
 		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.
 			forEach [
@@ -276,7 +279,73 @@ class TableToTableDocument {
 				element.appendChild(
 					addContentToElement(child, columnNumber, isRemarkColumn))
 			]
+
+		if (isRemarkColumn) {
+			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
+		}
 		return element
+	}
+
+	private def dispatch Element createContent(MultiColorCellContent content,
+		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
+		val element = doc.createElement("MultiColorContent")
+		for (var i = 0; i < content.value.size; i++) {
+			element.appendChild(
+				content.value.get(i).createMultiColorElement(columnNumber,
+					isRemarkColumn))
+			if (i < content.value.size - 1) {
+				val separator = doc.createElement("SimpleValue")
+				separator.textContent = content.separator
+				element.appendChild(separator)
+			}
+		}
+
+		if (isRemarkColumn) {
+			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
+		}
+		return element
+	}
+
+	private def void addFootnoteChild(Element element, String content,
+		String mark, int columnNumber, boolean isRemarkColumn) {
+		val child = createCompareValueElement(mark, content)
+		element.appendChild(
+			content.addContentToElement(child, columnNumber, isRemarkColumn))
+	}
+
+	private dispatch def void addFootnoteContent(Element element, Void fc,
+		int columnNumber, boolean isRemarkColumn) {
+		// No footnotes
+	}
+
+	private dispatch def void addFootnoteContent(Element element,
+		SimpleFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
+
+		val footnotes = fc.footnotes.map['''*«getFootnoteNumber(fc, it)»'''].
+			iterableToString(FOOTNOTE_SEPARATOR)
+		element.addFootnoteChild(footnotes, WARNING_MARK_BLACK, columnNumber,
+			isRemarkColumn)
+	}
+
+	private dispatch def void addFootnoteContent(Element element,
+		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
+
+		val oldFootnotes = fc.oldFootnotes.map [
+			'''*«getFootnoteNumber(fc, it)»'''
+		].iterableToString(FOOTNOTE_SEPARATOR)
+		val newFootnotes = fc.newFootnotes.map [
+			'''*«getFootnoteNumber(fc, it)»'''
+		].iterableToString(FOOTNOTE_SEPARATOR)
+		val unchangedFootnotes = fc.unchangedFootnotes.map [
+			'''*«getFootnoteNumber(fc, it)»'''
+		].iterableToString(FOOTNOTE_SEPARATOR)
+
+		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
+			columnNumber, isRemarkColumn)
+		element.addFootnoteChild(unchangedFootnotes, WARNING_MARK_BLACK,
+			columnNumber, isRemarkColumn)
+		element.addFootnoteChild(newFootnotes, WARNING_MARK_RED, columnNumber,
+			isRemarkColumn)
 	}
 
 	private def Element createCompareValueElement(String warning_mark,
@@ -291,22 +360,6 @@ class TableToTableDocument {
 			default:
 				return null
 		}
-	}
-
-	private def dispatch Element createContent(MultiColorCellContent content,
-		int columnNumber, boolean isRemarkColumn) {
-		val element = doc.createElement("MultiColorContent")
-		for (var i = 0; i < content.value.size; i++) {
-			element.appendChild(
-				content.value.get(i).createMultiColorElement(columnNumber,
-					isRemarkColumn))
-			if (i < content.value.size - 1) {
-				val separator = doc.createElement("SimpleValue")
-				separator.textContent = content.separator
-				element.appendChild(separator)
-			}
-		}
-		return element
 	}
 
 	private def Element createMultiColorElement(MultiColorContent content,
@@ -391,8 +444,7 @@ class TableToTableDocument {
 		return
 	}
 
-	private def Attr transformToAddressAttr(
-		int index) {
+	private def Attr transformToAddressAttr(int index) {
 		val address = index + 1
 		return transformToAttr(address.toString, "address")
 	}
@@ -420,11 +472,24 @@ class TableToTableDocument {
 	}
 
 	private def Element create doc.createElement("Footnotes")
-	transformToFootnotes(Map<Integer, Footnote> footnotes) {
+	transformToFootnotes(Table table) {
 		val element = it
-		footnotes.keySet.sort.forEach [
-			element.appendChild(footnotes.get(it).transform)
+		table.allFootnotes.forEach [
+			element.appendChild(transform(it))
 		]
 		return
+	}
+
+	private def Element transform(Pair<Integer, String> footnote) {
+		val it = doc.createElement("Footnote")
+		attributeNode = createFootnoteAttribute(footnote.key)
+		textContent = footnote.value
+		return it
+	}
+
+	private def Attr createFootnoteAttribute(Integer number) {
+		val footnoteAttr = doc.createAttribute("footnote-number")
+		footnoteAttr.value = Integer.toString(number)
+		return footnoteAttr
 	}
 }

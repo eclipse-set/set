@@ -10,12 +10,11 @@ package org.eclipse.set.utils.widgets;
 
 import java.util.List;
 
+import org.eclipse.set.basis.files.ToolboxFileFilter;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-
-import org.eclipse.set.basis.files.ToolboxFileFilter;
-import org.eclipse.set.core.services.dialog.DialogService;
 
 /**
  * A file field with an additional combo box.
@@ -86,7 +85,7 @@ public class FileFieldCombo<T> extends FileField {
 	 */
 	public void setComboValues(final ComboValues<T> values) {
 		this.values = values;
-		combo.setItems(values.getItems());
-		combo.select(values.getDefault());
+		combo.setItems(values.getComboValues());
+		combo.select(values.getDefaultIndex());
 	}
 }

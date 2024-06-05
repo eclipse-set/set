@@ -59,11 +59,9 @@ export default class SignalFeature extends LageplanFeature<SignalMount> {
       const style = this.svgService.getFeatureStyle(signalMount, FeatureType.Signal)
       // Rescale the feature according to the current zoom level
       // to keep a constant size
-      style
-        .getImage()
-        .setScale(scale)
+      style.getImage()?.setScale(scale)
       // Rotate the feature
-      style.getImage().setRotation(((signalMount.position.rotation) * Math.PI) / 180)
+      style.getImage()?.setRotation(((signalMount.position.rotation) * Math.PI) / 180)
       return style
     })
     return feature

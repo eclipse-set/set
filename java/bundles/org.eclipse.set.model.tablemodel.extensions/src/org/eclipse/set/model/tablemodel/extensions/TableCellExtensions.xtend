@@ -35,6 +35,10 @@ class TableCellExtensions {
 	 * @return a formatted string representation of the cell content
 	 */
 	static def String getRichTextValue(TableCell cell) {
+		if(cell.columndescriptor.isFootnoteReferenceColumn)
+		{
+			return cell.content.getRichTextValueWithFootnotes((cell.eContainer as TableRow).footnotes)
+		}
 		return cell.content.richTextValue
 	}
  

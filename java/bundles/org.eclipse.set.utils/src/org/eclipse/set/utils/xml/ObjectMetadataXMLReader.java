@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.validation.utils;
+package org.eclipse.set.utils.xml;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -17,7 +17,6 @@ import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.model.validationreport.ObjectScope;
 import org.eclipse.set.model.validationreport.ObjectState;
-import org.eclipse.set.utils.xml.LineNumberXMLReader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -32,10 +31,10 @@ public class ObjectMetadataXMLReader {
 	private static final String METADATA_READER_KEY = "metadataReader"; //$NON-NLS-1$
 
 	private final Path documentPath;
-	private final ValidationObjectTypeProvider validationObjectTypeProvider;
-	private final ValidationObjectScopeProvider validationObjectScopeProvider;
-	private final ValidationObjectStateProvider validationObjectStateProvider;
-	private final ValidationAttributeNameProvider validationAttributeNameProvider;
+	private final NodeObjectTypeProvider validationObjectTypeProvider;
+	private final NodeObjectScopeProvider validationObjectScopeProvider;
+	private final NodeObjectStateProvider validationObjectStateProvider;
+	private final NodeAttributeNameProvider validationAttributeNameProvider;
 
 	/**
 	 * Reads a XML Document with additional metadata
@@ -79,10 +78,10 @@ public class ObjectMetadataXMLReader {
 
 	private ObjectMetadataXMLReader(final Path path) {
 		documentPath = path;
-		validationObjectScopeProvider = new ValidationObjectScopeProvider();
-		validationObjectStateProvider = new ValidationObjectStateProvider();
-		validationObjectTypeProvider = new ValidationObjectTypeProvider();
-		validationAttributeNameProvider = new ValidationAttributeNameProvider();
+		validationObjectScopeProvider = new NodeObjectScopeProvider();
+		validationObjectStateProvider = new NodeObjectStateProvider();
+		validationObjectTypeProvider = new NodeObjectTypeProvider();
+		validationAttributeNameProvider = new NodeAttributeNameProvider();
 	}
 
 	/**

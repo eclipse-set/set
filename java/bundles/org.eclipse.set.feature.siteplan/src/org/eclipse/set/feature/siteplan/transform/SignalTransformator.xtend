@@ -14,14 +14,6 @@ import java.util.List
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.feature.siteplan.trackservice.GEOKanteCoordinate
 import org.eclipse.set.feature.siteplan.trackservice.TrackService
-import org.eclipse.set.model.siteplan.Direction
-import org.eclipse.set.model.siteplan.SignalMount
-import org.eclipse.set.model.siteplan.SignalMountType
-import org.eclipse.set.model.siteplan.SignalRole
-import org.eclipse.set.model.siteplan.SignalScreen
-import org.eclipse.set.model.siteplan.SignalSystem
-import org.eclipse.set.model.siteplan.SiteplanFactory
-import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -31,6 +23,14 @@ import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalBefestigungsart
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.siteplan.Direction
+import org.eclipse.set.model.siteplan.SignalMount
+import org.eclipse.set.model.siteplan.SignalMountType
+import org.eclipse.set.model.siteplan.SignalRole
+import org.eclipse.set.model.siteplan.SignalScreen
+import org.eclipse.set.model.siteplan.SignalSystem
+import org.eclipse.set.model.siteplan.SiteplanFactory
+import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -40,7 +40,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExte
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
@@ -120,7 +119,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 				if (signal !== null) {
 					signal.addSiteplanElement(
 						SiteplanPackage.eINSTANCE.siteplanState_Signals)
-				}
+					}
 			} catch (Exception exc) {
 				recordError(it.signals.head?.identitaet?.wert,
 					ERROR_FAILED_TRANSFORM)

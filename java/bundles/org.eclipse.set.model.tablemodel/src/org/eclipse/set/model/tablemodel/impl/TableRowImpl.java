@@ -23,8 +23,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import org.eclipse.set.model.tablemodel.Footnote;
+import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
@@ -38,8 +37,8 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * </p>
  * <ul>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getCells <em>Cells</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getFootnotes <em>Footnotes</em>}</li>
  *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getRowIndex <em>Row Index</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getFootnotes <em>Footnotes</em>}</li>
  * </ul>
  *
  * @generated
@@ -54,16 +53,6 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	 * @ordered
 	 */
 	protected EList<TableCell> cells;
-
-	/**
-	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFootnotes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Footnote> footnotes;
 
 	/**
 	 * The default value of the '{@link #getRowIndex() <em>Row Index</em>}' attribute.
@@ -84,6 +73,16 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	 * @ordered
 	 */
 	protected int rowIndex = ROW_INDEX_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFootnotes()
+	 * @generated
+	 * @ordered
+	 */
+	protected FootnoteContainer footnotes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -123,11 +122,43 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	 * @generated
 	 */
 	@Override
-	public EList<Footnote> getFootnotes() {
-		if (footnotes == null) {
-			footnotes = new EObjectContainmentEList<Footnote>(Footnote.class, this, TablemodelPackage.TABLE_ROW__FOOTNOTES);
-		}
+	public FootnoteContainer getFootnotes() {
 		return footnotes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetFootnotes(FootnoteContainer newFootnotes, NotificationChain msgs) {
+		FootnoteContainer oldFootnotes = footnotes;
+		footnotes = newFootnotes;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_ROW__FOOTNOTES, oldFootnotes, newFootnotes);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setFootnotes(FootnoteContainer newFootnotes) {
+		if (newFootnotes != footnotes) {
+			NotificationChain msgs = null;
+			if (footnotes != null)
+				msgs = ((InternalEObject)footnotes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TablemodelPackage.TABLE_ROW__FOOTNOTES, null, msgs);
+			if (newFootnotes != null)
+				msgs = ((InternalEObject)newFootnotes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TablemodelPackage.TABLE_ROW__FOOTNOTES, null, msgs);
+			msgs = basicSetFootnotes(newFootnotes, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_ROW__FOOTNOTES, newFootnotes, newFootnotes));
 	}
 
 	/**
@@ -164,7 +195,7 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 			case TablemodelPackage.TABLE_ROW__CELLS:
 				return ((InternalEList<?>)getCells()).basicRemove(otherEnd, msgs);
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
-				return ((InternalEList<?>)getFootnotes()).basicRemove(otherEnd, msgs);
+				return basicSetFootnotes(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -179,10 +210,10 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 		switch (featureID) {
 			case TablemodelPackage.TABLE_ROW__CELLS:
 				return getCells();
-			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
-				return getFootnotes();
 			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
 				return getRowIndex();
+			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
+				return getFootnotes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -200,12 +231,11 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 				getCells().clear();
 				getCells().addAll((Collection<? extends TableCell>)newValue);
 				return;
-			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
-				getFootnotes().clear();
-				getFootnotes().addAll((Collection<? extends Footnote>)newValue);
-				return;
 			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
 				setRowIndex((Integer)newValue);
+				return;
+			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
+				setFootnotes((FootnoteContainer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -222,11 +252,11 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 			case TablemodelPackage.TABLE_ROW__CELLS:
 				getCells().clear();
 				return;
-			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
-				getFootnotes().clear();
-				return;
 			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
 				setRowIndex(ROW_INDEX_EDEFAULT);
+				return;
+			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
+				setFootnotes((FootnoteContainer)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -242,10 +272,10 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 		switch (featureID) {
 			case TablemodelPackage.TABLE_ROW__CELLS:
 				return cells != null && !cells.isEmpty();
-			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
-				return footnotes != null && !footnotes.isEmpty();
 			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
 				return rowIndex != ROW_INDEX_EDEFAULT;
+			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
+				return footnotes != null;
 		}
 		return super.eIsSet(featureID);
 	}

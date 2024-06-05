@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.validation.utils;
+package org.eclipse.set.utils.xml;
 
 import org.w3c.dom.Node;
 
@@ -16,7 +16,7 @@ import org.w3c.dom.Node;
  * @author Stuecker
  *
  */
-public class ValidationAttributeNameProvider {
+public class NodeAttributeNameProvider {
 	private final static String WERT_NODE = "Wert"; //$NON-NLS-1$
 	private final static String TEXT_NODE = "#text"; //$NON-NLS-1$
 

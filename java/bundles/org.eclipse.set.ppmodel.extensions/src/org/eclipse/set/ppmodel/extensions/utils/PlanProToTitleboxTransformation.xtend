@@ -8,11 +8,20 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
+import java.awt.Dimension
+import java.io.File
+import java.nio.file.Path
+import java.util.function.Function
+import javax.imageio.ImageIO
+import javax.imageio.stream.FileImageInputStream
+import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.planpro.PlanPro.Planung_E_Allg_AttributeGroup
 import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel
 import org.eclipse.set.model.planpro.PlanPro.Planung_G_Schriftfeld_AttributeGroup
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe
+import org.eclipse.set.model.titlebox.PlanningOffice
+import org.eclipse.set.model.titlebox.StringField
 import org.eclipse.set.model.titlebox.Titlebox
 import org.eclipse.set.model.titlebox.TitleboxFactory
 import org.eclipse.set.utils.ToolboxConfiguration
@@ -20,18 +29,8 @@ import org.eclipse.set.utils.ToolboxConfiguration
 import static extension org.eclipse.set.model.titlebox.extensions.TitleboxExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.XMLGregorianCalendarExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.model.titlebox.PlanningOffice
-import org.eclipse.set.model.titlebox.StringField
-import java.util.function.Function
-import java.nio.file.Path
-import org.eclipse.set.basis.guid.Guid
-import java.awt.Dimension
-import javax.imageio.ImageIO
-import java.io.File
-import javax.imageio.stream.FileImageInputStream
-import org.eclipse.set.model.planpro.Basisobjekte.ENUMDateityp
+import static extension org.eclipse.set.ppmodel.extensions.utils.XMLGregorianCalendarExtensions.*
 
 /**
  * Transformation from PlanPro Schnittstelle to Titlebox.
@@ -147,9 +146,8 @@ class PlanProToTitleboxTransformation {
 		it.set(58,
 			lastPlanungEErstellung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")
-		it.set(70,
-			lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
-				"")
+		it.set(70, lastPlanungEErstellung?.datum?.wert?.toString(DATE_FORMAT) ?:
+			"")
 		it.set(59,
 			lastPlanungPruefung?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")
@@ -157,14 +155,12 @@ class PlanProToTitleboxTransformation {
 			lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT) ?: "")
 		it.set(60,
 			lastPlanungAbnahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?: "")
-		it.set(72,
-			lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT) ?: "")
+		it.set(72, lastPlanungAbnahme?.datum?.wert?.toString(DATE_FORMAT) ?: "")
 		it.set(61,
 			lastPlanungUebernahme?.handelnder?.akteurAllg?.nameAkteur5?.wert ?:
 				"")
-		it.set(73,
-			lastPlanungUebernahme?.datum?.wert?.toString(DATE_FORMAT) ?:
-				"")
+		it.set(73, lastPlanungUebernahme?.datum?.wert?.toString(DATE_FORMAT) ?:
+			"")
 
 		it.set(48, planungAllgemein.buildLastEditionNumber)
 
@@ -248,7 +244,7 @@ class PlanProToTitleboxTransformation {
 
 	def Dimension getImageDimension(String path, ENUMDateityp filetype) {
 		val suffix = getFiletypeSuffix(filetype)
-		if(suffix === null)
+		if (suffix === null)
 			return null
 
 		val iter = ImageIO.getImageReadersBySuffix(suffix)
@@ -267,10 +263,13 @@ class PlanProToTitleboxTransformation {
 		}
 		return null
 	}
-	
+
+	private def String nonBreaking(String text) {
+		return text?.replace(' ', '\u00A0')
+	}
+
 	def String getFiletypeSuffix(ENUMDateityp dateityp) {
-		switch(dateityp)
-		{
+		switch (dateityp) {
 			case ENUM_DATEITYP_JPG: return "jpg"
 			case ENUM_DATEITYP_PNG: return "png"
 			default: return null
@@ -292,7 +291,7 @@ class PlanProToTitleboxTransformation {
 				val dimension = getImageDimension(logo,
 					schriftfeld?.planungsbueroLogo?.anhangAllg?.dateityp?.wert)
 				it.logo = "file:///" + logo
-				if(dimension.width > dimension.height)
+				if (dimension.width > dimension.height)
 					it.variant = "logo-top"
 				else
 					it.variant = "logo-side"
@@ -301,42 +300,52 @@ class PlanProToTitleboxTransformation {
 		}
 
 		it.name = fillPlanningOfficeField(
-			schriftfeld?.planungsbuero?.nameOrganisation?.wert, variant)
+			schriftfeld?.planungsbuero?.nameOrganisation?.wert)
 		it.group = fillPlanningOfficeField(
-			schriftfeld?.planungsbuero?.organisationseinheit?.wert, variant)
+			schriftfeld?.planungsbuero?.organisationseinheit?.wert)
 		if (schriftfeld?.planungsbuero?.adressePLZOrt?.wert !== null ||
 			schriftfeld?.planungsbuero?.adresseStrasseNr?.wert !== null) {
-			it.location = fillPlanningOfficeField('''«schriftfeld?.planungsbuero?.adresseStrasseNr?.wert», «schriftfeld?.planungsbuero?.adressePLZOrt?.wert ?: ''»''',
-				variant)
+			val addrPLZ = schriftfeld?.planungsbuero?.adressePLZOrt?.wert.
+				nonBreaking ?: ''
+			val addrStr = schriftfeld?.planungsbuero?.adresseStrasseNr?.wert.
+				nonBreaking ?: ''
+			if (variant == "no-logo") {
+				it.location = fillPlanningOfficeField(addrStr + "\n" + addrPLZ)
+			} else {
+				it.location = fillPlanningOfficeField('''«addrStr», «addrPLZ»''')
+			}
 		} else {
-			it.location = fillPlanningOfficeField("", variant)
+			it.location = fillPlanningOfficeField("")
 		}
 		it.phone = fillPlanningOfficeField(
-			schriftfeld?.planungsbuero?.telefonnummer?.wert, variant)
+			schriftfeld?.planungsbuero?.telefonnummer?.wert)
 		it.email = fillPlanningOfficeField(
-			schriftfeld?.planungsbuero?.EMailAdresse?.wert, variant)
+			schriftfeld?.planungsbuero?.EMailAdresse?.wert)
+
+		val fields = #[name, group, location, phone, email]
+
+		val fontSize = getFontSize(fields.map[text.length].max, variant)
+		fields.forEach[fontsize = fontSize]
 
 		return it
 	}
 
-	private def StringField fillPlanningOfficeField(String text,
-		String variant) {
+	private def StringField fillPlanningOfficeField(String text) {
 		val it = TitleboxFactory.eINSTANCE.createStringField
 		it.text = text ?: ""
-		it.fontsize = getFontSize(it.text, variant)
 		return it
 	}
 
-	private def String getFontSize(String text, String variant) {
+	private def String getFontSize(int length, String variant) {
 		switch (variant) {
 			case "logo-side":
-				if (text.length > 40)
+				if (length > 40)
 					return "2mm"
-				else if (text.length > 27)
+				else if (length > 27)
 					return "2.2mm"
-				else if (text.length > 25)
+				else if (length > 25)
 					return "2.3mm"
-				else if (text.length > 20)
+				else if (length > 20)
 					return "2.4mm"
 				else
 					return "2.5mm"
@@ -353,7 +362,7 @@ class PlanProToTitleboxTransformation {
 		return '''
 			«schriftfeld?.bezeichnungAnlage?.wert»
 			«schriftfeld?.bezeichnungUnteranlage?.wert»
-			«tableName?.getFullDisplayName ?: "<Planart>"»
+			«tableName?.getFullDisplayName ?: "<Planzeichen> – <Planart>"»
 		'''
 	}
 }

@@ -12,6 +12,9 @@ import org.eclipse.set.model.tablemodel.TableRow
 import java.util.List
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.StringCellContent
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.model.tablemodel.Table
+import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 
 /**
  * Tablemodel utilities.
@@ -30,9 +33,7 @@ class Utils {
 	}
 
 	static def dispatch String debugString(TableRow tableRow) {
-		if (tableRow.footnotes === null)
-			return '''«tableRow.cells.debugString»'''
-		return '''«tableRow.cells.debugString» «tableRow.footnotes.debugString»'''
+		return '''«tableRow.cells.debugString»'''
 	}
 
 	static def dispatch String debugString(List<?> list) {
@@ -49,5 +50,15 @@ class Utils {
 		if (stringColumn.value === null)
 			return ""
 		return '''"«stringColumn.value»"'''
+	}
+	
+	
+	static def int getFootnoteNumber(EObject container, String footnote) {
+		var EObject table = container
+		while(!(table instanceof Table)) {
+			table = table.eContainer
+		}
+		
+		return (table as Table).getFootnoteNumber(footnote)
 	}
 }

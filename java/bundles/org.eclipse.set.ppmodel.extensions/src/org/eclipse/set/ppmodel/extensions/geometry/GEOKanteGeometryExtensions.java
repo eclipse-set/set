@@ -19,7 +19,7 @@ import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.mirr
 import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.offsetBy;
 import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.rotateAroundOrigin;
 import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.rotateAroundPoint;
-import static org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.getLastOrNull;
+import static org.eclipse.xtext.xbase.lib.IterableExtensions.lastOrNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -187,7 +187,7 @@ public class GEOKanteGeometryExtensions {
 		final double angleA = getAngleBetweenPoints(fromCoordinate,
 				toCoordinate);
 		final double angleB = getAngleBetweenPoints(fromCoordinate,
-				getLastOrNull(coordinates));
+				lastOrNull(coordinates));
 		final double angleOffset = angleA - angleB;
 		return getGeometryFactory().createLineString(coordinates.stream().map(
 				coor -> rotateAroundPoint(coor, angleOffset, fromCoordinate))
@@ -244,7 +244,7 @@ public class GEOKanteGeometryExtensions {
 		final double angleA = getAngleBetweenPoints(fromCoordinate,
 				toCoordinate);
 		final double angleB = getAngleBetweenPoints(fromCoordinate,
-				getLastOrNull(coordinates));
+				lastOrNull(coordinates));
 		final double angleOffset = angleA - angleB;
 		return getGeometryFactory().createLineString(coordinates.stream().map(
 				coor -> rotateAroundPoint(coor, angleOffset, fromCoordinate))

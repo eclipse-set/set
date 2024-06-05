@@ -153,6 +153,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 			case SiteplanPackage.ROUTE_OBJECT: {
 				RouteObject routeObject = (RouteObject)theEObject;
 				T result = caseRouteObject(routeObject);
+				if (result == null) result = caseSiteplanObject(routeObject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -175,6 +176,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				Signal signal = (Signal)theEObject;
 				T result = caseSignal(signal);
 				if (result == null) result = caseRouteObject(signal);
+				if (result == null) result = caseSiteplanObject(signal);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -201,6 +203,7 @@ public class SiteplanSwitch<T> extends Switch<T> {
 				TrackSwitchComponent trackSwitchComponent = (TrackSwitchComponent)theEObject;
 				T result = caseTrackSwitchComponent(trackSwitchComponent);
 				if (result == null) result = caseRouteObject(trackSwitchComponent);
+				if (result == null) result = caseSiteplanObject(trackSwitchComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

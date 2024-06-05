@@ -203,8 +203,9 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		TableRow row) {
 		val technikBeschreibung = uebertragungsweg?.uebertragungswegTechnik?.
 			technikBeschreibung?.wert
-		val other = footnoteTransformation.transform(uebertragungsweg, row)
-		val comments = newLinkedList(technikBeschreibung, other).filterNull.
+		
+		fillFootnotes(row, uebertragungsweg)
+		val comments = newLinkedList(technikBeschreibung).filterNull.
 			filter[!empty]
 		return '''«FOR comment : comments SEPARATOR ", "»«comment»«ENDFOR»'''
 	}

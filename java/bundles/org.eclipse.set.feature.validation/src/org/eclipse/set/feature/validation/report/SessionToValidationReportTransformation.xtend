@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.validation.report
 
 import java.nio.file.Path
+import java.util.Collections
 import java.util.Comparator
 import java.util.List
 import java.util.Set
@@ -23,24 +24,23 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.version.PlanProVersionService
 import org.eclipse.set.feature.validation.Messages
 import org.eclipse.set.feature.validation.utils.FileInfoReader
-import org.eclipse.set.feature.validation.utils.XMLNodeFinder
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
+import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.validationreport.ObjectScope
 import org.eclipse.set.model.validationreport.ValidationProblem
 import org.eclipse.set.model.validationreport.ValidationReport
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.model.validationreport.ValidationreportFactory
-import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
-import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.utils.ToolboxConfiguration
+import org.eclipse.set.utils.xml.XMLNodeFinder
 import org.xml.sax.SAXParseException
 
-import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
-import static extension org.eclipse.set.feature.validation.utils.ObjectMetadataXMLReader.*
+import static java.util.Comparator.comparing
+import static java.util.Comparator.naturalOrder
+import static java.util.Comparator.nullsLast
 
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.nullsLast;
-import static java.util.Comparator.naturalOrder;
-import java.util.Collections
+import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
+import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.

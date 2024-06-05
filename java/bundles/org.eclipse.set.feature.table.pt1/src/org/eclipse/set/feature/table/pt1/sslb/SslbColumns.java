@@ -29,112 +29,117 @@ public class SslbColumns {
 	public static final String Strecke_Gleis = "B";
 
 	/**
+	 * Sslb.Strecke.Regel_Gegengleis
+	 */
+	public static final String Regel_Gegengleis = "C";
+
+	/**
+	 * Sslb.Strecke.Streckenziel_Start
+	 */
+	public static final String Streckenziel_Start = "D";
+
+	/**
 	 * Sslb.Strecke.Betriebsfuehrung
 	 */
-	public static final String Betriebsfuehrung = "C";
+	public static final String Betriebsfuehrung = "E";
 
 	/**
 	 * Sslb.Grundsatzangaben.von.Betriebsstelle_Start
 	 */
-	public static final String Betriebsstelle_Start = "D";
+	public static final String Betriebsstelle_Start = "F";
 
 	/**
 	 * Sslb.Grundsatzangaben.von.Bauform_Start
 	 */
-	public static final String Bauform_Start = "E";
+	public static final String Bauform_Start = "G";
 
 	/**
 	 * Sslb.Grundsatzangaben.von.Streckenziel_Start
 	 */
-	public static final String Streckenziel_Start = "F";
+	public static final String Streckenfreimeldung = "H";
 
 	/**
 	 * Sslb.Grundsatzangaben.nach.Betriebsstelle_Ziel
 	 */
-	public static final String Betriebsstelle_Ziel = "G";
+	public static final String Betriebsstelle_Ziel = "I";
 
 	/**
 	 * Sslb.Grundsatzangaben.nach.Bauform_Ziel
 	 */
-	public static final String Bauform_Ziel = "H";
-
-	/**
-	 * Sslb.Grundsatzangaben.von.Streckenziel_Start
-	 */
-	public static final String Streckenziel_Ziel = "I";
+	public static final String Bauform_Ziel = "J";
 
 	/**
 	 * Sslb.Grundsatzangaben.Blockschaltung
 	 */
-	public static final String Blockschaltung = "J";
+	public static final String Blockschaltung = "K";
 
 	/**
 	 * Sslb.Grundsatzangaben.Schutzuebertrager
 	 */
-	public static final String Schutzuebertrager = "K";
+	public static final String Schutzuebertrager = "L";
 
 	/**
 	 * Sslb.Erlaubnis.staendig
 	 */
-	public static final String Erlaubnis_staendig = "L";
+	public static final String Erlaubnis_staendig = "M";
 
 	/**
 	 * Sslb.Erlaubnis.holen
 	 */
-	public static final String Erlaubnis_holen = "M";
+	public static final String Erlaubnis_holen = "N";
 
 	/**
 	 * Sslb.Erlaubnis.Ruecklauf_autom
 	 */
-	public static final String Erlaubnis_Ruecklauf_autom = "N";
+	public static final String Erlaubnis_Ruecklauf_autom = "O";
 
 	/**
 	 * Sslb.Erlaubnis.Abgabespeicherung
 	 */
-	public static final String Erlaubnis_Abgabespeicherung = "O";
+	public static final String Erlaubnis_Abgabespeicherung = "P";
 
 	/**
 	 * Sslb.Erlaubnis.Abh_D_Weg_Rf
 	 */
-	public static final String Erlaubnis_Abh_D_Weg_Rf = "P";
+	public static final String Erlaubnis_Abh_D_Weg_Rf = "Q";
 
 	/**
 	 * Sslb.Blockmeldung.Anrueckabschnitt.Bezeichnung
 	 */
-	public static final String Anrueckabschnitt_Bezeichnung = "Q";
+	public static final String Anrueckabschnitt_Bezeichnung = "R";
 
 	/**
 	 * Sslb.Blockmeldung.Anrueckabschnitt.Anordnung
 	 */
-	public static final String Anrueckabschnitt_Anordnung = "R";
+	public static final String Anrueckabschnitt_Anordnung = "S";
 
 	/**
 	 * Sslb.Blockmeldung.Zugschluss
 	 */
-	public static final String Blockmeldung_Zugschluss = "S";
+	public static final String Blockmeldung_Zugschluss = "T";
 
 	/**
 	 * Sslb.Blockmeldung.Raeumungspruefung
 	 */
-	public static final String Blockmeldung_Raeumungspruefung = "T";
+	public static final String Blockmeldung_Raeumungspruefung = "U";
 
 	/**
 	 * Sslb.Akustische_Meldung.Vorblock
 	 */
-	public static final String Akustische_Meldung_Vorblock = "U";
+	public static final String Akustische_Meldung_Vorblock = "V";
 
 	/**
 	 * Sslb.Akustische_Meldung.Rueckblock
 	 */
-	public static final String Akustische_Meldung_Rueckblock = "V";
+	public static final String Akustische_Meldung_Rueckblock = "W";
 
 	/**
 	 * Sslb.Awanst.Bez_Bed
 	 */
-	public static final String Awanst_Bez_Bed = "W";
+	public static final String Awanst_Bez_Bed = "X";
 
 	/**
 	 * Sslb.Bemerkung
 	 */
-	public static final String Bemerkung = "X";
+	public static final String Bemerkung = "Y";
 }
