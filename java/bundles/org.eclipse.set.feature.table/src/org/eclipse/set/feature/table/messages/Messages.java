@@ -42,7 +42,7 @@ public class Messages {
 	public String TableErrorTableColumns_Source;
 
 	/**
-	 * Tabellentyp
+	 * Zustand
 	 */
 	public String TableErrorTableColumns_TableType;
 
