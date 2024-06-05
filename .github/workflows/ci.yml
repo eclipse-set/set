@@ -196,11 +196,7 @@ jobs:
           path: web/news/public
 
       - name: Build
-        run: mvn -T 1.5C -B -U clean verify
-
-      - name: Publish
-        run: mvn -T 1.5C -B deploy --settings .github/settings.xml -DaltDeploymentRepository=set-github::https://maven.pkg.github.com/${{ github.repository }}
-        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/')
+        run: mvn -T 1.5C -B clean deploy --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -210,6 +206,19 @@ jobs:
           name: eclipse-set-snapshot-${{github.run_number}}
           path: java/bundles/org.eclipse.set.releng.set.product/target/products/SET/win32/win32/x86_64/
           retention-days: 7
+
+      - name: Upload m2repo artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: set-m2deploy-${{github.run_number}}
+          path: ${{ github.workspace}}/set-m2deploy
+          retention-days: 1
+      
+      - name: Publish
+        run: mvn -T 1.5C -B deploy --settings .github/settings.xml -DaltDeploymentRepository=set-github::https://maven.pkg.github.com/${{ github.repository }}
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Prepare release asset
         if: startsWith(github.ref, 'refs/tags/')
