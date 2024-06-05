@@ -65,12 +65,12 @@ import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
+import org.eclipse.set.feature.validation.utils.ValidationOutcome;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
-import org.eclipse.set.feature.validation.utils.ValidationOutcome;
 import org.eclipse.set.ppmodel.extensions.DocumentRootExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleDebugExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -80,7 +80,7 @@ import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectionPlaceArea;
+import org.eclipse.set.utils.events.SelectionControlArea;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Display;
@@ -162,7 +162,7 @@ public class ModelSession implements IModelSession {
 	private final Guid guid;
 	private boolean isNewProject = false;
 	private DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
-	private DefaultToolboxEventHandler<SelectionPlaceArea> selectionPlaceAreaHandler;
+	private DefaultToolboxEventHandler<SelectionControlArea> selectionControlAreaHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
@@ -182,7 +182,7 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Map<Stell_Bereich, ContainerType> placeAreas = new HashMap<>();
+	Map<Stell_Bereich, ContainerType> controlAreas = new HashMap<>();
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -235,16 +235,16 @@ public class ModelSession implements IModelSession {
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
 				NewTableTypeEvent.class, newTableTypeHandler);
 
-		selectionPlaceAreaHandler = new DefaultToolboxEventHandler<>() {
+		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
-			public void accept(final SelectionPlaceArea t) {
-				t.getPlaceAreas().forEach(area -> placeAreas.put(area.area(),
-						area.containerType()));
+			public void accept(final SelectionControlArea t) {
+				t.getControlAreas().forEach(area -> controlAreas
+						.put(area.area(), area.containerType()));
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
-				SelectionPlaceArea.class, selectionPlaceAreaHandler);
+				SelectionControlArea.class, selectionControlAreaHandler);
 	}
 
 	@Override
@@ -289,7 +289,7 @@ public class ModelSession implements IModelSession {
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
 					newTableTypeHandler);
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
-					selectionPlaceAreaHandler);
+					selectionControlAreaHandler);
 		} catch (final IOException e) {
 			logger.warn("clean up failed: exception={} message={}", //$NON-NLS-1$
 					e.getClass().getSimpleName(), e.getMessage());
@@ -452,8 +452,8 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public Map<Stell_Bereich, ContainerType> getPlaceAreas() {
-		return placeAreas;
+	public Map<Stell_Bereich, ContainerType> getControlAreas() {
+		return controlAreas;
 	}
 
 	@Override

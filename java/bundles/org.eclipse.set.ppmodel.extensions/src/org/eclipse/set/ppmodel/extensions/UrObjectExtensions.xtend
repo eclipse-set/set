@@ -84,39 +84,39 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		return planData.exists[wert == guid]
 	}
 
-	def static <T extends Ur_Objekt> Iterable<T> filterObjectsInPlaceArea(
+	def static <T extends Ur_Objekt> Iterable<T> filterObjectsInControlArea(
 		Iterable<T> objects, Stell_Bereich area) {
 		if (area === null) {
 			return objects
 		}
 
-		return objects.filter[isInPlaceArea(area)]
+		return objects.filter[isInControlArea(area)]
 	}
 
-	private def static dispatch boolean isInPlaceArea(Ur_Objekt object,
+	private def static dispatch boolean isInControlArea(Ur_Objekt object,
 		Stell_Bereich area) {
 		throw new IllegalArgumentException()
 	}
 
-	private def static dispatch boolean isInPlaceArea(
+	private def static dispatch boolean isInControlArea(
 		Aussenelementansteuerung object, Stell_Bereich area) {
 		return area.aussenElementAnsteuerung == object;
 	}
 
-	private def static dispatch boolean isInPlaceArea(
+	private def static dispatch boolean isInControlArea(
 		ESTW_Zentraleinheit object, Stell_Bereich area) {
 		val energiePrimar = area?.aussenElementAnsteuerung?.
 			aussenelementansteuerungEnergiePrimaer
 		return energiePrimar == object;
 	}
 
-	private def static dispatch boolean isInPlaceArea(
+	private def static dispatch boolean isInControlArea(
 		Bedien_Einrichtung_Oertlich object, Stell_Bereich area) {
 		return area?.aussenElementAnsteuerung ===
 			object.IDAussenelementansteuerung?.value
 	}
 
-	private def static dispatch boolean isInPlaceArea(FMA_Komponente object,
+	private def static dispatch boolean isInControlArea(FMA_Komponente object,
 		Stell_Bereich area) {
 		return area === null ||
 			object?.FMAKomponenteAchszaehlpunkt?.IDInformation?.filterNull.

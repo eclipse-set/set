@@ -42,12 +42,12 @@ public interface TableModelTransformator<T> {
 	 *            the model
 	 * @param factory
 	 *            factory to create new rows of the table model
-	 * @param placeArea
+	 * @param controlArea
 	 *            the {@link Stell_Bereich}
 	 * @return the table model
 	 */
 	public Table transformTableContent(T model, TMFactory factory,
-			Stell_Bereich placeArea);
+			Stell_Bereich controlArea);
 
 	/**
 	 * Errors that occurred during transformation

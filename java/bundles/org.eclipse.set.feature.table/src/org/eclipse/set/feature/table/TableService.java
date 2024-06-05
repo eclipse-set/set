@@ -80,14 +80,14 @@ public interface TableService {
 	 *            the table type
 	 * @param modelSession
 	 *            the model session
-	 * @param placeAreas
+	 * @param controlAreas
 	 *            the list of {@link Stell_Bereich} and the belonging container
 	 *            type
 	 * @return the table
 	 */
 	String transformToCsv(final String elementId, TableType tableType,
 			final IModelSession modelSession,
-			Map<Stell_Bereich, ContainerType> placeAreas);
+			Map<Stell_Bereich, ContainerType> controlAreas);
 
 	/**
 	 * Transform the selected container to a table model.
@@ -113,14 +113,14 @@ public interface TableService {
 	 *            the table type
 	 * @param modelSession
 	 *            the model session
-	 * @param placeAreas
+	 * @param controlAreas
 	 *            the list of {@link Stell_Bereich} and the belonging container
 	 * 
 	 * @return the table
 	 */
 	Table transformToTable(final String elementId, TableType tableType,
 			final IModelSession modelSession,
-			Map<Stell_Bereich, ContainerType> placeAreas);
+			Map<Stell_Bereich, ContainerType> controlAreas);
 
 	/**
 	 * @param part

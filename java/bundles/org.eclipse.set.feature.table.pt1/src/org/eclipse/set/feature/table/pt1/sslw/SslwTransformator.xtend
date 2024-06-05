@@ -49,7 +49,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
 		TMFactory factory,
-		Stell_Bereich placeArea
+		Stell_Bereich controlArea
 	) {
 		val flaZwieSchutzList = container.flaZwieschutz.filter[isPlanningObject]
 		for (flaZwieSchutz : flaZwieSchutzList) {

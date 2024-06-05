@@ -90,12 +90,12 @@ public abstract class AbstractTableTransformationService<T>
 	}
 
 	@Override
-	public Table transform(final T model, final Stell_Bereich placeArea) {
+	public Table transform(final T model, final Stell_Bereich controlArea) {
 		final Table table = TablemodelFactory.eINSTANCE.createTable();
 		buildHeading(table);
 		transformator = createTransformator();
 		transformator.transformTableContent(model, new TMFactory(table),
-				placeArea);
+				controlArea);
 		setColumnTextAlignment(table);
 		return table;
 	}

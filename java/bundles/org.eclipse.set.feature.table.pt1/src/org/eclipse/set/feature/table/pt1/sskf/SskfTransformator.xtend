@@ -45,7 +45,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich placeArea) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		// Maßgebendes Objekt: FMA_Anlage
 		val Iterable<FMA_Anlage> fmaAnlageList = container.FMAAnlage.filter [
 			isPlanningObject

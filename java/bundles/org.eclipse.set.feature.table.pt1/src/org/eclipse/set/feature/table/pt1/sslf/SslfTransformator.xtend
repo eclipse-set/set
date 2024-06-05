@@ -44,7 +44,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
 		TMFactory factory,
-		Stell_Bereich placeArea
+		Stell_Bereich controlArea
 	) {
 		val flaSchutzList = container.flaSchutz.filter[isPlanningObject].filter [
 			generalbedingung

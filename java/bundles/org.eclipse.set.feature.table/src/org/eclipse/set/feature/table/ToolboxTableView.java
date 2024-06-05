@@ -85,7 +85,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectionPlaceArea;
+import org.eclipse.set.utils.events.SelectionControlArea;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
@@ -131,14 +131,12 @@ public final class ToolboxTableView extends BasePart {
 	private ExportService exportService;
 	private NatTable natTable;
 
-	// private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
-
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
 	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 
-	private ToolboxEventHandler<SelectionPlaceArea> selectionPlaceAreaHandler;
+	private ToolboxEventHandler<SelectionControlArea> selectionControlAreaHandler;
 
 	private int scrollToPositionRequested = -1;
 
@@ -164,7 +162,7 @@ public final class ToolboxTableView extends BasePart {
 
 	TableType tableType;
 
-	Map<Stell_Bereich, ContainerType> placeAreas;
+	Map<Stell_Bereich, ContainerType> controlAreas;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -191,6 +189,7 @@ public final class ToolboxTableView extends BasePart {
 	@Override
 	public void handleNewTableType(final NewTableTypeEvent e) {
 		tableType = e.getTableType();
+		controlAreas.clear();
 		updateTableView();
 	}
 
@@ -281,28 +280,27 @@ public final class ToolboxTableView extends BasePart {
 						.extractShortcut(getToolboxPart().getElementId())
 						.toLowerCase()));
 
-		selectionPlaceAreaHandler = new DefaultToolboxEventHandler<>() {
+		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectionPlaceArea t) {
-				placeAreas.clear();
-				t.getPlaceAreas().forEach(area -> placeAreas.put(area.area(),
-						area.containerType()));
+			public void accept(final SelectionControlArea t) {
+				controlAreas.clear();
+				t.getControlAreas().forEach(area -> controlAreas
+						.put(area.area(), area.containerType()));
 				tableType = t.getTableType();
 				updateTableView();
 			}
 		};
 
-		ToolboxEvents.subscribe(getBroker(), SelectionPlaceArea.class,
-				selectionPlaceAreaHandler);
+		ToolboxEvents.subscribe(getBroker(), SelectionControlArea.class,
+				selectionControlAreaHandler);
 	}
 
 	@PreDestroy
 	private void preDestroy() {
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
-		// ToolboxEvents.unsubscribe(getBroker(), newTableTypeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
-		ToolboxEvents.unsubscribe(getBroker(), selectionPlaceAreaHandler);
+		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().send(Events.CLOSE_PART,
 				tableService.extractShortcut(getToolboxPart().getElementId())
 						.toLowerCase());
@@ -337,7 +335,7 @@ public final class ToolboxTableView extends BasePart {
 	private Table transformToTableModel(final String elementId,
 			final IModelSession modelSession) {
 		return tableService.transformToTable(elementId, tableType, modelSession,
-				placeAreas);
+				controlAreas);
 	}
 
 	private void updateTableView() {
@@ -370,7 +368,7 @@ public final class ToolboxTableView extends BasePart {
 			tableType = getModelSession().getNature().getDefaultContainer()
 					.getTableTypeForTables();
 		}
-		placeAreas = getModelSession().getPlaceAreas();
+		controlAreas = getModelSession().getControlAreas();
 
 		tableService.updateTable(this,
 				() -> updateModel(getToolboxPart(), getModelSession()),

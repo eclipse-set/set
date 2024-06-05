@@ -50,7 +50,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich placeArea) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		val instances = new ArrayList<TableRow>
 
 		for (Zugeinwirkung ein : container.zugeinwirkung.filter [

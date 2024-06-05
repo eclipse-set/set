@@ -104,7 +104,6 @@ public class TableTypeSelectionControl {
 					.getSelection() instanceof final IStructuredSelection selection
 					&& selection
 							.getFirstElement() instanceof final TableType selectedType) {
-				LOGGER.info("Change Table Type"); //$NON-NLS-1$
 				ToolboxEvents.send(broker, new NewTableTypeEvent(selectedType));
 			}
 		});

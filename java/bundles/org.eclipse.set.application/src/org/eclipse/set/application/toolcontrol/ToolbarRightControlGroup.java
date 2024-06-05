@@ -12,7 +12,7 @@ package org.eclipse.set.application.toolcontrol;
 
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.set.application.placearea.PlaceAreaSelectionControl;
+import org.eclipse.set.application.controlarea.ControlAreaSelectionControl;
 import org.eclipse.set.application.tabletype.TableTypeSelectionControl;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -47,7 +47,7 @@ public class ToolbarRightControlGroup {
 	private void initControl() {
 		final TableTypeSelectionControl tableTypeSelectionControl = new TableTypeSelectionControl(
 				composite, serviceProvider);
-		final PlaceAreaSelectionControl placeAreaSelectionControl = new PlaceAreaSelectionControl(
+		final ControlAreaSelectionControl controlAreaSelectionControlcontrolArea = new ControlAreaSelectionControl(
 				composite, serviceProvider);
 	}
 }

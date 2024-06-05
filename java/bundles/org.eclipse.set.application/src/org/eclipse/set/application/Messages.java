@@ -167,13 +167,17 @@ public class Messages {
 	public String TableMenuService_Siteplan;
 
 	/**
-	 * Select alle Stellbereich
-	 * Alle Stellbereiche
+	 * Select alle Stellbereich Alle Stellbereiche
 	 */
-	public String PlaceAreaCombo_All;
+	public String ControlAreaCombo_All;
 
 	/**
 	 * Gesamter Planungsinhalt
 	 */
-	public String PlaceAreaCombo_Default_Value;
+	public String ControlAreaCombo_Default_Value;
+
+	/**
+	 * Stellbereich %d
+	 */
+	public String ControlAreaCombo_Default_Area_Name;
 }

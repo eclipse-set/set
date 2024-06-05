@@ -49,4 +49,13 @@ public interface CacheService {
 	 * @return true, if the cache already storage
 	 */
 	public Boolean existCache(String cacheID);
+
+	/**
+	 * @param args
+	 *            the arguments
+	 * @return the cache key contains arguments with / as separator.
+	 */
+	public default String cacheKeyBuilder(final String... args) {
+		return String.join("/", args); //$NON-NLS-1$
+	}
 }
