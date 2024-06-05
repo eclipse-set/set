@@ -17,7 +17,9 @@
   <modules>
     <module>../java/bundles/org.eclipse.set.swtbot</module>
   </modules>
-
+  <properties>
+    <set-version>${project.parent.version}</set-version>
+  </properties>
   <profiles>
     <profile>
       <id>swtbot</id>
@@ -33,325 +35,325 @@
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.application.set</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.application</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.basis</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.core.services</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.core</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.emfforms</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.export</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.enumtransformation</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.plazmodel</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.table.pt1</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.table</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.validation</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.nl_de.feature</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.ecore.nl_de</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.ecp.categorization.nl_de</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.ecp.core.nl_de</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.ecp.table.nl_de</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.integrationview.nl_de</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.model.nl_de</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.validationreport.nl_de</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.integrationview.edit</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.integrationview</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.plazmodel</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.plazmodel.edit</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.simplemerge.edit</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.simplemerge.extensions</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.simplemerge</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.tablemodel.extensions</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.tablemodel</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.titlebox.extensions</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.titlebox</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.validationreport.edit</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.validationreport</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.zipmanifest</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.nattable.utils</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.pdf.utils</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.ppmodel.extensions.container</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.ppmodel.extensions</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.rcp.application</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.rcp.compatibility</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.rcp.extensions</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.releng.logging</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.services</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.sessionservice</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.unittest.utils</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.utils.rcp</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.utils.table</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.utils</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.test.feature</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.siteplan</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.siteplan</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.projectdata</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.feature.overviewplan</artifactId>
-          <version>2.3.0-SNAPSHOT</version>
+          <version>${set-version}</version>
           <type>jar</type>
         </dependency>
       </dependencies>
