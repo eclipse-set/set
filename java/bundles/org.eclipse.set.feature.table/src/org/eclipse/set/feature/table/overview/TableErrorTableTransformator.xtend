@@ -38,7 +38,7 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 		return factory.table
 	}
 
-	override transformTableContent(Collection<TableError> errors, TMFactory factory, Stell_Bereich placeArea) {
+	override transformTableContent(Collection<TableError> errors, TMFactory factory, Stell_Bereich controlArea) {
 		transformTableContent(errors, factory)
 	}
 }

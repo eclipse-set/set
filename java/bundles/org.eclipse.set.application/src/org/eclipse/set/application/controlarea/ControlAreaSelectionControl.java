@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.application.placearea;
+package org.eclipse.set.application.controlarea;
 
 import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.getStellBeteichBezeichnung;
 
@@ -32,14 +32,15 @@ import org.eclipse.set.application.Messages;
 import org.eclipse.set.application.toolcontrol.ServiceProvider;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
+import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectionPlaceArea;
-import org.eclipse.set.utils.events.SelectionPlaceArea.PlaceAreaValue;
+import org.eclipse.set.utils.events.SelectionControlArea;
+import org.eclipse.set.utils.events.SelectionControlArea.ControlAreaValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Composite;
@@ -47,21 +48,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Selection combo for the control area. The table will only show the objects,
+ * which lie on this control area
  * 
+ * @author Truong
  */
-public class PlaceAreaSelectionControl {
+public class ControlAreaSelectionControl {
 
 	static final Logger LOGGER = LoggerFactory
-			.getLogger(PlaceAreaSelectionControl.class);
+			.getLogger(ControlAreaSelectionControl.class);
 
-	private static class PlaceAreaLabelProvider extends LabelProvider {
-		public PlaceAreaLabelProvider() {
+	private static class ControlAreaLabelProvider extends LabelProvider {
+		public ControlAreaLabelProvider() {
 			super();
 		}
 
 		@Override
 		public String getText(final Object element) {
-			if (element instanceof final PlaceAreaValue value) {
+			if (element instanceof final ControlAreaValue value) {
 				return value.areaName();
 			}
 			return super.getText(element);
@@ -92,21 +96,23 @@ public class PlaceAreaSelectionControl {
 	 * @param serviceProvider
 	 *            the {@link ServiceProvider}
 	 */
-	public PlaceAreaSelectionControl(final Composite parent,
+	public ControlAreaSelectionControl(final Composite parent,
 			final ServiceProvider serviceProvider) {
 		application = serviceProvider.application;
 		broker = serviceProvider.broker;
 		messages = serviceProvider.messages;
 		partService = serviceProvider.partService;
+		// Reset combo value, when close session
+		broker.subscribe(Events.CLOSE_SESSION, event -> initCombo());
 		createCombo(parent);
 	}
 
 	private void createCombo(final Composite parent) {
 		comboViewer = new ComboViewer(parent);
 		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
-		comboViewer.setLabelProvider(new PlaceAreaLabelProvider());
+		comboViewer.setLabelProvider(new ControlAreaLabelProvider());
 		initCombo();
-		comboViewer.addSelectionChangedListener(this::selectionPlaceArea);
+		comboViewer.addSelectionChangedListener(this::selectionControlArea);
 		newTableTypeHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
@@ -136,7 +142,6 @@ public class PlaceAreaSelectionControl {
 						tableType = TableType.DIFF;
 						setCombo();
 					}
-
 				}
 				return true;
 			}
@@ -145,7 +150,7 @@ public class PlaceAreaSelectionControl {
 
 	private void setCombo() {
 		comboViewer.getCombo().removeAll();
-		final List<PlaceAreaValue> values = new LinkedList<>();
+		final List<ControlAreaValue> values = new LinkedList<>();
 		switch (tableType) {
 		case FINAL:
 			values.addAll(getComboValues(getSession(), ContainerType.FINAL));
@@ -163,7 +168,7 @@ public class PlaceAreaSelectionControl {
 			break;
 		}
 		if (values.isEmpty()) {
-			comboViewer.add(messages.PlaceAreaCombo_Default_Value);
+			comboViewer.add(messages.ControlAreaCombo_Default_Value);
 			comboViewer.getCombo().select(0);
 			comboViewer.getCombo().setEnabled(false);
 			return;
@@ -171,18 +176,18 @@ public class PlaceAreaSelectionControl {
 
 		comboViewer.setInput(values);
 		if (values.size() > 1) {
-			comboViewer.insert(messages.PlaceAreaCombo_All, values.size());
+			comboViewer.insert(messages.ControlAreaCombo_All, values.size());
 		}
-		comboViewer.insert(messages.PlaceAreaCombo_Default_Value, 0);
+		comboViewer.insert(messages.ControlAreaCombo_Default_Value, 0);
 
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(true);
 	}
 
-	private List<PlaceAreaValue> getDiffComboValues() {
-		final List<PlaceAreaValue> values = new LinkedList<>();
-		final List<PlaceAreaValue> initialValues = getComboValues(getSession(),
-				ContainerType.INITIAL);
+	private List<ControlAreaValue> getDiffComboValues() {
+		final List<ControlAreaValue> values = new LinkedList<>();
+		final List<ControlAreaValue> initialValues = getComboValues(
+				getSession(), ContainerType.INITIAL);
 		values.addAll(initialValues);
 		final MultiContainer_AttributeGroup finalContainer = getSession()
 				.getContainer(ContainerType.FINAL);
@@ -196,7 +201,7 @@ public class PlaceAreaSelectionControl {
 
 		for (final Stell_Bereich finalArea : finalContainer.getStellBereich()) {
 			final String finalAreaId = finalArea.getIdentitaet().getWert();
-			final Optional<PlaceAreaValue> initialArea = values.stream()
+			final Optional<ControlAreaValue> initialArea = values.stream()
 					.filter(area -> area.area().getIdentitaet().getWert()
 							.equals(finalAreaId))
 					.findFirst();
@@ -204,10 +209,9 @@ public class PlaceAreaSelectionControl {
 			if (initialArea.isEmpty()) {
 				String areaName = getStellBeteichBezeichnung(finalArea);
 				if (areaName == null) {
-					areaName = String.format("Stellbereich %d", //$NON-NLS-1$
-							Integer.valueOf(values.size()));
+					areaName = getDefaultAreaName(values.size());
 				}
-				values.add(new PlaceAreaValue(areaName, finalArea,
+				values.add(new ControlAreaValue(areaName, finalArea,
 						ContainerType.FINAL));
 			}
 		}
@@ -224,7 +228,7 @@ public class PlaceAreaSelectionControl {
 	 *            the table type
 	 * @return
 	 */
-	private List<PlaceAreaValue> getComboValues(final IModelSession session,
+	private List<ControlAreaValue> getComboValues(final IModelSession session,
 			final ContainerType containerType) {
 		final MultiContainer_AttributeGroup selectedContainer = session
 				.getContainer(containerType);
@@ -239,18 +243,22 @@ public class PlaceAreaSelectionControl {
 			comboViewer.getCombo().setEnabled(false);
 			return Collections.emptyList();
 		}
-		final List<PlaceAreaValue> values = new LinkedList<>();
+		final List<ControlAreaValue> values = new LinkedList<>();
 		int i = 1;
 		for (final Stell_Bereich area : selectedContainer.getStellBereich()) {
 			String areaName = getStellBeteichBezeichnung(area);
 			if (areaName == null) {
-				areaName = String.format("Stellbereich %d", //$NON-NLS-1$
-						Integer.valueOf(i));
+				areaName = getDefaultAreaName(i);
 			}
-			values.add(new PlaceAreaValue(areaName, area, containerType));
+			values.add(new ControlAreaValue(areaName, area, containerType));
 			i++;
 		}
 		return values;
+	}
+
+	private String getDefaultAreaName(final int index) {
+		return String.format(messages.ControlAreaCombo_Default_Area_Name,
+				Integer.valueOf(index));
 	}
 
 	private IModelSession getSession() {
@@ -261,30 +269,30 @@ public class PlaceAreaSelectionControl {
 		comboViewer.getCombo().removeAll();
 		comboViewer
 				.setInput(List.of(messages.TableTypeSelectionControl_noSession,
-						messages.PlaceAreaCombo_Default_Value));
+						messages.ControlAreaCombo_Default_Value));
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void selectionPlaceArea(final SelectionChangedEvent e) {
+	private void selectionControlArea(final SelectionChangedEvent e) {
 		if (e.getSelection() instanceof final IStructuredSelection selection) {
 			final Object selectedElement = selection.getFirstElement();
-			if (selectedElement instanceof final PlaceAreaValue selected) {
+			if (selectedElement instanceof final ControlAreaValue selected) {
 				ToolboxEvents.send(broker,
-						new SelectionPlaceArea(selected, tableType));
+						new SelectionControlArea(selected, tableType));
 				return;
 			}
 
 			if (selectedElement instanceof final String msg) {
-				if (msg.equals(messages.PlaceAreaCombo_Default_Value)) {
+				if (msg.equals(messages.ControlAreaCombo_Default_Value)) {
 					ToolboxEvents.send(broker,
-							new SelectionPlaceArea(tableType));
-				} else if (msg.equals(messages.PlaceAreaCombo_All)) {
+							new SelectionControlArea(tableType));
+				} else if (msg.equals(messages.ControlAreaCombo_All)) {
 					try {
-						final List<PlaceAreaValue> allValues = List.class
+						final List<ControlAreaValue> allValues = List.class
 								.cast(comboViewer.getInput());
-						ToolboxEvents.send(broker, new SelectionPlaceArea(
+						ToolboxEvents.send(broker, new SelectionControlArea(
 								Set.copyOf(allValues), tableType));
 					} catch (final Exception exc) {
 						throw new RuntimeException(exc);

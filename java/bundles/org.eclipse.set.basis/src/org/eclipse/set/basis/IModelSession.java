@@ -147,7 +147,7 @@ public interface IModelSession {
 	/**
 	 * @return the selection place area with the belonging contaier type
 	 */
-	Map<Stell_Bereich, ContainerType> getPlaceAreas();
+	Map<Stell_Bereich, ContainerType> getControlAreas();
 
 	/**
 	 * @return the temporary directory of this session

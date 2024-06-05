@@ -109,6 +109,8 @@ public final class TableServiceImpl implements TableService {
 	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
+	private static final String EMPTY = "empty"; //$NON-NLS-1$
+
 	private CacheService getCache() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
 				: cacheService;
@@ -139,14 +141,14 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private Table createDiffTable(final String elementId,
-			final IModelSession modelSession, final Stell_Bereich placeArea) {
+			final IModelSession modelSession, final Stell_Bereich controlArea) {
 
 		final Table startTable = transformToTable(elementId, TableType.INITIAL,
-				modelSession, placeArea == null ? Collections.emptyMap()
-						: Map.of(placeArea, ContainerType.INITIAL));
+				modelSession, controlArea == null ? Collections.emptyMap()
+						: Map.of(controlArea, ContainerType.INITIAL));
 		final Table zielTable = transformToTable(elementId, TableType.FINAL,
-				modelSession, placeArea == null ? Collections.emptyMap()
-						: Map.of(placeArea, ContainerType.FINAL));
+				modelSession, controlArea == null ? Collections.emptyMap()
+						: Map.of(controlArea, ContainerType.FINAL));
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
@@ -261,19 +263,19 @@ public final class TableServiceImpl implements TableService {
 
 	private Object loadTransform(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Stell_Bereich placeArea) {
+			final Stell_Bereich controlArea) {
 		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
 		final Table transformedTable;
 		if (tableType == TableType.DIFF) {
 			transformedTable = createDiffTable(elementId, modelSession,
-					placeArea);
+					controlArea);
 			modelService.format(transformedTable);
 		} else {
 			transformedTable = modelService.transform(
 					modelSession.getContainer(tableType.getContainerForTable()),
-					placeArea);
+					controlArea);
 			saveTableError(shortCut, tableType, modelService.getTableErrors());
 		}
 		if (Thread.currentThread().isInterrupted()
@@ -304,9 +306,9 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public String transformToCsv(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<Stell_Bereich, ContainerType> placeAreas) {
+			final Map<Stell_Bereich, ContainerType> controlAreas) {
 		final Table table = transformToTable(elementId, tableType, modelSession,
-				placeAreas);
+				controlAreas);
 		return transformToCsv(table);
 	}
 
@@ -349,23 +351,24 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Table transformToTable(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<Stell_Bereich, ContainerType> placeAreas) {
+			final Map<Stell_Bereich, ContainerType> controlAreas) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		if (placeAreas.isEmpty()) {
-			return (Table) cache.get(String.format("%s/empty", shortCut), //$NON-NLS-1$
+		if (controlAreas.isEmpty()) {
+			return (Table) cache.get(
+					cacheService.cacheKeyBuilder(shortCut, EMPTY),
 					() -> loadTransform(shortCut, tableType, modelSession,
 							null));
 		}
 		final Table resultTable = TablemodelFactory.eINSTANCE.createTable();
-		placeAreas.forEach((area, type) -> {
+		controlAreas.forEach((area, type) -> {
 			if (!type.getDefaultTableType().equals(tableType)
 					&& tableType != TableType.DIFF) {
 				return;
 			}
-			final String areaCacheKey = String.format("%s/%s", shortCut, //$NON-NLS-1$
+			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
 					area.getIdentitaet().getWert());
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,

@@ -40,7 +40,7 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 		return factory.table
 	}
 	
-	override transformTableContent(T model, TMFactory factory, Stell_Bereich placeArea) {
+	override transformTableContent(T model, TMFactory factory, Stell_Bereich controlArea) {
 		throw new UnsupportedOperationException()
 	}
 

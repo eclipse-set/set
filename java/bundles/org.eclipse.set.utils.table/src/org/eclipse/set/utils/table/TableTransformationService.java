@@ -53,11 +53,11 @@ public interface TableTransformationService<T> {
 	 * 
 	 * @param model
 	 *            the model to be used
-	 * @param placeArea
+	 * @param controlArea
 	 *            the {@link Stell_Bereich}
 	 * @return the transformed table
 	 */
-	Table transform(T model, Stell_Bereich placeArea);
+	Table transform(T model, Stell_Bereich controlArea);
 
 	/**
 	 * Errors that occurred during transformation

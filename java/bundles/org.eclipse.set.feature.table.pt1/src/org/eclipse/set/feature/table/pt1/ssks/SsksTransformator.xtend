@@ -167,7 +167,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich placeArea) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
 		val waitingFileSideDistanceSignal = newHashMap
 		for (Signal signal : container?.signal?.filter[isPlanningObject].filter [

@@ -86,7 +86,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
 		TMFactory factory,
-		Stell_Bereich placeArea
+		Stell_Bereich controlArea
 	) {
 		val fstDwegList = container.fstrDWeg.filter[isPlanningObject]
 

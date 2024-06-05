@@ -51,7 +51,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich placeArea) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		return container.transform
 	}

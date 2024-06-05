@@ -22,7 +22,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
  * 
  * @author Truong
  */
-public class SelectionPlaceArea implements ToolboxEvent {
+public class SelectionControlArea implements ToolboxEvent {
 
 	/**
 	 * Helper class for define place area
@@ -34,12 +34,12 @@ public class SelectionPlaceArea implements ToolboxEvent {
 	 * @param containerType
 	 *            the {@link ContainerType}, which belong to this area
 	 */
-	public record PlaceAreaValue(String areaName, Stell_Bereich area,
+	public record ControlAreaValue(String areaName, Stell_Bereich area,
 			ContainerType containerType) {
 	}
 
 	private static final String TOPIC = "toolboxevents/stellbereich/selection"; //$NON-NLS-1$
-	Set<PlaceAreaValue> areas;
+	Set<ControlAreaValue> areas;
 	private final TableType tableType;
 
 	/**
@@ -52,7 +52,7 @@ public class SelectionPlaceArea implements ToolboxEvent {
 	/**
 	 * Default constructor
 	 */
-	public SelectionPlaceArea() {
+	public SelectionControlArea() {
 		this.areas = null;
 		this.tableType = null;
 
@@ -63,7 +63,7 @@ public class SelectionPlaceArea implements ToolboxEvent {
 	 *            current tableType
 	 * 
 	 */
-	public SelectionPlaceArea(final TableType tableType) {
+	public SelectionControlArea(final TableType tableType) {
 		this(Collections.emptySet(), tableType);
 	}
 
@@ -71,11 +71,11 @@ public class SelectionPlaceArea implements ToolboxEvent {
 	 * Constructor
 	 * 
 	 * @param area
-	 *            the {@link PlaceAreaValue}
+	 *            the {@link ControlAreaValue}
 	 * @param tableType
 	 *            current tableType
 	 */
-	public SelectionPlaceArea(final PlaceAreaValue area,
+	public SelectionControlArea(final ControlAreaValue area,
 			final TableType tableType) {
 		this(Set.of(area), tableType);
 	}
@@ -88,7 +88,7 @@ public class SelectionPlaceArea implements ToolboxEvent {
 	 * @param tableType
 	 *            current tableType
 	 */
-	public SelectionPlaceArea(final Set<PlaceAreaValue> areas,
+	public SelectionControlArea(final Set<ControlAreaValue> areas,
 			final TableType tableType) {
 		this.areas = areas;
 		this.tableType = tableType;
@@ -97,7 +97,7 @@ public class SelectionPlaceArea implements ToolboxEvent {
 	/**
 	 * @return the place areas
 	 */
-	public Set<PlaceAreaValue> getPlaceAreas() {
+	public Set<ControlAreaValue> getControlAreas() {
 		return areas;
 	}
 

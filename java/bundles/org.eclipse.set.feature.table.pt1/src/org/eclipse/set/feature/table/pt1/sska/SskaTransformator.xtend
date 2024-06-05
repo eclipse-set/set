@@ -51,7 +51,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory, Stell_Bereich placeArea) {
+		TMFactory factory, Stell_Bereich controlArea) {
 
 		val aussenelementansteuerungList = container.aussenelementansteuerung
 		val estwzentraleinheitList = container.ESTWZentraleinheit
@@ -60,7 +60,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		elementList.addAll(estwzentraleinheitList);
 		elementList.addAll(aussenelementansteuerungList);
 		// Basis_Objekt
-		for (element : elementList.filterObjectsInPlaceArea(placeArea)) {
+		for (element : elementList.filterObjectsInControlArea(controlArea)) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
