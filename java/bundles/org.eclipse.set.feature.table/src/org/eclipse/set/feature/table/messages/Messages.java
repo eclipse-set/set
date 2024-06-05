@@ -27,14 +27,24 @@ public class Messages {
 	public String TableErrorTableColumns_LeadingObject;
 
 	/**
-	 * Fehlertext
+	 * technischer Fehlertext
 	 */
 	public String TableErrorTableColumns_Message;
+
+	/**
+	 * Zeilennummer
+	 */
+	public String TableErrorTableColumns_RowNumber;
 
 	/**
 	 * Quelle
 	 */
 	public String TableErrorTableColumns_Source;
+
+	/**
+	 * Zustand
+	 */
+	public String TableErrorTableColumns_TableType;
 
 	/**
 	 * Tabellenübersicht
@@ -81,6 +91,11 @@ public class Messages {
 	 * Enthalten Fehler:
 	 */
 	public String TableOverviewPart_WithErrorsDesc;
+
+	/**
+	 * Debug-Mode: Tabellen können immer wieder neu überprüft werden
+	 */
+	public String TableOverviewPart_DebugModeHint;
 
 	/**
 	 * Exportieren

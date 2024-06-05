@@ -10,6 +10,8 @@ package org.eclipse.set.core.services.cache;
 
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.cache.NoCache;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.core.services.Services;
 
 /**
  * A cache service without caching for test purposes.
@@ -21,6 +23,12 @@ public class NoCacheService implements CacheService {
 	@Override
 	public Cache getCache(final String cacheId)
 			throws IllegalArgumentException {
+		if (cacheId.equals(ToolboxConstants.CacheId.TABLE_ERRORS)
+				|| cacheId.equals(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+				|| cacheId
+						.equals(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)) {
+			return Services.getCacheService().getCache(cacheId);
+		}
 		return new NoCache();
 	}
 

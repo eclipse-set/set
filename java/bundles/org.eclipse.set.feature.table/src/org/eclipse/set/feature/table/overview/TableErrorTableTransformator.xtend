@@ -12,19 +12,24 @@ import java.util.Collection
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.utils.table.TableError
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 
 class TableErrorTableTransformator extends AbstractTableModelTransformator<Collection<TableError>> {	
 	TableErrorTableColumns columns;
+	EnumTranslationService enumTranslationService;
 
-	new(TableErrorTableColumns columns) {
+	new(TableErrorTableColumns columns, EnumTranslationService enumTranslationService) {
 		super()
 		this.columns = columns;
+		this.enumTranslationService = enumTranslationService;
 	}
 	
 	override transformTableContent(Collection<TableError> errors, TMFactory factory) {
 		for (error : errors) {
-			val instance = factory.newTableRow()
+			val instance = factory.newTableRow(error)
 			fill(instance, columns.Source, error, [error.source])
+			fill(instance, columns.TableType, error, [enumTranslationService.translate(error.tableType).presentation])
+			fill(instance, columns.RowNumber, error, [error.rowNumber])
 			fill(instance, columns.LeadingObject, error, [error.leadingObject])
 			fill(instance, columns.Message, error, [error.message])		
 		}

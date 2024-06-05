@@ -206,7 +206,10 @@ public final class TableServiceImpl implements TableService {
 	private void saveTableError(final String shortCut,
 			final TableType tableType, final Collection<TableError> errors) {
 		final String shortName = getTableNameInfo(shortCut).getShortName();
-		errors.forEach(error -> error.setSource(shortName));
+		errors.forEach(error -> {
+			error.setSource(shortName);
+			error.setTableType(tableType);
+		});
 		switch (tableType) {
 		case INITIAL:
 			getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
