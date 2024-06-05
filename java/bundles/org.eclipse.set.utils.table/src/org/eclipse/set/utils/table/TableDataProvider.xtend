@@ -97,7 +97,7 @@ class TableDataProvider implements IDataProvider {
 	 * @return the original row index (before filters were applied)
 	 */
 	def int getOriginalRowIndex(int row) {
-		return tableContents.get(row).row.trueRowIndex
+		return tableContents.get(row).row.rowIndex
 	}
 
 	def int getObjectSourceLine(int row) {
