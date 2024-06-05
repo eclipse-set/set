@@ -10,6 +10,7 @@ package org.eclipse.set.feature.table.overview;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.NUMERIC;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -68,7 +69,8 @@ public class TableErrorTransformationService
 	public Comparator<RowGroup> getRowGroupComparator() {
 		// default comparator
 		return TableRowGroupComparator.builder().sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
-				.sort("C", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort("B", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort("C", NUMERIC, ASC) //$NON-NLS-1$
 				.build();
 	}
 }

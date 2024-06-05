@@ -34,7 +34,12 @@ public class ComparatorBuilder {
 		/**
 		 * Sort string content with mixed string comparator.
 		 */
-		MIXED_STRING
+		MIXED_STRING,
+
+		/**
+		 * Sort string content with numeric comparator.
+		 */
+		NUMERIC,
 	}
 
 	private final TableRowGroupComparator tableRowGroupComparator;
@@ -86,6 +91,9 @@ public class ComparatorBuilder {
 			break;
 		case MIXED_STRING:
 			cellComparator = new MixedStringCellComparator(direction);
+			break;
+		case NUMERIC:
+			cellComparator = new NumericCellComparator(direction);
 			break;
 		default:
 			throw new IllegalArgumentException(cellComparatorType.toString());
