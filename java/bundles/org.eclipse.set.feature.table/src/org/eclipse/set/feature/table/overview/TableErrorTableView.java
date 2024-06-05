@@ -94,16 +94,16 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 					final RowGroup group = TableRowExtensions
 							.getGroup(bodyDataProvider.getRow(row).getRow());
 
-					final TableError element = (TableError) group
-							.getLeadingObject();
+					if (group
+							.getLeadingObject() instanceof final TableError error) {
+						final String guid = error.getGuid();
+						final String shortCut = error.getSource().toLowerCase();
 
-					final String guid = element.getGuid();
-					final String shortCut = element.getSource().toLowerCase();
-
-					toolboxPartService
-							.showPart(TABLE_PART_ID_PREFIX + shortCut);
-					ToolboxEvents.send(broker,
-							new TableSelectRowByGuidEvent(guid));
+						toolboxPartService
+								.showPart(TABLE_PART_ID_PREFIX + shortCut);
+						ToolboxEvents.send(broker,
+								new TableSelectRowByGuidEvent(guid));
+					}
 
 				});
 		return natTable;
