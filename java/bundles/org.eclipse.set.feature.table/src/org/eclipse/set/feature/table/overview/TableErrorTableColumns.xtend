@@ -43,10 +43,10 @@ class TableErrorTableColumns extends AbstractColumns {
 		ColumnDescriptorModelBuilder builder) {
 		val GroupBuilder root = builder.createRootColumn()
 		root.add(Source).widthPercent(5)
-		root.add(TableType).widthPercent(5)
-		root.add(RowNumber).widthPercent(5)
-		root.add(LeadingObject).widthPercent(20)
-		root.add(Message).widthPercent(65)
+		root.add(TableType).widthPercent(8)
+		root.add(RowNumber).widthPercent(7)
+		root.add(LeadingObject).widthPercent(15)
+		root.add(Message).widthPercent(55)
 		return root.getGroupRoot()
 	}
 }
