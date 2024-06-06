@@ -35,7 +35,7 @@ public interface TableModelTransformator<T> {
 	public Table transformTableContent(T model, TMFactory factory);
 
 	/**
-	 * Transforms the given container and place area of a PlanPro model to a
+	 * Transforms the given container and control area of a PlanPro model to a
 	 * particular table of the table model.
 	 * 
 	 * @param model

@@ -18,14 +18,14 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 
 /**
- * Selected place areas was change
+ * Changed event of selection control area widges
  * 
  * @author Truong
  */
-public class SelectionControlArea implements ToolboxEvent {
+public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 
 	/**
-	 * Helper class for define place area
+	 * Helper class for define control area
 	 * 
 	 * @param areaName
 	 *            the name of area
@@ -52,7 +52,7 @@ public class SelectionControlArea implements ToolboxEvent {
 	/**
 	 * Default constructor
 	 */
-	public SelectionControlArea() {
+	public SelectedControlAreaChangedEvent() {
 		this.areas = null;
 		this.tableType = null;
 
@@ -63,7 +63,7 @@ public class SelectionControlArea implements ToolboxEvent {
 	 *            current tableType
 	 * 
 	 */
-	public SelectionControlArea(final TableType tableType) {
+	public SelectedControlAreaChangedEvent(final TableType tableType) {
 		this(Collections.emptySet(), tableType);
 	}
 
@@ -75,7 +75,7 @@ public class SelectionControlArea implements ToolboxEvent {
 	 * @param tableType
 	 *            current tableType
 	 */
-	public SelectionControlArea(final ControlAreaValue area,
+	public SelectedControlAreaChangedEvent(final ControlAreaValue area,
 			final TableType tableType) {
 		this(Set.of(area), tableType);
 	}
@@ -88,14 +88,14 @@ public class SelectionControlArea implements ToolboxEvent {
 	 * @param tableType
 	 *            current tableType
 	 */
-	public SelectionControlArea(final Set<ControlAreaValue> areas,
+	public SelectedControlAreaChangedEvent(final Set<ControlAreaValue> areas,
 			final TableType tableType) {
 		this.areas = areas;
 		this.tableType = tableType;
 	}
 
 	/**
-	 * @return the place areas
+	 * @return the control areas
 	 */
 	public Set<ControlAreaValue> getControlAreas() {
 		return areas;
