@@ -145,7 +145,7 @@ public interface IModelSession {
 	TableType getTableType();
 
 	/**
-	 * @return the selection place area with the belonging contaier type
+	 * @return the selection control area with the belonging contaier type
 	 */
 	Map<Stell_Bereich, ContainerType> getControlAreas();
 

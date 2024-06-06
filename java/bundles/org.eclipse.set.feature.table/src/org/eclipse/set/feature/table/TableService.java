@@ -105,7 +105,7 @@ public interface TableService {
 			final IModelSession modelSession);
 
 	/**
-	 * Transform the selected container and place area to a table model.
+	 * Transform the selected container and control area to a table model.
 	 * 
 	 * @param elementId
 	 *            the elementId

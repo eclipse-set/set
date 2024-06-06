@@ -29,7 +29,7 @@ public class StellBereichExtensions {
 	 *
 	 * @param area
 	 *            the {@link Stell_Bereich}
-	 * @return name of place area
+	 * @return name of control area
 	 */
 	public static String getStellBeteichBezeichnung(final Stell_Bereich area) {
 		final Bezeichnung_Stellwerk_TypeClass areaNameTypeClass = area

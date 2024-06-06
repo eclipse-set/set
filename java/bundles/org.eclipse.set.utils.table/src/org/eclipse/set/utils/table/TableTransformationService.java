@@ -49,7 +49,7 @@ public interface TableTransformationService<T> {
 	Table transform(T model);
 
 	/**
-	 * Transforms a model within place area to a table model.
+	 * Transforms a model within control area to a table model.
 	 * 
 	 * @param model
 	 *            the model to be used
