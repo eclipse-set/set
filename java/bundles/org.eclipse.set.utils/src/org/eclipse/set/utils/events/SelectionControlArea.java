@@ -38,7 +38,7 @@ public class SelectionControlArea implements ToolboxEvent {
 			ContainerType containerType) {
 	}
 
-	private static final String TOPIC = "toolboxevents/stellbereich/selection"; //$NON-NLS-1$
+	private static final String TOPIC = "toolboxevents/controlarea/selection"; //$NON-NLS-1$
 	Set<ControlAreaValue> areas;
 	private final TableType tableType;
 
