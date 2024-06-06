@@ -143,9 +143,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val isElementA = blockElement === blockAnlage?.IDBlockElementA?.value
 		val isElementB = blockElement === blockAnlage?.IDBlockElementB?.value
-		val otherBlockElement = isElementA
-				? blockAnlage?.IDBlockElementB?.value
-				: blockAnlage?.IDBlockElementA?.value
+		val otherBlockElement = isElementA ? blockAnlage?.IDBlockElementB?.
+				value : blockAnlage?.IDBlockElementA?.value
 
 		val row = it
 		// A: Sslb.Strecke.Nummer
@@ -228,14 +227,30 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			blockElement,
 			[IDSignal?.value !== null],
 			[
-				val closestPoint = topGraph.findClosestPoint(
-					new TopPoint(IDSignal?.value), fmaCache.keySet.toList,
+				val signal = blockElement.IDSignal?.value
+				val closestPointOpt = topGraph.findClosestPoint(
+					new TopPoint(signal), fmaCache.keySet.toList,
 					IDSignal?.value.punktObjektTOPKante?.first?.wirkrichtung?.
-						wert === ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN);
-				if (closestPoint.empty)
+						wert === ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+				if (closestPointOpt.empty)
 					return ""
-				val fma = fmaCache.get(closestPoint.get())
-				return fma?.bzBezeichner
+
+				val closestPoint = closestPointOpt.get()
+
+				// Check if the closest point is a duplicate
+				val fmas = fmaCache.filter [ point, fma |
+					point.equalLocation(closestPoint)
+				].values.toSet
+
+				if (fmas.size > 1) {
+					return fmas.filter [
+						val ga = IDGleisAbschnitt?.value
+						return ga !== null && ga.contains(signal)
+					].map[bzBezeichner].join(ITERABLE_FILLING_SEPARATOR)
+				} else {
+					return fmas.get(0)?.bzBezeichner
+				}
+
 			]
 		)
 
