@@ -167,7 +167,7 @@ public class Messages {
 	public String TableMenuService_Siteplan;
 
 	/**
-	 * Select alle Stellbereich Alle Stellbereiche
+	 * Alle Stellbereiche
 	 */
 	public String ControlAreaCombo_All;
 
