@@ -385,6 +385,24 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 
 	/**
 	 * @param bereich this Bereichsobjekt
+	 * @param object the object
+	 * 
+	 * @returns whether this Bereichsobjekt contains the given object
+	 */
+	def static boolean contains(
+		Bereich_Objekt bereich,
+		Punkt_Objekt object
+	) {
+		return bereich.bereichObjektTeilbereich.exists [ bo |
+			object.singlePoints.exists [
+				bo.contains(it)
+			]
+
+		]
+	}
+
+	/**
+	 * @param bereich this Bereichsobjekt
 	 * @param singlePoint the single point
 	 * 
 	 * @returns whether this Bereichsobjekt contains the given single point

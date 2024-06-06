@@ -64,4 +64,18 @@ public class TopPoint {
 	public TopPoint(final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		this(potk.getIDTOPKante().getValue(), potk.getAbstand().getWert());
 	}
+
+	/**
+	 * @param tp
+	 *            other point
+	 * @return whether the two points are equal
+	 */
+	public boolean equalLocation(final TopPoint tp) {
+		if (this.edge != tp.edge) {
+			return false;
+		}
+
+		return this.distance.compareTo(tp.distance) == 0;
+
+	}
 }
