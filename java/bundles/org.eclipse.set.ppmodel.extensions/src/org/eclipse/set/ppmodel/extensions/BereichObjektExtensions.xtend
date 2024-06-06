@@ -8,6 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigDecimal
+import java.util.Collection
+import java.util.List
+import java.util.Set
+import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.DirectedEdgePath
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
@@ -18,21 +23,14 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.eclipse.set.ppmodel.extensions.utils.TopKantePath
-import java.math.BigDecimal
-import java.util.Collection
-import java.util.List
-import java.util.Set
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
-import org.eclipse.core.runtime.Assert
 
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Extensions for {@link Bereich_Objekt}.
@@ -477,7 +475,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			return areaIntersects(teilbereich, path.start, edges.get(0),
 				path.end)
 		}
-		val middleEdges = edges.filter[it !== edges.head && it !== edges.lastOrNull]
+		val middleEdges = edges.filter [
+			it !== edges.head && it !== edges.lastOrNull
+		]
 		return areaIntersects(teilbereich, path.start, edges.head) ||
 			areaIntersects(teilbereich, edges.lastOrNull, path.end) ||
 			middleEdges.exists[areaIntersects(teilbereich, it)]
@@ -582,55 +582,96 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			Distance.compare(distance, B) <= 0
 	}
 
-	def static BigDecimal getOverlappingLength(
-		Bereich_Objekt_Teilbereich_AttributeGroup tba,
-		Bereich_Objekt_Teilbereich_AttributeGroup tbb) {
-		if (tba.IDTOPKante?.wert != tbb.IDTOPKante?.wert)
+	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
+		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		if (bo === null || tb === null)
 			return BigDecimal.ZERO
 
-		val taA = tba.begrenzungA?.wert
-		val taB = tba.begrenzungB?.wert
-		val tbA = tbb.begrenzungA?.wert
-		val tbB = tbb.begrenzungB?.wert
+		val tb1 = bo.bereichObjektTeilbereich.map[new TopArea(it)].toList
+		val tb2 = new TopArea(tb)
 
-		val minA = taA.min(taB)
-		val maxA = taA.max(taB)
+		val noOverlap1 = tb1.groupBy[topGUID].values.flatMap[removeOverlaps]
 
-		val minB = tbA.min(tbB)
-		val maxB = tbA.max(tbB)
-
-		// Determine whether A or B starts first
-		if (minA < minB) {
-			// A starts first
-			// If A ends before B begins, the length is zero
-			if (maxA <= minB) {
-				return BigDecimal.ZERO
-			}
-			// Otherwise the length is the distance from minB to either maxB or maxA (whichever is less) 
-			return maxA.min(maxB) - minB
-		} else // minB <= minA 
-		{
-			// B starts first
-			// If B ends before A begins, the length is zero
-			if (maxB <= minA) {
-				return BigDecimal.ZERO
-			}
-			// Otherwise the length is the distance from minB to either maxB or maxA (whichever is less)			
-			return maxB.min(maxA) - minA
-		}
-	}
-
-	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
-		Bereich_Objekt_Teilbereich_AttributeGroup tbb) {
-		return bo.bereichObjektTeilbereich.map[getOverlappingLength(tbb)].reduce [ a, b |
-			a + b
-		]
+		return noOverlap1.map[getOverlappingLength(tb2)].reduce[a, b|a + b]
 	}
 
 	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
 		Bereich_Objekt bo2) {
-		return bo.bereichObjektTeilbereich.map[bo2.getOverlappingLength(it)].
-			reduce[a, b|a + b]
+		if (bo === null || bo2 === null)
+			return BigDecimal.ZERO
+
+		val tb1 = bo.bereichObjektTeilbereich.map[new TopArea(it)].toList
+		val tb2 = bo2.bereichObjektTeilbereich.map[new TopArea(it)].toList
+
+		val noOverlap1 = tb1.groupBy[topGUID].values.flatMap[removeOverlaps]
+		val noOverlap2 = tb2.groupBy[topGUID].values.flatMap[removeOverlaps]
+
+		return noOverlap1.flatMap [ tb |
+			noOverlap2.map [
+				tb.getOverlappingLength(it)
+			]
+		].reduce[a, b|a + b]
+	}
+
+	private def static List<TopArea> removeOverlaps(List<TopArea> areas) {
+		// all areas are on the same top edge
+		var current = BigDecimal.ZERO
+
+		for (area : areas.sortBy[start]) {
+			// If this subarea starts before the previous one has ended, move the start to the end of the previous area
+			if (area.start < current) {
+				area.start = current
+			}
+			current = area.end
+		}
+		return areas
+	}
+
+	private static class TopArea {
+		new(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+			topGUID = tb?.IDTOPKante?.wert
+
+			if (tb?.begrenzungA?.wert <= tb?.begrenzungB?.wert) {
+				start = tb?.begrenzungA?.wert
+				end = tb?.begrenzungB?.wert
+			} else {
+				end = tb?.begrenzungA?.wert
+				start = tb?.begrenzungB?.wert
+			}
+
+		}
+
+		def BigDecimal getOverlappingLength(TopArea other) {
+			if (topGUID != other.topGUID)
+				return BigDecimal.ZERO
+
+			// Find the point where either area ends
+			val end = this.end.min(other.end)
+
+			// Determine whether this or other starts first
+			if (this.start < other.start) {
+				// This area starts first
+				// If this area ends before the other area begins, the length is zero
+				if (this.end <= other.start) {
+					return BigDecimal.ZERO
+				}
+
+				// Otherwise the length is the distance from the start of the other area to either area end 
+				return end - other.start
+			} else {
+				// other area starts first
+				// If B ends before A begins, the length is zero
+				if (other.end <= this.start) {
+					return BigDecimal.ZERO
+				}
+				// Otherwise the length is the distance from the start of this area to either area end 
+				return end - this.start
+			}
+		}
+
+		String topGUID
+		BigDecimal start
+		BigDecimal end
 	}
 
 }
