@@ -104,12 +104,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	 * @returns length of the Bereichsobjekt
 	 */
 	def static BigDecimal getLength(Bereich_Objekt bereich) {
-		return bereich.bereichObjektTeilbereich.fold(
-			BigDecimal.valueOf(0),
-			[ BigDecimal current, Bereich_Objekt_Teilbereich_AttributeGroup portion |
-				current + portion.length
-			]
-		)
+		return bereich.bereichObjektTeilbereich.map[new TopArea(it)].groupBy [
+			topGUID
+		].values.flatMap[removeOverlaps].map[length].reduce[a, b|a + b]
 	}
 
 	/**
@@ -657,6 +654,10 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 				start = tb?.begrenzungB?.wert
 			}
 
+		}
+
+		def BigDecimal length() {
+			return end - start
 		}
 
 		def BigDecimal getOverlappingLength(TopArea other) {
