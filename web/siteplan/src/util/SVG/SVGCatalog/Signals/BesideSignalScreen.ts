@@ -12,6 +12,7 @@ import { ISvgElement } from '@/model/SvgElement'
 import '@/util/ElementExtensions'
 import { AndereSignalGroup } from '@/util/SVG/SvgEnum'
 import SignalSVGCatalog from '../SignalSVGCatalog'
+import { Direction } from '@/model/SiteplanModel'
 
 export default class BesideSignalScreen extends SignalSVGCatalog {
   public catalogName (): string {
@@ -23,6 +24,27 @@ export default class BesideSignalScreen extends SignalSVGCatalog {
       // Ne_13
       if (['Ne13a', 'Ne13b'].includes(screen.screen)) {
         return this.getSVGFromCatalog('Ne13')
+      }
+
+      // Ne_14
+      if (['Ne14'].includes(screen.screen)) {
+        const leftDirection = this.getSVGFromCatalog('Ne14_links')
+        const rightDirection = this.getSVGFromCatalog('Ne14_rechts')
+        switch (signal.signalDirection) {
+          case Direction.FORWARD: {
+            return signal.lateralDistance[0] > 0
+              ? leftDirection
+              : rightDirection
+          }
+          case Direction.OPPOSITE: {
+            return signal.lateralDistance[0] < 0
+              ? leftDirection
+              : rightDirection
+          }
+          default: {
+            return null
+          }
+        }
       }
 
       // BS_vRVA
