@@ -85,7 +85,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectionControlArea;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
@@ -136,7 +136,7 @@ public final class ToolboxTableView extends BasePart {
 	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 
-	private ToolboxEventHandler<SelectionControlArea> selectionControlAreaHandler;
+	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 
 	private int scrollToPositionRequested = -1;
 
@@ -282,7 +282,7 @@ public final class ToolboxTableView extends BasePart {
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final SelectionControlArea t) {
+			public void accept(final SelectedControlAreaChangedEvent t) {
 				controlAreas.clear();
 				t.getControlAreas().forEach(area -> controlAreas
 						.put(area.area(), area.containerType()));
@@ -291,7 +291,8 @@ public final class ToolboxTableView extends BasePart {
 			}
 		};
 
-		ToolboxEvents.subscribe(getBroker(), SelectionControlArea.class,
+		ToolboxEvents.subscribe(getBroker(),
+				SelectedControlAreaChangedEvent.class,
 				selectionControlAreaHandler);
 	}
 
