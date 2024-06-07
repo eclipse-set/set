@@ -12,10 +12,12 @@ package org.eclipse.set.feature.projectdata.ppimport;
 
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.feature.projectdata.Messages;
+import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
+import org.eclipse.set.ppmodel.extensions.PlanProLayoutInfoExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions;
@@ -37,6 +39,8 @@ public class ModelInformationGroup {
 	private Label countInitial;
 	private final Messages messages;
 	private final IModelSession session;
+
+	private Label countLayout;
 
 	/**
 	 * Constructor
@@ -75,6 +79,7 @@ public class ModelInformationGroup {
 				.LSTZustandStart(singlePlanningState).getContainer();
 		final Container_AttributeGroup finalContainer = PlanungEinzelExtensions
 				.LSTZustandZiel(singlePlanningState).getContainer();
+		final PlanPro_Layoutinfo layoutInfo = session.getLayoutInformation();
 
 		countInitial = createCountInfo(group,
 				messages.PlanProImportPart_countStart,
@@ -82,6 +87,9 @@ public class ModelInformationGroup {
 		countFinal = createCountInfo(group,
 				messages.PlanProImportPart_countZiel,
 				ContainerExtensions.getSize(finalContainer));
+		countLayout = createCountInfo(group,
+				messages.PlanproImportPart_countLayout,
+				PlanProLayoutInfoExtensions.getSize(layoutInfo));
 	}
 
 	private static Label createCountInfo(final Composite parent,
@@ -108,11 +116,13 @@ public class ModelInformationGroup {
 				.LSTZustandStart(singlePlanningState).getContainer();
 		final Container_AttributeGroup finalContainer = PlanungEinzelExtensions
 				.LSTZustandZiel(singlePlanningState).getContainer();
-
+		final PlanPro_Layoutinfo layoutInfo = session.getLayoutInformation();
 		countInitial.setText(Integer
 				.toString(ContainerExtensions.getSize(initialContainer)));
 		countFinal.setText(
 				Integer.toString(ContainerExtensions.getSize(finalContainer)));
+		countLayout.setText(Integer
+				.toString(PlanProLayoutInfoExtensions.getSize(layoutInfo)));
 		countInitial.getParent().layout();
 		countFinal.getParent().layout();
 	}

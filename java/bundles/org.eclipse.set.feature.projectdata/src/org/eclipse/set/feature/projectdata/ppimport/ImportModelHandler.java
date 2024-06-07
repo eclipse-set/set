@@ -42,7 +42,7 @@ import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.fileservice.ToolboxIDResolver;
-import org.eclipse.set.feature.projectdata.ppimport.ImportControl.ImportTarget;
+import org.eclipse.set.feature.projectdata.ppimport.ImportModelControl.ImportTarget;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
 import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
 import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
@@ -73,8 +73,8 @@ import com.google.common.collect.Lists;
  *
  * 
  */
-public class ImportHandler {
-	static final Logger logger = LoggerFactory.getLogger(ImportHandler.class);
+public class ImportModelHandler {
+	static final Logger logger = LoggerFactory.getLogger(ImportModelHandler.class);
 	private final ImportComboFileField comboField;
 	private final PlanPro_Schnittstelle modelToImport;
 	private final ImportTarget target;
@@ -92,7 +92,7 @@ public class ImportHandler {
 	 * @param serviceProvider
 	 *            the {@link ServiceProvider}
 	 */
-	public ImportHandler(final ImportComboFileField comboField,
+	public ImportModelHandler(final ImportComboFileField comboField,
 			final PlanPro_Schnittstelle modelToImport,
 			final ImportTarget target, final ServiceProvider serviceProvider) {
 		this.comboField = comboField;
@@ -159,7 +159,7 @@ public class ImportHandler {
 			importPlaningGroup(source, sourceGruppe,
 					EcoreUtil.copy(data.getFirst()), editingDomain);
 			importSubwork(source, sourceSubwork, sourceContainer,
-					data.getSecond(), editingDomain);
+					EcoreUtil.copy(data.getSecond()), editingDomain);
 			if (modelSession.getToolboxFile().getFormat().isZippedPlanPro()) {
 				importAttachment(modelSession.getToolboxFile(),
 						getImportAttachments(data), mediaToImport);

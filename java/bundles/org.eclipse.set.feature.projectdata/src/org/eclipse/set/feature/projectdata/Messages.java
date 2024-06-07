@@ -51,14 +51,19 @@ public class Messages {
 	public String PlanProImportDescriptionService_ViewName;
 
 	/**
-	 * Anzahl der LST-Objekte im LST-Zustand Start
+	 * Anzahl der Objekte im Startzustand
 	 */
 	public String PlanProImportPart_countStart;
 
 	/**
-	 * Anzahl der LST-Objekte im LST-Zustand Ziel
+	 * Anzahl der Objekte im Zielzustand
 	 */
 	public String PlanProImportPart_countZiel;
+
+	/**
+	 * Anzahl der Objekte im Layoutinformation
+	 */
+	public String PlanproImportPart_countLayout;
 
 	/**
 	 * Die Datei konnte nicht geladen werden.
@@ -83,12 +88,12 @@ public class Messages {
 	/**
 	 * PlanPro-Datei für Import in Start-Zustand auswählen
 	 */
-	public String PlanProImportPart_importStart;
+	public String PlanProImportPart_importInitial;
 
 	/**
 	 * PlanPro-Datei für Import in Ziel-Zustand auswählen
 	 */
-	public String PlanProImportPart_importZiel;
+	public String PlanProImportPart_importFinal;
 
 	/**
 	 * PlanPro-Datei für Import neu Fachdaten auswählen
@@ -186,4 +191,30 @@ public class Messages {
 	 * Bitte ändern Sie die Auswahl.
 	 */
 	public String PlanProImportPart_ImportSameData;
+
+	/**
+	 * Import Layoutdaten von andere PlanPro-Datei
+	 */
+	public String PlanProImportPart_importLayoutGroup;
+
+	/**
+	 * Fachdaten importieren
+	 */
+	public String PlanpRoImportPart_importModelButton;
+
+	/**
+	 * Layoutdaten importieren
+	 */
+	public String PLanpRoImportPart_importLayoutButton;
+
+	/**
+	 * Layoutinformation fehlende
+	 */
+	public String PlanProImportPart_Notcontains_Layout_Title;
+
+	/**
+	 * Ausgewählt Datei enthält keine Layoutinformationen, bitte andere Datei
+	 * auswählen.
+	 */
+	public String PlanProImportPart_Notcontains_Layout_Msg;
 }

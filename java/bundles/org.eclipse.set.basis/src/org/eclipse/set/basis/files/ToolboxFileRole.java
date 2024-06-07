@@ -38,6 +38,11 @@ public enum ToolboxFileRole {
 	SECONDARY_PLANNING,
 
 	/**
+	 * The toolboxFile is used as a
+	 */
+	THIRD_PLANNING,
+
+	/**
 	 * The ToolboxFile is used to start a session (default)
 	 */
 	SESSION,
@@ -45,7 +50,7 @@ public enum ToolboxFileRole {
 	/**
 	 * The ToolboxFile is used as a temporary integration
 	 */
-	TEMPORARY_INTEGRATION;
+	TEMPORARY_INTEGRATION,;
 
 	/**
 	 * Translates the role name into a directory name
@@ -53,17 +58,13 @@ public enum ToolboxFileRole {
 	 * @return the directory name
 	 */
 	public String toDirectoryName() {
-		if (this == EXPORT) {
-			return ToolboxConstants.TOOLBOX_DIRECTORY_NAME_EXPORT;
-		} else if (this == IMPORT_INITIAL_STATE) {
-			return ToolboxConstants.TOOLBOX_DIRECTORY_NAME_IMPORT_INITIAL_STATE;
-		} else if (this == IMPORT_FINAL_STATE) {
-			return ToolboxConstants.TOOLBOX_DIRECTORY_NAME_IMPORT_FINAL_STATE;
-		} else if (this == SECONDARY_PLANNING) {
-			return ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING;
-		} else if (this == TEMPORARY_INTEGRATION) {
-			return ToolboxConstants.TOOLBOX_DIRECTORY_NAME_TEMPORARY_INTEGRATION;
-		}
-		return ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SESSION;
+		return switch (this) {
+		case EXPORT -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_EXPORT;
+		case IMPORT_INITIAL_STATE -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_IMPORT_INITIAL_STATE;
+		case IMPORT_FINAL_STATE -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_IMPORT_FINAL_STATE;
+		case SECONDARY_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING;
+		case THIRD_PLANNING -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_THIRD_PLANNING;
+		default -> ToolboxConstants.TOOLBOX_DIRECTORY_NAME_SESSION;
+		};
 	}
 }
