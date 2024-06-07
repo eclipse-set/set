@@ -10,9 +10,11 @@ package org.eclipse.set.feature.siteplan.trackservice;
 
 import java.util.Set;
 
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
+import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
+import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions;
+import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
 import org.locationtech.jts.geom.Coordinate;
 
 /**
@@ -33,6 +35,12 @@ public class GEOKanteCoordinate {
 		this.position = position;
 		this.bereichObjekte = bereichObjekte;
 		this.crs = crs;
+	}
+
+	GEOKanteCoordinate(final GEO_Knoten geoKnoten,
+			final Set<Bereich_Objekt> bereichObjekte) {
+		this(GeoKnotenExtensions.getCoordinate(geoKnoten), bereichObjekte,
+				GeoKnotenExtensions.getCRS(geoKnoten));
 	}
 
 	GEOKanteCoordinate(final Coordinate coordinate,
