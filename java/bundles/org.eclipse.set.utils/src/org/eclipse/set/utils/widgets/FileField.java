@@ -36,7 +36,7 @@ import com.google.common.collect.Lists;
 public class FileField {
 
 	private final Button button;
-	private final DialogService dialogService;
+	protected final DialogService dialogService;
 	private final List<ToolboxFileFilter> filters;
 	private Path path;
 	private final List<Consumer<Path>> pathListeners = Lists.newArrayList();

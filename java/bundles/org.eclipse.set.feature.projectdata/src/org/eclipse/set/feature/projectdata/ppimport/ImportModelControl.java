@@ -11,24 +11,19 @@
 package org.eclipse.set.feature.projectdata.ppimport;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.PlanProFileNature;
-import org.eclipse.set.basis.constants.ValidationResult;
-import org.eclipse.set.basis.constants.ValidationResult.FileValidateState;
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.basis.files.ToolboxFileAC;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.core.services.modelloader.ModelLoader.ModelContents;
+import org.eclipse.set.feature.projectdata.utils.AbstractImportControl;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
-import org.eclipse.set.feature.validation.utils.ValidationOutcome;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.utils.widgets.ComboValues;
@@ -39,15 +34,15 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 /**
- * Control for import data from anothe project
+ * Control for import data from another project
  * 
  * @author Truong
  */
-public class ImportControl {
+public class ImportModelControl extends AbstractImportControl {
 	/**
 	 * Target to import of the control
 	 */
@@ -72,14 +67,11 @@ public class ImportControl {
 	private final Map<String, byte[]> attachmentSource;
 	private ImportComboFileField comboField;
 	private Option option;
-	private final ServiceProvider serviceProvider;
 
-	private final IModelSession modelSession;
 	private final ImportTarget importType;
 
-	private boolean imported;
+	private ImportModelHandler importHandler;
 
-	private ImportHandler importHandler;
 	private final Runnable handleControlChange;
 
 	/**
@@ -89,23 +81,23 @@ public class ImportControl {
 	 *            the session
 	 * @param importType
 	 *            {@link ImportTarget}
-	 * @param hanldeControlChange
+	 * @param handleControlChange
 	 *            call back when control change
 	 */
-	public ImportControl(final ServiceProvider serviceProvider,
+	public ImportModelControl(final ServiceProvider serviceProvider,
 			final IModelSession modelSession, final ImportTarget importType,
-			final Runnable hanldeControlChange) {
-		this.serviceProvider = serviceProvider;
-		this.modelSession = modelSession;
+			final Runnable handleControlChange) {
+		super(serviceProvider, modelSession);
 		this.importType = importType;
 		this.setImported(false);
-		this.handleControlChange = hanldeControlChange;
 		this.attachmentSource = new HashMap<>();
+		this.handleControlChange = handleControlChange;
 	}
 
 	/**
 	 * @return true, if the control valis
 	 */
+	@Override
 	public boolean isValid() {
 		return comboField.isValid();
 	}
@@ -120,19 +112,23 @@ public class ImportControl {
 	}
 
 	/**
-	 * 
+	 * Rest control to default
 	 */
+	@Override
 	public void resetControl() {
+		modelToImport = null;
+		attachmentSource.clear();
 		comboField.getText().setText(""); //$NON-NLS-1$
 		comboField.setDefaultCombo();
 		option.getButton().setSelection(false);
 		comboField.setEnabled(false);
-		imported = false;
+		setImported(false);
 	}
 
 	/**
 	 * @return true, if this control is enable
 	 */
+	@Override
 	public boolean isEnabled() {
 		return option.getButton().isEnabled() && comboField.isEnabled();
 	}
@@ -143,34 +139,25 @@ public class ImportControl {
 	 * @param shell
 	 *            the {@link Shell}
 	 */
+	@Override
 	public void doImport(final Shell shell) {
 		if (modelToImport == null || importHandler == null || !isEnabled()) {
 			return;
 		}
-		imported = importHandler.doImport(modelSession, attachmentSource,
-				shell);
+		setImported(
+				importHandler.doImport(modelSession, attachmentSource, shell));
 	}
 
-	/**
-	 * @param parent
-	 *            the parat
-	 * @param text
-	 *            the enable check box text
-	 * @param shell
-	 *            the shell
-	 * @param role
-	 *            the {@link ToolboxFileRole}
-	 */
-	public void createControl(final Group parent, final String text,
-			final Shell shell, final ToolboxFileRole role) {
-		option = createImportOption(parent, text);
+	@Override
+	public void createControl(final Composite parent, final Shell shell,
+			final ToolboxFileRole role) {
+		option = createImportOption(parent);
 		comboField = createImportFileFieldCombo(parent, shell, role);
 	}
 
-	private Option createImportOption(final Composite parent,
-			final String label) {
+	private Option createImportOption(final Composite parent) {
 		final Option checkbox = new Option(parent);
-		checkbox.getLabel().setText(label);
+		checkbox.getLabel().setText(getOptionLabel());
 
 		// toggle file field with option button
 		checkbox.getButton().addSelectionListener(new SelectionListener() {
@@ -192,6 +179,20 @@ public class ImportControl {
 		return checkbox;
 	}
 
+	private String getOptionLabel() {
+		switch (importType) {
+		case ALL:
+			return serviceProvider.messages.PlanProImportPart_importSubwork;
+		case INITIAL:
+			return serviceProvider.messages.PlanProImportPart_importInitial;
+		case FINAL:
+			return serviceProvider.messages.PlanProImportPart_importFinal;
+		default:
+			throw new IllegalArgumentException();
+
+		}
+	}
+
 	private ImportComboFileField createImportFileFieldCombo(
 			final Composite parent, final Shell shell,
 			final ToolboxFileRole role) {
@@ -204,8 +205,8 @@ public class ImportControl {
 		fileFieldCombo.getButton().setText(
 				serviceProvider.messages.PlanProImportPart_fileFieldButtonText);
 		fileFieldCombo.setPathValidation(path -> validatePath(path, t -> {
-			modelToImport = t;
-			importHandler = new ImportHandler(comboField, modelToImport,
+			modelToImport = t.schnittStelle();
+			importHandler = new ImportModelHandler(comboField, modelToImport,
 					importType, serviceProvider);
 		}, shell, role));
 		fileFieldCombo.setEnabled(option.getButton().getSelection());
@@ -227,65 +228,33 @@ public class ImportControl {
 		return comboField;
 	}
 
-	private Boolean validatePath(final Path path,
-			final Consumer<PlanPro_Schnittstelle> storeModel, final Shell shell,
-			final ToolboxFileRole role) {
-		try (ToolboxFileAC toolboxFile = serviceProvider.fileService
-				.loadAC(path, role)) {
-			toolboxFile.get().setTemporaryDirectory(modelSession.getTempDir());
-			return validatePath(toolboxFile.get(), storeModel, shell);
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private Boolean validatePath(final ToolboxFile toolboxFile,
-			final Consumer<PlanPro_Schnittstelle> storeModel, final Shell shell)
-			throws IOException {
-		final List<ValidationResult> validationResults = new ArrayList<>();
-
-		final PlanPro_Schnittstelle model = serviceProvider.modelLoader
-				.loadModelSync(toolboxFile, validationResults::add, shell);
-		storeModel.accept(model);
+	@Override
+	protected Boolean validatePath(final ToolboxFile toolboxFile,
+			final Consumer<ModelContents> storeModel, final Shell shell) {
+		final Boolean isValid = super.validatePath(toolboxFile, storeModel,
+				shell);
 		if (toolboxFile.getFormat().isZippedPlanPro()) {
-			toolboxFile.getAllMedia().stream().forEach(guid -> {
-				try {
-					attachmentSource.put(guid,
-							toolboxFile.getMedia(Guid.create(guid)));
-				} catch (final IOException e) {
-					throw new RuntimeException(e);
-				}
-			});
+			try {
+				toolboxFile.getAllMedia().stream().forEach(guid -> {
+					try {
+						attachmentSource.put(guid,
+								toolboxFile.getMedia(Guid.create(guid)));
+					} catch (final IOException e) {
+						throw new RuntimeException(e);
+					}
+				});
+			} catch (final IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
-
-		final FileValidateState fileValidateState = ValidationOutcome
-				.getFileValidateState(validationResults);
-		switch (fileValidateState) {
-		case VALID: {
-			return Boolean.valueOf(true);
-		}
-		case INCOMPLETE: {
-			serviceProvider.dialogService.openInformation(shell,
-					serviceProvider.messages.PlanProImportPart_incompletePlanProFile,
-					String.format(
-							serviceProvider.messages.PlanProImportPart_incompletePlanProFileMessage,
-							toolboxFile.getPath()));
-			return Boolean.valueOf(true);
-		}
-		case INVALID: {
-			// XSD-invalid file, unable to load
-			return Boolean.valueOf(serviceProvider.dialogService
-					.loadInvalidModel(shell, toolboxFile.getPath().toString()));
-		}
-		default:
-			return Boolean.valueOf(false);
-		}
-
+		return isValid;
 	}
 
-	private ModifyListener selectedFileHandle() {
+	@Override
+	protected ModifyListener selectedFileHandle() {
 		return e -> {
-			if (modelToImport == null) {
+			if (e.getSource() instanceof final Text text
+					&& text.getText().isBlank() || modelToImport == null) {
 				return;
 			}
 
@@ -337,20 +306,5 @@ public class ImportControl {
 		final ComboValues<ContainerComboSelection> containerValues = ContainerComboSelection
 				.getComboValues(fileNature, serviceProvider.messages);
 		comboField.setContainerComboValues(containerValues);
-	}
-
-	/**
-	 * @return true, if data is imported
-	 */
-	public boolean isImported() {
-		return imported;
-	}
-
-	/**
-	 * @param imported
-	 *            set imported status
-	 */
-	public void setImported(final boolean imported) {
-		this.imported = imported;
 	}
 }

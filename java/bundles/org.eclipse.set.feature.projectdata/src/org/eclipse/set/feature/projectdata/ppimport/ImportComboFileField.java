@@ -117,7 +117,7 @@ public class ImportComboFileField extends FileField {
 			return;
 		}
 		containerCombo.setComboValues(values);
-		updateSubworkComboState();
+		updateContainerComboState();
 	}
 
 	private void updateContainerComboState() {
@@ -135,17 +135,19 @@ public class ImportComboFileField extends FileField {
 	 */
 	public void setDefaultCombo() {
 		if (!subworkCombo.isDisposed()) {
-
-			subworkCombo.setComboValues(SubworkComboSelection
-					.getComboValues(null, PlanProFileNature.INVALID, messages));
+			final ComboValues<SubworkComboSelection> comboValues = SubworkComboSelection
+					.getComboValues(null, PlanProFileNature.INVALID, messages);
+			subworkCombo.setComboValues(comboValues);
+			subworkCombo.add(comboValues.getMaxLengthItem());
 			subworkCombo.setEnabled(false);
 			subworkCombo.select(0);
 		}
 
 		if (!containerCombo.isDisposed()) {
-			containerCombo.setComboValues(ContainerComboSelection
-					.getComboValues(PlanProFileNature.INVALID, messages));
-
+			final ComboValues<ContainerComboSelection> comboValues = ContainerComboSelection
+					.getComboValues(PlanProFileNature.INVALID, messages);
+			containerCombo.setComboValues(comboValues);
+			containerCombo.add(comboValues.getMaxLengthItem());
 			containerCombo.setEnabled(false);
 			containerCombo.select(0);
 		}

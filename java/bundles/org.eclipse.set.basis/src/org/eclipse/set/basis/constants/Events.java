@@ -25,6 +25,14 @@ public interface Events {
 	String MODEL_CHANGED = "modelsession/change/model";
 
 	/**
+	 * The layout information in focus of the model session changed.
+	 * <ul>
+	 * <li><b>DATA:</b> the new PlanPro Schnittstelle</li>
+	 * </ul>
+	 */
+	String LAYOUT_CHANGED = "modelsession/change/layout";
+
+	/**
 	 * The topological graph model changed.
 	 * <ul>
 	 * <li><b>DATA:</b> the new PlanPro Schnittstelle</li>

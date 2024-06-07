@@ -19,7 +19,7 @@ import org.eclipse.set.model.planpro.PlanPro.Planung_Einzel;
 import org.eclipse.set.model.planpro.PlanPro.Planung_Gruppe;
 
 /**
- * 
+ * Extensions for {@link Ausgabe_Fachdaten}
  */
 public class AusgabeFachdatenExtensions {
 
@@ -103,8 +103,11 @@ public class AusgabeFachdatenExtensions {
 					"Single state plan not exist subwork"); //$NON-NLS-1$
 		}
 		return schnittstelle.getLSTPlanung().getFachdaten()
-				.getAusgabeFachdaten().stream().filter(subwork -> subwork
-						.getUntergewerkArt().getWert().equals(subworkType))
+				.getAusgabeFachdaten().stream()
+				.filter(subwork -> subwork.getUntergewerkArt() != null
+						&& subwork.getUntergewerkArt().getWert() != null)
+				.filter(subwork -> subwork.getUntergewerkArt().getWert()
+						.equals(subworkType))
 				.findFirst();
 	}
 

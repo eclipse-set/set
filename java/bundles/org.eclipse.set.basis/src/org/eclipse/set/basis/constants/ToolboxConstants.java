@@ -197,6 +197,12 @@ public final class ToolboxConstants {
 	public static final String TOOLBOX_DIRECTORY_NAME_SECONDARY_PLANNING = "secondaryplanningfile";
 
 	/**
+	 * The name for the temporary directory of a toolbox file used as a third
+	 * planning.
+	 */
+	public static final String TOOLBOX_DIRECTORY_NAME_THIRD_PLANNING = "thridplanningfile";
+
+	/**
 	 * The name for the temporary directory of a toolbox file used to start a
 	 * new session.
 	 */

@@ -11,10 +11,12 @@
 package org.eclipse.set.feature.projectdata.ppimport;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.set.basis.constants.PlanProFileNature;
@@ -84,7 +86,7 @@ public class SubworkComboSelection extends AbstractEnumerator {
 			case PLANNING:
 				final List<SubworkComboSelection> items = new ArrayList<>();
 				items.add(new SubworkComboSelection(0, NOT_SELECTED_SUBWORK,
-						messages.ContainerValues_NotSelected));
+						messages.PlanProImportPart_Subwork_NotSelected));
 				items.addAll(getSubworks());
 				createItems(items);
 				break;
@@ -181,6 +183,21 @@ public class SubworkComboSelection extends AbstractEnumerator {
 		@Override
 		public int size() {
 			return itemValues.size();
+		}
+
+		@Override
+		public String getMaxLengthItem() {
+			final List<String> items = new ArrayList<>();
+			items.addAll(List.of(messages.PlanProImportPart_Subwork_All,
+					messages.PlanProImportPart_Subwork_NotSelected,
+					messages.PlanproImportPart_Subwork_Notset));
+			StreamSupport
+					.stream(Arrays.asList(ENUMUntergewerkArt.values())
+							.spliterator(), false)
+					.forEach(type -> items.add(type.getLiteral()));
+			return items.stream()
+					.reduce((a, b) -> a.length() > b.length() ? a : b)
+					.orElse(getDefaultValue());
 		}
 	}
 
