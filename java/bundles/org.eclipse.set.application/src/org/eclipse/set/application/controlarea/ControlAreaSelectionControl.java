@@ -39,8 +39,8 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectionControlArea;
-import org.eclipse.set.utils.events.SelectionControlArea.ControlAreaValue;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Composite;
@@ -279,21 +279,22 @@ public class ControlAreaSelectionControl {
 		if (e.getSelection() instanceof final IStructuredSelection selection) {
 			final Object selectedElement = selection.getFirstElement();
 			if (selectedElement instanceof final ControlAreaValue selected) {
-				ToolboxEvents.send(broker,
-						new SelectionControlArea(selected, tableType));
+				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
+						selected, tableType));
 				return;
 			}
 
 			if (selectedElement instanceof final String msg) {
 				if (msg.equals(messages.ControlAreaCombo_Default_Value)) {
 					ToolboxEvents.send(broker,
-							new SelectionControlArea(tableType));
+							new SelectedControlAreaChangedEvent(tableType));
 				} else if (msg.equals(messages.ControlAreaCombo_All)) {
 					try {
 						final List<ControlAreaValue> allValues = List.class
 								.cast(comboViewer.getInput());
-						ToolboxEvents.send(broker, new SelectionControlArea(
-								Set.copyOf(allValues), tableType));
+						ToolboxEvents.send(broker,
+								new SelectedControlAreaChangedEvent(
+										Set.copyOf(allValues), tableType));
 					} catch (final Exception exc) {
 						throw new RuntimeException(exc);
 					}

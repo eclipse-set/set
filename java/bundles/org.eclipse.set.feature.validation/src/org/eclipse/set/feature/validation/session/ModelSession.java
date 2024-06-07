@@ -80,7 +80,7 @@ import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
-import org.eclipse.set.utils.events.SelectionControlArea;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Display;
@@ -162,7 +162,7 @@ public class ModelSession implements IModelSession {
 	private final Guid guid;
 	private boolean isNewProject = false;
 	private DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
-	private DefaultToolboxEventHandler<SelectionControlArea> selectionControlAreaHandler;
+	private DefaultToolboxEventHandler<SelectedControlAreaChangedEvent> SelectedControlAreaChangedEventHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
@@ -235,16 +235,16 @@ public class ModelSession implements IModelSession {
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
 				NewTableTypeEvent.class, newTableTypeHandler);
 
-		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+		SelectedControlAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
-			public void accept(final SelectionControlArea t) {
+			public void accept(final SelectedControlAreaChangedEvent t) {
 				t.getControlAreas().forEach(area -> controlAreas
 						.put(area.area(), area.containerType()));
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
-				SelectionControlArea.class, selectionControlAreaHandler);
+				SelectedControlAreaChangedEvent.class, SelectedControlAreaChangedEventHandler);
 	}
 
 	@Override
@@ -289,7 +289,7 @@ public class ModelSession implements IModelSession {
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
 					newTableTypeHandler);
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
-					selectionControlAreaHandler);
+					SelectedControlAreaChangedEventHandler);
 		} catch (final IOException e) {
 			logger.warn("clean up failed: exception={} message={}", //$NON-NLS-1$
 					e.getClass().getSimpleName(), e.getMessage());
