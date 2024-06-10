@@ -10,7 +10,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@turf/boolean-disjoint": "^6.5.0",
+    "@turf/boolean-disjoint": "^7.0.0",
     "@turf/boolean-within": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "axios": "^1.7.2",
