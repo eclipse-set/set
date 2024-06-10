@@ -30,7 +30,7 @@ class GuidUnique extends AbstractPlazContainerCheck implements PlazCheck {
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = transformErrorMsg(Map.of("GUID", guid))
 				err.type = checkType
-				err.object = it
+				err.object = identitaet
 				return err
 			}
 			knownGUIDs.add(guid)

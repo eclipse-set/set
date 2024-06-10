@@ -26,38 +26,41 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
  */
 @Component(immediate=true)
 class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck {
-	
+
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
-		return container.allContents
-			.filter(Bereich_Objekt)
-			.map[object|
-				var identicals = object.bereichObjektTeilbereich.groupBy[it.topKante?.identitaet?.wert]
-					.filter[k, v| v.size > 1]
-					.values.map[regionObjects| regionObjects.notDistinctBy[begrenzungA?.wert]
-						.map[x| 
-							return regionObjects.filter[begrenzungA?.wert == x.begrenzungA?.wert &&
-									begrenzungB?.wert == x.begrenzungB?.wert]
-							].flatten
-						].flatten
-				if (identicals.size > 1) {
+		return container.allContents.filter(Bereich_Objekt).map [ object |
+			val identicals = object.bereichObjektTeilbereich.groupBy [
+				it.topKante?.identitaet?.wert
+			].filter[k, v|v.size > 1].values.map [ regionObjects |
+				regionObjects.notDistinctBy[begrenzungA?.wert].map [ x |
+					return regionObjects.filter [
+						begrenzungA?.wert == x.begrenzungA?.wert &&
+							begrenzungB?.wert == x.begrenzungB?.wert
+					]
+				].flatten
+			].filter[size > 0]
+			if (identicals.size > 0) {
+				return identicals.map [
 					val err = PlazFactory.eINSTANCE.createPlazError
-					err.message = transformErrorMsg(Map.of("GUID", object.identitaet?.wert))
+					err.message = transformErrorMsg(
+						Map.of("GUID", object.identitaet?.wert))
 					err.type = checkType
-					err.object = object?.identitaet
+					err.object = it.firstOrNull
 					return err
-				}
-				return null
-			].filterNull.toList
+				]
+			}
+			return null
+		]?.filterNull?.flatten?.toList
 	}
-	
+
 	override checkType() {
 		return "Mehrfache Teilbereiche"
 	}
-	
+
 	override getDescription() {
 		return "Teilbereichsgrenzen der LST-Objekte sind einzigartig."
 	}
-	
+
 	override getGeneralErrMsg() {
 		return "Es gibt mehrere identische Teilbereich in Objekt {GUID}."
 	}
