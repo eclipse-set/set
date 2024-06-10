@@ -132,7 +132,7 @@ public class ObjectMetadataXMLReader {
 	}
 
 	/**
-	 * Returns the attribute name of a object represented by a XML node
+	 * Returns the attribute name of an object represented by a XML node
 	 * 
 	 * @param node
 	 *            the node

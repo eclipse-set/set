@@ -78,7 +78,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 		val err = PlazFactory.eINSTANCE.createPlazError
 		err.message = StringSubstitutor.replace(message, data, "{", "}"); // $NON-NLS-1$//$NON-NLS-2$
 		err.type = checkType
-		err.object = object?.identitaet
+		err.object = object
 		return err
 	}
 

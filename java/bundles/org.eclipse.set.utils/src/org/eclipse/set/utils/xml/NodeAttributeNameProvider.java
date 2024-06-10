@@ -9,16 +9,17 @@
 package org.eclipse.set.utils.xml;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
- * Determines an attribute name for an XML node
+ * Determines an attribute/group name for an XML node
  * 
  * @author Stuecker
  *
  */
 public class NodeAttributeNameProvider {
-	private final static String WERT_NODE = "Wert"; //$NON-NLS-1$
 	private final static String TEXT_NODE = "#text"; //$NON-NLS-1$
+	private static final String CONTAINER_NODE = "Container"; //$NON-NLS-1$
 
 	/**
 	 * @param node
@@ -26,14 +27,36 @@ public class NodeAttributeNameProvider {
 	 * @return The closest XML attribute name (or null)
 	 */
 	public String getAttributeName(final Node node) {
-		if (node == null) {
+		// When the parent node is container node, then the node isn't
+		// attribute/group node
+		if (node == null
+				|| node.getParentNode().getNodeName().equals(CONTAINER_NODE)) {
 			return null;
 		}
-		if (node.getNodeName().equals(WERT_NODE)
-				|| node.getNodeName().equals(TEXT_NODE)) {
-			return getAttributeName(node.getParentNode());
+
+		final Node parentNode = node.getParentNode();
+
+		if (node.getNodeName().equals(TEXT_NODE)) {
+			return getAttributeName(parentNode);
 		}
 
-		return node.getNodeName();
+		// Avoid to same value with ObjectType
+		if (isObjectType(parentNode)) {
+			return node.getNodeName();
+		}
+
+		return parentNode.getNodeName();
+	}
+
+	private static boolean isObjectType(final Node node) {
+		final NodeList children = node.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			final Node child = children.item(i);
+			if (child.getNodeName()
+					.equals(NodeObjectTypeProvider.IDENTITY_ATTRIBUTE_NAME)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
