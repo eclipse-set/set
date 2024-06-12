@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.messages.Messages;
@@ -39,8 +40,6 @@ import org.eclipse.swt.widgets.Control;
  *
  */
 public class TableErrorTableView extends AbstractSortByColumnTables {
-
-	private static final String TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table."; //$NON-NLS-1$
 
 	private final Messages messages;
 	private NatTable natTable;
@@ -101,7 +100,8 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 						final String shortCut = error.getSource().toLowerCase();
 
 						toolboxPartService
-								.showPart(TABLE_PART_ID_PREFIX + shortCut);
+								.showPart(ToolboxConstants.TABLE_PART_ID_PREFIX
+										+ shortCut);
 						ToolboxEvents.send(broker,
 								new TableSelectRowByGuidEvent(guid));
 					}
