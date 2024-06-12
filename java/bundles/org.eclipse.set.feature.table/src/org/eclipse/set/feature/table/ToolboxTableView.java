@@ -24,9 +24,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
@@ -53,7 +51,6 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
-import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
@@ -322,12 +319,15 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	private void updateTableView() {
-		updateModel(getToolboxPart(), getModelSession(), getToolboxShell());
-		natTable.refresh();
-		updateButtons();
+		tableService.updateTable(this, () -> {
+			updateModel(getToolboxPart(), getModelSession());
+			natTable.refresh();
+			updateButtons();
 
-		// Update footnotes
-		tableFooting.setText(TableExtensions.getFootnotesText(table));
+			// Update footnotes
+			tableFooting.setText(TableExtensions.getFootnotesText(table));
+		}, tableInstances::clear);
+
 	}
 
 	private void updateTitlebox(final Titlebox titlebox) {
@@ -348,7 +348,9 @@ public final class ToolboxTableView extends BasePart {
 					.getTableTypeForTables();
 		}
 
-		updateModel(getToolboxPart(), getModelSession(), getToolboxShell());
+		tableService.updateTable(this,
+				() -> updateModel(getToolboxPart(), getModelSession()),
+				tableInstances::clear);
 
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
@@ -595,54 +597,17 @@ public final class ToolboxTableView extends BasePart {
 				&& !getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part, final IModelSession modelSession,
-			final Shell shell) {
+	void updateModel(final MPart part, final IModelSession modelSession) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-
-		// runnable for the transformation
-		final IRunnableWithProgress generateTableInstancesThread = monitor -> {
-			// start a single task with unknown timeframe
-			monitor.beginTask(
-					messages.Abstracttableview_transformation_progress,
-					IProgressMonitor.UNKNOWN);
-
-			// listen to cancel
-			Threads.stopCurrentOnCancel(monitor);
-
-			// create the table
-			table = transformToTableModel(part.getElementId(), modelSession);
-			if (monitor.isCanceled()) {
-				throw new InterruptedException();
-			}
-			// stop progress
-			monitor.done();
-			logger.info("ProgressMonitorDialog done."); //$NON-NLS-1$
-
-		};
-
-		// we start our new defined thread with a progress dialog
-		logger.info("Start ProgressMonitorDialog..."); //$NON-NLS-1$
-		final ProgressMonitorDialog monitorDialog = new ProgressMonitorDialog(
-				shell);
-		try {
-			monitorDialog.run(true, true, generateTableInstancesThread);
-		} catch (final InvocationTargetException ex) {
-			logger.error(ex.toString(), ex);
-			throw new RuntimeException(ex);
-		} catch (final InterruptedException ex) {
-			tableInstances.clear();
-			MApplicationElementExtensions.setViewState(part,
-					ToolboxViewState.CANCELED);
-			Thread.currentThread().interrupt();
-			return;
-		}
+		table = transformToTableModel(part.getElementId(), modelSession);
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);
 
 		tableInstances.clear();
 		tableInstances.addAll(TableExtensions.getTableRows(table));
+
 	}
 
 	private void addMenuItems() {

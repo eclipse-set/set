@@ -17,6 +17,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.TableError;
 
 /**
@@ -97,6 +98,14 @@ public interface TableService {
 	 */
 	Table transformToTable(final String elementId, TableType tableType,
 			final IModelSession modelSession);
+
+	/**
+	 * @param part
+	 * @param updateThread
+	 * @param clearInstance
+	 */
+	void updateTable(final BasePart part, final Runnable updateThread,
+			Runnable clearInstance);
 
 	/**
 	 * Get fixed columns
