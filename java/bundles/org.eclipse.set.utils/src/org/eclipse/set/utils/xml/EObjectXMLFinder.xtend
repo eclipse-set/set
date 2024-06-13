@@ -94,7 +94,7 @@ class EObjectXMLFinder {
 
 	def private String getSanetizedName(Node node) {
 		// XML node names can contain a prefix while the EMF model names don't
-		return IterableExtensions.last(node.nodeName.split(":"))
+		return IterableExtensions.lastOrNull(node.nodeName.split(":"))
 	}
 
 	/** 

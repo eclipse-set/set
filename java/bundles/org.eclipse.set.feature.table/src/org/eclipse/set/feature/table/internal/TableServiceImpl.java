@@ -352,25 +352,28 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public void updateTable(final BasePart tablePart,
-			final Runnable updateThread, final Runnable clearInstance) {
+			final Runnable updateTableHandler, final Runnable clearInstance) {
 		final MElementContainer<MUIElement> parent = tablePart.getToolboxPart()
 				.getParent();
+
+		// Get already open table parts
 		final List<MPart> openTableParts = parent.getChildren().stream()
 				.filter(child -> child instanceof final MPart part
 						&& part.getElementId().startsWith(
 								ToolboxConstants.TABLE_PART_ID_PREFIX)
 						&& part.isVisible())
 				.map(MPart.class::cast).toList();
-		IRunnableWithProgress updateTableProgress = null;
-		transformTableThreads.add(new Pair<>(tablePart, updateThread));
+
+		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));
 		final List<MPart> parts = transformTableThreads.stream()
 				.map(pair -> pair.getKey().getToolboxPart()).toList();
-		if (!tablePart.getToolboxPart().isVisible() || openTableParts.isEmpty()
-				|| parts.containsAll(openTableParts)) {
-			updateTableProgress = createProgressMonitor();
-		} else {
-			return;
-		}
+
+		// Create a loading monitor only when the current table part isn't open
+		// or already collect all transform handler of the open table parts
+		final IRunnableWithProgress updateTableProgress = !tablePart
+				.getToolboxPart().isVisible()
+				|| parts.containsAll(openTableParts) ? createProgressMonitor()
+						: null;
 
 		if (updateTableProgress != null) {
 			final ProgressMonitorDialog monitor = new ProgressMonitorDialog(

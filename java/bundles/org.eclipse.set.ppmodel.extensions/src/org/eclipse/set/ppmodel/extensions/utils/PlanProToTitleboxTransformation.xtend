@@ -29,7 +29,6 @@ import org.eclipse.set.utils.ToolboxConfiguration
 import static extension org.eclipse.set.model.titlebox.extensions.TitleboxExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.XMLGregorianCalendarExtensions.*
 
 /**

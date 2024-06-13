@@ -186,6 +186,11 @@ public class DirectedPathSearch {
 						.compareTo(BigDecimal.valueOf(maxPathWeight)) < 1;
 	}
 
+	/**
+	 * @param weight
+	 *            incoming weight
+	 * @return true, when new path weight is relevant
+	 */
 	public boolean isRelevantPathWeight(final BigDecimal weight) {
 		return maxPathWeight != 0 && BigDecimal.valueOf(maxPathWeight)
 				.subtract(getDirectedPathWeight(path).add(weight))

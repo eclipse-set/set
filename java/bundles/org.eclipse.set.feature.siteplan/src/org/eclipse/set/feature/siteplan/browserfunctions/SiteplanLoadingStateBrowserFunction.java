@@ -23,8 +23,11 @@ public class SiteplanLoadingStateBrowserFunction extends BrowserFunction {
 
 	/**
 	 * @param webbrowser
+	 *            the {@link WebBrowser}
 	 * @param name
+	 *            the functoin name
 	 * @param broker
+	 *            the {@link IEventBroker}
 	 */
 	public SiteplanLoadingStateBrowserFunction(final WebBrowser webbrowser,
 			final String name, final IEventBroker broker) {

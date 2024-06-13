@@ -101,10 +101,13 @@ public interface TableService {
 
 	/**
 	 * @param part
-	 * @param updateThread
+	 *            the table part
+	 * @param updateTableHandler
+	 *            the update table handler
 	 * @param clearInstance
+	 *            the clear table instance handler
 	 */
-	void updateTable(final BasePart part, final Runnable updateThread,
+	void updateTable(final BasePart part, final Runnable updateTableHandler,
 			Runnable clearInstance);
 
 	/**
