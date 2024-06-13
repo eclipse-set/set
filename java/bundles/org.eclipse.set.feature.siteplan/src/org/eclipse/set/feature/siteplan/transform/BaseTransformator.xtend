@@ -17,7 +17,6 @@ import org.eclipse.set.model.siteplan.SiteplanObject
 import org.eclipse.set.model.siteplan.SiteplanState
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
-import org.eclipse.set.core.services.Services
 
 /**
  * Base transformator class for common transformation utilities 

@@ -20,8 +20,6 @@ import org.eclipse.set.model.tablemodel.TableRow
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
-import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * IDataProvider implementation for Table
