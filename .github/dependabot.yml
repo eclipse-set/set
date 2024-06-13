@@ -37,4 +37,6 @@ updates:
     typescript-eslint:
       patterns:
       - "@typescript-eslint*"
+    turf:
+      patterns:
       - "@turf*"
