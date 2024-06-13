@@ -896,13 +896,21 @@ npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
 npm/npmjs/@typescript-eslint/eslint-plugin/7.12.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15075
+npm/npmjs/@typescript-eslint/eslint-plugin/7.13.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15166
 npm/npmjs/@typescript-eslint/parser/7.12.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/7.13.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/7.12.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/7.13.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/type-utils/7.12.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/7.13.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/types/7.12.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/7.13.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/typescript-estree/7.12.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15074
+npm/npmjs/@typescript-eslint/typescript-estree/7.13.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15168
 npm/npmjs/@typescript-eslint/utils/7.12.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15076
+npm/npmjs/@typescript-eslint/utils/7.13.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15167
 npm/npmjs/@typescript-eslint/visitor-keys/7.12.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/visitor-keys/7.13.0, MIT, approved, clearlydefined
 npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.0.5, MIT, approved, #12651
 npm/npmjs/@vue/compiler-core/3.4.27, MIT, approved, #12582
