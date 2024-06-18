@@ -19,7 +19,6 @@ import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Debugging Extensions for {@link PlanPro_Schnittstelle}.

@@ -32,8 +32,8 @@ public class NumericCellComparator extends AbstractCellComparator {
 	public int compareCell(final Iterable<String> iterable1,
 			final Iterable<String> iterable2) {
 		return compareString(
-				CellContentExtensions.iterableToString(iterable1, ""),
-				CellContentExtensions.iterableToString(iterable2, ""));
+				CellContentExtensions.iterableToString(iterable1, ""), //$NON-NLS-1$
+				CellContentExtensions.iterableToString(iterable2, "")); //$NON-NLS-1$
 	}
 
 	@Override
