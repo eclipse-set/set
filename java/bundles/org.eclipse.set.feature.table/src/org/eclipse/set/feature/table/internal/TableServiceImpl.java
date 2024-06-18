@@ -8,29 +8,43 @@
  */
 package org.eclipse.set.feature.table.internal;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.e4.core.services.nls.Translation;
+import org.eclipse.e4.ui.model.application.ui.MElementContainer;
+import org.eclipse.e4.ui.model.application.ui.MUIElement;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.constants.ToolboxViewState;
+import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
 import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.basis.part.PartDescription;
+import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.TableService;
+import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -40,9 +54,14 @@ import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableTransformationService;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.xtext.xbase.lib.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
@@ -67,6 +86,8 @@ import jakarta.inject.Inject;
  */
 public final class TableServiceImpl implements TableService {
 
+	static final Logger logger = LoggerFactory.getLogger(TableService.class);
+
 	@Inject
 	private TableDiffService diffService;
 
@@ -76,7 +97,12 @@ public final class TableServiceImpl implements TableService {
 	@Inject
 	CacheService cacheService;
 
+	@Inject
+	@Translation
+	Messages messages;
+
 	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
+	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
 	private CacheService getCache() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
@@ -322,6 +348,84 @@ public final class TableServiceImpl implements TableService {
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
 		return (Table) cache.get(shortCut, () -> loadTransform(shortCut,
 				tableType, modelSession, shortCut));
+	}
+
+	@Override
+	public void updateTable(final BasePart tablePart,
+			final Runnable updateTableHandler, final Runnable clearInstance) {
+		final MElementContainer<MUIElement> parent = tablePart.getToolboxPart()
+				.getParent();
+
+		// Get already open table parts
+		final List<MPart> openTableParts = parent.getChildren().stream()
+				.filter(child -> child instanceof final MPart part
+						&& part.getElementId().startsWith(
+								ToolboxConstants.TABLE_PART_ID_PREFIX)
+						&& part.isVisible())
+				.map(MPart.class::cast).toList();
+
+		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));
+		final List<MPart> parts = transformTableThreads.stream()
+				.map(pair -> pair.getKey().getToolboxPart()).toList();
+
+		// Create a loading monitor only when the current table part isn't open
+		// or already collect all transform handler of the open table parts
+		final IRunnableWithProgress updateTableProgress = !tablePart
+				.getToolboxPart().isVisible()
+				|| parts.containsAll(openTableParts) ? createProgressMonitor()
+						: null;
+
+		if (updateTableProgress != null) {
+			final ProgressMonitorDialog monitor = new ProgressMonitorDialog(
+					tablePart.getToolboxShell());
+			try {
+				logger.info("Start ProgressMonitorDialog..."); //$NON-NLS-1$
+				monitor.run(true, true, updateTableProgress);
+			} catch (final InvocationTargetException e) {
+				logger.error(e.toString(), e);
+				throw new RuntimeException(e);
+			} catch (final InterruptedException e) {
+				clearInstance.run();
+				transformTableThreads
+						.forEach(pair -> MApplicationElementExtensions
+								.setViewState(pair.getKey().getToolboxPart(),
+										ToolboxViewState.CANCELED));
+
+				Thread.currentThread().interrupt();
+			}
+		}
+	}
+
+	private IRunnableWithProgress createProgressMonitor() {
+		// runnable for the transformation
+		return monitor -> {
+			// start a single task with unknown timeframe
+			monitor.beginTask(
+					messages.Abstracttableview_transformation_progress,
+					transformTableThreads.size() > 1
+							? transformTableThreads.size()
+							: IProgressMonitor.UNKNOWN);
+			// listen to cancel
+			Threads.stopCurrentOnCancel(monitor);
+
+			// Wait for table transform
+			for (Pair<BasePart, Runnable> transformThread; (transformThread = transformTableThreads
+					.poll()) != null;) {
+				final String shortcut = extractShortcut(transformThread.getKey()
+						.getToolboxPart().getElementId());
+				final TableNameInfo tableNameInfo = getTableNameInfo(shortcut);
+				monitor.subTask(tableNameInfo.getFullDisplayName());
+				Display.getDefault().syncExec(transformThread.getValue());
+				monitor.worked(1);
+			}
+			if (monitor.isCanceled()) {
+				throw new InterruptedException();
+			}
+			// stop progress
+			monitor.done();
+			logger.info("ProgressMonitorDialog done."); //$NON-NLS-1$
+
+		};
 	}
 
 	/**

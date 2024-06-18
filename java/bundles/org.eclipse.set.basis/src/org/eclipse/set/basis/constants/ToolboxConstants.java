@@ -251,6 +251,11 @@ public final class ToolboxConstants {
 	public static final String PLANING_GROUP_VIEW_DETAIL_KEY = "detail";
 
 	/**
+	 * The prefix of table part
+	 */
+	public static final String TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.";
+
+	/**
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";
