@@ -24,8 +24,9 @@ import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeNa
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.WIDE_BORDER_STYLE
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*
 
-import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
 import static extension org.eclipse.set.utils.table.transform.TransformStyle.setBorderStyle
+import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 class MultiPageTableHeader extends AbstractTransformTableHeader {
 	static val MULTIPAGE_LAYOUT_TEMPLATE_PATH = "data/export/pdf/multipage_layout.xsl"

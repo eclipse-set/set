@@ -42,15 +42,8 @@ public interface UserConfigurationService {
 	 */
 	Optional<Path> getLastFileOpenPath();
 
-	/**
-	 * @param path
-	 *            the last export path
-	 */
 	void setLastExportPath(Path path);
 
-	/**
-	 * @return the last export path
-	 */
 	Path getLastExportPath();
 
 }
