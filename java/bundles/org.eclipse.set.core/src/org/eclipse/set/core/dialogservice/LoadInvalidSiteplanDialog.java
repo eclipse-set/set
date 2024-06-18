@@ -14,8 +14,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * Show when the siteplan is invalid
- * 
  * @author Truong
  *
  */
@@ -31,14 +29,6 @@ public class LoadInvalidSiteplanDialog extends AbstractFileDialog {
 		return new Point(size.x / 3 * 2, size.y * 2);
 	}
 
-	/**
-	 * @param parentShell
-	 *            the shell
-	 * @param filename
-	 *            the planpro file name
-	 * @param messages
-	 *            the {@link Messages}
-	 */
 	public LoadInvalidSiteplanDialog(final Shell parentShell,
 			final String filename, final Messages messages) {
 		super(parentShell);
