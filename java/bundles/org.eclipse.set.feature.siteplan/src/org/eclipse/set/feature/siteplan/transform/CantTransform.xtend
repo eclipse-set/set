@@ -8,15 +8,15 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
-import org.eclipse.set.model.siteplan.SiteplanFactory
-import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie
+import org.eclipse.set.model.siteplan.CantPoint
+import org.eclipse.set.model.siteplan.SiteplanFactory
+import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
-import org.eclipse.set.model.siteplan.CantPoint
 
 /**
  * Transforms PlanPro Ueberhoehungslinie to siteplan Cants 
@@ -24,7 +24,7 @@ import org.eclipse.set.model.siteplan.CantPoint
 @Component(service=Transformator)
 class CantTransform extends BaseTransformator<Ueberhoehungslinie> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -54,7 +54,7 @@ class CantTransform extends BaseTransformator<Ueberhoehungslinie> {
 		val result = SiteplanFactory.eINSTANCE.createCantPoint
 		result.guid = ue.identitaet?.wert
 		result.position = positionService.transformPosition(
-			trackService.getCoordinate(ue)
+			geometryService.getCoordinate(ue)
 		)
 		result.height = (ue?.ueberhoehungAllg?.ueberhoehungHoehe?.wert ?:
 			Double.valueOf(0.0)).doubleValue

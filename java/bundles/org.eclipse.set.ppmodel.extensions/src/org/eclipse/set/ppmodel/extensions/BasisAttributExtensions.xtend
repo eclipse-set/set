@@ -92,6 +92,4 @@ class BasisAttributExtensions {
 
 		throw new RuntimeException("unable to find LST_ZustandImpl container")
 	}
-
-
 }

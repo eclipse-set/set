@@ -11,9 +11,9 @@ package org.eclipse.set.feature.siteplan.transform
 import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
+import org.eclipse.set.basis.geometry.GEOKanteCoordinate
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.GEOKanteCoordinate
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -49,7 +49,7 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 @Component(service=Transformator)
 class SignalTransformator extends BaseTransformator<Signal> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -119,7 +119,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 				if (signal !== null) {
 					signal.addSiteplanElement(
 						SiteplanPackage.eINSTANCE.siteplanState_Signals)
-					}
+				}
 			} catch (Exception exc) {
 				recordError(it.signals.head?.identitaet?.wert,
 					ERROR_FAILED_TRANSFORM)
@@ -235,7 +235,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val distance = singlePoint.abstand.wert.doubleValue
 		val direction = singlePoint.wirkrichtung?.wert
 		val topKante = singlePoint.topKante
-		val geoKante = trackService.getGeoKanteAt(topKante, topKante.TOPKnotenA,
+		val geoKante = geometryService.getGeoKanteAt(topKante, topKante.TOPKnotenA,
 			distance);
 		var double lateralDistance = 0
 		if (singlePoint.seitlicherAbstand?.wert !== null) {
@@ -252,7 +252,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 				// No local track type. Default to 0 and record an error
 				lateralDistance = 0
 				val guid = punktObjekt.identitaet.wert
-				val coordinate = geoKante.getCoordinate(distance,
+				val coordinate = geometryService.getCoordinate(geoKante, distance,
 					lateralDistance, direction)
 				recordError(guid,
 					String.format(ERROR_NO_LATERAL_POSITION, guid),
@@ -274,10 +274,11 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		if (direction === ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
 			// For Punkt_Objekte with a bilateral direction fall back to ENUM_WIRKRICHTUNG_IN
 			// to orient the Punkt_Objekt along the track axis
-			return geoKante.getCoordinate(distance, lateralDistance,
-				ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN);
+			return geometryService.getCoordinate(geoKante, distance,
+				lateralDistance, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN);
 		}
-		return geoKante.getCoordinate(distance, lateralDistance, direction);
+		return geometryService.getCoordinate(geoKante, distance, lateralDistance,
+			direction);
 	}
 
 	def SignalMountType mapToSiteplanMountType(ENUMBefestigungArt mount) {

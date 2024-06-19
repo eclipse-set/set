@@ -8,25 +8,25 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.feature.siteplan.positionservice.PositionService
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Platz
 import org.eclipse.set.model.siteplan.ControlStationType
 import org.eclipse.set.model.siteplan.ExternalElementControlArt
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Platz
 import org.osgi.service.component.annotations.Component
+import org.osgi.service.component.annotations.Reference
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.transformPunktObjektStrecke
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
-import org.osgi.service.component.annotations.Reference
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
-import org.eclipse.set.feature.siteplan.positionservice.PositionService
 
 @Component(service=Transformator)
 class ExternalElementControlTransform extends BaseTransformator<Aussenelementansteuerung> {
 	@Reference
-	TrackService trackService;
+	GeoKanteGeometryService geometryService;
 	
 	@Reference
 	PositionService positionService;
@@ -37,7 +37,7 @@ class ExternalElementControlTransform extends BaseTransformator<Aussenelementans
 		result.label = SiteplanFactory.eINSTANCE.createLabel
 		result.label.text = aea.bezeichnung?.bezeichnungAEA?.wert
 		result.elementType = transformControlArt(aea)
-		val coordinate = trackService.getCoordinateAt(aea.unterbringung?.punktObjektTOPKante, 0.0)
+		val coordinate = geometryService.getCoordinateAt(aea.unterbringung?.punktObjektTOPKante, 0.0)
 		if (coordinate !== null) {
 			result.position = positionService.transformPosition(coordinate)
 		} else {

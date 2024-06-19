@@ -11,12 +11,12 @@ package org.eclipse.set.feature.siteplan.transform
 import java.lang.reflect.ParameterizedType
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EReference
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.siteplan.Coordinate
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanObject
 import org.eclipse.set.model.siteplan.SiteplanState
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 /**
  * Base transformator class for common transformation utilities 

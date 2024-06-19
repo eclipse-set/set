@@ -9,20 +9,20 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Lists
+import java.math.BigDecimal
+import java.util.HashSet
+import java.util.List
+import java.util.Set
+import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
-import java.math.BigDecimal
-import java.util.HashSet
-import java.util.List
-import java.util.Set
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * Extensions for {@link Punkt_Objekt_TOP_Kante_AttributeGroup} aka single

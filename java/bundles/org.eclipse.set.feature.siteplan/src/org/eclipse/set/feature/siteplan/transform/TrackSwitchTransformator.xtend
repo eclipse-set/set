@@ -10,9 +10,16 @@ package org.eclipse.set.feature.siteplan.transform
 
 import java.io.IOException
 import org.eclipse.set.basis.geometry.GeometryException
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.TrackSwitchMetadataProvider
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.siteplan.ContinuousTrackSegment
 import org.eclipse.set.model.siteplan.Coordinate
 import org.eclipse.set.model.siteplan.Label
@@ -21,13 +28,6 @@ import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.siteplan.TrackSwitchComponent
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode
-import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.model.planpro.Signale.Signal
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -49,7 +49,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 @Component(service=Transformator)
 class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -140,7 +140,7 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 						"Keine W_Kr_Art",
 					trackswitch.WKrAnlageAllg?.WKrGrundform?.wert ?:
 						"Keine W_Kr_Grundform"),
-				legA.getCoordinate(0, 2, trackService, positionService))
+				legA.getCoordinate(0, 2, geometryService, positionService))
 		}
 
 		result.addSiteplanElement(
@@ -150,8 +150,8 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 	def ContinuousTrackSegment getContinousSegment(TrackSwitchLeg legStart,
 		TrackSwitchLeg legEnd) {
 		val result = SiteplanFactory.eINSTANCE.createContinuousTrackSegment
-		result.start = legStart.getNodeCoordinate(trackService, positionService)
-		result.end = legEnd.getNodeCoordinate(trackService, positionService)
+		result.start = legStart.getNodeCoordinate(geometryService, positionService)
+		result.end = legEnd.getNodeCoordinate(geometryService, positionService)
 		return result
 	}
 
@@ -168,10 +168,10 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		result.mainLeg = mainLeg.transformLeg
 		result.sideLeg = sideLeg.transformLeg
 		result.label = transformLabel(element)
-		result.start = mainLeg.getCoordinate(0, 0, trackService,
+		result.start = mainLeg.getCoordinate(0, 0, geometryService,
 			positionService)
 		result.labelPosition = sideLeg.getCoordinate(sideLeg.length / 2, 0,
-			trackService, positionService)
+			geometryService, positionService)
 
 		val pointDetector = components.get(0)?.zungenpaar?.
 			zungenpruefkontaktAnzahl?.wert
@@ -199,7 +199,7 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 				result.connection = null
 		}
 		result.coordinates.addAll(
-			leg.getCoordinates(trackService, positionService))
+			leg.getCoordinates(geometryService, positionService))
 		return result
 	}
 

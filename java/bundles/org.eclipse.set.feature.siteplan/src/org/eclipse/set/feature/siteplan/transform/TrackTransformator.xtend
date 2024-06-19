@@ -9,18 +9,14 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.math.BigDecimal
+import java.util.List
 import java.util.Set
+import org.eclipse.set.basis.geometry.GEOKanteCoordinate
+import org.eclipse.set.basis.geometry.GEOKanteMetadata
+import org.eclipse.set.basis.geometry.GEOKanteSegment
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.feature.siteplan.SiteplanConstants
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.GEOKanteMetadata
-import org.eclipse.set.feature.siteplan.trackservice.GEOKanteSegment
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
-import org.eclipse.set.model.siteplan.SiteplanFactory
-import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.model.siteplan.TrackDesignation
-import org.eclipse.set.model.siteplan.TrackSection
-import org.eclipse.set.model.siteplan.TrackSegment
-import org.eclipse.set.model.siteplan.TrackShape
-import org.eclipse.set.model.siteplan.TrackType
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
@@ -30,23 +26,30 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Art
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.siteplan.SiteplanFactory
+import org.eclipse.set.model.siteplan.SiteplanPackage
+import org.eclipse.set.model.siteplan.TrackDesignation
+import org.eclipse.set.model.siteplan.TrackSection
+import org.eclipse.set.model.siteplan.TrackSegment
+import org.eclipse.set.model.siteplan.TrackShape
+import org.eclipse.set.model.siteplan.TrackType
+import org.locationtech.jts.geom.Coordinate
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
 import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
-import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.feature.siteplan.SiteplanConstants
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -55,7 +58,7 @@ import org.eclipse.set.feature.siteplan.SiteplanConstants
 @Component(service=Transformator)
 class TrackTransformator extends BaseTransformator<TOP_Kante> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -77,13 +80,13 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 		val track = SiteplanFactory.eINSTANCE.createTrack()
 		track.guid = topKante.identitaet.wert
-		val geoKantes = trackService.getGeoKanten(topKante)
+		val geoKantes = geometryService.getGeoKanten(topKante)
 		sectionColor = SiteplanConstants.TOP_KANTEN_COLOR.get(track.guid)
 		if (sectionColor.nullOrEmpty) {
 			sectionColor = '''hsl(«(SiteplanConstants.TOP_KANTEN_COLOR.size + 1) * 137.5», 100%, 65%)'''
 			SiteplanConstants.TOP_KANTEN_COLOR.put(track.guid, sectionColor)
 		}
-		
+
 		geoKantes.createTransformatorThread(this.class.name + "_" + track.guid,
 			Runtime.runtime.availableProcessors, [
 				val section = transformTrackSection(it)
@@ -270,16 +273,67 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val centerDistance = maxTB.length / 2
 		if (centerDistance < md.start || centerDistance >= md.end)
 			return null;
-
-		result.position = positionService.transformPosition(
-			md.getCoordinate(centerDistance, 0,
-				ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN))
+		val coordinate = geometryService.getCoordinate(md, centerDistance, 0,
+			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		result.position = positionService.transformPosition(coordinate)
 		return result
 	}
 
 	def double getLength(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 		return tb.begrenzungB.wert.doubleValue - tb.begrenzungA.wert.doubleValue
 
+	}
+
+	def List<GEOKanteCoordinate> getCoordinates(GEOKanteSegment segment,
+		GEOKanteMetadata geoKante) {
+		val result = newArrayList
+
+		// A GEO_Kante of length zero may reside in different coordinate systems
+		// and thus requires end nodes to be processed in their respecitve CRS
+		// for correct conversion
+		if (geoKante.getLength() == 0) {
+			try {
+				val gk = geoKante.getGeoKante();
+				val knotenA = gk.getIDGEOKnotenA().getValue();
+				val knotenB = gk.getIDGEOKnotenB().getValue();
+				return List.of(
+					new GEOKanteCoordinate(getCoordinate(knotenA),
+						segment.bereichObjekte, getCRS(knotenA)),
+					new GEOKanteCoordinate(getCoordinate(knotenB),
+						segment.bereichObjekte, getCRS(knotenB)));
+			} catch (NullPointerException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		// Determine the coordinates in the geometry which are strictly within
+		// this segment
+		var Coordinate lastCoordinate = null
+		var distance = geoKante.getStart();
+		for (Coordinate coordinate : geoKante.geometry.coordinates) {
+			if (lastCoordinate === null) {
+				// The first (and last) coordinate is never strictly within a
+				// segment
+				// so it does not get added to the resulting list
+				lastCoordinate = coordinate
+			} else if (distance < segment.start) {
+				distance += lastCoordinate.distance(coordinate)
+			} else if (distance < segment.end) {
+				if (result.empty) {
+					result.add(
+						new GEOKanteCoordinate(lastCoordinate,
+							segment.bereichObjekte, geoKante.geoKnoten.CRS))
+				}
+				result.add(
+					new GEOKanteCoordinate(coordinate, segment.bereichObjekte,
+						geoKante.geoKnoten.CRS))
+				distance += lastCoordinate.distance(coordinate)
+				lastCoordinate = coordinate
+			}
+		}
+
+		return result;
 	}
 
 }
