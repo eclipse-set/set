@@ -61,7 +61,6 @@ import org.eclipse.set.feature.table.abstracttableview.NatTableColumnGroupHelper
 import org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelThemeConfiguration;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -162,7 +161,7 @@ public final class ToolboxTableView extends BasePart {
 
 	TableType tableType;
 
-	Map<Stell_Bereich, ContainerType> controlAreas;
+	Map<String, ContainerType> controlAreaIds;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -184,13 +183,6 @@ public final class ToolboxTableView extends BasePart {
 	@Override
 	public TableType getTableType() {
 		return tableType;
-	}
-
-	@Override
-	public void handleNewTableType(final NewTableTypeEvent e) {
-		tableType = e.getTableType();
-		controlAreas.clear();
-		updateTableView();
 	}
 
 	private ExportType getExportType() {
@@ -283,9 +275,9 @@ public final class ToolboxTableView extends BasePart {
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
-				controlAreas.clear();
-				t.getControlAreas().forEach(area -> controlAreas
-						.put(area.area(), area.containerType()));
+				controlAreaIds.clear();
+				t.getControlAreas().forEach(area -> controlAreaIds
+						.put(area.areaId(), area.containerType()));
 				tableType = t.getTableType();
 				updateTableView();
 			}
@@ -336,7 +328,7 @@ public final class ToolboxTableView extends BasePart {
 	private Table transformToTableModel(final String elementId,
 			final IModelSession modelSession) {
 		return tableService.transformToTable(elementId, tableType, modelSession,
-				controlAreas);
+				controlAreaIds);
 	}
 
 	private void updateTableView() {
@@ -369,7 +361,7 @@ public final class ToolboxTableView extends BasePart {
 			tableType = getModelSession().getNature().getDefaultContainer()
 					.getTableTypeForTables();
 		}
-		controlAreas = getModelSession().getControlAreas();
+		controlAreaIds = getModelSession().getControlAreaIds();
 
 		tableService.updateTable(this,
 				() -> updateModel(getToolboxPart(), getModelSession()),

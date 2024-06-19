@@ -10,10 +10,6 @@ package org.eclipse.set.utils;
 
 import java.util.List;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
@@ -31,8 +27,8 @@ import org.eclipse.set.basis.part.ViewVisibility;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.session.SessionService;
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
@@ -49,10 +45,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
 
 /**
  * A toolbox specific part with a title.
@@ -301,6 +302,11 @@ public abstract class BasePart implements ToolboxPart {
 
 	@PreDestroy
 	private void preDestroy() {
+		toolboxPart.setVisible(false);
+		toolboxPart.setToBeRendered(false);
+		if (toolboxPart.getWidget() instanceof final Widget widget) {
+			widget.dispose();
+		}
 		ToolboxEvents.unsubscribe(broker, newActiveViewHandler);
 		ToolboxEvents.unsubscribe(broker, newTableTypeHandler);
 		ToolboxEvents.unsubscribe(broker, dataEventHandler);

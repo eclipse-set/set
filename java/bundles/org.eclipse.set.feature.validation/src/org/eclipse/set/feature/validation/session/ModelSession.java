@@ -66,7 +66,6 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.utils.ValidationOutcome;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
@@ -81,6 +80,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.swt.widgets.Display;
@@ -162,7 +162,7 @@ public class ModelSession implements IModelSession {
 	private final Guid guid;
 	private boolean isNewProject = false;
 	private DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
-	private DefaultToolboxEventHandler<SelectedControlAreaChangedEvent> SelectedControlAreaChangedEventHandler;
+	private DefaultToolboxEventHandler<SelectedControlAreaChangedEvent> selectedControlAreaChangedEventHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
 	private final Map<Integer, Boolean> reportSavedDialogSuppressed = new HashMap<>();
@@ -182,7 +182,7 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Map<Stell_Bereich, ContainerType> controlAreas = new HashMap<>();
+	Map<String, ContainerType> controlAreaIds = new HashMap<>();
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -235,16 +235,19 @@ public class ModelSession implements IModelSession {
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
 				NewTableTypeEvent.class, newTableTypeHandler);
 
-		SelectedControlAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
+		selectedControlAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
-				t.getControlAreas().forEach(area -> controlAreas
-						.put(area.area(), area.containerType()));
+				final Set<ControlAreaValue> changeAreas = t.getControlAreas();
+				controlAreaIds.clear();
+				changeAreas.forEach(area -> controlAreaIds.put(area.areaId(),
+						area.containerType()));
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
-				SelectedControlAreaChangedEvent.class, SelectedControlAreaChangedEventHandler);
+				SelectedControlAreaChangedEvent.class,
+				selectedControlAreaChangedEventHandler);
 	}
 
 	@Override
@@ -289,7 +292,7 @@ public class ModelSession implements IModelSession {
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
 					newTableTypeHandler);
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
-					SelectedControlAreaChangedEventHandler);
+					selectedControlAreaChangedEventHandler);
 		} catch (final IOException e) {
 			logger.warn("clean up failed: exception={} message={}", //$NON-NLS-1$
 					e.getClass().getSimpleName(), e.getMessage());
@@ -452,8 +455,8 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public Map<Stell_Bereich, ContainerType> getControlAreas() {
-		return controlAreas;
+	public Map<String, ContainerType> getControlAreaIds() {
+		return controlAreaIds;
 	}
 
 	@Override

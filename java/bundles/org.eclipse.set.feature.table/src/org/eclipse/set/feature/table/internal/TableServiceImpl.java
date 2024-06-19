@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.table.internal;
 
+import static org.eclipse.set.basis.extensions.MApplicationElementExtensions.isOpenPart;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,12 +21,11 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.e4.ui.model.application.ui.MElementContainer;
-import org.eclipse.e4.ui.model.application.ui.MUIElement;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -45,6 +46,7 @@ import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
@@ -57,6 +59,7 @@ import org.eclipse.set.model.tablemodel.extensions.TableCellExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.utils.BasePart;
@@ -106,6 +109,9 @@ public final class TableServiceImpl implements TableService {
 	@Translation
 	Messages messages;
 
+	@Inject
+	ToolboxPartService partService;
+
 	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
@@ -141,14 +147,14 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	private Table createDiffTable(final String elementId,
-			final IModelSession modelSession, final Stell_Bereich controlArea) {
+			final IModelSession modelSession, final String controlAreaId) {
 
 		final Table startTable = transformToTable(elementId, TableType.INITIAL,
-				modelSession, controlArea == null ? Collections.emptyMap()
-						: Map.of(controlArea, ContainerType.INITIAL));
+				modelSession, controlAreaId == null ? Collections.emptyMap()
+						: Map.of(controlAreaId, ContainerType.INITIAL));
 		final Table zielTable = transformToTable(elementId, TableType.FINAL,
-				modelSession, controlArea == null ? Collections.emptyMap()
-						: Map.of(controlArea, ContainerType.FINAL));
+				modelSession, controlAreaId == null ? Collections.emptyMap()
+						: Map.of(controlAreaId, ContainerType.FINAL));
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
@@ -263,19 +269,24 @@ public final class TableServiceImpl implements TableService {
 
 	private Object loadTransform(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Stell_Bereich controlArea) {
+			final String controlAreaId) {
 		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
 		final Table transformedTable;
 		if (tableType == TableType.DIFF) {
 			transformedTable = createDiffTable(elementId, modelSession,
-					controlArea);
+					controlAreaId);
 			modelService.format(transformedTable);
 		} else {
-			transformedTable = modelService.transform(
-					modelSession.getContainer(tableType.getContainerForTable()),
-					controlArea);
+			final MultiContainer_AttributeGroup container = modelSession
+					.getContainer(tableType.getContainerForTable());
+			final Stell_Bereich area = StreamSupport
+					.stream(container.getStellBereich().spliterator(), false)
+					.filter(e -> e.getIdentitaet().getWert()
+							.equals(controlAreaId))
+					.findFirst().orElse(null);
+			transformedTable = modelService.transform(container, area);
 			saveTableError(shortCut, tableType, modelService.getTableErrors());
 		}
 		if (Thread.currentThread().isInterrupted()
@@ -306,7 +317,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public String transformToCsv(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<Stell_Bereich, ContainerType> controlAreas) {
+			final Map<String, ContainerType> controlAreas) {
 		final Table table = transformToTable(elementId, tableType, modelSession,
 				controlAreas);
 		return transformToCsv(table);
@@ -351,7 +362,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Table transformToTable(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<Stell_Bereich, ContainerType> controlAreas) {
+			final Map<String, ContainerType> controlAreas) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCache().getCache(
@@ -363,16 +374,16 @@ public final class TableServiceImpl implements TableService {
 							null));
 		}
 		final Table resultTable = TablemodelFactory.eINSTANCE.createTable();
-		controlAreas.forEach((area, type) -> {
+		controlAreas.forEach((areaId, type) -> {
 			if (!type.getDefaultTableType().equals(tableType)
 					&& tableType != TableType.DIFF) {
 				return;
 			}
 			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
-					area.getIdentitaet().getWert());
+					areaId);
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
-							area));
+							areaId));
 			if (resultTable.getColumndescriptors().isEmpty()) {
 				resultTable.getColumndescriptors().addAll(
 						EcoreUtil.copyAll(table.getColumndescriptors()));
@@ -408,15 +419,10 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public void updateTable(final BasePart tablePart,
 			final Runnable updateTableHandler, final Runnable clearInstance) {
-		final MElementContainer<MUIElement> parent = tablePart.getToolboxPart()
-				.getParent();
-
 		// Get already open table parts
-		final List<MPart> openTableParts = parent.getChildren().stream()
-				.filter(child -> child instanceof final MPart part
-						&& part.getElementId().startsWith(
-								ToolboxConstants.TABLE_PART_ID_PREFIX)
-						&& part.isVisible())
+		final List<MPart> openTableParts = partService.getOpenParts().stream()
+				.filter(part -> part.getElementId()
+						.startsWith(ToolboxConstants.TABLE_PART_ID_PREFIX))
 				.map(MPart.class::cast).toList();
 
 		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));
@@ -425,9 +431,9 @@ public final class TableServiceImpl implements TableService {
 
 		// Create a loading monitor only when the current table part isn't open
 		// or already collect all transform handler of the open table parts
-		final IRunnableWithProgress updateTableProgress = !tablePart
-				.getToolboxPart().isVisible()
-				|| parts.containsAll(openTableParts) ? createProgressMonitor()
+		final IRunnableWithProgress updateTableProgress = !isOpenPart(
+				tablePart.getToolboxPart()) || parts.containsAll(openTableParts)
+						? createProgressMonitor()
 						: null;
 
 		if (updateTableProgress != null) {

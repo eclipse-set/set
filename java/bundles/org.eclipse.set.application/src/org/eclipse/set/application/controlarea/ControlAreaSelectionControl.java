@@ -25,6 +25,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -90,6 +91,8 @@ public class ControlAreaSelectionControl {
 	private TableType tableType;
 	IModelSession oldSession;
 
+	private Object oldSelectionValue;
+
 	/**
 	 * @param parent
 	 *            the parent
@@ -105,6 +108,7 @@ public class ControlAreaSelectionControl {
 		// Reset combo value, when close session
 		broker.subscribe(Events.CLOSE_SESSION, event -> initCombo());
 		createCombo(parent);
+		oldSelectionValue = messages.ControlAreaCombo_Default_Value;
 	}
 
 	private void createCombo(final Composite parent) {
@@ -118,8 +122,10 @@ public class ControlAreaSelectionControl {
 			@Override
 			public void accept(final NewTableTypeEvent t) {
 				initCombo();
-				tableType = t.getTableType();
-				setCombo();
+				setCombo(t.getTableType());
+				// Send update event, when table type change
+				seletcionControlArea(comboViewer.getSelection(),
+						t.getTableType());
 			}
 		};
 		ToolboxEvents.subscribe(broker, NewTableTypeEvent.class,
@@ -140,7 +146,7 @@ public class ControlAreaSelectionControl {
 					} else {
 						// Default table type
 						tableType = TableType.DIFF;
-						setCombo();
+						setCombo(tableType);
 					}
 				}
 				return true;
@@ -148,10 +154,10 @@ public class ControlAreaSelectionControl {
 		});
 	}
 
-	private void setCombo() {
+	private void setCombo(final TableType type) {
 		comboViewer.getCombo().removeAll();
 		final List<ControlAreaValue> values = new LinkedList<>();
-		switch (tableType) {
+		switch (type) {
 		case FINAL:
 			values.addAll(getComboValues(getSession(), ContainerType.FINAL));
 			break;
@@ -171,6 +177,7 @@ public class ControlAreaSelectionControl {
 			comboViewer.add(messages.ControlAreaCombo_Default_Value);
 			comboViewer.getCombo().select(0);
 			comboViewer.getCombo().setEnabled(false);
+
 			return;
 		}
 
@@ -178,9 +185,26 @@ public class ControlAreaSelectionControl {
 		if (values.size() > 1) {
 			comboViewer.insert(messages.ControlAreaCombo_All, values.size());
 		}
-		comboViewer.insert(messages.ControlAreaCombo_Default_Value, 0);
 
-		comboViewer.getCombo().select(0);
+		comboViewer.insert(messages.ControlAreaCombo_Default_Value, 0);
+		final Optional<ControlAreaValue> oldValue = values.stream()
+				.filter(areaValue -> {
+					if (oldSelectionValue instanceof String) {
+						return areaValue.equals(oldSelectionValue);
+					} else if (oldSelectionValue instanceof final ControlAreaValue oldAreaValue) {
+						return areaValue.areaName()
+								.equals(oldAreaValue.areaName());
+					}
+					return false;
+				}).findFirst();
+		if (!oldSelectionValue.equals(messages.ControlAreaCombo_Default_Value)
+				&& oldValue.isPresent()) {
+			final int index = comboViewer.getCombo()
+					.indexOf(oldValue.get().areaName());
+			comboViewer.getCombo().select(index);
+		} else {
+			comboViewer.getCombo().select(0);
+		}
 		comboViewer.getCombo().setEnabled(true);
 	}
 
@@ -202,8 +226,7 @@ public class ControlAreaSelectionControl {
 		for (final Stell_Bereich finalArea : finalContainer.getStellBereich()) {
 			final String finalAreaId = finalArea.getIdentitaet().getWert();
 			final Optional<ControlAreaValue> initialArea = values.stream()
-					.filter(area -> area.area().getIdentitaet().getWert()
-							.equals(finalAreaId))
+					.filter(area -> area.areaId().equals(finalAreaId))
 					.findFirst();
 
 			if (initialArea.isEmpty()) {
@@ -211,7 +234,7 @@ public class ControlAreaSelectionControl {
 				if (areaName == null) {
 					areaName = getDefaultAreaName(values.size());
 				}
-				values.add(new ControlAreaValue(areaName, finalArea,
+				values.add(new ControlAreaValue(areaName, finalAreaId,
 						ContainerType.FINAL));
 			}
 		}
@@ -250,7 +273,8 @@ public class ControlAreaSelectionControl {
 			if (areaName == null) {
 				areaName = getDefaultAreaName(i);
 			}
-			values.add(new ControlAreaValue(areaName, area, containerType));
+			values.add(new ControlAreaValue(areaName,
+					area.getIdentitaet().getWert(), containerType));
 			i++;
 		}
 		return values;
@@ -274,22 +298,32 @@ public class ControlAreaSelectionControl {
 		comboViewer.getCombo().setEnabled(false);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void selectionControlArea(final SelectionChangedEvent e) {
-		if (e.getSelection() instanceof final IStructuredSelection selection) {
+		seletcionControlArea(e.getSelection(), tableType);
+	}
+
+	private void seletcionControlArea(final ISelection s,
+			final TableType type) {
+		if (s instanceof final IStructuredSelection selection) {
 			final Object selectedElement = selection.getFirstElement();
+			if (oldSelectionValue.equals(selectedElement)
+					&& tableType.equals(type)) {
+				return;
+			}
+			tableType = type;
+			oldSelectionValue = selectedElement;
 			if (selectedElement instanceof final ControlAreaValue selected) {
 				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
 						selected, tableType));
 				return;
 			}
-
 			if (selectedElement instanceof final String msg) {
 				if (msg.equals(messages.ControlAreaCombo_Default_Value)) {
 					ToolboxEvents.send(broker,
 							new SelectedControlAreaChangedEvent(tableType));
 				} else if (msg.equals(messages.ControlAreaCombo_All)) {
 					try {
+						@SuppressWarnings("unchecked")
 						final List<ControlAreaValue> allValues = List.class
 								.cast(comboViewer.getInput());
 						ToolboxEvents.send(broker,
@@ -301,6 +335,5 @@ public class ControlAreaSelectionControl {
 				}
 			}
 		}
-
 	}
 }
