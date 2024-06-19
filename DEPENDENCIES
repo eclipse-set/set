@@ -192,7 +192,7 @@ npm/npmjs/-/array.prototype.flat/1.3.2, MIT, approved, #4574
 npm/npmjs/-/array.prototype.flatmap/1.3.2, MIT, approved, #4651
 npm/npmjs/-/arraybuffer.prototype.slice/1.0.2, MIT, approved, #9657
 npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
-npm/npmjs/-/atob/2.1.2, Apache-2.0 AND MIT AND CC-BY-3.0 AND (Apache-2.0 AND LicenseRef-scancode-free-unknown AND MIT), restricted, #15389
+npm/npmjs/-/atob/2.1.2, (Apache-2.0 AND MIT) AND CC-BY-3.0, approved, #15389
 npm/npmjs/-/available-typed-arrays/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/axios/1.7.2, MIT, approved, #14871
 npm/npmjs/-/balanced-match/1.0.0, MIT, approved, clearlydefined
