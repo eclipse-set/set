@@ -73,7 +73,7 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
-		natTable = createTable(parent, table, tableMenuService);
+		natTable = createTable(parent, table);
 		return natTable;
 	}
 

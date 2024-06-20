@@ -78,7 +78,7 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 				.getEntries().get(rowIndex - 1).getLineNumber());
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
-		natTable = createTable(parent, table, tableMenuService);
+		natTable = createTable(parent, table);
 
 		return natTable;
 	}
