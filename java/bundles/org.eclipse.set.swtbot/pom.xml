@@ -1,86 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.eclipse.set</groupId>
-    <artifactId>org.eclipse.set.swtbot</artifactId>
-    <version>2.3.0-SNAPSHOT</version>
-    <packaging>eclipse-test-plugin</packaging>
-
-    <properties>
-        <skip-ui-test>true</skip-ui-test>
-    </properties>
-
-    <parent>
-        <relativePath>../../..</relativePath>
-        <groupId>org.eclipse.set</groupId>
-        <artifactId>org.eclipse.set.releng.parent</artifactId>
-        <version>2.3.0-SNAPSHOT</version>
-    </parent>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.eclipse.tycho</groupId>
-                <artifactId>tycho-surefire-plugin</artifactId>
-                <version>${tycho-version}</version>
-                <configuration>
-                    <useUIHarness>true</useUIHarness>
-                    <useUIThread>false</useUIThread>
-                    <product>org.eclipse.set.application.set.product_set</product>
-                    <application>org.eclipse.e4.ui.workbench.swt.E4Application</application>
-                    <appArgLine>-nl de_DE_SET</appArgLine>
-                    <argLine>-Duser.dir=${application-under-test} -Xmx4096M -Dtoolbox.detailversion=${application-version} -Dorg.eclipse.set.browser.locale=de-DE -Dtoolbox.development.mode=false -Dorg.eclipse.set.browser.user-agent-product="PlanPro Werkzeugkoffer (dbnetze.com/planpro)" -Dfile.encoding=UTF8</argLine>
-                    <work>${application-under-test}</work>
-                    <skipTests>${skip-ui-test}</skipTests>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.eclipse.tycho</groupId>
-                <artifactId>target-platform-configuration</artifactId>
-                <version>${tycho-version}</version>
-                <configuration>
-                    <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-21</executionEnvironment>
-                    <target>
-                        <artifact>
-                            <groupId>org.eclipse.set</groupId>
-                            <artifactId>org.eclipse.set.releng.target</artifactId>
-                            <version>${project.version}</version>
-                        </artifact>
-                    </target>
-                    <dependency-resolution>
-                        <extraRequirements>
-                            <requirement>
-                                <type>eclipse-feature</type>
-                                <id>org.eclipse.e4.rcp</id>
-                                <versionRange>0.0.0</versionRange>
-                            </requirement>
-                            <requirement>
-                                <type>eclipse-feature</type>
-                                <id>org.eclipse.emf.common</id>
-                                <versionRange>0.0.0</versionRange>
-                            </requirement>
-                            <requirement>
-                                <type>eclipse-feature</type>
-                                <id>org.eclipse.emf.ecore</id>
-                                <versionRange>0.0.0</versionRange>
-                            </requirement>
-                            <requirement>
-                                <type>eclipse-feature</type>
-                                <id>org.eclipse.emf.ecp.emfforms.runtime.feature</id>
-                                <versionRange>0.0.0</versionRange>
-                            </requirement>
-                            <requirement>
-                                <type>eclipse-feature</type>
-                                <id>org.eclipse.emf.common.ui</id>
-                                <versionRange>0.0.0</versionRange>
-                            </requirement>
-                        </extraRequirements>
-                    </dependency-resolution>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<groupId>org.eclipse.set</groupId>
+	<artifactId>org.eclipse.set.swtbot</artifactId>
+	<version>2.3.0-SNAPSHOT</version>
+	<packaging>eclipse-test-plugin</packaging>
+	<parent>
+		<relativePath>../../../java-test</relativePath>
+		<groupId>org.eclipse.set</groupId>
+		<artifactId>org.eclipse.set.releng.swtbot.parent</artifactId>
+		<version>2.3.0-SNAPSHOT</version>
+	</parent>
+	<properties>
+		<skip-test>true</skip-test>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<useUIHarness>true</useUIHarness>
+					<useUIThread>false</useUIThread>
+					<product>org.eclipse.set.application.set.product_set</product>
+					<application>org.eclipse.e4.ui.workbench.swt.E4Application</application>
+					<appArgLine>-nl de_DE_SET</appArgLine>
+					<argLine>-Duser.dir=${application-under-test} -Xmx4096M -Dtoolbox.detailversion=${application-version} -Dorg.eclipse.set.browser.locale=de-DE -Dtoolbox.development.mode=false -Dorg.eclipse.set.browser.user-agent-product="PlanPro Werkzeugkoffer (dbnetze.com/planpro)" -Dfile.encoding=UTF8</argLine>
+					<work>${application-under-test}</work>
+					<skipTests>${skip-test}</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
 
