@@ -29,12 +29,12 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 	 * 
 	 * @param areaName
 	 *            the name of area
-	 * @param area
-	 *            the {@link Stell_Bereich}
+	 * @param areaId
+	 *            the guid {@link Stell_Bereich}
 	 * @param containerType
 	 *            the {@link ContainerType}, which belong to this area
 	 */
-	public record ControlAreaValue(String areaName, Stell_Bereich area,
+	public record ControlAreaValue(String areaName, String areaId,
 			ContainerType containerType) {
 	}
 

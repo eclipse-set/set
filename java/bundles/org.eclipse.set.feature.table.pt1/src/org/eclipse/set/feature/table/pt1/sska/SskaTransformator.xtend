@@ -60,7 +60,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		elementList.addAll(estwzentraleinheitList);
 		elementList.addAll(aussenelementansteuerungList);
 		// Basis_Objekt
-		for (element : elementList.filterObjectsInControlArea(controlArea)) {
+		for (element : elementList.filter[isPlanningObject].filterObjectsInControlArea(controlArea)) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}

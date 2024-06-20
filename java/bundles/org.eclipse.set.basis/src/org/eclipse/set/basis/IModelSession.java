@@ -25,7 +25,6 @@ import org.eclipse.set.basis.constants.ValidationResult.FileValidateState;
 import org.eclipse.set.basis.constants.ValidationResult.Outcome;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFile;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -147,7 +146,7 @@ public interface IModelSession {
 	/**
 	 * @return the selection control area with the belonging contaier type
 	 */
-	Map<Stell_Bereich, ContainerType> getControlAreas();
+	Map<String, ContainerType> getControlAreaIds();
 
 	/**
 	 * @return the temporary directory of this session

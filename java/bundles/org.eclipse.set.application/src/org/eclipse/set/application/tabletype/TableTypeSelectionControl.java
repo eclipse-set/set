@@ -76,6 +76,7 @@ public class TableTypeSelectionControl {
 	ToolboxPartService partService;
 
 	private ComboViewer comboViewer;
+	private TableType oldSelectedValue;
 
 	/**
 	 * @param parent
@@ -91,6 +92,7 @@ public class TableTypeSelectionControl {
 		messages = serviceProvider.messages;
 		partService = serviceProvider.partService;
 		createTableCombo(parent);
+		oldSelectedValue = TableType.DIFF;
 	}
 
 	private void createTableCombo(final Composite parent) {
@@ -103,7 +105,9 @@ public class TableTypeSelectionControl {
 			if (event
 					.getSelection() instanceof final IStructuredSelection selection
 					&& selection
-							.getFirstElement() instanceof final TableType selectedType) {
+							.getFirstElement() instanceof final TableType selectedType
+					&& !oldSelectedValue.equals(selectedType)) {
+				oldSelectedValue = selectedType;
 				ToolboxEvents.send(broker, new NewTableTypeEvent(selectedType));
 			}
 		});
