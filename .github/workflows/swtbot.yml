@@ -58,3 +58,4 @@ jobs:
         with:
           files: |
             ${{ github.workspace }}/**/surefire-reports/*.xml
+          check_run_annotations_branch: ${{ github.event.workflow_run.head_branch }}
