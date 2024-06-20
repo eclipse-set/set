@@ -29,7 +29,7 @@ updates:
       patterns:
       - "@typescript-eslint*"
   ignore:
-    - dependency-name: "eslint-plugin-n"      
+    - dependency-name: "eslint-plugin-n"
 - package-ecosystem: npm
   directory: "/web/siteplan"
   schedule:
