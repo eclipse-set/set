@@ -13,10 +13,7 @@ import java.util.Set
 import org.eclipse.set.basis.Pair
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
@@ -26,6 +23,10 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssln.SslnColumns.*
@@ -38,6 +39,7 @@ import static extension org.eclipse.set.ppmodel.extensions.NbExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 
 /**
@@ -55,7 +57,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		return container.transform
 	}

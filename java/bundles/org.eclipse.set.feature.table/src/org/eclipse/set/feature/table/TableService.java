@@ -13,10 +13,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.TableError;
 
 /**
@@ -77,11 +80,14 @@ public interface TableService {
 	 *            the table type
 	 * @param modelSession
 	 *            the model session
-	 * 
+	 * @param controlAreaIds
+	 *            the id list of {@link Stell_Bereich} and the belonging
+	 *            container type
 	 * @return the table
 	 */
 	String transformToCsv(final String elementId, TableType tableType,
-			final IModelSession modelSession);
+			final IModelSession modelSession,
+			Map<String, ContainerType> controlAreaIds);
 
 	/**
 	 * Transform the selected container to a table model.
@@ -97,6 +103,35 @@ public interface TableService {
 	 */
 	Table transformToTable(final String elementId, TableType tableType,
 			final IModelSession modelSession);
+
+	/**
+	 * Transform the selected container and control area to a table model.
+	 * 
+	 * @param elementId
+	 *            the elementId
+	 * @param tableType
+	 *            the table type
+	 * @param modelSession
+	 *            the model session
+	 * @param controlAreas
+	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * 
+	 * @return the table
+	 */
+	Table transformToTable(final String elementId, TableType tableType,
+			final IModelSession modelSession,
+			Map<String, ContainerType> controlAreas);
+
+	/**
+	 * @param part
+	 *            the table part
+	 * @param updateTableHandler
+	 *            the update table handler
+	 * @param clearInstance
+	 *            the clear table instance handler
+	 */
+	void updateTable(final BasePart part, final Runnable updateTableHandler,
+			Runnable clearInstance);
 
 	/**
 	 * Get fixed columns

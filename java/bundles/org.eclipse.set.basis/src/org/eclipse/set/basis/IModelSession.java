@@ -10,6 +10,7 @@ package org.eclipse.set.basis;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -141,6 +142,11 @@ public interface IModelSession {
 	 * @return the (global) table type
 	 */
 	TableType getTableType();
+
+	/**
+	 * @return the selection control area with the belonging contaier type
+	 */
+	Map<String, ContainerType> getControlAreaIds();
 
 	/**
 	 * @return the temporary directory of this session

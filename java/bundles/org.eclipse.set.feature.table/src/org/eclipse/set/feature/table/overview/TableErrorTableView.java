@@ -16,12 +16,18 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.MouseEventMatcher;
+import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
+import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.events.JumpToSiteplanEvent;
+import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.TableError;
@@ -40,8 +46,6 @@ import org.eclipse.swt.widgets.Control;
  */
 public class TableErrorTableView extends AbstractSortByColumnTables {
 
-	private static final String TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table."; //$NON-NLS-1$
-
 	private final Messages messages;
 	private NatTable natTable;
 
@@ -49,25 +53,38 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 	private final IEventBroker broker;
 	private final ToolboxPartService toolboxPartService;
 	private final EnumTranslationService enumTranslationService;
+	private final TableMenuService tableMenuService;
+	private final BasePart part;
+	private final XMLNodeFinder xmlNodeFinder;
 
 	/**
 	 * @param messages
 	 *            The messages
+	 * @param part
+	 *            the part
 	 * @param broker
 	 *            the event broker
 	 * @param toolboxPartService
 	 *            the part service
 	 * @param enumTranslationService
 	 *            the enum translation service
+	 * @param tableMenuService
+	 *            teh table menu service
 	 */
-	public TableErrorTableView(final Messages messages,
+	public TableErrorTableView(final Messages messages, final BasePart part,
 			final IEventBroker broker,
 			final ToolboxPartService toolboxPartService,
-			final EnumTranslationService enumTranslationService) {
+			final EnumTranslationService enumTranslationService,
+			final TableMenuService tableMenuService) {
 		this.messages = messages;
 		this.broker = broker;
 		this.toolboxPartService = toolboxPartService;
 		this.enumTranslationService = enumTranslationService;
+		this.tableMenuService = tableMenuService;
+		this.part = part;
+		final ToolboxFile toolboxFile = part.getModelSession().getToolboxFile();
+		this.xmlNodeFinder = new XMLNodeFinder();
+		xmlNodeFinder.read(toolboxFile, toolboxFile.getModelPath());
 	}
 
 	/**
@@ -79,7 +96,9 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 	 */
 	public Control create(final Composite parent) {
 		final Table table = getTable();
-		natTable = createTable(parent, table, null);
+		this.createTableBodyData(table, rowIndex -> rowIndex);
+		addMenuItems();
+		natTable = createTable(parent, table);
 		natTable.getUiBindingRegistry().registerFirstDoubleClickBinding(
 				MouseEventMatcher.bodyLeftClick(0),
 				(final NatTable natTable2, final MouseEvent event) -> {
@@ -91,7 +110,6 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 
 					final int row = selectedCells.iterator().next()
 							.getRowPosition();
-
 					final RowGroup group = TableRowExtensions
 							.getGroup(bodyDataProvider.getRow(row).getRow());
 
@@ -99,9 +117,9 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 							.getLeadingObject() instanceof final TableError error) {
 						final String guid = error.getGuid();
 						final String shortCut = error.getSource().toLowerCase();
-
 						toolboxPartService
-								.showPart(TABLE_PART_ID_PREFIX + shortCut);
+								.showPart(ToolboxConstants.TABLE_PART_ID_PREFIX
+										+ shortCut);
 						ToolboxEvents.send(broker,
 								new TableSelectRowByGuidEvent(guid));
 					}
@@ -134,13 +152,68 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 		return table;
 	}
 
+	private void addMenuItems() {
+		tableMenuService.addMenuItem(tableMenuService.createShowInTextViewItem(
+				createJumpToTextViewEvent(part),
+				bodyLayerStack.getSelectionLayer(),
+				rowPosition -> getRowReferenceObjectGuid(rowPosition) != null));
+		tableMenuService.addMenuItem(tableMenuService.createShowInSitePlanItem(
+				creataJumpToSiteplanEvent(), bodyLayerStack.getSelectionLayer(),
+				rowPosition -> {
+					final String guid = getRowReferenceObjectGuid(rowPosition);
+					return guid != null && Services.getSiteplanService()
+							.isSiteplanElement(guid);
+				}));
+	}
+
+	@Override
+	protected JumpToSourceLineEvent createJumpToTextViewEvent(
+			final BasePart basePart) {
+		return new JumpToSourceLineEvent(basePart) {
+			@Override
+			public String getObjectGuid() {
+				return getSelectedObjectGuid();
+			}
+		};
+	}
+
+	@Override
+	protected JumpToSiteplanEvent creataJumpToSiteplanEvent() {
+		return new JumpToSiteplanEvent() {
+			@Override
+			public String getGuid() {
+				return getSelectedObjectGuid();
+			}
+		};
+	}
+
 	@Override
 	protected TableMenuService getTableMenuService() {
-		throw new UnsupportedOperationException();
+		return tableMenuService;
 	}
 
 	@Override
 	protected XMLNodeFinder getXMLNodeFinder() {
+		return xmlNodeFinder;
+	}
+
+	private String getSelectedObjectGuid() {
+		final Collection<ILayerCell> selectedCells = bodyLayerStack
+				.getSelectionLayer().getSelectedCells();
+		if (selectedCells.isEmpty()) {
+			return null;
+		}
+
+		final int row = selectedCells.iterator().next().getRowPosition();
+		return getRowReferenceObjectGuid(row);
+	}
+
+	private String getRowReferenceObjectGuid(final int rowPosition) {
+		final RowGroup group = TableRowExtensions
+				.getGroup(bodyDataProvider.getRow(rowPosition).getRow());
+		if (group.getLeadingObject() instanceof final TableError error) {
+			return error.getGuid();
+		}
 		return null;
 	}
 }

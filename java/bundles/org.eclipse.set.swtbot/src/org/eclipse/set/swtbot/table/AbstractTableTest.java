@@ -71,9 +71,8 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	protected void compareValue(final ILayer nattableLayer, final int startRow,
 			final int endRow) {
 		for (int rowIndex = 0; rowIndex < endRow; rowIndex++) {
-			for (int columnIndex = 0; columnIndex < nattableLayer
-					.getPreferredColumnCount()
-					- fixedColumnCount; columnIndex++) {
+			for (int columnIndex = 0; columnIndex < layers.selectionLayer()
+					.getPreferredColumnCount(); columnIndex++) {
 				final String cellValue = nattableLayer
 						.getDataValueByPosition(columnIndex, rowIndex)
 						.toString().replaceAll(CELL_VALUE_REPLACE_REGEX, "");

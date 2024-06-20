@@ -24,9 +24,7 @@ import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.data.DefaultColumnHeaderDataProvider;
@@ -42,18 +40,19 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
+import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCommand;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
-import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
@@ -85,6 +84,7 @@ import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
 import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
@@ -130,12 +130,12 @@ public final class ToolboxTableView extends BasePart {
 	private ExportService exportService;
 	private NatTable natTable;
 
-	private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
-
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
 	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
+
+	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 
 	private int scrollToPositionRequested = -1;
 
@@ -161,6 +161,8 @@ public final class ToolboxTableView extends BasePart {
 
 	TableType tableType;
 
+	Map<String, ContainerType> controlAreaIds;
+
 	/**
 	 * this injection is only needed to invoke the call of the respective
 	 * context function which will lead to registration of the messages as an
@@ -181,12 +183,6 @@ public final class ToolboxTableView extends BasePart {
 	@Override
 	public TableType getTableType() {
 		return tableType;
-	}
-
-	@Override
-	public void handleNewTableType(final NewTableTypeEvent e) {
-		tableType = e.getTableType();
-		updateTableView();
 	}
 
 	private ExportType getExportType() {
@@ -276,14 +272,28 @@ public final class ToolboxTableView extends BasePart {
 						.extractShortcut(getToolboxPart().getElementId())
 						.toLowerCase()));
 
+		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+			@Override
+			public void accept(final SelectedControlAreaChangedEvent t) {
+				controlAreaIds.clear();
+				t.getControlAreas().forEach(area -> controlAreaIds
+						.put(area.areaId(), area.containerType()));
+				tableType = t.getTableType();
+				updateTableView();
+			}
+		};
+
+		ToolboxEvents.subscribe(getBroker(),
+				SelectedControlAreaChangedEvent.class,
+				selectionControlAreaHandler);
 	}
 
 	@PreDestroy
 	private void preDestroy() {
 		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
-		ToolboxEvents.unsubscribe(getBroker(), newTableTypeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
+		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
 		getBroker().send(Events.CLOSE_PART,
 				tableService.extractShortcut(getToolboxPart().getElementId())
 						.toLowerCase());
@@ -317,17 +327,21 @@ public final class ToolboxTableView extends BasePart {
 	 */
 	private Table transformToTableModel(final String elementId,
 			final IModelSession modelSession) {
-		return tableService.transformToTable(elementId, tableType,
-				modelSession);
+		return tableService.transformToTable(elementId, tableType, modelSession,
+				controlAreaIds);
 	}
 
 	private void updateTableView() {
-		updateModel(getToolboxPart(), getModelSession(), getToolboxShell());
-		natTable.refresh();
-		updateButtons();
+		tableService.updateTable(this, () -> {
+			updateModel(getToolboxPart(), getModelSession());
+			natTable.doCommand(new RowHeightResetCommand());
+			natTable.refresh();
+			updateButtons();
 
-		// Update footnotes
-		tableFooting.setText(TableExtensions.getFootnotesText(table));
+			// Update footnotes
+			tableFooting.setText(TableExtensions.getFootnotesText(table));
+		}, tableInstances::clear);
+
 	}
 
 	private void updateTitlebox(final Titlebox titlebox) {
@@ -347,8 +361,11 @@ public final class ToolboxTableView extends BasePart {
 			tableType = getModelSession().getNature().getDefaultContainer()
 					.getTableTypeForTables();
 		}
+		controlAreaIds = getModelSession().getControlAreaIds();
 
-		updateModel(getToolboxPart(), getModelSession(), getToolboxShell());
+		tableService.updateTable(this,
+				() -> updateModel(getToolboxPart(), getModelSession()),
+				tableInstances::clear);
 
 		// if the table was not created (possibly the creation was canceled by
 		// the user), we stop here with creating the view
@@ -595,54 +612,17 @@ public final class ToolboxTableView extends BasePart {
 				&& !getModelSession().isDirty());
 	}
 
-	void updateModel(final MPart part, final IModelSession modelSession,
-			final Shell shell) {
+	void updateModel(final MPart part, final IModelSession modelSession) {
 		// update banderole
 		getBanderole().setTableType(tableType);
-
-		// runnable for the transformation
-		final IRunnableWithProgress generateTableInstancesThread = monitor -> {
-			// start a single task with unknown timeframe
-			monitor.beginTask(
-					messages.Abstracttableview_transformation_progress,
-					IProgressMonitor.UNKNOWN);
-
-			// listen to cancel
-			Threads.stopCurrentOnCancel(monitor);
-
-			// create the table
-			table = transformToTableModel(part.getElementId(), modelSession);
-			if (monitor.isCanceled()) {
-				throw new InterruptedException();
-			}
-			// stop progress
-			monitor.done();
-			logger.info("ProgressMonitorDialog done."); //$NON-NLS-1$
-
-		};
-
-		// we start our new defined thread with a progress dialog
-		logger.info("Start ProgressMonitorDialog..."); //$NON-NLS-1$
-		final ProgressMonitorDialog monitorDialog = new ProgressMonitorDialog(
-				shell);
-		try {
-			monitorDialog.run(true, true, generateTableInstancesThread);
-		} catch (final InvocationTargetException ex) {
-			logger.error(ex.toString(), ex);
-			throw new RuntimeException(ex);
-		} catch (final InterruptedException ex) {
-			tableInstances.clear();
-			MApplicationElementExtensions.setViewState(part,
-					ToolboxViewState.CANCELED);
-			Thread.currentThread().interrupt();
-			return;
-		}
+		table = transformToTableModel(part.getElementId(), modelSession);
 		// flag creation
 		MApplicationElementExtensions.setViewState(part,
 				ToolboxViewState.CREATED);
 
 		tableInstances.clear();
 		tableInstances.addAll(TableExtensions.getTableRows(table));
+
 	}
 
 	private void addMenuItems() {

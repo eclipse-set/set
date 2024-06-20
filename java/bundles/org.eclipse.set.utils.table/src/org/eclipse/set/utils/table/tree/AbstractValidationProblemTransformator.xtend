@@ -11,6 +11,7 @@ package org.eclipse.set.utils.table.tree
 import java.util.Comparator
 import java.util.List
 import java.util.Set
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.validationreport.ValidationProblem
@@ -37,6 +38,10 @@ abstract class AbstractValidationProblemTransformator<T> extends AbstractTableMo
 		factory.instertGroupAbstractRow
 		factory.reGroupingTree
 		return factory.table
+	}
+	
+	override transformTableContent(T model, TMFactory factory, Stell_Bereich controlArea) {
+		throw new UnsupportedOperationException()
 	}
 
 	abstract def List<ValidationProblem> getProblems(T report)

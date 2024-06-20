@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.locationtech.jts.geom.Coordinate;
 
 /**
@@ -108,6 +109,19 @@ public class GEOKanteSegment {
 	public List<GEOKanteCoordinate> getCoordinates(
 			final GEOKanteMetadata geoKante) {
 		final List<GEOKanteCoordinate> result = new ArrayList<>();
+
+		// A GEO_Kante of length zero may reside in different coordinate systems
+		// and thus requires end nodes to be processed in their respecitve CRS
+		// for correct conversion
+		if (geoKante.getLength() == 0) {
+			final GEO_Kante gk = geoKante.getGeoKante();
+
+			return List.of(
+					new GEOKanteCoordinate(gk.getIDGEOKnotenA().getValue(),
+							bereichObjekte),
+					new GEOKanteCoordinate(gk.getIDGEOKnotenB().getValue(),
+							bereichObjekte));
+		}
 
 		// Determine the coordinates in the geometry which are strictly within
 		// this segment

@@ -112,7 +112,7 @@ public class TableServiceContextFunction extends ContextFunction {
 			throws IllegalAccessException {
 		final String elementId = getElementId(properties);
 		if (tableService != null) {
-			tableService.removeModelService(service, properties);
+			tableService.removeModelService(properties);
 		} else {
 			modelServiceMap.remove(elementId);
 		}

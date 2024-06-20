@@ -81,5 +81,4 @@ class PlazModelTableTransformator extends AbstractValidationProblemTransformator
 	override getMessagesColumn() {
 		return columns.Message
 	}
-	
 }

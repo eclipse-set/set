@@ -24,6 +24,7 @@ import static org.eclipse.set.feature.table.pt1.ssla.SslaColumns.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAneinanderExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Table transformation for a aneinandergereihte Fahrstraßen (Ssla).
@@ -38,7 +39,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		val fstrAneinanderList = container.fstrAneinander.filter [
 			isPlanningObject
 		]

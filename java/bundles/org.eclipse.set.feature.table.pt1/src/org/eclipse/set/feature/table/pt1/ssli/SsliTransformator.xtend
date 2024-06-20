@@ -36,6 +36,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensio
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Table transformation for a Inselgleistabelle (Ssli).
@@ -56,7 +57,7 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		this.container = container
 		return container.transform

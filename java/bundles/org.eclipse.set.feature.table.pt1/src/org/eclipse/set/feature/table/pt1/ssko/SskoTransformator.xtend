@@ -11,12 +11,13 @@ package org.eclipse.set.feature.table.pt1.ssko;
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssko.SskoColumns.*
@@ -29,6 +30,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SchlossExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Schlosstabelle Entwurf (Ssko).
@@ -43,7 +45,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		for (Schloss schloss : container.schloss.filter[isPlanningObject]) {
 			if (Thread.currentThread.interrupted) {
 				return null

@@ -165,4 +165,19 @@ public class Messages {
 	 * Zeige in Siteplan
 	 */
 	public String TableMenuService_Siteplan;
+
+	/**
+	 * Alle Stellbereiche
+	 */
+	public String ControlAreaCombo_All;
+
+	/**
+	 * Gesamter Planungsinhalt
+	 */
+	public String ControlAreaCombo_Default_Value;
+
+	/**
+	 * Stellbereich %d
+	 */
+	public String ControlAreaCombo_Default_Area_Name;
 }

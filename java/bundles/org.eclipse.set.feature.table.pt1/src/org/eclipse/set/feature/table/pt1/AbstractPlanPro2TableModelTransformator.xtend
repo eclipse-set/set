@@ -16,6 +16,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import java.util.Set
+import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.tablemodel.TablemodelFactory
@@ -85,5 +86,10 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 			throw new RuntimeException("Missing column " + pos);
 		}
 		return column;
+	}
+	
+	override transformTableContent(MultiContainer_AttributeGroup container,
+		TMFactory factory) {
+		return transformTableContent(container, factory, null)
 	}
 }

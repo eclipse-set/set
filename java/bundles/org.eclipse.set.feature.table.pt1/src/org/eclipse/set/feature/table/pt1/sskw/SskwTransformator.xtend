@@ -49,6 +49,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -86,7 +87,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		val weichen = container.WKrGspElement.filter[isPlanningObject]
 
 		for (element : weichen) {

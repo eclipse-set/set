@@ -26,7 +26,7 @@ import org.osgi.service.component.annotations.Component
 @Component
 class TOPKanteLength extends AbstractPlazContainerCheck implements PlazCheck {
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
-		return container.TOPKante.filter[IDTOPKnotenA === IDTOPKnotenB].filter [
+		return container.TOPKante.filter[IDTOPKnotenA.wert == IDTOPKnotenB.wert].filter [
 			TOPKanteAllg?.TOPLaenge?.wert !== null
 		].map [
 			val topLength = it.TOPKanteAllg?.TOPLaenge?.wert
@@ -34,14 +34,14 @@ class TOPKanteLength extends AbstractPlazContainerCheck implements PlazCheck {
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = '''TOP_Kante der Länge null enthält identische Endknoten.'''
 				err.type = checkType
-				err.object = it
+				err.object = it.IDTOPKnotenA
 				err.severity = ValidationSeverity.ERROR
 				return err
 			} else {
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = '''TOP_Kante enthält identische Endknoten.'''
 				err.type = "TOP_Kante"
-				err.object = it
+				err.object = it.IDTOPKnotenA
 				err.severity = ValidationSeverity.WARNING
 				return err
 			}

@@ -9,18 +9,19 @@
 package org.eclipse.set.application.tabletype;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.inject.Inject;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.contexts.RunAndTrack;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.set.application.Messages;
+import org.eclipse.set.application.toolcontrol.ServiceProvider;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -28,10 +29,6 @@ import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,131 +43,72 @@ public class TableTypeSelectionControl {
 	static final Logger LOGGER = LoggerFactory
 			.getLogger(TableTypeSelectionControl.class);
 
-	private static boolean isPlanning(final IModelSession session) {
-		return PlanProSchnittstelleExtensions
-				.isPlanning(session.getPlanProSchnittstelle());
+	private static class TableTypeLabelProvider extends LabelProvider {
+
+		EnumTranslationService translationService;
+
+		public TableTypeLabelProvider(
+				final EnumTranslationService translationService) {
+			super();
+			this.translationService = translationService;
+		}
+
+		@Override
+		public String getText(final Object element) {
+			if (element instanceof final TableType type) {
+				return translationService.translate(type).getPresentation();
+			}
+			return super.getText(element);
+		}
 	}
 
-	@Inject
-	private MApplication application;
+	private final MApplication application;
 
-	@Inject
-	private IEventBroker broker;
+	private final IEventBroker broker;
 
-	private Combo combo;
+	private final EnumTranslationService enumTranslationService;
 
-	@Inject
-	private EnumTranslationService enumTranslationService;
-
-	@Inject
 	@Translation
-	private Messages messages;
+	private final Messages messages;
 
 	private IModelSession oldSession;
 
-	@Inject
 	ToolboxPartService partService;
 
-	private String getMaxLengthItem() {
-		final LinkedList<String> items = new LinkedList<>();
-		items.add(messages.TableTypeSelectionControl_noSession);
-		items.add(enumTranslationService.translate(TableType.INITIAL)
-				.getPresentation());
-		items.add(enumTranslationService.translate(TableType.FINAL)
-				.getPresentation());
-		items.add(enumTranslationService.translate(TableType.SINGLE)
-				.getPresentation());
+	private ComboViewer comboViewer;
+	private TableType oldSelectedValue;
 
-		Collections.sort(items, new Comparator<String>() {
-			@Override
-			public int compare(final String o1, final String o2) {
-				if (o1.length() > o2.length()) {
-					return -1;
-				}
-
-				if (o2.length() > o1.length()) {
-					return 1;
-				}
-
-				return 0;
-			}
-		});
-
-		return items.getFirst();
+	/**
+	 * @param parent
+	 *            the parent
+	 * @param serviceProvider
+	 *            the {@link ServiceProvider}
+	 */
+	public TableTypeSelectionControl(final Composite parent,
+			final ServiceProvider serviceProvider) {
+		application = serviceProvider.application;
+		broker = serviceProvider.broker;
+		enumTranslationService = serviceProvider.enumTranslationService;
+		messages = serviceProvider.messages;
+		partService = serviceProvider.partService;
+		createTableCombo(parent);
+		oldSelectedValue = TableType.DIFF;
 	}
 
-	private IModelSession getSession() {
-		return application.getContext().get(IModelSession.class);
-	}
-
-	private TableType getTableType() {
-		if (isStart()) {
-			return TableType.INITIAL;
-		}
-		if (isZiel()) {
-			return TableType.FINAL;
-		}
-		if (isZustand()) {
-			return TableType.SINGLE;
-		}
-		if (isStartZielVergleich()) {
-			return TableType.DIFF;
-		}
-		throw new IllegalStateException();
-	}
-
-	// correct size for combo
-	private void initCombo() {
-		combo.removeAll();
-		combo.add(messages.TableTypeSelectionControl_noSession);
-		combo.add(getMaxLengthItem());
-		combo.select(0);
-		combo.setEnabled(false);
-	}
-
-	private boolean isStart() {
-		// IMPROVE Apart from the problem we had with the string comparison here
-		// in PLANPRO-4338, the technique is a bit unpleasant and depends on
-		// different translations for the combo items.
-		// Perhaps its possible to store the table type as meta data when using
-		// JFace ComboViewer.
-		final String text = combo.getText();
-		return enumTranslationService.translate(TableType.INITIAL)
-				.getPresentation().equals(text);
-	}
-
-	private boolean isStartZielVergleich() {
-		final String text = combo.getText();
-		return enumTranslationService.translate(TableType.DIFF)
-				.getPresentation().equals(text);
-	}
-
-	private boolean isZiel() {
-		final String text = combo.getText();
-		return enumTranslationService.translate(TableType.FINAL)
-				.getPresentation().equals(text);
-	}
-
-	private boolean isZustand() {
-		final String text = combo.getText();
-		return enumTranslationService.translate(TableType.SINGLE)
-				.getPresentation().equals(text);
-	}
-
-	@PostConstruct
-	private void postConstruct(final Composite parent) {
-		combo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+	private void createTableCombo(final Composite parent) {
+		comboViewer = new ComboViewer(parent);
+		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
+		comboViewer.setLabelProvider(
+				new TableTypeLabelProvider(enumTranslationService));
 		initCombo();
-		combo.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(final SelectionEvent e) {
-				selectTableType();
-			}
-
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				selectTableType();
+		comboViewer.addSelectionChangedListener(event -> {
+			if (event
+					.getSelection() instanceof final IStructuredSelection selection
+					&& selection
+							.getFirstElement() instanceof final TableType selectedType
+					&& !oldSelectedValue.equals(selectedType)) {
+				oldSelectedValue = selectedType;
+				ToolboxEvents.send(broker, new NewTableTypeEvent(selectedType));
 			}
 		});
 
@@ -184,13 +122,54 @@ public class TableTypeSelectionControl {
 				return true;
 			}
 		});
+
 	}
 
-	void selectTableType() {
-		ToolboxEvents.send(broker, new NewTableTypeEvent(getTableType()));
+	private static boolean isPlanning(final IModelSession session) {
+		return PlanProSchnittstelleExtensions
+				.isPlanning(session.getPlanProSchnittstelle());
 	}
 
-	void setCombo(final IModelSession session) {
+	private String getMaxLengthItem() {
+		final LinkedList<String> items = new LinkedList<>();
+		items.add(messages.TableTypeSelectionControl_noSession);
+		items.add(enumTranslationService.translate(TableType.INITIAL)
+				.getPresentation());
+		items.add(enumTranslationService.translate(TableType.FINAL)
+				.getPresentation());
+		items.add(enumTranslationService.translate(TableType.SINGLE)
+				.getPresentation());
+
+		Collections.sort(items, (o1, o2) -> {
+			if (o1.length() > o2.length()) {
+				return -1;
+			}
+
+			if (o2.length() > o1.length()) {
+				return 1;
+			}
+
+			return 0;
+		});
+
+		return items.getFirst();
+	}
+
+	private IModelSession getSession() {
+		return application.getContext().get(IModelSession.class);
+	}
+
+	// correct size for combo
+	private void initCombo() {
+		clearCombo();
+		comboViewer.add(messages.TableTypeSelectionControl_noSession);
+		comboViewer.add(getMaxLengthItem());
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(false);
+
+	}
+
+	private void setCombo(final IModelSession session) {
 		if (session == oldSession) {
 			return;
 		}
@@ -198,23 +177,23 @@ public class TableTypeSelectionControl {
 		if (session == null) {
 			initCombo();
 		} else {
+			clearCombo();
 			if (isPlanning(session)) {
-				combo.removeAll();
-				combo.add(enumTranslationService.translate(TableType.DIFF)
-						.getPresentation());
-				combo.add(enumTranslationService.translate(TableType.INITIAL)
-						.getPresentation());
-				combo.add(enumTranslationService.translate(TableType.FINAL)
-						.getPresentation());
-				combo.select(0);
-				combo.setEnabled(true);
+				comboViewer.setInput(new Object[] { TableType.DIFF,
+						TableType.INITIAL, TableType.FINAL });
+				comboViewer.getCombo().select(0);
+				comboViewer.getCombo().setEnabled(true);
 			} else {
-				combo.removeAll();
-				combo.add(enumTranslationService.translate(TableType.SINGLE)
-						.getPresentation());
-				combo.select(0);
-				combo.setEnabled(false);
+				comboViewer.add(TableType.SINGLE);
+				comboViewer.getCombo().select(0);
+				comboViewer.getCombo().setEnabled(false);
 			}
+
 		}
+	}
+
+	private void clearCombo() {
+		comboViewer.getCombo().removeAll();
+		comboViewer.getCombo().clearSelection();
 	}
 }

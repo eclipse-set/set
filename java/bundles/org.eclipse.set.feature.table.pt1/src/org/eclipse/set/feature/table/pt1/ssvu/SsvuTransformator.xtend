@@ -13,12 +13,9 @@ import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Schnittstelle
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
@@ -28,10 +25,15 @@ import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.TMFactory
 
-import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static org.eclipse.set.feature.table.pt1.ssvu.SsvuColumns.*
+
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for a Übertragungswegtabelle (Ssvu).
@@ -49,7 +51,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		this.container = container
 		return container.transform

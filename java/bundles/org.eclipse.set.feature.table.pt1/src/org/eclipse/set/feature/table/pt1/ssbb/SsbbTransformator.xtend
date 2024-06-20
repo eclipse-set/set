@@ -12,15 +12,18 @@ import com.google.common.collect.Lists
 import java.util.Set
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.Table
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssbb.SsbbColumns.*
@@ -32,9 +35,8 @@ import static extension org.eclipse.set.ppmodel.extensions.BueBedienAnzeigeExten
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.TableRow
 
 class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 
@@ -46,7 +48,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		return container.transform
 	}

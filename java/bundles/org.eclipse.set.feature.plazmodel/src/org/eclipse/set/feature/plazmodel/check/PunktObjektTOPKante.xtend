@@ -37,13 +37,13 @@ class PunktObjektTOPKante extends AbstractPlazContainerCheck implements PlazChec
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = '''«generalErroMsg» Der Punktobjektabstand darf nicht negativ sein.'''
 				err.type = checkType
-				err.object = it
+				err.object = it.abstand
 				return err
 			} else if (distance > topLength) {
 				val err = PlazFactory.eINSTANCE.createPlazError
 				err.message = '''«generalErroMsg» Länge TOP-Kante: «topLength».'''
 				err.type = checkType
-				err.object = it
+				err.object = it.abstand
 				return err
 			}
 			return null

@@ -35,6 +35,7 @@ import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.table.TableError;
+import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -76,6 +77,9 @@ public class TableOverviewPart extends BasePart {
 
 	@Inject
 	private TableService tableService;
+
+	@Inject
+	private TableMenuService tableMenuService;
 
 	// IMPROVE:
 	// Workaround for table services not being registered in TableService
@@ -153,8 +157,9 @@ public class TableOverviewPart extends BasePart {
 		});
 
 		// Create table problem table view
-		tableErrorTableView = new TableErrorTableView(messages, getBroker(),
-				toolboxPartService, enumTranslationService);
+		tableErrorTableView = new TableErrorTableView(messages, this,
+				getBroker(), toolboxPartService, enumTranslationService,
+				tableMenuService);
 		tableErrorTableView.create(parent);
 
 		getBroker().subscribe(Events.TABLEERROR_CHANGED,

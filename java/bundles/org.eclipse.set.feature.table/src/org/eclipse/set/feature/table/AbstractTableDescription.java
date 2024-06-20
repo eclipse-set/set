@@ -12,6 +12,7 @@ package org.eclipse.set.feature.table;
 import java.util.Optional;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
@@ -29,7 +30,7 @@ public abstract class AbstractTableDescription
 		return new PartDescription(
 				// ID
 				getOptionalTableId().orElse(
-						"org.eclipse.set.feature.table." + getTableId()), //$NON-NLS-1$
+						ToolboxConstants.TABLE_PART_ID_PREFIX + getTableId()),
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.ToolboxTableView", //$NON-NLS-1$
 				// toolboxViewName

@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.overview
 
 import java.util.Collection
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.utils.table.TableError
@@ -35,5 +36,9 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 		}
 		
 		return factory.table
+	}
+
+	override transformTableContent(Collection<TableError> errors, TMFactory factory, Stell_Bereich controlArea) {
+		transformTableContent(errors, factory)
 	}
 }

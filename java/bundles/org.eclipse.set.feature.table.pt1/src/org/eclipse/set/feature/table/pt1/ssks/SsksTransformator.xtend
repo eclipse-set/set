@@ -134,6 +134,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -166,7 +167,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
 		val waitingFileSideDistanceSignal = newHashMap
 		for (Signal signal : container?.signal?.filter[isPlanningObject].filter [

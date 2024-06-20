@@ -28,6 +28,8 @@ updates:
     typescript-eslint:
       patterns:
       - "@typescript-eslint*"
+  ignore:
+    - dependency-name: "eslint-plugin-n"
 - package-ecosystem: npm
   directory: "/web/siteplan"
   schedule:
@@ -37,3 +39,6 @@ updates:
     typescript-eslint:
       patterns:
       - "@typescript-eslint*"
+    turf:
+      patterns:
+      - "@turf*"

@@ -9,14 +9,11 @@
 package org.eclipse.set.feature.table.pt1.sskp
 
 import java.util.Set
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
@@ -28,6 +25,11 @@ import org.eclipse.set.model.planpro.Signale.ENUMSignalArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 
@@ -41,11 +43,11 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Table transformation for a PZB-Tabelle (Sskp)
@@ -66,7 +68,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
-		TMFactory factory) {
+		TMFactory factory, Stell_Bereich controlArea) {
 
 		val topGraph = new TopGraph(container.TOPKante)
 		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].

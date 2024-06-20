@@ -10,16 +10,18 @@ package org.eclipse.set.feature.table.pt1.ssld
 
 import java.math.RoundingMode
 import java.util.Set
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.math.AgateRounding
 import org.eclipse.set.utils.table.TMFactory
 
@@ -34,8 +36,8 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrDWegSpezifischExt
 import static extension org.eclipse.set.ppmodel.extensions.FstrDWegWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Table transformation for a Durchrutschwegtabelle (SSLD).
@@ -83,7 +85,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(
 		MultiContainer_AttributeGroup container,
-		TMFactory factory
+		TMFactory factory,
+		Stell_Bereich controlArea
 	) {
 		val fstDwegList = container.fstrDWeg.filter[isPlanningObject]
 
