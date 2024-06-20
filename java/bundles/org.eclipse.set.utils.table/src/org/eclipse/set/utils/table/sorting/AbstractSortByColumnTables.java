@@ -101,7 +101,7 @@ public abstract class AbstractSortByColumnTables {
 	}
 
 	protected NatTable createTable(final Composite parent,
-			final Table tableModel, final TableMenuService tableMenuService) {
+			final Table tableModel) {
 		final ColumnDescriptor rootColumnDescriptor = tableModel
 				.getColumndescriptors().get(0);
 		if (bodyDataProvider == null || bodyLayerStack == null) {
@@ -124,9 +124,8 @@ public abstract class AbstractSortByColumnTables {
 		final GridLayer gridLayer = createGridLayer(columnHeaderDataProvider,
 				columnHeaderDataLayer, sortHeaderLayer, configRegistry);
 
-		final NatTable natTable = createNattable(parent, tableMenuService,
-				rootColumnDescriptor, columnHeaderDataLayer, configRegistry,
-				gridLayer);
+		final NatTable natTable = createNattable(parent, rootColumnDescriptor,
+				columnHeaderDataLayer, configRegistry, gridLayer);
 		getSelectionLayer().clear();
 
 		// Sort by first column (Ascending)
@@ -181,7 +180,6 @@ public abstract class AbstractSortByColumnTables {
 	}
 
 	protected NatTable createNattable(final Composite parent,
-			final TableMenuService tableMenuService,
 			final ColumnDescriptor rootColumnDescriptor,
 			final DataLayer columnHeaderDataLayer,
 			final ConfigRegistry configRegistry, final GridLayer gridLayer) {
@@ -192,8 +190,8 @@ public abstract class AbstractSortByColumnTables {
 		natTable.setConfigRegistry(configRegistry);
 
 		natTable.addConfiguration(new SingleClickSortConfiguration());
-		if (tableMenuService != null) {
-			natTable.addConfiguration(tableMenuService
+		if (getTableMenuService() != null) {
+			natTable.addConfiguration(getTableMenuService()
 					.createMenuConfiguration(natTable, getSelectionLayer()));
 		}
 
@@ -224,7 +222,6 @@ public abstract class AbstractSortByColumnTables {
 	protected JumpToSourceLineEvent createJumpToTextViewEvent(
 			final BasePart part) {
 		return new JumpToSourceLineEvent(part) {
-
 			@Override
 			public Pair<ObjectScope, Integer> getLineNumber() {
 				final Collection<ILayerCell> selectedCells = getSelectionLayer()
