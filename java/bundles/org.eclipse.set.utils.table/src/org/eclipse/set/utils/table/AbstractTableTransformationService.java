@@ -118,7 +118,14 @@ public abstract class AbstractTableTransformationService<T>
 		return new ArrayList<>();
 	}
 
-	protected ColumnDescriptor buildHeading(final Table table) {
+	/**
+	 * Create table header
+	 * 
+	 * @param table
+	 *            the table
+	 * @return
+	 */
+	public ColumnDescriptor buildHeading(final Table table) {
 		final ColumnDescriptorModelBuilder builder = new ColumnDescriptorModelBuilder(
 				table);
 		return fillHeaderDescriptions(builder);

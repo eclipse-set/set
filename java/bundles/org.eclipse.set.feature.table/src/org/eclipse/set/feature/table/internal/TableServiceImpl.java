@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +29,6 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
@@ -52,6 +52,7 @@ import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
@@ -273,7 +274,7 @@ public final class TableServiceImpl implements TableService {
 		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
-		final Table transformedTable;
+		Table transformedTable = null;
 		if (tableType == TableType.DIFF) {
 			transformedTable = createDiffTable(elementId, modelSession,
 					controlAreaId);
@@ -286,7 +287,17 @@ public final class TableServiceImpl implements TableService {
 					.filter(e -> e.getIdentitaet().getWert()
 							.equals(controlAreaId))
 					.findFirst().orElse(null);
-			transformedTable = modelService.transform(container, area);
+			if (controlAreaId == null
+					|| isContainerContainArea(container, controlAreaId)) {
+				transformedTable = modelService.transform(container, area);
+			} else {
+				// Create empty table
+				transformedTable = TablemodelFactory.eINSTANCE.createTable();
+				transformedTable.setTablecontent(
+						TablemodelFactory.eINSTANCE.createTableContent());
+				modelService.buildHeading(transformedTable);
+			}
+
 			saveTableError(shortCut, tableType, modelService.getTableErrors());
 		}
 		if (Thread.currentThread().isInterrupted()
@@ -297,6 +308,14 @@ public final class TableServiceImpl implements TableService {
 		ECollections.sort(transformedTable.getTablecontent().getRowgroups(),
 				modelService.getRowGroupComparator());
 		return transformedTable;
+	}
+
+	private static boolean isContainerContainArea(
+			final MultiContainer_AttributeGroup container,
+			final String areaId) {
+		return StreamSupport
+				.stream(container.getStellBereich().spliterator(), false)
+				.anyMatch(sb -> sb.getIdentitaet().getWert().equals(areaId));
 	}
 
 	/**
@@ -373,31 +392,26 @@ public final class TableServiceImpl implements TableService {
 					() -> loadTransform(shortCut, tableType, modelSession,
 							null));
 		}
-		final Table resultTable = TablemodelFactory.eINSTANCE.createTable();
-		controlAreas.forEach((areaId, type) -> {
-			if (!type.getDefaultTableType().equals(tableType)
-					&& tableType != TableType.DIFF) {
-				return;
-			}
+		Table resultTable = null;
+		for (final Entry<String, ContainerType> entry : controlAreas
+				.entrySet()) {
+			final String areaId = entry.getKey();
 			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
 					areaId);
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
 							areaId));
-			if (resultTable.getColumndescriptors().isEmpty()) {
-				resultTable.getColumndescriptors().addAll(
-						EcoreUtil.copyAll(table.getColumndescriptors()));
-				resultTable.setTablecontent(
-						EcoreUtil.copy(table.getTablecontent()));
+			if (resultTable == null) {
+				resultTable = table;
 			} else {
-				table.getTablecontent().getRowgroups()
-						.forEach(rowGroup -> TableExtensions
-								.addRowGroup(resultTable, rowGroup));
+				for (final RowGroup rowGroup : table.getTablecontent()
+						.getRowgroups()) {
+					TableExtensions.addRowGroup(resultTable, rowGroup);
+				}
 			}
-		});
-
+		}
 		// sorting
-		if (resultTable.getTablecontent() != null) {
+		if (resultTable != null && resultTable.getTablecontent() != null) {
 			ECollections.sort(resultTable.getTablecontent().getRowgroups(),
 					getModelService(shortCut).getRowGroupComparator());
 		}

@@ -8,18 +8,19 @@
  */
 package org.eclipse.set.feature.export.compileservice;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableDiffService;
+
+import jakarta.inject.Inject;
 
 /**
  * Implementation for {@link TableCompileService}.
@@ -36,22 +37,22 @@ public class TableCompileServiceImpl implements TableCompileService {
 
 	@Override
 	public Map<TableType, Table> compile(final String shortcut,
-			final IModelSession modelSession) {
-		final Map<TableType, Table> result = new HashMap<>();
-
+			final IModelSession modelSession,
+			final Map<String, ContainerType> controlAreaIds) {
+		final Map<TableType, Table> result = new EnumMap<>(TableType.class);
 		if (PlanProSchnittstelleExtensions
 				.isPlanning(modelSession.getPlanProSchnittstelle())) {
 			final Table start = tableService.transformToTable(shortcut,
-					TableType.INITIAL, modelSession);
-			final Table ziel = tableService.transformToTable(shortcut, TableType.FINAL,
-					modelSession);
+					TableType.INITIAL, modelSession, controlAreaIds);
+			final Table ziel = tableService.transformToTable(shortcut,
+					TableType.FINAL, modelSession, controlAreaIds);
 			final Table diff = diffService.createDiffTable(start, ziel);
 
 			result.put(TableType.DIFF, diff);
 			result.put(TableType.FINAL, ziel);
 		} else {
 			final Table single = tableService.transformToTable(shortcut,
-					TableType.SINGLE, modelSession);
+					TableType.SINGLE, modelSession, controlAreaIds);
 			result.put(TableType.SINGLE, single);
 		}
 

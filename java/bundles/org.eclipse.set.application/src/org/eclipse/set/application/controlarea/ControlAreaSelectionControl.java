@@ -108,7 +108,6 @@ public class ControlAreaSelectionControl {
 		// Reset combo value, when close session
 		broker.subscribe(Events.CLOSE_SESSION, event -> initCombo());
 		createCombo(parent);
-		oldSelectionValue = messages.ControlAreaCombo_Default_Value;
 	}
 
 	private void createCombo(final Composite parent) {
@@ -296,6 +295,7 @@ public class ControlAreaSelectionControl {
 						messages.ControlAreaCombo_Default_Value));
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
+		oldSelectionValue = messages.ControlAreaCombo_Default_Value;
 	}
 
 	private void selectionControlArea(final SelectionChangedEvent e) {

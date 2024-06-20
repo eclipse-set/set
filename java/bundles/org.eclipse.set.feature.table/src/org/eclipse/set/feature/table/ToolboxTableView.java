@@ -574,7 +574,7 @@ public final class ToolboxTableView extends BasePart {
 			return;
 		}
 		final Map<TableType, Table> tables = compileService.compile(shortcut,
-				getModelSession());
+				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
 						userConfigService.getLastExportPath().toString());

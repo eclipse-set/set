@@ -46,7 +46,7 @@ public abstract class AbstractPlanPro2TableTransformationService
 	protected XSSFSheet excelTemplate = null;
 
 	@Override
-	protected ColumnDescriptor buildHeading(final Table table) {
+	public ColumnDescriptor buildHeading(final Table table) {
 		// Add missing heading units
 		final ColumnDescriptor root = super.buildHeading(table);
 		ColumnDescriptorExtensions.addMissingHeadingUnits(root);

@@ -82,6 +82,11 @@ public class CustomTableDiffService implements TableDiffService {
 				columns.forEach(column -> addEmptyValue(newRow, column));
 			}
 
+			if (table.getTablecontent() == null) {
+				table.setTablecontent(
+						TablemodelFactory.eINSTANCE.createTableContent());
+			}
+
 			// we add the new group to the table
 			table.getTablecontent().getRowgroups().add(newRowGroup);
 		}
