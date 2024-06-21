@@ -15,6 +15,8 @@ on:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
+  TEST_APPLICATION_DIR: ${{ github.workspace }}/java-test/application-under-test
 
 jobs:
   docs:
@@ -243,3 +245,41 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         if: github.ref == 'refs/heads/main'
+
+  swtbot:
+    runs-on: ubuntu-latest
+    needs:
+      - java
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+        
+      - name: Fetch SET
+        uses: actions/download-artifact@v4
+        with:
+          name: eclipse-set-snapshot-${{github.run_number}}
+          path: ${{ env.TEST_APPLICATION_DIR }}
+
+      - name: Fetch m2 Deploy
+        uses: actions/download-artifact@v4
+        with:
+          name: set-m2deploy-${{github.run_number}}
+          path: ${{ env.DEPLOY_DIR }}
+
+      - name: Run Test
+        shell: bash
+        run: |
+          mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
+            --settings ./.github/settings.xml \
+            -Dskip-test=false \
+            -Dm2-repo-path="file://${{ env.DEPLOY_DIR }}" \
+            -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/windows@30eadd5010312f995f0d3b3cff7fe2984f69409e # v2.16.1
+        if: always()
+        with:
+          files: |
+            ${{ github.workspace }}/**/surefire-reports/*.xml
