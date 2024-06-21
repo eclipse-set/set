@@ -73,10 +73,9 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Truong
  */
-@Component(service = { EventHandler.class,
-		GeoKanteGeometryService.class }, property = {
-				EventConstants.EVENT_TOPIC + "=" + Events.TOPMODEL_CHANGED,
-				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
+@Component(service = { EventHandler.class }, property = {
+		EventConstants.EVENT_TOPIC + "=" + Events.TOPMODEL_CHANGED,
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
 public class GeoKanteGeometryServiceImpl
 		implements GeoKanteGeometryService, EventHandler {
 	private Thread findGeometryThread;

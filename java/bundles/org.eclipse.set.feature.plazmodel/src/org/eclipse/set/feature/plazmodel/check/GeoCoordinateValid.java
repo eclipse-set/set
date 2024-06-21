@@ -18,17 +18,18 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
-import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt;
 import org.eclipse.set.model.planpro.Verweise.ID_GEO_Punkt_ohne_Proxy_TypeClass;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
+import org.eclipse.set.ppmodel.extensions.GeoPunktExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.locationtech.jts.geom.Coordinate;
 import org.osgi.service.component.annotations.Component;
@@ -44,8 +45,9 @@ import org.osgi.service.event.EventHandler;
  * 
  * @author Truong
  */
-@Component(service = { EventHandler.class, PlazCheck.class }, property = {
+@Component(service = { EventHandler.class }, property = {
 		EventConstants.EVENT_TOPIC + "=" + Events.FIND_GEOMETRY_PROCESS_DONE })
+@SuppressWarnings("nls")
 public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		implements PlazCheck, EventHandler {
 	private static final double TOLERANT = 0.1;
@@ -58,69 +60,61 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	@Override
 	public void handleEvent(final Event event) {
 		final Map<String, Class<? extends PlazCheck>> properties = new HashMap<>();
-		properties.put("org.eclipse.e4.data", this.getClass()); // $NON-NLS-1$ //$NON-NLS-1$
+		properties.put("org.eclipse.e4.data", this.getClass()); // $NON-NLS-1$
 		eventAdmin.sendEvent(new Event(Events.DO_PLAZ_CHECK, properties));
 	}
 
 	@Override
 	protected List<PlazError> run(
 			final MultiContainer_AttributeGroup container) {
-		if (!geometryService.isFindGeometryComplete()) {
-			return List.of(createProcessingWarning());
-		}
 		final List<PlazError> result = new ArrayList<>();
 		final List<Punkt_Objekt> punktObjekts = StreamSupport
 				.stream(container.getAllContents().spliterator(), false)
 				.filter(Punkt_Objekt.class::isInstance)
 				.map(Punkt_Objekt.class::cast).toList();
 		punktObjekts.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
-			try {
-				final GEOKanteCoordinate geoKanteCoordinate = geometryService
-						.getCoordinateAt(potk, 0);
-				final Coordinate coordinate = geoKanteCoordinate.getCoordinate()
-						.getCoordinate();
-				final List<GEO_Punkt> givenGEOPunkts = getGivenCoordinate(potk,
-						geoKanteCoordinate.getCRS());
-				final GEO_Punkt invalidCoor = givenGEOPunkts.stream()
-						.filter(gp -> {
-							final double givenCoorX = gp.getGEOPunktAllg()
-									.getGKX().getWert().doubleValue();
-							final double givenCoorY = gp.getGEOPunktAllg()
-									.getGKY().getWert().doubleValue();
-							return coordinate.distance(new Coordinate(
-									givenCoorX, givenCoorY)) > TOLERANT;
-						}).findFirst().orElse(null);
-				if (invalidCoor != null) {
-					result.add(createErrorReport(po, potk, invalidCoor));
+			final GEOKanteCoordinate geoKanteCoordinate = geometryService
+					.getCoordinateAt(potk, 0);
+			final Coordinate coordinate = geoKanteCoordinate.getCoordinate()
+					.getCoordinate();
+			final List<GEO_Punkt> givenGEOPunkts = potk.getIDGEOPunktBerechnet()
+					.stream().map(e -> e.getValue())
+					.filter(gp -> getNullableObject(gp,
+							e -> e.getGEOPunktAllg().getGEOKoordinatensystem()
+									.getWert()).orElse(null).equals(
+											geoKanteCoordinate.getCRS()))
+					.toList();
+			givenGEOPunkts.forEach(gp -> {
+				final Coordinate gpCoordinate = GeoPunktExtensions
+						.getCoordinate(gp);
+				if (gpCoordinate == null) {
+					result.add(creatErrorReport(gp));
+				} else if (coordinate.distance(gpCoordinate) > TOLERANT) {
+					result.add(createErrorReport(po, potk, gp));
 				}
-			} catch (final Exception e) {
-				return;
-			}
+			});
 		})
 
 		);
 		return result;
 	}
 
-	private static List<GEO_Punkt> getGivenCoordinate(
-			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
-			final ENUMGEOKoordinatensystem targetCRS) {
-		final List<GEO_Punkt> givenGeoPunkt = potk.getIDGEOPunktBerechnet()
-				.stream().map(e -> e.getValue()).toList();
-		return givenGeoPunkt.stream().filter(gp -> {
-			final Optional<ENUMGEOKoordinatensystem> crs = getNullableObject(gp,
-					e -> e.getGEOPunktAllg().getGEOKoordinatensystem()
-							.getWert());
-			return crs.isPresent() && crs.get().equals(targetCRS);
-		}).toList();
-	}
-
-	private PlazError createProcessingWarning() {
-		final PlazError err = PlazFactory.eINSTANCE.createPlazError();
-		err.setType(checkType());
-		err.setMessage("WATTING"); //$NON-NLS-1$
-		err.setSeverity(ValidationSeverity.WARNING);
-		return err;
+	private PlazError creatErrorReport(final GEO_Punkt gp) {
+		final PlazError plazError = PlazFactory.eINSTANCE.createPlazError();
+		plazError.setSeverity(ValidationSeverity.ERROR);
+		EObject errObj = gp;
+		if (gp.getGEOPunktAllg() == null) {
+			errObj = gp.getGEOPunktAllg();
+		} else if (gp.getGEOPunktAllg().getGKX() == null) {
+			errObj = gp.getGEOPunktAllg().getGKX();
+		} else if (gp.getGEOPunktAllg().getGKY() == null) {
+			errObj = gp.getGEOPunktAllg().getGKY();
+		}
+		plazError.setObject(errObj);
+		plazError.setMessage(String.format("GEO_Punkt: %s fehlt Koordinate",
+				gp.getIdentitaet().getWert()));
+		plazError.setType(checkType());
+		return plazError;
 	}
 
 	private PlazError createErrorReport(final Punkt_Objekt po,
@@ -134,30 +128,30 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				.orElse(null);
 		if (errorObject == null) {
 			throw new IllegalArgumentException(String.format(
-					"GEO_Punkt: %s ist nicht zu Punkt_Objekt: %s gehören", //$NON-NLS-1$
+					"GEO_Punkt: %s ist nicht zu Punkt_Objekt: %s gehören",
 					gp.getIdentitaet().getWert(),
 					po.getIdentitaet().getWert()));
 		}
 		plazError.setObject(errorObject);
 		plazError.setMessage(
-				transformErrorMsg(Map.of("GUID", errorObject.getWert()))); //$NON-NLS-1$
+				transformErrorMsg(Map.of("GUID", errorObject.getWert())));
 		plazError.setType(checkType());
 		return plazError;
 	}
 
 	@Override
 	public String checkType() {
-		return "Geokoordinaten"; //$NON-NLS-1$
+		return "Koordinate";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Alle vorgegeben GeoKoordinaten von GEO_Punkt sind plausibilisiert"; //$NON-NLS-1$
+		return "Alle vorgegeben GeoKoordinaten von GEO_Punkt sind plausibilisiert";
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die vorgegebene GeoKoordinate: {GUID} weich mehr als 10cm von der berechneten Koordinate ab."; //$NON-NLS-1$
+		return "Die vorgegebene GeoKoordinate: {GUID} weich mehr als 10cm von der berechneten Koordinate ab.";
 	}
 
 	private static <T, U> Optional<U> getNullableObject(final T t,
@@ -169,4 +163,5 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			return Optional.empty();
 		}
 	}
+
 }
