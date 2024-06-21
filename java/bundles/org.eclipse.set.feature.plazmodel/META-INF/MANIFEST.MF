@@ -88,6 +88,7 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescripti
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.MeridianBetweenGEOKante.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.PlanungsBereichValid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.PunktObjektTOPKante.xml,
+ OSGI-INF/org.eclipse.set.feature.plazmodel.check.SonstigeRequiresBearbeitungsvermerk.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TOPKanteLength.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TeilbereichTOPKante.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.TeilbereichTOPKanteLength.xml,
