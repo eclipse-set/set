@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
@@ -86,8 +85,7 @@ public interface TableService {
 	 * @return the table
 	 */
 	String transformToCsv(final String elementId, TableType tableType,
-			final IModelSession modelSession,
-			Map<String, ContainerType> controlAreaIds);
+			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
 	 * Transform the selected container to a table model.
@@ -113,14 +111,13 @@ public interface TableService {
 	 *            the table type
 	 * @param modelSession
 	 *            the model session
-	 * @param controlAreas
+	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
 	 * 
 	 * @return the table
 	 */
 	Table transformToTable(final String elementId, TableType tableType,
-			final IModelSession modelSession,
-			Map<String, ContainerType> controlAreas);
+			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
 	 * @param part

@@ -123,7 +123,7 @@ public abstract class AbstractTableTransformationService<T>
 	 * 
 	 * @param table
 	 *            the table
-	 * @return
+	 * @return the column descriptor
 	 */
 	public ColumnDescriptor buildHeading(final Table table) {
 		final ColumnDescriptorModelBuilder builder = new ColumnDescriptorModelBuilder(

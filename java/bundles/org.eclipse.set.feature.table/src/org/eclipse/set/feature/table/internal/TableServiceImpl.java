@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +33,6 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -151,11 +149,11 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession, final String controlAreaId) {
 
 		final Table startTable = transformToTable(elementId, TableType.INITIAL,
-				modelSession, controlAreaId == null ? Collections.emptyMap()
-						: Map.of(controlAreaId, ContainerType.INITIAL));
+				modelSession, controlAreaId == null ? Collections.emptySet()
+						: Set.of(controlAreaId));
 		final Table zielTable = transformToTable(elementId, TableType.FINAL,
-				modelSession, controlAreaId == null ? Collections.emptyMap()
-						: Map.of(controlAreaId, ContainerType.FINAL));
+				modelSession, controlAreaId == null ? Collections.emptySet()
+						: Set.of(controlAreaId));
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
@@ -336,7 +334,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public String transformToCsv(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<String, ContainerType> controlAreas) {
+			final Set<String> controlAreas) {
 		final Table table = transformToTable(elementId, tableType, modelSession,
 				controlAreas);
 		return transformToCsv(table);
@@ -381,21 +379,20 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Table transformToTable(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<String, ContainerType> controlAreas) {
+			final Set<String> controlAreaIds) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		if (controlAreas.isEmpty()) {
+		if (controlAreaIds.isEmpty()) {
 			return (Table) cache.get(
 					cacheService.cacheKeyBuilder(shortCut, EMPTY),
 					() -> loadTransform(shortCut, tableType, modelSession,
 							null));
 		}
+
 		Table resultTable = null;
-		for (final Entry<String, ContainerType> entry : controlAreas
-				.entrySet()) {
-			final String areaId = entry.getKey();
+		for (final String areaId : controlAreaIds) {
 			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
 					areaId);
 			final Table table = (Table) cache.get(areaCacheKey,

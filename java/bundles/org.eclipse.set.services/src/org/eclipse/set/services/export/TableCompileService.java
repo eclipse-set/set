@@ -9,9 +9,9 @@
 package org.eclipse.set.services.export;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.tablemodel.Table;
 
@@ -33,5 +33,5 @@ public interface TableCompileService {
 	 * @return a mapping of possible tables
 	 */
 	Map<TableType, Table> compile(String shortcut, IModelSession modelSession,
-			Map<String, ContainerType> controlAreaIds);
+			Set<String> controlAreaIds);
 }

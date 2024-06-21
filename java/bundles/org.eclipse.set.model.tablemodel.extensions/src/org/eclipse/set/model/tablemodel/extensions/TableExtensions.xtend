@@ -152,27 +152,11 @@ class TableExtensions {
 		return newRow
 	}
 
-	/**
-	 * @param table the table
-	 * @param values the cell values
-	 * 
-	 * @return the new row with the given values
-	 */
-	static def TableRow addRow(Table table, String... values) {
-		val newRowGroup = TablemodelFactory.eINSTANCE.createRowGroup
-		val newRow = TablemodelFactory.eINSTANCE.createTableRow
-		newRowGroup.rows.add(newRow)
-		table.tablecontent.rowgroups.add(newRowGroup)
-		table.columns.forEach[newRow.cells.add(createTableCell)]
-		values.indexed.forEach[newRow.set(key, value)]
-		return newRow
-	}
-
 	def static void addRowGroup(Table table, RowGroup groupToAdd) {
 		val clone = EcoreUtil.copy(groupToAdd)
 		if (table.tablecontent === null) {
 			val tableContent = TablemodelFactory.eINSTANCE.createTableContent
-			tableContent.rowgroups.add(clone)
+			tableContent.addRowGroup(clone)
 			table.tablecontent = tableContent
 			return
 		}
@@ -181,7 +165,7 @@ class TableExtensions {
 			if (!table.tablecontent.rowgroups.exists [
 			it.leadingObject?.identitaet?.wert.equals(leadingObject?.identitaet?.wert)
 		]) {
-			table.tablecontent.rowgroups.add(clone)
+			table.tablecontent.addRowGroup(clone)
 		}
 			return
 		}
@@ -203,7 +187,7 @@ class TableExtensions {
 			]
 		]
 		if (!alreadyExistsRowContent) {
-			table.tablecontent.rowgroups.add(clone)
+			table.tablecontent.addRowGroup(clone)
 		}
 
 	}

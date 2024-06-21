@@ -8,8 +8,10 @@
  */
 package org.eclipse.set.model.tablemodel.extensions
 
+import org.eclipse.set.model.tablemodel.RowGroup
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableContent
+import org.eclipse.set.model.tablemodel.TablemodelFactory
 
 import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExtensions.*
 
@@ -42,5 +44,16 @@ class TableContentExtensions {
 		return content.rowgroups.indexed.forall [
 			value.isEqual(other.rowgroups.get(key))
 		]
+	}
+	
+	def static void addRowGroup(TableContent content, RowGroup groupToAdd) {
+		val newRowGroup = TablemodelFactory.eINSTANCE.createRowGroup
+		content.rowgroups.add(newRowGroup)
+		groupToAdd.rows.forEach[row |
+			newRowGroup.addRow(row.cells)
+		]
+		newRowGroup.leadingObject = groupToAdd.leadingObject
+		newRowGroup.leadingObjectIndex = groupToAdd.leadingObjectIndex
+		
 	}
 }

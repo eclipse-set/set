@@ -10,9 +10,9 @@ package org.eclipse.set.feature.export.compileservice;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.model.tablemodel.Table;
@@ -38,7 +38,7 @@ public class TableCompileServiceImpl implements TableCompileService {
 	@Override
 	public Map<TableType, Table> compile(final String shortcut,
 			final IModelSession modelSession,
-			final Map<String, ContainerType> controlAreaIds) {
+			final Set<String> controlAreaIds) {
 		final Map<TableType, Table> result = new EnumMap<>(TableType.class);
 		if (PlanProSchnittstelleExtensions
 				.isPlanning(modelSession.getPlanProSchnittstelle())) {

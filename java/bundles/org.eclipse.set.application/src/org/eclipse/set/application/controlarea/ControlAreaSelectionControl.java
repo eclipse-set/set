@@ -233,8 +233,7 @@ public class ControlAreaSelectionControl {
 				if (areaName == null) {
 					areaName = getDefaultAreaName(values.size());
 				}
-				values.add(new ControlAreaValue(areaName, finalAreaId,
-						ContainerType.FINAL));
+				values.add(new ControlAreaValue(areaName, finalAreaId));
 			}
 		}
 		return values;
@@ -273,7 +272,7 @@ public class ControlAreaSelectionControl {
 				areaName = getDefaultAreaName(i);
 			}
 			values.add(new ControlAreaValue(areaName,
-					area.getIdentitaet().getWert(), containerType));
+					area.getIdentitaet().getWert()));
 			i++;
 		}
 		return values;

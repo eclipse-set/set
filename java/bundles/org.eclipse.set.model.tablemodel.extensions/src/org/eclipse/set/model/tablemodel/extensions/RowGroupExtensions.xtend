@@ -34,16 +34,25 @@ class RowGroupExtensions {
 
 	/**
 	 * @param group this row group
-	 * @param values the cell values
+	 * @param cells the cells of new row
 	 * 
 	 * @return the new row with the given values
 	 */
-	static def TableRow addRow(RowGroup group, String... values) {
+	static def TableRow addRow(RowGroup group, List<TableCell> cells) {
 		val newRow = TablemodelFactory.eINSTANCE.createTableRow
 		group.rows.add(newRow)
 		val table = group.table
 		table.columns.forEach[newRow.cells.add(createTableCell)]
-		values.indexed.forEach[newRow.set(key, value)]
+		cells.forEach [ cell |
+			val content = cell.content
+			val columnPosition = cell.columndescriptor.columnPosition
+			val targetCell = newRow.cells.findFirst [
+				columndescriptor.columnPosition == columnPosition
+			]
+			if (targetCell !== null) {
+				targetCell.content = content
+			}
+		]
 		return newRow
 	}
 
