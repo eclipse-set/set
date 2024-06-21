@@ -286,5 +286,6 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/windows@30eadd5010312f995f0d3b3cff7fe2984f69409e # v2.16.1
         if: always()
         with:
+          check_name: "SWTBot Test"
           files: |
             ${{ github.workspace }}/**/surefire-reports/*.xml
