@@ -250,6 +250,11 @@ jobs:
     runs-on: windows-latest
     needs:
       - java
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+      actions: read
     steps:
       - uses: actions/checkout@v4
       
