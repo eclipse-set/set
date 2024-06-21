@@ -104,7 +104,7 @@ public class SonstigeRequiresBearbeitungsvermerk implements PlazCheck {
 
 	@Override
 	public String checkType() {
-		return "Bearbeitungsvermerk für " + SONSTIGE_ENUM_WERT; //$NON-NLS-1$
+		return "Bearbeitungsvermerk"; //$NON-NLS-1$
 	}
 
 	@Override

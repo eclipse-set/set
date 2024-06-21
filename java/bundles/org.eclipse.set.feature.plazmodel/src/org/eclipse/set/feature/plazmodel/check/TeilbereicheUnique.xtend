@@ -62,6 +62,6 @@ class TeilbereicheUnique extends AbstractPlazContainerCheck implements PlazCheck
 	}
 
 	override getGeneralErrMsg() {
-		return "Es gibt mehrere identische Teilbereich in Objekt {GUID}."
+		return "Es gibt mehrere identische Teilbereiche in Objekt {GUID}."
 	}
 }
