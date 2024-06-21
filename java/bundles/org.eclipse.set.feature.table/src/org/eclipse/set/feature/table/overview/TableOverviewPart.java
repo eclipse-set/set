@@ -158,8 +158,7 @@ public class TableOverviewPart extends BasePart {
 
 		// Create table problem table view
 		tableErrorTableView = new TableErrorTableView(messages, this,
-				getBroker(), toolboxPartService, enumTranslationService,
-				tableMenuService);
+				enumTranslationService, tableMenuService);
 		tableErrorTableView.create(parent);
 
 		getBroker().subscribe(Events.TABLEERROR_CHANGED,

@@ -19,10 +19,12 @@ import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
 import org.eclipse.set.application.Messages;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
+import org.eclipse.set.utils.events.JumpToTableEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
@@ -118,6 +120,31 @@ public class TableMenuServiceImpl implements TableMenuService {
 							broker.subscribe(Events.SITEPLAN_OPENING,
 									handleSiteplanLoadingEvent(jumpEvent));
 						}
+					}
+				}, enablePredicate);
+	}
+
+	@Override
+	public TableBodyMenuItem createShowInTableItem(
+			final JumpToTableEvent jumpEvent,
+			final SelectionLayer selectionLayer,
+			final IntPredicate enablePredicate) {
+		return new TableBodyMenuItem(messages.TableMenuService_Table,
+				selectionLayer, new SelectionAdapter() {
+					@Override
+					public void widgetSelected(final SelectionEvent e) {
+						final String tableShortcut = jumpEvent
+								.getTableShortcut();
+						if (selectionLayer.getSelectedCells().isEmpty()
+								|| tableShortcut == null
+								|| tableShortcut.isEmpty()) {
+							return;
+						}
+						toolboxPartService
+								.showPart(ToolboxConstants.TABLE_PART_ID_PREFIX
+										+ jumpEvent.getTableShortcut()
+												.toLowerCase());
+						ToolboxEvents.send(broker, jumpEvent);
 					}
 				}, enablePredicate);
 	}

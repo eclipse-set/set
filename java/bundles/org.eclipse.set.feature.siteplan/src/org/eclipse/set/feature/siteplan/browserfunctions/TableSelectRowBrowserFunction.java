@@ -11,7 +11,7 @@ package org.eclipse.set.feature.siteplan.browserfunctions;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.browser.swt.BrowserFunction;
 import org.eclipse.set.utils.WebBrowser;
-import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
+import org.eclipse.set.utils.events.JumpToTableEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
 
 /**
@@ -46,6 +46,6 @@ public class TableSelectRowBrowserFunction extends BrowserFunction {
 	}
 
 	private final void execute(final String searchKey) {
-		ToolboxEvents.send(broker, new TableSelectRowByGuidEvent(searchKey));
+		ToolboxEvents.send(broker, new JumpToTableEvent(searchKey));
 	}
 }

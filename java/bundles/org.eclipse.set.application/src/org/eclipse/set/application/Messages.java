@@ -167,6 +167,11 @@ public class Messages {
 	public String TableMenuService_Siteplan;
 
 	/**
+	 * Zeige in Table
+	 */
+	public String TableMenuService_Table;
+
+	/**
 	 * Alle Stellbereiche
 	 */
 	public String ControlAreaCombo_All;

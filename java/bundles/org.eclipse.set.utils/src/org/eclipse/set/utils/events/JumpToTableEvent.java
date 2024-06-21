@@ -13,7 +13,7 @@ package org.eclipse.set.utils.events;
  * 
  * @author Stuecker
  */
-public class TableSelectRowByGuidEvent implements ToolboxEvent {
+public class JumpToTableEvent implements ToolboxEvent {
 	/**
 	 * The topic of the event.
 	 */
@@ -21,20 +21,37 @@ public class TableSelectRowByGuidEvent implements ToolboxEvent {
 
 	private final String searchKey;
 
+	private String tableShortcut;
+
 	/**
 	 * Constructor used for retrieving the event name
 	 */
-	public TableSelectRowByGuidEvent() {
+	public JumpToTableEvent() {
 		this.searchKey = ""; //$NON-NLS-1$
 	}
 
 	/**
+	 * @param tableShortcut
+	 *            the table shortcut
 	 * @param searchKey
 	 *            The key to search for
 	 * 
 	 */
-	public TableSelectRowByGuidEvent(final String searchKey) {
+	public JumpToTableEvent(final String tableShortcut,
+			final String searchKey) {
 		this.searchKey = searchKey;
+		this.tableShortcut = tableShortcut;
+	}
+
+	/**
+	 * 
+	 * @param searchKey
+	 *            The key to search for
+	 * 
+	 */
+	public JumpToTableEvent(final String searchKey) {
+		this.searchKey = searchKey;
+		this.tableShortcut = null;
 	}
 
 	/**
@@ -47,5 +64,12 @@ public class TableSelectRowByGuidEvent implements ToolboxEvent {
 	@Override
 	public String getTopic() {
 		return TOPIC;
+	}
+
+	/**
+	 * @return the table shortcut
+	 */
+	public String getTableShortcut() {
+		return tableShortcut;
 	}
 }
