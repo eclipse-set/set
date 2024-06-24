@@ -89,7 +89,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		val weichen = container.WKrGspElement.filter[isPlanningObject]
-			.filterObjectsInPlaceArea(placeArea)
+			.filterObjectsInControlArea(controlArea)
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {

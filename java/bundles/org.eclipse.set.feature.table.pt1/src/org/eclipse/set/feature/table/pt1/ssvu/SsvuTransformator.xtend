@@ -54,13 +54,12 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		this.container = container
-		return container.transform(placeArea)
+		return container.transform(controlArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
-		container.uebertragungsweg.filter[isPlanningObject].
-			filterObjectsInPlaceArea(placeArea).forEach [ it |
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		container.uebertragungsweg.filter[isPlanningObject].filterObjectsInControlArea(controlArea).forEach [ it |
 				if (Thread.currentThread.interrupted) {
 					return
 				}
