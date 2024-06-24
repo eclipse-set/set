@@ -28,7 +28,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements PlazCheck {
 
 	override checkType() {
-		return "Koordinatensystem"
+		return "Mehrfache Koordinatensystem"
 	}
 
 	override getDescription() {

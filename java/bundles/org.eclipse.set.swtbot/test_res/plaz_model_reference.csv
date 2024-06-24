@@ -1,6 +1,6 @@
 PlaZ-Modell-Prüfung
 Datei: plaz_model_reference.csv
-Prüfungszeit: 2024-06-21 14:26:50
+Prüfungszeit: 2024-06-24 13:25:40
 Werkzeugkofferversion: -
 
 
@@ -180,11 +180,12 @@ Werkzeugkofferversion: -
 "169";"Erfolg";"GUID-Eindeutigkeit";"";"";"";"Fachdaten";"";"Die GUIDs aller Objekte sind eindeutig."
 "170";"Erfolg";"GUID-Sortierung";"";"";"";"Fachdaten";"";"Objekte vom gleichen Typ sind anhand ihrer GUID sortiert."
 "171";"Erfolg";"GUID-Zustände";"";"";"";"Fachdaten";"";"Die GUIDs aller Zustände sind eindeutig."
-"172";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
-"173";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein konsistentes Koordinatensystem."
-"174";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
-"175";"Erfolg";"Planungs-/Betrachtungsbereich";"";"";"";"Fachdaten";"";"Objekte sind eindeutig im Planungs- oder Betrachtungsbereich verortet."
-"176";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
-"177";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
-"178";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
-"179";"Erfolg";"Ungültiger ID-Verweis";"";"";"";"Fachdaten";"";"Verweise verweisen auf ein Objekt vom erwarteten Typ."
+"172";"Erfolg";"Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein gültiges Koordinatensystem."
+"173";"Erfolg";"Mehrfache Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Punkt_Allg haben ein konsistentes Koordinatensystem."
+"174";"Erfolg";"Mehrfache Koordinatensystem";"";"";"";"Fachdaten";"";"Instanzen von GEO_Kante haben ein konsistentes Koordinatensystem."
+"175";"Erfolg";"Mehrfache Teilbereiche";"";"";"";"Fachdaten";"";"Teilbereichsgrenzen der LST-Objekte sind einzigartig."
+"176";"Erfolg";"Planungs-/Betrachtungsbereich";"";"";"";"Fachdaten";"";"Objekte sind eindeutig im Planungs- oder Betrachtungsbereich verortet."
+"177";"Erfolg";"Punktobjektabstand";"";"";"";"Fachdaten";"";"Der Punktobjektabstand aller LST-Objekte ist gültig."
+"178";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten und GEO_Kanten haben übereinstimmende Längen."
+"179";"Erfolg";"TOP_Kante";"";"";"";"Fachdaten";"";"TOP_Kanten haben eindeutige Endknoten."
+"180";"Erfolg";"Ungültiger ID-Verweis";"";"";"";"Fachdaten";"";"Verweise verweisen auf ein Objekt vom erwarteten Typ."
