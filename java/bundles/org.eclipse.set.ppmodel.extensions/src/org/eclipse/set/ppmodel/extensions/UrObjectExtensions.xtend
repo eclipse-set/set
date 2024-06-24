@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import java.math.BigDecimal
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
@@ -32,7 +31,6 @@ import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
-import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.planpro.PZB.PZB_Element
@@ -140,9 +138,8 @@ class UrObjectExtensions extends BasisAttributExtensions {
 
 	private def static dispatch boolean isInControlArea(
 		ESTW_Zentraleinheit object, Stell_Bereich area) {
-		val energiePrimar = area?.aussenElementAnsteuerung?.
-			aussenelementansteuerungEnergiePrimaer
-		return energiePrimar == object;
+		val estwZentrals = area?.aussenElementAnsteuerung?.ESTWZentraleinheits
+		return estwZentrals.exists[it === object];
 	}
 
 	private def static dispatch boolean isInControlArea(
@@ -160,7 +157,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 			]
 	}
 
-	def static dispatch boolean isInPlaceArea(Zugeinwirkung zugeinwirkung,
+	private def static dispatch boolean isInControlArea(Zugeinwirkung zugeinwirkung,
 		Stell_Bereich area) {
 		val schaltmittle = zugeinwirkung.container.schaltmittelZuordnung.filter [
 			IDSchalter?.value instanceof Zugeinwirkung
@@ -171,29 +168,29 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		] && zugeinwirkung.punktObjektTOPKante.exists[area.contains(it)]
 	}
 
-	def static dispatch boolean isInPlaceArea(PZB_Element object,
-		Stell_Bereich placeArea) {
+	private def static dispatch boolean isInControlArea(PZB_Element object,
+		Stell_Bereich controlArea) {
 		val potk = object.PZBElementBezugspunkt.filter(Signal).filter [
 			signalReal !== null && signalReal.signalRealAktiv === null
 		].flatMap [
 			punktObjektTOPKante
 		]
 		return !object.stellelements.filter [
-			IDInformation?.value === placeArea.aussenElementAnsteuerung
-		].nullOrEmpty && placeArea.bereichObjektTeilbereich.exists [ botb |
+			IDInformation?.value === controlArea.aussenElementAnsteuerung
+		].nullOrEmpty && controlArea.bereichObjektTeilbereich.exists [ botb |
 			potk.exists[botb.contains(it)]
 		]
 	}
 
 	static final double tolerantDistance = 1000
 
-	def static dispatch boolean isInPlaceArea(Signal signal,
-		Stell_Bereich placeArea) {
+	private def static dispatch boolean isInControlArea(Signal signal,
+		Stell_Bereich controlArea) {
 		val firstcondition = signal.stellelement.IDInformation ===
-			placeArea.IDAussenelementansteuerung ||
+			controlArea.IDAussenelementansteuerung ||
 			((signal.signalFiktiv !== null || signal.signalReal !== null) &&
 				signal.punktObjektTOPKante.exists [ potk |
-					placeArea.bereichObjektTeilbereich.exists[it.contains(potk)]
+					controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
 				]
 		)
 		if (firstcondition) {
@@ -206,10 +203,10 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		if (signal.signalReal !== null &&
 			signal.signalReal.signalRealAktiv === null &&
 			signal.signalFiktiv !== null && signal.punktObjektTOPKante.exists [
-				placeArea.contains(it, tolerantDistance)
+				controlArea.contains(it, tolerantDistance)
 			]) {
 			val topGraph = new TopGraph(signal.container.TOPKante)
-			val areaTopKante = placeArea.bereichObjektTeilbereich.map[topKante].
+			val areaTopKante = controlArea.bereichObjektTeilbereich.map[topKante].
 				filter[!signal.topKanten.contains(it)]
 			return isTargetSignal === !areaTopKante.forall [ topKante |
 				topGraph.isInWirkrichtungOfSignal(signal, topKante)
@@ -218,26 +215,26 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		return false
 	}
 
-	def static dispatch boolean isInPlaceArea(Technik_Standort standort,
-		Stell_Bereich placeArea) {
-		return placeArea.technikStandorts.exists[it === standort]
+	private def static dispatch boolean isInControlArea(Technik_Standort standort,
+		Stell_Bereich controlArea) {
+		return controlArea.technikStandorts.exists[it === standort]
 	}
 
-	def static dispatch boolean isInPlaceArea(Bedien_Standort standort,
-		Stell_Bereich placeArea) {
-		return placeArea.technikStandorts.flatMap[IDBedienStandort.map[value]].
+	private def static dispatch boolean isInControlArea(Bedien_Standort standort,
+		Stell_Bereich controlArea) {
+		return controlArea.technikStandorts.flatMap[IDBedienStandort.map[value]].
 			filterNull.exists[it === standort]
 	}
 
-	def static dispatch boolean isInPlaceArea(W_Kr_Gsp_Element gspElement,
-		Stell_Bereich placeArea) {
+	private def static dispatch boolean isInControlArea(W_Kr_Gsp_Element gspElement,
+		Stell_Bereich controlArea) {
 		return gspElement.IDStellelement?.value.IDInformation?.value ===
-			placeArea.aussenElementAnsteuerung
+			controlArea.aussenElementAnsteuerung
 	}
 
-	def static dispatch boolean isInPlaceArea(Fstr_Aneinander fstrAneinander,
-		Stell_Bereich placeArea) {
-		val areaStellelements = placeArea.aussenElementAnsteuerung.stellelements
+	private def static dispatch boolean isInControlArea(Fstr_Aneinander fstrAneinander,
+		Stell_Bereich controlArea) {
+		val areaStellelements = controlArea.aussenElementAnsteuerung.stellelements
 		val fstrFarhwegs = fstrAneinander.container.fstrFahrweg.filter [ fstr |
 			areaStellelements.exists[fstr?.IDStart?.value?.stellelement === it]
 		]
@@ -247,21 +244,21 @@ class UrObjectExtensions extends BasisAttributExtensions {
 			]
 	}
 
-	def static dispatch boolean isInPlaceArea(Fstr_DWeg fstrDWeg,
-		Stell_Bereich placeArea) {
+	private def static dispatch boolean isInControlArea(Fstr_DWeg fstrDWeg,
+		Stell_Bereich controlArea) {
 		return fstrDWeg.IDFstrFahrweg?.value?.IDStart?.value?.stellelement.
-			isInPlaceArea(placeArea)
+			isInControlArea(controlArea)
 	}
 
-	def static dispatch boolean isInPlaceArea(Fstr_Zug_Rangier fstrZugRangier,
-		Stell_Bereich placeArea) {
+	private def static dispatch boolean isInControlArea(Fstr_Zug_Rangier fstrZugRangier,
+		Stell_Bereich controlArea) {
 
 		if (fstrZugRangier.isR) {
-			return fstrZugRangier.isRangierStrInPlaceArea(placeArea)
+			return fstrZugRangier.isRangierStrInPlaceArea(controlArea)
 		}
 
 		if (isZ(fstrZugRangier.fstrZug?.fstrZugArt)) {
-			return fstrZugRangier.isZugStrInPlaceArea(placeArea)
+			return fstrZugRangier.isZugStrInPlaceArea(controlArea)
 		}
 
 		if (fstrZugRangier.fstrZug?.fstrZugArt.wert ===
@@ -272,122 +269,122 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	private def static boolean isRangierStrInPlaceArea(
-		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich placeArea) {
+		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
 		if (fstrZugRangier.fstrRangier === null) {
 			return false
 		}
 		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
 		if (startSignal.signalReal !== null) {
-			return startSignal.stellelement.isInPlaceArea(placeArea)
+			return startSignal.stellelement.isInControlArea(controlArea)
 		}
 
 		if (startSignal.signalFiktiv !== null) {
 			return startSignal.punktObjektTOPKante.exists [ potk |
-				placeArea.bereichObjektTeilbereich.exists[it.contains(potk)]
+				controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
 			]
 		}
 		return true
 	}
 
 	private def static boolean isZugStrInPlaceArea(
-		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich placeArea) {
+		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
 		if (fstrZugRangier.fstrZug === null &&
 			fstrZugRangier.fstrMittel === null) {
 			return false
 		}
 		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
 		if (startSignal.signalReal !== null) {
-			return startSignal.stellelement.isInPlaceArea(placeArea)
+			return startSignal.stellelement.isInControlArea(controlArea)
 		}
 
 		if (startSignal.signalFiktiv !== null) {
 			return startSignal.punktObjektTOPKante.exists [ potk |
-				placeArea.bereichObjektTeilbereich.exists[it.contains(potk)]
+				controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
 			]
 		}
 		return true
 	}
 
-	static def dispatch boolean isInPlaceArea(Fla_Schutz fla,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(Fla_Schutz fla,
+		Stell_Bereich controlArea) {
 		val anforderer = fla.anforderer
 		if (anforderer instanceof W_Kr_Gsp_Element) {
-			return anforderer.IDStellelement?.value.isInPlaceArea(placeArea)
+			return anforderer.IDStellelement?.value.isInControlArea(controlArea)
 		}
 
 		if (anforderer instanceof NB_Zone_Grenze) {
-			return anforderer.isNBZoneGrenzeInPlaceArea(placeArea)
+			return anforderer.isNBZoneGrenzeInPlaceArea(controlArea)
 		}
 
 		throw new IllegalArgumentException()
 	}
 
 	static def boolean isNBZoneGrenzeInPlaceArea(NB_Zone_Grenze nbZoneGrenze,
-		Stell_Bereich placeArea) {
+		Stell_Bereich controlArea) {
 		return nbZoneGrenze.markanterPunkt.markanteStelle.punktObjektTOPKante.
 			exists [ potk |
-				placeArea.bereichObjektTeilbereich.exists[it.contains(potk)]
+				controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
 			]
 	}
 
-	static def dispatch boolean isInPlaceArea(Fla_Zwieschutz fla,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(Fla_Zwieschutz fla,
+		Stell_Bereich controlArea) {
 		return fla.zwieschutzweiche?.IDStellelement?.value.
-			isInPlaceArea(placeArea)
+			isInControlArea(controlArea)
 	}
 
-	static def dispatch boolean isInPlaceArea(
-		Gleis_Bezeichnung gleisBezeichnung, Stell_Bereich placeArea) {
-		return placeArea.bereichObjektTeilbereich.exists [ botb |
+	private static def dispatch boolean isInControlArea(
+		Gleis_Bezeichnung gleisBezeichnung, Stell_Bereich controlArea) {
+		return controlArea.bereichObjektTeilbereich.exists [ botb |
 			gleisBezeichnung.bereichObjektTeilbereich.exists[intersects(botb)]
 		]
 	}
 
-	static def dispatch boolean isInPlaceArea(NB_Zone nbZone,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(NB_Zone nbZone,
+		Stell_Bereich controlArea) {
 		return nbZone.container.NBZoneGrenze.filterNull.filter [
 			IDNBZone.value === nbZone
-		].exists[isNBZoneGrenzeInPlaceArea(placeArea)]
+		].exists[isNBZoneGrenzeInPlaceArea(controlArea)]
 	}
 
-	static def dispatch boolean isInPlaceArea(Uebertragungsweg uebertragungsweg,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(Uebertragungsweg uebertragungsweg,
+		Stell_Bereich controlArea) {
 		return uebertragungsweg.IDUebertragungswegVon?.value.
-			isInPlaceArea(placeArea) || uebertragungsweg.IDAnhangUeWegNach?.map [
+			isInControlArea(controlArea) || uebertragungsweg.IDAnhangUeWegNach?.map [
 			value
-		].filterNull.exists[isInPlaceArea(placeArea)]
+		].filterNull.exists[isInControlArea(controlArea)]
 
 	}
 
-	static def dispatch boolean isInPlaceArea(Bedien_Bezirk bedienBezirk,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(Bedien_Bezirk bedienBezirk,
+		Stell_Bereich controlArea) {
 		return bedienBezirk.container.ESTWZentraleinheit.filterNull.filter [
 			bedienBezirkVirtuell === bedienBezirk ||
 				bedienBezirkZentral === bedienBezirk
-		].exists[isInPlaceArea(placeArea)]
+		].exists[isInControlArea(controlArea)]
 	}
 
-	static def dispatch boolean isInPlaceArea(Bedien_Zentrale bedienZentral,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(Bedien_Zentrale bedienZentral,
+		Stell_Bereich controlArea) {
 		return bedienZentral.container.ESTWZentraleinheit.filterNull.filter [
 			bedienBezirkVirtuell?.bedienZentrale === bedienZentral ||
 				bedienBezirkZentral?.bedienZentrale === bedienZentral
-		].exists[isInPlaceArea(placeArea)]
+		].exists[isInControlArea(controlArea)]
 	}
 
-	static def dispatch boolean isInPlaceArea(ZN_ZBS znZBS,
-		Stell_Bereich placeArea) {
-		return znZBS.IDESTWZentraleinheit?.value.isInPlaceArea(placeArea)
+	private static def dispatch boolean isInControlArea(ZN_ZBS znZBS,
+		Stell_Bereich controlArea) {
+		return znZBS.IDESTWZentraleinheit?.value.isInControlArea(controlArea)
 	}
 
-	static def dispatch boolean isInPlaceArea(Stellelement stellElement,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(Stellelement stellElement,
+		Stell_Bereich controlArea) {
 		return stellElement.IDInformation?.value ===
-			placeArea.aussenElementAnsteuerung
+			controlArea.aussenElementAnsteuerung
 	}
 
-	static def dispatch boolean isInPlaceArea(Block_Element blockElement,
-		Stell_Bereich placeArea) {
+	private static def dispatch boolean isInControlArea(Block_Element blockElement,
+		Stell_Bereich controlArea) {
 		val blockAs = blockElement.blockAnlagenStart.map[IDBlockElementB.value]
 		val blockBs = blockElement.blockAnlagenZiel.map[IDBlockElementA.value]
 		return #[blockAs, blockBs].flatten.map[IDSignal?.value].filterNull.
@@ -397,7 +394,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_ZIEL_STRECKE
 				]
 			].flatMap[punktObjektTOPKante].exists [ potk |
-				placeArea.bereichObjektTeilbereich.exists[contains(potk)]
+				controlArea.bereichObjektTeilbereich.exists[contains(potk)]
 			]
 	}
 }

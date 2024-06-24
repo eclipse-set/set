@@ -42,7 +42,7 @@ class SslaTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		val fstrAneinanderList = container.fstrAneinander
 			.filter [isPlanningObject]
-			.filterObjectsInPlaceArea(placeArea)
+			.filterObjectsInControlArea(controlArea)
 
 		// Basis_Objekt
 		for (fstrAneinander : fstrAneinanderList) {

@@ -71,7 +71,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 
 		val topGraph = new TopGraph(container.TOPKante)
-		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
+		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].filterObjectsInControlArea(controlArea).
 			filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
 			]) {

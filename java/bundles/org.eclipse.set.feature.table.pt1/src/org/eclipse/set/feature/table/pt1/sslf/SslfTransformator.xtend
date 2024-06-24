@@ -48,7 +48,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 	) {
 		val flaSchutzList = container.flaSchutz
 			.filter[isPlanningObject]
-			.filterObjectsInPlaceArea(placeArea)
+			.filterObjectsInControlArea(controlArea)
 			.filter[generalbedingung]
 			.sortBy[wLageNbGrenze]
 

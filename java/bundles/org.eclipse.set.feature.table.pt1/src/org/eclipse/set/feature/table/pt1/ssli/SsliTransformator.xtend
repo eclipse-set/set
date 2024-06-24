@@ -60,14 +60,14 @@ class SsliTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		this.container = container
-		return container.transform(placeArea)
+		return container.transform(controlArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
 		val gleisBezeichnung = container.gleisBezeichnung.filter [
 			isPlanningObject
-		].filterObjectsInPlaceArea(placeArea)
+		].filterObjectsInControlArea(controlArea)
 		transformToBegrenzungen(gleisBezeichnung, container.signal.filter [
 			isPlanningObject
 		]).filter[generalbedingung].forEach [ it |

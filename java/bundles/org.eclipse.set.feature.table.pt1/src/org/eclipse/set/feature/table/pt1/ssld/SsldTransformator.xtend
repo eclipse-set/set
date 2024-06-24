@@ -90,7 +90,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 	) {
 		val fstDwegList = container.fstrDWeg
 			.filter[isPlanningObject]
-			.filterObjectsInPlaceArea(placeArea)
+			.filterObjectsInControlArea(controlArea)
 
 		// var footnoteNumber = 1;
 		for (dweg : fstDwegList) {

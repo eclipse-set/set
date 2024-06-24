@@ -59,13 +59,13 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
-		return container.transform(placeArea)
+		return container.transform(controlArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
-		container.NBZone.filter[isPlanningObject].
-			filterObjectsInPlaceArea(placeArea).forEach [ it |
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		container.NBZone.filter[isPlanningObject]
+			.filterObjectsInControlArea(controlArea).forEach [ it |
 				if (Thread.currentThread.interrupted) {
 					return
 				}

@@ -55,7 +55,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		for (Zugeinwirkung ein : container.zugeinwirkung.filter [
 			isPlanningObject
-		].filterObjectsInPlaceArea(placeArea)) {
+		].filterObjectsInControlArea(controlArea)) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -181,9 +181,9 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			instances.add(row);
 		}
 
-		for (FMA_Komponente fma : container.FMAKomponente.filter [
-			isPlanningObject
-		]) {
+		for (FMA_Komponente fma : container.FMAKomponente
+			.filter [isPlanningObject]
+			.filterObjectsInControlArea(controlArea)) {
 			if (fma.FMAKomponenteAchszaehlpunkt !== null) {
 				val TableRow row = factory.newTableRow(fma);
 				// A: Sskg.Grundsatzangaben.Bezeichnung
