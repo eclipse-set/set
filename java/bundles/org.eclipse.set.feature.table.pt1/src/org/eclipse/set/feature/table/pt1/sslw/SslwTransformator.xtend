@@ -52,7 +52,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 		Stell_Bereich controlArea
 	) {
 		val flaZwieSchutzList = container.flaZwieschutz.
-			filter[isPlanningObject].filterObjectsInPlaceArea(placeArea)
+			filter[isPlanningObject].filterObjectsInControlArea(controlArea)
 		for (flaZwieSchutz : flaZwieSchutzList) {
 			if (Thread.currentThread.interrupted) {
 				return null

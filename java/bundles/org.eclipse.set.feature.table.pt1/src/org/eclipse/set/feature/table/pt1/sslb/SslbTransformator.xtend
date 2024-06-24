@@ -61,15 +61,15 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
-		return container.transform(placeArea)
+		return container.transform(controlArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
 
 		val validObjects = container.blockElement
 			.filter[isPlanningObject]
-			.filterObjectsInPlaceArea(placeArea)
+			.filterObjectsInControlArea(controlArea)
 		val fmaLookupCache = getFMALookupCache(container)
 		validObjects.flatMap[findRelevantBlockElements].forEach [ it |
 			if (Thread.currentThread.interrupted) {

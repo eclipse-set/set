@@ -49,7 +49,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		for (Schloss schloss : container.getObjectInPlaceArea(placeArea).filter [
+		for (Schloss schloss : container.getObjectInControlArea(controlArea).filter [
 			isPlanningObject
 		]) {
 			if (Thread.currentThread.interrupted) {
@@ -392,11 +392,11 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 		return '''«fstrFahrweg?.start?.bezeichnung?.bezeichnungTabelle?.wert»/«fstrFahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»'''
 	}
 
-	private def Iterable<Schloss> getObjectInPlaceArea(
-		MultiContainer_AttributeGroup container, Stell_Bereich placeArea) {
+	private def Iterable<Schloss> getObjectInControlArea(
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
 		val result = newHashSet
 		// 1. Condition
-		val stellelements = placeArea.aussenElementAnsteuerung.
+		val stellelements = controlArea.aussenElementAnsteuerung.
 			informationSekundaer.filterNull.flatMap[stellelements]
 		val ssp = container.schluesselsperre.filter [ ssp |
 			stellelements.exists[it === ssp.IDStellelement.value]
@@ -415,7 +415,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// 3. Condition
 		container.schloss.filter [ schloss |
-			placeArea.wkrGspElement.exists [ gspElement |
+			controlArea.wkrGspElement.exists [ gspElement |
 				schloss.schlossW?.IDWKrElement?.value === gspElement ||
 					schloss.schlossGsp?.IDGspElement?.value === gspElement ||
 					schloss.schlossSonderanlage?.IDSonderanlage?.value ==
