@@ -215,7 +215,7 @@ public abstract class AbstractSortByColumnTables {
 		}
 		return getTableMenuService().createShowInTextViewItem(
 				createJumpToTextViewEvent(part), getSelectionLayer(),
-				selectedRowIndex -> selectedRowIndex > 0
+				selectedRowIndex -> selectedRowIndex >= 0
 						&& getXmlLineNumber(selectedRowIndex).intValue() > 0);
 	}
 

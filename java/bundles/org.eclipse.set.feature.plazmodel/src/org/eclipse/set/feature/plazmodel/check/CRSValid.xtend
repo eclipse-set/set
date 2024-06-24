@@ -10,7 +10,6 @@ package org.eclipse.set.feature.plazmodel.check
 
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
 import org.osgi.service.component.annotations.Component
 
 /**
@@ -21,24 +20,21 @@ import org.osgi.service.component.annotations.Component
 @Component
 class CRSValid extends AbstractPlazContainerCheck implements PlazCheck {
 	override protected run(MultiContainer_AttributeGroup container) {
-		val crslist = container.contents.filter(GEO_Punkt).map [
-			GEOPunktAllg?.GEOKoordinatensystem?.wert
+		val inValidGEOPoint = container.GEOPunkt.filter [
+			GEOPunktAllg?.GEOKoordinatensystem?.wert === null
 		].toSet
-		if (crslist.contains(null)) {
-			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = '''Es gibt Objekte ohne Angabe eines Koordinatensystem. Der sicherungstechnische Lageplan kann unvollständig sein.'''
-			err.type = checkType
-			err.object = null
-			return #[err]
-		}
-		if (crslist.size > 1) {
-			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = '''Es gibt Objekte in unterschiedlichen Koordinatensystemen. Der sicherungstechnische Lageplan kann unvollständig sein.'''
-			err.type = checkType
-			err.object = null
-			return #[err]
-		}
-		return #[]
+		return inValidGEOPoint.map [
+			val error = PlazFactory.eINSTANCE.createPlazError
+			error.type = checkType
+			error.message = '''GEO_Punkt: «identitaet.wert» hat kein gültiges Koordinatensystem. Der sicherungstechnische Lageplan kann unvollständig sein.'''
+			if (GEOPunktAllg === null) {
+				error.object = it
+			} else if (GEOPunktAllg.GEOKoordinatensystem === null ||
+				GEOPunktAllg.GEOKoordinatensystem.wert === null) {
+				error.object = GEOPunktAllg.GEOKoordinatensystem
+			}
+			return error
+		].toList
 	}
 
 	override checkType() {
@@ -46,7 +42,7 @@ class CRSValid extends AbstractPlazContainerCheck implements PlazCheck {
 	}
 
 	override getDescription() {
-		return "Instanzen von GEO_Punkt_Allg haben ein konsistentes Koordinatensystem."
+		return "Instanzen von GEO_Punkt_Allg haben ein gültiges Koordinatensystem."
 	}
 
 	override getGeneralErrMsg() {
