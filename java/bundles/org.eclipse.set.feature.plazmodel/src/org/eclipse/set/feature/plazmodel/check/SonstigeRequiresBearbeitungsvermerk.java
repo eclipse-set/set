@@ -109,13 +109,14 @@ public class SonstigeRequiresBearbeitungsvermerk implements PlazCheck {
 
 	@Override
 	public String getDescription() {
-		return "Alles mit Referenz " + SONSTIGE_ENUM_WERT //$NON-NLS-1$
-				+ " hat einen Bearbeitungsvermerk."; //$NON-NLS-1$
+		return String.format(
+				"Alles mit Referenz '%s' hat einen Bearbeitungsvermerk.", //$NON-NLS-1$
+				SONSTIGE_ENUM_WERT);
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Fehlender Bearbeitungsvermerk bei Wert \"" + SONSTIGE_ENUM_WERT //$NON-NLS-1$
-				+ "\"."; //$NON-NLS-1$
+		return String.format("Fehlender Bearbeitungsvermerk bei Wert '%s'.", //$NON-NLS-1$
+				SONSTIGE_ENUM_WERT);
 	}
 }
