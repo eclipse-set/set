@@ -36,7 +36,7 @@ export default class SvgDrawFMAComponent extends AbstractDrawSVG {
   LABEL_FONT_SIZE = 14
 
   // Positioning offset for the FMA Component
-  static SVG_FMA_X_OFFSET = 11
+  static SVG_FMA_X_OFFSET = 10
 
   // Offset for the inverted (or flipped) label to correct for text alignment
   SVG_INVERTED_LABEL_OFFSET_Y = 18
