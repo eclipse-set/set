@@ -28,13 +28,10 @@ import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.graph.AsDirectedTopGraph;
-import org.eclipse.set.utils.graph.AsDirectedTopGraph.DirectedTOPEdge;
 import org.eclipse.set.utils.graph.AsSplitTopGraph;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Edge;
 import org.eclipse.set.utils.graph.AsSplitTopGraph.Node;
-import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.WeightedPseudograph;
 import org.osgi.service.component.annotations.Component;
@@ -99,23 +96,8 @@ public class TopologicalGraphServiceImpl
 	@Override
 	public List<TopPath> findAllPathsBetween(final TopPoint from,
 			final TopPoint to, final int limit) {
-		final AsSplitTopGraph graphView = new AsSplitTopGraph(topGraphBase);
-
-		final Node fromNode = graphView.splitGraphAt(from);
-		final Node toNode = graphView.splitGraphAt(to);
-
-		final Graph<Node, DirectedTOPEdge<Edge>> directedGraph = AsDirectedTopGraph
-				.asDirectedTopGraph(graphView);
-		final List<GraphPath<Node, DirectedTOPEdge<Edge>>> paths = new AllDirectedPaths<>(
-				directedGraph).getAllPaths(fromNode, toNode, true,
-						Integer.valueOf(limit));
-
-		return paths.stream()
-				.map(c -> new TopPath(
-						c.getEdgeList().stream().map(e -> e.edge()).distinct()
-								.map(Edge::edge).toList(),
-						getDirectedPathWeight(c), fromNode.point().distance()))
-				.toList();
+		return AsDirectedTopGraph.getAllPaths(new AsSplitTopGraph(topGraphBase),
+				from, to, limit);
 	}
 
 	@Override
@@ -123,13 +105,6 @@ public class TopologicalGraphServiceImpl
 			final int limit, final Predicate<TopPath> condition) {
 		return AsDirectedTopGraph.getPath(new AsSplitTopGraph(topGraphBase),
 				from, to, limit, condition);
-	}
-
-	private static BigDecimal getDirectedPathWeight(
-			final GraphPath<Node, DirectedTOPEdge<Edge>> graphPath) {
-		return graphPath.getEdgeList().stream()
-				.map(edge -> edge.edge().getWeight())
-				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
 	@Override
