@@ -29,6 +29,7 @@ import org.osgi.service.event.EventConstants
 import org.osgi.service.event.EventHandler
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.basis.graph.TopPoint
+import java.math.BigDecimal
 
 /**
  * Validates that there's a valid top path for each bank line
@@ -49,55 +50,57 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 		if (!bankService.findBankingComplete) {
 			return List.of(createProcessingWarning)
 		}
-		return container.getUeberhoehungslinie.map [
-			val bankinfo = bankService.findTOPBanking(it)
+		return container.getUeberhoehungslinie.filter [
+			bankService.findTOPBanking(it) === null
+		].map [
 			val bankLength = ueberhoehungslinieAllg.
 				ueberhoehungslinieLaenge.wert
-			if (bankinfo === null) {
-				val begin = new TopPoint(IDUeberhoehungA.value)
-				val end = new TopPoint(IDUeberhoehungB.value)
-				val paths = topologicalService.findAllPathsBetween(begin, end,
-					(bankLength.doubleValue +
-						ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int)
-				if (paths.isEmpty) {
-					return createError(
-						"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
-						Map.of("GUID", it.identitaet?.wert))
-				}
-				val completeShortesPath = paths.filter [ path |
-					path.getDistance(end).present
-				].reduce [ p1, p2 |
-					p1.length < p2.length
-					return p1
-				]
-				if (completeShortesPath !== null &&
-					Math.abs(
-						(bankLength - completeShortesPath.length).doubleValue) >
-						ToolboxConfiguration.bankLineTopOffsetLimit) {
-					return createError(
-						"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
-						Map.of(
-							"GUID",
-							it.identitaet?.wert,
-							"PFAD",
-							completeShortesPath?.length?.toString,
-							"UEBERHOEHUNG",
-							bankLength.toString
-						))
-				}
+			val begin = new TopPoint(IDUeberhoehungA.value)
+			val end = new TopPoint(IDUeberhoehungB.value)
+			val paths = topologicalService.findAllPathsBetween(begin, end,
+				(bankLength.doubleValue +
+					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int)
+			if (paths.isEmpty) {
 				return createError(
-					"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} mit ensprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
+					"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
+					Map.of("GUID", it.identitaet?.wert))
+			}
+			val completeShortesPath = paths.filter [ path |
+				path.getDistance(end).present
+			].reduce [ p1, p2 |
+				p1.length < p2.length
+				return p1
+			]
+			if (completeShortesPath !== null &&
+				Math.abs(
+					(bankLength - completeShortesPath.length).doubleValue) >
+					ToolboxConfiguration.bankLineTopOffsetLimit) {
+				return createError(
+					"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
 					Map.of(
 						"GUID",
 						it.identitaet?.wert,
+						"PFAD",
+						completeShortesPath?.length?.toString,
 						"UEBERHOEHUNG",
 						bankLength.toString
-					)
-				)
-
+					))
 			}
-
-			return null
+			val longestPath = paths.reduce [ p1, p2 |
+				p1.length > p2.length
+				return p1
+			]
+			return createError(
+				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD})für die Überhöhungslinie {GUID} mit ensprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
+				Map.of(
+					"GUID",
+					it.identitaet?.wert,
+					"PFAD",
+					longestPath?.length?.toString,
+					"UEBERHOEHUNG",
+					bankLength.toString
+				)
+			)
 		].filterNull.toList
 
 	}
