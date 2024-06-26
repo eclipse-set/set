@@ -27,6 +27,8 @@ import org.osgi.service.event.Event
 import org.osgi.service.event.EventAdmin
 import org.osgi.service.event.EventConstants
 import org.osgi.service.event.EventHandler
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Validates that there's a valid top path for each bank line
@@ -38,6 +40,9 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 	BankService bankService;
 
 	@Reference
+	TopologicalGraphService topologicalService;
+
+	@Reference
 	EventAdmin eventAdmin;
 
 	override List<PlazError> run(MultiContainer_AttributeGroup container) {
@@ -46,28 +51,52 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 		}
 		return container.getUeberhoehungslinie.map [
 			val bankinfo = bankService.findTOPBanking(it)
-			if (bankinfo === null) {
-				return createError(
-					"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
-					Map.of("GUID", it.identitaet?.wert))
-			}
-
-			val bankLength = bankinfo.line.ueberhoehungslinieAllg.
+			val bankLength = ueberhoehungslinieAllg.
 				ueberhoehungslinieLaenge.wert
-			val pathLength = bankinfo.path.length
-			val diff = (bankLength - pathLength).doubleValue
-			if (diff > ToolboxConfiguration.bankLineTopOffsetLimit) {
+			if (bankinfo === null) {
+				val begin = new TopPoint(IDUeberhoehungA.value)
+				val end = new TopPoint(IDUeberhoehungB.value)
+				val paths = topologicalService.findAllPathsBetween(begin, end,
+					(bankLength.doubleValue +
+						ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int)
+				if (paths.isEmpty) {
+					return createError(
+						"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
+						Map.of("GUID", it.identitaet?.wert))
+				}
+				val completeShortesPath = paths.filter [ path |
+					path.getDistance(end).present
+				].reduce [ p1, p2 |
+					p1.length < p2.length
+					return p1
+				]
+				if (completeShortesPath !== null &&
+					Math.abs(
+						(bankLength - completeShortesPath.length).doubleValue) >
+						ToolboxConfiguration.bankLineTopOffsetLimit) {
+					return createError(
+						"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
+						Map.of(
+							"GUID",
+							it.identitaet?.wert,
+							"PFAD",
+							completeShortesPath?.length?.toString,
+							"UEBERHOEHUNG",
+							bankLength.toString
+						))
+				}
 				return createError(
-					"Die Länge des topologischen Pfads ({PFAD}) für die Überhöhungslinie {GUID} weicht von der Länge der Überhöhungslinie ({UEBERHOEHUNG}) ab.",
+					"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} mit ensprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
 					Map.of(
 						"GUID",
 						it.identitaet?.wert,
-						"PFAD",
-						pathLength.toString,
 						"UEBERHOEHUNG",
 						bankLength.toString
-					))
+					)
+				)
+
 			}
+
 			return null
 		].filterNull.toList
 
