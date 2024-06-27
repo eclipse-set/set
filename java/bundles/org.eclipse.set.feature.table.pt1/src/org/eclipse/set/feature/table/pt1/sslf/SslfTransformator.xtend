@@ -46,11 +46,11 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory,
 		Stell_Bereich controlArea
 	) {
-		val flaSchutzList = container.flaSchutz.filter[isPlanningObject].filter [
-			generalbedingung
-		].sortBy [
-			wLageNbGrenze
-		]
+		val flaSchutzList = container.flaSchutz
+			.filter[isPlanningObject]
+			.filterObjectsInControlArea(controlArea)
+			.filter[generalbedingung]
+			.sortBy[wLageNbGrenze]
 
 		for (flaSchutz : flaSchutzList) {
 			if (Thread.currentThread.interrupted) {

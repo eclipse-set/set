@@ -92,7 +92,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		val fstrZugRangierList = container.fstrZugRangier.filter [
 			isPlanningObject
-		]
+		].filterObjectsInControlArea(controlArea)
 		val fstrZugRangierListSorted = fstrZugRangierList
 		var current = 0
 

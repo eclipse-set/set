@@ -260,6 +260,11 @@ public final class ToolboxConstants {
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";
 
+	/**
+	 * Use when the plan not exists place area
+	 */
+	public static String PLACE_AREA_DEFAULT_VALUE = "ALL_PLAN_CONTENT";
+
 	static {
 		DEFAULT_HOME_DIR = "./";
 		TMP_BASE_DIR = System.getProperty(ToolboxProperties.TMP_BASE_DIR,

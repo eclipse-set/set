@@ -20,6 +20,8 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrFahrwegExtensions
 import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_BP_AttributeGroup
 import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_Fstr_AttributeGroup
 import org.eclipse.set.model.planpro.PZB.PZB_Zuordnung_Signal
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 /**
  * Extensions for {@link PZB_Element}.
@@ -73,5 +75,19 @@ class PZBElementExtensions extends BasisObjektExtensions {
 		return pzb.container.PZBZuordnungSignal.filter [
 			IDPZBElementZuordnung === pzb.PZBElementZuordnung
 		]
+	}
+	
+	def static Iterable<Stellelement> getStellelements(PZB_Element pzb) {
+		return pzb.PZBElementBezugspunkt.map[stellelement]
+	}
+	
+	private def static dispatch Stellelement getStellelement(Basis_Objekt object) {
+		throw new IllegalArgumentException()
+	}
+	private def static dispatch Stellelement getStellelement(Signal object) {
+		return SignalExtensions.getStellelement(object)
+	}
+	private def static dispatch Stellelement getStellelement(W_Kr_Gsp_Element object) {
+		return object.IDStellelement?.value
 	}
 }
