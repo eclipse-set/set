@@ -8,9 +8,7 @@
  */
 package org.eclipse.set.swtbot.table;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
@@ -43,6 +41,7 @@ public class TableDataTest extends AbstractTableTest {
 	protected void testTableData(final PtTable table) throws Exception {
 		givenNattableBot(table.tableName());
 		givenReferenceCSV(table);
+		exportReferenceCSV(table.shortcut());
 		givenFixedColumnCount(table);
 		whenExistReferenceCSV();
 		thenRowAndColumnCountEqualReferenceCSV();
