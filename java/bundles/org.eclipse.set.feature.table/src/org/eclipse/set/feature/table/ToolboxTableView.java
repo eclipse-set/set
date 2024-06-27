@@ -83,10 +83,9 @@ import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
-import org.eclipse.set.utils.events.NewTableTypeEvent;
+import org.eclipse.set.utils.events.JumpToTableEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.TableDataChangeEvent;
-import org.eclipse.set.utils.events.TableSelectRowByGuidEvent;
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
@@ -132,7 +131,7 @@ public final class ToolboxTableView extends BasePart {
 
 	private final List<TableRow> tableInstances = Lists.newLinkedList();
 
-	private ToolboxEventHandler<TableSelectRowByGuidEvent> tableSelectRowHandler;
+	private ToolboxEventHandler<JumpToTableEvent> tableSelectRowHandler;
 	private ToolboxEventHandler<TableDataChangeEvent> tableDataChangeHandler;
 
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
@@ -244,12 +243,12 @@ public final class ToolboxTableView extends BasePart {
 	private void postConstruct() {
 		tableSelectRowHandler = new DefaultToolboxEventHandler<>() {
 			@Override
-			public void accept(final TableSelectRowByGuidEvent t) {
+			public void accept(final JumpToTableEvent t) {
 				tableSelectRowHandler(t);
 			}
 		};
 
-		ToolboxEvents.subscribe(getBroker(), TableSelectRowByGuidEvent.class,
+		ToolboxEvents.subscribe(getBroker(), JumpToTableEvent.class,
 				tableSelectRowHandler);
 
 		tableDataChangeHandler = new DefaultToolboxEventHandler<>() {
@@ -267,10 +266,8 @@ public final class ToolboxTableView extends BasePart {
 			}
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
-				tableDataChangeHandler,
-				TableDataChangeEvent.getTopic(tableService
-						.extractShortcut(getToolboxPart().getElementId())
-						.toLowerCase()));
+				tableDataChangeHandler, TableDataChangeEvent
+						.getTopic(getTableShortcut()).toLowerCase());
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
@@ -294,9 +291,11 @@ public final class ToolboxTableView extends BasePart {
 		ToolboxEvents.unsubscribe(getBroker(), tableSelectRowHandler);
 		ToolboxEvents.unsubscribe(getBroker(), tableDataChangeHandler);
 		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
-		getBroker().send(Events.CLOSE_PART,
-				tableService.extractShortcut(getToolboxPart().getElementId())
-						.toLowerCase());
+		getBroker().send(Events.CLOSE_PART, getTableShortcut().toLowerCase());
+	}
+
+	private String getTableShortcut() {
+		return tableService.extractShortcut(getToolboxPart().getElementId());
 	}
 
 	private Void showExportEndDialog(final Shell shell) {
@@ -304,7 +303,10 @@ public final class ToolboxTableView extends BasePart {
 		return null;
 	}
 
-	private void tableSelectRowHandler(final TableSelectRowByGuidEvent event) {
+	private void tableSelectRowHandler(final JumpToTableEvent event) {
+		// IMPROVE: here should be check, if the table is target of jump event.
+		// Currently can't check this, because the jump event from siteplan no
+		// contain target table.
 		// Determine the row by searching for the leading object
 		final int rowIndex = TableExtensions
 				.getLeadingObjectRowIndexByGUID(table, event.getSearchKey());
@@ -560,8 +562,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	void export() {
-		final String id = getToolboxPart().getElementId();
-		final String shortcut = tableService.extractShortcut(id);
+		final String shortcut = getTableShortcut();
 		final List<Thread> transformatorThreads = ThreadUtils.getAllThreads()
 				.stream()
 				.filter(t -> t != null
