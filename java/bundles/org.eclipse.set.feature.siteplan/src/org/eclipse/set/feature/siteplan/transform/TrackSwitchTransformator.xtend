@@ -181,8 +181,9 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		result.operatingMode = transform(
 			element.WKrGspElementAllg?.WKrGspStellart?.wert)
 		result.preferredLocation = element.weicheElement?.weicheVorzugslage?.
-			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS ? LeftRight.
-			LEFT : LeftRight.RIGHT
+			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS
+			? LeftRight.LEFT
+			: LeftRight.RIGHT
 
 		return result
 	}
@@ -206,7 +207,11 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 	private def Label transformLabel(W_Kr_Gsp_Element element) {
 		val result = SiteplanFactory.eINSTANCE.createLabel
 		val label = getLabel(element.bezeichnung)
-		result.text = label.text
+		if (label === null) {
+			result.text = ""
+		} else {
+			result.text = label.text
+		}
 		val mode = element.weicheElement?.weicheBetriebsart?.wert
 		if (mode === null) {
 			return result
