@@ -21,7 +21,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * Service for creating the sslb table model. org.eclipse.set.feature.table
+ * Service for creating the ssza table model. org.eclipse.set.feature.table
  * 
  * @author rumpf
  * 
