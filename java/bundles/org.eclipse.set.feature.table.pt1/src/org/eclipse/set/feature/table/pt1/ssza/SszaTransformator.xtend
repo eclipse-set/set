@@ -195,22 +195,25 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 					return #[]
 				]
 			),
-			bezugspunktCase(
+			bezugspunktCaseIterable(
 				BUE_Einschaltung,
 				[
 					val sue = schaltmittelZuordnung.map[IDSchalter?.value]?.
 						filterNull.toList
 
-					val pos = (sue.filter(Zugeinwirkung).
-						map[punktObjektStrecke] + sue.filter(FMA_Anlage).flatMap [
-						val fma = it
-						container.FMAKomponente.filter [
-							IDFMAgrenze.contains(fma)
-						].map[punktObjektStrecke]
-					] + sue.filter(FMA_Komponente).map[punktObjektStrecke]).
-						flatten
-
-					pos?.map[getBezeichnungStrecke]?.filterNull?.join
+					return sue.map [
+						switch (it) {
+							Zugeinwirkung,
+							FMA_Komponente:
+								return #[it]
+							FMA_Anlage: {
+								val fma = it
+								return container.FMAKomponente.filter [
+									IDFMAgrenze.contains(fma)
+								]
+							}
+						}
+					].flatten.flatMap[getBezeichnungStrecke.apply(it)]
 				]
 			),
 			bezugspunktCase(
@@ -248,12 +251,17 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 					val sue = schaltmittelZuordnung.map[IDSchalter?.value]?.
 						filterNull.toList
 
-					val pos = (sue.filter(Zugeinwirkung) +
-						sue.filter(FMA_Komponente)).flatMap [
-						getKMStrecke.apply(it)
-					]
-					// TODO FMA_Anlage
-					return pos
+					return sue.flatMap [
+						switch (it) {
+							Zugeinwirkung,
+							FMA_Komponente:
+								return getKMStrecke.apply(it)
+							FMA_Anlage: {
+								// TODO
+								return null
+							}
+						}
+					].filterNull
 				]
 			),
 			bezugspunktCase(
@@ -367,7 +375,6 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		)
 
-		// Y: Sslb.Bemerkung
 		fillFootnotes(datenpunkt)
 
 		return
