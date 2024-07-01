@@ -28,13 +28,11 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.MissingSupplier;
 import org.eclipse.set.basis.cache.Cache;
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -52,6 +50,7 @@ import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelFactory;
@@ -150,11 +149,11 @@ public final class TableServiceImpl implements TableService {
 			final IModelSession modelSession, final String controlAreaId) {
 
 		final Table startTable = transformToTable(elementId, TableType.INITIAL,
-				modelSession, controlAreaId == null ? Collections.emptyMap()
-						: Map.of(controlAreaId, ContainerType.INITIAL));
+				modelSession, controlAreaId == null ? Collections.emptySet()
+						: Set.of(controlAreaId));
 		final Table zielTable = transformToTable(elementId, TableType.FINAL,
-				modelSession, controlAreaId == null ? Collections.emptyMap()
-						: Map.of(controlAreaId, ContainerType.FINAL));
+				modelSession, controlAreaId == null ? Collections.emptySet()
+						: Set.of(controlAreaId));
 		if (zielTable == null || startTable == null) {
 			return null;
 		}
@@ -273,7 +272,7 @@ public final class TableServiceImpl implements TableService {
 		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
-		final Table transformedTable;
+		Table transformedTable = null;
 		if (tableType == TableType.DIFF) {
 			transformedTable = createDiffTable(elementId, modelSession,
 					controlAreaId);
@@ -286,7 +285,17 @@ public final class TableServiceImpl implements TableService {
 					.filter(e -> e.getIdentitaet().getWert()
 							.equals(controlAreaId))
 					.findFirst().orElse(null);
-			transformedTable = modelService.transform(container, area);
+			if (controlAreaId == null
+					|| isContainerContainArea(container, controlAreaId)) {
+				transformedTable = modelService.transform(container, area);
+			} else {
+				// Create empty table
+				transformedTable = TablemodelFactory.eINSTANCE.createTable();
+				transformedTable.setTablecontent(
+						TablemodelFactory.eINSTANCE.createTableContent());
+				modelService.buildHeading(transformedTable);
+			}
+
 			saveTableError(shortCut, tableType, modelService.getTableErrors());
 		}
 		if (Thread.currentThread().isInterrupted()
@@ -297,6 +306,14 @@ public final class TableServiceImpl implements TableService {
 		ECollections.sort(transformedTable.getTablecontent().getRowgroups(),
 				modelService.getRowGroupComparator());
 		return transformedTable;
+	}
+
+	private static boolean isContainerContainArea(
+			final MultiContainer_AttributeGroup container,
+			final String areaId) {
+		return StreamSupport
+				.stream(container.getStellBereich().spliterator(), false)
+				.anyMatch(sb -> sb.getIdentitaet().getWert().equals(areaId));
 	}
 
 	/**
@@ -317,7 +334,7 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public String transformToCsv(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<String, ContainerType> controlAreas) {
+			final Set<String> controlAreas) {
 		final Table table = transformToTable(elementId, tableType, modelSession,
 				controlAreas);
 		return transformToCsv(table);
@@ -362,42 +379,36 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Table transformToTable(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final Map<String, ContainerType> controlAreas) {
+			final Set<String> controlAreaIds) {
 		final String shortCut = extractShortcut(elementId);
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		if (controlAreas.isEmpty()) {
+		if (controlAreaIds.isEmpty()) {
 			return (Table) cache.get(
 					cacheService.cacheKeyBuilder(shortCut, EMPTY),
 					() -> loadTransform(shortCut, tableType, modelSession,
 							null));
 		}
-		final Table resultTable = TablemodelFactory.eINSTANCE.createTable();
-		controlAreas.forEach((areaId, type) -> {
-			if (!type.getDefaultTableType().equals(tableType)
-					&& tableType != TableType.DIFF) {
-				return;
-			}
+
+		Table resultTable = null;
+		for (final String areaId : controlAreaIds) {
 			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
 					areaId);
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
 							areaId));
-			if (resultTable.getColumndescriptors().isEmpty()) {
-				resultTable.getColumndescriptors().addAll(
-						EcoreUtil.copyAll(table.getColumndescriptors()));
-				resultTable.setTablecontent(
-						EcoreUtil.copy(table.getTablecontent()));
+			if (resultTable == null) {
+				resultTable = table;
 			} else {
-				table.getTablecontent().getRowgroups()
-						.forEach(rowGroup -> TableExtensions
-								.addRowGroup(resultTable, rowGroup));
+				for (final RowGroup rowGroup : table.getTablecontent()
+						.getRowgroups()) {
+					TableExtensions.addRowGroup(resultTable, rowGroup);
+				}
 			}
-		});
-
+		}
 		// sorting
-		if (resultTable.getTablecontent() != null) {
+		if (resultTable != null && resultTable.getTablecontent() != null) {
 			ECollections.sort(resultTable.getTablecontent().getRowgroups(),
 					getModelService(shortCut).getRowGroupComparator());
 		}

@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
@@ -46,7 +47,6 @@ import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCom
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
@@ -160,7 +160,7 @@ public final class ToolboxTableView extends BasePart {
 
 	TableType tableType;
 
-	Map<String, ContainerType> controlAreaIds;
+	Set<String> controlAreaIds;
 
 	/**
 	 * this injection is only needed to invoke the call of the respective
@@ -273,8 +273,8 @@ public final class ToolboxTableView extends BasePart {
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
 				controlAreaIds.clear();
-				t.getControlAreas().forEach(area -> controlAreaIds
-						.put(area.areaId(), area.containerType()));
+				t.getControlAreas()
+						.forEach(area -> controlAreaIds.add(area.areaId()));
 				tableType = t.getTableType();
 				updateTableView();
 			}
@@ -574,7 +574,7 @@ public final class ToolboxTableView extends BasePart {
 			return;
 		}
 		final Map<TableType, Table> tables = compileService.compile(shortcut,
-				getModelSession());
+				getModelSession(), controlAreaIds);
 		final Optional<String> optionalOutputDir = getDialogService()
 				.selectDirectory(getToolboxShell(),
 						userConfigService.getLastExportPath().toString());

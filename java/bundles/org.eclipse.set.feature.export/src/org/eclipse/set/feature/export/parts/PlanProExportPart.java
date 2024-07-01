@@ -105,7 +105,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					overwriteHandling);
 		} else {
 			final Map<TableType, Table> tables = compileService.compile(id,
-					modelSession);
+					modelSession, modelSession.getControlAreaIds());
 			final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 					.create();
 			final Titlebox titlebox = planProToTitlebox.transform(

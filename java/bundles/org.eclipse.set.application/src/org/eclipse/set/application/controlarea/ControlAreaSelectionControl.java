@@ -108,7 +108,6 @@ public class ControlAreaSelectionControl {
 		// Reset combo value, when close session
 		broker.subscribe(Events.CLOSE_SESSION, event -> initCombo());
 		createCombo(parent);
-		oldSelectionValue = messages.ControlAreaCombo_Default_Value;
 	}
 
 	private void createCombo(final Composite parent) {
@@ -234,8 +233,7 @@ public class ControlAreaSelectionControl {
 				if (areaName == null) {
 					areaName = getDefaultAreaName(values.size());
 				}
-				values.add(new ControlAreaValue(areaName, finalAreaId,
-						ContainerType.FINAL));
+				values.add(new ControlAreaValue(areaName, finalAreaId));
 			}
 		}
 		return values;
@@ -274,7 +272,7 @@ public class ControlAreaSelectionControl {
 				areaName = getDefaultAreaName(i);
 			}
 			values.add(new ControlAreaValue(areaName,
-					area.getIdentitaet().getWert(), containerType));
+					area.getIdentitaet().getWert()));
 			i++;
 		}
 		return values;
@@ -296,6 +294,7 @@ public class ControlAreaSelectionControl {
 						messages.ControlAreaCombo_Default_Value));
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
+		oldSelectionValue = messages.ControlAreaCombo_Default_Value;
 	}
 
 	private void selectionControlArea(final SelectionChangedEvent e) {

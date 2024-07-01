@@ -9,6 +9,7 @@
 package org.eclipse.set.services.export;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
@@ -26,8 +27,11 @@ public interface TableCompileService {
 	 *            the table shortcut
 	 * @param modelSession
 	 *            the model session
+	 * @param controlAreaIds
+	 *            the selected control areas
 	 * 
 	 * @return a mapping of possible tables
 	 */
-	Map<TableType, Table> compile(String shortcut, IModelSession modelSession);
+	Map<TableType, Table> compile(String shortcut, IModelSession modelSession,
+			Set<String> controlAreaIds);
 }

@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -182,7 +183,7 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Map<String, ContainerType> controlAreaIds = new HashMap<>();
+	Set<String> controlAreaIds = new HashSet<>();
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -241,8 +242,7 @@ public class ModelSession implements IModelSession {
 			public void accept(final SelectedControlAreaChangedEvent t) {
 				final Set<ControlAreaValue> changeAreas = t.getControlAreas();
 				controlAreaIds.clear();
-				changeAreas.forEach(area -> controlAreaIds.put(area.areaId(),
-						area.containerType()));
+				changeAreas.forEach(area -> controlAreaIds.add(area.areaId()));
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
@@ -455,7 +455,7 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public Map<String, ContainerType> getControlAreaIds() {
+	public Set<String> getControlAreaIds() {
 		return controlAreaIds;
 	}
 

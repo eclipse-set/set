@@ -13,7 +13,6 @@ package org.eclipse.set.utils.events;
 import java.util.Collections;
 import java.util.Set;
 
-import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 
@@ -31,11 +30,8 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 	 *            the name of area
 	 * @param areaId
 	 *            the guid {@link Stell_Bereich}
-	 * @param containerType
-	 *            the {@link ContainerType}, which belong to this area
 	 */
-	public record ControlAreaValue(String areaName, String areaId,
-			ContainerType containerType) {
+	public record ControlAreaValue(String areaName, String areaId) {
 	}
 
 	private static final String TOPIC = "toolboxevents/controlarea/selection"; //$NON-NLS-1$
