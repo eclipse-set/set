@@ -18,7 +18,7 @@
     "jspdf": "^2.5.1",
     "material-design-icons": "^3.0.1",
     "ol": "^9.2.4",
-    "ol-mapbox-style": "^12.3.3",
+    "ol-mapbox-style": "^12.3.4",
     "vue": "^3.4.31",
     "vue-class-component": "^8.0.0-1",
     "vue-router": "^4.4.0",
