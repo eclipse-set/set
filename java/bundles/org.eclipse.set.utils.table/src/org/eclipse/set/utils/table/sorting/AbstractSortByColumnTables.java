@@ -283,7 +283,7 @@ public abstract class AbstractSortByColumnTables {
 		final int originalRow = bodyDataProvider
 				.getOriginalRowIndex(rowPosition);
 		if (originalRow < 0) {
-			return originalRow;
+			return Integer.valueOf(originalRow);
 		}
 		return Integer
 				.valueOf(bodyDataProvider.getObjectSourceLine(originalRow));

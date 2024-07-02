@@ -53,5 +53,6 @@ public record PtTable(String shortcut, String tableName,
 			new PtTable("sslw", "Sslw – Zwieschutzweichentabelle", List.of(0)),
 			new PtTable("sslz", "Sslz – Zugstraßentabelle", List.of(0)),
 			new PtTable("ssvu", "Ssvu – Übertragungswegtabelle", List.of(0, 1)),
-			new PtTable("sskp", "Sskp – PZB-Tabelle", List.of(0, 1)));
+			new PtTable("sskp", "Sskp – PZB-Tabelle", List.of(0, 1)),
+			new PtTable("ssza", "Ssza – Datenpunkttabelle", List.of(0)));
 }
