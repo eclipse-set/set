@@ -37,10 +37,20 @@ public class FixedColumnTest extends AbstractTableTest {
 	}
 
 	protected FreezeLayer freezeLayer;
+	PtTable tableToTest;
+
+	@Override
+	public String getTestTableName() {
+		if (tableToTest != null) {
+			return tableToTest.shortcut();
+		}
+		return null;
+	}
 
 	@ParameterizedTest
 	@MethodSource("getPtTableToTestFixedColumn")
 	protected void testFixedColumn(final PtTable table) {
+		this.tableToTest = table;
 		givenNattableBot(table.tableName());
 		thenExistFixedColumn();
 		thenFixedColumnsIsFixed(table.fixedColumns());

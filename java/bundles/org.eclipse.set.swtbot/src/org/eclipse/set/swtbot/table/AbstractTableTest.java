@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -41,12 +40,6 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	protected static final String CELL_VALUE_REPLACE_REGEX = "[\\n\\r]";
 	protected static final String ZERO_WIDTH_SPACE = "\\u200B";
 
-	protected static List<CSVRecord> loadReferenceFile(final String tableName)
-			throws IOException {
-		return AbstractPPHNTest
-				.loadReferenceFile("table_reference/" + tableName);
-	}
-
 	protected static Stream<Arguments> providesPtTable() {
 		return PtTable.tablesToTest.stream().map(table -> Arguments.of(table));
 	}
@@ -67,6 +60,14 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 		assertNotNull(swtBotExpandItem);
 		swtBotExpandItem.expand();
 	}
+
+	@Override
+	public String getReferenceDir() {
+		return TEST_RESOURCE_DIR + "table_reference/"
+				+ getTestFile().getShortName() + "/";
+	}
+
+	public abstract String getTestTableName();
 
 	protected void compareValue(final ILayer nattableLayer, final int startRow,
 			final int endRow) {
