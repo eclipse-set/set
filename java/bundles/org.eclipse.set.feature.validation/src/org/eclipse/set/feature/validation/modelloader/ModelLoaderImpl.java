@@ -21,6 +21,7 @@ import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
+import org.eclipse.set.ppmodel.extensions.PlanProLayoutInfoExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.swt.widgets.Shell;
 
@@ -43,16 +44,17 @@ public class ModelLoaderImpl implements ModelLoader {
 	Messages messages;
 
 	@Override
-	public PlanPro_Schnittstelle loadModel(final ToolboxFile toolboxFile,
+	public ModelContents loadModel(final ToolboxFile toolboxFile,
 			final Consumer<ValidationResult> storeValidationResult) {
 		final PlanPro_Schnittstelle planProModel = readPlanProModel(toolboxFile,
 				storeValidationResult);
-		readLayoutInformationen(toolboxFile, storeValidationResult);
-		return planProModel;
+		final PlanPro_Layoutinfo layoutInfo = readLayoutInformationen(
+				toolboxFile, storeValidationResult);
+		return new ModelContents(planProModel, layoutInfo);
 	}
 
 	@Override
-	public PlanPro_Schnittstelle loadModelSync(final ToolboxFile toolboxFile,
+	public ModelContents loadModelSync(final ToolboxFile toolboxFile,
 			final Consumer<ValidationResult> storeValidationResult,
 			final Shell shell) {
 		try {
@@ -83,21 +85,23 @@ public class ModelLoaderImpl implements ModelLoader {
 		return schnitStelle;
 	}
 
-	private void readLayoutInformationen(final ToolboxFile toolboxFile,
+	private PlanPro_Layoutinfo readLayoutInformationen(
+			final ToolboxFile toolboxFile,
 			final Consumer<ValidationResult> storeValidationResult) {
 		final Path layoutPath = toolboxFile.getLayoutPath();
 		if (layoutPath == null || !layoutPath.toFile().exists()) {
-			return;
+			return null;
 		}
 		ValidationResult validationResult = new ValidationResult(
 				PlanPro_Layoutinfo.class);
-		validationService.checkLoad(toolboxFile, path -> {
-			toolboxFile.openLayout();
-			return toolboxFile.getLayoutResource();
-		}, PlanProSchnittstelleExtensions::readFrom, validationResult);
-		validationResult = validationService.validateSource(
-				new ValidationResult(PlanPro_Layoutinfo.class), toolboxFile);
+		final PlanPro_Layoutinfo layoutInfo = validationService
+				.checkLoad(toolboxFile, path -> {
+					toolboxFile.openLayout();
+					return toolboxFile.getLayoutResource();
+				}, PlanProLayoutInfoExtensions::readFrom, validationResult);
+		validationResult = validationService.validateSource(validationResult,
+				toolboxFile);
 		storeValidationResult.accept(validationResult);
-
+		return layoutInfo;
 	}
 }

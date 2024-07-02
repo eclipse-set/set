@@ -73,4 +73,11 @@ public interface ComboValues<T> {
 	 * @return the values size
 	 */
 	public int size();
+
+	/**
+	 * Get the lengthiest item to fit the width of combo
+	 * 
+	 * @return the lengthest item
+	 */
+	public String getMaxLengthItem();
 }

@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.projectdata.ppimport;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.set.basis.constants.PlanProFileNature;
@@ -115,7 +116,7 @@ public enum ContainerComboSelection {
 				createItems(NOT_SELECTED);
 				break;
 			case INFORMATION_STATE:
-				createItems(NOT_SELECTED, ZUSTAND_INFORMATION);
+				createItems(ZUSTAND_INFORMATION);
 				break;
 			case PLANNING:
 				createItems(NOT_SELECTED, START, ZIEL);
@@ -147,6 +148,12 @@ public enum ContainerComboSelection {
 			default:
 				throw new IllegalArgumentException(value.toString());
 			}
+		}
+
+		@Override
+		public String getMaxLengthItem() {
+			return List.of(getMessage(NOT_SELECTED), getMessage(START),
+					getMessage(ZIEL), getMessage(ZUSTAND_INFORMATION)).stream().reduce((a, b) -> a.length() > b.length() ? a : b).orElse(getDefaultValue());
 		}
 	}
 

@@ -16,7 +16,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.fileservice.ToolboxIDResolver;
-import org.eclipse.set.feature.projectdata.ppimport.ImportControl.ImportTarget;
+import org.eclipse.set.feature.projectdata.ppimport.ImportModelControl.ImportTarget;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -58,9 +58,11 @@ public class PlanProImportPart extends BasePart {
 	@Inject
 	private ServiceProvider serviceProvider;
 
-	private ImportControl importInitial;
-	private ImportControl importFinal;
-	private ImportControl importModel;
+	private ImportModelControl importInitial;
+	private ImportModelControl importFinal;
+	private ImportModelControl importModel;
+
+	private ImportLayoutControlGroup importLayout;
 
 	/**
 	 * 
@@ -72,11 +74,12 @@ public class PlanProImportPart extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
-		importModel = new ImportControl(serviceProvider, getModelSession(),
+		importModel = new ImportModelControl(serviceProvider, getModelSession(),
 				ImportTarget.ALL, this::updateImportButton);
-		importInitial = new ImportControl(serviceProvider, getModelSession(),
-				ImportTarget.INITIAL, this::updateImportButton);
-		importFinal = new ImportControl(serviceProvider, getModelSession(),
+		importInitial = new ImportModelControl(serviceProvider,
+				getModelSession(), ImportTarget.INITIAL,
+				this::updateImportButton);
+		importFinal = new ImportModelControl(serviceProvider, getModelSession(),
 				ImportTarget.FINAL, this::updateImportButton);
 
 		if (PlanProSchnittstelleExtensions
@@ -85,7 +88,11 @@ public class PlanProImportPart extends BasePart {
 					serviceProvider.messages);
 			modelInformationGroup.createInfoGroup(parent);
 			createImportGroup(parent, getToolboxShell());
-			createImportButton(parent);
+
+			importLayout = new ImportLayoutControlGroup(serviceProvider,
+					getModelSession(), getBroker());
+			importLayout.createControl(parent, getToolboxShell(),
+					ToolboxFileRole.THIRD_PLANNING);
 		} else {
 			modelInformationGroup.createNotSupportedInfo(parent);
 		}
@@ -97,23 +104,23 @@ public class PlanProImportPart extends BasePart {
 		group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		group.setLayout(new GridLayout());
 
-		importModel.createControl(group,
-				serviceProvider.messages.PlanProImportPart_importSubwork, shell,
+		importModel.createControl(group, shell,
 				ToolboxFileRole.SECONDARY_PLANNING);
 		importModel.getComboField().getContainerCombo().dispose();
 
-		importInitial.createControl(group,
-				serviceProvider.messages.PlanProImportPart_importStart, shell,
+		importInitial.createControl(group, shell,
 				ToolboxFileRole.IMPORT_INITIAL_STATE);
 
-		importFinal.createControl(group,
-				serviceProvider.messages.PlanProImportPart_importZiel, shell,
+		importFinal.createControl(group, shell,
 				ToolboxFileRole.IMPORT_FINAL_STATE);
+		createImportButton(group);
+
 	}
 
 	private void createImportButton(final Composite parent) {
 		importButton = new Button(parent, SWT.NONE);
-		importButton.setText(getViewTitle());
+		importButton.setText(
+				serviceProvider.messages.PlanpRoImportPart_importModelButton);
 		updateImportButton();
 		importButton.addSelectionListener(new SelectionListener() {
 
@@ -131,9 +138,9 @@ public class PlanProImportPart extends BasePart {
 
 	protected void modelImport(final Shell shell) {
 		try {
-			final List<ImportControl> controlList = List.of(importModel,
+			final List<ImportModelControl> controlList = List.of(importModel,
 					importInitial, importFinal);
-			final List<ImportControl> enableControl = controlList.stream()
+			final List<ImportModelControl> enableControl = controlList.stream()
 					.filter(c -> c.isEnabled()).toList();
 
 			// The import data from each control should be different
@@ -144,7 +151,7 @@ public class PlanProImportPart extends BasePart {
 			}
 			controlList.forEach(control -> control.doImport(shell));
 			final boolean isSomethingImported = controlList.stream()
-					.anyMatch(ImportControl::isImported);
+					.anyMatch(ImportModelControl::isImported);
 			if (isSomethingImported) {
 				ToolboxIDResolver.resolveIDReferences(
 						getModelSession().getPlanProSchnittstelle());
@@ -174,15 +181,15 @@ public class PlanProImportPart extends BasePart {
 	}
 
 	void updateImportButton() {
-		final List<ImportControl> enableImport = Stream
+		final List<ImportModelControl> enableImport = Stream
 				.of(importModel, importInitial, importFinal)
 				.filter(i -> i.isEnabled()).toList();
 		importButton.setEnabled(!enableImport.isEmpty()
 				&& enableImport.stream().allMatch(i -> i.isValid()));
 	}
 
-	private static boolean isExistSameImportData(
-			final List<ImportControl> controls) {
+	private boolean isExistSameImportData(
+			final List<ImportModelControl> controls) {
 		if (controls.size() < 2) {
 			return false;
 		}
@@ -198,13 +205,16 @@ public class PlanProImportPart extends BasePart {
 		return false;
 	}
 
-	private static Comparator<ImportControl> importDataComparator() {
+	private Comparator<ImportModelControl> importDataComparator() {
 		return (first, second) -> {
 			final List<String> firstSubworkSelections = first.getComboField()
 					.getSubworkCombo().getSelectValuesString();
 			final List<String> secondSubworkSelections = second.getComboField()
 					.getSubworkCombo().getSelectValuesString();
-			if (firstSubworkSelections.stream()
+			// Single state plan willn't considered
+			if (firstSubworkSelections.stream().filter(
+					subwork -> !serviceProvider.messages.PlanproImportPart_Subwork_Notset
+							.equals(subwork))
 					.noneMatch(secondSubworkSelections::contains)) {
 				return 0;
 			}

@@ -30,7 +30,6 @@ import org.eclipse.e4.ui.workbench.UIEvents;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -61,6 +60,7 @@ import org.eclipse.set.core.services.files.ToolboxFileService;
 import org.eclipse.set.core.services.initialization.InitializationService;
 import org.eclipse.set.core.services.initialization.InitializationStep.Configuration;
 import org.eclipse.set.core.services.modelloader.ModelLoader;
+import org.eclipse.set.core.services.modelloader.ModelLoader.ModelContents;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.core.services.rename.RenameService;
 import org.eclipse.set.core.services.session.SessionService;
@@ -711,10 +711,6 @@ public class ModelSession implements IModelSession {
 		 */
 	}
 
-	private PlanPro_Layoutinfo readLayoutFromResource(final Resource res) {
-		return (PlanPro_Layoutinfo) res.getContents().getFirst();
-	}
-
 	private void removeContentAdapter(final EObject object) {
 		if (object != null && contentAdapter != null) {
 			object.eAdapters().remove(contentAdapter);
@@ -837,6 +833,12 @@ public class ModelSession implements IModelSession {
 		setTitleFilename();
 	}
 
+	private void setPlanProLayoutinfo(final PlanPro_Layoutinfo layoutinfo) {
+		removeContentAdapter(getLayoutInformation());
+		layoutInfo = layoutinfo;
+		addContentAdapter(getLayoutInformation());
+	}
+
 	protected void createEmptyModel() {
 		setNewProject(true);
 		final DocumentRoot documentRoot = PlanProFactory.eINSTANCE
@@ -879,8 +881,10 @@ public class ModelSession implements IModelSession {
 		if (toolboxFile.getFormat().isTemporaryIntegration()) {
 			readMergeModel();
 		} else {
-			setPlanProSchnittstelle(serviceProvider.modelLoader
-					.loadModel(toolboxFile, this::setValidationResult));
+			final ModelContents modelContents = serviceProvider.modelLoader
+					.loadModel(toolboxFile, this::setValidationResult);
+			setPlanProSchnittstelle(modelContents.schnittStelle());
+			setPlanProLayoutinfo(modelContents.layoutInfo());
 		}
 	}
 

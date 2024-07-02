@@ -126,7 +126,8 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		modifyXmlDeclaration();
 	}
 
-	protected void setResourcePath(final Resource resource, final Path path) {
+	@Override
+	public void setResourcePath(final Resource resource, final Path path) {
 		if (!resource.getURI().isFile()) {
 			final PlanProFileResource newResource = new PlanProFileResource(
 					URI.createFileURI(path.toString()));

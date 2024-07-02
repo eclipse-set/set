@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.guid.Guid;
 import org.w3c.dom.Document;
@@ -286,5 +287,11 @@ public interface ToolboxFile {
 	 * @return the planpro layout model
 	 */
 	org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot getLayoutDocumentRoot();
+
+	/**
+	 * @param resource
+	 * @param path
+	 */
+	void setResourcePath(Resource resource, Path path);
 
 }
