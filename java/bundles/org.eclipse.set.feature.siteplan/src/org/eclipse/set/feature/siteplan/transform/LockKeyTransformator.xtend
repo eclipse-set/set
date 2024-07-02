@@ -8,13 +8,13 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.eclipse.set.model.siteplan.LockKeyType
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
-import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -26,7 +26,7 @@ import static extension org.eclipse.set.feature.siteplan.transform.TransformUtil
 @Component(service=Transformator)
 class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -40,7 +40,7 @@ class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 		result.label.text = lockkey.bezeichnung?.bezeichnungLageplanKurz?.wert
 		result.locked = transformLockStatus(lockkey)
 		result.type = transformLockKeyType(lockkey)
-		val coor = trackService.getCoordinateAt(
+		val coor = geometryService.getCoordinateAt(
 			lockkey.IDUnterbringung?.value?.punktObjektTOPKante, 0.0)
 		if (coor !== null) {
 			result.position = positionService.transformPosition(coor)

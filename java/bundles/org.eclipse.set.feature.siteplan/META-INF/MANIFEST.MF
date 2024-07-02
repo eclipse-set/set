@@ -80,7 +80,6 @@ Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.feature.siteplan.descriptions.WebSiteplanDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.positionservice.PositionServiceImpl.xml,
- OSGI-INF/org.eclipse.set.feature.siteplan.trackservice.TrackServiceImpl.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.CantTransform.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.ExternalElementControlTransform.xml,
  OSGI-INF/org.eclipse.set.feature.siteplan.transform.FMAComponentTransformator.xml,

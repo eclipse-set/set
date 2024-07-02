@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.eclipse.set.application.geometry.GeoKanteGeometryServiceImpl;
 import org.eclipse.set.feature.siteplan.positionservice.PositionServiceImpl;
-import org.eclipse.set.feature.siteplan.trackservice.TrackServiceImpl;
 import org.eclipse.set.feature.siteplan.transform.CantTransform;
 import org.eclipse.set.feature.siteplan.transform.ExternalElementControlTransform;
 import org.eclipse.set.feature.siteplan.transform.FMAComponentTransformator;
@@ -56,8 +56,7 @@ public class SiteplanTest extends AbstractToolboxTest {
 				new StationTransformator(), new TrackLockTransformator(),
 				new TrackSwitchTransformator(), new TrackTransformator(),
 				new TrackCloseTransformator(),
-				new ExternalElementControlTransform(),
-				new CantTransform(),
+				new ExternalElementControlTransform(), new CantTransform(),
 				new LockKeyTransformator()));
 		transformator.transformators.forEach(SiteplanTest::setupTransformator);
 	}
@@ -66,7 +65,7 @@ public class SiteplanTest extends AbstractToolboxTest {
 
 		try {
 			FieldUtils.writeField(transformator, "trackService", //$NON-NLS-1$
-					new TrackServiceImpl(), true);
+					new GeoKanteGeometryServiceImpl(), true);
 			FieldUtils.writeField(transformator, "positionService",
 					new PositionServiceImpl(), true);
 		} catch (final IllegalAccessException e) {

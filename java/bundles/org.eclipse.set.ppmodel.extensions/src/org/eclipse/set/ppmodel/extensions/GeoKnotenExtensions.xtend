@@ -9,15 +9,18 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.base.Predicate
-import org.locationtech.jts.geom.Coordinate
-import org.eclipse.set.basis.geometry.GeometryException
+import java.util.List
 import org.eclipse.set.basis.Lists
+import org.eclipse.set.basis.geometry.GeoPosition
+import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import java.util.List
+import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -26,9 +29,6 @@ import static org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
-import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * This class extends {@link GEO_Knoten}.

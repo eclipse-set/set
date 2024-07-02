@@ -24,8 +24,11 @@ class GeoPunktExtensions {
 	 * @returns the coordinate of this GEO Punkt
 	 */
 	def static Coordinate getCoordinate(GEO_Punkt geoPunkt) {
-		val double x = geoPunkt.GEOPunktAllg.GKX.wert.doubleValue
-		val double y = geoPunkt.GEOPunktAllg.GKY.wert.doubleValue
-		return new Coordinate(x, y);
+		val x = geoPunkt?.GEOPunktAllg?.GKX?.wert
+		val y = geoPunkt?.GEOPunktAllg?.GKY?.wert
+		if (x === null || y === null) {
+			return null;
+		}
+		return new Coordinate(x.doubleValue, y.doubleValue);
 	}
 }

@@ -16,6 +16,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.BankService
@@ -91,7 +92,6 @@ import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory

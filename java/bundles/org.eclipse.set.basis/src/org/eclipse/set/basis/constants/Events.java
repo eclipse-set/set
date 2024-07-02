@@ -84,4 +84,9 @@ public interface Events {
 	 * When open siteplan firsttime
 	 */
 	String SITEPLAN_OPEN_FIRST_TIME = "siteplan/open/firsttime";
+
+	/**
+	 * The find GEO_Kante geometry process is done
+	 */
+	String FIND_GEOMETRY_PROCESS_DONE = "geometryService/done";
 }

@@ -11,9 +11,9 @@ package org.eclipse.set.feature.siteplan.transform
 import java.text.ParseException
 import java.util.List
 import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.core.services.siteplan.SiteplanService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
 import org.eclipse.set.model.siteplan.Siteplan
@@ -47,7 +47,7 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 	public final List<Transformator> transformators = newArrayList
 
 	@Reference
-	protected TrackService trackService
+	protected GeoKanteGeometryService geometryService
 
 	@Reference
 	protected PositionService positionService
@@ -58,7 +58,6 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 	override Siteplan transform(IModelSession modelSession) {
 		val siteplan = super.transform(modelSession)
 		if (siteplan === null) {
-			trackService.clearMetaData
 			return null;
 		}
 		siteplan.transformLayout(modelSession.layoutInformation)

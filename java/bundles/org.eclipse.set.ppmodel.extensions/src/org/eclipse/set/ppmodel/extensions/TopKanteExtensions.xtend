@@ -19,11 +19,11 @@ import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.MissingSupplier
 import org.eclipse.set.basis.cache.Cache
 import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.basis.graph.DirectedElementImpl
 import org.eclipse.set.core.services.Services
-import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
@@ -36,6 +36,7 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.model.planpro.Gleis.Gleis_Lichtraum
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -50,7 +51,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * Diese Klasse erweitert {@link TOP_Kante}.

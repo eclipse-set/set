@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.Strecke
@@ -15,7 +16,6 @@ import org.eclipse.set.model.planpro.Geodaten.Strecke_Punkt
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 
 /**
  * Extensions for {@link Strecke}.

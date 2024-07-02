@@ -8,15 +8,15 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
-import org.eclipse.set.model.siteplan.Platform
-import org.eclipse.set.model.siteplan.SiteplanFactory
-import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Anlage
 import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Kante
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.siteplan.Platform
+import org.eclipse.set.model.siteplan.SiteplanFactory
+import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -30,7 +30,7 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 @Component(service=Transformator)
 class StationTransformator extends BaseTransformator<Bahnsteig_Anlage> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -68,10 +68,10 @@ class StationTransformator extends BaseTransformator<Bahnsteig_Anlage> {
 
 			// Find start and end points	
 			val topKante = tb?.IDTOPKante?.value
-			val start = trackService.getCoordinate(topKante,
+			val start = geometryService.getCoordinate(topKante,
 				topKante?.IDTOPKnotenA?.value, tb.begrenzungA.wert.doubleValue,
 				lateralDistance, tb.richtungsbezug.wert)
-			val end = trackService.getCoordinate(topKante,
+			val end = geometryService.getCoordinate(topKante,
 				topKante?.IDTOPKnotenA?.value, tb.begrenzungB.wert.doubleValue,
 				lateralDistance, tb.richtungsbezug.wert)
 			result.points.add(positionService.transformPosition(start))

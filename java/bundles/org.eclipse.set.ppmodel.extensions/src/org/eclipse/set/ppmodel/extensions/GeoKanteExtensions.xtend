@@ -12,6 +12,7 @@ import java.util.ArrayList
 import java.util.List
 import org.eclipse.set.basis.geometry.Chord
 import org.eclipse.set.basis.geometry.Circle
+import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.basis.geometry.Geometries
 import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.basis.geometry.SegmentPosition
@@ -23,7 +24,6 @@ import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 import org.locationtech.jts.algorithm.distance.DistanceToPoint
 import org.locationtech.jts.algorithm.distance.PointPairDistance
 import org.locationtech.jts.geom.Coordinate
@@ -31,10 +31,9 @@ import org.locationtech.jts.geom.LineSegment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
 
 /**
  * This class extends {@link GEO_Kante}.

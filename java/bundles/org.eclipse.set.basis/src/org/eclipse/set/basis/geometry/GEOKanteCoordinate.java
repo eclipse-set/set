@@ -6,15 +6,12 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.siteplan.trackservice;
+package org.eclipse.set.basis.geometry;
 
 import java.util.Set;
 
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
-import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
-import org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions;
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
 import org.locationtech.jts.geom.Coordinate;
 
 /**
@@ -29,7 +26,15 @@ public class GEOKanteCoordinate {
 	private final GeoPosition position;
 	private final ENUMGEOKoordinatensystem crs;
 
-	GEOKanteCoordinate(final GeoPosition position,
+	/**
+	 * @param position
+	 *            the {@link GeoPosition}
+	 * @param bereichObjekte
+	 *            the {@link Bereich_Objekt}
+	 * @param crs
+	 *            the coordinate system
+	 */
+	public GEOKanteCoordinate(final GeoPosition position,
 			final Set<Bereich_Objekt> bereichObjekte,
 			final ENUMGEOKoordinatensystem crs) {
 		this.position = position;
@@ -37,13 +42,15 @@ public class GEOKanteCoordinate {
 		this.crs = crs;
 	}
 
-	GEOKanteCoordinate(final GEO_Knoten geoKnoten,
-			final Set<Bereich_Objekt> bereichObjekte) {
-		this(GeoKnotenExtensions.getCoordinate(geoKnoten), bereichObjekte,
-				GeoKnotenExtensions.getCRS(geoKnoten));
-	}
-
-	GEOKanteCoordinate(final Coordinate coordinate,
+	/**
+	 * @param coordinate
+	 *            the coordinate
+	 * @param bereichObjekte
+	 *            the {@link Bereich_Objekt}
+	 * @param crs
+	 *            the coordinate system
+	 */
+	public GEOKanteCoordinate(final Coordinate coordinate,
 			final Set<Bereich_Objekt> bereichObjekte,
 			final ENUMGEOKoordinatensystem crs) {
 		this.position = new GeoPosition(coordinate, 0, 0);

@@ -8,19 +8,16 @@
  */
 package org.eclipse.set.feature.siteplan.positionservice;
 
-import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.CRS_CR0_PARAMETER;
-import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.CRS_DR0_PARAMETER;
-import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.CRS_ERO_PARAMETER;
-import static org.eclipse.set.ppmodel.extensions.utils.CoordinateExtensions.CRS_FRO_PARAMETER;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.*;
 
 import java.util.EnumMap;
 
-import org.eclipse.set.feature.siteplan.trackservice.GEOKanteCoordinate;
+import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
+import org.eclipse.set.basis.geometry.GeoPosition;
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.eclipse.set.model.siteplan.Coordinate;
 import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanFactory;
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition;
-import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.locationtech.proj4j.CRSFactory;
 import org.locationtech.proj4j.CoordinateReferenceSystem;
 import org.locationtech.proj4j.CoordinateTransformFactory;
