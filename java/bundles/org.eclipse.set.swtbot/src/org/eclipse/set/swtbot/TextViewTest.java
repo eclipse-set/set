@@ -16,20 +16,25 @@ import org.junit.jupiter.api.Test;
 
 public class TextViewTest extends AbstractPPHNTest {
 	private static String jsGetTextContent = """
-			return document.getElementsByClassName("view-lines")[0].children[0].textContent.replace(/\u00a0/g, " ");
-		""";
+				return document.getElementsByClassName("view-lines")[0].children[0].textContent.replace(/\u00a0/g, " ");
+			""";
+
+	@Override
+	public String getReferenceDir() {
+		return null;
+	}
 
 	@Test
 	void testTextViewContent() throws Exception {
 		bot.button("Datei in Textsicht").click();
-		var browser = PlanProSWTBotBrowser.get(bot);
+		final var browser = PlanProSWTBotBrowser.get(bot);
 		browser.waitJS(jsGetTextContent, x -> {
-			String content = (String) x;
-			return content != null && 
-					!content.isBlank() && 
-					!content.contains("Wird geladen...");
+			final String content = (String) x;
+			return content != null && !content.isBlank()
+					&& !content.contains("Wird geladen...");
 		});
-		Object text = browser.evaluate(jsGetTextContent);
-		assertEquals("Expected loaded file", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", text);
+		final Object text = browser.evaluate(jsGetTextContent);
+		assertEquals("Expected loaded file",
+				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>", text);
 	}
 }

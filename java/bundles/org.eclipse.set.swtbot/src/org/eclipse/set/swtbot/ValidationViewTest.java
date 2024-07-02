@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
-import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
@@ -33,6 +32,7 @@ import org.junit.jupiter.api.Test;
  */
 public class ValidationViewTest extends AbstractTableTest {
 	private static final String Application_Schema_Version_Group = "Unterstütztes XML-Schema";
+
 	private static final String File_Info_Group = "Geladene Datei";
 	private static final String File_Schema_Version_Group = "Verwendetes XML-Schema (in Datei)";
 	private static final String guid_expect = "FF06E818-09F6-436E-964E-5F8AC209D3AC";
@@ -44,6 +44,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	private static final String Subwork_Group = "Untergewerke";
 	private static final String valid_expect = "gültig";
 	private static final String Validate_Group = "Gültigkeit";
+	private static final String VALIDATION_TABLE_NAME = "validation_view";
 	private static final String version_expect = "1.10.0.1";
 
 	private static final String workable_expect = "Ja";
@@ -52,6 +53,11 @@ public class ValidationViewTest extends AbstractTableTest {
 			final String regex) {
 		final List<String> asList = Arrays.asList(text.split(regex));
 		return asList.stream().map(e -> e.replaceAll(" ", "")).toList();
+	}
+
+	@Override
+	public String getTestTableName() {
+		return VALIDATION_TABLE_NAME;
 	}
 
 	private void expectTextWidgetAreSame(final String expectContent,
@@ -126,7 +132,7 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected void givenReferenceCSV() throws IOException {
-		referenceData = AbstractPPHNTest.loadReferenceFile("validation_view");
+		referenceData = loadReferenceFile("validation_view");
 		// Remove CSV header info
 		referenceData = referenceData.subList(4, referenceData.size());
 	}
@@ -144,4 +150,5 @@ public class ValidationViewTest extends AbstractTableTest {
 		thenRowAndColumnCountEqualReferenceCSV();
 		thenTableDataEqualReferenceCSV();
 	}
+
 }

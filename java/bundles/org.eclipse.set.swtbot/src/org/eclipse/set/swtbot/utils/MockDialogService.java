@@ -10,6 +10,7 @@ package org.eclipse.set.swtbot.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -21,7 +22,9 @@ import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.ProjectInitializationData;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
+import org.eclipse.set.basis.files.ToolboxFileFilterBuilder;
 import org.eclipse.set.basis.rename.RenameConfirmation;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.swt.widgets.Shell;
@@ -33,6 +36,7 @@ import jakarta.inject.Inject;
  *
  */
 public class MockDialogService implements DialogService {
+	public Function<List<ToolboxFileFilter>, Optional<Path>> exportFileDialogHandler;
 	public Function<List<ToolboxFileFilter>, Optional<Path>> openFileDialogHandler;
 
 	@Inject
@@ -134,7 +138,11 @@ public class MockDialogService implements DialogService {
 
 	@Override
 	public List<ToolboxFileFilter> getCsvFileFilters() {
-		throw new UnsupportedOperationException();
+		final List<ToolboxFileFilter> csvFileFilters = new LinkedList<>();
+		csvFileFilters.add(ToolboxFileFilterBuilder.forName("CSV")
+				.add(PathExtensions.CSV_FILE_EXTENSIONS)
+				.filterNameWithFilterList(true).create());
+		return csvFileFilters;
 	}
 
 	@Override
@@ -185,7 +193,8 @@ public class MockDialogService implements DialogService {
 
 	@Override
 	public Optional<Path> openFileDialog(final Shell shell,
-			final List<ToolboxFileFilter> filters, Optional<Path> lastSelectedFile) {
+			final List<ToolboxFileFilter> filters,
+			final Optional<Path> lastSelectedFile) {
 		return openFileDialogHandler.apply(filters);
 	}
 
@@ -203,7 +212,7 @@ public class MockDialogService implements DialogService {
 
 	@Override
 	public void reportExported(final Shell shell) {
-		throw new UnsupportedOperationException();
+		// do nothing
 	}
 
 	@Override
@@ -225,14 +234,14 @@ public class MockDialogService implements DialogService {
 	@Override
 	public Optional<Path> saveFileDialog(final Shell shell,
 			final List<ToolboxFileFilter> filters, final Path defaultPath) {
-		throw new UnsupportedOperationException();
+		return exportFileDialogHandler.apply(filters);
 	}
 
 	@Override
 	public Optional<Path> saveFileDialog(final Shell shell,
 			final List<ToolboxFileFilter> filters, final Path defaultPath,
 			final String title) {
-		throw new UnsupportedOperationException();
+		return exportFileDialogHandler.apply(filters);
 	}
 
 	@Override
