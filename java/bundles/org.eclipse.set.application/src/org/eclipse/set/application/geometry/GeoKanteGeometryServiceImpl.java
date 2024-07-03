@@ -73,9 +73,11 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Truong
  */
-@Component(service = { EventHandler.class }, property = {
+@Component(property = {
 		EventConstants.EVENT_TOPIC + "=" + Events.TOPMODEL_CHANGED,
-		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION })
+		EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION }, service = {
+				GeoKanteGeometryService.class, EventHandler.class })
+
 public class GeoKanteGeometryServiceImpl
 		implements GeoKanteGeometryService, EventHandler {
 	private Thread findGeometryThread;
@@ -210,9 +212,7 @@ public class GeoKanteGeometryServiceImpl
 
 	@Override
 	public GEOKanteCoordinate getCoordinate(final Punkt_Objekt punktObjekt) {
-		final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint = punktObjekt
-				.getPunktObjektTOPKante().getFirst();
-		return getCoordinateAt(singlePoint, 0.0);
+		return getCoordinateAt(punktObjekt, 0.0);
 	}
 
 	@Override
@@ -234,18 +234,18 @@ public class GeoKanteGeometryServiceImpl
 				.doubleValue() + distance;
 		final ENUMWirkrichtung direction = getNullableObject(singlePoint,
 				p -> p.getWirkrichtung().getWert()).orElse(null);
-		final TOP_Kante topEdge = getTopKante(singlePoint);
-		if (topEdge == null) {
+		final TOP_Kante topKante = getTopKante(singlePoint);
+		if (topKante == null) {
 			return null;
 		}
-		final TOP_Knoten start = getTOPKnotenA(topEdge);
-		final GEOKanteMetadata geoEdgeMd = getGeoKanteAt(topEdge, start,
+		final TOP_Knoten start = getTOPKnotenA(topKante);
+		final GEOKanteMetadata geoEdgeMd = getGeoKanteAt(topKante, start,
 				pointDistance);
 		if (geoEdgeMd == null) {
 			logger.error(
 					"Can't found Geo_Kante by TOP_Knoten: {} of TOP_Kante: {}", //$NON-NLS-1$
 					start.getIdentitaet().getWert(),
-					topEdge.getIdentitaet().getWert());
+					topKante.getIdentitaet().getWert());
 			return null;
 		}
 		double lateralDistance = 0.0;
@@ -376,8 +376,7 @@ public class GeoKanteGeometryServiceImpl
 			// Adjust the length of the GEO_Kante on the TOP_Kante
 			final double geoKanteLength = geoKante.getGEOKanteAllg()
 					.getGEOLaenge().getWert().doubleValue()
-					* (1 / (distanceScalingFactor > 0 ? distanceScalingFactor
-							: 1));
+					* (1 / distanceScalingFactor);
 			geoKanteMetadata.add(new GEOKanteMetadata(geoKante, distance,
 					geoKanteLength, bereichObjekte, topKante, geoKnoten,
 					getGeometry(geoKante)));
@@ -424,7 +423,8 @@ public class GeoKanteGeometryServiceImpl
 					topKante.getIdentitaet().getWert(),
 					Double.valueOf(tolerance), Double.valueOf(difference));
 		}
-		return geoLength / topLength;
+		final double scale = geoLength / topLength;
+		return scale > 0 ? scale : 1;
 	}
 
 	private static <T, U> Optional<U> getNullableObject(final T t,

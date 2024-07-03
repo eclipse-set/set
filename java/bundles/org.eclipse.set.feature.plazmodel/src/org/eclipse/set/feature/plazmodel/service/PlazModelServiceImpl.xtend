@@ -62,7 +62,7 @@ class PlazModelServiceImpl implements PlazModelService {
 
 		val errors = <PlazCheck, List<PlazError>>newHashMap
 		plazChecks.forEach [
-			if (ToolboxConfiguration.isDevelopmentMode && it instanceof GeoCoordinateValid) {
+			if (!ToolboxConfiguration.isDevelopmentMode && it instanceof GeoCoordinateValid) {
 				return
 			}
 			errors.put(it, it.run(modelSession))
