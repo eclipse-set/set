@@ -151,7 +151,7 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 
 				// Add the point to the result
 				try {
-				result.add(
+					result.add(
 						geometryService.getCoordinate(metadata, offset, 0.0,
 							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN) -> offset)
 					offset += STRECKE_KM_SPACING

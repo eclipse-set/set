@@ -128,7 +128,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				.orElse(null);
 		if (errorObject == null) {
 			throw new IllegalArgumentException(String.format(
-					"GEO_Punkt: %s ist nicht zu Punkt_Objekt: %s gehören",
+					"GEO_Punkt: %s gehört nicht zu Punkt_Objekt: %s",
 					gp.getIdentitaet().getWert(),
 					po.getIdentitaet().getWert()));
 		}
