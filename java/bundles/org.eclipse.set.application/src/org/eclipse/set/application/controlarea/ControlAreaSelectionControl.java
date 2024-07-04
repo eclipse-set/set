@@ -179,11 +179,11 @@ public class ControlAreaSelectionControl {
 
 		comboViewer.setInput(values);
 		if (values.size() > 1) {
-			comboViewer.insert(messages.ControlAreaCombo_All_ControlArea, values.size());
+			comboViewer.insert(messages.ControlAreaCombo_All_ControlArea,
+					values.size());
 		}
 
-		comboViewer.insert(messages.ControlAreaCombo_PlanningArea_Value,
-				0);
+		comboViewer.insert(getDefaultValue(), 0);
 		comboViewer.insert(messages.ControlAreaCombo_All_Objects_Value, 1);
 
 		final Optional<ControlAreaValue> oldValue = values.stream()
@@ -255,7 +255,6 @@ public class ControlAreaSelectionControl {
 		final MultiContainer_AttributeGroup selectedContainer = session
 				.getContainer(containerType);
 		if (selectedContainer == null) {
-			initCombo();
 			return Collections.emptyList();
 		}
 
@@ -280,7 +279,7 @@ public class ControlAreaSelectionControl {
 	}
 
 	private void setEmtpyControlAreaCombo() {
-		comboViewer.add(messages.ControlAreaCombo_PlanningArea_Value);
+		comboViewer.add(getDefaultValue());
 		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(true);
@@ -302,11 +301,18 @@ public class ControlAreaSelectionControl {
 						messages.ControlAreaCombo_All_Objects_Value));
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
-		oldSelectionValue = messages.ControlAreaCombo_All_Objects_Value;
+		oldSelectionValue = getDefaultValue();
 	}
 
 	private void selectionControlArea(final SelectionChangedEvent e) {
 		seletcionControlArea(e.getSelection(), tableType);
+	}
+
+	/**
+	 * @return the default value of control area combo
+	 */
+	public String getDefaultValue() {
+		return messages.ControlAreaCombo_PlanningArea_Value;
 	}
 
 	private void seletcionControlArea(final ISelection s,

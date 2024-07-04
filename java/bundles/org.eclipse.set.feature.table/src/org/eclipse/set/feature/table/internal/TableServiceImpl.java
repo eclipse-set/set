@@ -116,6 +116,7 @@ public final class TableServiceImpl implements TableService {
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
+	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
 
 	private CacheService getCache() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
@@ -383,16 +384,20 @@ public final class TableServiceImpl implements TableService {
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
 		if (controlAreaIds.isEmpty()) {
-			return (Table) cache.get(
-					cacheService.cacheKeyBuilder(shortCut, EMPTY),
-					() -> loadTransform(shortCut, tableType, modelSession,
-							null));
+			final String cachedKey = modelSession.isPlanningAreaIgnored()
+					? cacheService.cacheKeyBuilder(shortCut,
+							IGNORED_PLANNING_AREA_CACHE_KEY, EMPTY)
+					: cacheService.cacheKeyBuilder(shortCut, EMPTY);
+			return (Table) cache.get(cachedKey, () -> loadTransform(shortCut,
+					tableType, modelSession, null));
 		}
 
 		Table resultTable = null;
 		for (final String areaId : controlAreaIds) {
-			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
-					areaId);
+			final String areaCacheKey = modelSession.isPlanningAreaIgnored()
+					? cacheService.cacheKeyBuilder(shortCut,
+							IGNORED_PLANNING_AREA_CACHE_KEY, areaId)
+					: cacheService.cacheKeyBuilder(shortCut, areaId);
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
 							areaId));

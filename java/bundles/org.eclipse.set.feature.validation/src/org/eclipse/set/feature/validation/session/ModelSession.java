@@ -185,7 +185,7 @@ public class ModelSession implements IModelSession {
 	TableType tableType = null;
 	Set<ControlAreaValue> selectedControlAreas = new HashSet<>();
 
-	private boolean isDisplayedAllObjects = false;
+	private boolean isPlanningAreaIgnored = false;
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -234,7 +234,7 @@ public class ModelSession implements IModelSession {
 				selectedControlAreas.clear();
 				tableType = t.getTableType();
 				changeAreas.forEach(area -> selectedControlAreas.add(area));
-				isDisplayedAllObjects = t.isDisplayedAllObjects();
+				isPlanningAreaIgnored = t.isPlanningAreaIgnored();
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
@@ -452,8 +452,8 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public boolean isDisplayedAllObjects() {
-		return isDisplayedAllObjects;
+	public boolean isPlanningAreaIgnored() {
+		return isPlanningAreaIgnored;
 	}
 
 	@Override

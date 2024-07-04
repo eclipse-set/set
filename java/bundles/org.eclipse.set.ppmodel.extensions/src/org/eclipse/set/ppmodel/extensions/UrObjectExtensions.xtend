@@ -69,7 +69,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 
 	def static boolean isPlanningObject(Ur_Objekt object) {
 		val modelSession = Services.toolboxViewModelService.session.orElse(null)
-		if (modelSession !== null && modelSession.isDisplayedAllObjects) {
+		if (modelSession !== null && modelSession.isPlanningAreaIgnored) {
 			return true;
 		}
 

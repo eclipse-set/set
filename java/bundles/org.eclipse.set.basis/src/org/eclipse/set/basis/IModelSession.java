@@ -153,7 +153,7 @@ public interface IModelSession {
 	 * @return when true, then displayed all objects in project, else only
 	 *         objects in planning area
 	 */
-	boolean isDisplayedAllObjects();
+	boolean isPlanningAreaIgnored();
 
 	/**
 	 * @return the temporary directory of this session
