@@ -182,7 +182,7 @@ public class ControlAreaSelectionControl {
 			comboViewer.insert(messages.ControlAreaCombo_All_ControlArea, values.size());
 		}
 
-		comboViewer.insert(messages.ControlAreaCombo_PlanningArea_Objects_Value,
+		comboViewer.insert(messages.ControlAreaCombo_PlanningArea_Value,
 				0);
 		comboViewer.insert(messages.ControlAreaCombo_All_Objects_Value, 1);
 
@@ -280,7 +280,7 @@ public class ControlAreaSelectionControl {
 	}
 
 	private void setEmtpyControlAreaCombo() {
-		comboViewer.add(messages.ControlAreaCombo_PlanningArea_Objects_Value);
+		comboViewer.add(messages.ControlAreaCombo_PlanningArea_Value);
 		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(true);
@@ -340,7 +340,7 @@ public class ControlAreaSelectionControl {
 			return;
 		}
 
-		if (msg.equals(messages.ControlAreaCombo_PlanningArea_Objects_Value)) {
+		if (msg.equals(messages.ControlAreaCombo_PlanningArea_Value)) {
 			ToolboxEvents.send(broker,
 					new SelectedControlAreaChangedEvent(tableType, false));
 			return;

@@ -189,5 +189,5 @@ public class Messages {
 	/**
 	 * Planungsbereich
 	 */
-	public String ControlAreaCombo_PlanningArea_Objects_Value;
+	public String ControlAreaCombo_PlanningArea_Value;
 }
