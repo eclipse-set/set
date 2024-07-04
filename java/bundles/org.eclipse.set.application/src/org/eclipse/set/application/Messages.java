@@ -174,12 +174,12 @@ public class Messages {
 	/**
 	 * Alle Stellbereiche
 	 */
-	public String ControlAreaCombo_All;
+	public String ControlAreaCombo_All_ControlArea;
 
 	/**
 	 * Gesamter Planungsinhalt
 	 */
-	public String ControlAreaCombo_All_Content_Value;
+	public String ControlAreaCombo_All_Objects_Value;
 
 	/**
 	 * Stellbereich %d
@@ -189,5 +189,5 @@ public class Messages {
 	/**
 	 * Planungsbereich
 	 */
-	public String ControlAreaCombo_PlaningArea_Content_Value;
+	public String ControlAreaCombo_PlanningArea_Objects_Value;
 }

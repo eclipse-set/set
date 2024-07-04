@@ -184,6 +184,8 @@ public class ModelSession implements IModelSession {
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
 	Set<ControlAreaValue> selectedControlAreas = new HashSet<>();
+
+	private boolean isDisplayedAllObjects = false;
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -232,6 +234,7 @@ public class ModelSession implements IModelSession {
 				selectedControlAreas.clear();
 				tableType = t.getTableType();
 				changeAreas.forEach(area -> selectedControlAreas.add(area));
+				isDisplayedAllObjects = t.isDisplayedAllObjects();
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
@@ -446,6 +449,11 @@ public class ModelSession implements IModelSession {
 		return selectedControlAreas.stream()
 				.map(area -> new Pair<>(area.areaName(), area.areaId()))
 				.toList();
+	}
+
+	@Override
+	public boolean isDisplayedAllObjects() {
+		return isDisplayedAllObjects;
 	}
 
 	@Override

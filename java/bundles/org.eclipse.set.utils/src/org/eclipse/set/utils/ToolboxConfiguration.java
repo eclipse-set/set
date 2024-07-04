@@ -154,24 +154,6 @@ public class ToolboxConfiguration {
 				.toString().indexOf("jdwp") > -1; //$NON-NLS-1$
 	}
 
-	private static boolean showOnlyPlaningElement = true;
-
-	/**
-	 * @return whether the table should show only planing element
-	 */
-	public static boolean showOnlyPlaningElement() {
-		return showOnlyPlaningElement;
-
-	}
-
-	/**
-	 * @param value
-	 *            true, when should show only planing element in table
-	 */
-	public static void setShowOnlyPlaningElementValue(final boolean value) {
-		showOnlyPlaningElement = value;
-	}
-
 	private static final String MAP_SOURCES_DEFAULT = "BKG_TOPPLUS|BKG_SENT"; //$NON-NLS-1$
 	private static final String HERE_API_KEY_DEFAULT = ""; //$NON-NLS-1$
 	private static final String MAPBOX_API_KEY_DEFAULT = ""; //$NON-NLS-1$
