@@ -84,7 +84,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				.filter(Punkt_Objekt.class::isInstance)
 				.map(Punkt_Objekt.class::cast).toList();
 		punktObjekts.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
-			if (isNotDistincCoordinateSystem(potk)) {
+			if (isNotDistinctCoordinateSystem(potk)) {
 				result.add(createGeoCoordinateError(po,
 						"Der Punkt_Objekt_Top_Kante des Punkt_Objekt: {GUID} würde auf mehrere GEO_Punkt mit gleichen Koordinatensystem verweisen",
 						Map.of("GUID", po.getIdentitaet().getWert())));
@@ -205,7 +205,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	 *         {@link Punkt_Objekt_TOP_Kante_AttributeGroup#getIDGEOPunktBerechnet}
 	 *         and the coordinates haven't same coordinate system
 	 */
-	public static boolean isNotDistincCoordinateSystem(
+	public static boolean isNotDistinctCoordinateSystem(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		final List<GEO_Punkt> givenGeoPunkts = potk.getIDGEOPunktBerechnet()
 				.stream().map(gp -> gp.getValue()).filter(Objects::nonNull)

@@ -320,7 +320,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			} else if (distance < segment.start) {
 				distance += lastCoordinate.distance(coordinate)
 				lastCoordinate = coordinate;
-			}if (distance <= segment.end) {
+			} else if (distance <= segment.end) {
 				if (result.empty) {
 					result.add(
 						new GEOKanteCoordinate(lastCoordinate,
