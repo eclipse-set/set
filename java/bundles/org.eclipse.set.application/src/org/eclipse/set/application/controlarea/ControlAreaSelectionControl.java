@@ -183,8 +183,9 @@ public class ControlAreaSelectionControl {
 			comboViewer.insert(messages.ControlAreaCombo_All, values.size());
 		}
 
-		comboViewer.insert(messages.ControlAreaCombo_Default_Value, 0);
-		comboViewer.insert(messages.ControlAreaCombo_PlaningArea_Value, 1);
+		comboViewer.insert(messages.ControlAreaCombo_PlaningArea_Content_Value, 0);
+		comboViewer.insert(messages.ControlAreaCombo_All_Content_Value, 1);
+
 		final Optional<ControlAreaValue> oldValue = values.stream()
 				.filter(areaValue -> {
 					if (oldSelectionValue instanceof String) {
@@ -195,7 +196,7 @@ public class ControlAreaSelectionControl {
 					}
 					return false;
 				}).findFirst();
-		if (!oldSelectionValue.equals(messages.ControlAreaCombo_Default_Value)
+		if (!oldSelectionValue.equals(messages.ControlAreaCombo_All_Content_Value)
 				&& oldValue.isPresent()) {
 			final int index = comboViewer.getCombo()
 					.indexOf(oldValue.get().areaName());
@@ -278,8 +279,8 @@ public class ControlAreaSelectionControl {
 	}
 
 	private void setEmtpyControlAreaCombo() {
-		comboViewer.add(messages.ControlAreaCombo_Default_Value);
-		comboViewer.add(messages.ControlAreaCombo_PlaningArea_Value);
+		comboViewer.add(messages.ControlAreaCombo_PlaningArea_Content_Value);
+		comboViewer.add(messages.ControlAreaCombo_All_Content_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(true);
 	}
@@ -297,10 +298,10 @@ public class ControlAreaSelectionControl {
 		comboViewer.getCombo().removeAll();
 		comboViewer
 				.setInput(List.of(messages.TableTypeSelectionControl_noSession,
-						messages.ControlAreaCombo_Default_Value));
+						messages.ControlAreaCombo_All_Content_Value));
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
-		oldSelectionValue = messages.ControlAreaCombo_Default_Value;
+		oldSelectionValue = messages.ControlAreaCombo_All_Content_Value;
 	}
 
 	private void selectionControlArea(final SelectionChangedEvent e) {
@@ -331,14 +332,14 @@ public class ControlAreaSelectionControl {
 	}
 
 	private void handleStringValue(final String msg) {
-		if (msg.equals(messages.ControlAreaCombo_Default_Value)) {
+		if (msg.equals(messages.ControlAreaCombo_All_Content_Value)) {
 			ToolboxConfiguration.setShowOnlyPlaningElementValue(false);
 			ToolboxEvents.send(broker,
 					new SelectedControlAreaChangedEvent(tableType));
 			return;
 		}
 
-		if (msg.equals(messages.ControlAreaCombo_PlaningArea_Value)) {
+		if (msg.equals(messages.ControlAreaCombo_PlaningArea_Content_Value)) {
 			ToolboxEvents.send(broker,
 					new SelectedControlAreaChangedEvent(tableType));
 			return;

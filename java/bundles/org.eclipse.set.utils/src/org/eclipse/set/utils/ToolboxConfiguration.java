@@ -154,7 +154,7 @@ public class ToolboxConfiguration {
 				.toString().indexOf("jdwp") > -1; //$NON-NLS-1$
 	}
 
-	private static boolean showOnlyPlaningElement = false;
+	private static boolean showOnlyPlaningElement = true;
 
 	/**
 	 * @return whether the table should show only planing element

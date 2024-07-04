@@ -179,7 +179,7 @@ public class Messages {
 	/**
 	 * Gesamter Planungsinhalt
 	 */
-	public String ControlAreaCombo_Default_Value;
+	public String ControlAreaCombo_All_Content_Value;
 
 	/**
 	 * Stellbereich %d
@@ -189,5 +189,5 @@ public class Messages {
 	/**
 	 * Planungsbereich
 	 */
-	public String ControlAreaCombo_PlaningArea_Value;
+	public String ControlAreaCombo_PlaningArea_Content_Value;
 }
