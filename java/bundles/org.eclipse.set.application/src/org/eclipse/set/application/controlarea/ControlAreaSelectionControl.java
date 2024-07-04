@@ -38,6 +38,7 @@ import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
@@ -173,10 +174,7 @@ public class ControlAreaSelectionControl {
 			break;
 		}
 		if (values.isEmpty()) {
-			comboViewer.add(messages.ControlAreaCombo_Default_Value);
-			comboViewer.getCombo().select(0);
-			comboViewer.getCombo().setEnabled(false);
-
+			setEmtpyControlAreaCombo();
 			return;
 		}
 
@@ -186,6 +184,7 @@ public class ControlAreaSelectionControl {
 		}
 
 		comboViewer.insert(messages.ControlAreaCombo_Default_Value, 0);
+		comboViewer.insert(messages.ControlAreaCombo_PlaningArea_Value, 1);
 		final Optional<ControlAreaValue> oldValue = values.stream()
 				.filter(areaValue -> {
 					if (oldSelectionValue instanceof String) {
@@ -278,6 +277,13 @@ public class ControlAreaSelectionControl {
 		return values;
 	}
 
+	private void setEmtpyControlAreaCombo() {
+		comboViewer.add(messages.ControlAreaCombo_Default_Value);
+		comboViewer.add(messages.ControlAreaCombo_PlaningArea_Value);
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(true);
+	}
+
 	private String getDefaultAreaName(final int index) {
 		return String.format(messages.ControlAreaCombo_Default_Area_Name,
 				Integer.valueOf(index));
@@ -309,29 +315,44 @@ public class ControlAreaSelectionControl {
 					&& tableType.equals(type)) {
 				return;
 			}
+
 			tableType = type;
 			oldSelectionValue = selectedElement;
+			ToolboxConfiguration.setShowOnlyPlaningElementValue(true);
 			if (selectedElement instanceof final ControlAreaValue selected) {
 				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
 						selected, tableType));
 				return;
 			}
 			if (selectedElement instanceof final String msg) {
-				if (msg.equals(messages.ControlAreaCombo_Default_Value)) {
-					ToolboxEvents.send(broker,
-							new SelectedControlAreaChangedEvent(tableType));
-				} else if (msg.equals(messages.ControlAreaCombo_All)) {
-					try {
-						@SuppressWarnings("unchecked")
-						final List<ControlAreaValue> allValues = List.class
-								.cast(comboViewer.getInput());
-						ToolboxEvents.send(broker,
-								new SelectedControlAreaChangedEvent(
-										Set.copyOf(allValues), tableType));
-					} catch (final Exception exc) {
-						throw new RuntimeException(exc);
-					}
-				}
+				handleStringValue(msg);
+			}
+		}
+	}
+
+	private void handleStringValue(final String msg) {
+		if (msg.equals(messages.ControlAreaCombo_Default_Value)) {
+			ToolboxConfiguration.setShowOnlyPlaningElementValue(false);
+			ToolboxEvents.send(broker,
+					new SelectedControlAreaChangedEvent(tableType));
+			return;
+		}
+
+		if (msg.equals(messages.ControlAreaCombo_PlaningArea_Value)) {
+			ToolboxEvents.send(broker,
+					new SelectedControlAreaChangedEvent(tableType));
+			return;
+		}
+
+		if (msg.equals(messages.ControlAreaCombo_All)) {
+			try {
+				@SuppressWarnings("unchecked")
+				final List<ControlAreaValue> allValues = List.class
+						.cast(comboViewer.getInput());
+				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
+						Set.copyOf(allValues), tableType));
+			} catch (final Exception exc) {
+				throw new RuntimeException(exc);
 			}
 		}
 	}

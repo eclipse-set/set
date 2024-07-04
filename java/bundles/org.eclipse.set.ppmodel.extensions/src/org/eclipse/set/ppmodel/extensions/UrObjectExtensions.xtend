@@ -68,7 +68,7 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	def static boolean isPlanningObject(Ur_Objekt object) {
-		if (!ToolboxConfiguration.onlyPlaningElement) {
+		if (!ToolboxConfiguration.showOnlyPlaningElement) {
 			return true;
 		}
 
