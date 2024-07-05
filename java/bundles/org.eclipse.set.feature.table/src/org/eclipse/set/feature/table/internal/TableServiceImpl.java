@@ -394,10 +394,9 @@ public final class TableServiceImpl implements TableService {
 
 		Table resultTable = null;
 		for (final String areaId : controlAreaIds) {
-			final String areaCacheKey = modelSession.isPlanningAreaIgnored()
-					? cacheService.cacheKeyBuilder(shortCut,
-							IGNORED_PLANNING_AREA_CACHE_KEY, areaId)
-					: cacheService.cacheKeyBuilder(shortCut, areaId);
+			// By selected control area is always ignored planning area
+			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
+					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
 							areaId));
