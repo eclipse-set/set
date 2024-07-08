@@ -10,19 +10,39 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
+import java.util.stream.StreamSupport;
+
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Bezeichnung_Stellwerk_TypeClass;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 
 /**
  * 
  */
 public class StellBereichExtensions {
 
-	/**
-	 * 
-	 */
 	private StellBereichExtensions() {
+
+	}
+
+	/**
+	 * Find {@link Stell_Bereich} through guid
+	 * 
+	 * @param container
+	 *            the container
+	 * @param guid
+	 *            the guid
+	 * @return the {@link Stell_Bereich}
+	 */
+	public static Stell_Bereich getStellBereich(
+			final MultiContainer_AttributeGroup container, final String guid) {
+		return StreamSupport
+				.stream(container.getStellBereich().spliterator(), false)
+				.filter(e -> e.getIdentitaet().getWert().equals(guid))
+				.findFirst().orElse(null);
 	}
 
 	/**
@@ -32,14 +52,31 @@ public class StellBereichExtensions {
 	 * @return name of control area
 	 */
 	public static String getStellBeteichBezeichnung(final Stell_Bereich area) {
-		final Bezeichnung_Stellwerk_TypeClass areaNameTypeClass = area
-				.getBezeichnungStellwerk();
-		if (areaNameTypeClass != null) {
-			final String areaName = areaNameTypeClass.getWert();
-			if (areaName != null && !areaName.isEmpty()
-					&& !areaName.isBlank()) {
-				return areaName;
-			}
+		if (area == null) {
+			return null;
+		}
+		final String oertlichkeitBezeichnung = EObjectExtensions
+				.getNullableObject(area, e -> {
+					final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
+							e);
+					final Oertlichkeit oertlichkeit = AussenelementansteuerungExtensions
+							.getOertlichkeitNamensgebend(
+									aussenElementAnsteuerung);
+					return oertlichkeit.getBezeichnung()
+							.getOertlichkeitKurzname().getWert();
+				}).orElse(null);
+
+		if (oertlichkeitBezeichnung != null) {
+			return oertlichkeitBezeichnung;
+		}
+		final String areaBezeichnung = EObjectExtensions
+				.getNullableObject(area,
+						e -> e.getBezeichnungStellwerk().getWert())
+				.orElse(null);
+
+		if (areaBezeichnung != null && !areaBezeichnung.isBlank()
+				&& !areaBezeichnung.isEmpty()) {
+			return areaBezeichnung;
 		}
 		return null;
 	}
@@ -51,8 +88,7 @@ public class StellBereichExtensions {
 	 */
 	public static Aussenelementansteuerung getAussenElementAnsteuerung(
 			final Stell_Bereich area) {
-		return area.getIDAussenelementansteuerung() != null
-				? area.getIDAussenelementansteuerung().getValue()
-				: null;
+		return getNullableObject(area,
+				e -> e.getIDAussenelementansteuerung().getValue()).orElse(null);
 	}
 }

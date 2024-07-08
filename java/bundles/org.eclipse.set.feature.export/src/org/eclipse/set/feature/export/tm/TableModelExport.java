@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
+import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
@@ -47,8 +48,10 @@ public class TableModelExport implements TableExport {
 		if (!ToolboxConfiguration.isDevelopmentMode()) {
 			return;
 		}
-		final Path filepath = toolboxPaths.getTableModel(shortcut,
-				Paths.get(outputDir), exportType);
+
+		final Path filepath = toolboxPaths.getTableExportPath(shortcut,
+				Paths.get(outputDir), exportType,
+				ExportPathExtension.TABLE_MODEL_EXPORT_EXTENSION);
 		final Table finalTable = tables.get(TableType.FINAL);
 		final Table singleTable = tables.get(TableType.SINGLE);
 		try {

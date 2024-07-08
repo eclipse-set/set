@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.di.annotations.Optional;
@@ -20,6 +21,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.guid.Guid;
@@ -105,7 +107,9 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					overwriteHandling);
 		} else {
 			final Map<TableType, Table> tables = compileService.compile(id,
-					modelSession, modelSession.getControlAreaIds());
+					modelSession,
+					modelSession.getSelectedControlAreas().stream()
+							.map(Pair::getSecond).collect(Collectors.toSet()));
 			final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 					.create();
 			final Titlebox titlebox = planProToTitlebox.transform(

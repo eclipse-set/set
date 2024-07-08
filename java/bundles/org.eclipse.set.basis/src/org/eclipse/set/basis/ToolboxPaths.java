@@ -18,18 +18,32 @@ import org.eclipse.set.basis.constants.ExportType;
  * @author Schaefer
  */
 public interface ToolboxPaths {
-
 	/**
-	 * @param shortcut
-	 *            the table shortcut
-	 * @param base
-	 *            the base path
-	 * @param exportType
-	 *            the export type
-	 * 
-	 * @return the path to the table model export
+	 * Export file extensions
 	 */
-	Path getTableModel(String shortcut, Path base, ExportType exportType);
+	public enum ExportPathExtension {
+		/**
+		 * The table model extenesion
+		 */
+		TABLE_MODEL_EXPORT_EXTENSION(".tm"), //$NON-NLS-1$
+		/**
+		 * The pdf extension
+		 */
+		TABLE_PDF_EXPORT_EXTENSION(".pdf"), //$NON-NLS-1$
+		/**
+		 * The xlsx extension
+		 */
+		TABLE_XLSX_EXPORT_EXTENSION(".xlsx"); //$NON-NLS-1$
+
+		/**
+		 * extension value
+		 */
+		public final String value;
+
+		private ExportPathExtension(final String value) {
+			this.value = value;
+		}
+	}
 
 	/**
 	 * @param shortcut
@@ -38,20 +52,11 @@ public interface ToolboxPaths {
 	 *            the base path
 	 * @param exportType
 	 *            the export type
-	 * 
-	 * @return the path to the table pdf export
-	 */
-	Path getTablePdfExport(String shortcut, Path base, ExportType exportType);
-
-	/**
-	 * @param shortcut
-	 *            the table shortcut
-	 * @param base
-	 *            the base path
-	 * @param exportType
-	 *            the export type
+	 * @param pattern
+	 *            the export path pattern
 	 * 
 	 * @return the path to the table xlsx export
 	 */
-	Path getTableXlsxExport(String shortcut, Path base, ExportType exportType);
+	Path getTableExportPath(String shortcut, Path base, ExportType exportType,
+			ExportPathExtension pattern);
 }

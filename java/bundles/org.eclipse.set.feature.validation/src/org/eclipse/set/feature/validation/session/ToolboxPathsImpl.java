@@ -10,12 +10,17 @@ package org.eclipse.set.feature.validation.session;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
+
+import com.google.common.base.Strings;
 
 /**
  * Implementation of {@link ToolboxPaths} using the model session.
@@ -23,10 +28,6 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
  * @author Schaefer
  */
 public class ToolboxPathsImpl implements ToolboxPaths {
-
-	private static final String TABLE_MODEL_EXPORT_PATTERN = "%s_%s.tm"; //$NON-NLS-1$
-	private static final String TABLE_PDF_EXPORT_PATTERN = "%s_%s.pdf"; //$NON-NLS-1$
-	private static final String TABLE_XLSX_EXPORT_PATTERN = "%s_%s.xlsx"; //$NON-NLS-1$
 
 	private final ModelSession modelSession;
 
@@ -39,23 +40,19 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 	}
 
 	@Override
-	public Path getTableModel(final String shortcut, final Path base,
-			final ExportType exportType) {
-		return Paths.get(base.toString(), getTableModel(shortcut, exportType));
-	}
+	public Path getTableExportPath(final String shortcut, final Path base,
+			final ExportType exportType, final ExportPathExtension extension) {
+		final List<String> pathPart = new LinkedList<>();
+		pathPart.add(getModelBaseName(exportType));
+		pathPart.add(StringUtils.capitalize(shortcut));
 
-	@Override
-	public Path getTablePdfExport(final String shortcut, final Path base,
-			final ExportType exportType) {
-		return Paths.get(base.toString(),
-				getTablePdfExport(shortcut, exportType));
-	}
+		final String areaName = getControlAreaName();
+		if (!Strings.isNullOrEmpty(areaName)) {
+			pathPart.add(areaName);
+		}
 
-	@Override
-	public Path getTableXlsxExport(final String shortcut, final Path base,
-			final ExportType exportType) {
 		return Paths.get(base.toString(),
-				getTableXlsxExport(shortcut, exportType));
+				String.join("_", pathPart) + extension.value); //$NON-NLS-1$
 	}
 
 	private String getModelBaseName(final ExportType exportType) {
@@ -65,21 +62,12 @@ public class ToolboxPathsImpl implements ToolboxPaths {
 		return PathExtensions.getBaseFileName(derivedPath);
 	}
 
-	private String getTableModel(final String shortcut,
-			final ExportType exportType) {
-		return String.format(TABLE_MODEL_EXPORT_PATTERN,
-				getModelBaseName(exportType), StringUtils.capitalize(shortcut));
-	}
-
-	private String getTablePdfExport(final String shortcut,
-			final ExportType exportType) {
-		return String.format(TABLE_PDF_EXPORT_PATTERN,
-				getModelBaseName(exportType), StringUtils.capitalize(shortcut));
-	}
-
-	private String getTableXlsxExport(final String shortcut,
-			final ExportType exportType) {
-		return String.format(TABLE_XLSX_EXPORT_PATTERN,
-				getModelBaseName(exportType), StringUtils.capitalize(shortcut));
+	private String getControlAreaName() {
+		final List<Pair<String, String>> controlAreaIds = modelSession
+				.getSelectedControlAreas();
+		if (controlAreaIds.size() != 1) {
+			return null;
+		}
+		return controlAreaIds.getFirst().getFirst();
 	}
 }
