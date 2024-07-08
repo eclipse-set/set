@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.projectdata.ppimport;
+package org.eclipse.set.feature.projectdata.utils;
 
 import java.util.List;
 
@@ -17,6 +17,8 @@ import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.files.ToolboxFileFilter;
 import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.feature.projectdata.Messages;
+import org.eclipse.set.feature.projectdata.ppimport.ContainerComboSelection;
+import org.eclipse.set.feature.projectdata.ppimport.SubworkComboSelection;
 import org.eclipse.set.utils.widgets.ComboValues;
 import org.eclipse.set.utils.widgets.FileField;
 import org.eclipse.set.utils.widgets.MultiSelectionCombo;

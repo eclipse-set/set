@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.projectdata.ppimport;
+package org.eclipse.set.feature.projectdata.ppimport.control;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,12 +22,15 @@ import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.modelloader.ModelLoader.ModelContents;
+import org.eclipse.set.feature.projectdata.ppimport.ContainerComboSelection;
+import org.eclipse.set.feature.projectdata.ppimport.ImportModelHandler;
+import org.eclipse.set.feature.projectdata.ppimport.SubworkComboSelection;
 import org.eclipse.set.feature.projectdata.utils.AbstractImportControl;
+import org.eclipse.set.feature.projectdata.utils.ImportComboFileField;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.utils.widgets.ComboValues;
-import org.eclipse.set.utils.widgets.Option;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -66,7 +69,6 @@ public class ImportModelControl extends AbstractImportControl {
 
 	private final Map<String, byte[]> attachmentSource;
 	private ImportComboFileField comboField;
-	private Option option;
 
 	private final ImportTarget importType;
 
@@ -120,7 +122,6 @@ public class ImportModelControl extends AbstractImportControl {
 		attachmentSource.clear();
 		comboField.getText().setText(""); //$NON-NLS-1$
 		comboField.setDefaultCombo();
-		option.getButton().setSelection(false);
 		comboField.setEnabled(false);
 		setImported(false);
 	}
@@ -130,7 +131,7 @@ public class ImportModelControl extends AbstractImportControl {
 	 */
 	@Override
 	public boolean isEnabled() {
-		return option.getButton().isEnabled() && comboField.isEnabled();
+		return comboField.isEnabled();
 	}
 
 	/**
@@ -151,46 +152,7 @@ public class ImportModelControl extends AbstractImportControl {
 	@Override
 	public void createControl(final Composite parent, final Shell shell,
 			final ToolboxFileRole role) {
-		option = createImportOption(parent);
 		comboField = createImportFileFieldCombo(parent, shell, role);
-	}
-
-	private Option createImportOption(final Composite parent) {
-		final Option checkbox = new Option(parent);
-		checkbox.getLabel().setText(getOptionLabel());
-
-		// toggle file field with option button
-		checkbox.getButton().addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(final SelectionEvent e) {
-				if (comboField == null) {
-					return;
-				}
-				comboField.setEnabled(checkbox.getButton().getSelection());
-				handleControlChange.run();
-			}
-
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				widgetDefaultSelected(e);
-			}
-		});
-		return checkbox;
-	}
-
-	private String getOptionLabel() {
-		switch (importType) {
-		case ALL:
-			return serviceProvider.messages.PlanProImportPart_importSubwork;
-		case INITIAL:
-			return serviceProvider.messages.PlanProImportPart_importInitial;
-		case FINAL:
-			return serviceProvider.messages.PlanProImportPart_importFinal;
-		default:
-			throw new IllegalArgumentException();
-
-		}
 	}
 
 	private ImportComboFileField createImportFileFieldCombo(
@@ -209,8 +171,8 @@ public class ImportModelControl extends AbstractImportControl {
 			importHandler = new ImportModelHandler(comboField, modelToImport,
 					importType, serviceProvider);
 		}, shell, role));
-		fileFieldCombo.setEnabled(option.getButton().getSelection());
 		fileFieldCombo.setDefaultCombo();
+		fileFieldCombo.setEnabled(false);
 
 		// Add listener for file field combo
 		fileFieldCombo.getText().addModifyListener(selectedFileHandle());
