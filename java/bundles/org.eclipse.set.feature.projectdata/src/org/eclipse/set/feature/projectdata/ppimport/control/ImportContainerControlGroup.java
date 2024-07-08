@@ -57,7 +57,7 @@ public class ImportContainerControlGroup extends AbstractImportGroup {
 	public void createControl(final Composite parent, final Shell shell,
 			final ToolboxFileRole role) {
 		final Group group = createGroup(parent, shell,
-				serviceProvider.messages.PlanProImportPart_importGroup);
+				serviceProvider.messages.PlanProImportPart_importContainerGroup);
 		createImportOption(group, ImportTarget.INITIAL);
 		createImportContainerControl(group, shell,
 				ToolboxFileRole.IMPORT_INITIAL_STATE, ImportTarget.INITIAL);
@@ -66,7 +66,7 @@ public class ImportContainerControlGroup extends AbstractImportGroup {
 		createImportContainerControl(group, shell,
 				ToolboxFileRole.IMPORT_FINAL_STATE, ImportTarget.FINAL);
 		createImportButton(group,
-				serviceProvider.messages.PlanpRoImportPart_importModelButton);
+				serviceProvider.messages.PlanpRoImportPart_importContainerButton);
 	}
 
 	private void createImportContainerControl(final Composite parent,
