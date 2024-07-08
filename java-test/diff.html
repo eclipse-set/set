@@ -1,0 +1,83 @@
+<style>
+    html {
+        font-family: sans-serif;
+    }
+
+    table {
+        border-collapse: collapse;
+        border: 2px solid rgb(200, 200, 200);
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+    }
+
+    td,
+    th {
+        border: 1px solid rgb(190, 190, 190);
+        padding: 1px 4px;
+    }
+
+    th {
+        background-color: rgb(235, 235, 235);
+    }
+
+    td {
+        text-align: center;
+    }
+
+    tr {
+        min-height: 10px;
+    }
+
+    tr:nth-child(even) td {
+        background-color: rgb(250, 250, 250);
+    }
+
+    tr:nth-child(odd) td {
+        background-color: rgb(245, 245, 245);
+    }
+
+    .cell-0 {
+        background-color: rgba(200, 100, 100, 150) !important;
+    }
+
+    .cell-1 {
+        background-color: rgba(100, 200, 100, 150) !important;
+    }
+</style>
+
+{% macro render_cell(cell) -%}
+{% if cell is none %}
+<td></td>
+{% else %}
+<td rowspan="2">{{ cell }}</td>
+{% endif %}
+{%- endmacro %}
+
+{% macro render_diff_cell(cell, index) -%}
+{% if cell[index] is none %}
+<td class="cell-{{index}}"></td>
+{% else %}
+<td class="cell-{{index}}">{{ cell[index] }}</td>
+{% endif %}
+{%- endmacro %}
+
+{% macro render_row(row, index) -%}
+<tr>
+    {% for cell in row %}
+    {% if cell|length == 1%}
+    {% if index == 0 %}
+    {{ render_cell(cell[0]) }}
+    {% endif %}
+    {% else %}
+    {{ render_diff_cell(cell, index) }}
+    {% endif %}
+    {% endfor %}
+</tr>
+{%- endmacro %}
+
+<table>
+    {% for row in data %}
+    {{ render_row(row, 0) }}
+    {{ render_row(row, 1) }}
+    {% endfor %}
+</table>

@@ -282,10 +282,19 @@ jobs:
             -Dm2-repo-path="file://${{ env.DEPLOY_DIR }}" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Create Diff
+        shell: bash
+        run: python java-test/diff.py --diffDir=java/bundles/org.eclipse.set.swtbot/target/classes/diff
+
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/windows@30eadd5010312f995f0d3b3cff7fe2984f69409e # v2.16.1
         if: always()
         with:
           check_name: "SWTBot Test"
           files: |
-            ${{ github.workspace }}/**/surefire-reports/*.xml
+            ${{ github.workspace }}/**/classes/diff/*.html

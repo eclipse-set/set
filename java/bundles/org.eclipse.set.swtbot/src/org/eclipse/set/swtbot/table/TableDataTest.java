@@ -8,12 +8,11 @@
  */
 package org.eclipse.set.swtbot.table;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -23,6 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author truong
  *
  */
+@ExtendWith(TestFailHandle.class)
 public class TableDataTest extends AbstractTableTest {
 	PtTable tableToTest;
 
