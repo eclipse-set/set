@@ -11,10 +11,7 @@
 package org.eclipse.set.feature.projectdata.ppimport;
 
 import static org.eclipse.set.ppmodel.extensions.AusgabeFachdatenExtensions.getAusgabeFachdaten;
-import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.getLSTPlanungGruppe;
-import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.getLaufendeNummerAusgabe;
-import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.isPlanning;
-import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.transformSingleState;
+import static org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*;
 import static org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.getAusgabeFachdaten;
 import static org.eclipse.set.ppmodel.extensions.PlanungGruppeExtensions.getPlanungGruppe;
 import static org.eclipse.set.ppmodel.extensions.PlanungGruppeExtensions.getUntergewerkArt;
@@ -42,7 +39,8 @@ import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.fileservice.ToolboxIDResolver;
-import org.eclipse.set.feature.projectdata.ppimport.ImportModelControl.ImportTarget;
+import org.eclipse.set.feature.projectdata.ppimport.control.ImportModelControl.ImportTarget;
+import org.eclipse.set.feature.projectdata.utils.ImportComboFileField;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
 import org.eclipse.set.model.planpro.Basisobjekte.Anhang;
 import org.eclipse.set.model.planpro.Basisobjekte.BasisobjekteFactory;
@@ -74,7 +72,8 @@ import com.google.common.collect.Lists;
  * 
  */
 public class ImportModelHandler {
-	static final Logger logger = LoggerFactory.getLogger(ImportModelHandler.class);
+	static final Logger logger = LoggerFactory
+			.getLogger(ImportModelHandler.class);
 	private final ImportComboFileField comboField;
 	private final PlanPro_Schnittstelle modelToImport;
 	private final ImportTarget target;
@@ -420,8 +419,9 @@ public class ImportModelHandler {
 				? getPlanungGruppe(source, untergewerkArt,
 						dataToImport.getFirst().getIdentitaet().getWert())
 				: getPlanungGruppe(source, untergewerkArt);
-		final Optional<Ausgabe_Fachdaten> newSubwork = getAusgabeFachdaten(
-				source, untergewerkArt);
+		final Optional<Ausgabe_Fachdaten> newSubwork = newPlaningGroup.isEmpty()
+				? getAusgabeFachdaten(source, untergewerkArt)
+				: getAusgabeFachdaten(source, newPlaningGroup.get());
 
 		final boolean importSubworkSuccess = target == ImportTarget.ALL
 				&& newSubwork.isPresent()

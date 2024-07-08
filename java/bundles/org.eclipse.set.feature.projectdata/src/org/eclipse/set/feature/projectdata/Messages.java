@@ -81,7 +81,7 @@ public class Messages {
 	public String PlanProImportPart_fileFieldButtonText;
 
 	/**
-	 * Import von Fachdaten
+	 * Fachdaten aus folgender PlanPro-Datei importieren
 	 */
 	public String PlanProImportPart_importGroup;
 
@@ -193,7 +193,7 @@ public class Messages {
 	public String PlanProImportPart_ImportSameData;
 
 	/**
-	 * Import Layoutdaten von andere PlanPro-Datei
+	 * Layoutinformationen aus folgender PlanPro-Datei importieren
 	 */
 	public String PlanProImportPart_importLayoutGroup;
 
