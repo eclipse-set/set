@@ -245,6 +245,12 @@ public class Banderole {
 	}
 
 	private void updateLabel() {
+		// IMPROVE: Here is only quick fix for "widget disposed" exception by
+		// refresh table. We
+		// should analyse, why the label was disposed.
+		if (label.isDisposed()) {
+			return;
+		}
 		final StringBuilder text = new StringBuilder();
 
 		// heading

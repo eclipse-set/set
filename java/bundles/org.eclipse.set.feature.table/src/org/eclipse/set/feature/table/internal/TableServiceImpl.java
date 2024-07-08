@@ -394,7 +394,8 @@ public final class TableServiceImpl implements TableService {
 
 		Table resultTable = null;
 		for (final String areaId : controlAreaIds) {
-			// Planning area is always ignored when any control area is selected.
+			// Planning area is always ignored when any control area is
+			// selected.
 			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
 					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
 			final Table table = (Table) cache.get(areaCacheKey,
@@ -435,7 +436,11 @@ public final class TableServiceImpl implements TableService {
 		// Get already open table parts
 		final List<MPart> openTableParts = partService.getOpenParts().stream()
 				.filter(part -> part.getElementId()
-						.startsWith(ToolboxConstants.TABLE_PART_ID_PREFIX))
+						.startsWith(ToolboxConstants.TABLE_PART_ID_PREFIX)
+						// IMPROVE: currently table overview isn't regard on
+						// control area
+						&& !part.getElementId().equals(
+								ToolboxConstants.TABLE_OVERVIEW_PART_ID))
 				.map(MPart.class::cast).toList();
 
 		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));
