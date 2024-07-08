@@ -51,6 +51,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
 	private static final String LAYOUT_RESOURCE_TYPE_NAME = "layout"; //$NON-NLS-1$
+	private static final String PID_FILE = ".pid"; //$NON-NLS-1$
 
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
@@ -401,6 +402,10 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 			}
 			zipIn.closeEntry();
 		}
+
+		// create pid file
+		Files.writeString(unzipDir.getParent().resolve(PID_FILE),
+				Long.toString(ProcessHandle.current().pid()));
 	}
 
 	private void writeManifest() throws IOException {

@@ -152,6 +152,7 @@ public class ModelSession implements IModelSession {
 
 	private static final String APPLICATION_NAME = "Werkzeugkoffer"; //$NON-NLS-1$
 	private static final String SESSIONS_SUBDIR = "sessions"; //$NON-NLS-1$
+	private static final String PID_FILE = ".pid";
 	protected static final String TITLE_SEPARATOR = " - "; //$NON-NLS-1$
 	static final Logger logger = LoggerFactory.getLogger(ModelSession.class);
 
@@ -274,8 +275,8 @@ public class ModelSession implements IModelSession {
 	@Override
 	public void cleanUp() {
 		try {
-			// remove sessions subdirectory
-			FileUtils.deleteDirectory(Paths.get(getSessionsSubDir()).toFile());
+			// clean sessions subdirectory
+			cleanSessionDirectory(Paths.get(getSessionsSubDir()));
 
 			// remove content adapter
 			removeContentAdapter(getPlanProSchnittstelle());
@@ -286,6 +287,46 @@ public class ModelSession implements IModelSession {
 		} catch (final IOException e) {
 			logger.warn("clean up failed: exception={} message={}", //$NON-NLS-1$
 					e.getClass().getSimpleName(), e.getMessage());
+		}
+	}
+
+	private static void cleanSessionDirectory(final Path unzipDirectory)
+			throws IOException {
+		if (!Files.exists(unzipDirectory)) {
+			return;
+		}
+
+		try (final Stream<Path> files = Files.list(unzipDirectory)) {
+			files.filter(p -> {
+				// Only consider directories
+				if (!p.toFile().isDirectory()) {
+					return false;
+				}
+
+				// Clean all directories which do not contain a PID file (e.g.
+				// from older installations)
+				final Path pidPath = p.resolve(PID_FILE);
+				if (!Files.exists(pidPath)) {
+					return true;
+				}
+
+				try {
+					// Check if process is still running
+					// This may find another process, with a reused PID, however
+					// this acceptable, as over time all directories will be
+					// cleaned up
+					final long pid = Long.parseLong(Files.readString(pidPath));
+					return ProcessHandle.of(pid).isEmpty();
+				} catch (NumberFormatException | IOException e) {
+					return true;
+				}
+			}).forEach(p -> {
+				try {
+					FileUtils.deleteDirectory(p.toFile());
+				} catch (final IOException e) {
+					// ignore failed deletion
+				}
+			});
 		}
 	}
 
