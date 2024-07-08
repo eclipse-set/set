@@ -10,7 +10,6 @@
  */
 package org.eclipse.set.feature.projectdata.ppimport.control;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -18,13 +17,11 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.files.ToolboxFileRole;
-import org.eclipse.set.feature.projectdata.ppimport.ContainerComboSelection;
 import org.eclipse.set.feature.projectdata.ppimport.control.ImportModelControl.ImportTarget;
 import org.eclipse.set.feature.projectdata.utils.AbstractImportGroup;
 import org.eclipse.set.feature.projectdata.utils.ImportComboFileField;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
 import org.eclipse.set.utils.widgets.Option;
-import org.eclipse.set.utils.widgets.SelectionCombo;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
@@ -144,16 +141,6 @@ public class ImportContainerControlGroup extends AbstractImportGroup {
 	public void doImport(final Shell shell) {
 		final List<ImportModelControl> controlList = List.of(importInitial,
 				importFinal);
-		final List<ImportModelControl> enableControl = controlList.stream()
-				.filter(c -> c.isEnabled()).toList();
-
-		// The import data from each control should be different
-		if (isExistSameImportData(enableControl)) {
-			serviceProvider.dialogService.openInformation(shell,
-					serviceProvider.messages.PlanProImportDescriptionService_ViewName,
-					serviceProvider.messages.PlanProImportPart_ImportSameData);
-			return;
-		}
 		controlList.forEach(control -> control.doImport(shell));
 		final boolean isSomethingImported = controlList.stream()
 				.anyMatch(ImportModelControl::isImported);
@@ -170,51 +157,6 @@ public class ImportContainerControlGroup extends AbstractImportGroup {
 				modelSession.revert();
 			}
 		}
-	}
-
-	private boolean isExistSameImportData(
-			final List<ImportModelControl> controls) {
-		if (controls.size() < 2) {
-			return false;
-		}
-		for (int i = 0; i < controls.size() - 1; i++) {
-			for (int j = i + 1; j < controls.size(); j++) {
-				final boolean isSame = importDataComparator()
-						.compare(controls.get(i), controls.get(j)) > 0;
-				if (isSame) {
-					return isSame;
-				}
-			}
-		}
-		return false;
-	}
-
-	private Comparator<ImportModelControl> importDataComparator() {
-		return (first, second) -> {
-			final List<String> firstSubworkSelections = first.getComboField()
-					.getSubworkCombo().getSelectValuesString();
-			final List<String> secondSubworkSelections = second.getComboField()
-					.getSubworkCombo().getSelectValuesString();
-			// Single state plan willn't considered
-			if (firstSubworkSelections.stream().filter(
-					subwork -> !serviceProvider.messages.PlanproImportPart_Subwork_Notset
-							.equals(subwork))
-					.noneMatch(secondSubworkSelections::contains)) {
-				return 0;
-			}
-
-			final SelectionCombo<ContainerComboSelection> firstContainerCombo = first
-					.getComboField().getContainerCombo();
-			final SelectionCombo<ContainerComboSelection> secondContainerCombo = second
-					.getComboField().getContainerCombo();
-
-			if (firstContainerCombo.isDisposed()
-					|| secondContainerCombo.isDisposed()) {
-				return 1;
-			}
-			return firstContainerCombo.getSelectionValue()
-					.equals(secondContainerCombo.getSelectionValue()) ? 1 : 0;
-		};
 	}
 
 	@Override

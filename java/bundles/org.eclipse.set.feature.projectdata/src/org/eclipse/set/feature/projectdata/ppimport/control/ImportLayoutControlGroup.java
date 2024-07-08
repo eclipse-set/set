@@ -52,7 +52,7 @@ public class ImportLayoutControlGroup extends AbstractImportGroup {
 		final Group group = createGroup(parent, shell,
 				serviceProvider.messages.PlanProImportPart_importLayoutGroup);
 		importControl = new ImportLayoutControl(serviceProvider, modelSession,
-				broker, () -> updateImportButton());
+				broker, this::updateImportButton);
 		importControl.createControl(group, shell, role);
 		createImportButton(group,
 				serviceProvider.messages.PLanpRoImportPart_importLayoutButton);
