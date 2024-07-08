@@ -40,7 +40,7 @@ import com.google.common.collect.Lists;
 public class SonstigeRequiresBearbeitungsvermerk implements PlazCheck {
 	private static final String SONSTIGE_ENUM_WERT = "sonstige"; //$NON-NLS-1$
 	private static final String ENUM_WERT_FEATURE_NAME = "wert"; //$NON-NLS-1$
-	private static final String BEARBEITUNGSVERMERK_FEATURE_NAME = "getIDBearbeitungsvermerk"; //$NON-NLS-1$
+	private static final String BEARBEITUNGSVERMERK_FEATURE_NAME = "iDBearbeitungsvermerk"; //$NON-NLS-1$
 
 	@Override
 	public List<PlazError> run(final IModelSession modelSession) {
