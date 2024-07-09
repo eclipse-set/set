@@ -201,7 +201,7 @@ public class ImportModelHandler {
 		}
 
 		LST_Zustand importState = importSubwork.getLSTZustandStart();
-		if (importState.getContainer() == null) {
+		if (!importState.getContainer().eAllContents().hasNext()) {
 			importState = importSubwork.getLSTZustandZiel();
 		}
 

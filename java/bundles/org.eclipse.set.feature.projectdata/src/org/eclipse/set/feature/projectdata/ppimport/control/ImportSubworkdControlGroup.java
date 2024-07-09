@@ -83,6 +83,7 @@ public class ImportSubworkdControlGroup extends AbstractImportGroup {
 	@Override
 	protected void resetGroup() {
 		importControl.resetControl();
+		importButton.setEnabled(false);
 	}
 
 }
