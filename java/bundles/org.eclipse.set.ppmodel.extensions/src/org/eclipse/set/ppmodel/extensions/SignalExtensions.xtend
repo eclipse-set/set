@@ -13,9 +13,6 @@ import java.util.List
 import java.util.Set
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.Digraphs
-import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
-import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -31,6 +28,9 @@ import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.ppmodel.extensions.utils.DirectedTopKante
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import org.eclipse.set.ppmodel.extensions.utils.TopRouting
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

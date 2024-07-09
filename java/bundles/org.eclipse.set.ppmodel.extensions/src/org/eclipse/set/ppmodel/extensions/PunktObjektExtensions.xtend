@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
+import org.eclipse.set.basis.graph.DirectedEdge
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
@@ -16,8 +18,6 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12
 import org.eclipse.set.model.planpro.Signale.Signal
-import java.util.List
-import org.eclipse.set.basis.graph.DirectedEdge
 import org.locationtech.jts.geom.Coordinate
 
 import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*

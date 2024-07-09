@@ -8,13 +8,16 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import java.util.List
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.feature.siteplan.TrackSwitchMetadata
+import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import java.util.List
-import org.eclipse.set.feature.siteplan.TrackSwitchMetadata
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.Coordinate
 import org.eclipse.set.model.siteplan.Position
 
@@ -23,9 +26,6 @@ import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
-import org.eclipse.set.feature.siteplan.positionservice.PositionService
 
 /**
  * Helper class defining a leg of a track switch
@@ -69,10 +69,10 @@ class TrackSwitchLeg {
 	/**
 	 * Determines a list of points on the track switch leg
 	 * 
-	 * @param trackService a TrackService
+	 * @param geometryService a GeoKanteGeometryService
 	 * @return a list of points on the leg
 	 */
-	def Coordinate[] getCoordinates(TrackService trackService, PositionService positionService) {
+	def Coordinate[] getCoordinates(GeoKanteGeometryService geometryService, PositionService positionService) {
 		// Ensure that the leg ends within the TOP_Kante
 		var legLength = Math.min(start + length,
 			topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue)
@@ -80,7 +80,7 @@ class TrackSwitchLeg {
 		val result = newArrayList
 		for (var int i = 0; i < TRACK_SWITCH_POINTS; i++) {
 			result.add(
-				trackService.getCoordinate(topKante, topKnoten,
+				geometryService.getCoordinate(topKante, topKnoten,
 					start + sectionLength * i, 0, null));
 		}
 		return result.filterNull.map [ coordinate |
@@ -91,12 +91,12 @@ class TrackSwitchLeg {
 	/**
 	 * Finds the TOP Knoten position of the track switch leg
 	 * 
-	 * @param trackService a TrackService
+	 * @param geometryService a GeoKanteGeometryService
 	 * @return the position
 	 */
-	def Position getNodeCoordinate(TrackService trackService, PositionService positionService) {
+	def Position getNodeCoordinate(GeoKanteGeometryService geometryService, PositionService positionService) {
 		return positionService.transformPosition(
-			trackService.getCoordinate(topKante, topKnoten, 0, 0, null))
+			geometryService.getCoordinate(topKante, topKnoten, 0, 0, null))
 	}
 
 	/**
@@ -104,13 +104,13 @@ class TrackSwitchLeg {
 	 * 
 	 * @param distance the distance from the start of the leg
 	 * @param lateralDistance the lateral distance from the track
-	 * @param trackService a TrackService
+	 * @param geometryService a GeoKanteGeometryService
 	 * @return the position
 	 */
 	def Position getCoordinate(double distance, double lateralDistance,
-		TrackService trackService, PositionService positionService) {
+		GeoKanteGeometryService geometryService, PositionService positionService) {
 		return positionService.transformPosition(
-			trackService.getCoordinate(topKante, topKnoten, start + distance,
+			geometryService.getCoordinate(topKante, topKnoten, start + distance,
 				lateralDistance, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN))
 	}
 

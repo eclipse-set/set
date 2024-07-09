@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
 import org.eclipse.set.model.siteplan.FMAComponentType
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
@@ -20,6 +19,7 @@ import org.osgi.service.component.annotations.Reference
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 
 /**
  * Transforms PlanPro FMA_Komponente to Siteplan FMAComponents
@@ -29,7 +29,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 @Component(service=Transformator)
 class FMAComponentTransformator extends BaseTransformator<FMA_Komponente> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -47,7 +47,7 @@ class FMAComponentTransformator extends BaseTransformator<FMA_Komponente> {
 
 		result.guid = fma.identitaet.wert
 		result.position = positionService.transformPosition(
-			trackService.getCoordinate(fma))
+			geometryService.getCoordinate(fma))
 		result.type = FMAComponentType.AXLE
 		result.rightSide = fma.singlePoints.get(0)?.seitlicheLage?.wert ===
 			ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS

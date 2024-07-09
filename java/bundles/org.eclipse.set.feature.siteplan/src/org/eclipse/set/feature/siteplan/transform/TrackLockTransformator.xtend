@@ -8,17 +8,17 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMGleissperreVorzugslage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.siteplan.LeftRight
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.siteplan.TrackLockLocation
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMGleissperreVorzugslage
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrGspStellart
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -34,7 +34,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensio
 @Component(service=Transformator)
 class TrackLockTransformator extends BaseTransformator<W_Kr_Gsp_Element> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -58,7 +58,7 @@ class TrackLockTransformator extends BaseTransformator<W_Kr_Gsp_Element> {
 			val component = SiteplanFactory.eINSTANCE.createTrackLockComponent
 			component.guid = identitaet.wert
 			component.position = positionService.transformPosition(
-				trackService.getCoordinate(it)
+				geometryService.getCoordinate(it)
 			)
 			component.trackLockSignal = transformTrackLockSignal
 			component.ejectionDirection = transformEjectionDirection

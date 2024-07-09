@@ -8,19 +8,19 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.PZB.ENUMGUEAnordnung
+import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
+import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeit
+import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.eclipse.set.model.siteplan.PZB
 import org.eclipse.set.model.siteplan.PZBEffectivity
 import org.eclipse.set.model.siteplan.PZBElement
 import org.eclipse.set.model.siteplan.PZBType
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.model.planpro.PZB.ENUMGUEAnordnung
-import org.eclipse.set.model.planpro.PZB.ENUMPZBArt
-import org.eclipse.set.model.planpro.PZB.ENUMWirksamkeit
-import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -36,7 +36,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 @Component(service=Transformator)
 class PZBTransformator extends BaseTransformator<PZB_Element> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 	
 	@Reference
 	PositionService positionService
@@ -80,7 +80,7 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 		val result = SiteplanFactory.eINSTANCE.createPZB
 		result.guid = pzb.identitaet?.wert
 		result.position = positionService.transformPosition(
-			trackService.getCoordinate(pzb)
+			geometryService.getCoordinate(pzb)
 		)
 		result.element = pzb.PZBArt?.wert?.toElement
 		result.rightSide = pzb.singlePoints.get(0)?.seitlicheLage?.wert ===
@@ -108,7 +108,7 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 		if (!directionFollowsTopEdge)
 			gsaDistance = -gsaDistance
 		gsa.position = positionService.transformPosition(
-			trackService.getCoordinateAt(pzb, gsaDistance)
+			geometryService.getCoordinateAt(pzb, gsaDistance)
 		)
 		return gsa
 	}
@@ -121,7 +121,7 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 		if (!directionFollowsTopEdge)
 			distance = -distance
 		gse.position = positionService.transformPosition(
-			trackService.getCoordinateAt(pzb, distance)
+			geometryService.getCoordinateAt(pzb, distance)
 		)
 		return gse
 	}
