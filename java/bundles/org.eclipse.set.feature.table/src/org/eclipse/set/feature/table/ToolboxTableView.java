@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
@@ -47,6 +48,7 @@ import org.eclipse.nebula.widgets.nattable.viewport.command.ShowRowInViewportCom
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
@@ -363,7 +365,8 @@ public final class ToolboxTableView extends BasePart {
 			tableType = getModelSession().getNature().getDefaultContainer()
 					.getTableTypeForTables();
 		}
-		controlAreaIds = getModelSession().getControlAreaIds();
+		controlAreaIds = getModelSession().getSelectedControlAreas().stream()
+				.map(Pair::getSecond).collect(Collectors.toSet());
 
 		tableService.updateTable(this,
 				() -> updateModel(getToolboxPart(), getModelSession()),

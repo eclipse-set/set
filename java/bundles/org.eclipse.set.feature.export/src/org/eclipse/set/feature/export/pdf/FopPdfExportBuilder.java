@@ -33,6 +33,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.ToolboxPaths;
+import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
@@ -165,8 +166,9 @@ public class FopPdfExportBuilder implements TableExport {
 		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
 		final Table table = getTableToBeExported(tables, exportType);
 		Assert.isNotNull(table);
-		final Path outputPath = toolboxPaths.getTablePdfExport(shortcut,
-				Paths.get(outputDir), exportType);
+		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
+				Paths.get(outputDir), exportType,
+				ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
 		try {
 			final String tableDocumentText = createTableDocumentText(table,
 					titlebox, freeFieldInfo);

@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.set.basis.IModelSession;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ProjectInitializationData;
 import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ContainerType;
@@ -79,7 +81,6 @@ import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.DataEvent;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.EditingCompleted;
-import org.eclipse.set.utils.events.NewTableTypeEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
 import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
@@ -162,7 +163,6 @@ public class ModelSession implements IModelSession {
 	private EContentAdapter contentAdapter;
 	private final Guid guid;
 	private boolean isNewProject = false;
-	private DefaultToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 	private DefaultToolboxEventHandler<SelectedControlAreaChangedEvent> selectedControlAreaChangedEventHandler;
 	private PlanPro_Schnittstelle planPro_Schnittstelle;
 	private PlanPro_Layoutinfo layoutInfo;
@@ -183,7 +183,7 @@ public class ModelSession implements IModelSession {
 	ProjectInitializationData projectInitializationData;
 	final ServiceProvider serviceProvider;
 	TableType tableType = null;
-	Set<String> controlAreaIds = new HashSet<>();
+	Set<ControlAreaValue> selectedControlAreas = new HashSet<>();
 	private SaveFixResult saveFixResult = SaveFixResult.NONE;
 	protected ValidationResult layoutinfoValidationResult = null;
 
@@ -224,25 +224,14 @@ public class ModelSession implements IModelSession {
 	}
 
 	private void subcribeToolboxEvent() {
-		// register for table type changes
-		newTableTypeHandler = new DefaultToolboxEventHandler<>() {
-			@Override
-			public void accept(final NewTableTypeEvent e) {
-				tableType = e.getTableType();
-				logger.debug("Global type is {}", tableType); //$NON-NLS-1$
-			}
-		};
-
-		ToolboxEvents.subscribe(this.serviceProvider.broker,
-				NewTableTypeEvent.class, newTableTypeHandler);
-
 		selectedControlAreaChangedEventHandler = new DefaultToolboxEventHandler<>() {
 
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
 				final Set<ControlAreaValue> changeAreas = t.getControlAreas();
-				controlAreaIds.clear();
-				changeAreas.forEach(area -> controlAreaIds.add(area.areaId()));
+				selectedControlAreas.clear();
+				tableType = t.getTableType();
+				changeAreas.forEach(area -> selectedControlAreas.add(area));
 			}
 		};
 		ToolboxEvents.subscribe(this.serviceProvider.broker,
@@ -289,8 +278,6 @@ public class ModelSession implements IModelSession {
 			removeContentAdapter(getPlanProSchnittstelle());
 
 			// unsubscribe event handler
-			ToolboxEvents.unsubscribe(serviceProvider.broker,
-					newTableTypeHandler);
 			ToolboxEvents.unsubscribe(serviceProvider.broker,
 					selectedControlAreaChangedEventHandler);
 		} catch (final IOException e) {
@@ -455,8 +442,10 @@ public class ModelSession implements IModelSession {
 	}
 
 	@Override
-	public Set<String> getControlAreaIds() {
-		return controlAreaIds;
+	public List<Pair<String, String>> getSelectedControlAreas() {
+		return selectedControlAreas.stream()
+				.map(area -> new Pair<>(area.areaName(), area.areaId()))
+				.toList();
 	}
 
 	@Override

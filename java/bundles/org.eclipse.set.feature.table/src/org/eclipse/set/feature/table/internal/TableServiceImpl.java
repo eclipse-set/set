@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.internal;
 
 import static org.eclipse.set.basis.extensions.MApplicationElementExtensions.isOpenPart;
+import static org.eclipse.set.ppmodel.extensions.StellBereichExtensions.getStellBereich;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -280,11 +281,8 @@ public final class TableServiceImpl implements TableService {
 		} else {
 			final MultiContainer_AttributeGroup container = modelSession
 					.getContainer(tableType.getContainerForTable());
-			final Stell_Bereich area = StreamSupport
-					.stream(container.getStellBereich().spliterator(), false)
-					.filter(e -> e.getIdentitaet().getWert()
-							.equals(controlAreaId))
-					.findFirst().orElse(null);
+			final Stell_Bereich area = getStellBereich(container,
+					controlAreaId);
 			if (controlAreaId == null
 					|| isContainerContainArea(container, controlAreaId)) {
 				transformedTable = modelService.transform(container, area);
