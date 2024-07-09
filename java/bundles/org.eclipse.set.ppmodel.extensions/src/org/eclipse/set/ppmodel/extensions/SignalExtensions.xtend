@@ -153,7 +153,7 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * given Befestigungsgruppe
 	 */
 	def static List<Signal_Rahmen> signalRahmenForBefestigung(Signal signal,
-		List<Signal_Befestigung> gruppe) {
+		Iterable<Signal_Befestigung> gruppe) {
 		return signal.signalRahmen.filter [
 			gruppe.map[identitaet.wert].contains(
 				IDSignalBefestigung?.wert)
