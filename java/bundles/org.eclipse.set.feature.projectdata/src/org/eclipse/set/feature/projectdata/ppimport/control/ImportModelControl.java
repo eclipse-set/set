@@ -122,7 +122,6 @@ public class ImportModelControl extends AbstractImportControl {
 		attachmentSource.clear();
 		comboField.getText().setText(""); //$NON-NLS-1$
 		comboField.setDefaultCombo();
-		comboField.setEnabled(false);
 		setImported(false);
 	}
 
