@@ -116,6 +116,7 @@ public final class TableServiceImpl implements TableService {
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
+	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
 
 	private CacheService getCache() {
 		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
@@ -383,16 +384,20 @@ public final class TableServiceImpl implements TableService {
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
 		if (controlAreaIds.isEmpty()) {
-			return (Table) cache.get(
-					cacheService.cacheKeyBuilder(shortCut, EMPTY),
-					() -> loadTransform(shortCut, tableType, modelSession,
-							null));
+			final String cachedKey = modelSession.isPlanningAreaIgnored()
+					? cacheService.cacheKeyBuilder(shortCut,
+							IGNORED_PLANNING_AREA_CACHE_KEY, EMPTY)
+					: cacheService.cacheKeyBuilder(shortCut, EMPTY);
+			return (Table) cache.get(cachedKey, () -> loadTransform(shortCut,
+					tableType, modelSession, null));
 		}
 
 		Table resultTable = null;
 		for (final String areaId : controlAreaIds) {
+			// Planning area is always ignored when any control area is
+			// selected.
 			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
-					areaId);
+					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
 							areaId));
@@ -431,7 +436,11 @@ public final class TableServiceImpl implements TableService {
 		// Get already open table parts
 		final List<MPart> openTableParts = partService.getOpenParts().stream()
 				.filter(part -> part.getElementId()
-						.startsWith(ToolboxConstants.TABLE_PART_ID_PREFIX))
+						.startsWith(ToolboxConstants.TABLE_PART_ID_PREFIX)
+						// IMPROVE: currently table overview isn't regard on
+						// control area
+						&& !part.getElementId().equals(
+								ToolboxConstants.TABLE_OVERVIEW_PART_ID))
 				.map(MPart.class::cast).toList();
 
 		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));

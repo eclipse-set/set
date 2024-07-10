@@ -173,19 +173,19 @@ public class ControlAreaSelectionControl {
 			break;
 		}
 		if (values.isEmpty()) {
-			comboViewer.add(messages.ControlAreaCombo_Default_Value);
-			comboViewer.getCombo().select(0);
-			comboViewer.getCombo().setEnabled(false);
-
+			setEmtpyControlAreaCombo();
 			return;
 		}
 
 		comboViewer.setInput(values);
 		if (values.size() > 1) {
-			comboViewer.insert(messages.ControlAreaCombo_All, values.size());
+			comboViewer.insert(messages.ControlAreaCombo_All_ControlArea,
+					values.size());
 		}
 
-		comboViewer.insert(messages.ControlAreaCombo_Default_Value, 0);
+		comboViewer.insert(getDefaultValue(), 0);
+		comboViewer.insert(messages.ControlAreaCombo_All_Objects_Value, 1);
+
 		final Optional<ControlAreaValue> oldValue = values.stream()
 				.filter(areaValue -> {
 					if (oldSelectionValue instanceof String) {
@@ -196,7 +196,8 @@ public class ControlAreaSelectionControl {
 					}
 					return false;
 				}).findFirst();
-		if (!oldSelectionValue.equals(messages.ControlAreaCombo_Default_Value)
+		if (!oldSelectionValue
+				.equals(messages.ControlAreaCombo_All_Objects_Value)
 				&& oldValue.isPresent()) {
 			final int index = comboViewer.getCombo()
 					.indexOf(oldValue.get().areaName());
@@ -254,7 +255,6 @@ public class ControlAreaSelectionControl {
 		final MultiContainer_AttributeGroup selectedContainer = session
 				.getContainer(containerType);
 		if (selectedContainer == null) {
-			initCombo();
 			return Collections.emptyList();
 		}
 
@@ -278,6 +278,13 @@ public class ControlAreaSelectionControl {
 		return values;
 	}
 
+	private void setEmtpyControlAreaCombo() {
+		comboViewer.add(getDefaultValue());
+		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(true);
+	}
+
 	private String getDefaultAreaName(final int index) {
 		return String.format(messages.ControlAreaCombo_Default_Area_Name,
 				Integer.valueOf(index));
@@ -291,14 +298,21 @@ public class ControlAreaSelectionControl {
 		comboViewer.getCombo().removeAll();
 		comboViewer
 				.setInput(List.of(messages.TableTypeSelectionControl_noSession,
-						messages.ControlAreaCombo_Default_Value));
+						messages.ControlAreaCombo_All_Objects_Value));
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
-		oldSelectionValue = messages.ControlAreaCombo_Default_Value;
+		oldSelectionValue = getDefaultValue();
 	}
 
 	private void selectionControlArea(final SelectionChangedEvent e) {
 		seletcionControlArea(e.getSelection(), tableType);
+	}
+
+	/**
+	 * @return the default value of control area combo
+	 */
+	public String getDefaultValue() {
+		return messages.ControlAreaCombo_PlanningArea_Value;
 	}
 
 	private void seletcionControlArea(final ISelection s,
@@ -309,29 +323,46 @@ public class ControlAreaSelectionControl {
 					&& tableType.equals(type)) {
 				return;
 			}
+
 			tableType = type;
 			oldSelectionValue = selectedElement;
 			if (selectedElement instanceof final ControlAreaValue selected) {
+				// All objects in Control area should displayed regardless of
+				// the planning area
 				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
-						selected, tableType));
+						selected, tableType, true));
 				return;
 			}
 			if (selectedElement instanceof final String msg) {
-				if (msg.equals(messages.ControlAreaCombo_Default_Value)) {
-					ToolboxEvents.send(broker,
-							new SelectedControlAreaChangedEvent(tableType));
-				} else if (msg.equals(messages.ControlAreaCombo_All)) {
-					try {
-						@SuppressWarnings("unchecked")
-						final List<ControlAreaValue> allValues = List.class
-								.cast(comboViewer.getInput());
-						ToolboxEvents.send(broker,
-								new SelectedControlAreaChangedEvent(
-										Set.copyOf(allValues), tableType));
-					} catch (final Exception exc) {
-						throw new RuntimeException(exc);
-					}
-				}
+				handleStringValue(msg);
+			}
+		}
+	}
+
+	private void handleStringValue(final String msg) {
+		if (msg.equals(messages.ControlAreaCombo_All_Objects_Value)) {
+			ToolboxEvents.send(broker,
+					new SelectedControlAreaChangedEvent(tableType, true));
+			return;
+		}
+
+		if (msg.equals(messages.ControlAreaCombo_PlanningArea_Value)) {
+			ToolboxEvents.send(broker,
+					new SelectedControlAreaChangedEvent(tableType, false));
+			return;
+		}
+
+		if (msg.equals(messages.ControlAreaCombo_All_ControlArea)) {
+			try {
+				@SuppressWarnings("unchecked")
+				final List<ControlAreaValue> allValues = List.class
+						.cast(comboViewer.getInput());
+				// Objects in all control area should displayed regardless of
+				// the planning area
+				ToolboxEvents.send(broker, new SelectedControlAreaChangedEvent(
+						Set.copyOf(allValues), tableType, true));
+			} catch (final Exception exc) {
+				throw new RuntimeException(exc);
 			}
 		}
 	}

@@ -150,6 +150,12 @@ public interface IModelSession {
 	List<Pair<String, String>> getSelectedControlAreas();
 
 	/**
+	 * @return when true, then displayed all objects in project, else only
+	 *         objects in planning area
+	 */
+	boolean isPlanningAreaIgnored();
+
+	/**
 	 * @return the temporary directory of this session
 	 */
 	Path getTempDir();

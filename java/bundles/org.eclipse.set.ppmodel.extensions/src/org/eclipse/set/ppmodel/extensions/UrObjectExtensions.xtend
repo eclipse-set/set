@@ -17,10 +17,10 @@ import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
-import org.eclipse.set.utils.ToolboxConfiguration
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import org.eclipse.set.core.services.Services
 
 /**
  * Diese Klasse erweitert {@link Ur_Objekt}.
@@ -68,7 +68,8 @@ class UrObjectExtensions extends BasisAttributExtensions {
 	}
 
 	def static boolean isPlanningObject(Ur_Objekt object) {
-		if (!ToolboxConfiguration.onlyPlaningElement) {
+		val modelSession = Services.toolboxViewModelService.session.orElse(null)
+		if (modelSession !== null && modelSession.isPlanningAreaIgnored) {
 			return true;
 		}
 
