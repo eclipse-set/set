@@ -175,6 +175,8 @@ public class ImportContainerControlGroup extends AbstractImportGroup {
 		initialOption.getButton().setSelection(false);
 		finalOption.getButton().setSelection(false);
 		importButton.setEnabled(false);
+		importFinal.getComboField().setEnabled(false);
+		importInitial.getComboField().setEnabled(false);
 	}
 
 }
