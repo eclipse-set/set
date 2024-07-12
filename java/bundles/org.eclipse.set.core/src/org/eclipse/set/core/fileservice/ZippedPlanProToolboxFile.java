@@ -28,6 +28,7 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
@@ -51,7 +52,6 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static final String TRASH_CAN = "trash"; //$NON-NLS-1$
 	private static final String ZIP_SEPARATOR = "/"; //$NON-NLS-1$
 	private static final String LAYOUT_RESOURCE_TYPE_NAME = "layout"; //$NON-NLS-1$
-	private static final String PID_FILE = ".pid"; //$NON-NLS-1$
 
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
@@ -404,7 +404,8 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		}
 
 		// create pid file
-		Files.writeString(unzipDir.getParent().resolve(PID_FILE),
+		Files.writeString(
+				unzipDir.getParent().resolve(ToolboxConstants.PID_FILE_NAME),
 				Long.toString(ProcessHandle.current().pid()));
 	}
 

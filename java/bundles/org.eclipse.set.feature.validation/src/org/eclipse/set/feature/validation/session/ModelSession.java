@@ -152,7 +152,6 @@ public class ModelSession implements IModelSession {
 
 	private static final String APPLICATION_NAME = "Werkzeugkoffer"; //$NON-NLS-1$
 	private static final String SESSIONS_SUBDIR = "sessions"; //$NON-NLS-1$
-	private static final String PID_FILE = ".pid";
 	protected static final String TITLE_SEPARATOR = " - "; //$NON-NLS-1$
 	static final Logger logger = LoggerFactory.getLogger(ModelSession.class);
 
@@ -305,7 +304,7 @@ public class ModelSession implements IModelSession {
 
 				// Clean all directories which do not contain a PID file (e.g.
 				// from older installations)
-				final Path pidPath = p.resolve(PID_FILE);
+				final Path pidPath = p.resolve(ToolboxConstants.PID_FILE_NAME);
 				if (!Files.exists(pidPath)) {
 					return true;
 				}
