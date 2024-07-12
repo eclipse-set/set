@@ -9,6 +9,7 @@
    <launcherArgs>
       <programArgs>-nl de_DE_SET
 -clearPersistedState
+-data @none
       </programArgs>
       <programArgsWin>-data
 @user.home/.toolbox

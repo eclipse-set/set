@@ -125,6 +125,11 @@ public final class ToolboxConstants {
 	public static final String EXTENSION_XML = "xml";
 
 	/**
+	 * PID file name
+	 */
+	public static final String PID_FILE_NAME = ".pid";
+
+	/**
 	 * File parameter.
 	 */
 	public static final String FILE_PARAMETER = "org.eclipse.set.application.commandparameter.file"; //$NON-NLS-1$

@@ -28,6 +28,7 @@ import java.util.zip.ZipOutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.PlanProFileResource;
 import org.eclipse.set.basis.files.ToolboxFile;
@@ -401,6 +402,11 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 			}
 			zipIn.closeEntry();
 		}
+
+		// create pid file
+		Files.writeString(
+				unzipDir.getParent().resolve(ToolboxConstants.PID_FILE_NAME),
+				Long.toString(ProcessHandle.current().pid()));
 	}
 
 	private void writeManifest() throws IOException {
