@@ -494,7 +494,7 @@ npm/npmjs/-/json-stable-stringify-without-jsonify/1.0.1, MIT, approved, clearlyd
 npm/npmjs/-/json-stringify-pretty-compact/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/json5/1.0.2, MIT, approved, #15256
 npm/npmjs/-/json5/2.2.3, MIT, approved, #15226
-npm/npmjs/-/jspdf/2.5.1, MIT AND (APAFML AND BSD-3-Clause AND LicenseRef-scancode-other-permissive AND MIT) AND (APAFML AND BSD-3-Clause AND LicenseRef-scancode-google-patent-license-webm AND LicenseRef-scancode-other-permissive AND MIT) AND (BSD-3-Clause AND LicenseRef-scancode-other-permissive AND MIT) AND (APAFML AND BSD-3-Clause AND LicenseRef-scancode-commercial-license AND LicenseRef-scancode-google-patent-license-webm AND LicenseRef-scancode-other-permissive AND MIT) AND LicenseRef-scancode-other-permissive AND (BSD-3-Clause AND LicenseRef-scancode-commercial-license AND LicenseRef-scancode-google-patent-license-webm AND MIT) AND APAFML AND (APAFML AND MIT) AND OFL-1.1 AND Apache-2.0 AND (GPL-2.0-only AND MIT) AND (BSD-3-Clause AND MIT) AND BSD-3-Clause AND MPL-2.0, restricted, #15591
+npm/npmjs/-/jspdf/2.5.1, , approved, #15591
 npm/npmjs/-/kind-of/6.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/launch-editor/2.6.1, MIT, approved, #10975
 npm/npmjs/-/lerc/3.0.0, Apache-2.0, approved, clearlydefined
@@ -780,7 +780,7 @@ npm/npmjs/-/webpack-dev-middleware/7.1.0, MIT, approved, #13946
 npm/npmjs/-/webpack-dev-server/5.0.4, MIT, approved, #13200
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #15298
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
-npm/npmjs/-/webpack/5.92.1, MIT, approved, #15465
+npm/npmjs/-/webpack/5.93.0, MIT, approved, clearlydefined
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/whatwg-url/5.0.0, MIT, approved, clearlydefined
@@ -908,14 +908,14 @@ npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
-npm/npmjs/@typescript-eslint/eslint-plugin/7.15.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15506
-npm/npmjs/@typescript-eslint/parser/7.15.0, BSD-2-Clause, approved, clearlydefined
-npm/npmjs/@typescript-eslint/scope-manager/7.15.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/type-utils/7.15.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/types/7.15.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/typescript-estree/7.15.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15505
-npm/npmjs/@typescript-eslint/utils/7.15.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15504
-npm/npmjs/@typescript-eslint/visitor-keys/7.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/eslint-plugin/7.16.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15678
+npm/npmjs/@typescript-eslint/parser/7.16.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/7.16.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/7.16.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/7.16.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/7.16.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15677
+npm/npmjs/@typescript-eslint/utils/7.16.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15679
+npm/npmjs/@typescript-eslint/visitor-keys/7.16.0, MIT, approved, clearlydefined
 npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.0.5, MIT, approved, #12651
 npm/npmjs/@vue/compiler-core/3.4.31, MIT, approved, #12582
