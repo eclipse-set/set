@@ -67,6 +67,7 @@ import org.eclipse.set.core.services.session.SessionService;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.feature.validation.utils.ValidationOutcome;
+import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenFactory;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
 import org.eclipse.set.model.planpro.PlanPro.DocumentRoot;
 import org.eclipse.set.model.planpro.PlanPro.PlanProFactory;
@@ -841,6 +842,21 @@ public class ModelSession implements IModelSession {
 
 	protected void createEmptyModel() {
 		setNewProject(true);
+
+		createEmptyPlanProSchnittstelleModel();
+		createEmptyLayoutinfoModel();
+
+		// create toolbox file
+		final Format format = toolboxFile.getFormat();
+		final Path path = PlanProSchnittstelleExtensions.getDerivedPath(
+				getPlanProSchnittstelle(),
+				projectInitializationData.getDirectory(),
+				sessionService.getDefaultExtension(format),
+				ExportType.PLANNING_RECORDS);
+		toolboxFile.setPath(path);
+	}
+
+	protected void createEmptyPlanProSchnittstelleModel() {
 		final DocumentRoot documentRoot = PlanProFactory.eINSTANCE
 				.createDocumentRoot();
 
@@ -860,21 +876,40 @@ public class ModelSession implements IModelSession {
 				});
 		setPlanProSchnittstelle(documentRoot.getPlanProSchnittstelle());
 
-		// create toolbox file
-		final Format format = toolboxFile.getFormat();
-		final Path path = PlanProSchnittstelleExtensions.getDerivedPath(
-				getPlanProSchnittstelle(),
-				projectInitializationData.getDirectory(),
-				sessionService.getDefaultExtension(format),
-				ExportType.PLANNING_RECORDS);
-		toolboxFile.setPath(path);
-
 		// add contents
 		final XMLResource resource = toolboxFile.getPlanProResource();
 		resource.eAdapters()
 				.add(new AdapterFactoryEditingDomain.EditingDomainProvider(
 						toolboxFile.getEditingDomain()));
 		resource.getContents().add(documentRoot);
+	}
+
+	protected void createEmptyLayoutinfoModel() {
+		final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot layoutDocumentRoot = LayoutinformationenFactory.eINSTANCE
+				.createDocumentRoot();
+
+		// initialization
+		serviceProvider.initializationService.init(layoutDocumentRoot,
+				new Configuration() {
+
+					@Override
+					public BrandingService getBrandingService() {
+						return serviceProvider.brandingService;
+					}
+
+					@Override
+					public Object getData() {
+						return projectInitializationData;
+					}
+				});
+		setPlanProLayoutinfo(layoutDocumentRoot.getPlanProLayoutinfo());
+
+		// add layout contents
+		final XMLResource layoutResource = toolboxFile.getLayoutResource();
+		layoutResource.eAdapters()
+				.add(new AdapterFactoryEditingDomain.EditingDomainProvider(
+						toolboxFile.getEditingDomain()));
+		layoutResource.getContents().add(layoutDocumentRoot);
 	}
 
 	protected void readModel() throws IOException {

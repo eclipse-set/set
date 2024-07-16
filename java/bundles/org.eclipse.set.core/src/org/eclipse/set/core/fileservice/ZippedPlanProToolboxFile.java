@@ -95,6 +95,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.temporaryDirectory = null;
 		this.role = role;
 		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
+		setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
 	}
 
 	ZippedPlanProToolboxFile(final Path path, final Format format,
@@ -107,6 +108,7 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.temporaryDirectory = null;
 		this.role = role;
 		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
+		setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
 	}
 
 	ZippedPlanProToolboxFile(final ZippedPlanProToolboxFile toolboxFile) {

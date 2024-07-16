@@ -179,11 +179,12 @@ Service-Component: OSGI-INF/org.eclipse.set.application.actionservice.ActionServ
  OSGI-INF/org.eclipse.set.application.graph.TopologicalGraphServiceImpl.xml,
  OSGI-INF/org.eclipse.set.application.initializationservice.CommonPlanProInitialization.xml,
  OSGI-INF/org.eclipse.set.application.initializationservice.InitializationServiceImpl.xml,
+ OSGI-INF/org.eclipse.set.application.initializationservice.LayoutinformationenInitialization.xml,
  OSGI-INF/org.eclipse.set.application.initializationservice.PlanProSpecificInitialization.xml,
  OSGI-INF/org.eclipse.set.application.initializationservice.ReviseInitialization.xml,
  OSGI-INF/org.eclipse.set.application.nameservice.NameServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.renameservice.RenameServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.application.siteplan.SiteplanServiceImpl.xml,
  OSGI-INF/org.eclipse.set.application.splash.SplashScreenServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.application.table.TableMenuServiceContextFunction.xml,
- OSGI-INF/org.eclipse.set.application.update.ModelUpdateServiceImpl.xml,
- OSGI-INF/org.eclipse.set.application.siteplan.SiteplanServiceImpl.xml
+ OSGI-INF/org.eclipse.set.application.update.ModelUpdateServiceImpl.xml
