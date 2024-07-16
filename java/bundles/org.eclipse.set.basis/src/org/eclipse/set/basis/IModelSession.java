@@ -10,6 +10,7 @@ package org.eclipse.set.basis;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -143,9 +144,16 @@ public interface IModelSession {
 	TableType getTableType();
 
 	/**
-	 * @return the selection control area with the belonging contaier type
+	 * @return the pair list of selection control area within: first : area name
+	 *         second: area id
 	 */
-	Set<String> getControlAreaIds();
+	List<Pair<String, String>> getSelectedControlAreas();
+
+	/**
+	 * @return when true, then displayed all objects in project, else only
+	 *         objects in planning area
+	 */
+	boolean isPlanningAreaIgnored();
 
 	/**
 	 * @return the temporary directory of this session

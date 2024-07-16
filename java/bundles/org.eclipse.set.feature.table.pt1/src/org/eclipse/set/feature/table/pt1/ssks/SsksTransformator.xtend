@@ -16,6 +16,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.BankService
@@ -91,7 +92,6 @@ import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.ppmodel.extensions.utils.GeoPosition
 import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
@@ -134,6 +134,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
@@ -147,7 +148,13 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		typeof(SsksTransformator))
 	static val SIGNALBEGRIFF_COMPARATOR = new MixedStringComparator(
 		"(?<letters1>[A-Za-z]*)(?<number>[0-9]*)(?<letters2>[A-Za-z]*)")
-
+	static val mastTypeOfSignalWithTwoMast = #[
+		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
+		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
+		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
+		ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
+		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
+		ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG]
 	val TopologicalGraphService topGraphService
 	val BankService bankingService
 	val EventAdmin eventAdmin
@@ -181,17 +188,16 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 
 				// iterate over Befestigungen
 				val befestigungsgruppen = signal.befestigungsgruppen
-				for (var int i = 0; i < 2; i++) {
+				for (var int i = 0; i < 2 && i < befestigungsgruppen.size; i++) {
 					val isHauptbefestigung = (i == 0)
-					val gruppe = befestigungsgruppen.get(i)
-					val signalRahmen = signal.signalRahmenForBefestigung(gruppe)
-
-					val TableRow row = rowGroup.newTableRow
+					val gruppe = befestigungsgruppen.get(i)?.toSet
 
 					// Certain columns have the same values in the rows for the "Haupt-" and "Nebenbefestigung". 
 					// In order to avoid the redundant display, we only display these values in the line of the "Hauptbefestigung"
-					if (isHauptbefestigung || !gruppe.empty) {
-
+					if (isHauptbefestigung || !gruppe.nullOrEmpty) {
+						val signalRahmen = signal.
+							signalRahmenForBefestigung(gruppe)
+						val TableRow row = rowGroup.newTableRow
 						fillConditional(
 							row,
 							cols.getColumn(Bezeichnung_Signal),
@@ -799,10 +805,6 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[fillBemerkung(signalRahmen, row)]
 						)
-					} else {
-						for (var int k = 0; k < 48; k++) {
-							fillBlank(row, k)
-						}
 					}
 				}
 			} catch (Exception e) {
@@ -893,9 +895,10 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			} catch (Exception e) {
 				LOGGER.error(e.message)
 			}
-			val distanceBetweenTracks = opposideSideDistance >
-					0 ? Math.abs(seitlicherAbstand) +
-					Math.round(opposideSideDistance * 1000) : 0
+			val distanceBetweenTracks = opposideSideDistance > 0
+					? Math.abs(seitlicherAbstand) +
+					Math.round(opposideSideDistance * 1000)
+					: 0
 			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
 				seitlicherAbstand > 0) ||
 				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
@@ -944,46 +947,35 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return trackDistance.min
 	}
 
-// IMPROVE use explicit structure
-	private static def List<List<Signal_Befestigung>> getBefestigungsgruppen(
+	private static def List<Iterable<Signal_Befestigung>> getBefestigungsgruppen(
 		Signal signal) {
-		val result = new LinkedList<List<Signal_Befestigung>>
-
+		val result = new LinkedList<Iterable<Signal_Befestigung>>
 		val rahmen = signal.signalRahmen
-		val befestigungen = rahmen.map[signalBefestigung].filter [
-			signalBefestigungAllg.befestigungArt.wert ==
-				ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH ||
-				signalBefestigungAllg.befestigungArt.wert ==
-					ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
+		val befestigungen = rahmen.map[it -> signalBefestigung].distinctBy [
+			value
+		]
 
-		].toSet
-
-		// condition "zwei Befestigungen"
-		if (befestigungen.size == 2) {
-			val hauptbefestigungen = rahmen.filter [
-				rahmenArt.wert == ENUM_RAHMEN_ART_SCHIRM
-			].map [
-				signalBefestigung
-			].filter [
-				signalBefestigungAllg.befestigungArt.wert ==
-					signalBefestigungAllg.befestigungArt.wert ==
-					ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH ||
-					signalBefestigungAllg.befestigungArt.wert ==
-						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
-			].toList
-			val nebenbefestigungen = befestigungen.filter [
-				!hauptbefestigungen.contains(it)
-			].toList
-
-			result.add(hauptbefestigungen)
-			result.add(nebenbefestigungen)
-		} else if (befestigungen.size > 2) {
-			throw new IllegalArgumentException('''«signal.bezeichnung?.bezeichnungAussenanlage?.toString» has more than two Befestigung Signal''')
-		} else {
-			result.add(rahmen.map[signalBefestigung])
-			result.add(new LinkedList<Signal_Befestigung>())
+		switch mast : befestigungen.filter [
+			mastTypeOfSignalWithTwoMast.contains(
+				value.signalBefestigungAllg?.befestigungArt?.wert)
+		] {
+			// condition "zwei Befestigungen"
+			case mast.size == 2: {
+				val mainMast = befestigungen.filter [
+					key.rahmenArt?.wert == ENUM_RAHMEN_ART_SCHIRM
+				].filter [
+					mastTypeOfSignalWithTwoMast.contains(
+						value.signalBefestigungAllg?.befestigungArt?.wert)
+				].map[value].toSet
+				val subMast = mast.map[value].filter[!mainMast.contains(it)]
+				result.add(0, mainMast)
+				result.add(1, subMast)
+			}
+			case mast.size > 2:
+				throw new IllegalArgumentException('''«signal.bezeichnung?.bezeichnungAussenanlage?.toString» has more than two Befestigung Signal''')
+			default:
+				result.add(befestigungen.map[value])
 		}
-
 		return result
 	}
 

@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.ppmodel.extensions.utils;
+package org.eclipse.set.basis.geometry;
 
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.locationtech.jts.geom.Coordinate;

@@ -8,13 +8,13 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMGleisAbschlussArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.siteplan.TrackCloseType
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMGleisAbschlussArt
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
@@ -26,7 +26,7 @@ import org.osgi.service.component.annotations.Reference
 @Component(service=Transformator)
 class TrackCloseTransformator extends BaseTransformator<Gleis_Abschluss> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -37,7 +37,7 @@ class TrackCloseTransformator extends BaseTransformator<Gleis_Abschluss> {
 		result.trackCloseType = transformType(
 			trackClose.gleisAbschlussArt?.wert)
 		result.position = positionService.transformPosition(
-			trackService.getCoordinate(trackClose)
+			geometryService.getCoordinate(trackClose)
 		)
 		result.addSiteplanElement(
 			SiteplanPackage.eINSTANCE.siteplanState_TrackClosures)

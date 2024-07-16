@@ -8,20 +8,20 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.feature.siteplan.trackservice.TrackService
-import org.eclipse.set.model.siteplan.SiteplanFactory
-import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
+import org.eclipse.set.model.siteplan.SiteplanFactory
+import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
-import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 
 /**
  * Transforms unknown PlanPro Punkt_Objekte to siteplan UnknownPositiondObject 
@@ -29,7 +29,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 @Component(service=Transformator)
 class UnknownObjectTransform extends BaseTransformator<Punkt_Objekt> {
 	@Reference
-	TrackService trackService
+	GeoKanteGeometryService geometryService
 
 	@Reference
 	PositionService positionService
@@ -56,7 +56,7 @@ class UnknownObjectTransform extends BaseTransformator<Punkt_Objekt> {
 		val result = SiteplanFactory.eINSTANCE.createUnknownPositionedObject
 		result.guid = p.identitaet?.wert
 		result.position = positionService.transformPosition(
-			trackService.getCoordinate(p)
+			geometryService.getCoordinate(p)
 		)
 		result.objectType = p.class.interfaces.get(0).simpleName
 		addSiteplanElement(result,

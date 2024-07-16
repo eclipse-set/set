@@ -37,6 +37,7 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 	private static final String TOPIC = "toolboxevents/controlarea/selection"; //$NON-NLS-1$
 	Set<ControlAreaValue> areas;
 	private final TableType tableType;
+	private final boolean isPlanningAreaIgnored;
 
 	/**
 	 * @return the table type
@@ -51,16 +52,21 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 	public SelectedControlAreaChangedEvent() {
 		this.areas = null;
 		this.tableType = null;
+		this.isPlanningAreaIgnored = false;
 
 	}
 
 	/**
 	 * @param tableType
 	 *            current tableType
+	 * @param isPlanningAreaIgnored
+	 *            should displayed all objects in project or only the objects in
+	 *            planning area
 	 * 
 	 */
-	public SelectedControlAreaChangedEvent(final TableType tableType) {
-		this(Collections.emptySet(), tableType);
+	public SelectedControlAreaChangedEvent(final TableType tableType,
+			final boolean isPlanningAreaIgnored) {
+		this(Collections.emptySet(), tableType, isPlanningAreaIgnored);
 	}
 
 	/**
@@ -70,10 +76,13 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 	 *            the {@link ControlAreaValue}
 	 * @param tableType
 	 *            current tableType
+	 * @param isPlanningAreaIgnored
+	 *            should displayed all objects in project or only the objects in
+	 *            planning area
 	 */
 	public SelectedControlAreaChangedEvent(final ControlAreaValue area,
-			final TableType tableType) {
-		this(Set.of(area), tableType);
+			final TableType tableType, final boolean isPlanningAreaIgnored) {
+		this(Set.of(area), tableType, isPlanningAreaIgnored);
 	}
 
 	/**
@@ -83,11 +92,15 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 	 *            the list of area
 	 * @param tableType
 	 *            current tableType
+	 * @param isPlanningAreaIgnored
+	 *            should displayed all objects in project or only the objects in
+	 *            planning area
 	 */
 	public SelectedControlAreaChangedEvent(final Set<ControlAreaValue> areas,
-			final TableType tableType) {
+			final TableType tableType, final boolean isPlanningAreaIgnored) {
 		this.areas = areas;
 		this.tableType = tableType;
+		this.isPlanningAreaIgnored = isPlanningAreaIgnored;
 	}
 
 	/**
@@ -97,8 +110,17 @@ public class SelectedControlAreaChangedEvent implements ToolboxEvent {
 		return areas;
 	}
 
+	/**
+	 * @return should displayed all obejects in project or only the objects in
+	 *         planning area
+	 */
+	public boolean isPlanningAreaIgnored() {
+		return isPlanningAreaIgnored;
+	}
+
 	@Override
 	public String getTopic() {
 		return TOPIC;
 	}
+
 }

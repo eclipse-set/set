@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.projectdata.ppimport;
+package org.eclipse.set.feature.projectdata.ppimport.control;
 
 import java.nio.file.Path;
 import java.util.function.Consumer;
@@ -27,7 +27,6 @@ import org.eclipse.set.basis.files.ToolboxFileRole;
 import org.eclipse.set.core.services.modelloader.ModelLoader.ModelContents;
 import org.eclipse.set.feature.projectdata.utils.AbstractImportControl;
 import org.eclipse.set.feature.projectdata.utils.ServiceProvider;
-import org.eclipse.set.feature.validation.session.ModelSession;
 import org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot;
 import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenFactory;
 import org.eclipse.set.model.planpro.Layoutinformationen.LayoutinformationenPackage;
@@ -37,39 +36,35 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.widgets.FileField;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * Import control group for layout information from another project
  * 
- * @author Truong
  */
-public class ImportLayoutControlGroup extends AbstractImportControl {
-
+public class ImportLayoutControl extends AbstractImportControl {
 	private FileField fileField;
 	private PlanPro_Layoutinfo layoutToImport;
-	private Button importButton;
+	private final Runnable handleControlChange;
 	private final IEventBroker broker;
 
 	/**
 	 * @param serviceProvider
-	 *            the {@link ServiceProvider}
+	 *            {@link ServiceProvider}
 	 * @param modelSession
-	 *            the {@link ModelSession}
+	 *            the session
 	 * @param broker
-	 *            the {@link IEventBroker}}
+	 *            the {@link IEventBroker}
+	 * @param handleControlChange
+	 *            call back when control change
 	 */
-	public ImportLayoutControlGroup(final ServiceProvider serviceProvider,
-			final IModelSession modelSession, final IEventBroker broker) {
+	public ImportLayoutControl(final ServiceProvider serviceProvider,
+			final IModelSession modelSession, final IEventBroker broker,
+			final Runnable handleControlChange) {
 		super(serviceProvider, modelSession);
+		this.handleControlChange = handleControlChange;
 		this.broker = broker;
 	}
 
@@ -82,7 +77,6 @@ public class ImportLayoutControlGroup extends AbstractImportControl {
 	public void resetControl() {
 		layoutToImport = null;
 		fileField.getText().setText(""); //$NON-NLS-1$
-		importButton.setEnabled(false);
 		setImported(false);
 	}
 
@@ -132,37 +126,12 @@ public class ImportLayoutControlGroup extends AbstractImportControl {
 				modelSession.revert();
 			}
 		}
-	}
 
-	private void createDocumentRoot() {
-		final EditingDomain editingDomain = modelSession.getEditingDomain();
-		final DocumentRoot documentRoot = LayoutinformationenFactory.eINSTANCE
-				.createDocumentRoot();
-		final PlanProFileResource layoutResource = new PlanProFileResource(
-				URI.createURI(LayoutinformationenPackage.eNS_URI));
-		editingDomain.getResourceSet().getResources().add(layoutResource);
-		layoutResource.eAdapters()
-				.add(new AdapterFactoryEditingDomain.EditingDomainProvider(
-						editingDomain));
-		layoutResource.getContents().add(documentRoot);
-		modelSession.getToolboxFile().setResourcePath(layoutResource,
-				modelSession.getToolboxFile().getLayoutPath());
 	}
 
 	@Override
 	public void createControl(final Composite parent, final Shell shell,
 			final ToolboxFileRole role) {
-		final Group group = new Group(parent, SWT.SHADOW_ETCHED_IN);
-		group.setText(
-				serviceProvider.messages.PlanProImportPart_importLayoutGroup);
-		group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-		group.setLayout(new GridLayout());
-		createFileFieldControl(group, shell, role);
-		createImportButton(group);
-	}
-
-	private void createFileFieldControl(final Composite parent,
-			final Shell shell, final ToolboxFileRole role) {
 		fileField = new FileField(parent,
 				serviceProvider.dialogService.getPlanProFileFilters(),
 				serviceProvider.dialogService);
@@ -180,6 +149,7 @@ public class ImportLayoutControlGroup extends AbstractImportControl {
 			layoutToImport = t.layoutInfo();
 		}, shell, role));
 		fileField.getText().addModifyListener(selectedFileHandle());
+
 	}
 
 	@Override
@@ -191,29 +161,29 @@ public class ImportLayoutControlGroup extends AbstractImportControl {
 		return Boolean.valueOf(layoutToImport != null && validatePath);
 	}
 
-	private void createImportButton(final Composite parent) {
-		importButton = new Button(parent, SWT.NONE);
-		importButton.setText(
-				serviceProvider.messages.PLanpRoImportPart_importLayoutButton);
-		importButton.setEnabled(false);
-		importButton.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(final SelectionEvent e) {
-				doImport(parent.getShell());
-			}
-
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				widgetDefaultSelected(e);
-			}
-		});
-	}
-
 	@Override
 	protected ModifyListener selectedFileHandle() {
-		return e -> importButton.setEnabled(layoutToImport != null
-				&& e.getSource() instanceof final Text text
-				&& !text.getText().isBlank());
+		return e -> {
+			if (e.getSource() instanceof final Text text
+					&& !text.getText().isBlank()) {
+				handleControlChange.run();
+			}
+		};
 	}
+
+	private void createDocumentRoot() {
+		final EditingDomain editingDomain = modelSession.getEditingDomain();
+		final DocumentRoot documentRoot = LayoutinformationenFactory.eINSTANCE
+				.createDocumentRoot();
+		final PlanProFileResource layoutResource = new PlanProFileResource(
+				URI.createURI(LayoutinformationenPackage.eNS_URI));
+		editingDomain.getResourceSet().getResources().add(layoutResource);
+		layoutResource.eAdapters()
+				.add(new AdapterFactoryEditingDomain.EditingDomainProvider(
+						editingDomain));
+		layoutResource.getContents().add(documentRoot);
+		modelSession.getToolboxFile().setResourcePath(layoutResource,
+				modelSession.getToolboxFile().getLayoutPath());
+	}
+
 }

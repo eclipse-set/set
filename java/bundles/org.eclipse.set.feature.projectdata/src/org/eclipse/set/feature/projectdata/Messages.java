@@ -81,7 +81,7 @@ public class Messages {
 	public String PlanProImportPart_fileFieldButtonText;
 
 	/**
-	 * Import von Fachdaten
+	 * Fachdaten aus folgender PlanPro-Datei importieren
 	 */
 	public String PlanProImportPart_importGroup;
 
@@ -187,13 +187,7 @@ public class Messages {
 	public String ProjectPartDescriptionService_ViewName;
 
 	/**
-	 * Sie haben dasselbe ausgewählen, Fachdaten oder Container zu importieren.
-	 * Bitte ändern Sie die Auswahl.
-	 */
-	public String PlanProImportPart_ImportSameData;
-
-	/**
-	 * Import Layoutdaten von andere PlanPro-Datei
+	 * Layoutinformationen aus folgender PlanPro-Datei importieren
 	 */
 	public String PlanProImportPart_importLayoutGroup;
 
@@ -217,4 +211,14 @@ public class Messages {
 	 * auswählen.
 	 */
 	public String PlanProImportPart_Notcontains_Layout_Msg;
+
+	/**
+	 * Fachdatencontainer aus folgender PlanPro-Datei importieren
+	 */
+	public String PlanProImportPart_importContainerGroup;
+
+	/**
+	 * Fachdatencontainer importieren
+	 */
+	public String PlanpRoImportPart_importContainerButton;
 }

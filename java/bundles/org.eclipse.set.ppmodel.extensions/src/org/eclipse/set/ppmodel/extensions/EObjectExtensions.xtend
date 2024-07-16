@@ -8,11 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.Optional
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.Optional
 
 /**
  * Extensions for {@link EObject}.
@@ -122,5 +124,13 @@ class EObjectExtensions {
 				return attr.replace("\"", "\"\"")
 			return attr.toString
 		]) + System.lineSeparator
+	}
+	
+	static def <T, U> Optional<U> getNullableObject(T t, (T) => U func) {
+		try {
+			return Optional.ofNullable(func.apply(t))
+		} catch(NullPointerException e) {
+			return Optional.empty
+		}
 	}
 }
