@@ -33,7 +33,11 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
+import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.ToolboxEventHandler;
+import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
@@ -96,6 +100,7 @@ public class TableOverviewPart extends BasePart {
 	private TableErrorTableView tableErrorTableView;
 
 	private final EventHandler tableErrorsChangeEventHandler = event -> onTableErrorsChange();
+	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 	private boolean ignoreChangeEvent = false;
 
 	@Override
@@ -163,6 +168,17 @@ public class TableOverviewPart extends BasePart {
 
 		getBroker().subscribe(Events.TABLEERROR_CHANGED,
 				tableErrorsChangeEventHandler);
+
+		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+			@Override
+			public void accept(final SelectedControlAreaChangedEvent t) {
+				update();
+			}
+		};
+
+		ToolboxEvents.subscribe(getBroker(),
+				SelectedControlAreaChangedEvent.class,
+				selectionControlAreaHandler);
 
 		update();
 	}
@@ -276,6 +292,7 @@ public class TableOverviewPart extends BasePart {
 	@PreDestroy
 	private void unsubscribe() {
 		broker.unsubscribe(tableErrorsChangeEventHandler);
+		ToolboxEvents.unsubscribe(broker, selectionControlAreaHandler);
 	}
 
 	/**
