@@ -27,8 +27,8 @@
   "devDependencies": {
     "@types/geojson": "^7946.0.14",
     "@types/proj4": "^2.5.2",
-    "@typescript-eslint/eslint-plugin": "^7.16.0",
-    "@typescript-eslint/parser": "^7.16.0",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
     "@vitejs/plugin-vue": "^5.0.5",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
@@ -36,7 +36,7 @@
     "eslint-plugin-promise": "^6.4.0",
     "eslint-plugin-vue": "^9.27.0",
     "tslib": "^2.6.3",
-    "typescript": "^5.4.5",
-    "vite": "^5.3.3"
+    "typescript": "^5.5.3",
+    "vite": "^5.3.4"
   }
 }
