@@ -94,21 +94,6 @@ public interface TableService {
 			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
-	 * Transform the selected container to a table model.
-	 * 
-	 * @param elementId
-	 *            the elementId
-	 * @param tableType
-	 *            the table type
-	 * @param modelSession
-	 *            the model session
-	 * 
-	 * @return the table
-	 */
-	Table transformToTable(final String elementId, TableType tableType,
-			final IModelSession modelSession);
-
-	/**
 	 * Transform the selected container and control area to a table model.
 	 * 
 	 * @param elementId

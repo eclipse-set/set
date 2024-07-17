@@ -447,17 +447,6 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public Table transformToTable(final String elementId,
-			final TableType tableType, final IModelSession modelSession) {
-		final String shortCut = extractShortcut(elementId);
-		final String containerId = getContainerCacheId(modelSession, tableType);
-		final Cache cache = getCache().getCache(
-				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		return (Table) cache.get(shortCut, () -> loadTransform(shortCut,
-				tableType, modelSession, null, shortCut));
-	}
-
-	@Override
 	public void updateTable(final BasePart tablePart,
 			final Runnable updateTableHandler, final Runnable clearInstance) {
 		// Get already open table parts
