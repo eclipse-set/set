@@ -66,9 +66,15 @@ public interface TableService {
 	/**
 	 * Get all collected table errors.
 	 * 
+	 * @param modelSession
+	 *            the current model session in which to get the errors
+	 * @param controlAreaIds
+	 *            the selected control areas for which to get the errors
+	 * 
 	 * @return collected table errors
 	 */
-	Map<String, Collection<TableError>> getTableErrors();
+	Map<String, Collection<TableError>> getTableErrors(
+			IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
 	 * Transform the selected container to a string with CSV format.

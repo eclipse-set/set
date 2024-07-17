@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -115,7 +115,6 @@ public final class TableServiceImpl implements TableService {
 
 	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
-	private final Set<String> cacheKeys = new HashSet<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
 	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
@@ -218,19 +217,26 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Map<String, Collection<TableError>> getTableErrors() {
+	public Map<String, Collection<TableError>> getTableErrors(
+			final IModelSession modelSession,
+			final Set<String> controlAreaIds) {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
 		final Cache cache = getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS);
-		final Collection<String> allCacheKeys = cache.getKeys();
-		allCacheKeys.forEach(cacheKey -> {
-			if (cacheKeys.contains(cacheKey)) {
-				final String shortCut = cacheKey.split("/")[0];
+		getAvailableTables().forEach(shortCut -> {
+			final List<Pair<String, String>> cacheKeys = getCacheKeys(shortCut,
+					modelSession, controlAreaIds);
+			final List<List<TableError>> tableErrors = cacheKeys.stream()
+					.map(cacheKey -> (List<TableError>) cache
+							.getIfPresent(cacheKey.getValue()))
+					.filter(Objects::nonNull).toList();
+			if (!tableErrors.isEmpty()) {
 				map.put(shortCut,
-						(Collection<TableError>) cache.getIfPresent(cacheKey));
+						tableErrors.stream().flatMap(List::stream).toList());
 			}
 		});
 		return map;
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -384,6 +390,25 @@ public final class TableServiceImpl implements TableService {
 		return result;
 	}
 
+	private List<Pair<String, String>> getCacheKeys(final String shortCut,
+			final IModelSession modelSession,
+			final Set<String> controlAreaIds) {
+		if (controlAreaIds.isEmpty()) {
+			final String cachedKey = modelSession.isPlanningAreaIgnored()
+					? cacheService.cacheKeyBuilder(shortCut,
+							IGNORED_PLANNING_AREA_CACHE_KEY, EMPTY)
+					: cacheService.cacheKeyBuilder(shortCut, EMPTY);
+			return List.of(Pair.of(null, cachedKey));
+		}
+		return controlAreaIds.stream().map(areaId -> {
+			// Planning area is always ignored when any control area is
+			// selected.
+			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
+					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
+			return Pair.of(areaId, areaCacheKey);
+		}).toList();
+	}
+
 	@Override
 	public Table transformToTable(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
@@ -392,24 +417,14 @@ public final class TableServiceImpl implements TableService {
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		cacheKeys.clear();
-		if (controlAreaIds.isEmpty()) {
-			final String cachedKey = modelSession.isPlanningAreaIgnored()
-					? cacheService.cacheKeyBuilder(shortCut,
-							IGNORED_PLANNING_AREA_CACHE_KEY, EMPTY)
-					: cacheService.cacheKeyBuilder(shortCut, EMPTY);
-			cacheKeys.add(cachedKey);
-			return (Table) cache.get(cachedKey, () -> loadTransform(shortCut,
-					tableType, modelSession, null, cachedKey));
-		}
 
 		Table resultTable = null;
-		for (final String areaId : controlAreaIds) {
-			// Planning area is always ignored when any control area is
-			// selected.
-			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
-					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
-			cacheKeys.add(areaCacheKey);
+
+		final List<Pair<String, String>> cacheKeys = getCacheKeys(shortCut,
+				modelSession, controlAreaIds);
+		for (final Pair<String, String> cacheKey : cacheKeys) {
+			final String areaId = cacheKey.getKey();
+			final String areaCacheKey = cacheKey.getValue();
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
 							areaId, areaCacheKey));
