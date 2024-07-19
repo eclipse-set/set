@@ -68,9 +68,10 @@ public class TableErrorTransformationService
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
 		// default comparator
-		return TableRowGroupComparator.builder().sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sort("A", NUMERIC, ASC) //$NON-NLS-1$
 				.sort("B", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
-				.sort("C", NUMERIC, ASC) //$NON-NLS-1$
+				.sort("C", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort("D", NUMERIC, ASC) //$NON-NLS-1$
 				.build();
 	}
 }

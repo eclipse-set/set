@@ -37,6 +37,11 @@ public class Messages {
 	public String TableErrorTableColumns_RowNumber;
 
 	/**
+	 * Lfd. Nr.
+	 */
+	public String TableErrorTableColumns_Index;
+
+	/**
 	 * Quelle
 	 */
 	public String TableErrorTableColumns_Source;
