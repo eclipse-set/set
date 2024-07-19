@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -216,38 +217,51 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Map<String, Collection<TableError>> getTableErrors() {
+	public Map<String, Collection<TableError>> getTableErrors(
+			final IModelSession modelSession,
+			final Set<String> controlAreaIds) {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
 		final Cache cache = getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS);
-		final Collection<String> tableShortcuts = cache.getKeys();
-		tableShortcuts.forEach(shortCut -> map.put(shortCut,
-				(Collection<TableError>) cache.getIfPresent(shortCut)));
+		getAvailableTables().forEach(shortCut -> {
+			final List<Pair<String, String>> cacheKeys = getCacheKeys(shortCut,
+					modelSession, controlAreaIds);
+			final List<List<TableError>> tableErrors = cacheKeys.stream()
+					.map(cacheKey -> (List<TableError>) cache
+							.getIfPresent(cacheKey.getValue()))
+					.filter(Objects::nonNull).toList();
+			if (!tableErrors.isEmpty()) {
+				map.put(shortCut,
+						tableErrors.stream().flatMap(List::stream).toList());
+			}
+		});
 		return map;
+
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean combineTableErrors(final String shortCut) {
+	private boolean combineTableErrors(final String cacheKey) {
 		final Collection<TableError> initialErrors = (Collection<TableError>) getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
-				.getIfPresent(shortCut);
+				.getIfPresent(cacheKey);
 		final Collection<TableError> finalErrors = (Collection<TableError>) getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
-				.getIfPresent(shortCut);
+				.getIfPresent(cacheKey);
 		if (initialErrors == null || finalErrors == null) {
 			return false;
 		}
 		final Collection<TableError> combined = new ArrayList<>();
 		combined.addAll(initialErrors);
 		combined.addAll(finalErrors);
-		getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS).set(shortCut,
+		getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS).set(cacheKey,
 				combined);
 		broker.post(Events.TABLEERROR_CHANGED, null);
 		return true;
 	}
 
 	private void saveTableError(final String shortCut,
-			final TableType tableType, final Collection<TableError> errors) {
+			final TableType tableType, final Collection<TableError> errors,
+			final String cacheKey) {
 		final String shortName = getTableNameInfo(shortCut).getShortName();
 		errors.forEach(error -> {
 			error.setSource(shortName);
@@ -256,21 +270,21 @@ public final class TableServiceImpl implements TableService {
 		switch (tableType) {
 		case INITIAL:
 			getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
-					.set(shortCut, errors);
+					.set(cacheKey, errors);
 			break;
 		case FINAL:
 			getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
-					.set(shortCut, errors);
+					.set(cacheKey, errors);
 			break;
 		default:
 			return;
 		}
-		combineTableErrors(shortCut);
+		combineTableErrors(cacheKey);
 	}
 
 	private Object loadTransform(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final String controlAreaId) {
+			final String controlAreaId, final String cacheKey) {
 		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
@@ -295,7 +309,8 @@ public final class TableServiceImpl implements TableService {
 				modelService.buildHeading(transformedTable);
 			}
 
-			saveTableError(shortCut, tableType, modelService.getTableErrors());
+			saveTableError(shortCut, tableType, modelService.getTableErrors(),
+					cacheKey);
 		}
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
@@ -375,6 +390,25 @@ public final class TableServiceImpl implements TableService {
 		return result;
 	}
 
+	private List<Pair<String, String>> getCacheKeys(final String shortCut,
+			final IModelSession modelSession,
+			final Set<String> controlAreaIds) {
+		if (controlAreaIds.isEmpty()) {
+			final String cachedKey = modelSession.isPlanningAreaIgnored()
+					? cacheService.cacheKeyBuilder(shortCut,
+							IGNORED_PLANNING_AREA_CACHE_KEY, EMPTY)
+					: cacheService.cacheKeyBuilder(shortCut, EMPTY);
+			return List.of(Pair.of(null, cachedKey));
+		}
+		return controlAreaIds.stream().map(areaId -> {
+			// Planning area is always ignored when any control area is
+			// selected.
+			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
+					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
+			return Pair.of(areaId, areaCacheKey);
+		}).toList();
+	}
+
 	@Override
 	public Table transformToTable(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
@@ -383,24 +417,17 @@ public final class TableServiceImpl implements TableService {
 		final String containerId = getContainerCacheId(modelSession, tableType);
 		final Cache cache = getCache().getCache(
 				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		if (controlAreaIds.isEmpty()) {
-			final String cachedKey = modelSession.isPlanningAreaIgnored()
-					? cacheService.cacheKeyBuilder(shortCut,
-							IGNORED_PLANNING_AREA_CACHE_KEY, EMPTY)
-					: cacheService.cacheKeyBuilder(shortCut, EMPTY);
-			return (Table) cache.get(cachedKey, () -> loadTransform(shortCut,
-					tableType, modelSession, null));
-		}
 
 		Table resultTable = null;
-		for (final String areaId : controlAreaIds) {
-			// Planning area is always ignored when any control area is
-			// selected.
-			final String areaCacheKey = cacheService.cacheKeyBuilder(shortCut,
-					IGNORED_PLANNING_AREA_CACHE_KEY, areaId);
+
+		final List<Pair<String, String>> cacheKeys = getCacheKeys(shortCut,
+				modelSession, controlAreaIds);
+		for (final Pair<String, String> cacheKey : cacheKeys) {
+			final String areaId = cacheKey.getKey();
+			final String areaCacheKey = cacheKey.getValue();
 			final Table table = (Table) cache.get(areaCacheKey,
 					() -> loadTransform(shortCut, tableType, modelSession,
-							areaId));
+							areaId, areaCacheKey));
 			if (resultTable == null) {
 				resultTable = table;
 			} else {
@@ -417,17 +444,6 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		return resultTable;
-	}
-
-	@Override
-	public Table transformToTable(final String elementId,
-			final TableType tableType, final IModelSession modelSession) {
-		final String shortCut = extractShortcut(elementId);
-		final String containerId = getContainerCacheId(modelSession, tableType);
-		final Cache cache = getCache().getCache(
-				ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID, containerId);
-		return (Table) cache.get(shortCut,
-				() -> loadTransform(shortCut, tableType, modelSession, null));
 	}
 
 	@Override

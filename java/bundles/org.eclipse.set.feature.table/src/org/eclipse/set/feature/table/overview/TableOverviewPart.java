@@ -12,15 +12,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -33,7 +36,12 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
+import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaValue;
+import org.eclipse.set.utils.events.ToolboxEventHandler;
+import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
@@ -96,10 +104,15 @@ public class TableOverviewPart extends BasePart {
 	private TableErrorTableView tableErrorTableView;
 
 	private final EventHandler tableErrorsChangeEventHandler = event -> onTableErrorsChange();
+	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 	private boolean ignoreChangeEvent = false;
+	private Set<String> controlAreaIds = new HashSet<>();
 
 	@Override
 	protected void createView(final Composite parent) {
+		controlAreaIds = getModelSession().getSelectedControlAreas().stream()
+				.map(Pair::getSecond).collect(Collectors.toSet());
+
 		completenessHint = new Label(parent, SWT.NONE);
 		completenessHint.setText(messages.TableOverviewPart_CompletenessHint);
 		final Color red = new Color(parent.getDisplay(), 255, 0, 0);
@@ -164,6 +177,20 @@ public class TableOverviewPart extends BasePart {
 		getBroker().subscribe(Events.TABLEERROR_CHANGED,
 				tableErrorsChangeEventHandler);
 
+		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+			@Override
+			public void accept(final SelectedControlAreaChangedEvent t) {
+				controlAreaIds = t.getControlAreas().stream()
+						.map(ControlAreaValue::areaId)
+						.collect(Collectors.toSet());
+				update();
+			}
+		};
+
+		ToolboxEvents.subscribe(getBroker(),
+				SelectedControlAreaChangedEvent.class,
+				selectionControlAreaHandler);
+
 		update();
 	}
 
@@ -197,7 +224,8 @@ public class TableOverviewPart extends BasePart {
 			final TableNameInfo info = tableService.getTableNameInfo(table);
 			monitor.subTask(info.getFullDisplayName());
 
-			tableService.transformToTable(table, tableType, getModelSession());
+			tableService.transformToTable(table, tableType, getModelSession(),
+					controlAreaIds);
 			monitor.worked(1);
 		}
 	}
@@ -208,6 +236,10 @@ public class TableOverviewPart extends BasePart {
 			final String partDescriptionId = TABLE_PART_ID_PREFIX + shortCut;
 			toolboxPartService.showPart(partDescriptionId);
 		}
+	}
+
+	private Map<String, Collection<TableError>> getTableErrors() {
+		return tableService.getTableErrors(getModelSession(), controlAreaIds);
 	}
 
 	private void update() {
@@ -228,13 +260,12 @@ public class TableOverviewPart extends BasePart {
 		openAllWithErrors.setEnabled(!tablesWithErrors.isEmpty());
 
 		final ArrayList<TableError> allErrors = new ArrayList<>();
-		tableService.getTableErrors().values().forEach(allErrors::addAll);
+		getTableErrors().values().forEach(allErrors::addAll);
 		tableErrorTableView.updateView(allErrors);
 	}
 
 	private Collection<String> getMissingTables() {
-		final Map<String, Collection<TableError>> computedErrors = tableService
-				.getTableErrors();
+		final Map<String, Collection<TableError>> computedErrors = getTableErrors();
 		final Collection<String> allTableInfos = tableService
 				.getAvailableTables();
 
@@ -249,8 +280,7 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private Collection<String> getTablesContainingErrors() {
-		final Map<String, Collection<TableError>> computedErrors = tableService
-				.getTableErrors();
+		final Map<String, Collection<TableError>> computedErrors = getTableErrors();
 
 		final ArrayList<String> tablesWithErrors = new ArrayList<>();
 		for (final Entry<String, Collection<TableError>> entry : computedErrors
@@ -276,6 +306,7 @@ public class TableOverviewPart extends BasePart {
 	@PreDestroy
 	private void unsubscribe() {
 		broker.unsubscribe(tableErrorsChangeEventHandler);
+		ToolboxEvents.unsubscribe(broker, selectionControlAreaHandler);
 	}
 
 	/**
