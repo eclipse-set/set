@@ -36,7 +36,7 @@ class SignalBefestigungExtensions extends BasisObjektExtensions {
 		Signal_Befestigung mount) {
 		val mounts = newArrayList
 		var current = mount
-		while (current !== null) {
+		while (current !== null && !mounts.contains(current)) {		
 			mounts.add(current)
 			current = current.signalBefestigung
 		}

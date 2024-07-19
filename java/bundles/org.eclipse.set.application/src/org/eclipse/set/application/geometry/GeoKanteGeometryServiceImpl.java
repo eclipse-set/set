@@ -38,6 +38,7 @@ import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.geometry.GEOKanteSegment;
 import org.eclipse.set.basis.geometry.GeoPosition;
 import org.eclipse.set.basis.geometry.Geometries;
+import org.eclipse.set.basis.geometry.GeometryException;
 import org.eclipse.set.basis.geometry.SegmentPosition;
 import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.core.services.Services;
@@ -159,9 +160,14 @@ public class GeoKanteGeometryServiceImpl
 			if (Thread.currentThread().isInterrupted()) {
 				throw new InterruptedException();
 			}
-			final LineString geometry = defineEdgeGeometry(edge);
-			if (geometry != null) {
-				edgeGeometry.put(edge, geometry);
+			try {
+				final LineString geometry = defineEdgeGeometry(edge);
+				if (geometry != null) {
+					edgeGeometry.put(edge, geometry);
+				}
+			} catch (final GeometryException e) {
+				logger.warn("Cannot determine geometry for edge {}.", //$NON-NLS-1$
+						edge.getIdentitaet().getWert());
 			}
 		}
 	}
