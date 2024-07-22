@@ -199,7 +199,7 @@ public class BankServiceImpl implements BankService, EventHandler {
 		final int limit = (int) (bankingLineLength.doubleValue()
 				+ ToolboxConfiguration.getBankLineTopOffsetLimit() + 1);
 
-		final Predicate<TopPath> predicate = (t) -> {
+		final Predicate<TopPath> predicate = t -> {
 			final double diff = Math.abs(
 					t.length().doubleValue() - bankingLineLength.doubleValue());
 			return diff < ToolboxConfiguration.getBankLineTopOffsetLimit();
