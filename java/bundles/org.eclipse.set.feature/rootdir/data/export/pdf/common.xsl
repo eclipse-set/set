@@ -114,6 +114,9 @@ http://www.eclipse.org/legal/epl-v20.html
 			<xsl:value-of select="$wide-border-style" />
 		</xsl:attribute>
 		<xsl:attribute name="text-align">left</xsl:attribute>
+		<xsl:attribute name="padding-left">1pt</xsl:attribute>
+		<xsl:attribute name="padding-right">1pt</xsl:attribute>
+		<xsl:attribute name="padding-top">1pt</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="last-row-cell-style">
 		<xsl:attribute name="border">
@@ -123,6 +126,9 @@ http://www.eclipse.org/legal/epl-v20.html
 			<xsl:value-of select="$wide-border-style" />
 		</xsl:attribute>
 		<xsl:attribute name="text-align">center</xsl:attribute>
+		<xsl:attribute name="padding-left">1pt</xsl:attribute>
+		<xsl:attribute name="padding-right">1pt</xsl:attribute>
+		<xsl:attribute name="padding-top">1pt</xsl:attribute>
 	</xsl:attribute-set>
 	<xsl:attribute-set name="region-body-style">
 		<xsl:attribute name="margin-top">
