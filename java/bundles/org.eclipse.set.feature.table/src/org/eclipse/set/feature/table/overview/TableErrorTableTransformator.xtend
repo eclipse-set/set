@@ -14,31 +14,41 @@ import org.eclipse.set.utils.table.AbstractTableModelTransformator
 import org.eclipse.set.utils.table.TMFactory
 import org.eclipse.set.utils.table.TableError
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import java.util.Comparator
 
-class TableErrorTableTransformator extends AbstractTableModelTransformator<Collection<TableError>> {	
+class TableErrorTableTransformator extends AbstractTableModelTransformator<Collection<TableError>> {
 	TableErrorTableColumns columns;
 	EnumTranslationService enumTranslationService;
 
-	new(TableErrorTableColumns columns, EnumTranslationService enumTranslationService) {
+	new(TableErrorTableColumns columns,
+		EnumTranslationService enumTranslationService) {
 		super()
 		this.columns = columns;
 		this.enumTranslationService = enumTranslationService;
 	}
-	
-	override transformTableContent(Collection<TableError> errors, TMFactory factory) {
-		for (error : errors) {
+
+	override transformTableContent(Collection<TableError> errors,
+		TMFactory factory) {
+		val Comparator<TableError> comparator = Comparator.comparing [ TableError it |
+			source
+		].thenComparing[TableError it | tableType].thenComparing[TableError it|rowNumber]
+		errors.sortWith(comparator).forEach [ error, index |
 			val instance = factory.newTableRow(error)
+			fill(instance, columns.Index, index, [(index + 1).toString])
 			fill(instance, columns.Source, error, [error.source])
-			fill(instance, columns.TableType, error, [enumTranslationService.translate(error.tableType).presentation])
+			fill(instance, columns.TableType, error, [
+				enumTranslationService.translate(error.tableType).presentation
+			])
 			fill(instance, columns.RowNumber, error, [error.rowNumber])
 			fill(instance, columns.LeadingObject, error, [error.leadingObject])
-			fill(instance, columns.Message, error, [error.message])		
-		}
-		
+			fill(instance, columns.Message, error, [error.message])
+		]
+
 		return factory.table
 	}
 
-	override transformTableContent(Collection<TableError> errors, TMFactory factory, Stell_Bereich controlArea) {
+	override transformTableContent(Collection<TableError> errors,
+		TMFactory factory, Stell_Bereich controlArea) {
 		transformTableContent(errors, factory)
 	}
 }

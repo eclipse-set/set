@@ -20,6 +20,7 @@ import org.eclipse.set.nattable.utils.AbstractColumns
  * @author Peters
  */
 class TableErrorTableColumns extends AbstractColumns {
+	public final ColumnDescriptor Index;
 	public final ColumnDescriptor LeadingObject;
 	public final ColumnDescriptor RowNumber;
 	public final ColumnDescriptor Source;
@@ -31,6 +32,7 @@ class TableErrorTableColumns extends AbstractColumns {
 	 */
 	new(Messages messages) {
 		super()
+		Index = createNew(messages.TableErrorTableColumns_Index)
 		Source = createNew(messages.TableErrorTableColumns_Source)
 		TableType = createNew(messages.TableErrorTableColumns_TableType)
 		LeadingObject = createNew(messages.TableErrorTableColumns_LeadingObject)
@@ -42,11 +44,12 @@ class TableErrorTableColumns extends AbstractColumns {
 	def ColumnDescriptor fillHeaderDescriptions(
 		ColumnDescriptorModelBuilder builder) {
 		val GroupBuilder root = builder.createRootColumn()
+		root.add(Index).widthPercent(5)
 		root.add(Source).widthPercent(5)
 		root.add(TableType).widthPercent(8)
 		root.add(RowNumber).widthPercent(7)
 		root.add(LeadingObject).widthPercent(15)
-		root.add(Message).widthPercent(55)
+		root.add(Message).widthPercent(50)
 		return root.getGroupRoot()
 	}
 }
