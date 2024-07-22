@@ -31,7 +31,7 @@ class TableErrorTableTransformator extends AbstractTableModelTransformator<Colle
 		TMFactory factory) {
 		val Comparator<TableError> comparator = Comparator.comparing [ TableError it |
 			source
-		].thenComparing[TableError it|rowNumber]
+		].thenComparing[TableError it | tableType].thenComparing[TableError it|rowNumber]
 		errors.sortWith(comparator).forEach [ error, index |
 			val instance = factory.newTableRow(error)
 			fill(instance, columns.Index, index, [(index + 1).toString])
