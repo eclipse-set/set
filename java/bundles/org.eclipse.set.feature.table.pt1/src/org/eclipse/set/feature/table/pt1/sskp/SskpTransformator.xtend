@@ -106,7 +106,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Bezugselement),
 			pzb,
-			[PZBElementBezugspunkt.map[fillBezugsElement]],
+			[PZBElementBezugspunkt.filterNull.map[fillBezugsElement]],
 			MIXED_STRING_COMPARATOR
 		)
 
@@ -300,7 +300,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Abstand_Signal_Weiche),
 			pzb,
 			[
-				PZBElementBezugspunkt.map [
+				PZBElementBezugspunkt.filterNull.map [
 					getDistanceSignalTrackSwtich(topGraph, pzb, it)
 				]
 			],
