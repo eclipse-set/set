@@ -34,6 +34,7 @@ import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
+import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -131,6 +132,8 @@ public abstract class AbstractSortByColumnTables {
 		// Sort by first column (Ascending)
 		natTable.doCommand(new SortColumnCommand(sortHeaderLayer, 0,
 				SortDirectionEnum.ASC));
+
+		natTable.doCommand(new TreeCollapseAllCommand());
 
 		return natTable;
 	}
