@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.osgi.service.component.annotations.Component;
@@ -83,6 +84,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	 */
 	public UserConfigurationServiceImpl() {
 		loadConfiguration();
+		Services.setUserConfigurationService(this);
 	}
 
 	protected void loadConfiguration() {

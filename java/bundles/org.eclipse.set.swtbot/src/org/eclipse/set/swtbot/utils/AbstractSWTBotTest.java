@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
@@ -24,7 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
  *
  */
 public abstract class AbstractSWTBotTest {
-	protected static SWTBot bot;
+	public static SWTBot bot;
 	protected static final String DEFAULT_TOOLBOX_NAME = "Eclipse Signalling Engineering Toolbox";
 	protected static MockDialogService dialogService;
 	protected static final String TEST_FILE_DIR = "test_res/test_file/";
@@ -58,6 +59,14 @@ public abstract class AbstractSWTBotTest {
 		SWTBotPreferences.TIMEOUT = 1000 * 60;
 
 		bot = new SWTBot();
-		dialogService = MockDialogServiceContextFunction.mockService;
+		dialogService = getDialogService();
+		dialogService.openFileDialogHandler = filters -> Optional
+				.of(getFilePath(getTestFile().getFullName()));
 	}
+
+	protected MockDialogService getDialogService() {
+		return MockDialogServiceContextFunction.mockService;
+	}
+
+	protected abstract SWTBotTestFile getTestFile();
 }

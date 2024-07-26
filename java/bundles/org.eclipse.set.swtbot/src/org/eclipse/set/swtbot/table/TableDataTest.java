@@ -8,12 +8,11 @@
  */
 package org.eclipse.set.swtbot.table;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -23,7 +22,17 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author truong
  *
  */
+@ExtendWith(TestFailHandle.class)
 public class TableDataTest extends AbstractTableTest {
+	PtTable tableToTest;
+
+	@Override
+	public String getTestTableName() {
+		if (tableToTest != null) {
+			return tableToTest.shortcut();
+		}
+		return null;
+	}
 
 	private void givenFixedColumnCount(final PtTable table) {
 		fixedColumnCount = table.fixedColumns().size();
@@ -41,6 +50,7 @@ public class TableDataTest extends AbstractTableTest {
 	@ParameterizedTest
 	@MethodSource("providesPtTable")
 	protected void testTableData(final PtTable table) throws Exception {
+		this.tableToTest = table;
 		givenNattableBot(table.tableName());
 		givenReferenceCSV(table);
 		givenFixedColumnCount(table);

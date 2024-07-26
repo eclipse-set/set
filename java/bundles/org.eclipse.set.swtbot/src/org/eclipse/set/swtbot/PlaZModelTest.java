@@ -14,7 +14,6 @@ import java.io.IOException;
 
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
-import org.eclipse.set.swtbot.utils.AbstractPPHNTest;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -22,7 +21,13 @@ import org.junit.jupiter.api.Test;
  */
 public class PlaZModelTest extends AbstractTableTest {
 
+	private static final String PLAZ_MODEL_TABLE = "plaz_model";
 	private static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
+
+	@Override
+	public String getTestTableName() {
+		return PLAZ_MODEL_TABLE;
+	}
 
 	private void whenOpeningPlaZModelNatTable() {
 		givenNattableBot("PlaZ-Modell");
@@ -61,7 +66,7 @@ public class PlaZModelTest extends AbstractTableTest {
 	}
 
 	protected void givenReferenceCSV() throws IOException {
-		referenceData = AbstractPPHNTest.loadReferenceFile("plaz_model");
+		referenceData = loadReferenceFile(PLAZ_MODEL_TABLE);
 		// Remove CSV header info
 		referenceData = referenceData.subList(4, referenceData.size());
 	}
