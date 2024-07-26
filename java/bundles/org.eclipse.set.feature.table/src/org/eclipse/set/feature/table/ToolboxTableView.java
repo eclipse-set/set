@@ -501,7 +501,7 @@ public final class ToolboxTableView extends BasePart {
 		natTable.setTheme(new ToolboxTableModelThemeConfiguration(natTable,
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider,
-				s -> showExportEndDialog(getToolboxShell())));
+				getDialogService()));
 
 		bodyLayerStack.getSelectionLayer().clear();
 

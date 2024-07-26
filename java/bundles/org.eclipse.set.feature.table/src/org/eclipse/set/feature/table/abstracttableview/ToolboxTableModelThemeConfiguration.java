@@ -8,15 +8,13 @@
  */
 package org.eclipse.set.feature.table.abstracttableview;
 
-import java.io.OutputStream;
-import java.util.function.Function;
-
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
 import org.eclipse.nebula.widgets.nattable.grid.layer.GridLayer;
 import org.eclipse.nebula.widgets.nattable.layer.AbstractLayer;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.ui.matcher.KeyEventMatcher;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.nattable.utils.PlanProTableThemeConfiguration;
 import org.eclipse.set.utils.ToolboxConfiguration;
@@ -57,20 +55,20 @@ public class ToolboxTableModelThemeConfiguration
 	 *            data provider
 	 * @param bodyLayer
 	 *            the body layer
-	 * @param exportEnd
-	 *            the export end function
+	 * @param dialogService
+	 *            the dialogService
 	 */
 	public ToolboxTableModelThemeConfiguration(final NatTable natTable,
 			final AbstractLayer headerLayer, final DataLayer dataLayer,
 			final GridLayer gridLayer, final ColumnDescriptor heading,
 			final AbstractLayer bodyLayer, final IDataProvider bodyDataProvider,
-			final Function<OutputStream, Void> exportEnd) {
+			final DialogService dialogService) {
 		super(natTable, headerLayer, dataLayer, gridLayer, heading, bodyLayer,
 				bodyDataProvider);
 
 		// register key bindings for table exports
 		natTable.getUiBindingRegistry().registerKeyBinding(
 				new KeyEventMatcher(SWT.MOD1, 'r'),
-				new CsvExportAction(exportEnd));
+				new CsvExportAction(dialogService));
 	}
 }

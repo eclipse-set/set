@@ -10,6 +10,7 @@ package org.eclipse.set.core.services;
 
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.siteplan.SiteplanService;
@@ -27,6 +28,7 @@ public class Services {
 	private static NoCacheService noCacheService;
 	private static GeoKanteGeometryService geometryService;
 	private static SiteplanService siteplanService;
+	private static UserConfigurationService userConfigurationService;
 
 	/**
 	 * @return the siteplan service
@@ -128,5 +130,21 @@ public class Services {
 	public static void setGeometryService(
 			final GeoKanteGeometryService geometryService) {
 		Services.geometryService = geometryService;
+	}
+
+	/**
+	 * @return the {@link UserConfigurationService}
+	 */
+	public static UserConfigurationService getUserConfigurationService() {
+		return userConfigurationService;
+	}
+
+	/**
+	 * @param userConfigurationService
+	 *            the instance of {@link UserConfigurationService}
+	 */
+	public static void setUserConfigurationService(
+			final UserConfigurationService userConfigurationService) {
+		Services.userConfigurationService = userConfigurationService;
 	}
 }
