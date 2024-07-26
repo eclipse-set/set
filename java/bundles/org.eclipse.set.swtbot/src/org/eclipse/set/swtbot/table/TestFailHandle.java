@@ -39,10 +39,22 @@ public class TestFailHandle implements TestWatcher {
 	private static final String DIFF_DIR = "diff/";
 	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
 
-	protected static void exportCurrentCSV(final String tableName) {
+	@Override
+	public void testFailed(final ExtensionContext context,
+			final Throwable cause) {
+		final Optional<Object> testInstance = context.getTestInstance();
+		if (testInstance.isPresent() && testInstance
+				.get() instanceof final AbstractTableTest tableTest) {
+			exportCurrentCSV(tableTest.getTestTableName());
+			exportReferenceCSV(tableTest.getTestTableName(),
+					tableTest.getReferenceDir());
+		}
+		TestWatcher.super.testFailed(context, cause);
+	}
+
+	protected void exportCurrentCSV(final String tableName) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
-		final URL projectLocation = TestFailHandle.class.getProtectionDomain()
-				.getCodeSource().getLocation();
+		final URL projectLocation = getProjectLocation();
 		final File file = new File(projectLocation.getPath() + DIFF_DIR
 				+ tableName + CURRENT_CSV_EXTENSIONS);
 		if (!file.getParentFile().exists()) {
@@ -69,10 +81,9 @@ public class TestFailHandle implements TestWatcher {
 		}, 5l * 60 * 1000);
 	}
 
-	protected static void exportReferenceCSV(final String tableName,
+	protected void exportReferenceCSV(final String tableName,
 			final String parentDir) {
-		final URL outLocation = TestFailHandle.class.getProtectionDomain()
-				.getCodeSource().getLocation();
+		final URL outLocation = getProjectLocation();
 		final File outFile = new File(outLocation.getPath() + DIFF_DIR
 				+ tableName + REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
@@ -90,16 +101,8 @@ public class TestFailHandle implements TestWatcher {
 		}
 	}
 
-	@Override
-	public void testFailed(final ExtensionContext context,
-			final Throwable cause) {
-		final Optional<Object> testInstance = context.getTestInstance();
-		if (testInstance.isPresent() && testInstance
-				.get() instanceof final AbstractTableTest tableTest) {
-			exportCurrentCSV(tableTest.getTestTableName());
-			exportReferenceCSV(tableTest.getTestTableName(),
-					tableTest.getReferenceDir());
-		}
-		TestWatcher.super.testFailed(context, cause);
+	protected URL getProjectLocation() {
+		return TestFailHandle.class.getProtectionDomain().getCodeSource()
+				.getLocation();
 	}
 }
