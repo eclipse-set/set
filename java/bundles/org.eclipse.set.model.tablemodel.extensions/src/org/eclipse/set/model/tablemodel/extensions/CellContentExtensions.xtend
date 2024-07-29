@@ -10,6 +10,8 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
+import java.util.function.BiConsumer
+import java.util.function.Function
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
@@ -25,6 +27,7 @@ import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import java.util.function.BiFunction
 
 /**
  * Extensions for {@link CellContent}.
@@ -37,7 +40,7 @@ class CellContentExtensions {
 	public static val String WARNING_MARK_RED = "<!-- warning-mark-red -->"
 	public static val String WARNING_MARK_BLACK = "<!-- warning-mark-black -->"
 	public static val String HOURGLASS_ICON = "⏳"
-	 static val String FOOTNOTE_SEPARATOR = ", "
+	static val String FOOTNOTE_SEPARATOR = ", "
 	static val String ERROR_PREFIX = "Error:"
 
 	/**
@@ -62,17 +65,14 @@ class CellContentExtensions {
 	}
 
 	static def dispatch String getRichTextValue(CompareCellContent content) {
-		if (content.oldValue.equals(content.newValue)) {
-			return '''<p style="text-align:«content.textAlign»">«
-			»«content.newValue.iterableToString(content.separator).htmlString»</p>'''
-		}
-		val result = <String>newLinkedList
-		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.
-			forEach [
-				result.add(content.getCompareContentValueFormat([
-					getCompareValueFormat($0, $1)
-				], it))
-			]
+		val result = formatCompareContent(
+			content.oldValue,
+			content.newValue,
+			[WARNING_MARK_YELLOW],
+			[WARNING_MARK_BLACK],
+			[WARNING_MARK_RED],
+			[text, mark|getCompareValueFormat(mark, text)]
+		)
 
 		return '''<p style="text-align:«content.textAlign»">«
 		»«result.iterableToString(content.separator === null || content.separator.equals("\r\n")
@@ -111,56 +111,41 @@ class CellContentExtensions {
 
 	static def dispatch String getRichTextValueWithFootnotes(
 		StringCellContent content, SimpleFootnoteContainer fc) {
-		val footnoteText = 	fc.footnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR)
-		
+		val footnoteText = fc.footnotes.map [
+			'''*«getFootnoteNumber(content, it)»'''
+		].iterableToString(FOOTNOTE_SEPARATOR)
+
 		if (footnoteText != "")
 			return '''<p style="text-align:«content.textAlign»">«content.valueFormat» «footnoteText»</p>'''
 		return '''<p style="text-align:«content.textAlign»">«content.valueFormat»</p>'''
 	}
 
 	static def dispatch String getRichTextValueWithFootnotes(
-		StringCellContent content, CompareFootnoteContainer fc) {
-		val result = <String>newLinkedList
+		CellContent content, CompareFootnoteContainer fc) {
 
-		content.value.forEach [
-			result.add(getCompareValueFormat(WARNING_MARK_BLACK, it))
-		]
+		var result = formatCompareContent(
+			content,
+			[WARNING_MARK_YELLOW],
+			[WARNING_MARK_BLACK],
+			[WARNING_MARK_RED],
+			[text, mark|getCompareValueFormat(text, mark)]
+		)
 
-		val oldFootnotes = getCompareValueFormat(WARNING_MARK_YELLOW, fc.oldFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
-		val newFootnotes = getCompareValueFormat(WARNING_MARK_RED, fc.newFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
-		val unchangedFootnotes = getCompareValueFormat(WARNING_MARK_BLACK, fc.unchangedFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
-		
-		result.addAll(#[oldFootnotes, unchangedFootnotes, newFootnotes])
+		val footnotes = formatCompareContent(
+			fc,
+			[WARNING_MARK_YELLOW],
+			[WARNING_MARK_BLACK],
+			[WARNING_MARK_RED],
+			[ text, mark |
+				getCompareValueFormat('''*«getFootnoteNumber(content, text)»''',
+					mark)
+			]
+		)
+
+		result = result + #[footnotes.iterableToString(FOOTNOTE_SEPARATOR)]
 
 		return '''<p style="text-align:«content.textAlign»">«
 		»«result.filter[it.length > 0].iterableToString(content.separator === null || content.separator.equals("\r\n")
-			? "<br></br>" 
-			: content.separator
-		)»</p>'''
-	}
-
-	static def dispatch String getRichTextValueWithFootnotes(
-		CompareCellContent content, CompareFootnoteContainer fc) {
-		if (content.oldValue.equals(content.newValue)) {
-			return '''<p style="text-align:«content.textAlign»">«
-			»«content.newValue.iterableToString(content.separator).htmlString»</p>'''
-		}
-		val result = <String>newLinkedList
-		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.
-			forEach [
-				result.add(content.getCompareContentValueFormat([
-					getCompareValueFormat($0, $1)
-				], it))
-			]
-
-		val oldFootnotes = getCompareValueFormat(WARNING_MARK_YELLOW, fc.oldFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
-		val newFootnotes = getCompareValueFormat(WARNING_MARK_RED, fc.newFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
-		val unchangedFootnotes = getCompareValueFormat(WARNING_MARK_BLACK, fc.unchangedFootnotes.map['''*«getFootnoteNumber(content, it)»'''].iterableToString(FOOTNOTE_SEPARATOR))
-		
-		result.addAll(#[oldFootnotes, unchangedFootnotes, newFootnotes])
-
-		return '''<p style="text-align:«content.textAlign»">«
-		»«result.iterableToString(content.separator === null || content.separator.equals("\r\n")
 			? "<br></br>" 
 			: content.separator
 		)»</p>'''
@@ -239,15 +224,54 @@ class CellContentExtensions {
 		return '''<span>«content.multiColorFormat.htmlString»</span>'''
 	}
 
-	static def <T> T getCompareContentValueFormat(CompareCellContent content,
-		(String, String)=>T getFormatFunction, String value) {
-		if (content.oldValue.contains(value) &&
-			content.newValue.contains(value)) {
-			return getFormatFunction.apply(WARNING_MARK_BLACK, value)
-		} else if (content.oldValue.contains(value)) {
-			return getFormatFunction.apply(WARNING_MARK_YELLOW, value)
-		} else {
-			return getFormatFunction.apply(WARNING_MARK_RED, value)
+	static def <T, U> Iterable<U> formatCompareContent(
+		Iterable<String> oldContent,
+		Iterable<String> newContent,
+		Function<String, T> oldFormatter,
+		Function<String, T> commonFormatter,
+		Function<String, T> newFormatter,
+		BiFunction<String, T, U> postFormatter
+	) {
+		// new and unchanged content is sorted together 
+		val result = newContent.filterNull.toSet.toList.sort.map [
+			if (oldContent.contains(it))
+				return postFormatter.apply(it, commonFormatter.apply(it))
+			else
+				return postFormatter.apply(it, newFormatter.apply(it))
+		]
+
+		// old content is appended after that
+		return result + oldContent.filterNull.toSet.toList.sort.filter [
+			!newContent.contains(it)
+		].map [
+			postFormatter.apply(it, oldFormatter.apply(it))
+		]
+	}
+
+	static def <T, U> Iterable<U> formatCompareContent(
+		Object content,
+		Function<String, T> oldFormatter,
+		Function<String, T> commonFormatter,
+		Function<String, T> newFormatter,
+		BiFunction<String, T, U> postFormatter
+	) {
+		switch content {
+			StringCellContent:
+				content.value.filterNull.toSet.toList.sort.map [
+					postFormatter.apply(it, commonFormatter.apply(it))
+				]
+			CompareCellContent:
+				formatCompareContent(content.oldValue, content.newValue,
+					oldFormatter, commonFormatter, newFormatter, postFormatter)
+			CompareFootnoteContainer:
+				formatCompareContent(
+					content.oldFootnotes + content.unchangedFootnotes,
+					content.newFootnotes + content.unchangedFootnotes,
+					oldFormatter,
+					commonFormatter,
+					newFormatter,
+					postFormatter
+				)
 		}
 	}
 
@@ -288,8 +312,9 @@ class CellContentExtensions {
 
 	private static def String getMultiColorFormat(MultiColorContent content) {
 		if (Strings.isNullOrEmpty(content.multiColorValue)) {
-			return Strings.isNullOrEmpty(content.stringFormat) ? "" : content.
-				stringFormat.htmlString
+			return Strings.isNullOrEmpty(content.stringFormat)
+				? ""
+				: content.stringFormat.htmlString
 		}
 
 		val value = '''<span style="background-color:rgb(255,255, 0)">«content
