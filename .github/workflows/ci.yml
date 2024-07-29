@@ -16,6 +16,7 @@ on:
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
+  DIFF_DIR: ${{ github.workspace }}/java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java-test/application-under-test
 
 jobs:
@@ -274,6 +275,7 @@ jobs:
           path: ${{ env.DEPLOY_DIR }}
 
       - name: Run Test
+        id: test-steps
         shell: bash
         run: |
           mvn -T 1.5C -U -B -f java-test/pom.xml clean verify  \
@@ -281,11 +283,36 @@ jobs:
             -Dskip-test=false \
             -Dm2-repo-path="file://${{ env.DEPLOY_DIR }}" \
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
-
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/windows@82082dac68ad6a19d980f8ce817e108b9f496c2a # v2.17.1
-        if: always()
+      
+      - name: Upload csv files
+        if: steps.test-steps.outcome != 'success'
+        uses: actions/upload-artifact@v4
         with:
-          check_name: "SWTBot Test"
-          files: |
-            ${{ github.workspace }}/**/surefire-reports/*.xml
+          name: table-csv-${{github.run_number}}
+          path: ${{ github.workspace}}/java/bundles/org.eclipse.set.swtbot/target/classes/**/*.csv
+          retention-days: 1
+  
+  create-diff-view:
+    runs-on: ubuntu:latest
+    needs: swtbot
+    if: ${{ always() }}
+    container: eclipse-set/tablediffview:latest
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+      actions: read
+    steps:
+      - name: Fetch table csv
+        uses: actions/download-artifact@v4
+        with:
+          name: table-csv-${{github.run_number}}
+          path: ${{ env.DIFF_DIR }}
+
+      - name: Create diff view
+        shell: bash
+        run: |
+          python -m tablediffview \
+            --difDir=.java-test/diff
+            --branchName=${{ github.ref }}
+            --prNumber=${{github.event.pull_request.number}}
