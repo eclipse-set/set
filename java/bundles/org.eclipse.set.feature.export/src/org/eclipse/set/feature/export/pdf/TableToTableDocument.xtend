@@ -38,6 +38,10 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import java.util.Collections
+import java.util.function.Consumer
+import java.util.function.Function
+import java.util.function.BiConsumer
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -238,18 +242,14 @@ class TableToTableDocument {
 
 		val stringValue = content.plainStringValue
 		if (isRemarkColumn) {
-			val child = createCompareValueElement(WARNING_MARK_BLACK,
-				stringValue)
+			val child = doc.createElement("UnchangedValue")
 			element.appendChild(
 				stringValue.addContentToElement(child, columnNumber,
 					isRemarkColumn))
 			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
 		} else {
-			element.textContent = if (isRemarkColumn)
-				stringValue.checkForTestOutput(columnNumber)
-			else
-				stringValue.checkForTestOutput(columnNumber).
-					intersperseWithZeroSpacesSC
+			element.textContent = stringValue.checkForTestOutput(columnNumber).
+				intersperseWithZeroSpacesSC
 
 		}
 
@@ -268,17 +268,33 @@ class TableToTableDocument {
 		return element
 	}
 
+	private def Element createCompareValueElement(String warning_mark,
+		String value) {
+		switch (warning_mark) {
+			case WARNING_MARK_BLACK:
+				return doc.createElement("UnchangedValue")
+			case WARNING_MARK_YELLOW:
+				return doc.createElement("OldValue")
+			case WARNING_MARK_RED:
+				return doc.createElement("NewValue")
+			default:
+				return null
+		}
+	}
+
 	private def dispatch Element createContent(CompareCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
-		#[content.oldValue, content.newValue].flatten.filterNull.toSet.sort.
-			forEach [
-				val child = content.getCompareContentValueFormat([
-					createCompareValueElement($0, $1)
-				], it)
-				element.appendChild(
-					addContentToElement(child, columnNumber, isRemarkColumn))
+		formatCompareContent(
+			content.oldValue,
+			content.newValue,
+			[doc.createElement("OldValue")],
+			[doc.createElement("UnchangedValue")],
+			[doc.createElement("NewValue")],
+			[ text, child |
+				text.addContentToElement(child, columnNumber, isRemarkColumn)
 			]
+		).forEach[element.appendChild(it)]
 
 		if (isRemarkColumn) {
 			element.addFootnoteContent(fc, columnNumber, isRemarkColumn)
@@ -346,20 +362,6 @@ class TableToTableDocument {
 			columnNumber, isRemarkColumn)
 		element.addFootnoteChild(newFootnotes, WARNING_MARK_RED, columnNumber,
 			isRemarkColumn)
-	}
-
-	private def Element createCompareValueElement(String warning_mark,
-		String value) {
-		switch (warning_mark) {
-			case WARNING_MARK_BLACK:
-				return doc.createElement("UnchangedValue")
-			case WARNING_MARK_YELLOW:
-				return doc.createElement("OldValue")
-			case WARNING_MARK_RED:
-				return doc.createElement("NewValue")
-			default:
-				return null
-		}
 	}
 
 	private def Element createMultiColorElement(MultiColorContent content,
