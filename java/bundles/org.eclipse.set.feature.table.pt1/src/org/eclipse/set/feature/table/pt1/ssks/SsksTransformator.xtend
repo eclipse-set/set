@@ -947,13 +947,13 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		return trackDistance.min
 	}
 
-	private static def List<Iterable<Signal_Befestigung>> getBefestigungsgruppen(
+	private static def List<List<Signal_Befestigung>> getBefestigungsgruppen(
 		Signal signal) {
-		val result = new LinkedList<Iterable<Signal_Befestigung>>
+		val result = new LinkedList<List<Signal_Befestigung>>
 		val rahmen = signal.signalRahmen
 		val befestigungen = rahmen.map[it -> signalBefestigung].distinctBy [
 			value
-		]
+		].toList
 
 		switch mast : befestigungen.filter [
 			mastTypeOfSignalWithTwoMast.contains(
@@ -968,13 +968,14 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 						value.signalBefestigungAllg?.befestigungArt?.wert)
 				].map[value].toSet
 				val subMast = mast.map[value].filter[!mainMast.contains(it)]
-				result.add(0, mainMast)
-				result.add(1, subMast)
+				result.add(0, mainMast.toList)
+				result.add(1, subMast.toList)
 			}
 			case mast.size > 2:
 				throw new IllegalArgumentException('''«signal.bezeichnung?.bezeichnungAussenanlage?.toString» has more than two Befestigung Signal''')
-			default:
-				result.add(befestigungen.map[value])
+			default: 
+				result.add(befestigungen.map[value].toList)
+			
 		}
 		return result
 	}
