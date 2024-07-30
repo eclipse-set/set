@@ -293,7 +293,7 @@ jobs:
           retention-days: 1
   
   create-diff-view:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     needs: swtbot
     if: ${{ always() }}
     container: eclipse-set/tablediffview:latest
