@@ -10,7 +10,6 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
-import java.util.function.BiConsumer
 import java.util.function.Function
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
@@ -128,7 +127,7 @@ class CellContentExtensions {
 			[WARNING_MARK_YELLOW],
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
-			[text, mark|getCompareValueFormat(text, mark)]
+			[text, mark|getCompareValueFormat(mark, text)]
 		)
 
 		val footnotes = formatCompareContent(
@@ -137,8 +136,8 @@ class CellContentExtensions {
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
 			[ text, mark |
-				getCompareValueFormat('''*«getFootnoteNumber(content, text)»''',
-					mark)
+				getCompareValueFormat(mark,'''*«getFootnoteNumber(content, text)»'''
+					)
 			]
 		)
 
@@ -272,7 +271,7 @@ class CellContentExtensions {
 					newFormatter,
 					postFormatter
 				)
-		}
+		}.filterNull
 	}
 
 	private static def String getCompareValueFormat(String warning_mark,
