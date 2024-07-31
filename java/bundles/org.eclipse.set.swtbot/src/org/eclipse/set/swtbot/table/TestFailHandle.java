@@ -23,6 +23,7 @@ import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.MockDialogService;
 import org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
+import org.eclipse.set.swtbot.utils.TestFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
@@ -45,18 +46,21 @@ public class TestFailHandle implements TestWatcher {
 		final Optional<Object> testInstance = context.getTestInstance();
 		if (testInstance.isPresent() && testInstance
 				.get() instanceof final AbstractTableTest tableTest) {
-			exportCurrentCSV(tableTest.getTestTableName());
-			exportReferenceCSV(tableTest.getTestTableName(),
-					tableTest.getReferenceDir());
+			exportCurrentCSV(tableTest.getTestFile(),
+					tableTest.getTestTableName());
+			exportReferenceCSV(tableTest.getTestFile(),
+					tableTest.getTestTableName(), tableTest.getReferenceDir());
 		}
 		TestWatcher.super.testFailed(context, cause);
 	}
 
-	protected void exportCurrentCSV(final String tableName) {
+	protected void exportCurrentCSV(final TestFile testFile,
+			final String tableName) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
 		final URL projectLocation = getProjectLocation();
-		final File file = new File(projectLocation.getPath() + DIFF_DIR
-				+ tableName + CURRENT_CSV_EXTENSIONS);
+		final File file = new File(
+				projectLocation.getPath() + DIFF_DIR + testFile.getShortName()
+						+ "_" + tableName + CURRENT_CSV_EXTENSIONS);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdir();
 		}
@@ -81,11 +85,12 @@ public class TestFailHandle implements TestWatcher {
 		}, 5l * 60 * 1000);
 	}
 
-	protected void exportReferenceCSV(final String tableName,
-			final String parentDir) {
+	protected void exportReferenceCSV(final TestFile testFile,
+			final String tableName, final String parentDir) {
 		final URL outLocation = getProjectLocation();
-		final File outFile = new File(outLocation.getPath() + DIFF_DIR
-				+ tableName + REFERENCE_CSV_EXTENSIONS);
+		final File outFile = new File(
+				outLocation.getPath() + DIFF_DIR + testFile.getShortName() + "_"
+						+ tableName + REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdir();
 		}
@@ -102,7 +107,6 @@ public class TestFailHandle implements TestWatcher {
 	}
 
 	protected URL getProjectLocation() {
-		return TestFailHandle.class.getProtectionDomain().getCodeSource()
-				.getLocation();
+		return getClass().getProtectionDomain().getCodeSource().getLocation();
 	}
 }
