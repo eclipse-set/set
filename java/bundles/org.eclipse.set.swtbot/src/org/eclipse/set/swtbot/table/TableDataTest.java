@@ -8,10 +8,16 @@
  */
 package org.eclipse.set.swtbot.table;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,8 +29,15 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  */
 @ExtendWith(TestFailHandle.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class TableDataTest extends AbstractTableTest {
 	PtTable tableToTest;
+
+	@BeforeEach
+	@Override
+	public void beforeEach() throws Exception {
+		// do nothing
+	}
 
 	@Override
 	public String getTestTableName() {
@@ -71,5 +84,11 @@ public class TableDataTest extends AbstractTableTest {
 	protected void whenExistReferenceCSV() {
 		assertNotNull(referenceData);
 		assertFalse(referenceData.isEmpty());
+	}
+
+	// The test file should only open one times by this test
+	@BeforeAll
+	void beforeAll() throws Exception {
+		super.beforeEach();
 	}
 }

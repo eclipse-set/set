@@ -34,23 +34,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(TestFailHandle.class)
 public class ValidationViewTest extends AbstractTableTest {
-	private static final String Application_Schema_Version_Group = "Unterstütztes XML-Schema";
-
-	private static final String File_Info_Group = "Geladene Datei";
-	private static final String File_Schema_Version_Group = "Verwendetes XML-Schema (in Datei)";
 	private static final String guid_expect = "FF06E818-09F6-436E-964E-5F8AC209D3AC";
-	private static final String md5_expect = "FF4AC4AE448141641FEF1E2394DA3F1D";
-	private static final String Model_Container_Group = "PlanPro-Container";
-	private static final String modelContains_expect = "Fachdaten, Anhänge";
-	private static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
-	private static final String subwork_expect = "ESTW (1), Geo (1)";
-	private static final String Subwork_Group = "Untergewerke";
-	private static final String valid_expect = "gültig";
-	private static final String Validate_Group = "Gültigkeit";
-	private static final String VALIDATION_TABLE_NAME = "validation_view";
-	private static final String version_expect = "1.10.0.1";
 
+	private static final String md5_expect = "FF4AC4AE448141641FEF1E2394DA3F1D";
+	private static final String modelContains_expect = "Fachdaten, Anhänge";
+	private static final String subwork_expect = "ESTW (1), Geo (1)";
+	private static final String valid_expect = "gültig";
+	private static final String version_expect = "1.10.0.1";
 	private static final String workable_expect = "Ja";
+	protected static final String Application_Schema_Version_Group = "Unterstütztes XML-Schema";
+	protected static final String File_Info_Group = "Geladene Datei";
+	protected static final String File_Schema_Version_Group = "Verwendetes XML-Schema (in Datei)";
+	protected static final String Model_Container_Group = "PlanPro-Container";
+	protected static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
+	protected static final String Subwork_Group = "Untergewerke";
+	protected static final String Validate_Group = "Gültigkeit";
+
+	protected static final String VALIDATION_TABLE_NAME = "validation_view";
 
 	private static List<String> splitString(final String text,
 			final String regex) {
@@ -61,41 +61,6 @@ public class ValidationViewTest extends AbstractTableTest {
 	@Override
 	public String getTestTableName() {
 		return VALIDATION_TABLE_NAME;
-	}
-
-	private void expectTextWidgetAreSame(final String expectContent,
-			final String textLabel, final String parentName) {
-		assertDoesNotThrow(
-				() -> bot.textWithLabelInGroup(textLabel, parentName));
-		final SWTBotText actual = bot.textWithLabelInGroup(textLabel,
-				parentName);
-
-		final List<String> expects = splitString(expectContent, ",");
-		final List<String> actuals = splitString(actual.getText(), ",");
-		assertEquals(expects.size(), actuals.size());
-		assertTrue(expects.containsAll(actuals));
-
-	}
-
-	private void thenExpectModelInformationEquals() {
-		expectTextWidgetAreSame(md5_expect, "MD5", File_Info_Group);
-		expectTextWidgetAreSame(guid_expect, "GUID", File_Info_Group);
-		expectTextWidgetAreSame(version_expect, "PlanPro",
-				File_Schema_Version_Group);
-		expectTextWidgetAreSame(version_expect, "Signalbegriffe",
-				File_Schema_Version_Group);
-		expectTextWidgetAreSame(valid_expect, "XSD-Gültigkeit", Validate_Group);
-		expectTextWidgetAreSame(valid_expect, "EMF-Gültigkeit", Validate_Group);
-		expectTextWidgetAreSame(workable_expect, "Verarbeitbar",
-				Validate_Group);
-		expectTextWidgetAreSame(version_expect, "PlanPro",
-				Application_Schema_Version_Group);
-		expectTextWidgetAreSame(version_expect, "Signalbegriffe",
-				Application_Schema_Version_Group);
-
-		expectTextWidgetAreSame(subwork_expect, "Enthalten", Subwork_Group);
-		expectTextWidgetAreSame(modelContains_expect, "Enthalten",
-				Model_Container_Group);
 	}
 
 	private void whenOpeningValidateView() {
@@ -128,6 +93,20 @@ public class ValidationViewTest extends AbstractTableTest {
 		}
 	}
 
+	protected void expectTextWidgetAreSame(final String expectContent,
+			final String textLabel, final String parentName) {
+		assertDoesNotThrow(
+				() -> bot.textWithLabelInGroup(textLabel, parentName));
+		final SWTBotText actual = bot.textWithLabelInGroup(textLabel,
+				parentName);
+
+		final List<String> expects = splitString(expectContent, ",");
+		final List<String> actuals = splitString(actual.getText(), ",");
+		assertEquals(expects.size(), actuals.size());
+		assertTrue(expects.containsAll(actuals));
+
+	}
+
 	@Override
 	protected int getNattableHeaderRowCount() {
 		// Filter Row
@@ -138,6 +117,27 @@ public class ValidationViewTest extends AbstractTableTest {
 		referenceData = loadReferenceFile("validation_view");
 		// Remove CSV header info
 		referenceData = referenceData.subList(4, referenceData.size());
+	}
+
+	protected void thenExpectModelInformationEquals() {
+		expectTextWidgetAreSame(md5_expect, "MD5", File_Info_Group);
+		expectTextWidgetAreSame(guid_expect, "GUID", File_Info_Group);
+		expectTextWidgetAreSame(version_expect, "PlanPro",
+				File_Schema_Version_Group);
+		expectTextWidgetAreSame(version_expect, "Signalbegriffe",
+				File_Schema_Version_Group);
+		expectTextWidgetAreSame(valid_expect, "XSD-Gültigkeit", Validate_Group);
+		expectTextWidgetAreSame(valid_expect, "EMF-Gültigkeit", Validate_Group);
+		expectTextWidgetAreSame(workable_expect, "Verarbeitbar",
+				Validate_Group);
+		expectTextWidgetAreSame(version_expect, "PlanPro",
+				Application_Schema_Version_Group);
+		expectTextWidgetAreSame(version_expect, "Signalbegriffe",
+				Application_Schema_Version_Group);
+
+		expectTextWidgetAreSame(subwork_expect, "Enthalten", Subwork_Group);
+		expectTextWidgetAreSame(modelContains_expect, "Enthalten",
+				Model_Container_Group);
 	}
 
 	@Test
