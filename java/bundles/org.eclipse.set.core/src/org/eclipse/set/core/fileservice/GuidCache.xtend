@@ -89,7 +89,7 @@ class GuidCache {
 	private def void prepare(PlanPro_Layoutinfo layout,
 		Map<String, EObject> map) {
 		(getCommonObjects(layout) +
-			(layout?.eContents?.filter(Ur_Objekt) ?: #[])).forEach [
+			(layout?.eAllContents.toList.filter(Ur_Objekt) ?: #[])).forEach [
 			map.put(it?.identitaet?.wert, it)
 		]
 	}
@@ -160,6 +160,11 @@ class GuidCache {
 		// The top level node has been reached (-> Global type)
 		// or A Container_AttributeGroup has been reached (-> Signle/Initial/Planning type)  
 		if (referenceObject === null) return ContainerType::Global
+		
+		if (referenceObject instanceof PlanPro_Layoutinfo) {
+			return ContainerType::Layout
+		}
+		
 		if (!(referenceObject instanceof Container_AttributeGroup))
 			return getContainerType(referenceObject.eContainer())
 
