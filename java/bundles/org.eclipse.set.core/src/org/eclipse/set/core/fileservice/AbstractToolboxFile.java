@@ -15,7 +15,9 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.FeatureNotFoundException;
@@ -160,8 +162,12 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 		if (planProResource == null) {
 			return null;
 		}
-		return (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
-				.getContents().getFirst();
+		final EList<EObject> contents = getPlanProResource().getContents();
+		if (contents.isEmpty()) {
+			return null;
+		}
+		return (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) contents
+				.getFirst();
 	}
 
 	@Override
@@ -171,8 +177,10 @@ public abstract class AbstractToolboxFile implements ToolboxFile {
 			if (layoutResource == null) {
 				return null;
 			}
-			return (org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot) getLayoutResource()
-					.getContents().getFirst();
+			final EList<EObject> contents = getLayoutResource().getContents();
+			return contents.isEmpty() ? null
+					: (org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot) contents
+							.getFirst();
 		} catch (final UnsupportedOperationException e) {
 			return null;
 		}
