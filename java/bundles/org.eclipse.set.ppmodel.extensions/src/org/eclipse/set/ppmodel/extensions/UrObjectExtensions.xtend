@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
@@ -36,6 +37,11 @@ import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle
+import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion
+import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Zugnummernmeldeanlage.ZN_ZBS
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienBezirkExtensions.*
@@ -49,10 +55,8 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
 import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
-import org.eclipse.set.core.services.Services
 
 /**
  * Diese Klasse erweitert {@link Ur_Objekt}.

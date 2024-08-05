@@ -10,20 +10,24 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
+import static org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.getESTWZentraleinheits;
+import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+import static org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.getTechnikStandort;
 import static org.eclipse.set.ppmodel.extensions.UrObjectExtensions.filterObjectsInControlArea;
-import static org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.getGleisAbschnitt;
 
-import java.util.stream.StreamSupport;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit;
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 
 /**
  * Extensions for {@link Stell_Bereich}
@@ -125,12 +129,14 @@ public class StellBereichExtensions {
 			final Stell_Bereich area) {
 		final Iterable<Gleis_Abschnitt> abschnitts = filterObjectsInControlArea(
 				getContainer(area).getGleisAbschnitt(), area);
-		return StreamSupport.stream(getContainer(area).getWKrGspElement()
-				.spliterator(), false).filter(
-						gspElement -> StreamSupport
-								.stream(abschnitts.spliterator(), false)
-								.anyMatch(abschnitt -> getGleisAbschnitt(
-										gspElement).contains(abschnitt)))
+		return StreamSupport
+				.stream(getContainer(area).getWKrGspElement().spliterator(),
+						false)
+				.filter(gspElement -> StreamSupport
+						.stream(abschnitts.spliterator(), false)
+						.anyMatch(abschnitt -> WKrGspElementExtensions
+								.getGleisAbschnitt(gspElement)
+								.contains(abschnitt)))
 				.toList();
 
 	}
