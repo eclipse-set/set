@@ -190,4 +190,26 @@ public class Messages {
 	 * Planungsbereich
 	 */
 	public String ControlAreaCombo_PlanningArea_Value;
+
+	/**
+	 * Unvöllständige PlanPro-Datei
+	 */
+	public String IncompleteFileDialog_Title;
+
+	/**
+	 * Die geladende Datei ist für den Anwendungsfall PT 1 nicht vollständig. Es
+	 * kann fehlerhaften oder unvollständigen Darstellungen kommen.
+	 */
+	public String IncompleteFileDialog_Message;
+
+	/**
+	 * Ungültiges PlanPro-Modell
+	 */
+	public String InvalidFileDialog_Title;
+
+	/**
+	 * Die geladende Datei enthält kein valides Modell im PlanPro-Format. Es
+	 * kann unvorhergesehenen Fehlern und Abstürzen kommen.
+	 */
+	public String InvalidFileDialog_Message;
 }

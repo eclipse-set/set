@@ -238,6 +238,21 @@ public interface DialogService {
 	/**
 	 * @param shell
 	 *            the shell
+	 * @param dialogTitle
+	 *            the dialog title
+	 * @param dialogMsg
+	 *            the message
+	 * @param buttonsLabel
+	 *            the buttons label
+	 * @return whether the model should be loaded (<code>true</code>) or whether
+	 *         the loading should be aborted (<code>false</code>)
+	 */
+	boolean loadIncomleteModel(Shell shell, String dialogTitle,
+			String dialogMsg, String... buttonsLabel);
+
+	/**
+	 * @param shell
+	 *            the shell
 	 * @param filename
 	 *            the filename
 	 * 
@@ -245,6 +260,21 @@ public interface DialogService {
 	 *         the loading should be aborted (<code>false</code>)
 	 */
 	boolean loadInvalidModel(Shell shell, String filename);
+
+	/**
+	 * @param shell
+	 *            the shell
+	 * @param dialogTitle
+	 *            the dialog title
+	 * @param dialogMsg
+	 *            the message
+	 * @param buttonsLabel
+	 *            the buttons label
+	 * @return whether the model should be loaded (<code>true</code>) or whether
+	 *         the loading should be aborted (<code>false</code>)
+	 */
+	boolean loadInvalidModel(Shell shell, String dialogTitle, String dialogMsg,
+			String... buttonsLabel);
 
 	/**
 	 * @param shell
@@ -459,5 +489,4 @@ public interface DialogService {
 	 *         the loading should be aborted (<code>false</code>)
 	 */
 	boolean sitePlanError(Shell shell, String filename);
-
 }

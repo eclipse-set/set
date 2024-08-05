@@ -26,7 +26,7 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1rR5jEeW1jPyxhgRGUg" label="%menu.label.file.quit" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_exit_to_app_black_18dp_1x.png" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_D9x1rh5jEeW1jPyxhgRGUg" label="%menu.label.help">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_6mUoYBJcEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handledmenuitem.help.news" label="%menu.label.help.toolboxnews" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png" command="_cHSywBJfEem7h5-_uEYOFw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_6mUoYBJcEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handledmenuitem.help.news" label="%menu.label.help.toolboxnews" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_sG__QF0vEe6gKuocBy_cVw" elementId="org.eclipse.set.application.handledmenuitem.help.developerhelp" label="%menu.label.help.developerhelp" iconURI="platform:/plugin/org.eclipse.set.utils/icons/outline_help_center_black_24dp.png" command="_e2hnsF0vEe6gKuocBy_cVw">
           <visibleWhen xsi:type="ui:ImperativeExpression" xmi:id="_vdHmgF0vEe6gKuocBy_cVw" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.DeveloperHelpHandler"/>
         </children>
@@ -44,10 +44,7 @@
       <children xsi:type="menu:ToolControl" xmi:id="_2Zwu4JUHEeaIWMhdmiTbdQ" elementId="org.eclipse.set.application.toolcontrol.0" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.toolcontrol.ToolbarSpacerControl">
         <tags>stretch</tags>
       </children>
-      <children xsi:type="menu:ToolBar" xmi:id="_0pAi8JUHEeaIWMhdmiTbdQ" elementId="org.eclipse.set.application.toolbar.right">
-        <tags>NoMove</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_tTtUgCVwEemX_vEX0JOa1A" elementId="org.eclipse.set.application.handledtoolitem.0" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png" tooltip="%toolbar.view.news" command="_cHSywBJfEem7h5-_uEYOFw"/>
-      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_6yNpMFDUEe-AK6JJS2_-Xw" elementId="org.eclipse.set.application.toolcontrol.right.group" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.toolcontrol.ToolbarRightControlGroup"/>
     </trimBars>
   </children>
   <handlers xmi:id="_D9x1nR5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.handler.quitCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.QuitHandler" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
