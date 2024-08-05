@@ -771,7 +771,7 @@ npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/vite/5.3.5, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND BlueOak-1.0.0 AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #15461
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/9.4.3, MIT, approved, #15333
-npm/npmjs/-/vue-router/4.4.1, MIT, approved, clearlydefined
+npm/npmjs/-/vue-router/4.4.2, MIT, approved, clearlydefined
 npm/npmjs/-/vue/3.4.35, MIT, approved, #12656
 npm/npmjs/-/vuex/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.4.1, MIT, approved, clearlydefined
@@ -924,7 +924,7 @@ npm/npmjs/@typescript-eslint/typescript-estree/8.0.0, BSD-2-Clause AND MIT AND (
 npm/npmjs/@typescript-eslint/utils/8.0.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #15828
 npm/npmjs/@typescript-eslint/visitor-keys/8.0.0, MIT, approved, clearlydefined
 npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
-npm/npmjs/@vitejs/plugin-vue/5.1.1, MIT, approved, clearlydefined
+npm/npmjs/@vitejs/plugin-vue/5.1.2, MIT, approved, clearlydefined
 npm/npmjs/@vue/compiler-core/3.4.35, MIT, approved, #12582
 npm/npmjs/@vue/compiler-dom/3.4.35, MIT, approved, #12581
 npm/npmjs/@vue/compiler-sfc/3.4.35, MIT, approved, #12654
@@ -1084,7 +1084,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.jdt.bcoview.feature/1.2.200.v20231106-15
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.jeview.feature/1.1.200.v20231104-1354, EPL-2.0, approved, eclipse.jdt
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.source/3.19.300.v20231201-0110, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt/3.19.300.v20231201-0110, EPL-2.0, approved, eclipse.equinox
-p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.3.v20240426-1530, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.4.v20240802-1551, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.source.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.e4.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
@@ -1980,8 +1980,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.core/1.5.200.v20231106-1240, EPL-2.0
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui.source/1.5.200.v20231106-1240, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui/1.5.200.v20231106-1240, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.3.v20240426-1530, EPL-2.0, approved, technology.justj
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.3.v20240426-1530, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.4.v20240802-1551, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.4.v20240802-1551, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.source/3.14.200.v20231106-1218, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring/3.14.200.v20231106-1218, EPL-2.0, approved, eclipse.platform
