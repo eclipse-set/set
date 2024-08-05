@@ -26,7 +26,7 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_D9x1rR5jEeW1jPyxhgRGUg" label="%menu.label.file.quit" iconURI="platform:/plugin/org.eclipse.set.utils/icons/ic_exit_to_app_black_18dp_1x.png" command="_D9x1nB5jEeW1jPyxhgRGUg"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_D9x1rh5jEeW1jPyxhgRGUg" label="%menu.label.help">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_6mUoYBJcEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handledmenuitem.help.news" label="%menu.label.help.toolboxnews" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_6mUoYBJcEem7h5-_uEYOFw" elementId="org.eclipse.set.application.handledmenuitem.help.news" label="%menu.label.help.toolboxnews" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png" command="_cHSywBJfEem7h5-_uEYOFw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_sG__QF0vEe6gKuocBy_cVw" elementId="org.eclipse.set.application.handledmenuitem.help.developerhelp" label="%menu.label.help.developerhelp" iconURI="platform:/plugin/org.eclipse.set.utils/icons/outline_help_center_black_24dp.png" command="_e2hnsF0vEe6gKuocBy_cVw">
           <visibleWhen xsi:type="ui:ImperativeExpression" xmi:id="_vdHmgF0vEe6gKuocBy_cVw" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.DeveloperHelpHandler"/>
         </children>
