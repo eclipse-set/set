@@ -18,8 +18,11 @@ import org.w3c.dom.NodeList;
  *
  */
 public class NodeAttributeNameProvider {
-	private final static String TEXT_NODE = "#text"; //$NON-NLS-1$
+	private static final String TEXT_NODE = "#text"; //$NON-NLS-1$
 	private static final String CONTAINER_NODE = "Container"; //$NON-NLS-1$
+
+	private static final String IDENTITY_ATTRIBUTE_NAME = "Identitaet"; //$NON-NLS-1$
+	private static final String VALUE_ATTRIBUTE_NAME = "Wert"; //$NON-NLS-1$
 
 	/**
 	 * @param node
@@ -40,8 +43,9 @@ public class NodeAttributeNameProvider {
 			return getAttributeName(parentNode);
 		}
 
-		// Avoid to same value with ObjectType
-		if (isObjectType(parentNode)) {
+		// If this contains a value subelement, return it
+		// Also return it if the parent object is a LST-Object
+		if (isValueType(node) || isObjectType(parentNode)) {
 			return node.getNodeName();
 		}
 
@@ -49,11 +53,20 @@ public class NodeAttributeNameProvider {
 	}
 
 	private static boolean isObjectType(final Node node) {
+		return hasChildOfType(node,
+				NodeAttributeNameProvider.IDENTITY_ATTRIBUTE_NAME);
+	}
+
+	private static boolean isValueType(final Node node) {
+		return hasChildOfType(node,
+				NodeAttributeNameProvider.VALUE_ATTRIBUTE_NAME);
+	}
+
+	private static boolean hasChildOfType(final Node node, final String name) {
 		final NodeList children = node.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			final Node child = children.item(i);
-			if (child.getNodeName()
-					.equals(NodeObjectTypeProvider.IDENTITY_ATTRIBUTE_NAME)) {
+			if (child.getNodeName().equals(name)) {
 				return true;
 			}
 		}
