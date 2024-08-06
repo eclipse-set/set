@@ -327,7 +327,7 @@ public class DialogServiceImpl implements DialogService {
 	}
 
 	@Override
-	public boolean loadIncomleteModel(final Shell shell,
+	public boolean loadIncompleteModel(final Shell shell,
 			final String dialogTitle, final String dialogMsg,
 			final String... buttonsLabel) {
 		final LoadIncompleteFileDialog dialog = new LoadIncompleteFileDialog(

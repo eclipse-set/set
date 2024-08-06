@@ -176,16 +176,16 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
-	public boolean loadIncomleteModel(final Shell shell,
-			final String dialogTitle, final String dialogMsg,
-			final String... buttonsLabel) {
-		throw new UnsupportedOperationException();
+	public boolean loadIncompleteModel(final Shell shell,
+			final String filename) {
+		return true;
 	}
 
 	@Override
 	public boolean loadIncompleteModel(final Shell shell,
-			final String filename) {
-		return true;
+			final String dialogTitle, final String dialogMsg,
+			final String... buttonsLabel) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

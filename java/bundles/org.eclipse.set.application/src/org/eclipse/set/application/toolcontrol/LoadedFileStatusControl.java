@@ -45,7 +45,7 @@ public class LoadedFileStatusControl {
 	private final Shell shell;
 	private final Button iconButton;
 	private Image invalidIconImage;
-	private Image incomplteIconImage;
+	private Image incompleteIconImage;
 	private static final String INVALID_ICON_URI = "platform:/plugin/org.eclipse.set.utils/icons/warning_red_transparent.png"; //$NON-NLS-1$
 	private static final String INCOMPLETE_ICON_URI = "platform:/plugin/org.eclipse.set.utils/icons/warning_yellow_transparent.png"; //$NON-NLS-1$
 
@@ -64,7 +64,7 @@ public class LoadedFileStatusControl {
 		msg = provider.messages;
 		this.shell = shell;
 		invalidIconImage = loadImage(INVALID_ICON_URI);
-		incomplteIconImage = loadImage(INCOMPLETE_ICON_URI);
+		incompleteIconImage = loadImage(INCOMPLETE_ICON_URI);
 		iconButton = new Button(parent, SWT.PUSH);
 		iconButton.setVisible(false);
 		iconButton.addSelectionListener(onButtonClick());
@@ -72,11 +72,11 @@ public class LoadedFileStatusControl {
 			@Override
 			public boolean changed(final IEclipseContext context) {
 				final IModelSession session = context.get(IModelSession.class);
-				if (session != null && incomplteIconImage != null
+				if (session != null && incompleteIconImage != null
 						&& invalidIconImage != null) {
 					switch (session.getFileValidateState()) {
 					case INCOMPLETE: {
-						iconButton.setImage(incomplteIconImage);
+						iconButton.setImage(incompleteIconImage);
 						iconButton.setVisible(true);
 						break;
 					}
@@ -121,7 +121,7 @@ public class LoadedFileStatusControl {
 				}
 				switch (session.getFileValidateState()) {
 				case INCOMPLETE: {
-					dialogService.loadIncomleteModel(shell,
+					dialogService.loadIncompleteModel(shell,
 							msg.IncompleteFileDialog_Title,
 							msg.IncompleteFileDialog_Message, JFaceResources
 									.getString(IDialogLabelKeys.OK_LABEL_KEY));

@@ -197,8 +197,8 @@ public class Messages {
 	public String IncompleteFileDialog_Title;
 
 	/**
-	 * Die geladende Datei ist für den Anwendungsfall PT 1 nicht vollständig. Es
-	 * kann fehlerhaften oder unvollständigen Darstellungen kommen.
+	 * Die geladene Datei ist für den Anwendungsfall PT 1 nicht vollständig. Es
+	 * kann zu fehlerhaften oder unvollständigen Darstellungen kommen.
 	 */
 	public String IncompleteFileDialog_Message;
 
@@ -208,8 +208,8 @@ public class Messages {
 	public String InvalidFileDialog_Title;
 
 	/**
-	 * Die geladende Datei enthält kein valides Modell im PlanPro-Format. Es
-	 * kann unvorhergesehenen Fehlern und Abstürzen kommen.
+	 * Die geladene Datei enthält kein valides Modell im PlanPro-Format. Es kann
+	 * zu unvorhergesehenen Fehlern und Abstürzen kommen.
 	 */
 	public String InvalidFileDialog_Message;
 }
