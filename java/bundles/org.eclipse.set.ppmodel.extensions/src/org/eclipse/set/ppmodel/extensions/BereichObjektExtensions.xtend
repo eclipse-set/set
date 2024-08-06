@@ -411,7 +411,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt bereich,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
-		return bereich.contains(singlePoint)
+		return bereich.bereichObjektTeilbereich.exists [
+			contains(singlePoint)
+		]
 	}
 
 	/**
