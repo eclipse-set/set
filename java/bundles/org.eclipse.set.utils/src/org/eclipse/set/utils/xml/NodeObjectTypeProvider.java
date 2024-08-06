@@ -22,7 +22,7 @@ public class NodeObjectTypeProvider {
 	/**
 	 * Identity node name
 	 */
-	public static final String IDENTITY_ATTRIBUTE_NAME = "Identitaet"; //$NON-NLS-1$
+	private static final String IDENTITY_ATTRIBUTE_NAME = "Identitaet"; //$NON-NLS-1$
 
 	/**
 	 * @param node

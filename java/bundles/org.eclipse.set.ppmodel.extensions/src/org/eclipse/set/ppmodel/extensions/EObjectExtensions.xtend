@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.Optional
 
 /**
  * Extensions for {@link EObject}.
