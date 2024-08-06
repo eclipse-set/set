@@ -14,11 +14,14 @@ import java.io.IOException;
 
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
+import org.eclipse.set.swtbot.table.TestFailHandle;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test for changes in PlaZ Model
  */
+@ExtendWith(TestFailHandle.class)
 public class PlaZModelTest extends AbstractTableTest {
 
 	private static final String PLAZ_MODEL_TABLE = "plaz_model";

@@ -8,7 +8,10 @@
  */
 package org.eclipse.set.feature.plazmodel.table;
 
+import java.nio.file.Path;
+
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.Messages;
@@ -28,6 +31,17 @@ import org.eclipse.swt.widgets.Control;
  *
  */
 public class PlazModelTableView extends AbstractTreeLayerTable {
+	@SuppressWarnings("nls")
+	static final String HEADER_PATTERN = """
+			PlaZ-Modell-Prüfung
+			Datei: %s
+			Prüfungszeit: %s
+			Werkzeugkofferversion: %s
+
+
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
+			""";
+
 	private final Messages messages;
 	private final BasePart part;
 	private final EnumTranslationService enumTranslationService;
@@ -106,5 +120,20 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 	@Override
 	protected XMLNodeFinder getXMLNodeFinder() {
 		return xmlNodeFinder;
+	}
+
+	@Override
+	protected String getCSVHeaderPattern() {
+		return HEADER_PATTERN;
+	}
+
+	@Override
+	public void exportCsv() {
+		final Path location = part.getModelSession().getToolboxFile().getPath();
+		final String defaultFileName = String.format(
+				messages.PlazModellPart_ExportCsvFilePattern,
+				PathExtensions.getBaseFileName(location));
+		exportCsv(part.getToolboxShell(), part.getDialogService(),
+				messages.PlazModellPart_ExportTitleMsg, defaultFileName);
 	}
 }

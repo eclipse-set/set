@@ -8,10 +8,8 @@
  */
 package org.eclipse.set.feature.plazmodel;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -25,7 +23,6 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
-import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -33,16 +30,15 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.plazmodel.check.PlazCheck;
 import org.eclipse.set.feature.plazmodel.service.PlazModelService;
 import org.eclipse.set.feature.plazmodel.table.PlazModelTableView;
+import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.plazmodel.PlazReport;
 import org.eclipse.set.model.validationreport.ValidationProblem;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
-import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
-import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -146,7 +142,7 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 
 			@Override
 			public void selected(final SelectionEvent e) {
-				exportPlazModel();
+				tableView.exportCsv();
 			}
 
 			@Override
@@ -190,40 +186,6 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 								entry.getType(), entry.getLineNumber(), 2,
 								entry.getObjectScope().getLiteral())));
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
-	}
-
-	@SuppressWarnings("nls")
-	static final String HEADER_PATTERN = """
-			PlaZ-Modell-Prüfung
-			Datei: %s
-			Prüfungszeit: %s
-			Werkzeugkofferversion: %s
-
-
-			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
-			""";
-
-	private void exportPlazModel() {
-		final Shell shell = getToolboxShell();
-		final Path location = getModelSession().getToolboxFile().getPath();
-		final String defaultFileName = String.format(
-				messages.PlazModellPart_ExportCsvFilePattern,
-				PathExtensions.getBaseFileName(location));
-
-		final Optional<Path> optionalPath = getDialogService().saveFileDialog(
-				shell, getDialogService().getCsvFileFilters(),
-				userConfigService.getLastExportPath().resolve(defaultFileName),
-				messages.PlazModellPart_ExportTitleMsg);
-
-		// export
-		final ExportToCSV<String> problemExport = new ExportToCSV<>(
-				HEADER_PATTERN);
-		problemExport.exportToCSV(optionalPath, tableView.transformToCSV());
-		optionalPath.ifPresent(outputDir -> {
-			getDialogService().openDirectoryAfterExport(getToolboxShell(),
-					outputDir.getParent());
-			userConfigService.setLastExportPath(outputDir.getParent());
-		});
 	}
 
 	@Override

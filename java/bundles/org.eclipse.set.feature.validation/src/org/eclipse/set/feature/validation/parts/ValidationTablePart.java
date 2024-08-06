@@ -8,12 +8,8 @@
  */
 package org.eclipse.set.feature.validation.parts;
 
-import java.nio.file.Path;
-import java.util.Optional;
-
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.ecp.ui.view.ECPRendererException;
-import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.version.PlanProVersionService;
@@ -23,11 +19,9 @@ import org.eclipse.set.feature.validation.table.ValidationTableView;
 import org.eclipse.set.model.validationreport.ValidationReport;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
-import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 
 import jakarta.inject.Inject;
 
@@ -76,7 +70,7 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 
 			@Override
 			public void selected(final SelectionEvent e) {
-				export();
+				tableView.exportCsv();
 			}
 
 			@Override
@@ -92,26 +86,5 @@ public class ValidationTablePart extends AbstractEmfFormsPart {
 				messages.ValidationTable_ExpandAllGroup,
 				messages.ValidationTable_CollapseAllGroup);
 
-	}
-
-	protected void export() {
-		final Shell shell = getToolboxShell();
-		final Path location = getModelSession().getToolboxFile().getPath();
-		final String defaultFileName = String.format(messages.ExportFilePattern,
-				PathExtensions.getBaseFileName(location));
-
-		final Optional<Path> optionalPath = getDialogService().saveFileDialog(
-				shell, getDialogService().getCsvFileFilters(),
-				userConfigService.getLastExportPath().resolve(defaultFileName),
-				messages.ExportValidationTitleMsg);
-		// export
-		final ExportToCSV<String> problemExport = new ExportToCSV<>(
-				ValidationPart.CSV_HEADER_PATTERN);
-		problemExport.exportToCSV(optionalPath, tableView.transformToCSV());
-		optionalPath.ifPresent(outputDir -> {
-			getDialogService().openDirectoryAfterExport(getToolboxShell(),
-					outputDir.getParent());
-			userConfigService.setLastExportPath(outputDir);
-		});
 	}
 }

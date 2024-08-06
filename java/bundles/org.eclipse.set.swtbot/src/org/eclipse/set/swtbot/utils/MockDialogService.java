@@ -188,7 +188,7 @@ public class MockDialogService implements DialogService {
 
 	@Override
 	public void openDirectoryAfterExport(final Shell shell, final Path path) {
-		throw new UnsupportedOperationException();
+		// do nothing
 	}
 
 	@Override
