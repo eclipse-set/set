@@ -18,6 +18,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 
 import jakarta.annotation.PostConstruct;
 
@@ -33,18 +34,20 @@ public class ToolbarRightControlGroup {
 
 	@PostConstruct
 	private void postConstruct(final Composite parent,
-			final IEclipseContext context) {
+			final IEclipseContext context, final Shell shell) {
 		serviceProvider = ContextInjectionFactory.make(ServiceProvider.class,
 				context);
 		composite = new Composite(parent, SWT.NONE);
-		final GridLayout gridLayout = new GridLayout(2, false);
+		final GridLayout gridLayout = new GridLayout(3, false);
 		composite.setLayout(gridLayout);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
-		initControl();
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		initControl(shell);
 	}
 
 	@SuppressWarnings("unused")
-	private void initControl() {
+	private void initControl(final Shell shell) {
+		final LoadedFileStatusControl validIconControl = new LoadedFileStatusControl(
+				composite, serviceProvider, shell);
 		final TableTypeSelectionControl tableTypeSelectionControl = new TableTypeSelectionControl(
 				composite, serviceProvider);
 		final ControlAreaSelectionControl controlAreaSelectionControlcontrolArea = new ControlAreaSelectionControl(

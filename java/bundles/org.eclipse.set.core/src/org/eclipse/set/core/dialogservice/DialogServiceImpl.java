@@ -327,12 +327,33 @@ public class DialogServiceImpl implements DialogService {
 	}
 
 	@Override
+	public boolean loadIncompleteModel(final Shell shell,
+			final String dialogTitle, final String dialogMsg,
+			final String... buttonsLabel) {
+		final LoadIncompleteFileDialog dialog = new LoadIncompleteFileDialog(
+				shell, dialogTitle, dialogMsg, buttonsLabel);
+		final int open = dialog.open();
+		dialog.close();
+		return open == IDialogConstants.OK_ID;
+	}
+
+	@Override
 	public boolean loadInvalidModel(final Shell shell, final String filename) {
 		final LoadInvalidFileDialog validationDialog = new LoadInvalidFileDialog(
 				shell, messages, filename);
 		final int result = validationDialog.open();
 		validationDialog.close();
 		return result == IDialogConstants.OK_ID;
+	}
+
+	@Override
+	public boolean loadInvalidModel(final Shell shell, final String dialogTitle,
+			final String dialogMsg, final String... buttonsLabel) {
+		final LoadInvalidFileDialog dialog = new LoadInvalidFileDialog(shell,
+				dialogTitle, dialogMsg, buttonsLabel);
+		final int open = dialog.open();
+		dialog.close();
+		return open == IDialogConstants.OK_ID;
 	}
 
 	@Override

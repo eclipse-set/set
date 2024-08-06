@@ -8,6 +8,9 @@
  */
 package org.eclipse.set.core.dialogservice;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.eclipse.set.core.Messages;
 import org.eclipse.swt.widgets.Shell;
 
@@ -16,11 +19,9 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author Stuecker
  */
-class LoadIncompleteFileDialog extends AbstractFileDialog {
+public class LoadIncompleteFileDialog extends AbstractDialogWithIcon {
 
-	protected final String filename;
-
-	protected final Messages messages;
+	protected final String INCOMPLETE_ICON_URI = "platform:/plugin/org.eclipse.set.utils/icons/warning_yellow_transparent_48px.png"; //$NON-NLS-1$
 
 	/**
 	 * @param parentShell
@@ -32,29 +33,32 @@ class LoadIncompleteFileDialog extends AbstractFileDialog {
 	 */
 	public LoadIncompleteFileDialog(final Shell parentShell,
 			final Messages messages, final String filename) {
-		super(parentShell);
-		this.messages = messages;
-		this.filename = filename;
+		super(parentShell, messages.LoadIncompleteFileDialog_Title,
+				String.format(messages.LoadIncompleteFileDialog_MessagePattern,
+						filename),
+				messages.LoadIncompleteFileDialog_OpenLabel,
+				messages.LoadInvalidFileDialog_CloseLabel);
+
+	}
+
+	/**
+	 * @param parentShell
+	 *            the parent shell
+	 * @param dialogTitle
+	 *            the dialog title
+	 * @param message
+	 *            the dialog message
+	 * @param buttonsLabel
+	 *            the buttons label
+	 */
+	public LoadIncompleteFileDialog(final Shell parentShell,
+			final String dialogTitle, final String message,
+			final String... buttonsLabel) {
+		super(parentShell, dialogTitle, message, buttonsLabel);
 	}
 
 	@Override
-	protected String getDialogTitle() {
-		return messages.LoadIncompleteFileDialog_Title;
-	}
-
-	@Override
-	protected String getDialogMessage() {
-		return String.format(messages.LoadIncompleteFileDialog_MessagePattern,
-				filename);
-	}
-
-	@Override
-	protected String getOpenLabel() {
-		return messages.LoadIncompleteFileDialog_OpenLabel;
-	}
-
-	@Override
-	protected String getCloseLabel() {
-		return messages.LoadInvalidFileDialog_CloseLabel;
+	protected URI getIconURI() throws URISyntaxException {
+		return new URI(INCOMPLETE_ICON_URI);
 	}
 }

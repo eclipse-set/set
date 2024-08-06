@@ -14,6 +14,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.application.Messages;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 
@@ -40,4 +41,7 @@ public class ServiceProvider {
 
 	@Inject
 	public ToolboxPartService partService;
+
+	@Inject
+	public DialogService dialogService;
 }

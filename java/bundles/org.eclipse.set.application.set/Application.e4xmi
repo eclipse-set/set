@@ -44,10 +44,7 @@
       <children xsi:type="menu:ToolControl" xmi:id="_2Zwu4JUHEeaIWMhdmiTbdQ" elementId="org.eclipse.set.application.toolcontrol.0" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.toolcontrol.ToolbarSpacerControl">
         <tags>stretch</tags>
       </children>
-      <children xsi:type="menu:ToolBar" xmi:id="_0pAi8JUHEeaIWMhdmiTbdQ" elementId="org.eclipse.set.application.toolbar.right">
-        <tags>NoMove</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_tTtUgCVwEemX_vEX0JOa1A" elementId="org.eclipse.set.application.handledtoolitem.0" iconURI="platform:/plugin/org.eclipse.set.utils/icons/baseline_fiber_new_black_24dp.png" tooltip="%toolbar.view.news" command="_cHSywBJfEem7h5-_uEYOFw"/>
-      </children>
+      <children xsi:type="menu:ToolControl" xmi:id="_6yNpMFDUEe-AK6JJS2_-Xw" elementId="org.eclipse.set.application.toolcontrol.right.group" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.toolcontrol.ToolbarRightControlGroup"/>
     </trimBars>
   </children>
   <handlers xmi:id="_D9x1nR5jEeW1jPyxhgRGUg" elementId="org.eclipse.set.application.handler.quitCommand" contributionURI="bundleclass://org.eclipse.set.application/org.eclipse.set.application.handler.QuitHandler" command="_D9x1nB5jEeW1jPyxhgRGUg"/>

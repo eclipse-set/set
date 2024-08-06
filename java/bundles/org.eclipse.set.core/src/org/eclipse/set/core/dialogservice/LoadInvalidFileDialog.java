@@ -8,6 +8,9 @@
  */
 package org.eclipse.set.core.dialogservice;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.eclipse.set.core.Messages;
 import org.eclipse.swt.widgets.Shell;
 
@@ -16,11 +19,8 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author Schaefer
  */
-class LoadInvalidFileDialog extends AbstractFileDialog {
-
-	protected final String filename;
-
-	protected final Messages messages;
+public class LoadInvalidFileDialog extends AbstractDialogWithIcon {
+	protected final String INVALID_ICON_URI = "platform:/plugin/org.eclipse.set.utils/icons/warning_red_transparent_48px.png"; //$NON-NLS-1$
 
 	/**
 	 * @param parentShell
@@ -32,29 +32,32 @@ class LoadInvalidFileDialog extends AbstractFileDialog {
 	 */
 	public LoadInvalidFileDialog(final Shell parentShell,
 			final Messages messages, final String filename) {
-		super(parentShell);
-		this.messages = messages;
-		this.filename = filename;
+		super(parentShell, messages.LoadInvalidFileDialog_Title,
+				String.format(messages.LoadInvalidFileDialog_MessagePattern,
+						filename),
+				messages.LoadIncompleteFileDialog_OpenLabel,
+				messages.LoadInvalidFileDialog_CloseLabel);
+	}
+
+	/**
+	 * @param parentShell
+	 *            the parent shell
+	 * @param dialogTitle
+	 *            the dialog title
+	 * @param message
+	 *            the dialog message
+	 * @param buttonsLabel
+	 *            the buttons label
+	 */
+	public LoadInvalidFileDialog(final Shell parentShell,
+			final String dialogTitle, final String message,
+			final String... buttonsLabel) {
+		super(parentShell, dialogTitle, message, buttonsLabel);
 	}
 
 	@Override
-	protected String getDialogTitle() {
-		return messages.LoadInvalidFileDialog_Title;
+	protected URI getIconURI() throws URISyntaxException {
+		return new URI(INVALID_ICON_URI);
 	}
 
-	@Override
-	protected String getDialogMessage() {
-		return String.format(messages.LoadInvalidFileDialog_MessagePattern,
-				filename);
-	}
-
-	@Override
-	protected String getOpenLabel() {
-		return messages.LoadInvalidFileDialog_OpenLabel;
-	}
-
-	@Override
-	protected String getCloseLabel() {
-		return messages.LoadInvalidFileDialog_CloseLabel;
-	}
 }

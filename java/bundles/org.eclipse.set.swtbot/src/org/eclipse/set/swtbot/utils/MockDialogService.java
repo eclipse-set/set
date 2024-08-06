@@ -182,8 +182,21 @@ public class MockDialogService implements DialogService {
 	}
 
 	@Override
+	public boolean loadIncompleteModel(final Shell shell,
+			final String dialogTitle, final String dialogMsg,
+			final String... buttonsLabel) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public boolean loadInvalidModel(final Shell shell, final String filename) {
 		return true;
+	}
+
+	@Override
+	public boolean loadInvalidModel(final Shell shell, final String dialogTitle,
+			final String dialogMsg, final String... buttonsLabel) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
