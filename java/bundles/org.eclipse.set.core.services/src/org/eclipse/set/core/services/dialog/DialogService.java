@@ -247,7 +247,7 @@ public interface DialogService {
 	 * @return whether the model should be loaded (<code>true</code>) or whether
 	 *         the loading should be aborted (<code>false</code>)
 	 */
-	boolean loadIncomleteModel(Shell shell, String dialogTitle,
+	boolean loadIncompleteModel(Shell shell, String dialogTitle,
 			String dialogMsg, String... buttonsLabel);
 
 	/**
