@@ -12,12 +12,14 @@ import java.util.Collections
 import java.util.List
 import java.util.Set
 import org.eclipse.core.runtime.Assert
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.GZ_Freimeldung_L_AttributeGroup
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.GZ_Freimeldung_R_AttributeGroup
@@ -29,6 +31,7 @@ import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
@@ -198,5 +201,11 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 			element.weicheElement.GZFreimeldungR.element].filter(
 			Gleis_Abschnitt).toList
 
+	}
+
+	def static boolean isRelevantControlArea(W_Kr_Gsp_Element gspElement,
+		Stell_Bereich controlArea) {
+		return gspElement.IDStellelement?.value.IDInformation?.value ===
+			controlArea.aussenElementAnsteuerung
 	}
 }
