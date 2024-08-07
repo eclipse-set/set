@@ -10,29 +10,9 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.set.core.services.Services
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
-import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Zentrale
-import org.eclipse.set.model.planpro.Block.Block_Element
-import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
-import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz
-import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
-import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
-import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
-import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.eclipse.set.model.planpro.PlanPro.LST_Zustand
@@ -43,7 +23,6 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Zugnummernmeldeanlage.ZN_ZBS
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
-import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BedienBezirkExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BlockElementExtensions.*
@@ -121,103 +100,16 @@ class UrObjectExtensions extends BasisAttributExtensions {
 		return planData.exists[wert == guid]
 	}
 
-	def static <T extends Ur_Objekt> Iterable<T> filterObjectsInControlArea(
+	def static <T extends Basis_Objekt> Iterable<T> filterObjectsInControlArea(
 		Iterable<T> objects, Stell_Bereich area) {
 		if (area === null) {
 			return objects
 		}
 
-		return objects.filter[isInControlArea(area)]
+		return objects.filter[area.isInControlArea(it)]
 	}
 
-	private def static dispatch boolean isInControlArea(Ur_Objekt object,
-		Stell_Bereich area) {
-		throw new IllegalArgumentException()
-	}
 
-	private def static dispatch boolean isInControlArea(
-		Aussenelementansteuerung aussenElement, Stell_Bereich area) {
-		return area.aussenElementAnsteuerung == aussenElement;
-	}
-
-	private def static dispatch boolean isInControlArea(
-		ESTW_Zentraleinheit object, Stell_Bereich area) {
-		val estwZentrals = area?.aussenElementAnsteuerung?.ESTWZentraleinheits
-		return estwZentrals.exists[it === object];
-	}
-
-	private def static dispatch boolean isInControlArea(
-		Bedien_Einrichtung_Oertlich bedienEinrichtung, Stell_Bereich area) {
-		return area?.aussenElementAnsteuerung ===
-			bedienEinrichtung.IDAussenelementansteuerung?.value
-	}
-
-	private def static dispatch boolean isInControlArea(FMA_Komponente object,
-		Stell_Bereich area) {
-		return object?.FMAKomponenteAchszaehlpunkt?.IDInformation?.filterNull.
-			exists [
-				area.aussenElementAnsteuerung !== null &&
-					it === area.aussenElementAnsteuerung
-			]
-	}
-
-	private def static dispatch boolean isInControlArea(Zugeinwirkung zugeinwirkung,
-		Stell_Bereich area) {
-		val schaltmittle = zugeinwirkung.container.schaltmittelZuordnung.filter [
-			IDSchalter?.value instanceof Zugeinwirkung
-		].filter[it === zugeinwirkung]
-
-		return schaltmittle.map[IDSchalter?.value].exists [
-			it instanceof Block_Element || it instanceof Fstr_Fahrweg
-		] && zugeinwirkung.punktObjektTOPKante.exists[area.contains(it)]
-	}
-
-	private def static dispatch boolean isInControlArea(PZB_Element object,
-		Stell_Bereich controlArea) {
-		val potk = object.PZBElementBezugspunkt.filter(Signal).filter [
-			signalReal !== null && signalReal.signalRealAktiv === null
-		].flatMap [
-			punktObjektTOPKante
-		]
-		return !object.stellelements.filter [
-			IDInformation?.value === controlArea.aussenElementAnsteuerung
-		].nullOrEmpty && controlArea.bereichObjektTeilbereich.exists [ botb |
-			potk.exists[botb.contains(it)]
-		]
-	}
-
-	static final double tolerantDistance = 1000
-
-	private def static dispatch boolean isInControlArea(Signal signal,
-		Stell_Bereich controlArea) {
-		val firstcondition = signal.stellelement.IDInformation ===
-			controlArea.IDAussenelementansteuerung ||
-			((signal.signalFiktiv !== null || signal.signalReal !== null) &&
-				signal.punktObjektTOPKante.exists [ potk |
-					controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
-				]
-		)
-		if (firstcondition) {
-			return firstcondition
-		}
-
-		val isTargetSignal = signal.container.fstrZugRangier.map [
-			IDFstrFahrweg?.value
-		].forall[IDStart?.value !== signal]
-		if (signal.signalReal !== null &&
-			signal.signalReal.signalRealAktiv === null &&
-			signal.signalFiktiv !== null && signal.punktObjektTOPKante.exists [
-				controlArea.contains(it, tolerantDistance)
-			]) {
-			val topGraph = new TopGraph(signal.container.TOPKante)
-			val areaTopKante = controlArea.bereichObjektTeilbereich.map[topKante].
-				filter[!signal.topKanten.contains(it)]
-			return isTargetSignal === !areaTopKante.forall [ topKante |
-				topGraph.isInWirkrichtungOfSignal(signal, topKante)
-			]
-		}
-		return false
-	}
 
 	private def static dispatch boolean isInControlArea(Technik_Standort standort,
 		Stell_Bereich controlArea) {

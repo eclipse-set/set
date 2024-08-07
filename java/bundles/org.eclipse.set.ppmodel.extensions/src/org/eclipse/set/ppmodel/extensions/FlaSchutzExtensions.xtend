@@ -9,14 +9,16 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Freimelde_Zuordnung
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 import static extension org.eclipse.set.ppmodel.extensions.FlaZwieschutzExtensions.*
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
 
 /**
  * Extensions for {@link Fla_Schutz}.
@@ -96,14 +98,16 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 	def static List<Fla_Freimelde_Zuordnung> getFreimeldeZuordnungen(
 		Fla_Schutz flaSchutz) {
 		return flaSchutz.container.flaFreimeldeZuordnung.filter [
-			it?.IDFlaSchutz?.value?.identitaet?.wert == flaSchutz?.identitaet?.wert &&
+			it?.IDFlaSchutz?.value?.identitaet?.wert ==
+				flaSchutz?.identitaet?.wert &&
 				it?.IDFlaSchutz?.value?.identitaet?.wert !== null
 		].toList
 	}
 
 	def static String getAnfordererBezeichnung(Fla_Schutz anforderer,
 		W_Kr_Gsp_Element wKrGspElement) {
-		val wKrArt = wKrGspElement?.IDWKrAnlage?.value?.WKrAnlageAllg?.WKrArt?.wert
+		val wKrArt = wKrGspElement?.IDWKrAnlage?.value?.WKrAnlageAllg?.WKrArt?.
+			wert
 		if (wKrArt === ENUMWKrArt.ENUMW_KR_ART_EKW &&
 			anforderer?.flaSchutzAnforderer?.EKWKrAnteil?.wert) {
 			return '''«wKrGspElement?.bezeichnung?.kennzahl»Kr«wKrGspElement.bezeichnung.oertlicherElementname»'''
@@ -113,4 +117,18 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 		return ""
 	}
 
+	def static boolean isRelevantControlArea(Fla_Schutz fla,
+		Stell_Bereich controlArea) {
+		val anforderer = fla.anforderer
+		return switch (anforderer) {
+			W_Kr_Gsp_Element:
+				WKrGspElementExtensions.isRelevantControlArea(anforderer,
+					controlArea)
+			NB_Zone_Grenze:
+				NbZoneGrenzeExtensions.isRelevantControlArea(anforderer,
+					controlArea)
+			default:
+				throw new IllegalArgumentException()
+		}
+	}
 }

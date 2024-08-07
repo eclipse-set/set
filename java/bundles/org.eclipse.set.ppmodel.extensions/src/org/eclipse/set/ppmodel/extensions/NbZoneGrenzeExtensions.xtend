@@ -8,11 +8,15 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
-import java.util.List
+
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MarkanterPunktExtensions.*
 
 /**
  * Extensions for {@link NB_Zone}.
@@ -48,4 +52,12 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 				nbZoneGrenze.identitaet.wert
 		].toList
 	}
+
+	def static boolean isRelevantControlArea(NB_Zone_Grenze grenze,
+		Stell_Bereich controlArea) {
+		return grenze.markanterPunkt.markanteStelle.punktObjektTOPKante.exists [ potk |
+			controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
+		]
+	}
+
 }

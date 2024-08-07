@@ -8,8 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * This class extends {@link Stellelement}.
@@ -35,5 +38,11 @@ class StellelementExtensions extends BasisObjektExtensions {
 	def static Aussenelementansteuerung getInformation(
 		Stellelement stellelement) {
 		return stellelement.IDInformation?.value
+	}
+
+	def static boolean isRelevantControlArea(Stellelement stellElement,
+		Stell_Bereich area) {
+		return stellElement.IDInformation?.value ===
+			area.aussenElementAnsteuerung
 	}
 }

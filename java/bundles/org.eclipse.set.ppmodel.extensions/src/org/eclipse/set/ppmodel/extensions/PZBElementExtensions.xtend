@@ -8,20 +8,23 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.PZB.PZB_Element
 import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
-import java.util.List
-import org.eclipse.set.model.planpro.Signale.Signal
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
-
-import static extension org.eclipse.set.ppmodel.extensions.FstrFahrwegExtensions.getFstrDweg
 import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_BP_AttributeGroup
 import org.eclipse.set.model.planpro.PZB.PZB_Element_Zuordnung_Fstr_AttributeGroup
 import org.eclipse.set.model.planpro.PZB.PZB_Zuordnung_Signal
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FstrFahrwegExtensions.getFstrDweg
 
 /**
  * Extensions for {@link PZB_Element}.
@@ -55,7 +58,9 @@ class PZBElementExtensions extends BasisObjektExtensions {
 	def static Iterable<Fstr_DWeg> getFstrDWegs(PZB_Element pzb) {
 		val bezugspunkts = pzb.PZBElementBezugspunkt?.filter(Signal)
 		val fstrFahrwegs = pzb.container.fstrFahrweg.filter [ fstrFahrweg |
-			(bezugspunkts ?: #[]).filterNull.exists[it === fstrFahrweg?.IDStart?.value] 
+			(bezugspunkts ?: #[]).filterNull.exists [
+				it === fstrFahrweg?.IDStart?.value
+			]
 		]
 		return fstrFahrwegs.map[fstrDweg].flatten
 	}
@@ -76,18 +81,32 @@ class PZBElementExtensions extends BasisObjektExtensions {
 			IDPZBElementZuordnung === pzb.PZBElementZuordnung
 		]
 	}
-	
+
+	def static boolean isRelevantControlArea(PZB_Element pzb,
+		Stell_Bereich controlArea) {
+		val signals = pzb.PZBElementBezugspunkt.filter(Signal).filter [
+			signalReal !== null && signalReal.signalRealAktiv === null
+		]
+		return !pzb.stellelements.filter [
+			IDInformation?.value === controlArea.aussenElementAnsteuerung
+		].nullOrEmpty && signals.exists[controlArea.contains(it)]
+	}
+
 	def static Iterable<Stellelement> getStellelements(PZB_Element pzb) {
 		return pzb.PZBElementBezugspunkt.map[stellelement]
 	}
-	
-	private def static dispatch Stellelement getStellelement(Basis_Objekt object) {
+
+	private def static dispatch Stellelement getStellelement(
+		Basis_Objekt object) {
 		throw new IllegalArgumentException()
 	}
+
 	private def static dispatch Stellelement getStellelement(Signal object) {
 		return SignalExtensions.getStellelement(object)
 	}
-	private def static dispatch Stellelement getStellelement(W_Kr_Gsp_Element object) {
+
+	private def static dispatch Stellelement getStellelement(
+		W_Kr_Gsp_Element object) {
 		return object.IDStellelement?.value
 	}
 }

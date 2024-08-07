@@ -13,8 +13,10 @@ import java.util.LinkedList
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.graph.DirectedEdgePoint
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
@@ -39,6 +41,7 @@ import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
 
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
 
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueEinschaltungZuordnungExtension.*
 import static extension org.eclipse.set.ppmodel.extensions.BueGleisbezogenerGefahrraumExtensions.*
@@ -50,6 +53,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 
@@ -418,5 +422,60 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return (object?.geschwindigkeitL?.wert ?: BigInteger.ZERO).intValue
 		}
 		return (object?.geschwindigkeitR?.wert ?: BigInteger.ZERO).intValue
+	}
+
+	def static boolean isRelevantControlArea(Fstr_Zug_Rangier fstrZugRangier,
+		Stell_Bereich controlArea) {
+
+		if (fstrZugRangier.isR) {
+			return fstrZugRangier.isRangierStrInPlaceArea(controlArea)
+		}
+
+		if (isZ(fstrZugRangier.fstrZug?.fstrZugArt)) {
+			return fstrZugRangier.isZugStrInPlaceArea(controlArea)
+		}
+
+		if (fstrZugRangier.fstrZug?.fstrZugArt.wert ===
+			ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B) {
+			// TODO
+		}
+		return true
+	}
+
+	private def static boolean isRangierStrInPlaceArea(
+		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
+		if (fstrZugRangier.fstrRangier === null) {
+			return false
+		}
+		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
+		if (startSignal.signalReal !== null) {
+			return controlArea.isInControlArea(startSignal.stellelement)
+		}
+
+		if (startSignal.signalFiktiv !== null) {
+			return startSignal.punktObjektTOPKante.exists [ potk |
+				controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
+			]
+		}
+		return true
+	}
+
+	private def static boolean isZugStrInPlaceArea(
+		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
+		if (fstrZugRangier.fstrZug === null &&
+			fstrZugRangier.fstrMittel === null) {
+			return false
+		}
+		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
+		if (startSignal.signalReal !== null) {
+			return controlArea.isInControlArea(startSignal.stellelement)
+		}
+
+		if (startSignal.signalFiktiv !== null) {
+			return startSignal.punktObjektTOPKante.exists [ potk |
+				controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
+			]
+		}
+		return true
 	}
 }

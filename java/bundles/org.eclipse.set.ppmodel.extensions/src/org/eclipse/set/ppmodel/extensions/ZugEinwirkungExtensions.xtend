@@ -8,10 +8,15 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Block.Block_Element
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
-import java.util.List
+
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 
 /**
  * This class extends {@link Zugeinwirkung}.
@@ -27,5 +32,16 @@ class ZugEinwirkungExtensions extends BasisObjektExtensions {
 		return einwirkung.container.schaltmittelZuordnung.filter [
 			einwirkung?.identitaet?.wert == IDSchalter?.value?.identitaet?.wert
 		].toList
+	}
+
+	def static boolean isRelevantArea(Zugeinwirkung zugeinwirkung,
+		Stell_Bereich area) {
+		val schaltmittle = zugeinwirkung.container.schaltmittelZuordnung.filter [
+			IDSchalter?.value instanceof Zugeinwirkung
+		].filter[it === zugeinwirkung]
+
+		return schaltmittle.map[IDSchalter?.value].exists [
+			it instanceof Block_Element || it instanceof Fstr_Fahrweg
+		] && area.contains(zugeinwirkung)
 	}
 }

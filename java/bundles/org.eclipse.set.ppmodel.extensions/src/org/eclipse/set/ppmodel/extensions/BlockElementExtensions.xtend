@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.util.Set
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Anzeige_Element
 import org.eclipse.set.model.planpro.Block.Block_Anlage
 import org.eclipse.set.model.planpro.Block.Block_Element
@@ -17,8 +18,10 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
+import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion
 import org.eclipse.set.model.planpro.Signale.Signal
 
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
@@ -151,5 +154,20 @@ class BlockElementExtensions extends BasisObjektExtensions {
 		} catch (Exception e) { // nothing to do
 		}
 		return null
+	}
+
+	def static boolean isRelevantControlArea(Block_Element blockElement,
+		Stell_Bereich controlArea) {
+		val blockAs = blockElement.blockAnlagenStart.map[IDBlockElementB.value]
+		val blockBs = blockElement.blockAnlagenZiel.map[IDBlockElementA.value]
+		return #[blockAs, blockBs].flatten.map[IDSignal?.value].filterNull.
+			filter [
+				signalFiktiv?.fiktivesSignalFunktion.exists [ funktion |
+					funktion.wert === ENUMFiktivesSignalFunktion.
+						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_ZIEL_STRECKE
+				]
+			].flatMap[punktObjektTOPKante].exists [ potk |
+				controlArea.bereichObjektTeilbereich.exists[contains(potk)]
+			]
 	}
 }

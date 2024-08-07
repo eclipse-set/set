@@ -15,6 +15,9 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * Extensions for {@link Aussenelementansteuerung}.
@@ -103,5 +106,9 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 			IDInformation.value === aussenelementansteuerung ||
 				IDEnergie.value === aussenelementansteuerung
 		]
+	}
+	
+	def static boolean isRelevantControlArea(Aussenelementansteuerung aussenElement, Stell_Bereich area) {
+		return area.aussenElementAnsteuerung == aussenElement;
 	}
 }
