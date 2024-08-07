@@ -385,8 +385,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			]?.map[IDBahnsteigKante?.value].toList
 
 			val bahnsteigDistance = SskpBahnsteigUtils.
-				getBahnsteigDistances(topGraphService, bahnSteigKantes, pzb)
-
+				getBahnsteigDistances(bahnSteigKantes, pzb)
 			// M: Sskp.Ina.Abstand_GM_2000_Bahnsteig.Abstand_GM_2000_Bahnsteig_Anfang
 			fillConditional(
 				instance,
