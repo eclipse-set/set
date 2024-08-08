@@ -233,7 +233,8 @@ public class GeoKanteGeometryServiceImpl
 	public GEOKanteCoordinate getCoordinateAt(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
 			final double distance) {
-		if (singlePoint == null) {
+		if (singlePoint == null || singlePoint.getAbstand() == null
+				|| singlePoint.getAbstand().getWert() == null) {
 			return null;
 		}
 		final double pointDistance = singlePoint.getAbstand().getWert()
@@ -292,7 +293,9 @@ public class GeoKanteGeometryServiceImpl
 		final double edgeLength = Math.abs(md.getLength());
 		final double geoLength = md.getGeometry().getLength();
 		final double localDistance = distance - md.getStart();
-		final double scaledDistance = localDistance * (geoLength / edgeLength);
+		final double scaledDistance = localDistance != 0
+				? localDistance * (geoLength / edgeLength)
+				: 0;
 		final SegmentPosition position = Geometries.getSegmentPosition(
 				md.getGeometry(),
 				GeoKnotenExtensions.getCoordinate(md.getGeoKnoten()),

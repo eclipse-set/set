@@ -89,8 +89,8 @@ class TransformUtils {
 				val objectManagement = SiteplanFactory.eINSTANCE.createObjectManagement
 				objectManagement.planningGroupID = identitaet?.wert
 				LSTPlanungEinzel?.LSTObjektePlanungsbereich?.IDLSTObjektPlanungsbereich?.forEach[
-						if (!objectManagement.planningObjectIDs.contains(value.identitaet.wert)) {
-							objectManagement.planningObjectIDs.add(value.identitaet.wert)
+						if (!objectManagement.planningObjectIDs.contains(wert)) {
+							objectManagement.planningObjectIDs.add(wert)
 						}
 					]
 				siteplan.objectManagement.add(objectManagement)
