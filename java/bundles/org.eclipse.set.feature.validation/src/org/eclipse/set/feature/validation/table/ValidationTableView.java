@@ -8,7 +8,10 @@
  */
 package org.eclipse.set.feature.validation.table;
 
+import java.nio.file.Path;
+
 import org.eclipse.nebula.widgets.nattable.NatTable;
+import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.feature.validation.Messages;
 import org.eclipse.set.model.tablemodel.Table;
@@ -19,6 +22,7 @@ import org.eclipse.set.utils.table.tree.AbstractTreeLayerTable;
 import org.eclipse.set.utils.xml.XMLNodeFinder;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * View for the validation table
@@ -27,6 +31,15 @@ import org.eclipse.swt.widgets.Control;
  *
  */
 public class ValidationTableView extends AbstractTreeLayerTable {
+	@SuppressWarnings("nls")
+	static String CSV_HEADER_PATTERN = """
+			Validierungsmeldungen
+			Datei: %s
+			Validierung: %s
+			Werkzeugkofferversion: %s
+
+			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
+			""";
 	private final Messages messages;
 	private final BasePart part;
 	private NatTable natTable;
@@ -98,5 +111,20 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 	@Override
 	protected XMLNodeFinder getXMLNodeFinder() {
 		return xmlNodeFinder;
+	}
+
+	@Override
+	protected String getCSVHeaderPattern() {
+		return CSV_HEADER_PATTERN;
+	}
+
+	@Override
+	public void exportCsv() {
+		final Shell shell = part.getToolboxShell();
+		final Path location = part.getModelSession().getToolboxFile().getPath();
+		final String defaultFileName = String.format(messages.ExportFilePattern,
+				PathExtensions.getBaseFileName(location));
+		exportCsv(shell, part.getDialogService(),
+				messages.ExportValidationTitleMsg, defaultFileName);
 	}
 }

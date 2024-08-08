@@ -8,10 +8,8 @@
  */
 package org.eclipse.set.feature.validation.parts;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 import org.eclipse.e4.core.services.nls.Translation;
@@ -26,7 +24,6 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
-import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.dialog.DialogService;
@@ -44,7 +41,6 @@ import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.emfforms.AbstractEmfFormsPart;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
-import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -74,19 +70,6 @@ public class ValidationPart extends AbstractEmfFormsPart {
 	private static final String VIEW_VALIDATION_REPORT = "validationReport"; //$NON-NLS-1$
 
 	private static final String INJECT_VIEW_VALIDATION_NATTABLE = "validationTableNattable"; //$NON-NLS-1$
-
-	/**
-	 * Header for CSV export
-	 */
-	@SuppressWarnings("nls")
-	public static String CSV_HEADER_PATTERN = """
-			Validierungsmeldungen
-			Datei: %s
-			Validierung: %s
-			Werkzeugkofferversion: %s
-
-			"Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"
-			""";
 
 	private Exception createException;
 
@@ -196,7 +179,7 @@ public class ValidationPart extends AbstractEmfFormsPart {
 						.grab(true, false).applyTo(exportValidationButton);
 				exportValidationButton.setText(messages.ExportValidationMsg);
 				exportValidationButton.addListener(SWT.Selection,
-						event -> exportValidation(tableView.transformToCSV()));
+						event -> tableView.exportCsv());
 				exportValidationButton.setSize(BUTTON_WIDTH_EXPORT_VALIDATION,
 						0);
 
@@ -270,33 +253,6 @@ public class ValidationPart extends AbstractEmfFormsPart {
 								problem.getType(), problem.getLineNumber(), 3,
 								problem.getObjectState().getLiteral())));
 		getBroker().post(Events.PROBLEMS_CHANGED, null);
-	}
-
-	/**
-	 * Export validation report to csv
-	 * 
-	 * @param csvData
-	 *            the validation report als csv
-	 */
-	private void exportValidation(final List<String> csvData) {
-		final Shell shell = getToolboxShell();
-		final Path location = getModelSession().getToolboxFile().getPath();
-		final String defaultFileName = String.format(messages.ExportFilePattern,
-				PathExtensions.getBaseFileName(location));
-
-		final Optional<Path> optionalPath = getDialogService().saveFileDialog(
-				shell, getDialogService().getCsvFileFilters(),
-				userConfigService.getLastExportPath().resolve(defaultFileName),
-				messages.ExportValidationTitleMsg);
-		// export
-		final ExportToCSV<String> problemExport = new ExportToCSV<>(
-				CSV_HEADER_PATTERN);
-		problemExport.exportToCSV(optionalPath, csvData);
-		optionalPath.ifPresent(outputDir -> {
-			getDialogService().openDirectoryAfterExport(getToolboxShell(),
-					outputDir.getParent());
-			userConfigService.setLastExportPath(outputDir.getParent());
-		});
 	}
 
 	void showValidationTable() {

@@ -9,8 +9,11 @@
 
 package org.eclipse.set.utils.table.sorting;
 
+import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.UnaryOperator;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -35,8 +38,11 @@ import org.eclipse.nebula.widgets.nattable.sort.SortHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.sort.command.SortColumnCommand;
 import org.eclipse.nebula.widgets.nattable.sort.config.SingleClickSortConfiguration;
 import org.eclipse.nebula.widgets.nattable.tree.command.TreeCollapseAllCommand;
+import org.eclipse.nebula.widgets.nattable.ui.matcher.KeyEventMatcher;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.core.services.Services;
+import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
@@ -48,11 +54,13 @@ import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.TableDataProvider;
+import org.eclipse.set.utils.table.export.ExportToCSV;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.xml.XMLNodeFinder;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Node;
 
 /**
@@ -204,12 +212,42 @@ public abstract class AbstractSortByColumnTables {
 		natTable.setTheme(new PlanProTableThemeConfiguration(natTable,
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider));
+		// register key bindings for table exports
+		natTable.getUiBindingRegistry().registerKeyBinding(
+				new KeyEventMatcher(SWT.MOD1, 'r'),
+				(table, event) -> exportCsv());
 		return natTable;
 	}
 
 	protected abstract TableMenuService getTableMenuService();
 
 	protected abstract XMLNodeFinder getXMLNodeFinder();
+
+	protected abstract String getCSVHeaderPattern();
+
+	/**
+	 * Export table data to csv file
+	 */
+	public abstract void exportCsv();
+
+	protected void exportCsv(final Shell shell,
+			final DialogService dialogService, final String dialogTilte,
+			final String defaultFileName) {
+		final UserConfigurationService userConfigurationService = Services
+				.getUserConfigurationService();
+		final Optional<Path> outPath = dialogService.saveFileDialog(shell,
+				dialogService.getCsvFileFilters(), userConfigurationService
+						.getLastExportPath().resolve(defaultFileName),
+				dialogTilte);
+
+		final ExportToCSV<String> exportToCSV = new ExportToCSV<>(
+				getCSVHeaderPattern());
+		exportToCSV.exportToCSV(outPath, transformToCSV());
+		outPath.ifPresent(out -> {
+			dialogService.openDirectoryAfterExport(shell, out.getParent());
+			userConfigurationService.setLastExportPath(out);
+		});
+	}
 
 	protected TableBodyMenuItem createJumpToTextViewMenuItem(
 			final BasePart part) {
@@ -298,4 +336,14 @@ public abstract class AbstractSortByColumnTables {
 				.findNodeByLineNumber(xmlLineNumber.intValue());
 		return XMLNodeFinder.findNearestNodeGUID(nodeByLineNumber);
 	}
+
+	/**
+	 * Transform table cotent to csv
+	 * 
+	 * @return table contents als csv content
+	 */
+	public List<String> transformToCSV() {
+		return bodyDataProvider.transformToCSV();
+	}
+
 }

@@ -98,7 +98,6 @@ import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -298,11 +297,6 @@ public final class ToolboxTableView extends BasePart {
 
 	private String getTableShortcut() {
 		return tableService.extractShortcut(getToolboxPart().getElementId());
-	}
-
-	private Void showExportEndDialog(final Shell shell) {
-		getDialogService().reportExported(shell);
-		return null;
 	}
 
 	private void tableSelectRowHandler(final JumpToTableEvent event) {

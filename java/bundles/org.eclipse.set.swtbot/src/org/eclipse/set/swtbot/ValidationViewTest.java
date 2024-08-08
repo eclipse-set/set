@@ -20,16 +20,19 @@ import java.util.List;
 
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
+import org.eclipse.set.swtbot.table.TestFailHandle;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test for changes in Validation View
  * 
  * @author Truong
  */
+@ExtendWith(TestFailHandle.class)
 public class ValidationViewTest extends AbstractTableTest {
 	private static final String Application_Schema_Version_Group = "Unterstütztes XML-Schema";
 

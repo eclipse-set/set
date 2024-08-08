@@ -219,4 +219,14 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 		}
 		return null;
 	}
+
+	@Override
+	protected String getCSVHeaderPattern() {
+		return null;
+	}
+
+	@Override
+	public void exportCsv() {
+		// do nothing
+	}
 }
