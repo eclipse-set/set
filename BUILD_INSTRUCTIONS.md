@@ -28,7 +28,7 @@ This is the recommended way to build and debug for development.
 4. Import the Checkstyle configuration from `releng/eclipse/CheckstyleEclipse.xml` via Window -> Preferences -> Checkstyle
 5. Set the target platform in `org.eclipse.set.releng.target`
 6. Launch the product in `org.eclipse.set.releng.set.product`
-7. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a snapshot). 
+7. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a recent Github Actions build of the same branch for compatibility). 
 
 If you want to work on the embedded web components (e.g. the textviewer or the pdf viewer), you need to: 
 
@@ -44,13 +44,14 @@ If you want to develop SET, this is not recommended as the subcomponents are rel
 
 1. Follow the build instructions for the [model subcomponent](https://gitlab.eclipse.org/eclipse/set/model). 
 3. Follow the build instructions for the [browser subcomponent](https://gitlab.eclipse.org/eclipse/set/browser).
-4. Build web components
-    1. In `web/pdf` and `web/textviewer`:
+4. Adjust the target platform in `java/bundles/org.eclipse.set.releng.target/org.eclipse.set.releng.target.target` to point to your built artifacts.
+5. Build web components
+    1. In `web/pdf`, `web/siteplan` and `web/textviewer`:
         1. Download dependencies via `npm ci` (or `npm install` if you changed the package.json)
         2. Build via `npm run build`
         4. Copy the contents of the resulting `build`-directory to the matching Eclipse SET directory in `java/bundles/org.eclipse.set.feature/rootdir`. 
-    2. In `web/about`: 
-        1. Run `hugo` to build the license dialog
+    2. In `web/about` and `web/developerhelp`: 
+        1. Run `hugo` to build the info pages
         2. Copy the conte
 6. Build via maven: `mvn clean verify`
 
