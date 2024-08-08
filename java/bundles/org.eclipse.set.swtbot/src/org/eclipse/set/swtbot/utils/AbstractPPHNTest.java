@@ -20,7 +20,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVFormat.Builder;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
@@ -83,18 +82,17 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 	public abstract String getReferenceDir();
 
 	@Override
-	protected SWTBotTestFile getTestFile() {
+	public TestFile getTestFile() {
 		return PPHN;
 	}
 
 	protected List<CSVRecord> loadReferenceFile(final String tableName)
 			throws IOException {
-
 		final String fileName = getReferenceDir() + tableName
 				+ "_reference.csv";
 		final Builder csvBuilder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
 		csvBuilder.setDelimiter(";");
-		try (InputStream inputStream = AbstractTableTest.class.getClassLoader()
+		try (InputStream inputStream = getTestClass().getClassLoader()
 				.getResourceAsStream(fileName);
 				final Reader reader = new InputStreamReader(inputStream);
 				final CSVParser csvParser = new CSVParser(reader,

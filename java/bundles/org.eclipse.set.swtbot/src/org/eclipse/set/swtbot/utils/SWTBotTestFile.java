@@ -13,7 +13,7 @@ package org.eclipse.set.swtbot.utils;
 /**
  * The test file enum
  */
-public enum SWTBotTestFile {
+public enum SWTBotTestFile implements TestFile {
 	PPHN("pphn",
 			"PPHN_1.10.0.1_01-02_Ibn-Z._-_2._AeM_2022-05-17_13-44_tg2.planpro");
 
@@ -28,6 +28,7 @@ public enum SWTBotTestFile {
 	/**
 	 * @return the full name of test file
 	 */
+	@Override
 	public String getFullName() {
 		return fullName;
 	}
@@ -35,6 +36,7 @@ public enum SWTBotTestFile {
 	/**
 	 * @return the short name of test file
 	 */
+	@Override
 	public String getShortName() {
 		return shortName;
 	}
