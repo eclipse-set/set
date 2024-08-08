@@ -49,6 +49,8 @@ class PlanProToTitleboxTransformation {
 	 */
 	public static final String DATE_FORMAT_SHORT = "MM/yy"; // $NON-NLS-1$
 	static final String EMPTY_PLANNING_NUMBER = "<Plannummer DB AG>"
+	static final int SMALL_FELD_MAX_LENGTH = 7
+	static final String ZERO_WIDTH_SPACE = "\u200b"
 
 	private new() {
 	}
@@ -192,8 +194,20 @@ class PlanProToTitleboxTransformation {
 
 	private def String getBauzustandPlanungAllgemein(
 		Planung_E_Allg_AttributeGroup planung) {
-		return String.format("%s", // $NON-NLS-1$
-		planung?.getBauzustandKurzbezeichnung()?.getWert() ?: "");
+			val bauzustand = planung?.getBauzustandKurzbezeichnung()?.getWert() ?: ""
+			if (bauzustand.length > SMALL_FELD_MAX_LENGTH) {
+				val result = bauzustand.split(' ').map[
+					if (it.length > SMALL_FELD_MAX_LENGTH) {
+						val sb = new StringBuilder(it)
+						sb.insert(SMALL_FELD_MAX_LENGTH, ZERO_WIDTH_SPACE)
+						return sb.toString	
+					}
+					return it
+				]
+				
+				return String.join(' ', result)
+			}
+		return bauzustand
 	}
 
 	private def String getBauzustandPlanungEinzel(Planung_Einzel planung) {
