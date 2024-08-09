@@ -49,7 +49,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 		// Maßgebendes Objekt: FMA_Anlage
 		val Iterable<FMA_Anlage> fmaAnlageList = container.FMAAnlage.filter [
 			isPlanningObject
-		]
+		].filterObjectsInControlArea(controlArea)
 
 		for (fmaAnlage : fmaAnlageList) {
 			if (Thread.currentThread.interrupted) {

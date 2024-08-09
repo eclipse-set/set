@@ -8,12 +8,15 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Nahbedienung.NB
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Bedien_Anzeige_Element
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Element
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
-import java.util.List
+
+import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
 
 /**
  * Extensions for {@link NB_Zone}.
@@ -82,5 +85,12 @@ class NbZoneExtensions extends BasisObjektExtensions {
 	def static String getBezeichnung(NB_Zone nbZone) {
 		val nb = nbZone.nb
 		return '''«nb?.bezeichnung?.kennzahl?.wert ?: ""»NB«nb?.bezeichnung.bezeichnungNB.wert ?: ""»«nbZone.bezeichnung?.bezeichnungNBZone?.wert ?: ""»'''
+	}
+
+	def static boolean isBelongToControlArea(NB_Zone nbZone,
+		Stell_Bereich controlArea) {
+		return nbZone.container.NBZoneGrenze.filterNull.filter [
+			IDNBZone.value === nbZone
+		].exists[isBelongToControlArea(controlArea)]
 	}
 }

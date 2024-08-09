@@ -71,7 +71,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 
 		val topGraph = new TopGraph(container.TOPKante)
-		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
+		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].filterObjectsInControlArea(controlArea).
 			filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
 			]) {
@@ -301,7 +301,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			[
 				PZBElementBezugspunkt.filterNull.map [
-					getDistanceSignalTrackSwtich(topGraph, pzb, it)
+					getDistanceSignalTrackSwitch(topGraph, pzb, it)
 				]
 			],
 			null
@@ -586,12 +586,12 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			: object?.bezeichnung?.bezeichnungTabelle?.wert
 	}
 
-	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
+	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
 		PZB_Element pzb, Basis_Objekt object) {
 		throw new IllegalArgumentException(object.class.simpleName)
 	}
 
-	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
+	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
 		PZB_Element pzb, Signal signal) {
 		if (signal?.signalReal?.signalFunktion?.wert !==
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL) {
@@ -626,7 +626,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
-	private dispatch def String getDistanceSignalTrackSwtich(TopGraph topGraph,
+	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
 		PZB_Element pzb, W_Kr_Gsp_Element gspElement) {
 		val gspKomponent = gspElement.WKrGspKomponenten.filter [
 			zungenpaar !== null

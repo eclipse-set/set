@@ -13,7 +13,9 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 /**
  * This class extends {@link FMA_Komponente}.
  * 
@@ -59,5 +61,13 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 			}
 		}
 		return null;
+	}
+	
+	def static boolean isBelongToControlArea(FMA_Komponente fma, Stell_Bereich area) {
+		return fma?.FMAKomponenteAchszaehlpunkt?.IDInformation?.filterNull.
+			exists [
+				area.aussenElementAnsteuerung !== null &&
+					it === area.aussenElementAnsteuerung
+			]
 	}
 }

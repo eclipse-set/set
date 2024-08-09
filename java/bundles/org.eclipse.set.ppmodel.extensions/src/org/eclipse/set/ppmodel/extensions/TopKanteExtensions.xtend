@@ -324,6 +324,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			calcAdjacentTopKanten(topKante, topKanten)
 		])
 	}
+	
 
 	def static void createCache() {
 		if (cache === null) {

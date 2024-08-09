@@ -177,9 +177,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
 		val waitingFileSideDistanceSignal = newHashMap
-		for (Signal signal : container?.signal?.filter[isPlanningObject].filter [
-			ssksSignal
-		]) {
+		for (Signal signal : container?.signal?.filter[isPlanningObject]
+			.filterObjectsInControlArea(controlArea)
+			.filter [ssksSignal]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
