@@ -428,11 +428,11 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		Stell_Bereich controlArea) {
 
 		if (fstrZugRangier.isR) {
-			return fstrZugRangier.isRangierStrInPlaceArea(controlArea)
+			return fstrZugRangier.isRangierStrInControlArea(controlArea)
 		}
 
 		if (isZ(fstrZugRangier.fstrZug?.fstrZugArt)) {
-			return fstrZugRangier.isZugStrInPlaceArea(controlArea)
+			return fstrZugRangier.isZugStrInControlArea(controlArea)
 		}
 
 		if (fstrZugRangier.fstrZug?.fstrZugArt.wert ===
@@ -442,7 +442,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return true
 	}
 
-	private def static boolean isRangierStrInPlaceArea(
+	private def static boolean isRangierStrInControlArea(
 		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
 		if (fstrZugRangier.fstrRangier === null) {
 			return false
@@ -460,7 +460,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return true
 	}
 
-	private def static boolean isZugStrInPlaceArea(
+	private def static boolean isZugStrInControlArea(
 		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
 		if (fstrZugRangier.fstrZug === null &&
 			fstrZugRangier.fstrMittel === null) {
