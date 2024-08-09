@@ -502,21 +502,6 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	}
 
 	/**
-	 * @param bereich this Bereichsobjekt
-	 * @param singlePoint the single point
-	 * @param tolerant the tolerant distance
-	 * 
-	 * @returns whether this Bereichsobjekt contains the given 
-	 * 			single point with tolerant distance
-	 */
-	def static boolean contains(Bereich_Objekt bereich,
-		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, double tolerant) {
-		return bereich.bereichObjektTeilbereich.exists [
-			contains(singlePoint, tolerant)
-		]
-	}
-
-	/**
 	 * @param teilbereich the Teilbereich
 	 * @param singlePoint the single point
 	 * 
