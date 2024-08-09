@@ -18,6 +18,7 @@ import org.eclipse.set.core.services.version.PlanProVersionService
 
 import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PlanungEinzelExtensions.*
 
 /**
  * Implementation of {@link DefaultValueService}.
@@ -101,10 +102,21 @@ class DefaultValueServiceImpl implements DefaultValueService {
 			planungGAllg.untergewerkArt = PlanProFactory.eINSTANCE.
 				createUntergewerk_Art_TypeClass
 		}
-		
+
 		if (planungGAllg.untergewerkArt.wert === null) {
 			planungGAllg.untergewerkArt.wert = ENUMUntergewerkArt.
 				ENUM_UNTERGEWERK_ART_ESTW
 		}
+
+		val ausgabeFachdaten = planProSchnittstelle.LSTPlanungProjekt.
+			planungGruppe.LSTPlanungEinzel.ausgabeFachdaten
+
+		if (ausgabeFachdaten?.untergewerkArt === null) {
+			ausgabeFachdaten.untergewerkArt = PlanProFactory.eINSTANCE.
+				createUntergewerk_Art_TypeClass
+
+		}
+		// Subwork by Planing Group and Technicaldata must be same
+		ausgabeFachdaten.untergewerkArt.wert = planungGAllg.untergewerkArt.wert
 	}
 }
