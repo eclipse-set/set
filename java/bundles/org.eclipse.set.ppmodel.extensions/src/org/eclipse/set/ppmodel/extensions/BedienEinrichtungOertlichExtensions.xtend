@@ -52,7 +52,7 @@ class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
 		return einrichtung?.IDAussenelementansteuerung?.value
 	}
 	
-	static def boolean isRelevantControlArea(Bedien_Einrichtung_Oertlich bedienEinrichtung, Stell_Bereich area) {
+	static def boolean isBelongToControlArea(Bedien_Einrichtung_Oertlich bedienEinrichtung, Stell_Bereich area) {
 		return area?.aussenElementAnsteuerung ===
 			bedienEinrichtung.IDAussenelementansteuerung?.value
 	}

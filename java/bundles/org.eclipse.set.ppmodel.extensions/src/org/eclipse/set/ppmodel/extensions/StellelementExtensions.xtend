@@ -40,7 +40,7 @@ class StellelementExtensions extends BasisObjektExtensions {
 		return stellelement.IDInformation?.value
 	}
 
-	def static boolean isRelevantControlArea(Stellelement stellElement,
+	def static boolean isBelongToControlArea(Stellelement stellElement,
 		Stell_Bereich area) {
 		return stellElement.IDInformation?.value ===
 			area.aussenElementAnsteuerung

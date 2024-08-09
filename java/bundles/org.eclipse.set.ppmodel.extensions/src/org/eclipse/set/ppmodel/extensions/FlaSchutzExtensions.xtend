@@ -117,15 +117,15 @@ class FlaSchutzExtensions extends BasisObjektExtensions {
 		return ""
 	}
 
-	def static boolean isRelevantControlArea(Fla_Schutz fla,
+	def static boolean isBelongToControlArea(Fla_Schutz fla,
 		Stell_Bereich controlArea) {
 		val anforderer = fla.anforderer
 		return switch (anforderer) {
 			W_Kr_Gsp_Element:
-				WKrGspElementExtensions.isRelevantControlArea(anforderer,
+				WKrGspElementExtensions.isBelongToControlArea(anforderer,
 					controlArea)
 			NB_Zone_Grenze:
-				NbZoneGrenzeExtensions.isRelevantControlArea(anforderer,
+				NbZoneGrenzeExtensions.isBelongToControlArea(anforderer,
 					controlArea)
 			default:
 				throw new IllegalArgumentException()

@@ -53,7 +53,7 @@ class NbZoneGrenzeExtensions extends BasisObjektExtensions {
 		].toList
 	}
 
-	def static boolean isRelevantControlArea(NB_Zone_Grenze grenze,
+	def static boolean isBelongToControlArea(NB_Zone_Grenze grenze,
 		Stell_Bereich controlArea) {
 		return grenze.markanterPunkt.markanteStelle.punktObjektTOPKante.exists [ potk |
 			controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]

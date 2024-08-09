@@ -108,7 +108,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 		]
 	}
 	
-	def static boolean isRelevantControlArea(Aussenelementansteuerung aussenElement, Stell_Bereich area) {
+	def static boolean isBelongToControlArea(Aussenelementansteuerung aussenElement, Stell_Bereich area) {
 		return area.aussenElementAnsteuerung == aussenElement;
 	}
 }

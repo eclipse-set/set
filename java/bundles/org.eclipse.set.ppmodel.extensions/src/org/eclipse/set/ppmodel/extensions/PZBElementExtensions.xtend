@@ -82,7 +82,7 @@ class PZBElementExtensions extends BasisObjektExtensions {
 		]
 	}
 
-	def static boolean isRelevantControlArea(PZB_Element pzb,
+	def static boolean isBelongToControlArea(PZB_Element pzb,
 		Stell_Bereich controlArea) {
 		val signals = pzb.PZBElementBezugspunkt.filter(Signal).filter [
 			signalReal !== null && signalReal.signalRealAktiv === null

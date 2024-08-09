@@ -28,7 +28,7 @@ public class GleisBezeichnungExtensions extends BasisObjektExtensions {
 	 * @return true, if the {@link Gleis_Bezeichnung} belong to the
 	 *         {@link Stell_Bereich}
 	 */
-	public static boolean isRelevantControlArea(
+	public static boolean isBelongToControlArea(
 			final Gleis_Bezeichnung description, final Stell_Bereich area) {
 		return intersects(area, description);
 	}

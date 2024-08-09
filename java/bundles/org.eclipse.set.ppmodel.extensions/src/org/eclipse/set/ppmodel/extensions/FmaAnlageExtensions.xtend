@@ -116,7 +116,7 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 		].toList
 	}
 
-	def static boolean isRelevantAreaControl(FMA_Anlage anlage,
+	def static boolean isBelongToControlArea(FMA_Anlage anlage,
 		Stell_Bereich area) {
 		val gleisAbschnitt = anlage?.IDGleisAbschnitt?.value
 		val overlappingDistance = gleisAbschnitt.getOverlappingDistance(

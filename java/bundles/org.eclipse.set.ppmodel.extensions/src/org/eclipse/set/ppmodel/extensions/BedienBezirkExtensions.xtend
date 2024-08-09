@@ -29,7 +29,7 @@ class BedienBezirkExtensions extends BasisObjektExtensions {
 		return bedienBezirk.IDBedienZentrale?.value
 	}
 
-	def static boolean isRelevantControlArea(Bedien_Bezirk bedienBezirk,
+	def static boolean isBelongToControlArea(Bedien_Bezirk bedienBezirk,
 		Stell_Bereich controlArea) {
 		return bedienBezirk.container.ESTWZentraleinheit.filterNull.filter [
 			bedienBezirkVirtuell === bedienBezirk ||

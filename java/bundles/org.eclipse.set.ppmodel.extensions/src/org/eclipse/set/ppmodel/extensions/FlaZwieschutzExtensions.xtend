@@ -65,8 +65,8 @@ class FlaZwieschutzExtensions extends BasisObjektExtensions {
 		return zwieschutz.flaSchutzR !== null
 	}
 	
-	def static boolean isRelevantControlArea(Fla_Zwieschutz zwieschutz, Stell_Bereich area) {
+	def static boolean isBelongToControlArea(Fla_Zwieschutz zwieschutz, Stell_Bereich area) {
 		return zwieschutz.zwieschutzweiche?.IDStellelement?.value.
-			isRelevantControlArea(area)
+			isBelongToControlArea(area)
 	}
 }

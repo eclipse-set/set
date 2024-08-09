@@ -138,7 +138,7 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 		return null;
 	}
 
-	def static boolean isRelevantControlArea(Fstr_Aneinander fstrAneinander,
+	def static boolean isBelongToControlArea(Fstr_Aneinander fstrAneinander,
 		Stell_Bereich controlArea) {
 		val areaStellelements = controlArea.aussenElementAnsteuerung.
 			stellelements
