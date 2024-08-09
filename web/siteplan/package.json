@@ -19,7 +19,7 @@
     "material-design-icons": "^3.0.1",
     "ol": "^10.0.0",
     "ol-mapbox-style": "^12.3.4",
-    "vue": "^3.4.35",
+    "vue": "^3.4.37",
     "vue-class-component": "^8.0.0-1",
     "vue-router": "^4.4.2",
     "vuex": "^4.1.0"
