@@ -10,21 +10,25 @@
  ********************************************************************************/
 package org.eclipse.set.feature.table.pt1.sskp;
 
-import java.util.DoubleSummaryStatistics;
+import static org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.toTopPoints;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSinglePoint;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isBelongToBereichObjekt;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isWirkrichtungTopDirection;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
-import java.util.stream.Stream;
 
 import org.eclipse.set.basis.graph.TopPoint;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Kante;
-import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
-import org.eclipse.set.model.planpro.Basisobjekte.Seitliche_Lage_TypeClass;
-import org.eclipse.set.model.planpro.Basisobjekte.Wirkrichtung_TypeClass;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 
+import com.google.common.collect.Range;
 import com.google.common.collect.Streams;
 
 /**
@@ -49,6 +53,11 @@ public class SskpBahnsteigUtils {
 			distanceEnd = OptionalDouble.of(end);
 		}
 
+		public BahnsteigDistance(final Double start, final Double end) {
+			this(OptionalDouble.of(start.doubleValue()),
+					OptionalDouble.of(end.doubleValue()));
+		}
+		
 		public OptionalDouble getDistanceStart() {
 			return distanceStart;
 		}
@@ -58,133 +67,65 @@ public class SskpBahnsteigUtils {
 		}
 	}
 
-	private static boolean isInBOTB(
-			final Bereich_Objekt_Teilbereich_AttributeGroup botb,
-			final Punkt_Objekt_TOP_Kante_AttributeGroup point) {
-		final double limitA = botb.getBegrenzungA().getWert().doubleValue();
-		final double limitB = botb.getBegrenzungB().getWert().doubleValue();
-		final double position = point.getAbstand().getWert().doubleValue();
-		return limitA < position && position < limitB
-				|| limitB < position && position < limitA;
-
-	}
-
 	static BahnsteigDistance getBahnsteigDistances(
-			final TopologicalGraphService topGraphService,
 			final List<Bahnsteig_Kante> bahnsteigs, final PZB_Element pzb) {
 
 		final Punkt_Objekt_TOP_Kante_AttributeGroup point = pzb
 				.getPunktObjektTOPKante().get(0);
 
-		final boolean isPZBAtBahnsteig = bahnsteigs.stream()
-				.anyMatch(bahnsteig -> bahnsteig.getBereichObjektTeilbereich()
-						.stream()
-						.filter(tb -> tb.getIDTOPKante()
-								.equals(point.getIDTOPKante()))
-						.anyMatch(tb -> isInBOTB(tb, point)));
+		final boolean isPZBAtBahnsteig = bahnsteigs.stream().anyMatch(
+				bahnsteig -> isBelongToBereichObjekt(point, bahnsteig));
 
 		if (isPZBAtBahnsteig) {
-			return getBahnsteigDistanceAtMagnet(topGraphService, bahnsteigs,
-					pzb);
+			return getBahnsteigDistanceAtMagnet(bahnsteigs, pzb);
 		}
-		return getBahnsteigDistancesNotAtMagnet(topGraphService, bahnsteigs,
-				pzb);
-	}
-
-	private static boolean isPZBWirkrichtungTopDirection(
-			final PZB_Element pzb) {
-		final Punkt_Objekt_TOP_Kante_AttributeGroup poto = pzb
-				.getPunktObjektTOPKante().get(0);
-
-		final Wirkrichtung_TypeClass wirkrichtung = poto.getWirkrichtung();
-
-		if (wirkrichtung != null) {
-			switch (wirkrichtung.getWert()) {
-			case ENUM_WIRKRICHTUNG_GEGEN:
-				return false;
-			case ENUM_WIRKRICHTUNG_IN:
-				return true;
-			default:
-				break;
-			}
-		}
-
-		final Seitliche_Lage_TypeClass seitlicheLage = poto.getSeitlicheLage();
-
-		if (seitlicheLage != null) {
-			switch (seitlicheLage.getWert()) {
-			case ENUM_LINKS_RECHTS_LINKS:
-				return false;
-			case ENUM_LINKS_RECHTS_RECHTS:
-				return true;
-			default:
-				break;
-
-			}
-		}
-
-		throw new UnsupportedOperationException(
-				"PZB_Element has no wirkrichtung"); //$NON-NLS-1$
+		return getBahnsteigDistancesNotAtMagnet(bahnsteigs, pzb);
 	}
 
 	private static BahnsteigDistance getBahnsteigDistancesNotAtMagnet(
-			final TopologicalGraphService topGraphService,
 			final Iterable<Bahnsteig_Kante> bahnsteig, final PZB_Element pzb) {
 		// If the final PZB is not final at a Bahnsteig_Kante, search in final
 		// the opposite of final the
 		// final effective direction
-		final boolean searchDirection = !isPZBWirkrichtungTopDirection(pzb);
-		final TopPoint pzbPoint = new TopPoint(pzb);
-		final DoubleSummaryStatistics statistics = Streams.stream(bahnsteig)
-				.flatMap(bsk -> bsk.getBereichObjektTeilbereich().stream()
-						.flatMap(tb -> toTopPoints(tb)))
-				.map(point -> topGraphService.findShortestDistanceInDirection(
-						pzbPoint, point, searchDirection))
-				.filter(Optional::isPresent)
-				.mapToDouble(c -> c.get().doubleValue())
-				.collect(DoubleSummaryStatistics::new,
-						DoubleSummaryStatistics::accept,
-						DoubleSummaryStatistics::combine);
-		if (statistics.getCount() == 0) {
+		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = getSinglePoint(pzb);
+		final boolean searchDirection = !isWirkrichtungTopDirection(potk);
+
+		final Optional<Range<Double>> reduce = Streams.stream(bahnsteig)
+				.map(bsk -> PunktObjektExtensions.distanceToBereichObjekt(pzb,
+						bsk, searchDirection))
+				.filter(Optional::isPresent).map(Optional::get)
+				.reduce(Range::span);
+		if (reduce.isEmpty()) {
 			return new BahnsteigDistance(OptionalDouble.empty(),
 					OptionalDouble.empty());
 		}
-		return new BahnsteigDistance(statistics.getMax(), statistics.getMin());
+		return new BahnsteigDistance(reduce.get().upperEndpoint(),
+				reduce.get().lowerEndpoint());
 	}
 
 	private static BahnsteigDistance getBahnsteigDistanceAtMagnet(
-			final TopologicalGraphService topGraphService,
 			final Iterable<Bahnsteig_Kante> bahnsteig, final PZB_Element pzb) {
-		final boolean isWirkrichtungTopDirection = isPZBWirkrichtungTopDirection(
-				pzb);
+		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = getSinglePoint(pzb);
+		final boolean isWirkrichtungTopDirection = isWirkrichtungTopDirection(
+				potk);
 		final TopPoint pzbPoint = new TopPoint(pzb);
-
+		final TopologicalGraphService topGraphService = Services
+				.getTopGraphService();
 		final OptionalDouble start = Streams.stream(bahnsteig)
-				.flatMap(bsk -> bsk.getBereichObjektTeilbereich().stream()
-						.flatMap(tb -> toTopPoints(tb)))
+				.flatMap(bsk -> toTopPoints(bsk).stream()
+						.flatMap(Collection::stream))
 				.map(point -> topGraphService.findShortestDistanceInDirection(
 						pzbPoint, point, !isWirkrichtungTopDirection))
 				.filter(Optional::isPresent)
 				.mapToDouble(c -> c.get().doubleValue()).max();
 
 		final OptionalDouble end = Streams.stream(bahnsteig)
-				.flatMap(bsk -> bsk.getBereichObjektTeilbereich().stream()
-						.flatMap(tb -> toTopPoints(tb)))
+				.flatMap(bsk -> toTopPoints(bsk).stream()
+						.flatMap(Collection::stream))
 				.map(point -> topGraphService.findShortestDistanceInDirection(
 						pzbPoint, point, isWirkrichtungTopDirection))
 				.filter(Optional::isPresent)
 				.mapToDouble(c -> c.get().doubleValue()).map(c -> -c).min();
 		return new BahnsteigDistance(start, end);
 	}
-
-	private static Stream<TopPoint> toTopPoints(
-			final Bereich_Objekt_Teilbereich_AttributeGroup tb) {
-		return Stream.of(
-				new TopPoint(tb.getIDTOPKante().getValue(),
-						tb.getBegrenzungA().getWert()),
-				new TopPoint(tb.getIDTOPKante().getValue(),
-						tb.getBegrenzungB().getWert()));
-
-	}
-
 }

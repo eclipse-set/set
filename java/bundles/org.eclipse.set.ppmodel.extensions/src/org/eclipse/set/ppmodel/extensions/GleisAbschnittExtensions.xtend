@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,8 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import java.util.List
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import java.math.BigDecimal
 
 /**
  * This class extends {@link Gleis_Abschnitt}.
@@ -18,13 +20,25 @@ import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
  * @author Schaefer
  */
 class GleisAbschnittExtensions extends BereichObjektExtensions {
-	
+
 	/**
 	 * @param abschnitt this Gleisabschnitt
 	 * 
 	 * @returns the FMA Anlagen monitoring this Gleisabschnitt
 	 */
 	def static List<FMA_Anlage> getFmaAnlagen(Gleis_Abschnitt abschnitt) {
-		return abschnitt.container.FMAAnlage.filter[IDGleisAbschnitt?.wert == abschnitt.identitaet.wert].toList
+		return abschnitt.container.FMAAnlage.filter [
+			IDGleisAbschnitt?.wert == abschnitt.identitaet.wert
+		].toList
+	}
+
+	/**
+	 * Get overlapping distance of 
+	 */
+	def static BigDecimal getOverlappingDistance(Gleis_Abschnitt abschnitt,
+		List<Bereich_Objekt_Teilbereich_AttributeGroup> botbs) {
+		return botbs.fold(BigDecimal.ZERO, [ sum, botb |
+			sum.add(getOverlappingLength(abschnitt, botb))
+		])
 	}
 }
