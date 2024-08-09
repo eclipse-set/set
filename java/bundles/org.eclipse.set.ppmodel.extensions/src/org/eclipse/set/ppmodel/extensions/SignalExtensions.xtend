@@ -48,12 +48,10 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 
 /**
  * This class extends {@link Signal}.
@@ -418,41 +416,6 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	static final double tolerantDistance = 1000
 
-//	def static List<Stell_Bereich> getStellBereich(Signal signal) {
-//		val stellbereichs = signal.container.stellBereich
-//		val result = newHashSet
-//		result.addAll(stellbereichs.filter [ area |
-//			signal.stellelement.IDInformation == area.IDAussenelementansteuerung
-//		])
-//
-//		if (signal.signalFiktiv !== null || signal.signalReal !== null) {
-//			result.addAll(stellbereichs.filter [ area |
-//				area.contains(signal)
-//			])
-//		}
-//
-//		if (signal.signalReal !== null &&
-//			signal.signalReal.signalRealAktiv === null &&
-//			signal.signalFiktiv !== null && stellbereichs.exists [ area |
-//				area.contains(signal, tolerantDistance)
-//			]) {
-//			val isTargetSignal = signal.container.fstrZugRangier.map [
-//				IDFstrFahrweg?.value
-//			].forall[it !== null && IDStart?.value !== signal]
-//			val topGraph = new TopGraph(signal.container.TOPKante)
-//			stellbereichs.forEach [ area |
-//				val areaTopKante = area.bereichObjektTeilbereich.map[topKante].
-//					filter[!signal.topKanten.contains(it)]
-//				if (isTargetSignal === !areaTopKante.forall [ topKante |
-//					topGraph.isInWirkrichtungOfSignal(signal, topKante)
-//				]) {
-//					result.add(area)
-//				}
-//			]
-//		}
-//		return result.toList
-//	}
-	
 	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
 		val firstcondition = signal.stellelement.IDInformation ===

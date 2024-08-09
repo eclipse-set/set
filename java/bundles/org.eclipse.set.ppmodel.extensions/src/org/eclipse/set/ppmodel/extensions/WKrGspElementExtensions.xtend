@@ -34,7 +34,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 
 /**
  * This class extends {@link W_Kr_Gsp_Element}.
