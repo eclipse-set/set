@@ -29,7 +29,7 @@ public class UebertragungswegExtensions extends BasisObjektExtensions {
 	 *            the {@link Stell_Bereich}
 	 * @return true, if the route belong to the area
 	 */
-	public static boolean isRelevantControlArea(final Uebertragungsweg route,
+	public static boolean isBelongToControlArea(final Uebertragungsweg route,
 			final Stell_Bereich area) {
 		final Basis_Objekt fromRoute = getNullableObject(route,
 				r -> r.getIDUebertragungswegVon().getValue()).orElse(null);

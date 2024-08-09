@@ -30,7 +30,7 @@ class FstrDWegWKrExtensions extends BasisObjektExtensions {
 		return z.IDWKrGspElement?.value
 	}
 
-	def static boolean isRelevantControlArea(Fstr_DWeg fstrDWeg,
+	def static boolean isBelongToControlArea(Fstr_DWeg fstrDWeg,
 		Stell_Bereich controlArea) {
 		return controlArea.
 			isInControlArea(fstrDWeg.IDFstrFahrweg?.value?.IDStart?.value?.stellelement)

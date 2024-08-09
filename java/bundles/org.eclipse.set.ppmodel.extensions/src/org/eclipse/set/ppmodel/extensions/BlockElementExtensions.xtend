@@ -156,7 +156,7 @@ class BlockElementExtensions extends BasisObjektExtensions {
 		return null
 	}
 
-	def static boolean isRelevantControlArea(Block_Element blockElement,
+	def static boolean isBelongToControlArea(Block_Element blockElement,
 		Stell_Bereich controlArea) {
 		val blockAs = blockElement.blockAnlagenStart.map[IDBlockElementB.value]
 		val blockBs = blockElement.blockAnlagenZiel.map[IDBlockElementA.value]

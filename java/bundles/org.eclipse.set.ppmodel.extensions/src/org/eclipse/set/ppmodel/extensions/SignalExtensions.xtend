@@ -453,7 +453,7 @@ class SignalExtensions extends PunktObjektExtensions {
 //		return result.toList
 //	}
 	
-	def static boolean isRelevantControlArea(Signal signal,
+	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
 		val firstcondition = signal.stellelement.IDInformation ===
 			controlArea.IDAussenelementansteuerung ||

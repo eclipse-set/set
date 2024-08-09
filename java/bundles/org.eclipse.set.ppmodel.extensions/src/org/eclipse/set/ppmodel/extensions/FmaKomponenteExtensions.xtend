@@ -63,7 +63,7 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 		return null;
 	}
 	
-	def static boolean isRelevantControlArea(FMA_Komponente fma, Stell_Bereich area) {
+	def static boolean isBelongToControlArea(FMA_Komponente fma, Stell_Bereich area) {
 		return fma?.FMAKomponenteAchszaehlpunkt?.IDInformation?.filterNull.
 			exists [
 				area.aussenElementAnsteuerung !== null &&

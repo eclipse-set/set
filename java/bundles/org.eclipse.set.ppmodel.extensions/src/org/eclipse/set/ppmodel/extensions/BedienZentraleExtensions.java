@@ -32,7 +32,7 @@ public class BedienZentraleExtensions extends BasisObjektExtensions {
 	 *            the {@link Stell_Bereich}
 	 * @return true, if the control center belong to the area
 	 */
-	public static boolean isRelevantControlArea(final Bedien_Zentrale center,
+	public static boolean isBelongToControlArea(final Bedien_Zentrale center,
 			final Stell_Bereich area) {
 		final MultiContainer_AttributeGroup container = getContainer(center);
 		return StreamSupport
@@ -46,7 +46,7 @@ public class BedienZentraleExtensions extends BasisObjektExtensions {
 										.getIDBedienZentrale().getValue())
 												.orElse(null) == center)
 				.anyMatch(estw -> ESTW_ZentraleinheitExtensions
-						.isRelevantControlArea(estw, area));
+						.isBelongToControlArea(estw, area));
 
 	}
 

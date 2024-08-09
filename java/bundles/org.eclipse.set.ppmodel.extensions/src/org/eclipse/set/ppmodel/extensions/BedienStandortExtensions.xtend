@@ -30,7 +30,7 @@ class BedienStandortExtensions extends BasisObjektExtensions {
 		return standort?.IDUnterbringung?.value
 	}
 
-	def static boolean isRelevantControlArea(Bedien_Standort standort,
+	def static boolean isBelongToControlArea(Bedien_Standort standort,
 		Stell_Bereich controlArea) {
 		return controlArea.technikStandorts.
 			flatMap[IDBedienStandort.map[value]].filterNull.exists [

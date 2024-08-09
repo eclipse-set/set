@@ -180,60 +180,60 @@ public class StellBereichExtensions {
 		}
 		return switch (object) {
 		case final Aussenelementansteuerung aussenElement -> AussenelementansteuerungExtensions
-				.isRelevantControlArea(aussenElement, area);
+				.isBelongToControlArea(aussenElement, area);
 		case final ESTW_Zentraleinheit estwZentral -> ESTW_ZentraleinheitExtensions
-				.isRelevantControlArea(estwZentral, area);
+				.isBelongToControlArea(estwZentral, area);
 		case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
-				.isRelevantControlArea(oertlich, area);
+				.isBelongToControlArea(oertlich, area);
 		case final FMA_Anlage fmaAnlage -> FmaAnlageExtensions
-				.isRelevantAreaControl(fmaAnlage, area);
+				.isBelongToControlArea(fmaAnlage, area);
 		case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
-				.isRelevantControlArea(fmaKomponente, area);
+				.isBelongToControlArea(fmaKomponente, area);
 		case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions
-				.isRelevantArea(zugeinwirkung, area);
+				.isBelongToControlArea(zugeinwirkung, area);
 		case final PZB_Element pzb -> PZBElementExtensions
-				.isRelevantControlArea(pzb, area);
+				.isBelongToControlArea(pzb, area);
 		case final Signal signal -> SignalExtensions
-				.isRelevantControlArea(signal, area);
+				.isBelongToControlArea(signal, area);
 		case final Technik_Standort standort -> TechnikStandortExtensions
-				.isRelevantControlArea(standort, area);
+				.isBelongToControlArea(standort, area);
 		case final Bedien_Standort standort -> BedienStandortExtensions
-				.isRelevantControlArea(standort, area);
+				.isBelongToControlArea(standort, area);
 		case final W_Kr_Gsp_Element gspElement -> WKrGspElementExtensions
-				.isRelevantControlArea(gspElement, area);
+				.isBelongToControlArea(gspElement, area);
 		case final W_Kr_Gsp_Komponente gspKomponent -> isInControlArea(area,
 				EObjectExtensions
 						.getNullableObject(gspKomponent,
 								gsp -> gsp.getIDWKrGspElement().getValue())
 						.orElse(null));
 		case final Fstr_Aneinander fstr -> FstrAneinanderExtensions
-				.isRelevantControlArea(fstr, area);
+				.isBelongToControlArea(fstr, area);
 		case final Fstr_DWeg fstr -> FstrDWegWKrExtensions
-				.isRelevantControlArea(fstr, area);
+				.isBelongToControlArea(fstr, area);
 		case final Fstr_Zug_Rangier fstr -> FstrZugRangierExtensions
-				.isRelevantControlArea(fstr, area);
+				.isBelongToControlArea(fstr, area);
 		case final Fla_Schutz fla -> FlaSchutzExtensions
-				.isRelevantControlArea(fla, area);
+				.isBelongToControlArea(fla, area);
 		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
-				.isRelevantControlArea(fla, area);
+				.isBelongToControlArea(fla, area);
 		case final Gleis_Bezeichnung description -> GleisBezeichnungExtensions
-				.isRelevantControlArea(description, area);
+				.isBelongToControlArea(description, area);
 		case final NB_Zone nbZone -> NbZoneExtensions
-				.isRelevantControlArea(nbZone, area);
+				.isBelongToControlArea(nbZone, area);
 		case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
-				.isRelevantControlArea(uebertrangsweg, area);
+				.isBelongToControlArea(uebertrangsweg, area);
 		case final Bedien_Bezirk bedienBezirk -> BedienBezirkExtensions
-				.isRelevantControlArea(bedienBezirk, area);
+				.isBelongToControlArea(bedienBezirk, area);
 		case final Bedien_Zentrale controlCenter -> BedienZentraleExtensions
-				.isRelevantControlArea(controlCenter, area);
+				.isBelongToControlArea(controlCenter, area);
 		case final ZN_ZBS znZBS -> isInControlArea(area,
 				getNullableObject(znZBS,
 						ele -> ele.getIDESTWZentraleinheit().getValue())
 								.orElse(null));
 		case final Stellelement stellelement -> StellelementExtensions
-				.isRelevantControlArea(stellelement, area);
+				.isBelongToControlArea(stellelement, area);
 		case final Block_Element blockElement -> BlockElementExtensions
-				.isRelevantControlArea(blockElement, area);
+				.isBelongToControlArea(blockElement, area);
 		case final BUE_Kante bueKante -> {
 			// IMPROVE is correct ?
 			yield BereichObjektExtensions.intersects(area, bueKante);

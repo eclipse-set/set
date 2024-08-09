@@ -87,10 +87,10 @@ class NbZoneExtensions extends BasisObjektExtensions {
 		return '''«nb?.bezeichnung?.kennzahl?.wert ?: ""»NB«nb?.bezeichnung.bezeichnungNB.wert ?: ""»«nbZone.bezeichnung?.bezeichnungNBZone?.wert ?: ""»'''
 	}
 
-	def static boolean isRelevantControlArea(NB_Zone nbZone,
+	def static boolean isBelongToControlArea(NB_Zone nbZone,
 		Stell_Bereich controlArea) {
 		return nbZone.container.NBZoneGrenze.filterNull.filter [
 			IDNBZone.value === nbZone
-		].exists[isRelevantControlArea(controlArea)]
+		].exists[isBelongToControlArea(controlArea)]
 	}
 }

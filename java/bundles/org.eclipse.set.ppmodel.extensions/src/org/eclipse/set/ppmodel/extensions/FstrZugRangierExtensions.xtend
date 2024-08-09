@@ -424,7 +424,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		return (object?.geschwindigkeitR?.wert ?: BigInteger.ZERO).intValue
 	}
 
-	def static boolean isRelevantControlArea(Fstr_Zug_Rangier fstrZugRangier,
+	def static boolean isBelongToControlArea(Fstr_Zug_Rangier fstrZugRangier,
 		Stell_Bereich controlArea) {
 
 		if (fstrZugRangier.isR) {

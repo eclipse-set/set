@@ -43,7 +43,7 @@ class TechnikStandortExtensions extends BasisObjektExtensions {
 		return standort?.IDUnterbringung?.value
 	}
 
-	def static boolean isRelevantControlArea(Technik_Standort standort,
+	def static boolean isBelongToControlArea(Technik_Standort standort,
 		Stell_Bereich controlArea) {
 		return controlArea.technikStandorts.exists[it === standort]
 	}

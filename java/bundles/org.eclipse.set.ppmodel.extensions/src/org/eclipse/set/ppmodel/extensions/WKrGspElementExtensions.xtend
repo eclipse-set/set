@@ -203,7 +203,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 
 	}
 
-	def static boolean isRelevantControlArea(W_Kr_Gsp_Element gspElement,
+	def static boolean isBelongToControlArea(W_Kr_Gsp_Element gspElement,
 		Stell_Bereich controlArea) {
 		return gspElement.IDStellelement?.value.IDInformation?.value ===
 			controlArea.aussenElementAnsteuerung

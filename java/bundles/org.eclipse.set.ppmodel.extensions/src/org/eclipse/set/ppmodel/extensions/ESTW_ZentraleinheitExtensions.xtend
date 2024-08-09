@@ -80,7 +80,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 		].toList
 	}
 
-	def static boolean isRelevantControlArea(
+	def static boolean isBelongToControlArea(
 		ESTW_Zentraleinheit estw_zentraleinheit, Stell_Bereich area) {
 		val estwZentrals = area?.aussenElementAnsteuerung?.ESTWZentraleinheits
 		return estwZentrals.exists[it === estw_zentraleinheit];
