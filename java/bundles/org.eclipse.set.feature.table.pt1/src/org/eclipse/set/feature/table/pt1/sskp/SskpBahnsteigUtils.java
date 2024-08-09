@@ -38,16 +38,32 @@ public class SskpBahnsteigUtils {
 	// IMPROVE: This should be a record. Blocked by
 	// https://github.com/eclipse/xtext/issues/2823
 	@SuppressWarnings("javadoc")
-	public static record BahnsteigDistance(OptionalDouble distanceStart,
-			OptionalDouble distanceEnd) {
+	public static class BahnsteigDistance {
+		private final OptionalDouble distanceEnd;
+		private final OptionalDouble distanceStart;
+
+		public BahnsteigDistance(final OptionalDouble min,
+				final OptionalDouble max) {
+			distanceStart = min;
+			distanceEnd = max;
+		}
 
 		public BahnsteigDistance(final double start, final double end) {
-			this(OptionalDouble.of(start), OptionalDouble.of(end));
+			distanceStart = OptionalDouble.of(start);
+			distanceEnd = OptionalDouble.of(end);
 		}
 
 		public BahnsteigDistance(final Double start, final Double end) {
 			this(OptionalDouble.of(start.doubleValue()),
 					OptionalDouble.of(end.doubleValue()));
+		}
+		
+		public OptionalDouble getDistanceStart() {
+			return distanceStart;
+		}
+
+		public OptionalDouble getDistanceEnd() {
+			return distanceEnd;
 		}
 	}
 
