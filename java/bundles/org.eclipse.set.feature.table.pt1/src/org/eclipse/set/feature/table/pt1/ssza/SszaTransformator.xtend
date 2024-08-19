@@ -129,10 +129,11 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Datenpunkt_Anzahl_Balisen),
 			datenpunkt,
 			[
-				val counts = container.balise.
-					filter[IDDatenpunkt?.value === it].map [
-						baliseAllg?.anordnungImDP?.wert
-					].filterNull
+				val counts = container.balise.filter [ bal |
+					bal.IDDatenpunkt?.value === it
+				].map [
+					baliseAllg?.anordnungImDP?.wert
+				].filterNull
 				if (counts.empty)
 					return ""
 
