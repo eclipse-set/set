@@ -157,7 +157,9 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		var int vmin = -1
 		val fw = fstrZugRangier.fstrFahrweg
 		val vmax = fw.path.pointIterator.map[punktObjekt].map[getVmax(fw)].
-			filter[it >= 0].toList
+			filter [
+				it >= 0
+			].toList
 		vmax.addAll(fw.gleisabschnitte.map[getVmax(fw)].filter[it >= 0])
 		if (!vmax.empty) {
 			vmin = vmax.min
@@ -428,54 +430,41 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		Stell_Bereich controlArea) {
 
 		if (fstrZugRangier.isR) {
-			return fstrZugRangier.isRangierStrInControlArea(controlArea)
+			return fstrZugRangier.isRangierStrBelongToControlArea(controlArea)
 		}
 
 		if (isZ(fstrZugRangier.fstrZug?.fstrZugArt)) {
-			return fstrZugRangier.isZugStrInControlArea(controlArea)
+			return fstrZugRangier.isZugStrBelongToControlArea(controlArea)
 		}
 
-		if (fstrZugRangier.fstrZug?.fstrZugArt.wert ===
-			ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B) {
-			// TODO
-		}
-		return true
+		return false
 	}
 
-	private def static boolean isRangierStrInControlArea(
+	private def static boolean isRangierStrBelongToControlArea(
 		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
 		if (fstrZugRangier.fstrRangier === null) {
 			return false
 		}
 		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
-		if (startSignal.signalReal !== null) {
-			return controlArea.isInControlArea(startSignal.stellelement)
-		}
-
-		if (startSignal.signalFiktiv !== null) {
-			return startSignal.punktObjektTOPKante.exists [ potk |
-				controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
-			]
-		}
-		return true
+		return controlArea.isInControlArea(startSignal)
 	}
 
-	private def static boolean isZugStrInControlArea(
+	private def static boolean isZugStrBelongToControlArea(
 		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
 		if (fstrZugRangier.fstrZug === null &&
 			fstrZugRangier.fstrMittel === null) {
 			return false
 		}
 		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
-		if (startSignal.signalReal !== null) {
-			return controlArea.isInControlArea(startSignal.stellelement)
+		val zielSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value
+		if (startSignal === null || zielSignal === null) {
+			return false
 		}
-
-		if (startSignal.signalFiktiv !== null) {
-			return startSignal.punktObjektTOPKante.exists [ potk |
-				controlArea.bereichObjektTeilbereich.exists[it.contains(potk)]
-			]
-		}
-		return true
+		
+		return 				zielSignal.container.fstrZugRangier.exists [
+					fstrZug.fstrZugArt.wert ===
+						ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B &&
+						IDFstrFahrweg?.value?.IDStart?.value === zielSignal
+				] ? startSignal.isBelongToControlArea(controlArea) : false
 	}
 }

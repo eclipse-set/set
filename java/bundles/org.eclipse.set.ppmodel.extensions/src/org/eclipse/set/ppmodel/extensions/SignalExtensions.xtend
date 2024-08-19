@@ -52,6 +52,7 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion
 
 /**
  * This class extends {@link Signal}.
@@ -418,33 +419,40 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
-		val firstcondition = signal.stellelement.IDInformation ===
-			controlArea.IDAussenelementansteuerung ||
-			((signal.signalFiktiv !== null || signal.signalReal !== null) &&
-				signal.punktObjektTOPKante.exists [ potk |
-					controlArea.bereichObjektTeilbereich.exists [
-						it.contains(potk)
-					]
-				]
-		)
-		if (firstcondition) {
-			return firstcondition
+		if (signal.signalFiktiv !== null &&
+			signal.signalFiktiv.fiktivesSignalFunktion.exists [
+				wert === ENUMFiktivesSignalFunktion.
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START
+			]) {
+			val fstrFahrwegs = signal.container.fstrZugRangier.map [
+				IDFstrFahrweg.value
+			].filterNull.filter[IDStart?.value === signal]
+			return fstrFahrwegs.map[IDZiel?.value].filterNull.filter(Signal).
+				exists[isBelongToControlArea(controlArea)]
+
 		}
 
-		val isTargetSignal = signal.container.fstrZugRangier.map [
-			IDFstrFahrweg?.value
-		].forall[IDStart?.value !== signal]
-		if (signal.signalReal !== null &&
-			signal.signalReal.signalRealAktiv === null &&
-			signal.signalFiktiv !== null && signal.punktObjektTOPKante.exists [
-				controlArea.contains(it, tolerantDistance)
+		if (signal.signalFiktiv !== null &&
+			signal.signalFiktiv.fiktivesSignalFunktion.exists [
+				wert === ENUMFiktivesSignalFunktion.
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_ZIEL
 			]) {
-			val topGraph = new TopGraph(signal.container.TOPKante)
-			val areaTopKante = controlArea.bereichObjektTeilbereich.map [
-				topKante
-			].filter[!signal.topKanten.contains(it)]
-			return isTargetSignal === !areaTopKante.forall [ topKante |
-				topGraph.isInWirkrichtungOfSignal(signal, topKante)
+			val fstrFahrwegs = signal.container.fstrZugRangier.map [
+				IDFstrFahrweg.value
+			].filterNull.filter[IDZiel?.value === signal]
+			return fstrFahrwegs.map[IDStart?.value].filterNull.filter(Signal).
+				exists[isBelongToControlArea(controlArea)]
+		}
+
+		if (signal.signalReal !== null || (signal.signalFiktiv !== null &&
+			signal.signalFiktiv.fiktivesSignalFunktion.forall [
+				wert !== ENUMFiktivesSignalFunktion.
+					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START && wert !==
+					ENUMFiktivesSignalFunktion.
+						ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_ZIEL
+			])) {
+			return signal.punktObjektTOPKante.exists [
+				controlArea.contains(it, tolerantDistance)
 			]
 		}
 		return false
