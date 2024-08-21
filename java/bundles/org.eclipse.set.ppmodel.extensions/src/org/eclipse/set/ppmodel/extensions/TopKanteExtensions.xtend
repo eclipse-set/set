@@ -51,6 +51,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Diese Klasse erweitert {@link TOP_Kante}.
@@ -114,7 +115,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @parem topKnoten the TOP Knoten of this TOP Kante
 	 * @return the GEO Kante at the TOP Knoten on this TOP Kante
 	 */
-	def static GEO_Kante getGeoKanteAtKnoten(TOP_Kante topKante, TOP_Knoten topKnoten) {
+	def static GEO_Kante getGeoKanteAtKnoten(TOP_Kante topKante,
+		TOP_Knoten topKnoten) {
 		val geoKnoten = topKnoten.GEOKnoten
 		val geoKanten = geoKnoten.getGeoKantenOnTopKante(topKante)
 		// The GEOKnoten reference to this TOP Knoten should have only one GEOKante on this TOPKante
@@ -324,7 +326,6 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			calcAdjacentTopKanten(topKante, topKanten)
 		])
 	}
-	
 
 	def static void createCache() {
 		if (cache === null) {
@@ -551,6 +552,48 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		throw new IllegalArgumentException(topKnoten.toString)
 	}
 
+	def static double getAbstand(TOP_Kante topKante, GEO_Knoten geoKnoten) {
+		val isGeoKnotenOnTopKkante = geoKnoten.geoKanten.exists [
+			topKante.geoKanten.contains(it)
+		]
+		if (!isGeoKnotenOnTopKkante) {
+			throw new IllegalArgumentException('''GeoKnoten: «geoKnoten.identitaet.wert» isn't belong to TOP_Kante: «topKante.identitaet.wert» ''')
+		}
+
+		if (topKante.TOPKnotenA.IDGEOKnoten.value === geoKnoten) {
+			return 0
+		}
+
+		if (topKante.TOPKnotenB.IDGEOKnoten.value === geoKnoten) {
+			return topKante.laenge
+		}
+
+		val distance = topKante.geoKanten.getAbstand(
+			topKante.TOPKnotenA.IDGEOKnoten.value, geoKnoten, 0)
+		return distance
+	}
+
+	private def static double getAbstand(List<GEO_Kante> geoKanten,
+		GEO_Knoten startKnoten, GEO_Knoten targetKnoten, double distance) {
+		if (startKnoten === targetKnoten || startKnoten === null ||
+			targetKnoten === null) {
+			return distance
+		}
+
+		val geoKante = startKnoten.geoKanten.filter[geoKanten.contains(it)].
+			firstOrNull
+		if (geoKante === null) {
+			throw new IllegalArgumentException
+		}
+		val nextKnoten = geoKante.IDGEOKnotenA.value === startKnoten
+				? geoKante.IDGEOKnotenB.value
+				: geoKante.IDGEOKnotenA.value
+		val remainingGeoKanten = geoKanten.filter[it !== geoKante].toList
+		return getAbstand(remainingGeoKanten, nextKnoten, targetKnoten,
+			distance +
+				(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?: 0).doubleValue)
+	}
+
 	/**
 	 * @param topKante this TOP Kante
 	 * @param basisObjekt1 the first object
@@ -651,11 +694,11 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 		throw new IllegalArgumentException('''topKnoten=«topKnoten.identitaet.wert»''')
 	}
-	
+
 	def static ENUMTOPAnschluss getTOPAnschlussA(TOP_Kante topKante) {
 		return topKante.TOPKanteAllg.TOPAnschlussA.wert
 	}
-	
+
 	def static ENUMTOPAnschluss getTOPAnschlussB(TOP_Kante topKante) {
 		return topKante.TOPKanteAllg.TOPAnschlussB.wert
 	}

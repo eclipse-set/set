@@ -15,18 +15,17 @@ import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
+
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
-import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
+
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
-import org.locationtech.jts.geom.TopologyException
 
 /**
  * Extensions for {@link Punkt_Objekt_TOP_Kante_AttributeGroup} aka single

@@ -11,6 +11,8 @@
 package org.eclipse.set.feature.table.pt1.ssza
 
 import java.util.Set
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
@@ -241,7 +243,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				ZUB_Streckeneigenschaft,
 				[
 					return datenpunkt.getNearestRoute(it)?.bezeichnung?.
-						bezeichnungStrecke?.wert
+						bezeichnungStrecke?.wert ?: ""
 				]
 			)
 		)
@@ -314,17 +316,18 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 					fillDPStandortStellbereich(IDMarkanteStelle?.value)
 				]
 			),
-			bezugspunktCaseIterable(
-				#[BUE_Kante, PZB_Element, BUE_Anlage,
-					ZUB_Streckeneigenschaft], [
-					fillDPStandortStellbereich
-				]),
+			bezugspunktCaseIterable(#[BUE_Kante, PZB_Element, BUE_Anlage], [
+				fillDPStandortStellbereich
+			]),
 			bezugspunktCaseIterable(BUE_Einschaltung, [
 				val sue = schaltmittelZuordnung.map[IDSchalter?.value]?.
 					filterNull.toList
 				return sue.flatMap [
 					fillDPStandortStellbereich
 				]
+			]),
+			bezugspunktCase(ZUB_Streckeneigenschaft, [
+				mostOverlapControlArea?.stellbereichBezeichnung ?: ""
 			])
 		)
 
@@ -425,11 +428,15 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// O: Ssza.Bemerkung
-		fill(
+		fillConditional(
 			cols.getColumn(Bemerkung),
-			datenpunkt,
+			dpBezug,
 			[
-				"TODO" // TODO
+				ZUB_Streckeneigenschaft.isInstance(it) &&
+					(it as ZUB_Streckeneigenschaft).metallteil !== null
+			],
+			[
+				// TODO
 			]
 		)
 
@@ -514,16 +521,17 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 					isInControlArea(b)
 				])
 		}
-		return result.map [
-			val externalControl = IDAussenelementansteuerung?.value
-			if (externalControl === null) {
-				return null
-			}
-			externalControl.IDOertlichkeitNamensgebend?.value.bezeichnung?.
-				oertlichkeitAbkuerzung?.wert ?:
-				externalControl.bezeichnung?.bezeichnungAEA?.wert
+		return result.map[stellbereichBezeichnung].filterNull
+	}
 
-		].filterNull
+	private def String getStellbereichBezeichnung(Stell_Bereich controlArea) {
+		val externalControl = controlArea?.IDAussenelementansteuerung?.value
+		if (externalControl === null) {
+			return null
+		}
+		return externalControl.IDOertlichkeitNamensgebend?.value.bezeichnung?.
+			oertlichkeitAbkuerzung?.wert ?:
+			externalControl.bezeichnung?.bezeichnungAEA?.wert
 	}
 
 	private def getSchaltmittelZuordnung(BUE_Einschaltung bue) {
@@ -538,26 +546,30 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Strecke getNearestRoute(Datenpunkt dp,
 		ZUB_Streckeneigenschaft zub) {
-		val nearestBotb = zub.bereichObjektTeilbereich.reduce [ first, second |
-			val firstDistance = distanceToTeilBereichObjekt(dp, first)
-			val secondDistance = distanceToTeilBereichObjekt(dp, second)
-			if (firstDistance !== null && secondDistance !== null) {
-				return firstDistance.lowerEndpoint.compareTo(
-					secondDistance.lowerEndpoint) < 0 ? first : second
-			}
-			return firstDistance !== null ? first : second
-		]
-		val strecken = dp.container.strecke.filter [
-			bereichObjektTeilbereich.exists [ botb |
-				botb.topKante === nearestBotb.topKante &&
-					botb.begrenzungA.wert === nearestBotb.begrenzungA.wert &&
-					botb.begrenzungB.wert === nearestBotb.begrenzungB.wert
-			]
-		].toList
-		if (strecken.nullOrEmpty) {
+		val topGraphService = Services.topGraphService
+		val dpPoint = new TopPoint(dp)
+		// Find nearest area limit of ZUB_Streckeigenschaft
+		val distancesToDp = zub.bereichObjektTeilbereich.flatMap[toTopPoints].
+			map [
+				it ->
+					topGraphService.findShortestDistance(dpPoint, it).
+						orElse(null)
+			].filter[value !== null]
+		if (distancesToDp.isNullOrEmpty) {
 			return null
 		}
-		return strecken.first
+		val nearestPoint = distancesToDp.minBy[value].key
+		// Find relevant route, which contain a area with same limit like nearest point 
+		val relevantStrecke = dp.container.strecke.findFirst [
+			bereichObjektTeilbereich.exists [ botb |
+				botb.topKante === nearestPoint.edge &&
+					(botb.begrenzungA.wert === nearestPoint.distance ||
+						botb.begrenzungB.wert === nearestPoint.distance
+					)
+			]
+		]
+
+		return relevantStrecke
 	}
 
 }
