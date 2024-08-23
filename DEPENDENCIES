@@ -299,7 +299,7 @@ npm/npmjs/-/emoji-regex/8.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/emoji-regex/9.2.2, MIT, approved, clearlydefined
 npm/npmjs/-/emojis-list/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/encodeurl/1.0.2, MIT, approved, clearlydefined
-npm/npmjs/-/enhanced-resolve/5.17.0, MIT, approved, clearlydefined
+npm/npmjs/-/enhanced-resolve/5.17.1, MIT, approved, clearlydefined
 npm/npmjs/-/entities/2.2.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/entities/4.5.0, BSD-2-Clause, approved, #7910
 npm/npmjs/-/envinfo/7.10.0, MIT, approved, #9207
@@ -773,7 +773,7 @@ npm/npmjs/-/webpack-dev-middleware/7.1.0, MIT, approved, #13946
 npm/npmjs/-/webpack-dev-server/5.0.4, MIT, approved, #13200
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #15298
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
-npm/npmjs/-/webpack/5.93.0, MIT, approved, clearlydefined
+npm/npmjs/-/webpack/5.94.0, MIT, approved, clearlydefined
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/whatwg-url/5.0.0, MIT, approved, clearlydefined
@@ -879,10 +879,6 @@ npm/npmjs/@types/body-parser/1.19.2, MIT, approved, #10831
 npm/npmjs/@types/bonjour/3.5.13, MIT, approved, clearlydefined
 npm/npmjs/@types/connect-history-api-fallback/1.5.4, MIT, approved, #8395
 npm/npmjs/@types/connect/3.4.35, MIT, approved, clearlydefined
-npm/npmjs/@types/eslint-scope/3.7.3, MIT, approved, #10812
-npm/npmjs/@types/eslint-scope/3.7.4, MIT, approved, #10812
-npm/npmjs/@types/eslint/8.4.3, MIT, approved, #15349
-npm/npmjs/@types/eslint/8.4.7, MIT, approved, #15340
 npm/npmjs/@types/estree/1.0.5, MIT, approved, #8266
 npm/npmjs/@types/express-serve-static-core/4.17.43, MIT, approved, #6020
 npm/npmjs/@types/express/4.17.21, MIT, approved, #5760
