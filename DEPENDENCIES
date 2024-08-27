@@ -194,7 +194,6 @@ npm/npmjs/-/arraybuffer.prototype.slice/1.0.2, MIT, approved, #9657
 npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/atob/2.1.2, (Apache-2.0 AND MIT) AND CC-BY-3.0, approved, #15389
 npm/npmjs/-/available-typed-arrays/1.0.5, MIT, approved, clearlydefined
-npm/npmjs/-/axios/1.7.4, MIT, approved, #14871
 npm/npmjs/-/axios/1.7.5, MIT, approved, #14871
 npm/npmjs/-/balanced-match/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
