@@ -49,7 +49,7 @@ public class TestFailHandle implements TestWatcher {
 		if (testInstance.isPresent() && testInstance
 				.get() instanceof final AbstractTableTest tableTest) {
 			exportCurrentCSV(tableTest.getTestFile(),
-					tableTest.getTestTableName(), tableTest.getTestClass());
+					tableTest.getTestTableName());
 			exportReferenceCSV(tableTest.getTestFile(),
 					tableTest.getTestTableName(), tableTest.getReferenceDir(),
 					tableTest.getTestClass());
@@ -58,9 +58,9 @@ public class TestFailHandle implements TestWatcher {
 	}
 
 	protected void exportCurrentCSV(final TestFile testFile,
-			final String tableName, final Class<?> testClass) {
+			final String tableName) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
-		final File file = getExportFile(testClass, testFile,
+		final File file = getExportFile(testFile,
 				tableName + CURRENT_CSV_EXTENSIONS);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
@@ -89,7 +89,7 @@ public class TestFailHandle implements TestWatcher {
 	protected void exportReferenceCSV(final TestFile testFile,
 			final String tableName, final String parentDir,
 			final Class<?> testClass) {
-		final File outFile = getExportFile(testClass, testFile,
+		final File outFile = getExportFile(testFile,
 				tableName + REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdirs();
@@ -106,11 +106,10 @@ public class TestFailHandle implements TestWatcher {
 		}
 	}
 
-	protected File getExportFile(final Class<?> testClass,
-			final TestFile testFile, final String csvFile) {
-
+	protected File getExportFile(final TestFile testFile,
+			final String csvFile) {
 		try {
-			final URL parent = getProjectLocation(testClass);
+			final URL parent = getProjectLocation();
 			final File parentDir = Path.of(parent.toURI()).toFile();
 			return new File(parentDir, Path
 					.of(DIFF_DIR, testFile.getShortName(), csvFile).toString());
@@ -120,7 +119,7 @@ public class TestFailHandle implements TestWatcher {
 
 	}
 
-	protected URL getProjectLocation(final Class<?> testClass) {
-		return testClass.getProtectionDomain().getCodeSource().getLocation();
+	protected URL getProjectLocation() {
+		return getClass().getProtectionDomain().getCodeSource().getLocation();
 	}
 }
