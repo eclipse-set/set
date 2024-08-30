@@ -47,17 +47,18 @@ public class TestFailHandle implements TestWatcher {
 		if (testInstance.isPresent() && testInstance
 				.get() instanceof final AbstractTableTest tableTest) {
 			exportCurrentCSV(tableTest.getTestFile(),
-					tableTest.getTestTableName());
+					tableTest.getTestTableName(), tableTest.getTestClass());
 			exportReferenceCSV(tableTest.getTestFile(),
-					tableTest.getTestTableName(), tableTest.getReferenceDir());
+					tableTest.getTestTableName(), tableTest.getReferenceDir(),
+					tableTest.getTestClass());
 		}
 		TestWatcher.super.testFailed(context, cause);
 	}
 
 	protected void exportCurrentCSV(final TestFile testFile,
-			final String tableName) {
+			final String tableName, final Class<?> testClass) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
-		final URL projectLocation = getProjectLocation();
+		final URL projectLocation = getProjectLocation(testClass);
 		final File file = new File(
 				projectLocation.getPath() + DIFF_DIR + testFile.getShortName()
 						+ "_" + tableName + CURRENT_CSV_EXTENSIONS);
@@ -86,16 +87,17 @@ public class TestFailHandle implements TestWatcher {
 	}
 
 	protected void exportReferenceCSV(final TestFile testFile,
-			final String tableName, final String parentDir) {
-		final URL outLocation = getProjectLocation();
+			final String tableName, final String parentDir,
+			final Class<?> testClass) {
+		final URL outLocation = getProjectLocation(testClass);
 		final File outFile = new File(
 				outLocation.getPath() + DIFF_DIR + testFile.getShortName() + "_"
 						+ tableName + REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdir();
 		}
-		try (final InputStream resourceStream = AbstractSWTBotTest.class
-				.getClassLoader().getResourceAsStream(
+		try (final InputStream resourceStream = testClass.getClassLoader()
+				.getResourceAsStream(
 						parentDir + tableName + REFERENCE_CSV_EXTENSIONS);
 				final FileOutputStream outputStream = new FileOutputStream(
 						outFile);) {
@@ -106,7 +108,7 @@ public class TestFailHandle implements TestWatcher {
 		}
 	}
 
-	protected URL getProjectLocation() {
-		return getClass().getProtectionDomain().getCodeSource().getLocation();
+	protected URL getProjectLocation(final Class<?> testClass) {
+		return testClass.getProtectionDomain().getCodeSource().getLocation();
 	}
 }

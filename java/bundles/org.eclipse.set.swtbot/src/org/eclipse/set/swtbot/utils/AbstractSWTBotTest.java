@@ -41,6 +41,19 @@ public abstract class AbstractSWTBotTest {
 				.of(getFilePath(getTestFile().getFullName()));
 	}
 
+	/**
+	 * Call execute test class to get test resource location
+	 * 
+	 * @return execute test class
+	 */
+	public Class<? extends AbstractSWTBotTest> getTestClass() {
+		// Class for get the default test resource
+		if (getTestFile().equals(SWTBotTestFile.PPHN)) {
+			return AbstractSWTBotTest.class;
+		}
+		return getClass();
+	}
+
 	public abstract TestFile getTestFile();
 
 	protected MockDialogService getDialogService() {
@@ -70,19 +83,6 @@ public abstract class AbstractSWTBotTest {
 					String.format("Cannot find file: %s", fileName));
 		}
 		return testFile.toPath();
-	}
-
-	/**
-	 * Call execute test class to get test resource location
-	 * 
-	 * @return execute test class
-	 */
-	protected Class<? extends AbstractSWTBotTest> getTestClass() {
-		// Class for get the default test resource
-		if (getTestFile().equals(SWTBotTestFile.PPHN)) {
-			return AbstractSWTBotTest.class;
-		}
-		return getClass();
 	}
 
 	protected File getTestFileLocation(final String fileName) {
