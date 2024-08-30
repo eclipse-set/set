@@ -39,7 +39,7 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 	@BeforeEach
 	public void beforeEach() throws Exception {
 		super.beforeEach();
-		LOGGER.info(getFilePath(PPHN.getFullName()).toString());
+		LOGGER.info(getFilePath(getTestFile().getFullName()).toString());
 		bot.waitUntil(new DefaultCondition() {
 			@Override
 			public String getFailureMessage() {

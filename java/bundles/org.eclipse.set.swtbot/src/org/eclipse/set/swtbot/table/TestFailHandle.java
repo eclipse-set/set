@@ -14,9 +14,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
@@ -37,7 +39,7 @@ import org.junit.jupiter.api.extension.TestWatcher;
 @Disabled
 public class TestFailHandle implements TestWatcher {
 	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
-	private static final String DIFF_DIR = "diff/";
+	private static final String DIFF_DIR = "diff";
 	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
 
 	@Override
@@ -58,12 +60,10 @@ public class TestFailHandle implements TestWatcher {
 	protected void exportCurrentCSV(final TestFile testFile,
 			final String tableName, final Class<?> testClass) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
-		final URL projectLocation = getProjectLocation(testClass);
-		final File file = new File(
-				projectLocation.getPath() + DIFF_DIR + testFile.getShortName()
-						+ "_" + tableName + CURRENT_CSV_EXTENSIONS);
+		final File file = getExportFile(testClass, testFile,
+				tableName + CURRENT_CSV_EXTENSIONS);
 		if (!file.getParentFile().exists()) {
-			file.getParentFile().mkdir();
+			file.getParentFile().mkdirs();
 		}
 		mockDialogService.exportFileDialogHandler = filter -> {
 			return Optional.of(file.toPath());
@@ -89,12 +89,10 @@ public class TestFailHandle implements TestWatcher {
 	protected void exportReferenceCSV(final TestFile testFile,
 			final String tableName, final String parentDir,
 			final Class<?> testClass) {
-		final URL outLocation = getProjectLocation(testClass);
-		final File outFile = new File(
-				outLocation.getPath() + DIFF_DIR + testFile.getShortName() + "_"
-						+ tableName + REFERENCE_CSV_EXTENSIONS);
+		final File outFile = getExportFile(testClass, testFile,
+				tableName + REFERENCE_CSV_EXTENSIONS);
 		if (!outFile.getParentFile().exists()) {
-			outFile.getParentFile().mkdir();
+			outFile.getParentFile().mkdirs();
 		}
 		try (final InputStream resourceStream = testClass.getClassLoader()
 				.getResourceAsStream(
@@ -106,6 +104,20 @@ public class TestFailHandle implements TestWatcher {
 			throw new RuntimeException(String.format("Cannot find file: %s",
 					tableName + REFERENCE_CSV_EXTENSIONS));
 		}
+	}
+
+	protected File getExportFile(final Class<?> testClass,
+			final TestFile testFile, final String csvFile) {
+
+		try {
+			final URL parent = getProjectLocation(testClass);
+			final File parentDir = Path.of(parent.toURI()).toFile();
+			return new File(parentDir, Path
+					.of(DIFF_DIR, testFile.getShortName(), csvFile).toString());
+		} catch (final URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
 	protected URL getProjectLocation(final Class<?> testClass) {
