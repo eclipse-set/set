@@ -85,7 +85,7 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 		result.element = pzb.PZBArt?.wert?.toElement
 		result.rightSide = pzb.singlePoints.get(0)?.seitlicheLage?.wert ===
 			ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS
-		val pzbEl = pzb.PZBElementZuordnung.PZBElementZuordnungBP
+		val pzbEl = pzb.PZBElementZuordnung?.PZBElementZuordnungBP
 		result.effectivity = pzbEl?.map[wirksamkeit?.wert?.toEffectivity]?.head
 		pzb.transformPunktObjektStrecke(result)
 		return result
