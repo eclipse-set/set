@@ -49,19 +49,20 @@ public class TestFailHandle implements TestWatcher {
 		if (testInstance.isPresent() && testInstance
 				.get() instanceof final AbstractTableTest tableTest) {
 			exportCurrentCSV(tableTest.getTestFile(),
-					tableTest.getTestTableName());
+					tableTest.getTestTableName(), tableTest.getClass());
 			exportReferenceCSV(tableTest.getTestFile(),
 					tableTest.getTestTableName(), tableTest.getReferenceDir(),
-					tableTest.getTestClass());
+					tableTest.getTestResourceClass().getClassLoader(),
+					tableTest.getClass());
 		}
 		TestWatcher.super.testFailed(context, cause);
 	}
 
 	protected void exportCurrentCSV(final TestFile testFile,
-			final String tableName) {
+			final String tableName, final Class<?> testClass) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
 		final File file = getExportFile(testFile,
-				tableName + CURRENT_CSV_EXTENSIONS);
+				tableName + CURRENT_CSV_EXTENSIONS, testClass);
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
 		}
@@ -88,13 +89,13 @@ public class TestFailHandle implements TestWatcher {
 
 	protected void exportReferenceCSV(final TestFile testFile,
 			final String tableName, final String parentDir,
-			final Class<?> testClass) {
+			final ClassLoader resourceClassLoader, final Class<?> testClass) {
 		final File outFile = getExportFile(testFile,
-				tableName + REFERENCE_CSV_EXTENSIONS);
+				tableName + REFERENCE_CSV_EXTENSIONS, testClass);
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdirs();
 		}
-		try (final InputStream resourceStream = testClass.getClassLoader()
+		try (final InputStream resourceStream = resourceClassLoader
 				.getResourceAsStream(
 						parentDir + tableName + REFERENCE_CSV_EXTENSIONS);
 				final FileOutputStream outputStream = new FileOutputStream(
@@ -106,10 +107,11 @@ public class TestFailHandle implements TestWatcher {
 		}
 	}
 
-	protected File getExportFile(final TestFile testFile,
-			final String csvFile) {
+	protected File getExportFile(final TestFile testFile, final String csvFile,
+			final Class<?> testClass) {
 		try {
-			final URL parent = getProjectLocation();
+			final URL parent = testClass.getProtectionDomain().getCodeSource()
+					.getLocation();
 			final File parentDir = Path.of(parent.toURI()).toFile();
 			return new File(parentDir, Path
 					.of(DIFF_DIR, testFile.getShortName(), csvFile).toString());
@@ -117,9 +119,5 @@ public class TestFailHandle implements TestWatcher {
 			throw new RuntimeException(e);
 		}
 
-	}
-
-	protected URL getProjectLocation() {
-		return getClass().getProtectionDomain().getCodeSource().getLocation();
 	}
 }

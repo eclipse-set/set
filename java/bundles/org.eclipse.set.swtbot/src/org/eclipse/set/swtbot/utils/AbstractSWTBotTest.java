@@ -46,7 +46,7 @@ public abstract class AbstractSWTBotTest {
 	 * 
 	 * @return execute test class
 	 */
-	public Class<? extends AbstractSWTBotTest> getTestClass() {
+	public Class<? extends AbstractSWTBotTest> getTestResourceClass() {
 		// Class for get the default test resource
 		if (getTestFile().equals(SWTBotTestFile.PPHN)) {
 			return AbstractSWTBotTest.class;
@@ -73,7 +73,7 @@ public abstract class AbstractSWTBotTest {
 			return testFile.toPath();
 		}
 
-		try (final InputStream resourceStream = getTestClass().getClassLoader()
+		try (final InputStream resourceStream = getTestResourceClass().getClassLoader()
 				.getResourceAsStream(TEST_FILE_DIR + fileName);
 				final FileOutputStream outputStream = new FileOutputStream(
 						testFile);) {
@@ -86,7 +86,7 @@ public abstract class AbstractSWTBotTest {
 	}
 
 	protected File getTestFileLocation(final String fileName) {
-		final URL projectLocation = getTestClass().getProtectionDomain()
+		final URL projectLocation = getTestResourceClass().getProtectionDomain()
 				.getCodeSource().getLocation();
 		return new File(projectLocation.getPath() + fileName);
 	}

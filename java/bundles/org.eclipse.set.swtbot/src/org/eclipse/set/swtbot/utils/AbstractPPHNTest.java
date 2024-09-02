@@ -92,7 +92,7 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 				+ "_reference.csv";
 		final Builder csvBuilder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
 		csvBuilder.setDelimiter(";");
-		try (InputStream inputStream = getTestClass().getClassLoader()
+		try (InputStream inputStream = getTestResourceClass().getClassLoader()
 				.getResourceAsStream(fileName);
 				final Reader reader = new InputStreamReader(inputStream);
 				final CSVParser csvParser = new CSVParser(reader,
