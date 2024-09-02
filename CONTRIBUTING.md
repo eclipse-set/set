@@ -22,7 +22,7 @@ Please file all issues and feature requests under the main SET repository, even 
 
 ## Contributing code changes
 
-If you intend to contribute code changes, please use a GitLab Merge Request 
+If you intend to contribute code changes, please use a Github Pull Request
 
 * https://github.com/eclipse-set/set/pulls
 
