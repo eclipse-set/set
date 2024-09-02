@@ -101,17 +101,6 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		return new GeoPosition(lateralSegement.p1, rotation, wirkrichtung)
 	}
 
-	/**
-	 * Returns the CRS for a GEO_Kante
-	 * 
-	 * @param geoKante a GEO_Kante
-	 * @return the CRS of the GEO_Kante or null
-	 */
-	static def ENUMGEOKoordinatensystem getCRS(GEO_Kante geoKante) {
-		// When exists GEO_Kante stay on two other CRS,
-		// then the coordiatenes of KnotenB will be transform into CRS of KnotenA
-		return geoKante.geoKnotenA.CRS
-	}
 
 	static def boolean isCRSConsistent(GEO_Kante geoKante) {
 		val crsA = geoKante.geoKnotenA.CRS

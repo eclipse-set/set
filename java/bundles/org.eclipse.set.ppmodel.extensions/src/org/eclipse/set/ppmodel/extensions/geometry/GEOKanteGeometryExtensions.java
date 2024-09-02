@@ -10,11 +10,14 @@
  */
 package org.eclipse.set.ppmodel.extensions.geometry;
 
-import static org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.getCRS;
 import static org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.isCRSConsistent;
 import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCRS;
 import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCoordinate;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.*;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.getAngleBetweenPoints;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.mirrorY;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.offsetBy;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.rotateAroundOrigin;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.rotateAroundPoint;
 import static org.eclipse.xtext.xbase.lib.IterableExtensions.lastOrNull;
 
 import java.math.BigDecimal;
@@ -246,12 +249,19 @@ public class GEOKanteGeometryExtensions {
 				.toList().toArray(new Coordinate[0]));
 	}
 
+	/**
+	 * Returns GEO_Knoten_B coordinates in the same CRS as GEO_Knoten_A
+	 * 
+	 * @param edge
+	 *            the Geo_Kante
+	 */
 	private static Coordinate getCoordinateNodeB(final GEO_Kante edge) {
+		final GEO_Knoten nodeA = edge.getIDGEOKnotenA().getValue();
 		final GEO_Knoten nodeB = edge.getIDGEOKnotenB().getValue();
 		Coordinate coordinateB = getCoordinate(nodeB);
 		if (!isCRSConsistent(edge)) {
 			coordinateB = CoordinateExtensions.transformCRS(coordinateB,
-					getCRS(nodeB), getCRS(edge));
+					getCRS(nodeB), getCRS(nodeA));
 		}
 		return coordinateB;
 	}
@@ -259,7 +269,7 @@ public class GEOKanteGeometryExtensions {
 	private static Coordinate[] getCoordinates(final GEO_Kante edge) {
 		return Stream
 				.of(getCoordinate(edge.getIDGEOKnotenA().getValue()),
-						getCoordinate(edge.getIDGEOKnotenB().getValue()))
+						getCoordinateNodeB(edge))
 				.toList().toArray(new Coordinate[0]);
 	}
 

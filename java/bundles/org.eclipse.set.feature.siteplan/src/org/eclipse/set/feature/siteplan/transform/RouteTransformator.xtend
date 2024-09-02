@@ -58,7 +58,7 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 		guid = geoKante.identitaet.wert
 		shape = TrackTransformator.transformGeoForm(
 			geoKante.GEOKanteAllg.GEOForm)
-		val crs = geoKante.CRS
+		val crs = geoKante.geoKnotenA.CRS
 		positions.addAll(geoKante.geometry.coordinates.map [
 			positionService.transformCoordinate(it, crs)
 		])
