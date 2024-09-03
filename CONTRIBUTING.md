@@ -6,7 +6,7 @@ The source code for Eclipse SET is hosted on the Github instance:
 
 * https://github.com/eclipse-set/
 
-The project is split into four major components:
+The project is split into three major components:
 
 * https://github.com/eclipse-set/set Contains the primary source code of the Eclipse Signalling Engineering Toolbox.
 * https://github.com/eclipse-set/browser Contains the CEF-based browser integration for SWT used to display web components.
