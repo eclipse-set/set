@@ -34,7 +34,6 @@ The project maintains the following source code repositories:
 * https://github.com/eclipse-set/browser
 * https://github.com/eclipse-set/set
 * https://github.com/eclipse-set/model
-* https://github.com/eclipse-set/toolbox-model
 * https://github.com/eclipse-set/build
 
 ## Third-party Content

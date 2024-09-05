@@ -2,16 +2,15 @@
 
 ## Developer resources
 
-The source code for Eclipse SET is hosted on the Eclipse Foundation's GitLab instance:
+The source code for Eclipse SET is hosted on the Github instance:
 
-* https://gitlab.eclipse.org/eclipse/set
+* https://github.com/eclipse-set/
 
-The project is split into four major components:
+The project is split into three major components:
 
-* https://gitlab.eclipse.org/eclipse/set/set Contains the primary source code of the Eclipse Signalling Engineering Toolbox.
-* https://gitlab.eclipse.org/eclipse/set/browser Contains the CEF-based browser integration for SWT used to display web components.
-* https://gitlab.eclipse.org/eclipse/set/model Contains the baseline PlanPro EMF data model used by the Toolbox for loading PlanPro files. 
-* https://gitlab.eclipse.org/eclipse/set/toolbox-model Contains a specialized adapted PlanPro EMF data model internallly used by the Toolbox.
+* https://github.com/eclipse-set/set Contains the primary source code of the Eclipse Signalling Engineering Toolbox.
+* https://github.com/eclipse-set/browser Contains the CEF-based browser integration for SWT used to display web components.
+* https://github.com/eclipse-set/model Contains the baseline PlanPro EMF data model used by the Toolbox for loading PlanPro files. 
 
 For detailed build instructions see [BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.md).
 
@@ -19,13 +18,13 @@ For detailed build instructions see [BUILD_INSTRUCTIONS.md](BUILD_INSTRUCTIONS.m
 
 Please file all issues and feature requests under the main SET repository, even if it is with a specific component:
 
-* https://gitlab.eclipse.org/eclipse/set/set/-/issues
+* https://github.com/eclipse-set/set/issues
 
 ## Contributing code changes
 
-If you intend to contribute code changes, please use a GitLab Merge Request 
+If you intend to contribute code changes, please use a Github Pull Request
 
-* https://gitlab.eclipse.org/groups/eclipse/set/-/merge_requests
+* https://github.com/eclipse-set/set/pulls
 
 Before contributing significant changes, please file an issue first. This allows us to discuss the merit of the contribution before you spend time on a feature that ends up being out of scope for the project. 
 
