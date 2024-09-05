@@ -49,7 +49,7 @@ export default abstract class Configuration {
 
   public static getHereMapsURL (): string {
     // Return the DB API for Here Maps
-    return 'https://gateway.businesshub.deutschebahn.com/here-maps/trial/{mapType}/maptile/newest/{mapScheme}/{z}/{x}/{y}/256/png8'
+    return 'https://apis.hub.db.de/db/apis/{mapType}/v1/maptile/newest/{mapScheme}/{z}/{x}/{y}/256/png8'
   }
 
   public static developmentMode (): boolean {

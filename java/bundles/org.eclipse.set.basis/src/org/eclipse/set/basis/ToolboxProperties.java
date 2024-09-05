@@ -97,12 +97,17 @@ public interface ToolboxProperties {
 	public static final String MAP_SOURCES = "toolbox.siteplan.mapsources";
 
 	/**
-	 * Property key for HERE 20 API key.
+	 * Property key for HERE API key.
 	 */
 	public static final String HERE_API_KEY = "toolbox.siteplan.mapsources.here_apikey";
 
 	/**
-	 * Property key for MAPBOX 20 API key.
+	 * Property key for HERE ClientID key.
+	 */
+	public static final String HERE_CLIENT_ID = "toolbox.siteplan.mapsources.here_clientid";
+
+	/**
+	 * Property key for MAPBOX API key.
 	 */
 	public static final String MAPBOX_API_KEY = "toolbox.siteplan.mapsources.mapbox_apikey";
 

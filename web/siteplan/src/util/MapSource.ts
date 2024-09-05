@@ -24,7 +24,7 @@ export enum MapSourceType {
  * Class to define a selectable map source
  */
 export abstract class MapSource {
-  private apiKey: string
+  private apiKey: string[]
   private apiKeyRequired: boolean
   private name: string
   private configName: string
@@ -42,15 +42,19 @@ export abstract class MapSource {
      *               If this parameter is given it is assumed that
      *               this MapSource requires an API key.
      */
-  constructor (configName: string, name: string, type: MapSourceType, apiKey?: string) {
+  constructor (configName: string, name: string, type: MapSourceType, apiKey?: string | string[]) {
     this.configName = configName
     this.name = name
     this.type = type
     if (apiKey !== undefined) {
-      this.apiKey = apiKey ?? ''
+      if (Array.isArray(apiKey))
+        this.apiKey = apiKey
+      else
+        this.apiKey = [apiKey ?? '']
+
       this.apiKeyRequired = true
     } else {
-      this.apiKey = ''
+      this.apiKey = []
       this.apiKeyRequired = false
     }
   }
@@ -95,6 +99,13 @@ export abstract class MapSource {
   * Returns the API key
   */
   getAPIKey (): string {
+    return this.apiKey[0]
+  }
+
+  /**
+  * Returns the API key
+  */
+  getAPIKeys (): string[] {
     return this.apiKey
   }
 

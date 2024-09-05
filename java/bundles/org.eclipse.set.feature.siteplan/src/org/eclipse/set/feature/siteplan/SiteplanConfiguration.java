@@ -23,6 +23,8 @@ import org.eclipse.set.utils.ToolboxConfiguration;
  *            is in development mode
  * @param mapSources
  *            the map sources
+ * @param hereClientID
+ *            the HERE Map Client ID
  * @param hereApiKey
  *            the HERE Map Api Key
  * @param mapboxApiKey
@@ -49,9 +51,9 @@ import org.eclipse.set.utils.ToolboxConfiguration;
  *            the type of planpro model
  */
 public record SiteplanConfiguration(boolean developmentMode, String mapSources,
-		String hereApiKey, String mapboxApiKey, String dop20ApiKey,
-		String dop20InternUrl, int lodScale, int exportDPI, String trackWidth,
-		String trackWidthInterval, int baseZoomLevel,
+		String hereClientID, String hereApiKey, String mapboxApiKey,
+		String dop20ApiKey, String dop20InternUrl, int lodScale, int exportDPI,
+		String trackWidth, String trackWidthInterval, int baseZoomLevel,
 		boolean defaultCollisionsEnabled, String defaultSheetCutCRS,
 		String planproModelType) {
 	/**
@@ -61,6 +63,7 @@ public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 	public SiteplanConfiguration(final String planproModelType) {
 		this(ToolboxConfiguration.isDevelopmentMode(),
 				ToolboxConfiguration.getMapSources(),
+				ToolboxConfiguration.getHereClientID(),
 				ToolboxConfiguration.getHereApiKey(),
 				ToolboxConfiguration.getMapboxApiKey(),
 				ToolboxConfiguration.getDop20ApiKey(),
