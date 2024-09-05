@@ -43,7 +43,7 @@ Erfordert die Konfiguration von `toolbox.siteplan.mapsources.mapbox_apikey`, da 
 |Topologisch
 |Topologische Karte von Here Maps über die Here-Maps Server der DB
 
-Erfordert die Konfiguration von `toolbox.siteplan.mapsources.here_apikey`, da ein API Schlüssel benötigt wird. 
+Erfordert die Konfiguration von `toolbox.siteplan.mapsources.here_clientid` und `toolbox.siteplan.mapsources.here_apikey`, da eine ClientID und ein API Schlüssel benötigt wird.
 
 |BKG_SENT
 |Satellitenansicht
@@ -81,7 +81,7 @@ Siehe https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9[
 |Satellitenansicht
 |Satellitenbilder von Here Maps über die Here-Maps Server der DB
 
-Erfordert die Konfiguration von `toolbox.siteplan.mapsources.here_apikey`, da ein API Schlüssel benötigt wird.
+Erfordert die Konfiguration von `toolbox.siteplan.mapsources.here_clientid` und `toolbox.siteplan.mapsources.here_apikey`, da eine ClientID und ein API Schlüssel benötigt wird.
 
 |===
 
@@ -95,7 +95,8 @@ Weiterhin ist es möglich alle oben gelisteten Kartenquellen zu aktivieren, inde
 *toolbox.siteplan.mapsources.mapbox_apikey* +
 *toolbox.siteplan.mapsources.dop20_apikey* +
 *toolbox.siteplan.mapsources.here_apikey* +
-Da die Verwendung von einigen Datenquellen für die Kartendarstellung seitens der Diensteanbieter einen API Schlüssel erfordert, muss dieser ggf. mithilfe dieser Optionen angegeben werden. Ist beispielsweise der von Mapbox ausgestellte API Schlüssel `abcd1234`, dann wird die Option wie folgt angegeben:
+*toolbox.siteplan.mapsources.here_clientidi* +
+Da die Verwendung von einigen Datenquellen für die Kartendarstellung seitens der Diensteanbieter einen API Schlüssel oder eine Client ID erfordert, muss dieser ggf. mithilfe dieser Optionen angegeben werden. Ist beispielsweise der von Mapbox ausgestellte API Schlüssel `abcd1234`, dann wird die Option wie folgt angegeben:
 
 `toolbox.siteplan.mapsources.mapbox_apikey=abcd1234`
 

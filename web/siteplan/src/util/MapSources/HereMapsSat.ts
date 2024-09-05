@@ -13,14 +13,18 @@ import XHRMapBase from './XHRMapBase'
 
 /**
  * Map source for Here Maps satellite maps maps
- * Requries a Mapbox api token
- *
- * @author Stuecker
+ * Requries a client id and api token
  */
-export default class HereMapsSat extends XHRMapBase {
+
+export default class HereMapsTop extends XHRMapBase {
   source: XYZ | null = null
   constructor () {
-    super('HERE_SAT', 'Here Maps', MapSourceType.Satellite, Configuration.getToolboxConfiguration().hereApiKey)
+    super(
+      'HERE_TOP',
+      'Here Maps',
+      MapSourceType.Topological,
+      [Configuration.getToolboxConfiguration().hereClientID, Configuration.getToolboxConfiguration().hereApiKey]
+    )
   }
 
   getAPIUrl (): string {
@@ -30,6 +34,7 @@ export default class HereMapsSat extends XHRMapBase {
   }
 
   getAPIHeaders (): [string, string][] {
-    return [['key', this.getAPIKey()]]
+    const [clientid, key] = this.getAPIKeys()
+    return [['DB-Client-ID', clientid], ['DB-Api-Key', key]]
   }
 }

@@ -156,6 +156,7 @@ public class ToolboxConfiguration {
 
 	private static final String MAP_SOURCES_DEFAULT = "BKG_TOPPLUS|BKG_SENT"; //$NON-NLS-1$
 	private static final String HERE_API_KEY_DEFAULT = ""; //$NON-NLS-1$
+	private static final String HERE_CLIENT_ID_DEFAULT = ""; //$NON-NLS-1$
 	private static final String MAPBOX_API_KEY_DEFAULT = ""; //$NON-NLS-1$
 	private static final String DOP20_API_KEY_DEFAULT = ""; //$NON-NLS-1$
 	private static final String DOP20_INTERN_URL_DEFAULT = "https://sg.geodatenzentrum.de/wms_dop"; //$NON-NLS-1$
@@ -174,6 +175,14 @@ public class ToolboxConfiguration {
 	public static String getMapSources() {
 		return System.getProperty(ToolboxProperties.MAP_SOURCES,
 				MAP_SOURCES_DEFAULT);
+	}
+
+	/**
+	 * @return the HERE API key
+	 */
+	public static String getHereClientID() {
+		return System.getProperty(ToolboxProperties.HERE_CLIENT_ID,
+				HERE_CLIENT_ID_DEFAULT);
 	}
 
 	/**

@@ -13,6 +13,7 @@
 export interface ToolboxConfiguration {
   mapSources: string
   mapboxApiKey: string
+  hereClientID: string
   hereApiKey: string
   dop20ApiKey: string
   dop20InternUrl: string
