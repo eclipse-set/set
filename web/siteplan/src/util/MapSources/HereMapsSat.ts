@@ -22,7 +22,7 @@ export default class HereMapsTop extends XHRMapBase {
     super(
       'HERE_SAT',
       'Here Maps',
-      MapSourceType.Satelite,
+      MapSourceType.Satellite,
       [Configuration.getToolboxConfiguration().hereClientID, Configuration.getToolboxConfiguration().hereApiKey]
     )
   }
