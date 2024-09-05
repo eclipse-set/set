@@ -597,7 +597,7 @@ npm/npmjs/-/postcss-selector-parser/6.0.15, MIT, approved, #5056
 npm/npmjs/-/postcss-selector-parser/6.0.16, MIT, approved, #5056
 npm/npmjs/-/postcss-value-parser/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/postcss/8.4.33, MIT, approved, #3545
-npm/npmjs/-/postcss/8.4.41, MIT, approved, #3545
+npm/npmjs/-/postcss/8.4.45, MIT, approved, #3545
 npm/npmjs/-/prelude-ls/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/pretty-error/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/process-nextick-args/2.0.1, MIT, approved, clearlydefined
@@ -749,7 +749,7 @@ npm/npmjs/-/utils-merge/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/utrie/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #15399
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/vite/5.4.2, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND BlueOak-1.0.0 AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #15844
+npm/npmjs/-/vite/5.4.3, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND BlueOak-1.0.0 AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #15844
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/9.4.3, MIT, approved, #15333
 npm/npmjs/-/vue-router/4.4.3, MIT, approved, clearlydefined
