@@ -20,9 +20,9 @@ export default class HereMapsTop extends XHRMapBase {
   source: XYZ | null = null
   constructor () {
     super(
-      'HERE_TOP',
+      'HERE_SAT',
       'Here Maps',
-      MapSourceType.Topological,
+      MapSourceType.Satelite,
       [Configuration.getToolboxConfiguration().hereClientID, Configuration.getToolboxConfiguration().hereApiKey]
     )
   }
