@@ -26,7 +26,8 @@ public class Messages extends NLS {
 	public static String SetViewGroups_Export;
 	public static String SetViewGroups_Information;
 	public static String SetViewGroups_Siteplan;
-	public static String SetViewGroups_Table;
+	public static String SetViewGroups_Table_ESTW;
+	public static String SetViewGroups_Table_ETCS;
 
 	private static final String BUNDLE_NAME = "org.eclipse.set.utils.viewgroups.messages"; //$NON-NLS-1$
 	static {

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
@@ -113,7 +114,7 @@ public final class TableServiceImpl implements TableService {
 	@Inject
 	ToolboxPartService partService;
 
-	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
+	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
 
 	private static final String EMPTY = "empty"; //$NON-NLS-1$
@@ -138,14 +139,14 @@ public final class TableServiceImpl implements TableService {
 	void addModelService(final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final String elementId = TableServiceContextFunction
-				.getElementId(properties);
-		modelServiceMap.put(elementId, service);
+		final TableInfo tableInfo = TableServiceContextFunction
+				.getTableInfo(properties);
+		modelServiceMap.put(tableInfo, service);
 	}
 
-	void addModelServiceById(final String elementId,
+	void addModelServiceByInfo(final TableInfo tableInfo,
 			final PlanPro2TableTransformationService service) {
-		modelServiceMap.put(elementId, service);
+		modelServiceMap.put(tableInfo, service);
 	}
 
 	private Table createDiffTable(final String elementId,
@@ -191,13 +192,16 @@ public final class TableServiceImpl implements TableService {
 
 	private PlanPro2TableTransformationService getModelService(
 			final String elementId) {
-		final PlanPro2TableTransformationService modelService = modelServiceMap
-				.get(elementId.toLowerCase());
-		if (modelService == null) {
+		final Entry<TableInfo, PlanPro2TableTransformationService> result = modelServiceMap
+				.entrySet().stream()
+				.filter(modelService -> modelService.getKey().shortcut()
+						.equals(elementId.toLowerCase()))
+				.findFirst().orElse(null);
+		if (result == null) {
 			throw new IllegalArgumentException(
 					"no model service for " + elementId + " found!"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		return modelService;
+		return result.getValue();
 	}
 
 	@Override
@@ -206,7 +210,7 @@ public final class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public Collection<String> getAvailableTables() {
+	public Collection<TableInfo> getAvailableTables() {
 		return new ArrayList<>(modelServiceMap.keySet());
 	}
 
@@ -218,21 +222,23 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, Collection<TableError>> getTableErrors(
-			final IModelSession modelSession,
-			final Set<String> controlAreaIds) {
+			final IModelSession modelSession, final Set<String> controlAreaIds,
+			final String tableCategory) {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
 		final Cache cache = getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS);
-		getAvailableTables().forEach(shortCut -> {
-			final List<Pair<String, String>> cacheKeys = getCacheKeys(shortCut,
-					modelSession, controlAreaIds);
-			final List<List<TableError>> tableErrors = cacheKeys.stream()
-					.map(cacheKey -> (List<TableError>) cache
-							.getIfPresent(cacheKey.getValue()))
-					.filter(Objects::nonNull).toList();
-			if (!tableErrors.isEmpty()) {
-				map.put(shortCut,
-						tableErrors.stream().flatMap(List::stream).toList());
+		getAvailableTables().forEach(tableInfo -> {
+			if (tableInfo.category().equals(tableCategory)) {
+				final List<Pair<String, String>> cacheKeys = getCacheKeys(
+						tableInfo.shortcut(), modelSession, controlAreaIds);
+				final List<List<TableError>> tableErrors = cacheKeys.stream()
+						.map(cacheKey -> (List<TableError>) cache
+								.getIfPresent(cacheKey.getValue()))
+						.filter(Objects::nonNull).toList();
+				if (!tableErrors.isEmpty()) {
+					map.put(tableInfo.shortcut(), tableErrors.stream()
+							.flatMap(List::stream).toList());
+				}
 			}
 		});
 		return map;
@@ -340,9 +346,9 @@ public final class TableServiceImpl implements TableService {
 	 */
 	public void removeModelService(final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final String elementId = TableServiceContextFunction
-				.getElementId(properties);
-		modelServiceMap.remove(elementId);
+		final TableInfo tableInfo = TableServiceContextFunction
+				.getTableInfo(properties);
+		modelServiceMap.remove(tableInfo);
 	}
 
 	@Override
@@ -451,12 +457,14 @@ public final class TableServiceImpl implements TableService {
 			final Runnable updateTableHandler, final Runnable clearInstance) {
 		// Get already open table parts
 		final List<MPart> openTableParts = partService.getOpenParts().stream()
-				.filter(part -> part.getElementId()
-						.startsWith(ToolboxConstants.TABLE_PART_ID_PREFIX)
+				.filter(part -> (part.getElementId()
+						.startsWith(ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX)
+						|| part.getElementId().startsWith(
+								ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX))
 						// IMPROVE: currently table overview isn't regard on
 						// control area
-						&& !part.getElementId().equals(
-								ToolboxConstants.TABLE_OVERVIEW_PART_ID))
+						&& !part.getElementId()
+								.endsWith(ToolboxConstants.TABLE_OVERVIEW_ID))
 				.map(MPart.class::cast).toList();
 
 		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));

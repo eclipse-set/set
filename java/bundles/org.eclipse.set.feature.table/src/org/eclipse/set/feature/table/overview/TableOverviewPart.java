@@ -26,9 +26,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.TableService;
+import org.eclipse.set.feature.table.TableService.TableInfo;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
@@ -142,7 +144,7 @@ public class TableOverviewPart extends BasePart {
 
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				calculateAllMissingTablesEvent();
+				widgetDefaultSelected(e);
 			}
 		});
 
@@ -239,7 +241,16 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private Map<String, Collection<TableError>> getTableErrors() {
-		return tableService.getTableErrors(getModelSession(), controlAreaIds);
+		return tableService.getTableErrors(getModelSession(), controlAreaIds,
+				getTableCategory());
+	}
+
+	private String getTableCategory() {
+		final String elementId = getToolboxPart().getElementId();
+		if (elementId.startsWith(ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX)) {
+			return "estw";
+		}
+		return "etcs";
 	}
 
 	private void update() {
@@ -267,7 +278,9 @@ public class TableOverviewPart extends BasePart {
 	private Collection<String> getMissingTables() {
 		final Map<String, Collection<TableError>> computedErrors = getTableErrors();
 		final Collection<String> allTableInfos = tableService
-				.getAvailableTables();
+				.getAvailableTables().stream()
+				.filter(table -> table.category().equals(getTableCategory()))
+				.map(TableInfo::shortcut).toList();
 
 		final ArrayList<String> missingTables = new ArrayList<>();
 		missingTables.addAll(allTableInfos);

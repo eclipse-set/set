@@ -141,8 +141,8 @@ public class TableMenuServiceImpl implements TableMenuService {
 							return;
 						}
 						toolboxPartService
-								.showPart(ToolboxConstants.TABLE_PART_ID_PREFIX
-										+ tableShortcut.toLowerCase());
+								.showPart(ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX
+										+ "." + tableShortcut.toLowerCase()); //$NON-NLS-1$
 						ToolboxEvents.send(broker, jumpEvent);
 					}
 				}, enablePredicate);

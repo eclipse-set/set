@@ -34,7 +34,7 @@ import org.osgi.service.event.EventHandler;
  */
 @Component(service = { PlanPro2TableTransformationService.class,
 		EventHandler.class }, immediate = true, property = {
-				"table.shortcut=ssks",
+				"table.category=estw", "table.shortcut=ssks",
 				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_PART,
 				EventConstants.EVENT_TOPIC + "=" + Events.CLOSE_SESSION, })
 public final class SsksTransformationService extends

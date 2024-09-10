@@ -18,6 +18,7 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.TableService;
+import org.eclipse.set.feature.table.TableService.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -42,18 +43,19 @@ public class TableServiceContextFunction extends ContextFunction {
 	 * @throws IllegalAccessException
 	 *             if the properties to not contain the table shortcut
 	 */
-	public static String getElementId(final Map<String, Object> properties)
+	public static TableInfo getTableInfo(final Map<String, Object> properties)
 			throws IllegalAccessException {
 		final Object idObject = properties.get("table.shortcut"); //$NON-NLS-1$
-
-		if (idObject != null) {
-			return idObject.toString();
+		final Object categoryObject = properties.get("table.category"); //$NON-NLS-1$
+		if (idObject != null && categoryObject != null) {
+			return new TableInfo(categoryObject.toString(),
+					idObject.toString());
 		}
 		throw new IllegalAccessException(
-				"table.shortcut missing in properties"); //$NON-NLS-1$
+				"table.shortcut or table.category missing in properties"); //$NON-NLS-1$
 	}
 
-	private final Map<String, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
+	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 
 	private TableServiceImpl tableService;
 
@@ -73,7 +75,7 @@ public class TableServiceContextFunction extends ContextFunction {
 			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final String elementId = getElementId(properties);
+		final TableInfo elementId = getTableInfo(properties);
 		if (tableService != null) {
 			tableService.addModelService(service, properties);
 		} else {
@@ -87,7 +89,7 @@ public class TableServiceContextFunction extends ContextFunction {
 		tableService = ContextInjectionFactory.make(TableServiceImpl.class,
 				context);
 		modelServiceMap.keySet().forEach(
-				elementId -> tableService.addModelServiceById(elementId,
+				elementId -> tableService.addModelServiceByInfo(elementId,
 						modelServiceMap.get(elementId)));
 		final MApplication application = context.get(MApplication.class);
 		final IEclipseContext applicationContext = application.getContext();
@@ -110,7 +112,7 @@ public class TableServiceContextFunction extends ContextFunction {
 			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final String elementId = getElementId(properties);
+		final TableInfo elementId = getTableInfo(properties);
 		if (tableService != null) {
 			tableService.removeModelService(properties);
 		} else {

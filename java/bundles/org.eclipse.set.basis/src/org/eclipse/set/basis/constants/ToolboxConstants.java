@@ -235,9 +235,9 @@ public final class ToolboxConstants {
 	public static final String VALIDATION_TABLE_PART_ID = "org.eclipse.set.feature.validation.parts.ValidationTablePart";
 
 	/**
-	 * The id of the table overview part.
+	 * The id of the table ESTW overview part.
 	 */
-	public static final String TABLE_OVERVIEW_PART_ID = "org.eclipse.set.feature.table.overview.TableOverviewPart";
+	public static final String TABLE_OVERVIEW_ID = "overview.TableOverviewPart";
 
 	private static final String DEFAULT_HOME_DIR;
 
@@ -262,9 +262,14 @@ public final class ToolboxConstants {
 	public static final String PLANING_GROUP_VIEW_DETAIL_KEY = "detail";
 
 	/**
-	 * The prefix of table part
+	 * The prefix of ESTW table part
 	 */
-	public static final String TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.";
+	public static final String ESWT_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.estw";
+
+	/**
+	 * The prefix of ETCS table part
+	 */
+	public static final String ETCS_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.etcs";
 
 	/**
 	 * The id of the web developer help part

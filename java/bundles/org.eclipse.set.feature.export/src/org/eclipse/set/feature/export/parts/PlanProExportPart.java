@@ -28,6 +28,7 @@ import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.feature.table.TableService.TableInfo;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
@@ -66,7 +67,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	@Override
 	protected CheckboxModelElement[] createCheckboxModelElements() {
 		final List<String> shortCuts = new ArrayList<>(
-				tableService.getAvailableTables());
+				tableService.getAvailableTables()).stream()
+						.map(TableInfo::shortcut).toList();
 		Collections.sort(shortCuts);
 
 		final List<CheckboxModelElement> elements = new ArrayList<>(

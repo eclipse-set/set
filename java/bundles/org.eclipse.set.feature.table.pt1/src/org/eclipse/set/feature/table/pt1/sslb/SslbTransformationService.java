@@ -34,7 +34,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
-				"table.shortcut=sslb" })
+				"table.category=estw", "table.shortcut=sslb" })
 public final class SslbTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 

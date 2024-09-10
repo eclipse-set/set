@@ -14,9 +14,7 @@ import java.util.Optional;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.part.PartDescription;
-import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
 /**
  * Common table description functions.
@@ -29,8 +27,9 @@ public abstract class AbstractTableDescription
 	public PartDescription getDescription(final IEclipseContext context) {
 		return new PartDescription(
 				// ID
-				getOptionalTableId().orElse(
-						ToolboxConstants.TABLE_PART_ID_PREFIX + getTableId()),
+				getOptionalTableId().orElse(String.format("%s.%s.%s", //$NON-NLS-1$
+						ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX, getTableType(),
+						getTableId())),
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.ToolboxTableView", //$NON-NLS-1$
 				// toolboxViewName
@@ -61,14 +60,8 @@ public abstract class AbstractTableDescription
 				false);
 	}
 
-	@Override
-	public ToolboxViewGroup getToolboxViewGroup() {
-		return SetViewGroups.getTable();
-	}
-
 	private String getTableId() {
-		// IMPROVE: use table service?
-		return this.getClass().getSimpleName().toLowerCase().substring(0, 4);
+		return getToolboxViewName().substring(0, 4);
 	}
 
 	@SuppressWarnings("static-method")
@@ -79,4 +72,6 @@ public abstract class AbstractTableDescription
 	protected abstract String getToolboxViewName();
 
 	protected abstract String getToolboxViewTooltip();
+
+	protected abstract String getTableType();
 }

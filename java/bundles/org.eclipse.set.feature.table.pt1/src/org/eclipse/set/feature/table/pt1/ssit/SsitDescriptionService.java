@@ -10,7 +10,7 @@
 package org.eclipse.set.feature.table.pt1.ssit;
 
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.table.AbstractTableDescription;
+import org.eclipse.set.feature.table.AbstractESTWTableDescription;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -21,7 +21,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Schaefer
  */
 @Component(service = PartDescriptionService.class)
-public class SsitDescriptionService extends AbstractTableDescription {
+public class SsitDescriptionService extends AbstractESTWTableDescription {
 	@Reference
 	Messages messages;
 
