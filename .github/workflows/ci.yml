@@ -342,9 +342,7 @@ jobs:
 
       - name: Apply Changes
         shell: bash
-        run: |
-          git config user.name 'TruongQuangSB'
-          python -m updatereference --prNumber=${{ github.event.issue.number }}
+        run: python -m updatereference --prNumber=${{ github.event.issue.number }}
       
       - name: Add comment reaction
         uses: actions/github-script@v7
