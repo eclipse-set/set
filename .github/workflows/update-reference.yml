@@ -24,7 +24,9 @@ jobs:
       
       - name: Apply changes
         shell: bash
-        run: python -u -m updatereference --prNumber=861
+        run: |
+          ls
+          python -u -m updatereference --prNumber=861
 
       - name: Add comment reaction
         uses: actions/github-script@v7
