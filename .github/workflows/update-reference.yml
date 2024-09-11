@@ -21,12 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: 'set'
           ref: swtbot/test
       
       - name: Apply changes
         shell: bash
         run: |
+          ls
           python -u -m updatereference --prNumber=861
           
       - name: Push
