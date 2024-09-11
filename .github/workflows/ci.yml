@@ -313,6 +313,6 @@ jobs:
         shell: bash
         run: |
           python -m tablediffview \
-            --difDir=${{ env.DIFF_DIR }}
-            --branchName=${{ github.head_ref }}
-            --prNumber=${{github.event.pull_request.number}}
+            --diffDir=${{ env.DIFF_DIR }} \
+            --branchName=${{ github.head_ref }} \
+            --prNumber=${{github.event.pull_request.number}} \
