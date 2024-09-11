@@ -6,6 +6,7 @@ on:
     types: [created]
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  SET_LOCA_REPO_PATH: ${{github.workspace}}/set
 
 jobs:
   doCommand:
@@ -27,6 +28,7 @@ jobs:
         run: |
           ls
           python -u -m updatereference --prNumber=861
+          ls
 
       - name: Add comment reaction
         uses: actions/github-script@v7
