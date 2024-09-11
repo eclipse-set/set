@@ -18,6 +18,8 @@ jobs:
       pull-requests: write
       actions: read
     steps:
+      - uses: actions/checkout@v4
+      
       - name: Apply changes
         shell: bash
         run: python -m updatereference --prNumber=861
