@@ -1,7 +1,6 @@
 name: Update table reference
 
 on:
-  pull_request:
   issue_comment:
     types: [created]
 env:
