@@ -1,12 +1,6 @@
 name: Update table reference
 
 on:
-  workflow_dispatch:
-    inputs:
-      prNumber:
-        description: 'Pull request number'
-        required: true
-        type: number
   pull_request:
   issue_comment:
     types: [created]
@@ -25,7 +19,6 @@ jobs:
       actions: read
     steps:
       - name: Apply changes
-        if: github.event_name == 'workflow_dispatch'
         shell: bash
         run: python -m updatereference -prNumber=861
 
