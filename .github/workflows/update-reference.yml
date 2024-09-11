@@ -1,0 +1,44 @@
+name: Update table reference
+
+on:
+  issue_comment:
+    types: [created]
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  doCommand:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request }} && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/update-table-reference')
+    container: ghcr.io/truongquangsb/update-table-reference:latest
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+      actions: read
+    steps:
+      - name: Apply Changes
+        shell: bash
+        run: python -m updatereference --prNumber=${{ github.event.issue.number }}
+      
+      - name: Add comment reaction
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const payload = await github.rest.repos.getCollaboratorPermissionLevel({
+              ...context.repo, username: context.actor
+            });
+            const userPermission = payload?.data?.permission;
+            let reaction = 'rocket'
+            if (!(userPermission == 'write' || userPermission == 'admin')) { // not a committer
+              // Not a committer -> abort workflow
+              core.setFailed("Only committers are permitted to request license vetting and " + context.actor + " isn't one.")
+              reaction = '-1'
+            }
+            // react on comment to give early feedback that the request was understood
+            await github.rest.reactions.createForIssueComment({
+              ...context.repo, comment_id: context.payload?.comment?.id, content: reaction
+            });
+
+
+    
