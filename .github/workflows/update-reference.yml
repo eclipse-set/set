@@ -19,6 +19,10 @@ jobs:
       actions: read
     steps:
       - uses: actions/checkout@v4
+
+      - name: Test
+        shell: bash
+        run: ls
       
       - name: Apply changes
         shell: bash
