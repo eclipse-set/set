@@ -24,15 +24,10 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - name: is Comment
-        if: github.event_name == 'issue_comment'
-        shell: bash
-        run: python -m updatereference -prNumber=${{github.event.issue.number}}
-
-      - name: is workflow dispatch
+      - name: Apply changes
         if: github.event_name == 'workflow_dispatch'
         shell: bash
-        run: python -m updatereference -prNumber=${{inputs.prNumber}}
+        run: python -m updatereference -prNumber=861
 
       - name: Add comment reaction
         uses: actions/github-script@v7
