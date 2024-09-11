@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Apply changes
         shell: bash
-        run: python -m updatereference -prNumber=861
+        run: python -m updatereference --prNumber=861
 
       - name: Add comment reaction
         uses: actions/github-script@v7
