@@ -32,11 +32,17 @@ jobs:
       - name: Push
         shell: bash
         run: |
+          git config user.name 'eclipse-set-bot'
+          git config user.email 'set-bot@eclipse.org'
+          git status
+          git branch -D swtbot/test || true
+          git checkout -b swtbot/test
           git status
           git add -A
-          git commit -m "Update table reference"
-          git push
-
+          git commit --allow-empty -m "Update table reference" 
+          git status
+          git push -f -u origin swtbot/test
+          git status
       - name: Add comment reaction
         uses: actions/github-script@v7
         with:
