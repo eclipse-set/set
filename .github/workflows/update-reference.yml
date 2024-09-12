@@ -1,12 +1,12 @@
 name: Update table reference
 
 on:
+  push:
   pull_request:
   issue_comment:
     types: [created]
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  SET_LOCA_REPO_PATH: ${{github.workspace}}/set
 
 jobs:
   doCommand:
@@ -43,24 +43,4 @@ jobs:
           git status
           git push -f -u origin swtbot/test
           git status
-      - name: Add comment reaction
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const payload = await github.rest.repos.getCollaboratorPermissionLevel({
-              ...context.repo, username: context.actor
-            });
-            const userPermission = payload?.data?.permission;
-            let reaction = 'rocket'
-            if (!(userPermission == 'write' || userPermission == 'admin')) { // not a committer
-              // Not a committer -> abort workflow
-              core.setFailed("Only committers are permitted to request license vetting and " + context.actor + " isn't one.")
-              reaction = '-1'
-            }
-            // react on comment to give early feedback that the request was understood
-            await github.rest.reactions.createForIssueComment({
-              ...context.repo, comment_id: context.payload?.comment?.id, content: reaction
-            });
-
-
     
