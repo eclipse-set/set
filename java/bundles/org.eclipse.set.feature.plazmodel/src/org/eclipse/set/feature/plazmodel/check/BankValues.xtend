@@ -62,7 +62,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 					ToolboxConfiguration.bankLineTopOffsetLimit + 1) as int)
 			if (paths.isEmpty) {
 				return createError(
-					"Es konnte kein passender topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
+					"Es konnte kein topologischer Pfad für die Überhöhungslinie {GUID} gefunden werden.",
 					Map.of("GUID", it.identitaet?.wert))
 			}
 			val completeShortesPath = paths.filter [ path |
@@ -91,7 +91,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 				return p1
 			]
 			return createError(
-				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD})für die Überhöhungslinie {GUID} mit ensprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
+				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD}) für die Überhöhungslinie {GUID} mit ensprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
 				Map.of(
 					"GUID",
 					it.identitaet?.wert,
