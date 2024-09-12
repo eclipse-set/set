@@ -203,18 +203,22 @@ public class DirectedPathSearch {
 	 * 
 	 * @param condition
 	 *            condition for relevant TopPath
+	 * @param acceptIncompletePath
+	 *            should return incomplete path or not
 	 * @return the TopPath or null, when not satisfy the condition or the path
 	 *         isn't complete
 	 */
-	public TopPath getTopPath(final Predicate<TopPath> condition) {
-		if (!isCompletePath()) {
+	public TopPath getTopPath(final Predicate<TopPath> condition,
+			final boolean acceptIncompletePath) {
+		if (!isCompletePath() && !acceptIncompletePath) {
 			return null;
 		}
 		final GraphPath<Node, DirectedTOPEdge<Edge>> completePath = makePath(
 				graph, path, startNode);
-		if (!completePath.getStartVertex().equals(startNode)
-				|| !completePath.getEndVertex().equals(endNode)
-				|| completePath.getWeight() > maxPathWeight) {
+		if (!acceptIncompletePath
+				&& (!completePath.getStartVertex().equals(startNode)
+						|| !completePath.getEndVertex().equals(endNode)
+						|| completePath.getWeight() > maxPathWeight)) {
 			return null;
 		}
 

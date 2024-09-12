@@ -13,6 +13,7 @@ package org.eclipse.set.utils.graph;
 import java.math.BigDecimal;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -79,7 +80,8 @@ public class AsDirectedTopGraph {
 	}
 
 	/**
-	 * Find relevant path from two {@link TopPoint}
+	 * Find relevant path from two {@link TopPoint}. The find process will
+	 * cancel, when the path length greate than max path weigth
 	 * 
 	 * @param graph
 	 *            the graph
@@ -105,7 +107,8 @@ public class AsDirectedTopGraph {
 	}
 
 	/**
-	 * Find relevant path from two {@link Node}
+	 * Find relevant path from two {@link Node}. The find process will cancel,
+	 * when the path length greate than max path weigth
 	 * 
 	 * @param graph
 	 *            the graph
@@ -132,7 +135,8 @@ public class AsDirectedTopGraph {
 			final DirectedPathSearch directedPath = new DirectedPathSearch(
 					graph, startNode, endNode, maxPathWeight);
 
-			final TopPath topPath = directedPath.getTopPath(relevantCondition);
+			final TopPath topPath = directedPath.getTopPath(relevantCondition,
+					false);
 			if (topPath != null) {
 				return topPath;
 			}
@@ -145,18 +149,66 @@ public class AsDirectedTopGraph {
 			final DirectedPathSearch path = new DirectedPathSearch(graph,
 					startNode, endNode, maxPathWeight);
 			path.addEdge(edge);
-			final TopPath topPath = getPath(path, relevantEdgesFromTarget,
-					relevantCondition);
-			if (topPath != null) {
-				return topPath;
+			final List<TopPath> topPaths = getPath(path,
+					relevantEdgesFromTarget, relevantCondition, false);
+			if (!topPaths.isEmpty()) {
+				return topPaths.getFirst();
 			}
 		}
 		return null;
 	}
 
-	private static TopPath getPath(final DirectedPathSearch incompletePath,
+	/**
+	 * Find all paths from two {@link Node}, include incomplete paths. When the
+	 * path length greater than the max path weight, then break find process and
+	 * give the incomplete path back.
+	 * 
+	 * @param graph
+	 *            the graph
+	 * @param from
+	 *            the start point
+	 * @param to
+	 *            the end point
+	 * @param maxPathWeight
+	 *            max weight of path
+	 * @return the list of path
+	 */
+	public static List<TopPath> getAllPaths(final AsSplitTopGraph graph,
+			final TopPoint from, final TopPoint to, final int maxPathWeight) {
+		final Node startNode = graph.splitGraphAt(from);
+		final Node endNode = graph.splitGraphAt(to);
+		final Graph<Node, DirectedTOPEdge<Edge>> directedTopGraph = AsDirectedTopGraph
+				.asDirectedTopGraph(graph);
+
+		// When start and end node are same
+		if (startNode == endNode) {
+			final DirectedPathSearch directedPath = new DirectedPathSearch(
+					directedTopGraph, startNode, endNode, maxPathWeight);
+			final TopPath topPath = directedPath.getTopPath(null, true);
+			if (topPath != null) {
+				return List.of(topPath);
+			}
+		}
+		final List<TopPath> result = new ArrayList<>();
+		for (final DirectedTOPEdge<Edge> edge : directedTopGraph
+				.outgoingEdgesOf(startNode)) {
+			final DirectedPathSearch path = new DirectedPathSearch(
+					directedTopGraph, startNode, endNode, maxPathWeight);
+			path.addEdge(edge);
+			final List<TopPath> topPath = getPath(path, Collections.emptyList(),
+					null, true);
+			result.addAll(topPath);
+		}
+
+		return result;
+	}
+
+	private static List<TopPath> getPath(
+			final DirectedPathSearch incompletePath,
 			final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget,
-			final Predicate<TopPath> relevantCondition) {
+			final Predicate<TopPath> relevantCondition,
+			final boolean includeIncompletePath) {
+		final List<TopPath> result = new ArrayList<>();
 		final Deque<DirectedPathSearch> incompletePaths = new LinkedList<>();
 		incompletePaths.add(incompletePath);
 		final Graph<Node, DirectedTOPEdge<Edge>> graph = incompletePath.graph();
@@ -167,26 +219,64 @@ public class AsDirectedTopGraph {
 			final Node lastNode = graph.getEdgeTarget(lastEdge);
 			for (final DirectedTOPEdge<Edge> edge : graph
 					.outgoingEdgesOf(lastNode)) {
-				if (relevantEdgesFromTarget.contains(edge)
-						&& path.isRelevantPathWeight(edge.edge().getWeight())) {
-					final DirectedPathSearch newPath = path.clonePath();
-					if (!newPath.addEdge(edge)) {
-						continue;
+				if (!includeIncompletePath) {
+					final TopPath shortesPath = getShortesPath(incompletePaths,
+							path, edge, relevantEdgesFromTarget,
+							relevantCondition);
+					if (shortesPath != null) {
+						return List.of(shortesPath);
 					}
-
-					final TopPath topPath = newPath
-							.getTopPath(relevantCondition);
-					if (topPath != null) {
-						return topPath;
-					}
-
-					if (newPath.isRelevantPathLength()) {
-						incompletePaths.addFirst(newPath);
-					}
+				} else {
+					getAllPaths(result, incompletePaths, path, edge);
 				}
+
+			}
+		}
+		return result;
+	}
+
+	private static TopPath getShortesPath(
+			final Deque<DirectedPathSearch> incompletePaths,
+			final DirectedPathSearch path, final DirectedTOPEdge<Edge> edge,
+			final List<DirectedTOPEdge<Edge>> relevantEdgesFromTarget,
+			final Predicate<TopPath> relevantCondition) {
+		if (relevantEdgesFromTarget.contains(edge)
+				&& path.isRelevantPathWeight(edge.edge().getWeight())) {
+			final DirectedPathSearch newPath = path.clonePath();
+			if (!newPath.addEdge(edge)) {
+				return null;
+			}
+
+			final TopPath topPath = newPath.getTopPath(relevantCondition,
+					false);
+			if (topPath != null) {
+				return topPath;
+			}
+
+			if (newPath.isRelevantPathLength()) {
+				incompletePaths.addFirst(newPath);
 			}
 		}
 		return null;
+	}
+
+	private static void getAllPaths(final List<TopPath> result,
+			final Deque<DirectedPathSearch> incompletePaths,
+			final DirectedPathSearch path, final DirectedTOPEdge<Edge> edge) {
+		final DirectedPathSearch newPath = path.clonePath();
+		if (!newPath.addEdge(edge)) {
+			return;
+		}
+		final TopPath topPath = newPath.getTopPath(null, false);
+		if (topPath != null) {
+			result.add(topPath);
+			return;
+		}
+		if (newPath.isRelevantPathLength()) {
+			incompletePaths.addFirst(newPath);
+		} else {
+			result.add(newPath.getTopPath(null, true));
+		}
 	}
 
 	/**
