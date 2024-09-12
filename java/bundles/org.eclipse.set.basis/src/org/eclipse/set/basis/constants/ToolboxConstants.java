@@ -272,6 +272,16 @@ public final class ToolboxConstants {
 	public static final String ETCS_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.etcs";
 
 	/**
+	 * The ESTW category
+	 */
+	public static final String ESTW_CATEGORY = "estw"; //$NON-NLS-1$
+
+	/**
+	 * The ETCS category
+	 */
+	public static final String ETCS_CATEGORY = "etcs"; //$NON-NLS-1$
+
+	/**
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";

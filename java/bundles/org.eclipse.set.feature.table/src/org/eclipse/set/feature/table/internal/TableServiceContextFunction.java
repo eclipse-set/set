@@ -75,11 +75,11 @@ public class TableServiceContextFunction extends ContextFunction {
 			final PlanPro2TableTransformationService service,
 			final Map<String, Object> properties)
 			throws IllegalAccessException {
-		final TableInfo elementId = getTableInfo(properties);
+		final TableInfo tableInfo = getTableInfo(properties);
 		if (tableService != null) {
 			tableService.addModelService(service, properties);
 		} else {
-			modelServiceMap.put(elementId, service);
+			modelServiceMap.put(tableInfo, service);
 		}
 	}
 

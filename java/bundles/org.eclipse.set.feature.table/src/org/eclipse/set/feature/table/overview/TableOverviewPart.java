@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.table.overview;
 
+import static org.eclipse.set.basis.constants.ToolboxConstants.*;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +28,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.TableService;
@@ -247,10 +248,10 @@ public class TableOverviewPart extends BasePart {
 
 	private String getTableCategory() {
 		final String elementId = getToolboxPart().getElementId();
-		if (elementId.startsWith(ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX)) {
-			return "estw";
+		if (elementId.startsWith(ESWT_TABLE_PART_ID_PREFIX)) {
+			return ESTW_CATEGORY;
 		}
-		return "etcs";
+		return ETCS_CATEGORY;
 	}
 
 	private void update() {

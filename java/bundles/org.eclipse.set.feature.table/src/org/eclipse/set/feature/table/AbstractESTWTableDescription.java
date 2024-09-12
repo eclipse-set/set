@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.table;
 
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
@@ -19,8 +20,8 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
 public abstract class AbstractESTWTableDescription
 		extends AbstractTableDescription {
 	@Override
-	protected String getTableType() {
-		return "estw"; //$NON-NLS-1$
+	protected String getTableCategory() {
+		return ToolboxConstants.ESTW_CATEGORY;
 	}
 
 	@Override

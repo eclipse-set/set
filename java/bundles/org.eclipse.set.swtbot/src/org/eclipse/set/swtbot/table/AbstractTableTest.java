@@ -49,12 +49,15 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	public void beforeEach() throws Exception {
 		super.beforeEach();
 		@SuppressWarnings("unchecked")
-		final ExpandItem expandItem = bot.widget(
-				allOf(widgetOfType(ExpandItem.class), withText("Tabellen")));
-		final SWTBotExpandItem swtBotExpandItem = new SWTBotExpandItem(
-				expandItem);
-		assertNotNull(swtBotExpandItem);
-		swtBotExpandItem.expand();
+		final List<? extends ExpandItem> expandItems = bot.widgets(allOf(
+				widgetOfType(ExpandItem.class), withRegex("^.+ – Tabellen$")));
+		expandItems.forEach(item -> {
+			final SWTBotExpandItem swtBotExpandItem = new SWTBotExpandItem(
+					item);
+			assertNotNull(swtBotExpandItem);
+			swtBotExpandItem.expand();
+		});
+
 	}
 
 	@Override
