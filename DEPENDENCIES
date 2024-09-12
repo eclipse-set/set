@@ -733,7 +733,7 @@ npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/vite/5.4.3, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND BlueOak-1.0.0 AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #15844
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/9.4.3, MIT, approved, #15333
-npm/npmjs/-/vue-router/4.4.3, MIT, approved, #16133
+npm/npmjs/-/vue-router/4.4.4, MIT, approved, #16133
 npm/npmjs/-/vue/3.4.38, MIT, approved, #12656
 npm/npmjs/-/vuex/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.4.1, MIT, approved, clearlydefined
@@ -889,7 +889,7 @@ npm/npmjs/@vue/compiler-core/3.4.38, MIT, approved, #12582
 npm/npmjs/@vue/compiler-dom/3.4.38, MIT, approved, #12581
 npm/npmjs/@vue/compiler-sfc/3.4.38, MIT, approved, #12654
 npm/npmjs/@vue/compiler-ssr/3.4.38, MIT, approved, #12655
-npm/npmjs/@vue/devtools-api/6.6.3, MIT AND Apache-2.0 AND MPL-2.0, approved, #13376
+npm/npmjs/@vue/devtools-api/6.6.4, MIT AND Apache-2.0 AND MPL-2.0, approved, #13376
 npm/npmjs/@vue/reactivity/3.4.38, MIT, approved, #12663
 npm/npmjs/@vue/runtime-core/3.4.38, MIT, approved, #12664
 npm/npmjs/@vue/runtime-dom/3.4.38, MIT, approved, #12653
