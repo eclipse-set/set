@@ -28,7 +28,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.TableService;
