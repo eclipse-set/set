@@ -35,7 +35,7 @@ public class LoadInvalidFileDialog extends AbstractDialogWithIcon {
 		super(parentShell, messages.LoadInvalidFileDialog_Title,
 				String.format(messages.LoadInvalidFileDialog_MessagePattern,
 						filename),
-				messages.LoadIncompleteFileDialog_OpenLabel,
+				messages.LoadInvalidFileDialog_OpenLabel,
 				messages.LoadInvalidFileDialog_CloseLabel);
 	}
 
