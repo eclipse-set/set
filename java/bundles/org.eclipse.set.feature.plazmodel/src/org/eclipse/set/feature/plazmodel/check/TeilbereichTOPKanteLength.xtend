@@ -35,7 +35,7 @@ class TeilbereichTOPKanteLength extends AbstractPlazContainerCheck implements Pl
 				return null
 
 			val length = limitA.subtract(limitB).abs().doubleValue
-			if (length >= 0.1)
+			if (length >= 0.1 || topLength.doubleValue <= 0.1)
 				return null
 
 			val err = PlazFactory.eINSTANCE.createPlazError
