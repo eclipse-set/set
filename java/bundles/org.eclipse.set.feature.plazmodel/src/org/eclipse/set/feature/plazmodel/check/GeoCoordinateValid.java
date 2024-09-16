@@ -148,8 +148,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private PlazError createErrorReport(final Punkt_Objekt po,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
-			final GEO_Punkt gp, final double diff, final Coordinate coordinate,
-			final Coordinate gpCoordinate) {
+			final GEO_Punkt gp, final double diff) {
 		final ID_GEO_Punkt_ohne_Proxy_TypeClass errorObject = potk
 				.getIDGEOPunktBerechnet().stream()
 				.filter(idgp -> idgp.getValue().equals(gp)).findFirst()
