@@ -8,18 +8,18 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.siteplan.FMAComponentType
 import org.eclipse.set.model.siteplan.SiteplanFactory
 import org.eclipse.set.model.siteplan.SiteplanPackage
-import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 
 /**
  * Transforms PlanPro FMA_Komponente to Siteplan FMAComponents
@@ -29,7 +29,7 @@ import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 @Component(service=Transformator)
 class FMAComponentTransformator extends BaseTransformator<FMA_Komponente> {
 	@Reference
-	GeoKanteGeometryService geometryService
+	PointObjectPositionService pointObjectPositionService
 
 	@Reference
 	PositionService positionService
@@ -47,7 +47,7 @@ class FMAComponentTransformator extends BaseTransformator<FMA_Komponente> {
 
 		result.guid = fma.identitaet.wert
 		result.position = positionService.transformPosition(
-			geometryService.getCoordinate(fma))
+			pointObjectPositionService.getCoordinate(fma))
 		result.type = FMAComponentType.AXLE
 		result.rightSide = fma.singlePoints.get(0)?.seitlicheLage?.wert ===
 			ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS

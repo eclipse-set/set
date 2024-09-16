@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.PZB.ENUMGUEAnordnung
@@ -27,6 +27,7 @@ import org.osgi.service.component.annotations.Reference
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 
 /**
  * Transforms PlanPro PZB_Element to Siteplan PZB
@@ -36,13 +37,16 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 @Component(service=Transformator)
 class PZBTransformator extends BaseTransformator<PZB_Element> {
 	@Reference
-	GeoKanteGeometryService geometryService
+	PointObjectPositionService pointObjectPositionService
 	
 	@Reference
 	PositionService positionService
 	
 	static val GSA_DISTANCE_AE = 7.0
 	static val GSA_DISTANCE_EA = 3.0
+	
+	@Reference
+	GeoKanteGeometryService geometryService
 
 	/**
 	 * Transforms a PlanPro PZB_Element Komponente to Siteplan PZB(s) and adds it to the siteplan
@@ -80,7 +84,7 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 		val result = SiteplanFactory.eINSTANCE.createPZB
 		result.guid = pzb.identitaet?.wert
 		result.position = positionService.transformPosition(
-			geometryService.getCoordinate(pzb)
+			pointObjectPositionService.getCoordinate(pzb)
 		)
 		result.element = pzb.PZBArt?.wert?.toElement
 		result.rightSide = pzb.singlePoints.get(0)?.seitlicheLage?.wert ===

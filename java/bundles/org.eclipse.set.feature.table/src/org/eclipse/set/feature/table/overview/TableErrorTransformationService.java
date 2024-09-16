@@ -9,7 +9,6 @@
 package org.eclipse.set.feature.table.overview;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.NUMERIC;
 
 import java.util.Collection;

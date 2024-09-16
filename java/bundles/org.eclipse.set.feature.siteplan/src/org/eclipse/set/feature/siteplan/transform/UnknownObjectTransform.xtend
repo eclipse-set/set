@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
@@ -29,7 +29,7 @@ import org.osgi.service.component.annotations.Reference
 @Component(service=Transformator)
 class UnknownObjectTransform extends BaseTransformator<Punkt_Objekt> {
 	@Reference
-	GeoKanteGeometryService geometryService
+	PointObjectPositionService pointObjectPositionService
 
 	@Reference
 	PositionService positionService
@@ -56,7 +56,7 @@ class UnknownObjectTransform extends BaseTransformator<Punkt_Objekt> {
 		val result = SiteplanFactory.eINSTANCE.createUnknownPositionedObject
 		result.guid = p.identitaet?.wert
 		result.position = positionService.transformPosition(
-			geometryService.getCoordinate(p)
+			pointObjectPositionService.getCoordinate(p)
 		)
 		result.objectType = p.class.interfaces.get(0).simpleName
 		addSiteplanElement(result,

@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
@@ -60,7 +61,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	private static final double TOLERANT = 0.1;
 	@Reference
 	GeoKanteGeometryService geometryService;
-
+	@Reference
+	PointObjectPositionService pointObjectPositionService;
 	@Reference
 	EventAdmin eventAdmin;
 
@@ -90,8 +92,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 						Map.of("GUID", po.getIdentitaet().getWert())));
 				return;
 			}
-			final GEOKanteCoordinate geoKanteCoordinate = geometryService
-					.getCoordinateAt(potk, 0);
+			final GEOKanteCoordinate geoKanteCoordinate = pointObjectPositionService
+					.getCoordinate(potk);
 			if (geoKanteCoordinate == null
 					|| getNullableObject(geoKanteCoordinate,
 							e -> e.getCoordinate().getCoordinate()).isEmpty()) {
@@ -122,7 +124,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				}
 				final double diff = coordinate.distance(gpCoordinate);
 				if (diff > TOLERANT) {
-					result.add(createErrorReport(po, potk, gp, diff));
+					result.add(createErrorReport(po, potk, gp, diff, coordinate,
+							gpCoordinate));
 				}
 			});
 		}));
@@ -145,7 +148,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private PlazError createErrorReport(final Punkt_Objekt po,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
-			final GEO_Punkt gp, final double diff) {
+			final GEO_Punkt gp, final double diff, final Coordinate coordinate,
+			final Coordinate gpCoordinate) {
 		final ID_GEO_Punkt_ohne_Proxy_TypeClass errorObject = potk
 				.getIDGEOPunktBerechnet().stream()
 				.filter(idgp -> idgp.getValue().equals(gp)).findFirst()
@@ -157,10 +161,12 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					po.getIdentitaet().getWert()));
 		}
 		return createGeoCoordinateError(errorObject,
-				"Die Koordinaten des GEO_Punkt: {GEO_PUNKT_ID}, der auf die Punkt_Objekt: {GUID} verweisen würde, weicht {DIFF}cm von der berechneten Koordinate ab.",
+				"Die Koordinaten des GEO_Punkt: {GEO_PUNKT_ID}, der auf die Punkt_Objekt: {GUID} verweisen würde, weicht {DIFF}cm von der berechneten Koordinate ab.\nWZK {COORDA}\nGEO {COORDB}",
 				Map.of("GEO_PUNKT_ID", errorObject.getWert(), "GUID",
 						po.getIdentitaet().getWert(), "DIFF",
-						new DecimalFormat("0.00").format(diff * 100)));
+						new DecimalFormat("0.00").format(diff * 100), "COORDA",
+						coordinate.toString(), "COORDB",
+						gpCoordinate.toString()));
 	}
 
 	private PlazError createGeoCoordinateError(final EObject object,

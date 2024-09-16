@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre
@@ -26,7 +26,7 @@ import static extension org.eclipse.set.feature.siteplan.transform.TransformUtil
 @Component(service=Transformator)
 class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 	@Reference
-	GeoKanteGeometryService geometryService
+	PointObjectPositionService pointObjectPositionService
 
 	@Reference
 	PositionService positionService
@@ -40,8 +40,8 @@ class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 		result.label.text = lockkey.bezeichnung?.bezeichnungLageplanKurz?.wert
 		result.locked = transformLockStatus(lockkey)
 		result.type = transformLockKeyType(lockkey)
-		val coor = geometryService.getCoordinateAt(
-			lockkey.IDUnterbringung?.value?.punktObjektTOPKante, 0.0)
+		val coor = pointObjectPositionService.getCoordinate(
+			lockkey.IDUnterbringung?.value?.punktObjektTOPKante)
 		if (coor !== null) {
 			result.position = positionService.transformPosition(coor)
 		} else {

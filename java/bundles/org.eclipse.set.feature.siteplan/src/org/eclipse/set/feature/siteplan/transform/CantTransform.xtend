@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehung
 import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie
@@ -24,7 +24,7 @@ import org.osgi.service.component.annotations.Reference
 @Component(service=Transformator)
 class CantTransform extends BaseTransformator<Ueberhoehungslinie> {
 	@Reference
-	GeoKanteGeometryService geometryService
+	PointObjectPositionService pointObjectPositionService
 
 	@Reference
 	PositionService positionService
@@ -54,7 +54,7 @@ class CantTransform extends BaseTransformator<Ueberhoehungslinie> {
 		val result = SiteplanFactory.eINSTANCE.createCantPoint
 		result.guid = ue.identitaet?.wert
 		result.position = positionService.transformPosition(
-			geometryService.getCoordinate(ue)
+			pointObjectPositionService.getCoordinate(ue)
 		)
 		result.height = (ue?.ueberhoehungAllg?.ueberhoehungHoehe?.wert ?:
 			Double.valueOf(0.0)).doubleValue

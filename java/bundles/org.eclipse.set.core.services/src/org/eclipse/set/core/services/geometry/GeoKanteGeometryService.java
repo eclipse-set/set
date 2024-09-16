@@ -17,7 +17,6 @@ import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
@@ -45,29 +44,12 @@ public interface GeoKanteGeometryService {
 	/**
 	 * @param punktObjekt
 	 *            the punkt objekt
-	 * @return the coordinate at punkt objekt
-	 */
-	GEOKanteCoordinate getCoordinate(Punkt_Objekt punktObjekt);
-
-	/**
-	 * @param punktObjekt
-	 *            the punkt objekt
 	 * @param distance
 	 *            the distance from the punktObjekt
 	 * @return the coordinate at punkt objekt with the given distance as offset
 	 */
 	GEOKanteCoordinate getCoordinateAt(Punkt_Objekt punktObjekt,
 			double distance);
-
-	/**
-	 * @param singlePoint
-	 *            the punkt objekt top kante
-	 * @param distance
-	 *            the distance from the punktObjekt
-	 * @return the coordinate at punkt objekt with the given distance as offset
-	 */
-	GEOKanteCoordinate getCoordinateAt(
-			Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, double distance);
 
 	/**
 	 * @param topKante

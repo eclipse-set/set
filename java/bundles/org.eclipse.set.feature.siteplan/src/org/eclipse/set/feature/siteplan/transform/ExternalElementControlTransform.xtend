@@ -8,7 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt
@@ -26,7 +26,7 @@ import static extension org.eclipse.set.ppmodel.extensions.Aussenelementansteuer
 @Component(service=Transformator)
 class ExternalElementControlTransform extends BaseTransformator<Aussenelementansteuerung> {
 	@Reference
-	GeoKanteGeometryService geometryService;
+	PointObjectPositionService pointObjectPositionService;
 	
 	@Reference
 	PositionService positionService;
@@ -37,7 +37,7 @@ class ExternalElementControlTransform extends BaseTransformator<Aussenelementans
 		result.label = SiteplanFactory.eINSTANCE.createLabel
 		result.label.text = aea.bezeichnung?.bezeichnungAEA?.wert
 		result.elementType = transformControlArt(aea)
-		val coordinate = geometryService.getCoordinateAt(aea.unterbringung?.punktObjektTOPKante, 0.0)
+		val coordinate = pointObjectPositionService.getCoordinate(aea.unterbringung?.punktObjektTOPKante)
 		if (coordinate !== null) {
 			result.position = positionService.transformPosition(coordinate)
 		} else {
