@@ -161,12 +161,10 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					po.getIdentitaet().getWert()));
 		}
 		return createGeoCoordinateError(errorObject,
-				"Die Koordinaten des GEO_Punkt: {GEO_PUNKT_ID}, der auf die Punkt_Objekt: {GUID} verweisen würde, weicht {DIFF}cm von der berechneten Koordinate ab.\nWZK {COORDA}\nGEO {COORDB}",
+				"Die Koordinaten des GEO_Punkt: {GEO_PUNKT_ID}, der auf die Punkt_Objekt: {GUID} verweisen würde, weicht {DIFF}cm von der berechneten Koordinate ab.",
 				Map.of("GEO_PUNKT_ID", errorObject.getWert(), "GUID",
 						po.getIdentitaet().getWert(), "DIFF",
-						new DecimalFormat("0.00").format(diff * 100), "COORDA",
-						coordinate.toString(), "COORDB",
-						gpCoordinate.toString()));
+						new DecimalFormat("0.00").format(diff * 100)));
 	}
 
 	private PlazError createGeoCoordinateError(final EObject object,
