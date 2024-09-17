@@ -285,7 +285,7 @@ jobs:
             -Dapplication-under-test="${{ env.TEST_APPLICATION_DIR }}" \
       
       - name: Upload csv files
-        if: steps.test-steps.outcome == 'failure'
+        if: failure() && steps.test-steps.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: table-csv-${{github.run_number}}
