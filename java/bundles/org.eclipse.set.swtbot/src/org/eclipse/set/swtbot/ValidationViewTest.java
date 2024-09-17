@@ -41,8 +41,6 @@ public class ValidationViewTest extends AbstractTableTest {
 	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
 	protected static final String VALIDATION_TABLE_NAME = "validation_view";
 
-	protected static final String VALIDATION_TABLE_NAME = "validation_view";
-
 	private static List<String> splitString(final String text,
 			final String regex) {
 		final List<String> asList = Arrays.asList(text.split(regex));
