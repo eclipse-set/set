@@ -10,12 +10,22 @@ package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 
 class FstrFahrwegExtensions {
-	
+
 	static def Iterable<Fstr_DWeg> getFstrDweg(Fstr_Fahrweg farhweg) {
-		return farhweg.container.fstrDWeg.filter[IDFstrFahrweg.value === farhweg]
+		return farhweg.container.fstrDWeg.filter [
+			IDFstrFahrweg.value === farhweg
+		]
+	}
+
+	static def Iterable<Fstr_Zug_Rangier> getFstrZugRangier(
+		Fstr_Fahrweg fahrweg) {
+		return fahrweg.container.fstrZugRangier.filter [
+			IDFstrFahrweg.value === fahrweg
+		]
 	}
 }

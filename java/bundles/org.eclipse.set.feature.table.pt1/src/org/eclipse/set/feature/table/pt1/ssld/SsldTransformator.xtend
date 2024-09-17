@@ -209,7 +209,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 						]
 				],
 				MIXED_STRING_COMPARATOR,
-				[""],
+				[],
 				"\r\n"
 			)
 
@@ -226,7 +226,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 						]
 				],
 				MIXED_STRING_COMPARATOR,
-				[""],
+				[],
 				"\r\n"
 			)
 
@@ -244,7 +244,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 					fmaAnlagen.map[tableName]
 				],
 				MIXED_STRING_COMPARATOR,
-				[""],
+				[],
 				"\r\n"
 			)
 

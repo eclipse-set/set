@@ -133,7 +133,11 @@ class FahrwegExtensions extends BereichObjektExtensions {
 	 * @returns the Zielsignal
 	 */
 	def static Signal getZielSignal(Fstr_Fahrweg fahrweg) {
-		return fahrweg?.IDZiel?.value as Signal
+		val ziel = fahrweg?.IDZiel?.value
+		if (ziel instanceof Signal) {
+			return ziel
+		}
+		return null
 	}
 
 	/**

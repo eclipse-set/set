@@ -657,4 +657,34 @@ public class Messages extends AbstractMessageService {
 	 * Datenpunkttabelle - Ssza
 	 */
 	public String SszaTableView_Heading;
+
+	/**
+	 * ETCS Melde- und Kommandoschaltung Muka Signale
+	 */
+	public String ToolboxTableNameSszsLong;
+
+	/**
+	 * ???
+	 */
+	public String ToolboxTableNameSszsPlanningNumber;
+
+	/**
+	 * Sszs
+	 */
+	public String ToolboxTableNameSszsShort;
+
+	/**
+	 * ETCS Melde- und Kommandoschaltung Muka Signale - Sszs
+	 */
+	public String SszsTableView_Heading;
+
+	/**
+	 * Ssza (ETCS Melde- und Kommandoschaltung Muka Signale)
+	 */
+	public String SszsDescriptionService_ViewName;
+
+	/**
+	 * ETCS Melde- und Kommandoschaltung Muka Signale
+	 */
+	public String SszsDescriptionService_ViewTooltip;
 }
