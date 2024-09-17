@@ -296,7 +296,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: swtbot
     if: failure() && needs.swtbot.result == 'failure'
-    container: ghcr.io/eclipse-set/tablediffview:latest
+    container: ghcr.io/eclipse-set/table-diff-view:latest
     permissions:
       contents: write
       checks: write
