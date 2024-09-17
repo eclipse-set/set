@@ -41,7 +41,7 @@ public class PlainFileFormatService implements ToolboxFileFormatService {
 	@Override
 	public ToolboxFile create(final Format format, final ToolboxFileRole role) {
 		throw new UnsupportedOperationException(
-				"It isn't supported creat new model als plain format"); //$NON-NLS-1$
+				"It isn't supported to create a new model in plain format"); //$NON-NLS-1$
 	}
 
 	@Override
