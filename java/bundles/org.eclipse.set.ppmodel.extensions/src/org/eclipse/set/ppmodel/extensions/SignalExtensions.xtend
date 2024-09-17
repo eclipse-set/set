@@ -419,11 +419,12 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
-		if (signal.signalFiktiv !== null &&
+		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&
 			signal.signalFiktiv.fiktivesSignalFunktion.exists [
 				wert === ENUMFiktivesSignalFunktion.
 					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START
-			]) {
+			]
+		if (existsFiktivesSignalFAPStart) {
 			val fstrFahrwegs = signal.container.fstrZugRangier.map [
 				IDFstrFahrweg.value
 			].filterNull.filter[IDStart?.value === signal]
@@ -432,11 +433,12 @@ class SignalExtensions extends PunktObjektExtensions {
 
 		}
 
-		if (signal.signalFiktiv !== null &&
+		val existsFiktivesSignalFAPZiel = signal.signalFiktiv !== null &&
 			signal.signalFiktiv.fiktivesSignalFunktion.exists [
 				wert === ENUMFiktivesSignalFunktion.
 					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_ZIEL
-			]) {
+			]
+		if (existsFiktivesSignalFAPZiel) {
 			val fstrFahrwegs = signal.container.fstrZugRangier.map [
 				IDFstrFahrweg.value
 			].filterNull.filter[IDZiel?.value === signal]
@@ -444,13 +446,7 @@ class SignalExtensions extends PunktObjektExtensions {
 				exists[isBelongToControlArea(controlArea)]
 		}
 
-		if (signal.signalReal !== null || (signal.signalFiktiv !== null &&
-			signal.signalFiktiv.fiktivesSignalFunktion.forall [
-				wert !== ENUMFiktivesSignalFunktion.
-					ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_START && wert !==
-					ENUMFiktivesSignalFunktion.
-						ENUM_FIKTIVES_SIGNAL_FUNKTION_FAP_ZIEL
-			])) {
+		if (signal.signalReal !== null || (!existsFiktivesSignalFAPStart && !existsFiktivesSignalFAPZiel)) {
 			return signal.punktObjektTOPKante.exists [
 				controlArea.contains(it, tolerantDistance)
 			]

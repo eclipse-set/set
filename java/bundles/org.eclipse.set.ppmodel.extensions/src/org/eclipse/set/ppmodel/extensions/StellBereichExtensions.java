@@ -28,7 +28,6 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante;
-import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ZUB_Streckeneigenschaft;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
@@ -216,8 +215,8 @@ public class StellBereichExtensions {
 				.isBelongToControlArea(fla, area);
 		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
 				.isBelongToControlArea(fla, area);
-		case final Gleis_Bezeichnung description -> GleisBezeichnungExtensions
-				.isBelongToControlArea(description, area);
+		case final Gleis_Bezeichnung description -> BereichObjektExtensions
+				.intersects(area, description);
 		case final NB_Zone nbZone -> NbZoneExtensions
 				.isBelongToControlArea(nbZone, area);
 		case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
@@ -234,18 +233,12 @@ public class StellBereichExtensions {
 				.isBelongToControlArea(stellelement, area);
 		case final Block_Element blockElement -> BlockElementExtensions
 				.isBelongToControlArea(blockElement, area);
-		case final BUE_Kante bueKante -> {
-			// IMPROVE is correct ?
-			yield BereichObjektExtensions.intersects(area, bueKante);
-		}
-		case final BUE_Anlage bueAnlage -> {
-			// IMPROVE is correct ?
-			yield BereichObjektExtensions.intersects(area, bueAnlage);
-		}
-		case final ZUB_Streckeneigenschaft zub -> {
-			// TODO
-			yield false;
-		}
+		case final BUE_Kante bueKante -> BereichObjektExtensions
+				.intersects(area, bueKante);
+
+		case final BUE_Anlage bueAnlage -> BereichObjektExtensions
+				.intersects(area, bueAnlage);
+
 		default -> throw new IllegalArgumentException();
 		};
 	}
