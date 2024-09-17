@@ -30,29 +30,6 @@ public abstract class AbstractSWTBotTest {
 	protected static MockDialogService dialogService;
 	protected static final String TEST_FILE_DIR = "test_res/test_file/";
 
-	/**
-	 * Get path of the reference file
-	 * 
-	 * @param fileName
-	 *            reference file name
-	 * @return the path of reference file
-	 */
-	protected static Path getFilePath(final String fileName) {
-		final URL projectLocation = AbstractSWTBotTest.class
-				.getProtectionDomain().getCodeSource().getLocation();
-		try (final InputStream resourceStream = AbstractSWTBotTest.class
-				.getClassLoader().getResourceAsStream(TEST_FILE_DIR + fileName);
-				final FileOutputStream outputStream = new FileOutputStream(
-						new File(projectLocation.getPath() + fileName));) {
-			outputStream.write(resourceStream.readAllBytes());
-		} catch (final IOException e) {
-			throw new RuntimeException(
-					String.format("Cannot find file: %s", fileName));
-		}
-		final File testfile = new File(projectLocation.getPath() + fileName);
-		return testfile.toPath();
-	}
-
 	@BeforeEach
 	public void beforeEach() throws Exception {
 		// Default Timeout: 60s
@@ -64,9 +41,53 @@ public abstract class AbstractSWTBotTest {
 				.of(getFilePath(getTestFile().getFullName()));
 	}
 
+	/**
+	 * Call execute test class to get test resource location
+	 * 
+	 * @return execute test class
+	 */
+	public Class<? extends AbstractSWTBotTest> getTestResourceClass() {
+		// Class for get the default test resource
+		if (getTestFile().equals(SWTBotTestFile.PPHN)) {
+			return AbstractSWTBotTest.class;
+		}
+		return getClass();
+	}
+
+	public abstract TestFile getTestFile();
+
 	protected MockDialogService getDialogService() {
 		return MockDialogServiceContextFunction.mockService;
 	}
 
-	protected abstract SWTBotTestFile getTestFile();
+	/**
+	 * Get path of the reference file
+	 * 
+	 * @param fileName
+	 *            reference file name
+	 * @return the path of reference file
+	 */
+	protected Path getFilePath(final String fileName) {
+		final File testFile = getTestFileLocation(fileName);
+		if (testFile.exists()) {
+			return testFile.toPath();
+		}
+
+		try (final InputStream resourceStream = getTestResourceClass().getClassLoader()
+				.getResourceAsStream(TEST_FILE_DIR + fileName);
+				final FileOutputStream outputStream = new FileOutputStream(
+						testFile);) {
+			outputStream.write(resourceStream.readAllBytes());
+		} catch (final IOException e) {
+			throw new RuntimeException(
+					String.format("Cannot find file: %s", fileName));
+		}
+		return testFile.toPath();
+	}
+
+	protected File getTestFileLocation(final String fileName) {
+		final URL projectLocation = getTestResourceClass().getProtectionDomain()
+				.getCodeSource().getLocation();
+		return new File(projectLocation.getPath() + fileName);
+	}
 }

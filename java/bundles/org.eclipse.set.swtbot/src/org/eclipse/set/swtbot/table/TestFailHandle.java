@@ -14,15 +14,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import org.eclipse.set.swtbot.utils.AbstractSWTBotTest;
 import org.eclipse.set.swtbot.utils.MockDialogService;
 import org.eclipse.set.swtbot.utils.MockDialogServiceContextFunction;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
+import org.eclipse.set.swtbot.utils.TestFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
@@ -36,7 +39,7 @@ import org.junit.jupiter.api.extension.TestWatcher;
 @Disabled
 public class TestFailHandle implements TestWatcher {
 	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
-	private static final String DIFF_DIR = "diff/";
+	private static final String DIFF_DIR = "diff";
 	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
 
 	@Override
@@ -45,20 +48,23 @@ public class TestFailHandle implements TestWatcher {
 		final Optional<Object> testInstance = context.getTestInstance();
 		if (testInstance.isPresent() && testInstance
 				.get() instanceof final AbstractTableTest tableTest) {
-			exportCurrentCSV(tableTest.getTestTableName());
-			exportReferenceCSV(tableTest.getTestTableName(),
-					tableTest.getReferenceDir());
+			exportCurrentCSV(tableTest.getTestFile(),
+					tableTest.getTestTableName(), tableTest.getClass());
+			exportReferenceCSV(tableTest.getTestFile(),
+					tableTest.getTestTableName(), tableTest.getReferenceDir(),
+					tableTest.getTestResourceClass().getClassLoader(),
+					tableTest.getClass());
 		}
 		TestWatcher.super.testFailed(context, cause);
 	}
 
-	protected void exportCurrentCSV(final String tableName) {
+	protected void exportCurrentCSV(final TestFile testFile,
+			final String tableName, final Class<?> testClass) {
 		final MockDialogService mockDialogService = MockDialogServiceContextFunction.mockService;
-		final URL projectLocation = getProjectLocation();
-		final File file = new File(projectLocation.getPath() + DIFF_DIR
-				+ tableName + CURRENT_CSV_EXTENSIONS);
+		final File file = getExportFile(testFile,
+				tableName + CURRENT_CSV_EXTENSIONS, testClass);
 		if (!file.getParentFile().exists()) {
-			file.getParentFile().mkdir();
+			file.getParentFile().mkdirs();
 		}
 		mockDialogService.exportFileDialogHandler = filter -> {
 			return Optional.of(file.toPath());
@@ -81,16 +87,16 @@ public class TestFailHandle implements TestWatcher {
 		}, 5l * 60 * 1000);
 	}
 
-	protected void exportReferenceCSV(final String tableName,
-			final String parentDir) {
-		final URL outLocation = getProjectLocation();
-		final File outFile = new File(outLocation.getPath() + DIFF_DIR
-				+ tableName + REFERENCE_CSV_EXTENSIONS);
+	protected void exportReferenceCSV(final TestFile testFile,
+			final String tableName, final String parentDir,
+			final ClassLoader resourceClassLoader, final Class<?> testClass) {
+		final File outFile = getExportFile(testFile,
+				tableName + REFERENCE_CSV_EXTENSIONS, testClass);
 		if (!outFile.getParentFile().exists()) {
-			outFile.getParentFile().mkdir();
+			outFile.getParentFile().mkdirs();
 		}
-		try (final InputStream resourceStream = AbstractSWTBotTest.class
-				.getClassLoader().getResourceAsStream(
+		try (final InputStream resourceStream = resourceClassLoader
+				.getResourceAsStream(
 						parentDir + tableName + REFERENCE_CSV_EXTENSIONS);
 				final FileOutputStream outputStream = new FileOutputStream(
 						outFile);) {
@@ -101,8 +107,17 @@ public class TestFailHandle implements TestWatcher {
 		}
 	}
 
-	protected URL getProjectLocation() {
-		return TestFailHandle.class.getProtectionDomain().getCodeSource()
-				.getLocation();
+	protected File getExportFile(final TestFile testFile, final String csvFile,
+			final Class<?> testClass) {
+		try {
+			final URL parent = testClass.getProtectionDomain().getCodeSource()
+					.getLocation();
+			final File parentDir = Path.of(parent.toURI()).toFile();
+			return new File(parentDir, Path
+					.of(DIFF_DIR, testFile.getShortName(), csvFile).toString());
+		} catch (final URISyntaxException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 }

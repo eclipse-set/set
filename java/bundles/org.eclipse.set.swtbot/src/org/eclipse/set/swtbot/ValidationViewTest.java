@@ -10,21 +10,24 @@
  */
 package org.eclipse.set.swtbot;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.csv.CSVRecord;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.swtbot.table.AbstractTableTest;
 import org.eclipse.set.swtbot.table.TestFailHandle;
 import org.eclipse.set.swtbot.utils.SWTBotUtils;
 import org.eclipse.swtbot.nebula.nattable.finder.widgets.SWTBotNatTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
@@ -32,25 +35,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * 
  * @author Truong
  */
-@ExtendWith(TestFailHandle.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class ValidationViewTest extends AbstractTableTest {
-	private static final String Application_Schema_Version_Group = "Unterstütztes XML-Schema";
-
-	private static final String File_Info_Group = "Geladene Datei";
-	private static final String File_Schema_Version_Group = "Verwendetes XML-Schema (in Datei)";
-	private static final String guid_expect = "FF06E818-09F6-436E-964E-5F8AC209D3AC";
-	private static final String md5_expect = "FF4AC4AE448141641FEF1E2394DA3F1D";
-	private static final String Model_Container_Group = "PlanPro-Container";
-	private static final String modelContains_expect = "Fachdaten, Anhänge";
-	private static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
-	private static final String subwork_expect = "ESTW (1), Geo (1)";
-	private static final String Subwork_Group = "Untergewerke";
-	private static final String valid_expect = "gültig";
-	private static final String Validate_Group = "Gültigkeit";
-	private static final String VALIDATION_TABLE_NAME = "validation_view";
-	private static final String version_expect = "1.10.0.1";
-
-	private static final String workable_expect = "Ja";
+	protected static final String RICHTEXT_REPLACE_REGEX = "<[^>]+>";
+	protected static final String VALIDATION_INFORMATION_CSV = "validation_information";
+	protected static final String VALIDATION_TABLE_NAME = "validation_view";
 
 	private static List<String> splitString(final String text,
 			final String regex) {
@@ -58,51 +47,17 @@ public class ValidationViewTest extends AbstractTableTest {
 		return asList.stream().map(e -> e.replaceAll(" ", "")).toList();
 	}
 
+	private List<CSVRecord> informationReference;
+
+	@BeforeEach
+	@Override
+	public void beforeEach() throws Exception {
+		// do nothing
+	}
+
 	@Override
 	public String getTestTableName() {
 		return VALIDATION_TABLE_NAME;
-	}
-
-	private void expectTextWidgetAreSame(final String expectContent,
-			final String textLabel, final String parentName) {
-		assertDoesNotThrow(
-				() -> bot.textWithLabelInGroup(textLabel, parentName));
-		final SWTBotText actual = bot.textWithLabelInGroup(textLabel,
-				parentName);
-
-		final List<String> expects = splitString(expectContent, ",");
-		final List<String> actuals = splitString(actual.getText(), ",");
-		assertEquals(expects.size(), actuals.size());
-		assertTrue(expects.containsAll(actuals));
-
-	}
-
-	private void thenExpectModelInformationEquals() {
-		expectTextWidgetAreSame(md5_expect, "MD5", File_Info_Group);
-		expectTextWidgetAreSame(guid_expect, "GUID", File_Info_Group);
-		expectTextWidgetAreSame(version_expect, "PlanPro",
-				File_Schema_Version_Group);
-		expectTextWidgetAreSame(version_expect, "Signalbegriffe",
-				File_Schema_Version_Group);
-		expectTextWidgetAreSame(valid_expect, "XSD-Gültigkeit", Validate_Group);
-		expectTextWidgetAreSame(valid_expect, "EMF-Gültigkeit", Validate_Group);
-		expectTextWidgetAreSame(workable_expect, "Verarbeitbar",
-				Validate_Group);
-		expectTextWidgetAreSame(version_expect, "PlanPro",
-				Application_Schema_Version_Group);
-		expectTextWidgetAreSame(version_expect, "Signalbegriffe",
-				Application_Schema_Version_Group);
-
-		expectTextWidgetAreSame(subwork_expect, "Enthalten", Subwork_Group);
-		expectTextWidgetAreSame(modelContains_expect, "Enthalten",
-				Model_Container_Group);
-	}
-
-	private void whenOpeningValidateView() {
-		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
-				30000);
-		layers = SWTBotUtils.getNattableLayers(nattableBot);
-		bot.button("Alle ausklappen").click();
 	}
 
 	@Override
@@ -128,6 +83,20 @@ public class ValidationViewTest extends AbstractTableTest {
 		}
 	}
 
+	protected void expectTextWidgetAreSame(final String expectContent,
+			final String itemLabel, final String itemGroup) {
+		assertDoesNotThrow(
+				() -> bot.textWithLabelInGroup(itemLabel, itemGroup));
+		final SWTBotText actual = bot.textWithLabelInGroup(itemLabel,
+				itemGroup);
+
+		final List<String> expects = splitString(expectContent, ",");
+		final List<String> actuals = splitString(actual.getText(), ",");
+		assertEquals(expects.size(), actuals.size());
+		assertTrue(expects.containsAll(actuals));
+
+	}
+
 	@Override
 	protected int getNattableHeaderRowCount() {
 		// Filter Row
@@ -135,23 +104,50 @@ public class ValidationViewTest extends AbstractTableTest {
 	}
 
 	protected void givenReferenceCSV() throws IOException {
-		referenceData = loadReferenceFile("validation_view");
+		referenceData = loadReferenceFile(VALIDATION_TABLE_NAME);
 		// Remove CSV header info
 		referenceData = referenceData.subList(4, referenceData.size());
 	}
 
+	protected void loadCsvResources() throws IOException {
+		informationReference = loadReferenceFile(VALIDATION_INFORMATION_CSV);
+	}
+
 	@Test
-	void testInformation() throws Exception {
+	protected void testInformation() throws Exception {
 		whenOpeningValidateView();
+		loadCsvResources();
 		thenExpectModelInformationEquals();
 	}
 
+	protected void thenExpectModelInformationEquals() {
+		for (int i = 1; i < informationReference.size(); i++) {
+			final String group = informationReference.get(i).get(0);
+			final String item = informationReference.get(i).get(1);
+			final String value = informationReference.get(i).get(2);
+			expectTextWidgetAreSame(value, item, group);
+		}
+	}
+
+	protected void whenOpeningValidateView() {
+		final SWTBotNatTable nattableBot = SWTBotUtils.waitForNattable(bot,
+				30000);
+		layers = SWTBotUtils.getNattableLayers(nattableBot);
+	}
+
+	// The test file should only open one times by this test
+	@BeforeAll
+	void beforeAll() throws Exception {
+		super.beforeEach();
+	}
+
 	@Test
+	@ExtendWith(TestFailHandle.class)
 	void testValidateReport() throws Exception {
 		givenReferenceCSV();
 		whenOpeningValidateView();
+		bot.button("Alle ausklappen").click();
 		thenRowAndColumnCountEqualReferenceCSV();
 		thenTableDataEqualReferenceCSV();
 	}
-
 }
