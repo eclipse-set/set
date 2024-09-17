@@ -87,18 +87,37 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private ToolboxFileRole role;
 	private Path temporaryDirectory;
 
+	/**
+	 * Initialize toolboxfile for new model
+	 * 
+	 * @param format
+	 *            {@link Format}
+	 * @param editingDomain
+	 *            {@link EditingDomain}
+	 * @param role
+	 *            {@link ToolboxFileRole}
+	 */
 	ZippedPlanProToolboxFile(final Format format,
 			final EditingDomain editingDomain, final ToolboxFileRole role) {
-		this.path = null;
-		this.format = format;
-		this.editingDomain = editingDomain;
-		this.loadable = false;
-		this.temporaryDirectory = null;
-		this.role = role;
+		this(null, format, editingDomain, false, role);
 		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
 		setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
 	}
 
+	/**
+	 * Initialize toolboxfile by loading existing model
+	 * 
+	 * @param path
+	 *            the file path
+	 * @param format
+	 *            {@link Format}
+	 * @param editingDomain
+	 *            {@link EditingDomain}
+	 * @param loadable
+	 *            is model load able
+	 * @param role
+	 *            {@link ToolboxFileRole}
+	 */
 	ZippedPlanProToolboxFile(final Path path, final Format format,
 			final EditingDomain editingDomain, final boolean loadable,
 			final ToolboxFileRole role) {
@@ -108,10 +127,14 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.loadable = loadable;
 		this.temporaryDirectory = null;
 		this.role = role;
-		setResource(TECHNICAL_RESOURCE_TYPE_NAME, createPlanProResource());
-		setResource(LAYOUT_RESOURCE_TYPE_NAME, createPlanProResource());
 	}
 
+	/**
+	 * Initialize new toolboxfile from toolboxfile of current session
+	 * 
+	 * @param toolboxFile
+	 *            the current toolboxfile
+	 */
 	ZippedPlanProToolboxFile(final ZippedPlanProToolboxFile toolboxFile) {
 		this.path = toolboxFile.path;
 		this.format = toolboxFile.format;
@@ -121,8 +144,11 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		this.role = toolboxFile.role;
 		addResource(PathExtensions.getBaseFileName(toolboxFile.getModelPath()),
 				toolboxFile.getPlanProResource());
-		addResource(PathExtensions.getBaseFileName(toolboxFile.getLayoutPath()),
-				toolboxFile.getLayoutResource());
+		if (toolboxFile.getLayoutResource() != null) {
+			addResource(
+					PathExtensions.getBaseFileName(toolboxFile.getLayoutPath()),
+					toolboxFile.getLayoutResource());
+		}
 	}
 
 	private PlanProFileResource createPlanProResource() {

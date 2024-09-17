@@ -56,16 +56,6 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 
 	}
 
-	// Initialize toolbox file and create resource
-	PlainToolboxFile(final SessionService sessionService, final Format format,
-			final EditingDomain editingDomain) {
-		this.sessionService = sessionService;
-		this.commonPath = null;
-		this.format = format;
-		this.editingDomain = editingDomain;
-		this.loadable = false;
-	}
-
 	// Initialize toolbox file and create resource. The content is not loaded
 	// here. Use {@link #load()} to explicitly load the resource.
 	PlainToolboxFile(final SessionService sessionService, final Path path,
