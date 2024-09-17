@@ -303,16 +303,25 @@ jobs:
       pull-requests: write
       actions: read
     steps:
+      - name: Get Branchname
+        shell: bash
+        run: |
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+            else
+              echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+            fi
       - name: Fetch table csv
         uses: actions/download-artifact@v4
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}
 
+
       - name: Create diff view
         shell: bash
         run: |
           python -m tablediffview \
             --diffDir=${{ env.DIFF_DIR }} \
-            --branchName=${{ github.head_ref }} \
+            --branchName=${{ env.BRANCH_NAME }} \
             --prNumber=${{github.event.pull_request.number}}
