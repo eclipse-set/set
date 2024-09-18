@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
@@ -60,7 +61,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	private static final double TOLERANT = 0.1;
 	@Reference
 	GeoKanteGeometryService geometryService;
-
+	@Reference
+	PointObjectPositionService pointObjectPositionService;
 	@Reference
 	EventAdmin eventAdmin;
 
@@ -90,8 +92,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 						Map.of("GUID", po.getIdentitaet().getWert())));
 				return;
 			}
-			final GEOKanteCoordinate geoKanteCoordinate = geometryService
-					.getCoordinateAt(potk, 0);
+			final GEOKanteCoordinate geoKanteCoordinate = pointObjectPositionService
+					.getCoordinate(potk);
 			if (geoKanteCoordinate == null
 					|| getNullableObject(geoKanteCoordinate,
 							e -> e.getCoordinate().getCoordinate()).isEmpty()) {

@@ -12,13 +12,8 @@ import java.util.ArrayList
 import java.util.HashSet
 import java.util.List
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
+import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
-import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
-import org.eclipse.set.model.planpro.Gleis.Gleis_Art
 import org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt
 import org.eclipse.set.model.planpro.Signale.ENUMSignalBefestigungsart
 import org.eclipse.set.model.planpro.Signale.Signal
@@ -35,11 +30,9 @@ import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalBefestigungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 
 /**
  * Transforms PlanPro Signals to Siteplan Signals/SignalMounts
@@ -49,12 +42,11 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 @Component(service=Transformator)
 class SignalTransformator extends BaseTransformator<Signal> {
 	@Reference
-	GeoKanteGeometryService geometryService
+	PointObjectPositionService pointObjectPositionService
 
 	@Reference
 	PositionService positionService
 
-	static val ERROR_NO_LATERAL_POSITION = "Seitliche Positionierung des Signals '%s' nicht bestimmbar."
 	static val ERROR_FAILED_TRANSFORM = "Fehler bei der Signaltransformation."
 
 	// Signals not visible in the siteplan
@@ -62,9 +54,6 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		"Zp7", "Zp8", "El1", "El1v", "El2", "El3", "El4", "El5", "El6", "Ra13",
 		"Wn7", "OzZf", "OzICE", "OzFak", "OzZugl", "Ne7a", "Ne7b", "Bue4",
 		"Bue5", "OzAutoHET", "OzHET", "OzAutoET", "OzET"]
-	// Default lateral distances of signals
-	static val double PUNKT_OBJEKT_LATERAL_DISTANCE_IN_STATION = 2.25
-	static val double PUNKT_OBJEKT_LATERAL_DISTANCE_OTHER = 3.50
 
 	var List<SignalInfo> signalinfo
 
@@ -135,13 +124,13 @@ class SignalTransformator extends BaseTransformator<Signal> {
 	 * @returns a siteplan signal or null on failure
 	 */
 	def SignalMount transform(SignalInfo signalInfo) {
-		var GEOKanteCoordinate point = getSignalObjectCoordinate(
+		var GEOKanteCoordinate point = pointObjectPositionService.getCoordinate(
 			signalInfo.firstSignal)
 		val effectiveRotation = point.effectiveRotation
 		if (signalInfo.baseMount !== null) {
 			// As a Signal_Befestigung does not specify a direction, 
 			// use the direction of the first signal
-			point = getSignalObjectCoordinate(signalInfo.baseMount)
+			point = pointObjectPositionService.getCoordinate(signalInfo.baseMount)
 		}
 
 		val signalMount = SiteplanFactory.eINSTANCE.createSignalMount()
@@ -178,7 +167,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		ppsignal.transformPunktObjektStrecke(it)
 
 		// Determine mount offset & direction for Signalbrücke/Signalausleger	
-		val coordinate = getSignalObjectCoordinate(ppsignal)
+		val coordinate = pointObjectPositionService.getCoordinate(ppsignal);
 		mountPosition = positionService.transformPosition(coordinate);
 
 		screen += ppsignal.signalScreen.filter [
@@ -228,57 +217,6 @@ class SignalTransformator extends BaseTransformator<Signal> {
 
 		return signal?.signalReal?.signalBefestigungsart?.wert?.
 			mapToSiteplanMountType
-	}
-
-	def GEOKanteCoordinate getSignalObjectCoordinate(Punkt_Objekt punktObjekt) {
-		val singlePoint = punktObjekt.punktObjektTOPKante.get(0);
-		val distance = singlePoint.abstand.wert.doubleValue
-		val direction = singlePoint.wirkrichtung?.wert
-		val topKante = singlePoint.topKante
-		val geoKante = geometryService.getGeoKanteAt(topKante, topKante.TOPKnotenA,
-			distance);
-		var double lateralDistance = 0
-		if (singlePoint.seitlicherAbstand?.wert !== null) {
-			lateralDistance = singlePoint.seitlicherAbstand.wert.doubleValue
-		} else {
-			// Determine the track type 
-			val segment = geoKante.getContainingSegment(distance)
-			val trackType = segment.bereichObjekte.filter(Gleis_Art).map [
-				gleisart?.wert
-			].filterNull
-
-			// Determine the object distance according to the local track type
-			if (trackType.empty) {
-				// No local track type. Default to 0 and record an error
-				lateralDistance = 0
-				val guid = punktObjekt.identitaet.wert
-				val coordinate = geometryService.getCoordinate(geoKante, distance,
-					lateralDistance, direction)
-				recordError(guid,
-					String.format(ERROR_NO_LATERAL_POSITION, guid),
-					positionService.transformPosition(coordinate))
-				return coordinate
-			}
-
-			if (trackType.head === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS)
-				lateralDistance = PUNKT_OBJEKT_LATERAL_DISTANCE_OTHER
-			else
-				lateralDistance = PUNKT_OBJEKT_LATERAL_DISTANCE_IN_STATION
-
-			// If the object should be positioned to the left of the track, invert the lateral distance
-			if (singlePoint.seitlicheLage?.wert ===
-				ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
-				lateralDistance = -lateralDistance
-			}
-		}
-		if (direction === ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
-			// For Punkt_Objekte with a bilateral direction fall back to ENUM_WIRKRICHTUNG_IN
-			// to orient the Punkt_Objekt along the track axis
-			return geometryService.getCoordinate(geoKante, distance,
-				lateralDistance, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN);
-		}
-		return geometryService.getCoordinate(geoKante, distance, lateralDistance,
-			direction);
 	}
 
 	def SignalMountType mapToSiteplanMountType(ENUMBefestigungArt mount) {

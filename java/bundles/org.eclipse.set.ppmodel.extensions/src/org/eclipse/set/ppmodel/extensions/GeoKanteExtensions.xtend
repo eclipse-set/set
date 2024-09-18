@@ -20,7 +20,6 @@ import org.eclipse.set.basis.graph.DirectedElement
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm
-import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante

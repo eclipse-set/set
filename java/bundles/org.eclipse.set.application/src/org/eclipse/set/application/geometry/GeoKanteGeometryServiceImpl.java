@@ -217,11 +217,6 @@ public class GeoKanteGeometryServiceImpl
 	}
 
 	@Override
-	public GEOKanteCoordinate getCoordinate(final Punkt_Objekt punktObjekt) {
-		return getCoordinateAt(punktObjekt, 0.0);
-	}
-
-	@Override
 	public GEOKanteCoordinate getCoordinateAt(final Punkt_Objekt punktObjekt,
 			final double distance) {
 		final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint = punktObjekt
@@ -229,8 +224,7 @@ public class GeoKanteGeometryServiceImpl
 		return getCoordinateAt(singlePoint, distance);
 	}
 
-	@Override
-	public GEOKanteCoordinate getCoordinateAt(
+	private GEOKanteCoordinate getCoordinateAt(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
 			final double distance) {
 		if (singlePoint == null || singlePoint.getAbstand() == null
