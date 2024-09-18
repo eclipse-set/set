@@ -10,7 +10,7 @@
 import { FeatureType } from '@/feature/FeatureInfo'
 import { Label } from '@/model/Label'
 import { ISvgElement, SvgElement } from '@/model/SvgElement'
-import { getHeight, getWidth } from 'ol/extent'
+import { getHeight } from 'ol/extent'
 import AbstractDrawSVG from './AbstractDrawSVG'
 import SvgDraw from './SvgDraw'
 

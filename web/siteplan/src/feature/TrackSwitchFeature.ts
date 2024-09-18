@@ -96,7 +96,7 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
       FeatureType.TrackSwitch,
       data,
       outlineGeometry,
-      component.label.text
+      component.label?.text
     )
     LageplanFeature.createBBox(
       feature,
@@ -120,7 +120,7 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
         },
         FeatureType.TrackSwitch
       )
-      mainStyle.getImage().setScale(scale)
+      mainStyle.getImage()?.setScale(scale)
       mainStyle.setGeometry(startGeometry)
 
       result.push(mainStyle)
@@ -138,10 +138,10 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
       )
       // Rescale the feature according to the current zoom level
       // to keep a constant size
-      startStyle.getImage().setScale(scale)
+      startStyle.getImage()?.setScale(scale)
       startStyle.setGeometry(startGeometry)
       // Rotate the feature
-      startStyle.getImage().setRotation((component.start.rotation * Math.PI) / 180)
+      startStyle.getImage()?.setRotation((component.start.rotation * Math.PI) / 180)
       result.push(startStyle)
 
       // Add the label
@@ -151,9 +151,9 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
           FeatureType.TrackSwitch,
           component.label
         )
-        labelStyle.getImage().setScale(scale)
+        labelStyle.getImage()?.setScale(scale)
         labelStyle.setGeometry(labelGeometry)
-        labelStyle.getImage().setRotation((component.labelPosition.rotation * Math.PI) / 180)
+        labelStyle.getImage()?.setRotation((component.labelPosition.rotation * Math.PI) / 180)
         result.push(labelStyle)
       }
 
@@ -170,9 +170,9 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
   ): Style[] {
     switch (component.operatingMode) {
       case TurnoutOperatingMode.Trailable:
-        const labelSpilt = component.label.text.split(' ')
-        if (!labelSpilt.some(ele => ele === 'Rf')) {
-          component.label.text += ' Rf'
+        const labelSpilt = component.label?.text.split(' ')
+        if (!labelSpilt?.some(ele => ele === 'Rf') && component.label) {
+          component.label.text  += ' Rf'
         }
 
         const mainLegLastPos = component.mainLeg.coordinates[component.mainLeg.coordinates.length - 1]
@@ -269,11 +269,14 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
   }
 
   setFeatureColor (feature: Feature<Geometry>, color?: number[], id?: string): Feature<Geometry> {
-    color
-      ? super.setFeatureColor(feature, color, id)
-      : Object.values(TrackSwitchPart).forEach(part => {
+    if (color) {
+      super.setFeatureColor(feature, color, id)
+    } else {
+      Object.values(TrackSwitchPart).forEach(part => {
         this.setFeatureRegionColor(feature, part)
       })
+    }
+
     return feature
   }
 

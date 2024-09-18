@@ -43,16 +43,21 @@ export default class SvgColorService {
   }
 
   public static applyColor (svg: Element, objectColor: ObjectColor[]) {
-    objectColor.some(obj => {
-      if (obj.id === 'label') {
-        this.applyColorByIds(svg, 'label', obj.color)
-        return false
-      }
+    if (objectColor.some(obj => this.shouldApplyColor(svg,obj))) {
+      objectColor.forEach(obj => this.applyColorByIds(svg, obj.id, obj.color))
+      return
+    }
 
-      return svg.querySelector('#' + obj.id) !== null
-    })
-      ? objectColor.forEach(obj => this.applyColorByIds(svg, obj.id, obj.color))
-      : this.applyColorSvg(svg, objectColor.find(obj => obj.id === 'feature')?.color ?? [0, 0, 0])
+    this.applyColorSvg(svg, objectColor.find(obj => obj.id === 'feature')?.color ?? [0, 0, 0])
+  }
+
+  private static shouldApplyColor (svg: Element, obj: ObjectColor) {
+    if (obj.id === 'label') {
+      this.applyColorByIds(svg, 'label', obj.color)
+      return false
+    }
+
+    return svg.querySelector('#' + obj.id) !== null
   }
 
   public static applyColorByIds (svg: Element, elementID: string | null, color: number[]) {

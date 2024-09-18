@@ -18,9 +18,8 @@ import TileSource from 'ol/source/Tile'
 /**
  * Minimal interface to allow typed access to a Mapbox hosted style definition
  */
-interface MapboxStyle
-{
-  sources: { [key: string]: { url: string, }, }
+interface MapboxStyle {
+  sources: { [ key: string ]: { url: string, }, }
   glyphs: string
   sprite: string
 }
@@ -32,7 +31,7 @@ interface MapboxStyle
  * @author Stuecker
  */
 export default class MapboxTop extends MapSource {
-  source: VectorTileSource | null = null
+  source: VectorTileSource|null = null
   layer!: VectorTileLayer
 
   constructor () {
@@ -76,21 +75,21 @@ export default class MapboxTop extends MapSource {
   }
 
   onStyleLoad (style: MapboxStyle): void {
-    const sourceId = Object.keys(style.sources)[0]
+    const sourceId = Object.keys(style.sources)[ 0 ]
     this.source = new VectorTileSource({
       attributions: [
         '© <a target="_blank" href="https://www.mapbox.com/map-feedback/">Mapbox</a> ',
         '© <a target="_blank" href="https://www.openstreetmap.org/copyright">',
         'OpenStreetMap contributors</a>'
       ],
-      url: this.transformSourceUrl(style.sources[sourceId].url),
+      url: this.transformSourceUrl(style.sources[ sourceId ].url),
       format: new MVT()
     })
     this.layer.setSource(this.source)
     style.sprite = this.transformSpriteUrl(style.sprite)
     style.glyphs = this.transformFontsUrl(style.glyphs)
     // IMPROVE: ol-mapbox-style is not available in typed form
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('ol-mapbox-style').applyStyle(this.layer, style, sourceId)
   }
 }
