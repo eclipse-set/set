@@ -254,7 +254,7 @@ export default class CollisionService {
       featureData.refFeature.getGeometry()?.translate(-translateValue[0], -translateValue[1])
       feature.getGeometry()?.translate(-translateValue[0], -translateValue[1])
       getFeatureBoundArea(feature).forEach(rect => rect.forEach(point => {
-        point[0] -= translateValue[0],
+        point[0] -= translateValue[0]
         point[1] -= translateValue[1]
       }))
 

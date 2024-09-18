@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es2021: true
   },
+  plugins: ['@stylistic', '@typescript-eslint'],
   extends: [
     'standard'
   ],

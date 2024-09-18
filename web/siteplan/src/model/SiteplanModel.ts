@@ -29,7 +29,6 @@ import {
 } from './ExternalElementControl'
 import LockKey, { defaultLockKeyObj } from './LockKey'
 import { LayoutInfo } from './LayoutInfo'
-import PositionedObject, { defaultPositionedObj } from './PositionedObject'
 import { Cant, defaultCantObj } from './Cant'
 import UnknownObject, { defaultUnknownObj } from './UnknownObject'
 

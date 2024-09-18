@@ -3,8 +3,8 @@ module.exports = {
   env: {
     node: true
   },
+  plugins: ['@stylistic', '@typescript-eslint'],
   extends: [
-    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
     'plugin:vue/vue3-recommended'
@@ -15,16 +15,17 @@ module.exports = {
     ecmaVersion: '2020'
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? ['warn', { allow: ['warn', 'error'] }] : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? ['warn', {allow: ['warn', 'error']}] : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/member-ordering': [
       'warn',
-      { default: ['field', 'signature', 'constructor', 'method'] }
+      {default: ['field', 'signature', 'constructor', 'method']}
     ],
     'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
     'default-case': 'warn',
     'no-case-declarations': 'off',
-    '@typescript-eslint/member-delimiter-style': [
+    '@stylistic/member-delimiter-style': [
       'warn',
       {
         multiline: {
@@ -38,7 +39,7 @@ module.exports = {
       }
     ],
     'space-before-function-paren': ['error', 'always'],
-    'no-constant-condition': ['error', { 'checkLoops': false }],
+    'no-constant-condition': ['error', {'checkLoops': false}],
     'no-trailing-spaces': [
       'error', {
         'skipBlankLines': false
@@ -58,7 +59,7 @@ module.exports = {
         'switches': 'never'
       }
     ],
-    'indent': ['error', 2, { 'SwitchCase': 1 }],
+    'indent': ['error', 2, {'SwitchCase': 1}],
     'quotes': ['error', 'single'],
     'no-use-before-define': [
       'error', {
@@ -68,15 +69,15 @@ module.exports = {
     ],
     'padding-line-between-statements': [
       'error',
-      { blankLine: 'always', prev: 'import', next: '*' },
-      { blankLine: 'any', prev: 'import', next: 'import' },
-      { blankLine: 'always', prev: 'if', next: '*' },
-      { blankLine: 'always', prev: 'switch', next: '*' }
+      {blankLine: 'always', prev: 'import', next: '*'},
+      {blankLine: 'any', prev: 'import', next: 'import'},
+      {blankLine: 'always', prev: 'if', next: '*'},
+      {blankLine: 'always', prev: 'switch', next: '*'}
     ],
     'lines-between-class-members': [
       'error',
       'always',
-      { 'exceptAfterSingleLine': true }
+      {'exceptAfterSingleLine': true}
     ],
     'brace-style': ['error', '1tbs'],
     'array-bracket-spacing': ['error', 'never'],
@@ -85,11 +86,11 @@ module.exports = {
     'space-infix-ops': 'error',
     'keyword-spacing': [
       'error',
-      { 'before': true, 'after': true }
+      {'before': true, 'after': true}
     ],
     'semi': ['error', 'never'],
     'comma-dangle': ['error', 'never'],
-    'arrow-spacing': ['warn', { 'before': true, 'after': true }],
+    'arrow-spacing': ['warn', {'before': true, 'after': true}],
     'max-len': [
       'error',
       {
@@ -112,9 +113,9 @@ module.exports = {
         }
       }
     ],
-    'newline-per-chained-call': ['warn', { 'ignoreChainWithDepth': 2 }],
+    'newline-per-chained-call': ['warn', {'ignoreChainWithDepth': 2}],
     'function-paren-newline': ['warn', 'multiline-arguments'],
-    'array-bracket-newline': ['warn', { 'multiline': true }]
+    'array-bracket-newline': ['warn', {'multiline': true}]
   },
   'overrides': [
     {

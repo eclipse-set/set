@@ -15,7 +15,6 @@ import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
 import OlPoint from 'ol/geom/Point'
 import { createFeature, FeatureType } from './FeatureInfo'
-import PositionedObject from '@/model/PositionedObject'
 import UnknownObject from '@/model/UnknownObject'
 
 /**
@@ -53,10 +52,10 @@ export default class UnknownObjectFeature extends LageplanFeature<UnknownObject>
       // to keep a constant size
       style
         .getImage()
-        .setScale(scale)
+        ?.setScale(scale)
 
       // Rotate the feature
-      style.getImage().setRotation((object.position.rotation * Math.PI) / 180)
+      style.getImage()?.setRotation((object.position.rotation * Math.PI) / 180)
 
       return style
     })
@@ -64,6 +63,6 @@ export default class UnknownObjectFeature extends LageplanFeature<UnknownObject>
   }
 
   compareChangedState (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
-    return super.compareChangedState(initial, final, [], unknowObject=> this.getObjectSvg(unknowObject))
+    return super.compareChangedState(initial, final, [], unknowObject => this.getObjectSvg(unknowObject))
   }
 }
