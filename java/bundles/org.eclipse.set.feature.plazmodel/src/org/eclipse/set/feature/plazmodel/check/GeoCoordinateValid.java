@@ -124,8 +124,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				}
 				final double diff = coordinate.distance(gpCoordinate);
 				if (diff > TOLERANT) {
-					result.add(createErrorReport(po, potk, gp, diff, coordinate,
-							gpCoordinate));
+					result.add(createErrorReport(po, potk, gp, diff));
 				}
 			});
 		}));
