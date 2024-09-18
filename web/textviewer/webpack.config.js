@@ -36,12 +36,7 @@ module.exports = {
         { from: './node_modules/monaco-editor/min/vs/basic-languages/xml', to: 'monaco/vs/basic-languages/xml' },
         { from: './node_modules/monaco-editor/min/vs/editor', to: 'monaco/vs/editor' },
         { from: './node_modules/monaco-editor/min/vs/base', to: 'monaco/vs/base' },
-        {
-          from: './node_modules/monaco-editor/min/vs/*.js',
-          to ({ context, absoluteFilename }) {
-            return 'monaco/vs/[name][ext]'
-          }
-        }
+        { from: './node_modules/monaco-editor/min/vs/loader.js', to: 'monaco/vs/loader.js' }
       ]
     })
   ]
