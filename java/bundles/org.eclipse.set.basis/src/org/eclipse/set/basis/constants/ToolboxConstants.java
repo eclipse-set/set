@@ -264,7 +264,7 @@ public final class ToolboxConstants {
 	/**
 	 * The prefix of ESTW table part
 	 */
-	public static final String ESWT_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.estw";
+	public static final String ESTW_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.estw";
 
 	/**
 	 * The prefix of ETCS table part

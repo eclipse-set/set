@@ -89,8 +89,8 @@ public class TableServiceContextFunction extends ContextFunction {
 		tableService = ContextInjectionFactory.make(TableServiceImpl.class,
 				context);
 		modelServiceMap.keySet().forEach(
-				elementId -> tableService.addModelServiceByInfo(elementId,
-						modelServiceMap.get(elementId)));
+				tableInfo -> tableService.addModelServiceByInfo(tableInfo,
+						modelServiceMap.get(tableInfo)));
 		final MApplication application = context.get(MApplication.class);
 		final IEclipseContext applicationContext = application.getContext();
 		applicationContext.set(TableService.class, tableService);
