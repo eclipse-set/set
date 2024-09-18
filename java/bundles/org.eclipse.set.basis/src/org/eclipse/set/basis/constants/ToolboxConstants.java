@@ -235,7 +235,7 @@ public final class ToolboxConstants {
 	public static final String VALIDATION_TABLE_PART_ID = "org.eclipse.set.feature.validation.parts.ValidationTablePart";
 
 	/**
-	 * The id of the table ESTW overview part.
+	 * The id of the table overview part.
 	 */
 	public static final String TABLE_OVERVIEW_ID = "overview.TableOverviewPart";
 
