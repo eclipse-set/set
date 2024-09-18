@@ -21,8 +21,8 @@ public abstract class AbstractETCSTableDescription
 		extends AbstractTableDescription {
 
 	@Override
-	protected String getTableCategory() {
-		return ToolboxConstants.ETCS_CATEGORY;
+	protected String getTableIdPrefix() {
+		return ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
 	}
 
 	@Override

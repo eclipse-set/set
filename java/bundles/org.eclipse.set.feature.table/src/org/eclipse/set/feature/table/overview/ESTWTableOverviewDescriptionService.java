@@ -9,7 +9,7 @@
 
 package org.eclipse.set.feature.table.overview;
 
-import static org.eclipse.set.basis.constants.ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
 import static org.eclipse.set.basis.constants.ToolboxConstants.TABLE_OVERVIEW_ID;
 
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
@@ -49,7 +49,7 @@ public class ESTWTableOverviewDescriptionService
 				.make(InjectionHelper.class, context);
 		return new PartDescription(
 				// ID
-				String.format("%s.%s", ESWT_TABLE_PART_ID_PREFIX, //$NON-NLS-1$
+				String.format("%s.%s", ESTW_TABLE_PART_ID_PREFIX, //$NON-NLS-1$
 						TABLE_OVERVIEW_ID),
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.overview.TableOverviewPart", //$NON-NLS-1$

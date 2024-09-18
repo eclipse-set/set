@@ -458,7 +458,7 @@ public final class TableServiceImpl implements TableService {
 		// Get already open table parts
 		final List<MPart> openTableParts = partService.getOpenParts().stream()
 				.filter(part -> (part.getElementId()
-						.startsWith(ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX)
+						.startsWith(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)
 						|| part.getElementId().startsWith(
 								ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX))
 						// IMPROVE: currently table overview isn't regard on

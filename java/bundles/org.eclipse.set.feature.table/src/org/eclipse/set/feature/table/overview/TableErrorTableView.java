@@ -14,6 +14,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -142,6 +143,15 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 					return null;
 				}
 				return getRowReferenceTable(selectionRowPosition);
+			}
+
+			@Override
+			public String getTableCategory() {
+				if (part.getToolboxPart().getElementId().startsWith(
+						ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)) {
+					return ToolboxConstants.ESTW_CATEGORY;
+				}
+				return ToolboxConstants.ETCS_CATEGORY;
 			}
 		};
 	}

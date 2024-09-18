@@ -20,8 +20,8 @@ import org.eclipse.set.utils.viewgroups.SetViewGroups;
 public abstract class AbstractESTWTableDescription
 		extends AbstractTableDescription {
 	@Override
-	protected String getTableCategory() {
-		return ToolboxConstants.ESTW_CATEGORY;
+	protected String getTableIdPrefix() {
+		return ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
 	}
 
 	@Override

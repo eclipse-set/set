@@ -248,7 +248,7 @@ public class TableOverviewPart extends BasePart {
 
 	private String getTableCategory() {
 		final String elementId = getToolboxPart().getElementId();
-		if (elementId.startsWith(ESWT_TABLE_PART_ID_PREFIX)) {
+		if (elementId.startsWith(ESTW_TABLE_PART_ID_PREFIX)) {
 			return ESTW_CATEGORY;
 		}
 		return ETCS_CATEGORY;

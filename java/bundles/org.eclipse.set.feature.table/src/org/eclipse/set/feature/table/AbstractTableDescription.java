@@ -12,7 +12,6 @@ package org.eclipse.set.feature.table;
 import java.util.Optional;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.core.services.part.PartDescriptionService;
 
@@ -27,9 +26,8 @@ public abstract class AbstractTableDescription
 	public PartDescription getDescription(final IEclipseContext context) {
 		return new PartDescription(
 				// ID
-				getOptionalTableId().orElse(String.format("%s.%s.%s", //$NON-NLS-1$
-						ToolboxConstants.ESWT_TABLE_PART_ID_PREFIX,
-						getTableCategory(), getTableId())),
+				getOptionalTableId().orElse(String.format("%s.%s", //$NON-NLS-1$
+						getTableIdPrefix(), getTableId())),
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.ToolboxTableView", //$NON-NLS-1$
 				// toolboxViewName
@@ -73,5 +71,5 @@ public abstract class AbstractTableDescription
 
 	protected abstract String getToolboxViewTooltip();
 
-	protected abstract String getTableCategory();
+	protected abstract String getTableIdPrefix();
 }

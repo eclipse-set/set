@@ -23,6 +23,8 @@ public class JumpToTableEvent implements ToolboxEvent {
 
 	private String tableShortcut;
 
+	private String tableCategory;
+
 	/**
 	 * Constructor used for retrieving the event name
 	 */
@@ -33,14 +35,17 @@ public class JumpToTableEvent implements ToolboxEvent {
 	/**
 	 * @param tableShortcut
 	 *            the table shortcut
+	 * @param tableCategory
+	 *            the table category
 	 * @param searchKey
 	 *            The key to search for
 	 * 
 	 */
 	public JumpToTableEvent(final String tableShortcut,
-			final String searchKey) {
+			final String tableCategory, final String searchKey) {
 		this.searchKey = searchKey;
 		this.tableShortcut = tableShortcut;
+		this.tableCategory = tableCategory;
 	}
 
 	/**
@@ -52,6 +57,7 @@ public class JumpToTableEvent implements ToolboxEvent {
 	public JumpToTableEvent(final String searchKey) {
 		this.searchKey = searchKey;
 		this.tableShortcut = null;
+		this.tableCategory = null;
 	}
 
 	/**
@@ -71,5 +77,12 @@ public class JumpToTableEvent implements ToolboxEvent {
 	 */
 	public String getTableShortcut() {
 		return tableShortcut;
+	}
+
+	/**
+	 * @return the table category
+	 */
+	public String getTableCategory() {
+		return tableCategory;
 	}
 }
