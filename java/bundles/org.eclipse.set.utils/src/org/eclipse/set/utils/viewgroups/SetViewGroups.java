@@ -25,7 +25,8 @@ public class SetViewGroups {
 	private static final ToolboxViewGroup INFORMATION;
 	private static final ToolboxViewGroup INVISIBLE;
 	private static final ToolboxViewGroup SITEPLAN;
-	private static final ToolboxViewGroup TABLE;
+	private static final ToolboxViewGroup TABLE_ESTW;
+	private static final ToolboxViewGroup TABLE_ETCS;
 
 	static {
 		DEVELOPMENT = new ToolboxViewGroup.Builder()
@@ -55,10 +56,14 @@ public class SetViewGroups {
 				.withText(Messages.SetViewGroups_Siteplan)
 				.withIcon(SetImages.IC_MAP_BLACK_18DP_1X).withOrderPriority(400)
 				.build();
-		TABLE = new ToolboxViewGroup.Builder()
-				.withText(Messages.SetViewGroups_Table)
+		TABLE_ESTW = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Table_ESTW)
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
 				.withOrderPriority(300).build();
+		TABLE_ETCS = new ToolboxViewGroup.Builder()
+				.withText(Messages.SetViewGroups_Table_ETCS)
+				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
+				.withOrderPriority(250).build();
 	}
 
 	/**
@@ -104,9 +109,16 @@ public class SetViewGroups {
 	}
 
 	/**
-	 * @return the table view group
+	 * @return the table estw view group
 	 */
-	public static ToolboxViewGroup getTable() {
-		return TABLE;
+	public static ToolboxViewGroup getTable_ESTW() {
+		return TABLE_ESTW;
+	}
+
+	/**
+	 * @return the table etcs view group
+	 */
+	public static ToolboxViewGroup getTable_ETCS() {
+		return TABLE_ETCS;
 	}
 }

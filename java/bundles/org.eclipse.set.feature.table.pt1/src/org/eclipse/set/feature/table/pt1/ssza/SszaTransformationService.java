@@ -29,7 +29,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
-				"table.shortcut=ssza" })
+				"table.category=etcs", "table.shortcut=ssza" })
 public final class SszaTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 

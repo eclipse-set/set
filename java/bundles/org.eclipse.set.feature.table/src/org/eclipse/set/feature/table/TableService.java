@@ -27,6 +27,15 @@ import org.eclipse.set.utils.table.TableError;
  * @author rumpf
  */
 public interface TableService {
+	/**
+	 * @param category
+	 *            the table area (ESTW or ETCS)
+	 * @param shortcut
+	 *            the table shortcut
+	 */
+	public record TableInfo(String category, String shortcut) {
+
+	}
 
 	/**
 	 * Extract the shortcut from an configuration element.
@@ -61,7 +70,7 @@ public interface TableService {
 	 * 
 	 * @return the table information
 	 */
-	Collection<String> getAvailableTables();
+	Collection<TableInfo> getAvailableTables();
 
 	/**
 	 * Get all collected table errors.
@@ -70,11 +79,14 @@ public interface TableService {
 	 *            the current model session in which to get the errors
 	 * @param controlAreaIds
 	 *            the selected control areas for which to get the errors
+	 * @param tableCategory
+	 *            the table category (ESTW or ETCS)
 	 * 
 	 * @return collected table errors
 	 */
 	Map<String, Collection<TableError>> getTableErrors(
-			IModelSession modelSession, Set<String> controlAreaIds);
+			IModelSession modelSession, Set<String> controlAreaIds,
+			String tableCategory);
 
 	/**
 	 * Transform the selected container to a string with CSV format.

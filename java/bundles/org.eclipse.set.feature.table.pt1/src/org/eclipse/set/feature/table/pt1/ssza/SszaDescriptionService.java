@@ -12,7 +12,7 @@
 package org.eclipse.set.feature.table.pt1.ssza;
 
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.table.AbstractTableDescription;
+import org.eclipse.set.feature.table.AbstractETCSTableDescription;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -21,7 +21,7 @@ import org.osgi.service.component.annotations.Reference;
  * Part description for ssza table view.
  */
 @Component(service = PartDescriptionService.class)
-public class SszaDescriptionService extends AbstractTableDescription {
+public class SszaDescriptionService extends AbstractETCSTableDescription {
 	@Reference
 	Messages messages;
 

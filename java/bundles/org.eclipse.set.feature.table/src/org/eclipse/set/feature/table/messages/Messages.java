@@ -52,9 +52,14 @@ public class Messages {
 	public String TableErrorTableColumns_TableType;
 
 	/**
-	 * Tabellenübersicht
+	 * ESTW – Tabellenübersicht
 	 */
-	public String TableOverviewDescriptionService_ViewName;
+	public String ESTW_TableOverviewDescriptionService_ViewName;
+
+	/**
+	 * ETCS – Tabellenübersicht
+	 */
+	public String ETCS_TableOverviewDescriptionService_ViewName;
 
 	/**
 	 * Überprüfen

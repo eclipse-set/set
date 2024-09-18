@@ -9,12 +9,12 @@
 
 package org.eclipse.set.feature.table.overview;
 
-import jakarta.inject.Inject;
+import static org.eclipse.set.basis.constants.ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
+import static org.eclipse.set.basis.constants.ToolboxConstants.TABLE_OVERVIEW_ID;
 
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
@@ -22,13 +22,16 @@ import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
 
+import jakarta.inject.Inject;
+
 /**
  * Part description for table problem.
  * 
  * @author Peters
  */
 @Component(immediate = true)
-public class TableOverviewDescriptionService implements PartDescriptionService {
+public class ESTWTableOverviewDescriptionService
+		implements PartDescriptionService {
 	private static class InjectionHelper {
 
 		@Inject
@@ -46,11 +49,12 @@ public class TableOverviewDescriptionService implements PartDescriptionService {
 				.make(InjectionHelper.class, context);
 		return new PartDescription(
 				// ID
-				ToolboxConstants.TABLE_OVERVIEW_PART_ID,
+				String.format("%s.%s", ESTW_TABLE_PART_ID_PREFIX, //$NON-NLS-1$
+						TABLE_OVERVIEW_ID),
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.overview.TableOverviewPart", //$NON-NLS-1$
 				// toolboxViewName
-				injectionHelper.messages.TableOverviewDescriptionService_ViewName,
+				injectionHelper.messages.ESTW_TableOverviewDescriptionService_ViewName,
 				// toolboxViewToolTip
 				"", //$NON-NLS-1$
 				// toolboxViewType
@@ -81,6 +85,6 @@ public class TableOverviewDescriptionService implements PartDescriptionService {
 
 	@Override
 	public ToolboxViewGroup getToolboxViewGroup() {
-		return SetViewGroups.getTable();
+		return SetViewGroups.getTable_ESTW();
 	}
 }

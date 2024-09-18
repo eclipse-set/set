@@ -33,7 +33,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(service = {
 		PlanPro2TableTransformationService.class }, immediate = true, property = {
-				"table.shortcut=sslr" })
+				"table.category=estw", "table.shortcut=sslr" })
 public class SslrTransformationService
 		extends AbstractPlanPro2TableTransformationService {
 	@Reference
