@@ -185,7 +185,8 @@ class SignalExtensions extends PunktObjektExtensions {
 	def static List<Signal_Rahmen> signalRahmenForBefestigung(Signal signal,
 		Iterable<Signal_Befestigung> gruppe) {
 		return signal.signalRahmen.filter [
-			gruppe.map[identitaet.wert].contains(IDSignalBefestigung?.wert)
+			gruppe.filterNull.map[identitaet?.wert].filterNull.contains(
+				IDSignalBefestigung?.wert)
 		].toList
 	}
 
@@ -446,7 +447,8 @@ class SignalExtensions extends PunktObjektExtensions {
 				exists[isBelongToControlArea(controlArea)]
 		}
 
-		if (signal.signalReal !== null || (!existsFiktivesSignalFAPStart && !existsFiktivesSignalFAPZiel)) {
+		if (signal.signalReal !== null ||
+			(!existsFiktivesSignalFAPStart && !existsFiktivesSignalFAPZiel)) {
 			return signal.punktObjektTOPKante.exists [
 				controlArea.contains(it, tolerantDistance)
 			]

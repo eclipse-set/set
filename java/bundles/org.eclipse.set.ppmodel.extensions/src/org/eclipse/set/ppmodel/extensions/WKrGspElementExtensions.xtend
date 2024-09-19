@@ -83,7 +83,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * Grenzzeichenfreiheit of the left or right Weichenschenkel 
 	 */
 	def static Basis_Objekt getElement(GZ_Freimeldung_R_AttributeGroup group) {
-		return group.IDElement?.value
+		return group?.IDElement?.value
 	}
 
 	/**
@@ -93,7 +93,7 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 	 * Grenzzeichenfreiheit of the left or right Weichenschenkel 
 	 */
 	def static Basis_Objekt getElement(GZ_Freimeldung_L_AttributeGroup group) {
-		return group.IDElement?.value
+		return group?.IDElement?.value
 	}
 
 	/**
@@ -196,15 +196,15 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 
 	static def List<Gleis_Abschnitt> getGleisAbschnitt(
 		W_Kr_Gsp_Element element) {
-		return #[element.weicheElement.GZFreimeldungL.element,
-			element.weicheElement.GZFreimeldungR.element].filter(
+		return #[element?.weicheElement?.GZFreimeldungL?.element,
+			element?.weicheElement?.GZFreimeldungR?.element].filter(
 			Gleis_Abschnitt).toList
 
 	}
 
 	def static boolean isBelongToControlArea(W_Kr_Gsp_Element gspElement,
 		Stell_Bereich controlArea) {
-		return gspElement.IDStellelement?.value.IDInformation?.value ===
+		return gspElement.IDStellelement?.value?.IDInformation?.value ===
 			controlArea.aussenElementAnsteuerung
 	}
 }

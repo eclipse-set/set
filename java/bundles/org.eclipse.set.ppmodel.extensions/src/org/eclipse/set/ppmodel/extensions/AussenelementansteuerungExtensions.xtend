@@ -31,7 +31,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Unterbringung getUnterbringung(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.IDUnterbringung?.value
+		return aussenelementansteuerung?.IDUnterbringung?.value
 	}
 
 	/**
@@ -42,7 +42,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	def static List<Aussenelementansteuerung> getInformationSekundaer(
 		Aussenelementansteuerung aussenelementansteuerung
 	) {
-		return aussenelementansteuerung.IDInformationSekundaer?.map[value]?.
+		return aussenelementansteuerung?.IDInformationSekundaer?.map[value]?.
 			filterNull?.toList
 	}
 
@@ -65,14 +65,14 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 
 	def static List<ESTW_Zentraleinheit> getESTWZentraleinheits(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		val result = #[]
-		val energiePrimaer = aussenelementansteuerung.energiePrimaer
+		val result = newArrayList
+		val energiePrimaer = aussenelementansteuerung?.energiePrimaer
 		if (energiePrimaer instanceof ESTW_Zentraleinheit) {
 			result.add(energiePrimaer)
 		}
 		result.addAll(
-			aussenelementansteuerung.informationPrimaer.filter(
-				ESTW_Zentraleinheit).toList)
+			aussenelementansteuerung?.informationPrimaer?.filter(
+				ESTW_Zentraleinheit)?.toList ?: #[])
 		return result
 	}
 
@@ -83,7 +83,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 */
 	def static Oertlichkeit getOertlichkeitNamensgebend(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.IDOertlichkeitNamensgebend?.value
+		return aussenelementansteuerung?.IDOertlichkeitNamensgebend?.value
 	}
 
 	def static dispatch String getElementBezeichnung(Basis_Objekt element) {
@@ -102,9 +102,9 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 
 	def static Iterable<Stellelement> getStellelements(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.container.stellelement.filter [
-			IDInformation.value === aussenelementansteuerung ||
-				IDEnergie.value === aussenelementansteuerung
+		return aussenelementansteuerung?.container.stellelement.filter [
+			IDInformation?.value === aussenelementansteuerung ||
+				IDEnergie?.value === aussenelementansteuerung
 		]
 	}
 	

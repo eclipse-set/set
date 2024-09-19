@@ -8,11 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
-import java.util.List
-import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
-import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import java.math.BigDecimal
+import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 
 /**
  * This class extends {@link Gleis_Abschnitt}.
@@ -40,5 +41,11 @@ class GleisAbschnittExtensions extends BereichObjektExtensions {
 		return botbs.fold(BigDecimal.ZERO, [ sum, botb |
 			sum.add(getOverlappingLength(abschnitt, botb))
 		])
+	}
+
+	def static boolean isBelongToConstrolArea(Gleis_Abschnitt abschnitt,
+		Stell_Bereich area) {
+		return abschnitt.getOverlappingDistance(area.bereichObjektTeilbereich).
+			compareTo(BigDecimal.ZERO) > 0
 	}
 }
