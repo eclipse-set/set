@@ -141,8 +141,8 @@ public class TableMenuServiceImpl implements TableMenuService {
 							return;
 						}
 						String tableIdPrefix = ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
-						if (jumpEvent
-								.getTableCategory() == ToolboxConstants.ETCS_CATEGORY) {
+						if (jumpEvent.getTableCategory()
+								.equals(ToolboxConstants.ETCS_CATEGORY)) {
 							tableIdPrefix = ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
 						}
 						toolboxPartService.showPart(tableIdPrefix + "." //$NON-NLS-1$

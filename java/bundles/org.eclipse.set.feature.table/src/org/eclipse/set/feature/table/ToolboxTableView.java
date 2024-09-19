@@ -13,6 +13,7 @@ import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelT
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,6 +53,7 @@ import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
@@ -235,7 +237,7 @@ public final class ToolboxTableView extends BasePart {
 
 	private void outdatedUpdate() {
 		if (isOutdated()) {
-			updateTableView();
+			updateTableView(Collections.emptyList());
 			setOutdated(false);
 		}
 	}
@@ -273,11 +275,20 @@ public final class ToolboxTableView extends BasePart {
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
-				controlAreaIds.clear();
-				t.getControlAreas()
-						.forEach(area -> controlAreaIds.add(area.areaId()));
-				tableType = t.getTableType();
-				updateTableView();
+				// Only ESTW tables regard to control area,
+				// when given't selected area, that mean PlaningArea or AlL File
+				// Content was selected, then update all table.
+				if (getToolboxPart().getElementId()
+						.startsWith(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)
+						|| t.getControlAreas().isEmpty()) {
+					controlAreaIds.clear();
+					t.getControlAreas()
+							.forEach(area -> controlAreaIds.add(area.areaId()));
+					tableType = t.getTableType();
+					updateTableView(t.getControlAreas().isEmpty()
+							? Collections.emptyList()
+							: List.of(ToolboxConstants.ESTW_CATEGORY));
+				}
 			}
 		};
 
@@ -329,8 +340,8 @@ public final class ToolboxTableView extends BasePart {
 				controlAreaIds);
 	}
 
-	private void updateTableView() {
-		tableService.updateTable(this, () -> {
+	private void updateTableView(final List<String> tableCategories) {
+		tableService.updateTable(this, tableCategories, () -> {
 			updateModel(getToolboxPart(), getModelSession());
 			natTable.doCommand(new RowHeightResetCommand());
 			natTable.refresh();
@@ -362,7 +373,7 @@ public final class ToolboxTableView extends BasePart {
 		controlAreaIds = getModelSession().getSelectedControlAreas().stream()
 				.map(Pair::getSecond).collect(Collectors.toSet());
 
-		tableService.updateTable(this,
+		tableService.updateTable(this, Collections.emptyList(),
 				() -> updateModel(getToolboxPart(), getModelSession()),
 				tableInstances::clear);
 
