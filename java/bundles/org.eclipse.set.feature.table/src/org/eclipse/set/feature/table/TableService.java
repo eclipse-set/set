@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -125,13 +126,16 @@ public interface TableService {
 	/**
 	 * @param part
 	 *            the table part
+	 * @param tableCategories
+	 *            the list of table category. when the list is empty, then
+	 *            update all table
 	 * @param updateTableHandler
 	 *            the update table handler
 	 * @param clearInstance
 	 *            the clear table instance handler
 	 */
-	void updateTable(final BasePart part, final Runnable updateTableHandler,
-			Runnable clearInstance);
+	void updateTable(BasePart part, List<String> tableCategories,
+			Runnable updateTableHandler, Runnable clearInstance);
 
 	/**
 	 * Get fixed columns
@@ -140,4 +144,5 @@ public interface TableService {
 	 * @return position of fixed columns
 	 */
 	Set<Integer> getFixedColumns(final String elementID);
+
 }

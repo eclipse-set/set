@@ -454,13 +454,20 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public void updateTable(final BasePart tablePart,
+			final List<String> tableCategories,
 			final Runnable updateTableHandler, final Runnable clearInstance) {
+		// Find which table categories should be update
+		final List<String> tablePrefixes = List
+				.of(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX,
+						ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX)
+				.stream()
+				.filter(prefix -> tableCategories.isEmpty()
+						|| tableCategories.stream().anyMatch(prefix::contains))
+				.toList();
 		// Get already open table parts
 		final List<MPart> openTableParts = partService.getOpenParts().stream()
-				.filter(part -> (part.getElementId()
-						.startsWith(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)
-						|| part.getElementId().startsWith(
-								ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX))
+				.filter(part -> tablePrefixes.stream().anyMatch(
+						prefix -> part.getElementId().startsWith(prefix))
 						// IMPROVE: currently table overview isn't regard on
 						// control area
 						&& !part.getElementId()

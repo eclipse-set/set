@@ -41,7 +41,6 @@ import org.eclipse.set.ppmodel.extensions.utils.WeichenSchenkel
 
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
 
-import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BueEinschaltungZuordnungExtension.*
 import static extension org.eclipse.set.ppmodel.extensions.BueGleisbezogenerGefahrraumExtensions.*
@@ -52,8 +51,8 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigIntegerExtensions.*
 
@@ -442,29 +441,28 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 
 	private def static boolean isRangierStrBelongToControlArea(
 		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
-		if (fstrZugRangier.fstrRangier === null) {
+		if (fstrZugRangier?.fstrRangier === null) {
 			return false
 		}
-		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
+		val startSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDStart?.value
 		return controlArea.isInControlArea(startSignal)
 	}
 
 	private def static boolean isZugStrBelongToControlArea(
 		Fstr_Zug_Rangier fstrZugRangier, Stell_Bereich controlArea) {
-		if (fstrZugRangier.fstrZug === null &&
-			fstrZugRangier.fstrMittel === null) {
+		if (fstrZugRangier?.fstrZug === null &&
+			fstrZugRangier?.fstrMittel === null) {
 			return false
 		}
-		val startSignal = fstrZugRangier.IDFstrFahrweg?.value?.IDStart?.value
+		val startSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDStart?.value
 		val zielSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value
 		if (startSignal === null || zielSignal === null) {
 			return false
 		}
-		
-		return 				zielSignal.container.fstrZugRangier.exists [
-					fstrZug.fstrZugArt.wert ===
-						ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B &&
-						IDFstrFahrweg?.value?.IDStart?.value === zielSignal
-				] ? startSignal.isBelongToControlArea(controlArea) : false
+
+		return zielSignal.container.fstrZugRangier.exists [
+			fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B &&
+				IDFstrFahrweg?.value?.IDStart?.value === zielSignal
+		] ? startSignal.isBelongToControlArea(controlArea) : false
 	}
 }

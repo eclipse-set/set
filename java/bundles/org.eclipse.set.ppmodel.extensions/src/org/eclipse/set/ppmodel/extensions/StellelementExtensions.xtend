@@ -26,7 +26,7 @@ class StellelementExtensions extends BasisObjektExtensions {
 	 * Stellelement 
 	 */
 	def static Aussenelementansteuerung getEnergie(Stellelement stellelement) {
-		return stellelement.IDEnergie?.value
+		return stellelement?.IDEnergie?.value
 	}
 
 	/**
@@ -37,12 +37,12 @@ class StellelementExtensions extends BasisObjektExtensions {
 	 */
 	def static Aussenelementansteuerung getInformation(
 		Stellelement stellelement) {
-		return stellelement.IDInformation?.value
+		return stellelement?.IDInformation?.value
 	}
 
 	def static boolean isBelongToControlArea(Stellelement stellElement,
 		Stell_Bereich area) {
-		return stellElement.IDInformation?.value ===
+		return stellElement?.IDInformation?.value ===
 			area.aussenElementAnsteuerung
 	}
 }
