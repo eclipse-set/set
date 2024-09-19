@@ -24,7 +24,5 @@ class StreckePunktExtensions extends BasisObjektExtensions {
 	static def GEO_Knoten getGeoKnoten(Strecke_Punkt routePoint) {
 		return routePoint.IDGEOKnoten?.value
 	}
-	
-	
 
 }
