@@ -134,6 +134,7 @@ public class GeoKanteGeometryServiceImpl
 					logger.debug(
 							"Find geometry of GEO_Kante process is complete"); //$NON-NLS-1$
 				} catch (final InterruptedException e) {
+					isProcessComplete = true;
 					Thread.currentThread().interrupt();
 				}
 			}, ToolboxConstants.CacheId.GEOKANTE_GEOMETRY);
@@ -165,7 +166,7 @@ public class GeoKanteGeometryServiceImpl
 				if (geometry != null) {
 					edgeGeometry.put(edge, geometry);
 				}
-			} catch (final GeometryException e) {
+			} catch (final GeometryException | NullPointerException e) {
 				logger.warn("Cannot determine geometry for edge {}.", //$NON-NLS-1$
 						edge.getIdentitaet().getWert());
 			}

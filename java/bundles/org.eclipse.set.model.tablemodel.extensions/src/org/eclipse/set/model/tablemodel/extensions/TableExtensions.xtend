@@ -163,7 +163,8 @@ class TableExtensions {
 		val leadingObject = groupToAdd.leadingObject
 		if (leadingObject !== null && table.tablecontent.rowgroups.forall[leadingObject !== null]) {
 			if (!table.tablecontent.rowgroups.exists [
-			it.leadingObject?.identitaet?.wert.equals(leadingObject?.identitaet?.wert)
+			 val guid = it.leadingObject?.identitaet?.wert
+			 return guid !== null && guid.equals(leadingObject?.identitaet?.wert)
 		]) {
 			table.tablecontent.addRowGroup(clone)
 		}

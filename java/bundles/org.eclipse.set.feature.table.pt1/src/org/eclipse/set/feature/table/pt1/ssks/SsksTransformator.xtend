@@ -177,9 +177,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
 		val waitingFileSideDistanceSignal = newHashMap
-		for (Signal signal : container?.signal?.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea)
-			.filter [ssksSignal]) {
+		for (Signal signal : container?.signal?.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).filter[ssksSignal]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -188,7 +187,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 
 				// iterate over Befestigungen
 				val befestigungsgruppen = signal.befestigungsgruppen
-				for (var int i = 0; i < 2 && i < befestigungsgruppen.size; i++) {
+				for (var int i = 0; i < 2 &&
+					i < befestigungsgruppen.size; i++) {
 					val isHauptbefestigung = (i == 0)
 					val gruppe = befestigungsgruppen.get(i)?.toSet
 
@@ -308,9 +308,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						}
 
 						// Abstand Mastmitte
-						if (!
-								isFindGeometryComplete) {
-
+						if (!isFindGeometryComplete) {
 							#[Mastmitte_Links, Mastmitte_Rechts].forEach [
 								fill(
 									row,
@@ -957,7 +955,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 		switch mast : befestigungen.filter [
 			mastTypeOfSignalWithTwoMast.contains(
-				value.signalBefestigungAllg?.befestigungArt?.wert)
+				value?.signalBefestigungAllg?.befestigungArt?.wert)
 		] {
 			// condition "zwei Befestigungen"
 			case mast.size == 2: {
@@ -973,9 +971,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			}
 			case mast.size > 2:
 				throw new IllegalArgumentException('''«signal.bezeichnung?.bezeichnungAussenanlage?.toString» has more than two Befestigung Signal''')
-			default: 
+			default:
 				result.add(befestigungen.map[value].toList)
-			
 		}
 		return result
 	}

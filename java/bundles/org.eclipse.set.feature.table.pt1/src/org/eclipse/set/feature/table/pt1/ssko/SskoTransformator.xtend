@@ -394,11 +394,14 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Iterable<Schloss> getObjectInControlArea(
 		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		if (controlArea === null) {
+			return container.schloss
+		}
 		val result = newHashSet
 		// 1. Condition
 		// IMPROVE: Not completely, because the requirements for this case aren't clear
-		val stellelements = controlArea.aussenElementAnsteuerung.
-			informationSekundaer.filterNull.flatMap[stellelements]
+		val stellelements = controlArea.aussenElementAnsteuerung?.
+			informationSekundaer?.filterNull?.flatMap[stellelements] ?: #[]
 		val ssp = container.schluesselsperre.filter [ ssp |
 			stellelements.exists[it === ssp.IDStellelement.value]
 		]

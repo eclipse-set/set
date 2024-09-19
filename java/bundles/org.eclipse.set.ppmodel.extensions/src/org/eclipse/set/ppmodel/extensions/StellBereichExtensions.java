@@ -215,6 +215,8 @@ public class StellBereichExtensions {
 				.isBelongToControlArea(fla, area);
 		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
 				.isBelongToControlArea(fla, area);
+		case final Gleis_Abschnitt segment -> GleisAbschnittExtensions
+				.isBelongToConstrolArea(segment, area);
 		case final Gleis_Bezeichnung description -> BereichObjektExtensions
 				.intersects(area, description);
 		case final NB_Zone nbZone -> NbZoneExtensions

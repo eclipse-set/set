@@ -16,6 +16,7 @@ import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+
 /**
  * This class extends {@link FMA_Komponente}.
  * 
@@ -62,10 +63,14 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 		}
 		return null;
 	}
-	
-	def static boolean isBelongToControlArea(FMA_Komponente fma, Stell_Bereich area) {
-		return fma?.FMAKomponenteAchszaehlpunkt?.IDInformation?.filterNull.
-			exists [
+
+	def static boolean isBelongToControlArea(FMA_Komponente fma,
+		Stell_Bereich area) {
+		val aussenElementAnsteuerungen = fma?.FMAKomponenteAchszaehlpunkt?.
+			IDInformation?.map[value]
+
+		return !aussenElementAnsteuerungen.nullOrEmpty &&
+			aussenElementAnsteuerungen.filterNull.exists [
 				area.aussenElementAnsteuerung !== null &&
 					it === area.aussenElementAnsteuerung
 			]
