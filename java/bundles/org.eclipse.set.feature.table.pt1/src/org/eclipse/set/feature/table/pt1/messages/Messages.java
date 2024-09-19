@@ -687,4 +687,34 @@ public class Messages extends AbstractMessageService {
 	 * ETCS Melde- und Kommandoschaltung Muka Signale
 	 */
 	public String SszsDescriptionService_ViewTooltip;
+
+	/**
+	 * Sszw – ETCS Melde- und Kommandoschaltung Muka Weichen
+	 */
+	public String SszwDescriptionService_ViewName;
+
+	/**
+	 * ETCS Melde- und Kommandoschaltung Muka Weichen
+	 */
+	public String SszwDescriptionService_ViewTooltip;
+
+	/**
+	 * ETCS Melde- und Kommandoschaltung Muka Weichen
+	 */
+	public String ToolboxTableNameSszwLong;
+
+	/**
+	 * ???
+	 */
+	public String ToolboxTableNameSszwPlanningNumber;
+
+	/**
+	 * Sszw
+	 */
+	public String ToolboxTableNameSszwShort;
+
+	/**
+	 * ETCS Melde- und Kommandoschaltung Muka Weichen – Sszw
+	 */
+	public String SszwTableView_Heading;
 }

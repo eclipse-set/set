@@ -146,3 +146,6 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.table.pt1.messages.Messages.
  OSGI-INF/org.eclipse.set.feature.table.pt1.ssza.SszaTransformationService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sszs.SszsDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.pt1.sszs.SszsTransformationService.xml
+ OSGI-INF/org.eclipse.set.feature.table.pt1.ssza.SszaTransformationService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sszw.SszwDescriptionService.xml,
+ OSGI-INF/org.eclipse.set.feature.table.pt1.sszw.SszwTransformationService.xml
