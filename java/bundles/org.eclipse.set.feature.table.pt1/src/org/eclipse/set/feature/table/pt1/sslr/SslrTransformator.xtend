@@ -54,17 +54,18 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
-		return container.transform
+		return container.transform(controlArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container) {
-		container.fstrZugRangier.filter[isPlanningObject].filter[isR].forEach [ it |
-			if (Thread.currentThread.interrupted) {
-				return
-			}
-			it.transform
-		]
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		container.fstrZugRangier.filter[isPlanningObject]
+			.filterObjectsInControlArea(controlArea).filter[isR].forEach [ it |
+				if (Thread.currentThread.interrupted) {
+					return
+				}
+				it.transform
+			]
 		return
 	}
 

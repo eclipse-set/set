@@ -50,20 +50,21 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
-		return container.transform
+		return container.transform(controlArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container) {
-		container.bedienEinrichtungOertlich.filter[isPlanningObject].filter [
-			!bedienAnzeigeElemente.map[bueBedienAnzeigeElemente].flatten.
-				filterNull.empty
-		].forEach [
-			if (Thread.currentThread.interrupted) {
-				return
-			}
-			it.transform
-		]
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		container.bedienEinrichtungOertlich.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).filter [
+				!bedienAnzeigeElemente.map[bueBedienAnzeigeElemente].flatten.
+					filterNull.empty
+			].forEach [
+				if (Thread.currentThread.interrupted) {
+					return
+				}
+				it.transform
+			]
 		return
 	}
 
@@ -230,7 +231,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		// J: Ssbb.Bemerkung
 		fillFootnotes(instance, einrichtung)
-		
+
 		return
 	}
 

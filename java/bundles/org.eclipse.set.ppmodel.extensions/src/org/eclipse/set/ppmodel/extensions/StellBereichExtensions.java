@@ -10,17 +10,51 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
+import static org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.getESTWZentraleinheits;
+import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+import static org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.getTechnikStandort;
+import static org.eclipse.set.ppmodel.extensions.UrObjectExtensions.filterObjectsInControlArea;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage;
+import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante;
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk;
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort;
+import org.eclipse.set.model.planpro.Bedienung.Bedien_Zentrale;
+import org.eclipse.set.model.planpro.Block.Block_Element;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg;
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz;
+import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz;
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit;
+import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt;
+import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung;
+import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone;
+import org.eclipse.set.model.planpro.Ortung.FMA_Anlage;
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
+import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.Signale.Signal;
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente;
+import org.eclipse.set.model.planpro.Zugnummernmeldeanlage.ZN_ZBS;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 
 /**
- * 
+ * Extensions for {@link Stell_Bereich}
  */
 public class StellBereichExtensions {
 
@@ -90,5 +124,122 @@ public class StellBereichExtensions {
 			final Stell_Bereich area) {
 		return getNullableObject(area,
 				e -> e.getIDAussenelementansteuerung().getValue()).orElse(null);
+	}
+
+	/**
+	 * The list of technik standort in this area
+	 * 
+	 * @param area
+	 *            the {@link Stell_Bereich}
+	 * @return list of {@link Technik_Standort}
+	 */
+	public static List<Technik_Standort> getTechnikStandorts(
+			final Stell_Bereich area) {
+		final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
+				area);
+		final List<ESTW_Zentraleinheit> estwZentraleinheits = getESTWZentraleinheits(
+				aussenElementAnsteuerung);
+		return estwZentraleinheits.stream()
+				.flatMap(estw -> getTechnikStandort(estw).stream())
+				.filter(Objects::nonNull).toList();
+	}
+
+	/**
+	 * @param area
+	 *            the {@link Stell_Bereich}
+	 * @return the {@link W_Kr_Gsp_Element} in this area
+	 */
+	public static List<W_Kr_Gsp_Element> getWkrGspElement(
+			final Stell_Bereich area) {
+		final Iterable<Gleis_Abschnitt> abschnitts = filterObjectsInControlArea(
+				getContainer(area).getGleisAbschnitt(), area);
+		return StreamSupport
+				.stream(getContainer(area).getWKrGspElement().spliterator(),
+						false)
+				.filter(gspElement -> StreamSupport
+						.stream(abschnitts.spliterator(), false)
+						.anyMatch(abschnitt -> WKrGspElementExtensions
+								.getGleisAbschnitt(gspElement)
+								.contains(abschnitt)))
+				.toList();
+
+	}
+
+	/**
+	 * @param area
+	 *            the {@link Stell_Bereich}
+	 * @param object
+	 *            the element
+	 * @return true, if the element belong to the area
+	 */
+	public static boolean isInControlArea(final Stell_Bereich area,
+			final Basis_Objekt object) {
+		if (object == null) {
+			return false;
+		}
+		return switch (object) {
+		case final Aussenelementansteuerung aussenElement -> AussenelementansteuerungExtensions
+				.isBelongToControlArea(aussenElement, area);
+		case final ESTW_Zentraleinheit estwZentral -> ESTW_ZentraleinheitExtensions
+				.isBelongToControlArea(estwZentral, area);
+		case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
+				.isBelongToControlArea(oertlich, area);
+		case final FMA_Anlage fmaAnlage -> FmaAnlageExtensions
+				.isBelongToControlArea(fmaAnlage, area);
+		case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
+				.isBelongToControlArea(fmaKomponente, area);
+		case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions
+				.isBelongToControlArea(zugeinwirkung, area);
+		case final PZB_Element pzb -> PZBElementExtensions
+				.isBelongToControlArea(pzb, area);
+		case final Signal signal -> SignalExtensions
+				.isBelongToControlArea(signal, area);
+		case final Technik_Standort standort -> TechnikStandortExtensions
+				.isBelongToControlArea(standort, area);
+		case final Bedien_Standort standort -> BedienStandortExtensions
+				.isBelongToControlArea(standort, area);
+		case final W_Kr_Gsp_Element gspElement -> WKrGspElementExtensions
+				.isBelongToControlArea(gspElement, area);
+		case final W_Kr_Gsp_Komponente gspKomponent -> isInControlArea(area,
+				EObjectExtensions
+						.getNullableObject(gspKomponent,
+								gsp -> gsp.getIDWKrGspElement().getValue())
+						.orElse(null));
+		case final Fstr_Aneinander fstr -> FstrAneinanderExtensions
+				.isBelongToControlArea(fstr, area);
+		case final Fstr_DWeg fstr -> FstrDWegWKrExtensions
+				.isBelongToControlArea(fstr, area);
+		case final Fstr_Zug_Rangier fstr -> FstrZugRangierExtensions
+				.isBelongToControlArea(fstr, area);
+		case final Fla_Schutz fla -> FlaSchutzExtensions
+				.isBelongToControlArea(fla, area);
+		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
+				.isBelongToControlArea(fla, area);
+		case final Gleis_Bezeichnung description -> BereichObjektExtensions
+				.intersects(area, description);
+		case final NB_Zone nbZone -> NbZoneExtensions
+				.isBelongToControlArea(nbZone, area);
+		case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
+				.isBelongToControlArea(uebertrangsweg, area);
+		case final Bedien_Bezirk bedienBezirk -> BedienBezirkExtensions
+				.isBelongToControlArea(bedienBezirk, area);
+		case final Bedien_Zentrale controlCenter -> BedienZentraleExtensions
+				.isBelongToControlArea(controlCenter, area);
+		case final ZN_ZBS znZBS -> isInControlArea(area,
+				getNullableObject(znZBS,
+						ele -> ele.getIDESTWZentraleinheit().getValue())
+								.orElse(null));
+		case final Stellelement stellelement -> StellelementExtensions
+				.isBelongToControlArea(stellelement, area);
+		case final Block_Element blockElement -> BlockElementExtensions
+				.isBelongToControlArea(blockElement, area);
+		case final BUE_Kante bueKante -> BereichObjektExtensions
+				.intersects(area, bueKante);
+
+		case final BUE_Anlage bueAnlage -> BereichObjektExtensions
+				.intersects(area, bueAnlage);
+
+		default -> throw new IllegalArgumentException();
+		};
 	}
 }

@@ -29,8 +29,12 @@ import org.slf4j.LoggerFactory
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.apache.commons.lang3.Range
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Extensions for {@link Bereich_Objekt}.
@@ -40,6 +44,57 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	static final Logger logger = LoggerFactory.getLogger(
 		typeof(BereichObjektExtensions)
 	);
+	
+	private static class TopArea {
+		new(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+			topGUID = tb?.IDTOPKante?.wert
+
+			if (tb?.begrenzungA?.wert <= tb?.begrenzungB?.wert) {
+				start = tb?.begrenzungA?.wert
+				end = tb?.begrenzungB?.wert
+			} else {
+				end = tb?.begrenzungA?.wert
+				start = tb?.begrenzungB?.wert
+			}
+
+		}
+
+		def BigDecimal length() {
+			return end - start
+		}
+
+		def BigDecimal getOverlappingLength(TopArea other) {
+			if (topGUID != other.topGUID)
+				return BigDecimal.ZERO
+
+			// Find the point where either area ends
+			val end = this.end.min(other.end)
+
+			// Determine whether this or other starts first
+			if (this.start < other.start) {
+				// This area starts first
+				// If this area ends before the other area begins, the length is zero
+				if (this.end <= other.start) {
+					return BigDecimal.ZERO
+				}
+
+				// Otherwise the length is the distance from the start of the other area to either area end 
+				return end - other.start
+			} else {
+				// other area starts first
+				// If B ends before A begins, the length is zero
+				if (other.end <= this.start) {
+					return BigDecimal.ZERO
+				}
+				// Otherwise the length is the distance from the start of this area to either area end 
+				return end - this.start
+			}
+		}
+
+		String topGUID
+		BigDecimal start
+		BigDecimal end
+	}
 
 	/**
 	 * Returns an directed edge path of this linear Bereich Objekt.
@@ -394,7 +449,27 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			object.singlePoints.exists [
 				bo.contains(it)
 			]
-
+		]
+	}
+	
+		/**
+	 * @param bereich this Bereichsobjekt
+	 * @param object the object
+	 * 
+	 * @returns whether this Bereichsobjekt contains the given object
+	 */
+	def static boolean contains(
+		Bereich_Objekt bereich,
+		Punkt_Objekt object,
+		double tolerance
+	) {
+		if (tolerance == 1) {
+			return bereich.contains(object)
+		}
+		return bereich.bereichObjektTeilbereich.exists [ bo |
+			object.singlePoints.exists [
+				bo.contains(it, tolerance)
+			]
 		]
 	}
 
@@ -408,8 +483,21 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Bereich_Objekt bereich,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
+		return bereich.bereichObjektTeilbereich.exists[contains(singlePoint)]
+	}
+
+	/**
+	 * @param bereich this Bereichsobjekt
+	 * @param singlePoint the single point
+	 * @param tolerant the tolerant distance
+	 * 
+	 * @returns whether this Bereichsobjekt contains the given 
+	 * 			single point with tolerant distance
+	 */
+	def static boolean contains(Bereich_Objekt bereich,
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, double tolerant) {
 		return bereich.bereichObjektTeilbereich.exists [
-			contains(singlePoint)
+			contains(singlePoint, tolerant)
 		]
 	}
 
@@ -441,6 +529,81 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 
 		return false
+	}
+
+	/**
+	 * @param teilbereich the Teilbereich
+	 * @param singlePoint the single point
+	 * @param tolerant the tolerant distance
+	 * 
+	 * @returns whether this teilbereich contains the given 
+	 * 			single point with tolerant distance
+	 */
+	def static boolean contains(
+		Bereich_Objekt_Teilbereich_AttributeGroup teilbereich,
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
+		double tolerant
+	) {
+		val teilBereichTopKante = teilbereich.IDTOPKante?.value
+		// The point should lie on the TOP_Kante of teilbereich 
+		// or the connect TOP_Kanten of this TOP_Kante
+		if (teilBereichTopKante.adjacentTopKanten.forall [
+			it !== singlePoint.topKante
+		]) {
+			return false;
+		}
+		val isContains = teilbereich.contains(singlePoint)
+		// When the point lie within teibereich
+		if (isContains) {
+			return true;
+		}
+		val clone = EcoreUtil.copy(teilbereich)
+
+		val A = teilbereich.begrenzungA.wert.doubleValue
+		val B = teilbereich.begrenzungB.wert.doubleValue
+		val topKanteRange = Range.of(0.0, teilBereichTopKante.laenge)
+		val sameTopKante = teilbereich.IDTOPKante?.wert ==
+			singlePoint.IDTOPKante?.wert
+		if (sameTopKante) {
+			if (A === 0 && B === teilBereichTopKante.laenge) {
+				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
+			}
+
+			clone.begrenzungA.wert = BigDecimal.valueOf(
+				topKanteRange.isStartedBy(A)
+					? A
+					: topKanteRange.fit(A - tolerant))
+			clone.begrenzungB.wert = BigDecimal.valueOf(
+				topKanteRange.isEndedBy(B) ? B : topKanteRange.fit(A +
+					tolerant))
+			return clone.contains(singlePoint)
+		}
+
+		// When the point and the teilbereich not in same TopKante,
+		// then the teilbereich with tolerant muss out of topkante range
+		if (topKanteRange.contains(A - tolerant) &&
+			topKanteRange.contains(B + tolerant)) {
+			return false
+		}
+		val tolerantDistanceFromA = topKanteRange.
+				isStartedBy(A) ? tolerant : tolerant - A
+		val tolerantDistanceFromB = topKanteRange.
+				isEndedBy(B) ? tolerant : (tolerant + B) - topKanteRange.maximum
+		return teilbereich.containsWithinTolerant(singlePoint,
+			teilBereichTopKante.TOPKnotenA, tolerantDistanceFromA) ||
+			teilbereich.containsWithinTolerant(singlePoint,
+				teilBereichTopKante.TOPKnotenB, tolerantDistanceFromB)
+	}
+
+	private def static boolean containsWithinTolerant(
+		Bereich_Objekt_Teilbereich_AttributeGroup botb,
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, TOP_Knoten topKnote,
+		double tolerant) {
+		val targetTopKante = topKnote.topKanten.findFirst [
+			it !== botb.topKante && it === singlePoint.IDTOPKante?.value
+		]
+		return targetTopKante !== null &&
+			targetTopKante.getAbstand(topKnote, singlePoint) <= tolerant
 	}
 
 	/**
@@ -641,56 +804,20 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 		return areas
 	}
-
-	private static class TopArea {
-		new(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
-			topGUID = tb?.IDTOPKante?.wert
-
-			if (tb?.begrenzungA?.wert <= tb?.begrenzungB?.wert) {
-				start = tb?.begrenzungA?.wert
-				end = tb?.begrenzungB?.wert
-			} else {
-				end = tb?.begrenzungA?.wert
-				start = tb?.begrenzungB?.wert
-			}
-
-		}
-
-		def BigDecimal length() {
-			return end - start
-		}
-
-		def BigDecimal getOverlappingLength(TopArea other) {
-			if (topGUID != other.topGUID)
-				return BigDecimal.ZERO
-
-			// Find the point where either area ends
-			val end = this.end.min(other.end)
-
-			// Determine whether this or other starts first
-			if (this.start < other.start) {
-				// This area starts first
-				// If this area ends before the other area begins, the length is zero
-				if (this.end <= other.start) {
-					return BigDecimal.ZERO
-				}
-
-				// Otherwise the length is the distance from the start of the other area to either area end 
-				return end - other.start
-			} else {
-				// other area starts first
-				// If B ends before A begins, the length is zero
-				if (other.end <= this.start) {
-					return BigDecimal.ZERO
-				}
-				// Otherwise the length is the distance from the start of this area to either area end 
-				return end - this.start
-			}
-		}
-
-		String topGUID
-		BigDecimal start
-		BigDecimal end
+	
+	/**
+	 * @param bo this Bereich_Objekt
+	 * 
+	 * @return the control area, which the most overlap with the area
+	 */
+	def static Stell_Bereich getMostOverlapControlArea(Bereich_Objekt bo) {
+		val areas = bo.container.stellBereich
+		return areas.max[first, second |
+			val firstDistance = bo.getOverlappingLength(first)
+			val secondDistance =  bo.getOverlappingLength(second)
+			return firstDistance.compareTo(secondDistance)
+		]
 	}
+
 
 }

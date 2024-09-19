@@ -11,6 +11,9 @@ package org.eclipse.set.ppmodel.extensions
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+
+import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
 
 /**
  * Extensions for {@link Fla_Zwieschutz}.
@@ -60,5 +63,10 @@ class FlaZwieschutzExtensions extends BasisObjektExtensions {
 	 */
 	def static boolean hasFlaSchutzR(Fla_Zwieschutz zwieschutz) {
 		return zwieschutz.flaSchutzR !== null
+	}
+	
+	def static boolean isBelongToControlArea(Fla_Zwieschutz zwieschutz, Stell_Bereich area) {
+		return zwieschutz.zwieschutzweiche?.IDStellelement?.value.
+			isBelongToControlArea(area)
 	}
 }

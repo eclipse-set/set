@@ -8,8 +8,11 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort
+
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /** 
  * Extensions for {@link Bedien_Standort}.
@@ -23,7 +26,15 @@ class BedienStandortExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the Unterbringung this Technikstandort is installed in
 	 */
-	static def Unterbringung getUnterbringung(Bedien_Standort standort) {
+	def static Unterbringung getUnterbringung(Bedien_Standort standort) {
 		return standort?.IDUnterbringung?.value
+	}
+
+	def static boolean isBelongToControlArea(Bedien_Standort standort,
+		Stell_Bereich controlArea) {
+		return controlArea.technikStandorts.
+			flatMap[IDBedienStandort.map[value]].filterNull.exists [
+				it === standort
+			]
 	}
 }

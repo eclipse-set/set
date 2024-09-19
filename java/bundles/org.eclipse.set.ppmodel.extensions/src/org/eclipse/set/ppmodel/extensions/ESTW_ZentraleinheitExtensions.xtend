@@ -14,6 +14,10 @@ import java.util.List
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Platz
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Technik_Standort
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 
 /**
  * Extensions for {@link ESTW_Zentraleinheit}.
@@ -39,8 +43,7 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 
 		return estw_zentraleinheit.container.bedienPlatz.filter [ b |
-			b.IDESTWZentraleinheit?.wert ==
-				estw_zentraleinheit.identitaet.wert
+			b.IDESTWZentraleinheit?.wert == estw_zentraleinheit.identitaet.wert
 		].toList;
 	}
 
@@ -72,8 +75,15 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 	def static List<Technik_Standort> getTechnikStandort(
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 		return estw_zentraleinheit.container.technikStandort.filter [
-			IDUnterbringung?.value === estw_zentraleinheit.IDUnterbringung?.value
+			IDUnterbringung?.value ===
+				estw_zentraleinheit.IDUnterbringung?.value
 		].toList
+	}
+
+	def static boolean isBelongToControlArea(
+		ESTW_Zentraleinheit estw_zentraleinheit, Stell_Bereich area) {
+		val estwZentrals = area?.aussenElementAnsteuerung?.ESTWZentraleinheits
+		return estwZentrals.exists[it === estw_zentraleinheit];
 	}
 
 }

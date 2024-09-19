@@ -8,16 +8,20 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.LinkedList
+import java.util.List
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Aneinander_Zuordnung
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Signale.Signal
-import java.util.LinkedList
-import java.util.List
 
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * This class extends {@link Fstr_Aneinander}.
@@ -105,8 +109,8 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 			if (!zuordnungen?.map [
 				fstrZugRangier?.fstrFahrweg?.IDStart?.value?.identitaet?.wert
 			].contains(
-				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDZiel?.value?.identitaet?.
-					wert)) {
+				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDZiel?.value?.
+					identitaet?.wert)) {
 				return zuordnung
 			}
 		}
@@ -126,11 +130,24 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 			if (!zuordnungen.map [
 				fstrZugRangier?.fstrFahrweg?.IDZiel?.value?.identitaet?.wert
 			].contains(
-				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDStart?.value?.identitaet?.
-					wert)) {
+				zuordnung?.fstrZugRangier?.fstrFahrweg?.IDStart?.value?.
+					identitaet?.wert)) {
 				return zuordnung
 			}
 		}
 		return null;
+	}
+
+	def static boolean isBelongToControlArea(Fstr_Aneinander fstrAneinander,
+		Stell_Bereich controlArea) {
+		val areaStellelements = controlArea.aussenElementAnsteuerung.
+			stellelements
+		val fstrFarhwegs = fstrAneinander.container.fstrFahrweg.filter [ fstr |
+			areaStellelements.exists[fstr?.IDStart?.value?.stellelement === it]
+		]
+		return fstrAneinander.zuordnungen.map[fstrZugRangier].map[fstrFahrweg].
+			exists [ fstr |
+				fstrFarhwegs.forall[IDZiel?.wert !== fstr?.IDStart?.wert]
+			]
 	}
 }

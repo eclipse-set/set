@@ -15,6 +15,9 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
  * Extensions for {@link Aussenelementansteuerung}.
@@ -36,7 +39,7 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the Aussenelementansteuerung information sekundaer
 	 */
-	def static List<Aussenelementansteuerung> getAussenelementansteuerungInformationSekundaer(
+	def static List<Aussenelementansteuerung> getInformationSekundaer(
 		Aussenelementansteuerung aussenelementansteuerung
 	) {
 		return aussenelementansteuerung.IDInformationSekundaer?.map[value]?.
@@ -48,10 +51,29 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the Aussenelementansteuerung information primaer
 	 */
-	def static Basis_Objekt getAussenelementansteuerungEnergiePrimaer(
+	def static Basis_Objekt getEnergiePrimaer(
 		Aussenelementansteuerung aussenelementansteuerung) {
-		return aussenelementansteuerung.AEAEnergieversorgung.IDEnergiePrimaer?.
-			value
+		return aussenelementansteuerung?.AEAEnergieversorgung?.
+			IDEnergiePrimaer?.value
+	}
+
+	def static List<Basis_Objekt> getInformationPrimaer(
+		Aussenelementansteuerung aussenelementansteuerung) {
+		return aussenelementansteuerung?.IDInformationPrimaer?.map[value].
+			filterNull.toList
+	}
+
+	def static List<ESTW_Zentraleinheit> getESTWZentraleinheits(
+		Aussenelementansteuerung aussenelementansteuerung) {
+		val result = #[]
+		val energiePrimaer = aussenelementansteuerung.energiePrimaer
+		if (energiePrimaer instanceof ESTW_Zentraleinheit) {
+			result.add(energiePrimaer)
+		}
+		result.addAll(
+			aussenelementansteuerung.informationPrimaer.filter(
+				ESTW_Zentraleinheit).toList)
+		return result
 	}
 
 	/**
@@ -84,5 +106,9 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 			IDInformation.value === aussenelementansteuerung ||
 				IDEnergie.value === aussenelementansteuerung
 		]
+	}
+	
+	def static boolean isBelongToControlArea(Aussenelementansteuerung aussenElement, Stell_Bereich area) {
+		return area.aussenElementAnsteuerung == aussenElement;
 	}
 }

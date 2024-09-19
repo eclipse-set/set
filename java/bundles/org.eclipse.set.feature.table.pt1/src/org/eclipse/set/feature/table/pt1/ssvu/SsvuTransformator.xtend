@@ -54,17 +54,17 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		this.factory = factory
 		this.container = container
-		return container.transform
+		return container.transform(controlArea)
 	}
 
 	private def Table create factory.table transform(
-		MultiContainer_AttributeGroup container) {
-		container.uebertragungsweg.filter[isPlanningObject].forEach [ it |
-			if (Thread.currentThread.interrupted) {
-				return
-			}
-			it.transform
-		]
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		container.uebertragungsweg.filter[isPlanningObject].filterObjectsInControlArea(controlArea).forEach [ it |
+				if (Thread.currentThread.interrupted) {
+					return
+				}
+				it.transform
+			]
 		return
 	}
 
@@ -205,10 +205,11 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 		TableRow row) {
 		val technikBeschreibung = uebertragungsweg?.uebertragungswegTechnik?.
 			technikBeschreibung?.wert
-		
+
 		fillFootnotes(row, uebertragungsweg)
-		val comments = newLinkedList(technikBeschreibung).filterNull.
-			filter[!empty]
+		val comments = newLinkedList(technikBeschreibung).filterNull.filter [
+			!empty
+		]
 		return '''«FOR comment : comments SEPARATOR ", "»«comment»«ENDFOR»'''
 	}
 

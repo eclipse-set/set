@@ -22,6 +22,7 @@ import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssko.SskoColumns.*
 
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrAbhaengigkeitExtensions.*
@@ -29,6 +30,8 @@ import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensi
 import static extension org.eclipse.set.ppmodel.extensions.SchlossExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchlosskombinationExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SchluesselsperreExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.SchluesselExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
@@ -46,7 +49,9 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		for (Schloss schloss : container.schloss.filter[isPlanningObject]) {
+		for (Schloss schloss : container.getObjectInControlArea(controlArea).filter [
+			isPlanningObject
+		]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -385,5 +390,41 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 	) {
 		val fstrFahrweg = fstrZugRangier?.fstrFahrweg
 		return '''«fstrFahrweg?.start?.bezeichnung?.bezeichnungTabelle?.wert»/«fstrFahrweg?.zielSignal?.bezeichnung?.bezeichnungTabelle?.wert»'''
+	}
+
+	private def Iterable<Schloss> getObjectInControlArea(
+		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
+		val result = newHashSet
+		// 1. Condition
+		// IMPROVE: Not completely, because the requirements for this case aren't clear
+		val stellelements = controlArea.aussenElementAnsteuerung.
+			informationSekundaer.filterNull.flatMap[stellelements]
+		val ssp = container.schluesselsperre.filter [ ssp |
+			stellelements.exists[it === ssp.IDStellelement.value]
+		]
+		val schluessels = container.schloss.filter [ schloss |
+			ssp.exists[it === schloss.schlossSsp.IDSchluesselsperre.value]
+		].map[schluesel].filterNull
+		result.addAll(schluessels.flatMap[schloesser])
+		
+		// 2.Condition
+		result.filter[schlossSk?.hauptschloss.wert].flatMap [ schloss |
+			schloss.schlossSk.IDSchlosskombination?.value.schloesser.filter [
+				it.schlossSk !== null && !it.schlossSk.hauptschloss.wert
+			]
+		].filterNull.map[schluesel].flatMap[schloesser].forEach[result.add(it)]
+
+		// 3. Condition
+		container.schloss.filter [ schloss |
+			controlArea.wkrGspElement.exists [ gspElement |
+				schloss.schlossW?.IDWKrElement?.value === gspElement ||
+					schloss.schlossGsp?.IDGspElement?.value === gspElement ||
+					schloss.schlossSonderanlage?.IDSonderanlage?.value ==
+						gspElement
+			]
+		].map[schluesel].flatMap[schloesser].toSet.filter [
+			technischBerechtigter?.wert
+		].forEach[result.add(it)]
+		return result
 	}
 }

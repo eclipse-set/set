@@ -8,12 +8,14 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
+import java.util.List
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Anzeige_Element
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
-import java.util.List
 
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 /**
  * Extensions for {@link Bedien_Einrichtung_Oertlich}.
  * 
@@ -48,5 +50,10 @@ class BedienEinrichtungOertlichExtensions extends BasisObjektExtensions {
 		Bedien_Einrichtung_Oertlich einrichtung
 	) {
 		return einrichtung?.IDAussenelementansteuerung?.value
+	}
+	
+	static def boolean isBelongToControlArea(Bedien_Einrichtung_Oertlich bedienEinrichtung, Stell_Bereich area) {
+		return area?.aussenElementAnsteuerung ===
+			bedienEinrichtung.IDAussenelementansteuerung?.value
 	}
 }

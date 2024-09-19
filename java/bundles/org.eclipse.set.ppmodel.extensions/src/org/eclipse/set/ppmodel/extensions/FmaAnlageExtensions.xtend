@@ -19,6 +19,9 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import java.math.BigDecimal
 
 /**
  * Diese Klasse erweitert {@link FMA_Anlage}.
@@ -62,7 +65,8 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 	 * @returns the table name of this FMA Anlage
 	 */
 	def static String getTableName(FMA_Anlage anlage) {
-		val name = anlage.IDGleisAbschnitt?.value.bezeichnung.bezeichnungTabelle.wert
+		val name = anlage.IDGleisAbschnitt?.value.bezeichnung.
+			bezeichnungTabelle.wert
 		var kaskadeBez = anlage?.FMAAnlageKaskade?.FMAKaskadeBezeichnung?.wert
 		if (kaskadeBez === null) {
 			kaskadeBez = ""
@@ -110,5 +114,14 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 		return anlage.container.gleisSchaltgruppe.filter [
 			intersectsStrictly(gleisabschnitt)
 		].toList
+	}
+
+	def static boolean isBelongToControlArea(FMA_Anlage anlage,
+		Stell_Bereich area) {
+		val gleisAbschnitt = anlage?.IDGleisAbschnitt?.value
+		val overlappingDistance = gleisAbschnitt.getOverlappingDistance(
+			area.bereichObjektTeilbereich)
+		return area.length.divide(BigDecimal.TWO).compareTo(
+			overlappingDistance) < 0
 	}
 }
