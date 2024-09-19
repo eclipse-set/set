@@ -8,11 +8,17 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import com.google.common.collect.Range
 import java.util.List
+import java.util.Optional
 import org.eclipse.set.basis.graph.DirectedEdge
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
@@ -20,10 +26,12 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Ra12
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.locationtech.jts.geom.Coordinate
 
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 
 /**
  * This class extends {@link Punkt_Objekt}.
@@ -137,8 +145,7 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 	 */
 	def static Coordinate getCoordinate(Punkt_Objekt punktObjekt) {
 		// we ignore all coordinates but the first
-		return punktObjekt.singlePoints.get(0).coordinate.
-			getCoordinate
+		return punktObjekt.singlePoints.get(0).coordinate.getCoordinate
 	}
 
 	/**
@@ -159,4 +166,56 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		}
 		return point.getCoordinate(direction).getEffectiveRotation
 	}
+
+	def static List<Strecke> getStrecken(Punkt_Objekt po) {
+		return po.punktObjektStrecke.map[IDStrecke?.value].filterNull.toList
+	}
+
+	def static Optional<Range<Double>> distanceToBereichObjekt(Punkt_Objekt po,
+		Bereich_Objekt bo) {
+		return distanceToBereichObjekt(po, bo, Optional.empty)
+	}
+
+	def static Optional<Range<Double>> distanceToBereichObjekt(Punkt_Objekt po,
+		Bereich_Objekt bo, boolean inDirection) {
+		return distanceToBereichObjekt(po, bo,
+			Optional.of(Boolean.valueOf(inDirection)))
+	}
+
+	private def static Optional<Range<Double>> distanceToBereichObjekt(
+		Punkt_Objekt po, Bereich_Objekt bo, Optional<Boolean> inDirection) {
+		if (bo.contains(po)) {
+			return Optional.of(Range.singleton(0.0))
+		}
+		val poTopPoint = new TopPoint(po)
+		val boTopPoints = bo.toTopPoints.flatten
+		val doubleValues = boTopPoints.map [ point |
+			inDirection.isEmpty
+				? Services.topGraphService.
+				findShortestDistance(poTopPoint, point)
+				: Services.topGraphService.
+				findShortestDistanceInDirection(poTopPoint, point,
+					inDirection.get.booleanValue)
+		].filter[isPresent].map[get.doubleValue]
+		if (doubleValues.isNullOrEmpty) {
+			return Optional.empty
+		}
+		return Optional.of(Range.closed(doubleValues.min, doubleValues.max))
+	}
+	
+	def static Range<Double> distanceToTeilBereichObjekt(Punkt_Objekt po, Bereich_Objekt_Teilbereich_AttributeGroup botb) {
+		if (botb.contains(po.singlePoint)) {
+			return Range.singleton(0.0);
+		}
+		val poTopPoint = new TopPoint(po)
+		val distances = botb.toTopPoints.map[
+			Services.topGraphService.findShortestDistance(poTopPoint, it)
+		].filter[isPresent].map[get.doubleValue]
+		
+		if (distances.isNullOrEmpty) {
+			return null
+		}
+		return Range.closed(distances.min, distances.max)
+	}
+
 }

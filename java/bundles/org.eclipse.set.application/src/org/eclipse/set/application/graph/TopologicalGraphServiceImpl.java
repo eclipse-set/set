@@ -22,6 +22,7 @@ import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.PlanPro.PlanPro_Schnittstelle;
@@ -53,6 +54,13 @@ public class TopologicalGraphServiceImpl
 
 	@Reference
 	EventAdmin eventAdmin;
+
+	/**
+	 * The default constructor
+	 */
+	public TopologicalGraphServiceImpl() {
+		Services.setTopGraphService(this);
+	}
 
 	@Override
 	public void handleEvent(final Event event) {

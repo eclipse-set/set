@@ -89,24 +89,20 @@ public class StellBereichExtensions {
 		if (area == null) {
 			return null;
 		}
-		final String oertlichkeitBezeichnung = EObjectExtensions
-				.getNullableObject(area, e -> {
-					final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
-							e);
-					final Oertlichkeit oertlichkeit = AussenelementansteuerungExtensions
-							.getOertlichkeitNamensgebend(
-									aussenElementAnsteuerung);
-					return oertlichkeit.getBezeichnung()
-							.getOertlichkeitKurzname().getWert();
-				}).orElse(null);
+		final String oertlichkeitBezeichnung = getNullableObject(area, e -> {
+			final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
+					e);
+			final Oertlichkeit oertlichkeit = AussenelementansteuerungExtensions
+					.getOertlichkeitNamensgebend(aussenElementAnsteuerung);
+			return oertlichkeit.getBezeichnung().getOertlichkeitKurzname()
+					.getWert();
+		}).orElse(null);
 
 		if (oertlichkeitBezeichnung != null) {
 			return oertlichkeitBezeichnung;
 		}
-		final String areaBezeichnung = EObjectExtensions
-				.getNullableObject(area,
-						e -> e.getBezeichnungStellwerk().getWert())
-				.orElse(null);
+		final String areaBezeichnung = getNullableObject(area,
+				e -> e.getBezeichnungStellwerk().getWert()).orElse(null);
 
 		if (areaBezeichnung != null && !areaBezeichnung.isBlank()
 				&& !areaBezeichnung.isEmpty()) {
@@ -237,10 +233,8 @@ public class StellBereichExtensions {
 				.isBelongToControlArea(blockElement, area);
 		case final BUE_Kante bueKante -> BereichObjektExtensions
 				.intersects(area, bueKante);
-
 		case final BUE_Anlage bueAnlage -> BereichObjektExtensions
 				.intersects(area, bueAnlage);
-
 		default -> throw new IllegalArgumentException();
 		};
 	}

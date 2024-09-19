@@ -12,6 +12,7 @@ import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.siteplan.SiteplanService;
 import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
@@ -29,6 +30,8 @@ public class Services {
 	private static GeoKanteGeometryService geometryService;
 	private static SiteplanService siteplanService;
 	private static UserConfigurationService userConfigurationService;
+
+	private static TopologicalGraphService topGraphService;
 
 	/**
 	 * @return the siteplan service
@@ -146,5 +149,21 @@ public class Services {
 	public static void setUserConfigurationService(
 			final UserConfigurationService userConfigurationService) {
 		Services.userConfigurationService = userConfigurationService;
+	}
+
+	/**
+	 * @return the {@link TopologicalGraphService}
+	 */
+	public static TopologicalGraphService getTopGraphService() {
+		return topGraphService;
+	}
+
+	/**
+	 * @param topGraphService
+	 *            the instance of {@link TopologicalGraphService}
+	 */
+	public static void setTopGraphService(
+			final TopologicalGraphService topGraphService) {
+		Services.topGraphService = topGraphService;
 	}
 }

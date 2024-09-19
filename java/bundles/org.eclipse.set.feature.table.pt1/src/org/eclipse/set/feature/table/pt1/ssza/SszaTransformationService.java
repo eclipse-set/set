@@ -10,13 +10,21 @@
  */
 package org.eclipse.set.feature.table.pt1.ssza;
 
+import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*;
+
+import java.util.List;
+import java.util.Objects;
+
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.tablemodel.ColumnDescriptor;
+import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.ColumnDescriptorModelBuilder;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -63,6 +71,24 @@ public final class SszaTransformationService
 	@Override
 	protected String getTableHeading() {
 		return messages.SszaTableView_Heading;
+	}
+
+	@Override
+	public ColumnDescriptor fillHeaderDescriptions(
+			final ColumnDescriptorModelBuilder builder) {
+		final ColumnDescriptor cd = super.fillHeaderDescriptions(builder);
+		// Merge all columns except E to I
+		cd.setMergeCommonValues(RowMergeMode.ENABLED);
+		final List<String> notMergeColumns = List.of(Datenpunkt_Typ,
+				Bezugspunkt_Bezeichnung, Bezugspunkt_Standort_Strecke,
+				Bezugspunkt_Standort_km, DP_Standort_rel_Lage_zu_BP);
+
+		cols.stream()
+				.filter(col -> notMergeColumns.stream().anyMatch(
+						ele -> Objects.equals(ele, col.getColumnPosition())))
+				.forEach(
+						col -> col.setMergeCommonValues(RowMergeMode.DISABLED));
+		return cd;
 	}
 
 }

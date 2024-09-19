@@ -15,12 +15,15 @@ import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
+
+import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 
@@ -156,5 +159,39 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 		val secondCoordinate = topKante.getCoordinate(abstand, 1, wirkrichtung)
 
 		return firstCoordinate -> secondCoordinate
+	}
+	
+	def static boolean isWirkrichtungTopDirection(
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {
+		val wirkrichtung = singlePoint?.wirkrichtung?.wert
+
+		if (wirkrichtung !== null &&
+			(wirkrichtung === ENUM_WIRKRICHTUNG_GEGEN ||
+				wirkrichtung === ENUM_WIRKRICHTUNG_IN)) {
+			return wirkrichtung === ENUM_WIRKRICHTUNG_IN
+		}
+
+		val seitlicheLage = singlePoint?.seitlicheLage?.wert
+		switch seitlicheLage {
+			case ENUM_LINKS_RECHTS_LINKS:
+				return false
+			case ENUM_LINKS_RECHTS_RECHTS:
+				return true
+			default:
+				throw new UnsupportedOperationException(
+				'''POTK: «singlePoint.identitaet» has no wirkrichtung''')
+		}
+	}
+
+	def static boolean isBelongToBereichObjekt(
+		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, Bereich_Objekt bo) {
+		return bo.bereichObjektTeilbereich.exists [ botb |
+			val limitA = (botb.begrenzungA?.wert ?: 0).doubleValue
+			val limitB = (botb.begrenzungB?.wert ?: 0).doubleValue
+			val position = (singlePoint?.abstand?.wert ?: 0).doubleValue
+			return limitA < position && position < limitB ||
+				limitB < position && position < limitA
+
+		]
 	}
 }

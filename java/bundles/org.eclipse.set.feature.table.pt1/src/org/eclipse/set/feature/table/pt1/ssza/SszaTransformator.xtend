@@ -11,9 +11,12 @@
 package org.eclipse.set.feature.table.pt1.ssza
 
 import java.util.Set
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Einschaltung
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante
@@ -23,6 +26,8 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ZUB_Streckeneigenschaft
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
+import org.eclipse.set.model.planpro.Geodaten.Strecke
+import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
@@ -39,8 +44,12 @@ import static org.eclipse.set.feature.table.pt1.sskp.SskpTransformator.*
 import static org.eclipse.set.feature.table.pt1.ssza.SszaColumns.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 
 /**
  * Table transformation for Datenpunkttabelle (Ssza).
@@ -122,10 +131,11 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Datenpunkt_Anzahl_Balisen),
 			datenpunkt,
 			[
-				val counts = container.balise.
-					filter[IDDatenpunkt?.value === it].map [
-						baliseAllg?.anordnungImDP?.wert
-					].filterNull
+				val counts = container.balise.filter [ bal |
+					bal.IDDatenpunkt?.value === it
+				].map [
+					baliseAllg?.anordnungImDP?.wert
+				].filterNull
 				if (counts.empty)
 					return ""
 
@@ -152,7 +162,13 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezugspunktCase(
 				BUE_Kante,
 				[
-					'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert», Gl. TODO''' // TODO
+					val bos = container.bereichObjekt
+					val relevantBereichs = bos.filter[bo|bo.contains(it)].
+						filter(Gleis_Bezeichnung).toList
+					val tracksDesignation = relevantBereichs.filterNull.map [
+						bezeichnung?.bezGleisBezeichnung?.wert
+					]
+					'''BÜ-K «IDBUEAnlage?.value?.bezeichnung?.bezeichnungTabelle?.wert», Gl. «tracksDesignation.join(", ")»'''
 				]
 			),
 			bezugspunktCase(
@@ -171,7 +187,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 		)
 
-		// Ssza.Bezugspunkt.Standort.Strecke
+		// G: Ssza.Bezugspunkt.Standort.Strecke
 		val getBezeichnungStrecke = [ Punkt_Objekt it |
 			punktObjektStrecke?.map [
 				IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert
@@ -208,10 +224,16 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 							FMA_Komponente:
 								return #[it]
 							FMA_Anlage: {
-								val fma = it
-								return container.FMAKomponente.filter [
-									IDFMAgrenze.contains(fma)
+								val nearestKomponent = fmaKomponenten.min [ first, second |
+									val dpCoor = datenpunkt.coordinate
+									val firstDistance = first.coordinate.
+										distance(dpCoor)
+									val secondDistance = second.coordinate.
+										distance(dpCoor)
+									return firstDistance.compareTo(
+										secondDistance)
 								]
+								return #[nearestKomponent]
 							}
 						}
 					].flatten.flatMap[getBezeichnungStrecke.apply(it)]
@@ -220,10 +242,13 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezugspunktCase(
 				ZUB_Streckeneigenschaft,
 				[
-					"TODO" // TODO
+					return datenpunkt.getNearestRoute(it)?.bezeichnung?.
+						bezeichnungStrecke?.wert ?: ""
 				]
 			)
 		)
+
+		// H: Ssza.Bezugspunkt.Standort.km
 		val getKMStrecke = [ Punkt_Objekt it |
 			punktObjektStrecke?.map [
 				streckeKm?.wert
@@ -258,8 +283,16 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 							FMA_Komponente:
 								return getKMStrecke.apply(it)
 							FMA_Anlage: {
-								// TODO
-								return null
+								val nearestKomponent = fmaKomponenten.min [ first, second |
+									val dpCoor = datenpunkt.coordinate
+									val firstDistance = first.coordinate.
+										distance(dpCoor)
+									val secondDistance = second.coordinate.
+										distance(dpCoor)
+									return firstDistance.compareTo(
+										secondDistance)
+								]
+								return getKMStrecke.apply(nearestKomponent)
 							}
 						}
 					].filterNull
@@ -268,51 +301,48 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezugspunktCase(
 				ZUB_Streckeneigenschaft,
 				[
-					"TODO" // TODO
+					// TODO
 				]
 			)
 		)
 
+		// J: Ssza.DP-Standort.Stellbereich
 		fillSwitch(
 			cols.getColumn(DP_Standort_Stellbereich),
 			dpBezug,
-			bezugspunktCase(
+			bezugspunktCaseIterable(
 				Markanter_Punkt,
-				[val ms = IDMarkanteStelle?.value fillDPStandortStellbereich(ms)]
+				[
+					fillDPStandortStellbereich(IDMarkanteStelle?.value)
+				]
 			),
-			bezugspunktCase(
-				#[BUE_Kante, PZB_Element, BUE_Anlage, PZB_Element], [
-					fillDPStandortStellbereich
-				]),
+			bezugspunktCaseIterable(#[BUE_Kante, PZB_Element, BUE_Anlage], [
+				fillDPStandortStellbereich
+			]),
 			bezugspunktCaseIterable(BUE_Einschaltung, [
 				val sue = schaltmittelZuordnung.map[IDSchalter?.value]?.
 					filterNull.toList
-
-				val pos = (sue.filter(Zugeinwirkung) +
-					sue.filter(FMA_Komponente)).map [
+				return sue.flatMap [
 					fillDPStandortStellbereich
 				]
-
-				// TODO: FMA_Anlage
-				return pos
 			]),
-			bezugspunktCase(
-				ZUB_Streckeneigenschaft,
-				["TODO"] // TODO
-			)
+			bezugspunktCase(ZUB_Streckeneigenschaft, [
+				mostOverlapControlArea?.stellbereichBezeichnung ?: ""
+			])
 		)
 
-		// Ssza.DP-Standort.ETCS-Gleiskante
+		// K: Ssza.DP-Standort.ETCS-Gleiskante
 		fill(
 			cols.getColumn(DP_Standort_ETCS_Gleiskante),
 			datenpunkt,
 			[
-				// TODO
-				return "TODO"
+				ETCSKanten.map [ edge |
+					edge?.bezeichnung.bezeichnungETCSKante?.wert
+				].join(ITERABLE_FILLING_SEPARATOR)
 			]
 		)
 
-		// Ssza.DP-Standort.Strecke
+		// L: Ssza.DP-Standort.Strecke
 		fillIterable(
 			cols.getColumn(DP_Standort_Strecke),
 			datenpunkt,
@@ -325,7 +355,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
-		// Ssza.DP-Standort.Km
+		// M: Ssza.DP-Standort.Km
 		fillIterable(
 			cols.getColumn(DP_Standort_Km),
 			datenpunkt,
@@ -336,30 +366,60 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			[it]
 		)
 
+		// I: Ssza.DP-Standort.rel_Lage_zu_BP
+		val dpCoordinate = datenpunkt.coordinate
 		fillSwitch(
 			cols.getColumn(DP_Standort_rel_Lage_zu_BP),
-			datenpunkt,
+			dpBezug,
 			bezugspunktCase(
-				#[BUE_Anlage, BUE_Kante, PZB_Element, ZUB_Streckeneigenschaft],
+				#[BUE_Anlage, BUE_Kante, PZB_Element],
 				[
-					"TODO" // TODO
+					coordinate.distance(dpCoordinate).toString
+				]
+			),
+			bezugspunktCase(
+				ZUB_Streckeneigenschaft,
+				[
+					val distanceRange = datenpunkt.distanceToBereichObjekt(it).
+						orElse(null)
+					if (distanceRange !== null) {
+						return distanceRange.lowerEndpoint.toString
+					}
 				]
 			),
 			bezugspunktCase(
 				BUE_Einschaltung,
 				[
-					"TODO" // TODO
+					container.schaltmittelZuordnung.filter [
+						IDAnforderung?.value === it
+					].map[IDSchalter.value].map [ schalter |
+						switch (schalter) {
+							FMA_Komponente,
+							Zugeinwirkung:
+								return schalter.coordinate.distance(
+									dpCoordinate)
+							FMA_Anlage:
+								return schalter.fmaKomponenten.map [
+									coordinate.distance(dpCoordinate)
+								].min
+						}
+					].filterNull.min.toString
 				]
 			),
 			bezugspunktCase(
 				Markanter_Punkt,
 				[
-					"TODO" // TODO
+					val ms = IDMarkanteStelle?.value
+					if (ms !== null && ms instanceof Punkt_Objekt) {
+						return (ms as Punkt_Objekt).coordinate.distance(
+							dpCoordinate).toString
+					}
+
 				]
 			)
 		)
 
-		// Ssza.rel_Lage_b_zu_a
+		// N: Ssza.rel_Lage_b_zu_a
 		fill(
 			cols.getColumn(rel_Lage_b_zu_a),
 			datenpunkt,
@@ -367,12 +427,16 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		// TODO: Note
 		)
 
-		// Ssza.Bemerkung
-		fill(
+		// O: Ssza.Bemerkung
+		fillConditional(
 			cols.getColumn(Bemerkung),
-			datenpunkt,
+			dpBezug,
 			[
-				"TODO" // TODO
+				ZUB_Streckeneigenschaft.isInstance(it) &&
+					(it as ZUB_Streckeneigenschaft).metallteil !== null
+			],
+			[
+				// TODO
 			]
 		)
 
@@ -446,7 +510,28 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def fillDPStandortStellbereich(Basis_Objekt b) {
-		return "TODO"
+		val result = newHashSet
+		switch (b) {
+			FMA_Anlage:
+				result.add(b.relevantAreaControl)
+			ZUB_Streckeneigenschaft:
+				result.add(b.mostOverlapControlArea)
+			default:
+				result.addAll(b.container.stellBereich.filter [
+					isInControlArea(b)
+				])
+		}
+		return result.map[stellbereichBezeichnung].filterNull
+	}
+
+	private def String getStellbereichBezeichnung(Stell_Bereich controlArea) {
+		val externalControl = controlArea?.IDAussenelementansteuerung?.value
+		if (externalControl === null) {
+			return null
+		}
+		return externalControl.IDOertlichkeitNamensgebend?.value.bezeichnung?.
+			oertlichkeitAbkuerzung?.wert ?:
+			externalControl.bezeichnung?.bezeichnungAEA?.wert
 	}
 
 	private def getSchaltmittelZuordnung(BUE_Einschaltung bue) {
@@ -457,6 +542,34 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				IDSchalter?.value instanceof FMA_Anlage ||
 				IDSchalter?.value instanceof FMA_Komponente
 		]
+	}
+
+	private def Strecke getNearestRoute(Datenpunkt dp,
+		ZUB_Streckeneigenschaft zub) {
+		val topGraphService = Services.topGraphService
+		val dpPoint = new TopPoint(dp)
+		// Find nearest area limit of ZUB_Streckeigenschaft
+		val distancesToDp = zub.bereichObjektTeilbereich.flatMap[toTopPoints].
+			map [
+				it ->
+					topGraphService.findShortestDistance(dpPoint, it).
+						orElse(null)
+			].filter[value !== null]
+		if (distancesToDp.isNullOrEmpty) {
+			return null
+		}
+		val nearestPoint = distancesToDp.minBy[value].key
+		// Find relevant route, which contain a area with same limit like nearest point 
+		val relevantStrecke = dp.container.strecke.findFirst [
+			bereichObjektTeilbereich.exists [ botb |
+				botb.topKante === nearestPoint.edge &&
+					(botb.begrenzungA.wert === nearestPoint.distance ||
+						botb.begrenzungB.wert === nearestPoint.distance
+					)
+			]
+		]
+
+		return relevantStrecke
 	}
 
 }

@@ -29,6 +29,7 @@ import static org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import java.util.Set
 
 /**
  * This class extends {@link GEO_Knoten}.
@@ -49,8 +50,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		GEO_Knoten knoten
 	) {
 		return knoten.container.GEOPunkt.filter [
-			IDGEOKnoten !== null &&
-				IDGEOKnoten?.wert == knoten.identitaet.wert
+			IDGEOKnoten !== null && IDGEOKnoten?.wert == knoten.identitaet.wert
 		].toList
 	}
 
@@ -100,8 +100,9 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		val crs = geoKnoten.geoPunkte.map [
 			GEOPunktAllg?.GEOKoordinatensystem?.wert
 		].toSet.uniqueOrNull
-		return crs !== null ? crs : ENUMGEOKoordinatensystem.
-			ENUMGEO_KOORDINATENSYSTEM_SONSTIGE
+		return crs !== null
+			? crs
+			: ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_SONSTIGE
 	}
 
 	def static GEO_Punkt getGeoPunkt(List<GEO_Punkt> geoPunkte,
@@ -249,6 +250,10 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 			kante.IDGEOKnotenA?.wert == geoKnoten.identitaet.wert ||
 				kante.IDGEOKnotenB?.wert == geoKnoten.identitaet.wert
 		]
+	}
+
+	def static Set<TOP_Kante> getTopKanten(GEO_Knoten geoKnoten) {
+		return geoKnoten.geoKanten.map[topKante].toSet
 	}
 
 }

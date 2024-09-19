@@ -124,4 +124,14 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 		return area.length.divide(BigDecimal.TWO).compareTo(
 			overlappingDistance) < 0
 	}
+
+	/**
+	 * @param analge this FMA Anlage
+	 * 
+	 * @return the control area, which the most with the track segment of FMA_Anlage overlaps
+	 */
+	def static Stell_Bereich getRelevantAreaControl(FMA_Anlage anlage) {
+		val gleisAbschnitt = anlage?.IDGleisAbschnitt?.value
+		return gleisAbschnitt.mostOverlapControlArea
+	}
 }

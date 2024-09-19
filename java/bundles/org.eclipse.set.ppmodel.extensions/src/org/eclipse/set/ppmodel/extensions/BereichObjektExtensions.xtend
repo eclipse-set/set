@@ -35,6 +35,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.apache.commons.lang3.Range
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Extensions for {@link Bereich_Objekt}.
@@ -818,6 +819,14 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			return firstDistance.compareTo(secondDistance)
 		]
 	}
-
-
+	
+	def static List<List<TopPoint>> toTopPoints(Bereich_Objekt bo) {
+		return bo.bereichObjektTeilbereich.map[toTopPoints]
+	}
+	
+	def static List<TopPoint> toTopPoints(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		return List.of(new TopPoint(tb.topKante, tb.begrenzungA.wert),
+			new TopPoint(tb.topKante, tb.begrenzungB.wert)
+		)
+	}
 }

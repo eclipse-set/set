@@ -57,29 +57,29 @@ public class SszaColumns {
 	public static final String Bezugspunkt_Standort_km = "H";
 
 	/**
+	 * Ssza.DP-Standort.rel_Lage_zu_BP
+	 */
+	public static final String DP_Standort_rel_Lage_zu_BP = "I";
+
+	/**
 	 * Ssza.DP-Standort.Stellbereich
 	 */
-	public static final String DP_Standort_Stellbereich = "I";
+	public static final String DP_Standort_Stellbereich = "J";
 
 	/**
 	 * Ssza.DP-Standort.ETCS-Gleiskante
 	 */
-	public static final String DP_Standort_ETCS_Gleiskante = "J";
+	public static final String DP_Standort_ETCS_Gleiskante = "K";
 
 	/**
 	 * Ssza.DP-Standort.Strecke
 	 */
-	public static final String DP_Standort_Strecke = "K";
+	public static final String DP_Standort_Strecke = "L";
 
 	/**
 	 * Ssza.DP-Standort.Km
 	 */
-	public static final String DP_Standort_Km = "L";
-
-	/**
-	 * Ssza.DP-Standort.rel_Lage_zu_BP
-	 */
-	public static final String DP_Standort_rel_Lage_zu_BP = "M";
+	public static final String DP_Standort_Km = "M";
 
 	/**
 	 * Ssza.rel_Lage_b_zu_a
