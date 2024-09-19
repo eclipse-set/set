@@ -66,11 +66,11 @@ class FmaKomponenteExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(FMA_Komponente fma,
 		Stell_Bereich area) {
-		val aussenElementAnsteuereungen = fma?.FMAKomponenteAchszaehlpunkt?.
+		val aussenElementAnsteuerungen = fma?.FMAKomponenteAchszaehlpunkt?.
 			IDInformation?.map[value]
 
-		return !aussenElementAnsteuereungen.nullOrEmpty &&
-			aussenElementAnsteuereungen.filterNull.exists [
+		return !aussenElementAnsteuerungen.nullOrEmpty &&
+			aussenElementAnsteuerungen.filterNull.exists [
 				area.aussenElementAnsteuerung !== null &&
 					it === area.aussenElementAnsteuerung
 			]
