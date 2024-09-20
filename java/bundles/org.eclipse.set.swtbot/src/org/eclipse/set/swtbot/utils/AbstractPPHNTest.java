@@ -9,6 +9,7 @@
 package org.eclipse.set.swtbot.utils;
 
 import static org.eclipse.set.swtbot.utils.SWTBotTestFile.PPHN;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -92,8 +93,12 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 				+ "_reference.csv";
 		final Builder csvBuilder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
 		csvBuilder.setDelimiter(";");
-		try (InputStream inputStream = getTestResourceClass().getClassLoader()
-				.getResourceAsStream(fileName);
+		final InputStream referenceResource = getTestResourceClass()
+				.getClassLoader().getResourceAsStream(fileName);
+		if (referenceResource == null) {
+			fail(String.format("Cannot find file: %s", fileName));
+		}
+		try (InputStream inputStream = referenceResource;
 				final Reader reader = new InputStreamReader(inputStream);
 				final CSVParser csvParser = new CSVParser(reader,
 						csvBuilder.build())) {
