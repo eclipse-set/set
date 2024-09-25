@@ -10,9 +10,14 @@
  */
 package org.eclipse.set.ppmodel.extensions;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente;
@@ -29,8 +34,8 @@ public class ETCSWKrExtensions extends BasisObjektExtensions {
 	 */
 	public static List<W_Kr_Gsp_Element> getWKrGspElements(
 			final ETCS_W_Kr etcsWKr) {
-		final W_Kr_Anlage refWKrAnlage = EObjectExtensions.getNullableObject(
-				etcsWKr, wkr -> wkr.getIDWKrAnlage().getValue()).orElse(null);
+		final W_Kr_Anlage refWKrAnlage = getNullableObject(etcsWKr,
+				wkr -> wkr.getIDWKrAnlage().getValue()).orElse(null);
 		if (refWKrAnlage == null) {
 			throw new IllegalArgumentException(
 					String.format("ETCS_W_KR: %s missing W_Kr_Anlage", //$NON-NLS-1$
@@ -51,5 +56,22 @@ public class ETCSWKrExtensions extends BasisObjektExtensions {
 				.flatMap(gspElement -> WKrGspElementExtensions
 						.getWKrGspKomponenten(gspElement).stream())
 				.toList();
+	}
+
+	/**
+	 * @param etcsWKr
+	 *            the {@link ETCS_W_Kr}
+	 * @return the list of {@link Punkt_Objekt_TOP_Kante_AttributeGroup}
+	 *         according to this {@link ETCS_W_Kr}
+	 */
+	public static List<Punkt_Objekt_TOP_Kante_AttributeGroup> getPunktsObjektTopKante(
+			final ETCS_W_Kr etcsWKr) {
+		final Optional<List<Punkt_Objekt_TOP_Kante_AttributeGroup>> potks = getNullableObject(
+				etcsWKr, ele -> ele.getIDETCSKnoten().getValue()
+						.getKnotenAufTOPKante().getPunktObjektTOPKante());
+		if (potks.isPresent()) {
+			return potks.get();
+		}
+		return Collections.emptyList();
 	}
 }

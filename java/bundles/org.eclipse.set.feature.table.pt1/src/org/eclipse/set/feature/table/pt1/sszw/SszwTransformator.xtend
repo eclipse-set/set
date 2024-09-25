@@ -28,9 +28,18 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.ETCSWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 
+/**
+ * Table transformation for ETCS Melde- und Kommandoschaltung Muka Weichen (Sszw)
+ * 
+ * @author truong
+ */
 class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory = null
 
@@ -81,7 +90,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			row,
 			cols.getColumn(Art),
 			refWKrAnlage,
-			[WKrAnlageAllg?.WKrArt?.wert.translate ?: ""]
+			[WKrAnlageArt.translate ?: ""]
 		)
 
 		// C: Sszw.W_Kr.Form
@@ -100,7 +109,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			etcsWkr,
 			[streckInfo?.key ?: ""]
 		)
-		
+
 		// E: Sszw.W_Kr.Standort.Km
 		fill(
 			row,
@@ -108,22 +117,51 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			etcsWkr,
 			[streckInfo?.value ?: ""]
 		)
-		
+
 		// F: Sszw.W_Kr.Laenge.li
 		fillSwitch(
 			row,
 			cols.getColumn(Laenge_links),
 			refWKrAnlage,
 			new Case<W_Kr_Anlage>(
-				[WKrAnlageArt === ENUMW_KR_ART_EW
-					
+				[
+					WKrAnlageArt === ENUMW_KR_ART_EW
+				// TODO
 				],
-				[]
+				[
+					// TODO
+				]
 			),
 			new Case<W_Kr_Anlage>(
-				[],
-				[]
+				[
+					val anlageArt = WKrAnlageArt
+					return (anlageArt === ENUMW_KR_ART_EKW ||
+						anlageArt === ENUMW_KR_ART_DKW) &&
+						WKrGspElemente.flatMap[WKrGspKomponenten].map [
+							zungenpaar?.kreuzungsgleis?.wert
+						].filterNull.exists [
+							it === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS
+						]
+				],
+				[
+					// TODO
+				]
 			)
+		)
+
+		// G: Sszw.Ansteuerung.ESTW_Zentraleinheit
+		// TODO
+		// H: Sszw.Ansteuerung.Stellbereich
+		fill(
+			row,
+			cols.getColumn(Stellbereich),
+			etcsWkr,
+			[
+				val constrolArea = stellbereich
+				val designation = constrolArea?.oertlichkeitBezeichnung ?:
+					constrolArea?.aussenelementansteuerungBezeichnungAEA
+				return designation ?: ""
+			]
 		)
 	}
 
@@ -138,15 +176,50 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				val gspKomponent = etcsWKr.WKrGspKomponents.firstOrNull
 				val strecke = gspKomponent?.punktObjektStrecke?.firstOrNull?.
 					IDStrecke?.value
-				val bezeichnung = strecke?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
-				val km = gspKomponent?.punktObjektStrecke?.firstOrNull.streckeKm?.wert
+				val bezeichnung = strecke?.bezeichnung?.bezeichnungStrecke?.
+					wert ?: ""
+				val km = gspKomponent?.punktObjektStrecke?.firstOrNull.
+					streckeKm?.wert
 				return bezeichnung -> km
 			}
 			case ENUMW_KR_ART_DKW,
 			case ENUMW_KR_ART_EKW,
 			case ENUMW_KR_ART_FLACHKREUZUNG,
 			case ENUMW_KR_ART_KR: {
-				// TODO
+				val potks = etcsWKr.punktsObjektTopKante
+				val strecke = etcsWKr.container.strecke.filter [ route |
+					potks.exists[potk|potk.isBelongToBereichObjekt(route)]
+				].filterNull.firstOrNull
+				// TODO: km
+				return strecke?.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
+					""
+			}
+			default:
+				return null
+		}
+	}
+
+	private def Stell_Bereich getStellbereich(ETCS_W_Kr etcsWKr) {
+		switch (etcsWKr.IDWKrAnlage?.value?.WKrAnlageArt) {
+			case ENUMW_KR_ART_EW,
+			case ENUMW_KR_ART_IBW,
+			case ENUMW_KR_ART_ABW,
+			case ENUMW_KR_ART_DW,
+			case ENUMW_KR_ART_KLOTHOIDENWEICHE,
+			case ENUMW_KR_ART_KORBBOGENWEICHE: {
+				val gspKomponenten = etcsWKr.WKrGspKomponents
+				return etcsWKr.container.stellBereich.filter [ area |
+					gspKomponenten.exists[area.isInControlArea(it)]
+				].filterNull.firstOrNull
+			}
+			case ENUMW_KR_ART_DKW,
+			case ENUMW_KR_ART_EKW,
+			case ENUMW_KR_ART_FLACHKREUZUNG,
+			case ENUMW_KR_ART_KR: {
+				val potks = etcsWKr.punktsObjektTopKante
+				return etcsWKr.container.stellBereich.filter [ area |
+					potks.exists[isBelongToBereichObjekt(area)]
+				].filterNull.firstOrNull
 			}
 			default:
 				return null

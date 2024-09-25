@@ -96,6 +96,37 @@ public class StellBereichExtensions {
 	/**
 	 * @param area
 	 *            the {@link Stell_Bereich}
+	 * @return the short designation of control area location
+	 */
+	public static String getOertlichkeitBezeichnung(final Stell_Bereich area) {
+		if (area == null) {
+			return null;
+		}
+		return getNullableObject(area, e -> {
+			final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
+					e);
+			final Oertlichkeit oertlichkeit = AussenelementansteuerungExtensions
+					.getOertlichkeitNamensgebend(aussenElementAnsteuerung);
+			return oertlichkeit.getBezeichnung().getOertlichkeitKurzname()
+					.getWert();
+		}).orElse(null);
+	}
+
+	/**
+	 * @param area
+	 *            the {@link Stell_Bereich}
+	 * @return the AEA designation of the {@link Aussenelementansteuerung},
+	 *         which according to this area
+	 */
+	public static String getAussenelementansteuerungBezeichnungAEA(
+			final Stell_Bereich area) {
+		return getNullableObject(area, e -> getAussenElementAnsteuerung(e)
+				.getBezeichnung().getBezeichnungAEA().getWert()).orElse(null);
+	}
+
+	/**
+	 * @param area
+	 *            the {@link Stell_Bereich}
 	 * @return the {@link Aussenelementansteuerung}
 	 */
 	public static Aussenelementansteuerung getAussenElementAnsteuerung(
