@@ -119,6 +119,8 @@ public class TableTypeSelectionControl {
 			@Override
 			public boolean changed(final IEclipseContext context) {
 				setCombo(context.get(IModelSession.class));
+				ToolboxEvents.send(broker,
+						new NewTableTypeEvent(oldSelectedValue));
 				return true;
 			}
 		});
@@ -187,6 +189,7 @@ public class TableTypeSelectionControl {
 				comboViewer.add(TableType.SINGLE);
 				comboViewer.getCombo().select(0);
 				comboViewer.getCombo().setEnabled(false);
+				oldSelectedValue = TableType.SINGLE;
 			}
 
 		}

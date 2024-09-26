@@ -319,7 +319,7 @@ public class ControlAreaSelectionControl {
 			final TableType type) {
 		if (s instanceof final IStructuredSelection selection) {
 			final Object selectedElement = selection.getFirstElement();
-			if (oldSelectionValue.equals(selectedElement)
+			if (oldSelectionValue.equals(selectedElement) && tableType != null
 					&& tableType.equals(type)) {
 				return;
 			}
