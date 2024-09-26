@@ -30,17 +30,11 @@ class FootnoteTransformation {
 		this.row = row
 		object.IDBearbeitungsvermerk?.forEach[value?.addFootnote]
 	}
-	
+
 	private def void addFootnote(Bearbeitungsvermerk comment) {
-		val footnote = comment.createFootnote
 		if (row.footnotes === null)
 			row.footnotes = TablemodelFactory.eINSTANCE.
 				createSimpleFootnoteContainer()
-		(row.footnotes as SimpleFootnoteContainer).footnotes.add(footnote)
+		(row.footnotes as SimpleFootnoteContainer).footnotes.add(comment)
 	}
-
-	private def String createFootnote(Bearbeitungsvermerk comment) {
-		return comment?.bearbeitungsvermerkAllg?.kommentar?.wert
-	}
-
 }

@@ -12,7 +12,8 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -33,34 +34,34 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  */
 public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implements CompareFootnoteContainer {
 	/**
-	 * The cached value of the '{@link #getOldFootnotes() <em>Old Footnotes</em>}' attribute list.
+	 * The cached value of the '{@link #getOldFootnotes() <em>Old Footnotes</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getOldFootnotes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> oldFootnotes;
+	protected EList<Bearbeitungsvermerk> oldFootnotes;
 
 	/**
-	 * The cached value of the '{@link #getNewFootnotes() <em>New Footnotes</em>}' attribute list.
+	 * The cached value of the '{@link #getNewFootnotes() <em>New Footnotes</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getNewFootnotes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> newFootnotes;
+	protected EList<Bearbeitungsvermerk> newFootnotes;
 
 	/**
-	 * The cached value of the '{@link #getUnchangedFootnotes() <em>Unchanged Footnotes</em>}' attribute list.
+	 * The cached value of the '{@link #getUnchangedFootnotes() <em>Unchanged Footnotes</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getUnchangedFootnotes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> unchangedFootnotes;
+	protected EList<Bearbeitungsvermerk> unchangedFootnotes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -87,9 +88,9 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	 * @generated
 	 */
 	@Override
-	public EList<String> getOldFootnotes() {
+	public EList<Bearbeitungsvermerk> getOldFootnotes() {
 		if (oldFootnotes == null) {
-			oldFootnotes = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES);
+			oldFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES);
 		}
 		return oldFootnotes;
 	}
@@ -100,9 +101,9 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	 * @generated
 	 */
 	@Override
-	public EList<String> getNewFootnotes() {
+	public EList<Bearbeitungsvermerk> getNewFootnotes() {
 		if (newFootnotes == null) {
-			newFootnotes = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES);
+			newFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES);
 		}
 		return newFootnotes;
 	}
@@ -113,9 +114,9 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	 * @generated
 	 */
 	@Override
-	public EList<String> getUnchangedFootnotes() {
+	public EList<Bearbeitungsvermerk> getUnchangedFootnotes() {
 		if (unchangedFootnotes == null) {
-			unchangedFootnotes = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES);
+			unchangedFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES);
 		}
 		return unchangedFootnotes;
 	}
@@ -149,15 +150,15 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 		switch (featureID) {
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES:
 				getOldFootnotes().clear();
-				getOldFootnotes().addAll((Collection<? extends String>)newValue);
+				getOldFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
 				return;
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES:
 				getNewFootnotes().clear();
-				getNewFootnotes().addAll((Collection<? extends String>)newValue);
+				getNewFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
 				return;
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES:
 				getUnchangedFootnotes().clear();
-				getUnchangedFootnotes().addAll((Collection<? extends String>)newValue);
+				getUnchangedFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -200,26 +201,6 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 				return unchangedFootnotes != null && !unchangedFootnotes.isEmpty();
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (oldFootnotes: ");
-		result.append(oldFootnotes);
-		result.append(", newFootnotes: ");
-		result.append(newFootnotes);
-		result.append(", unchangedFootnotes: ");
-		result.append(unchangedFootnotes);
-		result.append(')');
-		return result.toString();
 	}
 
 } //CompareFootnoteContainerImpl

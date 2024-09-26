@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.planpro.Basisobjekte.Identitaet_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -133,10 +134,10 @@ public class CustomTableDiffService implements TableDiffService {
 		final CompareFootnoteContainer diffFootnotes = TablemodelFactory.eINSTANCE
 				.createCompareFootnoteContainer();
 
-		final List<String> oldFootnotes = getFootnotes(row);
-		final List<String> newFootnotes = getFootnotes(match);
+		final List<Bearbeitungsvermerk> oldFootnotes = getFootnotes(row);
+		final List<Bearbeitungsvermerk> newFootnotes = getFootnotes(match);
 
-		for (final String footnote : oldFootnotes) {
+		for (final Bearbeitungsvermerk footnote : oldFootnotes) {
 			if (newFootnotes.stream().anyMatch(c -> c.equals(footnote))) {
 				diffFootnotes.getUnchangedFootnotes().add(footnote);
 			} else {
@@ -144,7 +145,7 @@ public class CustomTableDiffService implements TableDiffService {
 			}
 		}
 
-		for (final String footnote : newFootnotes) {
+		for (final Bearbeitungsvermerk footnote : newFootnotes) {
 			if (oldFootnotes.stream().anyMatch(c -> c.equals(footnote))) {
 				// do nothing (already added by for loop above)
 			} else {
@@ -155,7 +156,7 @@ public class CustomTableDiffService implements TableDiffService {
 		row.setFootnotes(diffFootnotes);
 	}
 
-	private static List<String> getFootnotes(final TableRow row) {
+	private static List<Bearbeitungsvermerk> getFootnotes(final TableRow row) {
 		if (row == null || row.getFootnotes() == null
 				|| ((SimpleFootnoteContainer) row.getFootnotes())
 						.getFootnotes() == null) {
