@@ -16,6 +16,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_Attribu
 
 /**
  * 
+ * 
  */
 public interface PointObjectPositionService {
 	/**
@@ -32,4 +33,14 @@ public interface PointObjectPositionService {
 	 */
 	GEOKanteCoordinate getCoordinate(
 			Punkt_Objekt_TOP_Kante_AttributeGroup potk);
+
+	/**
+	 * @param potk
+	 *            the punkt objekt top kante
+	 * @param lateralDistance
+	 *            the lataral distance of potk
+	 * @return the coordinate at punkt objekt
+	 */
+	GEOKanteCoordinate getCoordinate(Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			double lateralDistance);
 }

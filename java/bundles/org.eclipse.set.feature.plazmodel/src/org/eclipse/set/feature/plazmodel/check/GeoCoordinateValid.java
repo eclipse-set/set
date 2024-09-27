@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.StreamSupport;
 
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
@@ -26,10 +25,13 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt;
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.Verweise.ID_GEO_Punkt_ohne_Proxy_TypeClass;
 import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
@@ -45,6 +47,8 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+
+import com.google.common.collect.Streams;
 
 /**
  * Plausibilty checked of given geocoordinate from
@@ -66,6 +70,10 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	@Reference
 	EventAdmin eventAdmin;
 
+	// The half of track width is lateral distance for PZB_Element and
+	// FMA_Komponent
+	static double FMA_PZB_LATERAL_DISTANCE = 1.435 / 2;
+
 	@Override
 	public void handleEvent(final Event event) {
 		final Map<String, Class<? extends PlazCheck>> properties = new HashMap<>();
@@ -81,54 +89,84 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		}
 
 		final List<PlazError> result = new ArrayList<>();
-		final List<Punkt_Objekt> punktObjekts = StreamSupport
-				.stream(container.getAllContents().spliterator(), false)
-				.filter(Punkt_Objekt.class::isInstance)
-				.map(Punkt_Objekt.class::cast).toList();
-		punktObjekts.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
-			if (isNotDistinctCoordinateSystem(potk)) {
-				result.add(createGeoCoordinateError(po,
-						"Der Punkt_Objekt_Top_Kante des Punkt_Objekt: {GUID} würde auf mehrere GEO_Punkt mit gleichen Koordinatensystem verweisen",
-						Map.of("GUID", po.getIdentitaet().getWert())));
-				return;
-			}
-			final GEOKanteCoordinate geoKanteCoordinate = pointObjectPositionService
-					.getCoordinate(potk);
-			if (geoKanteCoordinate == null
-					|| getNullableObject(geoKanteCoordinate,
-							e -> e.getCoordinate().getCoordinate()).isEmpty()) {
-				return;
-			}
-			final List<GEO_Punkt> givenGEOPunkts = potk.getIDGEOPunktBerechnet()
-					.stream().map(e -> e.getValue()).filter(Objects::nonNull)
-					.toList();
-			final Coordinate coordinate = geoKanteCoordinate.getCoordinate()
-					.getCoordinate();
-			final GEO_Punkt relevantGeoPunkt = givenGEOPunkts.stream()
-					.filter(gp -> getNullableObject(gp, e -> e.getGEOPunktAllg()
-							.getGEOKoordinatensystem().getWert()).isPresent())
-					.filter(gp -> {
-						final ENUMGEOKoordinatensystem coorsys = gp
-								.getGEOPunktAllg().getGEOKoordinatensystem()
-								.getWert();
-						return coorsys.equals(geoKanteCoordinate.getCRS());
-					}).findFirst().orElse(null);
-			if (relevantGeoPunkt == null) {
-				return;
-			}
-			givenGEOPunkts.forEach(gp -> {
-				final Coordinate gpCoordinate = GeoPunktExtensions
-						.getCoordinate(gp);
-				if (gpCoordinate == null) {
-					result.add(creatErrorReport(gp));
-				}
-				final double diff = coordinate.distance(gpCoordinate);
-				if (diff > TOLERANT) {
-					result.add(createErrorReport(po, potk, gp, diff));
-				}
-			});
-		}));
+		getRelevantPOs(container)
+				.forEach(po -> po.getPunktObjektTOPKante().forEach(potk -> {
+					if (isNotDistinctCoordinateSystem(potk)) {
+						result.add(createGeoCoordinateError(po,
+								"Der Punkt_Objekt_Top_Kante des Punkt_Objekt: {GUID} würde auf mehrere GEO_Punkt mit gleichen Koordinatensystem verweisen",
+								Map.of("GUID", po.getIdentitaet().getWert())));
+						return;
+					}
+					final GEOKanteCoordinate geoKanteCoordinate = getPointGEOCoordinate(
+							po, potk);
+					if (geoKanteCoordinate == null
+							|| getNullableObject(geoKanteCoordinate,
+									e -> e.getCoordinate().getCoordinate())
+											.isEmpty()) {
+						return;
+					}
+
+					final GEO_Punkt relevantGeoPunkt = getSameCRSGEOPunkt(potk,
+							geoKanteCoordinate.getCRS());
+					if (relevantGeoPunkt == null) {
+						return;
+					}
+					final Coordinate coordinate = geoKanteCoordinate
+							.getCoordinate().getCoordinate();
+					final Coordinate gpCoordinate = GeoPunktExtensions
+							.getCoordinate(relevantGeoPunkt);
+					if (gpCoordinate == null) {
+						result.add(creatErrorReport(relevantGeoPunkt));
+					}
+					final double diff = coordinate.distance(gpCoordinate);
+					if (diff > TOLERANT) {
+						result.add(createErrorReport(po, potk, relevantGeoPunkt,
+								diff));
+					}
+				}));
 		return result;
+	}
+
+	private static List<Punkt_Objekt> getRelevantPOs(
+			final MultiContainer_AttributeGroup container) {
+		return Streams.stream(container.getPunktObjekts()).parallel()
+				.filter(po -> po.getPunktObjektTOPKante().stream()
+						.anyMatch(potk -> getNullableObject(potk,
+								ele -> ele.getSeitlicherAbstand().getWert())
+										.isPresent())
+						|| po instanceof FMA_Komponente
+						|| po instanceof PZB_Element)
+				.toList();
+	}
+
+	private GEOKanteCoordinate getPointGEOCoordinate(final Punkt_Objekt po,
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+		if (po instanceof PZB_Element || po instanceof FMA_Komponente) {
+			final ENUMLinksRechts side = getNullableObject(potk,
+					point -> point.getSeitlicheLage().getWert()).orElse(null);
+			if (side != null
+					&& side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
+				return pointObjectPositionService.getCoordinate(potk,
+						-FMA_PZB_LATERAL_DISTANCE);
+			}
+			return pointObjectPositionService.getCoordinate(potk,
+					FMA_PZB_LATERAL_DISTANCE);
+
+		}
+		return pointObjectPositionService.getCoordinate(potk);
+	}
+
+	private static GEO_Punkt getSameCRSGEOPunkt(
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final ENUMGEOKoordinatensystem crs) {
+		return potk.getIDGEOPunktBerechnet().stream().map(e -> e.getValue())
+				.filter(Objects::nonNull).filter(gp -> {
+					final ENUMGEOKoordinatensystem geoPunktCRS = getNullableObject(
+							gp, e -> e.getGEOPunktAllg()
+									.getGEOKoordinatensystem().getWert())
+											.orElse(null);
+					return geoPunktCRS != null && geoPunktCRS.equals(crs);
+				}).findFirst().orElse(null);
 	}
 
 	private PlazError creatErrorReport(final GEO_Punkt gp) {

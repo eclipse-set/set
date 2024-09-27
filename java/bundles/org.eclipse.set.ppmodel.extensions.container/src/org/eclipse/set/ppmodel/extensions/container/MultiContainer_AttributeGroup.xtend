@@ -174,6 +174,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 
 /**
  * Read-only metaobject which provides a similar API to {@link Container_AttributeGroup},
@@ -260,7 +261,7 @@ class MultiContainer_AttributeGroup {
 	def Iterable<Ur_Objekt> getUrObjekt() {
 		return containers.flatMap[eAllContents.filter(Ur_Objekt).toList]
 	}
-	
+
 	/**
 	 * Returns all entities
 	 * 
@@ -289,6 +290,13 @@ class MultiContainer_AttributeGroup {
 	}
 
 	/**
+	 * @return all Punkt_Objekt instances 
+	 */
+	def Iterable<Punkt_Objekt> getPunktObjekts() {
+		return containers.flatMap[eAllContents.filter(Punkt_Objekt).toList]
+	}
+
+	/**
 	 * Returns the size of the combined containers
 	 * 
 	 * @return the number of LST_Objekt in all subcontainers
@@ -302,9 +310,9 @@ class MultiContainer_AttributeGroup {
 	 * 
 	 * @return all entities of a given class type
 	 */
-	 def <T> Iterable<T> get(Class<T> clazz) {
-	 	return containers.flatMap[eContents.filter(clazz)]
-	 }
+	def <T> Iterable<T> get(Class<T> clazz) {
+		return containers.flatMap[eContents.filter(clazz)]
+	}
 
 	/* Generated methods follow. Each method simply forwards the call to all contained LST_Zustand objects
 	 * and constructs an Iterable from the results. This should reflect the API of Container_AttributeGroup
@@ -317,7 +325,7 @@ class MultiContainer_AttributeGroup {
 	def Iterable<TOP_Kante> getTOPKante() {
 		return containers.flatMap[TOPKante]
 	}
-	
+
 	def Iterable<Ueberhoehungslinie> getUeberhoehungslinie() {
 		return containers.flatMap[ueberhoehungslinie]
 	}
