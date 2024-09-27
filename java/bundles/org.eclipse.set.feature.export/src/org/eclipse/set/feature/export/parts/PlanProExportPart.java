@@ -67,8 +67,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	@Override
 	protected CheckboxModelElement[] createCheckboxModelElements() {
 		final List<String> shortCuts = new ArrayList<>(
-				tableService.getAvailableTables()).stream()
-						.map(TableInfo::shortcut).toList();
+				tableService.getAvailableTables().stream()
+						.map(TableInfo::shortcut).toList());
 		Collections.sort(shortCuts);
 
 		final List<CheckboxModelElement> elements = new ArrayList<>(
