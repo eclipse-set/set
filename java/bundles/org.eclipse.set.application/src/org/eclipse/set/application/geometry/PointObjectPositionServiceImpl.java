@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.application.geometry;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
 import java.util.List;
 
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
@@ -72,64 +74,31 @@ public class PointObjectPositionServiceImpl
 	@Override
 	public GEOKanteCoordinate getCoordinate(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {
-		if (singlePoint == null || singlePoint.getAbstand() == null
-				|| singlePoint.getAbstand().getWert() == null) {
-			return null;
-		}
-
-		final double distance = singlePoint.getAbstand().getWert()
-				.doubleValue();
-		ENUMWirkrichtung direction = null;
-		if (singlePoint.getWirkrichtung() != null) {
-			direction = singlePoint.getWirkrichtung().getWert();
-		}
-
-		final TOP_Kante topKante = singlePoint.getIDTOPKante().getValue();
-		final TOP_Knoten topKnotenA = topKante.getIDTOPKnotenA().getValue();
-
-		final GEOKanteMetadata geoKante = geometryService
-				.getGeoKanteAt(topKante, topKnotenA, distance);
+		final GEOKanteMetadata geoKante = getGeoKanteMetadata(singlePoint);
 		if (geoKante == null) {
 			return null;
 		}
 
-		double lateralDistance = 0;
-		if (singlePoint.getSeitlicherAbstand() != null
-				&& singlePoint.getSeitlicherAbstand().getWert() != null) {
-			lateralDistance = singlePoint.getSeitlicherAbstand().getWert()
-					.doubleValue();
-		} else {
-			// Determine the track type
-			final GEOKanteSegment segment = geoKante
-					.getContainingSegment(distance);
-			final List<ENUMGleisart> trackType = segment.getBereichObjekte()
-					.stream().filter(Gleis_Art.class::isInstance)
-					.map(ga -> ((Gleis_Art) ga).getGleisart().getWert())
-					.filter(c -> c != null).toList();
+		final double lateralDistance = getLateralDistance(singlePoint,
+				geoKante);
+		return getCoordinate(singlePoint, lateralDistance);
+	}
 
-			// Determine the object distance according to the local track type
-			if (trackType.isEmpty()) {
-				// No local track type. Default to 0 and record an error
-				lateralDistance = 0;
-				return geometryService.getCoordinate(geoKante, distance,
-						lateralDistance, direction);
-			}
+	@Override
+	public GEOKanteCoordinate getCoordinate(
+			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
+			final double lateralDistance) {
 
-			if (trackType
-					.getFirst() == ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS) {
-				lateralDistance = PUNKT_OBJEKT_LATERAL_DISTANCE_OTHER;
-			} else {
-				lateralDistance = PUNKT_OBJEKT_LATERAL_DISTANCE_IN_STATION;
-			}
-
-			// If the object should be positioned to the left of the track,
-			// invert the lateral distance
-			if (singlePoint.getSeitlicheLage() != null && singlePoint
-					.getSeitlicheLage()
-					.getWert() == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
-				lateralDistance = -lateralDistance;
-			}
+		final GEOKanteMetadata geoKante = getGeoKanteMetadata(singlePoint);
+		if (geoKante == null) {
+			return null;
 		}
+		ENUMWirkrichtung direction = null;
+		if (singlePoint.getWirkrichtung() != null) {
+			direction = singlePoint.getWirkrichtung().getWert();
+		}
+		final double distance = singlePoint.getAbstand().getWert()
+				.doubleValue();
 		if (direction == ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
 			// For Punkt_Objekte with a bilateral direction fall back to
 			// ENUM_WIRKRICHTUNG_IN
@@ -139,5 +108,54 @@ public class PointObjectPositionServiceImpl
 		}
 		return geometryService.getCoordinate(geoKante, distance,
 				lateralDistance, direction);
+	}
+
+	private GEOKanteMetadata getGeoKanteMetadata(
+			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {
+		if (singlePoint == null || singlePoint.getAbstand() == null
+				|| singlePoint.getAbstand().getWert() == null) {
+			return null;
+		}
+
+		final double distance = singlePoint.getAbstand().getWert()
+				.doubleValue();
+
+		final TOP_Kante topKante = singlePoint.getIDTOPKante().getValue();
+		final TOP_Knoten topKnotenA = topKante.getIDTOPKnotenA().getValue();
+
+		return geometryService.getGeoKanteAt(topKante, topKnotenA, distance);
+	}
+
+	private static double getLateralDistance(
+			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
+			final GEOKanteMetadata geoKante) {
+		if (singlePoint.getSeitlicherAbstand() != null
+				&& singlePoint.getSeitlicherAbstand().getWert() != null) {
+			return singlePoint.getSeitlicherAbstand().getWert().doubleValue();
+		}
+		final double distance = singlePoint.getSeitlicherAbstand().getWert()
+				.doubleValue();
+		// Determine the track type
+		final GEOKanteSegment segment = geoKante.getContainingSegment(distance);
+		final List<ENUMGleisart> trackType = segment.getBereichObjekte()
+				.stream().filter(Gleis_Art.class::isInstance)
+				.map(ga -> ((Gleis_Art) ga).getGleisart().getWert())
+				.filter(c -> c != null).toList();
+
+		// Determine the object distance according to the local track type
+		if (trackType.isEmpty()) {
+			// No local track type. Default to 0 and record an error
+			return 0;
+		}
+		final double lateralDistance = trackType
+				.getFirst() == ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
+						? PUNKT_OBJEKT_LATERAL_DISTANCE_OTHER
+						: PUNKT_OBJEKT_LATERAL_DISTANCE_IN_STATION;
+		final ENUMLinksRechts side = getNullableObject(singlePoint,
+				point -> point.getSeitlicheLage().getWert()).orElse(null);
+		if (side != null && side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
+			return -lateralDistance;
+		}
+		return lateralDistance;
 	}
 }
