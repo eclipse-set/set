@@ -12,7 +12,6 @@ import java.util.List
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
-import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
@@ -23,6 +22,7 @@ import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
 import org.eclipse.set.model.titlebox.PlanningOffice
 import org.eclipse.set.model.titlebox.StringField
 import org.eclipse.set.model.titlebox.Titlebox
@@ -39,11 +39,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import java.util.Collections
-import java.util.function.Consumer
-import java.util.function.Function
-import java.util.function.BiConsumer
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteType
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -486,8 +482,10 @@ class TableToTableDocument {
 
 	private def Element transform(FootnoteInfo footnote) {
 		val it = doc.createElement("Footnote")
-		attributeNode = createFootnoteAttribute(footnote.index)
-		textContent = footnote.toText
+		val footNoteType = doc.createElement(footnote.type.toString)
+		footNoteType.attributeNode = createFootnoteAttribute(footnote.index)
+		footNoteType.textContent = footnote.toText
+		appendChild(footNoteType)
 		return it
 	}
 
