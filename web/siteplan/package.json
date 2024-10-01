@@ -27,8 +27,8 @@
   "devDependencies": {
     "@types/geojson": "^7946.0.14",
     "@types/proj4": "^2.5.2",
-    "@typescript-eslint/eslint-plugin": "^8.6.0",
-    "@typescript-eslint/parser": "^8.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
     "@vitejs/plugin-vue": "^5.1.4",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.30.0",
