@@ -210,6 +210,9 @@ public class ControlAreaSelectionControl {
 
 	private List<ControlAreaValue> getDiffComboValues() {
 		final List<ControlAreaValue> values = new LinkedList<>();
+		if (getSession() == null) {
+			return values;
+		}
 		final List<ControlAreaValue> initialValues = getComboValues(
 				getSession(), ContainerType.INITIAL);
 		values.addAll(initialValues);
@@ -252,6 +255,9 @@ public class ControlAreaSelectionControl {
 	 */
 	private List<ControlAreaValue> getComboValues(final IModelSession session,
 			final ContainerType containerType) {
+		if (session == null) {
+			return Collections.emptyList();
+		}
 		final MultiContainer_AttributeGroup selectedContainer = session
 				.getContainer(containerType);
 		if (selectedContainer == null) {
