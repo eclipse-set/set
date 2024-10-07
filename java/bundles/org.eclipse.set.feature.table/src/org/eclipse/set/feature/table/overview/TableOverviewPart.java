@@ -71,8 +71,6 @@ import jakarta.inject.Inject;
  */
 public class TableOverviewPart extends BasePart {
 
-	private static final String TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table."; //$NON-NLS-1$
-
 	@Inject
 	@Translation
 	protected Messages messages;
@@ -236,8 +234,11 @@ public class TableOverviewPart extends BasePart {
 	private void openAllTablesWithErrors() {
 		final Collection<String> tablesWithErrors = getTablesContainingErrors();
 		for (final String shortCut : tablesWithErrors) {
-			final String partDescriptionId = TABLE_PART_ID_PREFIX + shortCut;
-			toolboxPartService.showPart(partDescriptionId);
+			final String tablePartIdPrefxix = getTableCategory() == ESTW_CATEGORY
+					? ESTW_TABLE_PART_ID_PREFIX
+					: ETCS_TABLE_PART_ID_PREFIX;
+			toolboxPartService.showPart(
+					String.format("%s.%s", tablePartIdPrefxix, shortCut)); //$NON-NLS-1$
 		}
 	}
 
