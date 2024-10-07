@@ -187,15 +187,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FootnoteContainer" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompareFootnoteContainer" eSuperTypes="#//FootnoteContainer">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="oldFootnotes" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newFootnotes" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unchangedFootnotes" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="oldFootnotes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newFootnotes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unchangedFootnotes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleFootnoteContainer" eSuperTypes="#//FootnoteContainer">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="footnotes" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="footnotes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.set.model.planpro/model/Basisobjekte.ecore#//Bearbeitungsvermerk"/>
   </eClassifiers>
 </ecore:EPackage>

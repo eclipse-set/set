@@ -13,8 +13,8 @@ import java.util.List
 import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.StringCellContent
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.set.model.tablemodel.Table
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 
 /**
  * Tablemodel utilities.
@@ -53,12 +53,7 @@ class Utils {
 	}
 	
 	
-	static def int getFootnoteNumber(EObject container, String footnote) {
-		var EObject table = container
-		while(!(table instanceof Table)) {
-			table = table.eContainer
-		}
-		
-		return (table as Table).getFootnoteNumber(footnote)
+	static def int getFootnoteNumber(EObject container, Bearbeitungsvermerk footnote) {
+		return getFootnoteInfo(container, footnote).index
 	}
 }

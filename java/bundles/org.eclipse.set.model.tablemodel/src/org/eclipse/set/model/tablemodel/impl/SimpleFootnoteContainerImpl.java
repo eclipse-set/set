@@ -12,7 +12,8 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
@@ -31,14 +32,14 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  */
 public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl implements SimpleFootnoteContainer {
 	/**
-	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}' attribute list.
+	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getFootnotes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<String> footnotes;
+	protected EList<Bearbeitungsvermerk> footnotes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -65,9 +66,9 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl implement
 	 * @generated
 	 */
 	@Override
-	public EList<String> getFootnotes() {
+	public EList<Bearbeitungsvermerk> getFootnotes() {
 		if (footnotes == null) {
-			footnotes = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
+			footnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 		}
 		return footnotes;
 	}
@@ -97,7 +98,7 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl implement
 		switch (featureID) {
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				getFootnotes().clear();
-				getFootnotes().addAll((Collection<? extends String>)newValue);
+				getFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -130,22 +131,6 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl implement
 				return footnotes != null && !footnotes.isEmpty();
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (footnotes: ");
-		result.append(footnotes);
-		result.append(')');
-		return result.toString();
 	}
 
 } //SimpleFootnoteContainerImpl

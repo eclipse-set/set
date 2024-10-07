@@ -715,8 +715,8 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
-	public EAttribute getCompareFootnoteContainer_OldFootnotes() {
-		return (EAttribute)compareFootnoteContainerEClass.getEStructuralFeatures().get(0);
+	public EReference getCompareFootnoteContainer_OldFootnotes() {
+		return (EReference)compareFootnoteContainerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -725,8 +725,8 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
-	public EAttribute getCompareFootnoteContainer_NewFootnotes() {
-		return (EAttribute)compareFootnoteContainerEClass.getEStructuralFeatures().get(1);
+	public EReference getCompareFootnoteContainer_NewFootnotes() {
+		return (EReference)compareFootnoteContainerEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -735,8 +735,8 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
-	public EAttribute getCompareFootnoteContainer_UnchangedFootnotes() {
-		return (EAttribute)compareFootnoteContainerEClass.getEStructuralFeatures().get(2);
+	public EReference getCompareFootnoteContainer_UnchangedFootnotes() {
+		return (EReference)compareFootnoteContainerEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -755,8 +755,8 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 	 * @generated
 	 */
 	@Override
-	public EAttribute getSimpleFootnoteContainer_Footnotes() {
-		return (EAttribute)simpleFootnoteContainerEClass.getEStructuralFeatures().get(0);
+	public EReference getSimpleFootnoteContainer_Footnotes() {
+		return (EReference)simpleFootnoteContainerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -864,12 +864,12 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		footnoteContainerEClass = createEClass(FOOTNOTE_CONTAINER);
 
 		compareFootnoteContainerEClass = createEClass(COMPARE_FOOTNOTE_CONTAINER);
-		createEAttribute(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES);
-		createEAttribute(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES);
-		createEAttribute(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES);
+		createEReference(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES);
+		createEReference(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES);
+		createEReference(compareFootnoteContainerEClass, COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES);
 
 		simpleFootnoteContainerEClass = createEClass(SIMPLE_FOOTNOTE_CONTAINER);
-		createEAttribute(simpleFootnoteContainerEClass, SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
+		createEReference(simpleFootnoteContainerEClass, SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 
 		// Create enums
 		columnWidthModeEEnum = createEEnum(COLUMN_WIDTH_MODE);
@@ -970,12 +970,12 @@ public class TablemodelPackageImpl extends EPackageImpl implements TablemodelPac
 		initEClass(footnoteContainerEClass, FootnoteContainer.class, "FootnoteContainer", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(compareFootnoteContainerEClass, CompareFootnoteContainer.class, "CompareFootnoteContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCompareFootnoteContainer_OldFootnotes(), ecorePackage.getEString(), "oldFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCompareFootnoteContainer_NewFootnotes(), ecorePackage.getEString(), "newFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCompareFootnoteContainer_UnchangedFootnotes(), ecorePackage.getEString(), "unchangedFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompareFootnoteContainer_OldFootnotes(), theBasisobjektePackage.getBearbeitungsvermerk(), null, "oldFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompareFootnoteContainer_NewFootnotes(), theBasisobjektePackage.getBearbeitungsvermerk(), null, "newFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCompareFootnoteContainer_UnchangedFootnotes(), theBasisobjektePackage.getBearbeitungsvermerk(), null, "unchangedFootnotes", null, 0, -1, CompareFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(simpleFootnoteContainerEClass, SimpleFootnoteContainer.class, "SimpleFootnoteContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSimpleFootnoteContainer_Footnotes(), ecorePackage.getEString(), "footnotes", null, 0, -1, SimpleFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSimpleFootnoteContainer_Footnotes(), theBasisobjektePackage.getBearbeitungsvermerk(), null, "footnotes", null, 0, -1, SimpleFootnoteContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(columnWidthModeEEnum, ColumnWidthMode.class, "ColumnWidthMode");

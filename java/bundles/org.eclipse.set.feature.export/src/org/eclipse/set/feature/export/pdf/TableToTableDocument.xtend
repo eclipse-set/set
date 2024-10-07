@@ -22,6 +22,7 @@ import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo
 import org.eclipse.set.model.titlebox.PlanningOffice
 import org.eclipse.set.model.titlebox.StringField
 import org.eclipse.set.model.titlebox.Titlebox
@@ -38,10 +39,7 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import java.util.Collections
-import java.util.function.Consumer
-import java.util.function.Function
-import java.util.function.BiConsumer
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteType
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -337,7 +335,7 @@ class TableToTableDocument {
 	private dispatch def void addFootnoteContent(Element element,
 		SimpleFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 
-		val footnotes = fc.footnotes.map['''*«getFootnoteNumber(fc, it)»'''].
+		val footnotes = fc.footnotes.map[getFootnoteInfo(fc, it).toShorthand].
 			iterableToString(FOOTNOTE_SEPARATOR)
 		element.addFootnoteChild(footnotes, WARNING_MARK_BLACK, columnNumber,
 			isRemarkColumn)
@@ -347,13 +345,13 @@ class TableToTableDocument {
 		CompareFootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 
 		val oldFootnotes = fc.oldFootnotes.map [
-			'''*«getFootnoteNumber(fc, it)»'''
+			getFootnoteInfo(fc, it).toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 		val newFootnotes = fc.newFootnotes.map [
-			'''*«getFootnoteNumber(fc, it)»'''
+			getFootnoteInfo(fc, it).toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 		val unchangedFootnotes = fc.unchangedFootnotes.map [
-			'''*«getFootnoteNumber(fc, it)»'''
+			getFootnoteInfo(fc, it).toShorthand
 		].iterableToString(FOOTNOTE_SEPARATOR)
 
 		element.addFootnoteChild(oldFootnotes, WARNING_MARK_YELLOW,
@@ -482,10 +480,12 @@ class TableToTableDocument {
 		return
 	}
 
-	private def Element transform(Pair<Integer, String> footnote) {
+	private def Element transform(FootnoteInfo footnote) {
 		val it = doc.createElement("Footnote")
-		attributeNode = createFootnoteAttribute(footnote.key)
-		textContent = footnote.value
+		val footNoteType = doc.createElement(footnote.type.toString)
+		footNoteType.attributeNode = createFootnoteAttribute(footnote.index)
+		footNoteType.textContent = footnote.toText
+		appendChild(footNoteType)
 		return it
 	}
 

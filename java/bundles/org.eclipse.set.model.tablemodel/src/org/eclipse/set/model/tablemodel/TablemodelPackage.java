@@ -726,7 +726,7 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_FOOTNOTE_CONTAINER = 13;
 
 	/**
-	 * The feature id for the '<em><b>Old Footnotes</b></em>' attribute list.
+	 * The feature id for the '<em><b>Old Footnotes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -735,7 +735,7 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>New Footnotes</b></em>' attribute list.
+	 * The feature id for the '<em><b>New Footnotes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -744,7 +744,7 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' attribute list.
+	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -781,7 +781,7 @@ public interface TablemodelPackage extends EPackage {
 	int SIMPLE_FOOTNOTE_CONTAINER = 14;
 
 	/**
-	 * The feature id for the '<em><b>Footnotes</b></em>' attribute list.
+	 * The feature id for the '<em><b>Footnotes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1289,37 +1289,37 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCompareFootnoteContainer();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes <em>Old Footnotes</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes <em>Old Footnotes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Old Footnotes</em>'.
+	 * @return the meta object for the reference list '<em>Old Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
 	 */
-	EAttribute getCompareFootnoteContainer_OldFootnotes();
+	EReference getCompareFootnoteContainer_OldFootnotes();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes <em>New Footnotes</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes <em>New Footnotes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>New Footnotes</em>'.
+	 * @return the meta object for the reference list '<em>New Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
 	 */
-	EAttribute getCompareFootnoteContainer_NewFootnotes();
+	EReference getCompareFootnoteContainer_NewFootnotes();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes <em>Unchanged Footnotes</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes <em>Unchanged Footnotes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Unchanged Footnotes</em>'.
+	 * @return the meta object for the reference list '<em>Unchanged Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
 	 */
-	EAttribute getCompareFootnoteContainer_UnchangedFootnotes();
+	EReference getCompareFootnoteContainer_UnchangedFootnotes();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer <em>Simple Footnote Container</em>}'.
@@ -1332,15 +1332,15 @@ public interface TablemodelPackage extends EPackage {
 	EClass getSimpleFootnoteContainer();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes <em>Footnotes</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes <em>Footnotes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Footnotes</em>'.
+	 * @return the meta object for the reference list '<em>Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes()
 	 * @see #getSimpleFootnoteContainer()
 	 * @generated
 	 */
-	EAttribute getSimpleFootnoteContainer_Footnotes();
+	EReference getSimpleFootnoteContainer_Footnotes();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}'.
@@ -1758,28 +1758,28 @@ public interface TablemodelPackage extends EPackage {
 		EClass COMPARE_FOOTNOTE_CONTAINER = eINSTANCE.getCompareFootnoteContainer();
 
 		/**
-		 * The meta object literal for the '<em><b>Old Footnotes</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Old Footnotes</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_OldFootnotes();
+		EReference COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_OldFootnotes();
 
 		/**
-		 * The meta object literal for the '<em><b>New Footnotes</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>New Footnotes</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_NewFootnotes();
+		EReference COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_NewFootnotes();
 
 		/**
-		 * The meta object literal for the '<em><b>Unchanged Footnotes</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Unchanged Footnotes</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_UnchangedFootnotes();
+		EReference COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_UnchangedFootnotes();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl <em>Simple Footnote Container</em>}' class.
@@ -1792,12 +1792,12 @@ public interface TablemodelPackage extends EPackage {
 		EClass SIMPLE_FOOTNOTE_CONTAINER = eINSTANCE.getSimpleFootnoteContainer();
 
 		/**
-		 * The meta object literal for the '<em><b>Footnotes</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Footnotes</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = eINSTANCE.getSimpleFootnoteContainer_Footnotes();
+		EReference SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = eINSTANCE.getSimpleFootnoteContainer_Footnotes();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.

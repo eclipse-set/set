@@ -10,7 +10,9 @@ package org.eclipse.set.model.tablemodel.extensions
 
 import com.google.common.base.Strings
 import com.google.common.html.HtmlEscapers
+import java.util.function.BiFunction
 import java.util.function.Function
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer
@@ -26,7 +28,6 @@ import static org.eclipse.set.model.tablemodel.extensions.Utils.*
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableCellExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import java.util.function.BiFunction
 
 /**
  * Extensions for {@link CellContent}.
@@ -136,8 +137,7 @@ class CellContentExtensions {
 			[WARNING_MARK_BLACK],
 			[WARNING_MARK_RED],
 			[ text, mark |
-				getCompareValueFormat(mark,'''*«getFootnoteNumber(content, text)»'''
-					)
+				getCompareValueFormat(mark, '''*«getFootnoteNumber(content, text)»''')
 			]
 		)
 
@@ -223,16 +223,17 @@ class CellContentExtensions {
 		return '''<span>«content.multiColorFormat.htmlString»</span>'''
 	}
 
-	static def <T, U> Iterable<U> formatCompareContent(
-		Iterable<String> oldContent,
-		Iterable<String> newContent,
-		Function<String, T> oldFormatter,
-		Function<String, T> commonFormatter,
-		Function<String, T> newFormatter,
-		BiFunction<String, T, U> postFormatter
+	static def <S extends Comparable<? super S>, R, T, U> Iterable<U> formatCompareContent(
+		Iterable<R> oldContent,
+		Iterable<R> newContent,
+		Function<R, T> oldFormatter,
+		Function<R, T> commonFormatter,
+		Function<R, T> newFormatter,
+		BiFunction<R, T, U> postFormatter,
+		Function<R, S> sorter
 	) {
 		// new and unchanged content is sorted together 
-		val result = newContent.filterNull.toSet.toList.sort.map [
+		val result = newContent.filterNull.toSet.toList.sortBy(sorter).map [
 			if (oldContent.contains(it))
 				return postFormatter.apply(it, commonFormatter.apply(it))
 			else
@@ -240,11 +241,23 @@ class CellContentExtensions {
 		]
 
 		// old content is appended after that
-		return result + oldContent.filterNull.toSet.toList.sort.filter [
+		return result + oldContent.filterNull.toSet.toList.sortBy(sorter).filter [
 			!newContent.contains(it)
 		].map [
 			postFormatter.apply(it, oldFormatter.apply(it))
 		]
+	}
+
+	static def <R extends Comparable<? super R>, T, U> Iterable<U> formatCompareContent(
+		Iterable<R> oldContent,
+		Iterable<R> newContent,
+		Function<R, T> oldFormatter,
+		Function<R, T> commonFormatter,
+		Function<R, T> newFormatter,
+		BiFunction<R, T, U> postFormatter
+	) {
+		return formatCompareContent(oldContent, newContent, oldFormatter,
+			commonFormatter, newFormatter, postFormatter, [it])
 	}
 
 	static def <T, U> Iterable<U> formatCompareContent(
@@ -262,16 +275,25 @@ class CellContentExtensions {
 			CompareCellContent:
 				formatCompareContent(content.oldValue, content.newValue,
 					oldFormatter, commonFormatter, newFormatter, postFormatter)
-			CompareFootnoteContainer:
-				formatCompareContent(
-					content.oldFootnotes + content.unchangedFootnotes,
-					content.newFootnotes + content.unchangedFootnotes,
-					oldFormatter,
-					commonFormatter,
-					newFormatter,
-					postFormatter
-				)
-		}.filterNull
+		}
+	}
+
+	static def <T, U> Iterable<U> formatCompareContent(
+		CompareFootnoteContainer content,
+		Function<Bearbeitungsvermerk, T> oldFormatter,
+		Function<Bearbeitungsvermerk, T> commonFormatter,
+		Function<Bearbeitungsvermerk, T> newFormatter,
+		BiFunction<Bearbeitungsvermerk, T, U> postFormatter
+	) {
+		formatCompareContent(
+			(content.oldFootnotes + content.unchangedFootnotes),
+			(content.newFootnotes + content.unchangedFootnotes),
+			oldFormatter,
+			commonFormatter,
+			newFormatter,
+			postFormatter,
+			[it?.bearbeitungsvermerkAllg?.kommentar?.wert]
+		)
 	}
 
 	private static def String getCompareValueFormat(String warning_mark,

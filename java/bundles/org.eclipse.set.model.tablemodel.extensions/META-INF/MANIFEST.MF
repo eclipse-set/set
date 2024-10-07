@@ -21,5 +21,6 @@ Import-Package: org.eclipse.emf.common.util,
  org.eclipse.set.model.tablemodel,
  org.eclipse.set.model.tablemodel.format,
  org.eclipse.set.ppmodel.extensions,
+ org.eclipse.set.ppmodel.extensions.utils,
  org.eclipse.set.utils,
  org.eclipse.set.utils.math

@@ -12,6 +12,7 @@ import static org.eclipse.set.feature.table.abstracttableview.ToolboxTableModelT
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ThreadUtils;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -73,6 +75,7 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
 import org.eclipse.set.model.tablemodel.extensions.Headings;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.model.titlebox.extensions.TitleboxExtensions;
@@ -98,9 +101,13 @@ import org.eclipse.set.utils.table.Pt1TableChangeProperties;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -141,7 +148,7 @@ public final class ToolboxTableView extends BasePart {
 
 	private int scrollToPositionRequested = -1;
 
-	private Text tableFooting;
+	private StyledText tableFooting;
 
 	@Inject
 	@Translation
@@ -348,9 +355,40 @@ public final class ToolboxTableView extends BasePart {
 			updateButtons();
 
 			// Update footnotes
-			tableFooting.setText(TableExtensions.getFootnotesText(table));
+			updateFootnotes();
 		}, tableInstances::clear);
+	}
 
+	private void updateFootnotes() {
+		final List<String> lines = new ArrayList<>();
+		final List<StyleRange> styles = new ArrayList<>();
+		int startOffset = 0;
+
+		for (final FootnoteInfo footnote : TableExtensions
+				.getAllFootnotes(table)) {
+			final String text = footnote.toReferenceText();
+			lines.add(text);
+
+			switch (footnote.type) {
+			case NEW_FOOTNOTE:
+				styles.add(new StyleRange(startOffset, text.length(),
+						new Color(255, 0, 0), null));
+				break;
+			case OLD_FOOTNOTE:
+				styles.add(new StyleRange(startOffset, text.length(), null,
+						new Color(255, 255, 0)));
+
+				break;
+			case COMMON_FOOTNOTE:
+			default:
+				break;
+			}
+			startOffset += text.length() + 1;
+
+		}
+
+		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
+		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
 	}
 
 	private void updateTitlebox(final Titlebox titlebox) {
@@ -511,8 +549,8 @@ public final class ToolboxTableView extends BasePart {
 		bodyLayerStack.getSelectionLayer().clear();
 
 		// display footnotes
-		tableFooting = new Text(parent, SWT.MULTI);
-		tableFooting.setText(TableExtensions.getFootnotesText(table));
+		tableFooting = new StyledText(parent, SWT.MULTI);
+		updateFootnotes();
 		tableFooting.setEditable(false);
 		GridDataFactory.fillDefaults().grab(true, false).minSize(-1, 500)
 				.applyTo(tableFooting);

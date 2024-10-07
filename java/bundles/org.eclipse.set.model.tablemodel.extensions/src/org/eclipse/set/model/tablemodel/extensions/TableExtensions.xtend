@@ -25,7 +25,6 @@ import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.model.tablemodel.TablemodelPackage
-import org.eclipse.set.model.tablemodel.extensions.internal.TableToFootnoteText
 import org.eclipse.set.model.tablemodel.format.TextAlignment
 
 import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
@@ -33,8 +32,10 @@ import static extension org.eclipse.set.model.tablemodel.extensions.RowGroupExte
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
 
 /**
  * Extensions for {@link Table}.
@@ -161,24 +162,24 @@ class TableExtensions {
 			return
 		}
 		val leadingObject = groupToAdd.leadingObject
-		if (leadingObject !== null && table.tablecontent.rowgroups.forall[leadingObject !== null]) {
-			if (!table.tablecontent.rowgroups.exists [
-			 val guid = it.leadingObject?.identitaet?.wert
-			 return guid !== null && guid.equals(leadingObject?.identitaet?.wert)
+		if (leadingObject !== null && table.tablecontent.rowgroups.forall [
+			leadingObject !== null
 		]) {
-			table.tablecontent.addRowGroup(clone)
-		}
+			if (!table.tablecontent.rowgroups.exists [
+				it.leadingObject?.identitaet?.wert.equals(
+					leadingObject?.identitaet?.wert)
+			]) {
+				table.tablecontent.addRowGroup(clone)
+			}
 			return
 		}
 
 		val cloumnLabels = table.columndescriptors.map[label]
 		val mapRowToAdd = clone.rows.map [ row |
-			cloumnLabels.map[column|row.getPlainStringValue(column)].
-				join("")
+			cloumnLabels.map[column|row.getPlainStringValue(column)].join("")
 		].toList
 		val alreadyExistsRowContent = table.tablecontent.rowgroups.exists [
-			rows.size === groupToAdd.rows.size &&
-			rows.forall [ row |
+			rows.size === groupToAdd.rows.size && rows.forall [ row |
 				val plainString = cloumnLabels.map [ column |
 					row.getPlainStringValue(column)
 				].join("")
@@ -362,16 +363,6 @@ class TableExtensions {
 		return resource.contents.get(0) as Table
 	}
 
-	/**
-	 * @param table this table
-	 * 
-	 * @return the text for all footnotes of this table
-	 */
-	static def String getFootnotesText(Table table) {
-		val tranformation = new TableToFootnoteText
-		return tranformation.transform(table)
-	}
-
 	private static def String toSimpleString(List<ColumnDescriptor> descriptors,
 		int columnWidth) {
 		return '''«FOR descriptor : descriptors SEPARATOR " "»«
@@ -395,27 +386,72 @@ class TableExtensions {
 		return -1;
 	}
 
-	static def Iterable<Pair<Integer, String>> getAllFootnotes(Table table) {
-		return (table.eAllContents.filter(SimpleFootnoteContainer).map [
-			footnotes
-		] + table.eAllContents.filter(CompareFootnoteContainer).map [
-			oldFootnotes
-		] + table.eAllContents.filter(CompareFootnoteContainer).map [
-			unchangedFootnotes
-		] + table.eAllContents.filter(CompareFootnoteContainer).map [
-			newFootnotes
-		]).toList.flatten.toSet.indexed.map[(key + 1) -> value]
+	enum FootnoteType {
+		OLD_FOOTNOTE,
+		NEW_FOOTNOTE,
+		COMMON_FOOTNOTE
 	}
 
-	static def int getFootnoteNumber(Table table, String fn) {
-		return table.allFootnotes.findFirst[value == fn].key
+	static class FootnoteInfo {
+		new(Bearbeitungsvermerk fn, FootnoteType ft) {
+			this.footnote = fn
+			this.type = ft
+		}
+
+		def String toShorthand() {
+			return '''*«index»'''
+		}
+
+		def String toReferenceText() {
+			return '''*«index»: «footnote?.bearbeitungsvermerkAllg?.kommentar?.wert»'''
+		}
+
+		def String toText() {
+			return footnote?.bearbeitungsvermerkAllg?.kommentar?.wert
+		}
+
+		public Bearbeitungsvermerk footnote;
+		public int index;
+		public FootnoteType type;
 	}
 
-	static def int getFootnoteNumber(EObject tableContent, String fn) {
+	static def Iterable<FootnoteInfo> getAllFootnotes(Table table) {
+		val common = (table.eAllContents.filter(SimpleFootnoteContainer).map [
+			footnotes.map[new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)]
+		] + table.eAllContents.filter(CompareFootnoteContainer).map [
+			unchangedFootnotes.map [
+				new FootnoteInfo(it, FootnoteType.COMMON_FOOTNOTE)
+			]
+		]).toList.flatten
+
+		val old = table.eAllContents.filter(CompareFootnoteContainer).map [
+			oldFootnotes.map[new FootnoteInfo(it, FootnoteType.OLD_FOOTNOTE)]
+		].toList.flatten
+
+		val newF = table.eAllContents.filter(CompareFootnoteContainer).map [
+			newFootnotes.map[new FootnoteInfo(it, FootnoteType.NEW_FOOTNOTE)]
+		].toList.flatten
+
+		// sort new and common together by text, then append old entries
+		val footnotes = (common + newF).sortBy[toText] + old.sortBy[toText]
+
+		return footnotes.distinctBy[toText -> footnote].indexed.map [
+			value.index = key + 1
+			return value
+		]
+	}
+
+	static def FootnoteInfo getFootnoteInfo(Table table,
+		Bearbeitungsvermerk fn) {
+		return table.allFootnotes.findFirst[footnote == fn]
+	}
+
+	static def FootnoteInfo getFootnoteInfo(EObject tableContent,
+		Bearbeitungsvermerk fn) {
 		var object = tableContent
 		while (!(object instanceof Table)) {
 			object = object.eContainer
 		}
-		return getFootnoteNumber(object as Table, fn)
+		return getFootnoteInfo(object as Table, fn)
 	}
 }
