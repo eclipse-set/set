@@ -164,11 +164,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			[isPZB2000 && IDPZBGefahrpunkt !== null],
 			[
 				if (fstrDWegSpezifisch === null) {
-					val schutzstreckeSoll = IDFstrFahrweg.value.IDStart.value.PZBSchutzstreckeSoll
-					if (schutzstreckeSoll.setWert) {
-						return '''«schutzstreckeSoll.wert»'''
-					}
-					return ""
+					return IDFstrFahrweg?.value?.IDStart?.value?.PZBSchutzstreckeSoll?.wert?.toString ?: ""
 				}
 				
 				val dwegV = fstrDWegSpezifisch.DWegV?.wert.toInteger
