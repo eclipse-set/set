@@ -51,6 +51,10 @@ class RowGroupExtensions {
 			]
 			if (targetCell !== null) {
 				targetCell.content = content
+				if (!cell.cellannotation.nullOrEmpty) {
+					targetCell.textAlignment = cell.format.textAlignment
+				}	
+				
 			}
 		]
 		return newRow
