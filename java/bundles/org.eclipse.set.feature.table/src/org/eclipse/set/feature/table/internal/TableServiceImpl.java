@@ -31,6 +31,7 @@ import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.set.basis.IModelSession;
@@ -435,7 +436,7 @@ public final class TableServiceImpl implements TableService {
 					() -> loadTransform(shortCut, tableType, modelSession,
 							areaId, areaCacheKey));
 			if (resultTable == null) {
-				resultTable = table;
+				resultTable = EcoreUtil.copy(table);
 			} else {
 				for (final RowGroup rowGroup : table.getTablecontent()
 						.getRowgroups()) {
