@@ -459,6 +459,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return false
 		}
 		// TODO: 2. Condition for target signal isn't clearly 
-		return startSignal.isBelongToControlArea(controlArea)
+		return startSignal !== null && startSignal.isBelongToControlArea(controlArea)
 	}
 }
