@@ -16,7 +16,6 @@ import org.eclipse.set.basis.graph.DirectedEdgePoint
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.model.planpro.Fahrstrasse.ENUMFstrZugArt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Nichthaltfall
@@ -456,13 +455,10 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		}
 		val startSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDStart?.value
 		val zielSignal = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value
-		if (startSignal === null || zielSignal === null) {
+		if (startSignal === null && zielSignal === null) {
 			return false
 		}
-
-		return zielSignal.container.fstrZugRangier.exists [
-			fstrZug?.fstrZugArt?.wert === ENUMFstrZugArt.ENUM_FSTR_ZUG_ART_B &&
-				IDFstrFahrweg?.value?.IDStart?.value === zielSignal
-		] ? startSignal.isBelongToControlArea(controlArea) : false
+		// TODO: 2. Condition for target signal isn't clearly 
+		return startSignal.isBelongToControlArea(controlArea)
 	}
 }
