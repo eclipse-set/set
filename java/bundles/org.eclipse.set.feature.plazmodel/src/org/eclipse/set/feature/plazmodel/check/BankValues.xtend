@@ -90,7 +90,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 				return p1
 			]
 			return createError(
-				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD}) für die Überhöhungslinie {GUID} mit entsprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
+				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD}) für die Überhöhungslinie {GUID} mit entsprechender Länge ({UEBERHOEHUNG}) gefunden werden.",
 				Map.of(
 					"GUID",
 					it.identitaet?.wert,
