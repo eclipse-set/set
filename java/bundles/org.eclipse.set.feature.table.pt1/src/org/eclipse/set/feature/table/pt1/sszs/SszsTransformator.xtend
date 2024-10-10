@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -58,6 +58,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import java.math.RoundingMode
 
 /**
  * Table transformation for ETCS Melde- und Kommandoschaltung Muka Signale (Sszs).
@@ -540,7 +541,11 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Laenge_Tunnelbereich),
 				etcsSignal,
 				[
-					(ETCSSignalTBV?.TBVTunnelbereichLaenge?.wert ?: "").toString
+					val areaWidth = ETCSSignalTBV?.TBVTunnelbereichLaenge?.wert
+					if (areaWidth !== null) {
+						areaWidth.setScale(0, RoundingMode.HALF_UP).intValue.toString
+					}
+					return ""
 				]
 			)
 
@@ -584,28 +589,33 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// AF: Sszs.Bemerkung
-			fillSwitch(
+			fillSwitchGrouped(
 				row,
 				cols.getColumn(Bemerkung),
 				refSignal,
-				new Case<Signal>(
-					[ signal |
-						signal.container.ZUBBereichsgrenze.flatMap [
-							ZUBBereichsgrenzeNachL2
-						].filterNull.flatMap[IDSignalZufahrtsicherungL2oS].
-							filterNull.map[value].exists[signal === it]
-					],
-					["Zufahrtsicherungssignal L2oS"]
-				),
-				new Case<Signal>(
-					[
-						hasSignalbegriffID(Ne14) &&
-							signalReal?.signalRealAktivSchirm?.signalArt?.
-								wert === ENUM_SIGNAL_ART_SPERRSIGNAL &&
-							!isStartOrDestinationOfAnyTrainRoute
-					],
-					["keine Übertragung vom Stellwerk an die ETCS-Zentrale"]
-				)
+				[
+					filterNull.flatMap[filling.apply(refSignal)]
+				],
+				#[
+					new Case<Signal>(
+						[ signal |
+							signal.container.ZUBBereichsgrenze.flatMap [
+								ZUBBereichsgrenzeNachL2
+							].filterNull.flatMap[IDSignalZufahrtsicherungL2oS].
+								filterNull.map[value].exists[signal === it]
+						],
+						["Zufahrtsicherungssignal L2oS"]
+					),
+					new Case<Signal>(
+						[
+							hasSignalbegriffID(Ne14) &&
+								signalReal?.signalRealAktivSchirm?.signalArt?.
+									wert === ENUM_SIGNAL_ART_SPERRSIGNAL &&
+								!isStartOrDestinationOfAnyTrainRoute
+						],
+						["keine Übertragung vom Stellwerk an die ETCS-Zentrale"]
+					)
+				]
 			)
 
 			fillFootnotes(row, etcsSignal)
@@ -690,8 +700,9 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
-				distances.doubleValue : fma -> -distances.doubleValue
+			return topGraph.isInWirkrichtungOfSignal(signal, fma)
+				? fma -> distances.doubleValue
+				: fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
