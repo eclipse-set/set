@@ -14,22 +14,21 @@ import java.util.List
 import java.util.Map
 import org.apache.commons.text.StringSubstitutor
 import org.eclipse.set.basis.constants.Events
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.graph.BankService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie
 import org.eclipse.set.model.plazmodel.PlazError
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.eclipse.set.model.validationreport.ValidationSeverity
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.ToolboxConfiguration
-import org.eclipse.set.model.planpro.Geodaten.Ueberhoehungslinie
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 import org.osgi.service.event.Event
 import org.osgi.service.event.EventAdmin
 import org.osgi.service.event.EventConstants
 import org.osgi.service.event.EventHandler
-import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.basis.graph.TopPoint
-import java.math.BigDecimal
 
 /**
  * Validates that there's a valid top path for each bank line
@@ -91,7 +90,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 				return p1
 			]
 			return createError(
-				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD}) für die Überhöhungslinie {GUID} mit ensprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
+				"Es konnte kein passender topologischer Pfad (gesucht bis {PFAD}) für die Überhöhungslinie {GUID} mit entsprechend Länge ({UEBERHOEHUNG}) gefunden werden.",
 				Map.of(
 					"GUID",
 					it.identitaet?.wert,
