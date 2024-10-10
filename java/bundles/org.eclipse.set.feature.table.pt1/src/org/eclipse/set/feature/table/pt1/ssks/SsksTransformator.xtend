@@ -207,15 +207,21 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[""]
 						)
 
-						fillConditional(
+						fillSwitch(
 							row,
 							cols.getColumn(Reales_Signal),
 							signal,
-							[isHauptbefestigung],
-							[
-								signal?.signalReal?.signalRealAktivSchirm?.
-									signalArt?.wert?.translate
-							]
+							new Case<Signal>(
+								[isHauptbefestigung && isETCSMarker],
+								["W"]
+							),
+							new Case<Signal>(
+								[isHauptbefestigung],
+								[
+									signal?.signalReal?.signalRealAktivSchirm?.
+										signalArt?.wert?.translate
+								]
+							)
 						)
 
 						fillConditional(
@@ -1010,19 +1016,24 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		}
 
 		val signalReal = signal?.signalReal
-		val signalRealAktiv = signalReal?.signalRealAktiv
-		val signalRealAktivSchirm = signalReal?.signalRealAktivSchirm
-		val signalArt = signalRealAktivSchirm?.signalArt?.wert
+		val signalArt = signalReal?.signalRealAktivSchirm?.signalArt?.wert
 		val signalFunktion = signalReal?.signalFunktion?.wert
 
 		return (signalArt !== null && signalArt != ENUM_SIGNAL_ART_ANDERE) ||
 			(signalFunktion !== null &&
 				signalFunktion ==
 					ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL) ||
-			(signalReal !== null && signalRealAktiv === null &&
-				signalRealAktivSchirm === null &&
-				(signal.hasSignalbegriffID(Ne14) ||
-					signal.hasSignalbegriffID(OzBk)))
+			isETCSMarker(signal)
+	}
+
+	private static def boolean isETCSMarker(Signal signal) {
+		val signalReal = signal?.signalReal
+		val signalRealAktiv = signalReal?.signalRealAktiv
+		val signalRealAktivSchirm = signalReal?.signalRealAktivSchirm
+		return (signalReal !== null && signalRealAktiv === null &&
+			signalRealAktivSchirm === null &&
+			(signal.hasSignalbegriffID(Ne14) ||
+				signal.hasSignalbegriffID(OzBk)))
 	}
 
 	private static def boolean isSsksSignalNichtAndere(Signal signal) {
