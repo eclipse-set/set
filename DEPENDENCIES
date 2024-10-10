@@ -622,7 +622,7 @@ npm/npmjs/-/resolve/1.22.4, MIT AND ISC, approved, #15318
 npm/npmjs/-/resolve/1.22.8, MIT AND ISC, approved, #15315
 npm/npmjs/-/retry/0.13.1, MIT, approved, clearlydefined
 npm/npmjs/-/reusify/1.0.4, MIT, approved, clearlydefined
-npm/npmjs/-/rgbcolor/1.0.1, MIT OR OTHER, restricted, clearlydefined
+npm/npmjs/-/rgbcolor/1.0.1, MIT, approved, #16602
 npm/npmjs/-/rimraf/3.0.2, ISC, approved, clearlydefined
 npm/npmjs/-/rollup/4.21.0, MIT, approved, clearlydefined
 npm/npmjs/-/run-applescript/7.0.0, MIT, approved, clearlydefined
