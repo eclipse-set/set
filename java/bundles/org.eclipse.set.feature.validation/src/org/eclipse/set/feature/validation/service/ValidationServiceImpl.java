@@ -27,6 +27,7 @@ import org.eclipse.set.basis.ResourceLoader;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
 import org.eclipse.set.core.services.validation.CustomValidator;
+import org.eclipse.set.core.services.validation.CustomValidator.FileType;
 import org.eclipse.set.core.services.validation.ValidationService;
 import org.eclipse.set.feature.validation.FilterDiagnostician;
 import org.eclipse.set.model.planpro.Layoutinformationen.PlanPro_Layoutinfo;
@@ -82,7 +83,7 @@ public class ValidationServiceImpl implements ValidationService {
 		if (planProSourceModel != null) {
 			emfValidation(planProSourceModel.getPlanProSchnittstelle(), result);
 		}
-		customValidation(toolboxFile, result);
+		customValidation(toolboxFile, result, FileType.Model);
 	}
 
 	private void validateLayoutinfo(final ToolboxFile toolboxFile,
@@ -93,7 +94,7 @@ public class ValidationServiceImpl implements ValidationService {
 		if (layoutSourceModel != null) {
 			emfValidation(layoutSourceModel.getPlanProLayoutinfo(), result);
 		}
-		customValidation(toolboxFile, result);
+		customValidation(toolboxFile, result, FileType.Layout);
 	}
 
 	@Override
@@ -113,9 +114,9 @@ public class ValidationServiceImpl implements ValidationService {
 
 	@Override
 	public ValidationResult customValidation(final ToolboxFile toolboxFile,
-			final ValidationResult result) {
-		customValidators
-				.forEach(validator -> validator.validate(toolboxFile, result));
+			final ValidationResult result, final FileType type) {
+		customValidators.forEach(
+				validator -> validator.validate(toolboxFile, result, type));
 		return result;
 	}
 

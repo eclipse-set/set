@@ -17,6 +17,12 @@ import org.eclipse.set.basis.files.ToolboxFile;
  * @author Schaefer
  */
 public interface CustomValidator {
+	/**
+	 * Which type of file is being validated
+	 */
+	enum FileType {
+		Layout, Model
+	}
 
 	/**
 	 * @return a class to inject messages to
@@ -34,10 +40,13 @@ public interface CustomValidator {
 	 *            the toolbox file
 	 * @param result
 	 *            the object collecting the validation results
+	 * @param type
+	 *            type of file being validated
 	 * @param prototype
 	 *            a prototype for creating custom validation problems
 	 */
-	void validate(ToolboxFile toolboxFile, ValidationResult result);
+	void validate(ToolboxFile toolboxFile, ValidationResult result,
+			FileType type);
 
 	/**
 	 * @return type of validation

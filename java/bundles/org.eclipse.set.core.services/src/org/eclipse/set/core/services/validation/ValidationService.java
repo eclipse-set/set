@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.set.basis.ResourceLoader;
 import org.eclipse.set.basis.constants.ValidationResult;
 import org.eclipse.set.basis.files.ToolboxFile;
+import org.eclipse.set.core.services.validation.CustomValidator.FileType;
 
 /**
  * Provides methods for validation.
@@ -47,13 +48,15 @@ public interface ValidationService {
 	 *            the toolbox file
 	 * @param result
 	 *            the object collecting the validation results
+	 * @param type
+	 *            type of file being validated
 	 * @param prototype
 	 *            a prototype for creating custom validation problems
 	 * 
 	 * @return the validation result
 	 */
 	ValidationResult customValidation(ToolboxFile toolboxFile,
-			ValidationResult result);
+			ValidationResult result, FileType type);
 
 	/**
 	 * @param <T>
