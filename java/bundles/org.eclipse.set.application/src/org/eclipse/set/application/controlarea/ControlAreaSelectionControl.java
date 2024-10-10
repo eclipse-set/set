@@ -164,8 +164,8 @@ public class ControlAreaSelectionControl {
 			values.addAll(getComboValues(getSession(), ContainerType.INITIAL));
 			break;
 		case SINGLE:
-			values.addAll(getComboValues(getSession(), ContainerType.SINGLE));
-			break;
+			setSinglePlanControlAreaCombo();
+			return;
 		case DIFF:
 			values.addAll(getDiffComboValues());
 			break;
@@ -289,6 +289,13 @@ public class ControlAreaSelectionControl {
 		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(true);
+	}
+
+	private void setSinglePlanControlAreaCombo() {
+		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
+		comboViewer.getCombo().select(0);
+		comboViewer.getCombo().setEnabled(false);
+		oldSelectionValue = messages.ControlAreaCombo_All_ControlArea;
 	}
 
 	private String getDefaultAreaName(final int index) {
