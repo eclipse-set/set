@@ -26,18 +26,20 @@ public class LayoutInfoRequired extends AbstractCustomValidator {
 
 	@Override
 	public void validate(final ToolboxFile toolboxFile,
-			final ValidationResult result) {
+			final ValidationResult result, final FileType type) {
 		try {
-			toolboxFile.openLayout();
-			final PlanProFileResource layoutResource = toolboxFile
-					.getLayoutResource();
-			if (layoutResource == null) {
-				result.addCustomProblem(layoutMissing());
-			} else {
+			if (type == FileType.Layout) {
 				result.addCustomProblem(new CustomValidationProblemImpl(
 						"Layoutinformationen sind vorhanden", //$NON-NLS-1$
 						ValidationSeverity.SUCCESS, this.validationType(), null,
 						null, null));
+			} else if (type == FileType.Model) {
+				toolboxFile.openLayout();
+				final PlanProFileResource layoutResource = toolboxFile
+						.getLayoutResource();
+				if (layoutResource == null) {
+					result.addCustomProblem(layoutMissing());
+				}
 			}
 		} catch (final Exception ex) {
 			result.addCustomProblem(layoutMissing());

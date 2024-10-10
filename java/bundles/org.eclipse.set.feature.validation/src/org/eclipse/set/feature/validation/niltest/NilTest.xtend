@@ -42,7 +42,8 @@ class NilTest extends AbstractCustomValidator {
 
 	override void validate(
 		ToolboxFile toolboxFile,
-		ValidationResult result
+		ValidationResult result,
+		FileType type
 	) {
 		try {
 			sourceClass = result.validatedSourceClass
