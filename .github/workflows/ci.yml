@@ -292,10 +292,10 @@ jobs:
           path: ${{ github.workspace}}/java/bundles/org.eclipse.set.swtbot/target/classes/diff/**/*.csv
           retention-days: 1
   
-  create-diff-view:
+  table-diff-view:
     runs-on: ubuntu-latest
     needs: swtbot
-    if: failure() && needs.swtbot.result == 'failure' && github.actor_id != 49699333
+    if: always() && github.actor_id != 49699333
     container: ghcr.io/eclipse-set/table-diff-view:latest
     permissions:
       contents: write
@@ -314,6 +314,7 @@ jobs:
             fi
 
       - name: Fetch table csv
+        if: needs.swtbot.result == 'failure'
         uses: actions/download-artifact@v4
         with:
           name: table-csv-${{github.run_number}}
@@ -328,12 +329,9 @@ jobs:
             --prNumber=${{github.event.pull_request.number}}
       
       - name: Upload Diff-File
+        if: needs.swtbot.result == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: table-diff-files-${{github.run_number}}
           path: ${{ env.DIFF_DIR }}/diff-md
           retention-days: 5
-
-
-          
-
