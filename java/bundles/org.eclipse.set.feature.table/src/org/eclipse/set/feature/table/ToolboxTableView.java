@@ -106,8 +106,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -126,6 +125,9 @@ import jakarta.inject.Inject;
 public final class ToolboxTableView extends BasePart {
 
 	protected static final int DEBUG_WIDTH_CORRECTION = 0;
+
+	private static Color GRAY_BACKGROUND = new Color(Display.getCurrent(), 240,
+			240, 240);
 
 	static final Logger logger = LoggerFactory
 			.getLogger(ToolboxTableView.class);
@@ -550,6 +552,7 @@ public final class ToolboxTableView extends BasePart {
 
 		// display footnotes
 		tableFooting = new StyledText(parent, SWT.MULTI);
+		tableFooting.setBackground(GRAY_BACKGROUND);
 		updateFootnotes();
 		tableFooting.setEditable(false);
 		GridDataFactory.fillDefaults().grab(true, false).minSize(-1, 500)

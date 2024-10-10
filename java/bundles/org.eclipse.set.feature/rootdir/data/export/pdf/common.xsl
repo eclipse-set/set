@@ -226,7 +226,9 @@ http://www.eclipse.org/legal/epl-v20.html
 	</xsl:template>
 
 	<xsl:template match="Footnotes[Footnote]">
-		<fo:block page-break-before="always" xsl:use-attribute-sets="title-footnotes-style">Bemerkungen</fo:block>
+		<fo:block page-break-before="always" xsl:use-attribute-sets="title-footnotes-style">
+			<xsl:text>Bemerkungen</xsl:text>
+		</fo:block>
 		<xsl:apply-templates select="Footnote" />
 	</xsl:template>
 
@@ -236,16 +238,19 @@ http://www.eclipse.org/legal/epl-v20.html
 
 	<xsl:template match="COMMON_FOOTNOTE">
 		<fo:block text-align="left">
-		*			<xsl:value-of select="@footnote-number" />
-:			<xsl:value-of select="." />
+			<xsl:text>*</xsl:text>
+			<xsl:value-of select="@footnote-number" />
+			<xsl:text>: </xsl:text>
+			<xsl:value-of select="." />
 		</fo:block>
 	</xsl:template>
 	<xsl:template match="NEW_FOOTNOTE">
 		<fo:block text-align="left">
 			<fo:inline color="#cd0000">
-		*				<xsl:value-of select="@footnote-number" />
-:				<xsl:value-of select="." />
-
+				<xsl:text>*</xsl:text>
+				<xsl:value-of select="@footnote-number" />
+				<xsl:text>: </xsl:text>
+				<xsl:value-of select="." />
 			</fo:inline>
 		</fo:block>
 	</xsl:template>
@@ -253,9 +258,10 @@ http://www.eclipse.org/legal/epl-v20.html
 	<xsl:template match="OLD_FOOTNOTE">
 		<fo:block text-align="left">
 			<fo:inline background-color="yellow" text-decoration="line-through">
-		*				<xsl:value-of select="@footnote-number" />
-:				<xsl:value-of select="." />
-
+				<xsl:text>*</xsl:text>
+				<xsl:value-of select="@footnote-number" />
+				<xsl:text>: </xsl:text>
+				<xsl:value-of select="." />
 			</fo:inline>
 		</fo:block>
 	</xsl:template>
