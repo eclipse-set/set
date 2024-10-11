@@ -11,7 +11,7 @@ env:
 jobs:
   doCommand:
     runs-on: ubuntu-latest
-    if: github.event.issue.pull_request == null && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/update-table-reference')
+    if: !github.event.issue.pull_request && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/update-table-reference')
     container: ghcr.io/eclipse-set/update-table-reference:latest
     permissions:
       contents: write
