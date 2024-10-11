@@ -34,6 +34,8 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteEx
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.graph.TopologicalGraphService
 
 /**
  * Table transformation for ETCS Melde- und Kommandoschaltung Muka Weichen (Sszw)
@@ -42,10 +44,12 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
  */
 class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory = null
+	TopologicalGraphService topGraphService
 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService) {
 		super(cols, enumTranslationService)
+		this.topGraphService = null
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -126,10 +130,17 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			new Case<W_Kr_Anlage>(
 				[
 					WKrAnlageArt === ENUMW_KR_ART_EW
-				// TODO
+					// Befüllung:  "Topologischer Abstand zwischen " + ETCS_W_Kr.ID_W_Kr_Anlage --> W_Kr_Anlage <-- W_Kr_Gsp_Element.ID_W_Kr_Anlage --> W_Kr_Gsp_Element <-- W_Kr_Gsp_Komponente --> Punkt_Objekt 
+                //    + " und " + ETCS_W_Kr.ID_W_Kr_Anlage --> W_Kr_Anlage <-- W_Kr_Gsp_Element.ID_W_Kr_Anlage --> W_Kr_Gsp_Element.Weiche_Element.ID_Grenzzeichen --> Signal --> Punkt_Objekt
 				],
 				[
-					// TODO
+					val gspElemente = WKrGspElemente
+					val gspKomponentTopPoints = gspElemente.flatMap[WKrGspKomponenten].filterNull.map[new TopPoint(it)]
+					val signalTopPoints = WKrGspElemente.map[weicheElement?.IDGrenzzeichen?.value].filterNull.map[new TopPoint(it)]
+					return signalTopPoints.flatMap[signalTopPoint |
+						gspKomponentTopPoints.map[topGraphService.findShortestDistance(signalTopPoint, it)]
+					].map[orElse(null)].min.doubleValue.toString
+					
 				]
 			),
 			new Case<W_Kr_Anlage>(
