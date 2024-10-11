@@ -54,5 +54,9 @@ public record PtTable(String shortcut, String tableName,
 			new PtTable("sslz", "Sslz – Zugstraßentabelle", List.of(0)),
 			new PtTable("ssvu", "Ssvu – Übertragungswegtabelle", List.of(0, 1)),
 			new PtTable("sskp", "Sskp – PZB-Tabelle", List.of(0, 1)),
-			new PtTable("ssza", "Ssza – ETCS-Datenpunkttabelle", List.of(0)));
+			new PtTable("ssza", "Ssza – ETCS-Datenpunkttabelle", List.of(0)),
+			new PtTable("sszs",
+					"Sszs – ETCS Melde- und Kommandoschaltung Muka Signale",
+					List.of(0)));
+
 }

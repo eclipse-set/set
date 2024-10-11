@@ -22,6 +22,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
@@ -44,6 +45,8 @@ import static extension org.eclipse.set.basis.graph.Digraphs.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.FstrFahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
@@ -86,14 +89,22 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @returns boolean
 	 */
 	def static boolean isStartOfAnyTrainRoute(Signal signal) {
-		for (Fstr_Zug_Rangier zugRangier : signal.container.fstrZugRangier) {
-			if (zugRangier?.fstrZug !== null &&
-				zugRangier?.fstrFahrweg?.start?.identitaet?.wert.equals(
-					signal?.identitaet?.wert)) {
-				return true
-			}
-		}
-		return false
+		return signal.container.fstrZugRangier.exists [
+			fstrFahrweg?.start === signal && fstrZug !== null
+		]
+	}
+
+	/**
+	 * checks if the given signal is start or end signal of any route.
+	 * @param signal this Signal
+	 * 
+	 * @returns boolean
+	 */
+	def static boolean isStartOrDestinationOfAnyTrainRoute(Signal signal) {
+		return signal.container.fstrZugRangier.filter[fstrZug !== null].exists [
+			fstrFahrweg?.start === signal || fstrFahrweg?.zielSignal === signal
+		]
+
 	}
 
 	/**
@@ -456,4 +467,16 @@ class SignalExtensions extends PunktObjektExtensions {
 		return false
 	}
 
+
+	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {
+		val fstrFahrwegs = signal.container.fstrFahrweg.filter [
+			start === signal || zielSignal === signal
+		]
+		val dwegs = fstrFahrwegs.flatMap[fstrDweg].toList
+		val fmaAnlages = dwegs.flatMap[IDFMAAnlageFreimeldung].map[value].
+			filterNull
+		return signal.container.FMAKomponente.filter [ fmaKomponent |
+			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
+		].toList
+	}
 }

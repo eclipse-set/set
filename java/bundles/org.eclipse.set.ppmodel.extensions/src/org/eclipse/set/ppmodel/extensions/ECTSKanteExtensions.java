@@ -20,12 +20,15 @@ import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_Knoten;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 
 /**
+ * Extensions for {@link ETCS_Kante}
  * 
+ * @author truong
  */
 public class ECTSKanteExtensions extends BasisObjektExtensions {
 	/**
 	 * @param etcsEdge
-	 * @return
+	 *            the {@link ETCS_Kante}
+	 * @return the start {@link ETCS_Knoten}
 	 */
 	public static ETCS_Knoten getETCSKnotenA(final ETCS_Kante etcsEdge) {
 		return getNullableObject(etcsEdge,
@@ -34,7 +37,8 @@ public class ECTSKanteExtensions extends BasisObjektExtensions {
 
 	/**
 	 * @param etcsEdge
-	 * @return
+	 *            the {@link ETCS_Kante}
+	 * @return the end {@link ETCS_Knoten}
 	 */
 	public static ETCS_Knoten getETCSKnotenB(final ETCS_Kante etcsEdge) {
 		return getNullableObject(etcsEdge,
@@ -43,7 +47,8 @@ public class ECTSKanteExtensions extends BasisObjektExtensions {
 
 	/**
 	 * @param etcsEdge
-	 * @return
+	 *            the {@link ETCS_Kante}
+	 * @return the list of {@link TOP_Kante}
 	 */
 	public static List<TOP_Kante> getTopKante(final ETCS_Kante etcsEdge) {
 		return etcsEdge.getIDTOPKante().stream().map(

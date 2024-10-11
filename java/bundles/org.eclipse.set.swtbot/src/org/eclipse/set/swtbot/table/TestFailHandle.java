@@ -32,15 +32,20 @@ import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * Export current state and reference table, when test fail
  * 
+ * @author truong
  */
 @Disabled
 public class TestFailHandle implements TestWatcher {
 	private static final String CURRENT_CSV_EXTENSIONS = "_current.csv";
 	private static final String DIFF_DIR = "diff";
 	private static final String REFERENCE_CSV_EXTENSIONS = "_reference.csv";
+	private final Logger LOGGER = LoggerFactory.getLogger(TestFailHandle.class);
 
 	@Override
 	public void testFailed(final ExtensionContext context,
@@ -95,15 +100,21 @@ public class TestFailHandle implements TestWatcher {
 		if (!outFile.getParentFile().exists()) {
 			outFile.getParentFile().mkdirs();
 		}
-		try (final InputStream resourceStream = resourceClassLoader
+		final InputStream referenceResource = resourceClassLoader
 				.getResourceAsStream(
 						parentDir + tableName + REFERENCE_CSV_EXTENSIONS);
+		// New table given't reference datei
+		if (referenceResource == null) {
+			LOGGER.debug(String.format("Cannot find file: %s",
+					tableName + REFERENCE_CSV_EXTENSIONS));
+			return;
+		}
+		try (final InputStream resourceStream = referenceResource;
 				final FileOutputStream outputStream = new FileOutputStream(
 						outFile);) {
 			outputStream.write(resourceStream.readAllBytes());
 		} catch (final IOException e) {
-			throw new RuntimeException(String.format("Cannot find file: %s",
-					tableName + REFERENCE_CSV_EXTENSIONS));
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
