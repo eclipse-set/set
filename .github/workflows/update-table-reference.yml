@@ -35,7 +35,7 @@ jobs:
             let reaction = 'rocket'
             if (!(userPermission == 'write' || userPermission == 'admin')) { // not a committer
               // Not a committer -> abort workflow
-              core.setFailed("Only committers are permitted to request license vetting and " + context.actor + " isn't one.")
+              core.setFailed("Only committers are permitted to update table reference and " + context.actor + " isn't one.")
               reaction = '-1'
             }
             // react on comment to give early feedback that the request was understood
