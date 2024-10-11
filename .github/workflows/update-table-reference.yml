@@ -47,7 +47,7 @@ jobs:
         shell: bash
         run: |
           ls
-          python -u -m update-table-reference --prNumber=${{ github.event.issue.number }}
+          python -u -m updatereference --prNumber=${{ github.event.issue.number }}
           
       - name: Push
         shell: bash
