@@ -22,7 +22,7 @@ jobs:
       - name: Get target branch
         run: |
           issue_tilte="${{ github.event.issue.title }}"
-          branch_name=$(echo "$issue_tilte" | sed 's/ - Table different//g')
+          branch_name=$(echo "$issue_tilte" | sed 's/ - Tables different//g')
           echo "Branch name: $branch_name"
           echo "TARGET_BRANCH=${branch_name}" >> $GITHUB_ENV
 
