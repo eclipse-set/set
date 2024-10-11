@@ -18,6 +18,7 @@ jobs:
       checks: write
       pull-requests: write
       actions: read
+      issues: write
     steps:
       - name: Get target branch
         run: |
