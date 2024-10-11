@@ -39,6 +39,7 @@ import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg;
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier;
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz;
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Zwieschutz;
+import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung;
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone;

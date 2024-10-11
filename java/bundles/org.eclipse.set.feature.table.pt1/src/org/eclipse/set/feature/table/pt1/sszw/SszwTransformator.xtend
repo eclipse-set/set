@@ -36,6 +36,7 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.graph.TopologicalGraphService
+import org.eclipse.set.core.services.Services
 
 /**
  * Table transformation for ETCS Melde- und Kommandoschaltung Muka Weichen (Sszw)
@@ -49,7 +50,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService) {
 		super(cols, enumTranslationService)
-		this.topGraphService = null
+		this.topGraphService = Services.topGraphService
 	}
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
@@ -130,8 +131,6 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			new Case<W_Kr_Anlage>(
 				[
 					WKrAnlageArt === ENUMW_KR_ART_EW
-					// Befüllung:  "Topologischer Abstand zwischen " + ETCS_W_Kr.ID_W_Kr_Anlage --> W_Kr_Anlage <-- W_Kr_Gsp_Element.ID_W_Kr_Anlage --> W_Kr_Gsp_Element <-- W_Kr_Gsp_Komponente --> Punkt_Objekt 
-                //    + " und " + ETCS_W_Kr.ID_W_Kr_Anlage --> W_Kr_Anlage <-- W_Kr_Gsp_Element.ID_W_Kr_Anlage --> W_Kr_Gsp_Element.Weiche_Element.ID_Grenzzeichen --> Signal --> Punkt_Objekt
 				],
 				[
 					val gspElemente = WKrGspElemente
