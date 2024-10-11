@@ -3,15 +3,15 @@ name: Update table reference
 on:
   issue_comment:
     types: [created]
+  
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   REPO_LOCAL_PATH: ${{github.workspace}}/set
-  TARGET_BRANCH : 'refs/pull/${{ github.event.issue.number}}/merge'
 
 jobs:
   doCommand:
     runs-on: ubuntu-latest
-    if: github.event.issue.pull_request == null && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/update-table-reference')
+    if: ${{ !github.event.issue.pull_request && github.event_name == 'issue_comment' && contains(github.event.comment.body, '/update-table-reference') }}
     container: ghcr.io/eclipse-set/update-table-reference:latest
     permissions:
       contents: write
@@ -19,6 +19,13 @@ jobs:
       pull-requests: write
       actions: read
     steps:
+      - name: Get target branch
+        run: |
+          issue_tilte="${{ github.event.issue.title }}"
+          branch_name=$(echo "$issue_tilte" | sed 's/ - Table different//g')
+          echo "Branch name: $branch_name"
+          echo "TARGET_BRANCH=${branch_name}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
         with:
           ref: ${{ env.TARGET_BRANCH }}
@@ -47,7 +54,7 @@ jobs:
         shell: bash
         run: |
           ls
-          python -u -m updatereference --prNumber=${{ github.event.issue.number }}
+          python -u -m updatereference --issueNumber=${{ github.event.issue.number }}
           
       - name: Push
         shell: bash
