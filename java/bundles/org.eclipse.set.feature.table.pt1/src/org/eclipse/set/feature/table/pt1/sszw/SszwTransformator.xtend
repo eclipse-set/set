@@ -10,11 +10,20 @@
  */
 package org.eclipse.set.feature.table.pt1.sszw
 
+import java.util.Collections
+import java.util.List
 import java.util.Set
+import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr
+import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.Table
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
@@ -22,21 +31,17 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.sszw.SszwColumns.*
+import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
 import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ETCSWKrExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Anlage
-import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
-import org.eclipse.set.basis.graph.TopPoint
-import org.eclipse.set.core.services.graph.TopologicalGraphService
-import org.eclipse.set.core.services.Services
 
 /**
  * Table transformation for ETCS Melde- und Kommandoschaltung Muka Weichen (Sszw)
@@ -123,6 +128,25 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[streckInfo?.value ?: ""]
 		)
 
+		val wKomponentEW_L = refWKrAnlage.getGspKomponente(
+			[it === ENUMW_KR_ART_EW],
+			[it === ENUM_LINKS_RECHTS_LINKS]
+		)
+		val wKomponentEW_R = refWKrAnlage.getGspKomponente(
+			[it === ENUMW_KR_ART_EW],
+			[it === ENUM_LINKS_RECHTS_RECHTS]
+		)
+
+		val wKomponentDKW_EKW_L = refWKrAnlage.getGspKomponente(
+			[it === ENUMW_KR_ART_DKW || it === ENUMW_KR_ART_EKW],
+			[it === ENUM_LINKS_RECHTS_LINKS]
+		)
+
+		val wKomponentDKW_EKW_R = refWKrAnlage.getGspKomponente(
+			[it === ENUMW_KR_ART_DKW || it === ENUMW_KR_ART_EKW],
+			[it === ENUM_LINKS_RECHTS_RECHTS]
+		)
+
 		// F: Sszw.W_Kr.Laenge.li
 		fillSwitch(
 			row,
@@ -130,28 +154,16 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			refWKrAnlage,
 			new Case<W_Kr_Anlage>(
 				[
-					WKrAnlageArt === ENUMW_KR_ART_EW
+					!wKomponentEW_L.nullOrEmpty
 				],
 				[
-					val gspElemente = WKrGspElemente
-					val gspKomponentTopPoints = gspElemente.flatMap[WKrGspKomponenten].filterNull.map[new TopPoint(it)]
-					val signalTopPoints = WKrGspElemente.map[weicheElement?.IDGrenzzeichen?.value].filterNull.map[new TopPoint(it)]
-					return signalTopPoints.flatMap[signalTopPoint |
-						gspKomponentTopPoints.map[topGraphService.findShortestDistance(signalTopPoint, it)]
-					].map[orElse(null)].min.doubleValue.toString
-					
+					getWKrLaenge(wKomponentEW_L).toString
+
 				]
 			),
 			new Case<W_Kr_Anlage>(
 				[
-					val anlageArt = WKrAnlageArt
-					return (anlageArt === ENUMW_KR_ART_EKW ||
-						anlageArt === ENUMW_KR_ART_DKW) &&
-						WKrGspElemente.flatMap[WKrGspKomponenten].map [
-							zungenpaar?.kreuzungsgleis?.wert
-						].filterNull.exists [
-							it === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS
-						]
+					!wKomponentDKW_EKW_L.nullOrEmpty
 				],
 				[
 					// TODO
@@ -159,9 +171,84 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 		)
 
-		// G: Sszw.Ansteuerung.ESTW_Zentraleinheit
-		// TODO
-		// H: Sszw.Ansteuerung.Stellbereich
+		// G: Sszw.W_Kr.Laenge.re
+		fillSwitch(
+			row,
+			cols.getColumn(Laaenge_rechts),
+			refWKrAnlage,
+			new Case<W_Kr_Anlage>(
+				[
+					!wKomponentEW_R.nullOrEmpty
+				],
+				[
+					getWKrLaenge(wKomponentEW_R).toString
+
+				]
+			),
+			new Case<W_Kr_Anlage>(
+				[
+					!wKomponentDKW_EKW_R.nullOrEmpty
+				],
+				[
+					// TODO
+				]
+			)
+		)
+
+		// H
+		fill(
+			row,
+			cols.getColumn(Geschwindigkeit_W_L),
+			refWKrAnlage,
+			[
+				// TODO
+				"TODO"
+			]
+		)
+
+		// I
+		fill(
+			row,
+			cols.getColumn(Geschwindigkeit_W_R),
+			refWKrAnlage,
+			[
+				// TODO
+				"TODO"
+			]
+		)
+		// J 
+		fill(
+			row,
+			cols.getColumn(Geschwindigkeit_Kr_L),
+			refWKrAnlage,
+			[
+				// TODO
+				"TODO"
+			]
+		)
+
+		// K 
+		fill(
+			row,
+			cols.getColumn(Geschwindiket_Kr_R),
+			refWKrAnlage,
+			[
+				// TODO
+				"TODO"
+			]
+		)
+
+		// L: Sszw.Ansteuerung.ESTW_Zentraleinheit
+		fill(
+			row,
+			cols.getColumn(ESTW_Zentraleinheit),
+			etcsWkr,
+			[
+				// TODO
+				"TODO"
+			]
+		)
+		// M: Sszw.Ansteuerung.Stellbereich
 		fill(
 			row,
 			cols.getColumn(Stellbereich),
@@ -173,6 +260,15 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				return designation ?: ""
 			]
 		)
+
+		// N: Sszw.Bemerkung
+		fill(
+			row,
+			cols.getColumn(Bemerkung),
+			etcsWkr,
+			[]
+		)
+		fillFootnotes(row, etcsWkr)
 	}
 
 	private def Pair<String, String> getStreckeInfo(ETCS_W_Kr etcsWKr) {
@@ -207,6 +303,31 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			default:
 				return null
 		}
+	}
+
+	private def List<W_Kr_Gsp_Komponente> getGspKomponente(
+		W_Kr_Anlage wkrAnlage, (ENUMWKrArt)=>boolean wkrArtCondition,
+		(ENUMLinksRechts)=>boolean kreuzungsgleisCondition) {
+		if (!wkrArtCondition.apply(wkrAnlage.WKrAnlageArt)) {
+			return Collections.emptyList
+		}
+		val gspKomponenten = wkrAnlage.WKrGspElemente.flatMap[WKrGspKomponenten]
+		return gspKomponenten.filter [
+			kreuzungsgleisCondition.apply(zungenpaar?.kreuzungsgleis?.wert)
+		].toList
+	}
+
+	private def String getWKrLaenge(W_Kr_Anlage anlage,
+		List<W_Kr_Gsp_Komponente> gspKomponente) {
+		val signalTopPoints = anlage.WKrGspElemente.map [
+			weicheElement?.IDGrenzzeichen?.value
+		].filterNull.map[new TopPoint(it)]
+		val distance = gspKomponente.map[new TopPoint(it)].flatMap [ gspPoint |
+			signalTopPoints.map [
+				topGraphService.findShortestDistance(it, gspPoint)
+			]
+		].map[orElse(null)].filterNull
+		return distance.nullOrEmpty ? "" : distance.min.doubleValue.toString
 	}
 
 	private def Stell_Bereich getStellbereich(ETCS_W_Kr etcsWKr) {
