@@ -3,7 +3,7 @@ The Eclipse Signalling Engineering Toolbox provides means for initialization, ma
 ## 2.3
 - Initial implementation of the Overview Plan, which provides an abstract visualization of the topology.
 - Importing of existing data into other planning projects
-- Initial implementation of the ETCS Tables (Ssza, Sszs)
+- Initial implementation of the ETCS Tables (Ssza, Sszs, Sszw)
 - All ESTW tables displayed separately according to setting ranges via a selection box (note: this selection has no influence on the ETCS tables).
   
 ## 2.2
