@@ -18,7 +18,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * Part description for sszaw table view.
+ * Part description for sszw table view.
  */
 @Component(service = PartDescriptionService.class)
 public class SszwDescriptionService extends AbstractETCSTableDescription {

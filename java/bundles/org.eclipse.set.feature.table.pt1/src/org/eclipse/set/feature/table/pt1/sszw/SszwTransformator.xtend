@@ -298,7 +298,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				].filterNull.firstOrNull
 				// TODO: km
 				return strecke?.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
-					""
+					"TODO"
 			}
 			default:
 				return null
