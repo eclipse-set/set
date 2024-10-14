@@ -659,7 +659,7 @@ public class Messages extends AbstractMessageService {
 	public String SszaTableView_Heading;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Muka Signale
+	 * ETCS Melde- und Kommandoschaltung Signale
 	 */
 	public String ToolboxTableNameSszsLong;
 
@@ -674,37 +674,37 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSszsShort;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Muka Signale - Sszs
+	 * ETCS Melde- und Kommandoschaltung Signale - Sszs
 	 */
 	public String SszsTableView_Heading;
 
 	/**
-	 * Ssza (ETCS Melde- und Kommandoschaltung Muka Signale)
+	 * Ssza (ETCS Melde- und Kommandoschaltung Signale)
 	 */
 	public String SszsDescriptionService_ViewName;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Muka Signale
+	 * ETCS Melde- und Kommandoschaltung Signale
 	 */
 	public String SszsDescriptionService_ViewTooltip;
 
 	/**
-	 * Sszw – ETCS Melde- und Kommandoschaltung Muka Weichen
+	 * Sszw – ETCS Melde- und Kommandoschaltung Weichen
 	 */
 	public String SszwDescriptionService_ViewName;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Muka Weichen
+	 * ETCS Melde- und Kommandoschaltung Weichen
 	 */
 	public String SszwDescriptionService_ViewTooltip;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Muka Weichen
+	 * ETCS Melde- und Kommandoschaltung Weichen
 	 */
 	public String ToolboxTableNameSszwLong;
 
 	/**
-	 * ???
+	 * 42/10
 	 */
 	public String ToolboxTableNameSszwPlanningNumber;
 
@@ -714,7 +714,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSszwShort;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Muka Weichen – Sszw
+	 * ETCS Melde- und Kommandoschaltung Weichen – Sszw
 	 */
 	public String SszwTableView_Heading;
 }

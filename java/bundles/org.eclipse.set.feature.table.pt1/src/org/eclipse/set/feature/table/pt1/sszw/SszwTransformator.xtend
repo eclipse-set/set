@@ -87,10 +87,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				WKrAnlageArt === ENUMW_KR_ART_EW
 			],
 			[
-				container.WKrGspElement.filter [ gspElement |
-					gspElement.IDWKrAnlage?.value !== null &&
-						gspElement.IDWKrAnlage.value === it
-				].map[bezeichnung?.bezeichnungTabelle?.wert].toSet.
+				WKrGspElemente.map[bezeichnung?.bezeichnungTabelle?.wert].toSet.
 					firstOrNull ?: ""
 			]
 		)
@@ -128,13 +125,9 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			[streckInfo?.value ?: ""]
 		)
 
-		val wKomponentEW_L = refWKrAnlage.getGspKomponente(
+		val wKomponentEW = refWKrAnlage.getGspKomponente(
 			[it === ENUMW_KR_ART_EW],
-			[it === ENUM_LINKS_RECHTS_LINKS]
-		)
-		val wKomponentEW_R = refWKrAnlage.getGspKomponente(
-			[it === ENUMW_KR_ART_EW],
-			[it === ENUM_LINKS_RECHTS_RECHTS]
+			[true]
 		)
 
 		val wKomponentDKW_EKW_L = refWKrAnlage.getGspKomponente(
@@ -154,10 +147,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			refWKrAnlage,
 			new Case<W_Kr_Anlage>(
 				[
-					!wKomponentEW_L.nullOrEmpty
+					!wKomponentEW.nullOrEmpty
 				],
 				[
-					getWKrLaenge(wKomponentEW_L).toString
+					getWKrLaenge(wKomponentEW).toString
 
 				]
 			),
@@ -178,10 +171,10 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			refWKrAnlage,
 			new Case<W_Kr_Anlage>(
 				[
-					!wKomponentEW_R.nullOrEmpty
+					!wKomponentEW.nullOrEmpty
 				],
 				[
-					getWKrLaenge(wKomponentEW_R).toString
+					getWKrLaenge(wKomponentEW).toString
 
 				]
 			),
@@ -254,10 +247,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Stellbereich),
 			etcsWkr,
 			[
-				val constrolArea = stellbereich
-				val designation = constrolArea?.oertlichkeitBezeichnung ?:
-					constrolArea?.aussenelementansteuerungBezeichnungAEA
-				return designation ?: ""
+				stellbereich.oertlichkeitBezeichnung ?: ""
 			]
 		)
 

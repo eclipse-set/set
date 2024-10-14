@@ -108,7 +108,7 @@ public class StellBereichExtensions {
 					e);
 			final Oertlichkeit oertlichkeit = AussenelementansteuerungExtensions
 					.getOertlichkeitNamensgebend(aussenElementAnsteuerung);
-			return oertlichkeit.getBezeichnung().getOertlichkeitKurzname()
+			return oertlichkeit.getBezeichnung().getOertlichkeitAbkuerzung()
 					.getWert();
 		}).orElse(null);
 	}
