@@ -42,9 +42,10 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
- * Table transformation for ETCS Melde- und Kommandoschaltung Muka Weichen (Sszw)
+ * Table transformation for ETCS Melde- und Kommandoschaltung Weichen (Sszw)
  * 
  * @author truong
  */
@@ -150,7 +151,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 					!wKomponentEW.nullOrEmpty
 				],
 				[
-					getWKrLaenge(wKomponentEW).toString
+					getWKrLaenge(wKomponentEW)
 
 				]
 			),
@@ -317,7 +318,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 				topGraphService.findShortestDistance(it, gspPoint)
 			]
 		].map[orElse(null)].filterNull
-		return distance.nullOrEmpty ? "" : distance.min.doubleValue.toString
+		return distance.nullOrEmpty ? "" : distance.min.toTableDecimal
 	}
 
 	private def Stell_Bereich getStellbereich(ETCS_W_Kr etcsWKr) {
