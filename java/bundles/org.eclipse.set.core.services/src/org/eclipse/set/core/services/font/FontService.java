@@ -10,6 +10,7 @@
 package org.eclipse.set.core.services.font;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Provides fonts.
@@ -27,4 +28,13 @@ public interface FontService {
 	 * @return a list of fonts to register for fop
 	 */
 	Iterable<FopFont> getFopFonts();
+
+	/**
+	 * @return the default path of Toolbox Font
+	 */
+	@SuppressWarnings("nls")
+	default Path getDefaultFont() {
+		return Paths
+				.get("data/fonts/Open_Sans_Condensed/OpenSans-CondLight.ttf");
+	}
 }
