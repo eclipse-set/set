@@ -32,6 +32,7 @@ import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.e4.core.services.events.IEventBroker;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.ToolboxConstants;
@@ -60,8 +61,11 @@ import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.TopKanteExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.CacheUtils;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineSegment;
 import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.operation.distance.DistanceOp;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
@@ -348,6 +352,96 @@ public class GeoKanteGeometryServiceImpl
 					.toList();
 			return getTOPKanteMetadata(topEdge, start, bereichObjekt);
 		});
+	}
+
+	@SuppressWarnings("boxing")
+	@Override
+	public Pair<GEOKanteCoordinate, Double> getProjectionCoor(
+			final Coordinate coor, final TOP_Kante topEdge) {
+		final Pair<GEOKanteMetadata, Coordinate> projectionCoorAndGeoKante = findProjectionCoorAndGeoKante(
+				coor, topEdge);
+		if (projectionCoorAndGeoKante == null) {
+			return null;
+		}
+
+		// Find the GEOKanteSegment, which the projection lie on
+		final GEOKanteMetadata metadata = projectionCoorAndGeoKante.getFirst();
+		final Coordinate projectionCoor = projectionCoorAndGeoKante.getSecond();
+
+		// Determine the distance from start of GEO_Kante to projection point
+		double distance = metadata.getStart();
+		Coordinate previousCoordinate = null;
+		for (final GEOKanteSegment segment : metadata.getSegments()) {
+			// Run thought coordinates of Geo_Kante geometry
+			for (final Coordinate currentCoordinate : metadata.getGeometry()
+					.getCoordinates()) {
+				if (previousCoordinate == null) {
+					previousCoordinate = currentCoordinate;
+					// Check if the point is on the segment
+				} else if (distance < segment.getStart()) {
+					distance += previousCoordinate.distance(currentCoordinate);
+				} else if (distance > segment.getEnd()) {
+					break;
+				} else {
+					final double previousCoorToProjectionDistance = previousCoordinate
+							.distance(projectionCoor);
+					final double distanceBetweenCoors = previousCoordinate
+							.distance(coor);
+					distance += distanceBetweenCoors;
+					// When the projection point lies between previous and
+					// current coordinate, return the distance to projection
+					// point and GEOKanteCoordinate
+					if (previousCoorToProjectionDistance < distanceBetweenCoors) {
+						return new Pair<>(
+								new GEOKanteCoordinate(projectionCoor,
+										segment.getBereichObjekte(),
+										getCRS(metadata.getGeoKnoten())),
+								distance + previousCoorToProjectionDistance);
+					}
+
+					previousCoordinate = currentCoordinate;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Find the projection coordinate and the GEO_Kante, which the projection
+	 * lie on
+	 * 
+	 * @param coor
+	 *            the coordinate
+	 * @param topEdge
+	 *            the Top_Kante
+	 * @return Pair<GEOKanteMetadata, Coordinate>
+	 */
+	private Pair<GEOKanteMetadata, Coordinate> findProjectionCoorAndGeoKante(
+			final Coordinate coor, final TOP_Kante topEdge) {
+		final GeometryFactory geometryFactory = new GeometryFactory();
+		// Find out the GEO_Kante closest to the coordinate
+		final Pair<GEOKanteMetadata, DistanceOp> metaDataWithDistance = getGeoKanten(
+				topEdge).stream().map(geoKante -> {
+					final LineString geometry = geoKante.getGeometry();
+					final DistanceOp distanceOp = new DistanceOp(geometry,
+							geometryFactory.createPoint(coor));
+					return new Pair<>(geoKante, distanceOp);
+				}).min((fisrt, second) -> {
+					final double firstDistance = fisrt.getSecond().distance();
+					final double seconDistance = second.getSecond().distance();
+					return Double.compare(firstDistance, seconDistance);
+				}).orElse(null);
+		if (metaDataWithDistance == null) {
+			return null;
+		}
+
+		// Get the projection of the Point on this GEO_Kante
+		final Coordinate[] nearestPoints = metaDataWithDistance.getSecond()
+				.nearestPoints();
+		if (nearestPoints.length == 0) {
+			return null;
+		}
+		return new Pair<>(metaDataWithDistance.getFirst(), nearestPoints[0]);
 	}
 
 	/**
