@@ -142,15 +142,9 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 		Stell_Bereich controlArea) {
 		val areaStellelements = controlArea.aussenElementAnsteuerung.
 			stellelements.toList
-
-		val fstrFahrwegs = fstrAneinander.zuordnungen.map[fstrZugRangier].map[fstrFahrweg].map[
-			IDStart.value -> IDZiel.value
-		].toList
+		val startSignal = fstrAneinander.startSignal
 		
-		if (fstrFahrwegs.isNullOrEmpty || areaStellelements.isNullOrEmpty) {
-			return false
-		}
-		val startSignal = fstrFahrwegs.reduce[p1, p2| p1.key !== p2.value ? p1 : p2]?.key
-		return startSignal !== null && areaStellelements.contains(startSignal.stellelement)
+		return !areaStellelements.isNullOrEmpty && startSignal !== null &&
+			areaStellelements.contains(startSignal.stellelement)
 	}
 }
