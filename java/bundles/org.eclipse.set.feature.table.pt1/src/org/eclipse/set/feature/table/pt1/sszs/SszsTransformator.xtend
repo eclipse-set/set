@@ -58,7 +58,7 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import java.math.RoundingMode
+import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
  * Table transformation for ETCS Melde- und Kommandoschaltung Muka Signale (Sszs).
@@ -541,11 +541,8 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Laenge_Tunnelbereich),
 				etcsSignal,
 				[
-					val areaWidth = ETCSSignalTBV?.TBVTunnelbereichLaenge?.wert
-					if (areaWidth !== null) {
-						areaWidth.setScale(0, RoundingMode.HALF_UP).intValue.toString
-					}
-					return ""
+					ETCSSignalTBV?.TBVTunnelbereichLaenge?.wert?.
+						toTableIntegerAgateUp ?: ""
 				]
 			)
 
@@ -700,9 +697,8 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma)
-				? fma -> distances.doubleValue
-				: fma -> -distances.doubleValue
+			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
+				distances.doubleValue : fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty
