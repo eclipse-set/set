@@ -202,7 +202,7 @@
 			<repositories>
 				<repository>
 					<id>set-github-browser</id>
-					<url>https://maven.pkg.github.com/eclipse-set/browser</url>
+					<url>https://maven.pkg.github.com/truongquangsb/browser</url>
 				</repository>
 			</repositories>
 		</location>
