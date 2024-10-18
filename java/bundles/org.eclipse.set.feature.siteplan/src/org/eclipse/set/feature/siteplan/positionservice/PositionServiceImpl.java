@@ -108,7 +108,7 @@ public class PositionServiceImpl implements PositionService {
 
 	@Override
 	public Position transformPosition(final GEOKanteCoordinate geoPosition) {
-		return transformPosition(geoPosition.getCoordinate(),
+		return transformPosition(geoPosition.getGeoPosition(),
 				geoPosition.getCRS());
 	}
 

@@ -13,11 +13,7 @@ package org.eclipse.set.ppmodel.extensions.geometry;
 import static org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.isCRSConsistent;
 import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCRS;
 import static org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.getCoordinate;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.getAngleBetweenPoints;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.mirrorY;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.offsetBy;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.rotateAroundOrigin;
-import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.rotateAroundPoint;
+import static org.eclipse.set.ppmodel.extensions.geometry.CoordinateExtensions.*;
 import static org.eclipse.xtext.xbase.lib.IterableExtensions.lastOrNull;
 
 import java.math.BigDecimal;
@@ -294,6 +290,20 @@ public class GEOKanteGeometryExtensions {
 	public static LineString getGeometry(
 			final DirectedElement<GEO_Kante> directedEdge) {
 		return Services.getGeometryService().getGeometry(directedEdge);
+	}
+
+	/**
+	 * Find distance of the Geo_Kante geometry to coordinate
+	 * 
+	 * @param edge
+	 *            the GEO_Kante geometry
+	 * @param coor
+	 *            the coordinaten
+	 * @return the distance between the geometry and the coordinate
+	 */
+	public static double distanceToCoor(final LineString edge,
+			final Coordinate coor) {
+		return edge.distance(getGeometryFactory().createPoint(coor));
 	}
 
 	/**
