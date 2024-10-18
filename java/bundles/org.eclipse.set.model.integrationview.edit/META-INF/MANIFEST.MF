@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.set.model.integrationview.edit;singleton:=true
 Automatic-Module-Name: org.eclipse.set.model.integrationview.edit
-Bundle-Version: 2.3.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.set.model.integrationview.provider.IntegrationviewEditPlugin$Implementation
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
