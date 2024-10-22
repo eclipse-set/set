@@ -109,7 +109,7 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 		try {
 			trackKm = Double.parseDouble(
 				mainRouteInfo.streckeKm.wert.replace(",", "")).doubleValue
-		} catch (ParseException | NumberFormatException exc) {
+		} catch (ParseException | NumberFormatException | NullPointerException exc) {
 			return null
 		}
 		val mainRoute = mainRoutes.head
