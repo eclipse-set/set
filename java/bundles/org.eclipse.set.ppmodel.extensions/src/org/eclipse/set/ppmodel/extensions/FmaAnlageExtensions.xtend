@@ -10,6 +10,7 @@ package org.eclipse.set.ppmodel.extensions
 
 import java.util.List
 import java.util.Set
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Gleis.Gleis_Schaltgruppe
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
@@ -19,9 +20,6 @@ import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Gleis_Abschluss
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaKomponenteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import java.math.BigDecimal
 
 /**
  * Diese Klasse erweitert {@link FMA_Anlage}.
@@ -114,15 +112,6 @@ class FmaAnlageExtensions extends BasisObjektExtensions {
 		return anlage.container.gleisSchaltgruppe.filter [
 			intersectsStrictly(gleisabschnitt)
 		].toList
-	}
-
-	def static boolean isBelongToControlArea(FMA_Anlage anlage,
-		Stell_Bereich area) {
-		val gleisAbschnitt = anlage?.IDGleisAbschnitt?.value
-		val overlappingDistance = gleisAbschnitt.getOverlappingDistance(
-			area.bereichObjektTeilbereich)
-		return area.length.divide(BigDecimal.TWO).compareTo(
-			overlappingDistance) < 0
 	}
 
 	/**
