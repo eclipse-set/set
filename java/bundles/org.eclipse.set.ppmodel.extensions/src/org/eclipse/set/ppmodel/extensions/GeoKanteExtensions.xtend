@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.List
 import org.eclipse.set.basis.geometry.Chord
@@ -33,6 +34,8 @@ import org.slf4j.LoggerFactory
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.LineStringExtensions.*
+import org.eclipse.set.basis.constants.ToolboxConstants
+import java.math.RoundingMode
 
 /**
  * This class extends {@link GEO_Kante}.
@@ -47,19 +50,19 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static GeoPosition getCoordinate(
 		GEO_Kante geoKante,
 		GEO_Knoten startGeoKnoten,
-		double abstand,
-		double seitlicherAbstand,
+		BigDecimal abstand,
+		BigDecimal seitlicherAbstand,
 		ENUMWirkrichtung wirkrichtung
 	) {
 		val geometry = geoKante.getGeometry
 		// If the geometry size is smaller than the GEO_Laenge of the GEO_Kante
 		// adjust the distance to fit within the GEO_Kante
-		val edgeLength = Math.abs(
-			geoKante.GEOKanteAllg.GEOLaenge.wert.doubleValue)
+		val edgeLength =
+			geoKante.GEOKanteAllg?.GEOLaenge?.wert?.abs
 		var distance = abstand
-		val geoLength = geometry.length
+		val geoLength = BigDecimal.valueOf(geometry.length)
 		if (geoLength < edgeLength) {
-			distance = abstand * (geoLength / edgeLength)
+			distance = abstand * (geoLength.divide(edgeLength, ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP))
 		}
 		val SegmentPosition position = Geometries.getSegmentPosition(
 			geometry, startGeoKnoten.coordinate, distance)
@@ -72,7 +75,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static GeoPosition getCoordinate(
 		LineSegment tangent,
 		SegmentPosition position,
-		double seitlicherAbstand,
+		BigDecimal seitlicherAbstand,
 		ENUMWirkrichtung wirkrichtung
 	) {
 		val LineSegment lateralSegement = Geometries.clone(tangent)
@@ -82,13 +85,13 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 				
 			
 		var double angle
-		if (seitlicherAbstand < 0) {
+		if (seitlicherAbstand.doubleValue < 0) {
 			angle = 90
 		} else {
 			angle = -90
 		}
 		Geometries.turn(lateralSegement, angle)
-		Geometries.scale(lateralSegement, Math.abs(seitlicherAbstand))
+		Geometries.scale(lateralSegement, seitlicherAbstand.abs.doubleValue)
 
 		// direction
 		val DirectedElement<LineSegment> directedLineSegment = position.

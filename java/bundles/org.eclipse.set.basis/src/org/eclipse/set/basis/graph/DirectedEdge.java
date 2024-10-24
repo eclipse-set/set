@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.graph;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 /**
@@ -40,7 +41,7 @@ public interface DirectedEdge<E, N, P> extends DirectedElement<E> {
 	 * 
 	 * @return the distance of the point objects
 	 */
-	double distance(P p1, P p2);
+	BigDecimal distance(P p1, P p2);
 
 	/**
 	 * @param p
@@ -49,7 +50,7 @@ public interface DirectedEdge<E, N, P> extends DirectedElement<E> {
 	 * @return the distance from the tail (start) of this edge to the given
 	 *         point object
 	 */
-	double distanceFromTail(P p);
+	BigDecimal distanceFromTail(P p);
 
 	/**
 	 * @param p
@@ -58,7 +59,7 @@ public interface DirectedEdge<E, N, P> extends DirectedElement<E> {
 	 * @return the distance from the given point object to the head (end) of
 	 *         this edge
 	 */
-	double distanceToHead(P p);
+	BigDecimal distanceToHead(P p);
 
 	/**
 	 * @return the head (end) node of this directed edge
@@ -73,7 +74,7 @@ public interface DirectedEdge<E, N, P> extends DirectedElement<E> {
 	/**
 	 * @return the length of this edge
 	 */
-	double getLength();
+	BigDecimal getLength();
 
 	/**
 	 * @return the tail (start) node of this directed edge

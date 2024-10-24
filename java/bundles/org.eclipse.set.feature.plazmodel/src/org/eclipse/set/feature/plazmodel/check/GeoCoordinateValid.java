@@ -12,6 +12,7 @@ package org.eclipse.set.feature.plazmodel.check;
 
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,13 +145,15 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (po instanceof PZB_Element || po instanceof FMA_Komponente) {
 			final ENUMLinksRechts side = getNullableObject(potk,
 					point -> point.getSeitlicheLage().getWert()).orElse(null);
+			final BigDecimal lateralDistance = BigDecimal
+					.valueOf(FMA_PZB_LATERAL_DISTANCE);
 			if (side != null
 					&& side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
 				return pointObjectPositionService.getCoordinate(potk,
-						-FMA_PZB_LATERAL_DISTANCE);
+						lateralDistance.negate());
 			}
 			return pointObjectPositionService.getCoordinate(potk,
-					FMA_PZB_LATERAL_DISTANCE);
+					lateralDistance);
 
 		}
 		return pointObjectPositionService.getCoordinate(potk);

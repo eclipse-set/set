@@ -50,8 +50,8 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.SetExtensions.*
 
 /**
  * Diese Klasse erweitert {@link TOP_Kante}.
@@ -73,7 +73,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		}
 	}
 
-	static final double TOLERANCE = 0.002;
+	static final BigDecimal TOLERANCE = BigDecimal.valueOf(0.002);
 
 	static final Logger logger = LoggerFactory.getLogger(
 		typeof(TopKanteExtensions));
@@ -157,8 +157,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 */
 	def static GeoPosition getCoordinate(
 		TOP_Kante topKante,
-		double abstand,
-		double seitlicherAbstand,
+		BigDecimal abstand,
+		BigDecimal seitlicherAbstand,
 		ENUMWirkrichtung wirkrichtung
 	) {
 		val topKnotenA = topKante.TOPKnotenA
@@ -177,23 +177,23 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static GeoPosition getCoordinate(
 		TOP_Kante topKante,
 		TOP_Knoten topStart,
-		double abstand,
-		double seitlicherAbstand,
+		BigDecimal abstand,
+		BigDecimal seitlicherAbstand,
 		ENUMWirkrichtung wirkrichtung
 	) {
 		val start = topStart.GEOKnoten
 
 		// Betrachtung relativer Abstand
 		val geoKantenOnTopKante = topKante.geoKanten
-		val lengthGeoKanten = geoKantenOnTopKante.fold(0.0, [ l, k |
-			l + k.GEOKanteAllg.GEOLaenge.wert.doubleValue
+		val lengthGeoKanten = geoKantenOnTopKante.fold(BigDecimal.ZERO, [ l, k |
+			l + k.GEOKanteAllg.GEOLaenge.wert
 		])
-		val lengthTopKante = topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue
-		val difference = Math.abs(lengthGeoKanten - lengthTopKante)
+		val lengthTopKante = topKante.TOPKanteAllg.TOPLaenge.wert
+		val difference = (lengthGeoKanten - lengthTopKante).abs
 
 		if (difference > TOLERANCE) {
-			logger.debug("lengthTopKante={}", Double.valueOf(lengthTopKante))
-			logger.debug("lengthGeoKanten={}", Double.valueOf(lengthGeoKanten))
+			logger.debug("lengthTopKante={}", lengthTopKante)
+			logger.debug("lengthGeoKanten={}", lengthGeoKanten)
 			logger.debug(
 				"geoKantenOnTopKante={}",
 				Integer.valueOf(geoKantenOnTopKante.size())
@@ -201,8 +201,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			logger.warn(
 				"Difference of GEO Kanten length and TOP Kante length for TOP Kante {} greater than tolerance {} ({}).",
 				topKante.getIdentitaet().getWert(),
-				Double.valueOf(TOLERANCE),
-				Double.valueOf(difference)
+				TOLERANCE,
+				difference
 			);
 		}
 		val relativeAbstand = abstand * lengthGeoKanten / lengthTopKante
@@ -391,10 +391,10 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @throws IllegalArgumentException if the single point is not connected to this TOP-Kante
 	 */
-	def static double getAbstand(TOP_Kante topKante,
+	def static BigDecimal getAbstand(TOP_Kante topKante,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {
 		if (singlePoint.topKante == topKante) {
-			return singlePoint.abstand.wert.doubleValue
+			return singlePoint.abstand.wert
 		}
 
 		// the Punktobjekt may be on adjacent TOP Kanten
@@ -434,13 +434,13 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @throws IllegalArgumentException if the TOP Knoten is no node of this TOP-Kante
 	 */
-	def static double getAbstand(TOP_Kante topKante, TOP_Knoten topKnoten) {
+	def static BigDecimal getAbstand(TOP_Kante topKante, TOP_Knoten topKnoten) {
 		if (topKante.TOPKnotenA == topKnoten) {
-			return 0
+			return BigDecimal.ZERO
 		}
 
 		if (topKante.TOPKnotenB == topKnoten) {
-			return topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue
+			return topKante.TOPKanteAllg.TOPLaenge.wert
 		}
 
 		throw new IllegalArgumentException(topKnoten.identitaet.wert)
@@ -455,13 +455,13 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @throws IllegalArgumentException if the single points are not connected to this TOP-Kante
 	 */
-	def static double getAbstand(TOP_Kante topKante,
+	def static BigDecimal getAbstand(TOP_Kante topKante,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint1,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint2) {
 		val d1 = topKante.getAbstand(singlePoint1)
 		val d2 = topKante.getAbstand(singlePoint2)
 
-		return Math.max(d1, d2) - Math.min(d1, d2)
+		return d1.max(d2) - d1.min(d2)
 	}
 
 	/**
@@ -479,10 +479,10 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val d1 = topKante.getAbstand(singlePoint1)
 		val d2 = topKante.getAbstand(tb)
 
-		val distanceA = d2.key.max(BigDecimal.valueOf(d1)) -
-			d2.key.min(BigDecimal.valueOf(d1))
-		val distanceB = d2.value.max(BigDecimal.valueOf(d1)) -
-			d2.value.min(BigDecimal.valueOf(d1))
+		val distanceA = d2.key.max(d1) -
+			d2.key.min(d1)
+		val distanceB = d2.value.max(d1) -
+			d2.value.min(d1)
 
 		return distanceA -> distanceB
 	}
@@ -497,7 +497,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @throws IllegalArgumentException if the Punkt Objekte are not
 	 * unambiguously connected to this TOP-Kante
 	 */
-	def static double getAbstand(TOP_Kante topKante, Punkt_Objekt punktObjekt1,
+	def static BigDecimal getAbstand(TOP_Kante topKante, Punkt_Objekt punktObjekt1,
 		Punkt_Objekt punktObjekt2) {
 		return topKante.getAbstand(
 			punktObjekt1.singlePoints.filter[topKante.isConnectedTo(it)].toSet.
@@ -538,7 +538,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @throws IllegalArgumentException if the single point is not
 	 * connected to this TOP Kante or the TOP Knoten is no node of this TOP Kante
 	 */
-	def static double getAbstand(
+	def static BigDecimal getAbstand(
 		TOP_Kante topKante,
 		TOP_Knoten topKnoten,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
@@ -552,7 +552,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		throw new IllegalArgumentException(topKnoten.toString)
 	}
 
-	def static double getAbstand(TOP_Kante topKante, GEO_Knoten geoKnoten) {
+	def static BigDecimal getAbstand(TOP_Kante topKante, GEO_Knoten geoKnoten) {
 		val isGeoKnotenOnTopKkante = geoKnoten.geoKanten.exists [
 			topKante.geoKanten.contains(it)
 		]
@@ -561,7 +561,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		}
 
 		if (topKante.TOPKnotenA.IDGEOKnoten.value === geoKnoten) {
-			return 0
+			return BigDecimal.ZERO
 		}
 
 		if (topKante.TOPKnotenB.IDGEOKnoten.value === geoKnoten) {
@@ -569,12 +569,12 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		}
 
 		val distance = topKante.geoKanten.getAbstand(
-			topKante.TOPKnotenA.IDGEOKnoten.value, geoKnoten, 0)
+			topKante.TOPKnotenA.IDGEOKnoten.value, geoKnoten, BigDecimal.ZERO)
 		return distance
 	}
 
-	private def static double getAbstand(List<GEO_Kante> geoKanten,
-		GEO_Knoten startKnoten, GEO_Knoten targetKnoten, double distance) {
+	private def static BigDecimal getAbstand(List<GEO_Kante> geoKanten,
+		GEO_Knoten startKnoten, GEO_Knoten targetKnoten, BigDecimal distance) {
 		if (startKnoten === targetKnoten || startKnoten === null ||
 			targetKnoten === null) {
 			return distance
@@ -591,7 +591,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val remainingGeoKanten = geoKanten.filter[it !== geoKante].toList
 		return getAbstand(remainingGeoKanten, nextKnoten, targetKnoten,
 			distance +
-				(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?: 0).doubleValue)
+				(geoKante.GEOKanteAllg?.GEOLaenge?.wert ?: BigDecimal.ZERO))
 	}
 
 	/**
@@ -601,14 +601,14 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the Abstand of the given objects on this TOP Kante
 	 */
-	static def dispatch double getAbstandDispatch(TOP_Kante topKante,
+	static def dispatch BigDecimal getAbstandDispatch(TOP_Kante topKante,
 		Basis_Objekt basisObjekt1, Basis_Objekt basisObjekt2) {
 		throw new IllegalArgumentException(
 			'''Unexpected Argumenttypes «basisObjekt1.class.simpleName», «basisObjekt2.class.simpleName»'''
 		)
 	}
 
-	static def dispatch double getAbstandDispatch(TOP_Kante topKante,
+	static def dispatch BigDecimal getAbstandDispatch(TOP_Kante topKante,
 		Punkt_Objekt punktObject1, Punkt_Objekt punktObjekt2) {
 		return topKante.getAbstand(punktObject1, punktObjekt2)
 	}
@@ -619,7 +619,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		return topKante.getAbstand(punktObject, tb)
 	}
 
-	static def dispatch double getAbstandDispatch(TOP_Kante topKante,
+	static def dispatch BigDecimal getAbstandDispatch(TOP_Kante topKante,
 		TOP_Knoten topKnoten, Punkt_Objekt punktObjekt) {
 		return topKante.getAbstand(
 			topKnoten,
@@ -628,7 +628,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		)
 	}
 
-	static def dispatch double getAbstandDispatch(TOP_Kante topKante,
+	static def dispatch BigDecimal getAbstandDispatch(TOP_Kante topKante,
 		Punkt_Objekt punktObjekt, TOP_Knoten topKnoten) {
 		return topKante.getAbstand(
 			topKnoten,
@@ -642,8 +642,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * 
 	 * @return the Länge of this TOP Kante
 	 */
-	def static double getLaenge(TOP_Kante topKante) {
-		return topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue
+	def static BigDecimal getLaenge(TOP_Kante topKante) {
+		return topKante.TOPKanteAllg.TOPLaenge.wert
 	}
 
 	/**
@@ -790,7 +790,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 			return false
 		}
 
-		val abstand = p.abstand.wert.doubleValue
+		val abstand = p.abstand.wert
 
 		val A = adjacentTopKante.TOPKnotenA
 		val B = adjacentTopKante.TOPKnotenB
@@ -798,7 +798,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 
 		if (A == C) {
 			// p at start of adjacentTopKante
-			return abstand.isApproxEqual(0)
+			return abstand.isApproxEqual(BigDecimal.ZERO)
 		}
 
 		if (B == C) {
@@ -809,8 +809,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		return false
 	}
 
-	private def static boolean isApproxEqual(double a, double b) {
-		return Distance.compare(a, b) == 0
+	private def static boolean isApproxEqual(BigDecimal a, BigDecimal b) {
+		return new Distance().compare(a, b) == 0
 	}
 
 	def private static List<DirectedElement<GEO_Kante>> getGeoKanten(
@@ -854,7 +854,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @param topKante the TOP_Kante
 	 * @return an iterable of pairs of a GEO_Kante and its associated distance from the start of the TOP_Kante
 	 */
-	def static Iterable<Pair<GEO_Kante, Double>> getGeoKantenWithDistance(
+	def static Iterable<Pair<GEO_Kante, BigDecimal>> getGeoKantenWithDistance(
 		TOP_Kante topKante) {
 		val topKnotenA = topKante.TOPKnotenA
 		val start = topKnotenA.GEOKnoten

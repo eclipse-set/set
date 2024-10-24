@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.collect.Range
+import java.math.BigDecimal
 import java.util.List
 import java.util.Optional
 import org.eclipse.set.basis.graph.DirectedEdge
@@ -16,6 +17,7 @@ import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.Strecke
@@ -31,7 +33,6 @@ import static extension org.eclipse.set.ppmodel.extensions.ENUMWirkrichtungExten
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 
 /**
  * This class extends {@link Punkt_Objekt}.
@@ -171,46 +172,46 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		return po.punktObjektStrecke.map[IDStrecke?.value].filterNull.toList
 	}
 
-	def static Optional<Range<Double>> distanceToBereichObjekt(Punkt_Objekt po,
+	def static Optional<Range<BigDecimal>> distanceToBereichObjekt(Punkt_Objekt po,
 		Bereich_Objekt bo) {
 		return distanceToBereichObjekt(po, bo, Optional.empty)
 	}
 
-	def static Optional<Range<Double>> distanceToBereichObjekt(Punkt_Objekt po,
+	def static Optional<Range<BigDecimal>> distanceToBereichObjekt(Punkt_Objekt po,
 		Bereich_Objekt bo, boolean inDirection) {
 		return distanceToBereichObjekt(po, bo,
 			Optional.of(Boolean.valueOf(inDirection)))
 	}
 
-	private def static Optional<Range<Double>> distanceToBereichObjekt(
+	private def static Optional<Range<BigDecimal>> distanceToBereichObjekt(
 		Punkt_Objekt po, Bereich_Objekt bo, Optional<Boolean> inDirection) {
 		if (bo.contains(po)) {
-			return Optional.of(Range.singleton(0.0))
+			return Optional.of(Range.singleton(BigDecimal.ZERO))
 		}
 		val poTopPoint = new TopPoint(po)
 		val boTopPoints = bo.toTopPoints.flatten
-		val doubleValues = boTopPoints.map [ point |
+		val shortestDistances = boTopPoints.map [ point |
 			inDirection.isEmpty
 				? Services.topGraphService.
 				findShortestDistance(poTopPoint, point)
 				: Services.topGraphService.
 				findShortestDistanceInDirection(poTopPoint, point,
 					inDirection.get.booleanValue)
-		].filter[isPresent].map[get.doubleValue]
-		if (doubleValues.isNullOrEmpty) {
+		].filter[isPresent].map[get]
+		if (shortestDistances.isNullOrEmpty) {
 			return Optional.empty
 		}
-		return Optional.of(Range.closed(doubleValues.min, doubleValues.max))
+		return Optional.of(Range.closed(shortestDistances.min, shortestDistances.max))
 	}
 	
-	def static Range<Double> distanceToTeilBereichObjekt(Punkt_Objekt po, Bereich_Objekt_Teilbereich_AttributeGroup botb) {
+	def static Range<BigDecimal> distanceToTeilBereichObjekt(Punkt_Objekt po, Bereich_Objekt_Teilbereich_AttributeGroup botb) {
 		if (botb.contains(po.singlePoint)) {
-			return Range.singleton(0.0);
+			return Range.singleton(BigDecimal.ZERO);
 		}
 		val poTopPoint = new TopPoint(po)
 		val distances = botb.toTopPoints.map[
 			Services.topGraphService.findShortestDistance(poTopPoint, it)
-		].filter[isPresent].map[get.doubleValue]
+		].filter[isPresent].map[get]
 		
 		if (distances.isNullOrEmpty) {
 			return null

@@ -9,6 +9,7 @@
 
 package org.eclipse.set.basis.graph.testmodel;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Set;
 
@@ -35,8 +36,8 @@ public class TestDigraph extends AbstractDigraph<String, Character, Integer> {
 	}
 
 	@Override
-	public Comparator<Double> getDistanceComparator() {
-		return Double::compare;
+	public Comparator<BigDecimal> getDistanceComparator() {
+		return BigDecimal::compareTo;
 	}
 
 	@Override

@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.basis.geometry;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -50,11 +51,11 @@ public class GEOKanteMetadata {
 	/**
 	 * The distance of the GEO_Kante from the TOP_Knoten
 	 */
-	final double start;
+	final BigDecimal start;
 	/**
 	 * Length of the GEO_Kante on the TOP_Kante
 	 */
-	final double length;
+	final BigDecimal length;
 
 	/**
 	 * @return the GEO_Kante
@@ -87,21 +88,21 @@ public class GEOKanteMetadata {
 	/**
 	 * @return the start of the GEO_Kante relative to the start of the TOP_Kante
 	 */
-	public double getStart() {
+	public BigDecimal getStart() {
 		return start;
 	}
 
 	/**
 	 * @return the end of the GEO_Kante relative to the start of the TOP_Kante
 	 */
-	public double getEnd() {
-		return start + length;
+	public BigDecimal getEnd() {
+		return start.add(length);
 	}
 
 	/**
 	 * @return the length of the GEO_Kante on the TOP_Kante
 	 */
-	public double getLength() {
+	public BigDecimal getLength() {
 		return length;
 	}
 
@@ -122,8 +123,8 @@ public class GEOKanteMetadata {
 	 *            the geometry of this GEO_Kante
 	 * 
 	 */
-	public GEOKanteMetadata(final GEO_Kante geoKante, final double start,
-			final double length, final List<Bereich_Objekt> bereichObjekt,
+	public GEOKanteMetadata(final GEO_Kante geoKante, final BigDecimal start,
+			final BigDecimal length, final List<Bereich_Objekt> bereichObjekt,
 			final TOP_Kante topKante, final GEO_Knoten geoKnoten,
 			final LineString geometry) {
 		this.geoKante = geoKante;
@@ -144,11 +145,11 @@ public class GEOKanteMetadata {
 	 * @param geometry
 	 *            the geometry of this GEO_Kante
 	 */
-	public GEOKanteMetadata(final GEO_Kante geoKante, final double start,
+	public GEOKanteMetadata(final GEO_Kante geoKante, final BigDecimal start,
 			final GEO_Knoten geoKnoten, final LineString geometry) {
 		this.geoKante = geoKante;
 		this.start = start;
-		this.length = dermineLength().apply(geoKante).doubleValue();
+		this.length = dermineLength().apply(geoKante);
 		this.geometry = geometry;
 		this.geoKnoten = geoKnoten;
 		// As there is final no segmenting information, only use one segment
@@ -156,13 +157,12 @@ public class GEOKanteMetadata {
 
 	}
 
-	private static Function<GEO_Kante, Double> dermineLength() {
+	private static Function<GEO_Kante, BigDecimal> dermineLength() {
 		return kante -> {
 			try {
-				return Double.valueOf(kante.getGEOKanteAllg().getGEOLaenge()
-						.getWert().doubleValue());
+				return kante.getGEOKanteAllg().getGEOLaenge().getWert();
 			} catch (final NullPointerException e) {
-				return Double.valueOf(0);
+				return BigDecimal.ZERO;
 			}
 		};
 	}
@@ -171,7 +171,7 @@ public class GEOKanteMetadata {
 			final List<Bereich_Objekt> bereichObjekt) {
 		// Create an initial segment covering the entire length
 		segments.add(new GEOKanteSegment(start, length));
-		final double end = getEnd();
+		final BigDecimal end = getEnd();
 
 		// Filter Bereich_Objekte to only include those that are relevant to the
 		// GEO_Kante
@@ -192,29 +192,31 @@ public class GEOKanteMetadata {
 		relevantBOs.forEach(bo -> {
 			bo.getBereichObjektTeilbereich().forEach(tb -> {
 
-				final double tbStart = tb.getBegrenzungA().getWert()
-						.doubleValue();
-				final double tbEnd = tb.getBegrenzungB().getWert()
-						.doubleValue();
+				final BigDecimal tbStart = tb.getBegrenzungA().getWert();
+				final BigDecimal tbEnd = tb.getBegrenzungB().getWert();
 				// Skip Bereich_Objekte which are not affecting this GEO_Kante
-				if (tbStart > end || tbEnd < start) {
+				if (tbStart.compareTo(end) > 0 || tbEnd.compareTo(start) < 0) {
 					return;
 				}
-				if (tbStart <= start && tbEnd >= end) {
+				if (tbStart.compareTo(start) <= 0
+						&& tbEnd.compareTo(end) >= 0) {
 					// Case 1: Bereich_Objekt covers the entire GEO_Kante
 					// No need to split the GEO_Kante
-				} else if (tbStart >= start && tbEnd <= end) {
+				} else if (tbStart.compareTo(start) >= 0
+						&& tbEnd.compareTo(end) <= 0) {
 					// Case 2: Bereich_Objekt starts and ends within the
 					// GEO_Kante
 					// Split the segment at tbStart and tbEnd
 					splitSegmentsAt(tbStart);
 					splitSegmentsAt(tbEnd);
-				} else if (tbStart <= start && tbEnd <= end) {
+				} else if (tbStart.compareTo(start) <= 0
+						&& tbEnd.compareTo(end) <= 0) {
 					// Case 3: Bereich_Objekt starts before the GEO_Kante and
 					// ends within it
 					// Split the segment at tbEnd
 					splitSegmentsAt(tbEnd);
-				} else if (tbStart > start && tbEnd >= end) {
+				} else if (tbStart.compareTo(start) > 0
+						&& tbEnd.compareTo(end) >= 0) {
 					// Case 4: Bereich_Objekt starts within the GEO_Kante and
 					// ends after it
 					// Split the segment at tbStart
@@ -225,26 +227,26 @@ public class GEOKanteMetadata {
 
 		// For the relevant BOs, check if they apply to any segment
 		segments.forEach(segment -> {
-			final double segStart = segment.getStart();
-			final double segEnd = segment.getEnd();
+			final BigDecimal segStart = segment.getStart();
+			final BigDecimal segEnd = segment.getEnd();
 			relevantBOs.forEach(
 					bo -> bo.getBereichObjektTeilbereich().forEach(tb -> {
-						final double tbStart = tb.getBegrenzungA().getWert()
-								.doubleValue();
-						final double tbEnd = tb.getBegrenzungB().getWert()
-								.doubleValue();
+						final BigDecimal tbStart = tb.getBegrenzungA()
+								.getWert();
+						final BigDecimal tbEnd = tb.getBegrenzungB().getWert();
 						// Skip Bereich_Objekte which are not affecting this
 						// GEO_Kante
-						if (tbStart > end || tbEnd < start) {
+						if (tbStart.compareTo(end) > 0
+								|| tbEnd.compareTo(start) < 0) {
 							return;
 						}
 
-						if (tbStart > segEnd) {
+						if (tbStart.compareTo(segEnd) > 0) {
 							// TB begins after segment ends
 							return;
 						}
 
-						if (tbEnd < segStart) {
+						if (tbEnd.compareTo(segStart) < 0) {
 							// TB ends before segment starts
 							return;
 						}
@@ -258,7 +260,7 @@ public class GEOKanteMetadata {
 	 * 
 	 * @param distance
 	 */
-	private void splitSegmentsAt(final double distance) {
+	private void splitSegmentsAt(final BigDecimal distance) {
 		final GEOKanteSegment originalSegment = getContainingSegment(distance);
 		if (originalSegment == null) {
 			throw new RuntimeException("Missing GEO_Kante segment"); //$NON-NLS-1$
@@ -267,12 +269,16 @@ public class GEOKanteMetadata {
 		// Split the original segment
 		final GEOKanteSegment nextSegment = new GEOKanteSegment(
 				originalSegment);
-		final double firstSegmentLength = distance - originalSegment.getStart();
-		final double secondSegmentLength = originalSegment.getEnd() - distance;
+		final BigDecimal firstSegmentLength = distance
+				.subtract(originalSegment.getStart());
+		final BigDecimal secondSegmentLength = originalSegment.getEnd()
+				.subtract(distance);
 
 		// Discard segments that are too short
-		if (firstSegmentLength < SEGMENT_THRESHOLD
-				|| secondSegmentLength < SEGMENT_THRESHOLD) {
+		if (firstSegmentLength
+				.compareTo(BigDecimal.valueOf(SEGMENT_THRESHOLD)) < 0
+				|| secondSegmentLength
+						.compareTo(BigDecimal.valueOf(SEGMENT_THRESHOLD)) < 0) {
 			return;
 		}
 		originalSegment.setLength(firstSegmentLength);
@@ -289,10 +295,10 @@ public class GEOKanteMetadata {
 	 * @return the GEOKanteSegment for the given distance or null if distance is
 	 *         outside the GEO_Kante
 	 */
-	public GEOKanteSegment getContainingSegment(final double distance) {
+	public GEOKanteSegment getContainingSegment(final BigDecimal distance) {
 		return segments.stream()
-				.filter(segment -> segment.getStart() <= distance
-						&& segment.getStart() + segment.getLength() >= distance)
+				.filter(segment -> segment.getStart().compareTo(distance) <= 0
+						&& segment.getEnd().compareTo(distance) >= 0)
 				.findFirst().orElse(null);
 	}
 }

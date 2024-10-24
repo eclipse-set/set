@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.graph.testmodel;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -76,18 +77,18 @@ public class TestEdge implements DirectedEdge<String, Character, Integer> {
 	}
 
 	@Override
-	public double distance(final Integer p1, final Integer p2) {
+	public BigDecimal distance(final Integer p1, final Integer p2) {
 		final int i1 = points.indexOf(p1);
 		checkIndex(i1, p1);
 		final int i2 = points.indexOf(p2);
 		checkIndex(i2, p2);
 
 		// all points have a distance of 1 to each other
-		return Math.abs(i2 - i1);
+		return BigDecimal.valueOf(Math.abs(i2 - i1));
 	}
 
 	@Override
-	public double distanceFromTail(final Integer point) {
+	public BigDecimal distanceFromTail(final Integer point) {
 		checkPoint(point);
 
 		// we have a first point, because "point" is a point on this edge
@@ -97,7 +98,7 @@ public class TestEdge implements DirectedEdge<String, Character, Integer> {
 	}
 
 	@Override
-	public double distanceToHead(final Integer point) {
+	public BigDecimal distanceToHead(final Integer point) {
 		checkPoint(point);
 
 		// we have a last point, because "point" is a point on this edge
@@ -131,8 +132,8 @@ public class TestEdge implements DirectedEdge<String, Character, Integer> {
 	}
 
 	@Override
-	public double getLength() {
-		return points.size();
+	public BigDecimal getLength() {
+		return BigDecimal.valueOf(points.size());
 	}
 
 	@Override

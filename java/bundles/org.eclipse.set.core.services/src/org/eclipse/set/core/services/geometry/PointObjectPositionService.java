@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.core.services.geometry;
 
+import java.math.BigDecimal;
+
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
@@ -42,5 +44,5 @@ public interface PointObjectPositionService {
 	 * @return the coordinate at punkt objekt
 	 */
 	GEOKanteCoordinate getCoordinate(Punkt_Objekt_TOP_Kante_AttributeGroup potk,
-			double lateralDistance);
+			BigDecimal lateralDistance);
 }

@@ -15,6 +15,7 @@ import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSingle
 import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isBelongToBereichObjekt;
 import static org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.isWirkrichtungTopDirection;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +58,7 @@ public class SskpBahnsteigUtils {
 			this(OptionalDouble.of(start.doubleValue()),
 					OptionalDouble.of(end.doubleValue()));
 		}
-		
+
 		public OptionalDouble getDistanceStart() {
 			return distanceStart;
 		}
@@ -90,7 +91,7 @@ public class SskpBahnsteigUtils {
 		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = getSinglePoint(pzb);
 		final boolean searchDirection = !isWirkrichtungTopDirection(potk);
 
-		final Optional<Range<Double>> reduce = Streams.stream(bahnsteig)
+		final Optional<Range<BigDecimal>> reduce = Streams.stream(bahnsteig)
 				.map(bsk -> PunktObjektExtensions.distanceToBereichObjekt(pzb,
 						bsk, searchDirection))
 				.filter(Optional::isPresent).map(Optional::get)
@@ -99,8 +100,8 @@ public class SskpBahnsteigUtils {
 			return new BahnsteigDistance(OptionalDouble.empty(),
 					OptionalDouble.empty());
 		}
-		return new BahnsteigDistance(reduce.get().upperEndpoint(),
-				reduce.get().lowerEndpoint());
+		return new BahnsteigDistance(reduce.get().upperEndpoint().doubleValue(),
+				reduce.get().lowerEndpoint().doubleValue());
 	}
 
 	private static BahnsteigDistance getBahnsteigDistanceAtMagnet(

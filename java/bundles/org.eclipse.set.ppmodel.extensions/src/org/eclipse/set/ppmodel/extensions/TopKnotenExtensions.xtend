@@ -8,22 +8,24 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
-import org.eclipse.set.ppmodel.extensions.utils.Distance
+import java.math.BigDecimal
+import java.util.List
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
-import java.util.List
+import org.eclipse.set.ppmodel.extensions.utils.Distance
+import org.locationtech.jts.geom.Coordinate
 
 import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
+import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
-import org.locationtech.jts.geom.Coordinate
 
 /**
  * Diese Klasse erweitert {@link TOP_Knoten}.
@@ -89,18 +91,18 @@ class TopKnotenExtensions extends BasisObjektExtensions {
 		}
 		val singlePoint = singlePoints.get(0)
 		val topKante = singlePoint.topKante
-
+		val comparator = new Distance()
 		if (topKante.IDTOPKnotenA?.wert ==
 			topKnoten.identitaet.wert) {
-			return Distance.compare(0, singlePoint.abstand.wert.doubleValue) ==
+			return comparator.compare(BigDecimal.ZERO, singlePoint.abstand.wert) ==
 				0
 		}
 
 		if (topKante.IDTOPKnotenB?.wert ==
 			topKnoten.identitaet.wert) {
-			return Distance.compare(
-				topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue,
-				singlePoint.abstand.wert.doubleValue
+			return comparator.compare(
+				topKante.TOPKanteAllg.TOPLaenge.wert,
+				singlePoint.abstand.wert
 			) == 0
 		}
 
