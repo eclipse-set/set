@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.basis.geometry;
 
+import java.math.BigDecimal;
+
 import org.eclipse.set.basis.graph.DirectedElement;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineSegment;
@@ -30,9 +32,9 @@ public class SegmentPosition {
 	 */
 	public SegmentPosition(
 			final DirectedElement<LineSegment> directedLineSegment,
-			final double distance) {
+			final BigDecimal distance) {
 		this.directedlineSegment = directedLineSegment;
-		this.distance = distance;
+		this.distance = distance.doubleValue();
 	}
 
 	/**

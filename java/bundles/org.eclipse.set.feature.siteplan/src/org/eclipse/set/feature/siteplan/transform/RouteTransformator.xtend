@@ -8,11 +8,14 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import java.math.BigDecimal
 import java.util.List
+import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.basis.geometry.GEOKanteMetadata
 import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.Strecke
@@ -28,8 +31,6 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
-import org.eclipse.set.basis.geometry.GEOKanteCoordinate
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 
 /**
  * Transforms a Strecke from the PlanPro model to a siteplan route
@@ -128,7 +129,7 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 		val result = newArrayList
 		var GEO_Kante geoKante = null
 		var GEO_Knoten geoKnoten = start.geoKnoten
-		var double geoDistance = startMeter
+		var BigDecimal geoDistance = BigDecimal.valueOf(startMeter)
 
 		// Traverse the GEO_Kanten on this Strecke
 		while (true) {
@@ -144,7 +145,7 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 				geoKnoten, geometryService.getGeometry(geoKante))
 
 			// For every 100m on this GEO_Kante, determine the point
-			while (offset <= metadata.end) {
+			while (offset <= metadata.end.doubleValue) {
 				// If we've reached the end of the Strecke, return
 				if (offset >= endMeter)
 					return result
@@ -152,7 +153,7 @@ class RouteTransformator extends BaseTransformator<Strecke> {
 				// Add the point to the result
 				try {
 					result.add(
-						geometryService.getCoordinate(metadata, offset, 0.0,
+						geometryService.getCoordinate(metadata, BigDecimal.valueOf(offset), BigDecimal.ZERO,
 							ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN) -> offset)
 					offset += STRECKE_KM_SPACING
 				} catch (GeometryException exc) {

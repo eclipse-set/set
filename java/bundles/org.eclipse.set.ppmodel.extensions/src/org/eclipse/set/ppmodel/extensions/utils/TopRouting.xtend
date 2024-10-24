@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
+import java.math.BigDecimal
+import java.util.Comparator
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.AbstractRouting
 import org.eclipse.set.basis.graph.Routing
@@ -15,7 +17,6 @@ import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_Attribu
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.TopKanteExtensions
-import java.util.Comparator
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
@@ -47,9 +48,9 @@ class TopRouting extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP
 	}
 
 	override getDistanceComparator() {
-		return new Comparator<Double>() {
-			override compare(Double d1, Double d2) {
-				return Distance.compare(d1, d2)
+		return new Comparator<BigDecimal>() {
+			override compare(BigDecimal d1, BigDecimal d2) {
+				return new Distance().compare(d1, d2)
 			}
 		}
 	}

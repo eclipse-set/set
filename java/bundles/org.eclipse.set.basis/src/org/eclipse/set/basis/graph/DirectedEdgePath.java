@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.graph;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public interface DirectedEdgePath<E, N, P> extends Digraph<E, N, P> {
 	 * 
 	 * @return the distance between the two points
 	 */
-	double distance(P p1, P p2);
+	BigDecimal distance(P p1, P p2);
 
 	/**
 	 * @param i
@@ -128,7 +129,7 @@ public interface DirectedEdgePath<E, N, P> extends Digraph<E, N, P> {
 	/**
 	 * @return the total length of this path
 	 */
-	double getLength();
+	BigDecimal getLength();
 
 	/**
 	 * Returns an iterator for the point objects of this path. For points

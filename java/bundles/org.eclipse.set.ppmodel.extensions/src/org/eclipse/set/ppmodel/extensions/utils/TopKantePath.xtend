@@ -8,10 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import java.math.BigDecimal
 import java.util.Comparator
 import java.util.HashSet
 import java.util.LinkedList
@@ -20,6 +17,10 @@ import java.util.Set
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.AbstractDirectedEdgePath
 import org.eclipse.set.basis.graph.DirectedEdge
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.exception.EndOfTopPathNotFound
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
@@ -189,9 +190,9 @@ class TopKantePath extends AbstractDirectedEdgePath<TOP_Kante, TOP_Knoten, Punkt
 	}
 
 	override getDistanceComparator() {
-		return new Comparator<Double>() {
-			override compare(Double d1, Double d2) {
-				return Distance.compare(d1, d2)
+		return new Comparator<BigDecimal>() {
+			override compare(BigDecimal d1, BigDecimal d2) {
+				return new Distance().compare(d1, d2)
 			}
 		}
 	}

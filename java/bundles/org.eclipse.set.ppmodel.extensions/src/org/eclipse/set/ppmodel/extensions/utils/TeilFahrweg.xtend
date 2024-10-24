@@ -8,20 +8,21 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
+import java.math.BigDecimal
+import java.util.LinkedList
+import java.util.List
+import org.eclipse.core.runtime.Assert
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.ppmodel.extensions.exception.AreaNotContinuous
-import java.util.LinkedList
-import java.util.List
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
-import org.eclipse.core.runtime.Assert
 
 /**
  * A Teilfahrweg describes a continuous part of the Fahrweg starting and ending
@@ -43,9 +44,9 @@ class TeilFahrweg {
 
 	int endPosition
 
-	double startAbstand
+	BigDecimal startAbstand
 
-	double endAbstand
+	BigDecimal endAbstand
 
 	List<TOP_Kante> sortedTopKanten
 
@@ -83,7 +84,7 @@ class TeilFahrweg {
 		}
 	}
 
-	def double getAbstand(Punkt_Objekt punktObjekt, TOP_Kante topKante) {
+	def BigDecimal getAbstand(Punkt_Objekt punktObjekt, TOP_Kante topKante) {
 		val singlePoints = punktObjekt.singlePoints.filter [ p |
 			p.topKante == topKante
 		].toList
@@ -92,7 +93,7 @@ class TeilFahrweg {
 			// Punkt Objekt is on topKante
 			Assert.isTrue(singlePoints.size == 1)
 			val singlePoint = singlePoints.get(0)
-			return singlePoint.abstand.wert.doubleValue
+			return singlePoint.abstand.wert
 		}
 
 		// Punkt Objekt is on adjacent topKante
@@ -107,11 +108,11 @@ class TeilFahrweg {
 		val C = topKante.connectionTo(adjacentKante)
 
 		if (A == C) {
-			return 0.0
+			return BigDecimal.ZERO
 		}
 
 		if (B == C) {
-			return topKante.getTOPKanteAllg.getTOPLaenge.wert.doubleValue
+			return topKante.getTOPKanteAllg.getTOPLaenge.wert
 		}
 
 		throw new IllegalArgumentException
@@ -166,21 +167,21 @@ class TeilFahrweg {
 	 * @result the length of the intersection of this Teilfahrweg and the given
 	 * Bereich Objekt in m
 	 */
-	def double intersectionLength(Bereich_Objekt object) {
+	def BigDecimal intersectionLength(Bereich_Objekt object) {
 		val result = object.bereichObjektTeilbereich.fold(
-			0.0,
+			BigDecimal.ZERO,
 			[result, p|result + this.intersectionLength(p)]
 		)
 		return result
 	}
 
-	def double intersectionLength(
+	def BigDecimal intersectionLength(
 		Bereich_Objekt_Teilbereich_AttributeGroup portion) {
 		val topKante = portion.topKante
 		val portionPosition = getPosition(topKante)
 
 		if (portionPosition > startPosition && portionPosition < endPosition) {
-			return portion.length.doubleValue
+			return portion.length
 		}
 
 		if (portionPosition == startPosition &&
@@ -196,10 +197,10 @@ class TeilFahrweg {
 			return intersectionLengthOnEndEdge(portion)
 		}
 
-		return 0.0
+		return BigDecimal.ZERO
 	}
 
-	private def double intersectionLengthOnSingleEdge(
+	private def BigDecimal intersectionLengthOnSingleEdge(
 		Bereich_Objekt_Teilbereich_AttributeGroup portion
 	) {
 		val topKanteStart = sortedTopKanten.get(startPosition)
@@ -209,8 +210,8 @@ class TeilFahrweg {
 		Assert.isTrue(topKanteStart == topKanteEnd)
 		Assert.isTrue(topKanteStart == topKantePortion)
 
-		val begrenzungA = portion.begrenzungA.wert.doubleValue
-		val begrenzungB = portion.begrenzungB.wert.doubleValue
+		val begrenzungA = portion.begrenzungA.wert
+		val begrenzungB = portion.begrenzungB.wert
 
 		Assert.isTrue(begrenzungA <= begrenzungB)
 
@@ -222,13 +223,13 @@ class TeilFahrweg {
 			begrenzungB)
 	}
 
-	private def double intersectionLength(double a1, double a2, double b1,
-		double b2) {
+	private def BigDecimal intersectionLength(BigDecimal a1, BigDecimal a2, BigDecimal b1,
+		BigDecimal b2) {
 		Assert.isTrue(a1 <= a2)
 		Assert.isTrue(b1 <= b2)
 		if (b1 <= a1) {
 			if (b2 <= a1) {
-				return 0.0
+				return BigDecimal.ZERO
 			}
 			if (b2 <= a2) {
 				return b2 - a1
@@ -241,10 +242,10 @@ class TeilFahrweg {
 			}
 			return a2 - b1
 		}
-		return 0.0
+		return BigDecimal.ZERO
 	}
 
-	private def double intersectionLengthOnStartEdge(
+	private def BigDecimal intersectionLengthOnStartEdge(
 		Bereich_Objekt_Teilbereich_AttributeGroup portion
 	) {
 		val startTopKante = sortedTopKanten.get(startPosition)
@@ -255,8 +256,8 @@ class TeilFahrweg {
 
 		Assert.isNotNull(C)
 
-		val portionA = portion.begrenzungA.wert.doubleValue
-		val portionB = portion.begrenzungB.wert.doubleValue
+		val portionA = portion.begrenzungA.wert
+		val portionB = portion.begrenzungB.wert
 
 		Assert.isTrue(portionA <= portionB)
 
@@ -270,10 +271,10 @@ class TeilFahrweg {
 			return intersectionLengthLeft(startAbstand, portionA, portionB)
 		}
 
-		return 0.0
+		return BigDecimal.ZERO
 	}
 
-	private def double intersectionLengthOnEndEdge(
+	private def BigDecimal intersectionLengthOnEndEdge(
 		Bereich_Objekt_Teilbereich_AttributeGroup portion
 	) {
 		val endTopKante = sortedTopKanten.get(endPosition)
@@ -284,8 +285,8 @@ class TeilFahrweg {
 
 		Assert.isNotNull(C)
 
-		val portionA = portion.begrenzungA.wert.doubleValue
-		val portionB = portion.begrenzungB.wert.doubleValue
+		val portionA = portion.begrenzungA.wert
+		val portionB = portion.begrenzungB.wert
 
 		Assert.isTrue(portionA <= portionB)
 
@@ -299,26 +300,26 @@ class TeilFahrweg {
 			return intersectionLengthLeft(endAbstand, portionA, portionB)
 		}
 
-		return 0.0
+		return BigDecimal.ZERO
 	}
 
-	private def double intersectionLengthRight(double p, double a, double b) {
+	private def BigDecimal intersectionLengthRight(BigDecimal p, BigDecimal a, BigDecimal b) {
 		if (p <= a) {
 			return b - a
 		}
 		if (p <= b) {
 			return b - p
 		}
-		return 0.0
+		return BigDecimal.ZERO
 	}
 
-	private def double intersectionLengthLeft(double p, double a, double b) {
+	private def BigDecimal intersectionLengthLeft(BigDecimal p, BigDecimal a, BigDecimal b) {
 		if (b <= p) {
 			return b - a
 		}
 		if (a <= p) {
 			return p - a
 		}
-		return 0.0
+		return BigDecimal.ZERO
 	}
 }

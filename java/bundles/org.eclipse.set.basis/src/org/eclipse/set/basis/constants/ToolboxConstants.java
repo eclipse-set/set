@@ -282,6 +282,11 @@ public final class ToolboxConstants {
 	public static final String ETCS_CATEGORY = "etcs"; //$NON-NLS-1$
 
 	/**
+	 * Rounding result of BigDecimal.divide to place after comma
+	 */
+	public static final int ROUNDING_TO_PLACE = 5;
+
+	/**
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";

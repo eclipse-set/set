@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import java.math.BigDecimal
+import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.core.services.geometry.PointObjectPositionService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
@@ -27,7 +29,6 @@ import org.osgi.service.component.annotations.Reference
 import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.PZBElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
-import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 
 /**
  * Transforms PlanPro PZB_Element to Siteplan PZB
@@ -42,8 +43,8 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 	@Reference
 	PositionService positionService
 	
-	static val GSA_DISTANCE_AE = 7.0
-	static val GSA_DISTANCE_EA = 3.0
+	static val GSA_DISTANCE_AE = BigDecimal.valueOf(7)
+	static val GSA_DISTANCE_EA = BigDecimal.valueOf(3)
 	
 	@Reference
 	GeoKanteGeometryService geometryService
@@ -105,7 +106,7 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 		boolean directionFollowsTopEdge) {
 		val isAE = pzb.PZBElementGUE?.GUEAnordnung?.wert ===
 			ENUMGUEAnordnung.ENUMGUE_ANORDNUNG_2AE
-		val distance = pzb.PZBElementGUE?.GUEMessstrecke?.wert.doubleValue
+		val distance = pzb.PZBElementGUE?.GUEMessstrecke?.wert
 		val gsa = pzb.transformPZB
 		gsa.type = PZBType.GUE_GSA
 		var gsaDistance = isAE ? GSA_DISTANCE_AE + distance : -GSA_DISTANCE_EA
@@ -119,7 +120,7 @@ class PZBTransformator extends BaseTransformator<PZB_Element> {
 
 	private def PZB transformGSE(PZB_Element pzb,
 		boolean directionFollowsTopEdge) {
-		var distance = pzb.PZBElementGUE?.GUEMessstrecke?.wert.doubleValue
+		var distance = pzb.PZBElementGUE?.GUEMessstrecke?.wert
 		val gse = pzb.transformPZB
 		gse.type = PZBType.GUE_GSE
 		if (!directionFollowsTopEdge)

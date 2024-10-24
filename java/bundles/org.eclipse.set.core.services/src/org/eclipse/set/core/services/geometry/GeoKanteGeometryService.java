@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.core.services.geometry;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
@@ -49,7 +50,7 @@ public interface GeoKanteGeometryService {
 	 * @return the coordinate at punkt objekt with the given distance as offset
 	 */
 	GEOKanteCoordinate getCoordinateAt(Punkt_Objekt punktObjekt,
-			double distance);
+			BigDecimal distance);
 
 	/**
 	 * @param topKante
@@ -65,7 +66,7 @@ public interface GeoKanteGeometryService {
 	 * @return the coordinate
 	 */
 	GEOKanteCoordinate getCoordinate(TOP_Kante topKante, TOP_Knoten start,
-			double distance, double lateralDistance,
+			BigDecimal distance, BigDecimal lateralDistance,
 			ENUMWirkrichtung wirkrichtung);
 
 	/**
@@ -84,8 +85,9 @@ public interface GeoKanteGeometryService {
 	 *         point with the given distance and lateralDistance
 	 * @if the geometry cannot be determined
 	 */
-	GEOKanteCoordinate getCoordinate(GEOKanteMetadata geoKante, double distance,
-			double lateralDistance, ENUMWirkrichtung wirkrichtung);
+	GEOKanteCoordinate getCoordinate(GEOKanteMetadata geoKante,
+			BigDecimal distance, BigDecimal lateralDistance,
+			ENUMWirkrichtung wirkrichtung);
 
 	/**
 	 * @param topKante
@@ -97,7 +99,7 @@ public interface GeoKanteGeometryService {
 	 * @return the GEO_Kante with metadata at the specified distance
 	 */
 	GEOKanteMetadata getGeoKanteAt(TOP_Kante topKante, TOP_Knoten topKnoten,
-			double distance);
+			BigDecimal distance);
 
 	/**
 	 * @param topKante
