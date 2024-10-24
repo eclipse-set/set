@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.geometry;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -100,12 +101,13 @@ public class Geometries {
 	 */
 	public static SegmentPosition getSegmentPosition(
 			final LineString lineString, final Coordinate start,
-			final double distance) throws IllegalLineStringDistance {
+			final BigDecimal distance) throws IllegalLineStringDistance {
 		final List<DirectedElementImpl<LineSegment>> segments = getSegments(
 				DirectedElementImpl.forwards(lineString), start);
 		final SegmentPosition position = getSegmentPosition(segments, distance);
 		if (position == null) {
-			throw new IllegalLineStringDistance(lineString, distance);
+			throw new IllegalLineStringDistance(lineString,
+					distance.doubleValue());
 		}
 		return position;
 	}
@@ -205,16 +207,17 @@ public class Geometries {
 
 	private static SegmentPosition getSegmentPosition(
 			final List<DirectedElementImpl<LineSegment>> segments,
-			final double distance) {
+			final BigDecimal distance) {
 		if (segments.isEmpty()) {
 			return null;
 		}
 		final DirectedElementImpl<LineSegment> head = Lists.head(segments);
 		final double length = head.getElement().getLength();
-		if (distance <= length + ACCURACY) {
+		if (distance.doubleValue() <= length + ACCURACY) {
 			return new SegmentPosition(head, distance);
 		}
-		return getSegmentPosition(Lists.tail(segments), distance - length);
+		return getSegmentPosition(Lists.tail(segments),
+				distance.subtract(BigDecimal.valueOf(length)));
 	}
 
 	private static List<DirectedElementImpl<LineSegment>> getSegments(

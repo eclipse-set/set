@@ -68,7 +68,7 @@ class DirectedTopKante extends DirectedElementImpl<TOP_Kante> implements Directe
 		Punkt_Objekt_TOP_Kante_AttributeGroup end) {
 		val abstandStart = topKante.getAbstand(start)
 		val abstandEnd = topKante.getAbstand(end)
-		return Distance.compare(abstandStart, abstandEnd) <= 0
+		return new Distance().compare(abstandStart, abstandEnd) <= 0
 	}
 
 	override contains(Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {

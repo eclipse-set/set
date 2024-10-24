@@ -50,7 +50,7 @@ class SinglePointIterator implements Iterator<Punkt_Objekt_TOP_Kante_AttributeGr
 			val d1 = edge.distanceFromTail(o1)
 			val d2 = edge.distanceFromTail(o2)
 
-			return Distance.compare(d1, d2)
+			return new Distance().compare(d1, d2)
 		}
 	}
 

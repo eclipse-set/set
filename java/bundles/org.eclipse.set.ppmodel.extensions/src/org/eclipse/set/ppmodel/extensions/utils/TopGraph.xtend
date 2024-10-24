@@ -8,15 +8,16 @@
  */
 package org.eclipse.set.ppmodel.extensions.utils
 
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
+import java.math.BigDecimal
 import java.util.Comparator
 import java.util.Set
 import org.eclipse.core.runtime.Assert
 import org.eclipse.set.basis.graph.AbstractRouting
 import org.eclipse.set.basis.graph.Digraph
 import org.eclipse.set.basis.graph.DirectedEdge
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.TopKanteExtensions
 
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
@@ -79,9 +80,9 @@ class TopGraph extends AbstractRouting<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_K
 	}
 
 	override getDistanceComparator() {
-		return new Comparator<Double>() {
-			override compare(Double d1, Double d2) {
-				return Distance.compare(d1, d2)
+		return new Comparator<BigDecimal>() {
+			override compare(BigDecimal d1, BigDecimal d2) {
+				return new Distance().compare(d1, d2)
 			}
 		}
 	}

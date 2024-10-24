@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.io.IOException
+import java.math.BigDecimal
 import org.eclipse.set.basis.geometry.GeometryException
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.TrackSwitchMetadataProvider
@@ -41,6 +42,8 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
+import org.eclipse.set.basis.constants.ToolboxConstants
+import java.math.RoundingMode
 
 /**
  * Transforms a track switch from the PlanPro model to a siteplan TrackSwitch
@@ -140,7 +143,7 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 						"Keine W_Kr_Art",
 					trackswitch.WKrAnlageAllg?.WKrGrundform?.wert ?:
 						"Keine W_Kr_Grundform"),
-				legA.getCoordinate(0, 2, geometryService, positionService))
+				legA.getCoordinate(BigDecimal.ZERO, BigDecimal.TWO, geometryService, positionService))
 		}
 
 		result.addSiteplanElement(
@@ -150,7 +153,8 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 	def ContinuousTrackSegment getContinousSegment(TrackSwitchLeg legStart,
 		TrackSwitchLeg legEnd) {
 		val result = SiteplanFactory.eINSTANCE.createContinuousTrackSegment
-		result.start = legStart.getNodeCoordinate(geometryService, positionService)
+		result.start = legStart.getNodeCoordinate(geometryService,
+			positionService)
 		result.end = legEnd.getNodeCoordinate(geometryService, positionService)
 		return result
 	}
@@ -168,10 +172,12 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		result.mainLeg = mainLeg.transformLeg
 		result.sideLeg = sideLeg.transformLeg
 		result.label = transformLabel(element)
-		result.start = mainLeg.getCoordinate(0, 0, geometryService,
-			positionService)
-		result.labelPosition = sideLeg.getCoordinate(sideLeg.length / 2, 0,
+		result.start = mainLeg.getCoordinate(BigDecimal.ZERO, BigDecimal.ZERO,
 			geometryService, positionService)
+		result.labelPosition = sideLeg.getCoordinate(
+			sideLeg.length.divide(BigDecimal.TWO,
+				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP),
+			BigDecimal.ZERO, geometryService, positionService)
 
 		val pointDetector = components.get(0)?.zungenpaar?.
 			zungenpruefkontaktAnzahl?.wert
@@ -181,9 +187,8 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		result.operatingMode = transform(
 			element.WKrGspElementAllg?.WKrGspStellart?.wert)
 		result.preferredLocation = element.weicheElement?.weicheVorzugslage?.
-			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS
-			? LeftRight.LEFT
-			: LeftRight.RIGHT
+			wert === ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS ? LeftRight.
+			LEFT : LeftRight.RIGHT
 
 		return result
 	}
@@ -263,10 +268,10 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 			val crs = coordinate.topKante.TOPKnotenA.GEOKnoten.CRS
 			try {
 				val topKante = coordinate.topKante
-				val abstand = coordinate.abstand.wert.doubleValue
+				val abstand = coordinate.abstand.wert
 				val direction = coordinate.wirkrichtung?.wert
 				return positionService.transformCoordinate(
-					topKante.getCoordinate(abstand, 0, direction).
+					topKante.getCoordinate(abstand, BigDecimal.ZERO, direction).
 						getCoordinate, crs)
 			} catch (GeometryException exc) {
 				return null

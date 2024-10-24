@@ -20,6 +20,8 @@ import static org.eclipse.set.ppmodel.extensions.TopKanteExtensions.getTOPKnoten
 import static org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.getGEOKnoten;
 import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.defineEdgeGeometry;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -219,7 +221,7 @@ public class GeoKanteGeometryServiceImpl
 
 	@Override
 	public GEOKanteCoordinate getCoordinateAt(final Punkt_Objekt punktObjekt,
-			final double distance) {
+			final BigDecimal distance) {
 		final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint = punktObjekt
 				.getPunktObjektTOPKante().getFirst();
 		return getCoordinateAt(singlePoint, distance);
@@ -227,13 +229,13 @@ public class GeoKanteGeometryServiceImpl
 
 	private GEOKanteCoordinate getCoordinateAt(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
-			final double distance) {
+			final BigDecimal distance) {
 		if (singlePoint == null || singlePoint.getAbstand() == null
 				|| singlePoint.getAbstand().getWert() == null) {
 			return null;
 		}
-		final double pointDistance = singlePoint.getAbstand().getWert()
-				.doubleValue() + distance;
+		final BigDecimal pointDistance = singlePoint.getAbstand().getWert()
+				.add(distance);
 		final ENUMWirkrichtung direction = getNullableObject(singlePoint,
 				p -> p.getWirkrichtung().getWert()).orElse(null);
 		final TOP_Kante topKante = getTopKante(singlePoint);
@@ -250,11 +252,10 @@ public class GeoKanteGeometryServiceImpl
 					topKante.getIdentitaet().getWert());
 			return null;
 		}
-		double lateralDistance = 0.0;
+		BigDecimal lateralDistance = BigDecimal.ZERO;
 		if (singlePoint.getSeitlicherAbstand() != null
 				&& singlePoint.getSeitlicherAbstand().getWert() != null) {
-			lateralDistance = singlePoint.getSeitlicherAbstand().getWert()
-					.doubleValue();
+			lateralDistance = singlePoint.getSeitlicherAbstand().getWert();
 		}
 		if (direction == ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE
 				|| direction == null) {
@@ -268,15 +269,16 @@ public class GeoKanteGeometryServiceImpl
 
 	@Override
 	public GEOKanteCoordinate getCoordinate(final TOP_Kante topKante,
-			final TOP_Knoten start, final double distance,
-			final double lateralDistance, final ENUMWirkrichtung wirkrichtung) {
+			final TOP_Knoten start, final BigDecimal distance,
+			final BigDecimal lateralDistance,
+			final ENUMWirkrichtung wirkrichtung) {
 		final GEOKanteMetadata md = getGeoKanteAt(topKante, start, distance);
 		return getCoordinate(md, distance, lateralDistance, wirkrichtung);
 	}
 
 	@Override
 	public GEOKanteCoordinate getCoordinate(final GEOKanteMetadata md,
-			final double distance, final double lateralDistance,
+			final BigDecimal distance, final BigDecimal lateralDistance,
 			final ENUMWirkrichtung wirkrichtung) {
 		// Find the segment of the GEO_Kante which contains the coordinate
 		final GEOKanteSegment segment = md.getContainingSegment(distance);
@@ -285,12 +287,15 @@ public class GeoKanteGeometryServiceImpl
 		}
 		// If the geometry size is smaller than the GEO_Laenge of the GEO_Kante
 		// adjust the distance to fit within the GEO_Kante
-		final double edgeLength = Math.abs(md.getLength());
-		final double geoLength = md.getGeometry().getLength();
-		final double localDistance = distance - md.getStart();
-		final double scaledDistance = localDistance != 0
-				? localDistance * (geoLength / edgeLength)
-				: 0;
+		final BigDecimal edgeLength = md.getLength().abs();
+		final BigDecimal geoLength = BigDecimal
+				.valueOf(md.getGeometry().getLength());
+		final BigDecimal localDistance = distance.subtract(md.getStart());
+		final BigDecimal scaledDistance = localDistance.doubleValue() != 0
+				? localDistance.multiply(geoLength.divide(edgeLength,
+						ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_UP))
+				: BigDecimal.ZERO;
 		final SegmentPosition position = Geometries.getSegmentPosition(
 				md.getGeometry(),
 				GeoKnotenExtensions.getCoordinate(md.getGeoKnoten()),
@@ -304,11 +309,12 @@ public class GeoKanteGeometryServiceImpl
 
 	@Override
 	public GEOKanteMetadata getGeoKanteAt(final TOP_Kante topKante,
-			final TOP_Knoten topKnoten, final double distance) {
+			final TOP_Knoten topKnoten, final BigDecimal distance) {
 		final List<GEOKanteMetadata> geoMetadatas = getTOPKanteMetadata(
 				topKante, topKnoten);
-		final Optional<GEOKanteMetadata> result = geoMetadatas.stream().filter(
-				md -> md.getStart() <= distance && md.getEnd() >= distance)
+		final Optional<GEOKanteMetadata> result = geoMetadatas.stream()
+				.filter(md -> md.getStart().compareTo(distance) <= 0
+						&& md.getEnd().compareTo(distance) >= 0)
 				.findFirst();
 		return result.orElse(null);
 	}
@@ -359,8 +365,9 @@ public class GeoKanteGeometryServiceImpl
 	private List<GEOKanteMetadata> getTOPKanteMetadata(final TOP_Kante topKante,
 			final TOP_Knoten start, final List<Bereich_Objekt> bereichObjekte) {
 
-		final double distanceScalingFactor = getTOPKanteScalingFactor(topKante);
-		double distance = 0;
+		final BigDecimal distanceScalingFactor = getTOPKanteScalingFactor(
+				topKante);
+		BigDecimal distance = BigDecimal.ZERO;
 		GEO_Knoten geoKnoten = getGEOKnoten(start);
 		GEO_Kante geoKante = null;
 		final List<GEOKanteMetadata> geoKanteMetadata = new ArrayList<>();
@@ -378,20 +385,23 @@ public class GeoKanteGeometryServiceImpl
 			}
 			geoKante = geoKanten.get(0);
 			// Adjust the length of the GEO_Kante on the TOP_Kante
-			final double geoKanteLength = geoKante.getGEOKanteAllg()
-					.getGEOLaenge().getWert().doubleValue()
-					* (1 / distanceScalingFactor);
+			final BigDecimal geoKanteLength = geoKante.getGEOKanteAllg()
+					.getGEOLaenge().getWert()
+					.multiply(BigDecimal.ONE.divide(distanceScalingFactor,
+							ToolboxConstants.ROUNDING_TO_PLACE,
+							RoundingMode.HALF_UP));
 			geoKanteMetadata.add(new GEOKanteMetadata(geoKante, distance,
 					geoKanteLength, bereichObjekte, topKante, geoKnoten,
 					getGeometry(geoKante)));
-			distance += geoKanteLength;
+			distance = distance.add(geoKanteLength);
 
 			// Get the next GEO_Knoten (on the other end of the GEO_Kante)
 			geoKnoten = getOpposite(geoKante, geoKnoten);
 		}
 	}
 
-	private static double getTOPKanteScalingFactor(final TOP_Kante topKante) {
+	private static BigDecimal getTOPKanteScalingFactor(
+			final TOP_Kante topKante) {
 		// In some planning data there is a minor deviation between the length
 		// of a
 		// TOP_Kante and the total length of all GEO_Kanten on the TOP_Kante
@@ -400,35 +410,42 @@ public class GeoKanteGeometryServiceImpl
 		final List<GEO_Kante> geoKantenOnTopKante = TopKanteExtensions
 				.getGeoKanten(topKante);
 
-		double geoLength = 0.0;
+		BigDecimal geoLength = BigDecimal.ZERO;
 		for (final GEO_Kante geoKante : geoKantenOnTopKante) {
 			try {
-				geoLength += geoKante.getGEOKanteAllg().getGEOLaenge().getWert()
-						.doubleValue();
+				geoLength = geoLength.add(
+						geoKante.getGEOKanteAllg().getGEOLaenge().getWert());
 			} catch (final NullPointerException e) {
 				logger.error("Geo_Kante: {} missing Geo_Laenge", //$NON-NLS-1$
 						geoKante.getIdentitaet().getWert());
 			}
 		}
 
-		final double topLength = topKante.getTOPKanteAllg().getTOPLaenge()
-				.getWert().doubleValue();
-		final double difference = Math.abs(geoLength - topLength);
-		final double tolerance = Math.max(GEO_LENGTH_DEVIATION_TOLERANCE,
-				topLength * GEO_LENGTH_DEVIATION_TOLERANCE_RELATIVE);
+		final BigDecimal topLength = topKante.getTOPKanteAllg().getTOPLaenge()
+				.getWert();
+		final BigDecimal difference = geoLength.subtract(topLength).abs();
+		final BigDecimal tolerance = BigDecimal
+				.valueOf(GEO_LENGTH_DEVIATION_TOLERANCE)
+				.max(topLength.multiply(BigDecimal
+						.valueOf(GEO_LENGTH_DEVIATION_TOLERANCE_RELATIVE)));
 		// Warn if the length difference is too big
-		if (difference > tolerance) {
-			logger.debug("lengthTopKante={}", Double.valueOf(topLength)); //$NON-NLS-1$
-			logger.debug("lengthGeoKanten={}", Double.valueOf(geoLength)); //$NON-NLS-1$
+		if (difference.compareTo(tolerance) > 0) {
+			logger.debug("lengthTopKante={}", topLength); //$NON-NLS-1$
+			logger.debug("lengthGeoKanten={}", geoLength); //$NON-NLS-1$
 			logger.debug("geoKantenOnTopKante={}", //$NON-NLS-1$
 					Integer.valueOf(geoKantenOnTopKante.size()));
 			logger.warn(
 					"Difference of GEO Kanten length and TOP Kante length for TOP Kante {} greater than tolerance {} ({}).", //$NON-NLS-1$
-					topKante.getIdentitaet().getWert(),
-					Double.valueOf(tolerance), Double.valueOf(difference));
+					topKante.getIdentitaet().getWert(), tolerance, difference);
 		}
-		final double scale = geoLength / topLength;
-		return scale > 0 ? scale : 1;
+
+		if (geoLength.compareTo(BigDecimal.ZERO) <= 0
+				|| topLength.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ONE;
+		}
+		final BigDecimal scale = geoLength.divide(topLength,
+				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP);
+		return scale.compareTo(BigDecimal.ZERO) > 0 ? scale : BigDecimal.ONE;
 	}
 
 	private static <T, U> Optional<U> getNullableObject(final T t,

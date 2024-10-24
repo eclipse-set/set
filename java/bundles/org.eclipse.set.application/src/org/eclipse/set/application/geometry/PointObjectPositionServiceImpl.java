@@ -12,6 +12,7 @@ package org.eclipse.set.application.geometry;
 
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
@@ -68,7 +69,7 @@ public class PointObjectPositionServiceImpl
 				|| punktObjekt instanceof Signal_Befestigung) {
 			return getSignalObjectCoordinate(punktObjekt);
 		}
-		return geometryService.getCoordinateAt(punktObjekt, 0.0);
+		return geometryService.getCoordinateAt(punktObjekt, BigDecimal.ZERO);
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class PointObjectPositionServiceImpl
 			return null;
 		}
 
-		final double lateralDistance = getLateralDistance(singlePoint,
+		final BigDecimal lateralDistance = getLateralDistance(singlePoint,
 				geoKante);
 		return getCoordinate(singlePoint, lateralDistance);
 	}
@@ -87,7 +88,7 @@ public class PointObjectPositionServiceImpl
 	@Override
 	public GEOKanteCoordinate getCoordinate(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
-			final double lateralDistance) {
+			final BigDecimal lateralDistance) {
 
 		final GEOKanteMetadata geoKante = getGeoKanteMetadata(singlePoint);
 		if (geoKante == null) {
@@ -97,8 +98,7 @@ public class PointObjectPositionServiceImpl
 		if (singlePoint.getWirkrichtung() != null) {
 			direction = singlePoint.getWirkrichtung().getWert();
 		}
-		final double distance = singlePoint.getAbstand().getWert()
-				.doubleValue();
+		final BigDecimal distance = singlePoint.getAbstand().getWert();
 		if (direction == ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
 			// For Punkt_Objekte with a bilateral direction fall back to
 			// ENUM_WIRKRICHTUNG_IN
@@ -117,8 +117,7 @@ public class PointObjectPositionServiceImpl
 			return null;
 		}
 
-		final double distance = singlePoint.getAbstand().getWert()
-				.doubleValue();
+		final BigDecimal distance = singlePoint.getAbstand().getWert();
 
 		final TOP_Kante topKante = singlePoint.getIDTOPKante().getValue();
 		final TOP_Knoten topKnotenA = topKante.getIDTOPKnotenA().getValue();
@@ -126,15 +125,15 @@ public class PointObjectPositionServiceImpl
 		return geometryService.getGeoKanteAt(topKante, topKnotenA, distance);
 	}
 
-	private static double getLateralDistance(
+	private static BigDecimal getLateralDistance(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
 			final GEOKanteMetadata geoKante) {
 		if (singlePoint.getSeitlicherAbstand() != null
 				&& singlePoint.getSeitlicherAbstand().getWert() != null) {
-			return singlePoint.getSeitlicherAbstand().getWert().doubleValue();
+			return singlePoint.getSeitlicherAbstand().getWert();
 		}
-		final double distance = singlePoint.getSeitlicherAbstand().getWert()
-				.doubleValue();
+		final BigDecimal distance = singlePoint.getSeitlicherAbstand()
+				.getWert();
 		// Determine the track type
 		final GEOKanteSegment segment = geoKante.getContainingSegment(distance);
 		final List<ENUMGleisart> trackType = segment.getBereichObjekte()
@@ -145,7 +144,7 @@ public class PointObjectPositionServiceImpl
 		// Determine the object distance according to the local track type
 		if (trackType.isEmpty()) {
 			// No local track type. Default to 0 and record an error
-			return 0;
+			return BigDecimal.ZERO;
 		}
 		final double lateralDistance = trackType
 				.getFirst() == ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
@@ -154,8 +153,8 @@ public class PointObjectPositionServiceImpl
 		final ENUMLinksRechts side = getNullableObject(singlePoint,
 				point -> point.getSeitlicheLage().getWert()).orElse(null);
 		if (side != null && side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
-			return -lateralDistance;
+			return BigDecimal.valueOf(-lateralDistance);
 		}
-		return lateralDistance;
+		return BigDecimal.valueOf(lateralDistance);
 	}
 }

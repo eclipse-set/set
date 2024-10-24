@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import java.math.BigDecimal
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
 import org.eclipse.set.model.planpro.Bahnsteig.Bahnsteig_Anlage
@@ -35,7 +36,7 @@ class StationTransformator extends BaseTransformator<Bahnsteig_Anlage> {
 	@Reference
 	PositionService positionService
 
-	static val STATION_TRACK_DISTANCE = 1.7
+	static val STATION_TRACK_DISTANCE = BigDecimal.valueOf(1.7)
 
 	override void transform(Bahnsteig_Anlage station) {
 		val result = SiteplanFactory.eINSTANCE.createStation
@@ -69,10 +70,10 @@ class StationTransformator extends BaseTransformator<Bahnsteig_Anlage> {
 			// Find start and end points	
 			val topKante = tb?.IDTOPKante?.value
 			val start = geometryService.getCoordinate(topKante,
-				topKante?.IDTOPKnotenA?.value, tb.begrenzungA.wert.doubleValue,
+				topKante?.IDTOPKnotenA?.value, tb.begrenzungA.wert,
 				lateralDistance, tb.richtungsbezug.wert)
 			val end = geometryService.getCoordinate(topKante,
-				topKante?.IDTOPKnotenA?.value, tb.begrenzungB.wert.doubleValue,
+				topKante?.IDTOPKnotenA?.value, tb.begrenzungB.wert,
 				lateralDistance, tb.richtungsbezug.wert)
 			result.points.add(positionService.transformPosition(start))
 			result.points.add(positionService.transformPosition(end))
