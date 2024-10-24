@@ -292,8 +292,7 @@ public class GEOKanteMetadata {
 	public GEOKanteSegment getContainingSegment(final double distance) {
 		return segments.stream()
 				.filter(segment -> segment.getStart() <= distance
-						&& segment.getStart() + segment.getLength() >= distance
-								- SEGMENT_THRESHOLD)
+						&& segment.getStart() + segment.getLength() >= distance)
 				.findFirst().orElse(null);
 	}
 }
