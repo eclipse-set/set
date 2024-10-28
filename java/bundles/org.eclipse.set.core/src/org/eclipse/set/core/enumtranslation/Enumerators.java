@@ -8533,6 +8533,36 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMFiktives_Signal_Funktion_Zug_Start_ohne_Signal_Alternative;
 
 	/**
+	 * ZSZ Bk (Zug-Start/-Ziel Bk)
+	 */
+	public String ENUMFiktives_Signal_Funktion_Zug_Start_Ziel_Bk_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFiktives_Signal_Funktion_Zug_Start_Ziel_Bk_Sorting;
+
+	/**
+	 * ZSZ Bk
+	 */
+	public String ENUMFiktives_Signal_Funktion_Zug_Start_Ziel_Bk_Alternative;
+
+	/**
+	 * ZSZ Ne 14 (Zug-Start/-Ziel Ne 14)
+	 */
+	public String ENUMFiktives_Signal_Funktion_Zug_Start_Ziel_Ne_14_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMFiktives_Signal_Funktion_Zug_Start_Ziel_Ne_14_Sorting;
+
+	/**
+	 * ZSZ Ne 14
+	 */
+	public String ENUMFiktives_Signal_Funktion_Zug_Start_Ziel_Ne_14_Alternative;
+
+	/**
 	 * ZZA (Zug-Ziel Awanst)
 	 */
 	public String ENUMFiktives_Signal_Funktion_Zug_Ziel_Awanst_Presentation;
