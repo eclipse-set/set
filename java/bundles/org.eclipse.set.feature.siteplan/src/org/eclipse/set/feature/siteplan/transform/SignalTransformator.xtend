@@ -169,7 +169,8 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		// Determine mount offset & direction for Signalbrücke/Signalausleger	
 		val coordinate = pointObjectPositionService.getCoordinate(ppsignal);
 		mountPosition = positionService.transformPosition(coordinate);
-
+		mountPosition.rotation = coordinate.effectiveRotation
+		
 		screen += ppsignal.signalScreen.filter [
 			!SITEPLAN_HIDDEN_SCREENS.contains(screen)
 		]

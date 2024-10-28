@@ -10,27 +10,22 @@
   <div>
     <h2>Signal: {{ signalLabel }}</h2>
     <ul>
-      <li
-        v-for="screen in signal.attachedSignals"
-        :key="screen.guid"
-      >
-        GUID: {{ screen.guid }}
-        <RouteInfo :feature="screen" />
-      </li>
+      <li>GUID: {{ signal.guid }}</li>
+      <RouteInfo :feature="signal" />
       <li>Planungsbereich: {{ planningObject }}</li>
     </ul>
   </div>
 </template>
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-import { SignalMount } from '@/model/SignalMount'
 import RouteInfo from '@/components/popup/RouteInfo.vue'
 import {
   getFeatureData,
   getFeatureGUID,
   getFeatureLabel
 } from '@/feature/FeatureInfo'
-import { isPlanningObject } from '@/model/SiteplanModel'
+import {Signal} from '@/model/Signal'
+import {isPlanningObject} from '@/model/SiteplanModel'
+import {Options, Vue} from 'vue-class-component'
 
 /**
  * Popup contents for signal features
@@ -46,7 +41,7 @@ import { isPlanningObject } from '@/model/SiteplanModel'
   },
   computed: {
     signal: function () {
-      return getFeatureData(this.feature) as SignalMount
+      return getFeatureData(this.feature)
     },
 
     planningObject: function () {
@@ -62,7 +57,7 @@ import { isPlanningObject } from '@/model/SiteplanModel'
 })
 export default class SignalPopup extends Vue {
   static SIGNAL_TABLE = 'org.eclipse.set.feature.table.ssks'
-  signal!: SignalMount
+  signal!: Signal
   planningObject!: string
   signalLabel!: string
 }
