@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.siteplan.transform
 
+import java.math.BigDecimal
 import java.util.List
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.TrackSwitchMetadata
@@ -26,6 +27,8 @@ import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
+import org.eclipse.set.basis.constants.ToolboxConstants
+import java.math.RoundingMode
 
 /**
  * Helper class defining a leg of a track switch
@@ -37,21 +40,21 @@ class TrackSwitchLeg {
 	val TRACK_SWITCH_POINTS = 10
 
 	// Default length of a track switch if it could not be identified
-	val DEFAULT_TRACKSWITCH_LEG_LENGTH = 20
+	val DEFAULT_TRACKSWITCH_LEG_LENGTH = BigDecimal.valueOf(20)
 
 	TOP_Kante topKante;
 	TOP_Knoten topKnoten;
 	ENUMTOPAnschluss connection;
-	double length = DEFAULT_TRACKSWITCH_LEG_LENGTH;
-	double start = 0;
+	BigDecimal length = DEFAULT_TRACKSWITCH_LEG_LENGTH;
+	BigDecimal start = BigDecimal.ZERO;
 
 	/**
 	 * @return the length of the leg
 	 */
-	def double getLength() {
+	def BigDecimal getLength() {
 		return length;
 	}
-	
+
 	/**
 	 * @return top kante of the leg
 	 */
@@ -72,16 +75,20 @@ class TrackSwitchLeg {
 	 * @param geometryService a GeoKanteGeometryService
 	 * @return a list of points on the leg
 	 */
-	def Coordinate[] getCoordinates(GeoKanteGeometryService geometryService, PositionService positionService) {
+	def Coordinate[] getCoordinates(GeoKanteGeometryService geometryService,
+		PositionService positionService) {
 		// Ensure that the leg ends within the TOP_Kante
-		var legLength = Math.min(start + length,
-			topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue)
-		val sectionLength = (legLength - start) / (TRACK_SWITCH_POINTS - 1)
+		var legLength = (start + length).min(
+			topKante.TOPKanteAllg.TOPLaenge.wert)
+		val sectionLength = (legLength - start).divide(
+			BigDecimal.valueOf(TRACK_SWITCH_POINTS - 1),
+			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP)
 		val result = newArrayList
 		for (var int i = 0; i < TRACK_SWITCH_POINTS; i++) {
 			result.add(
 				geometryService.getCoordinate(topKante, topKnoten,
-					start + sectionLength * i, 0, null));
+					start + sectionLength * BigDecimal.valueOf(i),
+					BigDecimal.ZERO, null));
 		}
 		return result.filterNull.map [ coordinate |
 			positionService.transformPosition(coordinate)
@@ -94,9 +101,11 @@ class TrackSwitchLeg {
 	 * @param geometryService a GeoKanteGeometryService
 	 * @return the position
 	 */
-	def Position getNodeCoordinate(GeoKanteGeometryService geometryService, PositionService positionService) {
+	def Position getNodeCoordinate(GeoKanteGeometryService geometryService,
+		PositionService positionService) {
 		return positionService.transformPosition(
-			geometryService.getCoordinate(topKante, topKnoten, 0, 0, null))
+			geometryService.getCoordinate(topKante, topKnoten, BigDecimal.ZERO,
+				BigDecimal.ZERO, null))
 	}
 
 	/**
@@ -107,8 +116,9 @@ class TrackSwitchLeg {
 	 * @param geometryService a GeoKanteGeometryService
 	 * @return the position
 	 */
-	def Position getCoordinate(double distance, double lateralDistance,
-		GeoKanteGeometryService geometryService, PositionService positionService) {
+	def Position getCoordinate(BigDecimal distance, BigDecimal lateralDistance,
+		GeoKanteGeometryService geometryService,
+		PositionService positionService) {
 		return positionService.transformPosition(
 			geometryService.getCoordinate(topKante, topKnoten, start + distance,
 				lateralDistance, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN))
@@ -135,9 +145,11 @@ class TrackSwitchLeg {
 		if (components.length == 1) {
 			if (metadata !== null && metadata.trackSwitchLength !== null) {
 				if (legIndex == 0)
-					leg.length = metadata.trackSwitchLength.mainLeg
+					leg.length = BigDecimal.valueOf(
+						metadata.trackSwitchLength.mainLeg)
 				else
-					leg.length = metadata.trackSwitchLength.sideLeg
+					leg.length = BigDecimal.valueOf(
+						metadata.trackSwitchLength.sideLeg)
 			}
 			val component = components.head
 			leg.topKnoten = component.topKnoten
@@ -149,10 +161,12 @@ class TrackSwitchLeg {
 			leg.connection = getTOPAnschluss(leg.topKante, leg.topKnoten)
 		} else {
 			if (metadata !== null) {
-				leg.length = metadata.rightCrossing.crossing.mainLeg
+				leg.length = BigDecimal.valueOf(
+					metadata.rightCrossing.crossing.mainLeg)
 				if (metadata.rightCrossing.crossingTriangle !== null)
-					leg.start = metadata.rightCrossing.crossingTriangle.
-						mainLeg - leg.length
+					leg.start = BigDecimal.valueOf(
+						metadata.rightCrossing.crossingTriangle.mainLeg) -
+						leg.length
 			}
 			val component = components.get(legIndex)
 			leg.topKante = component.crossingLeg

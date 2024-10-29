@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigDecimal
 import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
@@ -46,7 +47,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 	}
 
 	def static GeoPosition getKilometerCoordinate(Strecke strecke,
-		double kilometer) {
+		BigDecimal kilometer) {
 
 		val startEnd = strecke.startEnd
 		if (startEnd === null)
@@ -58,7 +59,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 			null,
 			strecke,
 			kilometer - start.streckeMeter.wert,
-			0,
+			BigDecimal.ZERO,
 			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN
 		)
 	}

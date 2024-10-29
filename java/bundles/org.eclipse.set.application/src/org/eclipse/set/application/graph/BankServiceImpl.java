@@ -200,9 +200,10 @@ public class BankServiceImpl implements BankService, EventHandler {
 				+ ToolboxConfiguration.getBankLineTopOffsetLimit() + 1);
 
 		final Predicate<TopPath> predicate = t -> {
-			final double diff = Math.abs(
-					t.length().doubleValue() - bankingLineLength.doubleValue());
-			return diff < ToolboxConfiguration.getBankLineTopOffsetLimit();
+			final BigDecimal diff = t.length().subtract(bankingLineLength)
+					.abs();
+			return diff.doubleValue() < ToolboxConfiguration
+					.getBankLineTopOffsetLimit();
 		};
 		final TopPath path = topGraph.findPathBetween(new TopPoint(begin),
 				new TopPoint(end), limit, predicate);

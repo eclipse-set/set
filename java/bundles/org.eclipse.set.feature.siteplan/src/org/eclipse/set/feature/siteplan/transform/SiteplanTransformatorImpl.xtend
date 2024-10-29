@@ -32,6 +32,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleE
 import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
+import java.math.BigDecimal
 
 /**
  * Transforms the PlanPro data model into the siteplan data model 
@@ -105,17 +106,17 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 			return null
 		}
 
-		var double trackKm
+		var BigDecimal routeKm
 		try {
-			trackKm = Double.parseDouble(
-				mainRouteInfo.streckeKm.wert.replace(",", "")).doubleValue
+			routeKm = new BigDecimal(
+				mainRouteInfo.streckeKm.wert.replace(",", ""))
 		} catch (ParseException | NumberFormatException | NullPointerException exc) {
 			return null
 		}
 		val mainRoute = mainRoutes.head
 		// Determine the coordinate at the point
 		try {
-			val mainCoordinate = mainRoute.getKilometerCoordinate(trackKm)
+			val mainCoordinate = mainRoute.getKilometerCoordinate(routeKm)
 			val startEnd = mainRoute.startEnd
 			if (startEnd === null)
 				return null

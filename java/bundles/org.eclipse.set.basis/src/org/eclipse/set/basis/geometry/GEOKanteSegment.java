@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.geometry;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,8 +23,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
  */
 public class GEOKanteSegment {
 	protected final Set<Bereich_Objekt> bereichObjekte;
-	protected double length;
-	protected double start;
+	protected BigDecimal length;
+	protected BigDecimal start;
 
 	/**
 	 * @param start
@@ -31,7 +32,7 @@ public class GEOKanteSegment {
 	 * @param length
 	 *            the length of the segment
 	 */
-	public GEOKanteSegment(final double start, final double length) {
+	public GEOKanteSegment(final BigDecimal start, final BigDecimal length) {
 		this.start = start;
 		this.length = length;
 		this.bereichObjekte = new HashSet<>();
@@ -59,7 +60,7 @@ public class GEOKanteSegment {
 	/**
 	 * @return the length of the segment
 	 */
-	public double getLength() {
+	public BigDecimal getLength() {
 		return length;
 	}
 
@@ -68,7 +69,7 @@ public class GEOKanteSegment {
 	 *         start of the original TOP_Kante that was used to determine this
 	 *         segment object
 	 */
-	public double getStart() {
+	public BigDecimal getStart() {
 		return start;
 	}
 
@@ -76,15 +77,15 @@ public class GEOKanteSegment {
 	 * @return the end of the segment as defined per {@link #getStart()} +
 	 *         {@link #getLength()}
 	 */
-	public double getEnd() {
-		return start + length;
+	public BigDecimal getEnd() {
+		return start.add(length);
 	}
 
 	/**
 	 * @param length
 	 *            the length to set
 	 */
-	public void setLength(final double length) {
+	public void setLength(final BigDecimal length) {
 		this.length = length;
 	}
 
@@ -92,7 +93,7 @@ public class GEOKanteSegment {
 	 * @param start
 	 *            the start distance to set
 	 */
-	public void setStart(final double start) {
+	public void setStart(final BigDecimal start) {
 		this.start = start;
 	}
 }

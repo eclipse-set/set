@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.graph;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -123,7 +124,7 @@ public class Digraphs {
 	 */
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing) {
-		return getPaths(start, routing, -1);
+		return getPaths(start, routing, BigDecimal.ONE.negate());
 	}
 
 	/**
@@ -146,7 +147,7 @@ public class Digraphs {
 	 */
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
-			final double minDistance) {
+			final BigDecimal minDistance) {
 		createCache();
 		return edgeToSubPathCache.get(
 				getPathCacheKey(start, routing, minDistance),
@@ -155,15 +156,15 @@ public class Digraphs {
 
 	private static <E, N, P> String getPathCacheKey(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
-			final double minDistance) {
+			final BigDecimal minDistance) {
 		final List<String> components = List.of(start.getCacheKey(),
-				Double.toString(minDistance), routing.getCacheKey());
+				minDistance.toString(), routing.getCacheKey());
 		return String.join("/", components); //$NON-NLS-1$
 	}
 
 	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> calculateSubPaths(
 			final DirectedEdge<E, N, P> start, final Routing<E, N, P> routing,
-			final double minDistance) {
+			final BigDecimal minDistance) {
 		final Set<DirectedEdgePath<E, N, P>> subpaths = getSubPaths(start,
 				minDistance, routing, routing.getEmptyPath());
 		for (final DirectedEdgePath<E, N, P> path : subpaths) {
@@ -347,7 +348,7 @@ public class Digraphs {
 			}
 
 			@Override
-			public Comparator<Double> getDistanceComparator() {
+			public Comparator<BigDecimal> getDistanceComparator() {
 				if (aPath != null) {
 					return aPath.getDistanceComparator();
 				}
@@ -395,7 +396,7 @@ public class Digraphs {
 	}
 
 	private static <E, N, P> Set<DirectedEdgePath<E, N, P>> getSubPaths(
-			final DirectedEdge<E, N, P> start, final double minDistance,
+			final DirectedEdge<E, N, P> start, final BigDecimal minDistance,
 			final Routing<E, N, P> routing,
 			final DirectedEdgePath<E, N, P> path) {
 		logger.debug("start={} path={}", start, path); //$NON-NLS-1$
@@ -413,11 +414,11 @@ public class Digraphs {
 
 				// test if the min distance is exceeded and ignore the distance,
 				// if min distance < 0
-				final Comparator<Double> comparator = routing
+				final Comparator<BigDecimal> comparator = routing
 						.getDistanceComparator();
-				if (comparator.compare(
-						Double.valueOf(successorPath.getLength()),
-						Double.valueOf(minDistance)) < 0 || minDistance < 0) {
+				if (comparator.compare(successorPath.getLength(),
+						minDistance) < 0
+						|| minDistance.compareTo(BigDecimal.ZERO) < 0) {
 					final Set<DirectedEdgePath<E, N, P>> subPaths = getSubPaths(
 							successor, minDistance, routing, successorPath);
 					if (subPaths.isEmpty()) {

@@ -45,7 +45,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	static final Logger logger = LoggerFactory.getLogger(
 		typeof(BereichObjektExtensions)
 	);
-	
+
 	private static class TopArea {
 		new(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 			topGUID = tb?.IDTOPKante?.wert
@@ -282,26 +282,27 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			return false
 		}
 
-		val tA = teilbereich.begrenzungA.wert.doubleValue
-		val tB = teilbereich.begrenzungB.wert.doubleValue
-		val oA = other.begrenzungA.wert.doubleValue
-		val oB = other.begrenzungB.wert.doubleValue
+		val tA = teilbereich.begrenzungA.wert
+		val tB = teilbereich.begrenzungB.wert
+		val oA = other.begrenzungA.wert
+		val oB = other.begrenzungB.wert
 
 		return intersects(tA, tB, oA, oB)
 	}
 
-	protected def static boolean intersects(double a1, double a2, double b1,
-		double b2) {
-		Assert.isTrue(Distance.compare(a1, a2) <= 0)
-		Assert.isTrue(Distance.compare(b1, b2) <= 0)
+	protected def static boolean intersects(BigDecimal a1, BigDecimal a2,
+		BigDecimal b1, BigDecimal b2) {
+		val distance = new Distance()
+		Assert.isTrue(distance.compare(a1, a2) <= 0)
+		Assert.isTrue(distance.compare(b1, b2) <= 0)
 
 		// [a1,a2] < [b1,b2]
-		if (Distance.compare(a2, b1) < 0) {
+		if (distance.compare(a2, b1) < 0) {
 			return false
 		}
 
 		// [b1,b2] < [a1,a2]
-		if (Distance.compare(b2, a1) < 0) {
+		if (distance.compare(b2, a1) < 0) {
 			return false
 		}
 
@@ -356,27 +357,28 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			return false
 		}
 
-		val tA = teilbereich.begrenzungA.wert.doubleValue
-		val tB = teilbereich.begrenzungB.wert.doubleValue
-		val oA = other.begrenzungA.wert.doubleValue
-		val oB = other.begrenzungB.wert.doubleValue
+		val tA = teilbereich.begrenzungA.wert
+		val tB = teilbereich.begrenzungB.wert
+		val oA = other.begrenzungA.wert
+		val oB = other.begrenzungB.wert
 
 		return intersectsStrictly(tA, tB, oA, oB)
 	}
 
-	protected def static boolean intersectsStrictly(double a1, double a2,
-		double b1, double b2) {
-		Assert.isTrue(Distance.compare(a1, a2) <= 0)
-		Assert.isTrue(Distance.compare(b1, b2) <= 0)
+	protected def static boolean intersectsStrictly(BigDecimal a1,
+		BigDecimal a2, BigDecimal b1, BigDecimal b2) {
+		val distance = new Distance()
+		Assert.isTrue(distance.compare(a1, a2) <= 0)
+		Assert.isTrue(distance.compare(b1, b2) <= 0)
 
 		// If the second tb starts after the first tb ends, there is no intersection
-		val aEndBStart = Distance.compare(a2, b1)
+		val aEndBStart = distance.compare(a2, b1)
 		if (aEndBStart < 0) {
 			return false
 		}
 
 		// If the first tb starts after the second tb ends, there is no intersection
-		val bEndAStart = Distance.compare(b2, a1)
+		val bEndAStart = distance.compare(b2, a1)
 		if (bEndAStart < 0) {
 			return false
 		}
@@ -452,8 +454,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			]
 		]
 	}
-	
-		/**
+
+	/**
 	 * @param bereich this Bereichsobjekt
 	 * @param object the object
 	 * 
@@ -514,19 +516,19 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	) {
 		val sameTopKante = teilbereich.IDTOPKante?.wert ==
 			singlePoint.IDTOPKante?.wert
-
+		val distance = new Distance()
 		if (sameTopKante) {
-			val A = teilbereich.begrenzungA.wert.doubleValue
-			val B = teilbereich.begrenzungB.wert.doubleValue
+			val A = teilbereich.begrenzungA.wert
+			val B = teilbereich.begrenzungB.wert
 
-			if (Distance.compare(A, B) > 0) {
+			if (distance.compare(A, B) > 0) {
 				throw new IllegalArgumentException('''Teilbereich with Begrenzungen A=«A» B=«B»''')
 			}
 
-			val abstand = singlePoint.abstand.wert.doubleValue
+			val abstand = singlePoint.abstand.wert
 
-			return Distance.compare(A, abstand) <= 0 &&
-				Distance.compare(abstand, B) <= 0
+			return distance.compare(A, abstand) <= 0 &&
+				distance.compare(abstand, B) <= 0
 		}
 
 		return false
@@ -545,6 +547,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint,
 		double tolerant
 	) {
+		val tolerantBigDecimal = BigDecimal.valueOf(tolerant)
 		val teilBereichTopKante = teilbereich.IDTOPKante?.value
 		// The point should lie on the TOP_Kante of teilbereich 
 		// or the connect TOP_Kanten of this TOP_Kante
@@ -560,36 +563,37 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 		val clone = EcoreUtil.copy(teilbereich)
 
-		val A = teilbereich.begrenzungA.wert.doubleValue
-		val B = teilbereich.begrenzungB.wert.doubleValue
-		val topKanteRange = Range.of(0.0, teilBereichTopKante.laenge)
+		val A = teilbereich.begrenzungA.wert
+		val B = teilbereich.begrenzungB.wert
+		val topKanteRange = Range.of(BigDecimal.ZERO,
+			teilBereichTopKante.laenge)
 		val sameTopKante = teilbereich.IDTOPKante?.wert ==
 			singlePoint.IDTOPKante?.wert
 		if (sameTopKante) {
-			if (A === 0 && B === teilBereichTopKante.laenge) {
+			if (A.compareTo(BigDecimal.ZERO) === 0 &&
+				B.compareTo(teilBereichTopKante.laenge) === 0) {
 				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
 			}
 
-			clone.begrenzungA.wert = BigDecimal.valueOf(
-				topKanteRange.isStartedBy(A)
-					? A
-					: topKanteRange.fit(A - tolerant))
-			clone.begrenzungB.wert = BigDecimal.valueOf(
-				topKanteRange.isEndedBy(B) ? B : topKanteRange.fit(A +
-					tolerant))
+			clone.begrenzungA.wert = topKanteRange.
+				isStartedBy(A) ? A : topKanteRange.fit(A - tolerantBigDecimal)
+			clone.begrenzungB.wert = topKanteRange.isEndedBy(B)
+				? B
+				: topKanteRange.fit(A + tolerantBigDecimal)
 			return clone.contains(singlePoint)
 		}
 
 		// When the point and the teilbereich not in same TopKante,
 		// then the teilbereich with tolerant muss out of topkante range
-		if (topKanteRange.contains(A - tolerant) &&
-			topKanteRange.contains(B + tolerant)) {
+		if (topKanteRange.contains(A - tolerantBigDecimal) &&
+			topKanteRange.contains(B + tolerantBigDecimal)) {
 			return false
 		}
 		val tolerantDistanceFromA = topKanteRange.
-				isStartedBy(A) ? tolerant : tolerant - A
+				isStartedBy(A) ? tolerantBigDecimal : tolerantBigDecimal - A
 		val tolerantDistanceFromB = topKanteRange.
-				isEndedBy(B) ? tolerant : (tolerant + B) - topKanteRange.maximum
+				isEndedBy(B) ? tolerantBigDecimal : (tolerantBigDecimal + B) -
+				topKanteRange.maximum
 		return teilbereich.containsWithinTolerant(singlePoint,
 			teilBereichTopKante.TOPKnotenA, tolerantDistanceFromA) ||
 			teilbereich.containsWithinTolerant(singlePoint,
@@ -599,7 +603,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	private def static boolean containsWithinTolerant(
 		Bereich_Objekt_Teilbereich_AttributeGroup botb,
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint, TOP_Knoten topKnote,
-		double tolerant) {
+		BigDecimal tolerant) {
 		val targetTopKante = topKnote.topKanten.findFirst [
 			it !== botb.topKante && it === singlePoint.IDTOPKante?.value
 		]
@@ -673,14 +677,14 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		if (tTopKante.identitaet.wert != eTopKante.identitaet.wert) {
 			return false
 		}
-		val tA = teilbereich.begrenzungA.wert.doubleValue
-		val tB = teilbereich.begrenzungB.wert.doubleValue
+		val tA = teilbereich.begrenzungA.wert
+		val tB = teilbereich.begrenzungB.wert
 		Assert.isNotNull(start)
 		Assert.isNotNull(end)
 		val aStart = eTopKante.getAbstand(start)
 		val aEnd = eTopKante.getAbstand(end)
-		val eA = Math.min(aStart, aEnd)
-		val eB = Math.max(aStart, aEnd)
+		val eA = aStart.min(aEnd)
+		val eB = aStart.max(aEnd)
 		return intersects(tA, tB, eA, eB)
 	}
 
@@ -694,16 +698,16 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		if (tTopKante?.wert != eTopKante.identitaet.wert) {
 			return false
 		}
-		val tA = teilbereich.begrenzungA.wert.doubleValue
-		val tB = teilbereich.begrenzungB.wert.doubleValue
+		val tA = teilbereich.begrenzungA.wert
+		val tB = teilbereich.begrenzungB.wert
 		Assert.isNotNull(start)
 		val aStart = eTopKante.getAbstand(start)
 		var aEnd = eTopKante.laenge
 		if (!edge.forwards) {
-			aEnd = 0.0
+			aEnd = BigDecimal.ZERO
 		}
-		val eA = Math.min(aStart, aEnd)
-		val eB = Math.max(aStart, aEnd)
+		val eA = aStart.min(aEnd)
+		val eB = aStart.max(aEnd)
 		return intersects(tA, tB, eA, eB)
 	}
 
@@ -717,16 +721,16 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		if (tTopKante?.wert != eTopKante.identitaet.wert) {
 			return false
 		}
-		val tA = teilbereich.begrenzungA.wert.doubleValue
-		val tB = teilbereich.begrenzungB.wert.doubleValue
+		val tA = teilbereich.begrenzungA.wert
+		val tB = teilbereich.begrenzungB.wert
 		Assert.isNotNull(end)
-		var aStart = 0.0
+		var aStart = BigDecimal.ZERO
 		if (!edge.forwards) {
 			aStart = eTopKante.laenge
 		}
 		val aEnd = eTopKante.getAbstand(end)
-		val eA = Math.min(aStart, aEnd)
-		val eB = Math.max(aStart, aEnd)
+		val eA = aStart.min(aEnd)
+		val eB = aStart.max(aEnd)
 		return intersects(tA, tB, eA, eB)
 	}
 
@@ -753,12 +757,12 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	) {
 		if (teilbereich.IDTOPKante?.wert != topKante.identitaet.wert)
 			return false;
-
-		val A = teilbereich.begrenzungA.wert.doubleValue
-		val B = teilbereich.begrenzungB.wert.doubleValue
-
-		return Distance.compare(A, distance) <= 0 &&
-			Distance.compare(distance, B) <= 0
+		val comparator = new Distance()
+		val A = teilbereich.begrenzungA.wert
+		val B = teilbereich.begrenzungB.wert
+		val toBigDecimal = BigDecimal.valueOf(distance)
+		return comparator.compare(A, toBigDecimal) <= 0 &&
+			comparator.compare(toBigDecimal, B) <= 0
 	}
 
 	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
@@ -805,7 +809,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 		return areas
 	}
-	
+
 	/**
 	 * @param bo this Bereich_Objekt
 	 * 
@@ -813,19 +817,21 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	 */
 	def static Stell_Bereich getMostOverlapControlArea(Bereich_Objekt bo) {
 		val areas = bo.container.stellBereich
-		return areas.max[first, second |
+		return areas.max [ first, second |
 			val firstDistance = bo.getOverlappingLength(first)
-			val secondDistance =  bo.getOverlappingLength(second)
+			val secondDistance = bo.getOverlappingLength(second)
 			return firstDistance.compareTo(secondDistance)
 		]
 	}
-	
+
 	def static List<List<TopPoint>> toTopPoints(Bereich_Objekt bo) {
 		return bo.bereichObjektTeilbereich.map[toTopPoints]
 	}
-	
-	def static List<TopPoint> toTopPoints(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
-		return List.of(new TopPoint(tb.topKante, tb.begrenzungA.wert),
+
+	def static List<TopPoint> toTopPoints(
+		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		return List.of(
+			new TopPoint(tb.topKante, tb.begrenzungA.wert),
 			new TopPoint(tb.topKante, tb.begrenzungB.wert)
 		)
 	}

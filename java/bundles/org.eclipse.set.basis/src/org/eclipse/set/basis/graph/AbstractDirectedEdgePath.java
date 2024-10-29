@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.graph;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -91,7 +92,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 	}
 
 	@Override
-	public double distance(final P p1, final P p2) {
+	public BigDecimal distance(final P p1, final P p2) {
 		if (p1 == null) {
 			return distanceFromStart(p2);
 		}
@@ -116,8 +117,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 
 	@Override
 	public boolean equals(final Object obj) {
-		if (obj instanceof DirectedEdgePath<?, ?, ?>) {
-			final DirectedEdgePath<?, ?, ?> path = (DirectedEdgePath<?, ?, ?>) obj;
+		if (obj instanceof final DirectedEdgePath<?, ?, ?> path) {
 			return equals(path.getStart(), getStart())
 					&& equals(path.getEnd(), getEnd())
 					&& equals(path.getEdgeList(), getEdgeList());
@@ -200,9 +200,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 			// checking to fail fast but this is out of scope here.
 			final List<P> pointList = edgeToPointsCache.get(edge.getCacheKey(),
 					() -> getPointList(edge));
-			final Iterator<P> pointIter = pointList.iterator();
-			while (pointIter.hasNext()) {
-				final P point = pointIter.next();
+			for (final P point : pointList) {
 				directedEdgePoints.add(new DirectedEdgePoint<>(edge, point));
 			}
 		}
@@ -266,7 +264,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 	}
 
 	@Override
-	public double getLength() {
+	public BigDecimal getLength() {
 		return distance(getStart(), getEnd());
 	}
 
@@ -316,11 +314,11 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 				return createSubPath(startIdx, endIdx, subStart, subEnd);
 			}
 			if (startIdx == endIdx) {
-				final Double subStartDistance = Double
-						.valueOf(startEdge.distanceFromTail(subStart));
-				final Double subEndDistance = Double
-						.valueOf(endEdge.distanceFromTail(subEnd));
-				final Comparator<Double> distanceComparator = getDistanceComparator();
+				final BigDecimal subStartDistance = startEdge
+						.distanceFromTail(subStart);
+				final BigDecimal subEndDistance = endEdge
+						.distanceFromTail(subEnd);
+				final Comparator<BigDecimal> distanceComparator = getDistanceComparator();
 				if (distanceComparator.compare(subStartDistance,
 						subEndDistance) <= 0) {
 					return createSubPath(startIdx, endIdx, subStart, subEnd);
@@ -356,33 +354,33 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 		return result;
 	}
 
-	private double distance(final P pStart, final int idxStart, final P pEnd,
-			final int idxEnd) {
+	private BigDecimal distance(final P pStart, final int idxStart,
+			final P pEnd, final int idxEnd) {
 		if (idxStart > idxEnd) {
-			return 0;
+			return BigDecimal.ZERO;
 		}
 
 		if (idxStart != idxEnd) {
-			final double startDistance;
+			BigDecimal startDistance;
 			if (pStart != null) {
 				startDistance = get(idxStart).distanceToHead(pStart);
 			} else {
 				startDistance = get(idxStart).getLength();
 			}
 
-			final double endDistance;
+			BigDecimal endDistance;
 			if (pEnd != null) {
 				endDistance = get(idxEnd).distanceFromTail(pEnd);
 			} else {
 				endDistance = get(idxEnd).getLength();
 			}
 
-			double inBetweenDistance = 0;
+			BigDecimal inBetweenDistance = BigDecimal.ZERO;
 			for (int i = idxStart + 1; i < idxEnd; i++) {
-				inBetweenDistance = inBetweenDistance + get(i).getLength();
+				inBetweenDistance = inBetweenDistance.add(get(i).getLength());
 			}
 
-			return startDistance + inBetweenDistance + endDistance;
+			return startDistance.add(inBetweenDistance).add(endDistance);
 		}
 
 		// idxStart == idxEnd
@@ -395,7 +393,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 		return get(idxStart).distanceToHead(pStart);
 	}
 
-	private double distanceFromStart(final P p) {
+	private BigDecimal distanceFromStart(final P p) {
 		if (getStart() != null) {
 			return distance(getStart(), p);
 		}
@@ -405,7 +403,7 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 		return distance(null, 0, null, edges.size() - 1);
 	}
 
-	private double distanceToEnd(final P p) {
+	private BigDecimal distanceToEnd(final P p) {
 		if (getEnd() != null) {
 			return distance(getEnd(), p);
 		}
