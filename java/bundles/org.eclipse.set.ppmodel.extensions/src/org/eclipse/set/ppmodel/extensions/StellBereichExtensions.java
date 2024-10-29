@@ -190,95 +190,67 @@ public class StellBereichExtensions {
 			return false;
 		}
 		return switch (object) {
-		// Aussenelementansteuerung
 		case final Aussenelementansteuerung aussenElement -> AussenelementansteuerungExtensions
 				.isBelongToControlArea(aussenElement, area);
-		// ESTW_Zentraleinheit
 		case final ESTW_Zentraleinheit estwZentral -> ESTW_ZentraleinheitExtensions
 				.isBelongToControlArea(estwZentral, area);
-		// Bedien_Einrichtung_Oertlich
 		case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
 				.isBelongToControlArea(oertlich, area);
-		// FMA_Anlage
 		case final FMA_Anlage fmaAnlage -> isOverlappingControlArea(area,
 				getNullableObject(fmaAnlage,
 						anlage -> anlage.getIDGleisAbschnitt().getValue())
 								.orElse(null),
 				50);
-		// FMA_Komponente
 		case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
 				.isBelongToControlArea(fmaKomponente, area);
-		// Zugeinwirkung
 		case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions
 				.isBelongToControlArea(zugeinwirkung, area);
-		// PZB_Element
 		case final PZB_Element pzb -> PZBElementExtensions
 				.isBelongToControlArea(pzb, area);
-		// Signal
 		case final Signal signal -> SignalExtensions
 				.isBelongToControlArea(signal, area);
-		// Technik_Standort
 		case final Technik_Standort standort -> TechnikStandortExtensions
 				.isBelongToControlArea(standort, area);
-		// Bedien_Standort
 		case final Bedien_Standort standort -> BedienStandortExtensions
 				.isBelongToControlArea(standort, area);
-		// W_Kr_Gsp_Element
 		case final W_Kr_Gsp_Element gspElement -> WKrGspElementExtensions
 				.isBelongToControlArea(gspElement, area);
-		// W_Kr_Gsp_Komponente
 		case final W_Kr_Gsp_Komponente gspKomponent -> isInControlArea(area,
 				getNullableObject(gspKomponent,
 						gsp -> gsp.getIDWKrGspElement().getValue())
 								.orElse(null));
-		// Fstr_Aneinander
 		case final Fstr_Aneinander fstr -> FstrAneinanderExtensions
 				.isBelongToControlArea(fstr, area);
-		// Fstr_DWeg
 		case final Fstr_DWeg fstr -> FstrDWegWKrExtensions
 				.isBelongToControlArea(fstr, area);
-		// Fstr_Zug_Rangier
 		case final Fstr_Zug_Rangier fstr -> FstrZugRangierExtensions
 				.isBelongToControlArea(fstr, area);
-		// Fla_Schutz
 		case final Fla_Schutz fla -> FlaSchutzExtensions
 				.isBelongToControlArea(fla, area);
-		// Fla_Zwieschutz
 		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
 				.isBelongToControlArea(fla, area);
-		// Gleis_Abschnitt
-		case final Gleis_Abschnitt segment -> BereichObjektExtensions
-				.intersects(area, segment);
-		// Gleis_Bezeichnung
 		case final Gleis_Bezeichnung description -> isOverlappingControlArea(
 				area, description, 50);
-		// NB_Zone
+		case final Gleis_Abschnitt segment -> BereichObjektExtensions
+				.intersects(area, segment);
 		case final NB_Zone nbZone -> NbZoneExtensions
 				.isBelongToControlArea(nbZone, area);
-		// Uebertragungsweg
 		case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
 				.isBelongToControlArea(uebertrangsweg, area);
-		// Bedien_Bezirk
 		case final Bedien_Bezirk bedienBezirk -> BedienBezirkExtensions
 				.isBelongToControlArea(bedienBezirk, area);
-		// Bedien_Zentrale
 		case final Bedien_Zentrale controlCenter -> BedienZentraleExtensions
 				.isBelongToControlArea(controlCenter, area);
-		// ZN_ZBS
 		case final ZN_ZBS znZBS -> isInControlArea(area,
 				getNullableObject(znZBS,
 						ele -> ele.getIDESTWZentraleinheit().getValue())
 								.orElse(null));
-		// Stellelement
 		case final Stellelement stellelement -> StellelementExtensions
 				.isBelongToControlArea(stellelement, area);
-		// Block_Element
 		case final Block_Element blockElement -> BlockElementExtensions
 				.isBelongToControlArea(blockElement, area);
-		// BUE_Kante
 		case final BUE_Kante bueKante -> BereichObjektExtensions
 				.intersects(area, bueKante);
-		// BUE_Anlage
 		case final BUE_Anlage bueAnlage -> BereichObjektExtensions
 				.intersects(area, bueAnlage);
 		default -> throw new IllegalArgumentException();
