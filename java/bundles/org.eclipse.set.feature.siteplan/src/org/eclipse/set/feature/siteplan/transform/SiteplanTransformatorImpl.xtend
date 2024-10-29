@@ -106,9 +106,9 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 			return null
 		}
 
-		var BigDecimal routeMeter
+		var BigDecimal routeKm
 		try {
-			routeMeter = new BigDecimal(
+			routeKm = new BigDecimal(
 				mainRouteInfo.streckeKm.wert.replace(",", ""))
 		} catch (ParseException | NumberFormatException | NullPointerException exc) {
 			return null
@@ -116,7 +116,7 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 		val mainRoute = mainRoutes.head
 		// Determine the coordinate at the point
 		try {
-			val mainCoordinate = mainRoute.getKilometerCoordinate(routeMeter)
+			val mainCoordinate = mainRoute.getKilometerCoordinate(routeKm)
 			val startEnd = mainRoute.startEnd
 			if (startEnd === null)
 				return null

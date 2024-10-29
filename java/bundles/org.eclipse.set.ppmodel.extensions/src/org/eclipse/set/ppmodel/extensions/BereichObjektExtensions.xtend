@@ -45,7 +45,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	static final Logger logger = LoggerFactory.getLogger(
 		typeof(BereichObjektExtensions)
 	);
-	
+
 	private static class TopArea {
 		new(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 			topGUID = tb?.IDTOPKante?.wert
@@ -290,8 +290,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		return intersects(tA, tB, oA, oB)
 	}
 
-	protected def static boolean intersects(BigDecimal a1, BigDecimal a2, BigDecimal b1,
-		BigDecimal b2) {
+	protected def static boolean intersects(BigDecimal a1, BigDecimal a2,
+		BigDecimal b1, BigDecimal b2) {
 		val distance = new Distance()
 		Assert.isTrue(distance.compare(a1, a2) <= 0)
 		Assert.isTrue(distance.compare(b1, b2) <= 0)
@@ -365,9 +365,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		return intersectsStrictly(tA, tB, oA, oB)
 	}
 
-	protected def static boolean intersectsStrictly(BigDecimal a1, BigDecimal a2,
-		BigDecimal b1, BigDecimal b2) {
-			val distance = new Distance()
+	protected def static boolean intersectsStrictly(BigDecimal a1,
+		BigDecimal a2, BigDecimal b1, BigDecimal b2) {
+		val distance = new Distance()
 		Assert.isTrue(distance.compare(a1, a2) <= 0)
 		Assert.isTrue(distance.compare(b1, b2) <= 0)
 
@@ -454,8 +454,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			]
 		]
 	}
-	
-		/**
+
+	/**
 	 * @param bereich this Bereichsobjekt
 	 * @param object the object
 	 * 
@@ -565,21 +565,21 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 
 		val A = teilbereich.begrenzungA.wert
 		val B = teilbereich.begrenzungB.wert
-		val topKanteRange = Range.of(BigDecimal.ZERO, teilBereichTopKante.laenge)
+		val topKanteRange = Range.of(BigDecimal.ZERO,
+			teilBereichTopKante.laenge)
 		val sameTopKante = teilbereich.IDTOPKante?.wert ==
 			singlePoint.IDTOPKante?.wert
 		if (sameTopKante) {
-			if (A === BigDecimal.ZERO && B === teilBereichTopKante.laenge) {
+			if (A.compareTo(BigDecimal.ZERO) === 0 &&
+				B.compareTo(teilBereichTopKante.laenge) === 0) {
 				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
 			}
 
-			clone.begrenzungA.wert = 
-				topKanteRange.isStartedBy(A)
-					? A
-					: topKanteRange.fit(A - tolerantBigDecimal)
-			clone.begrenzungB.wert = 
-				topKanteRange.isEndedBy(B) ? B : topKanteRange.fit(A +
-					tolerantBigDecimal)
+			clone.begrenzungA.wert = topKanteRange.
+				isStartedBy(A) ? A : topKanteRange.fit(A - tolerantBigDecimal)
+			clone.begrenzungB.wert = topKanteRange.isEndedBy(B)
+				? B
+				: topKanteRange.fit(A + tolerantBigDecimal)
 			return clone.contains(singlePoint)
 		}
 
@@ -592,7 +592,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		val tolerantDistanceFromA = topKanteRange.
 				isStartedBy(A) ? tolerantBigDecimal : tolerantBigDecimal - A
 		val tolerantDistanceFromB = topKanteRange.
-				isEndedBy(B) ? tolerantBigDecimal : (tolerantBigDecimal + B) - topKanteRange.maximum
+				isEndedBy(B) ? tolerantBigDecimal : (tolerantBigDecimal + B) -
+				topKanteRange.maximum
 		return teilbereich.containsWithinTolerant(singlePoint,
 			teilBereichTopKante.TOPKnotenA, tolerantDistanceFromA) ||
 			teilbereich.containsWithinTolerant(singlePoint,
@@ -808,7 +809,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 		return areas
 	}
-	
+
 	/**
 	 * @param bo this Bereich_Objekt
 	 * 
@@ -816,19 +817,21 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	 */
 	def static Stell_Bereich getMostOverlapControlArea(Bereich_Objekt bo) {
 		val areas = bo.container.stellBereich
-		return areas.max[first, second |
+		return areas.max [ first, second |
 			val firstDistance = bo.getOverlappingLength(first)
-			val secondDistance =  bo.getOverlappingLength(second)
+			val secondDistance = bo.getOverlappingLength(second)
 			return firstDistance.compareTo(secondDistance)
 		]
 	}
-	
+
 	def static List<List<TopPoint>> toTopPoints(Bereich_Objekt bo) {
 		return bo.bereichObjektTeilbereich.map[toTopPoints]
 	}
-	
-	def static List<TopPoint> toTopPoints(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
-		return List.of(new TopPoint(tb.topKante, tb.begrenzungA.wert),
+
+	def static List<TopPoint> toTopPoints(
+		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		return List.of(
+			new TopPoint(tb.topKante, tb.begrenzungA.wert),
 			new TopPoint(tb.topKante, tb.begrenzungB.wert)
 		)
 	}

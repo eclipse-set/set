@@ -13,6 +13,7 @@ package org.eclipse.set.feature.plazmodel.check;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import java.util.Objects;
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
@@ -73,7 +75,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	// The half of track width is lateral distance for PZB_Element and
 	// FMA_Komponent
-	static double FMA_PZB_LATERAL_DISTANCE = 1.435 / 2;
+	static BigDecimal FMA_PZB_LATERAL_DISTANCE = BigDecimal.valueOf(1.435)
+			.divide(BigDecimal.TWO, ToolboxConstants.ROUNDING_TO_PLACE,
+					RoundingMode.HALF_UP);
 
 	@Override
 	public void handleEvent(final Event event) {
@@ -145,15 +149,13 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 		if (po instanceof PZB_Element || po instanceof FMA_Komponente) {
 			final ENUMLinksRechts side = getNullableObject(potk,
 					point -> point.getSeitlicheLage().getWert()).orElse(null);
-			final BigDecimal lateralDistance = BigDecimal
-					.valueOf(FMA_PZB_LATERAL_DISTANCE);
 			if (side != null
 					&& side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
 				return pointObjectPositionService.getCoordinate(potk,
-						lateralDistance.negate());
+						FMA_PZB_LATERAL_DISTANCE.negate());
 			}
 			return pointObjectPositionService.getCoordinate(potk,
-					lateralDistance);
+					FMA_PZB_LATERAL_DISTANCE);
 
 		}
 		return pointObjectPositionService.getCoordinate(potk);

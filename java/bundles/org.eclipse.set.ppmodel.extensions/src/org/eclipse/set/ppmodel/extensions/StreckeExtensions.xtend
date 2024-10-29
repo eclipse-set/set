@@ -47,7 +47,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 	}
 
 	def static GeoPosition getKilometerCoordinate(Strecke strecke,
-		BigDecimal meter) {
+		BigDecimal kilometer) {
 
 		val startEnd = strecke.startEnd
 		if (startEnd === null)
@@ -58,7 +58,7 @@ class StreckeExtensions extends BasisObjektExtensions {
 		return start.geoKnoten.getCoordinate(
 			null,
 			strecke,
-			meter - start.streckeMeter.wert,
+			kilometer - start.streckeMeter.wert,
 			BigDecimal.ZERO,
 			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN
 		)
