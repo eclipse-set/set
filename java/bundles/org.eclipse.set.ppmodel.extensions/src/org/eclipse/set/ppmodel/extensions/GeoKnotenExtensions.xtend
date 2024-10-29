@@ -93,8 +93,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 */
 	def static Coordinate getCoordinate(GEO_Knoten geoKnoten) {
 		val List<GEO_Punkt> geoPunkte = geoKnoten.geoPunkte
-		geoPunkte.getGeoPunkt(geoKnoten)
-		val GEO_Punkt geoPunkt = getGeoPunkt(geoPunkte, geoKnoten);
+		val GEO_Punkt geoPunkt = geoPunkte.getGeoPunkt(geoKnoten)
 		return geoPunkt.coordinate
 	}
 

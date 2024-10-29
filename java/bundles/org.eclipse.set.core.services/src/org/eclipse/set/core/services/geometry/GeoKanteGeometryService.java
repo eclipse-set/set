@@ -13,6 +13,7 @@ package org.eclipse.set.core.services.geometry;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.graph.DirectedElement;
@@ -21,6 +22,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineString;
 
 /**
@@ -113,4 +115,17 @@ public interface GeoKanteGeometryService {
 	 * @return true, if find process is done
 	 */
 	boolean isFindGeometryComplete();
+
+	/**
+	 * Determine the projection coordinate of a Point on the Top_Kante and the
+	 * distance of this coordinate to start node of the Top_Kante
+	 * 
+	 * @param coor
+	 *            the target coordinate
+	 * @param topEdge
+	 *            the TOP_Kante
+	 * @return Pair<GEOKanteCoordinate, BigDecimal>
+	 */
+	Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinate(
+			Coordinate coor, TOP_Kante topEdge);
 }

@@ -106,8 +106,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 							po, potk);
 					if (geoKanteCoordinate == null
 							|| getNullableObject(geoKanteCoordinate,
-									e -> e.getCoordinate().getCoordinate())
-											.isEmpty()) {
+									e -> e.getCoordinate()).isEmpty()) {
 						return;
 					}
 
@@ -117,7 +116,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 						return;
 					}
 					final Coordinate coordinate = geoKanteCoordinate
-							.getCoordinate().getCoordinate();
+							.getCoordinate();
 					final Coordinate gpCoordinate = GeoPunktExtensions
 							.getCoordinate(relevantGeoPunkt);
 					if (gpCoordinate == null) {

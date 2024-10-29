@@ -10,6 +10,8 @@
  */
 package org.eclipse.set.feature.table.pt1.ssza
 
+import java.math.BigDecimal
+import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.Services
@@ -47,9 +49,16 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
  * Table transformation for Datenpunkttabelle (Ssza).
@@ -188,122 +197,21 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// G: Ssza.Bezugspunkt.Standort.Strecke
-		val getBezeichnungStrecke = [ Punkt_Objekt it |
-			punktObjektStrecke?.map [
-				IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert
-			]
-		]
-
-		fillSwitch(
+		val streckeAndKm = datenpunkt.getStreckeAndKm(dpBezug)
+		fillIterable(
 			cols.getColumn(Bezugspunkt_Standort_Strecke),
-			dpBezug,
-			bezugspunktCaseIterable(
-				#[BUE_Kante, PZB_Element, BUE_Anlage],
-				[
-					getBezeichnungStrecke.apply(it)
-				]
-			),
-			bezugspunktCaseIterable(
-				Markanter_Punkt,
-				[
-					val ms = IDMarkanteStelle?.value
-					if (ms instanceof Punkt_Objekt)
-						return getBezeichnungStrecke.apply(ms)
-					return #[]
-				]
-			),
-			bezugspunktCaseIterable(
-				BUE_Einschaltung,
-				[
-					val sue = schaltmittelZuordnung.map[IDSchalter?.value]?.
-						filterNull.toList
-
-					return sue.map [
-						switch (it) {
-							Zugeinwirkung,
-							FMA_Komponente:
-								return #[it]
-							FMA_Anlage: {
-								val nearestKomponent = fmaKomponenten.min [ first, second |
-									val dpCoor = datenpunkt.coordinate
-									val firstDistance = first.coordinate.
-										distance(dpCoor)
-									val secondDistance = second.coordinate.
-										distance(dpCoor)
-									return firstDistance.compareTo(
-										secondDistance)
-								]
-								return #[nearestKomponent]
-							}
-						}
-					].flatten.flatMap[getBezeichnungStrecke.apply(it)]
-				]
-			),
-			bezugspunktCase(
-				ZUB_Streckeneigenschaft,
-				[
-					return datenpunkt.getNearestRoute(it)?.bezeichnung?.
-						bezeichnungStrecke?.wert ?: ""
-				]
-			)
+			streckeAndKm,
+			[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
+			MIXED_STRING_COMPARATOR
 		)
 
+
 		// H: Ssza.Bezugspunkt.Standort.km
-		val getKMStrecke = [ Punkt_Objekt it |
-			punktObjektStrecke?.map [
-				streckeKm?.wert
-			]
-		]
-		fillSwitch(
+		fillIterable(
 			cols.getColumn(Bezugspunkt_Standort_km),
 			dpBezug,
-			bezugspunktCaseIterable(
-				#[BUE_Kante, PZB_Element, BUE_Anlage],
-				[getKMStrecke.apply(it)]
-			),
-			bezugspunktCaseIterable(
-				Markanter_Punkt,
-				[
-					val ms = IDMarkanteStelle?.value
-					if (ms instanceof Punkt_Objekt) {
-						return getKMStrecke.apply(ms)
-					}
-					return #[]
-				]
-			),
-			bezugspunktCaseIterable(
-				BUE_Einschaltung,
-				[
-					val sue = schaltmittelZuordnung.map[IDSchalter?.value]?.
-						filterNull.toList
-
-					return sue.flatMap [
-						switch (it) {
-							Zugeinwirkung,
-							FMA_Komponente:
-								return getKMStrecke.apply(it)
-							FMA_Anlage: {
-								val nearestKomponent = fmaKomponenten.min [ first, second |
-									val dpCoor = datenpunkt.coordinate
-									val firstDistance = first.coordinate.
-										distance(dpCoor)
-									val secondDistance = second.coordinate.
-										distance(dpCoor)
-									return firstDistance.compareTo(
-										secondDistance)
-								]
-								return getKMStrecke.apply(nearestKomponent)
-							}
-						}
-					].filterNull
-				]
-			),
-			bezugspunktCase(
-				ZUB_Streckeneigenschaft,
-				[
-					// TODO
-				]
-			)
+			[streckeAndKm.map[value]],
+			MIXED_STRING_COMPARATOR
 		)
 
 		// J: Ssza.DP-Standort.Stellbereich
@@ -424,7 +332,6 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(rel_Lage_b_zu_a),
 			datenpunkt,
 			[datenpunktAllg?.datenpunktLaenge?.wert?.toString]
-		// TODO: Note
 		)
 
 		// O: Ssza.Bemerkung
@@ -436,7 +343,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 					(it as ZUB_Streckeneigenschaft).metallteil !== null
 			],
 			[
-				// TODO
+				streckeAndKm.firstOrNull?.value ?: ""
 			]
 		)
 
@@ -543,9 +450,45 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				IDSchalter?.value instanceof FMA_Komponente
 		]
 	}
-
-	private def Strecke getNearestRoute(Datenpunkt dp,
-		ZUB_Streckeneigenschaft zub) {
+	
+	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(Datenpunkt dp, Basis_Objekt object) {
+		return #[]
+	}
+	
+	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(Datenpunkt dp, Markanter_Punkt markantePunkt) {
+		val ms = markantePunkt.IDMarkanteStelle?.value
+		if (ms instanceof Punkt_Objekt) {
+			return getStreckeAndKm(dp, ms)
+		}
+		return #[]
+	}
+	
+	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(Datenpunkt dp, Punkt_Objekt po) {
+		return po.punktObjektStrecke.map[
+			IDStrecke?.value -> streckeKm?.wert
+		].toList
+	}
+	
+	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(Datenpunkt dp, BUE_Einschaltung bueEinschaltung) {
+		val sue = bueEinschaltung.schaltmittelZuordnung.map[IDSchalter?.value]?.filterNull.toList
+		return sue.flatMap [
+			switch(it) {
+				Zugeinwirkung,
+				FMA_Komponente:
+					return getStreckeAndKm(dp, it)
+				FMA_Anlage: {
+					val dpTopPoint = new TopPoint(dp)
+					val topGraphService = Services.topGraphService
+					val nearestKomponent = fmaKomponenten.map[fma |
+						fma -> topGraphService.findShortestDistance(dpTopPoint, new TopPoint(fma))
+					].filter[value.present].minBy[value.get]
+					return dp.getStreckeAndKm(nearestKomponent.key)
+				}
+			}
+		].toList
+	}
+	
+	private def dispatch List<Pair<Strecke, String>> getStreckeAndKm(Datenpunkt dp, ZUB_Streckeneigenschaft zub) {
 		val topGraphService = Services.topGraphService
 		val dpPoint = new TopPoint(dp)
 		// Find nearest area limit of ZUB_Streckeigenschaft
@@ -569,7 +512,24 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			]
 		]
 
-		return relevantStrecke
+		return #[relevantStrecke ->
+			relevantStrecke.getNearestPointKm(nearestPoint)]
 	}
 
+	private def String getNearestPointKm(Strecke strecke,
+		TopPoint nearestPoint) {
+		val topKante = nearestPoint.edge
+		val geoKantemetadata = Services.geometryService.getGeoKanteAt(topKante,
+			topKante.TOPKnotenA, nearestPoint.distance);
+		val nearstStreckePunkt = strecke.streckenPunkte.minBy [
+			geoKantemetadata.geometry.distanceToCoor(geoKnoten.coordinate)
+		]
+
+		val projectionOnTopEdge = Services.geometryService.getProjectionCoordinate(
+			nearstStreckePunkt.geoKnoten.coordinate, topKante)
+		val distance = nearestPoint.distance.subtract(
+			projectionOnTopEdge.second)
+		val nearstPointKm = nearstStreckePunkt.streckeMeter.wert.add(distance)
+		return nearstPointKm.divide(BigDecimal.valueOf(1000)).toTableDecimal()
+	}
 }
