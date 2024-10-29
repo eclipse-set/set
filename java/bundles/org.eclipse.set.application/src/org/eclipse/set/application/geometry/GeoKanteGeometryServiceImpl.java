@@ -356,7 +356,7 @@ public class GeoKanteGeometryServiceImpl
 
 	@SuppressWarnings("boxing")
 	@Override
-	public Pair<GEOKanteCoordinate, Double> getProjectionCoor(
+	public Pair<GEOKanteCoordinate, Double> getProjectionCoordinate(
 			final Coordinate coor, final TOP_Kante topEdge) {
 		final Pair<GEOKanteMetadata, Coordinate> projectionCoorAndGeoKante = findProjectionCoorAndGeoKante(
 				coor, topEdge);
