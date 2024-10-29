@@ -30,7 +30,6 @@ import org.eclipse.set.model.planpro.Gleis.ENUMGleisart;
 import org.eclipse.set.model.planpro.Gleis.Gleis_Art;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung;
-import org.eclipse.set.ppmodel.extensions.PunktObjektExtensions;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 

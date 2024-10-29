@@ -525,7 +525,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			geoKantemetadata.geometry.distanceToCoor(geoKnoten.coordinate)
 		]
 
-		val projectionOnTopEdge = Services.geometryService.getProjectionCoor(
+		val projectionOnTopEdge = Services.geometryService.getProjectionCoordinate(
 			nearstStreckePunkt.geoKnoten.coordinate, topKante)
 		val distance = nearestPoint.distance.subtract(
 			BigDecimal.valueOf(projectionOnTopEdge.second))

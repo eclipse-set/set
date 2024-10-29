@@ -126,6 +126,6 @@ public interface GeoKanteGeometryService {
 	 *            the TOP_Kante
 	 * @return Pair<GEOKanteCoordinate, Double>
 	 */
-	Pair<GEOKanteCoordinate, Double> getProjectionCoor(Coordinate coor,
+	Pair<GEOKanteCoordinate, Double> getProjectionCoordinate(Coordinate coor,
 			TOP_Kante topEdge);
 }
