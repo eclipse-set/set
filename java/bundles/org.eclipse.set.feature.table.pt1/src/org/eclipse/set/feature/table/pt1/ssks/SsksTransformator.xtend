@@ -198,6 +198,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						val signalRahmen = signal.
 							signalRahmenForBefestigung(gruppe)
 						val TableRow row = rowGroup.newTableRow
+						
+						// A: Ssks.Bezeichnung_Signal
 						fillConditional(
 							row,
 							cols.getColumn(Bezeichnung_Signal),
@@ -206,7 +208,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[bezeichnung.bezeichnungTabelle.wert],
 							[""]
 						)
-
+						
+						// B: Ssks.Signal_Art.Reales_Signal
 						fillSwitch(
 							row,
 							cols.getColumn(Reales_Signal),
@@ -224,6 +227,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							)
 						)
 
+						// C: Ssks.Signal_Art.Funktion_Ohne_Signal
 						fillConditional(
 							row,
 							cols.getColumn(Funktion_Ohne_Signal),
@@ -235,6 +239,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// D: Ssks.Signal_Art.Fiktives_Signal
 						fillIterable(
 							row,
 							cols.getColumn(Fiktives_Signal),
@@ -248,24 +253,34 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
-						fillConditional(
+						val routeAndKm = signal.routeAndKm.map[
+							key.bezeichnung?.bezeichnungStrecke?.wert -> value
+						]
+						// E: Ssks.Standortmerkmale.Standort.Strecke
+						fillIterableWithConditional(
 							row,
 							cols.getColumn(Strecke),
 							signal,
 							[isHauptbefestigung],
 							[
-								punktObjektStrecke.unique.strecke.bezeichnung.
-									bezeichnungStrecke.wert
-							]
+								routeAndKm.map[key]
+							],
+							MIXED_STRING_COMPARATOR,
+							ITERABLE_FILLING_SEPARATOR
+							
 						)
 
-						fill(
+
+						// F: Ssks.Standortmerkmale.Standort.km
+						fillIterable(
 							row,
 							cols.getColumn(Km),
 							signal,
-							[punktObjektStrecke.unique.streckeKm.wert]
+							[routeAndKm.map[value]],
+							MIXED_STRING_COMPARATOR
 						)
 
+						// G: Ssks.Standortmerkmale.Sonstige_Zulaessige_Anordnung
 						fill(
 							row,
 							cols.getColumn(Sonstige_Zulaessige_Anordnung),
@@ -276,6 +291,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// H: Ssks.Standortmerkmale.Lichtraumprofil
 						fillIterable(
 							row,
 							cols.getColumn(Lichtraumprofil),
@@ -294,6 +310,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
+						// I: Ssks.Standortmerkmale.Ueberhoehung
 						if (bankingService.isFindBankingComplete) {
 							fillIterable(
 								row,
@@ -313,7 +330,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							row.fillUeberhoehung(signal)
 						}
 
-						// Abstand Mastmitte
+						// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links
+						// K: Ssks.Standortmerkmale.Abstand_Mastmitte.rechts
 						if (!isFindGeometryComplete) {
 							#[Mastmitte_Links, Mastmitte_Rechts].forEach [
 								fill(
@@ -357,7 +375,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[toString]
 							)
 						}
-						// Sichtbarkeit Soll
+						
+						// L: Ssks.Standortmerkmale.Sichtbarkeit.Soll
 						fillConditional(
 							row,
 							cols.getColumn(Sichtbarkeit_Soll),
@@ -368,6 +387,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// M: Ssks.Standortmerkmale.Sichtbarkeit.Mindest
 						fillConditional(
 							row,
 							cols.getColumn(Sichtbarkeit_Mindest),
@@ -378,6 +398,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// N: Ssks.Standortmerkmale.Sichtbarkeit.Ist
 						fillConditional(
 							row,
 							cols.getColumn(Sichtbarkeit_Ist),
@@ -389,6 +410,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// O: Ssks.Standortmerkmale.Ausrichtung.Entfernung
 						fillConditional(
 							row,
 							cols.getColumn(Entfernung),
@@ -400,6 +422,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// P: Ssks.Standortmerkmale.Ausrichtung.Richtpunkt
 						fillConditional(
 							row,
 							cols.getColumn(Richtpunkt),
@@ -411,6 +434,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// Q: Ssks.konstruktive_Merkmale.Anordnung.Befestigung
 						fillIterable(
 							row,
 							cols.getColumn(Befestigung),
@@ -420,6 +444,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[toString]
 						)
 
+						// R: Ssks.konstruktive_Merkmale.Anordnung.Regelzeichnung
 						fillIterable(
 							row,
 							cols.getColumn(Anordnung_Regelzeichnung),
@@ -429,6 +454,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[toString]
 						)
 
+						// S: Ssks.konstruktive_Merkmale.Obere_Lichtpunkthoehe
 						fillIterable(
 							row,
 							cols.getColumn(Obere_Lichtpunkthoehe),
@@ -451,6 +477,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// T: Ssks.konstruktive_Merkmale.Streuscheibe.Art
 						fillConditional(
 							row,
 							cols.getColumn(Streuscheibe_Art),
@@ -462,6 +489,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// U: Ssks.konstruktive_Merkmale.Streuscheibe.Stellung
 						fillConditional(
 							row,
 							cols.getColumn(Streuscheibe_Stellung),
@@ -474,6 +502,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// V: Ssks.konstruktive_Merkmale.Fundament.Regelzeichnung
 						fillIterable(
 							row,
 							cols.getColumn(Fundament_Art_Regelzeichnung),
@@ -493,6 +522,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[toString]
 						)
 
+						// W: Ssks.konstruktive_Merkmale.Fundament.Hoehe
 						fillIterable(
 							row,
 							cols.getColumn(Fundament_Hoehe),
@@ -507,6 +537,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[toTableInteger(1000)]
 						)
 
+						// X: Ssks.Anschluss.Schaltkasten.Bezeichnung
 						fillConditional(
 							row,
 							cols.getColumn(Schaltkasten_Bezeichnung),
@@ -522,6 +553,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// Y: Ssks.Anschluss.Schaltkasten.Entfernung
 						fillConditional(
 							row,
 							cols.getColumn(Schaltkasten_Entfernung),
@@ -532,6 +564,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// Z: Ssks.Anschluss.Schaltkasten_separat.Bezeichnung
 						fillConditional(
 							row,
 							cols.getColumn(Schaltkasten_Separat_Bezeichnung),
@@ -543,6 +576,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 						)
 
+						// AA: Ssks.Anschluss.Dauerhaft_Nacht
 						if (signal.isSsksSignalNichtAndere) {
 							fillConditional(
 								row,
@@ -558,6 +592,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							)
 						}
 
+						// AB: Ssks.Signalisierung.Signalbegriffe_Schirm.Hp_Hl
 						fillIterable(
 							row,
 							cols.getColumn(Schirm_Hp_Hl),
@@ -567,6 +602,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AC: Ssks.Signalisierung.Signalbegriffe_Schirm.Ks_Vr
 						fillIterable(
 							row,
 							cols.getColumn(Schirm_Ks_Vr),
@@ -576,6 +612,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AD: Ssks.Signalisierung.Signalbegriffe_Schirm.Zl_Kl
 						fillIterable(
 							row,
 							cols.getColumn(Schirm_Zl_Kl),
@@ -585,6 +622,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AE: Ssks.Signalisierung.Signalbegriffe_Schirm.Ra_Sh
 						fillSwitch(
 							row,
 							cols.getColumn(Schirm_Ra_Sh),
@@ -610,6 +648,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							new Case<Signal>([hasSignalbegriffID(Sh1)], ["x"])
 						)
 
+						// AF: Ssks.Signalisierung.Signalbegriffe_Schirm.Zs
 						fillIterable(
 							row,
 							cols.getColumn(Schirm_Zs),
@@ -619,6 +658,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AG: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2
 						fillIterable(
 							row,
 							cols.getColumn(Zusatzanzeiger_Zs_2),
@@ -628,6 +668,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AH: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_2v
 						fillIterable(
 							row,
 							cols.getColumn(Zusatzanzeiger_Zs_2v),
@@ -637,6 +678,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AI: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3
 						fillIterable(
 							row,
 							cols.getColumn(Zusatzanzeiger_Zs_3),
@@ -646,6 +688,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AJ: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs_3v
 						fillIterable(
 							row,
 							cols.getColumn(Zusatzanzeiger_Zs_3v),
@@ -657,6 +700,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AK: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zs
 						fillIterable(
 							row,
 							cols.getColumn(Zusatzanzeiger_Zs),
@@ -666,6 +710,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AL: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Zp
 						fillIterable(
 							row,
 							cols.getColumn(Zusatzanzeiger_Zp),
@@ -675,6 +720,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AM: Ssks.Signalisierung.Signalbegriffe_Zusatzanzeiger.Kombination
 						fillIterable(
 							row,
 							cols.getColumn(Zusatzanzeiger_Kombination),
@@ -685,6 +731,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							", "
 						)
 
+						// AN: Ssks.Signalisierung.Nachgeordnetes_Signal
 						fillIterable(
 							row,
 							cols.getColumn(Nachgeordnetes_Signal),
@@ -705,6 +752,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AO: Ssks.Signalisierung.Mastschild
 						fillIterable(
 							row,
 							cols.getColumn(Mastschild),
@@ -714,6 +762,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AP: Ssks.Signalisierung.Weitere.Regelzeichnung_Nr
 						fillIterable(
 							row,
 							cols.getColumn(Weitere_Regelzeichnung_Nr),
@@ -723,6 +772,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[it]
 						)
 
+						// AQ: Ssks.Sonstiges.Automatische_Fahrtstellung
 						fill(
 							row,
 							cols.getColumn(Automatische_Fahrtstellung),
@@ -730,6 +780,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[fillSonstigesAutomatischeFahrtstellung]
 						)
 
+						// AR: Ssks.Sonstiges.Dunkelschaltung
 						fill(
 							row,
 							cols.getColumn(Dunkelschaltung),
@@ -737,6 +788,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[fillSonstigesDunkelschaltung]
 						)
 
+						// AS: Ssks.Sonstiges.Durchfahrt_erlaubt
 						fill(
 							row,
 							cols.getColumn(Durchfahrt_Erlaubt),
@@ -744,6 +796,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[fillSonstigesDurchfahrtErlaubt]
 						)
 
+						// AT: Ssks.Sonstiges.Besetzte_Ausfahrt
 						fillConditional(
 							row,
 							cols.getColumn(Besetzte_Ausfahrt),
@@ -752,6 +805,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[signalFstr.besetzteAusfahrt.wert.translate]
 						)
 
+						// AU: Ssks.Sonstiges.Loeschung_Zs_1__Zs_7						
 						fill(
 							row,
 							cols.getColumn(Loeschung_Zs_1__Zs_7),
@@ -759,6 +813,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[fillSonstigesLoeschungZs1Zs7]
 						)
 
+						// AV: Ssks.Sonstiges.Ueberwachung.Zs_2
 						fillIterable(
 							row,
 							cols.getColumn(Ueberwachung_Zs_2),
@@ -781,6 +836,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
+						// AW: Ssks.Sonstiges.Ueberwachung.Zs_2v
 						fillIterable(
 							row,
 							cols.getColumn(Ueberwachung_Zs_2v),
@@ -803,6 +859,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
+						// AX: Ssks.Bemerkung					
 						fill(
 							row,
 							cols.getColumn(Bemerkung),
