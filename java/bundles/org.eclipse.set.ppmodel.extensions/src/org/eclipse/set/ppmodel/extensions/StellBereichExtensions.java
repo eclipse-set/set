@@ -16,6 +16,7 @@ import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableOb
 import static org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.getTechnikStandort;
 import static org.eclipse.set.ppmodel.extensions.UrObjectExtensions.filterObjectsInControlArea;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.StreamSupport;
@@ -29,6 +30,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Uebertragungsweg;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Anlage;
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
+import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Bezirk;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich;
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Standort;
@@ -194,8 +196,11 @@ public class StellBereichExtensions {
 				.isBelongToControlArea(estwZentral, area);
 		case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
 				.isBelongToControlArea(oertlich, area);
-		case final FMA_Anlage fmaAnlage -> FmaAnlageExtensions
-				.isBelongToControlArea(fmaAnlage, area);
+		case final FMA_Anlage fmaAnlage -> isOverlappingControlArea(area,
+				getNullableObject(fmaAnlage,
+						anlage -> anlage.getIDGleisAbschnitt().getValue())
+								.orElse(null),
+				50);
 		case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
 				.isBelongToControlArea(fmaKomponente, area);
 		case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions
@@ -211,10 +216,9 @@ public class StellBereichExtensions {
 		case final W_Kr_Gsp_Element gspElement -> WKrGspElementExtensions
 				.isBelongToControlArea(gspElement, area);
 		case final W_Kr_Gsp_Komponente gspKomponent -> isInControlArea(area,
-				EObjectExtensions
-						.getNullableObject(gspKomponent,
-								gsp -> gsp.getIDWKrGspElement().getValue())
-						.orElse(null));
+				getNullableObject(gspKomponent,
+						gsp -> gsp.getIDWKrGspElement().getValue())
+								.orElse(null));
 		case final Fstr_Aneinander fstr -> FstrAneinanderExtensions
 				.isBelongToControlArea(fstr, area);
 		case final Fstr_DWeg fstr -> FstrDWegWKrExtensions
@@ -225,10 +229,10 @@ public class StellBereichExtensions {
 				.isBelongToControlArea(fla, area);
 		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
 				.isBelongToControlArea(fla, area);
-		case final Gleis_Abschnitt segment -> GleisAbschnittExtensions
-				.isBelongToConstrolArea(segment, area);
-		case final Gleis_Bezeichnung description -> BereichObjektExtensions
-				.intersects(area, description);
+		case final Gleis_Abschnitt segment -> BereichObjektExtensions
+				.intersects(area, segment);
+		case final Gleis_Bezeichnung description -> isOverlappingControlArea(
+				area, description, 50);
 		case final NB_Zone nbZone -> NbZoneExtensions
 				.isBelongToControlArea(nbZone, area);
 		case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
@@ -251,5 +255,31 @@ public class StellBereichExtensions {
 				.intersects(area, bueAnlage);
 		default -> throw new IllegalArgumentException();
 		};
+	}
+
+	/**
+	 * @param area
+	 *            the {@link Stell_Bereich}
+	 * @param bo
+	 *            {@link Bereich_Objekt}
+	 * @param coverageDegree
+	 *            the degree of coverage in percent
+	 * @return true, if {@link Bereich_Objekt} overlaps control area with a
+	 *         given degree of coverage
+	 */
+	public static boolean isOverlappingControlArea(final Stell_Bereich area,
+			final Bereich_Objekt bo, final int coverageDegree) {
+		if (bo == null || area == null) {
+			return false;
+		}
+		if (coverageDegree <= 0) {
+			throw new IllegalArgumentException(
+					"Coverage Dgreee must be greater than 0"); //$NON-NLS-1$
+		}
+		final BigDecimal overlappingLength = BereichObjektExtensions
+				.getOverlappingLength(area, bo);
+		return BereichObjektExtensions.getLength(area)
+				.multiply(BigDecimal.valueOf(coverageDegree / 100))
+				.compareTo(overlappingLength) < 0;
 	}
 }

@@ -764,7 +764,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		return comparator.compare(A, toBigDecimal) <= 0 &&
 			comparator.compare(toBigDecimal, B) <= 0
 	}
-
+	
 	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
 		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 		if (bo === null || tb === null)
