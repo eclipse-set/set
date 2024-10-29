@@ -229,10 +229,10 @@ public class StellBereichExtensions {
 				.isBelongToControlArea(fla, area);
 		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
 				.isBelongToControlArea(fla, area);
-		case final Gleis_Bezeichnung description -> isOverlappingControlArea(
-				area, description, 50);
 		case final Gleis_Abschnitt segment -> BereichObjektExtensions
 				.intersects(area, segment);
+		case final Gleis_Bezeichnung description -> isOverlappingControlArea(
+				area, description, 50);
 		case final NB_Zone nbZone -> NbZoneExtensions
 				.isBelongToControlArea(nbZone, area);
 		case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
