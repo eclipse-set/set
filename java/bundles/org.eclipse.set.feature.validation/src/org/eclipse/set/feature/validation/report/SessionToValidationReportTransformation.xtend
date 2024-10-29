@@ -41,6 +41,7 @@ import static java.util.Comparator.nullsLast
 
 import static extension org.eclipse.set.basis.extensions.IModelSessionExtensions.*
 import static extension org.eclipse.set.utils.xml.ObjectMetadataXMLReader.*
+import org.eclipse.set.feature.validation.LayoutInfoRequired
 
 /**
  * Transforms a {@link IModelSession} into a {@link ValidationReport}.
@@ -298,7 +299,8 @@ class SessionToValidationReportTransformation {
 		attributeName = problem.attributeName
 
 		if (objectScope === null || objectScope === ObjectScope.UNKNOWN) {
-			if (validationSourceClass == PlanPro_Layoutinfo) {
+			if (validationSourceClass == PlanPro_Layoutinfo ||
+				type === LayoutInfoRequired.LAYOUT_VALIDATION_TYPE) {
 				objectScope = ObjectScope.LAYOUT
 			} else {
 				objectScope = ObjectScope.CONTENT
