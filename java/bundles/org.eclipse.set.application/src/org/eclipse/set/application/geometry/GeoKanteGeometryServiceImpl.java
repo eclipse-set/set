@@ -356,7 +356,7 @@ public class GeoKanteGeometryServiceImpl
 
 	@SuppressWarnings("boxing")
 	@Override
-	public Pair<GEOKanteCoordinate, Double> getProjectionCoordinate(
+	public Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinate(
 			final Coordinate coor, final TOP_Kante topEdge) {
 		final Pair<GEOKanteMetadata, Coordinate> projectionCoorAndGeoKante = findProjectionCoorAndGeoKante(
 				coor, topEdge);
@@ -369,7 +369,7 @@ public class GeoKanteGeometryServiceImpl
 		final Coordinate projectionCoor = projectionCoorAndGeoKante.getSecond();
 
 		// Determine the distance from start of GEO_Kante to projection point
-		double distance = metadata.getStart();
+		BigDecimal distance = metadata.getStart();
 		Coordinate previousCoordinate = null;
 		for (final GEOKanteSegment segment : metadata.getSegments()) {
 			// Run thought coordinates of Geo_Kante geometry
@@ -378,16 +378,18 @@ public class GeoKanteGeometryServiceImpl
 				if (previousCoordinate == null) {
 					previousCoordinate = currentCoordinate;
 					// Check if the point is on the segment
-				} else if (distance < segment.getStart()) {
-					distance += previousCoordinate.distance(currentCoordinate);
-				} else if (distance > segment.getEnd()) {
+				} else if (distance.compareTo(segment.getStart()) < 0) {
+					distance = distance.add(BigDecimal.valueOf(
+							previousCoordinate.distance(currentCoordinate)));
+				} else if (distance.compareTo(segment.getEnd()) > 0) {
 					break;
 				} else {
 					final double previousCoorToProjectionDistance = previousCoordinate
 							.distance(projectionCoor);
 					final double distanceBetweenCoors = previousCoordinate
 							.distance(coor);
-					distance += distanceBetweenCoors;
+					distance = distance
+							.add(BigDecimal.valueOf(distanceBetweenCoors));
 					// When the projection point lies between previous and
 					// current coordinate, return the distance to projection
 					// point and GEOKanteCoordinate
@@ -396,7 +398,8 @@ public class GeoKanteGeometryServiceImpl
 								new GEOKanteCoordinate(projectionCoor,
 										segment.getBereichObjekte(),
 										getCRS(metadata.getGeoKnoten())),
-								distance + previousCoorToProjectionDistance);
+								distance.add(BigDecimal.valueOf(
+										previousCoorToProjectionDistance)));
 					}
 
 					previousCoordinate = currentCoordinate;

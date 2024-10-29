@@ -124,8 +124,8 @@ public interface GeoKanteGeometryService {
 	 *            the target coordinate
 	 * @param topEdge
 	 *            the TOP_Kante
-	 * @return Pair<GEOKanteCoordinate, Double>
+	 * @return Pair<GEOKanteCoordinate, BigDecimal>
 	 */
-	Pair<GEOKanteCoordinate, Double> getProjectionCoordinate(Coordinate coor,
-			TOP_Kante topEdge);
+	Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinate(
+			Coordinate coor, TOP_Kante topEdge);
 }

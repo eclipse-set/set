@@ -520,7 +520,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		TopPoint nearestPoint) {
 		val topKante = nearestPoint.edge
 		val geoKantemetadata = Services.geometryService.getGeoKanteAt(topKante,
-			topKante.TOPKnotenA, nearestPoint.distance.doubleValue);
+			topKante.TOPKnotenA, nearestPoint.distance);
 		val nearstStreckePunkt = strecke.streckenPunkte.minBy [
 			geoKantemetadata.geometry.distanceToCoor(geoKnoten.coordinate)
 		]
@@ -528,7 +528,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		val projectionOnTopEdge = Services.geometryService.getProjectionCoordinate(
 			nearstStreckePunkt.geoKnoten.coordinate, topKante)
 		val distance = nearestPoint.distance.subtract(
-			BigDecimal.valueOf(projectionOnTopEdge.second))
+			projectionOnTopEdge.second)
 		val nearstPointKm = nearstStreckePunkt.streckeMeter.wert.add(distance)
 		return nearstPointKm.divide(BigDecimal.valueOf(1000)).toTableDecimal()
 	}
