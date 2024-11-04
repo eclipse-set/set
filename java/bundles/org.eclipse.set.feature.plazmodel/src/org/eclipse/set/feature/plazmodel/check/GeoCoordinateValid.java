@@ -13,7 +13,6 @@ package org.eclipse.set.feature.plazmodel.check;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +23,6 @@ import java.util.Objects;
 import org.apache.commons.text.StringSubstitutor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.basis.constants.Events;
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
@@ -73,11 +71,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	@Reference
 	EventAdmin eventAdmin;
 
-	// The half of track width is lateral distance for PZB_Element and
-	// FMA_Komponent
-	static BigDecimal FMA_PZB_LATERAL_DISTANCE = BigDecimal.valueOf(1.435)
-			.divide(BigDecimal.TWO, ToolboxConstants.ROUNDING_TO_PLACE,
-					RoundingMode.HALF_UP);
+	// Fixed lateral distance for PZB_Element and FMA_Komponent
+	static BigDecimal FMA_LATERAL_DISTANCE = BigDecimal.valueOf(0.85);
+	static BigDecimal PZB_LATERAL_DISTANCE = BigDecimal.valueOf(1.05);
 
 	@Override
 	public void handleEvent(final Event event) {
@@ -145,16 +141,22 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private GEOKanteCoordinate getPointGEOCoordinate(final Punkt_Objekt po,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		if (po instanceof PZB_Element || po instanceof FMA_Komponente) {
+		BigDecimal lateralDistance = null;
+		if (po instanceof PZB_Element) {
+			lateralDistance = PZB_LATERAL_DISTANCE;
+		} else if (po instanceof FMA_Komponente) {
+			lateralDistance = FMA_LATERAL_DISTANCE;
+		}
+		if (lateralDistance != null) {
 			final ENUMLinksRechts side = getNullableObject(potk,
 					point -> point.getSeitlicheLage().getWert()).orElse(null);
 			if (side != null
 					&& side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
 				return pointObjectPositionService.getCoordinate(potk,
-						FMA_PZB_LATERAL_DISTANCE.negate());
+						lateralDistance.negate());
 			}
 			return pointObjectPositionService.getCoordinate(potk,
-					FMA_PZB_LATERAL_DISTANCE);
+					lateralDistance);
 
 		}
 		return pointObjectPositionService.getCoordinate(potk);
