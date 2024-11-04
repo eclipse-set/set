@@ -536,7 +536,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		return firstCellValue
 	}
 
-	def private handleFillingException(
+	def void handleFillingException(
 		Exception e,
 		TableRow row,
 		ColumnDescriptor column
