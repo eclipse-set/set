@@ -45,7 +45,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensi
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
- * Table transformation for ETCS Melde- und Kommandoschaltung Weichen (Sszw)
+ * Table transformation for ETCS Melde- und Kommandoanschaltung Weichen (Sszw)
  * 
  * @author truong
  */
