@@ -95,7 +95,7 @@ export function isInstanceOfSiteplanState (object: any): boolean {
 }
 
 export default interface SiteplanModel {
-  centerPosition: Position
+  centerPosition?: Position
   changedInitialState: SiteplanState
   initialState: SiteplanState
   commonState: SiteplanState
