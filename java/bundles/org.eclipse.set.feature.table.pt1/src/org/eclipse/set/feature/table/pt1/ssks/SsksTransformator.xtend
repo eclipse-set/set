@@ -22,6 +22,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.BankService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
@@ -120,7 +121,6 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.PunktObjektStreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
@@ -131,11 +131,9 @@ import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensio
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -198,7 +196,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						val signalRahmen = signal.
 							signalRahmenForBefestigung(gruppe)
 						val TableRow row = rowGroup.newTableRow
-						
+
 						// A: Ssks.Bezeichnung_Signal
 						fillConditional(
 							row,
@@ -208,7 +206,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[bezeichnung.bezeichnungTabelle.wert],
 							[""]
 						)
-						
+
 						// B: Ssks.Signal_Art.Reales_Signal
 						fillSwitch(
 							row,
@@ -253,32 +251,42 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
-						val routeAndKm = signal.routeAndKm.map[
-							key.bezeichnung?.bezeichnungStrecke?.wert -> value
-						]
-						// E: Ssks.Standortmerkmale.Standort.Strecke
-						fillIterableWithConditional(
-							row,
-							cols.getColumn(Strecke),
-							signal,
-							[isHauptbefestigung],
-							[
-								routeAndKm.map[key]
-							],
-							MIXED_STRING_COMPARATOR,
-							ITERABLE_FILLING_SEPARATOR
-							
-						)
+						var List<Pair<String, String>> routeAndKm = newLinkedList
+						try {
+							routeAndKm.addAll(signal.routeAndKm.map [
+								key.bezeichnung?.bezeichnungStrecke?.wert ->
+									value
+							])
+						} catch (Exception e) {
+							routeAndKm = Collections.emptyList
+							handleFillingException(e, row,
+								cols.getColumn(Strecke))
+							handleFillingException(e, row, cols.getColumn(Km))
+						}
 
+						if (!routeAndKm.isNullOrEmpty) {
+							// E: Ssks.Standortmerkmale.Standort.Strecke
+							fillIterableWithConditional(
+								row,
+								cols.getColumn(Strecke),
+								routeAndKm,
+								[isHauptbefestigung],
+								[
+									map[key]
+								],
+								MIXED_STRING_COMPARATOR,
+								ITERABLE_FILLING_SEPARATOR
+							)
 
-						// F: Ssks.Standortmerkmale.Standort.km
-						fillIterable(
-							row,
-							cols.getColumn(Km),
-							signal,
-							[routeAndKm.map[value]],
-							MIXED_STRING_COMPARATOR
-						)
+							// F: Ssks.Standortmerkmale.Standort.km
+							fillIterable(
+								row,
+								cols.getColumn(Km),
+								routeAndKm,
+								[map[value]],
+								MIXED_STRING_COMPARATOR
+							)
+						}
 
 						// G: Ssks.Standortmerkmale.Sonstige_Zulaessige_Anordnung
 						fill(
@@ -375,7 +383,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[toString]
 							)
 						}
-						
+
 						// L: Ssks.Standortmerkmale.Sichtbarkeit.Soll
 						fillConditional(
 							row,
