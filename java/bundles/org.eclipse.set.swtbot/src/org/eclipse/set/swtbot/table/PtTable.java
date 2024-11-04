@@ -57,6 +57,9 @@ public record PtTable(String shortcut, String tableName,
 			new PtTable("ssza", "Ssza – ETCS-Datenpunkttabelle", List.of(0)),
 			new PtTable("sszs",
 					"Sszs – ETCS Melde- und Kommandoanschaltung Signale",
+					List.of(0)),
+			new PtTable("sszw",
+					"Sszw – ETCS Melde- und Kommandoanschaltung Weichen",
 					List.of(0)));
 
 }
