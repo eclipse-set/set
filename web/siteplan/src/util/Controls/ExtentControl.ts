@@ -67,12 +67,17 @@ export default class ExtentControl extends Control {
           && layer.getLayerType() !== FeatureLayerType.SheetCut)
         .forEach(layer => layer.getSource()?.getFeatures()
           .forEach(feature => features.push(feature)))
-      // Only fit if features exist
+      // if there is no feature available we set extent to whole germany
       if (features.length === 0) {
-        return
+        extent = [
+          // south western corner of germany's bounding box
+          789544.62, 5986273.25, 
+          // north eastern corner of germany's bounding box
+          1671640.27, 7372664.43
+        ]
+      } else {
+        extent = getExtent(features)
       }
-
-      extent = getExtent(features)
       store.commit('setAllFeaturesExtent', extent)
     }
 
