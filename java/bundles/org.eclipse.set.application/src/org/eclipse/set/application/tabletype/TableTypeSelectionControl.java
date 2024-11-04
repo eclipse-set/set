@@ -198,5 +198,6 @@ public class TableTypeSelectionControl {
 	private void clearCombo() {
 		comboViewer.getCombo().removeAll();
 		comboViewer.getCombo().clearSelection();
+		oldSelectedValue = TableType.DIFF;
 	}
 }

@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -195,23 +195,47 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
 			)
 		)
+		var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
+		try {
+			dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
+		} catch (Exception e) {
+			handleFillingException(e, it,
+				cols.getColumn(Bezugspunkt_Standort_Strecke))
+			handleFillingException(e, it,
+				cols.getColumn(Bezugspunkt_Standort_km))
+			handleFillingException(e, it, cols.getColumn(Bemerkung))
+		}
+		if (!dpBezugStreckeAndKm.nullOrEmpty) {
+			// G: Ssza.Bezugspunkt.Standort.Strecke
+			fillIterable(
+				cols.getColumn(Bezugspunkt_Standort_Strecke),
+				dpBezugStreckeAndKm,
+				[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
+				MIXED_STRING_COMPARATOR
+			)
 
-		// G: Ssza.Bezugspunkt.Standort.Strecke
-		val streckeAndKm = datenpunkt.getStreckeAndKm(dpBezug)
-		fillIterable(
-			cols.getColumn(Bezugspunkt_Standort_Strecke),
-			streckeAndKm,
-			[map[key?.bezeichnung?.bezeichnungStrecke?.wert].filterNull],
-			MIXED_STRING_COMPARATOR
-		)
+			// H: Ssza.Bezugspunkt.Standort.km
+			fillIterable(
+				cols.getColumn(Bezugspunkt_Standort_km),
+				dpBezugStreckeAndKm,
+				[map[value]],
+				MIXED_STRING_COMPARATOR
+			)
 
-		// H: Ssza.Bezugspunkt.Standort.km
-		fillIterable(
-			cols.getColumn(Bezugspunkt_Standort_km),
-			dpBezug,
-			[streckeAndKm.map[value]],
-			MIXED_STRING_COMPARATOR
-		)
+			val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
+			// O: Ssza.Bemerkung
+			fillConditional(
+				cols.getColumn(Bemerkung),
+				datenpunkt,
+				[
+					ZUB_Streckeneigenschaft.isInstance(it) &&
+						(it as ZUB_Streckeneigenschaft).metallteil !== null
+				],
+				[
+					firstStreckekm ?: ""
+				]
+			)
+		}
 
 		// J: Ssza.DP-Standort.Stellbereich
 		fillSwitch(
@@ -338,19 +362,6 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(rel_Lage_b_zu_a),
 			datenpunkt,
 			[datenpunktAllg?.datenpunktLaenge?.wert?.toString]
-		)
-
-		// O: Ssza.Bemerkung
-		fillConditional(
-			cols.getColumn(Bemerkung),
-			dpBezug,
-			[
-				ZUB_Streckeneigenschaft.isInstance(it) &&
-					(it as ZUB_Streckeneigenschaft).metallteil !== null
-			],
-			[
-				streckeAndKm.firstOrNull?.value ?: ""
-			]
 		)
 
 		fillFootnotes(datenpunkt)
