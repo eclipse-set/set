@@ -71,8 +71,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	@Reference
 	EventAdmin eventAdmin;
 
-	// The half of track width is lateral distance for PZB_Element and
-	// FMA_Komponent
+	// Fixed lateral distance for PZB_Element and FMA_Komponent
 	static BigDecimal FMA_LATERAL_DISTANCE = BigDecimal.valueOf(0.85);
 	static BigDecimal PZB_LATERAL_DISTANCE = BigDecimal.valueOf(1.05);
 
