@@ -59,6 +59,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.eclipse.swt.internal.DPIUtil.AutoScaleImageDataProvider
 
 /**
  * Table transformation for Datenpunkttabelle (Ssza).
@@ -195,9 +196,17 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
 			)
 		)
-		
+		val List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
 		try {
-			val dpBezugStreckeAndKm = datenpunkt.getStreckeAndKm(dpBezug)
+			dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
+		} catch (Exception e) {
+			handleFillingException(e, it,
+				cols.getColumn(Bezugspunkt_Standort_Strecke))
+			handleFillingException(e, it,
+				cols.getColumn(Bezugspunkt_Standort_km))
+			handleFillingException(e, it, cols.getColumn(Bemerkung))
+		}
+		if (!dpBezugStreckeAndKm.nullOrEmpty) {
 			// G: Ssza.Bezugspunkt.Standort.Strecke
 			fillIterable(
 				cols.getColumn(Bezugspunkt_Standort_Strecke),
@@ -213,7 +222,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[map[value]],
 				MIXED_STRING_COMPARATOR
 			)
-			
+
 			// O: Ssza.Bemerkung
 			fillConditional(
 				cols.getColumn(Bemerkung),
@@ -226,13 +235,6 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 					getStreckeAndKm(dpBezug)?.firstOrNull?.value ?: ""
 				]
 			)
-		} catch (Exception e) {
-			handleFillingException(e, it,
-				cols.getColumn(Bezugspunkt_Standort_Strecke))
-			handleFillingException(e, it,
-				cols.getColumn(Bezugspunkt_Standort_km))
-			handleFillingException(e, it,
-				cols.getColumn(Bemerkung))
 		}
 
 		// J: Ssza.DP-Standort.Stellbereich
