@@ -488,7 +488,7 @@ class SignalExtensions extends PunktObjektExtensions {
 			return point?.IDStrecke?.value -> point?.streckeKm?.wert
 		]
 		val pointRoutes = signal.punktObjektStrecke
-		val decisivePoint = pointRoutes.filter[kmMassgebend?.wert].toList
+		val decisivePoint = pointRoutes.filter[kmMassgebend?.wert !== null].toList
 		if (decisivePoint.isNullOrEmpty) {
 			return pointRoutes.map[result.apply(it)]
 		}
