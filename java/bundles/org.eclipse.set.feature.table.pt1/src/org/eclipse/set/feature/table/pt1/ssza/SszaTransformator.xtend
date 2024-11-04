@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -59,7 +59,6 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import org.eclipse.swt.internal.DPIUtil.AutoScaleImageDataProvider
 
 /**
  * Table transformation for Datenpunkttabelle (Ssza).
@@ -196,7 +195,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[bezeichnung?.bezeichnungMarkanterPunkt?.wert]
 			)
 		)
-		val List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
+		var List<Pair<Strecke, String>> dpBezugStreckeAndKm = newLinkedList
 		try {
 			dpBezugStreckeAndKm.addAll(datenpunkt.getStreckeAndKm(dpBezug))
 		} catch (Exception e) {
@@ -223,6 +222,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				MIXED_STRING_COMPARATOR
 			)
 
+			val firstStreckekm = dpBezugStreckeAndKm.firstOrNull?.value
 			// O: Ssza.Bemerkung
 			fillConditional(
 				cols.getColumn(Bemerkung),
@@ -232,7 +232,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 						(it as ZUB_Streckeneigenschaft).metallteil !== null
 				],
 				[
-					getStreckeAndKm(dpBezug)?.firstOrNull?.value ?: ""
+					firstStreckekm ?: ""
 				]
 			)
 		}
