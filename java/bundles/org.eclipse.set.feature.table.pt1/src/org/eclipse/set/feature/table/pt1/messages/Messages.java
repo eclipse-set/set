@@ -659,7 +659,7 @@ public class Messages extends AbstractMessageService {
 	public String SszaTableView_Heading;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Signale
+	 * ETCS Melde- und Kommandoanschaltung Signale
 	 */
 	public String ToolboxTableNameSszsLong;
 
@@ -674,32 +674,32 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSszsShort;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Signale - Sszs
+	 * ETCS Melde- und Kommandoanschaltung Signale - Sszs
 	 */
 	public String SszsTableView_Heading;
 
 	/**
-	 * Ssza (ETCS Melde- und Kommandoschaltung Signale)
+	 * Ssza (ETCS Melde- und Kommandoanschaltung Signale)
 	 */
 	public String SszsDescriptionService_ViewName;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Signale
+	 * ETCS Melde- und Kommandoanschaltung Signale
 	 */
 	public String SszsDescriptionService_ViewTooltip;
 
 	/**
-	 * Sszw – ETCS Melde- und Kommandoschaltung Weichen
+	 * Sszw – ETCS Melde- und Kommandoanschaltung Weichen
 	 */
 	public String SszwDescriptionService_ViewName;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Weichen
+	 * ETCS Melde- und Kommandoanschaltung Weichen
 	 */
 	public String SszwDescriptionService_ViewTooltip;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Weichen
+	 * ETCS Melde- und Kommandoanschaltung Weichen
 	 */
 	public String ToolboxTableNameSszwLong;
 
@@ -714,7 +714,7 @@ public class Messages extends AbstractMessageService {
 	public String ToolboxTableNameSszwShort;
 
 	/**
-	 * ETCS Melde- und Kommandoschaltung Weichen – Sszw
+	 * ETCS Melde- und Kommandoanschaltung Weichen – Sszw
 	 */
 	public String SszwTableView_Heading;
 }
