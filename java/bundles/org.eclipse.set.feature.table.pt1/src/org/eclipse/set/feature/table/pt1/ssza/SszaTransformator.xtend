@@ -274,14 +274,17 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		)
 
 		// I: Ssza.DP-Standort.rel_Lage_zu_BP
-		val dpCoordinate = datenpunkt.coordinate
+		val topologicalDistance = [ Punkt_Objekt po |
+			return Services.topGraphService.findShortestDistance(
+				new TopPoint(datenpunkt), new TopPoint(po)).orElse(null)
+		]
 		fillSwitch(
 			cols.getColumn(DP_Standort_rel_Lage_zu_BP),
 			dpBezug,
 			bezugspunktCase(
 				#[BUE_Anlage, BUE_Kante, PZB_Element],
 				[
-					coordinate.distance(dpCoordinate).toString
+					topologicalDistance.apply(it).toTableDecimal
 				]
 			),
 			bezugspunktCase(
@@ -297,17 +300,13 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezugspunktCase(
 				BUE_Einschaltung,
 				[
-					val topologicalDistance = [ Punkt_Objekt po |
-						return Services.topGraphService.findShortestDistance(
-							new TopPoint(datenpunkt), new TopPoint(po)).
-							orElse(null)
-					]
 					val distances = schaltmittelZuordnung.map[IDSchalter.value].
 						flatMap [ schalter |
 							switch (schalter) {
 								FMA_Komponente,
 								Zugeinwirkung:
-									return #[topologicalDistance.apply(schalter)]
+									return #[
+										topologicalDistance.apply(schalter)]
 								FMA_Anlage:
 									return schalter.fmaKomponenten.map [
 										topologicalDistance.apply(it)
@@ -326,8 +325,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					val ms = IDMarkanteStelle?.value
 					if (ms !== null && ms instanceof Punkt_Objekt) {
-						return (ms as Punkt_Objekt).coordinate.distance(
-							dpCoordinate).toString
+						return topologicalDistance.apply((ms as Punkt_Objekt)).
+							toTableDecimal
 					}
 
 				]
@@ -497,7 +496,8 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 								new TopPoint(fma))
 					].filter[value.present]
 					if (!distancesToDP.nullOrEmpty) {
-						return dp.getStreckeAndKm(distancesToDP.minBy[value.get].key)
+						return dp.getStreckeAndKm(
+							distancesToDP.minBy[value.get].key)
 					}
 					return #[]
 				}
