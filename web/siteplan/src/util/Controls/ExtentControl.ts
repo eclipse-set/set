@@ -75,6 +75,7 @@ export default class ExtentControl extends Control {
           // north eastern corner of germany's bounding box
           1671640.27, 7372664.43
         ]
+        alert('Es konnten keine Lageplanelemente dargestellt werden. Bitte PlaZ-Modell prüfen.')
       } else {
         extent = getExtent(features)
       }
