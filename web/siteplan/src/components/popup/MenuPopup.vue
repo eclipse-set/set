@@ -14,7 +14,7 @@
       class="material-icons"
       @click="backToMenu"
     >arrow_back</span>
-    <div v-if="isMultiFeature&&!selectedFeature">
+    <div v-if="isMultiFeature() &&!selectedFeature">
       <h2>Bitte ein Objekt auswählen</h2>
       <ul>
         <li
@@ -40,6 +40,8 @@
   </div>
 </template>
 <script lang="ts">
+import CantLinePopup from '@/components/popup/CantLinePopup.vue'
+import CantPopup from '@/components/popup/CantPopup.vue'
 import EECPopup from '@/components/popup/EECPopup.vue'
 import EmptyPopup from '@/components/popup/EmptyPopup.vue'
 import ErrorPopup from '@/components/popup/ErrorPopup.vue'
@@ -51,18 +53,18 @@ import TrackLockPopup from '@/components/popup/TrackLockPopup.vue'
 import TrackSectionPopup from '@/components/popup/TrackSectionPopup.vue'
 import TrackSwitchPopup from '@/components/popup/TrackSwitchPopup.vue'
 import UnknownPopup from '@/components/popup/UnknownPopup.vue'
-import CantPopup from '@/components/popup/CantPopup.vue'
-import CantLinePopup from '@/components/popup/CantLinePopup.vue'
 import {
+  createFeature,
   FeatureType, FlashFeatureData, getFeatureData, getFeatureLabel,
   getFeatureName,
   getFeatureType
 } from '@/feature/FeatureInfo'
-import { LeftRight } from '@/model/SiteplanModel'
+import {SignalMount} from '@/model/SignalMount'
+import {LeftRight} from '@/model/SiteplanModel'
 import 'material-design-icons/iconfont/material-icons.css'
-import { Feature } from 'ol'
+import {Feature} from 'ol'
 import Geometry from 'ol/geom/Geometry'
-import { Options, Vue } from 'vue-class-component'
+import {Options, Vue} from 'vue-class-component'
 
 /**
  * Menu for select object
@@ -147,7 +149,7 @@ export default class MenuPopup extends Vue {
   mouseButton!: string
   selectedFeature: Feature<Geometry>|null = null
 
-  getFeatures () {
+  getFeatures (): Feature<Geometry>[] {
     if (this.features === null || !this.features) {
       return []
     }
@@ -156,6 +158,19 @@ export default class MenuPopup extends Vue {
       const featureType = getFeatureType(ele)
       return featureType !== FeatureType.Collision &&
         featureType !== FeatureType.Flash
+    }).flatMap(ele => {
+      const featureType = getFeatureType(ele)
+      const featureData = getFeatureData(ele)
+      if (featureType === FeatureType.Signal) {
+        return (featureData as SignalMount).attachedSignals.map(signal => createFeature(
+          FeatureType.Signal,
+          signal,
+          undefined,
+          signal.label?.text
+        ))
+      }
+
+      return ele
     })
   }
 
