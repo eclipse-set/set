@@ -326,7 +326,8 @@ jobs:
           python -m tablediffview \
             --diffDir=${{ env.DIFF_DIR }} \
             --branchName=${{ env.BRANCH_NAME }} \
-            --prNumber=${{github.event.pull_request.number}}
+            --prNumber=${{github.event.pull_request.number}} \
+            --runId=${{github.run_id}}
       
       - name: Upload Diff-File
         if: needs.swtbot.result == 'failure'
