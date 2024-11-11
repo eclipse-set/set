@@ -11,6 +11,7 @@ import { createStore, Store } from 'vuex'
 import OlMap from 'ol/Map'
 import SiteplanModel from './model/SiteplanModel'
 import EmptyMap from './util/MapSources/EmptyMap'
+import { setMapScale } from '@/util/MapScale'
 import NamedFeatureLayer from './util/NamedFeatureLayer'
 import { Attribution, Rotate, Zoom } from 'ol/control'
 import { ToolboxConfiguration } from './util/ToolboxConfiguration'
@@ -124,6 +125,7 @@ export const store = createStore<State>({
     },
     selectFeature (state, payload: string) {
       state.selectedFeatureGuid = payload
+      setMapScale(state.map.getView(), 1000);
     },
     setSelectFeatureOffset (state, payload: number) {
       state.selectedFeatureOffset = payload
