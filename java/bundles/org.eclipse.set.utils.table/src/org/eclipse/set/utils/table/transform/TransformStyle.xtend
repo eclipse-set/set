@@ -9,52 +9,24 @@
 package org.eclipse.set.utils.table.transform
 
 import java.util.HashMap
+import java.util.Map
 import java.util.Optional
 import org.apache.poi.ss.usermodel.BorderStyle
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.ss.usermodel.VerticalAlignment
-import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
-import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_CONTENT_MARGIN_LEFT
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_CONTENT_MARGIN_RIGHT
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_NAME
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.*
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.XSL_ATTRIBUTE
-import java.util.Map
 
 /**
  * Transform excel cell style to xsl style
  * @author Truong
  */
 class TransformStyle {
-
-	/**
-	 * Transform sheet style to xsl style set
-	 */
-	static def void transformPageStyle(Document doc, XSSFSheet sheet) {
-		val contentMarginLeft = SinglePageTableHeader.findNodebyTagName(doc,
-			XSL_ATTRIBUTE, ATTR_NAME, ATTR_CONTENT_MARGIN_LEFT)
-		val contentMarginRight = SinglePageTableHeader.findNodebyTagName(doc,
-			XSL_ATTRIBUTE, ATTR_NAME, ATTR_CONTENT_MARGIN_RIGHT)
-
-		val printSetup = sheet.printSetup
-		val leftMargin = printSetup.leftMargin * 2.54 * 10
-		val rightMargin = printSetup.rightMargin * 2.54 * 10
-		if (contentMarginLeft.present) {
-			contentMarginLeft.get.setTextContent(String.format("%smm", // $NON-NLS-1$
-			Double.valueOf(leftMargin).toString))
-		}
-		if (contentMarginRight.present) {
-			contentMarginRight.get.setTextContent(String.format("%smm", // $NON-NLS-1$
-			Double.valueOf(rightMargin).toString))
-		}
-	}
 
 	/**
 	 * transform excel cell style to xsl style

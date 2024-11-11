@@ -9,39 +9,15 @@
 
 package org.eclipse.set.utils.table.transform;
 
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellAt;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getCellStringValue;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastRowIndex;
-import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getRowSpanRangeAt;
+import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 import static org.eclipse.set.utils.table.transform.TransformStyle.setBorderStyle;
 import static org.eclipse.set.utils.table.transform.TransformStyle.transformCellStyle;
-import static org.eclipse.set.utils.table.transform.TransformStyle.transformPageStyle;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttrValue.LAYOUT_FIXED;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttrValue.ROWS_ROW;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttrValue.TABLE_NOT_ROWS_ROW;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttrValue.TABLE_ROWS_ROW;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.COLUMN_NUMBER;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.COLUMN_WIDTH;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.NUMBER_COLUMNS_SPANNED;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.NUMBER_ROWS_SPANNED;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.START_INDENT;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.TABLE_LAYOUT;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.TABLE_WIDTH;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
+import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttrValue.*;
+import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*;
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_MATCH;
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_SELECT;
 import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.TABLE_HEADER_STYLE;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.FO_BLOCK;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.FO_TABLE;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.FO_TABLE_BODY;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.FO_TABLE_CELL;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.FO_TABLE_COLUMN;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.FO_TABLE_HEADER;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.FO_TABLE_ROW;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.XSL_APPLY_TEMPLATE;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.XSL_STYLESHEET;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.XSL_TEMPLATE;
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -142,7 +118,6 @@ public abstract class AbstractTransformTableHeader {
 	public Document transform() throws ParserConfigurationException,
 			SAXException, IOException, TransformerException {
 		doc = getFopPageTemplate();
-		transformPageStyle(doc, sheet);
 		final Node rootNode = doc.getElementsByTagName(XSL_STYLESHEET).item(0);
 		final Element table = transformTable();
 
