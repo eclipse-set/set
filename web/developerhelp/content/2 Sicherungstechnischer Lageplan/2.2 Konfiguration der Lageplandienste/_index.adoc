@@ -108,7 +108,7 @@ Gibt an, bei welcher Skalierung der Lageplan in den Level-of-Detail Modus wechse
 
 `toolbox.siteplan.lod_scale=5000`
 
-gesetzt. Der Standardwert für diesen Konfigurationsparameter ist 10000.
+gesetzt. Der Standardwert für diesen Konfigurationsparameter ist 1000.
 
 *toolbox.siteplan.export_dpi*
 
