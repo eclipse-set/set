@@ -249,7 +249,8 @@ npm/npmjs/-/cookie/0.7.1, MIT, approved, clearlydefined
 npm/npmjs/-/copy-webpack-plugin/12.0.2, MIT, approved, #12752
 npm/npmjs/-/core-js/3.19.1, MIT, approved, clearlydefined
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
-npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, clearlydefined
+npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, #17146
+npm/npmjs/-/cross-spawn/7.0.5, MIT, approved, #17146
 npm/npmjs/-/css-line-break/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/css-loader/7.1.2, MIT AND Apache-2.0, approved, #14252
 npm/npmjs/-/css-select/4.3.0, BSD-2-Clause AND MIT AND (MIT AND MIT-0), approved, #3227
@@ -288,6 +289,9 @@ npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dompurify/2.5.6, Apache-2.0 OR MPL-2.0, approved, #14657
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
+npm/npmjs/-/dotenv-cli/7.4.2, MIT, approved, clearlydefined
+npm/npmjs/-/dotenv-expand/10.0.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/-/dotenv/16.4.5, BSD-2-Clause, approved, #12890
 npm/npmjs/-/earcut/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/ee-first/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/electron-to-chromium/1.4.645, ISC, approved, #1950
