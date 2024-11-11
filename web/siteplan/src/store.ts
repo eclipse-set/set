@@ -15,7 +15,7 @@ import { setMapScale } from '@/util/MapScale'
 import NamedFeatureLayer from './util/NamedFeatureLayer'
 import { Attribution, Rotate, Zoom } from 'ol/control'
 import { ToolboxConfiguration } from './util/ToolboxConfiguration'
-import { TrackWidth } from './util/Configuration'
+import Configuration, { TrackWidth } from './util/Configuration'
 import { createEmpty, Extent } from 'ol/extent'
 import { DBRef } from './model/Position'
 import PlanProToolbox from './util/PlanProToolbox'
@@ -125,7 +125,7 @@ export const store = createStore<State>({
     },
     selectFeature (state, payload: string) {
       state.selectedFeatureGuid = payload
-      setMapScale(state.map.getView(), 1000);
+      setMapScale(state.map.getView(), Configuration.getLodScale());
     },
     setSelectFeatureOffset (state, payload: number) {
       state.selectedFeatureOffset = payload
