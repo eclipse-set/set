@@ -15,7 +15,7 @@ Other operating systems or processor architectures may work, but are generally n
 - A Java Development Kit 21
 - node.js 20
 - Maven (3.9.6) 
-- Eclipse IDE (2023-12)
+- Eclipse IDE (2024-06)
 - [hugo](https://gohugo.io/) (v0.101.0+)
 
 # Development build
