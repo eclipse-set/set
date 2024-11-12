@@ -5,7 +5,7 @@
   "mapboxApiKey": "",
   "dop20ApiKey": "",
   "dop20InternUrl": "https://sg.geodatenzentrum.de/wms_dop",
-  "lodScale": 1000,
+  "lodScale": 10000,
   "exportDPI": 600,
   "trackWidth": "3|1.5|0.75|1",
   "trackWidthInterval": "1,10|0.5,8|0.25,3|0.5,3",
