@@ -69,6 +69,6 @@ export default class CenterMainRouteControl extends Control {
 
     this.view.setCenter([this.model.centerPosition.x, this.model.centerPosition.y])
     this.view.setRotation(((-this.model.centerPosition.rotation + 90) * Math.PI) / 180)
-    setMapScale(this.view, Configuration.getLodScale())
+    setMapScale(this.view, Configuration.getInternalDefaultLodScale())
   }
 }

@@ -40,7 +40,7 @@ export default class PlanProToolboxTest {
     this.thenExpectHereApiKey('')
     this.thenExpectDop20ApiKey('')
     this.thenExpectDevelopmentMode(true)
-    this.thenExpectLodScale(1000)
+    this.thenExpectLodScale(10000)
   }
 
   whenGettingToolboxConfiguration () : void {
