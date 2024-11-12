@@ -76,7 +76,7 @@ export default class MapContainer extends Vue {
     // Allow clicking the scale bar to force a 1:1000 scale
     if (store.state.planproModelType === PlanProModelType.SITEPLAN) {
       this.scaleLine = new ScaleBarControl(() => {
-        this.scaleLocked = Configuration.getLodScale()
+        this.scaleLocked = Configuration.getInternalDefaultLodScale()
         setMapScale(this.map.getView(), this.scaleLocked)
       })
       this.map.addControl(this.scaleLine)

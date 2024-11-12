@@ -60,6 +60,10 @@ export default abstract class Configuration {
     return Configuration.getToolboxConfiguration().lodScale
   }
 
+  public static getInternalDefaultLodScale (): number {
+    return 1000
+  }
+
   public static getExportDPI (): number {
     return Configuration.getToolboxConfiguration().exportDPI
   }
