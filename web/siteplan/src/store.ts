@@ -125,7 +125,7 @@ export const store = createStore<State>({
     },
     selectFeature (state, payload: string) {
       state.selectedFeatureGuid = payload
-      setMapScale(state.map.getView(), Configuration.getLodScale());
+      setMapScale(state.map.getView(), 1000)
     },
     setSelectFeatureOffset (state, payload: number) {
       state.selectedFeatureOffset = payload
