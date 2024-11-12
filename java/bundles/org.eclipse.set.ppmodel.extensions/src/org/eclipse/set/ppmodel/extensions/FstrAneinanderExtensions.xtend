@@ -20,7 +20,6 @@ import org.eclipse.set.model.planpro.Signale.Signal
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 
 /**
@@ -140,11 +139,7 @@ class FstrAneinanderExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(Fstr_Aneinander fstrAneinander,
 		Stell_Bereich controlArea) {
-		val areaStellelements = controlArea.aussenElementAnsteuerung.
-			stellelements.toList
-		val startSignal = fstrAneinander.startSignal
-		
-		return !areaStellelements.isNullOrEmpty && startSignal !== null &&
-			areaStellelements.contains(startSignal.stellelement)
+		return
+			controlArea.isInControlArea(fstrAneinander.startSignal)
 	}
 }
