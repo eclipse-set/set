@@ -1,5 +1,7 @@
 # Eclipse Signalling Engineering Toolbox: Release notes 
 The Eclipse Signalling Engineering Toolbox provides means for initialization, managing, testing, validation, visualization, documentation and merging of instances of the object model for the railway interlocking signalling technology.
+## 2.4
+
 ## 2.3
 - Initial implementation of the Overview Plan, which provides an abstract visualization of the topology.
 - Importing of existing data into other planning projects
