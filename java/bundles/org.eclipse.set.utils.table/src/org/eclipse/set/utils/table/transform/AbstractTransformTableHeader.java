@@ -158,6 +158,7 @@ public abstract class AbstractTransformTableHeader {
 		return tableTemplate;
 	}
 
+	@SuppressWarnings("nls")
 	private Set<Element> transformColumns() {
 		final LinkedHashSet<Element> cols = new LinkedHashSet<>();
 		float sumWidth = 0f;
@@ -167,6 +168,13 @@ public abstract class AbstractTransformTableHeader {
 					columNumber);
 			columNumber = pair.getKey().intValue();
 			sumWidth = pair.getValue().floatValue();
+		}
+		if (sumWidth < maxPaperWidth) {
+			final float restWith = maxPaperWidth - sumWidth - 0.01f;
+			final float lastColumnWith = Float.parseFloat(cols.getLast()
+					.getAttribute(COLUMN_WIDTH).replace("cm", ""));
+			cols.getLast().setAttribute(COLUMN_WIDTH,
+					Double.toString(lastColumnWith + restWith) + "cm");
 		}
 		return cols;
 	}
