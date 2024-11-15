@@ -172,7 +172,7 @@ public abstract class AbstractTransformTableHeader {
 		}
 
 		// Fill remaining page width
-		if (sumWidth < maxPaperWidth) {
+		if (sumWidth < maxPaperWidth - OFFSET) {
 			final float remainingWidth = maxPaperWidth - sumWidth - OFFSET;
 			final float lastColumnWith = Float.parseFloat(cols.getLast()
 					.getAttribute(COLUMN_WIDTH).replace("cm", ""));
