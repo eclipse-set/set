@@ -56,6 +56,7 @@ import org.xml.sax.SAXException;
  */
 public abstract class AbstractTransformTableHeader {
 	protected static final String XSL_TEMPLATE_PATH = "data/export/pdf/table_template.xsl"; //$NON-NLS-1$
+	protected static final float OFFSET = 0.01f;
 
 	protected Document doc;
 	protected XSSFSheet sheet;
@@ -169,12 +170,14 @@ public abstract class AbstractTransformTableHeader {
 			columNumber = pair.getKey().intValue();
 			sumWidth = pair.getValue().floatValue();
 		}
+
+		// Fill remaining page width
 		if (sumWidth < maxPaperWidth) {
-			final float restWith = maxPaperWidth - sumWidth - 0.01f;
+			final float remainingWidth = maxPaperWidth - sumWidth - OFFSET;
 			final float lastColumnWith = Float.parseFloat(cols.getLast()
 					.getAttribute(COLUMN_WIDTH).replace("cm", ""));
 			cols.getLast().setAttribute(COLUMN_WIDTH,
-					Double.toString(lastColumnWith + restWith) + "cm");
+					Double.toString(lastColumnWith + remainingWidth) + "cm");
 		}
 		return cols;
 	}
