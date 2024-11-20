@@ -3,6 +3,11 @@ name: Quality
 on:
   pull_request:
   push:
+    tags:
+      - 'v**'
+    branches:
+      - 'release/**'
+      - 'main'
 
 env:
   CHECKSTYLE_VERSION: "10.10.0"
