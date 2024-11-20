@@ -83,10 +83,9 @@ class MultiPageTableHeader extends AbstractTransformTableHeader {
 
 			// Add last column in page
 			cols.add(createTableColumn(columNumber, columnWidth))
-
 			// Add repeating column to new page
-			val newColNumber = cols.transformBreakColumns(columNumber)
-			return Pair.of(newColNumber, 0f)
+			val repeatColumns = cols.transformBreakColumns(columNumber)
+			return Pair.of(repeatColumns.key, repeatColumns.value)
 		} else {
 			cols.add(createTableColumn(columNumber, columnWidth))
 			return Pair.of(columNumber, sumWidth + columnWidth)
@@ -94,24 +93,27 @@ class MultiPageTableHeader extends AbstractTransformTableHeader {
 
 	}
 
-	private def int transformBreakColumns(LinkedHashSet<Element> columns,
+	private def Pair<Integer, Float> transformBreakColumns(LinkedHashSet<Element> columns,
 		int columnNumber) {
 		val repeatingColumns = getRepeatingColumns(sheet)
 		if (repeatingColumns.empty) {
 			// When repeating columns is empty,
 			// then add only numerical order column
+			val columnWidth = sheet.getColumnWidthInCm(0).floatValue
 			columns.add(
 				createTableColumn(columnNumber,
-					sheet.getColumnWidthInCm(0).floatValue))
-			return columnNumber + 1
+					columnWidth))
+			return columnNumber + 1 -> columnWidth
 		}
-		repeatingColumns.forEach [ col, index |
+		var repeatColumnsWidth = 0f;
+		for (var index = 0; index < repeatingColumns.size; index++) {
 			val colIndex = columnNumber + index + 1
+			val columnWidth = sheet.getColumnWidthInCm(repeatingColumns.toList.get(index)).floatValue
+			repeatColumnsWidth += columnWidth
 			columns.add(
-				createTableColumn(colIndex,
-					sheet.getColumnWidthInCm(col).floatValue))
-		]
-		return columnNumber + repeatingColumns.size
+				createTableColumn(colIndex,columnWidth))
+		}
+		return columnNumber + repeatingColumns.size -> repeatColumnsWidth
 	}
 
 	override protected getCellSpanColumn(Optional<Cell> excelCell) {
