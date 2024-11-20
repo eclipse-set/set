@@ -1,0 +1,24 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+
+env:
+  CHECKSTYLE_VERSION: 10.10.0
+  CHECKSTYLE_CONFIG_LOC: releng/eclipse
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get checkstyle
+        run: wget -O ./checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${{ CHECKSTYLE_VERSION }}/checkstyle-${{ CHECKSTYLE_VERSION }}-all.jar
+
+      - name: Prepare checkstyle properties
+        run: echo "config_loc=${{ CHECKSTYLE_CONFIG_LOC }}" > checkstyle.properties
+
+      - name: Run checkstyle
+        run: java -jar checkstyle.jar . -c ${{ CHECKSTYLE_CONFIG_LOC }}/CheckstyleEclipse.xml -p checkstyle.properties
