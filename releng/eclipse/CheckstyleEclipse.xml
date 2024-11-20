@@ -12,7 +12,7 @@
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <module name="ImportControl">
-      <property name="file" value="${config_loc}\import-control.xml"/>
+      <property name="file" value="${config_loc}/import-control.xml"/>
     </module>
     <module name="IllegalType">
       <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
@@ -25,7 +25,7 @@
     </module>
   </module>
   <module name="SuppressionFilter">
-    <property name="file" value="${config_loc}\suppressions.xml"/>
+    <property name="file" value="${config_loc}/suppressions.xml"/>
   </module>
   <module name="RegexpHeader">
     <property name="header" value="^/\*\*\n \* Copyright \(c\) \d\d\d\d(-\d\d\d\d)? (DB Netz AG and others\.)|(DB InfraGO AG and others)$\n^ \*( )?$\n^ \*( All rights reserved\.)? This program and the accompanying materials( are made available under the)?$\n^ \*( are made available under the)? terms of the Eclipse Public License (v)?2.0( which is available at)?$\n^ \*( which accompanies this distribution, and is available at)|( https://www\.eclipse\.org/legal/epl-2\.0\.)$\n^ \*( http://www\.eclipse\.org/legal/epl-v20\.html)?$\n^ (\* SPDX-License-Identifier: EPL-2.0)|(\*/)$\n^ (\*)|(.*)$\n^ (\*/)|(.*)$"/>
