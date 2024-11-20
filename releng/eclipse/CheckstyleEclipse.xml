@@ -12,7 +12,7 @@
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
     <module name="ImportControl">
-      <property name="file" value="${config_loc}import-control.xml"/>
+      <property name="file" value="${config_loc}\import-control.xml"/>
     </module>
     <module name="IllegalType">
       <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
