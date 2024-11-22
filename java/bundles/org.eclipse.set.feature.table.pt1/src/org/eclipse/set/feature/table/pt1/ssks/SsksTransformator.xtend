@@ -134,6 +134,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.core.services.Services
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -950,17 +951,28 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		].filterNull.map[singlePoints].flatten.toSet.forEach [ p |
 			val seitlicherAbstand = Math.round(
 				p.seitlicherAbstand.wert.doubleValue * 1000)
-			val wirkrichtung = signal.getWirkrichtung(p.topKante)
-
+			val wirkrichtung = p.wirkrichtung.wert
 			val distanceFromPoint = MAX_OPOSIDE_DISTANCE -
 				Math.abs(seitlicherAbstand)
-			val perpendicularRotation = wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-					seitlicherAbstand > 0 ? 90 : -90
+			var perpendicularRotation = 0
+
+			switch (wirkrichtung) {
+				case ENUM_WIRKRICHTUNG_IN,
+				case ENUM_WIRKRICHTUNG_BEIDE:
+					perpendicularRotation = seitlicherAbstand >= 0 ? 90 : -90
+				case ENUM_WIRKRICHTUNG_GEGEN:
+					perpendicularRotation = seitlicherAbstand < 0 ? 90 : 9 - 0
+				default: {
+					LOGGER.error("Illegal Wirkrichtung")
+					return
+				}
+			}
 			var opposideSideDistance = 0.0
+			val geoPosition = Services.pointObjectService.getCoordinate(p).
+				geoPosition
 			try {
-				opposideSideDistance = p.opposideSideDistance(
-					p.coordinate.effectiveRotation + perpendicularRotation,
-					distanceFromPoint / 1000)
+				opposideSideDistance = p.opposideSideDistance(geoPosition,
+					perpendicularRotation, distanceFromPoint / 1000)
 			} catch (Exception e) {
 				LOGGER.error(e.message)
 			}
@@ -968,35 +980,36 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					? Math.abs(seitlicherAbstand) +
 					Math.round(opposideSideDistance * 1000)
 					: 0
-			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-				seitlicherAbstand > 0) ||
-				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
-					seitlicherAbstand < 0)) {
-				abstandMastmitteLinks.add(Math.abs(seitlicherAbstand) ->
-					distanceBetweenTracks)
-			}
-			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-				seitlicherAbstand < 0) ||
-				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
-					seitlicherAbstand > 0)) {
-				abstandMastmitteRechts.add(Math.abs(seitlicherAbstand) ->
-					distanceBetweenTracks)
+
+			switch (wirkrichtung) {
+				case ENUM_WIRKRICHTUNG_IN,
+				case ENUM_WIRKRICHTUNG_BEIDE:
+					seitlicherAbstand >= 0
+						? abstandMastmitteLinks.add(
+						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
+						: abstandMastmitteRechts.add(
+						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
+				case ENUM_WIRKRICHTUNG_GEGEN:
+					seitlicherAbstand < 0
+						? abstandMastmitteLinks.add(
+						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
+						: abstandMastmitteRechts.add(
+						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
 			}
 		]
 	}
 
 	private def Double opposideSideDistance(
-		Punkt_Objekt_TOP_Kante_AttributeGroup potk, double angle,
-		double distance) {
-		val position = potk.coordinate
-		val rad = angle * Math.PI / 180
+		Punkt_Objekt_TOP_Kante_AttributeGroup potk, GeoPosition position,
+		double angle, double distance) {
+		val rad = (angle + position.effectiveRotation) * Math.PI / 180
 		val transformX = Math.sin(rad) * distance + position.coordinate.x
 		val transformY = Math.cos(rad) * distance + position.coordinate.y
 		val geometryFactory = new GeometryFactory()
 		val perpendicularLine = geometryFactory.createLineString(
 			#[position.coordinate, new Coordinate(transformX, transformY)])
 		val relevantGeoKante = potk.container.GEOKante.filter [
-			geoArt instanceof TOP_Kante && geoArt !== potk.IDTOPKante
+			geoArt instanceof TOP_Kante && geoArt !== potk.IDTOPKante.value
 		].map[getGeometry].filterNull.toList
 		return relevantGeoKante.getDistanceOpposide(perpendicularLine, position)
 	}
