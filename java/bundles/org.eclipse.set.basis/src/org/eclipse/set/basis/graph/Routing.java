@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.graph;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ public interface Routing<E, N, P> {
 	/**
 	 * @return a comparator to compare distances
 	 */
-	Comparator<Double> getDistanceComparator();
+	Comparator<BigDecimal> getDistanceComparator();
 
 	/**
 	 * @param tail

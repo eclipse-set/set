@@ -232,12 +232,12 @@ jobs:
 
       - name: Upload release asset
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
+        uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.1.0
         with: 
           files: java/bundles/org.eclipse.set.releng.set.product/target/products/unsigned-Eclipse-SET-*.zip
           
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@82082dac68ad6a19d980f8ce817e108b9f496c2a # v2.17.1
+        uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2.18.0
         if: always()
         with:
           files: |
@@ -326,7 +326,8 @@ jobs:
           python -m tablediffview \
             --diffDir=${{ env.DIFF_DIR }} \
             --branchName=${{ env.BRANCH_NAME }} \
-            --prNumber=${{github.event.pull_request.number}}
+            --prNumber=${{github.event.pull_request.number}} \
+            --runId=${{github.run_id}}
       
       - name: Upload Diff-File
         if: needs.swtbot.result == 'failure'

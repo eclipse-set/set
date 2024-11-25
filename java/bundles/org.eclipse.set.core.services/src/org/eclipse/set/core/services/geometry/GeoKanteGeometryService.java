@@ -10,8 +10,10 @@
  */
 package org.eclipse.set.core.services.geometry;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.graph.DirectedElement;
@@ -20,6 +22,7 @@ import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineString;
 
 /**
@@ -49,7 +52,7 @@ public interface GeoKanteGeometryService {
 	 * @return the coordinate at punkt objekt with the given distance as offset
 	 */
 	GEOKanteCoordinate getCoordinateAt(Punkt_Objekt punktObjekt,
-			double distance);
+			BigDecimal distance);
 
 	/**
 	 * @param topKante
@@ -65,7 +68,7 @@ public interface GeoKanteGeometryService {
 	 * @return the coordinate
 	 */
 	GEOKanteCoordinate getCoordinate(TOP_Kante topKante, TOP_Knoten start,
-			double distance, double lateralDistance,
+			BigDecimal distance, BigDecimal lateralDistance,
 			ENUMWirkrichtung wirkrichtung);
 
 	/**
@@ -84,8 +87,9 @@ public interface GeoKanteGeometryService {
 	 *         point with the given distance and lateralDistance
 	 * @if the geometry cannot be determined
 	 */
-	GEOKanteCoordinate getCoordinate(GEOKanteMetadata geoKante, double distance,
-			double lateralDistance, ENUMWirkrichtung wirkrichtung);
+	GEOKanteCoordinate getCoordinate(GEOKanteMetadata geoKante,
+			BigDecimal distance, BigDecimal lateralDistance,
+			ENUMWirkrichtung wirkrichtung);
 
 	/**
 	 * @param topKante
@@ -97,7 +101,7 @@ public interface GeoKanteGeometryService {
 	 * @return the GEO_Kante with metadata at the specified distance
 	 */
 	GEOKanteMetadata getGeoKanteAt(TOP_Kante topKante, TOP_Knoten topKnoten,
-			double distance);
+			BigDecimal distance);
 
 	/**
 	 * @param topKante
@@ -111,4 +115,17 @@ public interface GeoKanteGeometryService {
 	 * @return true, if find process is done
 	 */
 	boolean isFindGeometryComplete();
+
+	/**
+	 * Determine the projection coordinate of a Point on the Top_Kante and the
+	 * distance of this coordinate to start node of the Top_Kante
+	 * 
+	 * @param coor
+	 *            the target coordinate
+	 * @param topEdge
+	 *            the TOP_Kante
+	 * @return Pair<GEOKanteCoordinate, BigDecimal>
+	 */
+	Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinate(
+			Coordinate coor, TOP_Kante topEdge);
 }

@@ -66,11 +66,18 @@ public class GEOKanteCoordinate {
 	}
 
 	/**
+	 * @return the {@link GeoPosition}
+	 */
+	public GeoPosition getGeoPosition() {
+		return position;
+	}
+
+	/**
 	 * @return the coordinate of the point in the coordinate reference system as
 	 *         defined by {@link #getCRS()}
 	 */
-	public GeoPosition getCoordinate() {
-		return position;
+	public Coordinate getCoordinate() {
+		return position.getCoordinate();
 	}
 
 	/**

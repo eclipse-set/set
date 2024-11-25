@@ -2,3 +2,4 @@ dist/
 public/siteplan.json
 public/font
 .vscode
+.env

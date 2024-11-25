@@ -23,6 +23,7 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true, service = CustomValidator.class)
 public class LayoutInfoRequired extends AbstractCustomValidator {
+	public static final String LAYOUT_VALIDATION_TYPE = "Metainformationen"; //$NON-NLS-1$
 
 	@Override
 	public void validate(final ToolboxFile toolboxFile,
@@ -48,13 +49,13 @@ public class LayoutInfoRequired extends AbstractCustomValidator {
 
 	private CustomValidationProblemImpl layoutMissing() {
 		return new CustomValidationProblemImpl("Layoutinformationen fehlen", //$NON-NLS-1$
-				ValidationSeverity.ERROR, this.validationType(), null, null,
+				ValidationSeverity.WARNING, this.validationType(), null, null,
 				null);
 	}
 
 	@Override
 	public String validationType() {
-		return "Metainformationen"; //$NON-NLS-1$
+		return LAYOUT_VALIDATION_TYPE;
 	}
 
 }

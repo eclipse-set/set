@@ -74,9 +74,9 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 		ENUMWirkrichtung direction
 	) {
 		val topKante = singlePoint.topKante
-		val abstand = singlePoint.abstand.wert.doubleValue
-		val lateralDistance = (singlePoint?.seitlicherAbstand?.wert ?:
-			BigDecimal.ZERO).doubleValue
+		val abstand = singlePoint.abstand.wert
+		val lateralDistance = singlePoint?.seitlicherAbstand?.wert ?:
+			BigDecimal.ZERO
 		return topKante.getCoordinate(abstand, lateralDistance, direction)
 	}
 
@@ -100,6 +100,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	def static Set<TOP_Knoten> getTopKnoten(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
+		val comparator = new Distance()
 		val result = new HashSet
 
 		val topKante = singlePoint.topKante
@@ -107,13 +108,13 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 			return result
 		}
 		val abstand = topKante.getAbstand(singlePoint)
-		val length = topKante.TOPKanteAllg.TOPLaenge.wert.doubleValue
+		val length = topKante.TOPKanteAllg.TOPLaenge.wert
 
-		if (Distance.compare(abstand, 0) == 0) {
+		if (comparator.compare(abstand, BigDecimal.ZERO) == 0) {
 			result.add(topKante.TOPKnotenA)
 		}
 
-		if (Distance.compare(abstand, length) == 0) {
+		if (comparator.compare(abstand, length) == 0) {
 			result.add(topKante.TOPKnotenB)
 		}
 
@@ -151,12 +152,12 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint
 	) {
 		val topKante = singlePoint.topKante
-		val abstand = singlePoint.abstand.wert.doubleValue
+		val abstand = singlePoint.abstand.wert
 		val wirkrichtung = singlePoint.wirkrichtung?.wert
 
 		// Determine two coordinates, each with an offset of 1 unit to the TOP_Kante 
-		val firstCoordinate = topKante.getCoordinate(abstand, -1, wirkrichtung)
-		val secondCoordinate = topKante.getCoordinate(abstand, 1, wirkrichtung)
+		val firstCoordinate = topKante.getCoordinate(abstand, BigDecimal.ONE.negate, wirkrichtung)
+		val secondCoordinate = topKante.getCoordinate(abstand, BigDecimal.ONE, wirkrichtung)
 
 		return firstCoordinate -> secondCoordinate
 	}

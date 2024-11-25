@@ -12,6 +12,7 @@ package org.eclipse.set.feature.plazmodel.check;
 
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,9 +71,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	@Reference
 	EventAdmin eventAdmin;
 
-	// The half of track width is lateral distance for PZB_Element and
-	// FMA_Komponent
-	static double FMA_PZB_LATERAL_DISTANCE = 1.435 / 2;
+	// Fixed lateral distance for PZB_Element and FMA_Komponent
+	static BigDecimal FMA_LATERAL_DISTANCE = BigDecimal.valueOf(0.85);
+	static BigDecimal PZB_LATERAL_DISTANCE = BigDecimal.valueOf(1.05);
 
 	@Override
 	public void handleEvent(final Event event) {
@@ -101,8 +102,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 							po, potk);
 					if (geoKanteCoordinate == null
 							|| getNullableObject(geoKanteCoordinate,
-									e -> e.getCoordinate().getCoordinate())
-											.isEmpty()) {
+									e -> e.getCoordinate()).isEmpty()) {
 						return;
 					}
 
@@ -112,7 +112,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 						return;
 					}
 					final Coordinate coordinate = geoKanteCoordinate
-							.getCoordinate().getCoordinate();
+							.getCoordinate();
 					final Coordinate gpCoordinate = GeoPunktExtensions
 							.getCoordinate(relevantGeoPunkt);
 					if (gpCoordinate == null) {
@@ -141,16 +141,22 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private GEOKanteCoordinate getPointGEOCoordinate(final Punkt_Objekt po,
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
-		if (po instanceof PZB_Element || po instanceof FMA_Komponente) {
+		BigDecimal lateralDistance = null;
+		if (po instanceof PZB_Element) {
+			lateralDistance = PZB_LATERAL_DISTANCE;
+		} else if (po instanceof FMA_Komponente) {
+			lateralDistance = FMA_LATERAL_DISTANCE;
+		}
+		if (lateralDistance != null) {
 			final ENUMLinksRechts side = getNullableObject(potk,
 					point -> point.getSeitlicheLage().getWert()).orElse(null);
 			if (side != null
 					&& side == ENUMLinksRechts.ENUM_LINKS_RECHTS_LINKS) {
 				return pointObjectPositionService.getCoordinate(potk,
-						-FMA_PZB_LATERAL_DISTANCE);
+						lateralDistance.negate());
 			}
 			return pointObjectPositionService.getCoordinate(potk,
-					FMA_PZB_LATERAL_DISTANCE);
+					lateralDistance);
 
 		}
 		return pointObjectPositionService.getCoordinate(potk);

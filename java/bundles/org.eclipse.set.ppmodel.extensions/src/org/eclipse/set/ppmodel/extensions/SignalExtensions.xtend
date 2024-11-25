@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.math.BigDecimal
 import java.util.Collections
 import java.util.List
 import java.util.Set
@@ -26,6 +27,7 @@ import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
 import org.eclipse.set.model.planpro.Ortung.Schaltmittel_Zuordnung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
+import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.planpro.Signale.Signal_Befestigung
 import org.eclipse.set.model.planpro.Signale.Signal_Rahmen
@@ -55,7 +57,8 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Signale.ENUMFiktivesSignalFunktion
+import org.eclipse.set.model.planpro.Geodaten.Strecke
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 
 /**
  * This class extends {@link Signal}.
@@ -64,7 +67,7 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	static val Logger logger = LoggerFactory.getLogger(typeof(SignalExtensions))
 
-	static val double ABSTAND_VORSIGNALBAKE = 260
+	static val BigDecimal ABSTAND_VORSIGNALBAKE = BigDecimal.valueOf(260)
 
 	static val String PREFIX_VORSIGNALBAKE = "Ne3"
 
@@ -478,5 +481,18 @@ class SignalExtensions extends PunktObjektExtensions {
 		return signal.container.FMAKomponente.filter [ fmaKomponent |
 			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
 		].toList
+	}
+	
+	def static List<Pair<Strecke, String>> getRouteAndKm(Signal signal) {
+		val result = [Punkt_Objekt_Strecke_AttributeGroup point| 
+			return point?.IDStrecke?.value -> point?.streckeKm?.wert
+		]
+		val pointRoutes = signal.punktObjektStrecke
+		val decisivePoint = pointRoutes.filter[kmMassgebend?.wert !== null].toList
+		if (decisivePoint.isNullOrEmpty) {
+			return pointRoutes.map[result.apply(it)]
+		}
+		
+		return decisivePoint.map[result.apply(it)]
 	}
 }

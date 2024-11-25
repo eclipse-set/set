@@ -50,6 +50,8 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import org.eclipse.set.basis.constants.ToolboxConstants
+import java.math.RoundingMode
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -193,8 +195,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val geoKnotenA = geoKante.geoKnotenA
 		// Record an error if there is not exactly one track type defined for the segment 
 		val center = geoKante.getCoordinate(geoKnotenA,
-			geoKante.GEOKanteAllg.GEOLaenge.wert.doubleValue / 2, 0,
-			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+			geoKante.GEOKanteAllg.GEOLaenge.wert.divide(BigDecimal.valueOf(2),
+				ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP),
+			BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
 		val guid = geoKante.identitaet.wert
 		if (result.type.length > 1) {
 			recordError(guid, String.format(ERROR_MULTIPLE_GLEIS_ART, guid),
@@ -270,17 +273,18 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			md.geoKante.topKante.identitaet?.wert)
 			return null
 
-		val centerDistance = maxTB.length / 2
+		val centerDistance = maxTB.length.divide(BigDecimal.valueOf(2),
+			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP)
 		if (centerDistance < md.start || centerDistance >= md.end)
 			return null;
-		val coordinate = geometryService.getCoordinate(md, centerDistance, 0,
-			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
+		val coordinate = geometryService.getCoordinate(md, centerDistance,
+			BigDecimal.ZERO, ENUMWirkrichtung.ENUM_WIRKRICHTUNG_IN)
 		result.position = positionService.transformPosition(coordinate)
 		return result
 	}
 
-	def double getLength(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
-		return tb.begrenzungB.wert.doubleValue - tb.begrenzungA.wert.doubleValue
+	def BigDecimal getLength(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
+		return tb.begrenzungB.wert - tb.begrenzungA.wert
 
 	}
 
@@ -318,7 +322,8 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				// so it does not get added to the resulting list
 				lastCoordinate = coordinate
 			} else if (distance < segment.start) {
-				distance += lastCoordinate.distance(coordinate)
+				distance +=
+					BigDecimal.valueOf(lastCoordinate.distance(coordinate))
 				lastCoordinate = coordinate;
 			} else if (distance > segment.end) {
 				return result;
@@ -331,7 +336,8 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				result.add(
 					new GEOKanteCoordinate(coordinate, segment.bereichObjekte,
 						geoKante.geoKnoten.CRS))
-				distance += lastCoordinate.distance(coordinate)
+				distance +=
+					BigDecimal.valueOf(lastCoordinate.distance(coordinate))
 				lastCoordinate = coordinate
 			}
 		}

@@ -9,7 +9,9 @@
 package org.eclipse.set.ppmodel.extensions
 
 import com.google.common.base.Predicate
+import java.math.BigDecimal
 import java.util.List
+import java.util.Set
 import org.eclipse.set.basis.Lists
 import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.basis.geometry.GeometryException
@@ -24,12 +26,12 @@ import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static java.math.BigDecimal.ZERO
 import static org.eclipse.set.ppmodel.extensions.utils.Debug.*
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
-import java.util.Set
 
 /**
  * This class extends {@link GEO_Knoten}.
@@ -91,8 +93,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 */
 	def static Coordinate getCoordinate(GEO_Knoten geoKnoten) {
 		val List<GEO_Punkt> geoPunkte = geoKnoten.geoPunkte
-		geoPunkte.getGeoPunkt(geoKnoten)
-		val GEO_Punkt geoPunkt = getGeoPunkt(geoPunkte, geoKnoten);
+		val GEO_Punkt geoPunkt = geoPunkte.getGeoPunkt(geoKnoten)
 		return geoPunkt.coordinate
 	}
 
@@ -120,8 +121,8 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		GEO_Knoten startGeoKnoten,
 		GEO_Kante lastGeoKante,
 		Basis_Objekt parentEdge,
-		double abstand,
-		double seitlicherAbstand,
+		BigDecimal abstand,
+		BigDecimal seitlicherAbstand,
 		ENUMWirkrichtung wirkrichtung
 	) {
 		// Betrachtung Startpunkt
@@ -158,8 +159,8 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		GEO_Kante lastGeoKante,
 		List<GEO_Kante> geoKantenOnStart,
 		Basis_Objekt parentEdge,
-		double abstand,
-		double seitlicherAbstand,
+		BigDecimal abstand,
+		BigDecimal seitlicherAbstand,
 		ENUMWirkrichtung wirkrichtung
 	) {
 		geoKantenOnStart.remove(lastGeoKante); // don't go back
@@ -168,14 +169,14 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 			logger.debug("TOP Kante/Strecke: {}", debugString(parentEdge))
 			logger.debug("Last GEO Kante: {}", debugString(lastGeoKante))
 			logger.debug("Next GEO Kanten: {}", debugString(geoKantenOnStart))
-			logger.debug("Abstand: {}", Double.valueOf(abstand))
+			logger.debug("Abstand: {}", abstand)
 			throw new GeometryException(
 				String.format("No GEO Kanten continuation at %s",
 					startGeoKnoten.getIdentitaet().getWert()))
 		}
 		val GEO_Kante geoKante = geoKantenOnStart.get(0)
-		val double geoKanteLength = geoKante.GEOKanteAllg.GEOLaenge.wert.
-			doubleValue
+		val BigDecimal geoKanteLength = geoKante.GEOKanteAllg.GEOLaenge.wert
+			
 		if (abstand <= geoKanteLength) {
 			return geoKante.getCoordinate(startGeoKnoten, abstand,
 				seitlicherAbstand, wirkrichtung);
@@ -194,21 +195,21 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 	 * @param startGeoKnoten the GEO_Knoten to start from
 	 * @param topKante the TOP_Kante to consider GEO_Kanten from
 	 */
-	def static Iterable<Pair<GEO_Kante, Double>> getGeoKantenWithDistance(
+	def static Iterable<Pair<GEO_Kante, BigDecimal>> getGeoKantenWithDistance(
 		GEO_Knoten startGeoKnoten,
 		TOP_Kante topKante
 	) {
 		val geoKanten = topKante.container.GEOKante.filter [ k |
 			k.topKante == topKante
 		].toList
-		return getGeoKantenWithDistance(startGeoKnoten, null, geoKanten, 0)
+		return getGeoKantenWithDistance(startGeoKnoten, null, geoKanten, ZERO)
 	}
 
-	private def static Iterable<Pair<GEO_Kante, Double>> getGeoKantenWithDistance(
+	private def static Iterable<Pair<GEO_Kante, BigDecimal>> getGeoKantenWithDistance(
 		GEO_Knoten startGeoKnoten,
 		GEO_Kante lastGeoKante,
 		List<GEO_Kante> geoKanten,
-		double distance
+		BigDecimal distance
 	) {
 		// Remove previous node
 		geoKanten.remove(lastGeoKante)
@@ -229,8 +230,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 					startGeoKnoten.getIdentitaet().getWert()))
 		}
 		val GEO_Kante geoKante = edges.get(0)
-		val double geoKanteLength = geoKante.GEOKanteAllg.GEOLaenge.wert.
-			doubleValue
+		val BigDecimal geoKanteLength = geoKante.GEOKanteAllg.GEOLaenge.wert
 
 		return #[geoKante -> distance] +
 			geoKante.getOpposite(startGeoKnoten).getGeoKantenWithDistance(

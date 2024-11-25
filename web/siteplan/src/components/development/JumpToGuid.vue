@@ -114,7 +114,7 @@ export default class JumpToGuid extends Vue {
         this.flash(flashFeature)
       }
     } else {
-      alert('Die ausgewälht Element exsistiert nicht in Lageplan.')
+      alert('Das ausgewählte Element exsistiert nicht im Lageplan.')
     }
   }
 

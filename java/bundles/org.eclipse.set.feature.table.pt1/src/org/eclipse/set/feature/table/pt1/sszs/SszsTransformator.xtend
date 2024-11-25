@@ -61,7 +61,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExten
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
 /**
- * Table transformation for ETCS Melde- und Kommandoschaltung Muka Signale (Sszs).
+ * Table transformation for ETCS Melde- und Kommandoanschaltung Muka Signale (Sszs).
  */
 class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 	static double MAX_TOP_DISTANCE_IN_METER = 1

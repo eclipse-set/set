@@ -571,6 +571,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			[]
 		)
+		
+		fillFootnotes(instance, pzb)
 
 	}
 

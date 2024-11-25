@@ -4,7 +4,7 @@ git/github/jsnjack/kraiklyn/a2f56a7af778fcdda5939de14bcf8a4a6cd88291, MIT, appro
 maven/mavencentral/aopalliance/aopalliance/1.0, LicenseRef-Public-Domain, approved, CQ2918
 maven/mavencentral/ch.qos.logback/logback-classic/1.4.11, EPL-1.0 AND LGPL-2.1-only, approved, #15230
 maven/mavencentral/ch.qos.logback/logback-core/1.4.11, EPL-1.0 AND LGPL-2.1-only, approved, #15287
-maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, CC-BY-2.5, approved, #15220
+maven/mavencentral/com.google.code.findbugs/jsr305/3.0.2, Apache-2.0 and CC-BY-2.5, approved, #15220
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.18.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.google.errorprone/error_prone_annotations/2.26.1, Apache-2.0, approved, #13657
 maven/mavencentral/com.google.guava/failureaccess/1.0.2, Apache-2.0, approved, CQ22654
@@ -55,60 +55,60 @@ maven/mavencentral/org.bouncycastle/bcprov-jdk18on/1.77, MIT AND CC0-1.0, approv
 maven/mavencentral/org.checkerframework/checker-qual/3.42.0, MIT, approved, clearlydefined
 maven/mavencentral/org.codehaus.mojo/animal-sniffer-annotations/1.9, MIT, approved, clearlydefined
 maven/mavencentral/org.dom4j/dom4j/2.1.3, LicenseRef-Dom4j, approved, CQ21947
-maven/mavencentral/org.eclipse.set/org.eclipse.set.application.set/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.application/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.basis/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.core.services/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.core/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.emfforms/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.enumtransformation/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.export/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.license/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.news/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.overviewplan/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.plazmodel/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.projectdata/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.siteplan/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.table.pt1/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.table/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.validation/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.feature/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecore.nl_de/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.categorization.nl_de/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.core.nl_de/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.table.nl_de/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.integrationview.nl_de/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.model.nl_de/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.nl_de.feature/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.validationreport.nl_de/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview.edit/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel.edit/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.simplemerge/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.siteplan/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.tablemodel.extensions/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.tablemodel/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.titlebox.extensions/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.titlebox/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.validationreport.edit/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.validationreport/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.zipmanifest/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.nattable.utils/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.pdf.utils/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.ppmodel.extensions.container/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.ppmodel.extensions/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.rcp.application/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.rcp.compatibility/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.rcp.extensions/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.releng.logging/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.services/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.sessionservice/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.swtbot/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.unittest.utils/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.utils.rcp/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.utils.table/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.utils/2.3.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.application.set/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.application/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.basis/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.core.services/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.core/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.emfforms/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.enumtransformation/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.export/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.license/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.news/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.overviewplan/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.plazmodel/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.projectdata/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.siteplan/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.table.pt1/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.table/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature.validation/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.feature/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecore.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.categorization.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.core.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.table.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.integrationview.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.model.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.nl_de.feature/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.validationreport.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview.edit/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel.edit/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.simplemerge/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.siteplan/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.tablemodel.extensions/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.tablemodel/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.titlebox.extensions/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.titlebox/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.validationreport.edit/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.validationreport/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.model.zipmanifest/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.nattable.utils/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.pdf.utils/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.ppmodel.extensions.container/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.ppmodel.extensions/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.rcp.application/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.rcp.compatibility/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.rcp.extensions/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.releng.logging/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.services/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.sessionservice/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.swtbot/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.unittest.utils/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.utils.rcp/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.utils.table/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
+maven/mavencentral/org.eclipse.set/org.eclipse.set.utils/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.hamcrest/hamcrest-core/1.3, BSD-2-Clause, approved, CQ11429
 maven/mavencentral/org.hamcrest/hamcrest-core/2.2, BSD-3-Clause, approved, clearlydefined
 maven/mavencentral/org.hamcrest/hamcrest/2.2, BSD-3-Clause, approved, clearlydefined
@@ -163,10 +163,8 @@ maven/mavencentral/org.slf4j/slf4j-api/2.0.9, MIT, approved, #5915
 maven/mavencentral/org.tukaani/xz/1.9, LicenseRef-Public-Domain, approved, #15225
 npm/npmjs/-/abbrev/1.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/accepts/1.3.8, MIT, approved, clearlydefined
-npm/npmjs/-/acorn-import-attributes/1.9.5, MIT, approved, clearlydefined
 npm/npmjs/-/acorn-jsx/5.3.2, MIT, approved, clearlydefined
-npm/npmjs/-/acorn/8.10.0, MIT, approved, #9312
-npm/npmjs/-/acorn/8.12.1, MIT, approved, clearlydefined
+npm/npmjs/-/acorn/8.14.0, MIT, approved, clearlydefined
 npm/npmjs/-/agent-base/6.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/ajv-formats/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/ajv-keywords/3.5.2, MIT, approved, clearlydefined
@@ -200,13 +198,13 @@ npm/npmjs/-/base64-arraybuffer/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/batch/0.6.1, MIT, approved, clearlydefined
 npm/npmjs/-/big.js/5.2.2, MIT, approved, clearlydefined
 npm/npmjs/-/binary-extensions/2.2.0, MIT, approved, clearlydefined
-npm/npmjs/-/body-parser/1.20.2, MIT, approved, clearlydefined
+npm/npmjs/-/body-parser/1.20.3, MIT, approved, clearlydefined
 npm/npmjs/-/bonjour-service/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/boolbase/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/brace-expansion/1.1.11, MIT, approved, clearlydefined
 npm/npmjs/-/brace-expansion/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/braces/3.0.3, MIT, approved, #14866
-npm/npmjs/-/browserslist/4.22.2, MIT, approved, #10780
+npm/npmjs/-/browserslist/4.24.2, MIT, approved, #16285
 npm/npmjs/-/btoa/1.2.1, Apache-2.0 AND CC-BY-3.0 AND (Apache-2.0 OR MIT), approved, #3482
 npm/npmjs/-/buffer-from/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/builtin-modules/3.3.0, MIT, approved, clearlydefined
@@ -217,7 +215,8 @@ npm/npmjs/-/bytes/3.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/call-bind/1.0.7, MIT, approved, #11092
 npm/npmjs/-/callsites/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/camel-case/4.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/caniuse-lite/1.0.30001580, CC-BY-4.0, approved, #1196
+npm/npmjs/-/caniuse-lite/1.0.30001677, CC-BY-4.0, approved, #1196
+npm/npmjs/-/caniuse-lite/1.0.30001680, CC-BY-4.0, approved, #1196
 npm/npmjs/-/canvas/2.11.2, MIT AND GPL-3.0-or-later AND OFL-1.1 AND LicenseRef-Public-domain AND Unlicense, approved, #15384
 npm/npmjs/-/canvg/3.0.9, MIT AND Apache-2.0, approved, #15336
 npm/npmjs/-/chalk/4.1.2, MIT, approved, clearlydefined
@@ -245,11 +244,12 @@ npm/npmjs/-/console-control-strings/1.1.0, ISC, approved, clearlydefined
 npm/npmjs/-/content-disposition/0.5.4, MIT, approved, clearlydefined
 npm/npmjs/-/content-type/1.0.5, MIT, approved, #6950
 npm/npmjs/-/cookie-signature/1.0.6, MIT, approved, clearlydefined
-npm/npmjs/-/cookie/0.6.0, MIT, approved, clearlydefined
+npm/npmjs/-/cookie/0.7.1, MIT, approved, clearlydefined
 npm/npmjs/-/copy-webpack-plugin/12.0.2, MIT, approved, #12752
 npm/npmjs/-/core-js/3.19.1, MIT, approved, clearlydefined
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
-npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, clearlydefined
+npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, #17146
+npm/npmjs/-/cross-spawn/7.0.5, MIT, approved, #17146
 npm/npmjs/-/css-line-break/2.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/css-loader/7.1.2, MIT AND Apache-2.0, approved, #14252
 npm/npmjs/-/css-select/4.3.0, BSD-2-Clause AND MIT AND (MIT AND MIT-0), approved, #3227
@@ -288,12 +288,17 @@ npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dompurify/2.5.6, Apache-2.0 OR MPL-2.0, approved, #14657
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
+npm/npmjs/-/dotenv-cli/7.4.2, MIT, approved, clearlydefined
+npm/npmjs/-/dotenv-expand/10.0.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/-/dotenv/16.4.5, BSD-2-Clause, approved, #12890
 npm/npmjs/-/earcut/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/ee-first/1.1.1, MIT, approved, clearlydefined
-npm/npmjs/-/electron-to-chromium/1.4.645, ISC, approved, #1950
+npm/npmjs/-/electron-to-chromium/1.5.50, ISC, approved, #16451
+npm/npmjs/-/electron-to-chromium/1.5.62, ISC, approved, #16451
 npm/npmjs/-/emoji-regex/8.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/emojis-list/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/encodeurl/1.0.2, MIT, approved, clearlydefined
+npm/npmjs/-/encodeurl/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/enhanced-resolve/5.17.1, MIT, approved, clearlydefined
 npm/npmjs/-/entities/2.2.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/entities/4.5.0, BSD-2-Clause, approved, #7910
@@ -307,7 +312,7 @@ npm/npmjs/-/es-set-tostringtag/2.0.3, MIT, approved, #6218
 npm/npmjs/-/es-shim-unscopables/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/es-to-primitive/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/esbuild/0.21.5, MIT, approved, clearlydefined
-npm/npmjs/-/escalade/3.1.1, MIT, approved, clearlydefined
+npm/npmjs/-/escalade/3.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/escape-html/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/escape-string-regexp/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/eslint-compat-utils/0.1.2, MIT, approved, clearlydefined
@@ -321,18 +326,20 @@ npm/npmjs/-/eslint-plugin-n/16.6.2, MIT, approved, #12657
 npm/npmjs/-/eslint-plugin-node/11.1.0, MIT, approved, #15375
 npm/npmjs/-/eslint-plugin-promise/6.6.0, ISC, approved, clearlydefined
 npm/npmjs/-/eslint-plugin-promise/7.1.0, ISC, approved, clearlydefined
-npm/npmjs/-/eslint-plugin-vue/9.28.0, MIT, approved, #16064
+npm/npmjs/-/eslint-plugin-vue/9.30.0, MIT, approved, #16955
 npm/npmjs/-/eslint-scope/5.1.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-scope/7.2.2, BSD-2-Clause, approved, #9916
-npm/npmjs/-/eslint-scope/8.1.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/-/eslint-scope/8.2.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-utils/2.1.0, MIT, approved, #15320
 npm/npmjs/-/eslint-visitor-keys/1.3.0, Apache-2.0, approved, #2501
 npm/npmjs/-/eslint-visitor-keys/3.4.0, Apache-2.0, approved, #15276
 npm/npmjs/-/eslint-visitor-keys/3.4.3, Apache-2.0, approved, #15274
 npm/npmjs/-/eslint-visitor-keys/4.1.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #16605
+npm/npmjs/-/eslint-visitor-keys/4.2.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #17084
 npm/npmjs/-/eslint/8.57.1, MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0, approved, #15317
-npm/npmjs/-/eslint/9.12.0, MIT AND ISC AND OFL-1.1 AND CC-BY-NC-SA-2.0-UK, approved, #16603
+npm/npmjs/-/eslint/9.14.0, BSD-3-Clause AND MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0-UK, approved, #17086
 npm/npmjs/-/espree/10.2.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #16604
+npm/npmjs/-/espree/10.3.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #17087
 npm/npmjs/-/espree/9.6.1, BSD-2-Clause AND BSD-3-Clause AND MIT AND BSD-2-Clause AND BSD-3-Clause AND MIT AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #15293
 npm/npmjs/-/esquery/1.5.0, BSD-3-Clause, approved, #7469
 npm/npmjs/-/esrecurse/4.3.0, BSD-2-Clause, approved, clearlydefined
@@ -343,7 +350,7 @@ npm/npmjs/-/esutils/2.0.3, BSD-2-Clause AND BSD-3-Clause, approved, #120
 npm/npmjs/-/etag/1.8.1, MIT, approved, clearlydefined
 npm/npmjs/-/eventemitter3/4.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/events/3.3.0, MIT, approved, clearlydefined
-npm/npmjs/-/express/4.19.2, MIT, approved, clearlydefined
+npm/npmjs/-/express/4.21.1, MIT, approved, clearlydefined
 npm/npmjs/-/fast-deep-equal/3.1.3, MIT, approved, clearlydefined
 npm/npmjs/-/fast-glob/3.3.2, MIT, approved, #9307
 npm/npmjs/-/fast-json-stable-stringify/2.1.0, MIT, approved, clearlydefined
@@ -360,7 +367,7 @@ npm/npmjs/-/file-entry-cache/6.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/file-entry-cache/8.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/file-loader/6.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/fill-range/7.1.1, MIT, approved, #14867
-npm/npmjs/-/finalhandler/1.2.0, MIT, approved, clearlydefined
+npm/npmjs/-/finalhandler/1.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/find-up/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/find-up/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/flat-cache/3.0.4, MIT, approved, clearlydefined
@@ -410,7 +417,7 @@ npm/npmjs/-/he/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/hpack.js/2.1.6, MIT, approved, clearlydefined
 npm/npmjs/-/html-entities/2.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/html-minifier-terser/6.1.0, MIT AND MPL-1.1, approved, #2968
-npm/npmjs/-/html-webpack-plugin/5.6.0, MIT, approved, #12378
+npm/npmjs/-/html-webpack-plugin/5.6.3, MIT, approved, #12378
 npm/npmjs/-/html2canvas/1.3.2, MIT, approved, clearlydefined
 npm/npmjs/-/htmlparser2/6.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/http-deceiver/1.2.7, MIT, approved, clearlydefined
@@ -493,13 +500,13 @@ npm/npmjs/-/lodash.merge/4.6.2, MIT, approved, clearlydefined
 npm/npmjs/-/lodash/4.17.21, CC0-1.0 AND MIT, approved, #2096
 npm/npmjs/-/lower-case/2.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/lru-cache/6.0.0, ISC, approved, clearlydefined
-npm/npmjs/-/magic-string/0.30.11, MIT, approved, #13189
+npm/npmjs/-/magic-string/0.30.12, MIT, approved, #13189
 npm/npmjs/-/make-dir/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/mapbox-to-css-font/2.4.2, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/material-design-icons/3.0.1, Apache-2.0, approved, #15403
 npm/npmjs/-/media-typer/0.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/memfs/4.11.1, Apache-2.0, approved, clearlydefined
-npm/npmjs/-/merge-descriptors/1.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/merge-descriptors/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/merge-stream/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/merge2/1.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/methods/1.1.2, MIT, approved, clearlydefined
@@ -532,7 +539,7 @@ npm/npmjs/-/neo-async/2.6.2, MIT, approved, clearlydefined
 npm/npmjs/-/no-case/3.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/node-fetch/2.7.0, MIT, approved, #10509
 npm/npmjs/-/node-forge/1.3.1, (BSD-3-Clause OR GPL-2.0-only) AND MIT, approved, #3014
-npm/npmjs/-/node-releases/2.0.14, MIT, approved, #1954
+npm/npmjs/-/node-releases/2.0.18, MIT, approved, #1954
 npm/npmjs/-/node-stream-zip/1.15.0, MIT, approved, clearlydefined
 npm/npmjs/-/nopt/5.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/normalize-path/3.0.0, MIT, approved, clearlydefined
@@ -547,7 +554,7 @@ npm/npmjs/-/object.groupby/1.0.3, MIT, approved, #10360
 npm/npmjs/-/object.values/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/obuf/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/ol-mapbox-style/12.3.5, BSD-2-Clause AND BSD-3-Clause AND MIT, approved, #14196
-npm/npmjs/-/ol/10.1.0, BSD-2-Clause AND MIT AND Apache-2.0 AND CC-BY-NC-SA-4.0 AND CC-BY-SA-2.0 AND LGPL-2.1-only AND CC-BY-NC-2.5 AND ODbL-1.0 AND CC-BY-3.0 AND LicenseRef-Permission-Notice, approved, #16024
+npm/npmjs/-/ol/10.2.1, BSD-2-Clause AND MIT AND Apache-2.0 AND CC-BY-NC-SA-4.0 AND CC-BY-SA-2.0 AND LGPL-2.1-only AND CC-BY-NC-2.5 AND ODbL-1.0 AND CC-BY-3.0 AND LicenseRef-Permission-Notice, approved, #16374
 npm/npmjs/-/on-finished/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/on-headers/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/once/1.4.0, ISC, approved, clearlydefined
@@ -569,14 +576,13 @@ npm/npmjs/-/path-exists/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/path-is-absolute/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-key/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-parse/1.0.7, MIT, approved, clearlydefined
-npm/npmjs/-/path-to-regexp/0.1.7, MIT, approved, clearlydefined
+npm/npmjs/-/path-to-regexp/0.1.10, MIT, approved, clearlydefined
 npm/npmjs/-/path-type/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/path2d/0.2.1, MIT, approved, #14610
 npm/npmjs/-/pbf/4.0.1, MIT AND BSD-3-Clause, approved, #15821
 npm/npmjs/-/pdfjs-dist/4.7.76, Apache-2.0 AND BSD-3-Clause AND BSD-2-Clause AND MIT AND MPL-2.0 AND OFL-1.1 AND CC0-1.0 AND CC-PDDC, approved, #16468
 npm/npmjs/-/performance-now/2.1.0, MIT, approved, clearlydefined
-npm/npmjs/-/picocolors/1.0.0, ISC, approved, #14718
-npm/npmjs/-/picocolors/1.1.0, ISC, approved, clearlydefined
+npm/npmjs/-/picocolors/1.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/pkg-dir/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/point-in-polygon-hao/1.1.0, MIT, approved, #15224
@@ -589,7 +595,7 @@ npm/npmjs/-/postcss-selector-parser/6.0.15, MIT, approved, #5056
 npm/npmjs/-/postcss-selector-parser/6.0.16, MIT, approved, #5056
 npm/npmjs/-/postcss-value-parser/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/postcss/8.4.33, MIT, approved, #3545
-npm/npmjs/-/postcss/8.4.47, MIT, approved, #3545
+npm/npmjs/-/postcss/8.4.49, MIT, approved, #3545
 npm/npmjs/-/prelude-ls/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/pretty-error/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/process-nextick-args/2.0.1, MIT, approved, clearlydefined
@@ -598,7 +604,7 @@ npm/npmjs/-/proxy-addr/2.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/proxy-from-env/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/punycode/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/punycode/2.3.1, MIT, approved, #6373
-npm/npmjs/-/qs/6.11.0, BSD-3-Clause, approved, #7556
+npm/npmjs/-/qs/6.13.0, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/queue-microtask/1.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/quick-lru/6.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/quickselect/2.0.0, ISC, approved, clearlydefined
@@ -631,7 +637,7 @@ npm/npmjs/-/retry/0.13.1, MIT, approved, clearlydefined
 npm/npmjs/-/reusify/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/rgbcolor/1.0.1, MIT, approved, #16602
 npm/npmjs/-/rimraf/3.0.2, ISC, approved, clearlydefined
-npm/npmjs/-/rollup/4.21.0, MIT, approved, clearlydefined
+npm/npmjs/-/rollup/4.24.2, MIT AND (ISC AND MIT), approved, #16917
 npm/npmjs/-/run-applescript/7.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/run-parallel/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/rw/1.3.3, BSD-3-Clause, approved, clearlydefined
@@ -650,10 +656,10 @@ npm/npmjs/-/semver/7.5.4, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.6.0, ISC, approved, #14659
 npm/npmjs/-/semver/7.6.2, ISC, approved, #14659
 npm/npmjs/-/semver/7.6.3, ISC, approved, #14659
-npm/npmjs/-/send/0.18.0, MIT, approved, clearlydefined
+npm/npmjs/-/send/0.19.0, MIT, approved, clearlydefined
 npm/npmjs/-/serialize-javascript/6.0.2, BSD-3-Clause, approved, #12680
 npm/npmjs/-/serve-index/1.9.1, MIT, approved, clearlydefined
-npm/npmjs/-/serve-static/1.15.0, MIT, approved, clearlydefined
+npm/npmjs/-/serve-static/1.16.2, MIT, approved, clearlydefined
 npm/npmjs/-/set-blocking/2.0.0, ISC, approved, #5899
 npm/npmjs/-/set-function-length/1.2.2, MIT, approved, #12772
 npm/npmjs/-/set-function-name/2.0.2, MIT, approved, #10590
@@ -663,7 +669,6 @@ npm/npmjs/-/shallow-clone/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-command/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shebang-regex/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/shell-quote/1.8.1, MIT, approved, #7044
-npm/npmjs/-/side-channel/1.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/side-channel/1.0.6, MIT, approved, clearlydefined
 npm/npmjs/-/signal-exit/3.0.7, ISC, approved, #5892
 npm/npmjs/-/simple-concat/1.0.1, MIT, approved, clearlydefined
@@ -709,7 +714,6 @@ npm/npmjs/-/text-table/0.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/thingies/1.21.0, MIT AND Unlicense, approved, clearlydefined
 npm/npmjs/-/thunky/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/tinyqueue/2.0.3, ISC, approved, clearlydefined
-npm/npmjs/-/to-fast-properties/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/toidentifier/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/tr46/0.0.3, MIT, approved, clearlydefined
@@ -718,7 +722,7 @@ npm/npmjs/-/ts-api-utils/1.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/ts-loader/9.5.1, MIT AND ISC, approved, #15408
 npm/npmjs/-/tsconfig-paths/3.15.0, MIT, approved, #12111
 npm/npmjs/-/tslib/2.4.0, 0BSD, approved, #4336
-npm/npmjs/-/tslib/2.7.0, 0BSD, approved, clearlydefined
+npm/npmjs/-/tslib/2.8.1, 0BSD, approved, clearlydefined
 npm/npmjs/-/type-check/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/type-fest/0.20.2, MIT OR (CC0-1.0 AND MIT), approved, clearlydefined
 npm/npmjs/-/type-is/1.6.18, MIT, approved, clearlydefined
@@ -731,7 +735,7 @@ npm/npmjs/-/typescript/5.6.3, Apache-2.0 AND (CC-BY-4.0 AND LicenseRef-Unicode A
 npm/npmjs/-/unbox-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/unicorn-magic/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/unpipe/1.0.0, MIT, approved, clearlydefined
-npm/npmjs/-/update-browserslist-db/1.0.13, MIT, approved, #8237
+npm/npmjs/-/update-browserslist-db/1.1.1, MIT, approved, #16405
 npm/npmjs/-/uri-js/4.4.1, BSD-2-Clause, approved, #1086
 npm/npmjs/-/util-deprecate/1.0.2, MIT, approved, #5885
 npm/npmjs/-/utila/0.4.0, MIT, approved, clearlydefined
@@ -739,11 +743,11 @@ npm/npmjs/-/utils-merge/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/utrie/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #15399
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/vite/5.4.8, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND BlueOak-1.0.0 AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #15844
+npm/npmjs/-/vite/5.4.11, MIT AND (ISC AND MIT) AND (Apache-2.0 AND BSD-2-Clause AND BlueOak-1.0.0 AND CC0-1.0 AND ISC AND MIT) AND (BSD-3-Clause AND MIT) AND ISC AND (BSD-2-Clause AND BSD-3-Clause), approved, #15844
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/9.4.3, MIT, approved, #15333
 npm/npmjs/-/vue-router/4.4.5, MIT, approved, #16133
-npm/npmjs/-/vue/3.5.11, MIT AND ISC, approved, #16083
+npm/npmjs/-/vue/3.5.13, MIT AND ISC, approved, #16083
 npm/npmjs/-/vuex/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/wbuf/1.7.3, MIT, approved, clearlydefined
@@ -754,7 +758,7 @@ npm/npmjs/-/webpack-dev-middleware/7.4.2, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-dev-server/5.1.0, MIT, approved, #16065
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #15298
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
-npm/npmjs/-/webpack/5.95.0, MIT, approved, #16295
+npm/npmjs/-/webpack/5.96.1, MIT, approved, clearlydefined
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/whatwg-url/5.0.0, MIT, approved, clearlydefined
@@ -770,11 +774,11 @@ npm/npmjs/-/xml-utils/1.3.0, CC0-1.0, approved, clearlydefined
 npm/npmjs/-/yallist/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/yocto-queue/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/@aashutoshrathi/word-wrap/1.2.6, MIT, approved, #9212
-npm/npmjs/@babel/helper-string-parser/7.25.7, MIT, approved, clearlydefined
-npm/npmjs/@babel/helper-validator-identifier/7.25.7, MIT, approved, clearlydefined
-npm/npmjs/@babel/parser/7.25.7, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #16041
+npm/npmjs/@babel/helper-string-parser/7.25.9, MIT, approved, clearlydefined
+npm/npmjs/@babel/helper-validator-identifier/7.25.9, MIT, approved, clearlydefined
+npm/npmjs/@babel/parser/7.26.2, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #16882
 npm/npmjs/@babel/runtime/7.25.6, MIT, approved, clearlydefined
-npm/npmjs/@babel/types/7.25.7, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #16040
+npm/npmjs/@babel/types/7.26.0, MIT, approved, clearlydefined
 npm/npmjs/@discoveryjs/json-ext/0.5.7, MIT, approved, clearlydefined
 npm/npmjs/@esbuild/aix-ppc64/0.21.5, MIT, approved, clearlydefined
 npm/npmjs/@esbuild/android-arm/0.21.5, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #15369
@@ -801,21 +805,22 @@ npm/npmjs/@esbuild/win32-ia32/0.21.5, MIT, approved, clearlydefined
 npm/npmjs/@esbuild/win32-x64/0.21.5, MIT, approved, clearlydefined
 npm/npmjs/@eslint-community/eslint-utils/4.4.0, MIT, approved, #15285
 npm/npmjs/@eslint-community/regexpp/4.10.0, MIT, approved, clearlydefined
-npm/npmjs/@eslint-community/regexpp/4.11.1, MIT AND BSD-3-Clause, approved, #16257
+npm/npmjs/@eslint-community/regexpp/4.12.1, MIT, approved, clearlydefined
 npm/npmjs/@eslint/config-array/0.18.0, Apache-2.0, approved, clearlydefined
-npm/npmjs/@eslint/core/0.6.0, Apache-2.0, approved, clearlydefined
+npm/npmjs/@eslint/core/0.7.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@eslint/eslintrc/2.1.4, MIT, approved, #9908
 npm/npmjs/@eslint/eslintrc/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/@eslint/js/8.57.1, MIT, approved, clearlydefined
-npm/npmjs/@eslint/js/9.12.0, MIT, approved, clearlydefined
+npm/npmjs/@eslint/js/9.14.0, MIT, approved, clearlydefined
 npm/npmjs/@eslint/object-schema/2.1.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/@eslint/plugin-kit/0.2.0, Apache-2.0, approved, clearlydefined
-npm/npmjs/@humanfs/core/0.19.0, Apache-2.0, approved, clearlydefined
-npm/npmjs/@humanfs/node/0.16.5, Apache-2.0, approved, clearlydefined
+npm/npmjs/@humanfs/core/0.19.1, Apache-2.0, approved, clearlydefined
+npm/npmjs/@humanfs/node/0.16.6, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/config-array/0.13.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/module-importer/1.0.1, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/object-schema/2.0.3, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/@humanwhocodes/retry/0.3.1, Apache-2.0 AND ISC, approved, #15956
+npm/npmjs/@humanwhocodes/retry/0.4.1, Apache-2.0 AND ISC, approved, #17085
 npm/npmjs/@jridgewell/gen-mapping/0.3.3, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/resolve-uri/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/set-array/1.1.2, MIT, approved, clearlydefined
@@ -837,22 +842,24 @@ npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.stat/2.0.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.walk/1.2.8, MIT, approved, clearlydefined
 npm/npmjs/@petamoriken/float16/3.8.0, MIT AND (Apache-2.0 AND MIT), approved, #15370
-npm/npmjs/@rollup/rollup-android-arm-eabi/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-android-arm64/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-darwin-arm64/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-darwin-x64/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-arm-gnueabihf/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-arm-musleabihf/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-arm64-gnu/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-arm64-musl/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-powerpc64le-gnu/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-riscv64-gnu/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-s390x-gnu/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-x64-gnu/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-linux-x64-musl/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-win32-arm64-msvc/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-win32-ia32-msvc/4.21.0, MIT, approved, clearlydefined
-npm/npmjs/@rollup/rollup-win32-x64-msvc/4.21.0, MIT, approved, clearlydefined
+npm/npmjs/@rollup/rollup-android-arm-eabi/4.24.2, MIT AND (ISC AND MIT), approved, #16904
+npm/npmjs/@rollup/rollup-android-arm64/4.24.2, MIT AND (ISC AND MIT), approved, #16918
+npm/npmjs/@rollup/rollup-darwin-arm64/4.24.2, MIT AND (ISC AND MIT), approved, #16908
+npm/npmjs/@rollup/rollup-darwin-x64/4.24.2, MIT AND (ISC AND MIT), approved, #16901
+npm/npmjs/@rollup/rollup-freebsd-arm64/4.24.2, MIT AND (ISC AND MIT), approved, #16905
+npm/npmjs/@rollup/rollup-freebsd-x64/4.24.2, MIT AND (ISC AND MIT), approved, #16903
+npm/npmjs/@rollup/rollup-linux-arm-gnueabihf/4.24.2, MIT AND (ISC AND MIT), approved, #16906
+npm/npmjs/@rollup/rollup-linux-arm-musleabihf/4.24.2, MIT AND (ISC AND MIT), approved, #16914
+npm/npmjs/@rollup/rollup-linux-arm64-gnu/4.24.2, MIT AND (ISC AND MIT), approved, #16910
+npm/npmjs/@rollup/rollup-linux-arm64-musl/4.24.2, MIT AND (ISC AND MIT), approved, #16912
+npm/npmjs/@rollup/rollup-linux-powerpc64le-gnu/4.24.2, MIT AND (ISC AND MIT), approved, #16916
+npm/npmjs/@rollup/rollup-linux-riscv64-gnu/4.24.2, MIT AND (ISC AND MIT), approved, #16907
+npm/npmjs/@rollup/rollup-linux-s390x-gnu/4.24.2, MIT AND (ISC AND MIT), approved, #16919
+npm/npmjs/@rollup/rollup-linux-x64-gnu/4.24.2, MIT AND (ISC AND MIT), approved, #16915
+npm/npmjs/@rollup/rollup-linux-x64-musl/4.24.2, MIT AND (ISC AND MIT), approved, #16911
+npm/npmjs/@rollup/rollup-win32-arm64-msvc/4.24.2, MIT AND (ISC AND MIT), approved, #16909
+npm/npmjs/@rollup/rollup-win32-ia32-msvc/4.24.2, MIT AND (ISC AND MIT), approved, #16913
+npm/npmjs/@rollup/rollup-win32-x64-msvc/4.24.2, MIT AND (ISC AND MIT), approved, #16902
 npm/npmjs/@rtsao/scc/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/@sindresorhus/merge-streams/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/@turf/bbox/7.1.0, MIT, approved, clearlydefined
@@ -869,7 +876,8 @@ npm/npmjs/@types/body-parser/1.19.2, MIT, approved, #10831
 npm/npmjs/@types/bonjour/3.5.13, MIT, approved, clearlydefined
 npm/npmjs/@types/connect-history-api-fallback/1.5.4, MIT, approved, #8395
 npm/npmjs/@types/connect/3.4.35, MIT, approved, clearlydefined
-npm/npmjs/@types/estree/1.0.5, MIT, approved, #8266
+npm/npmjs/@types/eslint-scope/3.7.7, MIT, approved, #10812
+npm/npmjs/@types/eslint/9.6.1, MIT, approved, #15963
 npm/npmjs/@types/estree/1.0.6, MIT, approved, #8266
 npm/npmjs/@types/express-serve-static-core/4.17.43, MIT, approved, #6020
 npm/npmjs/@types/express/4.17.21, MIT, approved, #5760
@@ -888,33 +896,41 @@ npm/npmjs/@types/proj4/2.5.2, MIT, approved, #12818
 npm/npmjs/@types/qs/6.9.7, MIT, approved, #13991
 npm/npmjs/@types/raf/3.4.0, MIT, approved, clearlydefined
 npm/npmjs/@types/range-parser/1.2.4, MIT, approved, #10795
-npm/npmjs/@types/rbush/3.0.4, MIT, approved, clearlydefined
+npm/npmjs/@types/rbush/3.0.3, MIT, approved, clearlydefined
 npm/npmjs/@types/retry/0.12.2, MIT, approved, clearlydefined
 npm/npmjs/@types/send/0.17.4, MIT, approved, #10832
 npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
-npm/npmjs/@typescript-eslint/eslint-plugin/8.6.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #16146
-npm/npmjs/@typescript-eslint/parser/8.6.0, BSD-2-Clause, approved, clearlydefined
-npm/npmjs/@typescript-eslint/scope-manager/8.6.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/type-utils/8.6.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/types/8.6.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/typescript-estree/8.6.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #16145
-npm/npmjs/@typescript-eslint/utils/8.6.0, BSD-2-Clause AND MIT AND (BSD-2-Clause AND ISC AND MIT), approved, #16147
-npm/npmjs/@typescript-eslint/visitor-keys/8.6.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/eslint-plugin/8.14.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/eslint-plugin/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/8.14.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/8.15.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/8.14.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/8.14.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/8.14.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/8.14.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/8.15.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/utils/8.14.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/utils/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/visitor-keys/8.14.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/visitor-keys/8.15.0, MIT, approved, clearlydefined
 npm/npmjs/@ungap/structured-clone/1.2.0, ISC, approved, clearlydefined
-npm/npmjs/@vitejs/plugin-vue/5.1.4, MIT, approved, #16171
-npm/npmjs/@vue/compiler-core/3.5.11, MIT AND ISC, approved, #16069
-npm/npmjs/@vue/compiler-dom/3.5.11, MIT AND ISC, approved, #16068
-npm/npmjs/@vue/compiler-sfc/3.5.11, MIT AND ISC, approved, #16077
-npm/npmjs/@vue/compiler-ssr/3.5.11, MIT AND ISC, approved, #16082
+npm/npmjs/@vitejs/plugin-vue/5.2.0, MIT, approved, #17260
+npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
+npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
+npm/npmjs/@vue/compiler-sfc/3.5.13, MIT AND ISC, approved, #16077
+npm/npmjs/@vue/compiler-ssr/3.5.13, MIT AND ISC, approved, #16082
 npm/npmjs/@vue/devtools-api/6.6.4, MIT AND Apache-2.0 AND MPL-2.0, approved, #13376
-npm/npmjs/@vue/reactivity/3.5.11, MIT AND ISC, approved, #16080
-npm/npmjs/@vue/runtime-core/3.5.11, MIT AND ISC, approved, #16084
-npm/npmjs/@vue/runtime-dom/3.5.11, MIT AND ISC, approved, #16085
-npm/npmjs/@vue/server-renderer/3.5.11, MIT AND ISC, approved, #16081
-npm/npmjs/@vue/shared/3.5.11, MIT AND ISC, approved, #16067
+npm/npmjs/@vue/reactivity/3.5.13, MIT AND ISC, approved, #16080
+npm/npmjs/@vue/runtime-core/3.5.13, MIT AND ISC, approved, #16084
+npm/npmjs/@vue/runtime-dom/3.5.13, MIT AND ISC, approved, #16085
+npm/npmjs/@vue/server-renderer/3.5.13, MIT AND ISC, approved, #16081
+npm/npmjs/@vue/shared/3.5.13, MIT AND ISC, approved, #16067
 npm/npmjs/@webassemblyjs/ast/1.12.1, MIT, approved, clearlydefined
 npm/npmjs/@webassemblyjs/floating-point-hex-parser/1.11.6, MIT, approved, #7959
 npm/npmjs/@webassemblyjs/helper-api-error/1.11.6, MIT, approved, #7969
@@ -1064,7 +1080,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.jdt.bcoview.feature/1.2.200.v20231106-15
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.jeview.feature/1.1.200.v20231104-1354, EPL-2.0, approved, eclipse.jdt
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.source/3.19.300.v20231201-0110, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt/3.19.300.v20231201-0110, EPL-2.0, approved, eclipse.equinox
-p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.4.v20240802-1551, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.5.v20241023-1957, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.source.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.e4.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
@@ -1960,8 +1976,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.core/1.5.200.v20231106-1240, EPL-2.0
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui.source/1.5.200.v20231106-1240, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui/1.5.200.v20231106-1240, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.4.v20240802-1551, EPL-2.0, approved, technology.justj
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.4.v20240802-1551, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.5.v20241023-1957, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.5.v20241023-1957, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.source/3.14.200.v20231106-1218, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring/3.14.200.v20231106-1218, EPL-2.0, approved, eclipse.platform
@@ -2078,134 +2094,134 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.sdk/4.30.0.v20231201-0110, EPL-2.0, appro
 p2/orbit/p2.eclipse.plugin/org.eclipse.search.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.search.source/3.16.0.v20230921-2245, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.search/3.16.0.v20230921-2245, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.set.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.set/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.application/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.set.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.set/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.application.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.application/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.services.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.services/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.core/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.emfforms.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.emfforms/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.enumtransformation.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.enumtransformation/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.overviewplan.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.overviewplan/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.projectdata.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.projectdata/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.pt1.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.pt1/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.validation.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.validation/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecore.nl_de.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecore.nl_de/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.categorization.nl_de.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.categorization.nl_de/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.core.nl_de.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.core.nl_de/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.table.nl_de.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.table.nl_de/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.integrationview.nl_de.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.integrationview.nl_de/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.model.nl_de.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.model.nl_de/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.validationreport.nl_de.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.validationreport.nl_de/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.services.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.services/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.core/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.emfforms.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.emfforms/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.enumtransformation.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.enumtransformation/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.export/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.overviewplan.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.overviewplan/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.plazmodel/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.projectdata.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.projectdata/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.siteplan/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.pt1.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.pt1/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.table/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.validation.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.feature.validation/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecore.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecore.nl_de/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.categorization.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.categorization.nl_de/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.core.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.core.nl_de/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.table.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.table.nl_de/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.integrationview.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.integrationview.nl_de/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.model.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.model.nl_de/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.validationreport.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.validationreport.nl_de/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.edit/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.editor/2.3.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.edit.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.extensions.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.extensions/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.siteplan.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.siteplan/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox.extensions.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox.extensions/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport.edit.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.zipmanifest.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.zipmanifest/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.nattable.utils.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.nattable.utils/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.pdf.utils.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.pdf.utils/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.container.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.container/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.application.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.application/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.compatibility.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.compatibility/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.extensions.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.extensions/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.releng.logging.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.releng.logging/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.services.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.services/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.rcp.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.rcp/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.table.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.table/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.test.source/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.test/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.edit.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.edit/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.extensions.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.extensions/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.siteplan.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.siteplan/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox.extensions.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox.extensions/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.titlebox/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport.edit.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport.edit/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.validationreport/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.zipmanifest.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.zipmanifest/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.nattable.utils.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.nattable.utils/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.pdf.utils.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.pdf.utils/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.container.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.container/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.ppmodel.extensions/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.application.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.application/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.compatibility.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.compatibility/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.extensions.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.rcp.extensions/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.releng.logging.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.releng.logging/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.services.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.services/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.sessionservice/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.swtbot/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.unittest.utils/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.rcp.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.rcp/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.table.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.table/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.test.source/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils.test/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.utils/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.examples.browser.demos.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.examples.launcher.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.swt.examples.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
