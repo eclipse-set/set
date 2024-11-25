@@ -228,7 +228,7 @@ export default class CollisionService {
    * Collision displacement again, when configuration parameter changed
    * @param event the Event
    */
-  private onChangeConfigurationListener (event?: Event|BaseEvent): void {
+  private onChangeConfigurationListener (event?: Event | BaseEvent): void {
     this.resetDisplacement()
 
     this.featuresIntersectInArea = []

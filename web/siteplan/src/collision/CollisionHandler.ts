@@ -114,7 +114,7 @@ export default class CollisionHandler {
           points: [
             getRectangleCenter(this.originalGeometry[0]),
             getRectangleCenter(geometry[0])
-          ]} as Line
+          ] } as Line
         const leftTracks = this.getTrackCrossCount(moveLine)
         if (leftTracks > trackLimit) {
           moveLeft = false
@@ -133,7 +133,7 @@ export default class CollisionHandler {
           points: [
             getRectangleCenter(this.originalGeometry[0]),
             getRectangleCenter(geometry[0])
-          ]} as Line
+          ] } as Line
         const rightTracks = this.getTrackCrossCount(moveLine)
 
         if (rightTracks > trackLimit) {

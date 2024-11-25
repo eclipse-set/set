@@ -64,7 +64,7 @@ export default class SignalRouteMarkerFeature extends LageplanFeature<SignalMoun
           color: getColor(signalMount, SignalPart.RouteMarker) ?? 'black'
         })
       })
-      style.getStroke().setWidth(scale * 2)
+      style.getStroke()?.setWidth(scale * 2)
       return style
     })
 
@@ -94,10 +94,8 @@ export default class SignalRouteMarkerFeature extends LageplanFeature<SignalMoun
       )
       // Rescale the feature according to the current zoom level
       // to keep a constant size
-      style
-        .getImage()
-        .setScale(scale)
-      style.getImage().setRotation((labelRotation * Math.PI) / 180)
+      style.getImage()?.setScale(scale)
+      style.getImage()?.setRotation((labelRotation * Math.PI) / 180)
       return style
     })
 
@@ -129,7 +127,6 @@ export default class SignalRouteMarkerFeature extends LageplanFeature<SignalMoun
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
     return feature
   }

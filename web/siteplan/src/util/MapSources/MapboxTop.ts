@@ -6,14 +6,14 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+import axios from 'axios'
+import MVT from 'ol/format/MVT'
 import TileLayer from 'ol/layer/Tile'
 import VectorTileLayer from 'ol/layer/VectorTile'
-import { MapSource, MapSourceType } from '../MapSource'
-import Configuration from '../Configuration'
-import MVT from 'ol/format/MVT'
-import VectorTileSource from 'ol/source/VectorTile'
-import axios from 'axios'
 import TileSource from 'ol/source/Tile'
+import VectorTileSource from 'ol/source/VectorTile'
+import Configuration from '../Configuration'
+import { MapSource, MapSourceType } from '../MapSource'
 
 /**
  * Minimal interface to allow typed access to a Mapbox hosted style definition
@@ -31,7 +31,7 @@ interface MapboxStyle {
  * @author Stuecker
  */
 export default class MapboxTop extends MapSource {
-  source: VectorTileSource|null = null
+  source: VectorTileSource | null = null
   layer!: VectorTileLayer
 
   constructor () {
@@ -75,14 +75,14 @@ export default class MapboxTop extends MapSource {
   }
 
   onStyleLoad (style: MapboxStyle): void {
-    const sourceId = Object.keys(style.sources)[ 0 ]
+    const sourceId = Object.keys(style.sources)[0]
     this.source = new VectorTileSource({
       attributions: [
         '© <a target="_blank" href="https://www.mapbox.com/map-feedback/">Mapbox</a> ',
         '© <a target="_blank" href="https://www.openstreetmap.org/copyright">',
         'OpenStreetMap contributors</a>'
       ],
-      url: this.transformSourceUrl(style.sources[ sourceId ].url),
+      url: this.transformSourceUrl(style.sources[sourceId].url),
       format: new MVT()
     })
     this.layer.setSource(this.source)

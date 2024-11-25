@@ -1,4 +1,3 @@
-
 /**
  * Copyright (c) 2022 DB Netz AG and others.
  *
@@ -21,6 +20,7 @@ export interface ProblemMessage {
 }
 
 export enum TextFileModel {
+  /* eslint-disable no-unused-vars */
   MODEL = 'Fachdaten',
   LAYOUT = 'Layoutdaten'
 }

@@ -22,14 +22,12 @@ export default class PlanProToolboxTest {
       if (PlanProToolbox.inPPT()) {
         const test = new PlanProToolboxTest()
         test.testGetToolboxConfiguration()
-        // eslint-disable-next-line no-console
         console.log('PlanProToolboxTest passed.')
       } else {
-        // eslint-disable-next-line no-console
         console.log('PlanProToolboxTest skipped outside of PPT.')
       }
-    } catch (e: unknown) {
-      console.error('PlanProToolboxTest failed.')
+    } catch (e) {
+      console.error('PlanProToolboxTest failed.: ' + e)
     }
   }
 

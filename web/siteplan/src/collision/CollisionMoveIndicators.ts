@@ -42,8 +42,8 @@ export default class CollisionMoveIndicators {
   }
 
   public createMovelineStyle (
-    oldCenter: number[]|null,
-    newCenter: number[]|null,
+    oldCenter: number[] | null,
+    newCenter: number[] | null,
     scale: number,
     feature: ModelType
   ): OlStyle[] {

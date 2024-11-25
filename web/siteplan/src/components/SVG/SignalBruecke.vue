@@ -67,7 +67,7 @@ export default class SignalBruecke extends Vue {
       const count = Math.floor(Math.random() * 5) + 2
       for (let i = 0; i < count; i++) {
         const schirmIndex = Math.floor(Math.random() * (listschirm.length - 1))
-        result.push(listschirm[ schirmIndex ])
+        result.push(listschirm[schirmIndex])
       }
     }
 

@@ -21,7 +21,7 @@ export default class SvgDrawOthers extends AbstractDrawSVG{
     return FeatureType.Unknown
   }
 
-  public drawSVG<T extends object> (data: T, label?: Label|undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, label?: Label | undefined): ISvgElement {
     const svgImage = this.getSvgFromCatalog(data)
     if (svgImage === null) {
       console.warn('Unsupported object')

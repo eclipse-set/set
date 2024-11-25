@@ -51,19 +51,14 @@ export default class TrackDesignationMarkerFeature extends LageplanFeature<Track
       const style = this.svgService.getFeatureStyle({ label }, FeatureType.TrackDesignationMarker, label)
       // Rescale the feature according to the current zoom level
       // to keep a constant size
-      style
-        .getImage()
-        .setScale(scale)
+      style.getImage()?.setScale(scale)
 
-      style
-        .getImage()
-        .setRotation((rotation * Math.PI) / 180)
+      style.getImage()?.setRotation((rotation * Math.PI) / 180)
       return style
     })
     return feature
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
     return feature
   }

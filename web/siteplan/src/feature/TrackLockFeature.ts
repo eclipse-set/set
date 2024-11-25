@@ -17,7 +17,7 @@ import { angle, midpoint } from '@/util/Math'
 import { updateLabelColor, updateLabelOrientation } from '@/util/ModelExtensions'
 import SvgDrawTracklock from '@/util/SVG/Draw/SvgDrawTracklock'
 import { Feature } from 'ol'
-import { getHeight, getWidth, Extent } from 'ol/extent'
+import { Extent, getHeight, getWidth } from 'ol/extent'
 import Geometry from 'ol/geom/Geometry'
 import Point from 'ol/geom/Point'
 import { FeatureType, createFeature } from './FeatureInfo'
@@ -59,8 +59,8 @@ export default class TrackLockFeature extends LageplanFeature<TrackLock> {
       updateLabelColor(trackLock.label, getLabelColor(trackLock))
 
       const style = this.svgService.getFeatureStyle(trackLock, FeatureType.TrackLock, trackLock.label)
-      style.getImage().setScale(scale)
-      style.getImage().setRotation((rotation * Math.PI) / 180)
+      style.getImage()?.setScale(scale)
+      style.getImage()?.setRotation((rotation * Math.PI) / 180)
       return style
     })
     return feature
@@ -134,7 +134,7 @@ export default class TrackLockFeature extends LageplanFeature<TrackLock> {
     }
 
     trackLockBBoxs.filter(ele => ele !== arrowBBox).forEach(bbox => {
-      const position = { x: pos.x,y: pos.y,rotation}
+      const position = { x: pos.x,y: pos.y,rotation }
       LageplanFeature.createBBox(feature, position, bbox, [0, 0], [1, 1])
     })
   }

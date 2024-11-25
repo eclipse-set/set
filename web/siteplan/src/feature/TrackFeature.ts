@@ -181,7 +181,7 @@ export default class TrackFeature extends LageplanFeature<Track> {
       const style = new Style({
         stroke: new Stroke({
           color: this.getTrackColor(track, trackSection, trackSection.shape),
-          width: scale * width
+          width: scale * (width ?? 1)
         })
       })
 
@@ -224,7 +224,7 @@ export default class TrackFeature extends LageplanFeature<Track> {
     track: Track,
     section: TrackSection,
     sectionType: TrackShape
-  ): string|number[] {
+  ): string | number[] {
     if (store.state.trackSectionColorVisible && section.color !== null) {
       return section.color
     }
@@ -268,7 +268,6 @@ export default class TrackFeature extends LageplanFeature<Track> {
       : this.setFeatureRegionColor(feature)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected setFeatureRegionColor (feature: Feature<Geometry>): Feature<Geometry> {
     const trackfeatureData = getFeatureData(feature) as TrackSectionFeatureData
     if (!trackfeatureData.track) {

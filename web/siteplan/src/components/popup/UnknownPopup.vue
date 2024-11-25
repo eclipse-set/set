@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { getFeatureData } from '@/feature/FeatureInfo'
-import { computed} from 'vue'
+import { computed } from 'vue'
 import { Feature } from 'ol'
 import { Geometry } from 'ol/geom'
 

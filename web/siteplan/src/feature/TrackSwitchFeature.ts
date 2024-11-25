@@ -147,7 +147,7 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
       // Add the label
       if (component.label) {
         const labelStyle = this.svgService.getFeatureStyle(
-          {featureData: data},
+          { featureData: data },
           FeatureType.TrackSwitch,
           component.label
         )
@@ -172,7 +172,7 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
       case TurnoutOperatingMode.Trailable:
         const labelSpilt = component.label?.text.split(' ')
         if (!labelSpilt?.some(ele => ele === 'Rf') && component.label) {
-          component.label.text  += ' Rf'
+          component.label.text += ' Rf'
         }
 
         const mainLegLastPos = component.mainLeg.coordinates[component.mainLeg.coordinates.length - 1]

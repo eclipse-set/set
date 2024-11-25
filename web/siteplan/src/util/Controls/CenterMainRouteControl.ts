@@ -9,9 +9,8 @@
 import SiteplanModel from '@/model/SiteplanModel'
 import { Control } from 'ol/control'
 import View from 'ol/View'
-import { setMapScale } from '../MapScale'
-import { PlanProModelType, store } from '@/store'
 import Configuration from '../Configuration'
+import { setMapScale } from '../MapScale'
 
 /**
  * Control to reset the map view to the leading coordinate of

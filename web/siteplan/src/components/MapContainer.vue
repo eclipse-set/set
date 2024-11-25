@@ -117,7 +117,7 @@ export default class MapContainer extends Vue {
       this.map.addControl(new ExportControl(this.map))
     }
 
-    this.map.setTarget(this.$refs[ 'map-root' ])
+    this.map.setTarget(this.$refs['map-root'])
     this.map.setView(view)
   }
 

@@ -344,7 +344,6 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
    * @param feature the feature
    * @returns color of feature
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected getRegionColor (feature: Feature<Geometry>, guid?: string): number[] {
     return !isPlanningObject(guid ?? getFeatureGUID(feature)) &&
       Configuration.developmentMode()
