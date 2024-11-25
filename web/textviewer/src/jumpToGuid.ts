@@ -9,7 +9,6 @@
 import * as monaco from 'monaco-editor'
 import { TextFileModel } from './model'
 
-/* eslint-disable no-unused-vars */
 export enum ModelContainer {
   INITIAL,
   FINAL,

@@ -22,7 +22,7 @@ export class App {
   editor: monaco.editor.IStandaloneCodeEditor
   problems: ProblemMessage[]
   xml!: Document
-  pendingSetLine: number|null = null
+  pendingSetLine: number | null = null
   viewModels!: Map<string, monaco.editor.ITextModel>
   currentModelName!: string
   readonly LAYOUT_PRBOLEM_SCOPE = 'Layout'

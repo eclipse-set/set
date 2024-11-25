@@ -20,7 +20,6 @@ export interface ProblemMessage {
 }
 
 export enum TextFileModel {
-  /* eslint-disable no-unused-vars */
   MODEL = 'Fachdaten',
   LAYOUT = 'Layoutdaten'
 }
