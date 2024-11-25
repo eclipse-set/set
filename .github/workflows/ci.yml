@@ -15,6 +15,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  GITHUB_REPO: "truongquangsb/set"
   DEPLOY_DIR: ${{ github.workspace }}/java-test/m2deploy
   DIFF_DIR: java-test/diff
   TEST_APPLICATION_DIR: ${{ github.workspace }}/java-test/application-under-test
