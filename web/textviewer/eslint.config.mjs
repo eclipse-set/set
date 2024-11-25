@@ -39,7 +39,7 @@ export default [...compat.extends('plugin:@typescript-eslint/recommended'), {
     ],
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/no-unused-vars': ['off'],
-    quotes: ['error', "single"]
+    quotes: ['error', 'single']
   }
 
 }, {
