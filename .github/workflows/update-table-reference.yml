@@ -5,7 +5,8 @@ on:
     types: [created]
   
 env:
-  GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  GITHUB_REPO: "truongquangsb/set"
   REPO_LOCAL_PATH: ${{github.workspace}}/set
 
 jobs:
