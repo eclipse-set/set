@@ -87,7 +87,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Bauart),
 				element,
-				[elementBauart]
+				[""]
 			)
 
 			// D: Sska.Grundsatzangaben.Unterbringung.Art
@@ -95,7 +95,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Unterbringung_Art),
 				element,
-				[unterbringung.art.translate ?: ""]
+				["Test"]
 			)
 
 			// E: Sska.Grundsatzangaben.Unterbringung.Ort
@@ -103,7 +103,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Unterbringung_Ort),
 				element,
-				[unterbringung.ort ?: ""]
+				["Test2"]
 			)
 
 			// F: Sska.Grundsatzangaben.Unterbringung.Strecke
