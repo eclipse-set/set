@@ -39,7 +39,9 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @returns the Zug-/Rangierstraßen for this Durchrutschweg
 	 */
 	def static List<Fstr_Zug_Rangier> fstrZugRangier(Fstr_DWeg dweg) {
-		return dweg?.container?.fstrZugRangier?.filter[fstrZug?.fstrZugDWeg?.IDFstrDWeg?.value === dweg]?.toList
+		return dweg?.container?.fstrZugRangier?.filter [
+			fstrZug?.fstrZugDWeg?.IDFstrDWeg?.value === dweg
+		]?.toList
 	}
 
 	/**
@@ -80,7 +82,8 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @returns the Weichen/Kreuzungen-Zuordnungen
 	 */
 	def static List<Fstr_DWeg_W_Kr> zuordnungen(Fstr_DWeg dweg) {
-		return dweg?.container?.fstrDWegWKr?.filter[IDFstrDWeg?.value === dweg]?.toList
+		return dweg?.container?.fstrDWegWKr?.
+			filter[IDFstrDWeg?.value === dweg]?.toList
 	}
 
 	/**
@@ -89,7 +92,7 @@ class DwegExtensions extends BasisObjektExtensions {
 	 * @return the fma on this durchrutschweg, without fma on start signal
 	 */
 	def static Iterable<Punkt_Objekt> getFMAs(Fstr_DWeg dweg) {
-		val fmaAnlagen = dweg?.fmaAnlageFreimeldung
+		val fmaAnlagen = dweg?.fmaAnlageFreimeldung.toList
 		if (fmaAnlagen.empty || fmaAnlagen === null) {
 			return emptySet
 		}
@@ -97,31 +100,89 @@ class DwegExtensions extends BasisObjektExtensions {
 		if (fmaAnlagen.contains(null)) {
 			throw new IllegalArgumentException('''«dweg?.bezeichnung?.bezeichnungFstrDWeg?.wert» contains non-FMA-Anlagen within ID_FMA_Anlage''')
 		}
-		
+
 		val topFahrWeg = dweg?.fstrFahrweg?.topKanten
 		val fmaGrenzens = fmaAnlagen.map[fmaGrenzen].flatten.toSet
 		val startSignal = dweg.fstrFahrweg?.start
 
-		// 1. Fall: start signal and end fma stay on same TOP_Kante
-		val fmaOnFahrweg = fmaGrenzens?.filter [
-			topKanten.exists[topFahrWeg.contains(it)]
-		].filter [ fma |
-			// Filter fma at start signal
-			fma.singlePoints.exists [
-				!startSignal.singlePoints.map[abstand.wert].contains(
-					abstand.wert)
+//		val result = #[]
+		return fmaGrenzens.filter [ fma |
+			val isFmaAtStartSignal = fma.singlePoints.exists [ fmaPotk |
+				startSignal.singlePoints.map[abstand.wert].exists [ signalDistance |
+					signalDistance.compareTo(fmaPotk.abstand.wert) == 0
+				]
 			]
-		]
-
-		if (!fmaOnFahrweg.empty) {
-			return fmaOnFahrweg
-		}
-		// 2. Fall: start signal and end fma stay on two different TOP_Kante
-		return dweg.fmaOnAnotherTOPKante(fmaGrenzens)
+			// 1. Fall: start signal and fma stay on same TOP_Kante	
+			return fma.topKanten.exists[topFahrWeg.contains(it)] &&
+				!isFmaAtStartSignal || dweg.isRelevantFma(fma)
+		].toSet
+//		// 1. Fall: start signal and end fma stay on same TOP_Kante
+//		val fmaOnFahrweg = fmaGrenzens?.filter [
+//			topKanten.exists[topFahrWeg.contains(it)]
+//		].filter [ fma |
+//			// Filter fma at start signal
+//			fma.singlePoints.exists [
+//				!startSignal.singlePoints.map[abstand.wert].contains(
+//					abstand.wert)
+//			]
+//		]
+//
+//		if (!fmaOnFahrweg.empty) {
+//			return fmaOnFahrweg
+//		}
+//		// 2. Fall: start signal and end fma stay on two different TOP_Kante
+//		return dweg.fmaOnAnotherTOPKante(fmaGrenzens)
 	}
 
-	def private static Iterable<Punkt_Objekt> fmaOnAnotherTOPKante(Fstr_DWeg dweg,
-		Set<Punkt_Objekt> fmaGrenzens) {
+	def private static boolean isRelevantFma(Fstr_DWeg dweg, Punkt_Objekt fma) {
+		val fahrweg = dweg?.fstrFahrweg
+		val topFahrWeg = fahrweg?.topKanten
+		val startSignal = fahrweg?.start
+		val topEndFahrweg = fahrweg?.zielPunktObjekt?.topKanten
+		// When slip way run over a track switch
+		val dwegGspElement = dweg?.zuordnungen?.map[WKrGspElement]
+		if (!dwegGspElement.empty) {
+			// 1. Fall: start from leg of track switch
+			if (startSignal.topKanten.exists [
+				dwegGspElement.map[#[topKanteL, topKanteR]].flatten.contains(it)
+			]) {
+				return fma.topKanten.exists [
+					topEndFahrweg.contains(it)
+				]
+			}
+
+			// 2. Fall: start from top of track switch and this switch is a combined switch
+			val connectionGsp = dwegGspElement.map [
+				val gzL = weicheElement?.GZFreimeldungL?.element
+				val gzR = weicheElement?.GZFreimeldungR?.element
+				if (gzL !== null && topFahrWeg.contains(topKanteL)) {
+					return gzL
+				} else if (gzR !== null && topFahrWeg.contains(topKanteR)) {
+					return gzR
+				}
+				return null
+			].filterNull
+			if (!connectionGsp.empty) {
+				return fma.topKanten.exists [ topGrenze |
+					connectionGsp.exists [
+						gzFreimeldungTOPKante.contains(topGrenze)
+					]
+				]
+			}
+		}
+
+		val fmaAnlageOnZiel = fahrweg?.container?.FMAAnlage?.filter [
+			IDGleisAbschnitt?.value?.topKanten.exists [
+				topEndFahrweg.contains(it)
+			] && !dweg.fmaAnlageFreimeldung.contains(it)
+		].toSet
+		return fmaAnlageOnZiel.map[fmaGrenzen].flatten.exists [
+			it === fma
+		]
+	}
+
+	def private static Iterable<Punkt_Objekt> fmaOnAnotherTOPKante(
+		Fstr_DWeg dweg, Set<Punkt_Objekt> fmaGrenzens) {
 		val fahrweg = dweg?.fstrFahrweg
 		val topFahrWeg = fahrweg?.topKanten
 		val startSignal = fahrweg?.start
@@ -151,7 +212,7 @@ class DwegExtensions extends BasisObjektExtensions {
 					return gzR
 				}
 				return null
-			].filterNull	
+			].filterNull
 			if (!connectionGsp.empty) {
 				return fmaGrenzens.filter [
 					topKanten.exists [ topGrenze |

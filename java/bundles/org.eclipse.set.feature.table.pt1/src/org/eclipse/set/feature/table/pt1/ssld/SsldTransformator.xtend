@@ -67,9 +67,15 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	def String getFreigemeldetLaenge(Fstr_DWeg dweg) {
-		val fmas = dweg?.FMAs
+		val fmas = dweg?.FMAs.toList
 		if (fmas.empty) {
 			return ""
+		}
+		if (dweg.identitaet.wert == "DF882C8B-ADC4-4253-B056-48E5BE5E4975") {
+			val test = fmas.map [
+				it -> getShortestPathLength(dweg?.fstrFahrweg.start, it)
+			].toList
+			println("TEST")
 		}
 		val distance = fmas?.fold(
 			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
@@ -88,9 +94,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory,
 		Stell_Bereich controlArea
 	) {
-		val fstDwegList = container.fstrDWeg
-			.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea)
+		val fstDwegList = container.fstrDWeg.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea)
 
 		// var footnoteNumber = 1;
 		for (dweg : fstDwegList) {
