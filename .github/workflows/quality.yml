@@ -9,13 +9,13 @@ on:
       - 'release/**'
       - 'main'
 
-env:
-  CHECKSTYLE_VERSION: "10.10.0"
-  CHECKSTYLE_CONFIG_LOC: releng/eclipse
 
 jobs:
   checkstyle:
     runs-on: ubuntu-latest
+    env:
+      CHECKSTYLE_VERSION: "10.10.0"
+      CHECKSTYLE_CONFIG_LOC: releng/eclipse
     steps:
       - uses: actions/checkout@v4
 
