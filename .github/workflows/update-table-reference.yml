@@ -8,6 +8,7 @@ env:
   GITHUB_TOKEN: ${{ github.token }}
   GITHUB_REPO: "truongquangsb/set"
   REPO_LOCAL_PATH: ${{github.workspace}}/set
+  SET_WORKFLOW_ID: 64995101
 
 jobs:
   doCommand:
