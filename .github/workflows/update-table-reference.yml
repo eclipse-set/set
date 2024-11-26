@@ -59,7 +59,7 @@ jobs:
           ls
           python -u -m updatereference \
             --issueNumber=${{ github.event.issue.number }} \
-            --commentBody=${{ github.event.comment.body}}
+            --commentBody="${{ github.event.comment.body}}"
           
       - name: Push
         shell: bash
