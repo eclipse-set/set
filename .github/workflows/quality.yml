@@ -40,3 +40,18 @@ jobs:
       - name: Eslint
         run: cd web/siteplan && npm run lint
 
+  lint-textviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@4
+
+      - uses: actions/setup-node@4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: cd web/textviewer && npm install
+
+      - name: Eslint
+        run: cd web/textviewer && npm run lint
+
