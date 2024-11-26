@@ -105,35 +105,19 @@ class DwegExtensions extends BasisObjektExtensions {
 		val fmaGrenzens = fmaAnlagen.map[fmaGrenzen].flatten.toSet
 		val startSignal = dweg.fstrFahrweg?.start
 
-//		val result = #[]
 		return fmaGrenzens.filter [ fma |
 			val isFmaAtStartSignal = fma.singlePoints.exists [ fmaPotk |
 				startSignal.singlePoints.map[abstand.wert].exists [ signalDistance |
 					signalDistance.compareTo(fmaPotk.abstand.wert) == 0
 				]
 			]
-			// 1. Fall: start signal and fma stay on same TOP_Kante	
+
 			return fma.topKanten.exists[topFahrWeg.contains(it)] &&
 				!isFmaAtStartSignal || dweg.isRelevantFma(fma)
 		].toSet
-//		// 1. Fall: start signal and end fma stay on same TOP_Kante
-//		val fmaOnFahrweg = fmaGrenzens?.filter [
-//			topKanten.exists[topFahrWeg.contains(it)]
-//		].filter [ fma |
-//			// Filter fma at start signal
-//			fma.singlePoints.exists [
-//				!startSignal.singlePoints.map[abstand.wert].contains(
-//					abstand.wert)
-//			]
-//		]
-//
-//		if (!fmaOnFahrweg.empty) {
-//			return fmaOnFahrweg
-//		}
-//		// 2. Fall: start signal and end fma stay on two different TOP_Kante
-//		return dweg.fmaOnAnotherTOPKante(fmaGrenzens)
 	}
 
+	// Fall start signal and the target fma stay on two different TOP_Kante
 	def private static boolean isRelevantFma(Fstr_DWeg dweg, Punkt_Objekt fma) {
 		val fahrweg = dweg?.fstrFahrweg
 		val topFahrWeg = fahrweg?.topKanten
@@ -179,59 +163,6 @@ class DwegExtensions extends BasisObjektExtensions {
 		return fmaAnlageOnZiel.map[fmaGrenzen].flatten.exists [
 			it === fma
 		]
-	}
-
-	def private static Iterable<Punkt_Objekt> fmaOnAnotherTOPKante(
-		Fstr_DWeg dweg, Set<Punkt_Objekt> fmaGrenzens) {
-		val fahrweg = dweg?.fstrFahrweg
-		val topFahrWeg = fahrweg?.topKanten
-		val startSignal = fahrweg?.start
-		val topEndFahrweg = fahrweg?.zielPunktObjekt?.topKanten
-
-		// When slip way run over a track switch
-		val dwegGspElement = dweg?.zuordnungen?.map[WKrGspElement]
-		if (!dwegGspElement.empty) {
-			// 1. Fall: start from leg of track switch
-			if (startSignal.topKanten.exists [
-				dwegGspElement.map[#[topKanteL, topKanteR]].flatten.contains(it)
-			]) {
-				return fmaGrenzens.filter [
-					topKanten.exists [
-						topEndFahrweg.contains(it)
-					]
-				].filterNull.toSet
-			}
-
-			// 2. Fall: start from top of track switch and this switch is a combined switch
-			val connectionGsp = dwegGspElement.map [
-				val gzL = weicheElement?.GZFreimeldungL?.element
-				val gzR = weicheElement?.GZFreimeldungR?.element
-				if (gzL !== null && topFahrWeg.contains(topKanteL)) {
-					return gzL
-				} else if (gzR !== null && topFahrWeg.contains(topKanteR)) {
-					return gzR
-				}
-				return null
-			].filterNull
-			if (!connectionGsp.empty) {
-				return fmaGrenzens.filter [
-					topKanten.exists [ topGrenze |
-						connectionGsp.exists [
-							gzFreimeldungTOPKante.contains(topGrenze)
-						]
-					]
-				].toSet
-			}
-		}
-
-		val fmaAnlageOnZiel = fahrweg?.container?.FMAAnlage?.filter [
-			IDGleisAbschnitt?.value?.topKanten.exists [
-				topEndFahrweg.contains(it)
-			] && !dweg.fmaAnlageFreimeldung.contains(it)
-		].toSet
-		return fmaAnlageOnZiel.map[fmaGrenzen].flatten.filter [
-			fmaGrenzens.contains(it)
-		].toSet
 	}
 
 	private static def dispatch Set<TOP_Kante> gzFreimeldungTOPKante(

@@ -38,6 +38,8 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
+import java.math.BigDecimal
 
 /**
  * Table transformation for a Durchrutschwegtabelle (SSLD).
@@ -55,7 +57,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		this.topGraphService = topGraphService
 	}
 
-	def double getShortestPathLength(Signal signal, Punkt_Objekt p) {
+	def BigDecimal getShortestPathLength(Signal signal, Punkt_Objekt p) {
 		val points1 = signal.singlePoints.map[new TopPoint(it)]
 		val points2 = p.singlePoints.map[new TopPoint(it)]
 
@@ -63,26 +65,31 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 			points2.map [ pb |
 				topGraphService.findShortestDistance(pa, pb)
 			]
-		].filter[present].map[get.doubleValue].min
+		].filter[present].map[get].min
 	}
 
-	def String getFreigemeldetLaenge(Fstr_DWeg dweg) {
-		val fmas = dweg?.FMAs.toList
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
+		BigDecimal maxLength) {
+		val startSignal = dweg?.fstrFahrweg?.start
+		val fmas = dweg?.FMAs.toList.filter [
+			topGraph.isInWirkrichtungOfSignal(startSignal, it)
+		]
 		if (fmas.empty) {
 			return ""
 		}
-		if (dweg.identitaet.wert == "DF882C8B-ADC4-4253-B056-48E5BE5E4975") {
-			val test = fmas.map [
-				it -> getShortestPathLength(dweg?.fstrFahrweg.start, it)
-			].toList
-			println("TEST")
+
+		val relevantDistances = fmas?.map [
+			getShortestPathLength(dweg?.fstrFahrweg?.start, it)
+		].filter [
+			maxLength.compareTo(it) >= 0 &&
+				dweg?.fstrDWegAllg?.laengeSoll?.wert.compareTo(it) <= 0
+		]
+		if (relevantDistances.nullOrEmpty) {
+			return AgateRounding.roundDown(maxLength.doubleValue).toString
 		}
-		val distance = fmas?.fold(
-			Double.valueOf(0.0), [ Double current, Punkt_Objekt grenze |
-				Math.max(current,
-					getShortestPathLength(dweg?.fstrFahrweg?.start, grenze))
-			])
-		val roundedDistance = AgateRounding.roundDown(distance)
+
+		val roundedDistance = AgateRounding.roundDown(
+			relevantDistances.max.doubleValue)
 		if (roundedDistance == 0.0)
 			throw new IllegalArgumentException("no path found")
 		else
@@ -94,6 +101,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory,
 		Stell_Bereich controlArea
 	) {
+		val topGraph = new TopGraph(container.TOPKante)
 		val fstDwegList = container.fstrDWeg.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea)
 
@@ -175,11 +183,12 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// H: Ssld.Eigenschaften.Laenge.Ist
+			val fstrFarhWegLength = dweg.fstrFahrweg.length
 			fill(
 				instance,
 				cols.getColumn(Laenge_Ist),
 				dweg,
-				[fstrFahrweg.length.toTableIntegerAgateDown]
+				[fstrFarhWegLength.toTableIntegerAgateDown]
 			)
 
 			// I: Ssld.Eigenschaften.Laenge.Freigemeldet
@@ -187,7 +196,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[dweg.freigemeldetLaenge]
+				[getFreigemeldetLaenge(topGraph, fstrFarhWegLength)]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
