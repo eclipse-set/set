@@ -2093,9 +2093,9 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.source/2.4.0, EPL-2.0, approved
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis.test/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.basis/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.cef.win32/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser.lib/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.browser/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.services.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.services/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.core.source/2.4.0, EPL-2.0, approved, technology.set
@@ -2146,9 +2146,9 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit.source/2.4
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.edit/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.editor/2.3.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro/2.3.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.edit/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.editor/2.4.0, EPL-2.0, approved, technology.set
+p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.source/2.4.0, EPL-2.0, approved, technology.set
