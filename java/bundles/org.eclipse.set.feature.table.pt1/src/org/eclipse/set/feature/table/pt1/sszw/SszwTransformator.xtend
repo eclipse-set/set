@@ -98,7 +98,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			row,
 			cols.getColumn(Art),
 			refWKrAnlage,
-			[WKrAnlageArt.translate ?: ""]
+			["Test"]// [WKrAnlageArt.translate ?: ""]
 		)
 
 		// C: Sszw.W_Kr.Form
