@@ -55,7 +55,6 @@ jobs:
       
       - name: Apply changes
         shell: bash
-        working-directory: ${{ env.REPO_LOCAL_PATH }}
         run: |
           ls
           python -u -m updatereference \
