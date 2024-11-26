@@ -24,3 +24,19 @@ jobs:
 
       - name: Run checkstyle
         run: java -Dconfig_loc=${{ env.CHECKSTYLE_CONFIG_LOC }} -jar checkstyle.jar . -c ${{ env.CHECKSTYLE_CONFIG_LOC }}/checkstyle.xml
+
+  lint-siteplan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@4
+
+      - uses: actions/setup-node@4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: cd web/siteplan && npm install
+
+      - name: Eslint
+        run: cd web/siteplan && npm run lint
+
