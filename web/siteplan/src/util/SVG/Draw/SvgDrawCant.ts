@@ -10,7 +10,6 @@
 import { FeatureType } from '@/feature/FeatureInfo'
 import { Label } from '@/model/Label'
 import { ISvgElement, SvgElement } from '@/model/SvgElement'
-import { getHeight, getWidth } from 'ol/extent'
 import AbstractDrawSVG from './AbstractDrawSVG'
 import SvgDraw from './SvgDraw'
 
@@ -22,7 +21,7 @@ export default class SvgDrawCant extends AbstractDrawSVG{
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public drawSVG<T extends object> (data: T, _label?: Label|undefined): ISvgElement {
+  public drawSVG<T extends object> (data: T, _label?: Label | undefined): ISvgElement {
     const svgImage = this.getSvgFromCatalog(data)
     if (svgImage === null) {
       console.warn('Unsupported object')

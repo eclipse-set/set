@@ -23,14 +23,14 @@
 import CollisionFeature from '@/collision/CollisionFeature'
 import JumpToGuid from '@/components/development/JumpToGuid.vue'
 import FeatureInfoPopup from '@/components/FeatureInfoPopup.vue'
+import CantFeature from '@/feature/CantFeature'
+import CantLineFeature from '@/feature/CantLineFeature'
 import ErrorFeature from '@/feature/ErrorFeature'
 import ExternalElementControlFeature from '@/feature/ExternalElementControlFeature'
 import { FeatureLayerType, getFeatureLayer } from '@/feature/FeatureInfo'
 import FMAFeature from '@/feature/FMAFeature'
-import CantFeature from '@/feature/CantFeature'
-import CantLineFeature from '@/feature/CantLineFeature'
-import UnknownObjectFeature from '@/feature/UnknownObjectFeature'
 import { ILageplanFeature } from '@/feature/LageplanFeature'
+import LayoutInfoFeature from '@/feature/LayoutInfoFeature'
 import LockKeyFeature from '@/feature/LockKeyFeature'
 import PlatformFeature from '@/feature/PlatformFeature'
 import PZBFeature from '@/feature/PZBFeature'
@@ -47,11 +47,12 @@ import TrackLockFeature from '@/feature/TrackLockFeature'
 import TrackSectionMarkerFeature from '@/feature/TrackSectionMarkerFeature'
 import TrackSwitchEndMarkerFeature from '@/feature/TrackSwitchEndMarkerFeature'
 import TrackSwitchFeature from '@/feature/TrackSwitchFeature'
-import LayoutInfoFeature from '@/feature/LayoutInfoFeature'
+import UnknownObjectFeature from '@/feature/UnknownObjectFeature'
 import { store, TableType } from '@/store'
 import '@/util/ArrayExtensions'
 import FeatureClickInteraction from '@/util/FeatureClickInteraction'
 import { getResolutionForScale } from '@/util/MapScale'
+import PlanProToolbox from '@/util/PlanProToolbox'
 import axios from 'axios'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
@@ -66,7 +67,6 @@ import Configuration from '../util/Configuration'
 import CenterMainRouteControl from '../util/Controls/CenterMainRouteControl'
 import ExtentControl from '../util/Controls/ExtentControl'
 import NamedFeatureLayer from '../util/NamedFeatureLayer'
-import PlanProToolbox from '@/util/PlanProToolbox'
 
 /**
  * Feature service to create open layers features for the siteplan model
@@ -111,9 +111,9 @@ export default class FeatureService extends Vue {
   static readonly COLOR_REMOVED = [241, 221, 56] // RAL1016
 
   featureLayers: NamedFeatureLayer[] = []
-  unsubscribe: SubscribeOptions|undefined
+  unsubscribe: SubscribeOptions | undefined
   map: Map = store.state.map
-  model: SiteplanModel|null = null
+  model: SiteplanModel | null = null
   developmentOptions = false
   svgService: SvgService = new SvgService(axios)
   listFeature: ILageplanFeature[] = []
@@ -124,7 +124,6 @@ export default class FeatureService extends Vue {
     this.createLayers()
     this.developmentOptions = Configuration.developmentMode()
     this.loadModel()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     store.subscribe((m, s) => {
       if (m.type === 'setSheetCutCRS') {
         PlanProToolbox.changeLayoutCRS(s.sheetCutCRS)

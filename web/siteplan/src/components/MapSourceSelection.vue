@@ -87,7 +87,7 @@ import 'material-design-icons/iconfont/material-icons.css'
     selected (selectedMap: string) {
       const source = this.options.filter(
         (x: MapSource) => x.getIdentifier() === selectedMap
-      )[ 0 ]
+      )[0]
       this.imageLayer.setSource(null)
       this.vectorLayer.setSource(null)
       source.setAsSource(this.imageLayer, this.vectorLayer)

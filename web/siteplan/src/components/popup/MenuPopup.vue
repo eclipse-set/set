@@ -59,12 +59,12 @@ import {
   getFeatureName,
   getFeatureType
 } from '@/feature/FeatureInfo'
-import {SignalMount} from '@/model/SignalMount'
-import {LeftRight} from '@/model/SiteplanModel'
+import { SignalMount } from '@/model/SignalMount'
+import { LeftRight } from '@/model/SiteplanModel'
 import 'material-design-icons/iconfont/material-icons.css'
-import {Feature} from 'ol'
+import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
-import {Options, Vue} from 'vue-class-component'
+import { Options, Vue } from 'vue-class-component'
 
 /**
  * Menu for select object
@@ -147,7 +147,7 @@ export default class MenuPopup extends Vue {
   features!: Feature<Geometry>[]
   selectedPopup!: Vue
   mouseButton!: string
-  selectedFeature: Feature<Geometry>|null = null
+  selectedFeature: Feature<Geometry> | null = null
 
   getFeatures (): Feature<Geometry>[] {
     if (this.features === null || !this.features) {

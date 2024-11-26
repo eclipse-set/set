@@ -62,7 +62,6 @@ export default class RouteFeature extends LageplanFeature<Route> {
     return feature
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
     return feature
   }

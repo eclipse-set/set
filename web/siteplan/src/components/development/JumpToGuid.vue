@@ -27,7 +27,7 @@ import { EventsKey } from 'ol/events'
 import { FeatureLayerType, FeatureType, FlashFeatureData, createFeature, getFeatureLayerByType, getFeatureType } from '@/feature/FeatureInfo'
 import Configuration from '@/util/Configuration'
 import TrackFeature from '@/feature/TrackFeature'
-import {getMapScale} from '@/util/MapScale'
+import { getMapScale } from '@/util/MapScale'
 
 /**
  * Development utility to quickly jump to signals by GUID
@@ -101,7 +101,7 @@ export default class JumpToGuid extends Vue {
     store.commit('setMatchingCount', matchingCount)
     if (matchingCount > 0) {
       const offset = this.selectFeatureOffset % matchingCount
-      const matchFeature = matchingFeatures[ offset ]
+      const matchFeature = matchingFeatures[offset]
 
       const flashFeature = this.createFlashFeature(
         matchFeature
@@ -230,7 +230,7 @@ export default class JumpToGuid extends Vue {
 
   private featureHasGuid (
     feature: Feature<Geometry>,
-    guid: string|null
+    guid: string | null
   ): boolean {
     if (!guid) {
       return false

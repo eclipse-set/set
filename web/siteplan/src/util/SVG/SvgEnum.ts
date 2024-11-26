@@ -49,7 +49,7 @@ export enum AnchorPoint {
 }
 
 export enum SignalBrueckeudAusleger {
-    bruecker= 'SignalBruecker',
+    bruecker = 'SignalBruecker',
     ausleger = 'SignalAusleger'
 }
 

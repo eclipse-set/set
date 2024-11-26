@@ -8,7 +8,7 @@
  */
 
 // Export the global namespace
-export {}
+export { }
 
 declare global {
     interface Array<T> {
@@ -22,7 +22,6 @@ declare global {
  * @param by the function to group by
  * @returns a new array containing the grouped elements
  */
-// eslint-disable-next-line no-extend-native
 Array.prototype.groupBy = function (by: ((value: unknown) => number)) {
   return this.reduce((result, element) => {
     const layer = by(element)

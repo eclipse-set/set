@@ -6,21 +6,20 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+import axios from 'axios'
+import MVT from 'ol/format/MVT'
 import TileLayer from 'ol/layer/Tile'
 import VectorTileLayer from 'ol/layer/VectorTile'
-import { MapSource, MapSourceType } from '../MapSource'
-import Configuration from '../Configuration'
-import MVT from 'ol/format/MVT'
-import VectorTileSource from 'ol/source/VectorTile'
-import axios from 'axios'
 import TileSource from 'ol/source/Tile'
+import VectorTileSource from 'ol/source/VectorTile'
+import Configuration from '../Configuration'
+import { MapSource, MapSourceType } from '../MapSource'
 
 /**
  * Minimal interface to allow typed access to a Mapbox hosted style definition
  */
-interface MapboxStyle
-{
-  sources: { [key: string]: { url: string, }, }
+interface MapboxStyle {
+  sources: { [ key: string ]: { url: string, }, }
   glyphs: string
   sprite: string
 }
@@ -90,7 +89,7 @@ export default class MapboxTop extends MapSource {
     style.sprite = this.transformSpriteUrl(style.sprite)
     style.glyphs = this.transformFontsUrl(style.glyphs)
     // IMPROVE: ol-mapbox-style is not available in typed form
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('ol-mapbox-style').applyStyle(this.layer, style, sourceId)
   }
 }

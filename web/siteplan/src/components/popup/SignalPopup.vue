@@ -23,9 +23,9 @@ import {
   getFeatureGUID,
   getFeatureLabel
 } from '@/feature/FeatureInfo'
-import {Signal} from '@/model/Signal'
-import {isPlanningObject} from '@/model/SiteplanModel'
-import {Options, Vue} from 'vue-class-component'
+import { Signal } from '@/model/Signal'
+import { isPlanningObject } from '@/model/SiteplanModel'
+import { Options, Vue } from 'vue-class-component'
 
 /**
  * Popup contents for signal features

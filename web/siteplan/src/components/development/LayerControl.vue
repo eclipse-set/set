@@ -149,7 +149,7 @@ export default class LayerControl extends Vue {
     const target = evt.target as Element
     const layerControl = target
       ?.closest('.layer-drag-container')
-      ?.getElementsByClassName('layer-control')[ 0 ]
+      ?.getElementsByClassName('layer-control')[0]
     if (!target || !layerControl) {
       // Element dragged over something that is not a valid drop zone
       return
@@ -192,9 +192,9 @@ export default class LayerControl extends Vue {
     }
 
     const sourceIndex = layers.findIndex(l => l === source)
-    const newSourceZIndex = layers[ sourceIndex + offset ].getZIndex()
+    const newSourceZIndex = layers[sourceIndex + offset].getZIndex()
     for (let i = sourceIndex + offset; i > sourceIndex; i--) {
-      layers[ i ].setZIndex(layers[ i - 1 ].getZIndex())
+      layers[i].setZIndex(layers[i - 1].getZIndex())
     }
 
     source.setZIndex(newSourceZIndex)

@@ -6,7 +6,8 @@
 	],
 	"settings": {
 		"editor.codeActionsOnSave": {
-			"source.fixAll": true
+			"source.fixAll": "explicit",
+			"source.organizeImports": "explicit"
 		},
 		"editor.formatOnSave": true,
 		"eslint.validate": [
@@ -17,13 +18,19 @@
 		"typescript.tsdk": "node_modules\\typescript\\lib",
 		"svg.preview.background": "transparent",
 		"eslint.lintTask.enable": true,
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint",
 		"editor.tabSize": 2,
 		"[vue]": {
 			"editor.defaultFormatter": "dbaeumer.vscode-eslint"
 		},
 		"[typescript]": {
 			"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+		},
+		"[javascript]": {
+			"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+		},
+		"[jsonc]": {
+			"editor.defaultFormatter": "vscode.json-language-features"
 		},
 	},
 	"launch": {

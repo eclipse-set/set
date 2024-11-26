@@ -6,10 +6,10 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-import { Model, ProblemMessage, TextFileModel } from './model'
 import * as monaco from 'monaco-editor'
-import jumpToDefinition, { ModelContainer, findObjectDefinitionLineByGUID, getGUIDAt, getModelContainer, switchModelToFindReference } from './jumpToGuid'
 import { TableType } from '.'
+import jumpToDefinition, { ModelContainer, findObjectDefinitionLineByGUID, getModelContainer, switchModelToFindReference } from './jumpToGuid'
+import { Model, ProblemMessage, TextFileModel } from './model'
 import { seletedTabStyle } from './multitab'
 
 /**
@@ -140,11 +140,11 @@ export class App {
     let line = findObjectDefinitionLineByGUID(guid, this.editor.getModel(), this.xml, modelContainer)
     if (!line && sessionState === TableType.DIFF) {
       switch (modelContainer) {
-        case ModelContainer.INITIAL:{
+        case ModelContainer.INITIAL: {
           line = findObjectDefinitionLineByGUID(guid, this.editor.getModel(), this.xml, ModelContainer.FINAL)
           break
         }
-        case ModelContainer.FINAL:{
+        case ModelContainer.FINAL: {
           line = findObjectDefinitionLineByGUID(guid, this.editor.getModel(), this.xml, ModelContainer.INITIAL)
           break
         }
