@@ -190,7 +190,6 @@ npm/npmjs/-/arraybuffer.prototype.slice/1.0.3, MIT, approved, #9657
 npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/atob/2.1.2, (Apache-2.0 AND MIT) AND CC-BY-3.0, approved, #15389
 npm/npmjs/-/available-typed-arrays/1.0.7, MIT, approved, clearlydefined
-npm/npmjs/-/axios/1.7.7, MIT, approved, #14871
 npm/npmjs/-/axios/1.7.8, MIT, approved, #14871
 npm/npmjs/-/balanced-match/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
@@ -895,21 +894,21 @@ npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
 npm/npmjs/@typescript-eslint/eslint-plugin/8.14.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/eslint-plugin/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/eslint-plugin/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/parser/8.14.0, BSD-2-Clause, approved, clearlydefined
-npm/npmjs/@typescript-eslint/parser/8.15.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/8.16.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/scope-manager/8.14.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/scope-manager/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/type-utils/8.14.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/type-utils/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/types/8.14.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/types/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/typescript-estree/8.14.0, BSD-2-Clause, approved, clearlydefined
-npm/npmjs/@typescript-eslint/typescript-estree/8.15.0, BSD-2-Clause, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/8.16.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/utils/8.14.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/utils/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/utils/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/8.14.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/visitor-keys/8.15.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/visitor-keys/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.2.0, MIT, approved, #17260
 npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
 npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
