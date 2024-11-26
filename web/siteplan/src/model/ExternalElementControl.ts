@@ -22,7 +22,7 @@ export enum ExternalElementControlArt {
   Objektcontroller = 'Objektcontroller',
   Relaisstellwerk = 'Relaisstellwerk',
   sonstige = 'sonstige',
-  virtuelle_Aussenelementansteuerung= 'virtuelle_Aussenelementansteuerung'
+  virtuelle_Aussenelementansteuerung = 'virtuelle_Aussenelementansteuerung'
 }
 
 export interface ExternalElementControl extends RouteObject, SiteplanObject {

@@ -115,7 +115,6 @@ export function getAllValuesOf<T extends object> (
 
     if (k === propName) {
       if (defaultObj && checkInstance(v, defaultObj)) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return v as any
       } else if ((typeof v === 'string') || (typeof v === 'number')) {
         return v

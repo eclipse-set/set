@@ -24,11 +24,10 @@
 </template>
 
 <script>
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import MapContainer from './MapContainer'
-import FeatureService from './FeatureService'
-import {store} from '@/store'
+import { store } from '@/store'
 import 'material-design-icons/iconfont/material-icons.css'
+import FeatureService from './FeatureService'
+import MapContainer from './MapContainer'
 
 export default {
   name: 'Lageplan',

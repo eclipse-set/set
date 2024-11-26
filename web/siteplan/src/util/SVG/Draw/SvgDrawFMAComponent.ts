@@ -62,7 +62,7 @@ export default class SvgDrawFMAComponent extends AbstractDrawSVG {
    * @param label the label for the FMA Component (or null if none)
    * @returns a {@link ISvgElement} containing the final SVG for rendering
    */
-  draw (fma: ISvgElement, rightSide: boolean, label: Label|null): ISvgElement {
+  draw (fma: ISvgElement, rightSide: boolean, label: Label | null): ISvgElement {
     // Add extra area if required to fully display the label
     let drawArea = this.SVG_FMA_DRAWAREA
     if (label != null) {

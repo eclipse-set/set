@@ -78,7 +78,7 @@ export default class SideInfoControl extends Vue {
       // make sure other SideInfoControls are closed before displaying own content
       const closeButton = contentContainer.getElementsByClassName(
         'side-info-close'
-      )[ 0 ] as HTMLElement
+      )[0] as HTMLElement
       if (closeButton) {
         closeButton.click()
       }

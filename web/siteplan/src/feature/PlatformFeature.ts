@@ -93,7 +93,7 @@ export default class PlatformFaature extends LageplanFeature<Station> {
 
       return new Style({
         text: new Text({
-          text: 'Gleis ' + platform.label.text,
+          text: 'Gleis ' + platform.label?.text,
           scale: scale * 3,
           rotateWithView: true,
           rotation: textRotation * Math.PI / 180,
@@ -115,7 +115,6 @@ export default class PlatformFaature extends LageplanFeature<Station> {
     ), avgRotation, 5)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
     return feature
   }

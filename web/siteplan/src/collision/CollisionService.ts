@@ -228,7 +228,7 @@ export default class CollisionService {
    * Collision displacement again, when configuration parameter changed
    * @param event the Event
    */
-  private onChangeConfigurationListener (event?: Event|BaseEvent): void {
+  private onChangeConfigurationListener (event?: Event | BaseEvent): void {
     this.resetDisplacement()
 
     this.featuresIntersectInArea = []
@@ -254,7 +254,7 @@ export default class CollisionService {
       featureData.refFeature.getGeometry()?.translate(-translateValue[0], -translateValue[1])
       feature.getGeometry()?.translate(-translateValue[0], -translateValue[1])
       getFeatureBoundArea(feature).forEach(rect => rect.forEach(point => {
-        point[0] -= translateValue[0],
+        point[0] -= translateValue[0]
         point[1] -= translateValue[1]
       }))
 

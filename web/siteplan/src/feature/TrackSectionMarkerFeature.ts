@@ -42,9 +42,9 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
   private createTrackSectionMarkerFeatures (trackSection: TrackSection): Feature<Geometry>[] {
     const coordinates: OlCoordinate[] = []
     trackSection.segments.forEach(segment =>
-      coordinates.push([segment.positions[ 0 ].x, segment.positions[ 0 ].y]))
-    const lastSegment = trackSection.segments[ trackSection.segments.length - 1 ]
-    const lastPosition = lastSegment.positions[ lastSegment.positions.length - 1 ]
+      coordinates.push([segment.positions[0].x, segment.positions[0].y]))
+    const lastSegment = trackSection.segments[trackSection.segments.length - 1]
+    const lastPosition = lastSegment.positions[lastSegment.positions.length - 1]
     coordinates.push([lastPosition.x, lastPosition.y])
 
     const features: Feature<Geometry>[] = []
@@ -75,9 +75,7 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
 
       // Rescale the feature according to the current zoom level
       // to keep a constant size
-      style
-        .getImage()
-        .setScale(scale)
+      style.getImage()?.setScale(scale)
 
       return style
     })
@@ -85,7 +83,6 @@ export default class TrackSectionMarkerFeature extends LageplanFeature<Track> {
     return feature
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
     return feature
   }

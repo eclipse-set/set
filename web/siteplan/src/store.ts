@@ -133,7 +133,7 @@ export const store = createStore<State>({
     setMatchingCount (state, payload: number) {
       state.matchingFeatures = payload
     },
-    setModel (state, payload: SiteplanModel| null) {
+    setModel (state, payload: SiteplanModel | null) {
       state.model = payload
       state.model?.objectManagement.forEach(objman =>
         objman.planningObjectIDs.forEach(id => {

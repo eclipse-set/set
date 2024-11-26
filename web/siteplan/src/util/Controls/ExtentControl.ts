@@ -6,15 +6,15 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+import { FeatureLayerType } from '@/feature/FeatureInfo'
+import { store } from '@/store'
+import { getExtent } from '@/util/ExtentExtension'
 import { Feature } from 'ol'
 import { Control } from 'ol/control'
+import { isEmpty } from 'ol/extent'
 import Geometry from 'ol/geom/Geometry'
 import View from 'ol/View'
 import NamedFeatureLayer from '../NamedFeatureLayer'
-import { getExtent } from '@/util/ExtentExtension'
-import { store } from '@/store'
-import { isEmpty } from 'ol/extent'
-import { FeatureLayerType } from '@/feature/FeatureInfo'
 
 /**
  * Control to reset the map extent to include all features
@@ -71,7 +71,7 @@ export default class ExtentControl extends Control {
       if (features.length === 0) {
         extent = [
           // south western corner of germany's bounding box
-          789544.62, 5986273.25, 
+          789544.62, 5986273.25,
           // north eastern corner of germany's bounding box
           1671640.27, 7372664.43
         ]
@@ -79,6 +79,7 @@ export default class ExtentControl extends Control {
       } else {
         extent = getExtent(features)
       }
+
       store.commit('setAllFeaturesExtent', extent)
     }
 
