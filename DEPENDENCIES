@@ -835,7 +835,7 @@ npm/npmjs/@rollup/rollup-win32-ia32-msvc/4.24.2, MIT AND (ISC AND MIT), approved
 npm/npmjs/@rollup/rollup-win32-x64-msvc/4.24.2, MIT AND (ISC AND MIT), approved, #16902
 npm/npmjs/@rtsao/scc/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/@sindresorhus/merge-streams/1.0.0, MIT, approved, clearlydefined
-npm/npmjs/@stylistic/eslint-plugin/2.8.0, MIT, approved, clearlydefined
+npm/npmjs/@stylistic/eslint-plugin/2.11.0, MIT, approved, #17507
 npm/npmjs/@turf/bbox/7.1.0, MIT, approved, clearlydefined
 npm/npmjs/@turf/boolean-disjoint/7.1.0, MIT, approved, clearlydefined
 npm/npmjs/@turf/boolean-point-in-polygon/7.1.0, MIT, approved, clearlydefined
@@ -885,7 +885,7 @@ npm/npmjs/@typescript-eslint/types/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/typescript-estree/8.16.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@typescript-eslint/utils/8.16.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/8.16.0, MIT, approved, clearlydefined
-npm/npmjs/@vitejs/plugin-vue/5.2.0, MIT, approved, #17260
+npm/npmjs/@vitejs/plugin-vue/5.2.1, MIT, approved, #17260
 npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
 npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
 npm/npmjs/@vue/compiler-sfc/3.5.13, MIT AND ISC, approved, #16077
