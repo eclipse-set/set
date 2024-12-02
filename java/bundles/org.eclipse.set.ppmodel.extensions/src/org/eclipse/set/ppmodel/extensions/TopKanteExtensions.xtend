@@ -118,7 +118,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	def static GEO_Kante getGeoKanteAtKnoten(TOP_Kante topKante,
 		TOP_Knoten topKnoten) {
 		val geoKnoten = topKnoten.GEOKnoten
-		val geoKanten = geoKnoten.getGeoKantenOnTopKante(topKante)
+		val geoKanten = geoKnoten.getGeoKantenOnParentKante(topKante)
 		// The GEOKnoten reference to this TOP Knoten should have only one GEOKante on this TOPKante
 		if (geoKanten.size > 1) {
 			throw new IllegalArgumentException('''The TOP_Knoten: «topKnoten.identitaet.wert» on TOP_Kante: «topKante.identitaet.wert» reference to more than one GEO_Kante''')
@@ -824,7 +824,7 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		}
 
 		// these are the GEO edges starting at the start GEO node
-		val startEdges = start.getGeoKantenOnTopKante(directedTopEdge.element)
+		val startEdges = start.getGeoKantenOnParentKante(directedTopEdge.element)
 
 		// we do not want to go backwards and remove all previously found edges
 		startEdges.removeAll(result.map[element])

@@ -52,6 +52,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.set.basis.constants.ToolboxConstants
 import java.math.RoundingMode
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -79,10 +80,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		// Skip transforming continuous track segments within track switches (DKW/EKW)
 		if (topKante.isContinuousTrackInSwitch)
 			return;
-
 		val track = SiteplanFactory.eINSTANCE.createTrack()
 		track.guid = topKante.identitaet.wert
-		val geoKantes = geometryService.getGeoKanten(topKante)
+		val geoKantes = geometryService.getTopKantenMetaData(topKante)
 		sectionColor = SiteplanConstants.TOP_KANTEN_COLOR.get(track.guid)
 		if (sectionColor.nullOrEmpty) {
 			sectionColor = '''hsl(«(SiteplanConstants.TOP_KANTEN_COLOR.size + 1) * 137.5», 100%, 65%)'''
@@ -109,7 +109,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
-
+		if (md.geoKante.identitaet.wert == "2301F0AB-B8AB-41DD-8671-815FF4FB9C40") {
+			println("TEST")
+		}
 		section.color = sectionColor
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
@@ -290,6 +292,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 	def List<GEOKanteCoordinate> getCoordinates(GEOKanteSegment segment,
 		GEOKanteMetadata geoKante) {
+		val test = positionService.transformCoordinate(4534036.177374728,5629101.783730606, ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_ER0)
 		val result = newArrayList
 
 		// A GEO_Kante of length zero may reside in different coordinate systems
@@ -302,9 +305,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				val knotenB = gk.getIDGEOKnotenB().getValue();
 				return List.of(
 					new GEOKanteCoordinate(getCoordinate(knotenA),
-						segment.bereichObjekte, getCRS(knotenA)),
+						geoKante, getCRS(knotenA)),
 					new GEOKanteCoordinate(getCoordinate(knotenB),
-						segment.bereichObjekte, getCRS(knotenB)));
+						geoKante, getCRS(knotenB)));
 			} catch (NullPointerException e) {
 				throw new RuntimeException(e);
 			}
@@ -331,10 +334,10 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				if (result.empty) {
 					result.add(
 						new GEOKanteCoordinate(lastCoordinate,
-							segment.bereichObjekte, geoKante.geoKnoten.CRS))
+							geoKante, geoKante.geoKnoten.CRS))
 				}
 				result.add(
-					new GEOKanteCoordinate(coordinate, segment.bereichObjekte,
+					new GEOKanteCoordinate(coordinate, geoKante,
 						geoKante.geoKnoten.CRS))
 				distance +=
 					BigDecimal.valueOf(lastCoordinate.distance(coordinate))

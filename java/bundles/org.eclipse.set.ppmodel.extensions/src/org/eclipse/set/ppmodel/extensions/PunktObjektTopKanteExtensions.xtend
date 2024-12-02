@@ -14,18 +14,26 @@ import java.util.HashSet
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.geometry.GeoPosition
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
+import org.eclipse.set.core.services.Services
+import org.locationtech.jts.geom.Coordinate
+import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 
 /**
  * Extensions for {@link Punkt_Objekt_TOP_Kante_AttributeGroup} aka single
@@ -156,12 +164,14 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 		val wirkrichtung = singlePoint.wirkrichtung?.wert
 
 		// Determine two coordinates, each with an offset of 1 unit to the TOP_Kante 
-		val firstCoordinate = topKante.getCoordinate(abstand, BigDecimal.ONE.negate, wirkrichtung)
-		val secondCoordinate = topKante.getCoordinate(abstand, BigDecimal.ONE, wirkrichtung)
+		val firstCoordinate = topKante.getCoordinate(abstand,
+			BigDecimal.ONE.negate, wirkrichtung)
+		val secondCoordinate = topKante.getCoordinate(abstand, BigDecimal.ONE,
+			wirkrichtung)
 
 		return firstCoordinate -> secondCoordinate
 	}
-	
+
 	def static boolean isWirkrichtungTopDirection(
 		Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint) {
 		val wirkrichtung = singlePoint?.wirkrichtung?.wert
@@ -195,4 +205,38 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 
 		]
 	}
+
+	def static List<Strecke> getStreckenThroughBereichObjekt(
+		Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
+		val topPoint = new TopPoint(potk)
+		return potk.container.strecke.filter [ route |
+			route.bereichObjektTeilbereich.filter [
+				topKante === topPoint.edge
+			].exists [
+				topPoint.distance >= begrenzungA.wert &&
+					topPoint.distance <= begrenzungB.wert
+			]
+		].filterNull.toList
+	}
+
+	def static dispatch BigDecimal getStreckeKmThroughProjection(
+		Punkt_Objekt_TOP_Kante_AttributeGroup potk, Strecke strecke) {
+		val potkCoordinate = Services.pointObjectPositionService.
+			getCoordinate(potk)
+		return potkCoordinate.coordinate.getStreckeKmThroughProjection(strecke)
+	}
+	
+	def static dispatch BigDecimal getStreckeKmThroughProjection(Coordinate coordinate, Strecke strecke) {
+		val projectionPointAndDistance = Services.geometryService.
+			getProjectionCoordinateOnStrecke(coordinate, strecke)
+		val nearstRoutePoint = strecke.streckenPunkte.map [
+			it -> streckePunktTopDistance
+		].minBy[(projectionPointAndDistance.second - it.value).abs]
+
+		val nearsRoutePointMeter = nearstRoutePoint.key.streckeMeter.wert
+		val distance = nearstRoutePoint.value -
+			projectionPointAndDistance.second
+		val projectionmeter = nearsRoutePointMeter - distance
+		return (projectionmeter / BigDecimal.valueOf(1000))
+	} 
 }

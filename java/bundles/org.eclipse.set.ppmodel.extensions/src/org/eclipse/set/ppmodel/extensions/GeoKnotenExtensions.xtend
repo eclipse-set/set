@@ -21,6 +21,7 @@ import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
@@ -58,20 +59,20 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 
 	/**
 	 * @param knoten this GEO Knoten
-	 * @param topKante the TOP Kante
+	 * @param parentKante the Kante (Strecke, TOP_Kante, Trasse_Kante)
 	 * 
 	 * @returns all GEO Kante which are in line with this GEO Knoten
-	 * and with the given TOP Kante
+	 * and with the given GeoArt
 	 */
-	def static List<GEO_Kante> getGeoKantenOnTopKante(
+	def static List<GEO_Kante> getGeoKantenOnParentKante(
 		GEO_Knoten knoten,
-		TOP_Kante topKante
+		Basis_Objekt parentKante
 	) {
 		return knoten.container.GEOKante.filter [ geoKante |
-			knoten.isKnoten(geoKante) && geoKante.topKante == topKante
+			knoten.isKnoten(geoKante) && geoKante.parentKante == parentKante
 		].toList
 	}
-
+	
 	/**
 	 * @param knoten this GEO Knoten
 	 * @param geoKante the GEO Kante
@@ -129,7 +130,7 @@ class GeoKnotenExtensions extends BasisObjektExtensions {
 		var List<GEO_Kante> geoKantenOnStart
 		if (parentEdge instanceof TOP_Kante) {
 			geoKantenOnStart = startGeoKnoten.
-				getGeoKantenOnTopKante(parentEdge).toList
+				getGeoKantenOnParentKante(parentEdge).toList
 		} else {
 			geoKantenOnStart = startGeoKnoten.geoKanten.toList
 		}

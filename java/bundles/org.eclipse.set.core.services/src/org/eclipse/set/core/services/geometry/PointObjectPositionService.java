@@ -12,9 +12,11 @@ package org.eclipse.set.core.services.geometry;
 
 import java.math.BigDecimal;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Geodaten.Strecke;
 
 /**
  * 
@@ -45,4 +47,15 @@ public interface PointObjectPositionService {
 	 */
 	GEOKanteCoordinate getCoordinate(Punkt_Objekt_TOP_Kante_AttributeGroup potk,
 			BigDecimal lateralDistance);
+
+	/**
+	 * @param punktObjekt
+	 *            the punkt objekt
+	 * @param strecke
+	 *            the strecke
+	 * @return the coordinate of projection on Strecke and topological distance
+	 *         to start of Strecke
+	 */
+	Pair<GEOKanteCoordinate, BigDecimal> getProjectionOnStreck(
+			Punkt_Objekt punktObjekt, Strecke strecke);
 }

@@ -23,6 +23,9 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
+import org.eclipse.set.model.planpro.Geodaten.Strecke
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl11
@@ -167,6 +170,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
 		val waitingFillSideDistanceSignal = newHashMap
+		// IMPROVE:It give some column need the geometr
 		for (Signal signal : container?.signal?.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea).filter[ssksSignal]) {
 			if (Thread.currentThread.interrupted) {
@@ -243,41 +247,54 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
-						var List<Pair<String, String>> routeAndKm = newLinkedList
-						try {
-							routeAndKm.addAll(signal.routeAndKm.map [
-								key.bezeichnung?.bezeichnungStrecke?.wert ->
-									value
-							])
-						} catch (Exception e) {
-							routeAndKm = Collections.emptyList
-							handleFillingException(e, row,
-								cols.getColumn(Strecke))
-							handleFillingException(e, row, cols.getColumn(Km))
-						}
+						val routeThroughBereichObjekt = signal.singlePoint.
+							streckenThroughBereichObjekt
 
-						if (!routeAndKm.isNullOrEmpty) {
-							// E: Ssks.Standortmerkmale.Standort.Strecke
-							fillIterableWithConditional(
-								row,
-								cols.getColumn(Strecke),
-								routeAndKm,
-								[isHauptbefestigung],
-								[
-									map[key]
-								],
-								MIXED_STRING_COMPARATOR,
-								ITERABLE_FILLING_SEPARATOR
-							)
+						// E: Ssks.Standortmerkmale.Standort.Strecke
+						fillIterableWithConditional(
+							row,
+							cols.getColumn(Strecke),
+							signal,
+							[isHauptbefestigung],
+							[
 
-							// F: Ssks.Standortmerkmale.Standort.km
+								val kmMassgebend = punktObjektStrecke.filter [
+									kmMassgebend?.wert === true
+								]
+								if (!kmMassgebend.isNullOrEmpty) {
+									return kmMassgebend.map [
+										IDStrecke?.value?.bezeichnung?.
+											bezeichnungStrecke?.wert
+									].filterNull
+
+								}
+								if (!routeThroughBereichObjekt.isNullOrEmpty) {
+									return routeThroughBereichObjekt.map [
+										bezeichnung?.bezeichnungStrecke?.wert
+									].filterNull
+								}
+
+								return punktObjektStrecke.map [
+									IDStrecke?.value?.bezeichnung?.
+										bezeichnungStrecke?.wert
+								]
+
+							],
+							MIXED_STRING_COMPARATOR,
+							ITERABLE_FILLING_SEPARATOR
+						)
+
+						// F: Ssks.Standortmerkmale.Standort.km
+						if (isFindGeometryComplete) {
 							fillIterable(
 								row,
 								cols.getColumn(Km),
-								routeAndKm,
-								[map[value]],
-								MIXED_STRING_COMPARATOR
+								signal,
+								[getStreckeKm(routeThroughBereichObjekt)],
+								null
 							)
+						} else {
+							row.fillStreckeKm(signal, routeThroughBereichObjekt)
 						}
 
 						// G: Ssks.Standortmerkmale.Sonstige_Zulaessige_Anordnung
@@ -1559,5 +1576,76 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			Thread.sleep(5000)
 		}
 		return bankValue
+	}
+
+	// IMPROVE: Make the thread in this function generic.
+	// It do same thing like fill function for Banking and Sidedistance
+	private def void fillStreckeKm(TableRow row, Signal signal,
+		List<Strecke> routeThroughtBereichObjekt) {
+		val threadName = '''«tableShortCut.toLowerCase»/StreckKm/«signal.cacheKey»'''
+		val containerType = signal.container.containerType
+		new Thread([
+			try {
+				if (!isFindGeometryComplete) {
+					fill(
+						row,
+						cols.getColumn(Km),
+						signal,
+						[
+							CellContentExtensions.HOURGLASS_ICON
+						]
+					)
+				}
+				var streckeKms = signal.getStreckeKm(routeThroughtBereichObjekt)
+				while (streckeKms === null) {
+					streckeKms = signal.getStreckeKm(routeThroughtBereichObjekt)
+					Thread.sleep(5000)
+				}
+				val changeProperties = new Pt1TableChangeProperties(
+					containerType, row, cols.getColumn(Km), streckeKms,
+					ITERABLE_FILLING_SEPARATOR)
+				val updateValuesEvent = new TableDataChangeEvent(
+					tableShortCut.toLowerCase, changeProperties)
+				// Send update event 
+				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent)
+			} catch (InterruptedException exc) {
+				Thread.currentThread.interrupt
+			}
+
+		], threadName).start
+	}
+
+	private def List<String> getStreckeKm(Signal signal,
+		List<Strecke> routeThroughBereichObjekt) {
+		if (!isFindGeometryComplete) {
+			return null
+		}
+		val kmMassgebend = signal.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebend.nullOrEmpty) {
+			return kmMassgebend.map[streckeKm.wert].toList
+		}
+
+		val result = routeThroughBereichObjekt.map [ route |
+			try {
+				return signal.singlePoint.getStreckeKmThroughProjection(route).
+					toTableDecimal
+			} catch (Exception e) {
+				LOGGER.error(
+					"Can't find the Signal route km through projection point on route",
+					e)
+				return signal.punktObjektStrecke.findFirst [ pos |
+					pos.IDStrecke.value == route
+				]?.streckeKm.wert
+			}
+		].filterNull.toList
+
+		if (result.isNullOrEmpty) {
+			return signal.punktObjektStrecke.map[streckeKm.wert].toList
+		}
+
+		return result
+
 	}
 }

@@ -172,13 +172,17 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		return po.punktObjektStrecke.map[IDStrecke?.value].filterNull.toList
 	}
 
-	def static Optional<Range<BigDecimal>> distanceToBereichObjekt(Punkt_Objekt po,
-		Bereich_Objekt bo) {
+	def static List<Strecke> getStreckenThroughBereichObjekt(Punkt_Objekt po) {
+		return po.singlePoints.flatMap[streckenThroughBereichObjekt].toList
+	}
+
+	def static Optional<Range<BigDecimal>> distanceToBereichObjekt(
+		Punkt_Objekt po, Bereich_Objekt bo) {
 		return distanceToBereichObjekt(po, bo, Optional.empty)
 	}
 
-	def static Optional<Range<BigDecimal>> distanceToBereichObjekt(Punkt_Objekt po,
-		Bereich_Objekt bo, boolean inDirection) {
+	def static Optional<Range<BigDecimal>> distanceToBereichObjekt(
+		Punkt_Objekt po, Bereich_Objekt bo, boolean inDirection) {
 		return distanceToBereichObjekt(po, bo,
 			Optional.of(Boolean.valueOf(inDirection)))
 	}
@@ -201,18 +205,20 @@ class PunktObjektExtensions extends BasisObjektExtensions {
 		if (shortestDistances.isNullOrEmpty) {
 			return Optional.empty
 		}
-		return Optional.of(Range.closed(shortestDistances.min, shortestDistances.max))
+		return Optional.of(
+			Range.closed(shortestDistances.min, shortestDistances.max))
 	}
-	
-	def static Range<BigDecimal> distanceToTeilBereichObjekt(Punkt_Objekt po, Bereich_Objekt_Teilbereich_AttributeGroup botb) {
+
+	def static Range<BigDecimal> distanceToTeilBereichObjekt(Punkt_Objekt po,
+		Bereich_Objekt_Teilbereich_AttributeGroup botb) {
 		if (botb.contains(po.singlePoint)) {
 			return Range.singleton(BigDecimal.ZERO);
 		}
 		val poTopPoint = new TopPoint(po)
-		val distances = botb.toTopPoints.map[
+		val distances = botb.toTopPoints.map [
 			Services.topGraphService.findShortestDistance(poTopPoint, it)
 		].filter[isPresent].map[get]
-		
+
 		if (distances.isNullOrEmpty) {
 			return null
 		}

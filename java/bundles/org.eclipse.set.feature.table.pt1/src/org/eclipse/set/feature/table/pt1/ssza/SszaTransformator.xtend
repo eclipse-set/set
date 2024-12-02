@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- *
+ * 
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -25,6 +25,7 @@ import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Kante
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.DP_Typ_GETCS_AttributeGroup
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.Datenpunkt
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ZUB_Streckeneigenschaft
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Markanter_Punkt
@@ -49,14 +50,11 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.DatenpunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 
@@ -550,16 +548,10 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 		val topKante = nearestPoint.edge
 		val geoKantemetadata = Services.geometryService.getGeoKanteAt(topKante,
 			topKante.TOPKnotenA, nearestPoint.distance);
-		val nearstStreckePunkt = strecke.streckenPunkte.minBy [
-			geoKantemetadata.geometry.distanceToCoor(geoKnoten.coordinate)
-		]
-
-		val projectionOnTopEdge = Services.geometryService.
-			getProjectionCoordinate(nearstStreckePunkt.geoKnoten.coordinate,
-				topKante)
-		val distance = nearestPoint.distance.subtract(
-			projectionOnTopEdge.second)
-		val nearstPointKm = nearstStreckePunkt.streckeMeter.wert.add(distance)
-		return nearstPointKm.divide(BigDecimal.valueOf(1000)).toTableDecimal()
+		val pointCoordinate = Services.geometryService.getCoordinate(
+			geoKantemetadata, nearestPoint.distance, BigDecimal.ZERO,
+			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE)
+		return pointCoordinate.coordinate.
+			getStreckeKmThroughProjection(strecke).toTableDecimal	
 	}
 }
