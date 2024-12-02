@@ -23,7 +23,7 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 public class TopPath {
 	private final List<TOP_Kante> edges;
 	private final BigDecimal length;
-	private final BigDecimal offset; // offset from start of first edge
+	private final BigDecimal firstEdgeLength;
 
 	/**
 	 * @param edges
@@ -32,14 +32,14 @@ public class TopPath {
 	 *            the total length of the path. may be less than the total
 	 *            length of the edges if the path does not cover the full extent
 	 *            of the edges
-	 * @param offset
-	 *            starting offset from the first TOP_Kante in edges
+	 * @param firstEdgeLength
+	 *            the length of the first edge
 	 */
 	public TopPath(final List<TOP_Kante> edges, final BigDecimal length,
-			final BigDecimal offset) {
+			final BigDecimal firstEdgeLength) {
 		this.edges = edges;
 		this.length = length;
-		this.offset = offset;
+		this.firstEdgeLength = firstEdgeLength;
 	}
 
 	/**
@@ -59,12 +59,10 @@ public class TopPath {
 	}
 
 	/**
-	 * @return the total length of the path. may be less than the total length
-	 *         of the edges if the path does not cover the full extent of the
-	 *         edges
+	 * @return the length off the first Edges
 	 */
-	public BigDecimal offset() {
-		return offset;
+	public BigDecimal firstEdgeLength() {
+		return firstEdgeLength;
 	}
 
 	/**
@@ -74,7 +72,7 @@ public class TopPath {
 	 *         on the path
 	 */
 	public Optional<BigDecimal> getDistance(final TopPoint point) {
-		BigDecimal pathOffset = this.offset.negate();
+		BigDecimal pathOffset = this.firstEdgeLength;
 
 		TOP_Kante previousEdge = null;
 		for (final TOP_Kante edge : edges()) {
@@ -83,7 +81,7 @@ public class TopPath {
 
 			// If the point is on the current edge, check which direction to add
 			if (point.edge().equals(edge)) {
-				// in top direction?
+				// In top direction
 				if (previousEdge == null
 						|| previousEdge.getIDTOPKnotenB().getValue() == edge
 								.getIDTOPKnotenA().getValue()
@@ -108,15 +106,15 @@ public class TopPath {
 				}
 
 				return Optional.of(pointDistance);
-
 			}
 
 			// Point not on this edge, check next edge
+			if (previousEdge != null) {
+				pathOffset = pathOffset.add(edgeLength);
+			}
 			previousEdge = edge;
-			pathOffset = pathOffset.add(edgeLength);
+
 		}
 		return Optional.empty();
-
 	}
-
 }
