@@ -961,7 +961,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				case ENUM_WIRKRICHTUNG_BEIDE:
 					perpendicularRotation = seitlicherAbstand >= 0 ? 90 : -90
 				case ENUM_WIRKRICHTUNG_GEGEN:
-					perpendicularRotation = seitlicherAbstand < 0 ? 90 : 9 - 0
+					perpendicularRotation = seitlicherAbstand < 0 ? 90 : -90
 				default: {
 					LOGGER.error("Illegal Wirkrichtung")
 					return
