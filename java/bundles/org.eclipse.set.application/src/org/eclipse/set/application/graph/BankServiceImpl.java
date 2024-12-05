@@ -124,18 +124,27 @@ public class BankServiceImpl implements BankService, EventHandler {
 		}
 		for (final Ueberhoehungslinie line : container
 				.getUeberhoehungslinie()) {
-			final BankingInformation bankingInformation = findTOPBanking(line);
 			if (Thread.currentThread().isInterrupted()) {
 				throw new InterruptedException();
 			}
-			if (bankingInformation == null) {
-				logger.debug("Can't find TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
-						line.getIdentitaet().getWert());
-				bankingInformations.put(line, Optional.empty());
-			} else {
-				logger.debug("Found TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
-						line.getIdentitaet().getWert());
-				bankingInformations.put(line, Optional.of(bankingInformation));
+
+			try {
+				final BankingInformation bankingInformation = findTOPBanking(
+						line);
+
+				if (bankingInformation == null) {
+					logger.debug(
+							"Can't find TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
+							line.getIdentitaet().getWert());
+					bankingInformations.put(line, Optional.empty());
+				} else {
+					logger.debug("Found TopPath for Ueberhoehungslinie: {}", //$NON-NLS-1$
+							line.getIdentitaet().getWert());
+					bankingInformations.put(line,
+							Optional.of(bankingInformation));
+				}
+			} catch (final NullPointerException e) {
+				logger.error(e.getMessage());
 			}
 		}
 
@@ -165,6 +174,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 		final Ueberhoehung begin = bankingLine.getIDUeberhoehungA().getValue();
 		final Ueberhoehung end = bankingLine.getIDUeberhoehungB().getValue();
+		if (begin == null || end == null) {
+			return null;
+		}
 		final BigDecimal bankingLineLength = bankingLine
 				.getUeberhoehungslinieAllg().getUeberhoehungslinieLaenge()
 				.getWert();
