@@ -12,6 +12,7 @@ import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.cache.NoCacheService;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
+import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.core.services.graph.TopologicalGraphService;
 import org.eclipse.set.core.services.planningaccess.PlanningAccessService;
 import org.eclipse.set.core.services.siteplan.SiteplanService;
@@ -32,6 +33,7 @@ public class Services {
 	private static UserConfigurationService userConfigurationService;
 
 	private static TopologicalGraphService topGraphService;
+	private static PointObjectPositionService pointObjectService;
 
 	/**
 	 * @return the siteplan service
@@ -165,5 +167,15 @@ public class Services {
 	public static void setTopGraphService(
 			final TopologicalGraphService topGraphService) {
 		Services.topGraphService = topGraphService;
+	}
+
+	public static void setPointObjectService(
+			final PointObjectPositionService pointObjectPositionService) {
+		Services.pointObjectService = pointObjectPositionService;
+
+	}
+
+	public static PointObjectPositionService getPointObjectService() {
+		return pointObjectService;
 	}
 }

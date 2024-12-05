@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.geometry.GEOKanteSegment;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService;
 import org.eclipse.set.core.services.geometry.PointObjectPositionService;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
@@ -45,6 +46,13 @@ public class PointObjectPositionServiceImpl
 
 	@Reference
 	GeoKanteGeometryService geometryService;
+
+	/**
+	 * Default constructor
+	 */
+	public PointObjectPositionServiceImpl() {
+		Services.setPointObjectService(this);
+	}
 
 	/*
 	 * Special case for signals: The lateral position may be given indirectly
