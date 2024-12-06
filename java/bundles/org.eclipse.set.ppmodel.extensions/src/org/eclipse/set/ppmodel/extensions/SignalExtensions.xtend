@@ -57,8 +57,6 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Geodaten.Strecke
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 
 /**
  * This class extends {@link Signal}.
@@ -470,7 +468,6 @@ class SignalExtensions extends PunktObjektExtensions {
 		return false
 	}
 
-
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {
 		val fstrFahrwegs = signal.container.fstrFahrweg.filter [
 			start === signal || zielSignal === signal
@@ -481,18 +478,5 @@ class SignalExtensions extends PunktObjektExtensions {
 		return signal.container.FMAKomponente.filter [ fmaKomponent |
 			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
 		].toList
-	}
-	
-	def static List<Pair<Strecke, String>> getRouteAndKm(Signal signal) {
-		val result = [Punkt_Objekt_Strecke_AttributeGroup point| 
-			return point?.IDStrecke?.value -> point?.streckeKm?.wert
-		]
-		val pointRoutes = signal.punktObjektStrecke
-		val decisivePoint = pointRoutes.filter[kmMassgebend?.wert !== null].toList
-		if (decisivePoint.isNullOrEmpty) {
-			return pointRoutes.map[result.apply(it)]
-		}
-		
-		return decisivePoint.map[result.apply(it)]
 	}
 }

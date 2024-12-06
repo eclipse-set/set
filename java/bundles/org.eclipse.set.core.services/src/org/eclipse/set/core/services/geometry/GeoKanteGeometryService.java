@@ -20,6 +20,7 @@ import org.eclipse.set.basis.graph.DirectedElement;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
+import org.eclipse.set.model.planpro.Geodaten.Strecke;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.locationtech.jts.geom.Coordinate;
@@ -92,6 +93,14 @@ public interface GeoKanteGeometryService {
 			ENUMWirkrichtung wirkrichtung);
 
 	/**
+	 * 
+	 * @param geoKante
+	 *            the GEO_Kante
+	 * @return the reference GEOKanteMetadata of this GEO_Kante
+	 */
+	GEOKanteMetadata getGeoKanteMetaData(GEO_Kante geoKante);
+
+	/**
 	 * @param topKante
 	 *            the TOP_Kante to consider
 	 * @param topKnoten
@@ -108,7 +117,14 @@ public interface GeoKanteGeometryService {
 	 *            the TOP_Kante to consider
 	 * @return a list of GEO_Kanten with metadata for the given TOP_Kante
 	 */
-	List<GEOKanteMetadata> getGeoKanten(TOP_Kante topKante);
+	List<GEOKanteMetadata> getTopKantenMetaData(TOP_Kante topKante);
+
+	/**
+	 * @param strecke
+	 *            the Strecke
+	 * @return a list of GEO_Kanten with metadata for the given Strecke
+	 */
+	List<GEOKanteMetadata> getStreckeMetaData(Strecke strecke);
 
 	/**
 	 * 
@@ -117,15 +133,30 @@ public interface GeoKanteGeometryService {
 	boolean isFindGeometryComplete();
 
 	/**
-	 * Determine the projection coordinate of a Point on the Top_Kante and the
-	 * distance of this coordinate to start node of the Top_Kante
+	 * Determine the projection coordinate of a Point on the {@link TOP_Kante}
+	 * and the topological distance of this coordinate to start node of the
+	 * {@link TOP_Kante}
 	 * 
-	 * @param coor
+	 * @param coordinate
 	 *            the target coordinate
-	 * @param topEdge
-	 *            the TOP_Kante
+	 * @param topKante
+	 *            the {@link TOP_Kante}
 	 * @return Pair<GEOKanteCoordinate, BigDecimal>
 	 */
-	Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinate(
-			Coordinate coor, TOP_Kante topEdge);
+	Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinateOnTopKante(
+			Coordinate coordinate, TOP_Kante topKante);
+
+	/**
+	 * Determine the projection coordinate of a Point on the {@link Strecke} and
+	 * the topological distance of this coordinate to start node of the
+	 * {@link Strecke}
+	 * 
+	 * @param coordinate
+	 *            the target coordinate
+	 * @param strecke
+	 *            the {@link Strecke}
+	 * @return Pair<GEOKanteCoordinate, BigDecimal>
+	 */
+	Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinateOnStrecke(
+			Coordinate coordinate, Strecke strecke);
 }
