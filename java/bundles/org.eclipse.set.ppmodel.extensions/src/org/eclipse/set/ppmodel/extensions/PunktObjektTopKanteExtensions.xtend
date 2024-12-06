@@ -15,6 +15,7 @@ import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.basis.graph.TopPoint
+import org.eclipse.set.core.services.Services
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
@@ -24,16 +25,14 @@ import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
 import org.eclipse.set.ppmodel.extensions.utils.Distance
+import org.locationtech.jts.geom.Coordinate
 
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 
 import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
-import org.eclipse.set.core.services.Services
-import org.locationtech.jts.geom.Coordinate
-import org.eclipse.set.basis.geometry.GEOKanteCoordinate
+import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 
 /**
  * Extensions for {@link Punkt_Objekt_TOP_Kante_AttributeGroup} aka single
@@ -205,7 +204,13 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 
 		]
 	}
-
+	
+	
+	/**
+	 * Find relevant routes in area of a point object
+	 * 
+	 * @param potk the Punkt_Objekt_Top_Kante
+	 */
 	def static List<Strecke> getStreckenThroughBereichObjekt(
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		val topPoint = new TopPoint(potk)
@@ -218,15 +223,27 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 			]
 		].filterNull.toList
 	}
-
-	def static dispatch BigDecimal getStreckeKmThroughProjection(
+	
+	/**
+	 * Find the kilometer mark of the projection of a point object on a route.
+	 * 
+	 * @param potk the Punkt_Objekt_Top_Kante
+	 * @param strecke the Strecke
+	 */
+	def static dispatch BigDecimal getStreckeKmThroughtProjection(
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk, Strecke strecke) {
 		val potkCoordinate = Services.pointObjectPositionService.
 			getCoordinate(potk)
-		return potkCoordinate.coordinate.getStreckeKmThroughProjection(strecke)
+		return potkCoordinate.coordinate.getStreckeKmThroughtProjection(strecke)
 	}
 	
-	def static dispatch BigDecimal getStreckeKmThroughProjection(Coordinate coordinate, Strecke strecke) {
+	/**
+	 * Find the kilometer mark of the coordinate on a route.
+	 * 
+	 * @param coordinate the coodinate
+	 * @param strecke the Strecke
+	 */
+	def static dispatch BigDecimal getStreckeKmThroughtProjection(Coordinate coordinate, Strecke strecke) {
 		val projectionPointAndDistance = Services.geometryService.
 			getProjectionCoordinateOnStrecke(coordinate, strecke)
 		val nearstRoutePoint = strecke.streckenPunkte.map [

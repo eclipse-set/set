@@ -552,6 +552,6 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			geoKantemetadata, nearestPoint.distance, BigDecimal.ZERO,
 			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE)
 		return pointCoordinate.coordinate.
-			getStreckeKmThroughProjection(strecke).toTableDecimal	
+			getStreckeKmThroughtProjection(strecke).toTableDecimal	
 	}
 }

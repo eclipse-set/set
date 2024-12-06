@@ -1629,7 +1629,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
-				return signal.singlePoint.getStreckeKmThroughProjection(route).
+				return signal.singlePoint.getStreckeKmThroughtProjection(route).
 					toTableDecimal
 			} catch (Exception e) {
 				LOGGER.error(
