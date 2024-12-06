@@ -9,8 +9,10 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.List
 import java.util.Set
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.basis.geometry.GEOKanteMetadata
 import org.eclipse.set.basis.geometry.GEOKanteSegment
@@ -21,6 +23,7 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Form_TypeClass
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Art
@@ -50,9 +53,6 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.basis.constants.ToolboxConstants
-import java.math.RoundingMode
-import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -109,9 +109,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
-		if (md.geoKante.identitaet.wert == "2301F0AB-B8AB-41DD-8671-815FF4FB9C40") {
-			println("TEST")
-		}
 		section.color = sectionColor
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
