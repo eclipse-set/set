@@ -57,7 +57,7 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 			if (IDUeberhoehungA?.value === null ||
 				IDUeberhoehungB?.value === null) {
 				return createError(
-					"Die Überhöhungslinie {GUID} fehlt Ueberhoehung_A oder Ueberhoehung_B.",
+					"Die Überhöhungslinie {GUID} hat entweder keine Ueberhoehung_A oder keine Ueberhoehung_B.",
 					Map.of("GUID", it.identitaet.wert))
 			}
 			val begin = new TopPoint(IDUeberhoehungA.value)
