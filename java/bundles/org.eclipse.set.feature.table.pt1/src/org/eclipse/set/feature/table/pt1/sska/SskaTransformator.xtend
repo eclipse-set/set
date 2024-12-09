@@ -95,7 +95,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Unterbringung_Art),
 				element,
-				["Test123456"]
+				["Other value"]
 			)
 
 			// E: Sska.Grundsatzangaben.Unterbringung.Ort
