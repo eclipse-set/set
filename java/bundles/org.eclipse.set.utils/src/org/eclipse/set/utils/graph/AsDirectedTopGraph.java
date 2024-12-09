@@ -311,12 +311,13 @@ public class AsDirectedTopGraph {
 				final BigDecimal weight = edge.edge().getWeight();
 				final BigDecimal remainingWeight = currentRemaining
 						.subtract(weight);
-				final Node edgeSource = graph.getEdgeSource(edge);
+
 				if (remainingWeight.compareTo(BigDecimal.ZERO) < 1) {
 					continue;
 				}
 				edgesDistance.add(edge);
 				// Mark the edge's source vertex if needed
+				final Node edgeSource = graph.getEdgeSource(edge);
 				remainingWeigthFromEnd.computeIfAbsent(edgeSource, v -> {
 					nodesToProcess.add(edgeSource);
 					return remainingWeight;
