@@ -134,6 +134,7 @@ import { Options, Vue } from 'vue-class-component'
             return this.$emit('removePopup')
         }
       } else if (this.mouseButton === LeftRight.RIGHT) {
+        console.log(this.selectedFeature)
         return JumpMenuPopup
       }
 
@@ -160,14 +161,15 @@ export default class MenuPopup extends Vue {
         featureType !== FeatureType.Flash
     }).flatMap(ele => {
       const featureType = getFeatureType(ele)
-      const featureData = getFeatureData(ele)
+      const featureData = getFeatureData(ele) as SignalMount
       if (featureType === FeatureType.Signal) {
-        return (featureData as SignalMount).attachedSignals.map(signal => createFeature(
+        const newFeature = (featureData as SignalMount).attachedSignals.map(signal => createFeature(
           FeatureType.Signal,
           signal,
           undefined,
           signal.label?.text
         ))
+        return newFeature
       }
 
       return ele
@@ -183,11 +185,12 @@ export default class MenuPopup extends Vue {
   }
 
   isMultiFeature (): boolean {
-    if (this.getFeatures().length > 1) {
+    const selectedFeatures = this.getFeatures()
+    if (selectedFeatures.length > 1) {
       return true
     }
 
-    this.selectedFeature = this.features[0]
+    this.selectedFeature = selectedFeatures[0]
     return false
   }
 
