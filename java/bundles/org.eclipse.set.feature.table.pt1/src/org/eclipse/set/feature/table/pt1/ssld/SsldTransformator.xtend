@@ -183,12 +183,12 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// H: Ssld.Eigenschaften.Laenge.Ist
-			val fstrFarhWegLength = dweg.fstrFahrweg.length
+			val fstrFahrWegLength = dweg.fstrFahrweg.length
 			fill(
 				instance,
 				cols.getColumn(Laenge_Ist),
 				dweg,
-				[fstrFarhWegLength.toTableIntegerAgateDown]
+				[fstrFahrWegLength.toTableIntegerAgateDown]
 			)
 
 			// I: Ssld.Eigenschaften.Laenge.Freigemeldet
@@ -196,7 +196,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph, fstrFarhWegLength)]
+				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
