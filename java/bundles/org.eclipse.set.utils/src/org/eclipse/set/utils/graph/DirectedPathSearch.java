@@ -229,14 +229,19 @@ public class DirectedPathSearch {
 	private static TopPath pathTransform(
 			final GraphPath<Node, DirectedTOPEdge<Edge>> path,
 			final Node startNode) {
-		if (!path.getStartVertex().equals(startNode)) {
+		final DirectedTOPEdge<Edge> firstEdge = path.getEdgeList().getFirst();
+		final Node edgeSource = path.getGraph().getEdgeSource(firstEdge);
+		if (!path.getStartVertex().equals(startNode)
+				|| !edgeSource.equals(startNode)) {
 			throw new IllegalArgumentException(
 					"Path not start from source node"); //$NON-NLS-1$
 		}
+
+		final BigDecimal firstEdgeLength = firstEdge.edge().getWeight();
 		return new TopPath(
 				path.getEdgeList().stream().map(e -> e.edge()).distinct()
 						.map(Edge::edge).toList(),
-				getDirectedPathWeight(path), startNode.point().distance());
+				getDirectedPathWeight(path), firstEdgeLength);
 	}
 
 	private static BigDecimal getDirectedPathWeight(

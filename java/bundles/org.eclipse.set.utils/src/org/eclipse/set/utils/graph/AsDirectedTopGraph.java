@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.eclipse.set.basis.graph.TopPath;
@@ -303,8 +304,9 @@ public class AsDirectedTopGraph {
 
 			// Check whether the incoming edges of this node are correctly
 			// decorated
-			for (final DirectedTOPEdge<Edge> edge : graph
-					.incomingEdgesOf(vertex)) {
+			final Set<DirectedTOPEdge<Edge>> incomingEdgesOf = graph
+					.incomingEdgesOf(vertex);
+			for (final DirectedTOPEdge<Edge> edge : incomingEdgesOf) {
 				// Mark the edge if needed
 				final BigDecimal weight = edge.edge().getWeight();
 				final BigDecimal remainingWeight = currentRemaining
@@ -320,6 +322,12 @@ public class AsDirectedTopGraph {
 					nodesToProcess.add(edgeSource);
 					return remainingWeight;
 				});
+
+				// When another edge exists, which is shorter than found edge, replace the weight
+				remainingWeigthFromEnd.computeIfPresent(edgeSource,
+						(k, v) -> remainingWeight.compareTo(v) > 0
+								? remainingWeight
+								: v);
 			}
 		}
 		assert nodesToProcess.isEmpty();
