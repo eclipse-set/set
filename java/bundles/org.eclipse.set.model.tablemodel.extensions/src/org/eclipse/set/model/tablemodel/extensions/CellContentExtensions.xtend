@@ -314,7 +314,7 @@ class CellContentExtensions {
 				return '''<span>«value.htmlString»</span>'''
 			}
 			case WARNING_MARK_YELLOW: {
-				return '''<span style="background-color:rgb(255,255, 0)"><s>«value.htmlString»</s></span>'''
+				return '''<span style="background-color:rgb(255,255, 0)">«value.htmlString»</span>'''
 			}
 			case WARNING_MARK_RED: {
 				return '''<span style="color:rgb(255, 0, 0)">«value.htmlString»</span>'''

@@ -352,8 +352,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 							waitingFileSideDistanceSignal.put(row, signal)
 						} else {
-							val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-							val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+							val abstandMastmitteLinks = new HashSet<Pair<String, String>>
+							val abstandMastmitteRechts = new HashSet<Pair<String, String>>
 
 							signal.initAbstandMastmitte(signal.signalRahmen,
 								abstandMastmitteLinks, abstandMastmitteRechts);
@@ -364,7 +364,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								signal,
 								[
 									abstandMastmitteLinks.map [
-										'''«key»«IF value > 0» («value»)«ENDIF»'''
+										'''«key»«IF value !== null» («value»)«ENDIF»'''
 									]
 								],
 								null,
@@ -377,11 +377,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								signal,
 								[
 									abstandMastmitteRechts.map [
-										'''«key»«IF value > 0» («value»)«ENDIF»'''
+										'''«key»«IF value !== null» («value»)«ENDIF»'''
 									]
 								],
-								null,
-								[toString]
+								null
 							)
 						}
 
@@ -918,19 +917,19 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private def void refillSideDistance(TableRow row, Signal signal,
 		List<Pt1TableChangeProperties> changeProperties) {
-		val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-		val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+		val abstandMastmitteLinks = new HashSet<Pair<String, String>>
+		val abstandMastmitteRechts = new HashSet<Pair<String, String>>
 		val containerType = signal.container.containerType
 		signal.initAbstandMastmitte(signal.signalRahmen, abstandMastmitteLinks,
 			abstandMastmitteRechts);
 		val leftDistance = new Pt1TableChangeProperties(containerType, row,
 			cols.getColumn(Mastmitte_Links), abstandMastmitteLinks.map [
-				'''«key» «IF value > 0»(«value»)«ENDIF»'''
+				'''«key» «IF value !== null»(«value»)«ENDIF»'''
 			].toList, ITERABLE_FILLING_SEPARATOR)
 		changeProperties.add(leftDistance)
 		val rightDistance = new Pt1TableChangeProperties(containerType, row,
 			cols.getColumn(Mastmitte_Rechts), abstandMastmitteRechts.map [
-				'''«key» «IF value > 0»(«value»)«ENDIF»'''
+				'''«key» «IF value !== null»(«value»)«ENDIF»'''
 			].toList, ITERABLE_FILLING_SEPARATOR)
 		changeProperties.add(rightDistance)
 	}
@@ -938,8 +937,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	private def void initAbstandMastmitte(
 		Signal signal,
 		List<Signal_Rahmen> signalRahmen,
-		Set<Pair<Long, Long>> abstandMastmitteLinks,
-		Set<Pair<Long, Long>> abstandMastmitteRechts
+		Set<Pair<String, String>> abstandMastmitteLinks,
+		Set<Pair<String, String>> abstandMastmitteRechts
 	) {
 		signalRahmen.map [
 			signalBefestigungIterator.findFirst [
@@ -949,24 +948,32 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
 			]
 		].filterNull.map[singlePoints].flatten.toSet.forEach [ p |
-			val seitlicherAbstand = Math.round(
-				p.seitlicherAbstand.wert.doubleValue * 1000)
+			if (p?.seitlicherAbstand?.wert === null) {
+				val exception = new NullPointerException(
+					"The Signal_Befestigung haven't seitlicherAbstand")
+				abstandMastmitteLinks.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				abstandMastmitteRechts.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				return
+			}
+			val seitlicherAbstand = Math.round(p.seitlicherAbstand.wert.doubleValue * 1000)
 			val wirkrichtung = p.wirkrichtung.wert
 			val distanceFromPoint = MAX_OPOSIDE_DISTANCE -
 				Math.abs(seitlicherAbstand)
-			var perpendicularRotation = 0
-
-			switch (wirkrichtung) {
-				case ENUM_WIRKRICHTUNG_IN,
-				case ENUM_WIRKRICHTUNG_BEIDE:
-					perpendicularRotation = seitlicherAbstand >= 0 ? 90 : -90
-				case ENUM_WIRKRICHTUNG_GEGEN:
-					perpendicularRotation = seitlicherAbstand < 0 ? 90 : -90
-				default: {
-					LOGGER.error("Illegal Wirkrichtung")
-					return
-				}
+			if (wirkrichtung !== ENUM_WIRKRICHTUNG_IN &&
+				wirkrichtung !== ENUM_WIRKRICHTUNG_GEGEN) {
+				val exception = new IllegalArgumentException(
+					"The Signal_Befestigung have Illegal Wirkrichtung")
+				abstandMastmitteLinks.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				abstandMastmitteRechts.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				return
 			}
+			val isLeftsideOfTrack = (wirkrichtung === ENUM_WIRKRICHTUNG_IN) ===
+				(seitlicherAbstand >= 0)
+			val perpendicularRotation = isLeftsideOfTrack ? 90 : -90
 			var opposideSideDistance = 0.0
 			val geoPosition = Services.pointObjectService.getCoordinate(p).
 				geoPosition
@@ -977,24 +984,18 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				LOGGER.error(e.message)
 			}
 			val distanceBetweenTracks = opposideSideDistance > 0
-					? Math.abs(seitlicherAbstand) +
-					Math.round(opposideSideDistance * 1000)
-					: 0
+					? (Math.abs(seitlicherAbstand) +
+					Math.round(opposideSideDistance * 1000)).toString
+					: null
 
-			switch (wirkrichtung) {
-				case ENUM_WIRKRICHTUNG_IN,
-				case ENUM_WIRKRICHTUNG_BEIDE:
-					seitlicherAbstand >= 0
-						? abstandMastmitteLinks.add(
-						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
-						: abstandMastmitteRechts.add(
-						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
-				case ENUM_WIRKRICHTUNG_GEGEN:
-					seitlicherAbstand < 0
-						? abstandMastmitteLinks.add(
-						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
-						: abstandMastmitteRechts.add(
-						Math.abs(seitlicherAbstand) -> distanceBetweenTracks)
+			if (isLeftsideOfTrack) {
+				abstandMastmitteLinks.add(
+					Math.abs(seitlicherAbstand).toString ->
+						distanceBetweenTracks)
+			} else {
+				abstandMastmitteRechts.add(
+					Math.abs(seitlicherAbstand).toString ->
+						distanceBetweenTracks)
 			}
 		]
 	}

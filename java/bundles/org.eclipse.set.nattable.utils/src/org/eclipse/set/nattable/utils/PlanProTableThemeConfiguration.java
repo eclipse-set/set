@@ -212,9 +212,9 @@ public class PlanProTableThemeConfiguration
 		final boolean calculateByTextLength = false;
 		final boolean calculateByTextHeight = true;
 
-		final Image leftWarningImage = createImage(resourceManager,
+		final Image yellowWarningImage = createImage(resourceManager,
 				SetImages.WARNING_YELLOW);
-		final Image rightWarningImage = createImage(resourceManager,
+		final Image redWarningImage = createImage(resourceManager,
 				SetImages.WARNING_RED);
 		final Image blackWarningImage = createImage(resourceManager,
 				SetImages.IC_WARNING_BLACK_18DP_1X);
@@ -222,7 +222,7 @@ public class PlanProTableThemeConfiguration
 		this.defaultCellPainter = new PlanProTableCellPainter(
 				new PlanProRichTextCellPainter(wraptext, calculateByTextLength,
 						calculateByTextHeight),
-				leftWarningImage, rightWarningImage, blackWarningImage);
+				yellowWarningImage, redWarningImage, blackWarningImage);
 		this.filterRowCellPainter = new PaddingDecorator(
 				new FilterRowPainter(
 						new FilterIconPainter(GUIHelper.getImage("filter"))), //$NON-NLS-1$
