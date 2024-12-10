@@ -111,7 +111,7 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.utils.table/2.4.0-SNAPSHOT, E
 maven/mavencentral/org.eclipse.set/org.eclipse.set.utils/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.hamcrest/hamcrest-core/1.3, BSD-2-Clause, approved, CQ11429
 maven/mavencentral/org.hamcrest/hamcrest-core/2.2, BSD-3-Clause, approved, clearlydefined
-maven/mavencentral/org.hamcrest/hamcrest/2.2, None, restricted, #17677
+maven/mavencentral/org.hamcrest/hamcrest/2.2, BSD-3-Clause, approved, #17677
 maven/mavencentral/org.jgrapht/jgrapht-core/1.5.2, EPL-2.0 AND (EPL-2.0 OR LGPL-2.1-or-later), approved, #15354
 maven/mavencentral/org.jheaps/jheaps/0.14, Apache-2.0, approved, CQ23788
 maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.10.1, EPL-2.0, approved, #9714
