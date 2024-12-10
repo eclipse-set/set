@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory
 import static extension com.google.common.base.Throwables.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 /**
  * Provides common functions for table transformations.
@@ -543,7 +544,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	) {
 		var guid = row.group.leadingObject?.identitaet?.wert
 		var leadingObject = getLeadingObjectIdentifier(row, guid)
-		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObject»"'''
+		var errorMsg = e.createErrorMsg(row)
 		
 		tableErrors.add(
 			new TableError(guid, leadingObject, "",
@@ -552,6 +553,24 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
+	
+	def String createErrorMsg(
+		Exception e,
+		TableRow row
+	) {
+		var guid = row.group.leadingObject?.identitaet?.wert
+		var leadingObject = getLeadingObjectIdentifier(row, guid)
+		return e.createErrorMsg(leadingObject)
+	}
+	
+	def String createErrorMsg(
+		Exception e,
+		String leadingObjectGuid
+	) {
+		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObjectGuid»"'''
+		return '''«ERROR_PREFIX»«errorMsg»'''
+	}
+	
 
 	/**
 	 * Evaluates the given function with the given value for use in sorting.

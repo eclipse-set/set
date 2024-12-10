@@ -134,6 +134,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.core.services.Services
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -351,8 +352,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							]
 							waitingFileSideDistanceSignal.put(row, signal)
 						} else {
-							val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-							val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+							val abstandMastmitteLinks = new HashSet<Pair<String, String>>
+							val abstandMastmitteRechts = new HashSet<Pair<String, String>>
 
 							signal.initAbstandMastmitte(signal.signalRahmen,
 								abstandMastmitteLinks, abstandMastmitteRechts);
@@ -363,7 +364,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								signal,
 								[
 									abstandMastmitteLinks.map [
-										'''«key»«IF value > 0» («value»)«ENDIF»'''
+										'''«key»«IF value !== null» («value»)«ENDIF»'''
 									]
 								],
 								null,
@@ -376,11 +377,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								signal,
 								[
 									abstandMastmitteRechts.map [
-										'''«key»«IF value > 0» («value»)«ENDIF»'''
+										'''«key»«IF value !== null» («value»)«ENDIF»'''
 									]
 								],
-								null,
-								[toString]
+								null
 							)
 						}
 
@@ -917,19 +917,19 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private def void refillSideDistance(TableRow row, Signal signal,
 		List<Pt1TableChangeProperties> changeProperties) {
-		val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-		val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+		val abstandMastmitteLinks = new HashSet<Pair<String, String>>
+		val abstandMastmitteRechts = new HashSet<Pair<String, String>>
 		val containerType = signal.container.containerType
 		signal.initAbstandMastmitte(signal.signalRahmen, abstandMastmitteLinks,
 			abstandMastmitteRechts);
 		val leftDistance = new Pt1TableChangeProperties(containerType, row,
 			cols.getColumn(Mastmitte_Links), abstandMastmitteLinks.map [
-				'''«key» «IF value > 0»(«value»)«ENDIF»'''
+				'''«key» «IF value !== null»(«value»)«ENDIF»'''
 			].toList, ITERABLE_FILLING_SEPARATOR)
 		changeProperties.add(leftDistance)
 		val rightDistance = new Pt1TableChangeProperties(containerType, row,
 			cols.getColumn(Mastmitte_Rechts), abstandMastmitteRechts.map [
-				'''«key» «IF value > 0»(«value»)«ENDIF»'''
+				'''«key» «IF value !== null»(«value»)«ENDIF»'''
 			].toList, ITERABLE_FILLING_SEPARATOR)
 		changeProperties.add(rightDistance)
 	}
@@ -937,8 +937,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	private def void initAbstandMastmitte(
 		Signal signal,
 		List<Signal_Rahmen> signalRahmen,
-		Set<Pair<Long, Long>> abstandMastmitteLinks,
-		Set<Pair<Long, Long>> abstandMastmitteRechts
+		Set<Pair<String, String>> abstandMastmitteLinks,
+		Set<Pair<String, String>> abstandMastmitteRechts
 	) {
 		signalRahmen.map [
 			signalBefestigungIterator.findFirst [
@@ -948,55 +948,69 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
 			]
 		].filterNull.map[singlePoints].flatten.toSet.forEach [ p |
-			val seitlicherAbstand = Math.round(
-				p.seitlicherAbstand.wert.doubleValue * 1000)
-			val wirkrichtung = signal.getWirkrichtung(p.topKante)
-
+			if (p?.seitlicherAbstand?.wert === null) {
+				val exception = new NullPointerException(
+					"The Signal_Befestigung haven't seitlicherAbstand")
+				abstandMastmitteLinks.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				abstandMastmitteRechts.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				return
+			}
+			val seitlicherAbstand = Math.round(p.seitlicherAbstand.wert.doubleValue * 1000)
+			val wirkrichtung = p.wirkrichtung.wert
 			val distanceFromPoint = MAX_OPOSIDE_DISTANCE -
 				Math.abs(seitlicherAbstand)
-			val perpendicularRotation = wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-					seitlicherAbstand > 0 ? 90 : -90
+			if (wirkrichtung !== ENUM_WIRKRICHTUNG_IN &&
+				wirkrichtung !== ENUM_WIRKRICHTUNG_GEGEN) {
+				val exception = new IllegalArgumentException(
+					"The Signal_Befestigung have Illegal Wirkrichtung")
+				abstandMastmitteLinks.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				abstandMastmitteRechts.add(
+					exception.createErrorMsg(signal.identitaet.wert) -> null)
+				return
+			}
+			val isLeftsideOfTrack = (wirkrichtung === ENUM_WIRKRICHTUNG_IN) ===
+				(seitlicherAbstand >= 0)
+			val perpendicularRotation = isLeftsideOfTrack ? 90 : -90
 			var opposideSideDistance = 0.0
+			val geoPosition = Services.pointObjectService.getCoordinate(p).
+				geoPosition
 			try {
-				opposideSideDistance = p.opposideSideDistance(
-					p.coordinate.effectiveRotation + perpendicularRotation,
-					distanceFromPoint / 1000)
+				opposideSideDistance = p.opposideSideDistance(geoPosition,
+					perpendicularRotation, distanceFromPoint / 1000)
 			} catch (Exception e) {
 				LOGGER.error(e.message)
 			}
 			val distanceBetweenTracks = opposideSideDistance > 0
-					? Math.abs(seitlicherAbstand) +
-					Math.round(opposideSideDistance * 1000)
-					: 0
-			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-				seitlicherAbstand > 0) ||
-				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
-					seitlicherAbstand < 0)) {
-				abstandMastmitteLinks.add(Math.abs(seitlicherAbstand) ->
-					distanceBetweenTracks)
-			}
-			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-				seitlicherAbstand < 0) ||
-				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
-					seitlicherAbstand > 0)) {
-				abstandMastmitteRechts.add(Math.abs(seitlicherAbstand) ->
-					distanceBetweenTracks)
+					? (Math.abs(seitlicherAbstand) +
+					Math.round(opposideSideDistance * 1000)).toString
+					: null
+
+			if (isLeftsideOfTrack) {
+				abstandMastmitteLinks.add(
+					Math.abs(seitlicherAbstand).toString ->
+						distanceBetweenTracks)
+			} else {
+				abstandMastmitteRechts.add(
+					Math.abs(seitlicherAbstand).toString ->
+						distanceBetweenTracks)
 			}
 		]
 	}
 
 	private def Double opposideSideDistance(
-		Punkt_Objekt_TOP_Kante_AttributeGroup potk, double angle,
-		double distance) {
-		val position = potk.coordinate
-		val rad = angle * Math.PI / 180
+		Punkt_Objekt_TOP_Kante_AttributeGroup potk, GeoPosition position,
+		double angle, double distance) {
+		val rad = (angle + position.effectiveRotation) * Math.PI / 180
 		val transformX = Math.sin(rad) * distance + position.coordinate.x
 		val transformY = Math.cos(rad) * distance + position.coordinate.y
 		val geometryFactory = new GeometryFactory()
 		val perpendicularLine = geometryFactory.createLineString(
 			#[position.coordinate, new Coordinate(transformX, transformY)])
 		val relevantGeoKante = potk.container.GEOKante.filter [
-			geoArt instanceof TOP_Kante && geoArt !== potk.IDTOPKante
+			geoArt instanceof TOP_Kante && geoArt !== potk.IDTOPKante.value
 		].map[getGeometry].filterNull.toList
 		return relevantGeoKante.getDistanceOpposide(perpendicularLine, position)
 	}
