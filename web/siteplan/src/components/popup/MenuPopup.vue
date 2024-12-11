@@ -134,7 +134,6 @@ import { Options, Vue } from 'vue-class-component'
             return this.$emit('removePopup')
         }
       } else if (this.mouseButton === LeftRight.RIGHT) {
-        console.log(this.selectedFeature)
         return JumpMenuPopup
       }
 
@@ -163,13 +162,12 @@ export default class MenuPopup extends Vue {
       const featureType = getFeatureType(ele)
       const featureData = getFeatureData(ele)
       if (featureType === FeatureType.Signal) {
-        const newFeature = (featureData as SignalMount).attachedSignals.map(signal => createFeature(
+        return (featureData as SignalMount).attachedSignals.map(signal => createFeature(
           FeatureType.Signal,
           signal,
           undefined,
           signal.label?.text
         ))
-        return newFeature
       }
 
       return ele
