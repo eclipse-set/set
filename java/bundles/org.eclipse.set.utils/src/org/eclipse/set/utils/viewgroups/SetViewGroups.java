@@ -66,7 +66,7 @@ public class SetViewGroups {
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
 				.withOrderPriority(250).build();
 		TABLE_ESTW_SUPPLEMENT = new ToolboxViewGroup.Builder()
-				.withText(Messages.SetViewGroups_Table_ETCW_Supplement)
+				.withText(Messages.SetViewGroups_Table_ESTW_Supplement)
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
 				.withOrderPriority(200).build();
 	}

@@ -272,7 +272,7 @@ public final class ToolboxConstants {
 	public static final String ETCS_TABLE_PART_ID_PREFIX = "org.eclipse.set.feature.table.etcs";
 
 	/**
-	 * The prefix of ETCS Supplement table part
+	 * The prefix of ESTW Supplement table part
 	 */
 	public static final String ESTW_SUPPLEMENT_PART_ID_PREFIX = "org.eclipse.set.feature.table.supplement-estw";
 

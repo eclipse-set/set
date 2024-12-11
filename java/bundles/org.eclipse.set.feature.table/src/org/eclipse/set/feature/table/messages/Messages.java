@@ -62,7 +62,7 @@ public class Messages {
 	public String ETCS_TableOverviewDescriptionService_ViewName;
 
 	/**
-	 * ESTW – Zusatzttabellen – Tabellenübersicht
+	 * ESTW – Zusatztabellen – Tabellenübersicht
 	 */
 	public String ESTW_Supplement_TableOverviewDescriptionService_ViewName;
 
