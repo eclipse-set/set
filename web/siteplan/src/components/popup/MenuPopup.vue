@@ -161,7 +161,7 @@ export default class MenuPopup extends Vue {
         featureType !== FeatureType.Flash
     }).flatMap(ele => {
       const featureType = getFeatureType(ele)
-      const featureData = getFeatureData(ele) as SignalMount
+      const featureData = getFeatureData(ele)
       if (featureType === FeatureType.Signal) {
         const newFeature = (featureData as SignalMount).attachedSignals.map(signal => createFeature(
           FeatureType.Signal,
