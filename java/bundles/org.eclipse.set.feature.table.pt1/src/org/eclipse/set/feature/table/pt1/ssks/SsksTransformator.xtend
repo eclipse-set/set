@@ -320,23 +320,25 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
-						if (bankingService.isFindBankingComplete) {
-							fillIterable(
-								row,
-								cols.getColumn(Ueberhoehung),
-								signal,
-								[
-									bankingService.findBankValue(
-										new TopPoint(signal)).map [
-										multiply(new BigDecimal(1000)).
-											toTableInteger ?: ""
-									]
-								],
-								null
-							)
-						} else {
-							// Fill Banking through thread, when find process not complete
-							row.fillUeberhoehung(signal)
+						if (signal.signalReal !== null) {
+							if (bankingService.isFindBankingComplete) {
+								fillIterable(
+									row,
+									cols.getColumn(Ueberhoehung),
+									signal,
+									[
+										bankingService.findBankValue(
+											new TopPoint(signal)).map [
+											multiply(new BigDecimal(1000)).
+												toTableInteger ?: ""
+										]
+									],
+									null
+								)
+							} else {
+								// Fill Banking through thread, when find process not complete
+								row.fillUeberhoehung(signal)
+							}
 						}
 
 						// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links
