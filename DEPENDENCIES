@@ -311,7 +311,7 @@ npm/npmjs/-/eslint-plugin-import/2.31.0, MIT, approved, #16483
 npm/npmjs/-/eslint-plugin-n/16.6.2, MIT, approved, #12657
 npm/npmjs/-/eslint-plugin-node/11.1.0, MIT, approved, #15375
 npm/npmjs/-/eslint-plugin-promise/7.2.1, ISC AND MIT, approved, #17509
-npm/npmjs/-/eslint-plugin-vue/9.31.0, MIT, approved, #17368
+npm/npmjs/-/eslint-plugin-vue/9.32.0, MIT, approved, #17759
 npm/npmjs/-/eslint-scope/5.1.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-scope/7.2.2, BSD-2-Clause, approved, #9916
 npm/npmjs/-/eslint-scope/8.2.0, BSD-2-Clause, approved, clearlydefined
@@ -705,7 +705,7 @@ npm/npmjs/-/webpack-dev-middleware/7.4.2, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-dev-server/5.1.0, MIT, approved, #16065
 npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #15298
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
-npm/npmjs/-/webpack/5.96.1, MIT, approved, clearlydefined
+npm/npmjs/-/webpack/5.97.1, MIT, approved, #17762
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/which-boxed-primitive/1.0.2, MIT, approved, clearlydefined
@@ -873,21 +873,21 @@ npm/npmjs/@vue/runtime-core/3.5.13, MIT AND ISC, approved, #16084
 npm/npmjs/@vue/runtime-dom/3.5.13, MIT AND ISC, approved, #16085
 npm/npmjs/@vue/server-renderer/3.5.13, MIT AND ISC, approved, #16081
 npm/npmjs/@vue/shared/3.5.13, MIT AND ISC, approved, #16067
-npm/npmjs/@webassemblyjs/ast/1.12.1, MIT, approved, clearlydefined
-npm/npmjs/@webassemblyjs/floating-point-hex-parser/1.11.6, MIT, approved, #7959
-npm/npmjs/@webassemblyjs/helper-api-error/1.11.6, MIT, approved, #7969
-npm/npmjs/@webassemblyjs/helper-buffer/1.12.1, MIT, approved, clearlydefined
-npm/npmjs/@webassemblyjs/helper-numbers/1.11.6, MIT, approved, #7954
-npm/npmjs/@webassemblyjs/helper-wasm-bytecode/1.11.6, MIT, approved, #7962
-npm/npmjs/@webassemblyjs/helper-wasm-section/1.12.1, MIT, approved, clearlydefined
-npm/npmjs/@webassemblyjs/ieee754/1.11.6, MIT, approved, #7961
-npm/npmjs/@webassemblyjs/leb128/1.11.6, Apache-2.0, approved, #7958
-npm/npmjs/@webassemblyjs/utf8/1.11.6, MIT, approved, #7966
-npm/npmjs/@webassemblyjs/wasm-edit/1.12.1, MIT, approved, clearlydefined
-npm/npmjs/@webassemblyjs/wasm-gen/1.12.1, MIT, approved, clearlydefined
-npm/npmjs/@webassemblyjs/wasm-opt/1.12.1, MIT, approved, clearlydefined
-npm/npmjs/@webassemblyjs/wasm-parser/1.12.1, MIT, approved, clearlydefined
-npm/npmjs/@webassemblyjs/wast-printer/1.12.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/ast/1.14.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/floating-point-hex-parser/1.13.2, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/helper-api-error/1.13.2, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/helper-buffer/1.14.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/helper-numbers/1.13.2, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/helper-wasm-bytecode/1.13.2, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/helper-wasm-section/1.14.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/ieee754/1.13.2, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/leb128/1.13.2, Apache-2.0, approved, clearlydefined
+npm/npmjs/@webassemblyjs/utf8/1.13.2, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/wasm-edit/1.14.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/wasm-gen/1.14.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/wasm-opt/1.14.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/wasm-parser/1.14.1, MIT, approved, clearlydefined
+npm/npmjs/@webassemblyjs/wast-printer/1.14.1, MIT, approved, clearlydefined
 npm/npmjs/@webpack-cli/configtest/2.1.1, MIT, approved, clearlydefined
 npm/npmjs/@webpack-cli/info/2.0.2, MIT, approved, clearlydefined
 npm/npmjs/@webpack-cli/serve/2.0.5, MIT, approved, clearlydefined
