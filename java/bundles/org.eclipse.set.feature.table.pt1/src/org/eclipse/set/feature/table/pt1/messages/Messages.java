@@ -717,4 +717,34 @@ public class Messages extends AbstractMessageService {
 	 * ETCS Melde- und Kommandoanschaltung Weichen – Sszw
 	 */
 	public String SszwTableView_Heading;
+
+	/**
+	 * Sskz (Zuordnungstabelle FEAK/FEAS)
+	 */
+	public String SskzDescriptionService_ViewName;
+
+	/**
+	 * Zuordnungstabelle FEAK/FEAS
+	 */
+	public String SskzDescriptionService_ViewTooltip;
+
+	/**
+	 * Sskz
+	 */
+	public String ToolboxTableNameSskzShort;
+
+	/**
+	 * Zuordnungstabelle FEAK/FEAS
+	 */
+	public String ToolboxTableNameSskzLong;
+
+	/**
+	 * ???
+	 */
+	public String ToolboxTableNameSskzPlanningNumber;
+
+	/**
+	 * Zuordnungstabelle FEAK/FEAS – Sskz
+	 */
+	public String SskzTableView_Heading;
 }
