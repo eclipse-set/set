@@ -63,11 +63,11 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	public Table transformTableContent(
 			final MultiContainer_AttributeGroup container,
 			final TMFactory factory, final Stell_Bereich controlArea) {
-		final List<Aussenelementansteuerung> outsideControl = Streams
+		final List<Aussenelementansteuerung> outsideControls = Streams
 				.stream(container.getAussenelementansteuerung())
 				.filter(UrObjectExtensions::isPlanningObject).toList();
 		final Iterable<Aussenelementansteuerung> relevantControlsInArea = UrObjectExtensions
-				.filterObjectsInControlArea(outsideControl, controlArea);
+				.filterObjectsInControlArea(outsideControls, controlArea);
 		return transform(relevantControlsInArea, factory);
 	}
 
