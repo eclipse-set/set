@@ -719,7 +719,7 @@ public class Messages extends AbstractMessageService {
 	public String SszwTableView_Heading;
 
 	/**
-	 * Sskz (Zuordnungstabelle FEAK/FEAS)
+	 * Sskz – Zuordnungstabelle FEAK/FEAS
 	 */
 	public String SskzDescriptionService_ViewName;
 
