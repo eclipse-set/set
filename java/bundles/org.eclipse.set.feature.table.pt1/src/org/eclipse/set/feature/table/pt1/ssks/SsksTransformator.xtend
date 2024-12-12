@@ -134,7 +134,9 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import org.eclipse.set.core.services.Services
+import org.eclipse.set.utils.table.TableError
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -175,7 +177,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
-		val waitingFileSideDistanceSignal = newHashMap
+		val waitingFillSideDistanceSignal = newHashMap
 		for (Signal signal : container?.signal?.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea).filter[ssksSignal]) {
 			if (Thread.currentThread.interrupted) {
@@ -352,38 +354,46 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									[CellContentExtensions.HOURGLASS_ICON]
 								)
 							]
-							waitingFileSideDistanceSignal.put(row, signal)
+							waitingFillSideDistanceSignal.put(row, signal)
 						} else {
-							val abstandMastmitteLinks = new HashSet<Pair<String, String>>
-							val abstandMastmitteRechts = new HashSet<Pair<String, String>>
+							try {
+								val abstandMastmitteLinks = new HashSet<Pair<String, String>>
+								val abstandMastmitteRechts = new HashSet<Pair<String, String>>
 
-							signal.initAbstandMastmitte(signal.signalRahmen,
-								abstandMastmitteLinks, abstandMastmitteRechts);
+								signal.initAbstandMastmitte(signal.signalRahmen,
+									abstandMastmitteLinks,
+									abstandMastmitteRechts);
 
-							fillIterable(
-								row,
-								cols.getColumn(Mastmitte_Links),
-								signal,
-								[
-									abstandMastmitteLinks.map [
-										'''«key»«IF value !== null» («value»)«ENDIF»'''
-									]
-								],
-								null,
-								[toString]
-							)
+								fillIterable(
+									row,
+									cols.getColumn(Mastmitte_Links),
+									signal,
+									[
+										abstandMastmitteLinks.map [
+											'''«key»«IF value !== null» («value»)«ENDIF»'''
+										]
+									],
+									null,
+									[toString]
+								)
 
-							fillIterable(
-								row,
-								cols.getColumn(Mastmitte_Rechts),
-								signal,
-								[
-									abstandMastmitteRechts.map [
-										'''«key»«IF value !== null» («value»)«ENDIF»'''
-									]
-								],
-								null
-							)
+								fillIterable(
+									row,
+									cols.getColumn(Mastmitte_Rechts),
+									signal,
+									[
+										abstandMastmitteRechts.map [
+											'''«key»«IF value !== null» («value»)«ENDIF»'''
+										]
+									],
+									null
+								)
+							} catch (Exception e) {
+								handleFillingException(e, row,
+									cols.getColumn(Mastmitte_Links))
+								handleFillingException(e, row,
+									cols.getColumn(Mastmitte_Rechts))
+							}
 						}
 
 						// L: Ssks.Standortmerkmale.Sichtbarkeit.Soll
@@ -905,8 +915,26 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				}
 			}
 			val changeProperties = newArrayList
-			waitingFileSideDistanceSignal.forEach [ row, signal |
-				row.refillSideDistance(signal, changeProperties)
+			waitingFillSideDistanceSignal.forEach [ row, signal |
+				try {
+					row.refillSideDistance(signal, changeProperties)
+				} catch (Exception e) {
+					val errorMsg = e.createErrorMsg(row)
+					tableErrors.add(
+						new TableError(
+							row.group.leadingObject?.identitaet?.wert,
+							signal.identitaet.wert, "", errorMsg, row))
+					val containerType = signal.container.containerType
+					changeProperties.add(
+						new Pt1TableChangeProperties(containerType, row,
+							cols.getColumn(Mastmitte_Links), List.of('''«ERROR_PREFIX»«errorMsg»'''),
+							ITERABLE_FILLING_SEPARATOR))
+					changeProperties.add(
+						new Pt1TableChangeProperties(containerType, row,
+							cols.getColumn(Mastmitte_Rechts), List.of('''«ERROR_PREFIX»«errorMsg»'''),
+							ITERABLE_FILLING_SEPARATOR))
+				}
+
 			]
 			val updateValuesEvent = new TableDataChangeEvent(
 				tableShortCut.toLowerCase, changeProperties)
@@ -941,7 +969,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		List<Signal_Rahmen> signalRahmen,
 		Set<Pair<String, String>> abstandMastmitteLinks,
 		Set<Pair<String, String>> abstandMastmitteRechts
-	) {
+	) throws NullPointerException, IllegalArgumentException, RuntimeException {
 		signalRahmen.map [
 			signalBefestigungIterator.findFirst [
 				signalBefestigungAllg.befestigungArt.wert ==
@@ -951,27 +979,17 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			]
 		].filterNull.map[singlePoints].flatten.toSet.forEach [ p |
 			if (p?.seitlicherAbstand?.wert === null) {
-				val exception = new NullPointerException(
+				throw new NullPointerException(
 					"The Signal_Befestigung haven't seitlicherAbstand")
-				abstandMastmitteLinks.add(
-					exception.createErrorMsg(signal.identitaet.wert) -> null)
-				abstandMastmitteRechts.add(
-					exception.createErrorMsg(signal.identitaet.wert) -> null)
-				return
 			}
-			val seitlicherAbstand = Math.round(p.seitlicherAbstand.wert.doubleValue * 1000)
+			val seitlicherAbstand = Math.round(
+				p.seitlicherAbstand.wert.doubleValue * 1000)
 			val wirkrichtung = p.wirkrichtung.wert
 			val distanceFromPoint = MAX_OPOSIDE_DISTANCE -
 				Math.abs(seitlicherAbstand)
 			if (wirkrichtung !== ENUM_WIRKRICHTUNG_IN &&
 				wirkrichtung !== ENUM_WIRKRICHTUNG_GEGEN) {
-				val exception = new IllegalArgumentException(
-					"The Signal_Befestigung have Illegal Wirkrichtung")
-				abstandMastmitteLinks.add(
-					exception.createErrorMsg(signal.identitaet.wert) -> null)
-				abstandMastmitteRechts.add(
-					exception.createErrorMsg(signal.identitaet.wert) -> null)
-				return
+				throw new IllegalArgumentException('''The Signal_Befestigung have Illegal Wirkrichtung: «wirkrichtung»''')
 			}
 			val isLeftsideOfTrack = (wirkrichtung === ENUM_WIRKRICHTUNG_IN) ===
 				(seitlicherAbstand >= 0)
@@ -984,6 +1002,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					perpendicularRotation, distanceFromPoint / 1000)
 			} catch (Exception e) {
 				LOGGER.error(e.message)
+				throw new RuntimeException(e)
 			}
 			val distanceBetweenTracks = opposideSideDistance > 0
 					? (Math.abs(seitlicherAbstand) +

@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory
 import static extension com.google.common.base.Throwables.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
 
 /**
  * Provides common functions for table transformations.
@@ -40,7 +39,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	/**
 	 * constant prefix for cells that show errors 
 	 */
-	static final String ERROR_PREFIX = "Error: ";
+	protected static final String ERROR_PREFIX = "Error: ";
 
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(AbstractTableModelTransformator))
@@ -529,7 +528,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	 * @returns the leading object identifier of the given row which is either the value of the first cell
 	 *          or the GUID of the leading object entity if the first cell is empty or shows an error
 	 */
-	def private getLeadingObjectIdentifier(TableRow row, String guid) {
+	def String getLeadingObjectIdentifier(TableRow row, String guid) {
 		var firstCellValue = row.getPlainStringValue(0)
 		if (firstCellValue === null || firstCellValue.startsWith(ERROR_PREFIX)) {
 			return guid
@@ -568,7 +567,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		String leadingObjectGuid
 	) {
 		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObjectGuid»"'''
-		return '''«ERROR_PREFIX»«errorMsg»'''
+		return errorMsg
 	}
 	
 
