@@ -39,7 +39,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	/**
 	 * constant prefix for cells that show errors 
 	 */
-	static final String ERROR_PREFIX = "Error: ";
+	protected static final String ERROR_PREFIX = "Error: ";
 
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(AbstractTableModelTransformator))
@@ -567,7 +567,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		String leadingObjectGuid
 	) {
 		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObjectGuid»"'''
-		return '''«ERROR_PREFIX»«errorMsg»'''
+		return errorMsg
 	}
 	
 

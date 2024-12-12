@@ -927,11 +927,11 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					val containerType = signal.container.containerType
 					changeProperties.add(
 						new Pt1TableChangeProperties(containerType, row,
-							cols.getColumn(Mastmitte_Links), List.of(errorMsg),
+							cols.getColumn(Mastmitte_Links), List.of('''«ERROR_PREFIX»«errorMsg»'''),
 							ITERABLE_FILLING_SEPARATOR))
 					changeProperties.add(
 						new Pt1TableChangeProperties(containerType, row,
-							cols.getColumn(Mastmitte_Rechts), List.of(errorMsg),
+							cols.getColumn(Mastmitte_Rechts), List.of('''«ERROR_PREFIX»«errorMsg»'''),
 							ITERABLE_FILLING_SEPARATOR))
 				}
 
