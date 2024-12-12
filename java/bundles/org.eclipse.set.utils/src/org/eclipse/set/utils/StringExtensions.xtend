@@ -19,6 +19,13 @@ class StringExtensions {
 	
 	static val ENV_PATTERN = Pattern.compile("(?<start>[^$]*)\\$(?<var>[^$]+)\\$(?<end>.*)")
 	static val ENV_VAR = "var"
+	
+	
+	/**
+	 * This constant determine manual with OpenSans font 
+	 */
+	static val int CHARACTER_PRO_CM = 6
+	static final String ZERO_WIDTH_SPACE = "\u200b"
 
 	/**
 	 * @param string this string
@@ -26,7 +33,7 @@ class StringExtensions {
 	 * @return the string interspersed with "zero spaces"
 	 */
 	static def String intersperseWithZeroSpaces(String string) {
-		return string.replaceAll("(.)", "$1\u200B")
+		return string.replaceAll("(.)", "$1" + ZERO_WIDTH_SPACE)
 	}
 
 	/**
@@ -37,7 +44,29 @@ class StringExtensions {
 	 * @return the string interspersed with "zero spaces"
 	 */
 	static def String intersperseWithZeroSpacesSC(String string) {
-		return string.replaceAll("([ /\\-_)}\\]])", "$1\u200B")
+		return string.replaceAll("([ /\\-_)}\\]])", "$1" + ZERO_WIDTH_SPACE)
+	}
+	
+	static def String intersperseWithZeroSpacesLength(String string , int maxChar) {
+		if (string.length < maxChar) {
+			return string
+		}
+		val result = string.split(" ").map[
+			if (it.length < maxChar) {
+				return it
+			}
+			val sb = new StringBuilder(it)
+			val head = sb.subSequence(0, maxChar)
+			val tail = sb.substring(maxChar)
+			val newTail = tail.intersperseWithZeroSpacesLength(maxChar)
+			return head + ZERO_WIDTH_SPACE + newTail
+			
+		]
+		return result.join(' ')
+	}
+	
+	static def int maxCharInCell(float cellWidth) {
+		return Math.round(cellWidth * CHARACTER_PRO_CM)
 	}
 
 	/**
