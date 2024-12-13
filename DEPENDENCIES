@@ -1037,11 +1037,11 @@ p2/orbit/p2.eclipse.feature/org.eclipse.pde.source/3.15.200.v20231201-0110, EPL-
 p2/orbit/p2.eclipse.feature/org.eclipse.pde.spies.source/1.0.200.v20231108-1957, EPL-2.0, approved, eclipse.pde
 p2/orbit/p2.eclipse.feature/org.eclipse.pde.spies/1.0.200.v20231108-1957, EPL-2.0, approved, eclipse.pde
 p2/orbit/p2.eclipse.feature/org.eclipse.pde/3.15.200.v20231201-0110, EPL-2.0, approved, eclipse.equinox
-p2/orbit/p2.eclipse.feature/org.eclipse.platform.source/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.feature/org.eclipse.platform/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.feature/org.eclipse.rcp.source/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.feature/org.eclipse.rcp/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.feature/org.eclipse.sdk/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.feature/org.eclipse.platform.source/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.equinox
+p2/orbit/p2.eclipse.feature/org.eclipse.platform/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.equinox
+p2/orbit/p2.eclipse.feature/org.eclipse.rcp.source/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.equinox
+p2/orbit/p2.eclipse.feature/org.eclipse.rcp/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.equinox
+p2/orbit/p2.eclipse.feature/org.eclipse.sdk/4.30.0.v20231201-0512, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.feature/org.eclipse.swtbot.eclipse.gef.source/4.1.0.202306071420, EPL-2.0, approved, technology.swtbot
 p2/orbit/p2.eclipse.feature/org.eclipse.swtbot.eclipse.gef/4.1.0.202306071420, EPL-2.0, approved, technology.swtbot
 p2/orbit/p2.eclipse.feature/org.eclipse.swtbot.eclipse.source/4.1.0.202306071420, EPL-2.0, approved, technology.swtbot
@@ -1107,15 +1107,10 @@ p2/orbit/p2.eclipse.plugin/org.apache.xerces/2.12.2.v20230928-1306, Apache-2.0 A
 p2/orbit/p2.eclipse.plugin/org.apache.xml.resolver/1.2.0.v20230928-1222, Apache-2.0, approved, CQ1441
 p2/orbit/p2.eclipse.plugin/org.apache.xml.serializer/2.7.1.v201005080400, Apache-2.0, approved, CQ1443
 p2/orbit/p2.eclipse.plugin/org.apache.xmlgraphics/2.9.0.v20230916-1600, Apache-2.0, approved, #10528
-p2/orbit/p2.eclipse.plugin/org.eclipse.ant.core.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.core.source/3.7.200.v20231102-0934, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.core/3.7.200.v20231102-0934, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.ant.launching.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.launching.source/1.4.200.v20231106-1112, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.launching/1.4.200.v20231106-1112, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.ant.tests.core.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.ant.tests.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.ant.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.ui.source/3.9.200.v20231106-1112, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.ui/3.9.200.v20231106-1112, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.collections.source/10.4.0.v20200820-2049, EPL-1.0 OR BSD-3-Clause, approved, technology.collections
