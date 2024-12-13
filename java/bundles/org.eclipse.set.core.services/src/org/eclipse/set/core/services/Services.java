@@ -33,8 +33,6 @@ public class Services {
 	private static UserConfigurationService userConfigurationService;
 
 	private static TopologicalGraphService topGraphService;
-	private static PointObjectPositionService pointObjectService;
-
 	private static PointObjectPositionService pointObjectPositionService;
 
 	/**

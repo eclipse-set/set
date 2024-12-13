@@ -53,7 +53,7 @@ public class PointObjectPositionServiceImpl
 	 * Default constructor
 	 */
 	public PointObjectPositionServiceImpl() {
-		Services.setPointObjectService(this);
+		Services.setPointObjectPositionService(this);
 	}
 
 	/*
