@@ -975,7 +975,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				signalBefestigungAllg.befestigungArt.wert ==
 					ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH ||
 					signalBefestigungAllg.befestigungArt.wert ==
-						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
+						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG ||
+						signalBefestigungAllg.befestigungArt.wert == ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE
 			]
 		].filterNull.map[singlePoints].flatten.toSet.forEach [ p |
 			if (p?.seitlicherAbstand?.wert === null) {
@@ -984,22 +985,23 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			}
 			val seitlicherAbstand = Math.round(
 				p.seitlicherAbstand.wert.doubleValue * 1000)
-			val wirkrichtung = p.wirkrichtung.wert
+			val wirkrichtung = signal.singlePoint.wirkrichtung.wert
 			val distanceFromPoint = MAX_OPOSIDE_DISTANCE -
 				Math.abs(seitlicherAbstand)
 			if (wirkrichtung !== ENUM_WIRKRICHTUNG_IN &&
 				wirkrichtung !== ENUM_WIRKRICHTUNG_GEGEN) {
-				throw new IllegalArgumentException('''The Signal_Befestigung have Illegal Wirkrichtung: «wirkrichtung»''')
+				throw new IllegalArgumentException('''The Signal have Illegal Wirkrichtung: «wirkrichtung»''')
 			}
 			val isLeftsideOfTrack = (wirkrichtung === ENUM_WIRKRICHTUNG_IN) ===
 				(seitlicherAbstand >= 0)
 			val perpendicularRotation = isLeftsideOfTrack ? 90 : -90
 			var opposideSideDistance = 0.0
-			val geoPosition = Services.pointObjectService.getCoordinate(p).
+			val mastGeoPosition = Services.pointObjectService.getCoordinate(p).
 				geoPosition
+			val signalGeoPoistion = Services.pointObjectService.getCoordinate(signal)
 			try {
-				opposideSideDistance = p.opposideSideDistance(geoPosition,
-					perpendicularRotation, distanceFromPoint / 1000)
+				opposideSideDistance = p.opposideSideDistance(mastGeoPosition,
+					perpendicularRotation + signalGeoPoistion.effectiveRotation, distanceFromPoint / 1000)
 			} catch (Exception e) {
 				LOGGER.error(e.message)
 				throw new RuntimeException(e)
@@ -1024,7 +1026,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	private def Double opposideSideDistance(
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk, GeoPosition position,
 		double angle, double distance) {
-		val rad = (angle + position.effectiveRotation) * Math.PI / 180
+		val rad = angle * Math.PI / 180
 		val transformX = Math.sin(rad) * distance + position.coordinate.x
 		val transformY = Math.cos(rad) * distance + position.coordinate.y
 		val geometryFactory = new GeometryFactory()

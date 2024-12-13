@@ -30,11 +30,17 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMUnterbringungBefest
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
+import org.eclipse.set.model.planpro.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup;
+import org.eclipse.set.model.planpro.PZB.ENUMPZBArt;
+import org.eclipse.set.model.planpro.PZB.PZB_Element;
+import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre;
 import org.eclipse.set.model.planpro.Signale.Signal;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.tablemodel.TableRow;
+import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.table.TMFactory;
@@ -97,7 +103,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			// B: Sskz.Betriebl_Bez_Feldelem
 			fillIterable(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
-					SskzTransformator::getBezFeldelem, null);
+					this::getBezFeldelem, null);
 
 			// C: Sskz.Techn_Bez_OC
 			fill(row, getColumn(cols, Techn_Bez_OC), control, e -> ""); //$NON-NLS-1$
@@ -134,10 +140,13 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
-	private static List<String> getBezFeldelem(
+	@SuppressWarnings("nls")
+	// IMPROVE: make this function generic for each case
+	private List<String> getBezFeldelem(
 			final Aussenelementansteuerung control) {
+		final MultiContainer_AttributeGroup container = getContainer(control);
 		final List<W_Kr_Gsp_Element> gspElements = Streams
-				.stream(getContainer(control).getWKrGspElement())
+				.stream(container.getWKrGspElement())
 				.filter(gspElement -> control.equals(getStellementInformation(
 						gspElement,
 						element -> element.getIDStellelement().getValue())))
@@ -148,8 +157,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					.filter(Optional::isPresent).map(Optional::get).toList();
 		}
 
-		final List<Signal> signals = Streams
-				.stream(getContainer(control).getSignal())
+		final List<Signal> signals = Streams.stream(container.getSignal())
 				.filter(signal -> control.equals(getStellementInformation(
 						signal,
 						element -> element.getSignalReal().getSignalRealAktiv()
@@ -158,6 +166,66 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (!signals.isEmpty()) {
 			return signals.stream()
 					.map(SskzTransformator::getSignalWGspElementLabel)
+					.filter(Optional::isPresent).map(Optional::get).toList();
+		}
+
+		final List<FMA_Komponente> fmas = Streams
+				.stream(container.getFMAKomponente()).filter(fma -> {
+					final FMA_Komponente_Achszaehlpunkt_AttributeGroup fmaKomponenteAchszaehlpunkt = fma
+							.getFMAKomponenteAchszaehlpunkt();
+					if (fmaKomponenteAchszaehlpunkt == null) {
+						return false;
+					}
+					return fmaKomponenteAchszaehlpunkt.getIDInformation()
+							.stream().map(ele -> ele.getValue())
+							.filter(Objects::nonNull)
+							.anyMatch(ele -> ele.equals(control));
+				}).toList();
+		if (!fmas.isEmpty()) {
+			return fmas.stream()
+					.map(fma -> getNullableObject(fma,
+							ele -> ele.getBezeichnung().getBezeichnungTabelle()
+									.getWert()))
+					.filter(Optional::isPresent).map(Optional::get).toList();
+		}
+
+		final List<PZB_Element> pzbs = Streams.stream(container.getPZBElement())
+				.filter(pzb -> control.equals(getStellementInformation(pzb,
+						ele -> ele.getIDStellelement().getValue())))
+				.toList();
+		if (!pzbs.isEmpty()) {
+			return pzbs.stream().map(pzb -> {
+				final ENUMPZBArt pzbArt = getNullableObject(pzb,
+						ele -> ele.getPZBArt().getWert()).orElse(null);
+				if (pzbArt == null) {
+					return "";
+				}
+				final List<String> pzbElementBezugspunkt = PZBElementExtensions
+						.getPZBElementBezugspunkt(pzb).stream()
+						.map(ele -> switch (ele) {
+						case final Signal signal -> signal.getBezeichnung()
+								.getBezeichnungTabelle().getWert();
+						case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+								.getBezeichnungTabelle().getWert();
+						default -> "";
+
+						}).toList();
+				return String.format("%s (%s)", translate(pzbArt),
+						String.join(",", pzbElementBezugspunkt));
+			}).toList();
+
+		}
+
+		final List<Schluesselsperre> schluessels = Streams
+				.stream(container.getSchluesselsperre())
+				.filter(schluessel -> control.equals(getStellementInformation(
+						schluessel, ele -> ele.getIDStellelement().getValue())))
+				.toList();
+		if (!schluessels.isEmpty()) {
+			return schluessels.stream()
+					.map(schluessel -> getNullableObject(schluessel,
+							ele -> ele.getBezeichnung().getBezeichnungTabelle()
+									.getWert()))
 					.filter(Optional::isPresent).map(Optional::get).toList();
 		}
 		return Collections.emptyList();
