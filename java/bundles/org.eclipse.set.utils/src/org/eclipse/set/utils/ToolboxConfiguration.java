@@ -133,7 +133,7 @@ public class ToolboxConfiguration {
 	 */
 	public static boolean isDevelopmentMode() {
 		return Boolean.parseBoolean(System.getProperty(
-			ToolboxProperties.DEVELOPMENT_MODE, Boolean.TRUE.toString()));
+				ToolboxProperties.DEVELOPMENT_MODE, Boolean.TRUE.toString()));
 	}
 
 	/**
