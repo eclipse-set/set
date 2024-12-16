@@ -15,9 +15,9 @@ import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getCont
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -31,11 +31,11 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
-import org.eclipse.set.model.planpro.Ortung.FMA_Komponente_Achszaehlpunkt_AttributeGroup;
 import org.eclipse.set.model.planpro.PZB.ENUMPZBArt;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre;
 import org.eclipse.set.model.planpro.Signale.Signal;
+import org.eclipse.set.model.planpro.Verweise.ID_Aussenelementansteuerung_TypeClass;
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.Table;
@@ -43,14 +43,30 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.ppmodel.extensions.PZBElementExtensions;
 import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.eclipse.set.ppmodel.extensions.utils.Case;
 import org.eclipse.set.utils.table.TMFactory;
 
 import com.google.common.collect.Streams;
 
 /**
+ * Table transformation forZuordnungstabelle FEAK/FEAS (Sskz).
  * 
+ * @author Truong
  */
 public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
+	private static final Map<Class<? extends Ur_Objekt>, Function<MultiContainer_AttributeGroup, Iterable<? extends Ur_Objekt>>> fieldElementClasses = new HashMap<>();
+	static {
+		fieldElementClasses.put(W_Kr_Gsp_Element.class,
+				MultiContainer_AttributeGroup::getWKrGspElement);
+		fieldElementClasses.put(Signal.class,
+				MultiContainer_AttributeGroup::getSignal);
+		fieldElementClasses.put(FMA_Komponente.class,
+				MultiContainer_AttributeGroup::getFMAKomponente);
+		fieldElementClasses.put(PZB_Element.class,
+				MultiContainer_AttributeGroup::getPZBElement);
+		fieldElementClasses.put(Schluesselsperre.class,
+				MultiContainer_AttributeGroup::getSchluesselsperre);
+	}
 
 	/**
 	 * Constructor
@@ -102,8 +118,13 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 							.getBezeichnungAEA().getWert());
 
 			// B: Sskz.Betriebl_Bez_Feldelem
-			fillIterable(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
-					this::getBezFeldelem, null);
+			@SuppressWarnings("unchecked")
+			final Case<Aussenelementansteuerung>[] fieldElementCases = fieldElementClasses
+					.keySet().stream().map(this::fieldElementCase)
+					.toArray(Case[]::new);
+
+			fillSwitch(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
+					fieldElementCases);
 
 			// C: Sskz.Techn_Bez_OC
 			fill(row, getColumn(cols, Techn_Bez_OC), control, e -> ""); //$NON-NLS-1$
@@ -140,113 +161,94 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
+	private <T extends Ur_Objekt> Case<Aussenelementansteuerung> fieldElementCase(
+			final Class<T> clazz) {
+		final Function<Aussenelementansteuerung, List<T>> getRelevantElementFunc = control -> getRelevantFieldElements(
+				clazz, control);
+		return new Case<>(
+				control -> Boolean.valueOf(
+						!getRelevantElementFunc.apply(control).isEmpty()),
+				control -> getRelevantElementFunc.apply(control).stream()
+						.map(this::getFieldElementDesignation).toList(),
+				ITERABLE_FILLING_SEPARATOR, null
+
+		);
+	}
+
+	private List<Aussenelementansteuerung> getControlFromFieldELement(
+			final Ur_Objekt object) {
+		final Function<Ur_Objekt, List<Aussenelementansteuerung>> getAussElement = urObject -> switch (urObject) {
+			case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
+					gsp.getIDStellelement().getValue());
+			case final Signal signal -> getControlFromFieldELement(
+					signal.getSignalReal().getSignalRealAktiv()
+							.getIDStellelement().getValue());
+			case final FMA_Komponente fma -> fma
+					.getFMAKomponenteAchszaehlpunkt().getIDInformation()
+					.stream()
+					.map(ID_Aussenelementansteuerung_TypeClass::getValue)
+					.toList();
+			case final PZB_Element pzb -> getControlFromFieldELement(
+					pzb.getIDStellelement().getValue());
+			case final Schluesselsperre schluessel -> getControlFromFieldELement(
+					schluessel.getIDStellelement().getValue());
+			case final Stellelement stellement -> List
+					.of(stellement.getIDInformation().getValue());
+			default -> null;
+		};
+		return getNullableObject(object, getAussElement::apply)
+				.orElse(Collections.emptyList());
+	}
+
 	@SuppressWarnings("nls")
-	// IMPROVE: make this function generic for each case
-	private List<String> getBezFeldelem(
-			final Aussenelementansteuerung control) {
-		final MultiContainer_AttributeGroup container = getContainer(control);
-		final List<W_Kr_Gsp_Element> gspElements = Streams
-				.stream(container.getWKrGspElement())
-				.filter(gspElement -> control.equals(getStellementInformation(
-						gspElement,
-						element -> element.getIDStellelement().getValue())))
-				.filter(Objects::nonNull).toList();
-		if (!gspElements.isEmpty()) {
-			return gspElements.stream()
-					.map(SskzTransformator::getSignalWGspElementLabel)
-					.filter(Optional::isPresent).map(Optional::get).toList();
-		}
-
-		final List<Signal> signals = Streams.stream(container.getSignal())
-				.filter(signal -> control.equals(getStellementInformation(
-						signal,
-						element -> element.getSignalReal().getSignalRealAktiv()
-								.getIDStellelement().getValue())))
-				.filter(Objects::nonNull).toList();
-		if (!signals.isEmpty()) {
-			return signals.stream()
-					.map(SskzTransformator::getSignalWGspElementLabel)
-					.filter(Optional::isPresent).map(Optional::get).toList();
-		}
-
-		final List<FMA_Komponente> fmas = Streams
-				.stream(container.getFMAKomponente()).filter(fma -> {
-					final FMA_Komponente_Achszaehlpunkt_AttributeGroup fmaKomponenteAchszaehlpunkt = fma
-							.getFMAKomponenteAchszaehlpunkt();
-					if (fmaKomponenteAchszaehlpunkt == null) {
-						return false;
-					}
-					return fmaKomponenteAchszaehlpunkt.getIDInformation()
-							.stream().map(ele -> ele.getValue())
-							.filter(Objects::nonNull)
-							.anyMatch(ele -> ele.equals(control));
-				}).toList();
-		if (!fmas.isEmpty()) {
-			return fmas.stream()
-					.map(fma -> getNullableObject(fma,
-							ele -> ele.getBezeichnung().getBezeichnungTabelle()
-									.getWert()))
-					.filter(Optional::isPresent).map(Optional::get).toList();
-		}
-
-		final List<PZB_Element> pzbs = Streams.stream(container.getPZBElement())
-				.filter(pzb -> control.equals(getStellementInformation(pzb,
-						ele -> ele.getIDStellelement().getValue())))
-				.toList();
-		if (!pzbs.isEmpty()) {
-			return pzbs.stream().map(pzb -> {
+	private String getFieldElementDesignation(final Ur_Objekt object) {
+		final Function<Ur_Objekt, String> destignationFunc = urObject -> switch (urObject) {
+			case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+					.getBezeichnungTabelle().getWert();
+			case final Signal signal -> signal.getBezeichnung()
+					.getBezeichnungTabelle().getWert();
+			case final FMA_Komponente fma -> fma.getBezeichnung()
+					.getBezeichnungTabelle().getWert();
+			case final PZB_Element pzb -> {
 				final ENUMPZBArt pzbArt = getNullableObject(pzb,
 						ele -> ele.getPZBArt().getWert()).orElse(null);
 				if (pzbArt == null) {
-					return "";
+					yield "";
 				}
 				final List<String> pzbElementBezugspunkt = PZBElementExtensions
 						.getPZBElementBezugspunkt(pzb).stream()
 						.map(ele -> switch (ele) {
-						case final Signal signal -> signal.getBezeichnung()
-								.getBezeichnungTabelle().getWert();
-						case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
-								.getBezeichnungTabelle().getWert();
-						default -> "";
+							case final Signal signal -> signal.getBezeichnung()
+									.getBezeichnungTabelle().getWert();
+							case final W_Kr_Gsp_Element gsp -> gsp
+									.getBezeichnung().getBezeichnungTabelle()
+									.getWert();
+							default -> "";
 
 						}).toList();
-				return String.format("%s (%s)", translate(pzbArt),
+				yield String.format("%s (%s)", translate(pzbArt),
 						String.join(",", pzbElementBezugspunkt));
-			}).toList();
-
-		}
-
-		final List<Schluesselsperre> schluessels = Streams
-				.stream(container.getSchluesselsperre())
-				.filter(schluessel -> control.equals(getStellementInformation(
-						schluessel, ele -> ele.getIDStellelement().getValue())))
-				.toList();
-		if (!schluessels.isEmpty()) {
-			return schluessels.stream()
-					.map(schluessel -> getNullableObject(schluessel,
-							ele -> ele.getBezeichnung().getBezeichnungTabelle()
-									.getWert()))
-					.filter(Optional::isPresent).map(Optional::get).toList();
-		}
-		return Collections.emptyList();
-	}
-
-	private static <T> Aussenelementansteuerung getStellementInformation(
-			final T object, final Function<T, Stellelement> getStellementFunc) {
-		final Stellelement stellement = getNullableObject(object,
-				e -> getStellementFunc.apply(object)).orElse(null);
-		return getNullableObject(stellement,
-				e -> e.getIDInformation().getValue()).orElse(null);
-	}
-
-	private static Optional<String> getSignalWGspElementLabel(
-			final Ur_Objekt object) {
-		return switch (object) {
-		case final Signal signal -> getNullableObject(signal,
-				e -> e.getBezeichnung().getBezeichnungTabelle().getWert());
-		case final W_Kr_Gsp_Element gspElement -> getNullableObject(gspElement,
-				e -> e.getBezeichnung().getBezeichnungTabelle().getWert());
-		default -> Optional.empty();
+			}
+			case final Schluesselsperre schluessel -> schluessel
+					.getBezeichnung().getBezeichnungTabelle().getWert();
+			default -> null;
 		};
+		return getNullableObject(object, destignationFunc::apply).orElse("");
+	}
+
+	private <T extends Ur_Objekt> List<T> getRelevantFieldElements(
+			final Class<T> clazz, final Aussenelementansteuerung control) {
+		final Function<MultiContainer_AttributeGroup, Iterable<? extends Ur_Objekt>> getElementFunc = fieldElementClasses
+				.getOrDefault(clazz, null);
+		if (getElementFunc == null) {
+			throw new IllegalArgumentException("Unexpect Class: " + clazz); //$NON-NLS-1$
+		}
+		final MultiContainer_AttributeGroup container = getContainer(control);
+		final List<T> elements = Streams.stream(getElementFunc.apply(container))
+				.map(clazz::cast).toList();
+
+		return elements.parallelStream().filter(
+				ele -> getControlFromFieldELement(ele).contains(control))
+				.toList();
 	}
 }

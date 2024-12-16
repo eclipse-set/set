@@ -158,7 +158,7 @@ class ColumnDescriptorExtensions {
 	 * 
 	 * @return the columns (of the heading-tree root)
 	 */
-	def static ColumnDescriptor[] getColumns(ColumnDescriptor descriptor) {
+	def static List<ColumnDescriptor> getColumns(ColumnDescriptor descriptor) {
 		return descriptor.getRoot.leaves
 	}
 
@@ -310,6 +310,13 @@ class ColumnDescriptorExtensions {
 
 		val isGroup = descriptor.children.forall[leaf]
 		return isGroup
+	}
+	
+	def static boolean isColumnGroup(ColumnDescriptor descriptor) {
+		if (descriptor.isRoot) {
+			return false
+		}
+		return descriptor.children.size > 1
 	}
 
 	/**
