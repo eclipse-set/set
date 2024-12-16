@@ -812,7 +812,7 @@ npm/npmjs/@rollup/rollup-win32-ia32-msvc/4.24.2, MIT AND (ISC AND MIT), approved
 npm/npmjs/@rollup/rollup-win32-x64-msvc/4.24.2, MIT AND (ISC AND MIT), approved, #16902
 npm/npmjs/@rtsao/scc/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/@sindresorhus/merge-streams/1.0.0, MIT, approved, clearlydefined
-npm/npmjs/@stylistic/eslint-plugin/2.11.0, MIT, approved, #17507
+npm/npmjs/@stylistic/eslint-plugin/2.12.1, MIT, approved, #17834
 npm/npmjs/@turf/bbox/7.1.0, MIT, approved, clearlydefined
 npm/npmjs/@turf/boolean-disjoint/7.1.0, MIT, approved, clearlydefined
 npm/npmjs/@turf/boolean-point-in-polygon/7.1.0, MIT, approved, clearlydefined
