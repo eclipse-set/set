@@ -132,9 +132,8 @@ public class ToolboxConfiguration {
 	 * @return whether the toolbox is in development mode
 	 */
 	public static boolean isDevelopmentMode() {
-		// return Boolean.parseBoolean(System.getProperty(
-		// ToolboxProperties.DEVELOPMENT_MODE, Boolean.TRUE.toString()));
-		return false;
+		return Boolean.parseBoolean(System.getProperty(
+			ToolboxProperties.DEVELOPMENT_MODE, Boolean.TRUE.toString()));
 	}
 
 	/**
