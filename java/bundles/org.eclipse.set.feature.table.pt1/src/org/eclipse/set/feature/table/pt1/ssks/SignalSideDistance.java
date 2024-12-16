@@ -12,6 +12,7 @@ package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSinglePoint;
 import static org.eclipse.set.ppmodel.extensions.SignalExtensions.signalRahmen;
 
 import java.util.HashSet;
@@ -152,7 +153,8 @@ public class SignalSideDistance {
 				throw new NullPointerException(
 						"The Seitlicher_Abstand isn't exists"); //$NON-NLS-1$
 			}
-			final ENUMWirkrichtung direction = potk.getWirkrichtung().getWert();
+			final ENUMWirkrichtung direction = getSinglePoint(signal)
+					.getWirkrichtung().getWert();
 			final long distanceFromPoint = MAX_DISTANCE_TO_NEIGHBOR
 					- Math.abs(sideDistance);
 			final int perpendicularRotation = getPerpendicularRotation(
@@ -165,9 +167,12 @@ public class SignalSideDistance {
 			double opposideDistance = 0.0;
 			final GeoPosition position = PunktObjektTopKanteExtensions
 					.getCoordinate(potk);
+			final double signalRotation = PunktObjektExtensions
+					.rotation(signal);
 			try {
 				opposideDistance = getOpposideDistance(potk, position,
-						perpendicularRotation, distanceFromPoint / 1000);
+						signalRotation + perpendicularRotation,
+						distanceFromPoint / 1000);
 			} catch (final Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -193,7 +198,8 @@ public class SignalSideDistance {
 												.orElse(null);
 						return befestigungArt != null
 								&& (befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
-										|| befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG);
+										|| befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
+										|| befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE);
 					}).findFirst().orElse(null);
 		}).filter(Objects::nonNull).toList();
 	}
@@ -234,8 +240,7 @@ public class SignalSideDistance {
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
 			final GeoPosition position, final double angle,
 			final double maxDistance) {
-		final double rad = (angle + position.getEffectiveRotation()) * Math.PI
-				/ 180;
+		final double rad = angle * Math.PI / 180;
 		final double transformX = Math.sin(rad) * maxDistance
 				+ position.getCoordinate().x;
 		final double transformY = Math.cos(rad) * maxDistance
