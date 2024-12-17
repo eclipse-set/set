@@ -68,7 +68,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get].min
 	}
 
-	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph) {
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
+		BigDecimal maxLength) {
 		val startSignal = dweg?.fstrFahrweg?.start
 		var fmas = dweg?.FMAs.toList.filter [
 			topGraph.isInWirkrichtungOfSignal(startSignal, it)
@@ -93,7 +94,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (roundedDistance == 0.0)
 			throw new IllegalArgumentException("no path found")
 		else
-			return roundedDistance.toString
+			return roundedDistance > maxLength.doubleValue
+				? '''> «maxLength.toTableIntegerAgateDown»''' : roundedDistance.toString
 	}
 
 	override transformTableContent(
@@ -196,7 +198,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph)]
+				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
