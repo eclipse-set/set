@@ -140,8 +140,7 @@ public class PointObjectPositionServiceImpl
 				&& singlePoint.getSeitlicherAbstand().getWert() != null) {
 			return singlePoint.getSeitlicherAbstand().getWert();
 		}
-		final BigDecimal distance = singlePoint.getSeitlicherAbstand()
-				.getWert();
+		final BigDecimal distance = singlePoint.getAbstand().getWert();
 		// Determine the track type
 		final GEOKanteSegment segment = geoKante.getContainingSegment(distance);
 		final List<ENUMGleisart> trackType = segment.getBereichObjekte()
