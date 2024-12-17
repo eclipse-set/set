@@ -205,8 +205,12 @@ class CellContentExtensions {
 	 * 
 	 * @return the table cell of this cell content
 	 */
-	static def TableCell getTableCell(CellContent content) {
+	static def dispatch TableCell getTableCell(CellContent content) {
 		return content.eContainer as TableCell
+	}
+	
+	static def dispatch TableCell getTableCell(MultiColorContent content) {
+		return content.eContainer.eContainer as TableCell
 	}
 
 	private static def String getTextAlign(CellContent content) {

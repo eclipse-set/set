@@ -11,9 +11,8 @@ package org.eclipse.set.nattable.utils;
 import org.eclipse.nebula.widgets.nattable.painter.cell.BackgroundPainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.ICellPainter;
 import org.eclipse.nebula.widgets.nattable.painter.cell.decorator.PaddingDecorator;
-import org.eclipse.swt.graphics.Image;
-
 import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Painter used to draw PlanPro table cells.
@@ -30,27 +29,27 @@ public class PlanProTableCellPainter extends BackgroundPainter {
 	/**
 	 * @param interiorPainter
 	 *            the interior painter
-	 * @param leftWarningImage
-	 *            the left warning image
-	 * @param rightWarningImage
-	 *            the right warning image
+	 * @param yellowWarningImage
+	 *            the yellow warning image
+	 * @param redWarningImage
+	 *            the red warning image
 	 * @param blackWarningImage
 	 *            the black warning image
 	 */
 	public PlanProTableCellPainter(final ICellPainter interiorPainter,
-			final Image leftWarningImage, final Image rightWarningImage,
+			final Image yellowWarningImage, final Image redWarningImage,
 			final Image blackWarningImage) {
 		super(new PaddingDecorator(new BasePainterDecorator(
 				new BasePainterDecorator(new BasePainterDecorator(
 						interiorPainter, BaseEdgeEnum.BEFORE,
+						new WarningPainter(redWarningImage,
+								CellContentExtensions.WARNING_MARK_RED)),
+						BaseEdgeEnum.BEFORE,
 						new WarningPainter(blackWarningImage,
 								CellContentExtensions.WARNING_MARK_BLACK)),
-						BaseEdgeEnum.BEFORE,
-						new WarningPainter(leftWarningImage,
-								CellContentExtensions.WARNING_MARK_YELLOW)),
 				BaseEdgeEnum.AFTER,
-				new WarningPainter(rightWarningImage,
-						CellContentExtensions.WARNING_MARK_RED)),
+				new WarningPainter(yellowWarningImage,
+						CellContentExtensions.WARNING_MARK_YELLOW)),
 				TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING,
 				false));
 	}

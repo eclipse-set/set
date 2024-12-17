@@ -10,13 +10,11 @@ package org.eclipse.set.feature.table.pt1.ssks;
 
 import java.math.BigDecimal
 import java.util.Collections
-import java.util.HashSet
 import java.util.LinkedList
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.basis.constants.ToolboxConstants
-import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.BankService
@@ -25,8 +23,6 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.Technischer_Punkt
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl10
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hl11
@@ -96,16 +92,13 @@ import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.events.TableDataChangeEvent
 import org.eclipse.set.utils.table.Pt1TableChangeProperties
 import org.eclipse.set.utils.table.TMFactory
-import org.locationtech.jts.geom.Coordinate
-import org.locationtech.jts.geom.GeometryFactory
-import org.locationtech.jts.geom.LineString
+import org.eclipse.set.utils.table.TableError
 import org.osgi.service.event.EventAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.feature.table.pt1.ssks.SsksColumns.*
 import static org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt.*
-import static org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung.*
 import static org.eclipse.set.model.planpro.Signale.ENUMAnschaltdauer.*
 import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*
 import static org.eclipse.set.model.planpro.Signale.ENUMBeleuchtet.*
@@ -115,9 +108,10 @@ import static org.eclipse.set.model.planpro.Signale.ENUMRahmenArt.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalArt.*
 import static org.eclipse.set.model.planpro.Signale.ENUMSignalFunktion.*
 import static org.eclipse.set.model.planpro.Signale.ENUMTunnelsignal.*
+import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 
+import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -129,7 +123,6 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
@@ -157,7 +150,6 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	val BankService bankingService
 	val EventAdmin eventAdmin
 	val String tableShortCut
-	static val MAX_OPOSIDE_DISTANCE = 8000;
 
 	// Container the thread, which will be refresh table after all thread is done
 	new(Set<ColumnDescriptor> cols,
@@ -174,7 +166,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
 		// iterate signal-wise
-		val waitingFileSideDistanceSignal = newHashMap
+		val waitingFillSideDistanceSignal = newHashMap
 		for (Signal signal : container?.signal?.filter[isPlanningObject].
 			filterObjectsInControlArea(controlArea).filter[ssksSignal]) {
 			if (Thread.currentThread.interrupted) {
@@ -319,23 +311,25 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
-						if (bankingService.isFindBankingComplete) {
-							fillIterable(
-								row,
-								cols.getColumn(Ueberhoehung),
-								signal,
-								[
-									bankingService.findBankValue(
-										new TopPoint(signal)).map [
-										multiply(new BigDecimal(1000)).
-											toTableInteger ?: ""
-									]
-								],
-								null
-							)
-						} else {
-							// Fill Banking through thread, when find process not complete
-							row.fillUeberhoehung(signal)
+						if (signal.signalReal !== null) {
+							if (bankingService.isFindBankingComplete) {
+								fillIterable(
+									row,
+									cols.getColumn(Ueberhoehung),
+									signal,
+									[
+										bankingService.findBankValue(
+											new TopPoint(signal)).map [
+											multiply(new BigDecimal(1000)).
+												toTableInteger ?: ""
+										]
+									],
+									null
+								)
+							} else {
+								// Fill Banking through thread, when find process not complete
+								row.fillUeberhoehung(signal)
+							}
 						}
 
 						// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links
@@ -349,39 +343,44 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									[CellContentExtensions.HOURGLASS_ICON]
 								)
 							]
-							waitingFileSideDistanceSignal.put(row, signal)
+							waitingFillSideDistanceSignal.put(row, signal)
 						} else {
-							val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-							val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
+							try {
+								val signalSideDistances = new SignalSideDistance(
+									signal)
 
-							signal.initAbstandMastmitte(signal.signalRahmen,
-								abstandMastmitteLinks, abstandMastmitteRechts);
+								fillIterable(
+									row,
+									cols.getColumn(Mastmitte_Links),
+									signal,
+									[
+										signalSideDistances.sideDistancesLeft.
+											map [
+												toString
+											]
+									],
+									null,
+									[toString]
+								)
 
-							fillIterable(
-								row,
-								cols.getColumn(Mastmitte_Links),
-								signal,
-								[
-									abstandMastmitteLinks.map [
-										'''«key»«IF value > 0» («value»)«ENDIF»'''
-									]
-								],
-								null,
-								[toString]
-							)
-
-							fillIterable(
-								row,
-								cols.getColumn(Mastmitte_Rechts),
-								signal,
-								[
-									abstandMastmitteRechts.map [
-										'''«key»«IF value > 0» («value»)«ENDIF»'''
-									]
-								],
-								null,
-								[toString]
-							)
+								fillIterable(
+									row,
+									cols.getColumn(Mastmitte_Rechts),
+									signal,
+									[
+										signalSideDistances.sideDistancesRight.
+											map [
+												toString
+											]
+									],
+									null
+								)
+							} catch (Exception e) {
+								handleFillingException(e, row,
+									cols.getColumn(Mastmitte_Links))
+								handleFillingException(e, row,
+									cols.getColumn(Mastmitte_Rechts))
+							}
 						}
 
 						// L: Ssks.Standortmerkmale.Sichtbarkeit.Soll
@@ -903,7 +902,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				}
 			}
 			val changeProperties = newArrayList
-			waitingFileSideDistanceSignal.forEach [ row, signal |
+			waitingFillSideDistanceSignal.forEach [ row, signal |
 				row.refillSideDistance(signal, changeProperties)
 			]
 			val updateValuesEvent = new TableDataChangeEvent(
@@ -917,103 +916,36 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private def void refillSideDistance(TableRow row, Signal signal,
 		List<Pt1TableChangeProperties> changeProperties) {
-		val abstandMastmitteLinks = new HashSet<Pair<Long, Long>>
-		val abstandMastmitteRechts = new HashSet<Pair<Long, Long>>
-		val containerType = signal.container.containerType
-		signal.initAbstandMastmitte(signal.signalRahmen, abstandMastmitteLinks,
-			abstandMastmitteRechts);
-		val leftDistance = new Pt1TableChangeProperties(containerType, row,
-			cols.getColumn(Mastmitte_Links), abstandMastmitteLinks.map [
-				'''«key» «IF value > 0»(«value»)«ENDIF»'''
-			].toList, ITERABLE_FILLING_SEPARATOR)
-		changeProperties.add(leftDistance)
-		val rightDistance = new Pt1TableChangeProperties(containerType, row,
-			cols.getColumn(Mastmitte_Rechts), abstandMastmitteRechts.map [
-				'''«key» «IF value > 0»(«value»)«ENDIF»'''
-			].toList, ITERABLE_FILLING_SEPARATOR)
-		changeProperties.add(rightDistance)
-	}
 
-	private def void initAbstandMastmitte(
-		Signal signal,
-		List<Signal_Rahmen> signalRahmen,
-		Set<Pair<Long, Long>> abstandMastmitteLinks,
-		Set<Pair<Long, Long>> abstandMastmitteRechts
-	) {
-		signalRahmen.map [
-			signalBefestigungIterator.findFirst [
-				signalBefestigungAllg.befestigungArt.wert ==
-					ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH ||
-					signalBefestigungAllg.befestigungArt.wert ==
-						ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
-			]
-		].filterNull.map[singlePoints].flatten.toSet.forEach [ p |
-			val seitlicherAbstand = Math.round(
-				p.seitlicherAbstand.wert.doubleValue * 1000)
-			val wirkrichtung = signal.getWirkrichtung(p.topKante)
+		var List<String> leftValues = newArrayList
+		var List<String> rightValues = newArrayList
 
-			val distanceFromPoint = MAX_OPOSIDE_DISTANCE -
-				Math.abs(seitlicherAbstand)
-			val perpendicularRotation = wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-					seitlicherAbstand > 0 ? 90 : -90
-			var opposideSideDistance = 0.0
-			try {
-				opposideSideDistance = p.opposideSideDistance(
-					p.coordinate.effectiveRotation + perpendicularRotation,
-					distanceFromPoint / 1000)
-			} catch (Exception e) {
-				LOGGER.error(e.message)
-			}
-			val distanceBetweenTracks = opposideSideDistance > 0
-					? Math.abs(seitlicherAbstand) +
-					Math.round(opposideSideDistance * 1000)
-					: 0
-			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-				seitlicherAbstand > 0) ||
-				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
-					seitlicherAbstand < 0)) {
-				abstandMastmitteLinks.add(Math.abs(seitlicherAbstand) ->
-					distanceBetweenTracks)
-			}
-			if ((wirkrichtung == ENUM_WIRKRICHTUNG_IN &&
-				seitlicherAbstand < 0) ||
-				(wirkrichtung == ENUM_WIRKRICHTUNG_GEGEN &&
-					seitlicherAbstand > 0)) {
-				abstandMastmitteRechts.add(Math.abs(seitlicherAbstand) ->
-					distanceBetweenTracks)
-			}
-		]
-	}
-
-	private def Double opposideSideDistance(
-		Punkt_Objekt_TOP_Kante_AttributeGroup potk, double angle,
-		double distance) {
-		val position = potk.coordinate
-		val rad = angle * Math.PI / 180
-		val transformX = Math.sin(rad) * distance + position.coordinate.x
-		val transformY = Math.cos(rad) * distance + position.coordinate.y
-		val geometryFactory = new GeometryFactory()
-		val perpendicularLine = geometryFactory.createLineString(
-			#[position.coordinate, new Coordinate(transformX, transformY)])
-		val relevantGeoKante = potk.container.GEOKante.filter [
-			geoArt instanceof TOP_Kante && geoArt !== potk.IDTOPKante
-		].map[getGeometry].filterNull.toList
-		return relevantGeoKante.getDistanceOpposide(perpendicularLine, position)
-	}
-
-	private def Double getDistanceOpposide(
-		Iterable<LineString> relevantGeoKante, LineString line,
-		GeoPosition position) {
-		val intersectionPoint = relevantGeoKante.filter[intersects(line)].map [
-			intersection(line)
-		]
-		val trackDistance = intersectionPoint.map [
-			coordinate.distance(position.coordinate)
-		].toList
-		if (trackDistance.isNullOrEmpty) {
-			return 0.0
+		try {
+			val signalSideDistances = new SignalSideDistance(signal)
+			leftValues.addAll(signalSideDistances.sideDistancesLeft.map [
+				toString
+			])
+			rightValues.addAll(signalSideDistances.sideDistancesRight.map [
+				toString
+			])
+		} catch (Exception e) {
+			val errorMsg = e.createErrorMsg(row)
+			tableErrors.add(
+				new TableError(row.group.leadingObject?.identitaet?.wert,
+					signal.identitaet.wert, "", errorMsg, row))
+			leftValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
+			rightValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
 		}
-		return trackDistance.min
+
+		val containerType = signal.container.containerType
+		changeProperties.add(
+			new Pt1TableChangeProperties(containerType, row,
+				cols.getColumn(Mastmitte_Links), leftValues,
+				ITERABLE_FILLING_SEPARATOR))
+		changeProperties.add(
+			new Pt1TableChangeProperties(containerType, row,
+				cols.getColumn(Mastmitte_Rechts), rightValues,
+				ITERABLE_FILLING_SEPARATOR))
 	}
 
 	private static def List<List<Signal_Befestigung>> getBefestigungsgruppen(

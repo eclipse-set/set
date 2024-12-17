@@ -236,7 +236,11 @@ public final class TableServiceImpl implements TableService {
 						.map(cacheKey -> (List<TableError>) cache
 								.getIfPresent(cacheKey.getValue()))
 						.filter(Objects::nonNull).toList();
-				if (!tableErrors.isEmpty()) {
+				if (!tableErrors.isEmpty() || Thread.getAllStackTraces()
+						.keySet().stream()
+						.anyMatch(thread -> thread.getName().toLowerCase()
+								.startsWith(
+										tableInfo.shortcut().toLowerCase()))) {
 					map.put(tableInfo.shortcut(), tableErrors.stream()
 							.flatMap(List::stream).toList());
 				}
@@ -432,9 +436,18 @@ public final class TableServiceImpl implements TableService {
 		for (final Pair<String, String> cacheKey : cacheKeys) {
 			final String areaId = cacheKey.getKey();
 			final String areaCacheKey = cacheKey.getValue();
-			final Table table = (Table) cache.get(areaCacheKey,
-					() -> loadTransform(shortCut, tableType, modelSession,
-							areaId, areaCacheKey));
+			Table table = (Table) cache.getIfPresent(areaCacheKey);
+
+			if (table == null) {
+				table = (Table) loadTransform(shortCut, tableType, modelSession,
+						areaId, areaCacheKey);
+				// Not storage table, when table isn't complete transform
+				if (Thread.getAllStackTraces().keySet().stream()
+						.noneMatch(thread -> thread.getName().toLowerCase()
+								.startsWith(shortCut))) {
+					cache.set(areaCacheKey, table);
+				}
+			}
 			if (resultTable == null) {
 				resultTable = EcoreUtil.copy(table);
 			} else {

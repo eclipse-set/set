@@ -183,11 +183,12 @@ export default class MenuPopup extends Vue {
   }
 
   isMultiFeature (): boolean {
-    if (this.getFeatures().length > 1) {
+    const selectedFeatures = this.getFeatures()
+    if (selectedFeatures.length > 1) {
       return true
     }
 
-    this.selectedFeature = this.features[0]
+    this.selectedFeature = selectedFeatures[0]
     return false
   }
 

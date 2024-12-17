@@ -234,7 +234,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					fma,
 					[
 						fma?.FMAKomponenteAchszaehlpunkt?.aussenelementEnergie?.
-							bezeichnung?.bezeichnungAEA.wert ?: ""
+							bezeichnung?.bezeichnungAEA?.wert ?: ""
 					]
 				)
 

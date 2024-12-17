@@ -24,122 +24,127 @@ public class SskwColumns {
 	public static final String Bezeichnung = "A";
 
 	/**
+	 * Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Art
+	 */
+	public static final String Art = "B";
+
+	/**
 	 * Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Form
 	 */
-	public static final String Form = "B";
+	public static final String Form = "C";
 
 	/**
 	 * Sskw.Freimeldung.Fma
 	 */
-	public static final String Freimeldung_Fma = "C";
+	public static final String Freimeldung_Fma = "D";
 
 	/**
 	 * Sskw.Freimeldung.nicht_grenzzeichenfrei.Links
 	 */
-	public static final String nicht_grenzzeichenfrei_Links = "D";
+	public static final String nicht_grenzzeichenfrei_Links = "E";
 
 	/**
 	 * Sskw.Freimeldung.nicht_grenzzeichenfrei.Rechts
 	 */
-	public static final String nicht_grenzzeichenfrei_Rechts = "E";
+	public static final String nicht_grenzzeichenfrei_Rechts = "F";
 
 	/**
 	 * Sskw.Freimeldung.Isolierfall
 	 */
-	public static final String Isolierfall = "F";
+	public static final String Isolierfall = "G";
 
 	/**
 	 * Sskw.Vorzugslage.Lage
 	 */
-	public static final String Vorzugslage_Lage = "G";
+	public static final String Vorzugslage_Lage = "H";
 
 	/**
 	 * Sskw.Vorzugslage.Automatik
 	 */
-	public static final String Vorzugslage_Automatik = "H";
+	public static final String Vorzugslage_Automatik = "I";
 
 	/**
 	 * Sskw.Weiche.Auffahrortung
 	 */
-	public static final String Weiche_Auffahrortung = "I";
+	public static final String Weiche_Auffahrortung = "J";
 
 	/**
 	 * Sskw.Weiche.Antriebe
 	 */
-	public static final String Weiche_Antriebe = "J";
+	public static final String Weiche_Antriebe = "K";
 
 	/**
 	 * Sskw.Weiche.Weichensignal
 	 */
-	public static final String Weiche_Weichensignal = "K";
+	public static final String Weiche_Weichensignal = "L";
 
 	/**
 	 * Sskw.Weiche.Pruefkontakte
 	 */
-	public static final String Weiche_Pruefkontakte = "L";
+	public static final String Weiche_Pruefkontakte = "M";
 
 	/**
 	 * Sskw.Weiche.v_zul_W.Links
 	 */
-	public static final String Weiche_v_zul_W_Links = "M";
+	public static final String Weiche_v_zul_W_Links = "N";
 
 	/**
 	 * Sskw.Weiche.v_zul_W.Rechts
 	 */
-	public static final String Weiche_v_zul_W_Rechts = "N";
+	public static final String Weiche_v_zul_W_Rechts = "O";
 
 	/**
 	 * Sskw.Kreuzung.v_zul_K.Links
 	 */
-	public static final String Kreuzung_v_zul_K_Links = "O";
+	public static final String Kreuzung_v_zul_K_Links = "P";
 
 	/**
 	 * Sskw.Kreuzung.v_zul_K.Rechts
 	 */
-	public static final String Kreuzung_v_zul_K_Rechts = "P";
+	public static final String Kreuzung_v_zul_K_Rechts = "Q";
 
 	/**
 	 * Sskw.Herzstueck.Antriebe
 	 */
-	public static final String Herzstueck_Antriebe = "Q";
+	public static final String Herzstueck_Antriebe = "R";
 
 	/**
 	 * Sskw.Gleissperre.Antriebe
 	 */
-	public static final String Gleissperre_Antriebe = "R";
+	public static final String Gleissperre_Antriebe = "S";
 
 	/**
 	 * Sskw.Gleissperre.Gsp_signal
 	 */
-	public static final String Gleissperre_Gsp_signal = "S";
+	public static final String Gleissperre_Gsp_signal = "T";
 
 	/**
 	 * Sskw.Gleissperre.Auswurfrichtung
 	 */
-	public static final String Gleissperre_Auswurfrichtung = "T";
+	public static final String Gleissperre_Auswurfrichtung = "U";
 
 	/**
 	 * Sskw.Gleissperre.Schutzschiene
 	 */
-	public static final String Gleissperre_Schutzschiene = "U";
+	public static final String Gleissperre_Schutzschiene = "V";
 
 	/**
 	 * Sskw.Sonstiges.Regelzeichnung_Nr
 	 */
-	public static final String Sonstiges_Regelzeichnung_Nr = "V";
+	public static final String Sonstiges_Regelzeichnung_Nr = "W";
 
 	/**
 	 * Sskw.Sonstiges.DWs
 	 */
-	public static final String Sonstiges_DWs = "W";
+	public static final String Sonstiges_DWs = "X";
 
 	/**
 	 * Sskw.Sonderanlage.Art
 	 */
-	public static final String Sonderanlage_Art = "X";
+	public static final String Sonderanlage_Art = "Y";
 
 	/**
 	 * Sskw.Bemerkung
 	 */
-	public static final String Bemerkung = "Y";
+	public static final String Bemerkung = "Z";
 }
