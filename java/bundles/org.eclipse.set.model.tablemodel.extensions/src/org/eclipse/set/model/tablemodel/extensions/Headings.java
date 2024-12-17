@@ -8,13 +8,13 @@
  */
 package org.eclipse.set.model.tablemodel.extensions;
 
-import java.util.Arrays;
 import java.util.Collection;
 
-import com.google.common.base.Function;
 import org.eclipse.set.basis.tables.Tables;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.utils.ToolboxConfiguration;
+
+import com.google.common.base.Function;
 
 /**
  * Common heading utilities.
@@ -67,8 +67,8 @@ public class Headings {
 	 */
 	public static String getWidthTestCsv(final ColumnDescriptor heading,
 			final Function<Float, Integer> toPixel) {
-		final int columns = ColumnDescriptorExtensions
-				.getColumns(heading).length;
+		final int columns = ColumnDescriptorExtensions.getColumns(heading)
+				.size();
 		final StringBuilder result = new StringBuilder((columns + 1) * 12);
 		result.append("Column;WidthExpected;WidthActual\n"); //$NON-NLS-1$
 		for (int i = 0; i < columns; i++) {
@@ -87,8 +87,7 @@ public class Headings {
 		for (int i = 0; i < level; i++) {
 			result.append("  "); //$NON-NLS-1$
 		}
-		final int columnIndex = Arrays
-				.asList(ColumnDescriptorExtensions.getColumns(heading))
+		final int columnIndex = ColumnDescriptorExtensions.getColumns(heading)
 				.indexOf(heading);
 
 		if (columnIndex >= 0) {

@@ -354,7 +354,6 @@ public class GeoKanteGeometryServiceImpl
 		});
 	}
 
-	@SuppressWarnings("boxing")
 	@Override
 	public Pair<GEOKanteCoordinate, BigDecimal> getProjectionCoordinate(
 			final Coordinate coor, final TOP_Kante topEdge) {

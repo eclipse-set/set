@@ -81,7 +81,7 @@ public class BasePainterDecorator implements ICellPainter {
 							configRegistry)
 					: 0;
 
-			switch (getCellEdge()) {
+			switch (super.getCellEdge()) {
 			case LEFT:
 				return new Rectangle(adjustedCellBounds.x, adjustedCellBounds.y,
 						preferredDecoratorWidth, preferredDecoratorHeight)
@@ -90,7 +90,7 @@ public class BasePainterDecorator implements ICellPainter {
 			case RIGHT:
 				return new Rectangle(adjustedCellBounds.x,
 						adjustedCellBounds.y + preferredBaseHeight
-								- preferredDecoratorHeight,
+								- getSpacing(),
 						preferredDecoratorWidth, preferredDecoratorHeight)
 								.intersection(adjustedCellBounds);
 

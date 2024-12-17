@@ -39,7 +39,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	/**
 	 * constant prefix for cells that show errors 
 	 */
-	static final String ERROR_PREFIX = "Error: ";
+	protected static final String ERROR_PREFIX = "Error: ";
 
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(AbstractTableModelTransformator))
@@ -528,7 +528,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	 * @returns the leading object identifier of the given row which is either the value of the first cell
 	 *          or the GUID of the leading object entity if the first cell is empty or shows an error
 	 */
-	def private getLeadingObjectIdentifier(TableRow row, String guid) {
+	def String getLeadingObjectIdentifier(TableRow row, String guid) {
 		var firstCellValue = row.getPlainStringValue(0)
 		if (firstCellValue === null || firstCellValue.startsWith(ERROR_PREFIX)) {
 			return guid
@@ -543,7 +543,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	) {
 		var guid = row.group.leadingObject?.identitaet?.wert
 		var leadingObject = getLeadingObjectIdentifier(row, guid)
-		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObject»"'''
+		var errorMsg = e.createErrorMsg(row)
 		
 		tableErrors.add(
 			new TableError(guid, leadingObject, "",
@@ -552,6 +552,24 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
+	
+	def String createErrorMsg(
+		Exception e,
+		TableRow row
+	) {
+		var guid = row.group.leadingObject?.identitaet?.wert
+		var leadingObject = getLeadingObjectIdentifier(row, guid)
+		return e.createErrorMsg(leadingObject)
+	}
+	
+	def String createErrorMsg(
+		Exception e,
+		String leadingObjectGuid
+	) {
+		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObjectGuid»"'''
+		return errorMsg
+	}
+	
 
 	/**
 	 * Evaluates the given function with the given value for use in sorting.

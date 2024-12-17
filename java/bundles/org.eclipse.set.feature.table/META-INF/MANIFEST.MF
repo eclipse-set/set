@@ -91,5 +91,6 @@ Import-Package: com.google.common.base,
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.feature.table.internal.TableServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.feature.table.messages.internal.MessagesContextFunction.xml,
+ OSGI-INF/org.eclipse.set.feature.table.overview.ESTWSupplementTableOverviewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.overview.ESTWTableOverviewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.overview.ETCSTableOverviewDescriptionService.xml
