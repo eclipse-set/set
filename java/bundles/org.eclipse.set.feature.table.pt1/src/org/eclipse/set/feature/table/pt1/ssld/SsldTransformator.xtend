@@ -68,8 +68,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get].min
 	}
 
-	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
-		BigDecimal maxLength) {
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph) {
 		val startSignal = dweg?.fstrFahrweg?.start
 		var fmas = dweg?.FMAs.toList.filter [
 			topGraph.isInWirkrichtungOfSignal(startSignal, it)
@@ -197,7 +196,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
+				[getFreigemeldetLaenge(topGraph)]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
