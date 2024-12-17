@@ -68,26 +68,26 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		].filter[present].map[get].min
 	}
 
-	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
-		BigDecimal maxLength) {
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph) {
 		val startSignal = dweg?.fstrFahrweg?.start
-		val fmas = dweg?.FMAs.toList.filter [
+		var fmas = dweg?.FMAs.toList.filter [
 			topGraph.isInWirkrichtungOfSignal(startSignal, it)
-		]
+		].toList
+		// When not exists relevant FMA_Komponent/Gleis_Abschluss on the Fstr_Fahrweg of this DWeg,
+		// then take the FMA_Komponent/Gleis_Abschluss of this FMA_Anlage_Freimeldung,
+		// which in direction of the start Signal
 		if (fmas.empty) {
-			return ""
+			fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
+				filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].
+				toList
 		}
 
 		val relevantDistances = fmas?.map [
 			getShortestPathLength(dweg?.fstrFahrweg?.start, it)
-		].filter [
-			maxLength.compareTo(it) >= 0 &&
-				dweg?.fstrDWegAllg?.laengeSoll?.wert.compareTo(it) <= 0
 		]
-		if (relevantDistances.nullOrEmpty) {
-			return AgateRounding.roundDown(maxLength.doubleValue).toString
+		if (relevantDistances.isEmpty) {
+			return ""
 		}
-
 		val roundedDistance = AgateRounding.roundDown(
 			relevantDistances.max.doubleValue)
 		if (roundedDistance == 0.0)
@@ -196,7 +196,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
+				[getFreigemeldetLaenge(topGraph)]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
