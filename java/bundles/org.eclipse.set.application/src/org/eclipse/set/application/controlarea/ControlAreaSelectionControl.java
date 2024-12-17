@@ -35,6 +35,7 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
@@ -89,9 +90,11 @@ public class ControlAreaSelectionControl {
 
 	private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 	private TableType tableType;
-	IModelSession oldSession;
+	// IModelSession oldSession;
 
 	private Object oldSelectionValue;
+
+	private final EnumTranslationService enumTranslatoinService;
 
 	/**
 	 * @param parent
@@ -105,6 +108,7 @@ public class ControlAreaSelectionControl {
 		broker = serviceProvider.broker;
 		messages = serviceProvider.messages;
 		partService = serviceProvider.partService;
+		enumTranslatoinService = serviceProvider.enumTranslationService;
 		// Reset combo value, when close session
 		broker.subscribe(Events.CLOSE_SESSION, event -> initCombo());
 		createCombo(parent);
@@ -137,9 +141,6 @@ public class ControlAreaSelectionControl {
 				if (getSession() != null) {
 					final IModelSession session = context
 							.get(IModelSession.class);
-					if (session != oldSession) {
-						oldSession = session;
-					}
 					if (session == null) {
 						initCombo();
 					} else {
@@ -292,10 +293,11 @@ public class ControlAreaSelectionControl {
 	}
 
 	private void setSinglePlanControlAreaCombo() {
-		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
+		comboViewer.add(enumTranslatoinService.translate(TableType.SINGLE)
+				.getPresentation());
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
-		oldSelectionValue = messages.ControlAreaCombo_All_ControlArea;
+		oldSelectionValue = messages.ControlAreaCombo_All_Objects_Value;
 	}
 
 	private String getDefaultAreaName(final int index) {
