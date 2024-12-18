@@ -49,8 +49,9 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 	public void beforeEach() throws Exception {
 		super.beforeEach();
 		@SuppressWarnings("unchecked")
-		final List<? extends ExpandItem> expandItems = bot.widgets(allOf(
-				widgetOfType(ExpandItem.class), withRegex("^.+ – Tabellen$")));
+		final List<? extends ExpandItem> expandItems = bot
+				.widgets(allOf(widgetOfType(ExpandItem.class),
+						withRegex("^.+ – (Zusatzt|T)abellen$")));
 		expandItems.forEach(item -> {
 			final SWTBotExpandItem swtBotExpandItem = new SWTBotExpandItem(
 					item);
