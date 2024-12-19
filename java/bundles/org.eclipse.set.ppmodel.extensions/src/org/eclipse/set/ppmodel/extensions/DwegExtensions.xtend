@@ -11,26 +11,16 @@ package org.eclipse.set.ppmodel.extensions
 import java.util.List
 import java.util.Set
 import org.eclipse.set.basis.graph.TopPath
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg_W_Kr
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 import org.eclipse.set.model.planpro.Ortung.FMA_Anlage
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 
-import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FahrwegExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.FstrDWegWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
-import org.eclipse.set.basis.graph.TopPoint
 
 /**
  * Extensions for {@link Fstr_DWeg}.
