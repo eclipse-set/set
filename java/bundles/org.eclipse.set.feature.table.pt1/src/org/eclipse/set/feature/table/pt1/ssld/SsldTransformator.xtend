@@ -40,6 +40,7 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import java.math.BigDecimal
+import org.eclipse.set.basis.graph.TopPath
 
 /**
  * Table transformation for a Durchrutschwegtabelle (SSLD).
@@ -57,45 +58,53 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		this.topGraphService = topGraphService
 	}
 
-	def BigDecimal getShortestPathLength(Signal signal, Punkt_Objekt p) {
+	def TopPath getShortestPath(Signal signal, Punkt_Objekt p) {
 		val points1 = signal.singlePoints.map[new TopPoint(it)]
 		val points2 = p.singlePoints.map[new TopPoint(it)]
 
 		return points1.flatMap [ pa |
 			points2.map [ pb |
-				topGraphService.findShortestDistance(pa, pb)
+				topGraphService.findShortestPath(pa, pb)
 			]
-		].filter[present].map[get].min
+		].filter[present].map[get].minBy[length]
 	}
 
 	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
 		BigDecimal maxLength) {
 		val startSignal = dweg?.fstrFahrweg?.start
-		var fmas = dweg?.FMAs.toList.filter [
-			topGraph.isInWirkrichtungOfSignal(startSignal, it)
-		].toList
-		// When not exists relevant FMA_Komponent/Gleis_Abschluss on the Fstr_Fahrweg of this DWeg,
-		// then take the FMA_Komponent/Gleis_Abschluss of this FMA_Anlage_Freimeldung,
-		// which in direction of the start Signal
-		if (fmas.empty) {
-			fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
-				filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].
-				toList
-		}
-
-		val relevantDistances = fmas?.map [
-			getShortestPathLength(dweg?.fstrFahrweg?.start, it)
+		val fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
+			filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].toList
+		val pathFromSignalToFMA = fmas?.map [
+			it -> getShortestPath(dweg?.fstrFahrweg?.start, it)
 		]
-		if (relevantDistances.isEmpty) {
+		if (pathFromSignalToFMA.isEmpty) {
 			return ""
 		}
-		val roundedDistance = AgateRounding.roundDown(
-			relevantDistances.max.doubleValue)
-		if (roundedDistance == 0.0)
-			throw new IllegalArgumentException("no path found")
-		else
-			return roundedDistance > maxLength.doubleValue
-				? '''> «maxLength.toTableIntegerAgateDown»''' : roundedDistance.toString
+
+		val relevantFmas = pathFromSignalToFMA.filter [
+			dweg.isRelevantFma(key, value)
+		].toList
+		
+		// When the free reporting section ending before the Dweg end,
+		// then take the FMA am nearst of the end of Dweg
+		if (relevantFmas.isEmpty) {
+			val fstrTOPKante = dweg.fstrFahrweg.bereichObjektTeilbereich.map [
+				topKante
+			]
+			val relevantPaths = pathFromSignalToFMA.filter [
+				value.edges.forall[fstrTOPKante.contains(it)]
+			]
+			if (relevantPaths.empty) {
+				throw new IllegalArgumentException("no path found")
+			}
+			return relevantPaths.maxBy[value.length].value.length.
+				toTableIntegerAgateDown
+		}
+
+		val distance = relevantFmas.map[value.length].max
+		return distance > maxLength
+			? '''> «maxLength.toTableIntegerAgateDown»'''
+			: distance.toTableIntegerAgateDown
 	}
 
 	override transformTableContent(
