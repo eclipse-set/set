@@ -10,7 +10,6 @@
   <div>
     <h2>Gleis: {{ trackLabel }}</h2>
     <ul>
-      <li>TOP_Kante: {{ topKante }}</li>
       <li>GUID: {{ trackSection.guid }}</li>
       <li>Form: {{ trackTrackShapeToText() }}</li>
       <li>Gleisart: {{ trackType() }}</li>
@@ -19,13 +18,13 @@
 </template>
 
 <script lang="ts">
-import { getFeatureData, getFeatureLabel } from '@/feature/FeatureInfo'
-import { TrackSectionFeatureData } from '@/feature/TrackFeature'
+import { Options, Vue } from 'vue-class-component'
 import TrackSection, { TrackShape } from '@/model/TrackSection'
 import TrackSegment, { TrackType } from '@/model/TrackSegment'
 import { Feature } from 'ol'
 import Geometry from 'ol/geom/Geometry'
-import { Options, Vue } from 'vue-class-component'
+import { TrackSectionFeatureData } from '@/feature/TrackFeature'
+import { getFeatureData, getFeatureLabel } from '@/feature/FeatureInfo'
 
 /**
  * Popup contents for track features
@@ -46,9 +45,6 @@ import { Options, Vue } from 'vue-class-component'
     },
     trackLabel: function () {
       return getFeatureLabel(this.feature)
-    },
-    topKante: function () {
-      return this.getData()?.guid
     }
   }
 })
@@ -57,7 +53,6 @@ export default class TrackSectionPopup extends Vue {
   trackSegment!: TrackSegment
   feature!: Feature<Geometry>
   trackLabel!: string
-  topKante!: string
 
   private getData (): TrackSectionFeatureData | undefined {
     return getFeatureData(this.feature)
