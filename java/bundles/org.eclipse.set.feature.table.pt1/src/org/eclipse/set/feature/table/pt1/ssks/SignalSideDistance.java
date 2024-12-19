@@ -252,6 +252,8 @@ public class SignalSideDistance {
 		final List<LineString> relevantGeometries = Streams
 				.stream(getContainer(potk).getGEOKante())
 				.filter(geoKante -> GeoKanteExtensions
+						.topKante(geoKante) != null)
+				.filter(geoKante -> GeoKanteExtensions
 						.topKante(geoKante) != potk.getIDTOPKante().getValue())
 				.map(GEOKanteGeometryExtensions::getGeometry)
 				.filter(Objects::nonNull).toList();

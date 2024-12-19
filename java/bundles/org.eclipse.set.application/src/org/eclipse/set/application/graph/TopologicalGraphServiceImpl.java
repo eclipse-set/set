@@ -141,11 +141,8 @@ public class TopologicalGraphServiceImpl
 		return Optional.ofNullable( //
 				DijkstraShortestPath.findPathBetween(graphView, fromNode,
 						toNode))
-				.map(p -> new TopPath(
-						p.getEdgeList().stream().map(Edge::edge).distinct()
-								.toList(),
-						getPathWeight(p),
-						p.getEdgeList().getFirst().getWeight()));
+				.map(p -> new TopPath(p.getEdgeList().stream().map(Edge::edge)
+						.distinct().toList(), getPathWeight(p), from));
 	}
 
 	private static BigDecimal getPathWeight(final GraphPath<Node, Edge> path) {
