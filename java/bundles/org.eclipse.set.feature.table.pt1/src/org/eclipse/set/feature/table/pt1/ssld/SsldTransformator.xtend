@@ -71,9 +71,17 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
 		BigDecimal maxLength) {
 		val startSignal = dweg?.fstrFahrweg?.start
-		val fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
+		var fmas = dweg?.FMAs.toList.filter [
+			topGraph.isInWirkrichtungOfSignal(startSignal, it)
+		].toList
+		// When not exists relevant FMA_Komponent/Gleis_Abschluss on the Fstr_Fahrweg of this DWeg,
+		// then take the FMA_Komponent/Gleis_Abschluss of this FMA_Anlage_Freimeldung,
+		// which in direction of the start Signal
+		if (fmas.empty) {
+			fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
 				filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].
 				toList
+		}
 
 		val relevantDistances = fmas?.map [
 			getShortestPathLength(dweg?.fstrFahrweg?.start, it)
