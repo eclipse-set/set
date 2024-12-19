@@ -140,7 +140,7 @@ public class TopPath {
 				.getWert();
 		// Point in first Edge
 		if (previousEdge == null) {
-			return pointOnFirstEdge(point, edgeLength);
+			return getDistanceOnFirstEdge(point, edgeLength);
 		}
 		// In top direction
 		if (previousEdge.getIDTOPKnotenB().getValue() == edge.getIDTOPKnotenA()
@@ -168,7 +168,7 @@ public class TopPath {
 		return Optional.of(pointDistance);
 	}
 
-	private Optional<BigDecimal> pointOnFirstEdge(final TopPoint point,
+	private Optional<BigDecimal> getDistanceOnFirstEdge(final TopPoint point,
 			final BigDecimal edgeLength) {
 		if (point.distance().compareTo(startNode.distance()) == 0) {
 			return Optional.of(BigDecimal.ZERO);
