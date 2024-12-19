@@ -429,9 +429,9 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bedienBezirk = element.bedienBezirkVirtuell
 
 		val steuerbezirksNummer = bedienBezirk?.bedienBezirkAllg?.
-			steuerbezirksnummer
+			steuerbezirksnummer?.wert
 		val steuerbezirksName = bedienBezirk?.bedienBezirkAllg?.
-			steuerbezirksname
+			steuerbezirksname?.wert
 
 		if (steuerbezirksNummer !== null && steuerbezirksName !== null) {
 			return '''«steuerbezirksNummer» («steuerbezirksName»)'''
