@@ -61,12 +61,10 @@ export default class FMAFeature extends LageplanFeature<FMAComponent> {
 
       // Rescale the feature according to the current zoom level
       // to keep a constant size
-      style
-        .getImage()
-        .setScale(scale)
+      style.getImage()?.setScale(scale)
 
       // Rotate the feature
-      style.getImage().setRotation((fma.position.rotation * Math.PI) / 180)
+      style.getImage()?.setRotation((fma.position.rotation * Math.PI) / 180)
 
       return style
     })
