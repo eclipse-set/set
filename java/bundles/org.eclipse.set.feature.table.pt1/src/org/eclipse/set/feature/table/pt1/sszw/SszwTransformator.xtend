@@ -18,6 +18,7 @@ import org.eclipse.set.core.services.Services
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
+import org.eclipse.set.model.planpro.Ansteuerung_Element.ESTW_Zentraleinheit
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Balisentechnik_ETCS.ETCS_W_Kr
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
@@ -34,7 +35,9 @@ import static org.eclipse.set.feature.table.pt1.sszw.SszwColumns.*
 import static org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts.*
 import static org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMWKrArt.*
 
+import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.ESTW_ZentraleinheitExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ETCSWKrExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektTopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
@@ -235,21 +238,38 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 		// L: Sszw.Ansteuerung.ESTW_Zentraleinheit
 		fill(
 			row,
-			cols.getColumn(ESTW_Zentraleinheit),
-			etcsWkr,
+			cols.getColumn(Zentraleinheit),
+			refWKrAnlage,
 			[
-				// TODO
-				"TODO"
+				WKrGspElemente.flatMap [ gsp |
+					gsp.aussenelementansteuerung.IDInformationPrimaer
+				].filterNull.map[value].filter(ESTW_Zentraleinheit).map [
+					oertlichkeitNamensgebend?.bezeichnung?.
+						oertlichkeitAbkuerzung?.wert
+				]
+				return ""
 			]
 		)
+
 		// M: Sszw.Ansteuerung.Stellbereich
-		fill(
+		fillIterable(
 			row,
 			cols.getColumn(Stellbereich),
 			etcsWkr,
 			[
-				stellbereich.oertlichkeitBezeichnung ?: ""
-			]
+				val outsideControl = WKrGspElements.map [ gsp |
+					gsp.aussenelementansteuerung
+				]
+				if (!outsideControl.flatMap[stellBereich].isNullOrEmpty) {
+					return outsideControl.map [
+						oertlichkeitNamensgebend.bezeichnung?.
+							oertlichkeitAbkuerzung?.wert ?:
+							bezeichnung?.bezeichnungAEA?.wert
+					]
+				}
+				return List.of(stellbereich.oertlichkeitBezeichnung)
+			],
+			null
 		)
 
 		// N: Sszw.Bemerkung

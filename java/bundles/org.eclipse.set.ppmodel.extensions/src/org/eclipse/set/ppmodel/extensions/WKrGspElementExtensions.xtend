@@ -34,6 +34,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung
 
 /**
  * This class extends {@link W_Kr_Gsp_Element}.
@@ -204,7 +205,11 @@ class WKrGspElementExtensions extends BasisObjektExtensions {
 
 	def static boolean isBelongToControlArea(W_Kr_Gsp_Element gspElement,
 		Stell_Bereich controlArea) {
-		return gspElement.IDStellelement?.value?.IDInformation?.value ===
+		return gspElement.aussenelementansteuerung ===
 			controlArea.aussenElementAnsteuerung
+	}
+	
+	def static Aussenelementansteuerung getAussenelementansteuerung(W_Kr_Gsp_Element gspElement) {
+		return gspElement.IDStellelement?.value?.IDInformation?.value
 	}
 }
