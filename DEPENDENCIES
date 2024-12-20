@@ -607,6 +607,7 @@ npm/npmjs/-/safer-buffer/2.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/schema-utils/3.1.1, MIT, approved, #7963
 npm/npmjs/-/schema-utils/3.3.0, MIT, approved, #8952
 npm/npmjs/-/schema-utils/4.2.0, MIT, approved, #8986
+npm/npmjs/-/schema-utils/4.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/select-hose/2.0.0, MIT, approved, #145
 npm/npmjs/-/selfsigned/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
@@ -658,8 +659,9 @@ npm/npmjs/-/svg-pathdata/6.0.3, MIT AND 0BSD, approved, #15345
 npm/npmjs/-/sweepline-intersections/1.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/tapable/2.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/terser-webpack-plugin/5.3.10, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
-npm/npmjs/-/terser/5.26.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #15402
+npm/npmjs/-/terser-webpack-plugin/5.3.11, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser/5.27.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #12904
+npm/npmjs/-/terser/5.37.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #17937
 npm/npmjs/-/text-segmentation/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/thingies/1.21.0, MIT AND Unlicense, approved, clearlydefined
 npm/npmjs/-/thunky/1.1.0, MIT, approved, clearlydefined
@@ -691,7 +693,7 @@ npm/npmjs/-/utils-merge/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/utrie/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #15399
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/vite/6.0.3, MIT AND ISC AND Apache-2.0 AND BSD-2-Clause AND CC0-1.0, approved, #17581
+npm/npmjs/-/vite/6.0.4, MIT AND ISC AND Apache-2.0 AND BSD-2-Clause AND CC0-1.0, approved, #17581
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/9.4.3, MIT, approved, #15333
 npm/npmjs/-/vue-router/4.5.0, MIT, approved, #17508
@@ -763,13 +765,17 @@ npm/npmjs/@humanwhocodes/module-importer/1.0.1, Apache-2.0, approved, clearlydef
 npm/npmjs/@humanwhocodes/retry/0.3.1, Apache-2.0 AND ISC, approved, #15956
 npm/npmjs/@humanwhocodes/retry/0.4.1, Apache-2.0 AND ISC, approved, #17085
 npm/npmjs/@jridgewell/gen-mapping/0.3.3, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/gen-mapping/0.3.8, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/resolve-uri/3.1.1, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/resolve-uri/3.1.2, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/set-array/1.1.2, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/set-array/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/source-map/0.3.5, MIT, approved, #9304
+npm/npmjs/@jridgewell/source-map/0.3.6, MIT, approved, #9304
 npm/npmjs/@jridgewell/sourcemap-codec/1.4.15, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/sourcemap-codec/1.5.0, MIT, approved, clearlydefined
-npm/npmjs/@jridgewell/trace-mapping/0.3.20, MIT, approved, #9904
 npm/npmjs/@jridgewell/trace-mapping/0.3.22, MIT, approved, #9904
+npm/npmjs/@jridgewell/trace-mapping/0.3.25, MIT, approved, #9904
 npm/npmjs/@jsonjoy.com/base64/1.1.2, Apache-2.0, approved, clearlydefined
 npm/npmjs/@jsonjoy.com/json-pack/1.1.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@jsonjoy.com/util/1.3.0, Apache-2.0, approved, clearlydefined
@@ -833,7 +839,7 @@ npm/npmjs/@types/eslint/9.6.1, MIT, approved, #15963
 npm/npmjs/@types/estree/1.0.6, MIT, approved, #8266
 npm/npmjs/@types/express-serve-static-core/4.17.43, MIT, approved, #6020
 npm/npmjs/@types/express/4.17.21, MIT, approved, #5760
-npm/npmjs/@types/geojson/7946.0.14, MIT, approved, #11480
+npm/npmjs/@types/geojson/7946.0.15, MIT, approved, #11480
 npm/npmjs/@types/html-minifier-terser/6.1.0, MIT, approved, clearlydefined
 npm/npmjs/@types/http-errors/2.0.4, MIT, approved, #10815
 npm/npmjs/@types/http-proxy/1.17.9, MIT, approved, #8414
