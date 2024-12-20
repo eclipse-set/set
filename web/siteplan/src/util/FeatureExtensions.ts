@@ -9,6 +9,7 @@
 import { isGeometryIntersection, Line } from '@/collision/CollisionExtension'
 import { FeatureLayerType, FeatureType, getFeatureData, getFeatureLayer, getFeatureMovePriority, getFeatureType } from '@/feature/FeatureInfo'
 import { SheetCutFeatureData } from '@/feature/LayoutInfoFeature'
+import { TrackSwitchFeatureData } from '@/feature/TrackSwitchFeature'
 import { CantPoint } from '@/model/Cant'
 import { Coordinate, Position } from '@/model/Position'
 import { Signal } from '@/model/Signal'
@@ -39,8 +40,8 @@ export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
       const trackOutline = getFeatureData(feature)
       return trackOutline ? [trackOutline.guid] : []
     case FeatureType.TrackSwitch:
-      const trackSwitch = getFeatureData(feature)
-      return trackSwitch ? [trackSwitch.trackSwitch.guid] : []
+      const trackSwitch = getFeatureData(feature) as TrackSwitchFeatureData
+      return trackSwitch.component ? [trackSwitch.component.guid] : []
     case FeatureType.TrackLock:
       const trackLock = getFeatureData(feature)
       return trackLock ? [trackLock.guid] : []
