@@ -107,12 +107,16 @@ class AussenelementansteuerungExtensions extends BasisObjektExtensions {
 				IDEnergie?.value === aussenelementansteuerung
 		]
 	}
-	
-	def static boolean isBelongToControlArea(Aussenelementansteuerung aussenElement, Stell_Bereich area) {
+
+	def static boolean isBelongToControlArea(
+		Aussenelementansteuerung aussenElement, Stell_Bereich area) {
 		return area.aussenElementAnsteuerung == aussenElement;
 	}
-	
-	def static List<Stell_Bereich> getStellBereich(Aussenelementansteuerung aussenElement) {
-return 		aussenElement.container.stellBereich.filter[area | aussenElement.isBelongToControlArea(area)].toList
+
+	def static List<Stell_Bereich> getStellBereich(
+		Aussenelementansteuerung aussenElement) {
+		return aussenElement.container.stellBereich.filter [ area |
+			aussenElement.isBelongToControlArea(area)
+		].toList
 	}
 }
