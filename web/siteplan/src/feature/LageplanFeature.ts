@@ -22,7 +22,8 @@ import { Position } from '../model/Position'
 import { isPlanningObject, SiteplanColorValue, SiteplanState } from '../model/SiteplanModel'
 import SvgService from '../service/SvgService'
 import {
-  createFeature, getFeatureBoundArea,
+  createFeature,
+  getFeatureBoundArea,
   getFeatureBounds,
   getFeatureData,
   getFeatureGUID,
