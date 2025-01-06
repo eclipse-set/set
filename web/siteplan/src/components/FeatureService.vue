@@ -211,29 +211,29 @@ export default class FeatureService extends Vue {
     featureClass: ILageplanFeature
   ): Feature<Geometry>[] {
     try {
-      // Temporary demo: Only show red/yellow in development mode
-      if (Configuration.developmentMode()) {
-        // eslint-disable-next-line default-case
-        switch (store.state.sessionState) {
-          case TableType.INITIAL:
-            return [
-              model.commonState,
-              model.initialState,
-              model.changedInitialState
-            ]
-              .map(state => featureClass.getFeatures(state))
-              .flat()
-              .map(feature => featureClass.setFeatureColor(feature))
-          case TableType.FINAL:
-            return [
-              model.commonState,
-              model.finalState,
-              model.changedFinalState
-            ]
-              .map(state => featureClass.getFeatures(state))
-              .flat()
-              .map(feature => featureClass.setFeatureColor(feature))
-          case TableType.DIFF:{
+      // eslint-disable-next-line default-case
+      switch (store.state.sessionState) {
+        case TableType.INITIAL:
+          return [
+            model.commonState,
+            model.initialState,
+            model.changedInitialState
+          ]
+            .map(state => featureClass.getFeatures(state))
+            .flat()
+            .map(feature => featureClass.setFeatureColor(feature))
+        case TableType.FINAL:
+          return [
+            model.commonState,
+            model.finalState,
+            model.changedFinalState
+          ]
+            .map(state => featureClass.getFeatures(state))
+            .flat()
+            .map(feature => featureClass.setFeatureColor(feature))
+        case TableType.DIFF:{
+          if (Configuration.developmentMode()) {
+            // Temporary demo: Only show red/yellow in development mode
             const compareState = featureClass.compareChangedState(
               model.changedInitialState,
               model.changedFinalState
@@ -259,12 +259,12 @@ export default class FeatureService extends Vue {
                   ))
             ].flat()
           }
+
+          return [model.commonState, model.finalState, model.changedInitialState]
+            .map(state => featureClass.getFeatures(state))
+            .flat()
+            .map(feature => featureClass.setFeatureColor(feature))
         }
-      } else {
-        return [model.commonState, model.finalState, model.changedInitialState]
-          .map(state => featureClass.getFeatures(state))
-          .flat()
-          .map(feature => featureClass.setFeatureColor(feature))
       }
     } catch (e) {
       console.error(e)
