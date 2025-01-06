@@ -49,7 +49,7 @@ export default class StationFeature extends LageplanFeature<Station> {
       FeatureType.Station,
       station,
       new Point(position),
-      station.label.text
+      station.label?.text
     )
 
     feature.setStyle((_, resolution) => {
@@ -60,9 +60,10 @@ export default class StationFeature extends LageplanFeature<Station> {
         textRotation += 180
       }
 
+      const text = station.label?.text ? 'Bstg ' + station.label?.text : '⚠'
       return new Style({
         text: new Text({
-          text: 'Bstg ' + station.label?.text,
+          text,
           scale: scale * 3,
           rotateWithView: true,
           rotation: textRotation * Math.PI / 180,
