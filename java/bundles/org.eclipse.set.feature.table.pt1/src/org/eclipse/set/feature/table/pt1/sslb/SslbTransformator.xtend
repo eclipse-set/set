@@ -70,8 +70,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val validObjects = container.blockElement
 			.filter[isPlanningObject]
 			.filterObjectsInControlArea(controlArea)
+			.filterNull
 		val fmaLookupCache = getFMALookupCache(container)
-		validObjects.flatMap[findRelevantBlockElements].forEach [ it |
+		validObjects.flatMap[findRelevantBlockElements].filterNull.forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}
