@@ -666,19 +666,18 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
 		val ziel = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value as Signal
-
-		val startFahrweg = ziel.container.contents.filter(Fstr_Fahrweg).filter [
-			ziel == IDStart?.value
-		]
-		val start = ziel.container.contents.filter(Fstr_Zug_Rangier).filter [
+		
+		val fahrwegeAbZiel = ziel.container.contents.filter(Fstr_Zug_Rangier).filter [
 			fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
-				startFahrweg.contains(IDFstrFahrweg)
-		].map [
+				IDFstrFahrweg?.value?.IDStart?.value == ziel
+		]
+
+		val blockSignale = fahrwegeAbZiel.map [
 			(IDFstrFahrweg?.value?.IDZiel?.value as Signal)?.bezeichnung?.
 				bezeichnungTabelle?.wert
 		].filterNull.join(" ")
 
-		return '''«ziel?.bezeichnung?.bezeichnungTabelle?.wert» [«start»]'''
+		return '''«ziel?.bezeichnung?.bezeichnungTabelle?.wert» [«blockSignale»]'''
 	}
 
 	private def String fahrwegNummer(
