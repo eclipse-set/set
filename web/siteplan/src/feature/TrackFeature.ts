@@ -293,38 +293,34 @@ export default class TrackFeature extends LageplanFeature<Track> {
     ])
     const initialTracks = this.getObjectsModel(initial)
     const finalTracks = this.getObjectsModel(final)
-    let exsitDiffSection = false
-    initialTracks.forEach(initialTrack => {
+    const exsitDiffSection = initialTracks.some(initialTrack => {
       const finalTrack = finalTracks.find(x => x.guid === initialTrack.guid)
-      if (!finalTrack) {
-        return
-      }
-
-      const initialSections = initialTrack.sections
-      const finalSections = finalTrack.sections
-      if (initialSections.length > finalSections.length) {
-        const missingSections = this.getMissingElements<TrackSection>(initialSections, finalSections, x => x.guid)
-        this.coloringMissingElements(initialTrack, missingSections, SiteplanColorValue.COLOR_REMOVED)
-        exsitDiffSection = true
-      } else if (initialSections.length < finalSections.length) {
-        const missingSections = this.getMissingElements<TrackSection>(finalSections, initialSections, x => x.guid)
-        this.coloringMissingElements(finalTrack, missingSections, SiteplanColorValue.COLOR_ADDED)
-        exsitDiffSection = true
-      }
-
-      finalTrack.sections.forEach(finalSection => {
-        const initialSection = initialTrack.sections.find(x => x.guid === finalSection.guid)
-        if (initialSection && compare(finalSection, initialSection)) {
-          this.setObjectColor(initialTrack, finalSection.guid, SiteplanColorValue.COLOR_REMOVED)
-          this.setObjectColor(finalTrack, finalSection.guid, SiteplanColorValue.COLOR_ADDED)
-          exsitDiffSection = true
+      if (finalTrack) {
+        const initialSections = initialTrack.sections
+        const finalSections = finalTrack.sections
+        if (initialSections.length > finalSections.length) {
+          const missingSections = this.getMissingElements<TrackSection>(initialSections, finalSections, x => x.guid)
+          this.coloringMissingElements(initialTrack, missingSections, SiteplanColorValue.COLOR_REMOVED)
+          return true
+        } else if (initialSections.length < finalSections.length) {
+          const missingSections = this.getMissingElements<TrackSection>(finalSections, initialSections, x => x.guid)
+          this.coloringMissingElements(finalTrack, missingSections, SiteplanColorValue.COLOR_ADDED)
+          return  true
         }
-      })
+
+        return finalTrack.sections.some(finalSection => {
+          const initialSection = initialTrack.sections.find(x => x.guid === finalSection.guid)
+          if (initialSection && compare(finalSection, initialSection)) {
+            this.setObjectColor(initialTrack, finalSection.guid, SiteplanColorValue.COLOR_REMOVED)
+            this.setObjectColor(finalTrack, finalSection.guid, SiteplanColorValue.COLOR_ADDED)
+            return true
+          }
+        })
+      }
     })
-    const test = isDiffDesignation || exsitDiffSection
+    return isDiffDesignation || exsitDiffSection
       ? this.createCompareFeatures(initial, final)
       : this.getFeatures(final)
-    return test
   }
 
   protected createCompareFeatures (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
@@ -349,12 +345,12 @@ export default class TrackFeature extends LageplanFeature<Track> {
         const initialSegment = (getFeatureData(initialFeature) as TrackSectionFeatureData)?.segment
         const finalSegmentFeatures = finalFeatureGroup[1]
           .filter(finalFeature =>  initialSectionGuid === this.getFeatureSectionGuid(finalFeature))
-        const finalFeature = finalSegmentFeatures.find(finalFeature => {
+        const isDifferent = finalSegmentFeatures.some(finalFeature => {
           const finalSegment = getFeatureData(finalFeature)?.segment
           return compare(initialSegment, finalSegment)
         })
 
-        if (finalFeature) {
+        if (isDifferent) {
           finalSegmentFeatures.forEach(feature => {
             if (!result.includes(feature)) {
               result.push(feature)
