@@ -360,31 +360,31 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def String getZielGleisAbschnittLength(Fstr_DWeg dweg,
 		TopGraph topGraph) {
-		val fstrs = dweg.fstrZugRangier
-		if (fstrs.empty) {
-			return ""
-		}
 		val startSignal = dweg?.fstrFahrweg?.start
 		val fmaAnlage = dweg.fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.value
 		// The relevant FMA shouldn't lie on direction of start signal
-		val fmaKomponent = fmaAnlage.fmaGrenzen.filter [
+		val fmaKomponenten = fmaAnlage.fmaGrenzen.filter [
 			!topGraph.isInWirkrichtungOfSignal(startSignal, it)
 		].toList
-		val pathFromSignalToFMA = fmaKomponent.map [
+		val pathsFromSignalToFMA = fmaKomponenten.map [
 			startSignal.getShortestPath(it)
 		]
 		
-		// Determine which path overlapping with Fstr and take the longest path
-		val overlappingPaths = fstrs.map [ fstr |
-			val fstrTOPKanten = fstr.IDFstrFahrweg?.value.
-				bereichObjektTeilbereich.map[IDTOPKante.value]
-			val relevantPath = pathFromSignalToFMA.filter [ path |
-				path.edges.forall[fstrTOPKanten.contains(it)]
-			]
-			return relevantPath.map[it -> length].maxBy[value]
-		].toList
-		// Take the longest overlapping path
-		val maxDistance = overlappingPaths.maxBy[value]
+		val fstrs = dweg.fstrZugRangier
+		val relevantPaths = fstrs.empty 
+			? // if no fstrs we take all paths to any of the fmaKomponenten 
+				pathsFromSignalToFMA 
+			: // otherwise we determine which path is overlapping with Fstr
+				fstrs.map [ fstr |
+					val fstrTOPKanten = fstr.IDFstrFahrweg?.value.
+						bereichObjektTeilbereich.map[IDTOPKante.value]
+					val overlappingtPaths = pathsFromSignalToFMA.filter [ path |
+						path.edges.forall[fstrTOPKanten.contains(it)]
+					]
+					return overlappingtPaths
+				].flatten
+		// of all the relevant paths between fmaGrenzen and startSignal we take the longest path
+		val maxDistance = relevantPaths.map[it -> length].maxBy[value]
 		return maxDistance.value.toTableIntegerAgateDown
 	}
 }
