@@ -277,7 +277,7 @@ npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dompurify/2.5.6, Apache-2.0 OR MPL-2.0, approved, #14657
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
-npm/npmjs/-/dotenv-cli/7.4.4, MIT, approved, #17506
+npm/npmjs/-/dotenv-cli/8.0.0, MIT, approved, #18236
 npm/npmjs/-/dotenv-expand/10.0.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dotenv/16.4.5, BSD-2-Clause, approved, #12890
 npm/npmjs/-/earcut/3.0.0, ISC, approved, clearlydefined
