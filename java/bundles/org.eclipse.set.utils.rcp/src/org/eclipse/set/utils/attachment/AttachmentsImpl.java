@@ -67,9 +67,9 @@ public class AttachmentsImpl extends Attachments {
 					return;
 				}
 			}
-			final byte[] data = attachment.getData();
 			try (final FileOutputStream stream = new FileOutputStream(
 					path.toString());) {
+				final byte[] data = attachment.getData();
 				stream.write(data);
 				dialogService.openDirectoryAfterExport(shell, path.getParent());
 				newExportDirConsumer.accept(path.getParent());
