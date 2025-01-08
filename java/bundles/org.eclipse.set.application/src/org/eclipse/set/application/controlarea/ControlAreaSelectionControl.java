@@ -35,7 +35,6 @@ import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
@@ -94,8 +93,6 @@ public class ControlAreaSelectionControl {
 
 	private Object oldSelectionValue;
 
-	private final EnumTranslationService enumTranslationService;
-
 	/**
 	 * @param parent
 	 *            the parent
@@ -108,7 +105,6 @@ public class ControlAreaSelectionControl {
 		broker = serviceProvider.broker;
 		messages = serviceProvider.messages;
 		partService = serviceProvider.partService;
-		enumTranslationService = serviceProvider.enumTranslationService;
 		// Reset combo value, when close session
 		broker.subscribe(Events.CLOSE_SESSION, event -> initCombo());
 		createCombo(parent);
@@ -296,11 +292,9 @@ public class ControlAreaSelectionControl {
 	}
 
 	private void setSinglePlanControlAreaCombo() {
-		comboViewer.add(enumTranslationService.translate(TableType.SINGLE)
-				.getPresentation());
+		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
-		oldSelectionValue = messages.ControlAreaCombo_All_Objects_Value;
 	}
 
 	private String getDefaultAreaName(final int index) {
@@ -358,9 +352,7 @@ public class ControlAreaSelectionControl {
 	}
 
 	private void handleStringValue(final String msg) {
-		if (msg.equals(messages.ControlAreaCombo_All_Objects_Value)
-				|| msg.equals(enumTranslationService.translate(TableType.SINGLE)
-						.getPresentation())) {
+		if (msg.equals(messages.ControlAreaCombo_All_Objects_Value)) {
 			ToolboxEvents.send(broker,
 					new SelectedControlAreaChangedEvent(tableType, true));
 			return;
