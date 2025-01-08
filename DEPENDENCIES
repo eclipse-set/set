@@ -13,7 +13,7 @@ maven/mavencentral/com.google.guava/listenablefuture/9999.0-empty-to-avoid-confl
 maven/mavencentral/com.google.inject.extensions/guice-assistedinject/7.0.0, Apache-2.0, approved, #9169
 maven/mavencentral/com.google.inject/guice/7.0.0, Apache-2.0, approved, #9095
 maven/mavencentral/com.google.j2objc/j2objc-annotations/3.0.0, Apache-2.0, approved, #13676
-maven/mavencentral/com.ibm.icu/icu4j/74.1, GPL-2.0-or-later AND GPL-3.0-or-later AND LicenseRef-scancode-autoconf-simple-exception AND LicenseRef-scancode-autoconf-simple-exception-2.0 AND LicenseRef-scancode-unicode AND LicenseRef-scancode-unicode-icu-58 AND NTP AND LicenseRef-scancode-unicode AND NGPL, approved, #18267
+maven/mavencentral/com.ibm.icu/icu4j/74.1, Unicode-TOU AND ICU AND BSD-3-Clause AND BSD-2-Clause AND GPL-3.0-or-later WITH Autoconf-exception-2.0 AND NAIST-2003 AND NTP AND LicenseRef-Public-Domain, approved, #18267
 maven/mavencentral/com.jcraft/jsch/0.1.55, BSD-3-Clause, approved, CQ19435
 maven/mavencentral/com.sun.mail/javax.mail/1.6.2, CDDL-1.0 AND Apache-2.0, approved, CQ18739
 maven/mavencentral/commons-io/commons-io/2.15.0, Apache-2.0, approved, #11244
