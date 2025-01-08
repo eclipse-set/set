@@ -37,6 +37,7 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
+import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.NewTableTypeEvent;
@@ -89,7 +90,6 @@ public class ControlAreaSelectionControl {
 
 	private ToolboxEventHandler<NewTableTypeEvent> newTableTypeHandler;
 	private TableType tableType;
-	IModelSession oldSession;
 
 	private Object oldSelectionValue;
 
@@ -137,14 +137,14 @@ public class ControlAreaSelectionControl {
 				if (getSession() != null) {
 					final IModelSession session = context
 							.get(IModelSession.class);
-					if (session != oldSession) {
-						oldSession = session;
-					}
 					if (session == null) {
 						initCombo();
 					} else {
 						// Default table type
-						tableType = TableType.DIFF;
+						tableType = PlanProSchnittstelleExtensions
+								.isPlanning(session.getPlanProSchnittstelle())
+										? TableType.DIFF
+										: TableType.SINGLE;
 						setCombo(tableType);
 					}
 				}
@@ -295,7 +295,6 @@ public class ControlAreaSelectionControl {
 		comboViewer.add(messages.ControlAreaCombo_All_Objects_Value);
 		comboViewer.getCombo().select(0);
 		comboViewer.getCombo().setEnabled(false);
-		oldSelectionValue = messages.ControlAreaCombo_All_ControlArea;
 	}
 
 	private String getDefaultAreaName(final int index) {
