@@ -51,30 +51,30 @@ export default class StationFeature extends LageplanFeature<Station> {
       new Point(position),
       station.label?.text
     )
-
-    feature.setStyle((_, resolution) => {
-      const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
-      const scale = baseResolution / resolution
-      let textRotation = avgRotation
-      if (isLabelFlipRequired(textRotation - 90, this.map)) {
-        textRotation += 180
-      }
-
-      const text = station.label?.text ? 'Bstg ' + station.label?.text : '⚠'
-      return new Style({
-        text: new Text({
-          text,
-          scale: scale * 3,
-          rotateWithView: true,
-          rotation: textRotation * Math.PI / 180,
-          textAlign: 'center',
-          fill: new Fill({
-            color: getLabelColor(station) ?? 'black'
+    if (station.label?.text) {
+      feature.setStyle((_, resolution) => {
+        const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
+        const scale = baseResolution / resolution
+        let textRotation = avgRotation
+        if (isLabelFlipRequired(textRotation - 90, this.map)) {
+          textRotation += 180
+        }
+        
+        return new Style({
+          text: new Text({
+            text: 'Bstg ' + station.label.text,
+            scale: scale * 3,
+            rotateWithView: true,
+            rotation: textRotation * Math.PI / 180,
+            textAlign: 'center',
+            fill: new Fill({
+              color: getLabelColor(station) ?? 'black'
+            })
           })
         })
       })
-    })
-
+    }
+    
     return feature
   }
 
