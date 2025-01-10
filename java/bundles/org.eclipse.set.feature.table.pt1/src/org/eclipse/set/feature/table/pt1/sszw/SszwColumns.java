@@ -76,7 +76,7 @@ public class SszwColumns {
 	/**
 	 * Sszw.Ansteuerung.ESTW_Zentraleinheit
 	 */
-	public static final String Zentraleinheit = "L";
+	public static final String ESTWZentraleinheit = "L";
 
 	/**
 	 * Sszw.Ansteuerung.Stellbereich
