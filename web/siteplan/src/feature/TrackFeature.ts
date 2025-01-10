@@ -293,7 +293,7 @@ export default class TrackFeature extends LageplanFeature<Track> {
     ])
     const initialTracks = this.getObjectsModel(initial)
     const finalTracks = this.getObjectsModel(final)
-    const exsitDiffSection = initialTracks.some(initialTrack => {
+    const existDiffSection = initialTracks.some(initialTrack => {
       const finalTrack = finalTracks.find(x => x.guid === initialTrack.guid)
       if (finalTrack) {
         const initialSections = initialTrack.sections
@@ -318,7 +318,7 @@ export default class TrackFeature extends LageplanFeature<Track> {
         })
       }
     })
-    return isDiffDesignation || exsitDiffSection
+    return isDiffDesignation || existDiffSection
       ? this.createCompareFeatures(initial, final)
       : this.getFeatures(final)
   }
