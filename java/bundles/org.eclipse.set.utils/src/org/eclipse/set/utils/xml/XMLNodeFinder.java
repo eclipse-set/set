@@ -106,15 +106,9 @@ public class XMLNodeFinder {
 	 */
 	private static boolean isLineNumberInNode(final int lineNumber,
 			final Node node) {
-		final int start = LineNumberXMLReader.getLineNumber(node);
-		if (lineNumber < start) {
-			return false;
-		}
+		final int start = LineNumberXMLReader.getStartLineNumber(node);
 		final int end = LineNumberXMLReader.getNodeLastLineNumber(node);
-		if (lineNumber > end && end != -1) {
-			return false;
-		}
-		return true;
+		return lineNumber >= start && lineNumber <= end;
 	}
 
 	/**

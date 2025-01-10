@@ -29,6 +29,8 @@ import org.w3c.dom.NodeList;
 public class NodeObjectScopeProvider {
 	private static final String NODE_AUSGABE_FACHDATEN = "Ausgabe_Fachdaten"; //$NON-NLS-1$
 
+	private static final String NODE_CONTAINER = "Container"; //$NON-NLS-1$
+
 	private static final String XPATH_PLANUNGSBEREICH = "//ID_LST_Objekt_Planungsbereich/Wert/text()"; //$NON-NLS-1$
 
 	/**
@@ -74,10 +76,16 @@ public class NodeObjectScopeProvider {
 			return ObjectScope.UNKNOWN;
 		}
 
+		if (!isInContainerNode(node)) {
+			return ObjectScope.UNKNOWN;
+		}
+
 		if (isGUIDInLSTPlanungsbereich(node, guid)) {
 			return ObjectScope.PLAN;
 		}
+
 		return ObjectScope.BETRACHTUNG;
+
 	}
 
 	private boolean isGUIDInLSTPlanungsbereich(final Node node,
@@ -105,6 +113,13 @@ public class NodeObjectScopeProvider {
 		}
 
 		return guidPlanungsbereichCache.contains(guid);
+	}
 
+	private boolean isInContainerNode(final Node node) {
+		if (node == null || node.getNodeName().equals(NODE_CONTAINER)) {
+			return false;
+		}
+
+		return isInContainerNode(node.getParentNode());
 	}
 }
