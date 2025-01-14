@@ -146,7 +146,7 @@ maven/mavencentral/org.osgi/org.osgi.service.provisioning/1.2.0, Apache-1.1 AND 
 maven/mavencentral/org.osgi/org.osgi.service.upnp/1.2.1, Apache-2.0, approved, #15268
 maven/mavencentral/org.osgi/org.osgi.service.useradmin/1.1.1, Apache-2.0, approved, #15323
 maven/mavencentral/org.osgi/org.osgi.service.wireadmin/1.0.2, Apache-2.0, approved, #15398
-maven/mavencentral/org.osgi/org.osgi.util.function/1.2.0, Apache-2.0, approved, #15222
+maven/mavencentral/org.osgi/org.osgi.util.function/1.2.0, Apache-2.0, approved, #18554
 maven/mavencentral/org.osgi/org.osgi.util.measurement/1.0.2, Apache-2.0, approved, #17679
 maven/mavencentral/org.osgi/org.osgi.util.position/1.0.1, Apache-1.1 AND Apache-2.0, approved, #17683
 maven/mavencentral/org.osgi/org.osgi.util.promise/1.3.0, Apache-2.0, approved, #5266
@@ -671,7 +671,7 @@ npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/toidentifier/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/tree-dump/1.0.2, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/ts-api-utils/2.0.0, MIT, approved, #18339
-npm/npmjs/-/ts-loader/9.5.1, MIT AND ISC, approved, #15408
+npm/npmjs/-/ts-loader/9.5.2, MIT AND ISC, approved, #15408
 npm/npmjs/-/tsconfig-paths/3.15.0, MIT, approved, #12111
 npm/npmjs/-/tslib/2.4.0, 0BSD, approved, #4336
 npm/npmjs/-/tslib/2.8.1, 0BSD, approved, clearlydefined
