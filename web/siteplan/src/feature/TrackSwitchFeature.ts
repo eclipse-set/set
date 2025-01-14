@@ -25,7 +25,7 @@ import LineString from 'ol/geom/LineString'
 import Point from 'ol/geom/Point'
 import Polygon from 'ol/geom/Polygon'
 import { Stroke, Style } from 'ol/style'
-import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
+import { createFeature, FeatureType, getFeatureData, getFeatureType } from './FeatureInfo'
 
 /**
  * Container for all track switch features
@@ -80,6 +80,11 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
     })
     sideLegCoorClone.reverse()
     sideLegCoorClone.forEach(coor => coordinates.push([coor.x, coor.y]))
+
+    // DKW and KR haven't the legs same TOP_Kante
+    if (tswitch.design?.startsWith('DKW') || tswitch.design?.startsWith('KR')) {
+      coordinates.push([component.mainLeg.coordinates[0].x, component.mainLeg.coordinates[0].y])
+    }
 
     // Geometries for the three components
     const outlineGeometry = new Polygon([coordinates])
