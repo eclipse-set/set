@@ -187,21 +187,21 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private List<Aussenelementansteuerung> getControlFromFieldELement(
 			final Ur_Objekt object) {
 		final Function<Ur_Objekt, List<Aussenelementansteuerung>> getAussElement = urObject -> switch (urObject) {
-		case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
-				gsp.getIDStellelement().getValue());
-		case final Signal signal -> getControlFromFieldELement(
-				signal.getSignalReal().getSignalRealAktiv().getIDStellelement()
-						.getValue());
-		case final FMA_Komponente fma -> fma.getFMAKomponenteAchszaehlpunkt()
-				.getIDInformation().stream()
-				.map(ID_Aussenelementansteuerung_TypeClass::getValue).toList();
-		case final PZB_Element pzb -> getControlFromFieldELement(
-				pzb.getIDStellelement().getValue());
-		case final Schluesselsperre schluessel -> getControlFromFieldELement(
-				schluessel.getIDStellelement().getValue());
-		case final Stellelement stellement -> List
-				.of(stellement.getIDInformation().getValue());
-		default -> null;
+			case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
+					gsp.getIDStellelement().getValue());
+			case final Signal signal -> getControlFromFieldELement(
+					signal.getSignalReal().getSignalRealAktiv().getIDStellelement()
+							.getValue());
+			case final FMA_Komponente fma -> fma.getFMAKomponenteAchszaehlpunkt()
+					.getIDInformation().stream()
+					.map(ID_Aussenelementansteuerung_TypeClass::getValue).toList();
+			case final PZB_Element pzb -> getControlFromFieldELement(
+					pzb.getIDStellelement().getValue());
+			case final Schluesselsperre schluessel -> getControlFromFieldELement(
+					schluessel.getIDStellelement().getValue());
+			case final Stellelement stellement -> List
+					.of(stellement.getIDInformation().getValue());
+			default -> null;
 		};
 		return getNullableObject(object, getAussElement::apply)
 				.orElse(Collections.emptyList());
@@ -210,34 +210,34 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@SuppressWarnings("nls")
 	private String getFieldElementDesignation(final Ur_Objekt object) {
 		final Function<Ur_Objekt, String> destignationFunc = urObject -> switch (urObject) {
-		case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
-				.getBezeichnungTabelle().getWert();
-		case final Signal signal -> signal.getBezeichnung()
-				.getBezeichnungTabelle().getWert();
-		case final FMA_Komponente fma -> fma.getBezeichnung()
-				.getBezeichnungTabelle().getWert();
-		case final PZB_Element pzb -> {
-			final ENUMPZBArt pzbArt = getNullableObject(pzb,
-					ele -> ele.getPZBArt().getWert()).orElse(null);
-			if (pzbArt == null) {
-				yield "";
-			}
-			final List<String> pzbElementBezugspunkt = PZBElementExtensions
-					.getPZBElementBezugspunkt(pzb).stream()
-					.map(ele -> switch (ele) {
-						case final Signal signal -> signal.getBezeichnung()
-								.getBezeichnungTabelle().getWert();
-						case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
-								.getBezeichnungTabelle().getWert();
-						default -> "";
-
-					}).toList();
-			yield String.format("%s (%s)", translate(pzbArt),
-					String.join(",", pzbElementBezugspunkt));
-		}
-			case final Schluesselsperre schluessel -> schluessel.getBezeichnung()
+			case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
 					.getBezeichnungTabelle().getWert();
-		default -> null;
+			case final Signal signal -> signal.getBezeichnung()
+					.getBezeichnungTabelle().getWert();
+			case final FMA_Komponente fma -> fma.getBezeichnung()
+					.getBezeichnungTabelle().getWert();
+			case final PZB_Element pzb -> {
+				final ENUMPZBArt pzbArt = getNullableObject(pzb,
+						ele -> ele.getPZBArt().getWert()).orElse(null);
+				if (pzbArt == null) {
+					yield "";
+				}
+				final List<String> pzbElementBezugspunkt = PZBElementExtensions
+						.getPZBElementBezugspunkt(pzb).stream()
+						.map(ele -> switch (ele) {
+							case final Signal signal -> signal.getBezeichnung()
+									.getBezeichnungTabelle().getWert();
+							case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+									.getBezeichnungTabelle().getWert();
+							default -> "";
+	
+						}).toList();
+				yield String.format("%s (%s)", translate(pzbArt),
+						String.join(",", pzbElementBezugspunkt));
+			}
+				case final Schluesselsperre schluessel -> schluessel.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
+			default -> null;
 		};
 		return getNullableObject(object, destignationFunc::apply).orElse("");
 	}
