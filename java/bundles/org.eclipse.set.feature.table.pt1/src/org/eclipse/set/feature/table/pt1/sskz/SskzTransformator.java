@@ -233,6 +233,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 									.getBezeichnung().getBezeichnungTabelle()
 									.getWert();
 							default -> "";
+
 						}).toList();
 				yield String.format("%s (%s)", translate(pzbArt),
 						String.join(",", pzbElementBezugspunkt));
