@@ -41,15 +41,16 @@ public class NodeObjectScopeProvider {
 	 * @return whether the node is contained within a Ausgabe_Fachdaten
 	 *         container
 	 */
-	private static boolean isFachdaten(final Node node) {
+	private static boolean isChildOfNode(final Node node,
+			final String parentNodeName) {
 		if (node == null) {
 			return false;
 		}
 		final String nodeName = node.getNodeName();
-		if (nodeName != null && nodeName.equals(NODE_AUSGABE_FACHDATEN)) {
+		if (nodeName != null && nodeName.equals(parentNodeName)) {
 			return true;
 		}
-		return isFachdaten(node.getParentNode());
+		return isChildOfNode(node.getParentNode(), parentNodeName);
 	}
 
 	private List<String> guidPlanungsbereichCache;
@@ -68,15 +69,12 @@ public class NodeObjectScopeProvider {
 			return ObjectScope.UNKNOWN;
 		}
 
-		if (!isFachdaten(node)) {
+		if (!isChildOfNode(node, NODE_AUSGABE_FACHDATEN)
+				|| !isChildOfNode(node, NODE_CONTAINER)) {
 			return ObjectScope.UNKNOWN;
 		}
 		final String guid = XMLNodeFinder.findNearestNodeGUID(node);
 		if (guid == null) {
-			return ObjectScope.UNKNOWN;
-		}
-
-		if (!isInContainerNode(node)) {
 			return ObjectScope.UNKNOWN;
 		}
 
@@ -113,13 +111,5 @@ public class NodeObjectScopeProvider {
 		}
 
 		return guidPlanungsbereichCache.contains(guid);
-	}
-
-	private boolean isInContainerNode(final Node node) {
-		if (node == null || node.getNodeName().equals(NODE_CONTAINER)) {
-			return false;
-		}
-
-		return node.getParentNode().equals(NODE_CONTAINER) || isInContainerNode(node.getParentNode());
 	}
 }
