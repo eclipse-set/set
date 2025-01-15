@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -123,8 +125,15 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					.keySet().stream().map(this::fieldElementCase)
 					.toArray(Case[]::new);
 
-			fillSwitch(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
-					fieldElementCases);
+			fillIterable(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
+					(final Aussenelementansteuerung element) -> List
+							.of(fieldElementCases).stream()
+							.filter(c -> c.condition.apply(element))
+							.map(c -> c.filling.apply(element))
+							.flatMap(it -> StreamSupport
+									.stream(it.spliterator(), false))
+							.toList(),
+					null);
 
 			// C: Sskz.Techn_Bez_OC
 			fill(row, getColumn(cols, Techn_Bez_OC), control, e -> ""); //$NON-NLS-1$
