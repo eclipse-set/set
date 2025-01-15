@@ -120,6 +120,6 @@ public class NodeObjectScopeProvider {
 			return false;
 		}
 
-		return isInContainerNode(node.getParentNode());
+		return node.getParentNode().equals(NODE_CONTAINER) || isInContainerNode(node.getParentNode());
 	}
 }
