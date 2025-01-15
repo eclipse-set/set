@@ -67,7 +67,7 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 			forEach [
 				if (it instanceof TrackSwitch) {
 					components.forEach [ componente |
-						siteplanService.addSiteplanElement(it)
+						siteplanService.addSiteplanElement(componente)
 					]
 				} else {
 					siteplanService.addSiteplanElement(it)	
