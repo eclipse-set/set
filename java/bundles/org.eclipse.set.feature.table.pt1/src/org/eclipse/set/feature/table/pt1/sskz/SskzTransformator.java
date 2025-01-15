@@ -132,7 +132,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 							.map(c -> c.filling.apply(element))
 							.flatMap(it -> StreamSupport
 									.stream(it.spliterator(), false))
-							.collect(Collectors.toList()),
+							.toList(),
 					null);
 
 			// C: Sskz.Techn_Bez_OC
