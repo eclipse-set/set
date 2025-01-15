@@ -193,8 +193,8 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					signal.getSignalReal().getSignalRealAktiv()
 							.getIDStellelement().getValue());
 			case final FMA_Komponente fma -> fma
-					.getFMAKomponenteAchszaehlpunkt()
-					.getIDInformation().stream()
+					.getFMAKomponenteAchszaehlpunkt().getIDInformation()
+					.stream()
 					.map(ID_Aussenelementansteuerung_TypeClass::getValue)
 					.toList();
 			case final PZB_Element pzb -> getControlFromFieldELement(
@@ -233,7 +233,6 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 									.getBezeichnung().getBezeichnungTabelle()
 									.getWert();
 							default -> "";
-	
 						}).toList();
 				yield String.format("%s (%s)", translate(pzbArt),
 						String.join(",", pzbElementBezugspunkt));
