@@ -225,19 +225,18 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			final List<String> pzbElementBezugspunkt = PZBElementExtensions
 					.getPZBElementBezugspunkt(pzb).stream()
 					.map(ele -> switch (ele) {
-					case final Signal signal -> signal.getBezeichnung()
-							.getBezeichnungTabelle().getWert();
-							case final W_Kr_Gsp_Element gsp -> gsp
-									.getBezeichnung().getBezeichnungTabelle()
-									.getWert();
-					default -> "";
+						case final Signal signal -> signal.getBezeichnung()
+								.getBezeichnungTabelle().getWert();
+						case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+								.getBezeichnungTabelle().getWert();
+						default -> "";
 
 					}).toList();
 			yield String.format("%s (%s)", translate(pzbArt),
 					String.join(",", pzbElementBezugspunkt));
 		}
-			case final Schluesselsperre schluessel -> schluessel
-					.getBezeichnung().getBezeichnungTabelle().getWert();
+			case final Schluesselsperre schluessel -> schluessel.getBezeichnung()
+					.getBezeichnungTabelle().getWert();
 		default -> null;
 		};
 		return getNullableObject(object, destignationFunc::apply).orElse("");
