@@ -190,13 +190,11 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
 				gsp.getIDStellelement().getValue());
 		case final Signal signal -> getControlFromFieldELement(
-					signal.getSignalReal().getSignalRealAktiv()
-							.getIDStellelement().getValue());
-			case final FMA_Komponente fma -> fma
-					.getFMAKomponenteAchszaehlpunkt().getIDInformation()
-					.stream()
-					.map(ID_Aussenelementansteuerung_TypeClass::getValue)
-					.toList();
+				signal.getSignalReal().getSignalRealAktiv().getIDStellelement()
+						.getValue());
+		case final FMA_Komponente fma -> fma.getFMAKomponenteAchszaehlpunkt()
+				.getIDInformation().stream()
+				.map(ID_Aussenelementansteuerung_TypeClass::getValue).toList();
 		case final PZB_Element pzb -> getControlFromFieldELement(
 				pzb.getIDStellelement().getValue());
 		case final Schluesselsperre schluessel -> getControlFromFieldELement(
@@ -229,17 +227,16 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					.map(ele -> switch (ele) {
 					case final Signal signal -> signal.getBezeichnung()
 							.getBezeichnungTabelle().getWert();
-							case final W_Kr_Gsp_Element gsp -> gsp
-									.getBezeichnung().getBezeichnungTabelle()
-									.getWert();
+									case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+													.getBezeichnungTabelle().getWert();
 					default -> "";
 
 					}).toList();
 			yield String.format("%s (%s)", translate(pzbArt),
 					String.join(",", pzbElementBezugspunkt));
 		}
-			case final Schluesselsperre schluessel -> schluessel
-					.getBezeichnung().getBezeichnungTabelle().getWert();
+				case final Schluesselsperre schluessel -> schluessel.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
 		default -> null;
 		};
 		return getNullableObject(object, destignationFunc::apply).orElse("");
