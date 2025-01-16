@@ -37,9 +37,14 @@ import org.xml.sax.helpers.DefaultHandler;
 public class LineNumberXMLReader {
 
 	/**
-	 * key for the line number userdata
+	 * key for the start line number userdata
 	 */
-	public static final String LINE_NUMBER_KEY = "lineNumber"; //$NON-NLS-1$
+	public static final String START_LINE_NUMBER_KEY = "startLineNumber"; //$NON-NLS-1$
+
+	/**
+	 * key for the end line number userdata
+	 */
+	public static final String END_LINE_NUMBER_KEY = "endLineNumber"; //$NON-NLS-1$
 
 	/**
 	 * @param location
@@ -122,6 +127,8 @@ public class LineNumberXMLReader {
 					final Element parentElement = elementStack.peek();
 					parentElement.appendChild(closedElement);
 				}
+				closedElement.setUserData(END_LINE_NUMBER_KEY,
+						String.valueOf(this.locator.getLineNumber()), null);
 			}
 
 			@Override
@@ -139,7 +146,7 @@ public class LineNumberXMLReader {
 					element.setAttribute(attributes.getQName(i),
 							attributes.getValue(i));
 				}
-				element.setUserData(LINE_NUMBER_KEY,
+				element.setUserData(START_LINE_NUMBER_KEY,
 						String.valueOf(this.locator.getLineNumber()), null);
 				elementStack.push(element);
 			}
@@ -155,17 +162,11 @@ public class LineNumberXMLReader {
 	 * @return the last line number of the node
 	 */
 	public static int getNodeLastLineNumber(final Node node) {
-		if (node == null) {
-			return -1;
+		final String lineNum = (String) node.getUserData(END_LINE_NUMBER_KEY);
+		if (lineNum != null) {
+			return Integer.parseInt(lineNum);
 		}
-		final Node nextNode = node.getNextSibling();
-		if (nextNode == null) {
-			return -1;
-		}
-		if (nextNode.getNodeType() == Node.ELEMENT_NODE) {
-			return getLineNumber(nextNode) - 1;
-		}
-		return getNodeLastLineNumber(nextNode);
+		return -1;
 	}
 
 	/**
@@ -174,8 +175,8 @@ public class LineNumberXMLReader {
 	 * 
 	 * @return the line number of the node
 	 */
-	public static int getLineNumber(final Node node) {
-		final String lineNum = (String) node.getUserData(LINE_NUMBER_KEY);
+	public static int getStartLineNumber(final Node node) {
+		final String lineNum = (String) node.getUserData(START_LINE_NUMBER_KEY);
 		if (lineNum != null) {
 			return Integer.parseInt(lineNum);
 		}

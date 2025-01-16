@@ -29,6 +29,8 @@ import org.w3c.dom.NodeList;
 public class NodeObjectScopeProvider {
 	private static final String NODE_AUSGABE_FACHDATEN = "Ausgabe_Fachdaten"; //$NON-NLS-1$
 
+	private static final String NODE_CONTAINER = "Container"; //$NON-NLS-1$
+
 	private static final String XPATH_PLANUNGSBEREICH = "//ID_LST_Objekt_Planungsbereich/Wert/text()"; //$NON-NLS-1$
 
 	/**
@@ -39,15 +41,16 @@ public class NodeObjectScopeProvider {
 	 * @return whether the node is contained within a Ausgabe_Fachdaten
 	 *         container
 	 */
-	private static boolean isFachdaten(final Node node) {
+	private static boolean isChildOfNode(final Node node,
+			final String parentNodeName) {
 		if (node == null) {
 			return false;
 		}
 		final String nodeName = node.getNodeName();
-		if (nodeName != null && nodeName.equals(NODE_AUSGABE_FACHDATEN)) {
+		if (nodeName != null && nodeName.equals(parentNodeName)) {
 			return true;
 		}
-		return isFachdaten(node.getParentNode());
+		return isChildOfNode(node.getParentNode(), parentNodeName);
 	}
 
 	private List<String> guidPlanungsbereichCache;
@@ -66,7 +69,8 @@ public class NodeObjectScopeProvider {
 			return ObjectScope.UNKNOWN;
 		}
 
-		if (!isFachdaten(node)) {
+		if (!isChildOfNode(node, NODE_AUSGABE_FACHDATEN)
+				|| !isChildOfNode(node, NODE_CONTAINER)) {
 			return ObjectScope.UNKNOWN;
 		}
 		final String guid = XMLNodeFinder.findNearestNodeGUID(node);
@@ -77,7 +81,9 @@ public class NodeObjectScopeProvider {
 		if (isGUIDInLSTPlanungsbereich(node, guid)) {
 			return ObjectScope.PLAN;
 		}
+
 		return ObjectScope.BETRACHTUNG;
+
 	}
 
 	private boolean isGUIDInLSTPlanungsbereich(final Node node,
@@ -105,6 +111,5 @@ public class NodeObjectScopeProvider {
 		}
 
 		return guidPlanungsbereichCache.contains(guid);
-
 	}
 }
