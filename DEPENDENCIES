@@ -322,6 +322,7 @@ npm/npmjs/-/eslint-visitor-keys/3.4.0, Apache-2.0, approved, #18265
 npm/npmjs/-/eslint-visitor-keys/3.4.3, Apache-2.0, approved, #18264
 npm/npmjs/-/eslint-visitor-keys/4.2.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #17084
 npm/npmjs/-/eslint/9.17.0, BSD-3-Clause AND MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0-UK, approved, #17981
+npm/npmjs/-/eslint/9.18.0, BSD-3-Clause AND MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0-UK, approved, #18553
 npm/npmjs/-/espree/10.3.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #17087
 npm/npmjs/-/espree/9.6.1, BSD-2-Clause AND BSD-3-Clause AND MIT AND BSD-2-Clause AND BSD-3-Clause AND MIT AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #15293
 npm/npmjs/-/esquery/1.5.0, BSD-3-Clause, approved, #7469
@@ -757,11 +758,14 @@ npm/npmjs/@esbuild/win32-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BS
 npm/npmjs/@eslint-community/eslint-utils/4.4.0, MIT, approved, #15285
 npm/npmjs/@eslint-community/regexpp/4.12.1, MIT, approved, clearlydefined
 npm/npmjs/@eslint/config-array/0.19.0, Apache-2.0 AND MIT, approved, #17422
+npm/npmjs/@eslint/core/0.10.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@eslint/core/0.9.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@eslint/eslintrc/3.2.0, MIT, approved, clearlydefined
 npm/npmjs/@eslint/js/9.17.0, BSD-3-Clause AND MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0-UK, approved, #17982
+npm/npmjs/@eslint/js/9.18.0, BSD-3-Clause AND MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0-UK, approved, #18552
 npm/npmjs/@eslint/object-schema/2.1.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/@eslint/plugin-kit/0.2.3, Apache-2.0, approved, clearlydefined
+npm/npmjs/@eslint/plugin-kit/0.2.5, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanfs/core/0.19.1, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanfs/node/0.16.6, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/module-importer/1.0.1, Apache-2.0, approved, clearlydefined
