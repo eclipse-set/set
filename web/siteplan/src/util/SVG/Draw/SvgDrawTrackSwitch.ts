@@ -135,12 +135,12 @@ export default class SvgDrawTrackSwitch extends AbstractDrawSVG {
       case TurnoutOperatingMode.NonOperational:
       case TurnoutOperatingMode.Other:
       case TurnoutOperatingMode.Undefined:
-        outlineSVGGroup.setAttribute('fill', 'white')
+        outlineSVGGroup.setAttribute('fill', 'transparent')
         return [outlineSVGGroup]
       default:
         console.warn('Cannot display track switch component ' +
             component.label?.text + ' (' + component.guid + '): Invalid operating mode.')
-        outlineSVGGroup.setAttribute('fill', 'blue')
+        outlineSVGGroup.setAttribute('fill', 'rgba(0, 0, 255, 0.5')
         return [outlineSVGGroup]
     }
   }

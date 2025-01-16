@@ -9,7 +9,9 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.List
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.geometry.GeoKanteGeometryService
 import org.eclipse.set.feature.siteplan.TrackSwitchMetadata
 import org.eclipse.set.feature.siteplan.positionservice.PositionService
@@ -27,8 +29,8 @@ import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
-import org.eclipse.set.basis.constants.ToolboxConstants
-import java.math.RoundingMode
+import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 
 /**
  * Helper class defining a leg of a track switch
@@ -80,9 +82,11 @@ class TrackSwitchLeg {
 		// Ensure that the leg ends within the TOP_Kante
 		var legLength = (start + length).min(
 			topKante.TOPKanteAllg.TOPLaenge.wert)
+		// To avoid the last section have length greater then leg length
+		val offset = BigDecimal.valueOf(0.0001)
 		val sectionLength = (legLength - start).divide(
 			BigDecimal.valueOf(TRACK_SWITCH_POINTS - 1),
-			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_UP)
+			ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.HALF_DOWN) - offset
 		val result = newArrayList
 		for (var int i = 0; i < TRACK_SWITCH_POINTS; i++) {
 			result.add(
@@ -142,35 +146,19 @@ class TrackSwitchLeg {
 	static def TrackSwitchLeg getLeg(List<W_Kr_Gsp_Komponente> components,
 		TrackSwitchMetadata metadata, int legIndex) {
 		val leg = new TrackSwitchLeg
+
 		if (components.length == 1) {
-			if (metadata !== null && metadata.trackSwitchLength !== null) {
-				if (legIndex == 0)
-					leg.length = BigDecimal.valueOf(
-						metadata.trackSwitchLength.mainLeg)
-				else
-					leg.length = BigDecimal.valueOf(
-						metadata.trackSwitchLength.sideLeg)
-			}
 			val component = components.head
 			leg.topKnoten = component.topKnoten
 			if (leg.topKnoten === null ||
 				leg.topKnoten.getTrackSwitchLegs.length - 1 < legIndex) {
 				return null;
 			}
-			leg.topKante = leg.topKnoten.getTrackSwitchLegs.get(legIndex)
-			leg.connection = getTOPAnschluss(leg.topKante, leg.topKnoten)
+			leg.determineLegLength(component, metadata, legIndex)
 		} else {
-			if (metadata !== null) {
-				leg.length = BigDecimal.valueOf(
-					metadata.rightCrossing.crossing.mainLeg)
-				if (metadata.rightCrossing.crossingTriangle !== null)
-					leg.start = BigDecimal.valueOf(
-						metadata.rightCrossing.crossingTriangle.mainLeg) -
-						leg.length
-			}
 			val component = components.get(legIndex)
-			leg.topKante = component.crossingLeg
 			leg.topKnoten = component.topKnoten
+			leg.determineLegLength(component, metadata, legIndex)
 		}
 
 		if (leg.topKante === null || leg.topKnoten === null) {
@@ -179,7 +167,70 @@ class TrackSwitchLeg {
 		return leg;
 	}
 
-	private static def TOP_Kante getCrossingLeg(W_Kr_Gsp_Komponente component) {
+	private def determineLegLength(W_Kr_Gsp_Komponente component,
+		TrackSwitchMetadata metadata, int legIndex) {
+		val trackSwitch = component.WKrGspElement.WKrAnlage
+		val switchType = trackSwitch.WKrAnlageAllg.WKrArt.wert
+		switch (switchType) {
+			case ENUMW_KR_ART_DKW,
+			case ENUMW_KR_ART_KR: {
+				topKante = component.crossingLeg
+				if (metadata !== null) {
+					length = BigDecimal.valueOf(
+						metadata.rightCrossing.crossing.mainLeg)
+					if (metadata.rightCrossing.crossingTriangle !== null)
+						start = BigDecimal.valueOf(
+							metadata.rightCrossing.crossingTriangle.mainLeg) -
+							length
+				} else {
+					length = topKante?.TOPKanteAllg?.TOPLaenge.wert / BigDecimal.valueOf(2)	
+				}
+			}
+			case ENUMW_KR_ART_EKW: {
+				val crossingLeg = component.crossingLeg
+				topKante = legIndex === 0 ? crossingLeg : component.topKanten.
+					findFirst [
+						it.identitaet.wert !== crossingLeg.identitaet.wert
+					]
+				length = component.getEKWLegLength(metadata)
+			}
+			default: {
+				topKante = topKnoten.getTrackSwitchLegs.get(legIndex)
+				connection = getTOPAnschluss(topKante, topKnoten)
+				if (metadata.trackSwitchLength !== null) {
+					if (legIndex == 0)
+						length = BigDecimal.valueOf(
+							metadata.trackSwitchLength.mainLeg)
+					else
+						length = BigDecimal.valueOf(
+							metadata.trackSwitchLength.sideLeg)
+				}
+
+			}
+		}
+
+		if (length === null || length === BigDecimal.ZERO) {
+			length = DEFAULT_TRACKSWITCH_LEG_LENGTH
+		}
+	}
+
+	// The leg of EKW should have the length total of the track switch or
+	// the length of the TOP_Kante, which straight leg run through
+	private def BigDecimal getEKWLegLength(W_Kr_Gsp_Komponente component,
+		TrackSwitchMetadata metadata) {
+		if (metadata !== null) {
+			return BigDecimal.valueOf(
+				metadata.rightCrossing.crossing.mainLeg) +
+				BigDecimal.valueOf(metadata.leftCrossing.crossing.mainLeg)
+			
+		}
+		val crossingLeg  = component.crossingLeg
+		val straightLeg = component.topKanten.findFirst[it !== crossingLeg]
+		return straightLeg?.TOPKanteAllg?.TOPLaenge?.wert
+	}
+
+	protected static def TOP_Kante getCrossingLeg(
+		W_Kr_Gsp_Komponente component) {
 		val topKnoten = component.topKnoten
 		val crossingSide = component?.zungenpaar?.kreuzungsgleis?.wert
 		if (crossingSide == ENUMLinksRechts.ENUM_LINKS_RECHTS_RECHTS) {
