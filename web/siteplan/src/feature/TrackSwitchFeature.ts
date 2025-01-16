@@ -25,7 +25,7 @@ import LineString from 'ol/geom/LineString'
 import Point from 'ol/geom/Point'
 import Polygon from 'ol/geom/Polygon'
 import { Stroke, Style } from 'ol/style'
-import { createFeature, FeatureType, getFeatureData, getFeatureType } from './FeatureInfo'
+import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
 
 /**
  * Container for all track switch features
