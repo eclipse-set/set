@@ -85,12 +85,12 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val lookupTable = newHashMap
 		// Find FMA Tracks which majorly overlap a route track
 		val routeTrackTypes = container.gleisArt.filter [
-			gleisart.wert === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
+			gleisart?.wert === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
 		].flatMap[bereichObjektTeilbereich]
 
 		container.FMAAnlage.map[it -> IDGleisAbschnitt?.value].filterNull //
 		.filter [ fmaTrack |
-			val overlappingDistance = routeTrackTypes.fold(
+							val overlappingDistance = routeTrackTypes.fold(
 				BigDecimal.ZERO, [ sum, rtt |
 					sum.add(getOverlappingLength(fmaTrack.value, rtt))
 				])

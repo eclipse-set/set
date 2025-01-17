@@ -49,8 +49,11 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	private static class TopArea {
 		new(Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 			topGUID = tb?.IDTOPKante?.wert
-
-			if (tb?.begrenzungA?.wert <= tb?.begrenzungB?.wert) {
+			if (tb?.begrenzungA?.wert === null ||
+				tb?.begrenzungB?.wert === null) {
+				start = BigDecimal.valueOf(-1)
+				end = BigDecimal.valueOf(-1)
+			} else if (tb?.begrenzungA?.wert <= tb?.begrenzungB?.wert) {
 				start = tb?.begrenzungA?.wert
 				end = tb?.begrenzungB?.wert
 			} else {
@@ -65,7 +68,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 
 		def BigDecimal getOverlappingLength(TopArea other) {
-			if (topGUID != other.topGUID)
+			if (topGUID != other.topGUID || start < BigDecimal.ZERO ||
+				end < BigDecimal.ZERO)
 				return BigDecimal.ZERO
 
 			// Find the point where either area ends
@@ -357,16 +361,20 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 			return false
 		}
 
-		val tA = teilbereich.begrenzungA.wert
-		val tB = teilbereich.begrenzungB.wert
-		val oA = other.begrenzungA.wert
-		val oB = other.begrenzungB.wert
+		val tA = teilbereich?.begrenzungA?.wert
+		val tB = teilbereich.begrenzungB?.wert
+		val oA = other.begrenzungA?.wert
+		val oB = other.begrenzungB?.wert
 
 		return intersectsStrictly(tA, tB, oA, oB)
 	}
 
 	protected def static boolean intersectsStrictly(BigDecimal a1,
 		BigDecimal a2, BigDecimal b1, BigDecimal b2) {
+		if (#[a1, a2, b1, b2].exists[it === null]) {
+			return false
+		}
+
 		val distance = new Distance()
 		Assert.isTrue(distance.compare(a1, a2) <= 0)
 		Assert.isTrue(distance.compare(b1, b2) <= 0)
@@ -577,9 +585,8 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 
 			clone.begrenzungA.wert = topKanteRange.
 				isStartedBy(A) ? A : topKanteRange.fit(A - tolerantBigDecimal)
-			clone.begrenzungB.wert = topKanteRange.isEndedBy(B)
-				? B
-				: topKanteRange.fit(A + tolerantBigDecimal)
+			clone.begrenzungB.wert = topKanteRange.
+				isEndedBy(B) ? B : topKanteRange.fit(A + tolerantBigDecimal)
 			return clone.contains(singlePoint)
 		}
 
@@ -591,9 +598,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 		val tolerantDistanceFromA = topKanteRange.
 				isStartedBy(A) ? tolerantBigDecimal : tolerantBigDecimal - A
-		val tolerantDistanceFromB = topKanteRange.
-				isEndedBy(B) ? tolerantBigDecimal : (tolerantBigDecimal + B) -
-				topKanteRange.maximum
+		val tolerantDistanceFromB = topKanteRange.isEndedBy(B)
+				? tolerantBigDecimal
+				: (tolerantBigDecimal + B) - topKanteRange.maximum
 		return teilbereich.containsWithinTolerant(singlePoint,
 			teilBereichTopKante.TOPKnotenA, tolerantDistanceFromA) ||
 			teilbereich.containsWithinTolerant(singlePoint,
@@ -764,18 +771,21 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		return comparator.compare(A, toBigDecimal) <= 0 &&
 			comparator.compare(toBigDecimal, B) <= 0
 	}
-	
+
 	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
 		Bereich_Objekt_Teilbereich_AttributeGroup tb) {
 		if (bo === null || tb === null)
 			return BigDecimal.ZERO
 
-		val tb1 = bo.bereichObjektTeilbereich.map[new TopArea(it)].toList
+		val tb1 = bo.bereichObjektTeilbereich.filter [
+			begrenzungA?.wert !== null && begrenzungB?.wert !== null
+		].map[new TopArea(it)].toList
 		val tb2 = new TopArea(tb)
 
 		val noOverlap1 = tb1.groupBy[topGUID].values.flatMap[removeOverlaps]
 
-		return noOverlap1.map[getOverlappingLength(tb2)].reduce[a, b|a + b]
+		return noOverlap1.map[getOverlappingLength(tb2)].reduce[a, b|a + b] ?:
+			BigDecimal.ZERO
 	}
 
 	def static BigDecimal getOverlappingLength(Bereich_Objekt bo,
@@ -788,12 +798,12 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 
 		val noOverlap1 = tb1.groupBy[topGUID].values.flatMap[removeOverlaps]
 		val noOverlap2 = tb2.groupBy[topGUID].values.flatMap[removeOverlaps]
-
+		
 		return noOverlap1.flatMap [ tb |
 			noOverlap2.map [
 				tb.getOverlappingLength(it)
 			]
-		].reduce[a, b|a + b]
+		].reduce[a, b|a + b] ?: BigDecimal.ZERO
 	}
 
 	private def static List<TopArea> removeOverlaps(List<TopArea> areas) {
@@ -802,10 +812,12 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 
 		for (area : areas.sortBy[start]) {
 			// If this subarea starts before the previous one has ended, move the start to the end of the previous area
-			if (area.start < current) {
-				area.start = current
+			if (area.start >= BigDecimal.ZERO && area.end >= BigDecimal.ZERO) {
+				if (area.start < current) {
+					area.start = current
+				}
+				current = area.end
 			}
-			current = area.end
 		}
 		return areas
 	}
