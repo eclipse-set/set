@@ -356,6 +356,12 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
     const objColor = { id, color }
     if (!object.objectColors) {
       object.objectColors = [objColor]
+      return
+    }
+
+    const existingObjectColor = object.objectColors.find(objectColor => objectColor.id === id)
+    if (existingObjectColor) {
+      existingObjectColor.color = color
     } else {
       object.objectColors.push(objColor)
     }
