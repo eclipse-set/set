@@ -203,7 +203,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					po.getIdentitaet().getWert()));
 		}
 		return createGeoCoordinateError(errorObject,
-				"Die Koordinaten des GEO_Punkt: {GEO_PUNKT_ID}, der auf die Punkt_Objekt: {GUID} verweisen würde, weicht {DIFF}cm von der berechneten Koordinate ab.",
+				"Die Koordinaten des referenzierten GEO_Punkt: {GEO_PUNKT_ID} weichen {DIFF} cm von der topologisch definierten Position ab.",
 				Map.of("GEO_PUNKT_ID", errorObject.getWert(), "GUID",
 						po.getIdentitaet().getWert(), "DIFF",
 						new DecimalFormat("0.00").format(diff * 100)));
@@ -227,12 +227,12 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	@Override
 	public String getDescription() {
-		return "Die Verweise vom Punkt_Objekt auf den Geo_Punkt durch ID_Geo_Punkt_Berechnen sind plausibilisiert";
+		return "Die topologische Verortung der berechneten Geo-Koordinaten sind plausibilisiert";
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die Verweise vom Punkt_Objekt auf den Geo_Punkt durch ID_Geo_Punkt_Berechnen sind nicht plausibilisiert";
+		return "Die topologische Verortung des Punkt-Objekts stimmt nicht mit den berechneten Geo-Koordinaten überein.";
 	}
 
 	private PlazError createProcessingWarning() {
