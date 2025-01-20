@@ -91,7 +91,13 @@ export default class SignalFeature extends LageplanFeature<SignalMount> {
 
   setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
     if (color) {
-      super.setFeatureColor(feature, color, partID)
+      if (partID) {
+        super.setFeatureColor(feature, color, partID)
+      } else {
+        Object.values(SignalPart).forEach(part => {
+          super.setFeatureColor(feature, color, part)
+        })
+      }
     } else {
       Object.values(SignalPart).forEach(part => {
         this.setFeatureRegionColor(feature, part)
