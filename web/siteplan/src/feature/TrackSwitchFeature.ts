@@ -275,7 +275,13 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
 
   setFeatureColor (feature: Feature<Geometry>, color?: number[], id?: string): Feature<Geometry> {
     if (color) {
-      super.setFeatureColor(feature, color, id)
+      if (id) {
+        super.setFeatureColor(feature, color, id)
+      } else {
+        Object.values(TrackSwitchPart).forEach(part => {
+          this.setFeatureColor(feature, color, part)
+        })
+      }
     } else {
       Object.values(TrackSwitchPart).forEach(part => {
         this.setFeatureRegionColor(feature, part)
