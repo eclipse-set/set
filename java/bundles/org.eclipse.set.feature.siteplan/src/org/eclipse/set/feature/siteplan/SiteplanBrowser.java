@@ -30,7 +30,6 @@ import org.eclipse.set.feature.siteplan.json.SiteplanEObjectSerializer;
 import org.eclipse.set.feature.siteplan.transform.SiteplanTransformator;
 import org.eclipse.set.model.siteplan.Siteplan;
 import org.eclipse.set.utils.FileWebBrowser;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -106,17 +105,6 @@ public class SiteplanBrowser extends FileWebBrowser
 		final String json = new ObjectMapper().writerWithDefaultPrettyPrinter()
 				.writeValueAsString(new SiteplanConfiguration("siteplan")); //$NON-NLS-1$
 		response.setResponseData(json);
-		if (ToolboxConfiguration.isDevelopmentMode()) {
-			try {
-				final Path path = Paths.get("configuration.json");
-				Files.writeString(path, json);
-				System.out.println(
-						"Exported currently loaded configuration.json to "
-								+ path.toAbsolutePath());
-			} catch (final IOException e) {
-				// don't care for now. It is just development mode stuff
-			}
-		}
 	}
 
 	private void serveSiteplan(final Response response)
@@ -143,16 +131,6 @@ public class SiteplanBrowser extends FileWebBrowser
 				.writeValueAsString(siteplan);
 		response.setMimeType("application/json;charset=UTF-8"); //$NON-NLS-1$
 		response.setResponseData(json);
-		if (ToolboxConfiguration.isDevelopmentMode()) {
-			try {
-				final Path path = Paths.get("siteplan.json");
-				Files.writeString(path, json);
-				System.out.println("Exported currently loaded siteplan.json to "
-						+ path.toAbsolutePath());
-			} catch (final IOException e) {
-				// don't care for now. It is just development mode stuff
-			}
-		}
 	}
 
 	@Override
