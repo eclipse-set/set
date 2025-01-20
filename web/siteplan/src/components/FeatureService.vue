@@ -230,7 +230,6 @@ export default class FeatureService extends Vue {
             .flat()
             .map(feature => featureClass.setFeatureColor(feature, SiteplanColorValue.COLOR_UNCHANGED_PLANNING))
         case TableType.DIFF:{
-          // Temporary demo: Only show red/yellow in development mode
           const compareState = featureClass.compareChangedState(
             model.changedInitialState,
             model.changedFinalState
