@@ -9,6 +9,7 @@
 
 import { Label } from '@/model/Label'
 import { KMMarker } from '@/model/Route'
+import { SignalPart } from '@/model/Signal'
 import { ISvgElement, SvgElement } from '@/model/SvgElement'
 import '@/util/ElementExtensions'
 import { fromCenterPointAndMasure } from '@/util/ExtentExtension'
@@ -257,7 +258,7 @@ export default class SvgDraw {
       90,
       true
     )
-    labelSvg.setAttribute('id', 'marker')
+    labelSvg.setAttribute('id', SignalPart.RouteMarker)
     svg.appendChild(labelSvg)
     return new SvgElement('RouteMarker', svg, [], null, [])
   }
