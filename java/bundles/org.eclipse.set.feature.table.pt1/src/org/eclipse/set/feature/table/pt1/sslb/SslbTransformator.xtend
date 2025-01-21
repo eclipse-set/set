@@ -67,10 +67,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
 
-		val validObjects = container.blockElement
-			.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea)
-			.filterNull
+		val validObjects = container.blockElement.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).filterNull
 		val fmaLookupCache = getFMALookupCache(container)
 		validObjects.flatMap[findRelevantBlockElements].filterNull.forEach [ it |
 			if (Thread.currentThread.interrupted) {
@@ -85,7 +83,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val lookupTable = newHashMap
 		// Find FMA Tracks which majorly overlap a route track
 		val routeTrackTypes = container.gleisArt.filter [
-			gleisart.wert === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
+			gleisart?.wert === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
 		].flatMap[bereichObjektTeilbereich]
 
 		container.FMAAnlage.map[it -> IDGleisAbschnitt?.value].filterNull //
@@ -95,7 +93,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 					sum.add(getOverlappingLength(fmaTrack.value, rtt))
 				])
 
-			fmaTrack.value.length.divide(BigDecimal.TWO) < overlappingDistance 
+			fmaTrack.value.length.divide(BigDecimal.TWO) < overlappingDistance
 		].forEach [
 			val fmaObject = it.key
 			value.bereichObjektTeilbereich?.filter[IDTOPKante?.value !== null].
@@ -147,8 +145,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val isElementA = blockElement === blockAnlage?.IDBlockElementA?.value
 		val isElementB = blockElement === blockAnlage?.IDBlockElementB?.value
-		val otherBlockElement = isElementA ? blockAnlage?.IDBlockElementB?.
-				value : blockAnlage?.IDBlockElementA?.value
+		val otherBlockElement = isElementA
+				? blockAnlage?.IDBlockElementB?.value
+				: blockAnlage?.IDBlockElementA?.value
 
 		val row = it
 		// A: Sslb.Strecke.Nummer
