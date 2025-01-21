@@ -6,11 +6,11 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-import { defaultSignalScreenObj, SignalScreen } from './SignalScreen'
-import { Label } from './Label'
-import { defaultRouteLocationObj, RouteObject } from './RouteObject'
-import { defaultPositionObj, Position } from './Position'
 import { checkInstance } from '@/util/ObjectExtension'
+import { Label } from './Label'
+import { defaultPositionObj, Position } from './Position'
+import { defaultRouteLocationObj, RouteObject } from './RouteObject'
+import { defaultSignalScreenObj, SignalScreen } from './SignalScreen'
 
 export enum SignalRole
 {
@@ -60,7 +60,7 @@ export enum SignalPart {
     Schirm = 'schirm',
     Mast = 'mast',
     Additive = 'additive',
-    RouteMarker = 'label'
+    RouteMarker = 'marker'
 }
 
 export interface Signal extends RouteObject
