@@ -220,45 +220,38 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// K: Ssld.Abhaengigkeiten.Weichen_Kreuzungen.mit_Verschluss
-			fillIterableWithSeparatorConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_mit_Verschluss),
 				dweg,
-				[fstrDWegSpezifisch !== null],
 				[
 					zuordnungen.filter[elementVerschluss?.wert == Boolean.TRUE].
 						map [
 							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
 						]
 				],
-				MIXED_STRING_COMPARATOR,
-				[],
-				"\r\n"
+				MIXED_STRING_COMPARATOR
 			)
 
 			// L: Ssld.Abhaengigkeiten.Weichen_Kreuzungen.ohne_Verschluss
-			fillIterableWithSeparatorConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_ohne_Verschluss),
 				dweg,
-				[fstrDWegSpezifisch !== null],
 				[
 					zuordnungen.
 						filter[elementVerschluss?.wert == Boolean.FALSE].map [
 							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
 						]
 				],
-				MIXED_STRING_COMPARATOR,
-				[],
-				"\r\n"
+				MIXED_STRING_COMPARATOR
 			)
 
 			// M: Ssld.Abhaengigkeiten.relevante_FmA
-			fillIterableWithSeparatorConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(relevante_FmA),
 				dweg,
-				[fstrDWegSpezifisch !== null],
 				[
 					val fmaAnlagen = dweg?.fmaAnlageFreimeldung
 					if (fmaAnlagen.contains(null)) {
@@ -266,9 +259,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 					}
 					fmaAnlagen.map[tableName]
 				],
-				MIXED_STRING_COMPARATOR,
-				[],
-				"\r\n"
+				MIXED_STRING_COMPARATOR
 			)
 
 			// N: Ssld.Abhaengigkeiten.v_Aufwertung_Verzicht
@@ -276,10 +267,9 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(v_Aufwertung_Verzicht),
 				dweg,
-				[dweg?.fstrFahrweg?.start.isStartOfAnyTrainRoute],
+				[fstrFahrweg?.start.isStartOfAnyTrainRoute],
 				[
-					dweg?.fstrDWegSpezifisch?.DWegVAufwertungVerzicht?.wert?.
-						translate
+					fstrDWegSpezifisch?.DWegVAufwertungVerzicht?.wert?.translate
 				]
 			)
 
@@ -288,11 +278,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Erlaubnisabhaengig),
 				dweg,
-				[fstrDWegSpezifisch !== null],
+				[fstrFahrweg?.zielPunkt?.IDDWegErlaubnisabhaengig !== null],
+				["x"],
 				[
-					if (fstrFahrweg.zielPunkt.IDDWegErlaubnisabhaengig !== null)
-						"x"
-					else if (#{
+					#{
 						ENUM_SIGNAL_FUNKTION_AUSFAHR_SIGNAL,
 						ENUM_SIGNAL_FUNKTION_AUSFAHR_ZWISCHEN_SIGNAL,
 						ENUM_SIGNAL_FUNKTION_EINFAHR_AUSFAHR_SIGNAL,
@@ -300,19 +289,18 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 						ENUM_SIGNAL_FUNKTION_GRUPPENAUSFAHR_SIGNAL
 					}.contains(
 						fstrFahrweg?.start?.signalReal?.signalFunktion?.wert
-					))
-						"o"
+					) ? "o" : ""
 				]
 			)
 
 			// P: Ssld.Aufloesung.Manuell
-			fillConditional(
+			fill(
 				instance,
 				cols.getColumn(Manuell),
 				dweg,
-				[fstrDWegSpezifisch !== null],
 				[
-					fstrFahrweg?.start?.signalFstr?.DAManuell?.wert?.translate
+					fstrFahrweg?.start?.signalFstr?.DAManuell?.wert?.
+						translate ?: ""
 				]
 			)
 
@@ -321,10 +309,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Aufloeseabschnitt_Bezeichnung),
 				dweg,
-				[dweg.fstrDWegSpezifisch !== null],
+				[fstrDWegSpezifisch !== null],
 				[
-					fstrDWegSpezifisch.fmaAnlageZielgleis.IDGleisAbschnitt?.
-						value.bezeichnung.bezeichnungTabelle.wert
+					fstrDWegSpezifisch.fmaAnlageZielgleis?.IDGleisAbschnitt?.
+						value?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
 				]
 			)
 
@@ -333,7 +321,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Aufloeseabschnitt_Laenge),
 				dweg,
-				[dweg.fstrDWegSpezifisch !== null],
+				[fstrDWegSpezifisch !== null],
 				[
 					getZielGleisAbschnittLength(topGraph)
 				]
@@ -344,7 +332,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Verzoegerung),
 				dweg,
-				[dweg.fstrDWegSpezifisch !== null],
+				[fstrDWegSpezifisch !== null],
 				[
 					fstrDWegSpezifisch?.aufloesungVerzoegerung?.wert?.toString
 				]
@@ -369,20 +357,20 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		val pathsFromSignalToFMA = fmaKomponenten.map [
 			startSignal.getShortestPath(it)
 		]
-		
+
 		val fstrs = dweg.fstrZugRangier
-		val relevantPaths = fstrs.empty 
-			? // if no fstrs we take all paths to any of the fmaKomponenten 
-				pathsFromSignalToFMA 
-			: // otherwise we determine which path is overlapping with Fstr
-				fstrs.map [ fstr |
-					val fstrTOPKanten = fstr.IDFstrFahrweg?.value.
-						bereichObjektTeilbereich.map[IDTOPKante.value]
-					val overlappingtPaths = pathsFromSignalToFMA.filter [ path |
-						path.edges.forall[fstrTOPKanten.contains(it)]
-					]
-					return overlappingtPaths
-				].flatten
+		val relevantPaths = fstrs.empty
+				// if no fstrs we take all paths to any of the fmaKomponenten 
+				? pathsFromSignalToFMA
+				// otherwise we determine which path is overlapping with Fstr
+				: fstrs.map [ fstr |
+				val fstrTOPKanten = fstr.IDFstrFahrweg?.value.
+					bereichObjektTeilbereich.map[IDTOPKante.value]
+				val overlappingtPaths = pathsFromSignalToFMA.filter [ path |
+					path.edges.forall[fstrTOPKanten.contains(it)]
+				]
+				return overlappingtPaths
+			].flatten
 		// of all the relevant paths between fmaGrenzen and startSignal we take the longest path
 		val maxDistance = relevantPaths.map[it -> length].maxBy[value]
 		return maxDistance.value.toTableIntegerAgateDown
