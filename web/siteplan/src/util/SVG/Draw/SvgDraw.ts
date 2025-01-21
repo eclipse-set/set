@@ -94,7 +94,6 @@ export default class SvgDraw {
     labelsvg.setAttribute('id', 'label')
     labelsvg.setAttribute('font-size', fontSize.toString())
     labelsvg.setAttribute('font-family', 'siteplanfont')
-
     labelsvg.setAttribute('stroke-width', '0.2')
     labelsvg.setAttribute('style', 'writing-mode: vertical-rl;')
     const textAnchor = this.getTextAnchor(centerText, label)
