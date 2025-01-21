@@ -60,7 +60,7 @@ export enum SignalPart {
     Schirm = 'schirm',
     Mast = 'mast',
     Additive = 'additive',
-    RouteMarker = 'marker'
+    RouteMarker = 'label'
 }
 
 export interface Signal extends RouteObject

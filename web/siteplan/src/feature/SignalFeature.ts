@@ -112,6 +112,7 @@ export default class SignalFeature extends LageplanFeature<SignalMount> {
     // IMPROVE: Because at the moment Signal Additive doesn't have GUID,
     // you can't set region color for this.
     switch (objectPart) {
+      case SignalPart.RouteMarker:
       case SignalPart.Mast: {
         this.setObjectColor(signalModel, objectPart, this.getRegionColor(feature))
         break

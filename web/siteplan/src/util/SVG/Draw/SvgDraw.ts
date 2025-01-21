@@ -84,8 +84,7 @@ export default class SvgDraw {
     centerText: boolean,
     fontSize: number,
     rotate?: number,
-    centerVertical?: boolean,
-    applyColor?: boolean
+    centerVertical?: boolean
   ): Element {
     const labelsvg = document.createElement('text')
     if (!label) {
@@ -95,11 +94,6 @@ export default class SvgDraw {
     labelsvg.setAttribute('id', 'label')
     labelsvg.setAttribute('font-size', fontSize.toString())
     labelsvg.setAttribute('font-family', 'siteplanfont')
-    if (label.color && applyColor) {
-      const rgbColorString = `rgb(${label.color[0]}, ${label.color[1]}, ${label.color[2]})`
-      labelsvg.setAttribute('fill', rgbColorString)
-      labelsvg.setAttribute('stroke', rgbColorString)
-    }
 
     labelsvg.setAttribute('stroke-width', '0.2')
     labelsvg.setAttribute('style', 'writing-mode: vertical-rl;')
@@ -262,7 +256,6 @@ export default class SvgDraw {
       true,
       13,
       90,
-      true,
       true
     ))
     return new SvgElement('RouteMarker', svg, [], null, [])
