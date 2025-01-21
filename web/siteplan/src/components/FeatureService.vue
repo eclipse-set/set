@@ -219,7 +219,7 @@ export default class FeatureService extends Vue {
           ]
             .map(state => featureClass.getFeatures(state))
             .flat()
-            .map(feature => featureClass.setFeatureColor(feature, SiteplanColorValue.COLOR_UNCHANGED_PLANNING))
+            .map(feature => featureClass.setFeatureColor(feature))
         case TableType.FINAL:
           return [
             model.commonState,
@@ -228,7 +228,7 @@ export default class FeatureService extends Vue {
           ]
             .map(state => featureClass.getFeatures(state))
             .flat()
-            .map(feature => featureClass.setFeatureColor(feature, SiteplanColorValue.COLOR_UNCHANGED_PLANNING))
+            .map(feature => featureClass.setFeatureColor(feature))
         case TableType.DIFF:{
           const compareState = featureClass.compareChangedState(
             model.changedInitialState,
@@ -237,7 +237,7 @@ export default class FeatureService extends Vue {
           return [
             featureClass
               .getFeatures(model.commonState)
-              .map(feature => featureClass.setFeatureColor(feature, SiteplanColorValue.COLOR_UNCHANGED_PLANNING)),
+              .map(feature => featureClass.setFeatureColor(feature)),
             compareState,
             featureClass
               .getFeatures(model.finalState)
