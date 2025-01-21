@@ -320,6 +320,12 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
     return final
   }
 
+  resetFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
+    const object = getFeatureData(feature) as SiteplanObject
+    object.objectColors = []
+    return feature
+  }
+
   // Default implementation
   setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
     this.setObjectColor(
