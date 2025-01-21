@@ -362,9 +362,9 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 		}
 
 		val tA = teilbereich?.begrenzungA?.wert
-		val tB = teilbereich.begrenzungB?.wert
-		val oA = other.begrenzungA?.wert
-		val oB = other.begrenzungB?.wert
+		val tB = teilbereich?.begrenzungB?.wert
+		val oA = other?.begrenzungA?.wert
+		val oB = other?.begrenzungB?.wert
 
 		return intersectsStrictly(tA, tB, oA, oB)
 	}
