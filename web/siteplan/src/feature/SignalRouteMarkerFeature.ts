@@ -53,7 +53,7 @@ export default class SignalRouteMarkerFeature extends LageplanFeature<SignalMoun
     const lineCoordinates = this.getLocationLineCoors(signalPos)
     const lineFeature = createFeature(
       FeatureType.SignalRouteMarker,
-      signalMount.attachedSignals[0],
+      signalMount,
       new LineString([lineCoordinates[0], lineCoordinates[1]])
     )
     lineFeature.setStyle((_, resolution) => {
@@ -71,7 +71,7 @@ export default class SignalRouteMarkerFeature extends LageplanFeature<SignalMoun
     // Add km text
     const textFeature = createFeature(
       FeatureType.SignalRouteMarker,
-      signalMount.attachedSignals[0],
+      signalMount,
       new Point([signalPos.x, signalPos.y])
     )
 
@@ -88,7 +88,7 @@ export default class SignalRouteMarkerFeature extends LageplanFeature<SignalMoun
       updateLabelOrientation(label, labelRotation + 90, this.map)
       updateLabelColor(label, getColor(signalMount, SignalPart.RouteMarker))
       const style = this.svgService.getFeatureStyle(
-        signalMount.attachedSignals[0],
+        signalMount,
         FeatureType.SignalRouteMarker,
         label
       )
