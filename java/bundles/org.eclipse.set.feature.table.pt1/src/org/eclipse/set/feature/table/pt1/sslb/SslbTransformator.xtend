@@ -50,7 +50,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	var TMFactory factory = null
 	val TopologicalGraphService topGraph
-
+	// Minimum overlap distance between free reporting section and track route in meter
+	static final BigDecimal MIN_OVERLAP_DISTANCE = BigDecimal.valueOf(10) 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService) {
@@ -86,14 +87,13 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			gleisart?.wert === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
 		].flatMap[bereichObjektTeilbereich]
 
-		container.FMAAnlage.map[it -> IDGleisAbschnitt?.value].filterNull //
-		.filter [ fmaTrack |
+		container.FMAAnlage.map[it -> IDGleisAbschnitt?.value].filterNull.filter [ fmaTrack |
 			val overlappingDistance = routeTrackTypes.fold(
 				BigDecimal.ZERO, [ sum, rtt |
 					sum.add(getOverlappingLength(fmaTrack.value, rtt))
 				])
 
-			fmaTrack.value.length.divide(BigDecimal.TWO) < overlappingDistance
+			overlappingDistance.compareTo(MIN_OVERLAP_DISTANCE) >= 0
 		].forEach [
 			val fmaObject = it.key
 			value.bereichObjektTeilbereich?.filter[IDTOPKante?.value !== null].
@@ -145,9 +145,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val isElementA = blockElement === blockAnlage?.IDBlockElementA?.value
 		val isElementB = blockElement === blockAnlage?.IDBlockElementB?.value
-		val otherBlockElement = isElementA
-				? blockAnlage?.IDBlockElementB?.value
-				: blockAnlage?.IDBlockElementA?.value
+		val otherBlockElement = isElementA ? blockAnlage?.IDBlockElementB?.
+				value : blockAnlage?.IDBlockElementA?.value
 
 		val row = it
 		// A: Sslb.Strecke.Nummer
