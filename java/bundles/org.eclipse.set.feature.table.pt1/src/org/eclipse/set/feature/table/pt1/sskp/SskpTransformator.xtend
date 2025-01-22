@@ -79,12 +79,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
-			if (pzb.identitaet.wert == "D7845C0C-B03F-40F5-87C0-DC5CCCEADFDC" ||
-				pzb.identitaet.wert == "C9C9BF96-C1DC-47AD-9F21-1E9270B19D0D") {
-				println("TEST")
-			}
-			val rg = factory.newRowGroup(pzb)
 
+			val rg = factory.newRowGroup(pzb)
 			val isPZB2000 = pzb.PZBArt?.wert ===
 				ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
 				pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ
