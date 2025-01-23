@@ -71,21 +71,22 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory, Stell_Bereich controlArea) {
 
 		val topGraph = new TopGraph(container.TOPKante)
-		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].filterObjectsInControlArea(controlArea).
-			filter [
+		for (PZB_Element pzb : container.PZBElement.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).filter [
 				PZBElementGUE?.IDPZBElementMitnutzung?.value === null
 			]) {
+
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
 
 			val rg = factory.newRowGroup(pzb)
-
 			val isPZB2000 = pzb.PZBArt?.wert ===
 				ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
 				pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ
+			val fstrDwegs = pzb?.fstrDWegs
 
-			if (!isPZB2000) {
+			if (!isPZB2000 || fstrDwegs.nullOrEmpty) {
 				val instance = rg.newTableRow()
 				fillRowGroupContent(instance, pzb, null, topGraph)
 			} else {
@@ -121,91 +122,91 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
 			pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ
 
-		// C: Sskp.PZB_Schutzstrecke.PZB_Schutzpunkt
-		fillConditional(
-			instance,
-			cols.getColumn(PZB_Schutzpunkt),
-			dweg,
-			[isPZB2000],
-			[
-				IDPZBGefahrpunkt?.value?.bezeichnung?.
-					bezeichnungMarkanterPunkt?.wert
-			]
-		)
+		if (isPZB2000 && dweg !== null) {
+			// C: Sskp.PZB_Schutzstrecke.PZB_Schutzpunkt
+			fill(
+				instance,
+				cols.getColumn(PZB_Schutzpunkt),
+				dweg,
+				[
+					IDPZBGefahrpunkt?.value?.bezeichnung?.
+						bezeichnungMarkanterPunkt?.wert
+				]
+			)
 
-		// D: Sskp.PZB_Schutzstrecke.GeschwindigkeitsKlasse
-		fillConditional(
-			instance,
-			cols.getColumn(GeschwindigkeitsKlasse),
-			dweg,
-			[isPZB2000 && IDPZBGefahrpunkt !== null],
-			[
-				val dwegV = fstrDWegSpezifisch?.DWegV?.wert.toInteger
-				if (dwegV === 0) {
+			// D: Sskp.PZB_Schutzstrecke.GeschwindigkeitsKlasse
+			fillConditional(
+				instance,
+				cols.getColumn(GeschwindigkeitsKlasse),
+				dweg,
+				[IDPZBGefahrpunkt !== null],
+				[
+					val dwegV = fstrDWegSpezifisch?.DWegV?.wert.toInteger
+					if (dwegV === 0) {
+						return ""
+					}
+					if (dwegV > 60) {
+						return "v > 60"
+					} else if (dwegV <= 60 && dwegV > 40) {
+						return "40 < v ≤ 60"
+					} else if (dwegV <= 40) {
+						return "v ≤ 40"
+					}
 					return ""
-				}
-				if (dwegV > 60) {
-					return "v > 60"
-				} else if (dwegV <= 60 && dwegV > 40) {
-					return "40 < v ≤ 60"
-				} else if (dwegV <= 40) {
-					return "v ≤ 40"
-				}
-				return ""
 
-			]
-		)
+				]
+			)
 
-		// E: Sskp.PZB_Schutzstrecke.PZB_Schutzstr.PZB_Schutzstrecke_Soll
-		fillConditional(
-			instance,
-			cols.getColumn(PZB_Schutzstrecke_Soll),
-			dweg,
-			[isPZB2000 && IDPZBGefahrpunkt !== null],
-			[
-				if (fstrDWegSpezifisch === null) {
-					return IDFstrFahrweg?.value?.IDStart?.value?.PZBSchutzstreckeSoll?.wert?.toString ?: ""
-				}
-				
-				val dwegV = fstrDWegSpezifisch.DWegV?.wert.toInteger
-				val inclination = fstrDWegAllg?.massgebendeNeigung?.wert.
-					toDouble
-				val multipleValue = inclination < 0 ? 0.05 : 0.1
-				if (dwegV === 0) {
+			// E: Sskp.PZB_Schutzstrecke.PZB_Schutzstr.PZB_Schutzstrecke_Soll
+			fillConditional(
+				instance,
+				cols.getColumn(PZB_Schutzstrecke_Soll),
+				dweg,
+				[IDPZBGefahrpunkt !== null],
+				[
+					if (fstrDWegSpezifisch === null) {
+						return IDFstrFahrweg?.value?.IDStart?.value?.
+							PZBSchutzstreckeSoll?.wert?.toString ?: ""
+					}
+
+					val dwegV = fstrDWegSpezifisch.DWegV?.wert.toInteger
+					val inclination = fstrDWegAllg?.massgebendeNeigung?.wert.
+						toDouble
+					val multipleValue = inclination < 0 ? 0.05 : 0.1
+					if (dwegV === 0) {
+						return ""
+					}
+
+					if (dwegV > 60) {
+						return '''«AgateRounding.roundUp(inclination * multipleValue * 200 + ADDITION_SCHUTZSTRECKE_SOLL_60)»'''
+					} else if (dwegV <= 60 && dwegV > 40) {
+						return '''«AgateRounding.roundUp(inclination * multipleValue * 100 + ADDITION_SCHUTZSTRECKE_SOLL_40_60)»'''
+					} else if (dwegV <= 40) {
+						return '''«AgateRounding.roundUp(inclination * multipleValue * 50 + ADDITION_SCHUTZSTRECKE_SOLL_40)»'''
+					}
 					return ""
-				}
+				]
+			)
 
-				if (dwegV > 60) {
-					return '''«AgateRounding.roundUp(inclination * multipleValue * 200 + ADDITION_SCHUTZSTRECKE_SOLL_60)»'''
-				} else if (dwegV <= 60 && dwegV > 40) {
-					return '''«AgateRounding.roundUp(inclination * multipleValue * 100 + ADDITION_SCHUTZSTRECKE_SOLL_40_60)»'''
-				} else if (dwegV <= 40) {
-					return '''«AgateRounding.roundUp(inclination * multipleValue * 50 + ADDITION_SCHUTZSTRECKE_SOLL_40)»'''
-				}
-				return ""
-			]
-		)
-
-		// F: Sskp.PZB_Schutzstrecke.PZB_Schutzstr.PZB_Schutzstrecke_Ist
-		fillConditional(
-			instance,
-			cols.getColumn(PZB_Schutzstrecke_Ist),
-			dweg,
-			[
-				isPZB2000 && IDPZBGefahrpunkt !== null
-			],
-			[
-				val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.
-					IDMarkanteStelle?.value
-				if (markanteStelle instanceof Punkt_Objekt)
-					return AgateRounding.roundDown(
-						getPointsDistance(markanteStelle,
-							dweg.IDFstrFahrweg?.value?.IDStart?.value).min).
-						toString
-				else
-					return ""
-			]
-		)
+			// F: Sskp.PZB_Schutzstrecke.PZB_Schutzstr.PZB_Schutzstrecke_Ist
+			fillConditional(
+				instance,
+				cols.getColumn(PZB_Schutzstrecke_Ist),
+				dweg,
+				[IDPZBGefahrpunkt !== null],
+				[
+					val markanteStelle = dweg?.IDPZBGefahrpunkt?.value?.
+						IDMarkanteStelle?.value
+					if (markanteStelle instanceof Punkt_Objekt)
+						return AgateRounding.roundDown(
+							getPointsDistance(markanteStelle,
+								dweg.IDFstrFahrweg?.value?.IDStart?.value).min).
+							toString
+					else
+						return ""
+				]
+			)
+		}
 
 		// G: Sskp.Gleismagnete.Wirksamkeit
 		fillIterable(
@@ -345,8 +346,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (pzb.PZBElementZuordnungBP !== null &&
 			pzb.PZBElementZuordnungBP.exists [
 				PZBElementZuordnungINA !== null
-			] && (pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
-				pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_1000_2000_HZ)) {
+			] && isPZB2000) {
 			val inaGefahrstelles = pzb.PZBElementZuordnungBP.map [
 				INAGefahrstelle
 			].flatten
@@ -571,7 +571,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			pzb,
 			[]
 		)
-		
+
 		fillFootnotes(instance, pzb)
 
 	}
