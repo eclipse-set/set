@@ -161,7 +161,12 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 
 	@Override
 	public void setLastExportPath(final Path path) {
-		configuration.lastFileExportPath = path;
+		if (path.toFile().isFile()) {
+			configuration.lastFileExportPath = path.getParent();
+		} else {
+			configuration.lastFileExportPath = path;
+		}
+
 		saveConfiguration();
 	}
 
