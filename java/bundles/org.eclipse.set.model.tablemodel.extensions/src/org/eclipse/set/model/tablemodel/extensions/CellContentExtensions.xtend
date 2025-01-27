@@ -236,23 +236,17 @@ class CellContentExtensions {
 		BiFunction<R, T, U> postFormatter,
 		Function<R, S> sorter
 	) {
-		// new and unchanged content is sorted together 
-		val result = newContent.filterNull.toSet.toList.sortBy(sorter).map [
-			if (oldContent.contains(it))
-				return postFormatter.apply(it, commonFormatter.apply(it))
-			else
-				return postFormatter.apply(it, newFormatter.apply(it))
-		]
-
-		// old content is appended after that
-		return result + oldContent.filterNull.toSet.toList.sortBy(sorter).filter [
-			!newContent.contains(it)
-		].map [
-			postFormatter.apply(it, oldFormatter.apply(it))
-		]
+		return formatCompareContent(
+			oldContent.filterNull.toSet.toList.sortBy(sorter),
+			newContent.filterNull.toSet.toList.sortBy(sorter),
+			oldFormatter,
+			commonFormatter,
+			newFormatter,
+			postFormatter
+		)
 	}
-
-	static def <R extends Comparable<? super R>, T, U> Iterable<U> formatCompareContent(
+	
+	static def <R, T, U> Iterable<U> formatCompareContent(
 		Iterable<R> oldContent,
 		Iterable<R> newContent,
 		Function<R, T> oldFormatter,
@@ -260,8 +254,20 @@ class CellContentExtensions {
 		Function<R, T> newFormatter,
 		BiFunction<R, T, U> postFormatter
 	) {
-		return formatCompareContent(oldContent, newContent, oldFormatter,
-			commonFormatter, newFormatter, postFormatter, [it])
+		// new and unchanged content is sorted together 
+		val result = newContent.filterNull.toSet.toList.map [
+			if (oldContent.contains(it))
+				return postFormatter.apply(it, commonFormatter.apply(it))
+			else
+				return postFormatter.apply(it, newFormatter.apply(it))
+		]
+
+		// old content is appended after that
+		return result + oldContent.filterNull.toSet.toList.filter [
+			!newContent.contains(it)
+		].map [
+			postFormatter.apply(it, oldFormatter.apply(it))
+		]
 	}
 
 	static def <T, U> Iterable<U> formatCompareContent(
@@ -273,7 +279,7 @@ class CellContentExtensions {
 	) {
 		switch content {
 			StringCellContent:
-				content.value.filterNull.toSet.toList.sort.map [
+				content.value.filterNull.toSet.toList.map [
 					postFormatter.apply(it, commonFormatter.apply(it))
 				]
 			CompareCellContent:

@@ -15,14 +15,15 @@ import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getCont
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -48,6 +49,7 @@ import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.Case;
 import org.eclipse.set.utils.table.TMFactory;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 import com.google.common.collect.Streams;
 
@@ -57,7 +59,24 @@ import com.google.common.collect.Streams;
  * @author Truong
  */
 public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
-	private static final Map<Class<? extends Ur_Objekt>, Function<MultiContainer_AttributeGroup, Iterable<? extends Ur_Objekt>>> fieldElementClasses = new HashMap<>();
+
+	private record OperationalIdentifierFieldElement(
+			Class<? extends Ur_Objekt> clazz,
+			List<String> elementIdentifierts) {
+
+		public static int compare(final OperationalIdentifierFieldElement first,
+				final OperationalIdentifierFieldElement second) {
+			final ArrayList<Class<? extends Ur_Objekt>> clazzList = new ArrayList<>(
+					fieldElementClasses.keySet());
+			final int firstIndex = clazzList.indexOf(first.clazz());
+			final int secondIndex = clazzList.indexOf(second.clazz());
+
+			return Integer.compare(firstIndex, secondIndex);
+		}
+
+	}
+
+	private static final LinkedHashMap<Class<? extends Ur_Objekt>, Function<MultiContainer_AttributeGroup, Iterable<? extends Ur_Objekt>>> fieldElementClasses = new LinkedHashMap<>();
 	static {
 		fieldElementClasses.put(W_Kr_Gsp_Element.class,
 				MultiContainer_AttributeGroup::getWKrGspElement);
@@ -121,21 +140,11 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 							.getBezeichnungAEA().getWert());
 
 			// B: Sskz.Betriebl_Bez_Feldelem
-			@SuppressWarnings("unchecked")
-			final Case<Aussenelementansteuerung>[] fieldElementCases = fieldElementClasses
-					.keySet().stream().map(this::fieldElementCase)
-					.toArray(Case[]::new);
-
 			fillIterable(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
-					(final Aussenelementansteuerung element) -> List
-							.of(fieldElementCases).stream()
-							.filter(c -> c.condition.apply(element)
-									.booleanValue())
-							.map(c -> c.filling.apply(element))
-							.flatMap(it -> StreamSupport
-									.stream(it.spliterator(), false))
-							.toList(),
-					null);
+					this::getFieldElementIdentifier,
+					OperationalIdentifierFieldElement::compare,
+					t -> String.join(ITERABLE_FILLING_SEPARATOR,
+							t.elementIdentifierts()));
 
 			// C: Sskz.Techn_Bez_OC
 			fill(row, getColumn(cols, Techn_Bez_OC), control, e -> ""); //$NON-NLS-1$
@@ -174,6 +183,27 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
+	private List<OperationalIdentifierFieldElement> getFieldElementIdentifier(
+			final Aussenelementansteuerung control) {
+		final HashMap<Class<? extends Ur_Objekt>, Case<Aussenelementansteuerung>> fillCases = new LinkedHashMap<>();
+		fieldElementClasses.forEach((clazz, elements) -> fillCases.put(clazz,
+				fieldElementCase(clazz)));
+
+		final List<OperationalIdentifierFieldElement> result = new LinkedList<>();
+		fillCases.forEach((clazz, fillCase) -> {
+			if (fillCase.condition.apply(control).booleanValue()) {
+				final Iterable<String> fillValuesIterable = fillCase.filling
+						.apply(control);
+				final List<String> sortList = IterableExtensions
+						.sortWith(fillValuesIterable, fillCase.comparator);
+				result.add(
+						new OperationalIdentifierFieldElement(clazz, sortList));
+			}
+		});
+		return result;
+
+	}
+
 	private <T extends Ur_Objekt> Case<Aussenelementansteuerung> fieldElementCase(
 			final Class<T> clazz) {
 		final Function<Aussenelementansteuerung, List<T>> getRelevantElementFunc = control -> getRelevantFieldElements(
@@ -183,7 +213,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						!getRelevantElementFunc.apply(control).isEmpty()),
 				control -> getRelevantElementFunc.apply(control).stream()
 						.map(this::getFieldElementDesignation).toList(),
-				ITERABLE_FILLING_SEPARATOR, null
+				ITERABLE_FILLING_SEPARATOR, MIXED_STRING_COMPARATOR
 
 		);
 	}
@@ -260,9 +290,12 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				final List<String> shortPzbArt = Stream.of(pzbArtEnum)
 						.map(ele -> {
 							try {
-								final Double doubleValue = Double.valueOf(ele);
-								return String.valueOf(
-										doubleValue.doubleValue() / 1000);
+								final double hz = Double.parseDouble(ele);
+								final double shortHz = hz / 1000;
+								if (shortHz == (int) shortHz) {
+									return Integer.toString((int) shortHz);
+								}
+								return Double.toString(shortHz);
 							} catch (final NumberFormatException e) {
 								return ele;
 							}
