@@ -14,12 +14,14 @@ import static org.eclipse.set.feature.table.pt1.sskz.SskzColumns.*;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -218,30 +220,59 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				.getBezeichnungTabelle().getWert();
 		case final FMA_Komponente fma -> fma.getBezeichnung()
 				.getBezeichnungTabelle().getWert();
-		case final PZB_Element pzb -> {
-			final ENUMPZBArt pzbArt = getNullableObject(pzb,
-					ele -> ele.getPZBArt().getWert()).orElse(null);
-			if (pzbArt == null) {
-				yield "";
-			}
-			final List<String> pzbElementBezugspunkt = PZBElementExtensions
-					.getPZBElementBezugspunkt(pzb).stream()
-					.map(ele -> switch (ele) {
-					case final Signal signal -> signal.getBezeichnung()
-							.getBezeichnungTabelle().getWert();
-					case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
-							.getBezeichnungTabelle().getWert();
-					default -> "";
-
-					}).toList();
-			yield String.format("%s (%s)", translate(pzbArt),
-					String.join(",", pzbElementBezugspunkt));
-		}
+		case final PZB_Element pzb -> getPzbDesignation(pzb);
 		case final Schluesselsperre schluessel -> schluessel.getBezeichnung()
 				.getBezeichnungTabelle().getWert();
 		default -> null;
 		};
 		return getNullableObject(object, destignationFunc::apply).orElse("");
+	}
+
+	@SuppressWarnings("nls")
+	private String getPzbDesignation(final PZB_Element pzb) {
+		final ENUMPZBArt pzbArt = getNullableObject(pzb,
+				ele -> ele.getPZBArt().getWert()).orElse(null);
+		if (pzbArt == null) {
+			return "";
+		}
+		final List<String> pzbElementBezugspunkt = PZBElementExtensions
+				.getPZBElementBezugspunkt(pzb).stream()
+				.map(ele -> switch (ele) {
+				case final Signal signal -> signal.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
+				case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
+				default -> "";
+
+				}).toList();
+		if (pzb.getPZBElementGM() != null) {
+			return String.format("%s (%s)", translate(pzbArt),
+					String.join(",", pzbElementBezugspunkt));
+		}
+
+		if (pzb.getPZBElementGUE() != null) {
+			final BigInteger speedCheck = getNullableObject(
+					pzb.getPZBElementGUE(),
+					gue -> gue.getPruefgeschwindigkeit().getWert())
+							.orElse(null);
+			if (speedCheck != null) {
+				final String[] pzbArtEnum = translate(pzbArt).split("/");
+				final List<String> shortPzbArt = Stream.of(pzbArtEnum)
+						.map(ele -> {
+							try {
+								final Double doubleValue = Double.valueOf(ele);
+								return String.valueOf(
+										doubleValue.doubleValue() / 1000);
+							} catch (final NumberFormatException e) {
+								return ele;
+							}
+						}).toList();
+				return String.format("%s/GÜ %s (%s)",
+						String.join("/", shortPzbArt), speedCheck,
+						String.join(",", pzbElementBezugspunkt));
+			}
+		}
+		return "";
 	}
 
 	private <T extends Ur_Objekt> List<T> getRelevantFieldElements(
