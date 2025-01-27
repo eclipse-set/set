@@ -42,7 +42,6 @@ public class EmptyLastCellComparator extends AbstractCellComparator {
 			return -1 * directionFactor;
 		}
 
-		// text2 can't be empty here
 		if (isFirstTextEmpty && !isSecondTextEmpty) {
 			return 1 * directionFactor;
 		}
