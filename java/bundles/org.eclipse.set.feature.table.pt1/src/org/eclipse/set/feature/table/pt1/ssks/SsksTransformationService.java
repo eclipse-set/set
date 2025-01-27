@@ -10,7 +10,7 @@ package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
-import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL_EMPTY_LAST;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
 
 import java.util.Comparator;
 
@@ -104,8 +104,8 @@ public final class SsksTransformationService extends
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
-				.sort("B", LEXICOGRAPHICAL_EMPTY_LAST, ASC)
-				.sort("D", LEXICOGRAPHICAL_EMPTY_LAST, ASC)
+				.sort("B", EMPTY_LAST, ASC)
+				.sort("D", EMPTY_LAST, ASC)
 				.sort("A", LEXICOGRAPHICAL, ASC).build();
 	}
 }

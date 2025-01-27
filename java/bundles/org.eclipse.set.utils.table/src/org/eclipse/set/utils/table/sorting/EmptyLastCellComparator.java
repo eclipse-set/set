@@ -13,19 +13,18 @@ package org.eclipse.set.utils.table.sorting;
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum;
 
 /**
- * Compares cell content lexicographical with empty cell at last
+ * Comparator to put empty cells at last. In descending order empty cells are
+ * first.
  * 
  * @author Truong
  */
-public class LexicographicalCellComparatorEmptyLast
-		extends AbstractCellComparator {
+public class EmptyLastCellComparator extends AbstractCellComparator {
 
 	/**
 	 * @param direction
 	 *            sort direction
 	 */
-	public LexicographicalCellComparatorEmptyLast(
-			final SortDirectionEnum direction) {
+	public EmptyLastCellComparator(final SortDirectionEnum direction) {
 		super(direction);
 	}
 
@@ -36,22 +35,18 @@ public class LexicographicalCellComparatorEmptyLast
 				|| text1.isBlank();
 		final boolean isSecondTextEmpty = text2 == null || text2.isEmpty()
 				|| text2.isBlank();
-		if (isFirstTextEmpty && isSecondTextEmpty) {
-			return 0;
-		}
+
+		final int directionFactor = direction == SortDirectionEnum.ASC ? 1 : -1;
 
 		if (!isFirstTextEmpty && isSecondTextEmpty) {
-			return -1;
+			return -1 * directionFactor;
 		}
 
 		// text2 can't be empty here
 		if (isFirstTextEmpty && !isSecondTextEmpty) {
-			return 1;
+			return 1 * directionFactor;
 		}
 
-		if (direction == SortDirectionEnum.ASC) {
-			return text1.compareTo(text2);
-		}
-		return text2.compareTo(text1);
+		return 0;
 	}
 }

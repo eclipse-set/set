@@ -42,9 +42,9 @@ public class ComparatorBuilder {
 		NUMERIC,
 
 		/**
-		 * Sort string content lexicographical with empty string at last
+		 * Sort empty content at last.
 		 */
-		LEXICOGRAPHICAL_EMPTY_LAST
+		EMPTY_LAST
 	}
 
 	private final TableRowGroupComparator tableRowGroupComparator;
@@ -100,9 +100,8 @@ public class ComparatorBuilder {
 		case NUMERIC:
 			cellComparator = new NumericCellComparator(direction);
 			break;
-		case LEXICOGRAPHICAL_EMPTY_LAST:
-			cellComparator = new LexicographicalCellComparatorEmptyLast(
-					direction);
+		case EMPTY_LAST:
+			cellComparator = new EmptyLastCellComparator(direction);
 			break;
 		default:
 			throw new IllegalArgumentException(cellComparatorType.toString());
