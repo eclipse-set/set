@@ -65,12 +65,12 @@ import org.xml.sax.SAXException;
 @Component(immediate = true)
 public class FopPdfExportBuilder implements TableExport {
 
-	private static final Logger logger = LoggerFactory
+	protected static final Logger logger = LoggerFactory
 			.getLogger(FopPdfExportBuilder.class);
 
 	private static final String TITLEBOX_SHORTCUT = "schriftfeld"; //$NON-NLS-1$
 
-	private static TransformerFactory newTransformerFactory() {
+	protected static TransformerFactory newTransformerFactory() {
 		final TransformerFactory transformerFactory = TransformerFactory
 				.newInstance();
 		// Disable external access
@@ -83,7 +83,7 @@ public class FopPdfExportBuilder implements TableExport {
 		return transformerFactory;
 	}
 
-	private static String createTableDocumentText(final Table table,
+	protected static String createTableDocumentText(final Table table,
 			final Titlebox titlebox, final FreeFieldInfo freeFieldInfo)
 			throws ParserConfigurationException, TransformerException {
 		final TableToTableDocument tableToXmlFo = TableToTableDocument
@@ -114,19 +114,19 @@ public class FopPdfExportBuilder implements TableExport {
 		return writer.toString();
 	}
 
-	private static void exportTableDocument(final Path filename,
+	protected static void exportTableDocument(final Path filename,
 			final String content) throws IOException {
 		try (PrintWriter out = new PrintWriter(filename.toString())) {
 			out.println(content);
 		}
 	}
 
-	private static String getFilename(final String shortcut,
+	protected static String getFilename(final String shortcut,
 			final String extension) {
 		return shortcut + "-fop." + extension; //$NON-NLS-1$
 	}
 
-	private static Table getTableToBeExported(
+	protected static Table getTableToBeExported(
 			final Map<TableType, Table> tables, final ExportType exportType) {
 		switch (exportType) {
 		case INVENTORY_RECORDS:
@@ -185,7 +185,7 @@ public class FopPdfExportBuilder implements TableExport {
 		}
 	}
 
-	private void createTablePdf(final String tableDocumentText,
+	protected void createTablePdf(final String tableDocumentText,
 			final Path outputPath, final String shortcut,
 			final TableType tableType, final PdfAMode pdfAMode,
 			final OverwriteHandling overwriteHandling) throws IOException,
@@ -318,7 +318,7 @@ public class FopPdfExportBuilder implements TableExport {
 
 	// IMPROVE: This translation should replace by EnumTranslationService in 2.0
 	// version.
-	private static String translationTableType(final TableType tableType) {
+	protected static String translationTableType(final TableType tableType) {
 		if (tableType == null) {
 			return null;
 		}
@@ -331,4 +331,15 @@ public class FopPdfExportBuilder implements TableExport {
 			return null;
 		}
 	}
+
+	@Override
+	public String getTableShortcut() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public ExportFormat getExportFormat() {
+		return ExportFormat.PDF;
+	}
+
 }

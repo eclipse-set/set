@@ -74,4 +74,14 @@ public class TableModelExport implements TableExport {
 			final OverwriteHandling overwriteHandling) throws Exception {
 		// do nothing
 	}
+
+	@Override
+	public String getTableShortcut() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public ExportFormat getExportFormat() {
+		return ExportFormat.TABLE_MODEL;
+	}
 }
