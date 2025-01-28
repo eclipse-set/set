@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -64,6 +65,9 @@ import org.xml.sax.SAXException;
  * Specifier PDF export for table Ssks via FOP
  * 
  * @author Truong
+ * 
+ *         IMPROVE: duplicate code with {@link FopPdfExportBuilder} should be
+ *         move to a Abstractclass
  */
 @Component(immediate = true, service = TableExport.class)
 public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
@@ -125,13 +129,13 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 			final PdfAMode pdfAMode, final OverwriteHandling overwriteHandling)
 			throws IOException, SAXException, TransformerException,
 			ParserConfigurationException {
-		final String pageBreakRowIndex = getPageBreakRowIndex(table);
+		final List<String> pageBreakRowIndexes = getPageBreakRowsIndex(table);
 
 		final TransformTable transformTable = new TransformTable(shortcut,
 				translationTableType(tableType));
-		final Document xslDoc = pageBreakRowIndex == null
+		final Document xslDoc = pageBreakRowIndexes.isEmpty()
 				? transformTable.transform()
-				: transformTable.transform(List.of(pageBreakRowIndex));
+				: transformTable.transform(pageBreakRowIndexes);
 		if (xslDoc != null) {
 			if (ToolboxConfiguration.isDevelopmentMode()) {
 				final Transformer documentToString = newTransformerFactory()
@@ -157,7 +161,8 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 		}
 	}
 
-	private static String getPageBreakRowIndex(final Table table) {
+	private static List<String> getPageBreakRowsIndex(final Table table) {
+		final List<String> result = new ArrayList<>();
 		final List<TableRow> rows = TableExtensions.getTableRows(table);
 		final ColumnDescriptor fiktiveSignalColumn = TableExtensions
 				.getColumns(table).stream()
@@ -165,25 +170,39 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 						.equals(SsksColumns.Fiktives_Signal))
 				.findFirst().orElse(null);
 		if (fiktiveSignalColumn == null) {
-			return null;
+			return result;
 		}
 
 		final Map<Integer, TableRow> rowsIndexed = rows.stream()
 				.collect(Collectors.toMap(
 						e -> Integer.valueOf(rows.indexOf(e) + 1),
 						Function.identity()));
-		final Optional<Entry<Integer, TableRow>> firstFiktiveSignalEntry = rowsIndexed
+		final List<Entry<Integer, TableRow>> fiktiveSignalRows = rowsIndexed
 				.entrySet().stream().filter(entry -> {
 					final TableRow row = entry.getValue();
 					final String cellValue = TableRowExtensions
 							.getPlainStringValue(row, fiktiveSignalColumn);
 					return !cellValue.isEmpty() && !cellValue.isBlank();
-				}).min((first, second) -> Integer.compare(
+				}).toList();
+		final Optional<Entry<Integer, TableRow>> firstFiktiveSignalEntry = fiktiveSignalRows
+				.stream().min((first, second) -> Integer.compare(
+						first.getKey().intValue(), second.getKey().intValue()));
+		final Optional<Entry<Integer, TableRow>> lastFiktiveSignalEntry = fiktiveSignalRows
+				.stream().max((first, second) -> Integer.compare(
 						first.getKey().intValue(), second.getKey().intValue()));
 		if (firstFiktiveSignalEntry.isPresent()) {
-			return firstFiktiveSignalEntry.get().getKey().toString();
+			result.add(firstFiktiveSignalEntry.get().getKey().toString());
 		}
-		return null;
+
+		if (lastFiktiveSignalEntry.isPresent() && lastFiktiveSignalEntry.get()
+				.getKey().intValue() < rows.size()) {
+			// To break a Pdf page with XSL, the attribute "break-bfore" was
+			// used
+			// Therefore, the last row index should increased by +1
+			result.add(String.valueOf(
+					lastFiktiveSignalEntry.get().getKey().intValue() + 1));
+		}
+		return result;
 	}
 
 	@Override
