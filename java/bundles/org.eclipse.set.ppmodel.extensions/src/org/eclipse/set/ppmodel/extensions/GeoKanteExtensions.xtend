@@ -176,7 +176,7 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 	def static TOP_Kante topKante(
 		GEO_Kante kante
 	) {
-		val result = kante.geoArt
+		val result = kante.parentKante
 
 		if (result instanceof TOP_Kante) {
 			return result
@@ -184,7 +184,10 @@ class GeoKanteExtensions extends BasisObjektExtensions {
 		return null
 	}
 
-	def static Basis_Objekt getGeoArt(
+	/**
+	 * @return the TOP_Kante or Strecke, which contains this GEO_Kante
+	 */
+	def static Basis_Objekt getParentKante(
 		GEO_Kante kante
 	) {
 		return kante.IDGEOArt?.value

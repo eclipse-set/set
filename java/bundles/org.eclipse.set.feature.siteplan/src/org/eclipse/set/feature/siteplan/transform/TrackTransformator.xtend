@@ -9,8 +9,10 @@
 package org.eclipse.set.feature.siteplan.transform
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.List
 import java.util.Set
+import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate
 import org.eclipse.set.basis.geometry.GEOKanteMetadata
 import org.eclipse.set.basis.geometry.GEOKanteSegment
@@ -21,6 +23,7 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Form_TypeClass
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Art
@@ -50,8 +53,6 @@ import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.basis.constants.ToolboxConstants
-import java.math.RoundingMode
 
 /**
  * Transforms a track from the PlanPro model to a siteplan track
@@ -79,10 +80,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		// Skip transforming continuous track segments within track switches (DKW/EKW)
 		if (topKante.isContinuousTrackInSwitch)
 			return;
-
 		val track = SiteplanFactory.eINSTANCE.createTrack()
 		track.guid = topKante.identitaet.wert
-		val geoKantes = geometryService.getGeoKanten(topKante)
+		val geoKantes = geometryService.getTopKantenMetaData(topKante)
 		sectionColor = SiteplanConstants.TOP_KANTEN_COLOR.get(track.guid)
 		if (sectionColor.nullOrEmpty) {
 			sectionColor = '''hsl(«(SiteplanConstants.TOP_KANTEN_COLOR.size + 1) * 137.5», 100%, 65%)'''
@@ -109,7 +109,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 		val section = SiteplanFactory.eINSTANCE.createTrackSection
 		section.guid = md.geoKante.identitaet.wert
 		section.shape = transformGeoForm(md.geoKante.GEOKanteAllg.GEOForm)
-
 		section.color = sectionColor
 		transform(md).filter[segment|!segment.positions.empty].forEach [
 			section.segments.add(it)
@@ -290,6 +289,7 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 	def List<GEOKanteCoordinate> getCoordinates(GEOKanteSegment segment,
 		GEOKanteMetadata geoKante) {
+		val test = positionService.transformCoordinate(4534036.177374728,5629101.783730606, ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_ER0)
 		val result = newArrayList
 
 		// A GEO_Kante of length zero may reside in different coordinate systems
@@ -302,9 +302,9 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				val knotenB = gk.getIDGEOKnotenB().getValue();
 				return List.of(
 					new GEOKanteCoordinate(getCoordinate(knotenA),
-						segment.bereichObjekte, getCRS(knotenA)),
+						geoKante, getCRS(knotenA)),
 					new GEOKanteCoordinate(getCoordinate(knotenB),
-						segment.bereichObjekte, getCRS(knotenB)));
+						geoKante, getCRS(knotenB)));
 			} catch (NullPointerException e) {
 				throw new RuntimeException(e);
 			}
@@ -331,10 +331,10 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				if (result.empty) {
 					result.add(
 						new GEOKanteCoordinate(lastCoordinate,
-							segment.bereichObjekte, geoKante.geoKnoten.CRS))
+							geoKante, geoKante.geoKnoten.CRS))
 				}
 				result.add(
-					new GEOKanteCoordinate(coordinate, segment.bereichObjekte,
+					new GEOKanteCoordinate(coordinate, geoKante,
 						geoKante.geoKnoten.CRS))
 				distance +=
 					BigDecimal.valueOf(lastCoordinate.distance(coordinate))
