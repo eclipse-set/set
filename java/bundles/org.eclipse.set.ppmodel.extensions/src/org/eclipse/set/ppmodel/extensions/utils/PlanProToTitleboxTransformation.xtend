@@ -306,7 +306,7 @@ class PlanProToTitleboxTransformation {
 				toAbsolutePath?.normalize?.toString ?: ''
 			val dimension = getImageDimension(logo,
 				schriftfeld?.planungsbueroLogo?.anhangAllg?.dateityp?.wert)
-			if (logo !== null || dimension !== null) {
+			if (logo !== null && dimension !== null) {
 				it.logo = "file:///" + logo
 				if (dimension.width > dimension.height)
 					it.variant = "logo-top"
