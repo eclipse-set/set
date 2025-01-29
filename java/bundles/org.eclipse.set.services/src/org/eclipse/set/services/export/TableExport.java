@@ -9,6 +9,7 @@
 package org.eclipse.set.services.export;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.set.basis.FreeFieldInfo;
@@ -113,4 +114,11 @@ public interface TableExport {
 	 * @return export format of this service
 	 */
 	ExportFormat getExportFormat();
+
+	/**
+	 * @param table
+	 *            the export table
+	 * @return the index of row, which the export should break page
+	 */
+	List<String> getPageBreakRowsIndex(final Table table);
 }

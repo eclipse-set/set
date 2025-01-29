@@ -254,4 +254,9 @@ public class ExcelExportBuilder implements TableExport {
 	public String getTableShortcut() {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public List<String> getPageBreakRowsIndex(final Table table) {
+		throw new UnsupportedOperationException();
+	}
 }

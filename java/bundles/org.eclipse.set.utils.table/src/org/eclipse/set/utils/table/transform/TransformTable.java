@@ -129,7 +129,7 @@ public class TransformTable {
 			template.setAttribute(ATTR_MATCH,
 					String.format("Row[@group-number = '%s']", rowNumber));
 			final Element tableRow = doc.createElement(FO_TABLE_ROW);
-			tableRow.setAttribute("break-before", "page");
+			tableRow.setAttribute("break-after", "page");
 			final Element tableCell = doc.createElement(FO_TABLE_CELL);
 			tableCell.setAttribute(XSL_USE_ATTRIBUTE_SETS, BODY_ROW_CELL_STYLE);
 			final Element block = doc.createElement(FO_BLOCK);
