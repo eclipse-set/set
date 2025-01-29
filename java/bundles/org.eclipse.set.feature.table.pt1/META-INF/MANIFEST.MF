@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.set.core.services;bundle-version="0.0.0",
  org.eclipse.jface,
  org.eclipse.set.model.planpro,
  org.eclipse.set.feature.table,
- org.apache.xmlgraphics;bundle-version="2.9.0"
+ org.apache.xmlgraphics
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: com.google.common.base,
  com.google.common.collect,

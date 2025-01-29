@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.table;
+package org.eclipse.set.services.table;
 
 import java.util.Collection;
 import java.util.List;
