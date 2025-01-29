@@ -11,7 +11,6 @@ package org.eclipse.set.feature.export.tm;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.set.basis.FreeFieldInfo;
@@ -84,10 +83,5 @@ public class TableModelExport implements TableExport {
 	@Override
 	public ExportFormat getExportFormat() {
 		return ExportFormat.TABLE_MODEL;
-	}
-
-	@Override
-	public List<String> getPageBreakRowsIndex(final Table table) {
-		throw new UnsupportedOperationException();
 	}
 }

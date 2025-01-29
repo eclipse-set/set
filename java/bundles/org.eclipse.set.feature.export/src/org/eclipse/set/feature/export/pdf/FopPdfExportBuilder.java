@@ -233,8 +233,13 @@ public class FopPdfExportBuilder implements TableExport {
 		}
 	}
 
-	@Override
-	public List<String> getPageBreakRowsIndex(final Table table) {
+	/**
+	 * @param table
+	 *            the export table
+	 * @return the index of row, which the export should break page
+	 */
+	@SuppressWarnings("static-method")
+	protected List<String> getPageBreakRowsIndex(final Table table) {
 		return Collections.emptyList();
 	}
 
