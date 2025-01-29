@@ -122,7 +122,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					.create();
 			final FreeFieldInfo freeFieldInfo = planProToFreeField
 					.transform(modelSession);
-			exportService.export(tables, getExportType(), titlebox,
+			exportService.exportPdf(tables, getExportType(), titlebox,
 					freeFieldInfo, id, getSelectedDirectory().toString(),
 					modelSession.getToolboxPaths(), modelSession.getTableType(),
 					overwriteHandling, new ExceptionHandler(getToolboxShell(),

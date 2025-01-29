@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.eclipse.set.feature.export;singleton:=true
 Bundle-Version: 2.4.0.qualifier
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Export-Package: org.eclipse.set.feature.export.checkboxmodel,
- org.eclipse.set.feature.export.parts
+ org.eclipse.set.feature.export.parts,
+ org.eclipse.set.feature.export.pdf
 Require-Bundle: org.eclipse.set.model.tablemodel,
  com.google.guava,
  org.eclipse.xtext.xbase.lib,

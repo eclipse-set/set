@@ -26,6 +26,12 @@ import org.eclipse.set.model.titlebox.Titlebox;
  * @author Schaefer
  */
 public interface TableExport {
+	/**
+	 * Export format
+	 */
+	enum ExportFormat {
+		PDF, EXCEL, TABLE_MODEL
+	}
 
 	/**
 	 * Whether an implementation exports all, none or some of the provided
@@ -94,4 +100,17 @@ public interface TableExport {
 	 */
 	void exportTitleboxPdf(Titlebox titlebox, Path pdfPath,
 			OverwriteHandling overwriteHandling) throws Exception;
+
+	/**
+	 * Give the table shortcut back, when the service for specifier table
+	 * implementation
+	 * 
+	 * @return the table short cut
+	 */
+	String getTableShortcut();
+
+	/**
+	 * @return export format of this service
+	 */
+	ExportFormat getExportFormat();
 }

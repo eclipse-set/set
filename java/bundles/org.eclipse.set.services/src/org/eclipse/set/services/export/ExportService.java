@@ -53,7 +53,7 @@ public interface ExportService {
 	 * @param errorHandler
 	 *            the error handler
 	 */
-	void export(Map<TableType, Table> tables, ExportType exportType,
+	void exportPdf(Map<TableType, Table> tables, ExportType exportType,
 			Titlebox titlebox, FreeFieldInfo freeFieldInfo, String shortcut,
 			String outputDir, ToolboxPaths toolboxPaths, TableType tableTye,
 			OverwriteHandling overwriteHandling,

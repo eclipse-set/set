@@ -679,7 +679,7 @@ public final class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.export(tables, getExportType(),
+						exportService.exportPdf(tables, getExportType(),
 								getTitlebox(shortcut), getFreeFieldInfo(),
 								shortcut, outputDir,
 								getModelSession().getToolboxPaths(),

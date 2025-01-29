@@ -144,5 +144,4 @@ public interface TableService {
 	 * @return position of fixed columns
 	 */
 	Set<Integer> getFixedColumns(final String elementID);
-
 }
