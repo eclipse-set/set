@@ -28,20 +28,20 @@
 </template>
 
 <script lang="ts">
-import OlView from 'ol/View'
-import OlMap from 'ol/Map'
-import 'ol/ol.css'
-import { Vue, Options } from 'vue-class-component'
+import LayerControl from '@/components/development/LayerControl.vue'
+import ModelSummaryControl from '@/components/development/ModelSummaryControl.vue'
+import SettingEditor from '@/components/development/SettingEditor.vue'
+import MapSourceSelection from '@/components/MapSourceSelection.vue'
+import { PlanProModelType, store } from '@/store'
+import Configuration from '@/util/Configuration'
+import ExportControl from '@/util/Controls/ExportControl'
 import RotateViewControl from '@/util/Controls/RotateViewControl'
 import ScaleBarControl from '@/util/Controls/ScaleBarControl'
 import { setMapScale } from '@/util/MapScale'
-import { PlanProModelType, store } from '@/store'
-import LayerControl from '@/components/development/LayerControl.vue'
-import SettingEditor from '@/components/development/SettingEditor.vue'
-import ModelSummaryControl from '@/components/development/ModelSummaryControl.vue'
-import MapSourceSelection from '@/components/MapSourceSelection.vue'
-import Configuration from '@/util/Configuration'
-import ExportControl from '@/util/Controls/ExportControl'
+import OlMap from 'ol/Map'
+import 'ol/ol.css'
+import OlView from 'ol/View'
+import { Options, Vue } from 'vue-class-component'
 
 /**
  * Container for the open layers map
