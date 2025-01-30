@@ -14,14 +14,14 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Options } from 'vue-class-component'
-import Toolbar from '@/components/toolbar/Toolbar.vue'
 import Menubar from '@/components/toolbar/Menubar.vue'
+import Toolbar from '@/components/toolbar/Toolbar.vue'
 import axios from 'axios'
-import { ToolboxConfiguration } from './util/ToolboxConfiguration'
+import { Options, Vue } from 'vue-class-component'
 import { store } from './store'
-import PlanProToolboxTest from './util/PlanProToolboxTest'
 import Configuration from './util/Configuration'
+import PlanProToolboxTest from './util/PlanProToolboxTest'
+import { ToolboxConfiguration } from './util/ToolboxConfiguration'
 @Options({
   async created () {
     store.commit('setLoading', true)

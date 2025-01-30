@@ -80,6 +80,11 @@ export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
     case FeatureType.CantLine:
       const cantLine = getFeatureData(feature) as Cant
       return cantLine ? [cantLine.guid] : []
+    case FeatureType.Unknown:
+      const unkonwnData = getFeatureData(feature)
+      if ('guid' in unkonwnData) {
+        return [unkonwnData.guid]
+      }
     default:
       return []
   }

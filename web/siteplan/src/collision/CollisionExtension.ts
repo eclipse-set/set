@@ -8,10 +8,7 @@
  */
 
 import { FeatureType, getFeatureData, getFeatureType } from '@/feature/FeatureInfo'
-import { lineString as turfLineString, polygon as turfPolygon } from '@turf/helpers'
-import booleanWithin from '@turf/boolean-within'
-import booleanDisjoint from '@turf/boolean-disjoint'
-
+import * as turf from '@turf/turf'
 import { Feature } from 'ol'
 import { getCenter } from 'ol/extent'
 import Geometry from 'ol/geom/Geometry'
@@ -65,7 +62,7 @@ export function isGeometryIntersection (a: Geometry | undefined, b: Geometry | u
       return (b as MultiLineString).getLineStrings()
         .some(line => isGeometryIntersection(a, line))
     case 'Point':
-      return a.intersectsCoordinate((b as Point).getCoordinates())
+      return isPointInPolygon(a as Polygon, b as Point)
     case 'MultiPoint':
       return (b as MultiPoint).getPoints()
         .some(point => isGeometryIntersection(a, point))
@@ -76,7 +73,7 @@ export function isGeometryIntersection (a: Geometry | undefined, b: Geometry | u
         .some(polygon => isGeometryIntersection(a as Polygon, polygon))
     case 'LinearRing':
       return (b as LinearRing).getCoordinates()
-        .some(coor => a.intersectsCoordinate(coor))
+        .some(coor => isPointInPolygon(a as Polygon, new Point(coor)))
     default:
       return false
   }
@@ -91,7 +88,13 @@ export function isGeometryIntersection (a: Geometry | undefined, b: Geometry | u
 export function isPolygonIntersection (a: Polygon, b: Polygon): boolean {
   const turfA = transformPolygon(a)
   const turfB = transformPolygon(b)
-  return booleanWithin(turfA, turfB) || !booleanDisjoint(turfA, turfB)
+  return turf.booleanWithin(turfA, turfB) || !turf.booleanDisjoint(turfA, turfB)
+}
+
+export function isPointInPolygon (a: Polygon, b: Point): boolean {
+  const turfA = transformPolygon(a)
+  const turfB = turf.point(b.getCoordinates())
+  return turf.booleanPointInPolygon(turfB, turfA)
 }
 
 function transformPolygon (polygon: Polygon) {
@@ -101,7 +104,7 @@ function transformPolygon (polygon: Polygon) {
     coords.push(coords[0])
   }
 
-  return turfPolygon([coords])
+  return turf.polygon([coords])
 }
 
 /**
@@ -112,9 +115,12 @@ function transformPolygon (polygon: Polygon) {
  */
 export function isRectanglesCrossing (a: Polygon, b: Polygon): boolean {
   // Check if center point of this rectangle inside the other rectangle
-  const centerA = getCenter(a.getExtent())
-  const centerB = getCenter(b.getExtent())
-  const isIntersectCenterPoint = a.intersectsCoordinate(centerB) || b.intersectsCoordinate(centerA)
+  const centerA = turf.point(getCenter(a.getExtent()))
+  const centerB = turf.point(getCenter(b.getExtent()))
+  const turfPolygonA = transformPolygon(a)
+  const turfPolygonB = transformPolygon(b)
+  const isIntersectCenterPoint = turf.booleanPointInPolygon(centerA, turfPolygonB) ||
+    turf.booleanPointInPolygon(centerB, turfPolygonA)
   if (isIntersectCenterPoint) {
     return true
   }
@@ -135,8 +141,8 @@ export function isRectanglesCrossing (a: Polygon, b: Polygon): boolean {
  */
 export function isIntersectionLineString (a: Polygon, b: LineString): boolean {
   const turfA = transformPolygon(a)
-  const turfB = turfLineString(b.getCoordinates())
-  return booleanWithin(turfB, turfA) || !booleanDisjoint(turfB, turfA)
+  const turfB = turf.lineString(b.getCoordinates())
+  return turf.booleanWithin(turfB, turfA) || !turf.booleanDisjoint(turfB, turfA)
 }
 
 /**

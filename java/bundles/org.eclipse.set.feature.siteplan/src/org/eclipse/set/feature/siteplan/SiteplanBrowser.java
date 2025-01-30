@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.events.IEventBroker;
@@ -51,6 +52,8 @@ public class SiteplanBrowser extends FileWebBrowser
 	private final Shell shell;
 	private Path selectedOutputDir;
 	private final IEventBroker broker;
+
+	private Consumer<String> beforedownloadFunction;
 
 	/**
 	 * Creates a new web siteplan server on a random free port
@@ -136,6 +139,12 @@ public class SiteplanBrowser extends FileWebBrowser
 	@Override
 	public Optional<Path> beforeDownload(final String suggestedName,
 			final String url) {
+		if (beforedownloadFunction != null) {
+			beforedownloadFunction.accept(url);
+		}
+		if (selectedOutputDir == null) {
+			return Optional.empty();
+		}
 		return Optional.of(Path.of(
 				selectedOutputDir.toAbsolutePath().toString(), suggestedName));
 	}
@@ -153,5 +162,13 @@ public class SiteplanBrowser extends FileWebBrowser
 	 */
 	public void setSelectedFolder(final Path outputDir) {
 		selectedOutputDir = outputDir;
+	}
+
+	/**
+	 * @param func
+	 *            this function will be call before file download
+	 */
+	public void setBeforeDownloadFunc(final Consumer<String> func) {
+		beforedownloadFunction = func;
 	}
 }
