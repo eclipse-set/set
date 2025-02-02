@@ -25,6 +25,26 @@ jobs:
       - name: Run checkstyle
         run: java -Dconfig_loc=${{ env.CHECKSTYLE_CONFIG_LOC }} -jar checkstyle.jar . -c ${{ env.CHECKSTYLE_CONFIG_LOC }}/checkstyle.xml
 
+  java-formatting:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_JAVA_FORMAT_VERSION: "1.25.2"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--replace"
+          skip-commit: true
+
+      - name: Print diffs
+        run: git --no-pager diff --exit-code
+      # - name: Get checkstyle
+      #   run: wget -O ./formatter.jar https://github.com/google/google-java-format/releases/download/v${{ env.GOOGLE_JAVA_FORMAT_VERSION }}/google-java-format-${{ env.GOOGLE_JAVA_FORMAT_VERSION }}-all-deps.jar
+
+      # - name: Run checkstyle
+      #   run: java -jar ./formatter.jar .
+
   lint-siteplan:
     runs-on: ubuntu-latest
     steps:
