@@ -81,6 +81,11 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
     sideLegCoorClone.reverse()
     sideLegCoorClone.forEach(coor => coordinates.push([coor.x, coor.y]))
 
+    // DKW and KR haven't the legs same TOP_Kante
+    if (tswitch.design?.startsWith('DKW') || tswitch.design?.startsWith('KR')) {
+      coordinates.push([component.mainLeg.coordinates[0].x, component.mainLeg.coordinates[0].y])
+    }
+
     // Geometries for the three components
     const outlineGeometry = new Polygon([coordinates])
     const startGeometry = new Point([component.start.x, component.start.y])

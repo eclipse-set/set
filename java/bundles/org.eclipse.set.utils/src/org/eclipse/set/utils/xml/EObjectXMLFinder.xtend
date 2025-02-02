@@ -105,7 +105,7 @@ class EObjectXMLFinder {
 	 */
 	def int getLineNumber(Node node) throws LineNotFoundException {
 		val String lineNum = (node?.getUserData(
-			LineNumberXMLReader.LINE_NUMBER_KEY) as String)
+			LineNumberXMLReader.START_LINE_NUMBER_KEY) as String)
 		if (lineNum === null) {
 			throw new LineNotFoundException()
 		}

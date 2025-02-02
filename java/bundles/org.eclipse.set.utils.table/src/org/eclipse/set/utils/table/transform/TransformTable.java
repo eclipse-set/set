@@ -10,8 +10,10 @@ package org.eclipse.set.utils.table.transform;
 
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getColumnWidthInCm;
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_NAME;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.XSL_VARIABLE;
+import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.*;
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.BODY_ROW_CELL_STYLE;
+import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
@@ -97,6 +101,52 @@ public class TransformTable {
 		}
 
 		return xslDoc;
+	}
+
+	/**
+	 * Transform Excel table to xsl document with break page point
+	 * 
+	 * @param breakAtRows
+	 *            row index should be break
+	 * @return xsl document
+	 * @throws IOException
+	 *             {@link IOException}
+	 * @throws ParserConfigurationException
+	 *             {@link ParserConfigurationException}
+	 * @throws SAXException
+	 *             {@link SAXException}
+	 * @throws TransformerException
+	 *             {@link TransformerException}
+	 */
+	@SuppressWarnings("nls")
+	public Document transform(final List<String> breakAtRows)
+			throws IOException, ParserConfigurationException, SAXException,
+			TransformerException {
+		final Document doc = transform();
+		final Node rootNode = doc.getElementsByTagName(XSL_STYLESHEET).item(0);
+		breakAtRows.forEach(rowNumber -> {
+			final Element template = doc.createElement(XSL_TEMPLATE);
+			template.setAttribute(ATTR_MATCH,
+					String.format("Row[@group-number = '%s']", rowNumber));
+			final Element tableRow = doc.createElement(FO_TABLE_ROW);
+			tableRow.setAttribute("break-after", "page");
+			final Element tableCell = doc.createElement(FO_TABLE_CELL);
+			tableCell.setAttribute(XSL_USE_ATTRIBUTE_SETS, BODY_ROW_CELL_STYLE);
+			final Element block = doc.createElement(FO_BLOCK);
+			final Element valueof = doc.createElement(XSL_VALUE_OF);
+			valueof.setAttribute(ATTR_SELECT, "@group-number");
+			block.appendChild(valueof);
+			tableCell.appendChild(block);
+
+			final Element applytemplate = doc.createElement(XSL_APPLY_TEMPLATE);
+			tableRow.appendChild(tableCell);
+			tableRow.appendChild(applytemplate);
+			template.appendChild(tableRow);
+			rootNode.appendChild(template);
+		});
+
+		return doc;
+
 	}
 
 	private void setWaterMarkContent(final Document xslDoc) {

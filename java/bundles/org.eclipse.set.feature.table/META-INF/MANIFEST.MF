@@ -90,6 +90,8 @@ Import-Package: com.google.common.base,
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.feature.table.internal.TableServiceContextFunction.xml,
+ OSGI-INF/org.eclipse.set.feature.table.compile.TableCompileServiceContextFunction.xml,
  OSGI-INF/org.eclipse.set.feature.table.messages.internal.MessagesContextFunction.xml,
+ OSGI-INF/org.eclipse.set.feature.table.overview.ESTWSupplementTableOverviewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.overview.ESTWTableOverviewDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.table.overview.ETCSTableOverviewDescriptionService.xml

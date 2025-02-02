@@ -50,7 +50,6 @@ import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
-import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -65,6 +64,7 @@ import org.eclipse.set.ppmodel.extensions.ContainerExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
@@ -236,7 +236,11 @@ public final class TableServiceImpl implements TableService {
 						.map(cacheKey -> (List<TableError>) cache
 								.getIfPresent(cacheKey.getValue()))
 						.filter(Objects::nonNull).toList();
-				if (!tableErrors.isEmpty()) {
+				if (!tableErrors.isEmpty() || Thread.getAllStackTraces()
+						.keySet().stream()
+						.anyMatch(thread -> thread.getName().toLowerCase()
+								.startsWith(
+										tableInfo.shortcut().toLowerCase()))) {
 					map.put(tableInfo.shortcut(), tableErrors.stream()
 							.flatMap(List::stream).toList());
 				}
@@ -432,9 +436,18 @@ public final class TableServiceImpl implements TableService {
 		for (final Pair<String, String> cacheKey : cacheKeys) {
 			final String areaId = cacheKey.getKey();
 			final String areaCacheKey = cacheKey.getValue();
-			final Table table = (Table) cache.get(areaCacheKey,
-					() -> loadTransform(shortCut, tableType, modelSession,
-							areaId, areaCacheKey));
+			Table table = (Table) cache.getIfPresent(areaCacheKey);
+
+			if (table == null) {
+				table = (Table) loadTransform(shortCut, tableType, modelSession,
+						areaId, areaCacheKey);
+				// Not storage table, when table isn't complete transform
+				if (Thread.getAllStackTraces().keySet().stream()
+						.noneMatch(thread -> thread.getName().toLowerCase()
+								.startsWith(shortCut))) {
+					cache.set(areaCacheKey, table);
+				}
+			}
 			if (resultTable == null) {
 				resultTable = EcoreUtil.copy(table);
 			} else {

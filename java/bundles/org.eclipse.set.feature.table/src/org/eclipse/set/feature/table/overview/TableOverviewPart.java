@@ -30,12 +30,11 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
-import org.eclipse.set.feature.table.TableService;
-import org.eclipse.set.feature.table.TableService.TableInfo;
 import org.eclipse.set.feature.table.messages.Messages;
-import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.services.table.TableService.TableInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
@@ -89,12 +88,6 @@ public class TableOverviewPart extends BasePart {
 
 	@Inject
 	private TableMenuService tableMenuService;
-
-	// IMPROVE:
-	// Workaround for table services not being registered in TableService
-	// when no table part has been opened yet
-	@Inject
-	MessagesWrapper wrapper;
 
 	private Label completenessHint;
 	private Text missingTablesText;
@@ -234,11 +227,15 @@ public class TableOverviewPart extends BasePart {
 	private void openAllTablesWithErrors() {
 		final Collection<String> tablesWithErrors = getTablesContainingErrors();
 		for (final String shortCut : tablesWithErrors) {
-			final String tablePartIdPrefxix = getTableCategory() == ESTW_CATEGORY
-					? ESTW_TABLE_PART_ID_PREFIX
-					: ETCS_TABLE_PART_ID_PREFIX;
+			final String tablePartIdPrefix = switch (getTableCategory()) {
+			case ESTW_CATEGORY -> ESTW_TABLE_PART_ID_PREFIX;
+			case ETCS_CATEGORY -> ETCS_TABLE_PART_ID_PREFIX;
+			case ESTW_SUPPLEMENT_CATEGORY -> ESTW_SUPPLEMENT_PART_ID_PREFIX;
+			default -> throw new IllegalArgumentException(
+					"Unexpected value: " + getTableCategory()); //$NON-NLS-1$
+			};
 			toolboxPartService.showPart(
-					String.format("%s.%s", tablePartIdPrefxix, shortCut)); //$NON-NLS-1$
+					String.format("%s.%s", tablePartIdPrefix, shortCut)); //$NON-NLS-1$
 		}
 	}
 
@@ -251,8 +248,12 @@ public class TableOverviewPart extends BasePart {
 		final String elementId = getToolboxPart().getElementId();
 		if (elementId.startsWith(ESTW_TABLE_PART_ID_PREFIX)) {
 			return ESTW_CATEGORY;
+		} else if (elementId.startsWith(ETCS_TABLE_PART_ID_PREFIX)) {
+			return ETCS_CATEGORY;
+		} else if (elementId.startsWith(ESTW_SUPPLEMENT_PART_ID_PREFIX)) {
+			return ESTW_SUPPLEMENT_CATEGORY;
 		}
-		return ETCS_CATEGORY;
+		throw new IllegalArgumentException();
 	}
 
 	private void update() {

@@ -50,7 +50,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	var TMFactory factory = null
 	val TopologicalGraphService topGraph
-
+	// Minimum overlap distance between free reporting section and track route in meter
+	static final BigDecimal MIN_OVERLAP_DISTANCE = BigDecimal.valueOf(10) 
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService) {
@@ -67,11 +68,10 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
 
-		val validObjects = container.blockElement
-			.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea)
+		val validObjects = container.blockElement.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).filterNull
 		val fmaLookupCache = getFMALookupCache(container)
-		validObjects.flatMap[findRelevantBlockElements].forEach [ it |
+		validObjects.flatMap[findRelevantBlockElements].filterNull.forEach [ it |
 			if (Thread.currentThread.interrupted) {
 				return
 			}
@@ -84,17 +84,16 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		val lookupTable = newHashMap
 		// Find FMA Tracks which majorly overlap a route track
 		val routeTrackTypes = container.gleisArt.filter [
-			gleisart.wert === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
+			gleisart?.wert === ENUMGleisart.ENUM_GLEISART_STRECKENGLEIS
 		].flatMap[bereichObjektTeilbereich]
 
-		container.FMAAnlage.map[it -> IDGleisAbschnitt?.value].filterNull //
-		.filter [ fmaTrack |
+		container.FMAAnlage.map[it -> IDGleisAbschnitt?.value].filterNull.filter [ fmaTrack |
 			val overlappingDistance = routeTrackTypes.fold(
 				BigDecimal.ZERO, [ sum, rtt |
 					sum.add(getOverlappingLength(fmaTrack.value, rtt))
 				])
 
-			fmaTrack.value.length.divide(BigDecimal.TWO) < overlappingDistance 
+			overlappingDistance.compareTo(MIN_OVERLAP_DISTANCE) >= 0
 		].forEach [
 			val fmaObject = it.key
 			value.bereichObjektTeilbereich?.filter[IDTOPKante?.value !== null].

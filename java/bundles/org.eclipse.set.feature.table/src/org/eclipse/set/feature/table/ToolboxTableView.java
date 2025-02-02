@@ -43,6 +43,7 @@ import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupModel;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
+import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.nebula.widgets.nattable.layer.SpanningDataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.cell.ILayerCell;
 import org.eclipse.nebula.widgets.nattable.resize.command.RowHeightResetCommand;
@@ -59,6 +60,7 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
+import org.eclipse.set.basis.tables.Tables;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
@@ -83,6 +85,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -469,51 +472,11 @@ public final class ToolboxTableView extends BasePart {
 		final ColumnHeaderLayer columnHeaderLayer = new ColumnHeaderLayer(
 				columnHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
-
-		// column groups
-		final ColumnGroupModel columnGroupModel = new ColumnGroupModel();
-		final ColumnGroupHeaderLayer columnGroupHeaderLayer = new ColumnGroupHeaderLayer(
-				columnHeaderLayer, bodyLayerStack.getSelectionLayer(),
-				columnGroupModel);
-		NatTableColumnGroupHelper.addGroups(rootColumnDescriptor,
-				columnGroupHeaderLayer);
-		columnGroupHeaderLayer
-				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
-						.getGroupRowHeight(rootColumnDescriptor)));
-
-		// column group groups
-		final ColumnGroupModel columnGroupGroupModel = new ColumnGroupModel();
-		final ColumnGroupGroupHeaderLayer columnGroupGroupHeaderLayer = new ColumnGroupGroupHeaderLayer(
-				columnGroupHeaderLayer, columnGroupGroupModel);
-		NatTableColumnGroupHelper.addGroupGroups(rootColumnDescriptor,
-				columnGroupGroupHeaderLayer);
-		columnGroupGroupHeaderLayer
-				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
-						.getGroupGroupRowHeight(rootColumnDescriptor)));
-
-		// column group group groups
-		final ColumnGroupModel columnGroupGroupGroupModel = new ColumnGroupModel();
-		final ColumnGroupGroupGroupHeaderLayer columnGroupGroupGroupHeaderLayer = new ColumnGroupGroupGroupHeaderLayer(
-				columnGroupGroupHeaderLayer, columnGroupHeaderLayer,
-				bodyLayerStack.getSelectionLayer(), columnGroupGroupGroupModel);
-		NatTableColumnGroupHelper.addGroupGroupGroups(rootColumnDescriptor,
-				columnGroupGroupGroupHeaderLayer);
-		columnGroupGroupGroupHeaderLayer
-				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
-						.getGroupGroupGroupRowHeight(rootColumnDescriptor)));
-
-		// column group4
-		final ColumnGroupModel columnGroup4Model = new ColumnGroupModel();
-		final ColumnGroup4HeaderLayer columnGroup4HeaderLayer = new ColumnGroup4HeaderLayer(
-				columnGroupGroupGroupHeaderLayer, columnGroupGroupHeaderLayer,
-				columnGroupHeaderLayer, bodyLayerStack.getSelectionLayer(),
-				columnGroup4Model);
-		NatTableColumnGroupHelper.addColumnNumbers(rootColumnDescriptor,
-				columnGroup4HeaderLayer);
-		columnGroup4HeaderLayer
-				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
-						.getGroup4RowHeight(rootColumnDescriptor)));
-
+		final boolean anyMatch = existsColumnGroup(rootColumnDescriptor);
+		final ILayer headerLayer = anyMatch
+				? createGroupHeaderLayer(columnHeaderLayer,
+						rootColumnDescriptor)
+				: createHeaderLayer(columnHeaderLayer, rootColumnDescriptor);
 		// row header stack
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(
 				bodyDataProvider);
@@ -528,11 +491,11 @@ public final class ToolboxTableView extends BasePart {
 				columnHeaderDataProvider, rowHeaderDataProvider);
 		final DataLayer cornerDataLayer = new DataLayer(cornerDataProvider);
 		final CornerLayer cornerLayer = new CornerLayer(cornerDataLayer,
-				rowHeaderLayer, columnGroup4HeaderLayer);
+				rowHeaderLayer, headerLayer);
 
 		// gridlayer
-		final GridLayer gridLayer = new GridLayer(bodyLayerStack,
-				columnGroup4HeaderLayer, rowHeaderLayer, cornerLayer);
+		final GridLayer gridLayer = new GridLayer(bodyLayerStack, headerLayer,
+				rowHeaderLayer, cornerLayer);
 		natTable = new NatTable(parent, gridLayer, false);
 		GridDataFactory.fillDefaults().grab(true, true).minSize(-1, 500)
 				.applyTo(natTable);
@@ -592,6 +555,91 @@ public final class ToolboxTableView extends BasePart {
 		updateButtons();
 	}
 
+	private boolean existsColumnGroup(final ColumnDescriptor columnDescriptor) {
+		if (ColumnDescriptorExtensions.isRoot(columnDescriptor)) {
+			return columnDescriptor.getChildren().stream()
+					.anyMatch(this::existsColumnGroup);
+		}
+
+		if (ColumnDescriptorExtensions.isLeaf(columnDescriptor)) {
+			return false;
+		}
+
+		if (columnDescriptor.getChildren().size() > 1) {
+			return true;
+		}
+
+		return existsColumnGroup(columnDescriptor.getChildren().getFirst());
+	}
+
+	private ILayer createHeaderLayer(final ColumnHeaderLayer columnHeaderLayer,
+			final ColumnDescriptor rootColumnDescriptor) {
+		final ColumnGroupModel columnGroupModel = new ColumnGroupModel();
+		final ColumnGroupHeaderLayer columnGroupHeaderLayer = new ColumnGroupHeaderLayer(
+				columnHeaderLayer, bodyLayerStack.getSelectionLayer(),
+				columnGroupModel);
+		final List<ColumnDescriptor> columns = ColumnDescriptorExtensions
+				.getColumns(rootColumnDescriptor);
+		for (int i = 0; i < columns.size(); i++) {
+			final String columnIdentifier = Tables.getColumnIdentifier(i);
+			columnGroupHeaderLayer.addColumnsIndexesToGroup(columnIdentifier,
+					i);
+		}
+		columnGroupHeaderLayer
+				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
+						.getGroupRowHeight(rootColumnDescriptor)));
+		return columnGroupHeaderLayer;
+	}
+
+	protected ColumnGroup4HeaderLayer createGroupHeaderLayer(
+			final ColumnHeaderLayer columnHeaderLayer,
+			final ColumnDescriptor rootColumnDescriptor) {
+		// column groups
+		final ColumnGroupModel columnGroupModel = new ColumnGroupModel();
+		final ColumnGroupHeaderLayer columnGroupHeaderLayer = new ColumnGroupHeaderLayer(
+				columnHeaderLayer, bodyLayerStack.getSelectionLayer(),
+				columnGroupModel);
+		NatTableColumnGroupHelper.addGroups(rootColumnDescriptor,
+				columnGroupHeaderLayer);
+		columnGroupHeaderLayer
+				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
+						.getGroupRowHeight(rootColumnDescriptor)));
+
+		// column group groups
+		final ColumnGroupModel columnGroupGroupModel = new ColumnGroupModel();
+		final ColumnGroupGroupHeaderLayer columnGroupGroupHeaderLayer = new ColumnGroupGroupHeaderLayer(
+				columnGroupHeaderLayer, columnGroupGroupModel);
+		NatTableColumnGroupHelper.addGroupGroups(rootColumnDescriptor,
+				columnGroupGroupHeaderLayer);
+		columnGroupGroupHeaderLayer
+				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
+						.getGroupGroupRowHeight(rootColumnDescriptor)));
+
+		// column group group groups
+		final ColumnGroupModel columnGroupGroupGroupModel = new ColumnGroupModel();
+		final ColumnGroupGroupGroupHeaderLayer columnGroupGroupGroupHeaderLayer = new ColumnGroupGroupGroupHeaderLayer(
+				columnGroupGroupHeaderLayer, columnGroupHeaderLayer,
+				bodyLayerStack.getSelectionLayer(), columnGroupGroupGroupModel);
+		NatTableColumnGroupHelper.addGroupGroupGroups(rootColumnDescriptor,
+				columnGroupGroupGroupHeaderLayer);
+		columnGroupGroupGroupHeaderLayer
+				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
+						.getGroupGroupGroupRowHeight(rootColumnDescriptor)));
+
+		// column group4
+		final ColumnGroupModel columnGroup4Model = new ColumnGroupModel();
+		final ColumnGroup4HeaderLayer columnGroup4HeaderLayer = new ColumnGroup4HeaderLayer(
+				columnGroupGroupGroupHeaderLayer, columnGroupGroupHeaderLayer,
+				columnGroupHeaderLayer, bodyLayerStack.getSelectionLayer(),
+				columnGroup4Model);
+		NatTableColumnGroupHelper.addColumnNumbers(rootColumnDescriptor,
+				columnGroup4HeaderLayer);
+		columnGroup4HeaderLayer
+				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
+						.getGroup4RowHeight(rootColumnDescriptor)));
+		return columnGroup4HeaderLayer;
+	}
+
 	@Override
 	protected SelectableAction getOutdatedAction() {
 		return new RefreshAction(this, e -> outdatedUpdate());
@@ -632,7 +680,7 @@ public final class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.export(tables, getExportType(),
+						exportService.exportPdf(tables, getExportType(),
 								getTitlebox(shortcut), getFreeFieldInfo(),
 								shortcut, outputDir,
 								getModelSession().getToolboxPaths(),

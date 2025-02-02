@@ -18,9 +18,11 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
+import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
@@ -57,8 +59,6 @@ import static extension org.eclipse.set.ppmodel.extensions.StellelementExtension
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CollectionExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Geodaten.Strecke
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 
 /**
  * This class extends {@link Signal}.
@@ -92,6 +92,9 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @returns boolean
 	 */
 	def static boolean isStartOfAnyTrainRoute(Signal signal) {
+		if (signal === null) {
+			return false
+		}
 		return signal.container.fstrZugRangier.exists [
 			fstrFahrweg?.start === signal && fstrZug !== null
 		]
@@ -184,9 +187,30 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	def static boolean isInWirkrichtungOfSignal(TopGraph topGraph,
 		Signal signal, List<Punkt_Objekt_TOP_Kante_AttributeGroup> potks) {
-		return topGraph.getPaths(signal.singlePoints, potks).flatMap [
-			edges
-		].forall[isForwards == true]
+		// Find path from the signal to point object
+		val relevantPaths = topGraph.getPaths(signal.singlePoints, potks).
+			flatMap[edges]
+		if (relevantPaths.isNullOrEmpty) {
+			return false
+		}
+
+		// The path must start the TOP_Kante of the signal and have same direction like the signal		
+		return relevantPaths.filter[signal.topKanten.contains(element)].forall [
+			val wirkrichtung = signal.getWirkrichtung(element)
+			if (wirkrichtung === null) {
+				return isForwards
+			}
+			switch (wirkrichtung) {
+				case ENUM_WIRKRICHTUNG_IN:
+					return isForwards == true
+				case ENUM_WIRKRICHTUNG_BEIDE_VALUE:
+					return true
+				case ENUM_WIRKRICHTUNG_GEGEN:
+					return isForwards == false
+				default:
+					throw new IllegalArgumentException()
+			}
+		]
 	}
 
 	/**
@@ -470,7 +494,6 @@ class SignalExtensions extends PunktObjektExtensions {
 		return false
 	}
 
-
 	def static List<FMA_Komponente> getFmaKomponenten(Signal signal) {
 		val fstrFahrwegs = signal.container.fstrFahrweg.filter [
 			start === signal || zielSignal === signal
@@ -482,17 +505,18 @@ class SignalExtensions extends PunktObjektExtensions {
 			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
 		].toList
 	}
-	
+
 	def static List<Pair<Strecke, String>> getRouteAndKm(Signal signal) {
-		val result = [Punkt_Objekt_Strecke_AttributeGroup point| 
+		val result = [ Punkt_Objekt_Strecke_AttributeGroup point |
 			return point?.IDStrecke?.value -> point?.streckeKm?.wert
 		]
 		val pointRoutes = signal.punktObjektStrecke
-		val decisivePoint = pointRoutes.filter[kmMassgebend?.wert !== null].toList
+		val decisivePoint = pointRoutes.filter[kmMassgebend?.wert !== null].
+			toList
 		if (decisivePoint.isNullOrEmpty) {
 			return pointRoutes.map[result.apply(it)]
 		}
-		
+
 		return decisivePoint.map[result.apply(it)]
 	}
 }

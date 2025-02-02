@@ -33,6 +33,7 @@ import static extension org.eclipse.set.ppmodel.extensions.PlanungProjektExtensi
 import static extension org.eclipse.set.ppmodel.extensions.StreckeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
 import java.math.BigDecimal
+import org.eclipse.set.model.siteplan.TrackSwitch
 
 /**
  * Transforms the PlanPro data model into the siteplan data model 
@@ -64,7 +65,13 @@ class SiteplanTransformatorImpl extends AbstractSiteplanTransformator {
 		siteplan.transformLayout(modelSession.layoutInformation)
 		siteplan.eAllContents.filter(SiteplanObject).filter[guid !== null].
 			forEach [
-				siteplanService.addSiteplanElement(it)
+				if (it instanceof TrackSwitch) {
+					components.forEach [ componente |
+						siteplanService.addSiteplanElement(componente)
+					]
+				} else {
+					siteplanService.addSiteplanElement(it)	
+				}
 			]
 		return siteplan
 	}

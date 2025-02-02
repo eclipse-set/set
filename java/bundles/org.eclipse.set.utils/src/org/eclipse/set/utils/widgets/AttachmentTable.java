@@ -332,12 +332,11 @@ public class AttachmentTable {
 
 		createButton(buttonRow, messages.AttachmentTable_export,
 				() -> getSelectedAttachment()
-						.ifPresent(attachment -> Attachments
-								.export(getTableParent().getShell(), attachment,
-										dialogService,
-										userConfigService.getLastExportPath(),
-										path -> userConfigService
-												.setLastExportPath(path))),
+						.ifPresent(attachment -> Attachments.export(
+								getTableParent().getShell(), attachment,
+								dialogService,
+								userConfigService.getLastExportPath(),
+								userConfigService::setLastExportPath)),
 				() -> true);
 
 		// view attachment
@@ -379,17 +378,14 @@ public class AttachmentTable {
 		return attachmentList != null;
 	}
 
-	private void saveAttachment(final Attachment attachment, final Path path) {
-		try {
-			final byte[] content = contentProvider.getContent(attachment);
-			final Path parent = path.getParent();
-			if (parent != null) {
-				Files.createDirectories(parent);
-			}
-			Files.write(path, content);
-		} catch (final IOException e) {
-			throw new RuntimeException(e);
+	private void saveAttachment(final Attachment attachment, final Path path)
+			throws IOException {
+		final byte[] content = contentProvider.getContent(attachment);
+		final Path parent = path.getParent();
+		if (parent != null) {
+			Files.createDirectories(parent);
 		}
+		Files.write(path, content);
 	}
 
 	private void startAttachmentViewer(final Path path) {
@@ -432,8 +428,14 @@ public class AttachmentTable {
 	void viewAttachment(final Attachment attachment) {
 		final Path path = Paths.get(tempDir, attachment.getId(),
 				attachment.getFullFilename());
-		saveAttachment(attachment, path);
-		startAttachmentViewer(path);
+		try {
+			saveAttachment(attachment, path);
+			startAttachmentViewer(path);
+		} catch (final IOException e) {
+			dialogService.error(viewer.getControl().getShell(),
+					messages.AttachmentTable_MissingBinaryDataMsg);
+		}
+
 	}
 
 	/**

@@ -59,8 +59,8 @@ public final class NatTableColumnGroupHelper {
 	 */
 	public static void addColumnNumbers(final ColumnDescriptor header,
 			final ColumnGroup4HeaderLayer columnGroup4HeaderLayer) {
-		final int noOfcolumns = ColumnDescriptorExtensions
-				.getColumns(header).length;
+		final int noOfcolumns = ColumnDescriptorExtensions.getColumns(header)
+				.size();
 		for (int i = 0; i < noOfcolumns; i++) {
 			final String label = Tables.getColumnIdentifier(i);
 			columnGroup4HeaderLayer.addColumnsIndexesToGroup(label, i);

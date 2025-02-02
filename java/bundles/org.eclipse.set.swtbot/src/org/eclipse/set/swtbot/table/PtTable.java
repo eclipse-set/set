@@ -60,6 +60,8 @@ public record PtTable(String shortcut, String tableName,
 					List.of(0)),
 			new PtTable("sszw",
 					"Sszw – ETCS Melde- und Kommandoanschaltung Weichen",
+					List.of(0)),
+			new PtTable("sskz", "Sskz – Zuordnungstabelle FEAK/FEAS",
 					List.of(0)));
 
 }

@@ -23633,7 +23633,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_Fstr_staendig_wirksam_wenn_Fahrstrasse_eingestellt_Sorting;
 
 	/**
-	 * ständig wirksam wenn Fstr eingestellt
+	 * wirk.
 	 */
 	public String ENUMWirksamkeit_Fstr_staendig_wirksam_wenn_Fahrstrasse_eingestellt_Alternative;
 
@@ -23648,7 +23648,7 @@ public class Enumerators extends AbstractMessageService {
 	public String ENUMWirksamkeit_Fstr_unwirksam_wenn_Fahrstrasse_eingestellt_Sorting;
 
 	/**
-	 * unwirksam wenn Fstr eingestellt
+	 * uw.
 	 */
 	public String ENUMWirksamkeit_Fstr_unwirksam_wenn_Fahrstrasse_eingestellt_Alternative;
 

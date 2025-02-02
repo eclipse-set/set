@@ -54,6 +54,12 @@ class BankValues extends AbstractPlazContainerCheck implements PlazCheck, EventH
 		].map [
 			val bankLength = ueberhoehungslinieAllg.
 				ueberhoehungslinieLaenge.wert
+			if (IDUeberhoehungA?.value === null ||
+				IDUeberhoehungB?.value === null) {
+				return createError(
+					"Die Überhöhungslinie {GUID} hat entweder keine Ueberhoehung_A oder keine Ueberhoehung_B.",
+					Map.of("GUID", it.identitaet.wert))
+			}
 			val begin = new TopPoint(IDUeberhoehungA.value)
 			val end = new TopPoint(IDUeberhoehungB.value)
 			val paths = topologicalService.findAllPathsBetween(begin, end,

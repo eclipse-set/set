@@ -23,6 +23,7 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableExport;
+import org.eclipse.set.services.export.TableExport.ExportFormat;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -56,7 +57,7 @@ public class ExportServiceImpl implements ExportService {
 	}
 
 	@Override
-	public void export(final Map<TableType, Table> tables,
+	public void exportPdf(final Map<TableType, Table> tables,
 			final ExportType exportType, final Titlebox titlebox,
 			final FreeFieldInfo freeFieldInfo, final String shortcut,
 			final String outputDir, final ToolboxPaths toolboxPaths,
@@ -67,15 +68,41 @@ public class ExportServiceImpl implements ExportService {
 			logger.warn(
 					"There are no builders registered at the export service."); //$NON-NLS-1$
 		}
-		for (final TableExport builder : builders) {
-			try {
-				builder.export(tables, exportType, titlebox, freeFieldInfo,
-						shortcut, outputDir, toolboxPaths, tableType,
-						overwriteHandling);
-			} catch (final Exception e) {
-				errorHandler.accept(e);
+		List.of(ExportFormat.PDF, ExportFormat.EXCEL).forEach(format -> {
+			final TableExport builder = getBuilder(format, shortcut);
+			if (builder != null) {
+				try {
+					builder.export(tables, exportType, titlebox, freeFieldInfo,
+							shortcut, outputDir, toolboxPaths, tableType,
+							overwriteHandling);
+				} catch (final Exception e) {
+					errorHandler.accept(e);
+				}
 			}
+		});
+
+	}
+
+	private TableExport getBuilder(final ExportFormat format,
+			final String shortcut) {
+		final List<TableExport> relevantBuilder = builders.stream()
+				.filter(builder -> builder.getExportFormat() == format)
+				.toList();
+		if (relevantBuilder.isEmpty()) {
+			return null;
 		}
+		final TableExport buildForTable = relevantBuilder.stream()
+				.filter(builder -> {
+					try {
+						return builder.getTableShortcut()
+								.equalsIgnoreCase(shortcut);
+					} catch (final Exception e) {
+						return false;
+					}
+				}).findFirst().orElse(null);
+
+		return buildForTable == null ? relevantBuilder.getFirst()
+				: buildForTable;
 	}
 
 	@Override

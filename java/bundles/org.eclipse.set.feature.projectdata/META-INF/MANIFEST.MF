@@ -80,7 +80,7 @@ Require-Bundle: com.google.guava,
  org.eclipse.xtend.lib.macro,
  org.eclipse.set.rap.compatibility;bundle-version="48.5.0";resolution:=optional,
  org.eclipse.set.rcp.compatibility;bundle-version="0.1.0";resolution:=optional,
- org.eclipse.set.model.planpro;bundle-version="2.3.0"
+ org.eclipse.set.model.planpro
 Service-Component: OSGI-INF/org.eclipse.set.feature.projectdata.descriptions.PlanProImportDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.projectdata.descriptions.ProjectPartDescriptionService.xml,
  OSGI-INF/org.eclipse.set.feature.projectdata.utils.ServiceProviderContextFunction.xml

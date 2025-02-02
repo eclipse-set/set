@@ -18,6 +18,7 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 import static extension org.eclipse.set.ppmodel.extensions.StellBereichExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.AussenelementansteuerungExtensions.*
+import org.eclipse.set.model.planpro.Geodaten.Oertlichkeit
 
 /**
  * Extensions for {@link ESTW_Zentraleinheit}.
@@ -65,6 +66,10 @@ class ESTW_ZentraleinheitExtensions extends BasisObjektExtensions {
 	def static Bedien_Bezirk getBedienBezirkVirtuell(
 		ESTW_Zentraleinheit estw_zentraleinheit) {
 		return estw_zentraleinheit.IDBedienBezirkVirtuell?.value
+	}
+	
+	def static Oertlichkeit getOertlichkeitNamensgebend(ESTW_Zentraleinheit estw_zentraleinheit) {
+		return estw_zentraleinheit?.IDOertlichkeitNamensgebend?.value
 	}
 
 	/**

@@ -6,16 +6,15 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.export.compileservice;
+package org.eclipse.set.feature.table.compile;
 
 import org.eclipse.e4.core.contexts.ContextFunction;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IContextFunction;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.osgi.service.component.annotations.Component;
-
 import org.eclipse.set.services.export.TableCompileService;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * Create and publish the {@link TableCompileService}.

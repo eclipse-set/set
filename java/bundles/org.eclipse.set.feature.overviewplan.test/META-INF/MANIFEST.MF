@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Overview Plan Test
 Bundle-SymbolicName: org.eclipse.set.feature.overviewplan.test
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
-Bundle-Version: 2.2.0.qualifier
+Bundle-Version: 2.4.0.qualifier
 Require-Bundle: javax.measure.unit-api,
  org.eclipse.set.model.planpro,
  org.hamcrest.core;bundle-version="1.3.0",

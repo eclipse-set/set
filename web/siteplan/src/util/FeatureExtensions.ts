@@ -6,20 +6,22 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-import { Coordinate, Position } from '@/model/Position'
-import { Feature } from 'ol'
-import Geometry from 'ol/geom/Geometry'
-import GeometryCollection from 'ol/geom/GeometryCollection'
-import GeoJSON from 'ol/format/GeoJSON'
-import { getSignalPrio } from './SignalExtension'
 import { isGeometryIntersection, Line } from '@/collision/CollisionExtension'
 import { FeatureLayerType, FeatureType, getFeatureData, getFeatureLayer, getFeatureMovePriority, getFeatureType } from '@/feature/FeatureInfo'
-import { SignalMount } from '@/model/SignalMount'
-import { Feature as GeoJSONFeature, FeatureCollection, GeometryCollection as GeoJSONGeometryCollection } from 'geojson'
-import LineString from 'ol/geom/LineString'
 import { SheetCutFeatureData } from '@/feature/LayoutInfoFeature'
-import TrackClose from '@/model/TrackClose'
+import { TrackSwitchFeatureData } from '@/feature/TrackSwitchFeature'
 import { CantPoint } from '@/model/Cant'
+import { Coordinate, Position } from '@/model/Position'
+import { Signal } from '@/model/Signal'
+import { SignalMount } from '@/model/SignalMount'
+import TrackClose from '@/model/TrackClose'
+import { FeatureCollection, Feature as GeoJSONFeature, GeometryCollection as GeoJSONGeometryCollection } from 'geojson'
+import { Feature } from 'ol'
+import GeoJSON from 'ol/format/GeoJSON'
+import Geometry from 'ol/geom/Geometry'
+import GeometryCollection from 'ol/geom/GeometryCollection'
+import LineString from 'ol/geom/LineString'
+import { getSignalPrio } from './SignalExtension'
 
 export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
   const name = getFeatureType(feature)
@@ -38,8 +40,8 @@ export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
       const trackOutline = getFeatureData(feature)
       return trackOutline ? [trackOutline.guid] : []
     case FeatureType.TrackSwitch:
-      const trackSwitch = getFeatureData(feature)
-      return trackSwitch ? [trackSwitch.trackSwitch.guid] : []
+      const trackSwitch = getFeatureData(feature) as TrackSwitchFeatureData
+      return trackSwitch.component ? [trackSwitch.component.guid] : []
     case FeatureType.TrackLock:
       const trackLock = getFeatureData(feature)
       return trackLock ? [trackLock.guid] : []
@@ -47,8 +49,16 @@ export function getFeatureGUIDs (feature: Feature<Geometry>): string[] {
       const routeSection = getFeatureData(feature)
       return routeSection ? [routeSection.guid] : []
     case FeatureType.Signal:
-      const signal = getFeatureData(feature) as SignalMount
-      return signal ? signal.attachedSignals.map(s => s.guid) : []
+      const signalData = getFeatureData(feature) as SignalMount | Signal
+      if ('attachedSignals' in signalData) {
+        return signalData.attachedSignals.map(s => s.guid)
+      }
+
+      if ('system' in signalData) {
+        return [signalData.guid]
+      }
+
+      return  []
     case FeatureType.ExternalElementControl:
       const eec = getFeatureData(feature)
       return eec ? [eec.guid] : []

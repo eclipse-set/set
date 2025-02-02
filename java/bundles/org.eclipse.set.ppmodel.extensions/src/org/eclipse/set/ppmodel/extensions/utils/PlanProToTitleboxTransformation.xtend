@@ -194,19 +194,20 @@ class PlanProToTitleboxTransformation {
 
 	private def String getBauzustandPlanungAllgemein(
 		Planung_E_Allg_AttributeGroup planung) {
-			val bauzustand = planung?.getBauzustandKurzbezeichnung()?.getWert() ?: ""
-			if (bauzustand.length > SMALL_FELD_MAX_LENGTH) {
-				val result = bauzustand.split(' ').map[
-					if (it.length > SMALL_FELD_MAX_LENGTH) {
-						val sb = new StringBuilder(it)
-						sb.insert(SMALL_FELD_MAX_LENGTH, ZERO_WIDTH_SPACE)
-						return sb.toString	
-					}
-					return it
-				]
-				
-				return String.join(' ', result)
-			}
+		val bauzustand = planung?.getBauzustandKurzbezeichnung()?.getWert() ?:
+			""
+		if (bauzustand.length > SMALL_FELD_MAX_LENGTH) {
+			val result = bauzustand.split(' ').map [
+				if (it.length > SMALL_FELD_MAX_LENGTH) {
+					val sb = new StringBuilder(it)
+					sb.insert(SMALL_FELD_MAX_LENGTH, ZERO_WIDTH_SPACE)
+					return sb.toString
+				}
+				return it
+			]
+
+			return String.join(' ', result)
+		}
 		return bauzustand
 	}
 
@@ -256,6 +257,9 @@ class PlanProToTitleboxTransformation {
 	}
 
 	def Dimension getImageDimension(String path, ENUMDateityp filetype) {
+		if (path === null || filetype === null) {
+			return null;
+		}
 		val suffix = getFiletypeSuffix(filetype)
 		if (suffix === null)
 			return null
@@ -300,9 +304,9 @@ class PlanProToTitleboxTransformation {
 			val logo = attachmentPathProvider.apply(
 				schriftfeld?.planungsbueroLogo?.identitaet?.wert)?.
 				toAbsolutePath?.normalize?.toString ?: ''
-			if (logo !== null) {
-				val dimension = getImageDimension(logo,
-					schriftfeld?.planungsbueroLogo?.anhangAllg?.dateityp?.wert)
+			val dimension = getImageDimension(logo,
+				schriftfeld?.planungsbueroLogo?.anhangAllg?.dateityp?.wert)
+			if (logo !== null && dimension !== null) {
 				it.logo = "file:///" + logo
 				if (dimension.width > dimension.height)
 					it.variant = "logo-top"

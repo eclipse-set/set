@@ -35,11 +35,11 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 
 import static extension org.eclipse.set.model.tablemodel.extensions.CellContentExtensions.*
+import static extension org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableContentExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteType
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -237,8 +237,9 @@ class TableToTableDocument {
 		var element = doc.createElement("StringContent")
 		if (isRemarkColumn)
 			element = doc.createElement("DiffContent")
-
-		val stringValue = content.plainStringValue
+		val columnWidth = content.tableCell.columndescriptor.columnWidth
+		val stringValue = content.plainStringValue.
+			intersperseWithZeroSpacesLength(columnWidth.maxCharInCell)
 		if (isRemarkColumn) {
 			val child = doc.createElement("UnchangedValue")
 			element.appendChild(
@@ -283,6 +284,8 @@ class TableToTableDocument {
 	private def dispatch Element createContent(CompareCellContent content,
 		FootnoteContainer fc, int columnNumber, boolean isRemarkColumn) {
 		val element = doc.createElement("DiffContent")
+		val columndWidth = content.tableCell.columndescriptor.columnWidth
+		val maxChar = columndWidth.maxCharInCell
 		formatCompareContent(
 			content.oldValue,
 			content.newValue,
@@ -290,7 +293,8 @@ class TableToTableDocument {
 			[doc.createElement("UnchangedValue")],
 			[doc.createElement("NewValue")],
 			[ text, child |
-				text.addContentToElement(child, columnNumber, isRemarkColumn)
+				text.intersperseWithZeroSpacesLength(maxChar).
+					addContentToElement(child, columnNumber, isRemarkColumn)
 			]
 		).forEach[element.appendChild(it)]
 
@@ -364,14 +368,20 @@ class TableToTableDocument {
 
 	private def Element createMultiColorElement(MultiColorContent content,
 		int columnNumber, boolean isRemarkColumn) {
+		val columndWidth = content.tableCell.columndescriptor.columnWidth
+		val maxChar = columndWidth.maxCharInCell
 		if (content.multiColorValue === null) {
-			return content.stringFormat.createContentElement("SimpleValue",
-				columnNumber, isRemarkColumn)
+			val cellValue = content.stringFormat.
+				intersperseWithZeroSpacesLength(maxChar)
+			return cellValue.createContentElement("SimpleValue", columnNumber,
+				isRemarkColumn)
 
 		}
 		// IMPROVE: currently the order of multicolor content is static.
 		// The underlying issue is a limitation in XSL 1.0 and string splitting.
-		val multiColorElement = content.stringFormat.replace("%s", "").
+		val multiColorValue = content.stringFormat.
+			intersperseWithZeroSpacesLength(maxChar)
+		val multiColorElement = multiColorValue.replace("%s", "").
 			createContentElement("MultiColorValue", columnNumber,
 				isRemarkColumn)
 		multiColorElement.setAttribute("multicolorValue",
@@ -401,10 +411,8 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = if (isRemarkColumn)
-			checkOutput
-		else
-			checkOutput.intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
+			intersperseWithZeroSpacesSC
 		return element
 	}
 

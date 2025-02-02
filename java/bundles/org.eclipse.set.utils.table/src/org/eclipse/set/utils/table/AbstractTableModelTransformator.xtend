@@ -11,11 +11,12 @@ package org.eclipse.set.utils.table
 import java.util.Collection
 import java.util.Comparator
 import java.util.List
+import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,13 +40,13 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	/**
 	 * constant prefix for cells that show errors 
 	 */
-	static final String ERROR_PREFIX = "Error: ";
+	protected static final String ERROR_PREFIX = "Error: ";
 
 	static val Logger logger = LoggerFactory.getLogger(
 		typeof(AbstractTableModelTransformator))
 
 	protected val static String ITERABLE_FILLING_SEPARATOR = String.format("%n")
-
+	
 	val static boolean DEVELOPMENT_MODE = ToolboxConfiguration.developmentMode
 
 	val static String BLANK = ""
@@ -296,7 +297,8 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		(S)=>Iterable<String> sequence,
 		Comparator<String> comparator
 	) {
-		row.fillIterable(column, object, sequence, comparator, [it])
+		row.fillIterable(column, object, sequence, comparator ?: ToolboxConstants.
+						LST_OBJECT_NAME_COMPARATOR, [it])
 	}
 
 	def <S, T> void fillMultiColorIterable(
@@ -377,7 +379,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		row.fillIterableWithSeparatorConditional(column, object, [true],
 			sequence, comparator, elementFilling, [], separator)
 	}
-
+	
 	/**
 	 * Fill a row with a sequence of string values depending on a condition and handle exceptions.
 	 * 
@@ -528,7 +530,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	 * @returns the leading object identifier of the given row which is either the value of the first cell
 	 *          or the GUID of the leading object entity if the first cell is empty or shows an error
 	 */
-	def private getLeadingObjectIdentifier(TableRow row, String guid) {
+	def String getLeadingObjectIdentifier(TableRow row, String guid) {
 		var firstCellValue = row.getPlainStringValue(0)
 		if (firstCellValue === null || firstCellValue.startsWith(ERROR_PREFIX)) {
 			return guid
@@ -543,7 +545,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	) {
 		var guid = row.group.leadingObject?.identitaet?.wert
 		var leadingObject = getLeadingObjectIdentifier(row, guid)
-		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObject»"'''
+		var errorMsg = e.createErrorMsg(row)
 		
 		tableErrors.add(
 			new TableError(guid, leadingObject, "",
@@ -552,6 +554,24 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
+	
+	def String createErrorMsg(
+		Exception e,
+		TableRow row
+	) {
+		var guid = row.group.leadingObject?.identitaet?.wert
+		var leadingObject = getLeadingObjectIdentifier(row, guid)
+		return e.createErrorMsg(leadingObject)
+	}
+	
+	def String createErrorMsg(
+		Exception e,
+		String leadingObjectGuid
+	) {
+		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObjectGuid»"'''
+		return errorMsg
+	}
+	
 
 	/**
 	 * Evaluates the given function with the given value for use in sorting.

@@ -28,12 +28,12 @@ import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.core.services.part.ToolboxPartService;
-import org.eclipse.set.feature.table.TableService.TableInfo;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
+import org.eclipse.set.services.table.TableService.TableInfo;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
@@ -122,7 +122,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					.create();
 			final FreeFieldInfo freeFieldInfo = planProToFreeField
 					.transform(modelSession);
-			exportService.export(tables, getExportType(), titlebox,
+			exportService.exportPdf(tables, getExportType(), titlebox,
 					freeFieldInfo, id, getSelectedDirectory().toString(),
 					modelSession.getToolboxPaths(), modelSession.getTableType(),
 					overwriteHandling, new ExceptionHandler(getToolboxShell(),

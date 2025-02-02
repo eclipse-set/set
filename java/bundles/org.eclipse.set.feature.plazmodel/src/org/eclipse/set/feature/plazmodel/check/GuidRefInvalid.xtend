@@ -8,13 +8,12 @@
  */
 package org.eclipse.set.feature.plazmodel.check
 
-import org.eclipse.emf.ecore.util.ExtendedMetaData
+import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.set.basis.IModelSession
+import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass
+import org.eclipse.set.model.planpro.Verweise.VerweisePackage
 import org.eclipse.set.model.plazmodel.PlazFactory
 import org.osgi.service.component.annotations.Component
-import org.eclipse.set.model.planpro.BasisTypen.Zeiger_TypeClass
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.eclipse.set.model.planpro.Verweise.VerweisePackage
 
 /**
  * Check if that GUID references point to correct object
@@ -29,7 +28,7 @@ class GuidRefInvalid implements PlazCheck {
 			eGet(getValidFeature(it)).equals(Boolean.TRUE)
 		].map [
 			val err = PlazFactory.eINSTANCE.createPlazError
-			err.message = '''Der ID-Verweis «ExtendedMetaData.INSTANCE.getName(it.eClass)» im Objekt «it.eContainer.eClass.name» verweist auf ein falsches Objekt.'''
+			err.message = '''Der Verweis «it.eClass.name.replace("_TypeClass", "")» im Objekt «it.eContainer.eClass.name» führt auf ein falsches Objekt.'''
 
 			err.type = checkType
 			err.object = it

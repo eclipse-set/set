@@ -1,0 +1,5 @@
+Row;A;B;C;D;E;F;G;H;I;J;K;L;M;N
+;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Weiche/Kreuzung;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Zulässige Geschwindigkeit​​​​​​​;Ansteuerung​​​​​​​​​​​;Ansteuerung​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​
+;Bezeichnung;Art​;Bauform​​;Standort​​​;Standort​​​;Länge​​​​​;Länge​​​​​;Weiche​​​​​​​;Weiche​​​​​​​;Kreuzung​​​​​​​​​;Kreuzung​​​​​​​​​;Ansteuerung​​​​​​​​​​​;Ansteuerung​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​
+;Bezeichnung;Art​;Bauform​​;Strecke​​​;km​​​​;Links​​​​​;Rechts​​​​​​;Links (KrW: A abzw.)​​​​​​​;Rechts (KrW: B abzw.)​​​​​​​​;Links​​​​​​​​​;Rechts​​​​​​​​​​;ESTW-Zentraleinheit​​​​​​​​​​​;Stellbereich​​​​​​​​​​​​;Bemerkung​​​​​​​​​​​​​
+;;;;;;;;km/h;km/h;km/h;km/h;;;

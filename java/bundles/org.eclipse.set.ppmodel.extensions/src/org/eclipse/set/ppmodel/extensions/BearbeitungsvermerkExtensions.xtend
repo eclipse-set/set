@@ -9,7 +9,6 @@
 package org.eclipse.set.ppmodel.extensions
 
 import org.eclipse.set.model.planpro.Basisobjekte.Bearbeitungsvermerk
-import org.eclipse.set.model.planpro.Bedienung.Bedien_Anrueckabschnitt
 
 /**
  * Extensions for {@link Bearbeitungsvermerk}.
