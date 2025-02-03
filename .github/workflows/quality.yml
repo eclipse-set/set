@@ -40,7 +40,7 @@ jobs:
         run: ls -la $JAVA_HOME/bin
 
       - name: Run eclipse formatter
-        run: ./tmp/eclipse/eclipse -noSplash -vm "$JAVA_HOME/bin/java" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/java-formatter.xml .
+        run: ./tmp/eclipse/eclipse -noSplash -vm "$JAVA_HOME/bin/java" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/java-formatter.epf .
 
       - name: Cleanup eclipse
         run: rm -R ./tmp
