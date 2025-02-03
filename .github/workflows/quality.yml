@@ -37,10 +37,10 @@ jobs:
         run: tar -xf ./tmp/eclipse.tar.gz -C ./tmp
 
       - name: Test
-        run: ls -la $JAVA_HOME
-        
+        run: ls -la $JAVA_HOME/bin
+
       - name: Run eclipse formatter
-        run: ./tmp/eclipse/eclipse -noSplash -vm "$JAVA_HOME/bin/javaw.exe" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/code-formatter.xml .
+        run: ./tmp/eclipse/eclipse -noSplash -vm "$JAVA_HOME/bin/java" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/code-formatter.xml .
 
       - name: Cleanup eclipse
         run: rm -R ./tmp
