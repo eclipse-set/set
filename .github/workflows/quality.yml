@@ -26,8 +26,6 @@ jobs:
         run: java -Dconfig_loc=${{ env.CHECKSTYLE_CONFIG_LOC }} -jar checkstyle.jar . -c ${{ env.CHECKSTYLE_CONFIG_LOC }}/checkstyle.xml
 
   java-formatting:
-    runs-on: ubuntu-latest
-      env:ECLIPSE_PATH: ./tmp/eclipse/eclipsec.exe  
       GOOGLE_JAVA_FORMAT_VERSION: "1.25.2"
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +34,7 @@ jobs:
         run: wget -O ./tmp/eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-dsl-2023-12-R-linux-gtk-x86_64.tar.gz
 
       - name: Unzip eclipse
-        run: unzip ./tmp/eclipse.tar.gz -d eclipse
+        run: unzip ./tmp/eclipse.tar.gz -d ./tmp/eclipse
 
       - name: Run eclipse formatter
         run: ./tmp/eclipse -noSplash -vm "$JAVA_HOME/javaw.exe" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/code-formatter.xml .
