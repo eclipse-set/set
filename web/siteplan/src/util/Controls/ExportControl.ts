@@ -17,7 +17,7 @@ import { Control } from 'ol/control'
 import { getBottomLeft, getBottomRight, getCenter, getHeight, getTopLeft, getTopRight, getWidth } from 'ol/extent'
 import { GeoJSONPolygon } from 'ol/format/GeoJSON'
 import { Geometry, MultiPolygon, Polygon } from 'ol/geom'
-import { Fill, Style } from 'ol/style'
+import { Style } from 'ol/style'
 import { setMapScale } from '../MapScale'
 import { angle, pointRotate, toDeg, toRad } from '../Math'
 import NamedFeatureLayer from '../NamedFeatureLayer'
@@ -37,16 +37,14 @@ interface RotateData {
 }
 
 /**
- * Control to export the map to a PDF file.
+ * Control to export the current viewport to image.
+ * When {@link SheetCut} exists, then split the site plan to individual tiles
+ * match with sheetcut then take more screen shot with scacle 1:1000.
  *
  * @author Stuecker
  */
 export default class ExportControl extends Control {
-  // Size of the Paper (A3)
-  private static readonly PAPER_SIZE = [420, 297]
   private static readonly OUTSIDE_POLYGON_FEATURE = 'outsidepolygon'
-  private static readonly OUTSIDE_POLYGON_COLOR = [0, 0, 255]
-  private static readonly COLOR_VALUE_TOLERANCE = 100
   private map: Map
 
   /**
@@ -119,7 +117,7 @@ export default class ExportControl extends Control {
       this.map.getView().setZoom(originalZoomLvl ?? 10)
       this.map.getView().setCenter(originalViewCenter)
 
-      result.push(...exportCanvases.map(canvas => this.exportCanvas(canvas)).filter(canvas => canvas !== null))
+      result.push(...exportCanvases.filter(canvas => canvas !== null))
     } else {
       const currentCanvas = await this.getCurrentCanvas()
       result.push(currentCanvas)
@@ -306,13 +304,8 @@ export default class ExportControl extends Control {
       geometry
     })
 
-    const [r, g, b] = ExportControl.OUTSIDE_POLYGON_COLOR
-    // Color the portion of
-    // the viewport area that lies outside the sheet cut polygon.
     outsidePolygonFeature.setStyle(new Style({
-      fill: new Fill({
-        color: `rgb(${r}, ${g}, ${b})`
-      })
+      stroke: undefined
     }))
     return outsidePolygonFeature
   }
@@ -502,28 +495,6 @@ export default class ExportControl extends Control {
 
     exportCtx.drawImage(tilesCanvas, -exportCanvas.height, yOffset)
     return exportCanvas
-  }
-
-  private exportCanvas (canvas: HTMLCanvasElement) : HTMLCanvasElement | null {
-    const ctx = canvas.getContext('2d')
-    if (!ctx || canvas.width <= 0) {
-      return null
-    }
-
-    const [r, g, b] = ExportControl.OUTSIDE_POLYGON_COLOR
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-    const compareColorWert = (actual: number, expect: number) =>
-      Math.abs(actual - expect) <= ExportControl.COLOR_VALUE_TOLERANCE
-    const data = imageData.data
-    for (let i = 0; i < data.length; i += 4) {
-      const [red, green, blue] = [data[i], data[i + 1], data[i + 2]]
-      if (compareColorWert(red, r) && compareColorWert(green, g) && compareColorWert(blue, b)) {
-        data[i + 3] = 0
-      }
-    }
-
-    ctx.putImageData(imageData,0 ,0)
-    return canvas
   }
 
   private lockMapDuringExport (lock: boolean) {

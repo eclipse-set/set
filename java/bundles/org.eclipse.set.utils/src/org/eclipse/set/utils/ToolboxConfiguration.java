@@ -161,7 +161,7 @@ public class ToolboxConfiguration {
 	private static final String DOP20_API_KEY_DEFAULT = ""; //$NON-NLS-1$
 	private static final String DOP20_INTERN_URL_DEFAULT = "https://sg.geodatenzentrum.de/wms_dop"; //$NON-NLS-1$
 	private static final String LOD_SCALE_DEFAULT = "10000"; //$NON-NLS-1$
-	private static final String EXPORT_DPI_DEFAULT = "600"; //$NON-NLS-1$
+	private static final String EXPORT_DPI_DEFAULT = "300"; //$NON-NLS-1$
 	private static final String TRACK_WIDTH = "3|1.5|0.75|1"; //$NON-NLS-1$
 	private static final String TRACK_WIDTH_INTERVALL = "1,10|0.5,8|0.25,3|0.5,3"; //$NON-NLS-1$
 	private static final String BASE_ZOOM_LEVEL = "20"; //$NON-NLS-1$

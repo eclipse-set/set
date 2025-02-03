@@ -7,14 +7,82 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.utils.table.transform;
+package org.eclipse.set.utils.export.xsl;
 
 /**
  * XSL tag, attribute
  * 
  * @author Truong
  */
+@SuppressWarnings("nls")
 public class XSLConstant {
+
+	/**
+	 * The style of folding mark
+	 */
+	public static final String FOLDING_MARK_STYLE = "0.5mm solid black";
+
+	/**
+	 * The value of the name attribute
+	 */
+	public static class XSLNodeName {
+		/**
+		 * page-master-style
+		 */
+		public static final String PAGE_MASTER_STYLE = "page-master-style";
+
+		/**
+		 * title-box-region
+		 */
+		public static final String TITLE_BOX_REGION = "title-box-region";
+
+		/**
+		 * page-post-fix
+		 */
+		public static final String PAGE_POST_FIX = "page-post-fix";
+
+		/**
+		 * region-body-height
+		 */
+		public static final String REGION_BODY_HEIGHT = "region-body-height";
+
+		/**
+		 * region-body-width
+		 */
+		public static final String REGION_BODY_WIDTH = "region-body-width";
+
+		/**
+		 * significant-height
+		 */
+		public static final String SIGNIFICANT_HEIGHT = "significant-height";
+
+		/**
+		 * significant-width
+		 */
+		public static final String SIGNIFICANT_WIDTH = "significant-width";
+
+		/**
+		 * siteplan-freefeld-height
+		 */
+		public static final String SITEPLAN_FREEFELD_HEIGHT = "siteplan-freefeld-height";
+
+		/**
+		 * water-mark-content
+		 */
+		public static final String WATER_MARK_TEMPLATE_NAME = "water-mark-content";
+
+		/**
+		 * siteplan-folding-mark-top-bottom
+		 */
+		public static final String SITEPLAN_FOLDING_MARK_TOP_BOTTOM = "siteplan-folding-mark-top-bottom";
+
+		/**
+		 * siteplan-folding-mark-top-bottom
+		 */
+		public static final String SITEPLAN_FOLDING_MARK_SIDE = "siteplan-folding-mark-side";
+
+	}
+
 	/**
 	 * XSL Tag
 	 */
@@ -27,6 +95,11 @@ public class XSLConstant {
 		 * xsl:attribute
 		 */
 		public static final String XSL_ATTRIBUTE = "xsl:attribute"; //$NON-NLS-1$
+
+		/**
+		 * xsl:attribute-set
+		 */
+		public static final String XSL_ATTRIBUTE_SET = "xsl:attribute-set"; //$NON-NLS-1$
 
 		/**
 		 * "xsl:stylesheet
@@ -51,6 +124,11 @@ public class XSLConstant {
 		 * xsl:variable
 		 */
 		public static final String XSL_VARIABLE = "xsl:variable"; //$NON-NLS-1$
+
+		/**
+		 * xsl:param
+		 */
+		public static final String XSL_PARAM = "xsl:param"; //$NON-NLS-1$
 
 		/**
 		 * fo:table
@@ -98,7 +176,6 @@ public class XSLConstant {
 	 * @author Truong
 	 *
 	 */
-	@SuppressWarnings("nls")
 	public static class XSLFoAttributeName {
 		/**
 		 * name
@@ -131,6 +208,16 @@ public class XSLConstant {
 		public static final String ATTR_CONTENT_MARGIN_RIGHT = "margin-right";
 
 		/**
+		 * margin-top
+		 */
+		public static final String ATTR_CONTENT_MARGIN_TOP = "margin-top";
+
+		/**
+		 * margin-right
+		 */
+		public static final String ATTR_CONTENT_MARGIN_BOTTOM = "margin-bottom";
+
+		/**
 		 * match
 		 */
 		public static final String ATTR_MATCH = "match";
@@ -144,13 +231,42 @@ public class XSLConstant {
 		 * start-indent
 		 */
 		public static final String ATTR_START_INDENT = "start-indent";
+
+		/**
+		 * region-name
+		 */
+		public static final String REGION_NAME = "region-name";
+
+		/**
+		 * precedence
+		 */
+		public static final String PRECEDENCE = "precedence";
+
+		/**
+		 * overflow
+		 */
+		public static final String OVERFLOW = "overflow";
+
+		/**
+		 * height
+		 */
+		public static final String ATTR_HEIGHT = "height";
+
+		/**
+		 * width
+		 */
+		public static final String ATTR_WIDTH = "width";
+
+		/**
+		 * color
+		 */
+		public static final String ATTR_COLOR = "color";
 	}
 
 	/**
 	 * @author Truong
 	 *
 	 */
-	@SuppressWarnings("nls")
 	public static class TableAttrValue {
 		/**
 		 * Table[Rows/Row]
@@ -182,7 +298,6 @@ public class XSLConstant {
 	/**
 	 * XSl style set
 	 */
-	@SuppressWarnings("nls")
 	public class XSLStyleSets {
 
 		/**

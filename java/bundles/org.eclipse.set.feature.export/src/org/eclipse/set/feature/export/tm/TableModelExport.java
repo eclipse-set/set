@@ -8,9 +8,11 @@
  */
 package org.eclipse.set.feature.export.tm;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.set.basis.FreeFieldInfo;
@@ -83,5 +85,15 @@ public class TableModelExport implements TableExport {
 	@Override
 	public ExportFormat getExportFormat() {
 		return ExportFormat.TABLE_MODEL;
+	}
+
+	@Override
+	public void exportSiteplanPdf(final List<BufferedImage> imagesData,
+			final Titlebox titleBox, final FreeFieldInfo freeFieldInfo,
+			final String outputDir, final ToolboxPaths toolboxPaths,
+			final TableType tableType,
+			final OverwriteHandling overwriteHandling) {
+		// do nothing
+
 	}
 }

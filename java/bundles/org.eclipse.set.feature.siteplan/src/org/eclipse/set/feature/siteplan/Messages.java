@@ -35,4 +35,10 @@ public class Messages {
 	 * Lageplan (Entwickleroptionen)
 	 */
 	public String WebSiteplanDevelopmentDescriptionService_ViewName;
+
+	/**
+	 * Export Lageplan
+	 */
+	public String WebSiteplanPart_Export;
+
 }
