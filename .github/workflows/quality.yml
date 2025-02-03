@@ -26,7 +26,7 @@ jobs:
         run: java -Dconfig_loc=${{ env.CHECKSTYLE_CONFIG_LOC }} -jar checkstyle.jar . -c ${{ env.CHECKSTYLE_CONFIG_LOC }}/checkstyle.xml
 
   java-formatting:
-      GOOGLE_JAVA_FORMAT_VERSION: "1.25.2"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -34,7 +34,7 @@ jobs:
         run: wget -O ./tmp/eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-dsl-2023-12-R-linux-gtk-x86_64.tar.gz
 
       - name: Unzip eclipse
-        run: unzip ./tmp/eclipse.tar.gz -d ./tmp/eclipse
+        run: unzip ./tmp/eclipse.tar.gz -d eclipse
 
       - name: Run eclipse formatter
         run: ./tmp/eclipse -noSplash -vm "$JAVA_HOME/javaw.exe" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/code-formatter.xml .
@@ -42,21 +42,8 @@ jobs:
       - name: Cleanup eclipse
         run: rm -R ./tmp
       
-      # google java formatter v2
-      # - uses: axel-op/googlejavaformat-action@v3
-      #   with:
-      #     args: "--replace"
-      #     skip-commit: true
-
       - name: Print diffs
         run: git --no-pager diff --exit-code
-
-      # google java formatter
-      # - name: Get checkstyle
-      #   run: wget -O ./formatter.jar https://github.com/google/google-java-format/releases/download/v${{ env.GOOGLE_JAVA_FORMAT_VERSION }}/google-java-format-${{ env.GOOGLE_JAVA_FORMAT_VERSION }}-all-deps.jar
-
-      # - name: Run checkstyle
-      #   run: java -jar ./formatter.jar .
 
   lint-siteplan:
     runs-on: ubuntu-latest
