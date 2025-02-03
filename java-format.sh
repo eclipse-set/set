@@ -12,7 +12,7 @@ if [[ -z "${JAVA_HOME}" ]]; then
     exit 1
 fi
 
-$1 -noSplash -vm "$JAVA_HOME/javaw.exe" -data ./java-format-workspace/ -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/code-formatter.xml .
+$1 -noSplash -vm "$JAVA_HOME/javaw.exe" -data ./java-format-workspace/ -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/java-formatter.xml .
 rm -R ./java-format-workspace
 
 if [[ -z "${CI}" ]]; then
