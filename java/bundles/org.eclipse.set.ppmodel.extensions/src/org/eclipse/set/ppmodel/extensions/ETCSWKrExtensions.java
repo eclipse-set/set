@@ -54,7 +54,8 @@ public class ETCSWKrExtensions extends BasisObjektExtensions {
 			final ETCS_W_Kr etcsWKr) {
 		return getWKrGspElements(etcsWKr).stream()
 				.flatMap(gspElement -> WKrGspElementExtensions
-						.getWKrGspKomponenten(gspElement).stream())
+						.getWKrGspKomponenten(gspElement)
+						.stream())
 				.toList();
 	}
 
@@ -67,8 +68,11 @@ public class ETCSWKrExtensions extends BasisObjektExtensions {
 	public static List<Punkt_Objekt_TOP_Kante_AttributeGroup> getPunktsObjektTopKante(
 			final ETCS_W_Kr etcsWKr) {
 		final Optional<List<Punkt_Objekt_TOP_Kante_AttributeGroup>> potks = getNullableObject(
-				etcsWKr, ele -> ele.getIDETCSKnoten().getValue()
-						.getKnotenAufTOPKante().getPunktObjektTOPKante());
+				etcsWKr,
+				ele -> ele.getIDETCSKnoten()
+						.getValue()
+						.getKnotenAufTOPKante()
+						.getPunktObjektTOPKante());
 		if (potks.isPresent()) {
 			return potks.get();
 		}

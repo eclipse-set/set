@@ -30,8 +30,8 @@ public class ExitMergeModeReferences implements ECPHardcodedReferences {
 		final Set<VDomainModelReference> references = new LinkedHashSet<>();
 		final VFeaturePathDomainModelReference reference = VViewFactory.eINSTANCE
 				.createFeaturePathDomainModelReference();
-		reference.setDomainModelEFeature(
-				IntegrationviewPackage.eINSTANCE.getIntegrationView_CompositePlanning());
+		reference.setDomainModelEFeature(IntegrationviewPackage.eINSTANCE
+				.getIntegrationView_CompositePlanning());
 		references.add(reference);
 		return references;
 	}

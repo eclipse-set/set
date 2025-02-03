@@ -73,7 +73,8 @@ public abstract class AbstractSWTBotTest {
 			return testFile.toPath();
 		}
 
-		try (final InputStream resourceStream = getTestResourceClass().getClassLoader()
+		try (final InputStream resourceStream = getTestResourceClass()
+				.getClassLoader()
 				.getResourceAsStream(TEST_FILE_DIR + fileName);
 				final FileOutputStream outputStream = new FileOutputStream(
 						testFile);) {
@@ -87,7 +88,8 @@ public abstract class AbstractSWTBotTest {
 
 	protected File getTestFileLocation(final String fileName) {
 		final URL projectLocation = getTestResourceClass().getProtectionDomain()
-				.getCodeSource().getLocation();
+				.getCodeSource()
+				.getLocation();
 		return new File(projectLocation.getPath() + fileName);
 	}
 }

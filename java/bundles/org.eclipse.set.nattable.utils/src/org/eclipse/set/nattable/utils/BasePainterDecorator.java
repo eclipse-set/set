@@ -48,14 +48,15 @@ public class BasePainterDecorator implements ICellPainter {
 					- preferredDecoratorWidth - getSpacing();
 
 			switch (getCellEdge()) {
-			case LEFT:
-				return new Rectangle(adjustedCellBounds.x, adjustedCellBounds.y,
-						grabbedPreferredWidth, adjustedCellBounds.height)
-								.intersection(adjustedCellBounds);
+				case LEFT:
+					return new Rectangle(adjustedCellBounds.x,
+							adjustedCellBounds.y, grabbedPreferredWidth,
+							adjustedCellBounds.height)
+									.intersection(adjustedCellBounds);
 
-			default:
-				return super.getBaseCellPainterBounds(cell, gc,
-						adjustedCellBounds, configRegistry);
+				default:
+					return super.getBaseCellPainterBounds(cell, gc,
+							adjustedCellBounds, configRegistry);
 			}
 		}
 
@@ -82,33 +83,34 @@ public class BasePainterDecorator implements ICellPainter {
 					: 0;
 
 			switch (super.getCellEdge()) {
-			case LEFT:
-				return new Rectangle(adjustedCellBounds.x, adjustedCellBounds.y,
-						preferredDecoratorWidth, preferredDecoratorHeight)
-								.intersection(adjustedCellBounds);
+				case LEFT:
+					return new Rectangle(adjustedCellBounds.x,
+							adjustedCellBounds.y, preferredDecoratorWidth,
+							preferredDecoratorHeight)
+									.intersection(adjustedCellBounds);
 
-			case RIGHT:
-				return new Rectangle(adjustedCellBounds.x,
-						adjustedCellBounds.y + preferredBaseHeight
-								- getSpacing(),
-						preferredDecoratorWidth, preferredDecoratorHeight)
-								.intersection(adjustedCellBounds);
+				case RIGHT:
+					return new Rectangle(adjustedCellBounds.x,
+							adjustedCellBounds.y + preferredBaseHeight
+									- getSpacing(),
+							preferredDecoratorWidth, preferredDecoratorHeight)
+									.intersection(adjustedCellBounds);
 
-			default:
-				return super.getDecoratorCellPainterBounds(cell, gc,
-						adjustedCellBounds, configRegistry);
+				default:
+					return super.getDecoratorCellPainterBounds(cell, gc,
+							adjustedCellBounds, configRegistry);
 			}
 		}
 	}
 
 	private static CellEdgeEnum getCellEdge(final BaseEdgeEnum position) {
 		switch (position) {
-		case AFTER:
-			return CellEdgeEnum.RIGHT;
-		case BEFORE:
-			return CellEdgeEnum.LEFT;
-		default:
-			return CellEdgeEnum.NONE;
+			case AFTER:
+				return CellEdgeEnum.RIGHT;
+			case BEFORE:
+				return CellEdgeEnum.LEFT;
+			default:
+				return CellEdgeEnum.NONE;
 		}
 	}
 

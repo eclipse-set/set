@@ -24,24 +24,26 @@ import org.eclipse.set.model.zipmanifest.Manifest;
 import org.eclipse.set.model.zipmanifest.ZipmanifestPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Document Root</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Document Root</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.zipmanifest.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
- *   <li>{@link org.eclipse.set.model.zipmanifest.impl.DocumentRootImpl#getManifest <em>Manifest</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.impl.DocumentRootImpl#getMixed
+ * <em>Mixed</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.impl.DocumentRootImpl#getManifest
+ * <em>Manifest</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class DocumentRootImpl extends MinimalEObjectImpl.Container implements DocumentRoot {
+public class DocumentRootImpl extends MinimalEObjectImpl.Container
+		implements DocumentRoot {
 	/**
-	 * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMixed()
 	 * @generated
 	 * @ordered
@@ -49,8 +51,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	protected FeatureMap mixed;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected DocumentRootImpl() {
@@ -58,8 +60,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -68,57 +70,66 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public FeatureMap getMixed() {
 		if (mixed == null) {
-			mixed = new BasicFeatureMap(this, ZipmanifestPackage.DOCUMENT_ROOT__MIXED);
+			mixed = new BasicFeatureMap(this,
+					ZipmanifestPackage.DOCUMENT_ROOT__MIXED);
 		}
 		return mixed;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Manifest getManifest() {
-		return (Manifest)getMixed().get(ZipmanifestPackage.Literals.DOCUMENT_ROOT__MANIFEST, true);
+		return (Manifest) getMixed()
+				.get(ZipmanifestPackage.Literals.DOCUMENT_ROOT__MANIFEST, true);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetManifest(Manifest newManifest, NotificationChain msgs) {
-		return ((FeatureMap.Internal)getMixed()).basicAdd(ZipmanifestPackage.Literals.DOCUMENT_ROOT__MANIFEST, newManifest, msgs);
+	public NotificationChain basicSetManifest(Manifest newManifest,
+			NotificationChain msgs) {
+		return ((FeatureMap.Internal) getMixed()).basicAdd(
+				ZipmanifestPackage.Literals.DOCUMENT_ROOT__MANIFEST,
+				newManifest, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void setManifest(Manifest newManifest) {
-		((FeatureMap.Internal)getMixed()).set(ZipmanifestPackage.Literals.DOCUMENT_ROOT__MANIFEST, newManifest);
+		((FeatureMap.Internal) getMixed()).set(
+				ZipmanifestPackage.Literals.DOCUMENT_ROOT__MANIFEST,
+				newManifest);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ZipmanifestPackage.DOCUMENT_ROOT__MIXED:
-				return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getMixed()).basicRemove(otherEnd,
+						msgs);
 			case ZipmanifestPackage.DOCUMENT_ROOT__MANIFEST:
 				return basicSetManifest(null, msgs);
 		}
@@ -126,16 +137,17 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ZipmanifestPackage.DOCUMENT_ROOT__MIXED:
-				if (coreType) return getMixed();
-				return ((FeatureMap.Internal)getMixed()).getWrapper();
+				if (coreType)
+					return getMixed();
+				return ((FeatureMap.Internal) getMixed()).getWrapper();
 			case ZipmanifestPackage.DOCUMENT_ROOT__MANIFEST:
 				return getManifest();
 		}
@@ -143,26 +155,26 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ZipmanifestPackage.DOCUMENT_ROOT__MIXED:
-				((FeatureMap.Internal)getMixed()).set(newValue);
+				((FeatureMap.Internal) getMixed()).set(newValue);
 				return;
 			case ZipmanifestPackage.DOCUMENT_ROOT__MANIFEST:
-				setManifest((Manifest)newValue);
+				setManifest((Manifest) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -172,15 +184,15 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				getMixed().clear();
 				return;
 			case ZipmanifestPackage.DOCUMENT_ROOT__MANIFEST:
-				setManifest((Manifest)null);
+				setManifest((Manifest) null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -195,13 +207,14 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (mixed: ");
@@ -210,4 +223,4 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 		return result.toString();
 	}
 
-} //DocumentRootImpl
+} // DocumentRootImpl

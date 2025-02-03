@@ -19,24 +19,26 @@ import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Multi Color Content</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Multi
+ * Color Content</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl#getMultiColorValue <em>Multi Color Value</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl#getStringFormat <em>String Format</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl#getMultiColorValue
+ * <em>Multi Color Value</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl#getStringFormat
+ * <em>String Format</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class MultiColorContentImpl extends MinimalEObjectImpl.Container implements MultiColorContent {
+public class MultiColorContentImpl extends MinimalEObjectImpl.Container
+		implements MultiColorContent {
 	/**
-	 * The default value of the '{@link #getMultiColorValue() <em>Multi Color Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getMultiColorValue() <em>Multi Color
+	 * Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMultiColorValue()
 	 * @generated
 	 * @ordered
@@ -44,9 +46,9 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	protected static final String MULTI_COLOR_VALUE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMultiColorValue() <em>Multi Color Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMultiColorValue() <em>Multi Color
+	 * Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMultiColorValue()
 	 * @generated
 	 * @ordered
@@ -54,9 +56,9 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	protected String multiColorValue = MULTI_COLOR_VALUE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getStringFormat() <em>String Format</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getStringFormat() <em>String
+	 * Format</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getStringFormat()
 	 * @generated
 	 * @ordered
@@ -64,9 +66,9 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	protected static final String STRING_FORMAT_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getStringFormat() <em>String Format</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getStringFormat() <em>String
+	 * Format</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getStringFormat()
 	 * @generated
 	 * @ordered
@@ -74,8 +76,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	protected String stringFormat = STRING_FORMAT_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected MultiColorContentImpl() {
@@ -83,8 +85,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -93,8 +95,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -103,8 +105,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -112,12 +114,14 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 		String oldMultiColorValue = multiColorValue;
 		multiColorValue = newMultiColorValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE, oldMultiColorValue, multiColorValue));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE,
+					oldMultiColorValue, multiColorValue));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -126,8 +130,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -135,12 +139,14 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 		String oldStringFormat = stringFormat;
 		stringFormat = newStringFormat;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT, oldStringFormat, stringFormat));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT,
+					oldStringFormat, stringFormat));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -155,26 +161,26 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TablemodelPackage.MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE:
-				setMultiColorValue((String)newValue);
+				setMultiColorValue((String) newValue);
 				return;
 			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
-				setStringFormat((String)newValue);
+				setStringFormat((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -191,29 +197,33 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE:
-				return MULTI_COLOR_VALUE_EDEFAULT == null ? multiColorValue != null : !MULTI_COLOR_VALUE_EDEFAULT.equals(multiColorValue);
+				return MULTI_COLOR_VALUE_EDEFAULT == null
+						? multiColorValue != null
+						: !MULTI_COLOR_VALUE_EDEFAULT.equals(multiColorValue);
 			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
-				return STRING_FORMAT_EDEFAULT == null ? stringFormat != null : !STRING_FORMAT_EDEFAULT.equals(stringFormat);
+				return STRING_FORMAT_EDEFAULT == null ? stringFormat != null
+						: !STRING_FORMAT_EDEFAULT.equals(stringFormat);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (multiColorValue: ");
@@ -224,4 +234,4 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container implemen
 		return result.toString();
 	}
 
-} //MultiColorContentImpl
+} // MultiColorContentImpl

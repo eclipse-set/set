@@ -56,7 +56,8 @@ public final class SsvuTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sort("A", MIXED_STRING, ASC) //$NON-NLS-1$
+		return TableRowGroupComparator.builder()
+				.sort("A", MIXED_STRING, ASC) //$NON-NLS-1$
 				.build();
 	}
 

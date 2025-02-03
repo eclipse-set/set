@@ -56,16 +56,16 @@ public class FopPDFRendererConfigurator extends PDFRendererConfigurator {
 	@SuppressWarnings("nls")
 	private static int toFontWeight(final String weight) {
 		switch (weight) {
-		case "light":
-			return Font.WEIGHT_NORMAL;
-		case "normal":
-			return Font.WEIGHT_NORMAL;
-		case "bold":
-			return Font.WEIGHT_BOLD;
-		case "extra bold":
-			return Font.WEIGHT_EXTRA_BOLD;
-		default:
-			throw new IllegalArgumentException("Invalid font weight");
+			case "light":
+				return Font.WEIGHT_NORMAL;
+			case "normal":
+				return Font.WEIGHT_NORMAL;
+			case "bold":
+				return Font.WEIGHT_BOLD;
+			case "extra bold":
+				return Font.WEIGHT_EXTRA_BOLD;
+			default:
+				throw new IllegalArgumentException("Invalid font weight");
 		}
 	}
 

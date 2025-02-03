@@ -106,8 +106,9 @@ public class FopServiceImpl implements FopService {
 				new File(".").toURI(), proxyResourceResolver); //$NON-NLS-1$
 
 		fopFactory = fopFactoryBuilder.build();
-		fopFactory.getRendererFactory().addDocumentHandlerMaker(
-				new FopPDFDocumentHandlerMaker(fontService));
+		fopFactory.getRendererFactory()
+				.addDocumentHandlerMaker(
+						new FopPDFDocumentHandlerMaker(fontService));
 		transformerFactory = TransformerFactory.newInstance();
 	}
 
@@ -149,11 +150,11 @@ public class FopServiceImpl implements FopService {
 				this.resourceResolver = userResourceResolver;
 			}
 			if (stylesheet == null) {
-				transformerFactory.newTransformer().transform(xmlData,
-						saxResult);
+				transformerFactory.newTransformer()
+						.transform(xmlData, saxResult);
 			} else {
-				transformerFactory.newTransformer(stylesheet).transform(xmlData,
-						saxResult);
+				transformerFactory.newTransformer(stylesheet)
+						.transform(xmlData, saxResult);
 			}
 			// Restore resource resolver to default
 			this.resourceResolver = defaultResourceResolver;

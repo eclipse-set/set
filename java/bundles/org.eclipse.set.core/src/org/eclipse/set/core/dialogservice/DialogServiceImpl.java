@@ -457,54 +457,63 @@ public class DialogServiceImpl implements DialogService {
 				.forName(messages.DialogService_ModelFilterName)
 				.add(fileService.extensionsForCategory(
 						ToolboxConstants.EXTENSION_CATEGORY_PPFILE))
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 
 		planProFileFilters = Lists.newLinkedList();
 		planProFileFilters.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_PlanProFilterName)
 				.add(fileService.extensionsForCategory(
 						ToolboxConstants.EXTENSION_CATEGORY_PPALL))
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 		planProFileFilters.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_ModelFilterName)
 				.add(fileService.extensionsForCategory(
 						ToolboxConstants.EXTENSION_CATEGORY_PPFILE))
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 		planProFileFilters.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_MergeFilterName)
 				.add(fileService.extensionsForCategory(
 						ToolboxConstants.EXTENSION_CATEGORY_PPMERGE))
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 
 		csvFileFilters = Lists.newLinkedList();
 		csvFileFilters.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_CsvFilterName)
 				.add(PathExtensions.CSV_FILE_EXTENSIONS)
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 
 		imageFileFilters = Lists.newLinkedList();
 		imageFileFilters.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_ImagesFilterName)
 				.add(PathExtensions.IMAGE_FILE_EXTENSIONS)
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 
 		dokumentFileFilters = Lists.newLinkedList();
 		dokumentFileFilters.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_DokumentFilterName)
 				.add(PathExtensions.DOKUMENT_FILE_EXTENSIONS)
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 
 		xlsxFileFilters = Lists.newLinkedList();
 		xlsxFileFilters.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_XlsxFilterName)
 				.add(PathExtensions.EXCEL_FILE_EXTENSION)
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 
 		fileFiltersForAllFiles = Lists.newLinkedList();
 		fileFiltersForAllFiles.add(ToolboxFileFilterBuilder
 				.forName(messages.DialogService_FilterForAllFiles)
 				.add(PathExtensions.ALL_FILE_EXTENSION)
-				.filterNameWithFilterList(true).create());
+				.filterNameWithFilterList(true)
+				.create());
 	}
 
 	protected String getPlanningDescription(final boolean isPrimaryValid,

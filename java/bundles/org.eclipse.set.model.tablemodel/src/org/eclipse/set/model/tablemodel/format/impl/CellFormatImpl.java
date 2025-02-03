@@ -21,23 +21,23 @@ import org.eclipse.set.model.tablemodel.format.TextAlignment;
 import org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Cell Format</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Cell
+ * Format</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.format.impl.CellFormatImpl#getTextAlignment <em>Text Alignment</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.format.impl.CellFormatImpl#getTextAlignment
+ * <em>Text Alignment</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	/**
-	 * The default value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getTextAlignment() <em>Text
+	 * Alignment</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTextAlignment()
 	 * @generated
 	 * @ordered
@@ -45,9 +45,9 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	protected static final TextAlignment TEXT_ALIGNMENT_EDEFAULT = TextAlignment.CENTER;
 
 	/**
-	 * The cached value of the '{@link #getTextAlignment() <em>Text Alignment</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getTextAlignment() <em>Text
+	 * Alignment</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getTextAlignment()
 	 * @generated
 	 * @ordered
@@ -55,8 +55,8 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	protected TextAlignment textAlignment = TEXT_ALIGNMENT_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected CellFormatImpl() {
@@ -64,8 +64,8 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -74,8 +74,8 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -84,21 +84,24 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void setTextAlignment(TextAlignment newTextAlignment) {
 		TextAlignment oldTextAlignment = textAlignment;
-		textAlignment = newTextAlignment == null ? TEXT_ALIGNMENT_EDEFAULT : newTextAlignment;
+		textAlignment = newTextAlignment == null ? TEXT_ALIGNMENT_EDEFAULT
+				: newTextAlignment;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TableformatPackage.CELL_FORMAT__TEXT_ALIGNMENT, oldTextAlignment, textAlignment));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TableformatPackage.CELL_FORMAT__TEXT_ALIGNMENT,
+					oldTextAlignment, textAlignment));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,23 +114,23 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TableformatPackage.CELL_FORMAT__TEXT_ALIGNMENT:
-				setTextAlignment((TextAlignment)newValue);
+				setTextAlignment((TextAlignment) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -141,8 +144,8 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -155,13 +158,14 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (textAlignment: ");
@@ -170,4 +174,4 @@ public class CellFormatImpl extends CellAnnotationImpl implements CellFormat {
 		return result.toString();
 	}
 
-} //CellFormatImpl
+} // CellFormatImpl

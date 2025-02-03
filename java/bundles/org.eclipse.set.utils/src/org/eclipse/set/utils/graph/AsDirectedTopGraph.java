@@ -323,7 +323,8 @@ public class AsDirectedTopGraph {
 					return remainingWeight;
 				});
 
-				// When another edge exists, which is shorter than found edge, replace the weight
+				// When another edge exists, which is shorter than found edge,
+				// replace the weight
 				remainingWeigthFromEnd.computeIfPresent(edgeSource,
 						(k, v) -> remainingWeight.compareTo(v) > 0
 								? remainingWeight

@@ -207,7 +207,8 @@ public abstract class AbstractDirectedEdgePath<E, N, P>
 
 		// only the points
 		final List<P> points = directedEdgePoints.stream()
-				.map(DirectedEdgePoint::getPoint).collect(Collectors.toList());
+				.map(DirectedEdgePoint::getPoint)
+				.collect(Collectors.toList());
 
 		// points between start and end of path
 		final List<DirectedEdgePoint<E, N, P>> pathDirectedEdgePoints;

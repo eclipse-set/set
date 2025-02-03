@@ -88,8 +88,10 @@ public class PlazModelTableView extends AbstractTreeLayerTable {
 				messages, enumTranslationService);
 
 		final Table table = service.transform(validationReport);
-		this.createTableBodyData(table, rowIndex -> validationReport
-				.getEntries().get(rowIndex - 1).getLineNumber());
+		this.createTableBodyData(table,
+				rowIndex -> validationReport.getEntries()
+						.get(rowIndex - 1)
+						.getLineNumber());
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());
 		natTable = createTable(parent, table);

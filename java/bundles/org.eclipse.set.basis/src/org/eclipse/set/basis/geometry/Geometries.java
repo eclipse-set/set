@@ -59,7 +59,8 @@ public class Geometries {
 		final double[] data = chord.linearize();
 
 		final CoordinateSequence cs = geometryFactory
-				.getCoordinateSequenceFactory().create(data.length / 2, 2);
+				.getCoordinateSequenceFactory()
+				.create(data.length / 2, 2);
 		for (int i = 0; i < cs.size(); i++) {
 			cs.setOrdinate(i, 0, data[i * 2]);
 			cs.setOrdinate(i, 1, data[i * 2 + 1]);
@@ -138,8 +139,10 @@ public class Geometries {
 		final AffineTransformation moveOriginToStart = AffineTransformation
 				.translationInstance(start.x, start.y);
 		final AffineTransformation transformation = moveStartToOrigin
-				.compose(rotateToXAxis).compose(scaleAlongXAxis)
-				.compose(rotateToOriginalAngle).compose(moveOriginToStart);
+				.compose(rotateToXAxis)
+				.compose(scaleAlongXAxis)
+				.compose(rotateToOriginalAngle)
+				.compose(moveOriginToStart);
 		transformation.transform(segment.p0, segment.p0);
 		transformation.transform(segment.p1, segment.p1);
 	}
@@ -181,7 +184,8 @@ public class Geometries {
 		final AffineTransformation moveOriginToStart = AffineTransformation
 				.translationInstance(start.x, start.y);
 		final AffineTransformation transformation = moveStartToOrigin
-				.compose(rotate).compose(moveOriginToStart);
+				.compose(rotate)
+				.compose(moveOriginToStart);
 		transformation.transform(segment.p0, segment.p0);
 		transformation.transform(segment.p1, segment.p1);
 	}
@@ -227,7 +231,8 @@ public class Geometries {
 		final DirectedElementImpl<LineString> directedLineStringAtStart = getLineStringAtStart(
 				directedLineString, start);
 		final CoordinateSequence sequence = directedLineStringAtStart
-				.getElement().getCoordinateSequence();
+				.getElement()
+				.getCoordinateSequence();
 		final int size = sequence.size();
 		if (size < 2) {
 			return result;

@@ -19,23 +19,24 @@ import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Object</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Object</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanObjectImpl#getGuid <em>Guid</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanObjectImpl#getGuid
+ * <em>Guid</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements SiteplanObject {
+public class SiteplanObjectImpl extends MinimalEObjectImpl.Container
+		implements SiteplanObject {
 	/**
 	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -44,8 +45,8 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 
 	/**
 	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -53,8 +54,8 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 	protected String guid = GUID_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SiteplanObjectImpl() {
@@ -62,8 +63,8 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -72,8 +73,8 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -82,8 +83,8 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -91,12 +92,13 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 		String oldGuid = guid;
 		guid = newGuid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN_OBJECT__GUID, oldGuid, guid));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.SITEPLAN_OBJECT__GUID, oldGuid, guid));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -109,23 +111,23 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.SITEPLAN_OBJECT__GUID:
-				setGuid((String)newValue);
+				setGuid((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -139,27 +141,29 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.SITEPLAN_OBJECT__GUID:
-				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
+				return GUID_EDEFAULT == null ? guid != null
+						: !GUID_EDEFAULT.equals(guid);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (guid: ");
@@ -168,4 +172,4 @@ public class SiteplanObjectImpl extends MinimalEObjectImpl.Container implements 
 		return result.toString();
 	}
 
-} //SiteplanObjectImpl
+} // SiteplanObjectImpl

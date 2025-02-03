@@ -13,17 +13,19 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Error</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>Error</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.Error#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.Error#getRelevantGUIDs <em>Relevant GUI Ds</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.Error#getMessage <em>Message</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Error#getPosition
+ * <em>Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Error#getRelevantGUIDs <em>Relevant
+ * GUI Ds</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Error#getMessage
+ * <em>Message</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getError()
@@ -32,9 +34,9 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Error extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Position</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Position</em>' containment reference.
 	 * @see #setPosition(Coordinate)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getError_Position()
@@ -44,20 +46,24 @@ public interface Error extends EObject {
 	Coordinate getPosition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Error#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.Error#getPosition
+	 * <em>Position</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Position</em>' containment
+	 *            reference.
 	 * @see #getPosition()
 	 * @generated
 	 */
 	void setPosition(Coordinate value);
 
 	/**
-	 * Returns the value of the '<em><b>Relevant GUI Ds</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.String}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Relevant GUI Ds</b></em>' attribute
+	 * list. The list contents are of type {@link java.lang.String}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Relevant GUI Ds</em>' attribute list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getError_RelevantGUIDs()
 	 * @model
@@ -66,9 +72,9 @@ public interface Error extends EObject {
 	EList<String> getRelevantGUIDs();
 
 	/**
-	 * Returns the value of the '<em><b>Message</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Message</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Message</em>' attribute.
 	 * @see #setMessage(String)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getError_Message()
@@ -78,10 +84,13 @@ public interface Error extends EObject {
 	String getMessage();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Error#getMessage <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Message</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.Error#getMessage
+	 * <em>Message</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Message</em>' attribute.
 	 * @see #getMessage()
 	 * @generated
 	 */

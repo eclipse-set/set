@@ -13,28 +13,35 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Column Descriptor</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Column
+ * Descriptor</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc -->
- * Header column description.
- * <!-- end-model-doc -->
+ * <!-- begin-model-doc --> Header column description. <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth <em>Width</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode <em>Width Mode</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren <em>Children</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel <em>Label</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed <em>Greyed</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit <em>Unit</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent <em>Parent</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight <em>Height</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues <em>Merge Common Values</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition <em>Column Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth
+ * <em>Width</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode
+ * <em>Width Mode</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren
+ * <em>Children</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel
+ * <em>Label</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed
+ * <em>Greyed</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit
+ * <em>Unit</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent
+ * <em>Parent</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight
+ * <em>Height</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues
+ * <em>Merge Common Values</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition
+ * <em>Column Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor()
@@ -43,12 +50,10 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ColumnDescriptor extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Width</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The width of the column in cm.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Width</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The
+	 * width of the column in cm. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Width</em>' attribute.
 	 * @see #setWidth(Float)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_Width()
@@ -58,21 +63,23 @@ public interface ColumnDescriptor extends EObject {
 	Float getWidth();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth <em>Width</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Width</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth
+	 * <em>Width</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Width</em>' attribute.
 	 * @see #getWidth()
 	 * @generated
 	 */
 	void setWidth(Float value);
 
 	/**
-	 * Returns the value of the '<em><b>Width Mode</b></em>' attribute.
-	 * The default value is <code>"WIDTH_CM"</code>.
-	 * The literals are from the enumeration {@link org.eclipse.set.model.tablemodel.ColumnWidthMode}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Width Mode</b></em>' attribute. The
+	 * default value is <code>"WIDTH_CM"</code>. The literals are from the
+	 * enumeration {@link org.eclipse.set.model.tablemodel.ColumnWidthMode}.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Width Mode</em>' attribute.
 	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
 	 * @see #setWidthMode(ColumnWidthMode)
@@ -83,10 +90,13 @@ public interface ColumnDescriptor extends EObject {
 	ColumnWidthMode getWidthMode();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode <em>Width Mode</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Width Mode</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode
+	 * <em>Width Mode</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Width Mode</em>' attribute.
 	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
 	 * @see #getWidthMode()
 	 * @generated
@@ -94,14 +104,14 @@ public interface ColumnDescriptor extends EObject {
 	void setWidthMode(ColumnWidthMode value);
 
 	/**
-	 * Returns the value of the '<em><b>Children</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.tablemodel.ColumnDescriptor}.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent <em>Parent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Header children.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Children</b></em>' reference list. The
+	 * list contents are of type
+	 * {@link org.eclipse.set.model.tablemodel.ColumnDescriptor}. It is
+	 * bidirectional and its opposite is
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent
+	 * <em>Parent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * begin-model-doc --> Header children. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Children</em>' reference list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_Children()
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent
@@ -111,12 +121,10 @@ public interface ColumnDescriptor extends EObject {
 	EList<ColumnDescriptor> getChildren();
 
 	/**
-	 * Returns the value of the '<em><b>Label</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The label of the column.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Label</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The
+	 * label of the column. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Label</em>' attribute.
 	 * @see #setLabel(String)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_Label()
@@ -126,22 +134,22 @@ public interface ColumnDescriptor extends EObject {
 	String getLabel();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel
+	 * <em>Label</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Label</em>' attribute.
 	 * @see #getLabel()
 	 * @generated
 	 */
 	void setLabel(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Greyed</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Flag for greyed out columns.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Greyed</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Flag
+	 * for greyed out columns. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Greyed</em>' attribute.
 	 * @see #setGreyed(boolean)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_Greyed()
@@ -151,22 +159,23 @@ public interface ColumnDescriptor extends EObject {
 	boolean isGreyed();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed <em>Greyed</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Greyed</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed
+	 * <em>Greyed</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Greyed</em>' attribute.
 	 * @see #isGreyed()
 	 * @generated
 	 */
 	void setGreyed(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Unit</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Whether this descriptor describes a unit.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Unit</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Whether
+	 * this descriptor describes a unit. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Unit</em>' attribute.
 	 * @see #setUnit(boolean)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_Unit()
@@ -176,23 +185,24 @@ public interface ColumnDescriptor extends EObject {
 	boolean isUnit();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit <em>Unit</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Unit</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit
+	 * <em>Unit</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Unit</em>' attribute.
 	 * @see #isUnit()
 	 * @generated
 	 */
 	void setUnit(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Parent</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren <em>Children</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The parent of this header.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Parent</b></em>' reference. It is
+	 * bidirectional and its opposite is
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren
+	 * <em>Children</em>}'. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
+	 * begin-model-doc --> The parent of this header. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Parent</em>' reference.
 	 * @see #setParent(ColumnDescriptor)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_Parent()
@@ -203,22 +213,23 @@ public interface ColumnDescriptor extends EObject {
 	ColumnDescriptor getParent();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent <em>Parent</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parent</em>' reference.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent
+	 * <em>Parent</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Parent</em>' reference.
 	 * @see #getParent()
 	 * @generated
 	 */
 	void setParent(ColumnDescriptor value);
 
 	/**
-	 * Returns the value of the '<em><b>Height</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The height of the row in cm.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Height</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The
+	 * height of the row in cm. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Height</em>' attribute.
 	 * @see #setHeight(double)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_Height()
@@ -228,10 +239,13 @@ public interface ColumnDescriptor extends EObject {
 	double getHeight();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight <em>Height</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Height</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight
+	 * <em>Height</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Height</em>' attribute.
 	 * @see #getHeight()
 	 * @generated
 	 */
@@ -239,10 +253,10 @@ public interface ColumnDescriptor extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Merge Common Values</b></em>' attribute.
-	 * The default value is <code>"DEFAULT"</code>.
-	 * The literals are from the enumeration {@link org.eclipse.set.model.tablemodel.RowMergeMode}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value is <code>"DEFAULT"</code>. The literals are from the
+	 * enumeration {@link org.eclipse.set.model.tablemodel.RowMergeMode}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Merge Common Values</em>' attribute.
 	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
 	 * @see #setMergeCommonValues(RowMergeMode)
@@ -253,10 +267,13 @@ public interface ColumnDescriptor extends EObject {
 	RowMergeMode getMergeCommonValues();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues <em>Merge Common Values</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Merge Common Values</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues
+	 * <em>Merge Common Values</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Merge Common Values</em>' attribute.
 	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
 	 * @see #getMergeCommonValues()
 	 * @generated
@@ -265,11 +282,9 @@ public interface ColumnDescriptor extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Column Position</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The position of this column
-	 * <!-- end-model-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * The position of this column <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Column Position</em>' attribute.
 	 * @see #setColumnPosition(String)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnDescriptor_ColumnPosition()
@@ -279,10 +294,13 @@ public interface ColumnDescriptor extends EObject {
 	String getColumnPosition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition <em>Column Position</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Column Position</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition
+	 * <em>Column Position</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Column Position</em>' attribute.
 	 * @see #getColumnPosition()
 	 * @generated
 	 */

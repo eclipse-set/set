@@ -82,7 +82,8 @@ public class ValidationTableView extends AbstractTreeLayerTable {
 		final Table table = service.transform(validationReport);
 		this.createTableBodyData(table,
 				rowIndex -> Integer.valueOf(validationReport.getProblems()
-						.get(rowIndex.intValue() - 1).getLineNumber()));
+						.get(rowIndex.intValue() - 1)
+						.getLineNumber()));
 
 		tableMenuService.addMenuItem(createJumpToTextViewMenuItem(part));
 		tableMenuService.addMenuItem(createJumpToSiteplanMenuItem());

@@ -185,7 +185,8 @@ public class TransformTable {
 		return Paths
 				.get(String.format("%s/%s_vorlage.xlsx", EXCEL_TEMPLATE_PATH, //$NON-NLS-1$
 						shortcut))
-				.toAbsolutePath().toFile();
+				.toAbsolutePath()
+				.toFile();
 	}
 
 	/**

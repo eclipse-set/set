@@ -170,8 +170,10 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 				.getOpenConflictMatches(
 						session.getTemporaryIntegration().get());
 		@SuppressWarnings("boxing")
-		final Set<Integer> nonZeroSizes = openConflictMatches.values().stream()
-				.map(l -> l.size()).filter(i -> i > 0)
+		final Set<Integer> nonZeroSizes = openConflictMatches.values()
+				.stream()
+				.map(l -> l.size())
+				.filter(i -> i > 0)
 				.collect(Collectors.toSet());
 		return nonZeroSizes.isEmpty();
 	}
@@ -192,12 +194,15 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 		temporaryFile.getResource().getContents().add(newTemporaryIntegration);
 		if (temporaryFile
 				.getResource() instanceof final TemporaryintegrationResourceImpl resource) {
-			resource.getTransformPrimaryInvalidIDReferences().addAll(
-					newTemporaryIntegration.getPrimaryPlanningIDReferences());
-			resource.getTransformSecondaryInvalidIDReferences().addAll(
-					newTemporaryIntegration.getSecondaryPlanningIDReferences());
-			resource.getTransformCompositeInvalidIDReferences().addAll(
-					newTemporaryIntegration.getCompositePlanningIDReferences());
+			resource.getTransformPrimaryInvalidIDReferences()
+					.addAll(newTemporaryIntegration
+							.getPrimaryPlanningIDReferences());
+			resource.getTransformSecondaryInvalidIDReferences()
+					.addAll(newTemporaryIntegration
+							.getSecondaryPlanningIDReferences());
+			resource.getTransformCompositeInvalidIDReferences()
+					.addAll(newTemporaryIntegration
+							.getCompositePlanningIDReferences());
 		}
 
 		try {
@@ -276,7 +281,8 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 		// create merge view
 		transformation = new SessionToIntegrationViewTransformation(messages,
 				nameService);
-		final Path mergeDir = getModelSession().getToolboxFile().getPath()
+		final Path mergeDir = getModelSession().getToolboxFile()
+				.getPath()
 				.getParent();
 		mergeView = transformation.transform(getModelSession(),
 				Optional.empty(), Optional.empty(),
@@ -395,8 +401,10 @@ public class PlanProMergeFormsPart extends AbstractEmfFormsPart {
 					session.refreshValidation();
 					if (session.getValidationResult()
 							.getOutcome() == Outcome.INVALID) {
-						if (!getDialogService().loadInvalidModel(shell, session
-								.getToolboxFile().getPath().toString())) {
+						if (!getDialogService().loadInvalidModel(shell,
+								session.getToolboxFile()
+										.getPath()
+										.toString())) {
 							session.close();
 							return;
 						}

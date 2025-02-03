@@ -67,8 +67,9 @@ public class CsvExportAction implements IKeyAction {
 			dialogService.reportExported(shell);
 			return null;
 		});
-		natTable.getConfigRegistry().registerConfigAttribute(
-				ExportConfigAttributes.EXPORTER, exporter);
+		natTable.getConfigRegistry()
+				.registerConfigAttribute(ExportConfigAttributes.EXPORTER,
+						exporter);
 		natTable.doCommand(
 				new ExportCommand(natTable.getConfigRegistry(), shell));
 	}

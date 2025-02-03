@@ -20,37 +20,40 @@ import org.eclipse.set.model.temporaryintegration.TemporaryintegrationPackage;
 
 /**
  * This class contains helper methods to serialize and deserialize XML documents
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class TemporaryintegrationXMLProcessor extends XMLProcessor {
 
 	/**
-	 * Public constructor to instantiate the helper.
-	 * <!-- begin-user-doc -->
+	 * Public constructor to instantiate the helper. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TemporaryintegrationXMLProcessor() {
 		super((EPackage.Registry.INSTANCE));
 		TemporaryintegrationPackage.eINSTANCE.eClass();
 	}
-	
+
 	/**
-	 * Register for "*" and "xml" file extensions the TemporaryintegrationResourceFactoryImpl factory.
-	 * <!-- begin-user-doc -->
+	 * Register for "*" and "xml" file extensions the
+	 * TemporaryintegrationResourceFactoryImpl factory. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	protected Map<String, Resource.Factory> getRegistrations() {
 		if (registrations == null) {
 			super.getRegistrations();
-			registrations.put(XML_EXTENSION, new TemporaryintegrationResourceFactoryImpl());
-			registrations.put(STAR_EXTENSION, new TemporaryintegrationResourceFactoryImpl());
+			registrations.put(XML_EXTENSION,
+					new TemporaryintegrationResourceFactoryImpl());
+			registrations.put(STAR_EXTENSION,
+					new TemporaryintegrationResourceFactoryImpl());
 		}
 		return registrations;
 	}
 
-} //TemporaryintegrationXMLProcessor
+} // TemporaryintegrationXMLProcessor

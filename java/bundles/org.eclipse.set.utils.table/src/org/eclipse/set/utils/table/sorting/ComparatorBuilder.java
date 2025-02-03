@@ -91,20 +91,21 @@ public class ComparatorBuilder {
 			final SortDirectionEnum direction) {
 		Comparator<TableCell> cellComparator;
 		switch (cellComparatorType) {
-		case LEXICOGRAPHICAL:
-			cellComparator = new LexicographicalCellComparator(direction);
-			break;
-		case MIXED_STRING:
-			cellComparator = new MixedStringCellComparator(direction);
-			break;
-		case NUMERIC:
-			cellComparator = new NumericCellComparator(direction);
-			break;
-		case EMPTY_LAST:
-			cellComparator = new EmptyLastCellComparator(direction);
-			break;
-		default:
-			throw new IllegalArgumentException(cellComparatorType.toString());
+			case LEXICOGRAPHICAL:
+				cellComparator = new LexicographicalCellComparator(direction);
+				break;
+			case MIXED_STRING:
+				cellComparator = new MixedStringCellComparator(direction);
+				break;
+			case NUMERIC:
+				cellComparator = new NumericCellComparator(direction);
+				break;
+			case EMPTY_LAST:
+				cellComparator = new EmptyLastCellComparator(direction);
+				break;
+			default:
+				throw new IllegalArgumentException(
+						cellComparatorType.toString());
 		}
 		try {
 			final int index = Integer.parseInt(columnId);

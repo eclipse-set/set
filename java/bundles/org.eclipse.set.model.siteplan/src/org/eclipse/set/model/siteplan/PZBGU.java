@@ -11,16 +11,16 @@ package org.eclipse.set.model.siteplan;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>PZBGU</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>PZBGU</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.PZBGU#getPzbs <em>Pzbs</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.PZBGU#getLength <em>Length</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.PZBGU#getPzbs <em>Pzbs</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.PZBGU#getLength
+ * <em>Length</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPZBGU()
@@ -29,10 +29,11 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface PZBGU extends SiteplanObject {
 	/**
-	 * Returns the value of the '<em><b>Pzbs</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.siteplan.PZB}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Pzbs</b></em>' containment reference
+	 * list. The list contents are of type
+	 * {@link org.eclipse.set.model.siteplan.PZB}. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Pzbs</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPZBGU_Pzbs()
 	 * @model containment="true"
@@ -41,9 +42,9 @@ public interface PZBGU extends SiteplanObject {
 	EList<PZB> getPzbs();
 
 	/**
-	 * Returns the value of the '<em><b>Length</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Length</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Length</em>' attribute.
 	 * @see #setLength(int)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPZBGU_Length()
@@ -53,10 +54,12 @@ public interface PZBGU extends SiteplanObject {
 	int getLength();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.PZBGU#getLength <em>Length</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Length</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.PZBGU#getLength <em>Length</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Length</em>' attribute.
 	 * @see #getLength()
 	 * @generated
 	 */

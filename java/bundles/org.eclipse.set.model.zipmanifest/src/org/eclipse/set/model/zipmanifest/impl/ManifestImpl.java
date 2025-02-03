@@ -23,24 +23,26 @@ import org.eclipse.set.model.zipmanifest.MediaList;
 import org.eclipse.set.model.zipmanifest.ZipmanifestPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Manifest</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Manifest</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.zipmanifest.impl.ManifestImpl#getContentList <em>Content List</em>}</li>
- *   <li>{@link org.eclipse.set.model.zipmanifest.impl.ManifestImpl#getMediaList <em>Media List</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.impl.ManifestImpl#getContentList
+ * <em>Content List</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.impl.ManifestImpl#getMediaList
+ * <em>Media List</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ManifestImpl extends MinimalEObjectImpl.Container implements Manifest {
+public class ManifestImpl extends MinimalEObjectImpl.Container
+		implements Manifest {
 	/**
-	 * The cached value of the '{@link #getContentList() <em>Content List</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getContentList() <em>Content List</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getContentList()
 	 * @generated
 	 * @ordered
@@ -48,9 +50,9 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	protected ContentList contentList;
 
 	/**
-	 * The cached value of the '{@link #getMediaList() <em>Media List</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMediaList() <em>Media List</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMediaList()
 	 * @generated
 	 * @ordered
@@ -58,8 +60,8 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	protected MediaList mediaList;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ManifestImpl() {
@@ -67,8 +69,8 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -77,8 +79,8 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -87,23 +89,29 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetContentList(ContentList newContentList, NotificationChain msgs) {
+	public NotificationChain basicSetContentList(ContentList newContentList,
+			NotificationChain msgs) {
 		ContentList oldContentList = contentList;
 		contentList = newContentList;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ZipmanifestPackage.MANIFEST__CONTENT_LIST, oldContentList, newContentList);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, ZipmanifestPackage.MANIFEST__CONTENT_LIST,
+					oldContentList, newContentList);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,19 +119,27 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 		if (newContentList != contentList) {
 			NotificationChain msgs = null;
 			if (contentList != null)
-				msgs = ((InternalEObject)contentList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ZipmanifestPackage.MANIFEST__CONTENT_LIST, null, msgs);
+				msgs = ((InternalEObject) contentList).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- ZipmanifestPackage.MANIFEST__CONTENT_LIST,
+						null, msgs);
 			if (newContentList != null)
-				msgs = ((InternalEObject)newContentList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ZipmanifestPackage.MANIFEST__CONTENT_LIST, null, msgs);
+				msgs = ((InternalEObject) newContentList).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- ZipmanifestPackage.MANIFEST__CONTENT_LIST,
+						null, msgs);
 			msgs = basicSetContentList(newContentList, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ZipmanifestPackage.MANIFEST__CONTENT_LIST, newContentList, newContentList));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ZipmanifestPackage.MANIFEST__CONTENT_LIST, newContentList,
+					newContentList));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -132,23 +148,29 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetMediaList(MediaList newMediaList, NotificationChain msgs) {
+	public NotificationChain basicSetMediaList(MediaList newMediaList,
+			NotificationChain msgs) {
 		MediaList oldMediaList = mediaList;
 		mediaList = newMediaList;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ZipmanifestPackage.MANIFEST__MEDIA_LIST, oldMediaList, newMediaList);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, ZipmanifestPackage.MANIFEST__MEDIA_LIST,
+					oldMediaList, newMediaList);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -156,23 +178,32 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 		if (newMediaList != mediaList) {
 			NotificationChain msgs = null;
 			if (mediaList != null)
-				msgs = ((InternalEObject)mediaList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ZipmanifestPackage.MANIFEST__MEDIA_LIST, null, msgs);
+				msgs = ((InternalEObject) mediaList).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- ZipmanifestPackage.MANIFEST__MEDIA_LIST,
+						null, msgs);
 			if (newMediaList != null)
-				msgs = ((InternalEObject)newMediaList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ZipmanifestPackage.MANIFEST__MEDIA_LIST, null, msgs);
+				msgs = ((InternalEObject) newMediaList).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- ZipmanifestPackage.MANIFEST__MEDIA_LIST,
+						null, msgs);
 			msgs = basicSetMediaList(newMediaList, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ZipmanifestPackage.MANIFEST__MEDIA_LIST, newMediaList, newMediaList));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ZipmanifestPackage.MANIFEST__MEDIA_LIST, newMediaList,
+					newMediaList));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ZipmanifestPackage.MANIFEST__CONTENT_LIST:
 				return basicSetContentList(null, msgs);
@@ -183,8 +214,8 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -199,44 +230,44 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ZipmanifestPackage.MANIFEST__CONTENT_LIST:
-				setContentList((ContentList)newValue);
+				setContentList((ContentList) newValue);
 				return;
 			case ZipmanifestPackage.MANIFEST__MEDIA_LIST:
-				setMediaList((MediaList)newValue);
+				setMediaList((MediaList) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case ZipmanifestPackage.MANIFEST__CONTENT_LIST:
-				setContentList((ContentList)null);
+				setContentList((ContentList) null);
 				return;
 			case ZipmanifestPackage.MANIFEST__MEDIA_LIST:
-				setMediaList((MediaList)null);
+				setMediaList((MediaList) null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -250,4 +281,4 @@ public class ManifestImpl extends MinimalEObjectImpl.Container implements Manife
 		return super.eIsSet(featureID);
 	}
 
-} //ManifestImpl
+} // ManifestImpl

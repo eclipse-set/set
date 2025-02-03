@@ -24,29 +24,36 @@ import org.eclipse.set.model.titlebox.StringField;
 import org.eclipse.set.model.titlebox.TitleboxPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Planning Office</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Planning Office</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getVariant <em>Variant</em>}</li>
- *   <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getGroup <em>Group</em>}</li>
- *   <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getLocation <em>Location</em>}</li>
- *   <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getPhone <em>Phone</em>}</li>
- *   <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getEmail <em>Email</em>}</li>
- *   <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getLogo <em>Logo</em>}</li>
+ * <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getVariant
+ * <em>Variant</em>}</li>
+ * <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getName
+ * <em>Name</em>}</li>
+ * <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getGroup
+ * <em>Group</em>}</li>
+ * <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getLocation
+ * <em>Location</em>}</li>
+ * <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getPhone
+ * <em>Phone</em>}</li>
+ * <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getEmail
+ * <em>Email</em>}</li>
+ * <li>{@link org.eclipse.set.model.titlebox.impl.PlanningOfficeImpl#getLogo
+ * <em>Logo</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements PlanningOffice {
+public class PlanningOfficeImpl extends MinimalEObjectImpl.Container
+		implements PlanningOffice {
 	/**
-	 * The default value of the '{@link #getVariant() <em>Variant</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getVariant() <em>Variant</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVariant()
 	 * @generated
 	 * @ordered
@@ -54,9 +61,9 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	protected static final String VARIANT_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getVariant() <em>Variant</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getVariant() <em>Variant</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVariant()
 	 * @generated
 	 * @ordered
@@ -64,9 +71,9 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	protected String variant = VARIANT_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getName() <em>Name</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -74,9 +81,9 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	protected StringField name;
 
 	/**
-	 * The cached value of the '{@link #getGroup() <em>Group</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getGroup() <em>Group</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGroup()
 	 * @generated
 	 * @ordered
@@ -84,9 +91,9 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	protected StringField group;
 
 	/**
-	 * The cached value of the '{@link #getLocation() <em>Location</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLocation() <em>Location</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLocation()
 	 * @generated
 	 * @ordered
@@ -94,9 +101,9 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	protected StringField location;
 
 	/**
-	 * The cached value of the '{@link #getPhone() <em>Phone</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPhone() <em>Phone</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPhone()
 	 * @generated
 	 * @ordered
@@ -104,9 +111,9 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	protected StringField phone;
 
 	/**
-	 * The cached value of the '{@link #getEmail() <em>Email</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getEmail() <em>Email</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getEmail()
 	 * @generated
 	 * @ordered
@@ -115,8 +122,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 
 	/**
 	 * The default value of the '{@link #getLogo() <em>Logo</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLogo()
 	 * @generated
 	 * @ordered
@@ -125,8 +132,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 
 	/**
 	 * The cached value of the '{@link #getLogo() <em>Logo</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLogo()
 	 * @generated
 	 * @ordered
@@ -134,8 +141,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	protected String logo = LOGO_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected PlanningOfficeImpl() {
@@ -143,8 +150,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -153,8 +160,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -163,8 +170,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -172,12 +179,14 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		String oldVariant = variant;
 		variant = newVariant;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__VARIANT, oldVariant, variant));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TitleboxPackage.PLANNING_OFFICE__VARIANT, oldVariant,
+					variant));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -186,23 +195,29 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetName(StringField newName, NotificationChain msgs) {
+	public NotificationChain basicSetName(StringField newName,
+			NotificationChain msgs) {
 		StringField oldName = name;
 		name = newName;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__NAME, oldName, newName);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, TitleboxPackage.PLANNING_OFFICE__NAME,
+					oldName, newName);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -210,19 +225,26 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		if (newName != name) {
 			NotificationChain msgs = null;
 			if (name != null)
-				msgs = ((InternalEObject)name).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__NAME, null, msgs);
+				msgs = ((InternalEObject) name).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__NAME,
+						null, msgs);
 			if (newName != null)
-				msgs = ((InternalEObject)newName).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__NAME, null, msgs);
+				msgs = ((InternalEObject) newName).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__NAME,
+						null, msgs);
 			msgs = basicSetName(newName, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__NAME, newName, newName));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TitleboxPackage.PLANNING_OFFICE__NAME, newName, newName));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -231,23 +253,29 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetGroup(StringField newGroup, NotificationChain msgs) {
+	public NotificationChain basicSetGroup(StringField newGroup,
+			NotificationChain msgs) {
 		StringField oldGroup = group;
 		group = newGroup;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__GROUP, oldGroup, newGroup);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, TitleboxPackage.PLANNING_OFFICE__GROUP,
+					oldGroup, newGroup);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -255,19 +283,27 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		if (newGroup != group) {
 			NotificationChain msgs = null;
 			if (group != null)
-				msgs = ((InternalEObject)group).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__GROUP, null, msgs);
+				msgs = ((InternalEObject) group).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__GROUP,
+						null, msgs);
 			if (newGroup != null)
-				msgs = ((InternalEObject)newGroup).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__GROUP, null, msgs);
+				msgs = ((InternalEObject) newGroup).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__GROUP,
+						null, msgs);
 			msgs = basicSetGroup(newGroup, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__GROUP, newGroup, newGroup));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TitleboxPackage.PLANNING_OFFICE__GROUP, newGroup,
+					newGroup));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -276,23 +312,29 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetLocation(StringField newLocation, NotificationChain msgs) {
+	public NotificationChain basicSetLocation(StringField newLocation,
+			NotificationChain msgs) {
 		StringField oldLocation = location;
 		location = newLocation;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__LOCATION, oldLocation, newLocation);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, TitleboxPackage.PLANNING_OFFICE__LOCATION,
+					oldLocation, newLocation);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -300,19 +342,27 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		if (newLocation != location) {
 			NotificationChain msgs = null;
 			if (location != null)
-				msgs = ((InternalEObject)location).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__LOCATION, null, msgs);
+				msgs = ((InternalEObject) location).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__LOCATION,
+						null, msgs);
 			if (newLocation != null)
-				msgs = ((InternalEObject)newLocation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__LOCATION, null, msgs);
+				msgs = ((InternalEObject) newLocation).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__LOCATION,
+						null, msgs);
 			msgs = basicSetLocation(newLocation, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__LOCATION, newLocation, newLocation));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TitleboxPackage.PLANNING_OFFICE__LOCATION, newLocation,
+					newLocation));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -321,23 +371,29 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetPhone(StringField newPhone, NotificationChain msgs) {
+	public NotificationChain basicSetPhone(StringField newPhone,
+			NotificationChain msgs) {
 		StringField oldPhone = phone;
 		phone = newPhone;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__PHONE, oldPhone, newPhone);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, TitleboxPackage.PLANNING_OFFICE__PHONE,
+					oldPhone, newPhone);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -345,19 +401,27 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		if (newPhone != phone) {
 			NotificationChain msgs = null;
 			if (phone != null)
-				msgs = ((InternalEObject)phone).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__PHONE, null, msgs);
+				msgs = ((InternalEObject) phone).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__PHONE,
+						null, msgs);
 			if (newPhone != null)
-				msgs = ((InternalEObject)newPhone).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__PHONE, null, msgs);
+				msgs = ((InternalEObject) newPhone).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__PHONE,
+						null, msgs);
 			msgs = basicSetPhone(newPhone, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__PHONE, newPhone, newPhone));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TitleboxPackage.PLANNING_OFFICE__PHONE, newPhone,
+					newPhone));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -366,23 +430,29 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetEmail(StringField newEmail, NotificationChain msgs) {
+	public NotificationChain basicSetEmail(StringField newEmail,
+			NotificationChain msgs) {
 		StringField oldEmail = email;
 		email = newEmail;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__EMAIL, oldEmail, newEmail);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, TitleboxPackage.PLANNING_OFFICE__EMAIL,
+					oldEmail, newEmail);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -390,19 +460,27 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		if (newEmail != email) {
 			NotificationChain msgs = null;
 			if (email != null)
-				msgs = ((InternalEObject)email).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__EMAIL, null, msgs);
+				msgs = ((InternalEObject) email).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__EMAIL,
+						null, msgs);
 			if (newEmail != null)
-				msgs = ((InternalEObject)newEmail).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TitleboxPackage.PLANNING_OFFICE__EMAIL, null, msgs);
+				msgs = ((InternalEObject) newEmail).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- TitleboxPackage.PLANNING_OFFICE__EMAIL,
+						null, msgs);
 			msgs = basicSetEmail(newEmail, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__EMAIL, newEmail, newEmail));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TitleboxPackage.PLANNING_OFFICE__EMAIL, newEmail,
+					newEmail));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -411,8 +489,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -420,16 +498,18 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		String oldLogo = logo;
 		logo = newLogo;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.PLANNING_OFFICE__LOGO, oldLogo, logo));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TitleboxPackage.PLANNING_OFFICE__LOGO, oldLogo, logo));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TitleboxPackage.PLANNING_OFFICE__NAME:
 				return basicSetName(null, msgs);
@@ -446,8 +526,8 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -472,41 +552,41 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TitleboxPackage.PLANNING_OFFICE__VARIANT:
-				setVariant((String)newValue);
+				setVariant((String) newValue);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__NAME:
-				setName((StringField)newValue);
+				setName((StringField) newValue);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__GROUP:
-				setGroup((StringField)newValue);
+				setGroup((StringField) newValue);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__LOCATION:
-				setLocation((StringField)newValue);
+				setLocation((StringField) newValue);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__PHONE:
-				setPhone((StringField)newValue);
+				setPhone((StringField) newValue);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__EMAIL:
-				setEmail((StringField)newValue);
+				setEmail((StringField) newValue);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__LOGO:
-				setLogo((String)newValue);
+				setLogo((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -516,19 +596,19 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 				setVariant(VARIANT_EDEFAULT);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__NAME:
-				setName((StringField)null);
+				setName((StringField) null);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__GROUP:
-				setGroup((StringField)null);
+				setGroup((StringField) null);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__LOCATION:
-				setLocation((StringField)null);
+				setLocation((StringField) null);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__PHONE:
-				setPhone((StringField)null);
+				setPhone((StringField) null);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__EMAIL:
-				setEmail((StringField)null);
+				setEmail((StringField) null);
 				return;
 			case TitleboxPackage.PLANNING_OFFICE__LOGO:
 				setLogo(LOGO_EDEFAULT);
@@ -538,15 +618,16 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TitleboxPackage.PLANNING_OFFICE__VARIANT:
-				return VARIANT_EDEFAULT == null ? variant != null : !VARIANT_EDEFAULT.equals(variant);
+				return VARIANT_EDEFAULT == null ? variant != null
+						: !VARIANT_EDEFAULT.equals(variant);
 			case TitleboxPackage.PLANNING_OFFICE__NAME:
 				return name != null;
 			case TitleboxPackage.PLANNING_OFFICE__GROUP:
@@ -558,19 +639,21 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 			case TitleboxPackage.PLANNING_OFFICE__EMAIL:
 				return email != null;
 			case TitleboxPackage.PLANNING_OFFICE__LOGO:
-				return LOGO_EDEFAULT == null ? logo != null : !LOGO_EDEFAULT.equals(logo);
+				return LOGO_EDEFAULT == null ? logo != null
+						: !LOGO_EDEFAULT.equals(logo);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (variant: ");
@@ -581,4 +664,4 @@ public class PlanningOfficeImpl extends MinimalEObjectImpl.Container implements 
 		return result.toString();
 	}
 
-} //PlanningOfficeImpl
+} // PlanningOfficeImpl

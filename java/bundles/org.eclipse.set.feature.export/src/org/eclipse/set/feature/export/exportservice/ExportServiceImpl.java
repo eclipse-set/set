@@ -99,7 +99,9 @@ public class ExportServiceImpl implements ExportService {
 					} catch (final Exception e) {
 						return false;
 					}
-				}).findFirst().orElse(null);
+				})
+				.findFirst()
+				.orElse(null);
 
 		return buildForTable == null ? relevantBuilder.getFirst()
 				: buildForTable;

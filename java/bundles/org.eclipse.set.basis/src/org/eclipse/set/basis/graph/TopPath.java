@@ -65,8 +65,11 @@ public class TopPath {
 	private TopPoint determineStartNode() {
 		try {
 			final TOP_Kante firstEdge = edges.getFirst();
-			return new TopPoint(firstEdge, firstEdge.getTOPKanteAllg()
-					.getTOPLaenge().getWert().subtract(firstEdgeLength));
+			return new TopPoint(firstEdge,
+					firstEdge.getTOPKanteAllg()
+							.getTOPLaenge()
+							.getWert()
+							.subtract(firstEdgeLength));
 		} catch (final Exception e) {
 			throw new IllegalArgumentException(
 					"Can\'t find start node of TopPath"); //$NON-NLS-1$
@@ -75,7 +78,10 @@ public class TopPath {
 
 	private BigDecimal determintFirstEdgeLength() {
 		try {
-			return edges.getFirst().getTOPKanteAllg().getTOPLaenge().getWert()
+			return edges.getFirst()
+					.getTOPKanteAllg()
+					.getTOPLaenge()
+					.getWert()
 					.subtract(startNode.distance());
 		} catch (final Exception e) {
 			throw new IllegalArgumentException(
@@ -116,7 +122,8 @@ public class TopPath {
 		BigDecimal pathOffset = firstEdgeLength;
 		TOP_Kante previousEdge = null;
 		for (final TOP_Kante edge : edges()) {
-			final BigDecimal edgeLength = edge.getTOPKanteAllg().getTOPLaenge()
+			final BigDecimal edgeLength = edge.getTOPKanteAllg()
+					.getTOPLaenge()
 					.getWert();
 
 			if (point.edge().equals(edge)) {
@@ -136,7 +143,8 @@ public class TopPath {
 	private Optional<BigDecimal> getDistance(final TopPoint point,
 			final BigDecimal pathOffset, final TOP_Kante previousEdge,
 			final TOP_Kante edge) {
-		final BigDecimal edgeLength = edge.getTOPKanteAllg().getTOPLaenge()
+		final BigDecimal edgeLength = edge.getTOPKanteAllg()
+				.getTOPLaenge()
 				.getWert();
 		// Point in first Edge
 		if (previousEdge == null) {
@@ -145,8 +153,8 @@ public class TopPath {
 		// In top direction
 		if (previousEdge.getIDTOPKnotenB().getValue() == edge.getIDTOPKnotenA()
 				.getValue()
-				|| previousEdge.getIDTOPKnotenA().getValue() == edge
-						.getIDTOPKnotenA().getValue()) {
+				|| previousEdge.getIDTOPKnotenA()
+						.getValue() == edge.getIDTOPKnotenA().getValue()) {
 
 			final BigDecimal pointDistance = pathOffset.add(point.distance());
 			if (pointDistance.compareTo(BigDecimal.ZERO) < 0

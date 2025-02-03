@@ -44,7 +44,8 @@ public final class CheckboxModel {
 	 */
 	public CheckboxModelElement[] getChecked() {
 		final List<CheckboxModelElement> result = checkboxes.stream()
-				.filter(ele -> ele.isChecked()).collect(Collectors.toList());
+				.filter(ele -> ele.isChecked())
+				.collect(Collectors.toList());
 		return result.toArray(new CheckboxModelElement[result.size()]);
 	}
 

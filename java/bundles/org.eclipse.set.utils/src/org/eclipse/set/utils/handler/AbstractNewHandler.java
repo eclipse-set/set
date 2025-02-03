@@ -172,8 +172,9 @@ public abstract class AbstractNewHandler<T extends InitializationData>
 						public void run() {
 							dialogService.openInformation(shell,
 									getSuccessTitleMessage(),
-									getSuccessMessage(newSession
-											.getToolboxFile().getPath()));
+									getSuccessMessage(
+											newSession.getToolboxFile()
+													.getPath()));
 						}
 					});
 					newSession.getModels()

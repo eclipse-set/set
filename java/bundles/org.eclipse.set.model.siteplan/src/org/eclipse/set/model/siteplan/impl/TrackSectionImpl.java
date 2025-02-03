@@ -28,25 +28,28 @@ import org.eclipse.set.model.siteplan.TrackSegment;
 import org.eclipse.set.model.siteplan.TrackShape;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Track Section</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Track
+ * Section</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getShape <em>Shape</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getSegments <em>Segments</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getColor <em>Color</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getShape
+ * <em>Shape</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getSegments
+ * <em>Segments</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSectionImpl#getColor
+ * <em>Color</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection {
+public class TrackSectionImpl extends SiteplanObjectImpl
+		implements TrackSection {
 	/**
 	 * The default value of the '{@link #getShape() <em>Shape</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getShape()
 	 * @generated
 	 * @ordered
@@ -55,8 +58,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 
 	/**
 	 * The cached value of the '{@link #getShape() <em>Shape</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getShape()
 	 * @generated
 	 * @ordered
@@ -64,9 +67,9 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	protected TrackShape shape = SHAPE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getSegments() <em>Segments</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSegments() <em>Segments</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSegments()
 	 * @generated
 	 * @ordered
@@ -75,8 +78,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 
 	/**
 	 * The default value of the '{@link #getColor() <em>Color</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -85,8 +88,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 
 	/**
 	 * The cached value of the '{@link #getColor() <em>Color</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -94,8 +97,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	protected String color = COLOR_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TrackSectionImpl() {
@@ -103,8 +106,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -113,8 +116,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -123,8 +126,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -132,25 +135,28 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 		TrackShape oldShape = shape;
 		shape = newShape == null ? SHAPE_EDEFAULT : newShape;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SECTION__SHAPE, oldShape, shape));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK_SECTION__SHAPE, oldShape, shape));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<TrackSegment> getSegments() {
 		if (segments == null) {
-			segments = new EObjectContainmentEList<TrackSegment>(TrackSegment.class, this, SiteplanPackage.TRACK_SECTION__SEGMENTS);
+			segments = new EObjectContainmentEList<TrackSegment>(
+					TrackSegment.class, this,
+					SiteplanPackage.TRACK_SECTION__SEGMENTS);
 		}
 		return segments;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -159,8 +165,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -168,26 +174,29 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 		String oldColor = color;
 		color = newColor;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SECTION__COLOR, oldColor, color));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK_SECTION__COLOR, oldColor, color));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SECTION__SEGMENTS:
-				return ((InternalEList<?>)getSegments()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getSegments()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -204,8 +213,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -213,22 +222,23 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SECTION__SHAPE:
-				setShape((TrackShape)newValue);
+				setShape((TrackShape) newValue);
 				return;
 			case SiteplanPackage.TRACK_SECTION__SEGMENTS:
 				getSegments().clear();
-				getSegments().addAll((Collection<? extends TrackSegment>)newValue);
+				getSegments()
+						.addAll((Collection<? extends TrackSegment>) newValue);
 				return;
 			case SiteplanPackage.TRACK_SECTION__COLOR:
-				setColor((String)newValue);
+				setColor((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -248,8 +258,8 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -260,19 +270,21 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 			case SiteplanPackage.TRACK_SECTION__SEGMENTS:
 				return segments != null && !segments.isEmpty();
 			case SiteplanPackage.TRACK_SECTION__COLOR:
-				return COLOR_EDEFAULT == null ? color != null : !COLOR_EDEFAULT.equals(color);
+				return COLOR_EDEFAULT == null ? color != null
+						: !COLOR_EDEFAULT.equals(color);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (shape: ");
@@ -283,4 +295,4 @@ public class TrackSectionImpl extends SiteplanObjectImpl implements TrackSection
 		return result.toString();
 	}
 
-} //TrackSectionImpl
+} // TrackSectionImpl

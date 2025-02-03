@@ -19,25 +19,28 @@ import org.eclipse.set.model.integrationview.IntegrationviewPackage;
 import org.eclipse.set.model.integrationview.ObjectQuantity;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Object Quantity</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Object
+ * Quantity</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ObjectQuantityImpl#getSource <em>Source</em>}</li>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ObjectQuantityImpl#getInitial <em>Initial</em>}</li>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ObjectQuantityImpl#getFinal <em>Final</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ObjectQuantityImpl#getSource
+ * <em>Source</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ObjectQuantityImpl#getInitial
+ * <em>Initial</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ObjectQuantityImpl#getFinal
+ * <em>Final</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements ObjectQuantity {
+public class ObjectQuantityImpl extends MinimalEObjectImpl.Container
+		implements ObjectQuantity {
 	/**
-	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getSource() <em>Source</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -46,8 +49,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -55,9 +58,9 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	protected String source = SOURCE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getInitial() <em>Initial</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getInitial() <em>Initial</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getInitial()
 	 * @generated
 	 * @ordered
@@ -65,9 +68,9 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	protected static final int INITIAL_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getInitial() <em>Initial</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getInitial() <em>Initial</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getInitial()
 	 * @generated
 	 * @ordered
@@ -76,8 +79,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 
 	/**
 	 * The default value of the '{@link #getFinal() <em>Final</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFinal()
 	 * @generated
 	 * @ordered
@@ -86,8 +89,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 
 	/**
 	 * The cached value of the '{@link #getFinal() <em>Final</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFinal()
 	 * @generated
 	 * @ordered
@@ -95,8 +98,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	protected int final_ = FINAL_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ObjectQuantityImpl() {
@@ -104,8 +107,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -114,8 +117,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -124,8 +127,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -133,12 +136,14 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 		String oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.OBJECT_QUANTITY__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.OBJECT_QUANTITY__SOURCE, oldSource,
+					source));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,8 +152,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -156,12 +161,14 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 		int oldInitial = initial;
 		initial = newInitial;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.OBJECT_QUANTITY__INITIAL, oldInitial, initial));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.OBJECT_QUANTITY__INITIAL, oldInitial,
+					initial));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -170,8 +177,8 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -179,12 +186,14 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 		int oldFinal = final_;
 		final_ = newFinal;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.OBJECT_QUANTITY__FINAL, oldFinal, final_));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.OBJECT_QUANTITY__FINAL, oldFinal,
+					final_));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -201,29 +210,29 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case IntegrationviewPackage.OBJECT_QUANTITY__SOURCE:
-				setSource((String)newValue);
+				setSource((String) newValue);
 				return;
 			case IntegrationviewPackage.OBJECT_QUANTITY__INITIAL:
-				setInitial((Integer)newValue);
+				setInitial((Integer) newValue);
 				return;
 			case IntegrationviewPackage.OBJECT_QUANTITY__FINAL:
-				setFinal((Integer)newValue);
+				setFinal((Integer) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -243,15 +252,16 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case IntegrationviewPackage.OBJECT_QUANTITY__SOURCE:
-				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
+				return SOURCE_EDEFAULT == null ? source != null
+						: !SOURCE_EDEFAULT.equals(source);
 			case IntegrationviewPackage.OBJECT_QUANTITY__INITIAL:
 				return initial != INITIAL_EDEFAULT;
 			case IntegrationviewPackage.OBJECT_QUANTITY__FINAL:
@@ -261,13 +271,14 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (source: ");
@@ -280,4 +291,4 @@ public class ObjectQuantityImpl extends MinimalEObjectImpl.Container implements 
 		return result.toString();
 	}
 
-} //ObjectQuantityImpl
+} // ObjectQuantityImpl

@@ -127,8 +127,11 @@ public class WebSiteplanPart extends BasePart {
 			throw new RuntimeException(e);
 		}
 		registerJavascriptFunctions();
-		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL).grab(true, true)
-				.span(2, 1).applyTo(webBrowser.getControl());
+		GridDataFactory.swtDefaults()
+				.align(SWT.FILL, SWT.FILL)
+				.grab(true, true)
+				.span(2, 1)
+				.applyTo(webBrowser.getControl());
 		webBrowser.setUrl("https://toolbox/?"); //$NON-NLS-1$
 
 	}
@@ -139,7 +142,8 @@ public class WebSiteplanPart extends BasePart {
 				.get(IModelSession.class);
 		final List<PlazError> listValid = test.run(modelSession);
 		if (!listValid.isEmpty()) {
-			final String fileName = modelSession.getToolboxFile().getPath()
+			final String fileName = modelSession.getToolboxFile()
+					.getPath()
 					.toString();
 			if (!dialogService.sitePlanError(getToolboxShell(), fileName)) {
 				return false;

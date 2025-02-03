@@ -94,7 +94,8 @@ public class ExtendedPlanProValidator extends PlanProValidator {
 
 		// parse the value
 		final DocumentBuilder documentBuilder = DocumentBuilderFactory
-				.newInstance().newDocumentBuilder();
+				.newInstance()
+				.newDocumentBuilder();
 		final StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(value);
 		final ByteArrayInputStream input = new ByteArrayInputStream(

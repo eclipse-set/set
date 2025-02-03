@@ -45,7 +45,8 @@ public class SonstigeRequiresBearbeitungsvermerk implements PlazCheck {
 	@Override
 	public List<PlazError> run(final IModelSession modelSession) {
 		final TreeIterator<EObject> contents = modelSession
-				.getPlanProSchnittstelle().eAllContents();
+				.getPlanProSchnittstelle()
+				.eAllContents();
 
 		final Iterator<BasisAttribut_AttributeGroup> attributes = Iterators
 				.filter(contents, BasisAttribut_AttributeGroup.class);

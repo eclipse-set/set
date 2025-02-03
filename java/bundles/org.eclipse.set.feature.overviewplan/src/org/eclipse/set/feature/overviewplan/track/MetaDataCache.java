@@ -55,9 +55,11 @@ public class MetaDataCache {
 		if (!ToolboxConfiguration.isDevelopmentMode()) {
 			final Cache cache = Services.getCacheService()
 					.getCache(getCacheString(container));
-			final List<TOPKanteMetaData> metadatas = cache.getKeys().stream()
+			final List<TOPKanteMetaData> metadatas = cache.getKeys()
+					.stream()
 					.map(key -> (TOPKanteMetaData) cache.getIfPresent(key))
-					.filter(Objects::nonNull).toList();
+					.filter(Objects::nonNull)
+					.toList();
 			return metadatas;
 		}
 		return new ArrayList<>(topCache.values());

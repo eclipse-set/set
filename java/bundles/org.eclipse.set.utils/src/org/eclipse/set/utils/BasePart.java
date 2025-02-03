@@ -239,7 +239,8 @@ public abstract class BasePart implements ToolboxPart {
 			// the view composite
 			final Composite viewComposite = new Composite(parent, SWT.NONE);
 			viewComposite.setLayout(new GridLayout());
-			GridDataFactory.fillDefaults().grab(true, true)
+			GridDataFactory.fillDefaults()
+					.grab(true, true)
 					.applyTo(viewComposite);
 
 			createView(viewComposite);

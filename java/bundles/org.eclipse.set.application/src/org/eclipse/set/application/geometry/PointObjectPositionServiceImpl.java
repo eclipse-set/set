@@ -144,9 +144,11 @@ public class PointObjectPositionServiceImpl
 		// Determine the track type
 		final GEOKanteSegment segment = geoKante.getContainingSegment(distance);
 		final List<ENUMGleisart> trackType = segment.getBereichObjekte()
-				.stream().filter(Gleis_Art.class::isInstance)
+				.stream()
+				.filter(Gleis_Art.class::isInstance)
 				.map(ga -> ((Gleis_Art) ga).getGleisart().getWert())
-				.filter(c -> c != null).toList();
+				.filter(c -> c != null)
+				.toList();
 
 		// Determine the object distance according to the local track type
 		if (trackType.isEmpty()) {

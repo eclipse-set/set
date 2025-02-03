@@ -130,7 +130,8 @@ public class DateAutofill extends DefaultAutofill {
 
 	private String getDate() {
 		final XMLGregorianCalendar date = planning.getPlanungPAllg()
-				.getDatumAbschlussProjekt().getWert();
+				.getDatumAbschlussProjekt()
+				.getWert();
 		final LocalDate localDate = LocalDate.of(date.getYear(),
 				date.getMonth(), date.getDay());
 		return localDate

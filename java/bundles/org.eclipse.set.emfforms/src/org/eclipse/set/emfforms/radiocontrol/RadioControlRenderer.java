@@ -115,7 +115,8 @@ public class RadioControlRenderer extends SimpleControlSWTControlSWTRenderer {
 			}
 
 			final IObservableValue<Boolean> observe = WidgetProperties
-					.buttonSelection().observe(button);
+					.buttonSelection()
+					.observe(button);
 			selectedRadioButtonObservable.addOption(literal.getInstance(),
 					observe);
 

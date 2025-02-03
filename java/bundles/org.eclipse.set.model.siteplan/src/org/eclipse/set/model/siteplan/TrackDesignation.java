@@ -11,16 +11,17 @@ package org.eclipse.set.model.siteplan;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Track Designation</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Track
+ * Designation</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.TrackDesignation#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.TrackDesignation#getPosition <em>Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.TrackDesignation#getName
+ * <em>Name</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.TrackDesignation#getPosition
+ * <em>Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackDesignation()
@@ -29,9 +30,9 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface TrackDesignation extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Name</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackDesignation_Name()
@@ -41,19 +42,21 @@ public interface TrackDesignation extends EObject {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackDesignation#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.TrackDesignation#getName
+	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
 	 */
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Position</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Position</em>' containment reference.
 	 * @see #setPosition(Coordinate)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackDesignation_Position()
@@ -63,10 +66,14 @@ public interface TrackDesignation extends EObject {
 	Coordinate getPosition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackDesignation#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.TrackDesignation#getPosition
+	 * <em>Position</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Position</em>' containment
+	 *            reference.
 	 * @see #getPosition()
 	 * @generated
 	 */

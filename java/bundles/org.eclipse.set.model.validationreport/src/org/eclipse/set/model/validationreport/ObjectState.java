@@ -15,27 +15,28 @@ import java.util.List;
 import org.eclipse.emf.common.util.Enumerator;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>Object State</b></em>',
- * and utility methods for working with them.
+ * <!-- begin-user-doc --> A representation of the literals of the enumeration
+ * '<em><b>Object State</b></em>', and utility methods for working with them.
  * <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getObjectState()
  * @model
  * @generated
  */
 public enum ObjectState implements Enumerator {
 	/**
-	 * The '<em><b>NONE</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>NONE</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #NONE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	NONE(0, "NONE", ""), /**
-	 * The '<em><b>INITIAL</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+	NONE(0, "NONE", ""),
+	/**
+	 * The '<em><b>INITIAL</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #INITIAL_VALUE
 	 * @generated
 	 * @ordered
@@ -43,9 +44,9 @@ public enum ObjectState implements Enumerator {
 	INITIAL(1, "INITIAL", "Start"),
 
 	/**
-	 * The '<em><b>FINAL</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>FINAL</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #FINAL_VALUE
 	 * @generated
 	 * @ordered
@@ -53,9 +54,9 @@ public enum ObjectState implements Enumerator {
 	FINAL(2, "FINAL", "Ziel"),
 
 	/**
-	 * The '<em><b>INFO</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>INFO</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #INFO_VALUE
 	 * @generated
 	 * @ordered
@@ -63,9 +64,9 @@ public enum ObjectState implements Enumerator {
 	INFO(3, "INFO", "Information");
 
 	/**
-	 * The '<em><b>NONE</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>NONE</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #NONE
 	 * @model literal=""
 	 * @generated
@@ -74,9 +75,9 @@ public enum ObjectState implements Enumerator {
 	public static final int NONE_VALUE = 0;
 
 	/**
-	 * The '<em><b>INITIAL</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>INITIAL</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #INITIAL
 	 * @model literal="Start"
 	 * @generated
@@ -85,9 +86,9 @@ public enum ObjectState implements Enumerator {
 	public static final int INITIAL_VALUE = 1;
 
 	/**
-	 * The '<em><b>FINAL</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>FINAL</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #FINAL
 	 * @model literal="Ziel"
 	 * @generated
@@ -96,9 +97,9 @@ public enum ObjectState implements Enumerator {
 	public static final int FINAL_VALUE = 2;
 
 	/**
-	 * The '<em><b>INFO</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The '<em><b>INFO</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #INFO
 	 * @model literal="Information"
 	 * @generated
@@ -107,32 +108,29 @@ public enum ObjectState implements Enumerator {
 	public static final int INFO_VALUE = 3;
 
 	/**
-	 * An array of all the '<em><b>Object State</b></em>' enumerators.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * An array of all the '<em><b>Object State</b></em>' enumerators. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	private static final ObjectState[] VALUES_ARRAY =
-		new ObjectState[] {
-			NONE,
-			INITIAL,
-			FINAL,
-			INFO,
-		};
+	private static final ObjectState[] VALUES_ARRAY = new ObjectState[] { NONE,
+			INITIAL, FINAL, INFO, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Object State</b></em>' enumerators.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * A public read-only list of all the '<em><b>Object State</b></em>'
+	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static final List<ObjectState> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ObjectState> VALUES = Collections
+			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Object State</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param literal the literal.
+	 * Returns the '<em><b>Object State</b></em>' literal with the specified
+	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param literal
+	 *            the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -147,10 +145,11 @@ public enum ObjectState implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Object State</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param name the name.
+	 * Returns the '<em><b>Object State</b></em>' literal with the specified
+	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param name
+	 *            the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -165,48 +164,53 @@ public enum ObjectState implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Object State</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the integer value.
+	 * Returns the '<em><b>Object State</b></em>' literal with the specified
+	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ObjectState get(int value) {
 		switch (value) {
-			case NONE_VALUE: return NONE;
-			case INITIAL_VALUE: return INITIAL;
-			case FINAL_VALUE: return FINAL;
-			case INFO_VALUE: return INFO;
+			case NONE_VALUE:
+				return NONE;
+			case INITIAL_VALUE:
+				return INITIAL;
+			case FINAL_VALUE:
+				return FINAL;
+			case INFO_VALUE:
+				return INFO;
 		}
 		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private ObjectState(int value, String name, String literal) {
@@ -216,44 +220,44 @@ public enum ObjectState implements Enumerator {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-	  return value;
+		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-	  return name;
+		return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-	  return literal;
+		return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string
+	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
 		return literal;
 	}
-	
-} //ObjectState
+
+} // ObjectState

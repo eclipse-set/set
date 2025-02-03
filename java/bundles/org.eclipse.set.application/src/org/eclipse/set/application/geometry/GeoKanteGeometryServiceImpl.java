@@ -227,7 +227,8 @@ public class GeoKanteGeometryServiceImpl
 	public GEOKanteCoordinate getCoordinateAt(final Punkt_Objekt punktObjekt,
 			final BigDecimal distance) {
 		final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint = punktObjekt
-				.getPunktObjektTOPKante().getFirst();
+				.getPunktObjektTOPKante()
+				.getFirst();
 		return getCoordinateAt(singlePoint, distance);
 	}
 
@@ -238,7 +239,8 @@ public class GeoKanteGeometryServiceImpl
 				|| singlePoint.getAbstand().getWert() == null) {
 			return null;
 		}
-		final BigDecimal pointDistance = singlePoint.getAbstand().getWert()
+		final BigDecimal pointDistance = singlePoint.getAbstand()
+				.getWert()
 				.add(distance);
 		final ENUMWirkrichtung direction = getNullableObject(singlePoint,
 				p -> p.getWirkrichtung().getWert()).orElse(null);
@@ -347,8 +349,9 @@ public class GeoKanteGeometryServiceImpl
 		final String key = CacheUtils.getCacheKey(topEdge, start);
 
 		return geoKanteMetadas.computeIfAbsent(key, k -> {
-			final List<Bereich_Objekt> bereichObjekt = StreamSupport.stream(
-					getContainer(start).getBereichObjekt().spliterator(), false)
+			final List<Bereich_Objekt> bereichObjekt = StreamSupport
+					.stream(getContainer(start).getBereichObjekt()
+							.spliterator(), false)
 					.toList();
 			return getTOPKanteMetadata(topEdge, start, bereichObjekt);
 		});
@@ -482,7 +485,8 @@ public class GeoKanteGeometryServiceImpl
 			geoKante = geoKanten.get(0);
 			// Adjust the length of the GEO_Kante on the TOP_Kante
 			final BigDecimal geoKanteLength = geoKante.getGEOKanteAllg()
-					.getGEOLaenge().getWert()
+					.getGEOLaenge()
+					.getWert()
 					.multiply(BigDecimal.ONE.divide(distanceScalingFactor,
 							ToolboxConstants.ROUNDING_TO_PLACE,
 							RoundingMode.HALF_UP));
@@ -517,7 +521,8 @@ public class GeoKanteGeometryServiceImpl
 			}
 		}
 
-		final BigDecimal topLength = topKante.getTOPKanteAllg().getTOPLaenge()
+		final BigDecimal topLength = topKante.getTOPKanteAllg()
+				.getTOPLaenge()
 				.getWert();
 		final BigDecimal difference = geoLength.subtract(topLength).abs();
 		final BigDecimal tolerance = BigDecimal

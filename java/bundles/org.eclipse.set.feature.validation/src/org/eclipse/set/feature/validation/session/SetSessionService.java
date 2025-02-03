@@ -94,25 +94,31 @@ public class SetSessionService implements SessionService {
 
 	protected static String getDefaultExtensionPlainPlanPro() {
 		return PLAIN_SUPPORT_MAP.get(ToolboxConstants.EXTENSION_CATEGORY_PPFILE)
-				.stream().max((a, b) -> Integer.compare(a.getPriority(),
+				.stream()
+				.max((a, b) -> Integer.compare(a.getPriority(),
 						b.getPriority()))
-				.get().getExtension();
+				.get()
+				.getExtension();
 	}
 
 	protected static String getDefaultExtensionTemporaryIntegration() {
 		return ZIPPED_SUPPORT_MAP
-				.get(ToolboxConstants.EXTENSION_CATEGORY_PPMERGE).stream()
+				.get(ToolboxConstants.EXTENSION_CATEGORY_PPMERGE)
+				.stream()
 				.max((a, b) -> Integer.compare(a.getPriority(),
 						b.getPriority()))
-				.get().getExtension();
+				.get()
+				.getExtension();
 	}
 
 	protected static String getDefaultExtensionZippedPlanPro() {
 		return ZIPPED_SUPPORT_MAP
-				.get(ToolboxConstants.EXTENSION_CATEGORY_PPFILE).stream()
+				.get(ToolboxConstants.EXTENSION_CATEGORY_PPFILE)
+				.stream()
 				.max((a, b) -> Integer.compare(a.getPriority(),
 						b.getPriority()))
-				.get().getExtension();
+				.get()
+				.getExtension();
 	}
 
 	protected List<ToolboxViewGroup> actionItems = Lists.newLinkedList();
@@ -172,17 +178,20 @@ public class SetSessionService implements SessionService {
 		final String extension = PathExtensions.getExtension(path);
 
 		if (PLAIN_SUPPORT_MAP.get(ToolboxConstants.EXTENSION_CATEGORY_PPFILE)
-				.stream().map(ToolboxFileExtension::getExtension)
+				.stream()
+				.map(ToolboxFileExtension::getExtension)
 				.anyMatch(e -> e.equals(extension))) {
 			return SetFormat.createPlainPlanPro();
 		}
 		if (ZIPPED_SUPPORT_MAP.get(ToolboxConstants.EXTENSION_CATEGORY_PPFILE)
-				.stream().map(ToolboxFileExtension::getExtension)
+				.stream()
+				.map(ToolboxFileExtension::getExtension)
 				.anyMatch(e -> e.equals(extension))) {
 			return SetFormat.createZippedPlanPro();
 		}
 		if (ZIPPED_SUPPORT_MAP.get(ToolboxConstants.EXTENSION_CATEGORY_PPMERGE)
-				.stream().map(ToolboxFileExtension::getExtension)
+				.stream()
+				.map(ToolboxFileExtension::getExtension)
 				.anyMatch(e -> e.equals(extension))) {
 			return SetFormat.createTemporaryIntegration();
 		}

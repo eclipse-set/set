@@ -22,24 +22,27 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 import org.eclipse.set.model.siteplan.TrackSwitchEndMarker;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Track Switch End Marker</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Track
+ * Switch End Marker</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchEndMarkerImpl#getLegACoordinate <em>Leg ACoordinate</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchEndMarkerImpl#getLegBCoordinate <em>Leg BCoordinate</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchEndMarkerImpl#getLegACoordinate
+ * <em>Leg ACoordinate</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchEndMarkerImpl#getLegBCoordinate
+ * <em>Leg BCoordinate</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container implements TrackSwitchEndMarker {
+public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container
+		implements TrackSwitchEndMarker {
 	/**
-	 * The cached value of the '{@link #getLegACoordinate() <em>Leg ACoordinate</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLegACoordinate() <em>Leg
+	 * ACoordinate</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getLegACoordinate()
 	 * @generated
 	 * @ordered
@@ -47,9 +50,10 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	protected Coordinate legACoordinate;
 
 	/**
-	 * The cached value of the '{@link #getLegBCoordinate() <em>Leg BCoordinate</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLegBCoordinate() <em>Leg
+	 * BCoordinate</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getLegBCoordinate()
 	 * @generated
 	 * @ordered
@@ -57,8 +61,8 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	protected Coordinate legBCoordinate;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TrackSwitchEndMarkerImpl() {
@@ -66,8 +70,8 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -76,8 +80,8 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -86,23 +90,30 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetLegACoordinate(Coordinate newLegACoordinate, NotificationChain msgs) {
+	public NotificationChain basicSetLegACoordinate(
+			Coordinate newLegACoordinate, NotificationChain msgs) {
 		Coordinate oldLegACoordinate = legACoordinate;
 		legACoordinate = newLegACoordinate;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE, oldLegACoordinate, newLegACoordinate);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE,
+					oldLegACoordinate, newLegACoordinate);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -110,19 +121,27 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 		if (newLegACoordinate != legACoordinate) {
 			NotificationChain msgs = null;
 			if (legACoordinate != null)
-				msgs = ((InternalEObject)legACoordinate).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE, null, msgs);
+				msgs = ((InternalEObject) legACoordinate).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE,
+						null, msgs);
 			if (newLegACoordinate != null)
-				msgs = ((InternalEObject)newLegACoordinate).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE, null, msgs);
+				msgs = ((InternalEObject) newLegACoordinate).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE,
+						null, msgs);
 			msgs = basicSetLegACoordinate(newLegACoordinate, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE, newLegACoordinate, newLegACoordinate));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE,
+					newLegACoordinate, newLegACoordinate));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -131,23 +150,30 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetLegBCoordinate(Coordinate newLegBCoordinate, NotificationChain msgs) {
+	public NotificationChain basicSetLegBCoordinate(
+			Coordinate newLegBCoordinate, NotificationChain msgs) {
 		Coordinate oldLegBCoordinate = legBCoordinate;
 		legBCoordinate = newLegBCoordinate;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE, oldLegBCoordinate, newLegBCoordinate);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE,
+					oldLegBCoordinate, newLegBCoordinate);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -155,23 +181,32 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 		if (newLegBCoordinate != legBCoordinate) {
 			NotificationChain msgs = null;
 			if (legBCoordinate != null)
-				msgs = ((InternalEObject)legBCoordinate).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE, null, msgs);
+				msgs = ((InternalEObject) legBCoordinate).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE,
+						null, msgs);
 			if (newLegBCoordinate != null)
-				msgs = ((InternalEObject)newLegBCoordinate).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE, null, msgs);
+				msgs = ((InternalEObject) newLegBCoordinate).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE,
+						null, msgs);
 			msgs = basicSetLegBCoordinate(newLegBCoordinate, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE, newLegBCoordinate, newLegBCoordinate));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE,
+					newLegBCoordinate, newLegBCoordinate));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE:
 				return basicSetLegACoordinate(null, msgs);
@@ -182,8 +217,8 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -198,44 +233,44 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE:
-				setLegACoordinate((Coordinate)newValue);
+				setLegACoordinate((Coordinate) newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE:
-				setLegBCoordinate((Coordinate)newValue);
+				setLegBCoordinate((Coordinate) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE:
-				setLegACoordinate((Coordinate)null);
+				setLegACoordinate((Coordinate) null);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE:
-				setLegBCoordinate((Coordinate)null);
+				setLegBCoordinate((Coordinate) null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -249,4 +284,4 @@ public class TrackSwitchEndMarkerImpl extends MinimalEObjectImpl.Container imple
 		return super.eIsSet(featureID);
 	}
 
-} //TrackSwitchEndMarkerImpl
+} // TrackSwitchEndMarkerImpl

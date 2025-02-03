@@ -52,8 +52,8 @@ public class PlainFileFormatService implements ToolboxFileFormatService {
 	@Override
 	public Collection<ToolboxFileExtension> extensionsForCategory(
 			final String category) {
-		return sessionService.getPlainSupportMap().getOrDefault(category,
-				Collections.emptySet());
+		return sessionService.getPlainSupportMap()
+				.getOrDefault(category, Collections.emptySet());
 
 	}
 
@@ -99,8 +99,8 @@ public class PlainFileFormatService implements ToolboxFileFormatService {
 			final String extension = toolboxExtension.getExtension();
 			if (extension.length() > 0) {
 				final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
-				registry.getContentTypeToFactoryMap().put(extension,
-						resourceFactory);
+				registry.getContentTypeToFactoryMap()
+						.put(extension, resourceFactory);
 			}
 		}
 		return ed;
