@@ -56,8 +56,7 @@ public class InitializationServiceImpl implements InitializationService {
 	@Override
 	public <M, C extends Configuration> void init(final M model,
 			final C configuaration) {
-		steps.stream()
-				.sorted(new StepComparator())
+		steps.stream().sorted(new StepComparator())
 				.forEach(step -> step.init(model, configuaration));
 	}
 

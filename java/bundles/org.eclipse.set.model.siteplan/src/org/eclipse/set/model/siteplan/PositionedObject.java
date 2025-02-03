@@ -8,16 +8,17 @@
  */
 package org.eclipse.set.model.siteplan;
 
+
 /**
- * <!-- begin-user-doc --> A representation of the model object
- * '<em><b>Positioned Object</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Positioned Object</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.PositionedObject#getPosition
- * <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.PositionedObject#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPositionedObject()
@@ -26,9 +27,9 @@ package org.eclipse.set.model.siteplan;
  */
 public interface PositionedObject extends SiteplanObject {
 	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Position</em>' containment reference.
 	 * @see #setPosition(Position)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPositionedObject_Position()
@@ -38,14 +39,10 @@ public interface PositionedObject extends SiteplanObject {
 	Position getPosition();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.PositionedObject#getPosition
-	 * <em>Position</em>}' containment reference. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Position</em>' containment
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.PositionedObject#getPosition <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Position</em>' containment reference.
 	 * @see #getPosition()
 	 * @generated
 	 */

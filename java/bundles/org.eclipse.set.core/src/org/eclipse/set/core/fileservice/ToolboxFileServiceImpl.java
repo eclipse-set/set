@@ -93,12 +93,9 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 	@Override
 	public ToolboxFile create(final Format format, final ToolboxFileRole role) {
 		final Optional<ToolboxFileFormatService> formatService = formats
-				.stream()
-				.filter(f -> f.isSupported(format))
-				.findFirst();
+				.stream().filter(f -> f.isSupported(format)).findFirst();
 		final ToolboxFile result = formatService
-				.map(f -> f.create(format, role))
-				.orElse(null);
+				.map(f -> f.create(format, role)).orElse(null);
 		if (result == null) {
 			throw new IllegalArgumentException(
 					"path \"" + format.toString() + "\" not supported."); //$NON-NLS-1$ //$NON-NLS-2$
@@ -109,9 +106,7 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 	@Override
 	public ToolboxFile create(final ToolboxFile toolboxFile) {
 		final Optional<ToolboxFileFormatService> formatService = formats
-				.stream()
-				.filter(f -> f.isSupported(toolboxFile))
-				.findFirst();
+				.stream().filter(f -> f.isSupported(toolboxFile)).findFirst();
 		final ToolboxFile result = formatService.map(f -> f.create(toolboxFile))
 				.orElse(null);
 		if (result == null) {
@@ -127,16 +122,13 @@ public class ToolboxFileServiceImpl implements ToolboxFileService {
 				.flatMap(f -> f.extensionsForCategory(category).stream())
 				.sorted((a, b) -> Integer.compare(b.getPriority(),
 						a.getPriority()))
-				.map(e -> e.getExtension())
-				.collect(Collectors.toList());
+				.map(e -> e.getExtension()).collect(Collectors.toList());
 	}
 
 	@Override
 	public ToolboxFile load(final Path path, final ToolboxFileRole role) {
 		final Optional<ToolboxFileFormatService> formatService = formats
-				.stream()
-				.filter(f -> f.isSupported(path))
-				.findFirst();
+				.stream().filter(f -> f.isSupported(path)).findFirst();
 		final ToolboxFile result = formatService.map(f -> f.load(path, role))
 				.orElse(null);
 		if (result == null) {

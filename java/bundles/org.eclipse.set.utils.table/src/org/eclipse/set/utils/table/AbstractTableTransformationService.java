@@ -85,8 +85,7 @@ public abstract class AbstractTableTransformationService<T>
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
 		// default comparator
-		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
 				.build();
 	}
 

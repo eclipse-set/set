@@ -98,8 +98,7 @@ public class Digraphs {
 	public static <E, N, P> Set<DirectedEdgePath<E, N, P>> getPaths(
 			final Digraph<E, N, P> digraph, final P startPoint,
 			final P endPoint) {
-		return digraph.getEdges()
-				.stream()
+		return digraph.getEdges().stream()
 				.filter(edge -> edge.contains(startPoint))
 				.flatMap(startEdge -> getPaths(startEdge, digraph, startPoint,
 						endPoint).stream())

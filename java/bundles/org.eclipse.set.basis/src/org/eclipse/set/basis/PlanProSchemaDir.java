@@ -166,8 +166,7 @@ public class PlanProSchemaDir {
 	private static final String SEPARATOR = "/"; //$NON-NLS-1$
 
 	private static boolean isPlanProPath(final Path path) {
-		return path.getFileName()
-				.toString()
+		return path.getFileName().toString()
 				.equalsIgnoreCase(PLANPRO_SCHEMA_NAME);
 	}
 
@@ -175,8 +174,7 @@ public class PlanProSchemaDir {
 	 * @return the optional PlanPro schema path
 	 */
 	public static Optional<Path> getPlanProSchemaPath() {
-		return getSchemaPaths().stream()
-				.filter(PlanProSchemaDir::isPlanProPath)
+		return getSchemaPaths().stream().filter(PlanProSchemaDir::isPlanProPath)
 				.findFirst();
 	}
 

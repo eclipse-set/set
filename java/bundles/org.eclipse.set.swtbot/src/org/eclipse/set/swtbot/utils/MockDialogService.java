@@ -141,8 +141,7 @@ public class MockDialogService implements DialogService {
 		final List<ToolboxFileFilter> csvFileFilters = new LinkedList<>();
 		csvFileFilters.add(ToolboxFileFilterBuilder.forName("CSV")
 				.add(PathExtensions.CSV_FILE_EXTENSIONS)
-				.filterNameWithFilterList(true)
-				.create());
+				.filterNameWithFilterList(true).create());
 		return csvFileFilters;
 	}
 

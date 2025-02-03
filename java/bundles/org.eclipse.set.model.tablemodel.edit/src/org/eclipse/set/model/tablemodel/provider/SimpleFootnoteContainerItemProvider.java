@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.model.tablemodel.provider;
 
+
 import java.util.Collection;
 import java.util.List;
 
@@ -25,18 +26,16 @@ import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is the item provider adapter for a {@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer} object.
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
  * @generated
  */
-public class SimpleFootnoteContainerItemProvider
-		extends FootnoteContainerItemProvider {
+public class SimpleFootnoteContainerItemProvider extends FootnoteContainerItemProvider {
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public SimpleFootnoteContainerItemProvider(AdapterFactory adapterFactory) {
@@ -44,9 +43,9 @@ public class SimpleFootnoteContainerItemProvider
 	}
 
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -59,56 +58,50 @@ public class SimpleFootnoteContainerItemProvider
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(
-					TablemodelPackage.Literals.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
+			childrenFeatures.add(TablemodelPackage.Literals.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 		}
 		return childrenFeatures;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This returns SimpleFootnoteContainer.gif. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * This returns SimpleFootnoteContainer.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator()
-				.getImage("full/obj16/SimpleFootnoteContainer"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/SimpleFootnoteContainer"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -116,12 +109,12 @@ public class SimpleFootnoteContainerItemProvider
 		return getString("_UI_SimpleFootnoteContainer_type");
 	}
 
+
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -130,28 +123,27 @@ public class SimpleFootnoteContainerItemProvider
 
 		switch (notification.getFeatureID(SimpleFootnoteContainer.class)) {
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
-				fireNotifyChanged(new ViewerNotification(notification,
-						notification.getNotifier(), true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
 	}
 
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	protected void collectNewChildDescriptors(
-			Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(
-				TablemodelPackage.Literals.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES,
-				BasisobjekteFactory.eINSTANCE.createBearbeitungsvermerk()));
+		newChildDescriptors.add
+			(createChildParameter
+				(TablemodelPackage.Literals.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES,
+				 BasisobjekteFactory.eINSTANCE.createBearbeitungsvermerk()));
 	}
 
 }

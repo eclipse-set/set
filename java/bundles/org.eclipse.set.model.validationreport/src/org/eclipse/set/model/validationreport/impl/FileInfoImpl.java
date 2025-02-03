@@ -25,18 +25,12 @@ import org.eclipse.set.model.validationreport.VersionInfo;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getFileName
- * <em>File Name</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getUsedVersion
- * <em>Used Version</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getChecksum
- * <em>Checksum</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getGuid
- * <em>Guid</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getTimeStamp
- * <em>Time Stamp</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getContainerContents
- * <em>Container Contents</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getFileName <em>File Name</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getUsedVersion <em>Used Version</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getChecksum <em>Checksum</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getGuid <em>Guid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getTimeStamp <em>Time Stamp</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.FileInfoImpl#getContainerContents <em>Container Contents</em>}</li>
  * </ul>
  *
  * @generated
@@ -44,9 +38,8 @@ import org.eclipse.set.model.validationreport.VersionInfo;
 public class FileInfoImpl extends MinimalEObjectImpl.Container
 		implements FileInfo {
 	/**
-	 * The default value of the '{@link #getFileName() <em>File Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getFileName() <em>File Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFileName()
 	 * @generated
 	 * @ordered
@@ -54,9 +47,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected static final String FILE_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getFileName() <em>File Name</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFileName() <em>File Name</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFileName()
 	 * @generated
 	 * @ordered
@@ -64,9 +56,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected String fileName = FILE_NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getUsedVersion() <em>Used Version</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getUsedVersion() <em>Used Version</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getUsedVersion()
 	 * @generated
 	 * @ordered
@@ -74,9 +65,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected VersionInfo usedVersion;
 
 	/**
-	 * The default value of the '{@link #getChecksum() <em>Checksum</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getChecksum() <em>Checksum</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getChecksum()
 	 * @generated
 	 * @ordered
@@ -84,9 +74,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected static final String CHECKSUM_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getChecksum() <em>Checksum</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getChecksum() <em>Checksum</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getChecksum()
 	 * @generated
 	 * @ordered
@@ -96,7 +85,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	/**
 	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -106,7 +94,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -114,9 +101,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected String guid = GUID_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getTimeStamp() <em>Time Stamp</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTimeStamp() <em>Time Stamp</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTimeStamp()
 	 * @generated
 	 * @ordered
@@ -124,9 +110,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected static final String TIME_STAMP_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getTimeStamp() <em>Time Stamp</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTimeStamp() <em>Time Stamp</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTimeStamp()
 	 * @generated
 	 * @ordered
@@ -134,9 +119,9 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected String timeStamp = TIME_STAMP_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getContainerContents() <em>Container
-	 * Contents</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getContainerContents() <em>Container Contents</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getContainerContents()
 	 * @generated
 	 * @ordered
@@ -144,9 +129,9 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	protected static final String CONTAINER_CONTENTS_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getContainerContents() <em>Container
-	 * Contents</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getContainerContents() <em>Container Contents</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getContainerContents()
 	 * @generated
 	 * @ordered
@@ -155,7 +140,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected FileInfoImpl() {
@@ -164,29 +148,21 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetUsedVersion(VersionInfo newUsedVersion,
-			NotificationChain msgs) {
+	public NotificationChain basicSetUsedVersion(
+			VersionInfo newUsedVersion, NotificationChain msgs) {
 		VersionInfo oldUsedVersion = usedVersion;
 		usedVersion = newUsedVersion;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					ValidationreportPackage.FILE_INFO__USED_VERSION,
-					oldUsedVersion, newUsedVersion);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ValidationreportPackage.FILE_INFO__USED_VERSION, oldUsedVersion, newUsedVersion);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -210,12 +186,10 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ValidationreportPackage.FILE_INFO__USED_VERSION:
 				return basicSetUsedVersion(null, msgs);
@@ -225,38 +199,29 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ValidationreportPackage.FILE_INFO__FILE_NAME:
-				return FILE_NAME_EDEFAULT == null ? fileName != null
-						: !FILE_NAME_EDEFAULT.equals(fileName);
+				return FILE_NAME_EDEFAULT == null ? fileName != null : !FILE_NAME_EDEFAULT.equals(fileName);
 			case ValidationreportPackage.FILE_INFO__USED_VERSION:
 				return usedVersion != null;
 			case ValidationreportPackage.FILE_INFO__CHECKSUM:
-				return CHECKSUM_EDEFAULT == null ? checksum != null
-						: !CHECKSUM_EDEFAULT.equals(checksum);
+				return CHECKSUM_EDEFAULT == null ? checksum != null : !CHECKSUM_EDEFAULT.equals(checksum);
 			case ValidationreportPackage.FILE_INFO__GUID:
-				return GUID_EDEFAULT == null ? guid != null
-						: !GUID_EDEFAULT.equals(guid);
+				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
 			case ValidationreportPackage.FILE_INFO__TIME_STAMP:
-				return TIME_STAMP_EDEFAULT == null ? timeStamp != null
-						: !TIME_STAMP_EDEFAULT.equals(timeStamp);
+				return TIME_STAMP_EDEFAULT == null ? timeStamp != null : !TIME_STAMP_EDEFAULT.equals(timeStamp);
 			case ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS:
-				return CONTAINER_CONTENTS_EDEFAULT == null
-						? containerContents != null
-						: !CONTAINER_CONTENTS_EDEFAULT
-								.equals(containerContents);
+				return CONTAINER_CONTENTS_EDEFAULT == null ? containerContents != null : !CONTAINER_CONTENTS_EDEFAULT.equals(containerContents);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -264,22 +229,22 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ValidationreportPackage.FILE_INFO__FILE_NAME:
-				setFileName((String) newValue);
+				setFileName((String)newValue);
 				return;
 			case ValidationreportPackage.FILE_INFO__USED_VERSION:
-				setUsedVersion((VersionInfo) newValue);
+				setUsedVersion((VersionInfo)newValue);
 				return;
 			case ValidationreportPackage.FILE_INFO__CHECKSUM:
-				setChecksum((String) newValue);
+				setChecksum((String)newValue);
 				return;
 			case ValidationreportPackage.FILE_INFO__GUID:
-				setGuid((String) newValue);
+				setGuid((String)newValue);
 				return;
 			case ValidationreportPackage.FILE_INFO__TIME_STAMP:
-				setTimeStamp((String) newValue);
+				setTimeStamp((String)newValue);
 				return;
 			case ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS:
-				setContainerContents((String) newValue);
+				setContainerContents((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -287,7 +252,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -297,7 +261,7 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 				setFileName(FILE_NAME_EDEFAULT);
 				return;
 			case ValidationreportPackage.FILE_INFO__USED_VERSION:
-				setUsedVersion((VersionInfo) null);
+				setUsedVersion((VersionInfo)null);
 				return;
 			case ValidationreportPackage.FILE_INFO__CHECKSUM:
 				setChecksum(CHECKSUM_EDEFAULT);
@@ -317,7 +281,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -327,7 +290,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -337,7 +299,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -347,7 +308,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -357,7 +317,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -367,7 +326,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -375,14 +333,11 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 		String oldChecksum = checksum;
 		checksum = newChecksum;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.FILE_INFO__CHECKSUM, oldChecksum,
-					checksum));
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.FILE_INFO__CHECKSUM, oldChecksum, checksum));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -390,14 +345,11 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 		String oldFileName = fileName;
 		fileName = newFileName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.FILE_INFO__FILE_NAME, oldFileName,
-					fileName));
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.FILE_INFO__FILE_NAME, oldFileName, fileName));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -405,13 +357,11 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 		String oldGuid = guid;
 		guid = newGuid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.FILE_INFO__GUID, oldGuid, guid));
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.FILE_INFO__GUID, oldGuid, guid));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -419,14 +369,12 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 		String oldTimeStamp = timeStamp;
 		timeStamp = newTimeStamp;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.FILE_INFO__TIME_STAMP, oldTimeStamp,
-					timeStamp));
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.FILE_INFO__TIME_STAMP, oldTimeStamp, timeStamp));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -435,8 +383,8 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -444,14 +392,11 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 		String oldContainerContents = containerContents;
 		containerContents = newContainerContents;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS,
-					oldContainerContents, containerContents));
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.FILE_INFO__CONTAINER_CONTENTS, oldContainerContents, containerContents));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -459,33 +404,23 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 		if (newUsedVersion != usedVersion) {
 			NotificationChain msgs = null;
 			if (usedVersion != null)
-				msgs = ((InternalEObject) usedVersion).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- ValidationreportPackage.FILE_INFO__USED_VERSION,
-						null, msgs);
+				msgs = ((InternalEObject)usedVersion).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ValidationreportPackage.FILE_INFO__USED_VERSION, null, msgs);
 			if (newUsedVersion != null)
-				msgs = ((InternalEObject) newUsedVersion).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- ValidationreportPackage.FILE_INFO__USED_VERSION,
-						null, msgs);
+				msgs = ((InternalEObject)newUsedVersion).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ValidationreportPackage.FILE_INFO__USED_VERSION, null, msgs);
 			msgs = basicSetUsedVersion(newUsedVersion, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.FILE_INFO__USED_VERSION,
-					newUsedVersion, newUsedVersion));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.FILE_INFO__USED_VERSION, newUsedVersion, newUsedVersion));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (fileName: ");
@@ -504,7 +439,6 @@ public class FileInfoImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

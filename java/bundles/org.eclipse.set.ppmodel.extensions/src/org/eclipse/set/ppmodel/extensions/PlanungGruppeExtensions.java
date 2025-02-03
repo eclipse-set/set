@@ -122,26 +122,20 @@ public class PlanungGruppeExtensions {
 					: StreamSupport
 							.stream(lstPlanungGruppes.get().spliterator(),
 									false)
-							.filter(group -> group.getIdentitaet()
-									.getWert()
+							.filter(group -> group.getIdentitaet().getWert()
 									.equals(guid))
 							.findFirst();
 		}
 		final List<Planung_Gruppe> relevantGroups = StreamSupport
 				.stream(lstPlanungGruppes.get().spliterator(), false)
-				.filter(group -> group.getPlanungGAllg()
-						.getUntergewerkArt()
-						.getWert()
-						.getLiteral()
-						.equals(subworkType))
+				.filter(group -> group.getPlanungGAllg().getUntergewerkArt()
+						.getWert().getLiteral().equals(subworkType))
 				.toList();
 		return guid.isBlank() || guid.isEmpty()
 				? Optional.ofNullable(
 						IterableExtensions.getFirstOrNull(relevantGroups))
-				: relevantGroups.stream()
-						.filter(group -> group.getIdentitaet()
-								.getWert()
-								.equals(guid))
+				: relevantGroups.stream().filter(
+						group -> group.getIdentitaet().getWert().equals(guid))
 						.findFirst();
 	}
 

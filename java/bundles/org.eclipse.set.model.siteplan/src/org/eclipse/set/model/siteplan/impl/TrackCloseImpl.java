@@ -16,23 +16,23 @@ import org.eclipse.set.model.siteplan.TrackClose;
 import org.eclipse.set.model.siteplan.TrackCloseType;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Track
- * Close</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Track Close</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackCloseImpl#getTrackCloseType
- * <em>Track Close Type</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackCloseImpl#getTrackCloseType <em>Track Close Type</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	/**
-	 * The default value of the '{@link #getTrackCloseType() <em>Track Close
-	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTrackCloseType() <em>Track Close Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getTrackCloseType()
 	 * @generated
 	 * @ordered
@@ -40,9 +40,9 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	protected static final TrackCloseType TRACK_CLOSE_TYPE_EDEFAULT = TrackCloseType.FRICTION_BUFFER_STOP;
 
 	/**
-	 * The cached value of the '{@link #getTrackCloseType() <em>Track Close
-	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTrackCloseType() <em>Track Close Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getTrackCloseType()
 	 * @generated
 	 * @ordered
@@ -50,8 +50,8 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	protected TrackCloseType trackCloseType = TRACK_CLOSE_TYPE_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TrackCloseImpl() {
@@ -59,8 +59,8 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -69,8 +69,8 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -79,24 +79,21 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setTrackCloseType(TrackCloseType newTrackCloseType) {
 		TrackCloseType oldTrackCloseType = trackCloseType;
-		trackCloseType = newTrackCloseType == null ? TRACK_CLOSE_TYPE_EDEFAULT
-				: newTrackCloseType;
+		trackCloseType = newTrackCloseType == null ? TRACK_CLOSE_TYPE_EDEFAULT : newTrackCloseType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_CLOSE__TRACK_CLOSE_TYPE,
-					oldTrackCloseType, trackCloseType));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_CLOSE__TRACK_CLOSE_TYPE, oldTrackCloseType, trackCloseType));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -109,23 +106,23 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_CLOSE__TRACK_CLOSE_TYPE:
-				setTrackCloseType((TrackCloseType) newValue);
+				setTrackCloseType((TrackCloseType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -139,8 +136,8 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -153,14 +150,13 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (trackCloseType: ");
@@ -169,4 +165,4 @@ public class TrackCloseImpl extends PositionedObjectImpl implements TrackClose {
 		return result.toString();
 	}
 
-} // TrackCloseImpl
+} //TrackCloseImpl

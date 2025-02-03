@@ -124,17 +124,17 @@ public abstract class AbstractPlanPro2TableTransformationService
 				// and Excel table start with row index column
 				final int columnIdx = cell.getColumnIndex() - 1;
 				switch (alignment) {
-					case LEFT: {
-						setTextAlignment(table, columnIdx, TextAlignment.LEFT);
-						break;
-					}
-					case RIGHT: {
-						setTextAlignment(table, columnIdx, TextAlignment.RIGHT);
-						break;
-					}
-					// Another align will ignore
-					default:
-						break;
+				case LEFT: {
+					setTextAlignment(table, columnIdx, TextAlignment.LEFT);
+					break;
+				}
+				case RIGHT: {
+					setTextAlignment(table, columnIdx, TextAlignment.RIGHT);
+					break;
+				}
+				// Another align will ignore
+				default:
+					break;
 				}
 			}
 

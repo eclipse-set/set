@@ -30,9 +30,7 @@ public class SupportMapExtensions {
 	 */
 	public static Set<String> getSupportedExtensions(
 			final Map<String, Set<ToolboxFileExtension>> supportMap) {
-		return supportMap.values()
-				.stream()
-				.flatMap(Set::stream)
+		return supportMap.values().stream().flatMap(Set::stream)
 				.map(ToolboxFileExtension::getExtension)
 				.collect(Collectors.toSet());
 	}

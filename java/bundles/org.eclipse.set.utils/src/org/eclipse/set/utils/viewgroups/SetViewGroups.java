@@ -33,53 +33,42 @@ public class SetViewGroups {
 		DEVELOPMENT = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Development)
 				.withIcon(SetImages.IC_BUILD_BLACK_18DP_1X)
-				.withOrderPriority(100)
-				.setDevelopment(true)
-				.build();
+				.withOrderPriority(100).setDevelopment(true).build();
 		EDIT = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Edit)
 				.withIcon(SetImages.IC_EDIT_BLACK_18DP_1X)
-				.withOrderPriority(500)
-				.build();
+				.withOrderPriority(500).build();
 		EXPORT = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Export)
 				.withIcon(SetImages.IC_FILE_DOWNLOAD_BLACK_18DP_1X)
-				.withOrderPriority(150)
-				.build();
+				.withOrderPriority(150).build();
 
 		INFORMATION = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Information)
 				.withIcon(SetImages.IC_INFO_OUTLINE_BLACK_18DP_1X)
-				.withOrderPriority(600)
-				.setInitiallyExpanded(true)
-				.build();
+				.withOrderPriority(600).setInitiallyExpanded(true).build();
 
 		INVISIBLE = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Information)
 				.withIcon(SetImages.IC_INFO_OUTLINE_BLACK_18DP_1X)
-				.setInvisible(true)
-				.build();
+				.setInvisible(true).build();
 
 		SITEPLAN = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Siteplan)
-				.withIcon(SetImages.IC_MAP_BLACK_18DP_1X)
-				.withOrderPriority(400)
+				.withIcon(SetImages.IC_MAP_BLACK_18DP_1X).withOrderPriority(400)
 				.build();
 		TABLE_ESTW = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Table_ESTW)
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
-				.withOrderPriority(300)
-				.build();
+				.withOrderPriority(300).build();
 		TABLE_ETCS = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Table_ETCS)
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
-				.withOrderPriority(250)
-				.build();
+				.withOrderPriority(250).build();
 		TABLE_ESTW_SUPPLEMENT = new ToolboxViewGroup.Builder()
 				.withText(Messages.SetViewGroups_Table_ESTW_Supplement)
 				.withIcon(SetImages.IC_GRID_ON_BLACK_18DP_1X)
-				.withOrderPriority(200)
-				.build();
+				.withOrderPriority(200).build();
 	}
 
 	/**

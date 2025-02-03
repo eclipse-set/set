@@ -19,26 +19,24 @@ import org.eclipse.set.model.siteplan.RouteLocation;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Route
- * Location</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Route Location</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteLocationImpl#getKm
- * <em>Km</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteLocationImpl#getRoute
- * <em>Route</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteLocationImpl#getKm <em>Km</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteLocationImpl#getRoute <em>Route</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class RouteLocationImpl extends MinimalEObjectImpl.Container
-		implements RouteLocation {
+public class RouteLocationImpl extends MinimalEObjectImpl.Container implements RouteLocation {
 	/**
-	 * The default value of the '{@link #getKm() <em>Km</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getKm() <em>Km</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getKm()
 	 * @generated
 	 * @ordered
@@ -46,9 +44,9 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	protected static final String KM_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getKm() <em>Km</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getKm() <em>Km</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getKm()
 	 * @generated
 	 * @ordered
@@ -57,8 +55,8 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The default value of the '{@link #getRoute() <em>Route</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRoute()
 	 * @generated
 	 * @ordered
@@ -67,8 +65,8 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getRoute() <em>Route</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRoute()
 	 * @generated
 	 * @ordered
@@ -76,8 +74,8 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	protected String route = ROUTE_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected RouteLocationImpl() {
@@ -85,8 +83,8 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -95,8 +93,8 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -105,8 +103,8 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -114,13 +112,12 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 		String oldKm = km;
 		km = newKm;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.ROUTE_LOCATION__KM, oldKm, km));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.ROUTE_LOCATION__KM, oldKm, km));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -129,8 +126,8 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -138,13 +135,12 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 		String oldRoute = route;
 		route = newRoute;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.ROUTE_LOCATION__ROUTE, oldRoute, route));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.ROUTE_LOCATION__ROUTE, oldRoute, route));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -159,26 +155,26 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE_LOCATION__KM:
-				setKm((String) newValue);
+				setKm((String)newValue);
 				return;
 			case SiteplanPackage.ROUTE_LOCATION__ROUTE:
-				setRoute((String) newValue);
+				setRoute((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -195,32 +191,29 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE_LOCATION__KM:
-				return KM_EDEFAULT == null ? km != null
-						: !KM_EDEFAULT.equals(km);
+				return KM_EDEFAULT == null ? km != null : !KM_EDEFAULT.equals(km);
 			case SiteplanPackage.ROUTE_LOCATION__ROUTE:
-				return ROUTE_EDEFAULT == null ? route != null
-						: !ROUTE_EDEFAULT.equals(route);
+				return ROUTE_EDEFAULT == null ? route != null : !ROUTE_EDEFAULT.equals(route);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (km: ");
@@ -231,4 +224,4 @@ public class RouteLocationImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // RouteLocationImpl
+} //RouteLocationImpl

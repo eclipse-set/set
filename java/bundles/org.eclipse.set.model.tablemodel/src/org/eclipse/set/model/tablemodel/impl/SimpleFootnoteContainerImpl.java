@@ -18,24 +18,23 @@ import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Simple
- * Footnote Container</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Simple Footnote Container</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl#getFootnotes
- * <em>Footnotes</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl#getFootnotes <em>Footnotes</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
-		implements SimpleFootnoteContainer {
+public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl implements SimpleFootnoteContainer {
 	/**
-	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}'
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getFootnotes()
 	 * @generated
 	 * @ordered
@@ -43,8 +42,8 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	protected EList<Bearbeitungsvermerk> footnotes;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected SimpleFootnoteContainerImpl() {
@@ -52,8 +51,8 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -62,23 +61,21 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<Bearbeitungsvermerk> getFootnotes() {
 		if (footnotes == null) {
-			footnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(
-					Bearbeitungsvermerk.class, this,
-					TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
+			footnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES);
 		}
 		return footnotes;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -91,8 +88,8 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -101,16 +98,15 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 		switch (featureID) {
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES:
 				getFootnotes().clear();
-				getFootnotes().addAll(
-						(Collection<? extends Bearbeitungsvermerk>) newValue);
+				getFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -124,8 +120,8 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -137,4 +133,4 @@ public class SimpleFootnoteContainerImpl extends FootnoteContainerImpl
 		return super.eIsSet(featureID);
 	}
 
-} // SimpleFootnoteContainerImpl
+} //SimpleFootnoteContainerImpl

@@ -39,18 +39,10 @@ public interface BankService {
 		public boolean isOnBankingLine(final TopPoint point) {
 			final BigDecimal pointDistance = point.distance();
 			if (path == null) {
-				final BigDecimal ueLeft = line.getIDUeberhoehungA()
-						.getValue()
-						.getPunktObjektTOPKante()
-						.get(0)
-						.getAbstand()
-						.getWert();
-				final BigDecimal ueRight = line.getIDUeberhoehungB()
-						.getValue()
-						.getPunktObjektTOPKante()
-						.get(0)
-						.getAbstand()
-						.getWert();
+				final BigDecimal ueLeft = line.getIDUeberhoehungA().getValue()
+						.getPunktObjektTOPKante().get(0).getAbstand().getWert();
+				final BigDecimal ueRight = line.getIDUeberhoehungB().getValue()
+						.getPunktObjektTOPKante().get(0).getAbstand().getWert();
 				final BigDecimal min = ueLeft.min(ueRight);
 				final BigDecimal max = ueLeft.max(ueRight);
 

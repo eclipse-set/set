@@ -57,15 +57,13 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 	}
 
 	private static boolean isEstw(final Planung_Projekt project) {
-		return project.getLSTPlanungGruppe()
-				.stream()
+		return project.getLSTPlanungGruppe().stream()
 				.anyMatch(x -> getUntergewerkArt(
 						x) == ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_ESTW);
 	}
 
 	private static boolean isGeo(final Planung_Projekt project) {
-		return project.getLSTPlanungGruppe()
-				.stream()
+		return project.getLSTPlanungGruppe().stream()
 				.anyMatch(x -> getUntergewerkArt(
 						x) == ENUMUntergewerkArt.ENUM_UNTERGEWERK_ART_GEO);
 	}
@@ -76,15 +74,12 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 		// Single states have neither LST Planung nor Planung Projekt
 		if (planProIterface.getLSTPlanung() != null) {
 			final List<Planung_Projekt> projects = planProIterface
-					.getLSTPlanung()
-					.getObjektmanagement()
+					.getLSTPlanung().getObjektmanagement()
 					.getLSTPlanungProjekt();
 			final Optional<Planung_Projekt> firstESTWProject = projects.stream()
-					.filter(PlanningAccessServiceImpl::isEstw)
-					.findFirst();
+					.filter(PlanningAccessServiceImpl::isEstw).findFirst();
 			final Optional<Planung_Projekt> firstGeoProject = projects.stream()
-					.filter(PlanningAccessServiceImpl::isGeo)
-					.findFirst();
+					.filter(PlanningAccessServiceImpl::isGeo).findFirst();
 
 			// return the first ESTW project (if present)
 			if (firstESTWProject.isPresent()) {
@@ -145,16 +140,13 @@ public class PlanningAccessServiceImpl implements PlanningAccessService {
 		if (projectToBeReplaced == null) {
 			// if there is no project, we just add the new one
 			createPrerequisiteElements(planProIterface);
-			planProIterface.getLSTPlanung()
-					.getObjektmanagement()
-					.getLSTPlanungProjekt()
-					.add(project);
+			planProIterface.getLSTPlanung().getObjektmanagement()
+					.getLSTPlanungProjekt().add(project);
 		} else {
 			// if there is a project to be replaced, we replace it with the new
 			// one (if it's really new)
 			final List<Planung_Projekt> projects = planProIterface
-					.getLSTPlanung()
-					.getObjektmanagement()
+					.getLSTPlanung().getObjektmanagement()
 					.getLSTPlanungProjekt();
 			final int index = projects.indexOf(projectToBeReplaced);
 			Assert.isTrue(index >= 0);

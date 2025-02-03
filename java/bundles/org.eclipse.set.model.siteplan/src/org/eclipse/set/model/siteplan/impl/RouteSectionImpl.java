@@ -30,28 +30,25 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 import org.eclipse.set.model.siteplan.TrackShape;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Route
- * Section</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Route Section</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteSectionImpl#getGuid
- * <em>Guid</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteSectionImpl#getShape
- * <em>Shape</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteSectionImpl#getPositions
- * <em>Positions</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteSectionImpl#getGuid <em>Guid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteSectionImpl#getShape <em>Shape</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteSectionImpl#getPositions <em>Positions</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class RouteSectionImpl extends MinimalEObjectImpl.Container
-		implements RouteSection {
+public class RouteSectionImpl extends MinimalEObjectImpl.Container implements RouteSection {
 	/**
 	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -60,8 +57,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -70,8 +67,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The default value of the '{@link #getShape() <em>Shape</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getShape()
 	 * @generated
 	 * @ordered
@@ -80,8 +77,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getShape() <em>Shape</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getShape()
 	 * @generated
 	 * @ordered
@@ -89,9 +86,9 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	protected TrackShape shape = SHAPE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getPositions() <em>Positions</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPositions() <em>Positions</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPositions()
 	 * @generated
 	 * @ordered
@@ -99,8 +96,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	protected EList<Coordinate> positions;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected RouteSectionImpl() {
@@ -108,8 +105,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -118,8 +115,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -128,8 +125,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -137,13 +134,12 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 		String oldGuid = guid;
 		guid = newGuid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.ROUTE_SECTION__GUID, oldGuid, guid));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.ROUTE_SECTION__GUID, oldGuid, guid));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -152,8 +148,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -161,44 +157,39 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 		TrackShape oldShape = shape;
 		shape = newShape == null ? SHAPE_EDEFAULT : newShape;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.ROUTE_SECTION__SHAPE, oldShape, shape));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.ROUTE_SECTION__SHAPE, oldShape, shape));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<Coordinate> getPositions() {
 		if (positions == null) {
-			positions = new EObjectContainmentEList<Coordinate>(
-					Coordinate.class, this,
-					SiteplanPackage.ROUTE_SECTION__POSITIONS);
+			positions = new EObjectContainmentEList<Coordinate>(Coordinate.class, this, SiteplanPackage.ROUTE_SECTION__POSITIONS);
 		}
 		return positions;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE_SECTION__POSITIONS:
-				return ((InternalEList<?>) getPositions()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getPositions()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -215,8 +206,8 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -224,23 +215,22 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE_SECTION__GUID:
-				setGuid((String) newValue);
+				setGuid((String)newValue);
 				return;
 			case SiteplanPackage.ROUTE_SECTION__SHAPE:
-				setShape((TrackShape) newValue);
+				setShape((TrackShape)newValue);
 				return;
 			case SiteplanPackage.ROUTE_SECTION__POSITIONS:
 				getPositions().clear();
-				getPositions()
-						.addAll((Collection<? extends Coordinate>) newValue);
+				getPositions().addAll((Collection<? extends Coordinate>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -260,16 +250,15 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE_SECTION__GUID:
-				return GUID_EDEFAULT == null ? guid != null
-						: !GUID_EDEFAULT.equals(guid);
+				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
 			case SiteplanPackage.ROUTE_SECTION__SHAPE:
 				return shape != SHAPE_EDEFAULT;
 			case SiteplanPackage.ROUTE_SECTION__POSITIONS:
@@ -279,14 +268,13 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (guid: ");
@@ -297,4 +285,4 @@ public class RouteSectionImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // RouteSectionImpl
+} //RouteSectionImpl

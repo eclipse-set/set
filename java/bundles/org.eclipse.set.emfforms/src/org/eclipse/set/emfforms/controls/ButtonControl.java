@@ -63,10 +63,8 @@ public class ButtonControl extends ECPAbstractCustomControlSWT {
 		// the button
 		final Button button = new Button(parent, SWT.PUSH);
 		button.setText(buttonText);
-		GridDataFactory.swtDefaults()
-				.minSize(buttonWidth, 0)
-				.hint(buttonWidth, SWT.DEFAULT)
-				.applyTo(button);
+		GridDataFactory.swtDefaults().minSize(buttonWidth, 0)
+				.hint(buttonWidth, SWT.DEFAULT).applyTo(button);
 		final RendererContextImpl rendererContext = new RendererContextImpl();
 		rendererContext.put(Button.class, button);
 		buttonAction.register(rendererContext);

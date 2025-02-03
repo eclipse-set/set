@@ -63,10 +63,8 @@ public class BrowserPdfViewer implements PdfViewer, DownloadListener {
 				browser.getBrowser().setDownloadListener(this);
 				browser.serveRootDirectory(Path.of(PDF_VIEWER_PATH));
 
-				GridDataFactory.swtDefaults()
-						.align(SWT.FILL, SWT.FILL)
-						.grab(true, true)
-						.span(2, 1)
+				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
+						.grab(true, true).span(2, 1)
 						.applyTo(browser.getControl());
 			}
 

@@ -25,38 +25,30 @@ import org.eclipse.set.model.siteplan.TrackSwitchLeg;
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Track
- * Switch Component</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Track Switch Component</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getPreferredLocation
- * <em>Preferred Location</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getPointDetectorCount
- * <em>Point Detector Count</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getStart
- * <em>Start</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getLabelPosition
- * <em>Label Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getOperatingMode
- * <em>Operating Mode</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getMainLeg
- * <em>Main Leg</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getSideLeg
- * <em>Side Leg</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getPreferredLocation <em>Preferred Location</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getPointDetectorCount <em>Point Detector Count</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getStart <em>Start</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getLabelPosition <em>Label Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getOperatingMode <em>Operating Mode</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getMainLeg <em>Main Leg</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchComponentImpl#getSideLeg <em>Side Leg</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TrackSwitchComponentImpl extends RouteObjectImpl
-		implements TrackSwitchComponent {
+public class TrackSwitchComponentImpl extends RouteObjectImpl implements TrackSwitchComponent {
 	/**
-	 * The default value of the '{@link #getPreferredLocation() <em>Preferred
-	 * Location</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPreferredLocation() <em>Preferred Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPreferredLocation()
 	 * @generated
 	 * @ordered
@@ -64,9 +56,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected static final LeftRight PREFERRED_LOCATION_EDEFAULT = LeftRight.LEFT;
 
 	/**
-	 * The cached value of the '{@link #getPreferredLocation() <em>Preferred
-	 * Location</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPreferredLocation() <em>Preferred Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPreferredLocation()
 	 * @generated
 	 * @ordered
@@ -74,10 +66,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected LeftRight preferredLocation = PREFERRED_LOCATION_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getPointDetectorCount() <em>Point
-	 * Detector Count</em>}' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPointDetectorCount() <em>Point Detector Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPointDetectorCount()
 	 * @generated
 	 * @ordered
@@ -85,10 +76,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected static final int POINT_DETECTOR_COUNT_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getPointDetectorCount() <em>Point
-	 * Detector Count</em>}' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPointDetectorCount() <em>Point Detector Count</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPointDetectorCount()
 	 * @generated
 	 * @ordered
@@ -96,9 +86,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected int pointDetectorCount = POINT_DETECTOR_COUNT_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getStart() <em>Start</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStart() <em>Start</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getStart()
 	 * @generated
 	 * @ordered
@@ -106,10 +96,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected Position start;
 
 	/**
-	 * The cached value of the '{@link #getLabelPosition() <em>Label
-	 * Position</em>}' containment reference. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabelPosition() <em>Label Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabelPosition()
 	 * @generated
 	 * @ordered
@@ -117,9 +106,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected Position labelPosition;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -127,9 +116,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected Label label;
 
 	/**
-	 * The default value of the '{@link #getOperatingMode() <em>Operating
-	 * Mode</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getOperatingMode() <em>Operating Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getOperatingMode()
 	 * @generated
 	 * @ordered
@@ -137,9 +126,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected static final TurnoutOperatingMode OPERATING_MODE_EDEFAULT = TurnoutOperatingMode.UNDEFINED;
 
 	/**
-	 * The cached value of the '{@link #getOperatingMode() <em>Operating
-	 * Mode</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOperatingMode() <em>Operating Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getOperatingMode()
 	 * @generated
 	 * @ordered
@@ -147,9 +136,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected TurnoutOperatingMode operatingMode = OPERATING_MODE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getMainLeg() <em>Main Leg</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMainLeg() <em>Main Leg</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getMainLeg()
 	 * @generated
 	 * @ordered
@@ -157,9 +146,9 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected TrackSwitchLeg mainLeg;
 
 	/**
-	 * The cached value of the '{@link #getSideLeg() <em>Side Leg</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSideLeg() <em>Side Leg</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSideLeg()
 	 * @generated
 	 * @ordered
@@ -167,8 +156,8 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	protected TrackSwitchLeg sideLeg;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TrackSwitchComponentImpl() {
@@ -176,8 +165,8 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -186,8 +175,8 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -196,25 +185,21 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setPreferredLocation(LeftRight newPreferredLocation) {
 		LeftRight oldPreferredLocation = preferredLocation;
-		preferredLocation = newPreferredLocation == null
-				? PREFERRED_LOCATION_EDEFAULT
-				: newPreferredLocation;
+		preferredLocation = newPreferredLocation == null ? PREFERRED_LOCATION_EDEFAULT : newPreferredLocation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION,
-					oldPreferredLocation, preferredLocation));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION, oldPreferredLocation, preferredLocation));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -223,8 +208,8 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -232,14 +217,12 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 		int oldPointDetectorCount = pointDetectorCount;
 		pointDetectorCount = newPointDetectorCount;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT,
-					oldPointDetectorCount, pointDetectorCount));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT, oldPointDetectorCount, pointDetectorCount));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -248,30 +231,23 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetStart(Position newStart,
-			NotificationChain msgs) {
+	public NotificationChain basicSetStart(Position newStart, NotificationChain msgs) {
 		Position oldStart = start;
 		start = newStart;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__START, oldStart,
-					newStart);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__START, oldStart, newStart);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -279,27 +255,19 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 		if (newStart != start) {
 			NotificationChain msgs = null;
 			if (start != null)
-				msgs = ((InternalEObject) start).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__START,
-						null, msgs);
+				msgs = ((InternalEObject)start).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__START, null, msgs);
 			if (newStart != null)
-				msgs = ((InternalEObject) newStart).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__START,
-						null, msgs);
+				msgs = ((InternalEObject)newStart).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__START, null, msgs);
 			msgs = basicSetStart(newStart, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__START, newStart,
-					newStart));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__START, newStart, newStart));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -308,30 +276,23 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabelPosition(Position newLabelPosition,
-			NotificationChain msgs) {
+	public NotificationChain basicSetLabelPosition(Position newLabelPosition, NotificationChain msgs) {
 		Position oldLabelPosition = labelPosition;
 		labelPosition = newLabelPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION,
-					oldLabelPosition, newLabelPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION, oldLabelPosition, newLabelPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -339,27 +300,19 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 		if (newLabelPosition != labelPosition) {
 			NotificationChain msgs = null;
 			if (labelPosition != null)
-				msgs = ((InternalEObject) labelPosition).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)labelPosition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION, null, msgs);
 			if (newLabelPosition != null)
-				msgs = ((InternalEObject) newLabelPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newLabelPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION, null, msgs);
 			msgs = basicSetLabelPosition(newLabelPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION,
-					newLabelPosition, newLabelPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION, newLabelPosition, newLabelPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -368,30 +321,23 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel(Label newLabel,
-			NotificationChain msgs) {
+	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL, oldLabel,
-					newLabel);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -399,27 +345,19 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject) label).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL, null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL, null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL, newLabel,
-					newLabel));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL, newLabel, newLabel));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -428,24 +366,21 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setOperatingMode(TurnoutOperatingMode newOperatingMode) {
 		TurnoutOperatingMode oldOperatingMode = operatingMode;
-		operatingMode = newOperatingMode == null ? OPERATING_MODE_EDEFAULT
-				: newOperatingMode;
+		operatingMode = newOperatingMode == null ? OPERATING_MODE_EDEFAULT : newOperatingMode;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__OPERATING_MODE,
-					oldOperatingMode, operatingMode));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__OPERATING_MODE, oldOperatingMode, operatingMode));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -454,30 +389,23 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetMainLeg(TrackSwitchLeg newMainLeg,
-			NotificationChain msgs) {
+	public NotificationChain basicSetMainLeg(TrackSwitchLeg newMainLeg, NotificationChain msgs) {
 		TrackSwitchLeg oldMainLeg = mainLeg;
 		mainLeg = newMainLeg;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG,
-					oldMainLeg, newMainLeg);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG, oldMainLeg, newMainLeg);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -485,27 +413,19 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 		if (newMainLeg != mainLeg) {
 			NotificationChain msgs = null;
 			if (mainLeg != null)
-				msgs = ((InternalEObject) mainLeg).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG,
-						null, msgs);
+				msgs = ((InternalEObject)mainLeg).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG, null, msgs);
 			if (newMainLeg != null)
-				msgs = ((InternalEObject) newMainLeg).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG,
-						null, msgs);
+				msgs = ((InternalEObject)newMainLeg).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG, null, msgs);
 			msgs = basicSetMainLeg(newMainLeg, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG,
-					newMainLeg, newMainLeg));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG, newMainLeg, newMainLeg));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -514,30 +434,23 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetSideLeg(TrackSwitchLeg newSideLeg,
-			NotificationChain msgs) {
+	public NotificationChain basicSetSideLeg(TrackSwitchLeg newSideLeg, NotificationChain msgs) {
 		TrackSwitchLeg oldSideLeg = sideLeg;
 		sideLeg = newSideLeg;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG,
-					oldSideLeg, newSideLeg);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG, oldSideLeg, newSideLeg);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -545,32 +458,23 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 		if (newSideLeg != sideLeg) {
 			NotificationChain msgs = null;
 			if (sideLeg != null)
-				msgs = ((InternalEObject) sideLeg).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG,
-						null, msgs);
+				msgs = ((InternalEObject)sideLeg).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG, null, msgs);
 			if (newSideLeg != null)
-				msgs = ((InternalEObject) newSideLeg).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG,
-						null, msgs);
+				msgs = ((InternalEObject)newSideLeg).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG, null, msgs);
 			msgs = basicSetSideLeg(newSideLeg, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG,
-					newSideLeg, newSideLeg));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG, newSideLeg, newSideLeg));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__START:
 				return basicSetStart(null, msgs);
@@ -587,8 +491,8 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -615,44 +519,44 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION:
-				setPreferredLocation((LeftRight) newValue);
+				setPreferredLocation((LeftRight)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT:
-				setPointDetectorCount((Integer) newValue);
+				setPointDetectorCount((Integer)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__START:
-				setStart((Position) newValue);
+				setStart((Position)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION:
-				setLabelPosition((Position) newValue);
+				setLabelPosition((Position)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL:
-				setLabel((Label) newValue);
+				setLabel((Label)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__OPERATING_MODE:
-				setOperatingMode((TurnoutOperatingMode) newValue);
+				setOperatingMode((TurnoutOperatingMode)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG:
-				setMainLeg((TrackSwitchLeg) newValue);
+				setMainLeg((TrackSwitchLeg)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG:
-				setSideLeg((TrackSwitchLeg) newValue);
+				setSideLeg((TrackSwitchLeg)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -665,30 +569,30 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 				setPointDetectorCount(POINT_DETECTOR_COUNT_EDEFAULT);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__START:
-				setStart((Position) null);
+				setStart((Position)null);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL_POSITION:
-				setLabelPosition((Position) null);
+				setLabelPosition((Position)null);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__LABEL:
-				setLabel((Label) null);
+				setLabel((Label)null);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__OPERATING_MODE:
 				setOperatingMode(OPERATING_MODE_EDEFAULT);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__MAIN_LEG:
-				setMainLeg((TrackSwitchLeg) null);
+				setMainLeg((TrackSwitchLeg)null);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_COMPONENT__SIDE_LEG:
-				setSideLeg((TrackSwitchLeg) null);
+				setSideLeg((TrackSwitchLeg)null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -715,14 +619,13 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (preferredLocation: ");
@@ -735,4 +638,4 @@ public class TrackSwitchComponentImpl extends RouteObjectImpl
 		return result.toString();
 	}
 
-} // TrackSwitchComponentImpl
+} //TrackSwitchComponentImpl

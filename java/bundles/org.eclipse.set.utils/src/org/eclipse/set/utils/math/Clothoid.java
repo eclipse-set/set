@@ -41,13 +41,11 @@ public class Clothoid {
 		// Sign: positive if index is 0 or 1, negative otherwise
 		final BigDecimal factor = BigDecimal.valueOf(index % 4 <= 1 ? 1 : -1);
 		// Divisor: index! * (2 * index + 1)
-		final BigDecimal divisor = new BigDecimal(
-				BigIntegerMath.factorial(index)
-						.multiply(BigInteger.valueOf(2 * index + 1l)));
+		final BigDecimal divisor = new BigDecimal(BigIntegerMath
+				.factorial(index).multiply(BigInteger.valueOf(2 * index + 1l)));
 		// Power: T^index
 		final BigDecimal power = BigDecimal.valueOf(T).pow(index);
-		return factor.multiply(power)
-				.divide(divisor, RoundingMode.HALF_UP)
+		return factor.multiply(power).divide(divisor, RoundingMode.HALF_UP)
 				.doubleValue();
 	}
 

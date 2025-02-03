@@ -8,16 +8,17 @@
  */
 package org.eclipse.set.model.siteplan;
 
+
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Cant
- * Point</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Cant Point</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.CantPoint#getHeight
- * <em>Height</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.CantPoint#getHeight <em>Height</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCantPoint()
@@ -26,9 +27,9 @@ package org.eclipse.set.model.siteplan;
  */
 public interface CantPoint extends PositionedObject {
 	/**
-	 * Returns the value of the '<em><b>Height</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Height</em>' attribute.
 	 * @see #setHeight(double)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCantPoint_Height()
@@ -38,13 +39,10 @@ public interface CantPoint extends PositionedObject {
 	double getHeight();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.CantPoint#getHeight
-	 * <em>Height</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Height</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.CantPoint#getHeight <em>Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Height</em>' attribute.
 	 * @see #getHeight()
 	 * @generated
 	 */

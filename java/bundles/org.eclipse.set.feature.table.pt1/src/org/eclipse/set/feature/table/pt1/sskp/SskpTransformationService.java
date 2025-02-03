@@ -108,8 +108,7 @@ public final class SskpTransformationService
 		final List<String> gmOrder = List.of("2000", "1000/2000", "1000", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				"500"); //$NON-NLS-1$
 
-		return TableRowGroupComparator.builder()
-				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+		return TableRowGroupComparator.builder().sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
 				.sort("B", //$NON-NLS-1$
 						Comparator.comparing(
 								SskpTransformationService::getCellContent,

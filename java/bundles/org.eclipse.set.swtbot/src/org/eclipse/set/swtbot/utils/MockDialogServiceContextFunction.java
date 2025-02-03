@@ -20,17 +20,17 @@ import org.eclipse.set.core.services.dialog.DialogService;
 /**
  * Helper component to override the dialog service of SET
  */
-@Component(immediate = true, service = IContextFunction.class, property = {
-		"service.ranking:Integer=100",
-		"service.context.key:String=org.eclipse.set.core.services.dialog.DialogService" })
+@Component(immediate=true, service = IContextFunction.class, property = {
+		"service.ranking:Integer=100","service.context.key:String=org.eclipse.set.core.services.dialog.DialogService"
+})
 public class MockDialogServiceContextFunction extends ContextFunction {
 	public static MockDialogService mockService;
 
 	@Override
 	public Object compute(final IEclipseContext context,
 			final String contextKey) {
-		mockService = ContextInjectionFactory.make(MockDialogService.class,
-				context);
+		mockService = ContextInjectionFactory
+				.make(MockDialogService.class, context);
 		final MApplication application = context.get(MApplication.class);
 		application.getContext().set(DialogService.class, mockService);
 		return mockService;

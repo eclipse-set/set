@@ -30,42 +30,32 @@ import org.eclipse.set.model.tablemodel.RowMergeMode;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Column
- * Descriptor</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Column Descriptor</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getWidth
- * <em>Width</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getWidthMode
- * <em>Width Mode</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getChildren
- * <em>Children</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isGreyed
- * <em>Greyed</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isUnit
- * <em>Unit</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getParent
- * <em>Parent</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getHeight
- * <em>Height</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getMergeCommonValues
- * <em>Merge Common Values</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getColumnPosition
- * <em>Column Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getWidthMode <em>Width Mode</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isGreyed <em>Greyed</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#isUnit <em>Unit</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getHeight <em>Height</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getMergeCommonValues <em>Merge Common Values</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl#getColumnPosition <em>Column Position</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
-		implements ColumnDescriptor {
+public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container implements ColumnDescriptor {
 	/**
 	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -74,8 +64,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getWidth() <em>Width</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -83,9 +73,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected Float width = WIDTH_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getWidthMode() <em>Width Mode</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getWidthMode() <em>Width Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getWidthMode()
 	 * @generated
 	 * @ordered
@@ -93,9 +83,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected static final ColumnWidthMode WIDTH_MODE_EDEFAULT = ColumnWidthMode.WIDTH_CM;
 
 	/**
-	 * The cached value of the '{@link #getWidthMode() <em>Width Mode</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getWidthMode() <em>Width Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getWidthMode()
 	 * @generated
 	 * @ordered
@@ -103,9 +93,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected ColumnWidthMode widthMode = WIDTH_MODE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getChildren() <em>Children</em>}'
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getChildren()
 	 * @generated
 	 * @ordered
@@ -114,8 +104,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -124,8 +114,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -134,8 +124,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The default value of the '{@link #isGreyed() <em>Greyed</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isGreyed()
 	 * @generated
 	 * @ordered
@@ -144,8 +134,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #isGreyed() <em>Greyed</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isGreyed()
 	 * @generated
 	 * @ordered
@@ -154,8 +144,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The default value of the '{@link #isUnit() <em>Unit</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isUnit()
 	 * @generated
 	 * @ordered
@@ -163,9 +153,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected static final boolean UNIT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isUnit() <em>Unit</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isUnit() <em>Unit</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isUnit()
 	 * @generated
 	 * @ordered
@@ -174,8 +164,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getParent() <em>Parent</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getParent()
 	 * @generated
 	 * @ordered
@@ -183,9 +173,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected ColumnDescriptor parent;
 
 	/**
-	 * The default value of the '{@link #getHeight() <em>Height</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -194,8 +184,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -203,9 +193,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected double height = HEIGHT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMergeCommonValues() <em>Merge Common
-	 * Values</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getMergeCommonValues() <em>Merge Common Values</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getMergeCommonValues()
 	 * @generated
 	 * @ordered
@@ -213,9 +203,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected static final RowMergeMode MERGE_COMMON_VALUES_EDEFAULT = RowMergeMode.DEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getMergeCommonValues() <em>Merge Common
-	 * Values</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMergeCommonValues() <em>Merge Common Values</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getMergeCommonValues()
 	 * @generated
 	 * @ordered
@@ -223,9 +213,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected RowMergeMode mergeCommonValues = MERGE_COMMON_VALUES_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getColumnPosition() <em>Column
-	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getColumnPosition() <em>Column Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getColumnPosition()
 	 * @generated
 	 * @ordered
@@ -233,9 +223,9 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected static final String COLUMN_POSITION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getColumnPosition() <em>Column
-	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getColumnPosition() <em>Column Position</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getColumnPosition()
 	 * @generated
 	 * @ordered
@@ -243,8 +233,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	protected String columnPosition = COLUMN_POSITION_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected ColumnDescriptorImpl() {
@@ -252,8 +242,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -262,8 +252,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -272,8 +262,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -281,14 +271,12 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		Float oldWidth = width;
 		width = newWidth;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH, oldWidth,
-					width));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH, oldWidth, width));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -297,8 +285,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -306,30 +294,25 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		ColumnWidthMode oldWidthMode = widthMode;
 		widthMode = newWidthMode == null ? WIDTH_MODE_EDEFAULT : newWidthMode;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE,
-					oldWidthMode, widthMode));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE, oldWidthMode, widthMode));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<ColumnDescriptor> getChildren() {
 		if (children == null) {
-			children = new EObjectWithInverseResolvingEList<ColumnDescriptor>(
-					ColumnDescriptor.class, this,
-					TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN,
-					TablemodelPackage.COLUMN_DESCRIPTOR__PARENT);
+			children = new EObjectWithInverseResolvingEList<ColumnDescriptor>(ColumnDescriptor.class, this, TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN, TablemodelPackage.COLUMN_DESCRIPTOR__PARENT);
 		}
 		return children;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -338,8 +321,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -347,14 +330,12 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		String oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__LABEL, oldLabel,
-					label));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__LABEL, oldLabel, label));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -363,8 +344,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -372,14 +353,12 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		boolean oldGreyed = greyed;
 		greyed = newGreyed;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__GREYED, oldGreyed,
-					greyed));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__GREYED, oldGreyed, greyed));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -388,8 +367,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -397,33 +376,30 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		boolean oldUnit = unit;
 		unit = newUnit;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__UNIT, oldUnit, unit));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__UNIT, oldUnit, unit));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public ColumnDescriptor getParent() {
 		if (parent != null && parent.eIsProxy()) {
-			InternalEObject oldParent = (InternalEObject) parent;
-			parent = (ColumnDescriptor) eResolveProxy(oldParent);
+			InternalEObject oldParent = (InternalEObject)parent;
+			parent = (ColumnDescriptor)eResolveProxy(oldParent);
 			if (parent != oldParent) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							TablemodelPackage.COLUMN_DESCRIPTOR__PARENT,
-							oldParent, parent));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TablemodelPackage.COLUMN_DESCRIPTOR__PARENT, oldParent, parent));
 			}
 		}
 		return parent;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public ColumnDescriptor basicGetParent() {
@@ -431,30 +407,23 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetParent(ColumnDescriptor newParent,
-			NotificationChain msgs) {
+	public NotificationChain basicSetParent(ColumnDescriptor newParent, NotificationChain msgs) {
 		ColumnDescriptor oldParent = parent;
 		parent = newParent;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__PARENT, oldParent,
-					newParent);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__PARENT, oldParent, newParent);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -462,25 +431,19 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		if (newParent != parent) {
 			NotificationChain msgs = null;
 			if (parent != null)
-				msgs = ((InternalEObject) parent).eInverseRemove(this,
-						TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN,
-						ColumnDescriptor.class, msgs);
+				msgs = ((InternalEObject)parent).eInverseRemove(this, TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN, ColumnDescriptor.class, msgs);
 			if (newParent != null)
-				msgs = ((InternalEObject) newParent).eInverseAdd(this,
-						TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN,
-						ColumnDescriptor.class, msgs);
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN, ColumnDescriptor.class, msgs);
 			msgs = basicSetParent(newParent, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__PARENT, newParent,
-					newParent));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__PARENT, newParent, newParent));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -489,8 +452,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -498,14 +461,12 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		double oldHeight = height;
 		height = newHeight;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT, oldHeight,
-					height));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT, oldHeight, height));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -514,25 +475,21 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setMergeCommonValues(RowMergeMode newMergeCommonValues) {
 		RowMergeMode oldMergeCommonValues = mergeCommonValues;
-		mergeCommonValues = newMergeCommonValues == null
-				? MERGE_COMMON_VALUES_EDEFAULT
-				: newMergeCommonValues;
+		mergeCommonValues = newMergeCommonValues == null ? MERGE_COMMON_VALUES_EDEFAULT : newMergeCommonValues;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES,
-					oldMergeCommonValues, mergeCommonValues));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES, oldMergeCommonValues, mergeCommonValues));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -541,8 +498,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -550,46 +507,38 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		String oldColumnPosition = columnPosition;
 		columnPosition = newColumnPosition;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION,
-					oldColumnPosition, columnPosition));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION, oldColumnPosition, columnPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
-				return ((InternalEList<InternalEObject>) (InternalEList<?>) getChildren())
-						.basicAdd(otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildren()).basicAdd(otherEnd, msgs);
 			case TablemodelPackage.COLUMN_DESCRIPTOR__PARENT:
 				if (parent != null)
-					msgs = ((InternalEObject) parent).eInverseRemove(this,
-							TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN,
-							ColumnDescriptor.class, msgs);
-				return basicSetParent((ColumnDescriptor) otherEnd, msgs);
+					msgs = ((InternalEObject)parent).eInverseRemove(this, TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN, ColumnDescriptor.class, msgs);
+				return basicSetParent((ColumnDescriptor)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
-				return ((InternalEList<?>) getChildren()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
 			case TablemodelPackage.COLUMN_DESCRIPTOR__PARENT:
 				return basicSetParent(null, msgs);
 		}
@@ -597,8 +546,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -617,8 +566,7 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.COLUMN_DESCRIPTOR__UNIT:
 				return isUnit();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__PARENT:
-				if (resolve)
-					return getParent();
+				if (resolve) return getParent();
 				return basicGetParent();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 				return getHeight();
@@ -631,8 +579,8 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -640,44 +588,43 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH:
-				setWidth((Float) newValue);
+				setWidth((Float)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE:
-				setWidthMode((ColumnWidthMode) newValue);
+				setWidthMode((ColumnWidthMode)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
 				getChildren().clear();
-				getChildren().addAll(
-						(Collection<? extends ColumnDescriptor>) newValue);
+				getChildren().addAll((Collection<? extends ColumnDescriptor>)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__LABEL:
-				setLabel((String) newValue);
+				setLabel((String)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__GREYED:
-				setGreyed((Boolean) newValue);
+				setGreyed((Boolean)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__UNIT:
-				setUnit((Boolean) newValue);
+				setUnit((Boolean)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__PARENT:
-				setParent((ColumnDescriptor) newValue);
+				setParent((ColumnDescriptor)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
-				setHeight((Double) newValue);
+				setHeight((Double)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
-				setMergeCommonValues((RowMergeMode) newValue);
+				setMergeCommonValues((RowMergeMode)newValue);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
-				setColumnPosition((String) newValue);
+				setColumnPosition((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -702,7 +649,7 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 				setUnit(UNIT_EDEFAULT);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__PARENT:
-				setParent((ColumnDescriptor) null);
+				setParent((ColumnDescriptor)null);
 				return;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__HEIGHT:
 				setHeight(HEIGHT_EDEFAULT);
@@ -718,23 +665,21 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH:
-				return WIDTH_EDEFAULT == null ? width != null
-						: !WIDTH_EDEFAULT.equals(width);
+				return WIDTH_EDEFAULT == null ? width != null : !WIDTH_EDEFAULT.equals(width);
 			case TablemodelPackage.COLUMN_DESCRIPTOR__WIDTH_MODE:
 				return widthMode != WIDTH_MODE_EDEFAULT;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__CHILDREN:
 				return children != null && !children.isEmpty();
 			case TablemodelPackage.COLUMN_DESCRIPTOR__LABEL:
-				return LABEL_EDEFAULT == null ? label != null
-						: !LABEL_EDEFAULT.equals(label);
+				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
 			case TablemodelPackage.COLUMN_DESCRIPTOR__GREYED:
 				return greyed != GREYED_EDEFAULT;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__UNIT:
@@ -746,21 +691,19 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES:
 				return mergeCommonValues != MERGE_COMMON_VALUES_EDEFAULT;
 			case TablemodelPackage.COLUMN_DESCRIPTOR__COLUMN_POSITION:
-				return COLUMN_POSITION_EDEFAULT == null ? columnPosition != null
-						: !COLUMN_POSITION_EDEFAULT.equals(columnPosition);
+				return COLUMN_POSITION_EDEFAULT == null ? columnPosition != null : !COLUMN_POSITION_EDEFAULT.equals(columnPosition);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (width: ");
@@ -783,4 +726,4 @@ public class ColumnDescriptorImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // ColumnDescriptorImpl
+} //ColumnDescriptorImpl

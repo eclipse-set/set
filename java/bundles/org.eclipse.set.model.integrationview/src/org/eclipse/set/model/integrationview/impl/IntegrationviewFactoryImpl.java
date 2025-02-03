@@ -19,36 +19,35 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.set.model.integrationview.*;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
- * end-user-doc -->
- * 
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Factory</b>.
+ * <!-- end-user-doc -->
  * @generated
  */
-public class IntegrationviewFactoryImpl extends EFactoryImpl
-		implements IntegrationviewFactory {
+public class IntegrationviewFactoryImpl extends EFactoryImpl implements IntegrationviewFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static IntegrationviewFactory init() {
 		try {
-			IntegrationviewFactory theIntegrationviewFactory = (IntegrationviewFactory) EPackage.Registry.INSTANCE
-					.getEFactory(IntegrationviewPackage.eNS_URI);
+			IntegrationviewFactory theIntegrationviewFactory = (IntegrationviewFactory)EPackage.Registry.INSTANCE.getEFactory(IntegrationviewPackage.eNS_URI);
 			if (theIntegrationviewFactory != null) {
 				return theIntegrationviewFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new IntegrationviewFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public IntegrationviewFactoryImpl() {
@@ -56,30 +55,25 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case IntegrationviewPackage.INTEGRATION_VIEW:
-				return createIntegrationView();
-			case IntegrationviewPackage.OBJECT_QUANTITY:
-				return createObjectQuantity();
-			case IntegrationviewPackage.CONFLICT:
-				return createConflict();
-			case IntegrationviewPackage.DETAILS:
-				return createDetails();
+			case IntegrationviewPackage.INTEGRATION_VIEW: return createIntegrationView();
+			case IntegrationviewPackage.OBJECT_QUANTITY: return createObjectQuantity();
+			case IntegrationviewPackage.CONFLICT: return createConflict();
+			case IntegrationviewPackage.DETAILS: return createDetails();
 			default:
-				throw new IllegalArgumentException("The class '"
-						+ eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -89,8 +83,8 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -100,8 +94,8 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -111,8 +105,8 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -122,18 +116,18 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public IntegrationviewPackage getIntegrationviewPackage() {
-		return (IntegrationviewPackage) getEPackage();
+		return (IntegrationviewPackage)getEPackage();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @deprecated
 	 * @generated
 	 */
@@ -142,4 +136,4 @@ public class IntegrationviewFactoryImpl extends EFactoryImpl
 		return IntegrationviewPackage.eINSTANCE;
 	}
 
-} // IntegrationviewFactoryImpl
+} //IntegrationviewFactoryImpl

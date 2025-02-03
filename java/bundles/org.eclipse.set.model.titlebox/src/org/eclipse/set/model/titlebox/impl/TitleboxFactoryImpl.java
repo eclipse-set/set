@@ -19,36 +19,35 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.set.model.titlebox.*;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
- * end-user-doc -->
- * 
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Factory</b>.
+ * <!-- end-user-doc -->
  * @generated
  */
-public class TitleboxFactoryImpl extends EFactoryImpl
-		implements TitleboxFactory {
+public class TitleboxFactoryImpl extends EFactoryImpl implements TitleboxFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static TitleboxFactory init() {
 		try {
-			TitleboxFactory theTitleboxFactory = (TitleboxFactory) EPackage.Registry.INSTANCE
-					.getEFactory(TitleboxPackage.eNS_URI);
+			TitleboxFactory theTitleboxFactory = (TitleboxFactory)EPackage.Registry.INSTANCE.getEFactory(TitleboxPackage.eNS_URI);
 			if (theTitleboxFactory != null) {
 				return theTitleboxFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new TitleboxFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TitleboxFactoryImpl() {
@@ -56,28 +55,24 @@ public class TitleboxFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case TitleboxPackage.TITLEBOX:
-				return createTitlebox();
-			case TitleboxPackage.PLANNING_OFFICE:
-				return createPlanningOffice();
-			case TitleboxPackage.STRING_FIELD:
-				return createStringField();
+			case TitleboxPackage.TITLEBOX: return createTitlebox();
+			case TitleboxPackage.PLANNING_OFFICE: return createPlanningOffice();
+			case TitleboxPackage.STRING_FIELD: return createStringField();
 			default:
-				throw new IllegalArgumentException("The class '"
-						+ eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -87,8 +82,8 @@ public class TitleboxFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -98,8 +93,8 @@ public class TitleboxFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -109,18 +104,18 @@ public class TitleboxFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public TitleboxPackage getTitleboxPackage() {
-		return (TitleboxPackage) getEPackage();
+		return (TitleboxPackage)getEPackage();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @deprecated
 	 * @generated
 	 */
@@ -129,4 +124,4 @@ public class TitleboxFactoryImpl extends EFactoryImpl
 		return TitleboxPackage.eINSTANCE;
 	}
 
-} // TitleboxFactoryImpl
+} //TitleboxFactoryImpl

@@ -79,28 +79,25 @@ public class GEOKanteGeometryExtensions {
 				&& coordinates[0].y == coordinates[1].y) {
 			return geomeryFactory.createLineString(coordinates);
 		}
-		final ENUMGEOForm geoForm = edge.getGEOKanteAllg()
-				.getGEOForm()
+		final ENUMGEOForm geoForm = edge.getGEOKanteAllg().getGEOForm()
 				.getWert();
 		return switch (geoForm) {
-			case ENUMGEO_FORM_GERADE, ENUMGEO_FORM_SONSTIGE, ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON, ENUMGEO_FORM_KM_SPRUNG -> getGeometryFactory()
-					.createLineString(coordinates);
-			case ENUMGEO_FORM_BOGEN -> arc(edge);
-			case ENUMGEO_FORM_KLOTHOIDE -> clothoid(edge);
-			case ENUMGEO_FORM_BLOSSKURVE, ENUMGEO_FORM_BLOSS_EINFACH_GESCHWUNGEN -> blosscurve(
-					edge);
-			default -> {
-				logger.warn("Form {} not supported.", geoForm.getName()); //$NON-NLS-1$
-				yield getGeometryFactory().createLineString(coordinates);
-			}
+		case ENUMGEO_FORM_GERADE, ENUMGEO_FORM_SONSTIGE, ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON, ENUMGEO_FORM_KM_SPRUNG -> getGeometryFactory()
+				.createLineString(coordinates);
+		case ENUMGEO_FORM_BOGEN -> arc(edge);
+		case ENUMGEO_FORM_KLOTHOIDE -> clothoid(edge);
+		case ENUMGEO_FORM_BLOSSKURVE, ENUMGEO_FORM_BLOSS_EINFACH_GESCHWUNGEN -> blosscurve(
+				edge);
+		default -> {
+			logger.warn("Form {} not supported.", geoForm.getName()); //$NON-NLS-1$
+			yield getGeometryFactory().createLineString(coordinates);
+		}
 		};
 	}
 
 	private static LineString arc(final GEO_Kante edge) {
 		final Coordinate[] coordinates = getCoordinates(edge);
-		final double radius = edge.getGEOKanteAllg()
-				.getGEORadiusA()
-				.getWert()
+		final double radius = edge.getGEOKanteAllg().getGEORadiusA().getWert()
 				.doubleValue();
 		return Geometries.createArc(getGeometryFactory(),
 				new Chord(coordinates[0], coordinates[1], Math.abs(radius),
@@ -111,22 +108,16 @@ public class GEOKanteGeometryExtensions {
 	private static LineString clothoid(final GEO_Kante edge) {
 		final double radiusA = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusA().getWert())
-				.orElse(BigDecimal.ZERO)
-				.doubleValue();
+				.orElse(BigDecimal.ZERO).doubleValue();
 		final double radiusB = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusB().getWert())
-				.orElse(BigDecimal.ZERO)
-				.doubleValue();
+				.orElse(BigDecimal.ZERO).doubleValue();
 		final Coordinate coordinateA = getCoordinate(
 				edge.getIDGEOKnotenA().getValue());
 		final Coordinate coordinateB = getCoordinateNodeB(edge);
-		final double angle = edge.getGEOKanteAllg()
-				.getGEORichtungswinkel()
-				.getWert()
-				.doubleValue();
-		final double length = edge.getGEOKanteAllg()
-				.getGEOLaenge()
-				.getWert()
+		final double angle = edge.getGEOKanteAllg().getGEORichtungswinkel()
+				.getWert().doubleValue();
+		final double length = edge.getGEOKanteAllg().getGEOLaenge().getWert()
 				.doubleValue();
 		if (radiusA != 0 && radiusB != 0) {
 			// Clothoid connecting two curved tracks
@@ -183,8 +174,7 @@ public class GEOKanteGeometryExtensions {
 							coor[1]);
 					// Mirror along y-axis for left curves
 					return radius > 0 ? mirrorY(coordinate) : coordinate;
-				})
-				.toList();
+				}).toList();
 
 		// Move the curve to the right position
 		final List<Coordinate> coordinates = coords.stream()
@@ -197,28 +187,22 @@ public class GEOKanteGeometryExtensions {
 		final double angleB = getAngleBetweenPoints(fromCoordinate,
 				lastOrNull(coordinates));
 		final double angleOffset = angleA - angleB;
-		return getGeometryFactory().createLineString(coordinates.stream()
-				.map(coor -> rotateAroundPoint(coor, angleOffset,
-						fromCoordinate))
-				.toList()
-				.toArray(new Coordinate[0]));
+		return getGeometryFactory().createLineString(coordinates.stream().map(
+				coor -> rotateAroundPoint(coor, angleOffset, fromCoordinate))
+				.toList().toArray(new Coordinate[0]));
 	}
 
 	private static LineString blosscurve(final GEO_Kante edge) {
 		final double radiusA = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusA().getWert())
-				.orElse(BigDecimal.ZERO)
-				.doubleValue();
+				.orElse(BigDecimal.ZERO).doubleValue();
 		final double radiusB = Optional
 				.ofNullable(edge.getGEOKanteAllg().getGEORadiusB().getWert())
-				.orElse(BigDecimal.ZERO)
-				.doubleValue();
+				.orElse(BigDecimal.ZERO).doubleValue();
 		final Coordinate coordinateA = getCoordinate(
 				edge.getIDGEOKnotenA().getValue());
 		final Coordinate coordinateB = getCoordinateNodeB(edge);
-		final double length = edge.getGEOKanteAllg()
-				.getGEOLaenge()
-				.getWert()
+		final double length = edge.getGEOKanteAllg().getGEOLaenge().getWert()
 				.doubleValue();
 		if (radiusA != 0 && radiusB != 0) {
 			// Bloss curve connecting two straight tracks
@@ -242,14 +226,12 @@ public class GEOKanteGeometryExtensions {
 				BLOSS_PRECISION);
 		final int segmentCount = (int) Math
 				.max(length * BLOSS_SEGMENTS_PER_LENGTH, BLOSS_SEGMENTS_MIN);
-		final List<Coordinate> coords = bloss.calculate(segmentCount)
-				.stream()
+		final List<Coordinate> coords = bloss.calculate(segmentCount).stream()
 				.map(coor -> {
 					final Coordinate coordinate = new Coordinate(coor[0],
 							coor[1], 0);
 					return radius < 0 ? mirrorY(coordinate) : coordinate;
-				})
-				.toList();
+				}).toList();
 
 		// Move the curve to the right position
 		final List<Coordinate> coordinates = coords.stream()
@@ -262,11 +244,9 @@ public class GEOKanteGeometryExtensions {
 		final double angleB = getAngleBetweenPoints(fromCoordinate,
 				lastOrNull(coordinates));
 		final double angleOffset = angleA - angleB;
-		return getGeometryFactory().createLineString(coordinates.stream()
-				.map(coor -> rotateAroundPoint(coor, angleOffset,
-						fromCoordinate))
-				.toList()
-				.toArray(new Coordinate[0]));
+		return getGeometryFactory().createLineString(coordinates.stream().map(
+				coor -> rotateAroundPoint(coor, angleOffset, fromCoordinate))
+				.toList().toArray(new Coordinate[0]));
 	}
 
 	/**
@@ -290,8 +270,7 @@ public class GEOKanteGeometryExtensions {
 		return Stream
 				.of(getCoordinate(edge.getIDGEOKnotenA().getValue()),
 						getCoordinateNodeB(edge))
-				.toList()
-				.toArray(new Coordinate[0]);
+				.toList().toArray(new Coordinate[0]);
 	}
 
 	/**

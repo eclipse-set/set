@@ -47,8 +47,7 @@ public enum RenameConfirmation {
 	public static RenameConfirmation fromDialogResult(final int dialogResult) {
 		final Optional<RenameConfirmation> findAny = Arrays
 				.stream(RenameConfirmation.values())
-				.filter(c -> c.getDialogResult() == dialogResult)
-				.findAny();
+				.filter(c -> c.getDialogResult() == dialogResult).findAny();
 		return findAny.orElse(ABORT);
 	}
 

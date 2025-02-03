@@ -73,25 +73,25 @@ public class SubworkComboSelection extends AbstractEnumerator {
 
 		private void createItems() {
 			switch (fileNature) {
-				case INVALID:
-					createItems(List.of(new SubworkComboSelection(0,
-							NOT_SELECTED_SUBWORK,
-							messages.PlanProImportPart_Subwork_NotSelected)));
-					break;
-				case INFORMATION_STATE:
-					createItems(List.of(new SubworkComboSelection(0,
-							NOT_SET_SUBWORK,
-							messages.PlanproImportPart_Subwork_Notset)));
-					break;
-				case PLANNING:
-					final List<SubworkComboSelection> items = new ArrayList<>();
-					items.add(new SubworkComboSelection(0, NOT_SELECTED_SUBWORK,
-							messages.PlanProImportPart_Subwork_NotSelected));
-					items.addAll(getSubworks());
-					createItems(items);
-					break;
-				default:
-					throw new IllegalArgumentException(fileNature.toString());
+			case INVALID:
+				createItems(List.of(new SubworkComboSelection(0,
+						NOT_SELECTED_SUBWORK,
+						messages.PlanProImportPart_Subwork_NotSelected)));
+				break;
+			case INFORMATION_STATE:
+				createItems(
+						List.of(new SubworkComboSelection(0, NOT_SET_SUBWORK,
+								messages.PlanproImportPart_Subwork_Notset)));
+				break;
+			case PLANNING:
+				final List<SubworkComboSelection> items = new ArrayList<>();
+				items.add(new SubworkComboSelection(0, NOT_SELECTED_SUBWORK,
+						messages.PlanProImportPart_Subwork_NotSelected));
+				items.addAll(getSubworks());
+				createItems(items);
+				break;
+			default:
+				throw new IllegalArgumentException(fileNature.toString());
 			}
 
 		}
@@ -104,14 +104,11 @@ public class SubworkComboSelection extends AbstractEnumerator {
 		private List<SubworkComboSelection> getSubworks() {
 			try {
 				final List<Ausgabe_Fachdaten> ausgabeFachdaten = schnittStelle
-						.getLSTPlanung()
-						.getFachdaten()
-						.getAusgabeFachdaten();
+						.getLSTPlanung().getFachdaten().getAusgabeFachdaten();
 				return ausgabeFachdaten.stream().map(fachdaten -> {
 					try {
 						final ENUMUntergewerkArt subwork = fachdaten
-								.getUntergewerkArt()
-								.getWert();
+								.getUntergewerkArt().getWert();
 						return new SubworkComboSelection(
 								ausgabeFachdaten.indexOf(fachdaten) + 1,
 								subwork.getName(), subwork.getLiteral());
@@ -145,16 +142,13 @@ public class SubworkComboSelection extends AbstractEnumerator {
 
 		@Override
 		public int getIndex(final String stringValue) {
-			return itemValues.stream()
-					.map(SubworkComboSelection::getLiteral)
-					.toList()
-					.indexOf(stringValue);
+			return itemValues.stream().map(SubworkComboSelection::getLiteral)
+					.toList().indexOf(stringValue);
 		}
 
 		@Override
 		public String[] getComboValues() {
-			return itemValues.stream()
-					.map(SubworkComboSelection::getLiteral)
+			return itemValues.stream().map(SubworkComboSelection::getLiteral)
 					.toArray(String[]::new);
 		}
 
@@ -169,8 +163,7 @@ public class SubworkComboSelection extends AbstractEnumerator {
 		@Override
 		public SubworkComboSelection getValue(final int selectionIndex) {
 			final Optional<SubworkComboSelection> first = itemValues.stream()
-					.filter(e -> e.getValue() == selectionIndex)
-					.findFirst();
+					.filter(e -> e.getValue() == selectionIndex).findFirst();
 			if (first.isEmpty()) {
 				return null;
 			}
@@ -180,8 +173,7 @@ public class SubworkComboSelection extends AbstractEnumerator {
 		@Override
 		public SubworkComboSelection getValue(final String name) {
 			final Optional<SubworkComboSelection> first = itemValues.stream()
-					.filter(e -> e.getLiteral().equals(name))
-					.findFirst();
+					.filter(e -> e.getLiteral().equals(name)).findFirst();
 			if (first.isEmpty()) {
 				return null;
 			}

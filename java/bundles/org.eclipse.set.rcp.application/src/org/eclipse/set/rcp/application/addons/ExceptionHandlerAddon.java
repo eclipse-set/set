@@ -40,11 +40,11 @@ public class ExceptionHandlerAddon {
 		final Shell shell = (Shell) child.getWidget();
 
 		Display.getCurrent()
-				.setRuntimeExceptionHandler(new Consumer<RuntimeException>() {
-					@Override
-					public void accept(final RuntimeException e) {
-						dialogService.error(shell, e);
-					}
-				});
+			.setRuntimeExceptionHandler(new Consumer<RuntimeException>() {
+				@Override
+				public void accept(final RuntimeException e) {
+					dialogService.error(shell, e);
+				}
+			});
 	}
 }

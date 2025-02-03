@@ -28,24 +28,23 @@ import org.eclipse.set.model.plazmodel.PlazReport;
 import org.eclipse.set.model.validationreport.ValidationProblem;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Report</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Report</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.plazmodel.impl.PlazReportImpl#getEntries
- * <em>Entries</em>}</li>
+ *   <li>{@link org.eclipse.set.model.plazmodel.impl.PlazReportImpl#getEntries <em>Entries</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class PlazReportImpl extends MinimalEObjectImpl.Container
-		implements PlazReport {
+public class PlazReportImpl extends MinimalEObjectImpl.Container implements PlazReport {
 	/**
-	 * The cached value of the '{@link #getEntries() <em>Entries</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getEntries() <em>Entries</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getEntries()
 	 * @generated
 	 * @ordered
@@ -53,8 +52,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container
 	protected EList<ValidationProblem> entries;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected PlazReportImpl() {
@@ -62,8 +61,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -72,39 +71,35 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<ValidationProblem> getEntries() {
 		if (entries == null) {
-			entries = new EObjectContainmentEList<ValidationProblem>(
-					ValidationProblem.class, this,
-					PlazPackage.PLAZ_REPORT__ENTRIES);
+			entries = new EObjectContainmentEList<ValidationProblem>(ValidationProblem.class, this, PlazPackage.PLAZ_REPORT__ENTRIES);
 		}
 		return entries;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case PlazPackage.PLAZ_REPORT__ENTRIES:
-				return ((InternalEList<?>) getEntries()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getEntries()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -117,8 +112,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -127,16 +122,15 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container
 		switch (featureID) {
 			case PlazPackage.PLAZ_REPORT__ENTRIES:
 				getEntries().clear();
-				getEntries().addAll(
-						(Collection<? extends ValidationProblem>) newValue);
+				getEntries().addAll((Collection<? extends ValidationProblem>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -150,8 +144,8 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -163,4 +157,4 @@ public class PlazReportImpl extends MinimalEObjectImpl.Container
 		return super.eIsSet(featureID);
 	}
 
-} // PlazReportImpl
+} //PlazReportImpl

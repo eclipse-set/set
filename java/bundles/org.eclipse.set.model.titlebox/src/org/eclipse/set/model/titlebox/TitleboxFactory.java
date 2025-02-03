@@ -11,56 +11,56 @@ package org.eclipse.set.model.titlebox;
 import org.eclipse.emf.ecore.EFactory;
 
 /**
- * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a
- * create method for each non-abstract class of the model. <!-- end-user-doc -->
- * 
+ * <!-- begin-user-doc -->
+ * The <b>Factory</b> for the model.
+ * It provides a create method for each non-abstract class of the model.
+ * <!-- end-user-doc -->
  * @see org.eclipse.set.model.titlebox.TitleboxPackage
  * @generated
  */
 public interface TitleboxFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TitleboxFactory eINSTANCE = org.eclipse.set.model.titlebox.impl.TitleboxFactoryImpl
-			.init();
+	TitleboxFactory eINSTANCE = org.eclipse.set.model.titlebox.impl.TitleboxFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Titlebox</em>'. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * Returns a new object of class '<em>Titlebox</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return a new object of class '<em>Titlebox</em>'.
 	 * @generated
 	 */
 	Titlebox createTitlebox();
 
 	/**
-	 * Returns a new object of class '<em>Planning Office</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns a new object of class '<em>Planning Office</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return a new object of class '<em>Planning Office</em>'.
 	 * @generated
 	 */
 	PlanningOffice createPlanningOffice();
 
 	/**
-	 * Returns a new object of class '<em>String Field</em>'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns a new object of class '<em>String Field</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return a new object of class '<em>String Field</em>'.
 	 * @generated
 	 */
 	StringField createStringField();
 
 	/**
-	 * Returns the package supported by this factory. <!-- begin-user-doc -->
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
 	TitleboxPackage getTitleboxPackage();
 
-} // TitleboxFactory
+} //TitleboxFactory

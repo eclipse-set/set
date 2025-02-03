@@ -79,8 +79,7 @@ public class BasisAttributeSetting<T> {
 		return getWertFeatureFromClassifier(classifier)
 				.map(f -> Boolean.valueOf(wantedType
 						.isAssignableFrom(f.getEType().getInstanceClass())))
-				.orElse(Boolean.FALSE)
-				.booleanValue();
+				.orElse(Boolean.FALSE).booleanValue();
 	}
 
 	private static Optional<EStructuralFeature> getWertFeatureFromClassifier(
@@ -154,21 +153,17 @@ public class BasisAttributeSetting<T> {
 	 * @return the optional value of the Wert field
 	 */
 	public Optional<T> getWertValue() {
-		return getTypedSetting().getValue()
-				.map(EObject.class::cast)
-				.map(o -> o.eGet(wertFeature))
-				.map(wertFieldType::cast);
+		return getTypedSetting().getValue().map(EObject.class::cast)
+				.map(o -> o.eGet(wertFeature)).map(wertFieldType::cast);
 	}
 
 	/**
 	 * @return whether the basis attribute exists and has some contents
 	 */
 	public boolean hasContents() {
-		return getTypedSetting().getValue()
-				.map(EObject.class::cast)
+		return getTypedSetting().getValue().map(EObject.class::cast)
 				.map(e -> Boolean.valueOf(!e.eContents().isEmpty()))
-				.orElse(Boolean.FALSE)
-				.booleanValue();
+				.orElse(Boolean.FALSE).booleanValue();
 	}
 
 	/**
@@ -221,8 +216,7 @@ public class BasisAttributeSetting<T> {
 	private void createWithValue(final T value) {
 		final EClass type = (EClass) basisAttributeFeature.getEType();
 		final EObject newBasisAttributeElement = type.getEPackage()
-				.getEFactoryInstance()
-				.create(type);
+				.getEFactoryInstance().create(type);
 		newBasisAttributeElement.eSet(wertFeature, value);
 		final Command command = SetCommand.create(editingDomain, parent,
 				basisAttributeFeature, newBasisAttributeElement);

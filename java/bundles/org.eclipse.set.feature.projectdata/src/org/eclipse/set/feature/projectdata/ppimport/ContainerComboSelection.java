@@ -112,17 +112,17 @@ public enum ContainerComboSelection {
 
 		private void createItems() {
 			switch (fileNature) {
-				case INVALID:
-					createItems(NOT_SELECTED);
-					break;
-				case INFORMATION_STATE:
-					createItems(ZUSTAND_INFORMATION);
-					break;
-				case PLANNING:
-					createItems(NOT_SELECTED, START, ZIEL);
-					break;
-				default:
-					throw new IllegalArgumentException(fileNature.toString());
+			case INVALID:
+				createItems(NOT_SELECTED);
+				break;
+			case INFORMATION_STATE:
+				createItems(ZUSTAND_INFORMATION);
+				break;
+			case PLANNING:
+				createItems(NOT_SELECTED, START, ZIEL);
+				break;
+			default:
+				throw new IllegalArgumentException(fileNature.toString());
 			}
 		}
 
@@ -137,27 +137,23 @@ public enum ContainerComboSelection {
 
 		private String getMessage(final ContainerComboSelection value) {
 			switch (value) {
-				case NOT_SELECTED:
-					return messages.ContainerValues_NotSelected;
-				case START:
-					return messages.ContainerValues_Start;
-				case ZIEL:
-					return messages.ContainerValues_Ziel;
-				case ZUSTAND_INFORMATION:
-					return messages.ContainerValues_ZustandInformation;
-				default:
-					throw new IllegalArgumentException(value.toString());
+			case NOT_SELECTED:
+				return messages.ContainerValues_NotSelected;
+			case START:
+				return messages.ContainerValues_Start;
+			case ZIEL:
+				return messages.ContainerValues_Ziel;
+			case ZUSTAND_INFORMATION:
+				return messages.ContainerValues_ZustandInformation;
+			default:
+				throw new IllegalArgumentException(value.toString());
 			}
 		}
 
 		@Override
 		public String getMaxLengthItem() {
-			return List
-					.of(getMessage(NOT_SELECTED), getMessage(START),
-							getMessage(ZIEL), getMessage(ZUSTAND_INFORMATION))
-					.stream()
-					.reduce((a, b) -> a.length() > b.length() ? a : b)
-					.orElse(getDefaultValue());
+			return List.of(getMessage(NOT_SELECTED), getMessage(START),
+					getMessage(ZIEL), getMessage(ZUSTAND_INFORMATION)).stream().reduce((a, b) -> a.length() > b.length() ? a : b).orElse(getDefaultValue());
 		}
 	}
 

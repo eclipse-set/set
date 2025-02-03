@@ -25,31 +25,27 @@ import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>PZB</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>PZB</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getPosition
- * <em>Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getElement
- * <em>Element</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#isRightSide <em>Right
- * Side</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getEffectivity
- * <em>Effectivity</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getElement <em>Element</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#isRightSide <em>Right Side</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBImpl#getEffectivity <em>Effectivity</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class PZBImpl extends RouteObjectImpl implements PZB {
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -58,8 +54,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -68,8 +64,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -77,9 +73,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	protected PZBType type = TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getElement() <em>Element</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getElement() <em>Element</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getElement()
 	 * @generated
 	 * @ordered
@@ -87,9 +83,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	protected static final PZBElement ELEMENT_EDEFAULT = PZBElement.NONE;
 
 	/**
-	 * The cached value of the '{@link #getElement() <em>Element</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getElement() <em>Element</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getElement()
 	 * @generated
 	 * @ordered
@@ -97,9 +93,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	protected PZBElement element = ELEMENT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isRightSide() <em>Right Side</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isRightSide() <em>Right Side</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isRightSide()
 	 * @generated
 	 * @ordered
@@ -107,9 +103,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	protected static final boolean RIGHT_SIDE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isRightSide() <em>Right Side</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isRightSide() <em>Right Side</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isRightSide()
 	 * @generated
 	 * @ordered
@@ -117,9 +113,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	protected boolean rightSide = RIGHT_SIDE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getEffectivity() <em>Effectivity</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getEffectivity() <em>Effectivity</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getEffectivity()
 	 * @generated
 	 * @ordered
@@ -127,9 +123,9 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	protected static final PZBEffectivity EFFECTIVITY_EDEFAULT = PZBEffectivity.NONE;
 
 	/**
-	 * The cached value of the '{@link #getEffectivity() <em>Effectivity</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getEffectivity() <em>Effectivity</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getEffectivity()
 	 * @generated
 	 * @ordered
@@ -137,8 +133,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	protected PZBEffectivity effectivity = EFFECTIVITY_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected PZBImpl() {
@@ -146,8 +142,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -156,8 +152,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -166,8 +162,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -175,13 +171,12 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		PZBType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PZB__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZB__TYPE, oldType, type));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -190,8 +185,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -199,13 +194,12 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		PZBElement oldElement = element;
 		element = newElement == null ? ELEMENT_EDEFAULT : newElement;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PZB__ELEMENT, oldElement, element));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZB__ELEMENT, oldElement, element));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -214,8 +208,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -223,13 +217,12 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		boolean oldRightSide = rightSide;
 		rightSide = newRightSide;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PZB__RIGHT_SIDE, oldRightSide, rightSide));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZB__RIGHT_SIDE, oldRightSide, rightSide));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -238,24 +231,21 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setEffectivity(PZBEffectivity newEffectivity) {
 		PZBEffectivity oldEffectivity = effectivity;
-		effectivity = newEffectivity == null ? EFFECTIVITY_EDEFAULT
-				: newEffectivity;
+		effectivity = newEffectivity == null ? EFFECTIVITY_EDEFAULT : newEffectivity;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PZB__EFFECTIVITY, oldEffectivity,
-					effectivity));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZB__EFFECTIVITY, oldEffectivity, effectivity));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -264,29 +254,23 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetPosition(Position newPosition,
-			NotificationChain msgs) {
+	public NotificationChain basicSetPosition(Position newPosition, NotificationChain msgs) {
 		Position oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.PZB__POSITION,
-					oldPosition, newPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZB__POSITION, oldPosition, newPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -294,29 +278,23 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject) position).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.PZB__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.PZB__POSITION, null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject) newPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.PZB__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.PZB__POSITION, null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PZB__POSITION, newPosition, newPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZB__POSITION, newPosition, newPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.PZB__POSITION:
 				return basicSetPosition(null, msgs);
@@ -325,8 +303,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -347,42 +325,42 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.PZB__POSITION:
-				setPosition((Position) newValue);
+				setPosition((Position)newValue);
 				return;
 			case SiteplanPackage.PZB__TYPE:
-				setType((PZBType) newValue);
+				setType((PZBType)newValue);
 				return;
 			case SiteplanPackage.PZB__ELEMENT:
-				setElement((PZBElement) newValue);
+				setElement((PZBElement)newValue);
 				return;
 			case SiteplanPackage.PZB__RIGHT_SIDE:
-				setRightSide((Boolean) newValue);
+				setRightSide((Boolean)newValue);
 				return;
 			case SiteplanPackage.PZB__EFFECTIVITY:
-				setEffectivity((PZBEffectivity) newValue);
+				setEffectivity((PZBEffectivity)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.PZB__POSITION:
-				setPosition((Position) null);
+				setPosition((Position)null);
 				return;
 			case SiteplanPackage.PZB__TYPE:
 				setType(TYPE_EDEFAULT);
@@ -401,8 +379,8 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -423,52 +401,45 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID,
-			Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (derivedFeatureID) {
-				case SiteplanPackage.PZB__POSITION:
-					return SiteplanPackage.POSITIONED_OBJECT__POSITION;
-				default:
-					return -1;
+				case SiteplanPackage.PZB__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID,
-			Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (baseFeatureID) {
-				case SiteplanPackage.POSITIONED_OBJECT__POSITION:
-					return SiteplanPackage.PZB__POSITION;
-				default:
-					return -1;
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.PZB__POSITION;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: ");
@@ -483,4 +454,4 @@ public class PZBImpl extends RouteObjectImpl implements PZB {
 		return result.toString();
 	}
 
-} // PZBImpl
+} //PZBImpl

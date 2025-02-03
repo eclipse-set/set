@@ -36,26 +36,20 @@ import org.eclipse.set.model.siteplan.SignalSystem;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Signal</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Signal</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getRole
- * <em>Role</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getSystem
- * <em>System</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getScreen
- * <em>Screen</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getLateralDistance
- * <em>Lateral Distance</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getSignalDirection
- * <em>Signal Direction</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getMountPosition
- * <em>Mount Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getRole <em>Role</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getSystem <em>System</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getScreen <em>Screen</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getLateralDistance <em>Lateral Distance</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getSignalDirection <em>Signal Direction</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalImpl#getMountPosition <em>Mount Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -63,8 +57,8 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 public class SignalImpl extends RouteObjectImpl implements Signal {
 	/**
 	 * The default value of the '{@link #getRole() <em>Role</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRole()
 	 * @generated
 	 * @ordered
@@ -73,8 +67,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 
 	/**
 	 * The cached value of the '{@link #getRole() <em>Role</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRole()
 	 * @generated
 	 * @ordered
@@ -82,9 +76,9 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected SignalRole role = ROLE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSystem() <em>System</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSystem() <em>System</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSystem()
 	 * @generated
 	 * @ordered
@@ -93,8 +87,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 
 	/**
 	 * The cached value of the '{@link #getSystem() <em>System</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSystem()
 	 * @generated
 	 * @ordered
@@ -102,9 +96,9 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected SignalSystem system = SYSTEM_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getScreen() <em>Screen</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getScreen() <em>Screen</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getScreen()
 	 * @generated
 	 * @ordered
@@ -112,9 +106,9 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected EList<SignalScreen> screen;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -122,10 +116,9 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected Label label;
 
 	/**
-	 * The cached value of the '{@link #getLateralDistance() <em>Lateral
-	 * Distance</em>}' attribute list. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The cached value of the '{@link #getLateralDistance() <em>Lateral Distance</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLateralDistance()
 	 * @generated
 	 * @ordered
@@ -133,9 +126,9 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected EList<BigDecimal> lateralDistance;
 
 	/**
-	 * The default value of the '{@link #getSignalDirection() <em>Signal
-	 * Direction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSignalDirection() <em>Signal Direction</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSignalDirection()
 	 * @generated
 	 * @ordered
@@ -143,9 +136,9 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected static final Direction SIGNAL_DIRECTION_EDEFAULT = Direction.FORWARD;
 
 	/**
-	 * The cached value of the '{@link #getSignalDirection() <em>Signal
-	 * Direction</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSignalDirection() <em>Signal Direction</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSignalDirection()
 	 * @generated
 	 * @ordered
@@ -153,10 +146,9 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected Direction signalDirection = SIGNAL_DIRECTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getMountPosition() <em>Mount
-	 * Position</em>}' containment reference. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMountPosition() <em>Mount Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getMountPosition()
 	 * @generated
 	 * @ordered
@@ -164,8 +156,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	protected Position mountPosition;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected SignalImpl() {
@@ -173,8 +165,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -183,8 +175,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -193,8 +185,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -202,13 +194,12 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 		SignalRole oldRole = role;
 		role = newRole == null ? ROLE_EDEFAULT : newRole;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SIGNAL__ROLE, oldRole, role));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__ROLE, oldRole, role));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -217,8 +208,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -226,27 +217,25 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 		SignalSystem oldSystem = system;
 		system = newSystem == null ? SYSTEM_EDEFAULT : newSystem;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SIGNAL__SYSTEM, oldSystem, system));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__SYSTEM, oldSystem, system));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<SignalScreen> getScreen() {
 		if (screen == null) {
-			screen = new EObjectContainmentEList<SignalScreen>(
-					SignalScreen.class, this, SiteplanPackage.SIGNAL__SCREEN);
+			screen = new EObjectContainmentEList<SignalScreen>(SignalScreen.class, this, SiteplanPackage.SIGNAL__SCREEN);
 		}
 		return screen;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -255,29 +244,23 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel(Label newLabel,
-			NotificationChain msgs) {
+	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.SIGNAL__LABEL, oldLabel,
-					newLabel);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -285,39 +268,32 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject) label).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.SIGNAL__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SIGNAL__LABEL, null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.SIGNAL__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SIGNAL__LABEL, null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SIGNAL__LABEL, newLabel, newLabel));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__LABEL, newLabel, newLabel));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<BigDecimal> getLateralDistance() {
 		if (lateralDistance == null) {
-			lateralDistance = new EDataTypeUniqueEList<BigDecimal>(
-					BigDecimal.class, this,
-					SiteplanPackage.SIGNAL__LATERAL_DISTANCE);
+			lateralDistance = new EDataTypeUniqueEList<BigDecimal>(BigDecimal.class, this, SiteplanPackage.SIGNAL__LATERAL_DISTANCE);
 		}
 		return lateralDistance;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -326,24 +302,21 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setSignalDirection(Direction newSignalDirection) {
 		Direction oldSignalDirection = signalDirection;
-		signalDirection = newSignalDirection == null ? SIGNAL_DIRECTION_EDEFAULT
-				: newSignalDirection;
+		signalDirection = newSignalDirection == null ? SIGNAL_DIRECTION_EDEFAULT : newSignalDirection;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SIGNAL__SIGNAL_DIRECTION,
-					oldSignalDirection, signalDirection));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__SIGNAL_DIRECTION, oldSignalDirection, signalDirection));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -352,29 +325,23 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetMountPosition(Position newMountPosition,
-			NotificationChain msgs) {
+	public NotificationChain basicSetMountPosition(Position newMountPosition, NotificationChain msgs) {
 		Position oldMountPosition = mountPosition;
 		mountPosition = newMountPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.SIGNAL__MOUNT_POSITION,
-					oldMountPosition, newMountPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__MOUNT_POSITION, oldMountPosition, newMountPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -382,36 +349,26 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 		if (newMountPosition != mountPosition) {
 			NotificationChain msgs = null;
 			if (mountPosition != null)
-				msgs = ((InternalEObject) mountPosition).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SIGNAL__MOUNT_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)mountPosition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SIGNAL__MOUNT_POSITION, null, msgs);
 			if (newMountPosition != null)
-				msgs = ((InternalEObject) newMountPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SIGNAL__MOUNT_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newMountPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SIGNAL__MOUNT_POSITION, null, msgs);
 			msgs = basicSetMountPosition(newMountPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SIGNAL__MOUNT_POSITION, newMountPosition,
-					newMountPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL__MOUNT_POSITION, newMountPosition, newMountPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.SIGNAL__SCREEN:
-				return ((InternalEList<?>) getScreen()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getScreen()).basicRemove(otherEnd, msgs);
 			case SiteplanPackage.SIGNAL__LABEL:
 				return basicSetLabel(null, msgs);
 			case SiteplanPackage.SIGNAL__MOUNT_POSITION:
@@ -421,8 +378,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -447,8 +404,8 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -456,37 +413,35 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.SIGNAL__ROLE:
-				setRole((SignalRole) newValue);
+				setRole((SignalRole)newValue);
 				return;
 			case SiteplanPackage.SIGNAL__SYSTEM:
-				setSystem((SignalSystem) newValue);
+				setSystem((SignalSystem)newValue);
 				return;
 			case SiteplanPackage.SIGNAL__SCREEN:
 				getScreen().clear();
-				getScreen()
-						.addAll((Collection<? extends SignalScreen>) newValue);
+				getScreen().addAll((Collection<? extends SignalScreen>)newValue);
 				return;
 			case SiteplanPackage.SIGNAL__LABEL:
-				setLabel((Label) newValue);
+				setLabel((Label)newValue);
 				return;
 			case SiteplanPackage.SIGNAL__LATERAL_DISTANCE:
 				getLateralDistance().clear();
-				getLateralDistance()
-						.addAll((Collection<? extends BigDecimal>) newValue);
+				getLateralDistance().addAll((Collection<? extends BigDecimal>)newValue);
 				return;
 			case SiteplanPackage.SIGNAL__SIGNAL_DIRECTION:
-				setSignalDirection((Direction) newValue);
+				setSignalDirection((Direction)newValue);
 				return;
 			case SiteplanPackage.SIGNAL__MOUNT_POSITION:
-				setMountPosition((Position) newValue);
+				setMountPosition((Position)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -502,7 +457,7 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 				getScreen().clear();
 				return;
 			case SiteplanPackage.SIGNAL__LABEL:
-				setLabel((Label) null);
+				setLabel((Label)null);
 				return;
 			case SiteplanPackage.SIGNAL__LATERAL_DISTANCE:
 				getLateralDistance().clear();
@@ -511,15 +466,15 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 				setSignalDirection(SIGNAL_DIRECTION_EDEFAULT);
 				return;
 			case SiteplanPackage.SIGNAL__MOUNT_POSITION:
-				setMountPosition((Position) null);
+				setMountPosition((Position)null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -544,14 +499,13 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (role: ");
@@ -566,4 +520,4 @@ public class SignalImpl extends RouteObjectImpl implements Signal {
 		return result.toString();
 	}
 
-} // SignalImpl
+} //SignalImpl

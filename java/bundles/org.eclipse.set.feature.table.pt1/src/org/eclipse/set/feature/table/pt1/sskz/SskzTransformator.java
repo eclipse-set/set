@@ -109,8 +109,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			final TMFactory factory, final Stell_Bereich controlArea) {
 		final List<Aussenelementansteuerung> outsideControls = Streams
 				.stream(container.getAussenelementansteuerung())
-				.filter(UrObjectExtensions::isPlanningObject)
-				.toList();
+				.filter(UrObjectExtensions::isPlanningObject).toList();
 		final Iterable<Aussenelementansteuerung> relevantControlsInArea = UrObjectExtensions
 				.filterObjectsInControlArea(outsideControls, controlArea);
 		return transform(relevantControlsInArea, factory);
@@ -125,10 +124,9 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			}
 
 			final ENUMAussenelementansteuerungArt controlType = getNullableObject(
-					control,
-					ele -> ele.getAEAAllg()
-							.getAussenelementansteuerungArt()
-							.getWert()).orElse(null);
+					control, ele -> ele.getAEAAllg()
+							.getAussenelementansteuerungArt().getWert())
+									.orElse(null);
 			if (controlType != ENUMAussenelementansteuerungArt.ENUM_AUSSENELEMENTANSTEUERUNG_ART_FE_AK
 					&& controlType != ENUMAussenelementansteuerungArt.ENUM_AUSSENELEMENTANSTEUERUNG_ART_FE_AS) {
 				continue;
@@ -139,8 +137,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			// A: Sskz.Betriebl_Bez_FEAx
 			fill(row, getColumn(cols, Betribl_Bez_FEAx), control,
 					(final Aussenelementansteuerung ele) -> ele.getBezeichnung()
-							.getBezeichnungAEA()
-							.getWert());
+							.getBezeichnungAEA().getWert());
 
 			// B: Sskz.Betriebl_Bez_Feldelem
 			fillIterable(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
@@ -157,11 +154,10 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					(final Aussenelementansteuerung element) -> {
 						final ENUMTueranschlag enumTueranschlag = getNullableObject(
 								element,
-								e -> e.getIDUnterbringung()
-										.getValue()
+								e -> e.getIDUnterbringung().getValue()
 										.getUnterbringungAllg()
-										.getTueranschlag()
-										.getWert()).orElse(null);
+										.getTueranschlag().getWert())
+												.orElse(null);
 						return translate(enumTueranschlag);
 					});
 
@@ -170,8 +166,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					(final Aussenelementansteuerung element) -> {
 						final ENUMUnterbringungBefestigung befestigung = getNullableObject(
 								element,
-								e -> e.getIDUnterbringung()
-										.getValue()
+								e -> e.getIDUnterbringung().getValue()
 										.getUnterbringungAllg()
 										.getUnterbringungBefestigung()
 										.getWert()).orElse(null);
@@ -216,10 +211,8 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		return new Case<>(
 				control -> Boolean.valueOf(
 						!getRelevantElementFunc.apply(control).isEmpty()),
-				control -> getRelevantElementFunc.apply(control)
-						.stream()
-						.map(this::getFieldElementDesignation)
-						.toList(),
+				control -> getRelevantElementFunc.apply(control).stream()
+						.map(this::getFieldElementDesignation).toList(),
 				ITERABLE_FILLING_SEPARATOR, MIXED_STRING_COMPARATOR
 
 		);
@@ -228,26 +221,21 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private List<Aussenelementansteuerung> getControlFromFieldELement(
 			final Ur_Objekt object) {
 		final Function<Ur_Objekt, List<Aussenelementansteuerung>> getAussElement = urObject -> switch (urObject) {
-			case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
-					gsp.getIDStellelement().getValue());
-			case final Signal signal -> getControlFromFieldELement(
-					signal.getSignalReal()
-							.getSignalRealAktiv()
-							.getIDStellelement()
-							.getValue());
-			case final FMA_Komponente fma -> fma
-					.getFMAKomponenteAchszaehlpunkt()
-					.getIDInformation()
-					.stream()
-					.map(ID_Aussenelementansteuerung_TypeClass::getValue)
-					.toList();
-			case final PZB_Element pzb -> getControlFromFieldELement(
-					pzb.getIDStellelement().getValue());
-			case final Schluesselsperre schluessel -> getControlFromFieldELement(
-					schluessel.getIDStellelement().getValue());
-			case final Stellelement stellement -> List
-					.of(stellement.getIDInformation().getValue());
-			default -> null;
+		case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
+				gsp.getIDStellelement().getValue());
+		case final Signal signal -> getControlFromFieldELement(
+				signal.getSignalReal().getSignalRealAktiv().getIDStellelement()
+						.getValue());
+		case final FMA_Komponente fma -> fma.getFMAKomponenteAchszaehlpunkt()
+				.getIDInformation().stream()
+				.map(ID_Aussenelementansteuerung_TypeClass::getValue).toList();
+		case final PZB_Element pzb -> getControlFromFieldELement(
+				pzb.getIDStellelement().getValue());
+		case final Schluesselsperre schluessel -> getControlFromFieldELement(
+				schluessel.getIDStellelement().getValue());
+		case final Stellelement stellement -> List
+				.of(stellement.getIDInformation().getValue());
+		default -> null;
 		};
 		return getNullableObject(object, getAussElement::apply)
 				.orElse(Collections.emptyList());
@@ -256,21 +244,16 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@SuppressWarnings("nls")
 	private String getFieldElementDesignation(final Ur_Objekt object) {
 		final Function<Ur_Objekt, String> destignationFunc = urObject -> switch (urObject) {
-			case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
-					.getBezeichnungTabelle()
-					.getWert();
-			case final Signal signal -> signal.getBezeichnung()
-					.getBezeichnungTabelle()
-					.getWert();
-			case final FMA_Komponente fma -> fma.getBezeichnung()
-					.getBezeichnungTabelle()
-					.getWert();
-			case final PZB_Element pzb -> getPzbDesignation(pzb);
-			case final Schluesselsperre schluessel -> schluessel
-					.getBezeichnung()
-					.getBezeichnungTabelle()
-					.getWert();
-			default -> null;
+		case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		case final Signal signal -> signal.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		case final FMA_Komponente fma -> fma.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		case final PZB_Element pzb -> getPzbDesignation(pzb);
+		case final Schluesselsperre schluessel -> schluessel.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		default -> null;
 		};
 		return getNullableObject(object, destignationFunc::apply).orElse("");
 	}
@@ -283,19 +266,15 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			return "";
 		}
 		final List<String> pzbElementBezugspunkt = PZBElementExtensions
-				.getPZBElementBezugspunkt(pzb)
-				.stream()
+				.getPZBElementBezugspunkt(pzb).stream()
 				.map(ele -> switch (ele) {
-					case final Signal signal -> signal.getBezeichnung()
-							.getBezeichnungTabelle()
-							.getWert();
-					case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
-							.getBezeichnungTabelle()
-							.getWert();
-					default -> "";
+				case final Signal signal -> signal.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
+				case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
+				default -> "";
 
-				})
-				.toList();
+				}).toList();
 		if (pzb.getPZBElementGM() != null) {
 			return String.format("%s (%s)", translate(pzbArt),
 					String.join(",", pzbElementBezugspunkt));
@@ -320,8 +299,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 							} catch (final NumberFormatException e) {
 								return ele;
 							}
-						})
-						.toList();
+						}).toList();
 				return String.format("%s/GÜ %s (%s)",
 						String.join("/", shortPzbArt), speedCheck,
 						String.join(",", pzbElementBezugspunkt));
@@ -339,12 +317,10 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 		final MultiContainer_AttributeGroup container = getContainer(control);
 		final List<T> elements = Streams.stream(getElementFunc.apply(container))
-				.map(clazz::cast)
-				.toList();
+				.map(clazz::cast).toList();
 
-		return elements.parallelStream()
-				.filter(ele -> getControlFromFieldELement(ele)
-						.contains(control))
+		return elements.parallelStream().filter(
+				ele -> getControlFromFieldELement(ele).contains(control))
 				.toList();
 	}
 }

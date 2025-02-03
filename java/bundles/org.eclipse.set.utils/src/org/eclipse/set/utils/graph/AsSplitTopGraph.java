@@ -83,10 +83,7 @@ public class AsSplitTopGraph
 			}
 
 			if (oldEdge.length == null) {
-				return point.edge()
-						.getTOPKanteAllg()
-						.getTOPLaenge()
-						.getWert()
+				return point.edge().getTOPKanteAllg().getTOPLaenge().getWert()
 						.subtract(point.distance());
 			}
 			return oldEdge.length.subtract(point.distance())
@@ -179,8 +176,7 @@ public class AsSplitTopGraph
 	 */
 	public Node splitGraphAt(final TopPoint at, final Boolean inTopDirection) {
 		final TOP_Kante edge = at.edge();
-		final List<Edge> pointEdgeList = pointEdgeGraph.edgeSet()
-				.stream()
+		final List<Edge> pointEdgeList = pointEdgeGraph.edgeSet().stream()
 				.filter(c -> c.edge == edge)
 				.filter(c -> c.offset.compareTo(at.distance()) <= 0)
 				.filter(c -> c.offset.add(c.length)
@@ -193,10 +189,8 @@ public class AsSplitTopGraph
 					inTopDirection);
 		}
 
-		final Optional<Edge> graphEdge = baseGraph.edgeSet()
-				.stream()
-				.filter(c -> c.edge == edge)
-				.findFirst();
+		final Optional<Edge> graphEdge = baseGraph.edgeSet().stream()
+				.filter(c -> c.edge == edge).findFirst();
 		if (graphEdge.isPresent()) {
 			return splitGraphAt(baseGraph, at, graphEdge.get(), inTopDirection);
 		}

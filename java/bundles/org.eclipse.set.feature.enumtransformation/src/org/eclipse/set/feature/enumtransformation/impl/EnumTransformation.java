@@ -50,8 +50,7 @@ public class EnumTransformation {
 	public static TranslationCode transform(
 			final Map<String, EnumTranslation> translations) {
 		final TranslationCode translationCode = new TranslationCode();
-		translations.keySet()
-				.stream()
+		translations.keySet().stream()
 				.sorted((a, b) -> a.compareToIgnoreCase(b))
 				.forEach(key -> translationCode.add(translations.get(key)));
 		return translationCode;
@@ -84,14 +83,14 @@ public class EnumTransformation {
 		}
 		final CellType cellType = cell.getCellType();
 		switch (cellType) {
-			case BLANK:
-				return null;
-			case STRING:
-				return transformToValue(cell.getStringCellValue());
-			case NUMERIC:
-				return transform(cell.getNumericCellValue());
-			default:
-				throw new IllegalArgumentException(cellType.toString());
+		case BLANK:
+			return null;
+		case STRING:
+			return transformToValue(cell.getStringCellValue());
+		case NUMERIC:
+			return transform(cell.getNumericCellValue());
+		default:
+			throw new IllegalArgumentException(cellType.toString());
 		}
 	}
 

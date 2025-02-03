@@ -56,10 +56,8 @@ public abstract class AbstractTabViewPart extends BasePart {
 
 	protected CTabFolder createTabFolder(final Composite parent) {
 		final CTabFolder cTabFolder = new CTabFolder(parent, SWT.BOTTOM);
-		GridDataFactory.fillDefaults()
-				.align(SWT.FILL, SWT.FILL)
-				.grab(true, true)
-				.applyTo(cTabFolder);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL)
+				.grab(true, true).applyTo(cTabFolder);
 		cTabFolder.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -104,10 +102,8 @@ public abstract class AbstractTabViewPart extends BasePart {
 			final Control render = renderer.render(grid, composite);
 
 			renderer.finalizeRendering(composite);
-			GridDataFactory.fillDefaults()
-					.align(SWT.FILL, SWT.FILL)
-					.grab(true, true)
-					.applyTo(render);
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL)
+					.grab(true, true).applyTo(render);
 			final ScrolledComposite scrolledComposite = ScrolledComposite.class
 					.cast(composite);
 			scrolledComposite.setExpandHorizontal(true);

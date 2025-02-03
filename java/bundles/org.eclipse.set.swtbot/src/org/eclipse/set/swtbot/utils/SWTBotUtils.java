@@ -19,10 +19,8 @@ public class SWTBotUtils {
 	/**
 	 * Waits for any nattable to be visible
 	 * 
-	 * @param bot
-	 *            The SWT Bot
-	 * @param timeout
-	 *            Timeout for waiting
+	 * @param bot     The SWT Bot
+	 * @param timeout Timeout for waiting
 	 * @return The SWTBotNatTable instance for accessing the nattable
 	 */
 	public static SWTBotNatTable waitForNattable(SWTBot bot, int timeout) {
@@ -46,15 +44,11 @@ public class SWTBotUtils {
 	}
 
 	/**
-	 * @param gridLayer
-	 *            The gridLayer
-	 * @param bodyLayerStack
-	 *            The BodyLayerStack
-	 * @param columnHeaderLayer
-	 *            The columnHeaderLayer
+	 * @param gridLayer         The gridLayer
+	 * @param bodyLayerStack    The BodyLayerStack
+	 * @param columnHeaderLayer The columnHeaderLayer
 	 */
-	public record NattableLayers(GridLayer gridLayer,
-			BodyLayerStack bodyLayerStack, ILayer columnHeaderLayer) {
+	public record NattableLayers(GridLayer gridLayer, BodyLayerStack bodyLayerStack, ILayer columnHeaderLayer) {
 
 		/**
 		 * @return the selection layer
@@ -73,8 +67,7 @@ public class SWTBotUtils {
 	}
 
 	/**
-	 * @param nattableBot
-	 *            the nattable bot for the nattable
+	 * @param nattableBot the nattable bot for the nattable
 	 * @return a record of commonly used layers
 	 */
 	public static NattableLayers getNattableLayers(SWTBotNatTable nattableBot) {
@@ -83,11 +76,9 @@ public class SWTBotUtils {
 		assertInstanceOf(GridLayer.class, layer);
 		final GridLayer gridLayer = (GridLayer) layer;
 		assertInstanceOf(BodyLayerStack.class, gridLayer.getBodyLayer());
-		final BodyLayerStack bodyLayerStack = (BodyLayerStack) gridLayer
-				.getBodyLayer();
+		final BodyLayerStack bodyLayerStack = (BodyLayerStack) gridLayer.getBodyLayer();
 
-		return new NattableLayers(gridLayer, bodyLayerStack,
-				gridLayer.getColumnHeaderLayer());
+		return new NattableLayers(gridLayer, bodyLayerStack, gridLayer.getColumnHeaderLayer());
 	}
 
 }

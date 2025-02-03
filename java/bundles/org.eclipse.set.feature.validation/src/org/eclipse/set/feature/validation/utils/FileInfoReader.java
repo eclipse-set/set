@@ -112,8 +112,7 @@ public class FileInfoReader {
 		if (this.toolboxFile.getFormat().isPlain()) {
 			return List.of(ContainerContent.MODEL);
 		}
-		final File modelDir = this.toolboxFile.getModelPath()
-				.getParent()
+		final File modelDir = this.toolboxFile.getModelPath().getParent()
 				.toFile();
 		if (!modelDir.isDirectory()) {
 			return Collections.emptyList();

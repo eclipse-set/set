@@ -11,19 +11,17 @@ package org.eclipse.set.model.siteplan;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Track
- * Section</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Track Section</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSection#getShape
- * <em>Shape</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSection#getSegments
- * <em>Segments</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSection#getColor
- * <em>Color</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSection#getShape <em>Shape</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSection#getSegments <em>Segments</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSection#getColor <em>Color</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSection()
@@ -32,11 +30,10 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface TrackSection extends SiteplanObject {
 	/**
-	 * Returns the value of the '<em><b>Shape</b></em>' attribute. The literals
-	 * are from the enumeration
-	 * {@link org.eclipse.set.model.siteplan.TrackShape}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Shape</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.TrackShape}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Shape</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.TrackShape
 	 * @see #setShape(TrackShape)
@@ -47,12 +44,10 @@ public interface TrackSection extends SiteplanObject {
 	TrackShape getShape();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackSection#getShape
-	 * <em>Shape</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Shape</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackSection#getShape <em>Shape</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Shape</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.TrackShape
 	 * @see #getShape()
 	 * @generated
@@ -60,11 +55,10 @@ public interface TrackSection extends SiteplanObject {
 	void setShape(TrackShape value);
 
 	/**
-	 * Returns the value of the '<em><b>Segments</b></em>' containment reference
-	 * list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.TrackSegment}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Segments</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.TrackSegment}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Segments</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSection_Segments()
 	 * @model containment="true"
@@ -73,9 +67,9 @@ public interface TrackSection extends SiteplanObject {
 	EList<TrackSegment> getSegments();
 
 	/**
-	 * Returns the value of the '<em><b>Color</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Color</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Color</em>' attribute.
 	 * @see #setColor(String)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSection_Color()
@@ -85,12 +79,10 @@ public interface TrackSection extends SiteplanObject {
 	String getColor();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackSection#getColor
-	 * <em>Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Color</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackSection#getColor <em>Color</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Color</em>' attribute.
 	 * @see #getColor()
 	 * @generated
 	 */

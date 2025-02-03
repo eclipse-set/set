@@ -76,10 +76,8 @@ public class CommonPlanProInitialization implements InitializationStep {
 				.setWert(currentTime());
 
 		// Werkzeug Name
-		planProSchnittstelleAllg.getWerkzeugName()
-				.setWert(configuaration.getBrandingService()
-						.getNames()
-						.getToolName());
+		planProSchnittstelleAllg.getWerkzeugName().setWert(
+				configuaration.getBrandingService().getNames().getToolName());
 
 		// Werkzeug Version
 		final ToolboxVersion version = ToolboxConfiguration.getToolboxVersion();

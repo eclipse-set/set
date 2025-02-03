@@ -35,8 +35,8 @@ public class LoadExampleContribution {
 		final MDirectMenuItem directMenuItem = modelService
 				.createModelElement(MDirectMenuItem.class);
 		directMenuItem.setLabel(exampleFile.getLabel());
-		directMenuItem.getTransientData()
-				.put(ExampleService.EXAMPLE_FILE_KEY, exampleFile);
+		directMenuItem.getTransientData().put(ExampleService.EXAMPLE_FILE_KEY,
+				exampleFile);
 		directMenuItem.setContributorURI(CONTRIBUTOR_PLUGIN);
 		directMenuItem.setContributionURI(CONTRIBUTION_CLASS);
 		items.add(directMenuItem);

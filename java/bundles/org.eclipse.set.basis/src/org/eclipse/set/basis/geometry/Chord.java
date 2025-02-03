@@ -149,7 +149,7 @@ public class Chord {
 
 	/**
 	 * Linearizes this chord into linear segments
-	 * 
+	 
 	 * @return an array of xy-coordinates representing this chord
 	 */
 	public double[] linearize() {

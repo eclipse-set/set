@@ -78,8 +78,7 @@ public class StellBereichExtensions {
 		return StreamSupport
 				.stream(container.getStellBereich().spliterator(), false)
 				.filter(e -> e.getIdentitaet().getWert().equals(guid))
-				.findFirst()
-				.orElse(null);
+				.findFirst().orElse(null);
 	}
 
 	/**
@@ -92,8 +91,7 @@ public class StellBereichExtensions {
 		return getNullableObject(area, e -> {
 			final Aussenelementansteuerung aussenElementAnsteuerung = getAussenElementAnsteuerung(
 					e);
-			return aussenElementAnsteuerung.getBezeichnung()
-					.getBezeichnungAEA()
+			return aussenElementAnsteuerung.getBezeichnung().getBezeichnungAEA()
 					.getWert();
 		}).orElse(null);
 	}
@@ -112,8 +110,7 @@ public class StellBereichExtensions {
 					e);
 			final Oertlichkeit oertlichkeit = AussenelementansteuerungExtensions
 					.getOertlichkeitNamensgebend(aussenElementAnsteuerung);
-			return oertlichkeit.getBezeichnung()
-					.getOertlichkeitAbkuerzung()
+			return oertlichkeit.getBezeichnung().getOertlichkeitAbkuerzung()
 					.getWert();
 		}).orElse(null);
 	}
@@ -126,10 +123,8 @@ public class StellBereichExtensions {
 	 */
 	public static String getAussenelementansteuerungBezeichnungAEA(
 			final Stell_Bereich area) {
-		return getNullableObject(area,
-				e -> getAussenElementAnsteuerung(e).getBezeichnung()
-						.getBezeichnungAEA()
-						.getWert()).orElse(null);
+		return getNullableObject(area, e -> getAussenElementAnsteuerung(e)
+				.getBezeichnung().getBezeichnungAEA().getWert()).orElse(null);
 	}
 
 	/**
@@ -158,8 +153,7 @@ public class StellBereichExtensions {
 				aussenElementAnsteuerung);
 		return estwZentraleinheits.stream()
 				.flatMap(estw -> getTechnikStandort(estw).stream())
-				.filter(Objects::nonNull)
-				.toList();
+				.filter(Objects::nonNull).toList();
 	}
 
 	/**
@@ -196,70 +190,70 @@ public class StellBereichExtensions {
 			return false;
 		}
 		return switch (object) {
-			case final Aussenelementansteuerung aussenElement -> AussenelementansteuerungExtensions
-					.isBelongToControlArea(aussenElement, area);
-			case final ESTW_Zentraleinheit estwZentral -> ESTW_ZentraleinheitExtensions
-					.isBelongToControlArea(estwZentral, area);
-			case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
-					.isBelongToControlArea(oertlich, area);
-			case final FMA_Anlage fmaAnlage -> isOverlappingControlArea(area,
-					getNullableObject(fmaAnlage,
-							anlage -> anlage.getIDGleisAbschnitt().getValue())
-									.orElse(null),
-					50);
-			case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
-					.isBelongToControlArea(fmaKomponente, area);
-			case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions
-					.isBelongToControlArea(zugeinwirkung, area);
-			case final PZB_Element pzb -> PZBElementExtensions
-					.isBelongToControlArea(pzb, area);
-			case final Signal signal -> SignalExtensions
-					.isBelongToControlArea(signal, area);
-			case final Technik_Standort standort -> TechnikStandortExtensions
-					.isBelongToControlArea(standort, area);
-			case final Bedien_Standort standort -> BedienStandortExtensions
-					.isBelongToControlArea(standort, area);
-			case final W_Kr_Gsp_Element gspElement -> WKrGspElementExtensions
-					.isBelongToControlArea(gspElement, area);
-			case final W_Kr_Gsp_Komponente gspKomponent -> isInControlArea(area,
-					getNullableObject(gspKomponent,
-							gsp -> gsp.getIDWKrGspElement().getValue())
-									.orElse(null));
-			case final Fstr_Aneinander fstr -> FstrAneinanderExtensions
-					.isBelongToControlArea(fstr, area);
-			case final Fstr_DWeg fstr -> FstrDWegWKrExtensions
-					.isBelongToControlArea(fstr, area);
-			case final Fstr_Zug_Rangier fstr -> FstrZugRangierExtensions
-					.isBelongToControlArea(fstr, area);
-			case final Fla_Schutz fla -> FlaSchutzExtensions
-					.isBelongToControlArea(fla, area);
-			case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
-					.isBelongToControlArea(fla, area);
-			case final Gleis_Abschnitt segment -> BereichObjektExtensions
-					.intersects(area, segment);
-			case final Gleis_Bezeichnung description -> isOverlappingControlArea(
-					area, description, 50);
-			case final NB_Zone nbZone -> NbZoneExtensions
-					.isBelongToControlArea(nbZone, area);
-			case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
-					.isBelongToControlArea(uebertrangsweg, area);
-			case final Bedien_Bezirk bedienBezirk -> BedienBezirkExtensions
-					.isBelongToControlArea(bedienBezirk, area);
-			case final Bedien_Zentrale controlCenter -> BedienZentraleExtensions
-					.isBelongToControlArea(controlCenter, area);
-			case final ZN_ZBS znZBS -> isInControlArea(area,
-					getNullableObject(znZBS,
-							ele -> ele.getIDESTWZentraleinheit().getValue())
-									.orElse(null));
-			case final Stellelement stellelement -> StellelementExtensions
-					.isBelongToControlArea(stellelement, area);
-			case final Block_Element blockElement -> BlockElementExtensions
-					.isBelongToControlArea(blockElement, area);
-			case final BUE_Kante bueKante -> BereichObjektExtensions
-					.intersects(area, bueKante);
-			case final BUE_Anlage bueAnlage -> BereichObjektExtensions
-					.intersects(area, bueAnlage);
-			default -> throw new IllegalArgumentException();
+		case final Aussenelementansteuerung aussenElement -> AussenelementansteuerungExtensions
+				.isBelongToControlArea(aussenElement, area);
+		case final ESTW_Zentraleinheit estwZentral -> ESTW_ZentraleinheitExtensions
+				.isBelongToControlArea(estwZentral, area);
+		case final Bedien_Einrichtung_Oertlich oertlich -> BedienEinrichtungOertlichExtensions
+				.isBelongToControlArea(oertlich, area);
+		case final FMA_Anlage fmaAnlage -> isOverlappingControlArea(area,
+				getNullableObject(fmaAnlage,
+						anlage -> anlage.getIDGleisAbschnitt().getValue())
+								.orElse(null),
+				50);
+		case final FMA_Komponente fmaKomponente -> FmaKomponenteExtensions
+				.isBelongToControlArea(fmaKomponente, area);
+		case final Zugeinwirkung zugeinwirkung -> ZugEinwirkungExtensions
+				.isBelongToControlArea(zugeinwirkung, area);
+		case final PZB_Element pzb -> PZBElementExtensions
+				.isBelongToControlArea(pzb, area);
+		case final Signal signal -> SignalExtensions
+				.isBelongToControlArea(signal, area);
+		case final Technik_Standort standort -> TechnikStandortExtensions
+				.isBelongToControlArea(standort, area);
+		case final Bedien_Standort standort -> BedienStandortExtensions
+				.isBelongToControlArea(standort, area);
+		case final W_Kr_Gsp_Element gspElement -> WKrGspElementExtensions
+				.isBelongToControlArea(gspElement, area);
+		case final W_Kr_Gsp_Komponente gspKomponent -> isInControlArea(area,
+				getNullableObject(gspKomponent,
+						gsp -> gsp.getIDWKrGspElement().getValue())
+								.orElse(null));
+		case final Fstr_Aneinander fstr -> FstrAneinanderExtensions
+				.isBelongToControlArea(fstr, area);
+		case final Fstr_DWeg fstr -> FstrDWegWKrExtensions
+				.isBelongToControlArea(fstr, area);
+		case final Fstr_Zug_Rangier fstr -> FstrZugRangierExtensions
+				.isBelongToControlArea(fstr, area);
+		case final Fla_Schutz fla -> FlaSchutzExtensions
+				.isBelongToControlArea(fla, area);
+		case final Fla_Zwieschutz fla -> FlaZwieschutzExtensions
+				.isBelongToControlArea(fla, area);
+		case final Gleis_Abschnitt segment -> BereichObjektExtensions
+				.intersects(area, segment);
+		case final Gleis_Bezeichnung description -> isOverlappingControlArea(
+				area, description, 50);
+		case final NB_Zone nbZone -> NbZoneExtensions
+				.isBelongToControlArea(nbZone, area);
+		case final Uebertragungsweg uebertrangsweg -> UebertragungswegExtensions
+				.isBelongToControlArea(uebertrangsweg, area);
+		case final Bedien_Bezirk bedienBezirk -> BedienBezirkExtensions
+				.isBelongToControlArea(bedienBezirk, area);
+		case final Bedien_Zentrale controlCenter -> BedienZentraleExtensions
+				.isBelongToControlArea(controlCenter, area);
+		case final ZN_ZBS znZBS -> isInControlArea(area,
+				getNullableObject(znZBS,
+						ele -> ele.getIDESTWZentraleinheit().getValue())
+								.orElse(null));
+		case final Stellelement stellelement -> StellelementExtensions
+				.isBelongToControlArea(stellelement, area);
+		case final Block_Element blockElement -> BlockElementExtensions
+				.isBelongToControlArea(blockElement, area);
+		case final BUE_Kante bueKante -> BereichObjektExtensions
+				.intersects(area, bueKante);
+		case final BUE_Anlage bueAnlage -> BereichObjektExtensions
+				.intersects(area, bueAnlage);
+		default -> throw new IllegalArgumentException();
 		};
 	}
 

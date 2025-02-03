@@ -194,13 +194,10 @@ public final class TableServiceImpl implements TableService {
 	private PlanPro2TableTransformationService getModelService(
 			final String elementId) {
 		final Entry<TableInfo, PlanPro2TableTransformationService> result = modelServiceMap
-				.entrySet()
-				.stream()
-				.filter(modelService -> modelService.getKey()
-						.shortcut()
+				.entrySet().stream()
+				.filter(modelService -> modelService.getKey().shortcut()
 						.equals(elementId.toLowerCase()))
-				.findFirst()
-				.orElse(null);
+				.findFirst().orElse(null);
 		if (result == null) {
 			throw new IllegalArgumentException(
 					"no model service for " + elementId + " found!"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -238,19 +235,14 @@ public final class TableServiceImpl implements TableService {
 				final List<List<TableError>> tableErrors = cacheKeys.stream()
 						.map(cacheKey -> (List<TableError>) cache
 								.getIfPresent(cacheKey.getValue()))
-						.filter(Objects::nonNull)
-						.toList();
+						.filter(Objects::nonNull).toList();
 				if (!tableErrors.isEmpty() || Thread.getAllStackTraces()
-						.keySet()
-						.stream()
-						.anyMatch(thread -> thread.getName()
-								.toLowerCase()
+						.keySet().stream()
+						.anyMatch(thread -> thread.getName().toLowerCase()
 								.startsWith(
 										tableInfo.shortcut().toLowerCase()))) {
-					map.put(tableInfo.shortcut(),
-							tableErrors.stream()
-									.flatMap(List::stream)
-									.toList());
+					map.put(tableInfo.shortcut(), tableErrors.stream()
+							.flatMap(List::stream).toList());
 				}
 			}
 		});
@@ -272,8 +264,8 @@ public final class TableServiceImpl implements TableService {
 		final Collection<TableError> combined = new ArrayList<>();
 		combined.addAll(initialErrors);
 		combined.addAll(finalErrors);
-		getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS)
-				.set(cacheKey, combined);
+		getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS).set(cacheKey,
+				combined);
 		broker.post(Events.TABLEERROR_CHANGED, null);
 		return true;
 	}
@@ -287,17 +279,16 @@ public final class TableServiceImpl implements TableService {
 			error.setTableType(tableType);
 		});
 		switch (tableType) {
-			case INITIAL:
-				getCache()
-						.getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
-						.set(cacheKey, errors);
-				break;
-			case FINAL:
-				getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
-						.set(cacheKey, errors);
-				break;
-			default:
-				return;
+		case INITIAL:
+			getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_INITIAL)
+					.set(cacheKey, errors);
+			break;
+		case FINAL:
+			getCache().getCache(ToolboxConstants.CacheId.TABLE_ERRORS_FINAL)
+					.set(cacheKey, errors);
+			break;
+		default:
+			return;
 		}
 		combineTableErrors(cacheKey);
 	}
@@ -451,11 +442,8 @@ public final class TableServiceImpl implements TableService {
 				table = (Table) loadTransform(shortCut, tableType, modelSession,
 						areaId, areaCacheKey);
 				// Not storage table, when table isn't complete transform
-				if (Thread.getAllStackTraces()
-						.keySet()
-						.stream()
-						.noneMatch(thread -> thread.getName()
-								.toLowerCase()
+				if (Thread.getAllStackTraces().keySet().stream()
+						.noneMatch(thread -> thread.getName().toLowerCase()
 								.startsWith(shortCut))) {
 					cache.set(areaCacheKey, table);
 				}
@@ -491,22 +479,18 @@ public final class TableServiceImpl implements TableService {
 						|| tableCategories.stream().anyMatch(prefix::contains))
 				.toList();
 		// Get already open table parts
-		final List<MPart> openTableParts = partService.getOpenParts()
-				.stream()
-				.filter(part -> tablePrefixes.stream()
-						.anyMatch(prefix -> part.getElementId()
-								.startsWith(prefix))
+		final List<MPart> openTableParts = partService.getOpenParts().stream()
+				.filter(part -> tablePrefixes.stream().anyMatch(
+						prefix -> part.getElementId().startsWith(prefix))
 						// IMPROVE: currently table overview isn't regard on
 						// control area
 						&& !part.getElementId()
 								.endsWith(ToolboxConstants.TABLE_OVERVIEW_ID))
-				.map(MPart.class::cast)
-				.toList();
+				.map(MPart.class::cast).toList();
 
 		transformTableThreads.add(new Pair<>(tablePart, updateTableHandler));
 		final List<MPart> parts = transformTableThreads.stream()
-				.map(pair -> pair.getKey().getToolboxPart())
-				.toList();
+				.map(pair -> pair.getKey().getToolboxPart()).toList();
 
 		// Create a loading monitor only when the current table part isn't open
 		// or already collect all transform handler of the open table parts
@@ -552,8 +536,7 @@ public final class TableServiceImpl implements TableService {
 			for (Pair<BasePart, Runnable> transformThread; (transformThread = transformTableThreads
 					.poll()) != null;) {
 				final String shortcut = extractShortcut(transformThread.getKey()
-						.getToolboxPart()
-						.getElementId());
+						.getToolboxPart().getElementId());
 				final TableNameInfo tableNameInfo = getTableNameInfo(shortcut);
 				monitor.subTask(tableNameInfo.getFullDisplayName());
 				Display.getDefault().syncExec(transformThread.getValue());

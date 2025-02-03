@@ -76,11 +76,9 @@ public class ModelInformationGroup {
 				.getLSTPlanungEinzel();
 
 		final Container_AttributeGroup initialContainer = PlanungEinzelExtensions
-				.LSTZustandStart(singlePlanningState)
-				.getContainer();
+				.LSTZustandStart(singlePlanningState).getContainer();
 		final Container_AttributeGroup finalContainer = PlanungEinzelExtensions
-				.LSTZustandZiel(singlePlanningState)
-				.getContainer();
+				.LSTZustandZiel(singlePlanningState).getContainer();
 		final PlanPro_Layoutinfo layoutInfo = session.getLayoutInformation();
 
 		countInitial = createCountInfo(group,
@@ -115,11 +113,9 @@ public class ModelInformationGroup {
 				.getLSTPlanungEinzel();
 
 		final Container_AttributeGroup initialContainer = PlanungEinzelExtensions
-				.LSTZustandStart(singlePlanningState)
-				.getContainer();
+				.LSTZustandStart(singlePlanningState).getContainer();
 		final Container_AttributeGroup finalContainer = PlanungEinzelExtensions
-				.LSTZustandZiel(singlePlanningState)
-				.getContainer();
+				.LSTZustandZiel(singlePlanningState).getContainer();
 		final PlanPro_Layoutinfo layoutInfo = session.getLayoutInformation();
 		countInitial.setText(Integer
 				.toString(ContainerExtensions.getSize(initialContainer)));

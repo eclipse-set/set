@@ -42,8 +42,7 @@ public interface EnumTranslationService {
 	 * @throws NoEnumTranslationFound
 	 *             if no translation was found for the given enumerator
 	 */
-	EnumTranslation translate(Enumerator enumerator)
-			throws NoEnumTranslationFound;
+	EnumTranslation translate(Enumerator enumerator) throws NoEnumTranslationFound;
 
 	/**
 	 * @param <T>

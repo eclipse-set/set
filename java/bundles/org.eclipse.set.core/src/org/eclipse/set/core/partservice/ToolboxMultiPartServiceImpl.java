@@ -173,12 +173,10 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 	public List<MPart> getOpenParts() {
 		final List<MPartStack> stacks = modelService.findElements(application,
 				null, MPartStack.class, null);
-		return stacks.stream()
-				.flatMap(stack -> stack.getChildren().stream())
+		return stacks.stream().flatMap(stack -> stack.getChildren().stream())
 				.filter(e -> MApplicationElementExtensions.isOpenPart(e)
 						&& e != actionPart)
-				.map(e -> (MPart) e)
-				.collect(Collectors.toList());
+				.map(e -> (MPart) e).collect(Collectors.toList());
 	}
 
 	@Override
@@ -218,9 +216,8 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 
 	@Override
 	public boolean isOpen(final PartDescription description) {
-		return getOpenParts().stream()
-				.anyMatch(p -> Objects.equals(p.getElementId(),
-						description.getId()));
+		return getOpenParts().stream().anyMatch(
+				p -> Objects.equals(p.getElementId(), description.getId()));
 	}
 
 	@Override
@@ -262,8 +259,8 @@ public class ToolboxMultiPartServiceImpl implements ToolboxPartService {
 				part.setLabel(fileName.toString());
 			}
 			part.setElementId(attViewerPartId);
-			part.getTransientData()
-					.put(ToolboxConstants.FILE_PARAMETER, path.toString());
+			part.getTransientData().put(ToolboxConstants.FILE_PARAMETER,
+					path.toString());
 
 			// place the part
 			getPrimaryPartStack().getChildren().add(part);

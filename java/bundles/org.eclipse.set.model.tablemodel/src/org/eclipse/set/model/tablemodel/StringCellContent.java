@@ -10,18 +10,21 @@ package org.eclipse.set.model.tablemodel;
 
 import org.eclipse.emf.common.util.EList;
 
+
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>String
- * Cell Content</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>String Cell Content</b></em>'.
+ * <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Standard cell with text. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * Standard cell with text.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.StringCellContent#getValue
- * <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.StringCellContent#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getStringCellContent()
@@ -30,11 +33,13 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface StringCellContent extends CellContent {
 	/**
-	 * Returns the value of the '<em><b>Value</b></em>' attribute list. The list
-	 * contents are of type {@link java.lang.String}. <!-- begin-user-doc -->
-	 * <!-- end-user-doc --> <!-- begin-model-doc --> The text. <!--
-	 * end-model-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Value</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The text.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Value</em>' attribute list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getStringCellContent_Value()
 	 * @model

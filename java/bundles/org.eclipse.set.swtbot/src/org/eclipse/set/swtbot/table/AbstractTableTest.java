@@ -76,11 +76,9 @@ public abstract class AbstractTableTest extends AbstractPPHNTest {
 					.getPreferredColumnCount(); columnIndex++) {
 				final String cellValue = nattableLayer
 						.getDataValueByPosition(columnIndex, rowIndex)
-						.toString()
-						.replaceAll(CELL_VALUE_REPLACE_REGEX, "");
+						.toString().replaceAll(CELL_VALUE_REPLACE_REGEX, "");
 				final String referenceValue = referenceData
-						.get(rowIndex + startRow)
-						.get(columnIndex + 1)
+						.get(rowIndex + startRow).get(columnIndex + 1)
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
 						// By Nattable 2.2.0 add to much double quote into
 						// richtext

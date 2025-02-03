@@ -49,14 +49,12 @@ import org.eclipse.set.model.planpro.Zugnummernmeldeanlage.Zugnummernmeldeanlage
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class TableformatPackageImpl extends EPackageImpl
 		implements TableformatPackage {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
@@ -77,16 +75,11 @@ public class TableformatPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	public static TableformatPackage init() {
-		if (isInited)
-			return (TableformatPackage) EPackage.Registry.INSTANCE
-					.getEPackage(TableformatPackage.eNS_URI);
+		if (isInited) return (TableformatPackage)EPackage.Registry.INSTANCE.getEPackage(TableformatPackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredTableformatPackage = EPackage.Registry.INSTANCE
-				.get(eNS_URI);
-		TableformatPackageImpl theTableformatPackage = registeredTableformatPackage instanceof TableformatPackageImpl
-				? (TableformatPackageImpl) registeredTableformatPackage
-				: new TableformatPackageImpl();
+		Object registeredTableformatPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		TableformatPackageImpl theTableformatPackage = registeredTableformatPackage instanceof TableformatPackageImpl ? (TableformatPackageImpl)registeredTableformatPackage : new TableformatPackageImpl();
 
 		isInited = true;
 
@@ -130,35 +123,30 @@ public class TableformatPackageImpl extends EPackageImpl
 		theTableformatPackage.freeze();
 
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(TableformatPackage.eNS_URI,
-				theTableformatPackage);
+		EPackage.Registry.INSTANCE.put(TableformatPackage.eNS_URI, theTableformatPackage);
 		return theTableformatPackage;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass cellFormatEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum textAlignmentEEnum = null;
@@ -183,15 +171,14 @@ public class TableformatPackageImpl extends EPackageImpl
 	}
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to
-	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated)
-			return;
+		if (isCreated) return;
 		isCreated = true;
 
 		// Create classes and their features
@@ -204,7 +191,6 @@ public class TableformatPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -214,27 +200,24 @@ public class TableformatPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getCellFormat_TextAlignment() {
-		return (EAttribute) cellFormatEClass.getEStructuralFeatures().get(0);
+		return (EAttribute)cellFormatEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public TableformatFactory getTableformatFactory() {
-		return (TableformatFactory) getEFactoryInstance();
+		return (TableformatFactory)getEFactoryInstance();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -250,8 +233,7 @@ public class TableformatPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized)
-			return;
+		if (isInitialized) return;
 		isInitialized = true;
 
 		// Initialize package
@@ -260,24 +242,18 @@ public class TableformatPackageImpl extends EPackageImpl
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		TablemodelPackage theTablemodelPackage = (TablemodelPackage) EPackage.Registry.INSTANCE
-				.getEPackage(TablemodelPackage.eNS_URI);
+		TablemodelPackage theTablemodelPackage = (TablemodelPackage)EPackage.Registry.INSTANCE.getEPackage(TablemodelPackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		cellFormatEClass.getESuperTypes()
-				.add(theTablemodelPackage.getCellAnnotation());
+		cellFormatEClass.getESuperTypes().add(theTablemodelPackage.getCellAnnotation());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(cellFormatEClass, CellFormat.class, "CellFormat",
-				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCellFormat_TextAlignment(), this.getTextAlignment(),
-				"textAlignment", null, 1, 1, CellFormat.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
+		initEClass(cellFormatEClass, CellFormat.class, "CellFormat", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCellFormat_TextAlignment(), this.getTextAlignment(), "textAlignment", null, 1, 1, CellFormat.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(textAlignmentEEnum, TextAlignment.class, "TextAlignment");

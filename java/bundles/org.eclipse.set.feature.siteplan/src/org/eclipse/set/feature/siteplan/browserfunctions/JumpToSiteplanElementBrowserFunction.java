@@ -41,8 +41,7 @@ public class JumpToSiteplanElementBrowserFunction {
 	 * @param webbrowser
 	 *            browser to add this function to
 	 */
-	public JumpToSiteplanElementBrowserFunction(
-			final SiteplanService siteplanService,
+	public JumpToSiteplanElementBrowserFunction(final SiteplanService siteplanService,
 			final WebBrowser webbrowser) {
 		this.siteplanService = siteplanService;
 		this.webBrowser = webbrowser;

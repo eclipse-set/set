@@ -130,8 +130,7 @@ public class ConcretePlanproModelUpdateServiceImpl
 				if (notifiedFeature == null) {
 					return;
 				}
-				if (notifiedFeature.getEType()
-						.getInstanceClass()
+				if (notifiedFeature.getEType().getInstanceClass()
 						.isAssignableFrom(Untergewerk_Art_TypeClass.class)
 						|| notification
 								.getNotifier() instanceof Untergewerk_Art_TypeClass) {

@@ -99,14 +99,10 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 					}
 
 					final List<String> objectArts = newReport.getEntries()
-							.stream()
-							.map(ValidationProblem::getObjectArt)
-							.distinct()
-							.toList();
+							.stream().map(ValidationProblem::getObjectArt)
+							.distinct().toList();
 					final List<ValidationProblem> oldReports = plazReport
-							.getEntries()
-							.stream()
-							.filter(entry -> objectArts
+							.getEntries().stream().filter(entry -> objectArts
 									.contains(entry.getObjectArt()))
 							.toList();
 					plazReport.getEntries().removeAll(oldReports);
@@ -183,10 +179,8 @@ public class PlazModelPart extends AbstractEmfFormsPart {
 		final List<ProblemMessage> problems = cache.get("plazReport", //$NON-NLS-1$
 				ArrayList::new);
 		problems.clear();
-		plazReport.getEntries()
-				.stream()
-				.filter(entry -> entry
-						.getSeverity() != ValidationSeverity.SUCCESS)
+		plazReport.getEntries().stream().filter(
+				entry -> entry.getSeverity() != ValidationSeverity.SUCCESS)
 				.forEach(entry -> problems
 						.add(new ProblemMessage(entry.getMessage(),
 								entry.getType(), entry.getLineNumber(), 2,

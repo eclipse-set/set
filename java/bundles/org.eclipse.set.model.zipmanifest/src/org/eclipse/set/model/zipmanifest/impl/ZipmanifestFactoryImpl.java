@@ -19,36 +19,35 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.set.model.zipmanifest.*;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
- * end-user-doc -->
- * 
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Factory</b>.
+ * <!-- end-user-doc -->
  * @generated
  */
-public class ZipmanifestFactoryImpl extends EFactoryImpl
-		implements ZipmanifestFactory {
+public class ZipmanifestFactoryImpl extends EFactoryImpl implements ZipmanifestFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static ZipmanifestFactory init() {
 		try {
-			ZipmanifestFactory theZipmanifestFactory = (ZipmanifestFactory) EPackage.Registry.INSTANCE
-					.getEFactory(ZipmanifestPackage.eNS_URI);
+			ZipmanifestFactory theZipmanifestFactory = (ZipmanifestFactory)EPackage.Registry.INSTANCE.getEFactory(ZipmanifestPackage.eNS_URI);
 			if (theZipmanifestFactory != null) {
 				return theZipmanifestFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new ZipmanifestFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public ZipmanifestFactoryImpl() {
@@ -56,34 +55,27 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ZipmanifestPackage.DOCUMENT_ROOT:
-				return createDocumentRoot();
-			case ZipmanifestPackage.MANIFEST:
-				return createManifest();
-			case ZipmanifestPackage.CONTENT:
-				return createContent();
-			case ZipmanifestPackage.CONTENT_LIST:
-				return createContentList();
-			case ZipmanifestPackage.MEDIA_LIST:
-				return createMediaList();
-			case ZipmanifestPackage.MEDIA:
-				return createMedia();
+			case ZipmanifestPackage.DOCUMENT_ROOT: return createDocumentRoot();
+			case ZipmanifestPackage.MANIFEST: return createManifest();
+			case ZipmanifestPackage.CONTENT: return createContent();
+			case ZipmanifestPackage.CONTENT_LIST: return createContentList();
+			case ZipmanifestPackage.MEDIA_LIST: return createMediaList();
+			case ZipmanifestPackage.MEDIA: return createMedia();
 			default:
-				throw new IllegalArgumentException("The class '"
-						+ eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -93,8 +85,8 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -104,8 +96,8 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -115,8 +107,8 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -126,8 +118,8 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -137,8 +129,8 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -148,18 +140,18 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public ZipmanifestPackage getZipmanifestPackage() {
-		return (ZipmanifestPackage) getEPackage();
+		return (ZipmanifestPackage)getEPackage();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @deprecated
 	 * @generated
 	 */
@@ -168,4 +160,4 @@ public class ZipmanifestFactoryImpl extends EFactoryImpl
 		return ZipmanifestPackage.eINSTANCE;
 	}
 
-} // ZipmanifestFactoryImpl
+} //ZipmanifestFactoryImpl

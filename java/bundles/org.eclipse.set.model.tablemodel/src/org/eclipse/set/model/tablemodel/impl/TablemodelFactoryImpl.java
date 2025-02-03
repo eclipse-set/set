@@ -20,36 +20,35 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.set.model.tablemodel.*;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
- * end-user-doc -->
- * 
+ * <!-- begin-user-doc -->
+ * An implementation of the model <b>Factory</b>.
+ * <!-- end-user-doc -->
  * @generated
  */
-public class TablemodelFactoryImpl extends EFactoryImpl
-		implements TablemodelFactory {
+public class TablemodelFactoryImpl extends EFactoryImpl implements TablemodelFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static TablemodelFactory init() {
 		try {
-			TablemodelFactory theTablemodelFactory = (TablemodelFactory) EPackage.Registry.INSTANCE
-					.getEFactory(TablemodelPackage.eNS_URI);
+			TablemodelFactory theTablemodelFactory = (TablemodelFactory)EPackage.Registry.INSTANCE.getEFactory(TablemodelPackage.eNS_URI);
 			if (theTablemodelFactory != null) {
 				return theTablemodelFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new TablemodelFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TablemodelFactoryImpl() {
@@ -57,48 +56,34 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case TablemodelPackage.TABLE:
-				return createTable();
-			case TablemodelPackage.COLUMN_DESCRIPTOR:
-				return createColumnDescriptor();
-			case TablemodelPackage.TABLE_CONTENT:
-				return createTableContent();
-			case TablemodelPackage.ROW_GROUP:
-				return createRowGroup();
-			case TablemodelPackage.TABLE_ROW:
-				return createTableRow();
-			case TablemodelPackage.TABLE_CELL:
-				return createTableCell();
-			case TablemodelPackage.STRING_CELL_CONTENT:
-				return createStringCellContent();
-			case TablemodelPackage.COMPARE_CELL_CONTENT:
-				return createCompareCellContent();
-			case TablemodelPackage.CELL_ANNOTATION:
-				return createCellAnnotation();
-			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT:
-				return createMultiColorCellContent();
-			case TablemodelPackage.MULTI_COLOR_CONTENT:
-				return createMultiColorContent();
-			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER:
-				return createCompareFootnoteContainer();
-			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER:
-				return createSimpleFootnoteContainer();
+			case TablemodelPackage.TABLE: return createTable();
+			case TablemodelPackage.COLUMN_DESCRIPTOR: return createColumnDescriptor();
+			case TablemodelPackage.TABLE_CONTENT: return createTableContent();
+			case TablemodelPackage.ROW_GROUP: return createRowGroup();
+			case TablemodelPackage.TABLE_ROW: return createTableRow();
+			case TablemodelPackage.TABLE_CELL: return createTableCell();
+			case TablemodelPackage.STRING_CELL_CONTENT: return createStringCellContent();
+			case TablemodelPackage.COMPARE_CELL_CONTENT: return createCompareCellContent();
+			case TablemodelPackage.CELL_ANNOTATION: return createCellAnnotation();
+			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT: return createMultiColorCellContent();
+			case TablemodelPackage.MULTI_COLOR_CONTENT: return createMultiColorContent();
+			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER: return createCompareFootnoteContainer();
+			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER: return createSimpleFootnoteContainer();
 			default:
-				throw new IllegalArgumentException("The class '"
-						+ eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -109,14 +94,13 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 			case TablemodelPackage.ROW_MERGE_MODE:
 				return createRowMergeModeFromString(eDataType, initialValue);
 			default:
-				throw new IllegalArgumentException("The datatype '"
-						+ eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -127,14 +111,13 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 			case TablemodelPackage.ROW_MERGE_MODE:
 				return convertRowMergeModeToString(eDataType, instanceValue);
 			default:
-				throw new IllegalArgumentException("The datatype '"
-						+ eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -144,8 +127,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -155,8 +138,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -166,8 +149,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -177,8 +160,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -188,8 +171,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -199,8 +182,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -210,8 +193,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -221,8 +204,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -232,8 +215,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -243,8 +226,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -254,8 +237,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -265,8 +248,8 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -276,68 +259,58 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ColumnWidthMode createColumnWidthModeFromString(EDataType eDataType,
-			String initialValue) {
+	public ColumnWidthMode createColumnWidthModeFromString(EDataType eDataType, String initialValue) {
 		ColumnWidthMode result = ColumnWidthMode.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertColumnWidthModeToString(EDataType eDataType,
-			Object instanceValue) {
+	public String convertColumnWidthModeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public RowMergeMode createRowMergeModeFromString(EDataType eDataType,
-			String initialValue) {
+	public RowMergeMode createRowMergeModeFromString(EDataType eDataType, String initialValue) {
 		RowMergeMode result = RowMergeMode.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertRowMergeModeToString(EDataType eDataType,
-			Object instanceValue) {
+	public String convertRowMergeModeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public TablemodelPackage getTablemodelPackage() {
-		return (TablemodelPackage) getEPackage();
+		return (TablemodelPackage)getEPackage();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @deprecated
 	 * @generated
 	 */
@@ -346,4 +319,4 @@ public class TablemodelFactoryImpl extends EFactoryImpl
 		return TablemodelPackage.eINSTANCE;
 	}
 
-} // TablemodelFactoryImpl
+} //TablemodelFactoryImpl

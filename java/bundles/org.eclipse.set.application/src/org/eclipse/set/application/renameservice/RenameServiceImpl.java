@@ -65,17 +65,17 @@ public class RenameServiceImpl implements RenameService {
 				final RenameConfirmation renameConfirmation = dialogService
 						.confirmRename(shell, oldFilename, newFilename);
 				switch (renameConfirmation) {
-					case ABORT:
-						throw new UserAbortion();
-					case CHANGE:
-						deleteOld = true;
-						break;
-					case NEW:
-						deleteOld = false;
-						break;
-					default:
-						throw new IllegalArgumentException(
-								renameConfirmation.toString());
+				case ABORT:
+					throw new UserAbortion();
+				case CHANGE:
+					deleteOld = true;
+					break;
+				case NEW:
+					deleteOld = false;
+					break;
+				default:
+					throw new IllegalArgumentException(
+							renameConfirmation.toString());
 				}
 			}
 

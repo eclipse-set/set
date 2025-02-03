@@ -70,8 +70,7 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 				final var shell = List.of(bot.shells());
 				return shell.stream()
 						.filter(c -> "Statusinformationen".equals(c.getText()))
-						.findAny()
-						.isEmpty();
+						.findAny().isEmpty();
 			}
 
 		}, 5l * 60 * 1000);
@@ -95,8 +94,7 @@ public abstract class AbstractPPHNTest extends AbstractSWTBotTest {
 		final Builder csvBuilder = CSVFormat.Builder.create(CSVFormat.DEFAULT);
 		csvBuilder.setDelimiter(";");
 		final InputStream referenceResource = getTestResourceClass()
-				.getClassLoader()
-				.getResourceAsStream(fileName);
+				.getClassLoader().getResourceAsStream(fileName);
 		if (referenceResource == null) {
 			fail(String.format("Cannot find file: %s", fileName));
 		}

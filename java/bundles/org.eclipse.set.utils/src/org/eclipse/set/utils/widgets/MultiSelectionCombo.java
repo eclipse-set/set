@@ -226,8 +226,7 @@ public class MultiSelectionCombo<T> extends TableComboViewer {
 		}
 		return selectedItems.stream()
 				.filter(item -> !item.equals(values.getDefaultValue()))
-				.map(item -> values.getValue(item))
-				.toList();
+				.map(item -> values.getValue(item)).toList();
 	}
 
 	/**

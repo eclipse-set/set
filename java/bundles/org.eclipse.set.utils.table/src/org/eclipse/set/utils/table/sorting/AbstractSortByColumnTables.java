@@ -112,8 +112,7 @@ public abstract class AbstractSortByColumnTables {
 	protected NatTable createTable(final Composite parent,
 			final Table tableModel) {
 		final ColumnDescriptor rootColumnDescriptor = tableModel
-				.getColumndescriptors()
-				.get(0);
+				.getColumndescriptors().get(0);
 		if (bodyDataProvider == null || bodyLayerStack == null) {
 			this.createTableBodyData(tableModel, null);
 		}
@@ -214,9 +213,9 @@ public abstract class AbstractSortByColumnTables {
 				columnHeaderDataLayer, bodyDataLayer, gridLayer,
 				rootColumnDescriptor, bodyLayerStack, bodyDataProvider));
 		// register key bindings for table exports
-		natTable.getUiBindingRegistry()
-				.registerKeyBinding(new KeyEventMatcher(SWT.MOD1, 'r'),
-						(table, event) -> exportCsv());
+		natTable.getUiBindingRegistry().registerKeyBinding(
+				new KeyEventMatcher(SWT.MOD1, 'r'),
+				(table, event) -> exportCsv());
 		return natTable;
 	}
 
@@ -237,9 +236,8 @@ public abstract class AbstractSortByColumnTables {
 		final UserConfigurationService userConfigurationService = Services
 				.getUserConfigurationService();
 		final Optional<Path> outPath = dialogService.saveFileDialog(shell,
-				dialogService.getCsvFileFilters(),
-				userConfigurationService.getLastExportPath()
-						.resolve(defaultFileName),
+				dialogService.getCsvFileFilters(), userConfigurationService
+						.getLastExportPath().resolve(defaultFileName),
 				dialogTilte);
 
 		final ExportToCSV<String> exportToCSV = new ExportToCSV<>(
@@ -272,8 +270,7 @@ public abstract class AbstractSortByColumnTables {
 				if (selectedCells.isEmpty()) {
 					return new Pair<>(null, Integer.valueOf(-1));
 				}
-				final int rowPosition = selectedCells.iterator()
-						.next()
+				final int rowPosition = selectedCells.iterator().next()
 						.getRowPosition();
 				final String objectScope = bodyDataProvider
 						.getObjectScope(rowPosition);
@@ -290,13 +287,11 @@ public abstract class AbstractSortByColumnTables {
 		return getTableMenuService().createShowInSitePlanItem(
 				creataJumpToSiteplanEvent(), getSelectionLayer(), rowIndex -> {
 					final Collection<ILayerCell> selectedCells = bodyLayerStack
-							.getSelectionLayer()
-							.getSelectedCells();
+							.getSelectionLayer().getSelectedCells();
 					if (selectedCells.isEmpty()) {
 						return false;
 					}
-					final int rowPosition = selectedCells.iterator()
-							.next()
+					final int rowPosition = selectedCells.iterator().next()
 							.getRowPosition();
 					final String guid = getTableRowReferenceObjectGuid(
 							rowPosition);
@@ -314,13 +309,11 @@ public abstract class AbstractSortByColumnTables {
 			@Override
 			public String getGuid() {
 				final Collection<ILayerCell> selectedCells = bodyLayerStack
-						.getSelectionLayer()
-						.getSelectedCells();
+						.getSelectionLayer().getSelectedCells();
 				if (selectedCells.isEmpty()) {
 					return null;
 				}
-				final int rowPosition = selectedCells.iterator()
-						.next()
+				final int rowPosition = selectedCells.iterator().next()
 						.getRowPosition();
 				return getTableRowReferenceObjectGuid(rowPosition);
 			}

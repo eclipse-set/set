@@ -46,8 +46,8 @@ public class VersionInfoServlet extends HttpServlet {
 
 		try (PrintWriter writer = response.getWriter()) {
 			final ObjectMapper mapper = new ObjectMapper();
-			mapper.writerWithDefaultPrettyPrinter()
-					.writeValue(writer, this.versionInfos);
+			mapper.writerWithDefaultPrettyPrinter().writeValue(writer,
+					this.versionInfos);
 		}
 	}
 }

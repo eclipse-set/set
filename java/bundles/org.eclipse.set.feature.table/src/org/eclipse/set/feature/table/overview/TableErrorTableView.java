@@ -147,10 +147,8 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 
 			@Override
 			public String getTableCategory() {
-				if (part.getToolboxPart()
-						.getElementId()
-						.startsWith(
-								ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)) {
+				if (part.getToolboxPart().getElementId().startsWith(
+						ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)) {
 					return ToolboxConstants.ESTW_CATEGORY;
 				}
 				return ToolboxConstants.ETCS_CATEGORY;
@@ -199,8 +197,7 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 
 	private int getSelectionRowPosition() {
 		final Collection<ILayerCell> selectedCells = bodyLayerStack
-				.getSelectionLayer()
-				.getSelectedCells();
+				.getSelectionLayer().getSelectedCells();
 		if (selectedCells.isEmpty()) {
 			return -1;
 		}

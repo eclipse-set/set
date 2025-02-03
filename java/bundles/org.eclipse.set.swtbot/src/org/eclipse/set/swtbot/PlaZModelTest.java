@@ -48,15 +48,13 @@ public class PlaZModelTest extends AbstractTableTest {
 					- fixedColumnCount; columnIndex++) {
 				final String cellValue = nattableLayer
 						.getDataValueByPosition(columnIndex, rowIndex)
-						.toString()
-						.trim()
+						.toString().trim()
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
 						.replaceAll(RICHTEXT_REPLACE_REGEX, "")
 						.replaceAll(ZERO_WIDTH_SPACE, "");
 
 				final String referenceValue = referenceData
-						.get(rowIndex + startRow)
-						.get(columnIndex)
+						.get(rowIndex + startRow).get(columnIndex)
 						.replaceAll(CELL_VALUE_REPLACE_REGEX, "")
 						.replaceAll(ZERO_WIDTH_SPACE, "");
 				assertEquals(referenceValue, cellValue);

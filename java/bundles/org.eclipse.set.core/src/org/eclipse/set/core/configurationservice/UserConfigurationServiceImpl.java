@@ -46,8 +46,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 
 	protected static File getFile() {
 		return Paths.get(ToolboxConstants.TMP_BASE_DIR, FILENAME)
-				.toAbsolutePath()
-				.toFile();
+				.toAbsolutePath().toFile();
 	}
 
 	// IMPROVE: This should be a record, however due to

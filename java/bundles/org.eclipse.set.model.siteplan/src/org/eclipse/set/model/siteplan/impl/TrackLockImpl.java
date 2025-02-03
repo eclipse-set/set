@@ -31,29 +31,26 @@ import org.eclipse.set.model.siteplan.TrackLockLocation;
 import org.eclipse.set.model.siteplan.TurnoutOperatingMode;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Track
- * Lock</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Track Lock</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getComponents
- * <em>Components</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getPreferredLocation
- * <em>Preferred Location</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getOperatingMode
- * <em>Operating Mode</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getLabel
- * <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getPreferredLocation <em>Preferred Location</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getOperatingMode <em>Operating Mode</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackLockImpl#getLabel <em>Label</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	/**
-	 * The cached value of the '{@link #getComponents() <em>Components</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getComponents() <em>Components</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getComponents()
 	 * @generated
 	 * @ordered
@@ -61,9 +58,9 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	protected EList<TrackLockComponent> components;
 
 	/**
-	 * The default value of the '{@link #getPreferredLocation() <em>Preferred
-	 * Location</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPreferredLocation() <em>Preferred Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPreferredLocation()
 	 * @generated
 	 * @ordered
@@ -71,9 +68,9 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	protected static final TrackLockLocation PREFERRED_LOCATION_EDEFAULT = TrackLockLocation.BESIDE_TRACK;
 
 	/**
-	 * The cached value of the '{@link #getPreferredLocation() <em>Preferred
-	 * Location</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPreferredLocation() <em>Preferred Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPreferredLocation()
 	 * @generated
 	 * @ordered
@@ -81,9 +78,9 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	protected TrackLockLocation preferredLocation = PREFERRED_LOCATION_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getOperatingMode() <em>Operating
-	 * Mode</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getOperatingMode() <em>Operating Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getOperatingMode()
 	 * @generated
 	 * @ordered
@@ -91,9 +88,9 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	protected static final TurnoutOperatingMode OPERATING_MODE_EDEFAULT = TurnoutOperatingMode.UNDEFINED;
 
 	/**
-	 * The cached value of the '{@link #getOperatingMode() <em>Operating
-	 * Mode</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOperatingMode() <em>Operating Mode</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getOperatingMode()
 	 * @generated
 	 * @ordered
@@ -101,9 +98,9 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	protected TurnoutOperatingMode operatingMode = OPERATING_MODE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -111,8 +108,8 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	protected Label label;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TrackLockImpl() {
@@ -120,8 +117,8 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -130,23 +127,21 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<TrackLockComponent> getComponents() {
 		if (components == null) {
-			components = new EObjectContainmentEList<TrackLockComponent>(
-					TrackLockComponent.class, this,
-					SiteplanPackage.TRACK_LOCK__COMPONENTS);
+			components = new EObjectContainmentEList<TrackLockComponent>(TrackLockComponent.class, this, SiteplanPackage.TRACK_LOCK__COMPONENTS);
 		}
 		return components;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -155,25 +150,21 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setPreferredLocation(TrackLockLocation newPreferredLocation) {
 		TrackLockLocation oldPreferredLocation = preferredLocation;
-		preferredLocation = newPreferredLocation == null
-				? PREFERRED_LOCATION_EDEFAULT
-				: newPreferredLocation;
+		preferredLocation = newPreferredLocation == null ? PREFERRED_LOCATION_EDEFAULT : newPreferredLocation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_LOCK__PREFERRED_LOCATION,
-					oldPreferredLocation, preferredLocation));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_LOCK__PREFERRED_LOCATION, oldPreferredLocation, preferredLocation));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -182,24 +173,21 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setOperatingMode(TurnoutOperatingMode newOperatingMode) {
 		TurnoutOperatingMode oldOperatingMode = operatingMode;
-		operatingMode = newOperatingMode == null ? OPERATING_MODE_EDEFAULT
-				: newOperatingMode;
+		operatingMode = newOperatingMode == null ? OPERATING_MODE_EDEFAULT : newOperatingMode;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_LOCK__OPERATING_MODE,
-					oldOperatingMode, operatingMode));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_LOCK__OPERATING_MODE, oldOperatingMode, operatingMode));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -208,29 +196,23 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel(Label newLabel,
-			NotificationChain msgs) {
+	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.TRACK_LOCK__LABEL,
-					oldLabel, newLabel);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_LOCK__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -238,35 +220,26 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject) label).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_LOCK__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_LOCK__LABEL, null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_LOCK__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_LOCK__LABEL, null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_LOCK__LABEL, newLabel, newLabel));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_LOCK__LABEL, newLabel, newLabel));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_LOCK__COMPONENTS:
-				return ((InternalEList<?>) getComponents())
-						.basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getComponents()).basicRemove(otherEnd, msgs);
 			case SiteplanPackage.TRACK_LOCK__LABEL:
 				return basicSetLabel(null, msgs);
 		}
@@ -274,8 +247,8 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -294,8 +267,8 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -304,25 +277,24 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_LOCK__COMPONENTS:
 				getComponents().clear();
-				getComponents().addAll(
-						(Collection<? extends TrackLockComponent>) newValue);
+				getComponents().addAll((Collection<? extends TrackLockComponent>)newValue);
 				return;
 			case SiteplanPackage.TRACK_LOCK__PREFERRED_LOCATION:
-				setPreferredLocation((TrackLockLocation) newValue);
+				setPreferredLocation((TrackLockLocation)newValue);
 				return;
 			case SiteplanPackage.TRACK_LOCK__OPERATING_MODE:
-				setOperatingMode((TurnoutOperatingMode) newValue);
+				setOperatingMode((TurnoutOperatingMode)newValue);
 				return;
 			case SiteplanPackage.TRACK_LOCK__LABEL:
-				setLabel((Label) newValue);
+				setLabel((Label)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -338,15 +310,15 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 				setOperatingMode(OPERATING_MODE_EDEFAULT);
 				return;
 			case SiteplanPackage.TRACK_LOCK__LABEL:
-				setLabel((Label) null);
+				setLabel((Label)null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -365,14 +337,13 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (preferredLocation: ");
@@ -383,4 +354,4 @@ public class TrackLockImpl extends SiteplanObjectImpl implements TrackLock {
 		return result.toString();
 	}
 
-} // TrackLockImpl
+} //TrackLockImpl

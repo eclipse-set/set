@@ -15,19 +15,19 @@ import java.util.List;
 import org.eclipse.emf.common.util.Enumerator;
 
 /**
- * <!-- begin-user-doc --> A representation of the literals of the enumeration
- * '<em><b>Validation Severity</b></em>', and utility methods for working with
- * them. <!-- end-user-doc -->
- * 
+ * <!-- begin-user-doc -->
+ * A representation of the literals of the enumeration '<em><b>Validation Severity</b></em>',
+ * and utility methods for working with them.
+ * <!-- end-user-doc -->
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationSeverity()
  * @model
  * @generated
  */
 public enum ValidationSeverity implements Enumerator {
 	/**
-	 * The '<em><b>ERROR</b></em>' literal object. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The '<em><b>ERROR</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #ERROR_VALUE
 	 * @generated
 	 * @ordered
@@ -35,18 +35,17 @@ public enum ValidationSeverity implements Enumerator {
 	ERROR(0, "ERROR", "ERROR"),
 
 	/**
-	 * The '<em><b>WARNING</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>WARNING</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WARNING_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	WARNING(1, "WARNING", "WARNING"),
-	/**
-	 * The '<em><b>SUCCESS</b></em>' literal object. <!-- begin-user-doc -->
+	WARNING(1, "WARNING", "WARNING"), /**
+	 * The '<em><b>SUCCESS</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SUCCESS_VALUE
 	 * @generated
 	 * @ordered
@@ -54,13 +53,13 @@ public enum ValidationSeverity implements Enumerator {
 	SUCCESS(2, "SUCCESS", "SUCCESS");
 
 	/**
-	 * The '<em><b>ERROR</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>ERROR</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>ERROR</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #ERROR
 	 * @model
 	 * @generated
@@ -69,13 +68,13 @@ public enum ValidationSeverity implements Enumerator {
 	public static final int ERROR_VALUE = 0;
 
 	/**
-	 * The '<em><b>WARNING</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>WARNING</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>WARNING</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WARNING
 	 * @model
 	 * @generated
@@ -84,9 +83,9 @@ public enum ValidationSeverity implements Enumerator {
 	public static final int WARNING_VALUE = 1;
 
 	/**
-	 * The '<em><b>SUCCESS</b></em>' literal value. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The '<em><b>SUCCESS</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #SUCCESS
 	 * @model
 	 * @generated
@@ -96,28 +95,30 @@ public enum ValidationSeverity implements Enumerator {
 
 	/**
 	 * An array of all the '<em><b>Validation Severity</b></em>' enumerators.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final ValidationSeverity[] VALUES_ARRAY = new ValidationSeverity[] {
-			ERROR, WARNING, SUCCESS, };
+	private static final ValidationSeverity[] VALUES_ARRAY =
+		new ValidationSeverity[] {
+			ERROR,
+			WARNING,
+			SUCCESS,
+		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Validation Severity</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Validation Severity</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<ValidationSeverity> VALUES = Collections
-			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ValidationSeverity> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Validation Severity</b></em>' literal with the
-	 * specified literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param literal
-	 *            the literal.
+	 * Returns the '<em><b>Validation Severity</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param literal the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -132,11 +133,10 @@ public enum ValidationSeverity implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Validation Severity</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param name
-	 *            the name.
+	 * Returns the '<em><b>Validation Severity</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param name the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -151,51 +151,47 @@ public enum ValidationSeverity implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Validation Severity</b></em>' literal with the
-	 * specified integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the integer value.
+	 * Returns the '<em><b>Validation Severity</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ValidationSeverity get(int value) {
 		switch (value) {
-			case ERROR_VALUE:
-				return ERROR;
-			case WARNING_VALUE:
-				return WARNING;
-			case SUCCESS_VALUE:
-				return SUCCESS;
+			case ERROR_VALUE: return ERROR;
+			case WARNING_VALUE: return WARNING;
+			case SUCCESS_VALUE: return SUCCESS;
 		}
 		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private ValidationSeverity(int value, String name, String literal) {
@@ -205,44 +201,44 @@ public enum ValidationSeverity implements Enumerator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-		return value;
+	  return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-		return name;
+	  return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-		return literal;
+	  return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
 		return literal;
 	}
-
-} // ValidationSeverity
+	
+} //ValidationSeverity

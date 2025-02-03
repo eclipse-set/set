@@ -55,8 +55,8 @@ public class ZippedPlanProFileFormatService
 	@Override
 	public Collection<ToolboxFileExtension> extensionsForCategory(
 			final String category) {
-		return sessionService.getZippedSupportMap()
-				.getOrDefault(category, Collections.emptySet());
+		return sessionService.getZippedSupportMap().getOrDefault(category,
+				Collections.emptySet());
 	}
 
 	@Override
@@ -95,8 +95,8 @@ public class ZippedPlanProFileFormatService
 			final String extension = toolboxExtension.getExtension();
 			if (extension.length() > 0) {
 				final PlanProResourceFactoryImpl resourceFactory = new PlanProResourceFactoryImpl();
-				registry.getContentTypeToFactoryMap()
-						.put(extension, resourceFactory);
+				registry.getContentTypeToFactoryMap().put(extension,
+						resourceFactory);
 			}
 		}
 

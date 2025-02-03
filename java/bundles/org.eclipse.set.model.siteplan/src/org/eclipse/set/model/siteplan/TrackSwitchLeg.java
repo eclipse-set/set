@@ -13,17 +13,16 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Track
- * Switch Leg</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Track Switch Leg</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSwitchLeg#getConnection
- * <em>Connection</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSwitchLeg#getCoordinates
- * <em>Coordinates</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchLeg#getConnection <em>Connection</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchLeg#getCoordinates <em>Coordinates</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitchLeg()
@@ -32,11 +31,10 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface TrackSwitchLeg extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Connection</b></em>' attribute. The
-	 * literals are from the enumeration
-	 * {@link org.eclipse.set.model.siteplan.LeftRight}. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Connection</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.LeftRight}.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Connection</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.LeftRight
 	 * @see #setConnection(LeftRight)
@@ -47,13 +45,10 @@ public interface TrackSwitchLeg extends EObject {
 	LeftRight getConnection();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackSwitchLeg#getConnection
-	 * <em>Connection</em>}' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Connection</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackSwitchLeg#getConnection <em>Connection</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Connection</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.LeftRight
 	 * @see #getConnection()
 	 * @generated
@@ -61,13 +56,11 @@ public interface TrackSwitchLeg extends EObject {
 	void setConnection(LeftRight value);
 
 	/**
-	 * Returns the value of the '<em><b>Coordinates</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.Coordinate}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Coordinates</em>' containment reference
-	 *         list.
+	 * Returns the value of the '<em><b>Coordinates</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Coordinate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Coordinates</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitchLeg_Coordinates()
 	 * @model containment="true"
 	 * @generated

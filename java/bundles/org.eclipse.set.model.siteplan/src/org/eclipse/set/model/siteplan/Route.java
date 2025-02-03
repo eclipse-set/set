@@ -11,17 +11,16 @@ package org.eclipse.set.model.siteplan;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object
- * '<em><b>Route</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Route</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.Route#getSections
- * <em>Sections</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Route#getMarkers
- * <em>Markers</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Route#getSections <em>Sections</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Route#getMarkers <em>Markers</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getRoute()
@@ -30,11 +29,10 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface Route extends SiteplanObject {
 	/**
-	 * Returns the value of the '<em><b>Sections</b></em>' containment reference
-	 * list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.RouteSection}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Sections</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.RouteSection}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Sections</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getRoute_Sections()
 	 * @model containment="true"
@@ -43,11 +41,10 @@ public interface Route extends SiteplanObject {
 	EList<RouteSection> getSections();
 
 	/**
-	 * Returns the value of the '<em><b>Markers</b></em>' containment reference
-	 * list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.KMMarker}. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Markers</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.KMMarker}.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Markers</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getRoute_Markers()
 	 * @model containment="true"

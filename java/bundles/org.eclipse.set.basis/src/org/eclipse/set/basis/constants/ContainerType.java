@@ -36,14 +36,14 @@ public enum ContainerType implements Translateable {
 	 */
 	public TableType getDefaultTableType() {
 		switch (this) {
-			case FINAL:
-				return TableType.FINAL;
-			case INITIAL:
-				return TableType.INITIAL;
-			case SINGLE:
-				return TableType.SINGLE;
-			default:
-				throw new IllegalArgumentException(this.toString());
+		case FINAL:
+			return TableType.FINAL;
+		case INITIAL:
+			return TableType.INITIAL;
+		case SINGLE:
+			return TableType.SINGLE;
+		default:
+			throw new IllegalArgumentException(this.toString());
 		}
 	}
 
@@ -57,14 +57,14 @@ public enum ContainerType implements Translateable {
 	 */
 	public TableType getTableTypeForTables() {
 		switch (this) {
-			case FINAL:
-				return TableType.DIFF;
-			case INITIAL:
-				return TableType.DIFF;
-			case SINGLE:
-				return TableType.SINGLE;
-			default:
-				throw new IllegalArgumentException(this.toString());
+		case FINAL:
+			return TableType.DIFF;
+		case INITIAL:
+			return TableType.DIFF;
+		case SINGLE:
+			return TableType.SINGLE;
+		default:
+			throw new IllegalArgumentException(this.toString());
 		}
 	}
 }

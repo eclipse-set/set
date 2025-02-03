@@ -19,26 +19,24 @@ import org.eclipse.set.model.validationreport.ValidationreportPackage;
 import org.eclipse.set.model.validationreport.VersionInfo;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Version
- * Info</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Version Info</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getPlanPro
- * <em>Plan Pro</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getSignals
- * <em>Signals</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getPlanPro <em>Plan Pro</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.impl.VersionInfoImpl#getSignals <em>Signals</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class VersionInfoImpl extends MinimalEObjectImpl.Container
-		implements VersionInfo {
+public class VersionInfoImpl extends MinimalEObjectImpl.Container implements VersionInfo {
 	/**
-	 * The default value of the '{@link #getPlanPro() <em>Plan Pro</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPlanPro() <em>Plan Pro</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPlanPro()
 	 * @generated
 	 * @ordered
@@ -46,9 +44,9 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	protected static final String PLAN_PRO_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getPlanPro() <em>Plan Pro</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPlanPro() <em>Plan Pro</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPlanPro()
 	 * @generated
 	 * @ordered
@@ -56,9 +54,9 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	protected String planPro = PLAN_PRO_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSignals() <em>Signals</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSignals() <em>Signals</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSignals()
 	 * @generated
 	 * @ordered
@@ -66,9 +64,9 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	protected static final String SIGNALS_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSignals() <em>Signals</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSignals() <em>Signals</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getSignals()
 	 * @generated
 	 * @ordered
@@ -76,8 +74,8 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	protected String signals = SIGNALS_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected VersionInfoImpl() {
@@ -85,8 +83,8 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -95,8 +93,8 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -105,8 +103,8 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -114,14 +112,12 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 		String oldPlanPro = planPro;
 		planPro = newPlanPro;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.VERSION_INFO__PLAN_PRO, oldPlanPro,
-					planPro));
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VERSION_INFO__PLAN_PRO, oldPlanPro, planPro));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -130,8 +126,8 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -139,14 +135,12 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 		String oldSignals = signals;
 		signals = newSignals;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					ValidationreportPackage.VERSION_INFO__SIGNALS, oldSignals,
-					signals));
+			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VERSION_INFO__SIGNALS, oldSignals, signals));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -161,26 +155,26 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ValidationreportPackage.VERSION_INFO__PLAN_PRO:
-				setPlanPro((String) newValue);
+				setPlanPro((String)newValue);
 				return;
 			case ValidationreportPackage.VERSION_INFO__SIGNALS:
-				setSignals((String) newValue);
+				setSignals((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -197,32 +191,29 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ValidationreportPackage.VERSION_INFO__PLAN_PRO:
-				return PLAN_PRO_EDEFAULT == null ? planPro != null
-						: !PLAN_PRO_EDEFAULT.equals(planPro);
+				return PLAN_PRO_EDEFAULT == null ? planPro != null : !PLAN_PRO_EDEFAULT.equals(planPro);
 			case ValidationreportPackage.VERSION_INFO__SIGNALS:
-				return SIGNALS_EDEFAULT == null ? signals != null
-						: !SIGNALS_EDEFAULT.equals(signals);
+				return SIGNALS_EDEFAULT == null ? signals != null : !SIGNALS_EDEFAULT.equals(signals);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (planPro: ");
@@ -233,4 +224,4 @@ public class VersionInfoImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // VersionInfoImpl
+} //VersionInfoImpl

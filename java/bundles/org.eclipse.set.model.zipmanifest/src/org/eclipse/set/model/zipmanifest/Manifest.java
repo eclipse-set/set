@@ -11,17 +11,16 @@ package org.eclipse.set.model.zipmanifest;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object
- * '<em><b>Manifest</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Manifest</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.zipmanifest.Manifest#getContentList
- * <em>Content List</em>}</li>
- * <li>{@link org.eclipse.set.model.zipmanifest.Manifest#getMediaList <em>Media
- * List</em>}</li>
+ *   <li>{@link org.eclipse.set.model.zipmanifest.Manifest#getContentList <em>Content List</em>}</li>
+ *   <li>{@link org.eclipse.set.model.zipmanifest.Manifest#getMediaList <em>Media List</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.zipmanifest.ZipmanifestPackage#getManifest()
@@ -30,14 +29,13 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Manifest extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Content List</b></em>' containment
-	 * reference. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Content List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Content List</em>' containment reference isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Content List</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Content List</em>' containment reference.
 	 * @see #setContentList(ContentList)
 	 * @see org.eclipse.set.model.zipmanifest.ZipmanifestPackage#getManifest_ContentList()
@@ -47,28 +45,23 @@ public interface Manifest extends EObject {
 	ContentList getContentList();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.zipmanifest.Manifest#getContentList
-	 * <em>Content List</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.set.model.zipmanifest.Manifest#getContentList <em>Content List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Content List</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Content List</em>' containment reference.
 	 * @see #getContentList()
 	 * @generated
 	 */
 	void setContentList(ContentList value);
 
 	/**
-	 * Returns the value of the '<em><b>Media List</b></em>' containment
-	 * reference. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Media List</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Media List</em>' containment reference isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Media List</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Media List</em>' containment reference.
 	 * @see #setMediaList(MediaList)
 	 * @see org.eclipse.set.model.zipmanifest.ZipmanifestPackage#getManifest_MediaList()
@@ -78,14 +71,10 @@ public interface Manifest extends EObject {
 	MediaList getMediaList();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.zipmanifest.Manifest#getMediaList <em>Media
-	 * List</em>}' containment reference. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Media List</em>' containment
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.set.model.zipmanifest.Manifest#getMediaList <em>Media List</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Media List</em>' containment reference.
 	 * @see #getMediaList()
 	 * @generated
 	 */

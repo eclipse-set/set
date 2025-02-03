@@ -99,8 +99,7 @@ public class TopKanteDirectedGraph {
 			boolean direction = firstEdge.inTopDirection();
 			for (int i = 0; i < path.getEdgeList().size(); i++) {
 				final DirectedTOPEdge<TOPKanteMetaData> nextEdge = path
-						.getEdgeList()
-						.get(i);
+						.getEdgeList().get(i);
 				if (firstEdge.edge().isSameDirection(nextEdge.edge())) {
 					edgesList.add(
 							new DirectedTOPEdge<>(nextEdge.edge(), direction));
@@ -162,8 +161,7 @@ public class TopKanteDirectedGraph {
 	private void setTopKanteLength(final List<TOPKanteMetaData> edges,
 			final int different) {
 		final List<TOPKanteMetaData> notRegisterLengthEdges = edges.stream()
-				.filter(edge -> !edge.alreadyRegistedLength())
-				.toList();
+				.filter(edge -> !edge.alreadyRegistedLength()).toList();
 		final List<TOPKanteMetaData> shouldUpdateLengthEdges = notRegisterLengthEdges
 				.isEmpty() ? edges : notRegisterLengthEdges;
 		final TOPKanteMetaData matchEdge = getRelevantEdge(
@@ -184,8 +182,7 @@ public class TopKanteDirectedGraph {
 				for (int j = 0; j < splitCount; j++) {
 					final int value = combination[j];
 					final TOPKanteMetaData machtEdge = getRelevantEdge(tmpMap
-							.keySet()
-							.stream()
+							.keySet().stream()
 							.filter(edge -> !matchEdges.containsKey(edge))
 							.toList(), value);
 					if (machtEdge != null) {
@@ -209,33 +206,27 @@ public class TopKanteDirectedGraph {
 		// A path contain a edge, whtich not registed length will don't
 		// considered
 		final List<Pair<TOPKanteMetaData, List<CyclePath>>> pathWithAlreadyRegistedLength = edges
-				.stream()
-				.map(edge -> {
+				.stream().map(edge -> {
 					final List<CyclePath> allCyclePaths = findAllCyclePaths(
 							edge);
 					final List<CyclePath> pathsWithAlreadRegistedLengthEdge = allCyclePaths
-							.stream()
-							.filter(path -> path.getEdges()
-									.stream()
-									.filter(e -> e.edge() != edge)
-									.allMatch(e -> e.edge()
-											.alreadyRegistedLength()))
+							.stream().filter(
+									path -> path.getEdges().stream()
+											.filter(e -> e.edge() != edge)
+											.allMatch(e -> e.edge()
+													.alreadyRegistedLength()))
 							.toList();
 					return new Pair<>(edge, pathsWithAlreadRegistedLengthEdge);
-				})
-				.toList();
+				}).toList();
 
 		final List<Pair<TOPKanteMetaData, List<CyclePath>>> pathWithoutAlreaydRegistedLength = pathWithAlreadyRegistedLength
-				.stream()
-				.filter(e -> e.getSecond().isEmpty())
-				.toList();
+				.stream().filter(e -> e.getSecond().isEmpty()).toList();
 
 		// When exsist path, which cotain a edge with not registered length,
 		// then the edge, which start and end ist, ist relevant
 		if (!pathWithoutAlreaydRegistedLength.isEmpty()) {
 			final TOPKanteMetaData matchEdge = pathWithoutAlreaydRegistedLength
-					.get(0)
-					.getFirst();
+					.get(0).getFirst();
 			matchEdge.setLength(matchEdge.getLength() + different);
 			return matchEdge;
 		}
@@ -246,8 +237,7 @@ public class TopKanteDirectedGraph {
 			final int tmpLength = edge.getLength();
 			edge.setLength(different + tmpLength);
 
-			final boolean isRelevantLength = pair.getSecond()
-					.stream()
+			final boolean isRelevantLength = pair.getSecond().stream()
 					.map(TopKanteDirectedGraph::isMatchLength)
 					.anyMatch(MachtTopEdgeLength::isMatch);
 			if (isRelevantLength) {

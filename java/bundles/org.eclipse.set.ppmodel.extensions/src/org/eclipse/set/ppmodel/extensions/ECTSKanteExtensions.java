@@ -51,11 +51,8 @@ public class ECTSKanteExtensions extends BasisObjektExtensions {
 	 * @return the list of {@link TOP_Kante}
 	 */
 	public static List<TOP_Kante> getTopKante(final ETCS_Kante etcsEdge) {
-		return etcsEdge.getIDTOPKante()
-				.stream()
-				.map(ref -> getNullableObject(ref, e -> e.getValue())
-						.orElse(null))
-				.filter(Objects::nonNull)
-				.toList();
+		return etcsEdge.getIDTOPKante().stream().map(
+				ref -> getNullableObject(ref, e -> e.getValue()).orElse(null))
+				.filter(Objects::nonNull).toList();
 	}
 }

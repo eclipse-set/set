@@ -58,52 +58,45 @@ public class TrackSwitchMetadata {
 			}
 
 			switch (entry.type) {
-				case ENUMW_KR_ART_DKW:
-				case ENUMW_KR_ART_EKW:
-					// Crossing lengths are required
-					entry.rightCrossing = new CrossingSide(
-							Double.parseDouble(
-									columns[COLUMN_CROSSING_RIGHT_MAIN]),
-							Double.parseDouble(
-									columns[COLUMN_CROSSING_RIGHT_SIDE]));
-					entry.leftCrossing = new CrossingSide(
-							Double.parseDouble(
-									columns[COLUMN_CROSSING_LEFT_MAIN]),
-							Double.parseDouble(
-									columns[COLUMN_CROSSING_LEFT_SIDE]));
+			case ENUMW_KR_ART_DKW:
+			case ENUMW_KR_ART_EKW:
+				// Crossing lengths are required
+				entry.rightCrossing = new CrossingSide(
+						Double.parseDouble(columns[COLUMN_CROSSING_RIGHT_MAIN]),
+						Double.parseDouble(
+								columns[COLUMN_CROSSING_RIGHT_SIDE]));
+				entry.leftCrossing = new CrossingSide(
+						Double.parseDouble(columns[COLUMN_CROSSING_LEFT_MAIN]),
+						Double.parseDouble(columns[COLUMN_CROSSING_LEFT_SIDE]));
 
-					// Optionally the crossing triangle may also be given for
-					// either
-					// (or both) sides
-					if (!columns[COLUMN_CROSSING_TRIANGLE_RIGHT_MAIN]
-							.isEmpty()) {
-						entry.rightCrossing.crossingTriangle = new LegLength(
-								Double.parseDouble(
-										columns[COLUMN_CROSSING_TRIANGLE_RIGHT_MAIN]),
-								Double.parseDouble(
-										columns[COLUMN_CROSSING_TRIANGLE_RIGHT_SIDE]));
-					}
-					if (!columns[COLUMN_CROSSING_TRIANGLE_LEFT_MAIN]
-							.isEmpty()) {
-						entry.leftCrossing.crossingTriangle = new LegLength(
-								Double.parseDouble(
-										columns[COLUMN_CROSSING_TRIANGLE_LEFT_MAIN]),
-								Double.parseDouble(
-										columns[COLUMN_CROSSING_TRIANGLE_LEFT_SIDE]));
-					}
+				// Optionally the crossing triangle may also be given for either
+				// (or both) sides
+				if (!columns[COLUMN_CROSSING_TRIANGLE_RIGHT_MAIN].isEmpty()) {
+					entry.rightCrossing.crossingTriangle = new LegLength(
+							Double.parseDouble(
+									columns[COLUMN_CROSSING_TRIANGLE_RIGHT_MAIN]),
+							Double.parseDouble(
+									columns[COLUMN_CROSSING_TRIANGLE_RIGHT_SIDE]));
+				}
+				if (!columns[COLUMN_CROSSING_TRIANGLE_LEFT_MAIN].isEmpty()) {
+					entry.leftCrossing.crossingTriangle = new LegLength(
+							Double.parseDouble(
+									columns[COLUMN_CROSSING_TRIANGLE_LEFT_MAIN]),
+							Double.parseDouble(
+									columns[COLUMN_CROSSING_TRIANGLE_LEFT_SIDE]));
+				}
 
-					// Optionally the crossing triangle may also be given
-					break;
-				case ENUMW_KR_ART_EW:
-					// For simple track switches, only the leg lengths are
-					// required
-					entry.trackSwitchLength = new LegLength(
-							Double.parseDouble(columns[COLUMN_LENGTH_MAIN]),
-							Double.parseDouble(columns[COLUMN_LENGTH_SIDE]));
-					break;
-				default:
-					// Other types are not handled
-					return null;
+				// Optionally the crossing triangle may also be given
+				break;
+			case ENUMW_KR_ART_EW:
+				// For simple track switches, only the leg lengths are required
+				entry.trackSwitchLength = new LegLength(
+						Double.parseDouble(columns[COLUMN_LENGTH_MAIN]),
+						Double.parseDouble(columns[COLUMN_LENGTH_SIDE]));
+				break;
+			default:
+				// Other types are not handled
+				return null;
 			}
 			return entry;
 		} catch (final NumberFormatException e) {

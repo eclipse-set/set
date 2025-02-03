@@ -118,8 +118,7 @@ public abstract class AbstractOpenHandler extends AbstractHandler {
 				// create the session
 				logger.trace("Loading session..."); //$NON-NLS-1$
 				newSessionWrapper.setValue(createSession(path));
-				newSessionWrapper.getValue()
-						.getModels()
+				newSessionWrapper.getValue().getModels()
 						.forEach(m -> modelUpdateService.add(m));
 				// stop progress
 				monitor.done();

@@ -33,20 +33,20 @@ public interface MergeService<T> {
 	 * Indicates which container is responsible for a match.
 	 */
 	public static enum Authority {
-		/**
-		 * Neither the primary nor the secondary container is responsible
-		 */
-		NONE,
+	/**
+	 * Neither the primary nor the secondary container is responsible
+	 */
+	NONE,
 
-		/**
-		 * The primary container is responsible
-		 */
-		PRIMARY,
+	/**
+	 * The primary container is responsible
+	 */
+	PRIMARY,
 
-		/**
-		 * The secondary container is responsible
-		 */
-		SECONDARY
+	/**
+	 * The secondary container is responsible
+	 */
+	SECONDARY
 	}
 
 	/**

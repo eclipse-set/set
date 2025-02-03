@@ -11,8 +11,9 @@ package org.eclipse.set.model.tablemodel;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Footnote
- * Container</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Footnote Container</b></em>'.
+ * <!-- end-user-doc -->
  *
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getFootnoteContainer()

@@ -25,32 +25,27 @@ import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>External Element Control</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>External Element Control</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getPosition
- * <em>Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getControlArt
- * <em>Control Art</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getElementType
- * <em>Element Type</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getControlStation
- * <em>Control Station</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getLabel
- * <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getControlArt <em>Control Art</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getElementType <em>Element Type</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getControlStation <em>Control Station</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.ExternalElementControlImpl#getLabel <em>Label</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ExternalElementControlImpl extends RouteObjectImpl
-		implements ExternalElementControl {
+public class ExternalElementControlImpl extends RouteObjectImpl implements ExternalElementControl {
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -58,9 +53,9 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected Position position;
 
 	/**
-	 * The default value of the '{@link #getControlArt() <em>Control Art</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getControlArt() <em>Control Art</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getControlArt()
 	 * @generated
 	 * @ordered
@@ -68,9 +63,9 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected static final ExternalElementControlArt CONTROL_ART_EDEFAULT = ExternalElementControlArt.FE_AK;
 
 	/**
-	 * The cached value of the '{@link #getControlArt() <em>Control Art</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getControlArt() <em>Control Art</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getControlArt()
 	 * @generated
 	 * @ordered
@@ -78,9 +73,9 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected ExternalElementControlArt controlArt = CONTROL_ART_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getElementType() <em>Element
-	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getElementType() <em>Element Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getElementType()
 	 * @generated
 	 * @ordered
@@ -88,9 +83,9 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected static final ExternalElementControlArt ELEMENT_TYPE_EDEFAULT = ExternalElementControlArt.FE_AK;
 
 	/**
-	 * The cached value of the '{@link #getElementType() <em>Element Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getElementType() <em>Element Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getElementType()
 	 * @generated
 	 * @ordered
@@ -98,9 +93,9 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected ExternalElementControlArt elementType = ELEMENT_TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getControlStation() <em>Control
-	 * Station</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getControlStation() <em>Control Station</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getControlStation()
 	 * @generated
 	 * @ordered
@@ -108,9 +103,9 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected static final ControlStationType CONTROL_STATION_EDEFAULT = ControlStationType.DEFAULT_CONTROL;
 
 	/**
-	 * The cached value of the '{@link #getControlStation() <em>Control
-	 * Station</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getControlStation() <em>Control Station</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getControlStation()
 	 * @generated
 	 * @ordered
@@ -118,9 +113,9 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected ControlStationType controlStation = CONTROL_STATION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -128,8 +123,8 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	protected Label label;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected ExternalElementControlImpl() {
@@ -137,8 +132,8 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -147,8 +142,8 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -157,30 +152,23 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetPosition(Position newPosition,
-			NotificationChain msgs) {
+	public NotificationChain basicSetPosition(Position newPosition, NotificationChain msgs) {
 		Position oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION,
-					oldPosition, newPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION, oldPosition, newPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -188,27 +176,19 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject) position).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION, null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject) newPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION, null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION,
-					newPosition, newPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION, newPosition, newPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -217,24 +197,21 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setControlArt(ExternalElementControlArt newControlArt) {
 		ExternalElementControlArt oldControlArt = controlArt;
-		controlArt = newControlArt == null ? CONTROL_ART_EDEFAULT
-				: newControlArt;
+		controlArt = newControlArt == null ? CONTROL_ART_EDEFAULT : newControlArt;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__CONTROL_ART,
-					oldControlArt, controlArt));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__CONTROL_ART, oldControlArt, controlArt));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -243,24 +220,21 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setElementType(ExternalElementControlArt newElementType) {
 		ExternalElementControlArt oldElementType = elementType;
-		elementType = newElementType == null ? ELEMENT_TYPE_EDEFAULT
-				: newElementType;
+		elementType = newElementType == null ? ELEMENT_TYPE_EDEFAULT : newElementType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE,
-					oldElementType, elementType));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE, oldElementType, elementType));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -269,24 +243,21 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void setControlStation(ControlStationType newControlStation) {
 		ControlStationType oldControlStation = controlStation;
-		controlStation = newControlStation == null ? CONTROL_STATION_EDEFAULT
-				: newControlStation;
+		controlStation = newControlStation == null ? CONTROL_STATION_EDEFAULT : newControlStation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION,
-					oldControlStation, controlStation));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION, oldControlStation, controlStation));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -295,30 +266,23 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel(Label newLabel,
-			NotificationChain msgs) {
+	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL, oldLabel,
-					newLabel);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -326,32 +290,23 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject) label).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL, null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL,
-						null, msgs);
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL, null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL, newLabel,
-					newLabel));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL, newLabel, newLabel));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION:
 				return basicSetPosition(null, msgs);
@@ -362,8 +317,8 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -384,42 +339,42 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION:
-				setPosition((Position) newValue);
+				setPosition((Position)newValue);
 				return;
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__CONTROL_ART:
-				setControlArt((ExternalElementControlArt) newValue);
+				setControlArt((ExternalElementControlArt)newValue);
 				return;
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE:
-				setElementType((ExternalElementControlArt) newValue);
+				setElementType((ExternalElementControlArt)newValue);
 				return;
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION:
-				setControlStation((ControlStationType) newValue);
+				setControlStation((ControlStationType)newValue);
 				return;
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL:
-				setLabel((Label) newValue);
+				setLabel((Label)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION:
-				setPosition((Position) null);
+				setPosition((Position)null);
 				return;
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__CONTROL_ART:
 				setControlArt(CONTROL_ART_EDEFAULT);
@@ -431,15 +386,15 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 				setControlStation(CONTROL_STATION_EDEFAULT);
 				return;
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__LABEL:
-				setLabel((Label) null);
+				setLabel((Label)null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -460,52 +415,45 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID,
-			Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (derivedFeatureID) {
-				case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION:
-					return SiteplanPackage.POSITIONED_OBJECT__POSITION;
-				default:
-					return -1;
+				case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID,
-			Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (baseFeatureID) {
-				case SiteplanPackage.POSITIONED_OBJECT__POSITION:
-					return SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION;
-				default:
-					return -1;
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.EXTERNAL_ELEMENT_CONTROL__POSITION;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (controlArt: ");
@@ -518,4 +466,4 @@ public class ExternalElementControlImpl extends RouteObjectImpl
 		return result.toString();
 	}
 
-} // ExternalElementControlImpl
+} //ExternalElementControlImpl

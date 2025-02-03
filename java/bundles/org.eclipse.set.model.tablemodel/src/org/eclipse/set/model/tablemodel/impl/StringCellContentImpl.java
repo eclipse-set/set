@@ -16,24 +16,23 @@ import org.eclipse.set.model.tablemodel.StringCellContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>String
- * Cell Content</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>String Cell Content</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.StringCellContentImpl#getValue
- * <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.StringCellContentImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class StringCellContentImpl extends CellContentImpl
-		implements StringCellContent {
+public class StringCellContentImpl extends CellContentImpl implements StringCellContent {
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute
-	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -41,8 +40,8 @@ public class StringCellContentImpl extends CellContentImpl
 	protected EList<String> value;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected StringCellContentImpl() {
@@ -50,8 +49,8 @@ public class StringCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -60,22 +59,21 @@ public class StringCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<String> getValue() {
 		if (value == null) {
-			value = new EDataTypeUniqueEList<String>(String.class, this,
-					TablemodelPackage.STRING_CELL_CONTENT__VALUE);
+			value = new EDataTypeUniqueEList<String>(String.class, this, TablemodelPackage.STRING_CELL_CONTENT__VALUE);
 		}
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -88,8 +86,8 @@ public class StringCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -98,15 +96,15 @@ public class StringCellContentImpl extends CellContentImpl
 		switch (featureID) {
 			case TablemodelPackage.STRING_CELL_CONTENT__VALUE:
 				getValue().clear();
-				getValue().addAll((Collection<? extends String>) newValue);
+				getValue().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -120,8 +118,8 @@ public class StringCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -134,14 +132,13 @@ public class StringCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: ");
@@ -150,4 +147,4 @@ public class StringCellContentImpl extends CellContentImpl
 		return result.toString();
 	}
 
-} // StringCellContentImpl
+} //StringCellContentImpl

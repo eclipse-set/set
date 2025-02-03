@@ -16,28 +16,31 @@ import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.set.model.tablemodel.*;
 
 /**
- * <!-- begin-user-doc --> The <b>Switch</b> for the model's inheritance
- * hierarchy. It supports the call {@link #doSwitch(EObject) doSwitch(object)}
+ * <!-- begin-user-doc -->
+ * The <b>Switch</b> for the model's inheritance hierarchy.
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
  * to invoke the <code>caseXXX</code> method for each class of the model,
- * starting with the actual class of the object and proceeding up the
- * inheritance hierarchy until a non-null result is returned, which is the
- * result of the switch. <!-- end-user-doc -->
- * 
+ * starting with the actual class of the object
+ * and proceeding up the inheritance hierarchy
+ * until a non-null result is returned,
+ * which is the result of the switch.
+ * <!-- end-user-doc -->
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage
  * @generated
  */
 public class TablemodelSwitch<T> extends Switch<T> {
 	/**
-	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached model package
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static TablemodelPackage modelPackage;
 
 	/**
-	 * Creates an instance of the switch. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Creates an instance of the switch.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public TablemodelSwitch() {
@@ -47,11 +50,10 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Checks whether this is a switch for the given package. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param ePackage
-	 *            the package in question.
+	 * Checks whether this is a switch for the given package.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -61,148 +63,122 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns
-	 * a non null result; it yields that result. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @return the first non-null result returned by a <code>caseXXX</code>
-	 *         call.
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case TablemodelPackage.TABLE: {
-				Table table = (Table) theEObject;
+				Table table = (Table)theEObject;
 				T result = caseTable(table);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.COLUMN_DESCRIPTOR: {
-				ColumnDescriptor columnDescriptor = (ColumnDescriptor) theEObject;
+				ColumnDescriptor columnDescriptor = (ColumnDescriptor)theEObject;
 				T result = caseColumnDescriptor(columnDescriptor);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.TABLE_CONTENT: {
-				TableContent tableContent = (TableContent) theEObject;
+				TableContent tableContent = (TableContent)theEObject;
 				T result = caseTableContent(tableContent);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.ROW_GROUP: {
-				RowGroup rowGroup = (RowGroup) theEObject;
+				RowGroup rowGroup = (RowGroup)theEObject;
 				T result = caseRowGroup(rowGroup);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.TABLE_ROW: {
-				TableRow tableRow = (TableRow) theEObject;
+				TableRow tableRow = (TableRow)theEObject;
 				T result = caseTableRow(tableRow);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.TABLE_CELL: {
-				TableCell tableCell = (TableCell) theEObject;
+				TableCell tableCell = (TableCell)theEObject;
 				T result = caseTableCell(tableCell);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.CELL_CONTENT: {
-				CellContent cellContent = (CellContent) theEObject;
+				CellContent cellContent = (CellContent)theEObject;
 				T result = caseCellContent(cellContent);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.STRING_CELL_CONTENT: {
-				StringCellContent stringCellContent = (StringCellContent) theEObject;
+				StringCellContent stringCellContent = (StringCellContent)theEObject;
 				T result = caseStringCellContent(stringCellContent);
-				if (result == null)
-					result = caseCellContent(stringCellContent);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = caseCellContent(stringCellContent);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.COMPARE_CELL_CONTENT: {
-				CompareCellContent compareCellContent = (CompareCellContent) theEObject;
+				CompareCellContent compareCellContent = (CompareCellContent)theEObject;
 				T result = caseCompareCellContent(compareCellContent);
-				if (result == null)
-					result = caseCellContent(compareCellContent);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = caseCellContent(compareCellContent);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.CELL_ANNOTATION: {
-				CellAnnotation cellAnnotation = (CellAnnotation) theEObject;
+				CellAnnotation cellAnnotation = (CellAnnotation)theEObject;
 				T result = caseCellAnnotation(cellAnnotation);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT: {
-				MultiColorCellContent multiColorCellContent = (MultiColorCellContent) theEObject;
+				MultiColorCellContent multiColorCellContent = (MultiColorCellContent)theEObject;
 				T result = caseMultiColorCellContent(multiColorCellContent);
-				if (result == null)
-					result = caseCellContent(multiColorCellContent);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = caseCellContent(multiColorCellContent);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.MULTI_COLOR_CONTENT: {
-				MultiColorContent multiColorContent = (MultiColorContent) theEObject;
+				MultiColorContent multiColorContent = (MultiColorContent)theEObject;
 				T result = caseMultiColorContent(multiColorContent);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.FOOTNOTE_CONTAINER: {
-				FootnoteContainer footnoteContainer = (FootnoteContainer) theEObject;
+				FootnoteContainer footnoteContainer = (FootnoteContainer)theEObject;
 				T result = caseFootnoteContainer(footnoteContainer);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER: {
-				CompareFootnoteContainer compareFootnoteContainer = (CompareFootnoteContainer) theEObject;
-				T result = caseCompareFootnoteContainer(
-						compareFootnoteContainer);
-				if (result == null)
-					result = caseFootnoteContainer(compareFootnoteContainer);
-				if (result == null)
-					result = defaultCase(theEObject);
+				CompareFootnoteContainer compareFootnoteContainer = (CompareFootnoteContainer)theEObject;
+				T result = caseCompareFootnoteContainer(compareFootnoteContainer);
+				if (result == null) result = caseFootnoteContainer(compareFootnoteContainer);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case TablemodelPackage.SIMPLE_FOOTNOTE_CONTAINER: {
-				SimpleFootnoteContainer simpleFootnoteContainer = (SimpleFootnoteContainer) theEObject;
+				SimpleFootnoteContainer simpleFootnoteContainer = (SimpleFootnoteContainer)theEObject;
 				T result = caseSimpleFootnoteContainer(simpleFootnoteContainer);
-				if (result == null)
-					result = caseFootnoteContainer(simpleFootnoteContainer);
-				if (result == null)
-					result = defaultCase(theEObject);
+				if (result == null) result = caseFootnoteContainer(simpleFootnoteContainer);
+				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			default:
-				return defaultCase(theEObject);
+			default: return defaultCase(theEObject);
 		}
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Table</em>'. <!-- begin-user-doc --> This implementation returns
-	 * null; returning a non-null result will terminate the switch. <!--
-	 * end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Table</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Table</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Table</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -211,15 +187,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Column Descriptor</em>'. <!-- begin-user-doc --> This implementation
-	 * returns null; returning a non-null result will terminate the switch. <!--
-	 * end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Column Descriptor</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Column Descriptor</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Column Descriptor</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -228,15 +202,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Table Content</em>'. <!-- begin-user-doc --> This implementation
-	 * returns null; returning a non-null result will terminate the switch. <!--
-	 * end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Table Content</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Table Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Table Content</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -245,15 +217,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Row
-	 * Group</em>'. <!-- begin-user-doc --> This implementation returns null;
-	 * returning a non-null result will terminate the switch. <!-- end-user-doc
-	 * -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Row
-	 *         Group</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Row Group</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Row Group</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -262,15 +232,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Table Row</em>'. <!-- begin-user-doc --> This implementation returns
-	 * null; returning a non-null result will terminate the switch. <!--
-	 * end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Table Row</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Table Row</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Table Row</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -279,15 +247,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Table Cell</em>'. <!-- begin-user-doc --> This implementation
-	 * returns null; returning a non-null result will terminate the switch. <!--
-	 * end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Table Cell</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Table Cell</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Table Cell</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -296,15 +262,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Cell
-	 * Content</em>'. <!-- begin-user-doc --> This implementation returns null;
-	 * returning a non-null result will terminate the switch. <!-- end-user-doc
-	 * -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Cell
-	 *         Content</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Cell Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cell Content</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -313,15 +277,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>String Cell Content</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>String Cell Content</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>String Cell Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>String Cell Content</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -330,15 +292,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Compare Cell Content</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Compare Cell Content</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Compare Cell Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Compare Cell Content</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -347,15 +307,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Cell
-	 * Annotation</em>'. <!-- begin-user-doc --> This implementation returns
-	 * null; returning a non-null result will terminate the switch. <!--
-	 * end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Cell
-	 *         Annotation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Cell Annotation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cell Annotation</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -363,16 +321,15 @@ public class TablemodelSwitch<T> extends Switch<T> {
 		return null;
 	}
 
+
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Multi Color Cell Content</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Multi Color Cell Content</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Color Cell Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Color Cell Content</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -381,15 +338,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Multi Color Content</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Multi Color Content</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Color Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Color Content</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -398,15 +353,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Footnote Container</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Footnote Container</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Footnote Container</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -415,15 +368,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Compare Footnote Container</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Compare Footnote Container</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Compare Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Compare Footnote Container</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -432,15 +383,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>Simple Footnote Container</em>'. <!-- begin-user-doc --> This
-	 * implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>Simple Footnote Container</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Simple Footnote Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Simple Footnote Container</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -449,15 +398,13 @@ public class TablemodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of
-	 * '<em>EObject</em>'. <!-- begin-user-doc --> This implementation returns
-	 * null; returning a non-null result will terminate the switch, but this is
-	 * the last case anyway. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
-	 * @return the result of interpreting the object as an instance of
-	 *         '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch, but this is the last case anyway.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
@@ -466,4 +413,4 @@ public class TablemodelSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} // TablemodelSwitch
+} //TablemodelSwitch

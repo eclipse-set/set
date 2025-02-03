@@ -31,30 +31,26 @@ import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Platform</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Platform</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getGuid
- * <em>Guid</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getLabelPosition
- * <em>Label Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getPoints
- * <em>Points</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getGuid <em>Guid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getLabelPosition <em>Label Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PlatformImpl#getPoints <em>Points</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class PlatformImpl extends MinimalEObjectImpl.Container
-		implements Platform {
+public class PlatformImpl extends MinimalEObjectImpl.Container implements Platform {
 	/**
 	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -63,8 +59,8 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -72,9 +68,9 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	protected String guid = GUID_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -82,10 +78,9 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	protected Label label;
 
 	/**
-	 * The cached value of the '{@link #getLabelPosition() <em>Label
-	 * Position</em>}' containment reference. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabelPosition() <em>Label Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLabelPosition()
 	 * @generated
 	 * @ordered
@@ -93,9 +88,9 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	protected Position labelPosition;
 
 	/**
-	 * The cached value of the '{@link #getPoints() <em>Points</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPoints() <em>Points</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPoints()
 	 * @generated
 	 * @ordered
@@ -103,8 +98,8 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	protected EList<Coordinate> points;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected PlatformImpl() {
@@ -112,8 +107,8 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -122,8 +117,8 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -132,8 +127,8 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -141,13 +136,12 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 		String oldGuid = guid;
 		guid = newGuid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PLATFORM__GUID, oldGuid, guid));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PLATFORM__GUID, oldGuid, guid));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -156,29 +150,23 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel(Label newLabel,
-			NotificationChain msgs) {
+	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.PLATFORM__LABEL, oldLabel,
-					newLabel);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.PLATFORM__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -186,28 +174,19 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject) label)
-						.eInverseRemove(this,
-								EOPPOSITE_FEATURE_BASE
-										- SiteplanPackage.PLATFORM__LABEL,
-								null, msgs);
+				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.PLATFORM__LABEL, null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject) newLabel)
-						.eInverseAdd(this,
-								EOPPOSITE_FEATURE_BASE
-										- SiteplanPackage.PLATFORM__LABEL,
-								null, msgs);
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.PLATFORM__LABEL, null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PLATFORM__LABEL, newLabel, newLabel));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PLATFORM__LABEL, newLabel, newLabel));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -216,29 +195,23 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLabelPosition(Position newLabelPosition,
-			NotificationChain msgs) {
+	public NotificationChain basicSetLabelPosition(Position newLabelPosition, NotificationChain msgs) {
 		Position oldLabelPosition = labelPosition;
 		labelPosition = newLabelPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.PLATFORM__LABEL_POSITION,
-					oldLabelPosition, newLabelPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.PLATFORM__LABEL_POSITION, oldLabelPosition, newLabelPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -246,61 +219,50 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 		if (newLabelPosition != labelPosition) {
 			NotificationChain msgs = null;
 			if (labelPosition != null)
-				msgs = ((InternalEObject) labelPosition).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.PLATFORM__LABEL_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)labelPosition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.PLATFORM__LABEL_POSITION, null, msgs);
 			if (newLabelPosition != null)
-				msgs = ((InternalEObject) newLabelPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.PLATFORM__LABEL_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newLabelPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.PLATFORM__LABEL_POSITION, null, msgs);
 			msgs = basicSetLabelPosition(newLabelPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.PLATFORM__LABEL_POSITION, newLabelPosition,
-					newLabelPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PLATFORM__LABEL_POSITION, newLabelPosition, newLabelPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<Coordinate> getPoints() {
 		if (points == null) {
-			points = new EObjectContainmentEList<Coordinate>(Coordinate.class,
-					this, SiteplanPackage.PLATFORM__POINTS);
+			points = new EObjectContainmentEList<Coordinate>(Coordinate.class, this, SiteplanPackage.PLATFORM__POINTS);
 		}
 		return points;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.PLATFORM__LABEL:
 				return basicSetLabel(null, msgs);
 			case SiteplanPackage.PLATFORM__LABEL_POSITION:
 				return basicSetLabelPosition(null, msgs);
 			case SiteplanPackage.PLATFORM__POINTS:
-				return ((InternalEList<?>) getPoints()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getPoints()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -319,8 +281,8 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -328,25 +290,25 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.PLATFORM__GUID:
-				setGuid((String) newValue);
+				setGuid((String)newValue);
 				return;
 			case SiteplanPackage.PLATFORM__LABEL:
-				setLabel((Label) newValue);
+				setLabel((Label)newValue);
 				return;
 			case SiteplanPackage.PLATFORM__LABEL_POSITION:
-				setLabelPosition((Position) newValue);
+				setLabelPosition((Position)newValue);
 				return;
 			case SiteplanPackage.PLATFORM__POINTS:
 				getPoints().clear();
-				getPoints().addAll((Collection<? extends Coordinate>) newValue);
+				getPoints().addAll((Collection<? extends Coordinate>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -356,10 +318,10 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 				setGuid(GUID_EDEFAULT);
 				return;
 			case SiteplanPackage.PLATFORM__LABEL:
-				setLabel((Label) null);
+				setLabel((Label)null);
 				return;
 			case SiteplanPackage.PLATFORM__LABEL_POSITION:
-				setLabelPosition((Position) null);
+				setLabelPosition((Position)null);
 				return;
 			case SiteplanPackage.PLATFORM__POINTS:
 				getPoints().clear();
@@ -369,16 +331,15 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.PLATFORM__GUID:
-				return GUID_EDEFAULT == null ? guid != null
-						: !GUID_EDEFAULT.equals(guid);
+				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
 			case SiteplanPackage.PLATFORM__LABEL:
 				return label != null;
 			case SiteplanPackage.PLATFORM__LABEL_POSITION:
@@ -390,14 +351,13 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (guid: ");
@@ -406,4 +366,4 @@ public class PlatformImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // PlatformImpl
+} //PlatformImpl

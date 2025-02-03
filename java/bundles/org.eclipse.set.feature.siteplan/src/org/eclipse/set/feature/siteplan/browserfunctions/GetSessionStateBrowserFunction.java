@@ -42,16 +42,16 @@ public class GetSessionStateBrowserFunction extends BrowserFunction {
 	@Override
 	public final Object function(final Object[] arguments) {
 		switch (modelSession.getTableType()) {
-			case DIFF:
-				return "diff"; //$NON-NLS-1$
-			case FINAL:
-				return "final"; //$NON-NLS-1$
-			case INITIAL:
-				return "initial"; //$NON-NLS-1$
-			case SINGLE:
-				return "single"; //$NON-NLS-1$
-			default:
-				return null;
+		case DIFF:
+			return "diff"; //$NON-NLS-1$
+		case FINAL:
+			return "final"; //$NON-NLS-1$
+		case INITIAL:
+			return "initial"; //$NON-NLS-1$
+		case SINGLE:
+			return "single"; //$NON-NLS-1$
+		default:
+			return null;
 		}
 	}
 }

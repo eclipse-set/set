@@ -172,16 +172,16 @@ public class PartDescription {
 	 */
 	public boolean canProcess(final PlanProFileNature nature) {
 		switch (nature) {
-			case INVALID:
-				return toolboxViewProcessInvalid;
-			case INFORMATION_STATE:
-				return toolboxViewProcessState;
-			case PLANNING:
-				return toolboxViewProcessPlanning;
-			case INTEGRATION:
-				return toolboxViewProcessIntegration;
-			default:
-				throw new IllegalArgumentException(nature.toString());
+		case INVALID:
+			return toolboxViewProcessInvalid;
+		case INFORMATION_STATE:
+			return toolboxViewProcessState;
+		case PLANNING:
+			return toolboxViewProcessPlanning;
+		case INTEGRATION:
+			return toolboxViewProcessIntegration;
+		default:
+			throw new IllegalArgumentException(nature.toString());
 		}
 	}
 

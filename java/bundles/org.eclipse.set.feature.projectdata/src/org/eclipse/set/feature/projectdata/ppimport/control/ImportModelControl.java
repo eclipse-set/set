@@ -163,9 +163,8 @@ public class ImportModelControl extends AbstractImportControl {
 
 		fileFieldCombo.getComposite()
 				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		fileFieldCombo.getButton()
-				.setText(
-						serviceProvider.messages.PlanProImportPart_fileFieldButtonText);
+		fileFieldCombo.getButton().setText(
+				serviceProvider.messages.PlanProImportPart_fileFieldButtonText);
 		fileFieldCombo.setPathValidation(path -> validatePath(path, t -> {
 			modelToImport = t.schnittStelle();
 			importHandler = new ImportModelHandler(comboField, modelToImport,
@@ -233,9 +232,8 @@ public class ImportModelControl extends AbstractImportControl {
 	private ISelectionChangedListener selectionSubworkHanlder() {
 		return event -> {
 			if (!comboField.getContainerCombo().isDisposed()) {
-				comboField.getContainerCombo()
-						.setEnabled(!comboField
-								.isNotSelected(comboField.getSubworkCombo())
+				comboField.getContainerCombo().setEnabled(
+						!comboField.isNotSelected(comboField.getSubworkCombo())
 								&& comboField.getContainerCombo()
 										.getItems().length > 1);
 			} else {

@@ -105,28 +105,28 @@ public abstract class AbstractImportControl {
 				.getFileValidateState(validationResults);
 		boolean isFileValid = false;
 		switch (fileValidateState) {
-			case VALID: {
-				isFileValid = true;
-				break;
-			}
-			case INCOMPLETE: {
-				serviceProvider.dialogService.openInformation(shell,
-						serviceProvider.messages.PlanProImportPart_incompletePlanProFile,
-						String.format(
-								serviceProvider.messages.PlanProImportPart_incompletePlanProFileMessage,
-								toolboxFile.getPath()));
-				isFileValid = true;
-				break;
-			}
-			case INVALID: {
-				// XSD-invalid file, unable to load
-				isFileValid = serviceProvider.dialogService.loadInvalidModel(
-						shell, toolboxFile.getPath().toString());
-				break;
-			}
-			default:
-				isFileValid = false;
-				break;
+		case VALID: {
+			isFileValid = true;
+			break;
+		}
+		case INCOMPLETE: {
+			serviceProvider.dialogService.openInformation(shell,
+					serviceProvider.messages.PlanProImportPart_incompletePlanProFile,
+					String.format(
+							serviceProvider.messages.PlanProImportPart_incompletePlanProFileMessage,
+							toolboxFile.getPath()));
+			isFileValid = true;
+			break;
+		}
+		case INVALID: {
+			// XSD-invalid file, unable to load
+			isFileValid = serviceProvider.dialogService.loadInvalidModel(shell,
+					toolboxFile.getPath().toString());
+			break;
+		}
+		default:
+			isFileValid = false;
+			break;
 		}
 		if (isFileValid) {
 			storeModel.accept(model);

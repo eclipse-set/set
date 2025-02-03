@@ -88,11 +88,8 @@ public class WebOverviewplanPart extends BasePart {
 
 		try {
 			final FileWebBrowser browser = new FileWebBrowser(parent);
-			GridDataFactory.swtDefaults()
-					.align(SWT.FILL, SWT.FILL)
-					.grab(true, true)
-					.span(2, 1)
-					.applyTo(browser.getControl());
+			GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
+					.grab(true, true).span(2, 1).applyTo(browser.getControl());
 			browser.serveRootDirectory(Paths.get(WEB_PATH));
 			browser.serveFile("?", "text/html", //$NON-NLS-1$ //$NON-NLS-2$
 					Paths.get(WEB_PATH, "index.html")); //$NON-NLS-1$

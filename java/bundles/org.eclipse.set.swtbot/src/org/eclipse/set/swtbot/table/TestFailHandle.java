@@ -121,13 +121,11 @@ public class TestFailHandle implements TestWatcher {
 	protected File getExportFile(final TestFile testFile, final String csvFile,
 			final Class<?> testClass) {
 		try {
-			final URL parent = testClass.getProtectionDomain()
-					.getCodeSource()
+			final URL parent = testClass.getProtectionDomain().getCodeSource()
 					.getLocation();
 			final File parentDir = Path.of(parent.toURI()).toFile();
-			return new File(parentDir,
-					Path.of(DIFF_DIR, testFile.getShortName(), csvFile)
-							.toString());
+			return new File(parentDir, Path
+					.of(DIFF_DIR, testFile.getShortName(), csvFile).toString());
 		} catch (final URISyntaxException e) {
 			throw new RuntimeException(e);
 		}

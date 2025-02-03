@@ -118,8 +118,7 @@ public class ProjectPart extends AbstractTabViewPart {
 				throw new RuntimeException(e);
 			}
 			createButtonRow(parent);
-			getModelSession().getEditingDomain()
-					.getCommandStack()
+			getModelSession().getEditingDomain().getCommandStack()
 					.addCommandStackListener(stackListener);
 		} else {
 			// Display "no planning" in case of a loaded "Zustand"-XML
@@ -152,11 +151,8 @@ public class ProjectPart extends AbstractTabViewPart {
 			final Planung_Projekt planungProject) {
 		String nameAkteur = ""; //$NON-NLS-1$
 		try {
-			nameAkteur = planungProject.getPlanungPAllg()
-					.getProjektleiter()
-					.getAkteurAllg()
-					.getNameAkteur()
-					.getWert();
+			nameAkteur = planungProject.getPlanungPAllg().getProjektleiter()
+					.getAkteurAllg().getNameAkteur().getWert();
 		} catch (final NullPointerException e) {
 			return false;
 		}
@@ -231,8 +227,7 @@ public class ProjectPart extends AbstractTabViewPart {
 		discardButton.setEnabled(getModelSession().isDirty());
 
 		discardButton.addDisposeListener(
-				event -> getModelSession().getEditingDomain()
-						.getCommandStack()
+				event -> getModelSession().getEditingDomain().getCommandStack()
 						.removeCommandStackListener(stackListener));
 		discardButton.addSelectionListener(new SelectionListener() {
 

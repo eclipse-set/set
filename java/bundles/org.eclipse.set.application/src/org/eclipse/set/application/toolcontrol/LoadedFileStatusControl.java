@@ -75,20 +75,20 @@ public class LoadedFileStatusControl {
 				if (session != null && incompleteIconImage != null
 						&& invalidIconImage != null) {
 					switch (session.getFileValidateState()) {
-						case INCOMPLETE: {
-							iconButton.setImage(incompleteIconImage);
-							iconButton.setVisible(true);
-							break;
-						}
-						case INVALID: {
-							iconButton.setImage(invalidIconImage);
-							iconButton.setVisible(true);
-							break;
-						}
-						default:
-							iconButton.setImage(null);
-							iconButton.setVisible(false);
-							break;
+					case INCOMPLETE: {
+						iconButton.setImage(incompleteIconImage);
+						iconButton.setVisible(true);
+						break;
+					}
+					case INVALID: {
+						iconButton.setImage(invalidIconImage);
+						iconButton.setVisible(true);
+						break;
+					}
+					default:
+						iconButton.setImage(null);
+						iconButton.setVisible(false);
+						break;
 					}
 				} else {
 					iconButton.setImage(null);
@@ -120,24 +120,22 @@ public class LoadedFileStatusControl {
 					return;
 				}
 				switch (session.getFileValidateState()) {
-					case INCOMPLETE: {
-						dialogService.loadIncompleteModel(shell,
-								msg.IncompleteFileDialog_Title,
-								msg.IncompleteFileDialog_Message,
-								JFaceResources.getString(
-										IDialogLabelKeys.OK_LABEL_KEY));
-						break;
-					}
-					case INVALID: {
-						dialogService.loadInvalidModel(shell,
-								msg.InvalidFileDialog_Title,
-								msg.InvalidFileDialog_Message,
-								JFaceResources.getString(
-										IDialogLabelKeys.OK_LABEL_KEY));
-						break;
-					}
-					default:
-						break;
+				case INCOMPLETE: {
+					dialogService.loadIncompleteModel(shell,
+							msg.IncompleteFileDialog_Title,
+							msg.IncompleteFileDialog_Message, JFaceResources
+									.getString(IDialogLabelKeys.OK_LABEL_KEY));
+					break;
+				}
+				case INVALID: {
+					dialogService.loadInvalidModel(shell,
+							msg.InvalidFileDialog_Title,
+							msg.InvalidFileDialog_Message, JFaceResources
+									.getString(IDialogLabelKeys.OK_LABEL_KEY));
+					break;
+				}
+				default:
+					break;
 				}
 
 			}

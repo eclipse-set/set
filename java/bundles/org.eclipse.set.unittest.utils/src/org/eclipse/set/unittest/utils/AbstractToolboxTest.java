@@ -109,11 +109,11 @@ public class AbstractToolboxTest {
 	protected void givenPlanProFile(final String filename) throws IOException {
 		initPackages();
 		resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry()
-				.put(PlanProPackage.eNS_URI, PlanProPackage.eINSTANCE);
-		resourceSet.getPackageRegistry()
-				.put(Signalbegriffe_Ril_301Package.eNS_URI,
-						Signalbegriffe_Ril_301Package.eINSTANCE);
+		resourceSet.getPackageRegistry().put(PlanProPackage.eNS_URI,
+				PlanProPackage.eINSTANCE);
+		resourceSet.getPackageRegistry().put(
+				Signalbegriffe_Ril_301Package.eNS_URI,
+				Signalbegriffe_Ril_301Package.eINSTANCE);
 		if (isZippedPlanProFile(filename)) {
 			loadZippedPlanProFile(filename);
 		} else {
@@ -151,9 +151,8 @@ public class AbstractToolboxTest {
 
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
 				.put("ppxml", resourceFactory); //$NON-NLS-1$
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
-				.put("xml", //$NON-NLS-1$
-						resourceFactory);
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml", //$NON-NLS-1$
+				resourceFactory);
 
 	}
 

@@ -11,17 +11,16 @@ package org.eclipse.set.model.siteplan;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Track
- * Segment</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Track Segment</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSegment#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSegment#getPositions
- * <em>Positions</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSegment#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSegment#getPositions <em>Positions</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSegment()
@@ -30,12 +29,11 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface TrackSegment extends SiteplanObject {
 	/**
-	 * Returns the value of the '<em><b>Type</b></em>' attribute list. The list
-	 * contents are of type {@link org.eclipse.set.model.siteplan.TrackType}.
-	 * The literals are from the enumeration
-	 * {@link org.eclipse.set.model.siteplan.TrackType}. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Type</b></em>' attribute list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.TrackType}.
+	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.TrackType}.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Type</em>' attribute list.
 	 * @see org.eclipse.set.model.siteplan.TrackType
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSegment_Type()
@@ -45,11 +43,10 @@ public interface TrackSegment extends SiteplanObject {
 	EList<TrackType> getType();
 
 	/**
-	 * Returns the value of the '<em><b>Positions</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.Coordinate}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Positions</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Coordinate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Positions</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSegment_Positions()
 	 * @model containment="true"

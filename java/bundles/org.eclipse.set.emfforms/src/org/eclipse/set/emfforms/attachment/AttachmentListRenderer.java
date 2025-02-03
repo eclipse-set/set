@@ -280,11 +280,9 @@ public class AttachmentListRenderer extends SimpleControlSWTRenderer {
 		final String filterName = LocalizationServiceHelper
 				.getString(getClass(), FILTER_NAME);
 		final List<String> extensions = Arrays.stream(ENUMDateityp.values())
-				.map(ENUMDateityp::getLiteral)
-				.collect(Collectors.toList());
+				.map(ENUMDateityp::getLiteral).collect(Collectors.toList());
 		return List.of(ToolboxFileFilterBuilder.forName(filterName)
-				.add(extensions)
-				.create());
+				.add(extensions).create());
 	}
 
 	@Override

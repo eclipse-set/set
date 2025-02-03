@@ -111,11 +111,8 @@ public class AttachmentViewerPart extends BasePart
 		final String mime = new Tika().detect(path);
 		final FileWebBrowser fileWebBrowser = new FileWebBrowser(parent);
 		fileWebBrowser.getBrowser().setDownloadListener(this);
-		GridDataFactory.swtDefaults()
-				.align(SWT.FILL, SWT.FILL)
-				.grab(true, true)
-				.span(2, 1)
-				.applyTo(fileWebBrowser.getControl());
+		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL).grab(true, true)
+				.span(2, 1).applyTo(fileWebBrowser.getControl());
 		final String serverPath = path.getFileName().toString();
 		final String attachmentUrl = "https://toolbox/attachmentSource"; //$NON-NLS-1$
 		final String htmlSite = createAttachmentViewerHTML(serverPath,

@@ -64,8 +64,7 @@ public class ConflictsTableAction implements Consumer<ColumnViewer> {
 		@Override
 		public void run() {
 			final ToolboxTemporaryIntegration temporaryIntegration = session
-					.getTemporaryIntegration()
-					.get();
+					.getTemporaryIntegration().get();
 			final StructuredSelection selection = (StructuredSelection) tableViewer
 					.getSelection();
 			Arrays.stream(selection.toArray())
@@ -108,13 +107,10 @@ public class ConflictsTableAction implements Consumer<ColumnViewer> {
 		@Override
 		public void run() {
 			final ToolboxTemporaryIntegration temporaryIntegration = session
-					.getTemporaryIntegration()
-					.get();
+					.getTemporaryIntegration().get();
 			final Map<ContainerType, List<SMatch>> selection = TemporaryIntegrationExtensions
 					.getOpenConflictMatches(temporaryIntegration);
-			selection.entrySet()
-					.stream()
-					.map(entry -> entry.getValue())
+			selection.entrySet().stream().map(entry -> entry.getValue())
 					.flatMap(List::stream)
 					.forEach(match -> TemporaryIntegrationExtensions
 							.manualMerge(temporaryIntegration,

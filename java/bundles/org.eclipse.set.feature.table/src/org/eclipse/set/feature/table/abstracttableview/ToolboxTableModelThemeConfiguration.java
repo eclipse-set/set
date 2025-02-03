@@ -67,8 +67,8 @@ public class ToolboxTableModelThemeConfiguration
 				bodyDataProvider);
 
 		// register key bindings for table exports
-		natTable.getUiBindingRegistry()
-				.registerKeyBinding(new KeyEventMatcher(SWT.MOD1, 'r'),
-						new CsvExportAction(dialogService));
+		natTable.getUiBindingRegistry().registerKeyBinding(
+				new KeyEventMatcher(SWT.MOD1, 'r'),
+				new CsvExportAction(dialogService));
 	}
 }

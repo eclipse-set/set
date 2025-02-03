@@ -35,13 +35,10 @@ public class SchluesselExtensions {
 			return Collections.emptyList();
 		}
 		final Spliterator<Schloss> schlossIterator = getContainer(schluessel)
-				.getSchloss()
-				.spliterator();
+				.getSchloss().spliterator();
 		return StreamSupport.stream(schlossIterator, false)
-				.filter(schloss -> schloss.getIDSchluessel() != null
-						&& schloss.getIDSchluessel()
-								.getValue()
-								.equals(schluessel))
+				.filter(schloss -> schloss.getIDSchluessel() != null && schloss
+						.getIDSchluessel().getValue().equals(schluessel))
 				.toList();
 	}
 }

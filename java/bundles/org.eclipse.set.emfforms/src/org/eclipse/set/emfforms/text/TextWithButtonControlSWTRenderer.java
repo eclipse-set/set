@@ -93,10 +93,8 @@ public class TextWithButtonControlSWTRenderer extends TextControlSWTRenderer {
 		// the control for the text box and button
 		final Composite filenameControl = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(filenameControl);
-		GridDataFactory.fillDefaults()
-				.grab(true, false)
-				.align(SWT.FILL, SWT.BEGINNING)
-				.applyTo(filenameControl);
+		GridDataFactory.fillDefaults().grab(true, false)
+				.align(SWT.FILL, SWT.BEGINNING).applyTo(filenameControl);
 
 		// the text box
 		final Control textBox = super.createSWTControl(filenameControl);
@@ -108,10 +106,8 @@ public class TextWithButtonControlSWTRenderer extends TextControlSWTRenderer {
 		// the button
 		final Button button = new Button(filenameControl, SWT.PUSH);
 		button.setText(buttonText);
-		GridDataFactory.swtDefaults()
-				.minSize(buttonWidth, 0)
-				.hint(buttonWidth, SWT.DEFAULT)
-				.applyTo(button);
+		GridDataFactory.swtDefaults().minSize(buttonWidth, 0)
+				.hint(buttonWidth, SWT.DEFAULT).applyTo(button);
 		final RendererContextImpl rendererContext = new RendererContextImpl();
 		rendererContext.put(Button.class, button);
 		rendererContext.put(VElement.class, getVElement());

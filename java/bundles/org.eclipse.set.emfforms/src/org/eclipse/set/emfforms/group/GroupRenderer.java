@@ -96,8 +96,7 @@ public class GroupRenderer extends SimpleControlSWTControlSWTRenderer {
 
 		// a new value
 		final EClass eClass = (EClass) feature.getEType();
-		final EObject newValue = eClass.getEPackage()
-				.getEFactoryInstance()
+		final EObject newValue = eClass.getEPackage().getEFactoryInstance()
 				.create(eClass);
 
 		// change and reset the value
@@ -214,9 +213,7 @@ public class GroupRenderer extends SimpleControlSWTControlSWTRenderer {
 			return true;
 		}
 		final TreeIterator<EObject> allContents = renderedView
-				.getViewModelContext()
-				.getViewModel()
-				.eAllContents();
+				.getViewModelContext().getViewModel().eAllContents();
 		while (allContents.hasNext()) {
 			final EObject object = allContents.next();
 			if (object instanceof VControl) {
@@ -243,9 +240,7 @@ public class GroupRenderer extends SimpleControlSWTControlSWTRenderer {
 
 	private void refreshShadowView() {
 		final TreeIterator<EObject> allContents = renderedView
-				.getViewModelContext()
-				.getViewModel()
-				.eAllContents();
+				.getViewModelContext().getViewModel().eAllContents();
 		while (allContents.hasNext()) {
 			final EObject object = allContents.next();
 			if (object instanceof VControl) {

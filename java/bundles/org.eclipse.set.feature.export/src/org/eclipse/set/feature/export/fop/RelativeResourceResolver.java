@@ -52,8 +52,7 @@ public class RelativeResourceResolver implements ResourceResolver {
 	public Resource getResource(final URI uri) throws IOException {
 		if (!uri.isAbsolute()) {
 			final URI absoluteURI = Paths.get(basePath, uri.toString())
-					.toAbsolutePath()
-					.toUri();
+					.toAbsolutePath().toUri();
 			return absoluteResolver.getResource(absoluteURI);
 		}
 		return absoluteResolver.getResource(uri);
@@ -63,8 +62,7 @@ public class RelativeResourceResolver implements ResourceResolver {
 	public OutputStream getOutputStream(final URI uri) throws IOException {
 		if (!uri.isAbsolute()) {
 			final URI absoluteURI = Paths.get(basePath, uri.toString())
-					.toAbsolutePath()
-					.toUri();
+					.toAbsolutePath().toUri();
 			return absoluteResolver.getOutputStream(absoluteURI);
 		}
 		return absoluteResolver.getOutputStream(uri);

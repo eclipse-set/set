@@ -15,19 +15,19 @@ import java.util.List;
 import org.eclipse.emf.common.util.Enumerator;
 
 /**
- * <!-- begin-user-doc --> A representation of the literals of the enumeration
- * '<em><b>Column Width Mode</b></em>', and utility methods for working with
- * them. <!-- end-user-doc -->
- * 
+ * <!-- begin-user-doc -->
+ * A representation of the literals of the enumeration '<em><b>Column Width Mode</b></em>',
+ * and utility methods for working with them.
+ * <!-- end-user-doc -->
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getColumnWidthMode()
  * @model
  * @generated
  */
 public enum ColumnWidthMode implements Enumerator {
 	/**
-	 * The '<em><b>WIDTH CM</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>WIDTH CM</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WIDTH_CM_VALUE
 	 * @generated
 	 * @ordered
@@ -35,9 +35,9 @@ public enum ColumnWidthMode implements Enumerator {
 	WIDTH_CM(0, "WIDTH_CM", "WIDTH_CM"),
 
 	/**
-	 * The '<em><b>WIDTH PERCENT</b></em>' literal object. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * The '<em><b>WIDTH PERCENT</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #WIDTH_PERCENT_VALUE
 	 * @generated
 	 * @ordered
@@ -45,9 +45,9 @@ public enum ColumnWidthMode implements Enumerator {
 	WIDTH_PERCENT(1, "WIDTH_PERCENT", "WIDTH_PERCENT");
 
 	/**
-	 * The '<em><b>WIDTH CM</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>WIDTH CM</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #WIDTH_CM
 	 * @model
 	 * @generated
@@ -56,9 +56,9 @@ public enum ColumnWidthMode implements Enumerator {
 	public static final int WIDTH_CM_VALUE = 0;
 
 	/**
-	 * The '<em><b>WIDTH PERCENT</b></em>' literal value. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * The '<em><b>WIDTH PERCENT</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #WIDTH_PERCENT
 	 * @model
 	 * @generated
@@ -67,29 +67,30 @@ public enum ColumnWidthMode implements Enumerator {
 	public static final int WIDTH_PERCENT_VALUE = 1;
 
 	/**
-	 * An array of all the '<em><b>Column Width Mode</b></em>' enumerators. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * An array of all the '<em><b>Column Width Mode</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final ColumnWidthMode[] VALUES_ARRAY = new ColumnWidthMode[] {
-			WIDTH_CM, WIDTH_PERCENT, };
+	private static final ColumnWidthMode[] VALUES_ARRAY =
+		new ColumnWidthMode[] {
+			WIDTH_CM,
+			WIDTH_PERCENT,
+		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Column Width Mode</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Column Width Mode</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<ColumnWidthMode> VALUES = Collections
-			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ColumnWidthMode> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Column Width Mode</b></em>' literal with the
-	 * specified literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param literal
-	 *            the literal.
+	 * Returns the '<em><b>Column Width Mode</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param literal the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -104,11 +105,10 @@ public enum ColumnWidthMode implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Column Width Mode</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param name
-	 *            the name.
+	 * Returns the '<em><b>Column Width Mode</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param name the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -123,49 +123,46 @@ public enum ColumnWidthMode implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Column Width Mode</b></em>' literal with the
-	 * specified integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the integer value.
+	 * Returns the '<em><b>Column Width Mode</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ColumnWidthMode get(int value) {
 		switch (value) {
-			case WIDTH_CM_VALUE:
-				return WIDTH_CM;
-			case WIDTH_PERCENT_VALUE:
-				return WIDTH_PERCENT;
+			case WIDTH_CM_VALUE: return WIDTH_CM;
+			case WIDTH_PERCENT_VALUE: return WIDTH_PERCENT;
 		}
 		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private ColumnWidthMode(int value, String name, String literal) {
@@ -175,44 +172,44 @@ public enum ColumnWidthMode implements Enumerator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-		return value;
+	  return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-		return name;
+	  return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-		return literal;
+	  return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
 		return literal;
 	}
-
-} // ColumnWidthMode
+	
+} //ColumnWidthMode

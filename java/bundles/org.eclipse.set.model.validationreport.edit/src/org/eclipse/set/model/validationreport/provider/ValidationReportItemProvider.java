@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.model.validationreport.provider;
 
+
 import java.util.Collection;
 import java.util.List;
 
@@ -34,19 +35,23 @@ import org.eclipse.set.model.validationreport.ValidationreportFactory;
 import org.eclipse.set.model.validationreport.ValidationreportPackage;
 
 /**
- * This is the item provider adapter for a
- * {@link org.eclipse.set.model.validationreport.ValidationReport} object. <!--
- * begin-user-doc --> <!-- end-user-doc -->
- * 
+ * This is the item provider adapter for a {@link org.eclipse.set.model.validationreport.ValidationReport} object.
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
  * @generated
  */
-public class ValidationReportItemProvider extends ItemProviderAdapter
-		implements IEditingDomainItemProvider, IStructuredItemContentProvider,
-		ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
+public class ValidationReportItemProvider 
+	extends ItemProviderAdapter
+	implements
+		IEditingDomainItemProvider,
+		IStructuredItemContentProvider,
+		ITreeItemContentProvider,
+		IItemLabelProvider,
+		IItemPropertySource {
 	/**
-	 * This constructs an instance from a factory and a notifier. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This constructs an instance from a factory and a notifier.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public ValidationReportItemProvider(AdapterFactory adapterFactory) {
@@ -54,9 +59,9 @@ public class ValidationReportItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This returns the property descriptors for the adapted class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This returns the property descriptors for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -76,216 +81,222 @@ public class ValidationReportItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This adds a property descriptor for the Model Loaded feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Model Loaded feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addModelLoadedPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_ValidationReport_modelLoaded_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_ValidationReport_modelLoaded_feature",
-						"_UI_ValidationReport_type"),
-				ValidationreportPackage.Literals.VALIDATION_REPORT__MODEL_LOADED,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationReport_modelLoaded_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_modelLoaded_feature", "_UI_ValidationReport_type"),
+				 ValidationreportPackage.Literals.VALIDATION_REPORT__MODEL_LOADED,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Valid feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Valid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addValidPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_ValidationReport_valid_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_ValidationReport_valid_feature",
-						"_UI_ValidationReport_type"),
-				ValidationreportPackage.Literals.VALIDATION_REPORT__VALID, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationReport_valid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_valid_feature", "_UI_ValidationReport_type"),
+				 ValidationreportPackage.Literals.VALIDATION_REPORT__VALID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Xsd Valid feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Xsd Valid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addXsdValidPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_ValidationReport_xsdValid_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_ValidationReport_xsdValid_feature",
-						"_UI_ValidationReport_type"),
-				ValidationreportPackage.Literals.VALIDATION_REPORT__XSD_VALID,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationReport_xsdValid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_xsdValid_feature", "_UI_ValidationReport_type"),
+				 ValidationreportPackage.Literals.VALIDATION_REPORT__XSD_VALID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Emf Valid feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Emf Valid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addEmfValidPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_ValidationReport_emfValid_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_ValidationReport_emfValid_feature",
-						"_UI_ValidationReport_type"),
-				ValidationreportPackage.Literals.VALIDATION_REPORT__EMF_VALID,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationReport_emfValid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_emfValid_feature", "_UI_ValidationReport_type"),
+				 ValidationreportPackage.Literals.VALIDATION_REPORT__EMF_VALID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Toolbox Version feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Toolbox Version feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addToolboxVersionPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_ValidationReport_toolboxVersion_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_ValidationReport_toolboxVersion_feature",
-						"_UI_ValidationReport_type"),
-				ValidationreportPackage.Literals.VALIDATION_REPORT__TOOLBOX_VERSION,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationReport_toolboxVersion_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_toolboxVersion_feature", "_UI_ValidationReport_type"),
+				 ValidationreportPackage.Literals.VALIDATION_REPORT__TOOLBOX_VERSION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Subwork Count feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Subwork Count feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addSubworkCountPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_ValidationReport_subworkCount_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_ValidationReport_subworkCount_feature",
-						"_UI_ValidationReport_type"),
-				ValidationreportPackage.Literals.VALIDATION_REPORT__SUBWORK_COUNT,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationReport_subworkCount_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_subworkCount_feature", "_UI_ValidationReport_type"),
+				 ValidationreportPackage.Literals.VALIDATION_REPORT__SUBWORK_COUNT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This adds a property descriptor for the Subwork Types feature. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds a property descriptor for the Subwork Types feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void addSubworkTypesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(),
-				getResourceLocator(),
-				getString("_UI_ValidationReport_subworkTypes_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_ValidationReport_subworkTypes_feature",
-						"_UI_ValidationReport_type"),
-				ValidationreportPackage.Literals.VALIDATION_REPORT__SUBWORK_TYPES,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_ValidationReport_subworkTypes_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_ValidationReport_subworkTypes_feature", "_UI_ValidationReport_type"),
+				 ValidationreportPackage.Literals.VALIDATION_REPORT__SUBWORK_TYPES,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
-	 * This specifies how to implement {@link #getChildren} and is used to
-	 * deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand},
-	 * {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in
-	 * {@link #createCommand}. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Collection<? extends EStructuralFeature> getChildrenFeatures(
-			Object object) {
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(
-					ValidationreportPackage.Literals.VALIDATION_REPORT__PROBLEMS);
-			childrenFeatures.add(
-					ValidationreportPackage.Literals.VALIDATION_REPORT__SUPPORTED_VERSION);
-			childrenFeatures.add(
-					ValidationreportPackage.Literals.VALIDATION_REPORT__FILE_INFO);
+			childrenFeatures.add(ValidationreportPackage.Literals.VALIDATION_REPORT__PROBLEMS);
+			childrenFeatures.add(ValidationreportPackage.Literals.VALIDATION_REPORT__SUPPORTED_VERSION);
+			childrenFeatures.add(ValidationreportPackage.Literals.VALIDATION_REPORT__FILE_INFO);
 		}
 		return childrenFeatures;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper
-		// feature to use for
+		// Check the type of the specified child object and return the proper feature to use for
 		// adding (see {@link AddCommand}) it as a child.
 
 		return super.getChildFeature(object, child);
 	}
 
 	/**
-	 * This returns ValidationReport.gif. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * This returns ValidationReport.gif.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object,
-				getResourceLocator().getImage("full/obj16/ValidationReport"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ValidationReport"));
 	}
 
 	/**
-	 * This returns the label text for the adapted class. <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
-	 * 
+	 * This returns the label text for the adapted class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ValidationReport) object).getModelLoaded();
-		return label == null || label.length() == 0
-				? getString("_UI_ValidationReport_type")
-				: getString("_UI_ValidationReport_type") + " " + label;
+		String label = ((ValidationReport)object).getModelLoaded();
+		return label == null || label.length() == 0 ?
+			getString("_UI_ValidationReport_type") :
+			getString("_UI_ValidationReport_type") + " " + label;
 	}
 
+
 	/**
-	 * This handles model notifications by calling {@link #updateChildren} to
-	 * update any cached children and by creating a viewer notification, which
-	 * it passes to {@link #fireNotifyChanged}. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
+	 * This handles model notifications by calling {@link #updateChildren} to update any cached
+	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -300,48 +311,48 @@ public class ValidationReportItemProvider extends ItemProviderAdapter
 			case ValidationreportPackage.VALIDATION_REPORT__TOOLBOX_VERSION:
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_COUNT:
 			case ValidationreportPackage.VALIDATION_REPORT__SUBWORK_TYPES:
-				fireNotifyChanged(new ViewerNotification(notification,
-						notification.getNotifier(), false, true));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ValidationreportPackage.VALIDATION_REPORT__PROBLEMS:
 			case ValidationreportPackage.VALIDATION_REPORT__SUPPORTED_VERSION:
 			case ValidationreportPackage.VALIDATION_REPORT__FILE_INFO:
-				fireNotifyChanged(new ViewerNotification(notification,
-						notification.getNotifier(), true, false));
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
 		super.notifyChanged(notification);
 	}
 
 	/**
-	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing the children that can be created under this object. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * This adds {@link org.eclipse.emf.edit.command.CommandParameter}s describing the children
+	 * that can be created under this object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	protected void collectNewChildDescriptors(
-			Collection<Object> newChildDescriptors, Object object) {
+	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(
-				ValidationreportPackage.Literals.VALIDATION_REPORT__PROBLEMS,
-				ValidationreportFactory.eINSTANCE.createValidationProblem()));
+		newChildDescriptors.add
+			(createChildParameter
+				(ValidationreportPackage.Literals.VALIDATION_REPORT__PROBLEMS,
+				 ValidationreportFactory.eINSTANCE.createValidationProblem()));
 
-		newChildDescriptors.add(createChildParameter(
-				ValidationreportPackage.Literals.VALIDATION_REPORT__SUPPORTED_VERSION,
-				ValidationreportFactory.eINSTANCE.createVersionInfo()));
+		newChildDescriptors.add
+			(createChildParameter
+				(ValidationreportPackage.Literals.VALIDATION_REPORT__SUPPORTED_VERSION,
+				 ValidationreportFactory.eINSTANCE.createVersionInfo()));
 
-		newChildDescriptors.add(createChildParameter(
-				ValidationreportPackage.Literals.VALIDATION_REPORT__FILE_INFO,
-				ValidationreportFactory.eINSTANCE.createFileInfo()));
+		newChildDescriptors.add
+			(createChildParameter
+				(ValidationreportPackage.Literals.VALIDATION_REPORT__FILE_INFO,
+				 ValidationreportFactory.eINSTANCE.createFileInfo()));
 	}
 
 	/**
-	 * Return the resource locator for this item provider's resources. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

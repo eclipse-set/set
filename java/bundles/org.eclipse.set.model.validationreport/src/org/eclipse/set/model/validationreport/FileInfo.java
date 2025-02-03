@@ -18,18 +18,12 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getFileName
- * <em>File Name</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getUsedVersion
- * <em>Used Version</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getChecksum
- * <em>Checksum</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getGuid
- * <em>Guid</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getTimeStamp
- * <em>Time Stamp</em>}</li>
- * <li>{@link org.eclipse.set.model.validationreport.FileInfo#getContainerContents
- * <em>Container Contents</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.FileInfo#getFileName <em>File Name</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.FileInfo#getUsedVersion <em>Used Version</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.FileInfo#getChecksum <em>Checksum</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.FileInfo#getGuid <em>Guid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.FileInfo#getTimeStamp <em>Time Stamp</em>}</li>
+ *   <li>{@link org.eclipse.set.model.validationreport.FileInfo#getContainerContents <em>Container Contents</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getFileInfo()
@@ -86,9 +80,8 @@ public interface FileInfo extends EObject {
 	String getTimeStamp();
 
 	/**
-	 * Returns the value of the '<em><b>Used Version</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Used Version</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Used Version</em>' containment reference.
 	 * @see #setUsedVersion(VersionInfo)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getFileInfo_UsedVersion()
@@ -124,25 +117,19 @@ public interface FileInfo extends EObject {
 	void setFileName(String value);
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.validationreport.FileInfo#getGuid
-	 * <em>Guid</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Guid</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.FileInfo#getGuid <em>Guid</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Guid</em>' attribute.
 	 * @see #getGuid()
 	 * @generated
 	 */
 	void setGuid(String value);
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.validationreport.FileInfo#getTimeStamp
-	 * <em>Time Stamp</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.FileInfo#getTimeStamp <em>Time Stamp</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Time Stamp</em>' attribute.
+	 * @param value the new value of the '<em>Time Stamp</em>' attribute.
 	 * @see #getTimeStamp()
 	 * @generated
 	 */
@@ -150,8 +137,8 @@ public interface FileInfo extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Container Contents</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Container Contents</em>' attribute.
 	 * @see #setContainerContents(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getFileInfo_ContainerContents()
@@ -161,27 +148,20 @@ public interface FileInfo extends EObject {
 	String getContainerContents();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.validationreport.FileInfo#getContainerContents
-	 * <em>Container Contents</em>}' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Container Contents</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.FileInfo#getContainerContents <em>Container Contents</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Container Contents</em>' attribute.
 	 * @see #getContainerContents()
 	 * @generated
 	 */
 	void setContainerContents(String value);
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.validationreport.FileInfo#getUsedVersion
-	 * <em>Used Version</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.FileInfo#getUsedVersion <em>Used Version</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Used Version</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Used Version</em>' containment reference.
 	 * @see #getUsedVersion()
 	 * @generated
 	 */

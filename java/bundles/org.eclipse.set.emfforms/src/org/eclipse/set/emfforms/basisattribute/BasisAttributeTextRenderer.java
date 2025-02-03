@@ -256,11 +256,9 @@ public class BasisAttributeTextRenderer extends TextControlSWTRenderer
 		// the control for the text box and button
 		final Composite textWithButtonComposite = new Composite(parentComposite,
 				SWT.NONE);
-		GridLayoutFactory.fillDefaults()
-				.numColumns(2)
+		GridLayoutFactory.fillDefaults().numColumns(2)
 				.applyTo(textWithButtonComposite);
-		GridDataFactory.fillDefaults()
-				.grab(true, false)
+		GridDataFactory.fillDefaults().grab(true, false)
 				.align(SWT.FILL, SWT.BEGINNING)
 				.applyTo(textWithButtonComposite);
 
@@ -276,10 +274,8 @@ public class BasisAttributeTextRenderer extends TextControlSWTRenderer
 		final Button button = new Button(textWithButtonComposite, SWT.PUSH);
 		rendererContextImpl.put(Button.class, button);
 		button.setText(buttonText);
-		GridDataFactory.swtDefaults()
-				.minSize(buttonWidth, 0)
-				.hint(buttonWidth, SWT.DEFAULT)
-				.applyTo(button);
+		GridDataFactory.swtDefaults().minSize(buttonWidth, 0)
+				.hint(buttonWidth, SWT.DEFAULT).applyTo(button);
 		buttonAction.register(rendererContextImpl);
 
 		// the action

@@ -72,12 +72,10 @@ public class SskpBahnsteigUtils {
 			final List<Bahnsteig_Kante> bahnsteigs, final PZB_Element pzb) {
 
 		final Punkt_Objekt_TOP_Kante_AttributeGroup point = pzb
-				.getPunktObjektTOPKante()
-				.get(0);
+				.getPunktObjektTOPKante().get(0);
 
-		final boolean isPZBAtBahnsteig = bahnsteigs.stream()
-				.anyMatch(
-						bahnsteig -> isBelongToBereichObjekt(point, bahnsteig));
+		final boolean isPZBAtBahnsteig = bahnsteigs.stream().anyMatch(
+				bahnsteig -> isBelongToBereichObjekt(point, bahnsteig));
 
 		if (isPZBAtBahnsteig) {
 			return getBahnsteigDistanceAtMagnet(bahnsteigs, pzb);
@@ -96,8 +94,7 @@ public class SskpBahnsteigUtils {
 		final Optional<Range<BigDecimal>> reduce = Streams.stream(bahnsteig)
 				.map(bsk -> PunktObjektExtensions.distanceToBereichObjekt(pzb,
 						bsk, searchDirection))
-				.filter(Optional::isPresent)
-				.map(Optional::get)
+				.filter(Optional::isPresent).map(Optional::get)
 				.reduce(Range::span);
 		if (reduce.isEmpty()) {
 			return new BahnsteigDistance(OptionalDouble.empty(),
@@ -121,8 +118,7 @@ public class SskpBahnsteigUtils {
 				.map(point -> topGraphService.findShortestDistanceInDirection(
 						pzbPoint, point, !isWirkrichtungTopDirection))
 				.filter(Optional::isPresent)
-				.mapToDouble(c -> c.get().doubleValue())
-				.max();
+				.mapToDouble(c -> c.get().doubleValue()).max();
 
 		final OptionalDouble end = Streams.stream(bahnsteig)
 				.flatMap(bsk -> toTopPoints(bsk).stream()
@@ -130,9 +126,7 @@ public class SskpBahnsteigUtils {
 				.map(point -> topGraphService.findShortestDistanceInDirection(
 						pzbPoint, point, isWirkrichtungTopDirection))
 				.filter(Optional::isPresent)
-				.mapToDouble(c -> c.get().doubleValue())
-				.map(c -> -c)
-				.min();
+				.mapToDouble(c -> c.get().doubleValue()).map(c -> -c).min();
 		return new BahnsteigDistance(start, end);
 	}
 }

@@ -21,26 +21,24 @@ import org.eclipse.set.model.titlebox.StringField;
 import org.eclipse.set.model.titlebox.TitleboxPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>String
- * Field</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>String Field</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.titlebox.impl.StringFieldImpl#getFontsize
- * <em>Fontsize</em>}</li>
- * <li>{@link org.eclipse.set.model.titlebox.impl.StringFieldImpl#getText
- * <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.set.model.titlebox.impl.StringFieldImpl#getFontsize <em>Fontsize</em>}</li>
+ *   <li>{@link org.eclipse.set.model.titlebox.impl.StringFieldImpl#getText <em>Text</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class StringFieldImpl extends MinimalEObjectImpl.Container
-		implements StringField {
+public class StringFieldImpl extends MinimalEObjectImpl.Container implements StringField {
 	/**
-	 * The default value of the '{@link #getFontsize() <em>Fontsize</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getFontsize() <em>Fontsize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getFontsize()
 	 * @generated
 	 * @ordered
@@ -48,9 +46,9 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	protected static final String FONTSIZE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getFontsize() <em>Fontsize</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFontsize() <em>Fontsize</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getFontsize()
 	 * @generated
 	 * @ordered
@@ -59,8 +57,8 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The default value of the '{@link #getText() <em>Text</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -69,8 +67,8 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -78,8 +76,8 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	protected String text = TEXT_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected StringFieldImpl() {
@@ -87,8 +85,8 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -97,8 +95,8 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -107,8 +105,8 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -116,14 +114,12 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 		String oldFontsize = fontsize;
 		fontsize = newFontsize;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TitleboxPackage.STRING_FIELD__FONTSIZE, oldFontsize,
-					fontsize));
+			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.STRING_FIELD__FONTSIZE, oldFontsize, fontsize));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -132,8 +128,8 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -141,13 +137,12 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 		String oldText = text;
 		text = newText;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TitleboxPackage.STRING_FIELD__TEXT, oldText, text));
+			eNotify(new ENotificationImpl(this, Notification.SET, TitleboxPackage.STRING_FIELD__TEXT, oldText, text));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -162,26 +157,26 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TitleboxPackage.STRING_FIELD__FONTSIZE:
-				setFontsize((String) newValue);
+				setFontsize((String)newValue);
 				return;
 			case TitleboxPackage.STRING_FIELD__TEXT:
-				setText((String) newValue);
+				setText((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -198,32 +193,29 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TitleboxPackage.STRING_FIELD__FONTSIZE:
-				return FONTSIZE_EDEFAULT == null ? fontsize != null
-						: !FONTSIZE_EDEFAULT.equals(fontsize);
+				return FONTSIZE_EDEFAULT == null ? fontsize != null : !FONTSIZE_EDEFAULT.equals(fontsize);
 			case TitleboxPackage.STRING_FIELD__TEXT:
-				return TEXT_EDEFAULT == null ? text != null
-						: !TEXT_EDEFAULT.equals(text);
+				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (fontsize: ");
@@ -234,4 +226,4 @@ public class StringFieldImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // StringFieldImpl
+} //StringFieldImpl

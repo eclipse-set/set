@@ -22,26 +22,24 @@ import org.eclipse.set.model.siteplan.Position;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>KM
- * Marker</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>KM Marker</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.KMMarkerImpl#getPosition
- * <em>Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.KMMarkerImpl#getValue
- * <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.KMMarkerImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.KMMarkerImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class KMMarkerImpl extends MinimalEObjectImpl.Container
-		implements KMMarker {
+public class KMMarkerImpl extends MinimalEObjectImpl.Container implements KMMarker {
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -50,8 +48,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -60,8 +58,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -69,8 +67,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	protected int value = VALUE_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected KMMarkerImpl() {
@@ -78,8 +76,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -88,8 +86,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -98,29 +96,23 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetPosition(Position newPosition,
-			NotificationChain msgs) {
+	public NotificationChain basicSetPosition(Position newPosition, NotificationChain msgs) {
 		Position oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.KM_MARKER__POSITION,
-					oldPosition, newPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.KM_MARKER__POSITION, oldPosition, newPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -128,27 +120,19 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject) position).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.KM_MARKER__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.KM_MARKER__POSITION, null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject) newPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.KM_MARKER__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.KM_MARKER__POSITION, null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.KM_MARKER__POSITION, newPosition,
-					newPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.KM_MARKER__POSITION, newPosition, newPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -157,8 +141,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -166,18 +150,16 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 		int oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.KM_MARKER__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.KM_MARKER__VALUE, oldValue, value));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.KM_MARKER__POSITION:
 				return basicSetPosition(null, msgs);
@@ -186,8 +168,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -202,33 +184,33 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.KM_MARKER__POSITION:
-				setPosition((Position) newValue);
+				setPosition((Position)newValue);
 				return;
 			case SiteplanPackage.KM_MARKER__VALUE:
-				setValue((Integer) newValue);
+				setValue((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.KM_MARKER__POSITION:
-				setPosition((Position) null);
+				setPosition((Position)null);
 				return;
 			case SiteplanPackage.KM_MARKER__VALUE:
 				setValue(VALUE_EDEFAULT);
@@ -238,8 +220,8 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -254,14 +236,13 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: ");
@@ -270,4 +251,4 @@ public class KMMarkerImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // KMMarkerImpl
+} //KMMarkerImpl

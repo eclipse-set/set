@@ -67,15 +67,12 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	@Override
 	protected CheckboxModelElement[] createCheckboxModelElements() {
 		final List<String> shortCuts = new ArrayList<>(
-				tableService.getAvailableTables()
-						.stream()
-						.map(TableInfo::shortcut)
-						.toList());
+				tableService.getAvailableTables().stream()
+						.map(TableInfo::shortcut).toList());
 		Collections.sort(shortCuts);
 
 		final List<CheckboxModelElement> elements = new ArrayList<>(
-				shortCuts.stream()
-						.map(tableService::getTableNameInfo)
+				shortCuts.stream().map(tableService::getTableNameInfo)
 						.map(info -> new CheckboxModelElement(
 								info.getShortName().toLowerCase(),
 								info.getFullDisplayName()))
@@ -113,10 +110,8 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		} else {
 			final Map<TableType, Table> tables = compileService.compile(id,
 					modelSession,
-					modelSession.getSelectedControlAreas()
-							.stream()
-							.map(Pair::getSecond)
-							.collect(Collectors.toSet()));
+					modelSession.getSelectedControlAreas().stream()
+							.map(Pair::getSecond).collect(Collectors.toSet()));
 			final PlanProToTitleboxTransformation planProToTitlebox = PlanProToTitleboxTransformation
 					.create();
 			final Titlebox titlebox = planProToTitlebox.transform(

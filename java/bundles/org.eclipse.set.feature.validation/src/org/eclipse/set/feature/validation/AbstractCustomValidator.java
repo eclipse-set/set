@@ -17,8 +17,7 @@ import org.eclipse.set.core.services.validation.CustomValidator;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 
 /**
- * Absctract class for custom validation
- * 
+ * Absctract class for custom validation 
  * @author Truong
  *
  */

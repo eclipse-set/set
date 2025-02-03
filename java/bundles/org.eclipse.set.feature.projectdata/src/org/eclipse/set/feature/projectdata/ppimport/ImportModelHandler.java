@@ -138,8 +138,7 @@ public class ImportModelHandler {
 
 		return importDatas.stream().filter(data -> {
 			final ENUMUntergewerkArt subworkType = data.getSecond()
-					.getUntergewerkArt()
-					.getWert();
+					.getUntergewerkArt().getWert();
 			final Optional<Planung_Gruppe> sourceGruppe = getPlanungGruppe(
 					source, subworkType);
 			final Optional<Ausgabe_Fachdaten> sourceSubwork = sourceGruppe
@@ -150,9 +149,7 @@ public class ImportModelHandler {
 			// When import source already exist, then ask the user to overwrite
 			if ((sourceGruppe.isPresent() || sourceSubwork.isPresent()
 					|| sourceContainer.isPresent() && !sourceContainer.get()
-							.getContainer()
-							.eContents()
-							.isEmpty())
+							.getContainer().eContents().isEmpty())
 					&& !serviceProvider.dialogService
 							.confirmOverwriteOperationalData(shell)) {
 				return false;
@@ -182,10 +179,8 @@ public class ImportModelHandler {
 			return;
 		}
 		doImportCommand(editingDomian, sourceGroup.orElse(null), importGroup,
-				source.getLSTPlanung()
-						.getObjektmanagement()
-						.getLSTPlanungProjekt()
-						.getFirst(),
+				source.getLSTPlanung().getObjektmanagement()
+						.getLSTPlanungProjekt().getFirst(),
 				PlanProPackage.eINSTANCE.getPlanung_Projekt_LSTPlanungGruppe());
 	}
 
@@ -249,12 +244,12 @@ public class ImportModelHandler {
 			return Optional.empty();
 		}
 		switch (target) {
-			case INITIAL:
-				return Optional.of(sourceSubwork.get().getLSTZustandStart());
-			case FINAL:
-				return Optional.of(sourceSubwork.get().getLSTZustandZiel());
-			default:
-				return Optional.empty();
+		case INITIAL:
+			return Optional.of(sourceSubwork.get().getLSTZustandStart());
+		case FINAL:
+			return Optional.of(sourceSubwork.get().getLSTZustandZiel());
+		default:
+			return Optional.empty();
 		}
 	}
 
@@ -267,16 +262,10 @@ public class ImportModelHandler {
 				modelToImport);
 		ToolboxIDResolver.resolveIDReferences(newSchnitStelle);
 		final Ausgabe_Fachdaten ausgabeFachdaten = newSchnitStelle
-				.getLSTPlanung()
-				.getFachdaten()
-				.getAusgabeFachdaten()
-				.get(0);
+				.getLSTPlanung().getFachdaten().getAusgabeFachdaten().get(0);
 		final Planung_Gruppe planungGruppe = newSchnitStelle.getLSTPlanung()
-				.getObjektmanagement()
-				.getLSTPlanungProjekt()
-				.get(0)
-				.getLSTPlanungGruppe()
-				.get(0);
+				.getObjektmanagement().getLSTPlanungProjekt().get(0)
+				.getLSTPlanungGruppe().get(0);
 		try {
 			// Set new subwork type in Planung_Gruppe and Ausgabe_Fachdaten
 			setSubworkType(planungGruppe, List.of(
@@ -322,8 +311,7 @@ public class ImportModelHandler {
 
 	private ENUMUntergewerkArt chooseSubworkType(final Shell shell) {
 		final List<String> subworkTypes = Arrays
-				.stream(ENUMUntergewerkArt.values())
-				.map(e -> e.getLiteral())
+				.stream(ENUMUntergewerkArt.values()).map(e -> e.getLiteral())
 				.toList();
 		final String selectedType = serviceProvider.dialogService
 				.selectValueDialog(shell,
@@ -382,17 +370,17 @@ public class ImportModelHandler {
 				BasisobjekteFactory.eINSTANCE.createIdentitaet_TypeClass());
 		emptyZustand.getIdentitaet().setWert(Guid.create().toString());
 		switch (selectionValue) {
-			case START, ZUSTAND_INFORMATION: {
-				newSubwork.setLSTZustandZiel(emptyZustand);
-				break;
-			}
-			case ZIEL: {
-				newSubwork.setLSTZustandStart(emptyZustand);
-				break;
-			}
-			default:
-				logger.error("Unexpected value: {}", selectionValue); //$NON-NLS-1$
-				throw new IllegalArgumentException();
+		case START, ZUSTAND_INFORMATION: {
+			newSubwork.setLSTZustandZiel(emptyZustand);
+			break;
+		}
+		case ZIEL: {
+			newSubwork.setLSTZustandStart(emptyZustand);
+			break;
+		}
+		default:
+			logger.error("Unexpected value: {}", selectionValue); //$NON-NLS-1$
+			throw new IllegalArgumentException();
 		}
 		return newSubwork;
 	}
@@ -437,12 +425,8 @@ public class ImportModelHandler {
 
 		final boolean importSubworkSuccess = target == ImportTarget.ALL
 				&& newSubwork.isPresent()
-				&& !newSubwork.get()
-						.getIdentitaet()
-						.getWert()
-						.equals(dataToImport.getSecond()
-								.getIdentitaet()
-								.getWert());
+				&& !newSubwork.get().getIdentitaet().getWert().equals(
+						dataToImport.getSecond().getIdentitaet().getWert());
 		if (newPlaningGroup.isEmpty() || newSubwork.isEmpty()
 				|| importSubworkSuccess) {
 			logger.error("The Import process wasn't successfull");
@@ -462,9 +446,7 @@ public class ImportModelHandler {
 		}
 		serNumberInt++;
 		final Command setSeriNumberCommand = SetCommand.create(editingDomain,
-				newPlaningGroup.get()
-						.getLSTPlanungEinzel()
-						.getPlanungEAllg()
+				newPlaningGroup.get().getLSTPlanungEinzel().getPlanungEAllg()
 						.getLaufendeNummerAusgabe(),
 				PlanProPackage.eINSTANCE
 						.getLaufende_Nummer_Ausgabe_TypeClass_Wert(),
@@ -477,31 +459,27 @@ public class ImportModelHandler {
 						(Planung_Projekt) newPlaningGroup.get().eContainer()));
 
 		// new GUIDs for PlanungGruppe
-		editingDomain.getCommandStack()
-				.execute(createSetGuidCommand(editingDomain,
-						newPlaningGroup.get()));
+		editingDomain.getCommandStack().execute(
+				createSetGuidCommand(editingDomain, newPlaningGroup.get()));
 
 		// new GUIDs for LSTPlanungEinzel
-		editingDomain.getCommandStack()
-				.execute(createSetGuidCommand(editingDomain,
-						newPlaningGroup.get().getLSTPlanungEinzel()));
+		editingDomain.getCommandStack().execute(createSetGuidCommand(
+				editingDomain, newPlaningGroup.get().getLSTPlanungEinzel()));
 
 		final Planung_Einzel lstPlanungEinzel = newPlaningGroup.get()
 				.getLSTPlanungEinzel();
 		// new GUIDs for LST_Zustand_Start
 		if (target == ImportTarget.ALL || target == ImportTarget.INITIAL) {
-			editingDomain.getCommandStack()
-					.execute(createSetGuidCommand(editingDomain,
-							PlanungEinzelExtensions
-									.LSTZustandStart(lstPlanungEinzel)));
+			editingDomain.getCommandStack().execute(createSetGuidCommand(
+					editingDomain,
+					PlanungEinzelExtensions.LSTZustandStart(lstPlanungEinzel)));
 		}
 
 		// new GUIDs for LST_Zustand_Ziel
 		if (target == ImportTarget.ALL || target == ImportTarget.FINAL) {
-			editingDomain.getCommandStack()
-					.execute(createSetGuidCommand(editingDomain,
-							PlanungEinzelExtensions
-									.LSTZustandZiel(lstPlanungEinzel)));
+			editingDomain.getCommandStack().execute(createSetGuidCommand(
+					editingDomain,
+					PlanungEinzelExtensions.LSTZustandZiel(lstPlanungEinzel)));
 		}
 	}
 

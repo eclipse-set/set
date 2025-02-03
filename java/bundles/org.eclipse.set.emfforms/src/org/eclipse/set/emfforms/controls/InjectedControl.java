@@ -107,16 +107,16 @@ public class InjectedControl extends ECPAbstractCustomControlSWT {
 	private static Alignment swtAlignmentToAlignment(final int alignment,
 			final Alignment defaultValue) {
 		switch (alignment) {
-			case SWT.BEGINNING:
-			case SWT.LEFT:
-				return Alignment.BEGINNING;
-			case SWT.CENTER:
-				return Alignment.CENTER;
-			case SWT.END:
-			case SWT.RIGHT:
-				return Alignment.END;
-			default:
-				return defaultValue;
+		case SWT.BEGINNING:
+		case SWT.LEFT:
+			return Alignment.BEGINNING;
+		case SWT.CENTER:
+			return Alignment.CENTER;
+		case SWT.END:
+		case SWT.RIGHT:
+			return Alignment.END;
+		default:
+			return defaultValue;
 		}
 	}
 

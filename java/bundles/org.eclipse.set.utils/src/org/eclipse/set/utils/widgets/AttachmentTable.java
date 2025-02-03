@@ -274,9 +274,8 @@ public class AttachmentTable {
 					.refresh();
 			attachmentList.addChangeListener(changeListener);
 			// ...as long as its control is not disposed
-			viewer.getControl()
-					.addDisposeListener(e -> attachmentList
-							.removeChangeListener(changeListener));
+			viewer.getControl().addDisposeListener(
+					e -> attachmentList.removeChangeListener(changeListener));
 		} else {
 			viewer.setContentProvider(new ArrayContentProvider());
 			viewer.setInput(attachments);
@@ -370,9 +369,8 @@ public class AttachmentTable {
 					addAttachment(addAttachment.getShell());
 				}
 			});
-			buttonRow.getComposite()
-					.setLayoutData(
-							new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
+			buttonRow.getComposite().setLayoutData(
+					new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
 		}
 	}
 

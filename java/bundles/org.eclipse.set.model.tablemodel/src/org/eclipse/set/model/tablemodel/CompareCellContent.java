@@ -10,21 +10,22 @@ package org.eclipse.set.model.tablemodel;
 
 import org.eclipse.emf.common.util.EList;
 
+
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Compare
- * Cell Content</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Compare Cell Content</b></em>'.
+ * <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Result of a compare operation between two cells.
+ * <!-- begin-model-doc -->
+ * Result of a compare operation between two cells.
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue
- * <em>Old Value</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue
- * <em>New Value</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue <em>Old Value</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue <em>New Value</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareCellContent()
@@ -33,11 +34,13 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface CompareCellContent extends CellContent {
 	/**
-	 * Returns the value of the '<em><b>Old Value</b></em>' attribute list. The
-	 * list contents are of type {@link java.lang.String}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc --> <!-- begin-model-doc --> The old value <!--
-	 * end-model-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Old Value</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The old value
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Old Value</em>' attribute list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareCellContent_OldValue()
 	 * @model
@@ -46,11 +49,13 @@ public interface CompareCellContent extends CellContent {
 	EList<String> getOldValue();
 
 	/**
-	 * Returns the value of the '<em><b>New Value</b></em>' attribute list. The
-	 * list contents are of type {@link java.lang.String}. <!-- begin-user-doc
-	 * --> <!-- end-user-doc --> <!-- begin-model-doc --> The new value <!--
-	 * end-model-doc -->
-	 * 
+	 * Returns the value of the '<em><b>New Value</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The new value
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>New Value</em>' attribute list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCompareCellContent_NewValue()
 	 * @model

@@ -56,10 +56,8 @@ public final class SslfTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder()
-				.sort("A", MIXED_STRING, ASC) //$NON-NLS-1$
-				.sort("B", MIXED_STRING, ASC) //$NON-NLS-1$
-				.build();
+		return TableRowGroupComparator.builder().sort("A", MIXED_STRING, ASC) //$NON-NLS-1$
+				.sort("B", MIXED_STRING, ASC).build(); //$NON-NLS-1$
 	}
 
 	@Override

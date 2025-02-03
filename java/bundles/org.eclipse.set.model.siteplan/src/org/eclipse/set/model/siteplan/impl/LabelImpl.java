@@ -19,16 +19,15 @@ import org.eclipse.set.model.siteplan.Label;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object
- * '<em><b>Label</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Label</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LabelImpl#getText
- * <em>Text</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LabelImpl#isOrientationInverted
- * <em>Orientation Inverted</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LabelImpl#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LabelImpl#isOrientationInverted <em>Orientation Inverted</em>}</li>
  * </ul>
  *
  * @generated
@@ -36,8 +35,8 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	/**
 	 * The default value of the '{@link #getText() <em>Text</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -46,8 +45,8 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 
 	/**
 	 * The cached value of the '{@link #getText() <em>Text</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getText()
 	 * @generated
 	 * @ordered
@@ -55,9 +54,9 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	protected String text = TEXT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isOrientationInverted() <em>Orientation
-	 * Inverted</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isOrientationInverted() <em>Orientation Inverted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isOrientationInverted()
 	 * @generated
 	 * @ordered
@@ -65,9 +64,9 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	protected static final boolean ORIENTATION_INVERTED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isOrientationInverted() <em>Orientation
-	 * Inverted</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isOrientationInverted() <em>Orientation Inverted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #isOrientationInverted()
 	 * @generated
 	 * @ordered
@@ -75,8 +74,8 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	protected boolean orientationInverted = ORIENTATION_INVERTED_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected LabelImpl() {
@@ -84,8 +83,8 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -94,8 +93,8 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -104,8 +103,8 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -113,13 +112,12 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 		String oldText = text;
 		text = newText;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.LABEL__TEXT, oldText, text));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.LABEL__TEXT, oldText, text));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -128,8 +126,8 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -137,14 +135,12 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 		boolean oldOrientationInverted = orientationInverted;
 		orientationInverted = newOrientationInverted;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.LABEL__ORIENTATION_INVERTED,
-					oldOrientationInverted, orientationInverted));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.LABEL__ORIENTATION_INVERTED, oldOrientationInverted, orientationInverted));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -159,26 +155,26 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.LABEL__TEXT:
-				setText((String) newValue);
+				setText((String)newValue);
 				return;
 			case SiteplanPackage.LABEL__ORIENTATION_INVERTED:
-				setOrientationInverted((Boolean) newValue);
+				setOrientationInverted((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -195,16 +191,15 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.LABEL__TEXT:
-				return TEXT_EDEFAULT == null ? text != null
-						: !TEXT_EDEFAULT.equals(text);
+				return TEXT_EDEFAULT == null ? text != null : !TEXT_EDEFAULT.equals(text);
 			case SiteplanPackage.LABEL__ORIENTATION_INVERTED:
 				return orientationInverted != ORIENTATION_INVERTED_EDEFAULT;
 		}
@@ -212,14 +207,13 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (text: ");
@@ -230,4 +224,4 @@ public class LabelImpl extends MinimalEObjectImpl.Container implements Label {
 		return result.toString();
 	}
 
-} // LabelImpl
+} //LabelImpl

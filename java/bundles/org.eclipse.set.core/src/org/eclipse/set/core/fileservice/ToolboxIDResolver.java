@@ -85,8 +85,7 @@ public class ToolboxIDResolver {
 	private static EReference getValueFeature(final EObject ref) {
 		return (EReference) ref.eClass()
 				.getEStructuralFeature(VerweisePackage.eINSTANCE
-						.getID_Anforderer_Element_TypeClass_Value()
-						.getName());
+						.getID_Anforderer_Element_TypeClass_Value().getName());
 	}
 
 	private static EStructuralFeature getValidFeature(final EObject ref) {

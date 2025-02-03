@@ -102,8 +102,7 @@ public class SelectValueDialog extends AbstractSelectionDialog<String> {
 		final Label label = new Label(composite, SWT.WRAP);
 		if (getMessage() != null && !getMessage().isEmpty()) {
 			label.setText(getMessage());
-			GridDataFactory.fillDefaults()
-					.align(SWT.FILL, SWT.BEGINNING)
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BEGINNING)
 					.grab(true, false)
 					.hint(convertHorizontalDLUsToPixels(
 							IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH),

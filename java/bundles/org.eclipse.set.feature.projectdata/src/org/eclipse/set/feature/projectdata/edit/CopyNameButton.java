@@ -119,8 +119,7 @@ public class CopyNameButton implements ButtonAction {
 		final VFeaturePathDomainModelReference domainModelReference = (VFeaturePathDomainModelReference) vControl
 				.getDomainModelReference();
 		final Class<?> type = domainModelReference.getDomainModelEFeature()
-				.getEType()
-				.getInstanceClass();
+				.getEType().getInstanceClass();
 		final NameAkteurTransformation transformation = new NameAkteurTransformation();
 		final Object transformed = transformation.transform(nameAkteur, type);
 		if (transformed instanceof final Name_Akteur_5_TypeClass nameAkteur5) {

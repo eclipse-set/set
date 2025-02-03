@@ -117,8 +117,7 @@ public class TableModelInstanceBodyDataProvider
 			if (tableType.getContainerForTable() == properties
 					.getContainerType()) {
 				final Optional<TableRow> first = instances.stream()
-						.filter(e -> e.equals(properties.getRow()))
-						.findFirst();
+						.filter(e -> e.equals(properties.getRow())).findFirst();
 				if (first.isEmpty()) {
 					return;
 				}
@@ -141,8 +140,7 @@ public class TableModelInstanceBodyDataProvider
 					return !cellContent.isEmpty()
 							&& !cellContent.get().isBlank()
 							&& !cellContent.get().isEmpty();
-				})
-				.toList();
+				}).toList();
 		if (filterRows.isEmpty()) {
 			return;
 		}
@@ -197,25 +195,23 @@ public class TableModelInstanceBodyDataProvider
 			final Pt1TableChangeProperties properties) {
 		final ContainerType containerType = properties.getContainerType();
 		switch (containerType) {
-			case FINAL:
-				if (!equalsValues(oldContent.getNewValue(),
-						properties.getNewValues())) {
-					return createCompareCellContent(oldContent.getOldValue(),
-							properties.getNewValues(),
-							oldContent.getSeparator());
-				}
-				break;
-			case INITIAL:
-				if (!equalsValues(oldContent.getOldValue(),
-						properties.getNewValues())) {
-					return createCompareCellContent(properties.getNewValues(),
-							oldContent.getNewValue(),
-							oldContent.getSeparator());
-				}
-				break;
-			default:
-				throw new IllegalArgumentException(
-						"SingelState can't have compare cell content"); //$NON-NLS-1$
+		case FINAL:
+			if (!equalsValues(oldContent.getNewValue(),
+					properties.getNewValues())) {
+				return createCompareCellContent(oldContent.getOldValue(),
+						properties.getNewValues(), oldContent.getSeparator());
+			}
+			break;
+		case INITIAL:
+			if (!equalsValues(oldContent.getOldValue(),
+					properties.getNewValues())) {
+				return createCompareCellContent(properties.getNewValues(),
+						oldContent.getNewValue(), oldContent.getSeparator());
+			}
+			break;
+		default:
+			throw new IllegalArgumentException(
+					"SingelState can't have compare cell content"); //$NON-NLS-1$
 		}
 		return null;
 	}

@@ -104,10 +104,8 @@ public class TableOverviewPart extends BasePart {
 
 	@Override
 	protected void createView(final Composite parent) {
-		controlAreaIds = getModelSession().getSelectedControlAreas()
-				.stream()
-				.map(Pair::getSecond)
-				.collect(Collectors.toSet());
+		controlAreaIds = getModelSession().getSelectedControlAreas().stream()
+				.map(Pair::getSecond).collect(Collectors.toSet());
 
 		completenessHint = new Label(parent, SWT.NONE);
 		completenessHint.setText(messages.TableOverviewPart_CompletenessHint);
@@ -176,8 +174,7 @@ public class TableOverviewPart extends BasePart {
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
-				controlAreaIds = t.getControlAreas()
-						.stream()
+				controlAreaIds = t.getControlAreas().stream()
 						.map(ControlAreaValue::areaId)
 						.collect(Collectors.toSet());
 				update();
@@ -231,11 +228,11 @@ public class TableOverviewPart extends BasePart {
 		final Collection<String> tablesWithErrors = getTablesContainingErrors();
 		for (final String shortCut : tablesWithErrors) {
 			final String tablePartIdPrefix = switch (getTableCategory()) {
-				case ESTW_CATEGORY -> ESTW_TABLE_PART_ID_PREFIX;
-				case ETCS_CATEGORY -> ETCS_TABLE_PART_ID_PREFIX;
-				case ESTW_SUPPLEMENT_CATEGORY -> ESTW_SUPPLEMENT_PART_ID_PREFIX;
-				default -> throw new IllegalArgumentException(
-						"Unexpected value: " + getTableCategory()); //$NON-NLS-1$
+			case ESTW_CATEGORY -> ESTW_TABLE_PART_ID_PREFIX;
+			case ETCS_CATEGORY -> ETCS_TABLE_PART_ID_PREFIX;
+			case ESTW_SUPPLEMENT_CATEGORY -> ESTW_SUPPLEMENT_PART_ID_PREFIX;
+			default -> throw new IllegalArgumentException(
+					"Unexpected value: " + getTableCategory()); //$NON-NLS-1$
 			};
 			toolboxPartService.showPart(
 					String.format("%s.%s", tablePartIdPrefix, shortCut)); //$NON-NLS-1$
@@ -284,11 +281,9 @@ public class TableOverviewPart extends BasePart {
 	private Collection<String> getMissingTables() {
 		final Map<String, Collection<TableError>> computedErrors = getTableErrors();
 		final Collection<String> allTableInfos = tableService
-				.getAvailableTables()
-				.stream()
+				.getAvailableTables().stream()
 				.filter(table -> table.category().equals(getTableCategory()))
-				.map(TableInfo::shortcut)
-				.toList();
+				.map(TableInfo::shortcut).toList();
 
 		final ArrayList<String> missingTables = new ArrayList<>();
 		missingTables.addAll(allTableInfos);
@@ -317,10 +312,9 @@ public class TableOverviewPart extends BasePart {
 		if (tables.isEmpty()) {
 			return messages.TableOverviewPart_EmptyListText;
 		}
-		final List<String> shortNames = new ArrayList<>(tables.stream()
-				.map(shortCut -> tableService.getTableNameInfo(shortCut)
-						.getShortName())
-				.toList());
+		final List<String> shortNames = new ArrayList<>(
+				tables.stream().map(shortCut -> tableService
+						.getTableNameInfo(shortCut).getShortName()).toList());
 		Collections.sort(shortNames);
 		return shortNames.stream().collect(Collectors.joining(", ")); //$NON-NLS-1$
 	}

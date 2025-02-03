@@ -30,28 +30,25 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Row
- * Group</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Row Group</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl#getRows
- * <em>Rows</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl#getLeadingObject
- * <em>Leading Object</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl#getLeadingObjectIndex
- * <em>Leading Object Index</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl#getRows <em>Rows</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl#getLeadingObject <em>Leading Object</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl#getLeadingObjectIndex <em>Leading Object Index</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class RowGroupImpl extends MinimalEObjectImpl.Container
-		implements RowGroup {
+public class RowGroupImpl extends MinimalEObjectImpl.Container implements RowGroup {
 	/**
-	 * The cached value of the '{@link #getRows() <em>Rows</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getRows() <em>Rows</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getRows()
 	 * @generated
 	 * @ordered
@@ -59,9 +56,9 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	protected EList<TableRow> rows;
 
 	/**
-	 * The cached value of the '{@link #getLeadingObject() <em>Leading
-	 * Object</em>}' reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLeadingObject() <em>Leading Object</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLeadingObject()
 	 * @generated
 	 * @ordered
@@ -69,10 +66,9 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	protected Ur_Objekt leadingObject;
 
 	/**
-	 * The default value of the '{@link #getLeadingObjectIndex() <em>Leading
-	 * Object Index</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The default value of the '{@link #getLeadingObjectIndex() <em>Leading Object Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLeadingObjectIndex()
 	 * @generated
 	 * @ordered
@@ -80,10 +76,9 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	protected static final int LEADING_OBJECT_INDEX_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getLeadingObjectIndex() <em>Leading
-	 * Object Index</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The cached value of the '{@link #getLeadingObjectIndex() <em>Leading Object Index</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getLeadingObjectIndex()
 	 * @generated
 	 * @ordered
@@ -91,8 +86,8 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	protected int leadingObjectIndex = LEADING_OBJECT_INDEX_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected RowGroupImpl() {
@@ -100,8 +95,8 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -110,42 +105,39 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<TableRow> getRows() {
 		if (rows == null) {
-			rows = new EObjectContainmentEList<TableRow>(TableRow.class, this,
-					TablemodelPackage.ROW_GROUP__ROWS);
+			rows = new EObjectContainmentEList<TableRow>(TableRow.class, this, TablemodelPackage.ROW_GROUP__ROWS);
 		}
 		return rows;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Ur_Objekt getLeadingObject() {
 		if (leadingObject != null && leadingObject.eIsProxy()) {
-			InternalEObject oldLeadingObject = (InternalEObject) leadingObject;
-			leadingObject = (Ur_Objekt) eResolveProxy(oldLeadingObject);
+			InternalEObject oldLeadingObject = (InternalEObject)leadingObject;
+			leadingObject = (Ur_Objekt)eResolveProxy(oldLeadingObject);
 			if (leadingObject != oldLeadingObject) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							TablemodelPackage.ROW_GROUP__LEADING_OBJECT,
-							oldLeadingObject, leadingObject));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TablemodelPackage.ROW_GROUP__LEADING_OBJECT, oldLeadingObject, leadingObject));
 			}
 		}
 		return leadingObject;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public Ur_Objekt basicGetLeadingObject() {
@@ -153,8 +145,8 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -162,14 +154,12 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 		Ur_Objekt oldLeadingObject = leadingObject;
 		leadingObject = newLeadingObject;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.ROW_GROUP__LEADING_OBJECT,
-					oldLeadingObject, leadingObject));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.ROW_GROUP__LEADING_OBJECT, oldLeadingObject, leadingObject));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -178,8 +168,8 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -187,30 +177,26 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 		int oldLeadingObjectIndex = leadingObjectIndex;
 		leadingObjectIndex = newLeadingObjectIndex;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.ROW_GROUP__LEADING_OBJECT_INDEX,
-					oldLeadingObjectIndex, leadingObjectIndex));
+			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.ROW_GROUP__LEADING_OBJECT_INDEX, oldLeadingObjectIndex, leadingObjectIndex));
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.ROW_GROUP__ROWS:
-				return ((InternalEList<?>) getRows()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getRows()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -219,8 +205,7 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.ROW_GROUP__ROWS:
 				return getRows();
 			case TablemodelPackage.ROW_GROUP__LEADING_OBJECT:
-				if (resolve)
-					return getLeadingObject();
+				if (resolve) return getLeadingObject();
 				return basicGetLeadingObject();
 			case TablemodelPackage.ROW_GROUP__LEADING_OBJECT_INDEX:
 				return getLeadingObjectIndex();
@@ -229,8 +214,8 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -239,21 +224,21 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 		switch (featureID) {
 			case TablemodelPackage.ROW_GROUP__ROWS:
 				getRows().clear();
-				getRows().addAll((Collection<? extends TableRow>) newValue);
+				getRows().addAll((Collection<? extends TableRow>)newValue);
 				return;
 			case TablemodelPackage.ROW_GROUP__LEADING_OBJECT:
-				setLeadingObject((Ur_Objekt) newValue);
+				setLeadingObject((Ur_Objekt)newValue);
 				return;
 			case TablemodelPackage.ROW_GROUP__LEADING_OBJECT_INDEX:
-				setLeadingObjectIndex((Integer) newValue);
+				setLeadingObjectIndex((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -263,7 +248,7 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 				getRows().clear();
 				return;
 			case TablemodelPackage.ROW_GROUP__LEADING_OBJECT:
-				setLeadingObject((Ur_Objekt) null);
+				setLeadingObject((Ur_Objekt)null);
 				return;
 			case TablemodelPackage.ROW_GROUP__LEADING_OBJECT_INDEX:
 				setLeadingObjectIndex(LEADING_OBJECT_INDEX_EDEFAULT);
@@ -273,8 +258,8 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -291,14 +276,13 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (leadingObjectIndex: ");
@@ -307,4 +291,4 @@ public class RowGroupImpl extends MinimalEObjectImpl.Container
 		return result.toString();
 	}
 
-} // RowGroupImpl
+} //RowGroupImpl

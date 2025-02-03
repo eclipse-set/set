@@ -65,8 +65,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 	protected List<PlazError> run(
 			final MultiContainer_AttributeGroup container) {
 		final List<GEO_Kante> geoKanten = Streams
-				.stream(container.getGEOKante())
-				.toList();
+				.stream(container.getGEOKante()).toList();
 		final List<PlazError> errors = new ArrayList<>();
 		geoKanten.stream().filter(geoKante -> {
 			final Optional<BigDecimal> kanteLength = getNullableObject(geoKante,
@@ -84,8 +83,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 					.stream()
 					.collect(Collectors
 							.groupingBy(geoPunkt -> geoPunkt.getGEOPunktAllg()
-									.getGEOKoordinatensystem()
-									.getWert()));
+									.getGEOKoordinatensystem().getWert()));
 			geoPunktGroupByCRS.forEach((crs, geoPunkte) -> {
 				if (!isUniqueCoordinatens(geoPunkte)) {
 					errors.add(createError(geoKante));

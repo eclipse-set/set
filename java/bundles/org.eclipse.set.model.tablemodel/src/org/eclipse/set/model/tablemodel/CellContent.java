@@ -11,17 +11,19 @@ package org.eclipse.set.model.tablemodel;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Cell
- * Content</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Cell Content</b></em>'.
+ * <!-- end-user-doc -->
  *
- * <!-- begin-model-doc --> Content of a table cell. <!-- end-model-doc -->
+ * <!-- begin-model-doc -->
+ * Content of a table cell.
+ * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator
- * <em>Separator</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator <em>Separator</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCellContent()
@@ -31,9 +33,9 @@ import org.eclipse.emf.ecore.EObject;
 public interface CellContent extends EObject {
 
 	/**
-	 * Returns the value of the '<em><b>Separator</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Separator</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Separator</em>' attribute.
 	 * @see #setSeparator(String)
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getCellContent_Separator()
@@ -43,13 +45,10 @@ public interface CellContent extends EObject {
 	String getSeparator();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator
-	 * <em>Separator</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Separator</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator <em>Separator</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Separator</em>' attribute.
 	 * @see #getSeparator()
 	 * @generated
 	 */

@@ -20,24 +20,23 @@ import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Multi
- * Color Cell Content</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Multi Color Cell Content</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl#getValue
- * <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class MultiColorCellContentImpl extends CellContentImpl
-		implements MultiColorCellContent {
+public class MultiColorCellContentImpl extends CellContentImpl implements MultiColorCellContent {
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -45,8 +44,8 @@ public class MultiColorCellContentImpl extends CellContentImpl
 	protected EList<MultiColorContent> value;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected MultiColorCellContentImpl() {
@@ -54,8 +53,8 @@ public class MultiColorCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -64,39 +63,35 @@ public class MultiColorCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public EList<MultiColorContent> getValue() {
 		if (value == null) {
-			value = new EObjectContainmentEList<MultiColorContent>(
-					MultiColorContent.class, this,
-					TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE);
+			value = new EObjectContainmentEList<MultiColorContent>(MultiColorContent.class, this, TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE);
 		}
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd,
-			int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE:
-				return ((InternalEList<?>) getValue()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getValue()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -109,8 +104,8 @@ public class MultiColorCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -119,16 +114,15 @@ public class MultiColorCellContentImpl extends CellContentImpl
 		switch (featureID) {
 			case TablemodelPackage.MULTI_COLOR_CELL_CONTENT__VALUE:
 				getValue().clear();
-				getValue().addAll(
-						(Collection<? extends MultiColorContent>) newValue);
+				getValue().addAll((Collection<? extends MultiColorContent>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -142,8 +136,8 @@ public class MultiColorCellContentImpl extends CellContentImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -155,4 +149,4 @@ public class MultiColorCellContentImpl extends CellContentImpl
 		return super.eIsSet(featureID);
 	}
 
-} // MultiColorCellContentImpl
+} //MultiColorCellContentImpl
