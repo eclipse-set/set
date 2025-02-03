@@ -34,7 +34,7 @@ jobs:
         run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-dsl-2023-12-R-linux-gtk-x86_64.tar.gz
 
       - name: Unzip eclipse
-        run: unzip ./tmp/eclipse.tar.gz -d eclipse
+        run: tar -xf ./tmp/eclipse.tar.gz -C ./tmp
 
       - name: Run eclipse formatter
         run: ./tmp/eclipse -noSplash -vm "$JAVA_HOME/javaw.exe" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/code-formatter.xml .
