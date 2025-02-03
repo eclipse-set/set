@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Get eclipse
-        run: wget -O ./tmp/eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-dsl-2023-12-R-linux-gtk-x86_64.tar.gz
+        run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-dsl-2023-12-R-linux-gtk-x86_64.tar.gz
 
       - name: Unzip eclipse
         run: unzip ./tmp/eclipse.tar.gz -d eclipse
