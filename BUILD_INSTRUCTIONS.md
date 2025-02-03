@@ -26,6 +26,7 @@ This is the recommended way to build and debug for development.
 2. Create a new workspace in the Eclipse IDE
 3. Import projects from `java/` via File -> Import -> Existing Projects into Workspace
 4. Import the Checkstyle configuration from `releng/eclipse/checkstyle.xml` via Window -> Preferences -> Checkstyle
+4. Import the Java formatter configuration from `releng/eclipse/java-formatter.xml` via Window -> Preferences -> Java -> Code Style -> Formatter
 5. Set the target platform in `org.eclipse.set.releng.target`
 6. Launch the product in `org.eclipse.set.releng.set.product`
 7. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a recent Github Actions build of the same branch for compatibility). 
