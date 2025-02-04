@@ -199,7 +199,7 @@ jobs:
           path: web/news/public
 
       - name: Build
-        run: mvn -T 1.5C -U -B clean deploy --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
+        run: mvn -T 1.5C -U -B clean deploy checkstyle:checkstyle --settings .github/settings.xml -DaltDeploymentRepository=local::file://${{ github.workspace }}/set-m2deploy
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
