@@ -11,20 +11,6 @@ on:
 
 
 jobs:
-  checkstyle:
-    runs-on: ubuntu-latest
-    env:
-      CHECKSTYLE_VERSION: "10.10.0"
-      CHECKSTYLE_CONFIG_LOC: releng/eclipse
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Get checkstyle
-        run: wget -O ./checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${{ env.CHECKSTYLE_VERSION }}/checkstyle-${{ env.CHECKSTYLE_VERSION }}-all.jar
-
-      - name: Run checkstyle
-        run: java -Dconfig_loc=${{ env.CHECKSTYLE_CONFIG_LOC }} -jar checkstyle.jar . -c ${{ env.CHECKSTYLE_CONFIG_LOC }}/checkstyle.xml
-
   java-formatting:
     runs-on: ubuntu-latest
     steps:

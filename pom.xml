@@ -271,7 +271,7 @@
 							<configLocation>../../../releng/eclipse/checkstyle.xml</configLocation>
 							<suppressionsLocation>../../../releng/eclipse/suppressions.xml</suppressionsLocation>
 							<propertyExpansion>
-								config_loc=../../../releng/eclipse
+								config_loc=releng/eclipse
 							</propertyExpansion>
 							<consoleOutput>true</consoleOutput>
 							<linkXRef>false</linkXRef>
