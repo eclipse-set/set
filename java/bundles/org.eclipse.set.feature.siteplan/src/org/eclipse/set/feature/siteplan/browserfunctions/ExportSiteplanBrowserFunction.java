@@ -122,7 +122,7 @@ public class ExportSiteplanBrowserFunction
 							exportImages.clear();
 						});
 
-				// dialogService.openDirectoryAfterExport(shell, outDir);
+				dialogService.openDirectoryAfterExport(shell, outDir);
 			}
 
 		} catch (final IOException e) {
