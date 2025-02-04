@@ -276,7 +276,7 @@ jobs:
 
       - name: Fetch main csv files
         if: github.ref != 'main' && !startsWith(github.ref, 'refs/heads/release/') && !startsWith(github.ref, 'refs/tags/')
-        uses: eclipse-set/build/.github/actions/fetch-main-table-csv-ref@fetch-main-csv-file-action
+        uses: eclipse-set/build/.github/actions/fetch-main-table-csv-ref@main
         with:
           repo: ${{ github.repository }}
         continue-on-error: true
