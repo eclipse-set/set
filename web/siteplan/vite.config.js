@@ -16,7 +16,5 @@ export default defineConfig(({_, mode}) => ({
   build: {
     sourcemap: mode === 'development' ? true : 'inline',
     minify: mode === 'development' ? false : 'esbuild',
-    outDir: mode === 'development' ? "C:/Eclipse/SBIDER-Current/eclipse/web/siteplan" : "dist",
-    emptyOutDir: true
   }
 }))

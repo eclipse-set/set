@@ -11,7 +11,6 @@
     "eclipse-dev": "dotenv -- ./eclipse-dev-build.sh"
   },
   "dependencies": {
-    "@turf/turf": "^7.2.0",
     "axios": "^1.7.9",
     "geojson": "^0.5.0",
     "jspdf": "^2.5.2",
@@ -25,6 +24,11 @@
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "2.13.0",
+    "@turf/boolean-disjoint": "^7.2.0",
+    "@turf/boolean-within": "^7.2.0",
+    "@turf/difference": "^7.2.0",
+    "@turf/helpers": "^7.2.0",
+    "@turf/intersect": "^7.2.0",
     "@types/geojson": "^7946.0.15",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
