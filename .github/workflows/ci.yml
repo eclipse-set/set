@@ -274,6 +274,13 @@ jobs:
           name: set-m2deploy-${{github.run_number}}
           path: ${{ env.DEPLOY_DIR }}
 
+      - name: Fetch main reference
+        uses: truongquangsb/build/.github/actions/fetch-main-table-csv-ref@main
+        with:
+          GH_TOKEN: ${{ env.GITHUB_TOKEN }}
+          REPO: truongquangsb/set
+        continue-on-error: true
+
       - name: Run Test
         id: test-steps
         shell: bash
