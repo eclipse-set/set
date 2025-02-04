@@ -10,7 +10,9 @@ import { isGeometryIntersection } from '@/collision/CollisionExtension'
 import { FeatureLayerType, FeatureType, getFeatureData } from '@/feature/FeatureInfo'
 import { SheetCutFeatureData } from '@/feature/LayoutInfoFeature'
 import { store } from '@/store'
-import * as turf from '@turf/turf'
+import turfDifference from '@turf/difference'
+import * as turf from '@turf/helpers'
+import turfIntersect from '@turf/intersect'
 import { MultiPolygon as GeoJSONMultiPolygon, Position as GeoJSONPosition } from 'geojson'
 import { Feature, Map } from 'ol'
 import { Control } from 'ol/control'
@@ -254,7 +256,7 @@ export default class ExportControl extends Control {
           ]
         ])
         // Determine the portion of the viewport area that intersect the sheet cut polygon
-        const intersectionPolygon = turf.intersect(turf.featureCollection([tileTurfPolygon, featureTurfPolygon]))
+        const intersectionPolygon = turfIntersect(turf.featureCollection([tileTurfPolygon, featureTurfPolygon]))
         const screenShotData: ExportTileData = {
           center: getCenter(tilePolygonExtent),
           tileExtent: tilePolygonExtent,
@@ -269,7 +271,7 @@ export default class ExportControl extends Control {
 
         // Determine the portion of the viewport area
         // that lies outside the sheet cut polygon
-        const outsidePolygon = turf.difference(turf.featureCollection([tileTurfPolygon, intersectionPolygon]))
+        const outsidePolygon = turfDifference(turf.featureCollection([tileTurfPolygon, intersectionPolygon]))
         if (outsidePolygon == null) {
           continue
         }
