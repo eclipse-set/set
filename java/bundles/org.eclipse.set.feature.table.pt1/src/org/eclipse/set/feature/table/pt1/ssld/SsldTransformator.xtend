@@ -8,8 +8,10 @@
  */
 package org.eclipse.set.feature.table.pt1.ssld
 
+import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.Set
+import org.eclipse.set.basis.graph.TopPath
 import org.eclipse.set.basis.graph.TopPoint
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.core.services.graph.TopologicalGraphService
@@ -17,12 +19,11 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_DWeg
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.utils.math.AgateRounding
+import org.eclipse.set.ppmodel.extensions.utils.TopGraph
 import org.eclipse.set.utils.table.TMFactory
 
 import static org.eclipse.set.feature.table.pt1.ssld.SsldColumns.*
@@ -38,8 +39,6 @@ import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
-import org.eclipse.set.ppmodel.extensions.utils.TopGraph
-import java.math.BigDecimal
 
 /**
  * Table transformation for a Durchrutschwegtabelle (SSLD).
@@ -57,43 +56,53 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		this.topGraphService = topGraphService
 	}
 
-	def BigDecimal getShortestPathLength(Signal signal, Punkt_Objekt p) {
+	def TopPath getShortestPath(Signal signal, Punkt_Objekt p) {
 		val points1 = signal.singlePoints.map[new TopPoint(it)]
 		val points2 = p.singlePoints.map[new TopPoint(it)]
 
 		return points1.flatMap [ pa |
 			points2.map [ pb |
-				topGraphService.findShortestDistance(pa, pb)
+				topGraphService.findShortestPath(pa, pb)
 			]
-		].filter[present].map[get].min
+		].filter[present].map[get].minBy[length]
 	}
 
-	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph) {
+	def String getFreigemeldetLaenge(Fstr_DWeg dweg, TopGraph topGraph,
+		BigDecimal maxLength) {
 		val startSignal = dweg?.fstrFahrweg?.start
-		var fmas = dweg?.FMAs.toList.filter [
-			topGraph.isInWirkrichtungOfSignal(startSignal, it)
-		].toList
-		// When not exists relevant FMA_Komponent/Gleis_Abschluss on the Fstr_Fahrweg of this DWeg,
-		// then take the FMA_Komponent/Gleis_Abschluss of this FMA_Anlage_Freimeldung,
-		// which in direction of the start Signal
-		if (fmas.empty) {
-			fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
-				filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].
-				toList
-		}
-
-		val relevantDistances = fmas?.map [
-			getShortestPathLength(dweg?.fstrFahrweg?.start, it)
+		val fmas = dweg?.fmaAnlageFreimeldung?.map[fmaGrenzen]?.flatten.toSet.
+			filter[topGraph.isInWirkrichtungOfSignal(startSignal, it)].toList
+		val pathFromSignalToFMA = fmas?.map [
+			it -> getShortestPath(dweg?.fstrFahrweg?.start, it)
 		]
-		if (relevantDistances.isEmpty) {
+		if (pathFromSignalToFMA.isEmpty) {
 			return ""
 		}
-		val roundedDistance = AgateRounding.roundDown(
-			relevantDistances.max.doubleValue)
-		if (roundedDistance == 0.0)
-			throw new IllegalArgumentException("no path found")
-		else
-			return roundedDistance.toString
+
+		val relevantFmas = pathFromSignalToFMA.filter [
+			dweg.isRelevantFma(key, value)
+		].toList
+
+		// When the free reporting section ending before the Dweg end,
+		// then take the FMA am nearst of the end of Dweg
+		if (relevantFmas.isEmpty) {
+			val fstrTOPKante = dweg.fstrFahrweg.bereichObjektTeilbereich.map [
+				topKante
+			]
+			val relevantPaths = pathFromSignalToFMA.filter [
+				value.edges.forall[fstrTOPKante.contains(it)]
+			]
+			if (relevantPaths.empty) {
+				throw new IllegalArgumentException("no path found")
+			}
+			return relevantPaths.maxBy[value.length].value.length.
+				toTableIntegerAgateDown
+		}
+
+		val distance = relevantFmas.map[value.length].max
+		return distance > maxLength
+			? '''> «maxLength.toTableIntegerAgateDown»'''
+			: distance.toTableIntegerAgateDown
 	}
 
 	override transformTableContent(
@@ -196,7 +205,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Freigemeldet),
 				dweg,
-				[getFreigemeldetLaenge(topGraph)]
+				[getFreigemeldetLaenge(topGraph, fstrFahrWegLength)]
 			)
 
 			// J: Ssld.Eigenschaften.massgebende_Neigung
@@ -206,50 +215,43 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				dweg,
 				[
 					fstrDWegAllg.massgebendeNeigung.wert.setScale(1,
-						RoundingMode.DOWN).toString
+						RoundingMode.FLOOR).toString
 				]
 			)
 
 			// K: Ssld.Abhaengigkeiten.Weichen_Kreuzungen.mit_Verschluss
-			fillIterableWithSeparatorConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_mit_Verschluss),
 				dweg,
-				[fstrDWegSpezifisch !== null],
 				[
 					zuordnungen.filter[elementVerschluss?.wert == Boolean.TRUE].
 						map [
 							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
 						]
 				],
-				MIXED_STRING_COMPARATOR,
-				[],
-				"\r\n"
+				MIXED_STRING_COMPARATOR
 			)
 
 			// L: Ssld.Abhaengigkeiten.Weichen_Kreuzungen.ohne_Verschluss
-			fillIterableWithSeparatorConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(Weichen_Kreuzungen_ohne_Verschluss),
 				dweg,
-				[fstrDWegSpezifisch !== null],
 				[
 					zuordnungen.
 						filter[elementVerschluss?.wert == Boolean.FALSE].map [
 							WKrGspElement.bezeichnung.bezeichnungTabelle.wert
 						]
 				],
-				MIXED_STRING_COMPARATOR,
-				[],
-				"\r\n"
+				MIXED_STRING_COMPARATOR
 			)
 
 			// M: Ssld.Abhaengigkeiten.relevante_FmA
-			fillIterableWithSeparatorConditional(
+			fillIterable(
 				instance,
 				cols.getColumn(relevante_FmA),
 				dweg,
-				[fstrDWegSpezifisch !== null],
 				[
 					val fmaAnlagen = dweg?.fmaAnlageFreimeldung
 					if (fmaAnlagen.contains(null)) {
@@ -257,9 +259,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 					}
 					fmaAnlagen.map[tableName]
 				],
-				MIXED_STRING_COMPARATOR,
-				[],
-				"\r\n"
+				MIXED_STRING_COMPARATOR
 			)
 
 			// N: Ssld.Abhaengigkeiten.v_Aufwertung_Verzicht
@@ -267,10 +267,9 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(v_Aufwertung_Verzicht),
 				dweg,
-				[dweg?.fstrFahrweg?.start.isStartOfAnyTrainRoute],
+				[fstrFahrweg?.start.isStartOfAnyTrainRoute],
 				[
-					dweg?.fstrDWegSpezifisch?.DWegVAufwertungVerzicht?.wert?.
-						translate
+					fstrDWegSpezifisch?.DWegVAufwertungVerzicht?.wert?.translate
 				]
 			)
 
@@ -279,11 +278,10 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Erlaubnisabhaengig),
 				dweg,
-				[fstrDWegSpezifisch !== null],
+				[fstrFahrweg?.zielPunkt?.IDDWegErlaubnisabhaengig !== null],
+				["x"],
 				[
-					if (fstrFahrweg.zielPunkt.IDDWegErlaubnisabhaengig !== null)
-						"x"
-					else if (#{
+					#{
 						ENUM_SIGNAL_FUNKTION_AUSFAHR_SIGNAL,
 						ENUM_SIGNAL_FUNKTION_AUSFAHR_ZWISCHEN_SIGNAL,
 						ENUM_SIGNAL_FUNKTION_EINFAHR_AUSFAHR_SIGNAL,
@@ -291,57 +289,41 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 						ENUM_SIGNAL_FUNKTION_GRUPPENAUSFAHR_SIGNAL
 					}.contains(
 						fstrFahrweg?.start?.signalReal?.signalFunktion?.wert
-					))
-						"o"
+					) ? "o" : ""
 				]
 			)
 
 			// P: Ssld.Aufloesung.Manuell
-			fillConditional(
+			fill(
 				instance,
 				cols.getColumn(Manuell),
 				dweg,
+				[
+					fstrFahrweg?.start?.signalFstr?.DAManuell?.wert?.
+						translate ?: ""
+				]
+			)
+
+			// Q: Ssld.Aufloesung.Aufloeseabschnitt.Bezeichnung
+			fillConditional(
+				instance,
+				cols.getColumn(Aufloeseabschnitt_Bezeichnung),
+				dweg,
 				[fstrDWegSpezifisch !== null],
 				[
-					fstrFahrweg?.start?.signalFstr?.DAManuell?.wert?.translate
+					fstrDWegSpezifisch.fmaAnlageZielgleis?.IDGleisAbschnitt?.
+						value?.bezeichnung?.bezeichnungTabelle?.wert ?: ""
 				]
 			)
 
-			// Q: Ssld.Aufloesung.Zielgleisabschnitt.Bezeichnung
+			// R: Ssld.Aufloesung.Aufloeseabschnitt.Laenge
 			fillConditional(
 				instance,
-				cols.getColumn(Zielgleisabschnitt_Bezeichnung),
+				cols.getColumn(Aufloeseabschnitt_Laenge),
 				dweg,
-				[dweg.fstrDWegSpezifisch !== null],
+				[fstrDWegSpezifisch !== null],
 				[
-					fstrDWegSpezifisch.fmaAnlageZielgleis.IDGleisAbschnitt?.
-						value.bezeichnung.bezeichnungTabelle.wert
-				]
-			)
-
-			// R: Ssld.Aufloesung.Zielgleisabschnitt.Laenge
-			fillConditional(
-				instance,
-				cols.getColumn(Zielgleisabschnitt_Laenge),
-				dweg,
-				[dweg.fstrDWegSpezifisch !== null],
-				[
-					val fstrs = fstrZugRangier
-					if (fstrs.empty) {
-						return ""
-					}
-
-					val distance = fstrs?.fold(
-						Double.valueOf(0.0),
-						[ Double current, Fstr_Zug_Rangier fstr |
-							Math.max(current,
-								fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.
-									value?.IDGleisAbschnitt?.value?.
-									getOverlappingLength(
-										fstr.IDFstrFahrweg?.value).doubleValue)
-						]
-					)
-					return AgateRounding.roundDown(distance).toString
+					getZielGleisAbschnittLength(topGraph)
 				]
 			)
 
@@ -350,7 +332,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Verzoegerung),
 				dweg,
-				[dweg.fstrDWegSpezifisch !== null],
+				[fstrDWegSpezifisch !== null],
 				[
 					fstrDWegSpezifisch?.aufloesungVerzoegerung?.wert?.toString
 				]
@@ -362,5 +344,35 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 		}
 
 		return factory.table
+	}
+
+	private def String getZielGleisAbschnittLength(Fstr_DWeg dweg,
+		TopGraph topGraph) {
+		val startSignal = dweg?.fstrFahrweg?.start
+		val fmaAnlage = dweg.fstrDWegSpezifisch?.IDFMAAnlageZielgleis?.value
+		// The relevant FMA shouldn't lie on direction of start signal
+		val fmaKomponenten = fmaAnlage.fmaGrenzen.filter [
+			!topGraph.isInWirkrichtungOfSignal(startSignal, it)
+		].toList
+		val pathsFromSignalToFMA = fmaKomponenten.map [
+			startSignal.getShortestPath(it)
+		]
+
+		val fstrs = dweg.fstrZugRangier
+		val relevantPaths = fstrs.empty
+				// if no fstrs we take all paths to any of the fmaKomponenten 
+				? pathsFromSignalToFMA
+				// otherwise we determine which path is overlapping with Fstr
+				: fstrs.map [ fstr |
+				val fstrTOPKanten = fstr.IDFstrFahrweg?.value.
+					bereichObjektTeilbereich.map[IDTOPKante.value]
+				val overlappingtPaths = pathsFromSignalToFMA.filter [ path |
+					path.edges.forall[fstrTOPKanten.contains(it)]
+				]
+				return overlappingtPaths
+			].flatten
+		// of all the relevant paths between fmaGrenzen and startSignal we take the longest path
+		val maxDistance = relevantPaths.map[it -> length].maxBy[value]
+		return maxDistance.value.toTableIntegerAgateDown
 	}
 }

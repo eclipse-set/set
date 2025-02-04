@@ -66,6 +66,11 @@ public class Messages {
 	public String AttachmentTable_UnsupportFormatMsg;
 
 	/**
+	 * Der ausgewählte Anhang hat keine Binärdatei.
+	 */
+	public String AttachmentTable_MissingBinaryDataMsg;
+
+	/**
 	 * Wollen Sie die vorhandene Datei "%s" löschen?
 	 */
 	public String Dialogs_confirmDeletionMessagePattern;

@@ -1,0 +1,66 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    tags:
+      - 'v**'
+    branches:
+      - 'release/**'
+      - 'main'
+
+
+jobs:
+  java-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get eclipse
+        run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-dsl-2023-12-R-linux-gtk-x86_64.tar.gz
+
+      - name: Unzip eclipse
+        run: tar -xf ./tmp/eclipse.tar.gz -C ./tmp
+
+      - name: Test
+        run: ls -la $JAVA_HOME/bin
+
+      - name: Run eclipse formatter
+        run: ./tmp/eclipse/eclipse -noSplash -vm "$JAVA_HOME/bin/java" -data ./tmp/workspace -application org.eclipse.jdt.core.JavaCodeFormatter -config ./releng/eclipse/java-formatter.epf .
+
+      - name: Cleanup eclipse
+        run: rm -R ./tmp
+      
+      - name: Print diffs
+        run: git --no-pager diff --exit-code
+
+  lint-siteplan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: cd web/siteplan && npm install
+
+      - name: Eslint
+        run: cd web/siteplan && npm run lint
+
+  lint-textviewer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: cd web/textviewer && npm install
+
+      - name: Eslint
+        run: cd web/textviewer && npm run lint
+

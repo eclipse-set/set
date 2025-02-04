@@ -24,7 +24,7 @@ import { LineString } from 'ol/geom'
 import Geometry from 'ol/geom/Geometry'
 import Polygon from 'ol/geom/Polygon'
 import { Fill, Stroke, Style } from 'ol/style'
-import { createFeature, FeatureType, getFeatureData } from './FeatureInfo'
+import { createFeature, FeatureType, getFeatureData, getFeatureGUID, getFeatureType } from './FeatureInfo'
 
 /**
  * Container for all track features
@@ -65,7 +65,8 @@ export default class TrackFeature extends LageplanFeature<Track> {
         track,
         trackSection,
         trackSegment
-      ), this.createTrackOutlineFeature(track.guid, trackSection, trackSegment)
+      )
+      , this.createTrackOutlineFeature(track.guid, trackSection, trackSegment)
     ]
   }
 
@@ -292,38 +293,84 @@ export default class TrackFeature extends LageplanFeature<Track> {
     ])
     const initialTracks = this.getObjectsModel(initial)
     const finalTracks = this.getObjectsModel(final)
-    const isDiffSection = initialTracks.some(initialTrack => {
+    const existDiffSection = initialTracks.some(initialTrack => {
       const finalTrack = finalTracks.find(x => x.guid === initialTrack.guid)
-      if (!finalTrack) {
-        return false
-      }
-
-      let isNotEqual = false
-      const initialSections = initialTrack.sections
-      const finalSections = finalTrack.sections
-      if (initialSections.length > finalSections.length) {
-        const missingSections = this.getMissingElements<TrackSection>(initialSections, finalSections, x => x.guid)
-        this.coloringMissingElements(initialTrack, missingSections, SiteplanColorValue.COLOR_REMOVED)
-        isNotEqual = true
-      } else if (initialSections.length < finalSections.length) {
-        const missingSections = this.getMissingElements<TrackSection>(finalSections, initialSections, x => x.guid)
-        this.coloringMissingElements(finalTrack, missingSections, SiteplanColorValue.COLOR_ADDED)
-        isNotEqual = true
-      }
-
-      finalTrack.sections.forEach(finalSection => {
-        const initialSection = initialTrack.sections.find(x => x.guid === finalSection.guid)
-        if (initialSection && compare(finalSection, initialSection)) {
-          this.setObjectColor(initialTrack, finalSection.guid, SiteplanColorValue.COLOR_REMOVED)
-          this.setObjectColor(finalTrack, finalSection.guid, SiteplanColorValue.COLOR_ADDED)
-          isNotEqual = true
+      if (finalTrack) {
+        const initialSections = initialTrack.sections
+        const finalSections = finalTrack.sections
+        if (initialSections.length > finalSections.length) {
+          const missingSections = this.getMissingElements<TrackSection>(initialSections, finalSections, x => x.guid)
+          this.coloringMissingElements(initialTrack, missingSections, SiteplanColorValue.COLOR_REMOVED)
+          return true
+        } else if (initialSections.length < finalSections.length) {
+          const missingSections = this.getMissingElements<TrackSection>(finalSections, initialSections, x => x.guid)
+          this.coloringMissingElements(finalTrack, missingSections, SiteplanColorValue.COLOR_ADDED)
+          return  true
         }
-      })
-      return isNotEqual
-    })
 
-    return isDiffDesignation || isDiffSection
+        return finalTrack.sections.some(finalSection => {
+          const initialSection = initialTrack.sections.find(x => x.guid === finalSection.guid)
+          if (initialSection && compare(finalSection, initialSection)) {
+            this.setObjectColor(initialTrack, finalSection.guid, SiteplanColorValue.COLOR_REMOVED)
+            this.setObjectColor(finalTrack, finalSection.guid, SiteplanColorValue.COLOR_ADDED)
+            return true
+          }
+        })
+      }
+    })
+    return isDiffDesignation || existDiffSection
       ? this.createCompareFeatures(initial, final)
       : this.getFeatures(final)
+  }
+
+  protected createCompareFeatures (initial: SiteplanState, final: SiteplanState): Feature<Geometry>[] {
+    // Grouped section feature by track
+    const initialFeatureGroups = this.getFeatures(initial)
+      .groupBy(feature => getFeatureGUID(feature))
+    const finalFeatureGroups = this.getFeatures(final)
+      .groupBy(feature => getFeatureGUID(feature))
+    const result: Feature<Geometry>[] = []
+    Object.entries(initialFeatureGroups).forEach(initialGroup => {
+      const trackID = initialGroup[0]
+      const finalFeatureGroup = Object.entries(finalFeatureGroups).find(finalGroup =>
+        finalGroup[0] === trackID)
+
+      if (!finalFeatureGroup) {
+        result.push(...initialGroup[1])
+        return
+      }
+
+      initialGroup[1].forEach(initialFeature => {
+        const initialSectionGuid = this.getFeatureSectionGuid(initialFeature)
+        const initialSegment = (getFeatureData(initialFeature) as TrackSectionFeatureData)?.segment
+        const finalSegmentFeatures = finalFeatureGroup[1]
+          .filter(finalFeature =>  initialSectionGuid === this.getFeatureSectionGuid(finalFeature))
+        const isDifferent = finalSegmentFeatures.some(finalFeature => {
+          const finalSegment = getFeatureData(finalFeature)?.segment
+          return compare(initialSegment, finalSegment)
+        })
+
+        if (isDifferent) {
+          finalSegmentFeatures.forEach(feature => {
+            if (!result.includes(feature)) {
+              result.push(feature)
+            }
+          })
+        }
+
+        result.push(initialFeature)
+      })
+    })
+
+    return result
+  }
+
+  private getFeatureSectionGuid (feature: Feature<Geometry>): string | undefined {
+    if (getFeatureType(feature) !== FeatureType.Track) {
+      return undefined
+    }
+
+    const data = getFeatureData(feature) as TrackSectionFeatureData
+    return data?.section?.guid
   }
 }

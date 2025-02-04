@@ -85,6 +85,7 @@ import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.RefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -679,7 +680,7 @@ public final class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.export(tables, getExportType(),
+						exportService.exportPdf(tables, getExportType(),
 								getTitlebox(shortcut), getFreeFieldInfo(),
 								shortcut, outputDir,
 								getModelSession().getToolboxPaths(),

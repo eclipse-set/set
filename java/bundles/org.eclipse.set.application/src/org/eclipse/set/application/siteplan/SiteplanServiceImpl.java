@@ -22,7 +22,6 @@ import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.siteplan.SiteplanService;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schloss;
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element;
 import org.eclipse.set.model.siteplan.SiteplanObject;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.event.Event;
@@ -81,7 +80,6 @@ public class SiteplanServiceImpl implements SiteplanService, EventHandler {
 		}
 
 		return switch (object) {
-		case final W_Kr_Gsp_Element gsp -> getSitePlanGspElement(gsp);
 		case final Schloss schloss -> getSiteplanSspElement(schloss);
 		default -> findSiteplanElementWithGuid(
 				object.getIdentitaet().getWert());
@@ -105,18 +103,6 @@ public class SiteplanServiceImpl implements SiteplanService, EventHandler {
 			return true;
 		}
 		return getSiteplanElement(object).isPresent();
-	}
-
-	private Optional<SiteplanObject> getSitePlanGspElement(
-			final W_Kr_Gsp_Element gspElement) {
-		final String guid = gspElement.getIdentitaet().getWert();
-		if (gspElement.getGleissperreElement() != null && gspElement
-				.getGleissperreElement().getGleissperreVorzugslage() != null) {
-			return findSiteplanElementWithGuid(guid);
-		}
-
-		return findSiteplanElementWithGuid(
-				gspElement.getIDWKrAnlage().getWert());
 	}
 
 	private Optional<SiteplanObject> getSiteplanSspElement(

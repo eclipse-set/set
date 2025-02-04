@@ -8,6 +8,12 @@
  */
 package org.eclipse.set.feature.table.pt1.ssks;
 
+import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
+
+import java.util.Comparator;
+
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
@@ -17,7 +23,9 @@ import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
+import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.utils.table.sorting.TableRowGroupComparator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
@@ -90,5 +98,14 @@ public final class SsksTransformationService extends
 				}
 			});
 		}
+	}
+
+	@SuppressWarnings("nls")
+	@Override
+	public Comparator<RowGroup> getRowGroupComparator() {
+		return TableRowGroupComparator.builder()
+				.sort("B", EMPTY_LAST, ASC)
+				.sort("D", EMPTY_LAST, ASC)
+				.sort("A", LEXICOGRAPHICAL, ASC).build();
 	}
 }

@@ -92,6 +92,9 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @returns boolean
 	 */
 	def static boolean isStartOfAnyTrainRoute(Signal signal) {
+		if (signal === null) {
+			return false
+		}
 		return signal.container.fstrZugRangier.exists [
 			fstrFahrweg?.start === signal && fstrZug !== null
 		]

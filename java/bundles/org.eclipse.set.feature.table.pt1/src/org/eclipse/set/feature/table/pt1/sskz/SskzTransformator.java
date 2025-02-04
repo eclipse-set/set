@@ -14,12 +14,16 @@ import static org.eclipse.set.feature.table.pt1.sskz.SskzColumns.*;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
@@ -45,6 +49,7 @@ import org.eclipse.set.ppmodel.extensions.UrObjectExtensions;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.Case;
 import org.eclipse.set.utils.table.TMFactory;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 
 import com.google.common.collect.Streams;
 
@@ -54,7 +59,24 @@ import com.google.common.collect.Streams;
  * @author Truong
  */
 public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
-	private static final Map<Class<? extends Ur_Objekt>, Function<MultiContainer_AttributeGroup, Iterable<? extends Ur_Objekt>>> fieldElementClasses = new HashMap<>();
+
+	private record OperationalIdentifierFieldElement(
+			Class<? extends Ur_Objekt> clazz,
+			List<String> elementIdentifierts) {
+
+		public static int compare(final OperationalIdentifierFieldElement first,
+				final OperationalIdentifierFieldElement second) {
+			final ArrayList<Class<? extends Ur_Objekt>> clazzList = new ArrayList<>(
+					fieldElementClasses.keySet());
+			final int firstIndex = clazzList.indexOf(first.clazz());
+			final int secondIndex = clazzList.indexOf(second.clazz());
+
+			return Integer.compare(firstIndex, secondIndex);
+		}
+
+	}
+
+	private static final LinkedHashMap<Class<? extends Ur_Objekt>, Function<MultiContainer_AttributeGroup, Iterable<? extends Ur_Objekt>>> fieldElementClasses = new LinkedHashMap<>();
 	static {
 		fieldElementClasses.put(W_Kr_Gsp_Element.class,
 				MultiContainer_AttributeGroup::getWKrGspElement);
@@ -118,13 +140,11 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 							.getBezeichnungAEA().getWert());
 
 			// B: Sskz.Betriebl_Bez_Feldelem
-			@SuppressWarnings("unchecked")
-			final Case<Aussenelementansteuerung>[] fieldElementCases = fieldElementClasses
-					.keySet().stream().map(this::fieldElementCase)
-					.toArray(Case[]::new);
-
-			fillSwitch(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
-					fieldElementCases);
+			fillIterable(row, getColumn(cols, Betriebl_Bez_Feldelem), control,
+					this::getFieldElementIdentifier,
+					OperationalIdentifierFieldElement::compare,
+					t -> String.join(ITERABLE_FILLING_SEPARATOR,
+							t.elementIdentifierts()));
 
 			// C: Sskz.Techn_Bez_OC
 			fill(row, getColumn(cols, Techn_Bez_OC), control, e -> ""); //$NON-NLS-1$
@@ -156,8 +176,31 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			// F: Sskz.Blattnummer
 			fill(row, getColumn(cols, Blattnummer), control, element -> ""); //$NON-NLS-1$
 
+			// G: Sskz.Bemerkung
+			fillFootnotes(row, control);
 		}
 		return factory.getTable();
+
+	}
+
+	private List<OperationalIdentifierFieldElement> getFieldElementIdentifier(
+			final Aussenelementansteuerung control) {
+		final HashMap<Class<? extends Ur_Objekt>, Case<Aussenelementansteuerung>> fillCases = new LinkedHashMap<>();
+		fieldElementClasses.forEach((clazz, elements) -> fillCases.put(clazz,
+				fieldElementCase(clazz)));
+
+		final List<OperationalIdentifierFieldElement> result = new LinkedList<>();
+		fillCases.forEach((clazz, fillCase) -> {
+			if (fillCase.condition.apply(control).booleanValue()) {
+				final Iterable<String> fillValuesIterable = fillCase.filling
+						.apply(control);
+				final List<String> sortList = IterableExtensions
+						.sortWith(fillValuesIterable, fillCase.comparator);
+				result.add(
+						new OperationalIdentifierFieldElement(clazz, sortList));
+			}
+		});
+		return result;
 
 	}
 
@@ -170,7 +213,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						!getRelevantElementFunc.apply(control).isEmpty()),
 				control -> getRelevantElementFunc.apply(control).stream()
 						.map(this::getFieldElementDesignation).toList(),
-				ITERABLE_FILLING_SEPARATOR, null
+				ITERABLE_FILLING_SEPARATOR, MIXED_STRING_COMPARATOR
 
 		);
 	}
@@ -178,23 +221,21 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private List<Aussenelementansteuerung> getControlFromFieldELement(
 			final Ur_Objekt object) {
 		final Function<Ur_Objekt, List<Aussenelementansteuerung>> getAussElement = urObject -> switch (urObject) {
-			case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
-					gsp.getIDStellelement().getValue());
-			case final Signal signal -> getControlFromFieldELement(
-					signal.getSignalReal().getSignalRealAktiv()
-							.getIDStellelement().getValue());
-			case final FMA_Komponente fma -> fma
-					.getFMAKomponenteAchszaehlpunkt().getIDInformation()
-					.stream()
-					.map(ID_Aussenelementansteuerung_TypeClass::getValue)
-					.toList();
-			case final PZB_Element pzb -> getControlFromFieldELement(
-					pzb.getIDStellelement().getValue());
-			case final Schluesselsperre schluessel -> getControlFromFieldELement(
-					schluessel.getIDStellelement().getValue());
-			case final Stellelement stellement -> List
-					.of(stellement.getIDInformation().getValue());
-			default -> null;
+		case final W_Kr_Gsp_Element gsp -> getControlFromFieldELement(
+				gsp.getIDStellelement().getValue());
+		case final Signal signal -> getControlFromFieldELement(
+				signal.getSignalReal().getSignalRealAktiv().getIDStellelement()
+						.getValue());
+		case final FMA_Komponente fma -> fma.getFMAKomponenteAchszaehlpunkt()
+				.getIDInformation().stream()
+				.map(ID_Aussenelementansteuerung_TypeClass::getValue).toList();
+		case final PZB_Element pzb -> getControlFromFieldELement(
+				pzb.getIDStellelement().getValue());
+		case final Schluesselsperre schluessel -> getControlFromFieldELement(
+				schluessel.getIDStellelement().getValue());
+		case final Stellelement stellement -> List
+				.of(stellement.getIDInformation().getValue());
+		default -> null;
 		};
 		return getNullableObject(object, getAussElement::apply)
 				.orElse(Collections.emptyList());
@@ -203,37 +244,68 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	@SuppressWarnings("nls")
 	private String getFieldElementDesignation(final Ur_Objekt object) {
 		final Function<Ur_Objekt, String> destignationFunc = urObject -> switch (urObject) {
-			case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
-					.getBezeichnungTabelle().getWert();
-			case final Signal signal -> signal.getBezeichnung()
-					.getBezeichnungTabelle().getWert();
-			case final FMA_Komponente fma -> fma.getBezeichnung()
-					.getBezeichnungTabelle().getWert();
-			case final PZB_Element pzb -> {
-				final ENUMPZBArt pzbArt = getNullableObject(pzb,
-						ele -> ele.getPZBArt().getWert()).orElse(null);
-				if (pzbArt == null) {
-					yield "";
-				}
-				final List<String> pzbElementBezugspunkt = PZBElementExtensions
-						.getPZBElementBezugspunkt(pzb).stream()
-						.map(ele -> switch (ele) {
-							case final Signal signal -> signal.getBezeichnung()
-									.getBezeichnungTabelle().getWert();
-							case final W_Kr_Gsp_Element gsp -> gsp
-									.getBezeichnung().getBezeichnungTabelle()
-									.getWert();
-							default -> "";
-
-						}).toList();
-				yield String.format("%s (%s)", translate(pzbArt),
-						String.join(",", pzbElementBezugspunkt));
-			}
-			case final Schluesselsperre schluessel -> schluessel
-					.getBezeichnung().getBezeichnungTabelle().getWert();
-			default -> null;
+		case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		case final Signal signal -> signal.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		case final FMA_Komponente fma -> fma.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		case final PZB_Element pzb -> getPzbDesignation(pzb);
+		case final Schluesselsperre schluessel -> schluessel.getBezeichnung()
+				.getBezeichnungTabelle().getWert();
+		default -> null;
 		};
 		return getNullableObject(object, destignationFunc::apply).orElse("");
+	}
+
+	@SuppressWarnings("nls")
+	private String getPzbDesignation(final PZB_Element pzb) {
+		final ENUMPZBArt pzbArt = getNullableObject(pzb,
+				ele -> ele.getPZBArt().getWert()).orElse(null);
+		if (pzbArt == null) {
+			return "";
+		}
+		final List<String> pzbElementBezugspunkt = PZBElementExtensions
+				.getPZBElementBezugspunkt(pzb).stream()
+				.map(ele -> switch (ele) {
+				case final Signal signal -> signal.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
+				case final W_Kr_Gsp_Element gsp -> gsp.getBezeichnung()
+						.getBezeichnungTabelle().getWert();
+				default -> "";
+
+				}).toList();
+		if (pzb.getPZBElementGM() != null) {
+			return String.format("%s (%s)", translate(pzbArt),
+					String.join(",", pzbElementBezugspunkt));
+		}
+
+		if (pzb.getPZBElementGUE() != null) {
+			final BigInteger speedCheck = getNullableObject(
+					pzb.getPZBElementGUE(),
+					gue -> gue.getPruefgeschwindigkeit().getWert())
+							.orElse(null);
+			if (speedCheck != null) {
+				final String[] pzbArtEnum = translate(pzbArt).split("/");
+				final List<String> shortPzbArt = Stream.of(pzbArtEnum)
+						.map(ele -> {
+							try {
+								final double hz = Double.parseDouble(ele);
+								final double shortHz = hz / 1000;
+								if (shortHz == (int) shortHz) {
+									return Integer.toString((int) shortHz);
+								}
+								return Double.toString(shortHz);
+							} catch (final NumberFormatException e) {
+								return ele;
+							}
+						}).toList();
+				return String.format("%s/GÜ %s (%s)",
+						String.join("/", shortPzbArt), speedCheck,
+						String.join(",", pzbElementBezugspunkt));
+			}
+		}
+		return "";
 	}
 
 	private <T extends Ur_Objekt> List<T> getRelevantFieldElements(

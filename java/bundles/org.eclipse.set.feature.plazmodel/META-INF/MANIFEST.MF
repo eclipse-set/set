@@ -85,6 +85,7 @@ Service-Component: OSGI-INF/org.eclipse.set.feature.plazmodel.PlazModelDescripti
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.BankValues.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.CRSValid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid.xml,
+ OSGI-INF/org.eclipse.set.feature.plazmodel.check.GeoKanteUniqueCoordinate.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GuidOrder.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GuidRefInvalid.xml,
  OSGI-INF/org.eclipse.set.feature.plazmodel.check.GuidStateUnique.xml,

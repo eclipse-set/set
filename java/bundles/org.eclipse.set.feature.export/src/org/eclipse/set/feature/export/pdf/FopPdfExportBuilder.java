@@ -17,6 +17,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -65,12 +67,12 @@ import org.xml.sax.SAXException;
 @Component(immediate = true)
 public class FopPdfExportBuilder implements TableExport {
 
-	private static final Logger logger = LoggerFactory
+	protected static final Logger logger = LoggerFactory
 			.getLogger(FopPdfExportBuilder.class);
 
 	private static final String TITLEBOX_SHORTCUT = "schriftfeld"; //$NON-NLS-1$
 
-	private static TransformerFactory newTransformerFactory() {
+	protected static TransformerFactory newTransformerFactory() {
 		final TransformerFactory transformerFactory = TransformerFactory
 				.newInstance();
 		// Disable external access
@@ -83,7 +85,7 @@ public class FopPdfExportBuilder implements TableExport {
 		return transformerFactory;
 	}
 
-	private static String createTableDocumentText(final Table table,
+	protected static String createTableDocumentText(final Table table,
 			final Titlebox titlebox, final FreeFieldInfo freeFieldInfo)
 			throws ParserConfigurationException, TransformerException {
 		final TableToTableDocument tableToXmlFo = TableToTableDocument
@@ -114,19 +116,19 @@ public class FopPdfExportBuilder implements TableExport {
 		return writer.toString();
 	}
 
-	private static void exportTableDocument(final Path filename,
+	protected static void exportTableDocument(final Path filename,
 			final String content) throws IOException {
 		try (PrintWriter out = new PrintWriter(filename.toString())) {
 			out.println(content);
 		}
 	}
 
-	private static String getFilename(final String shortcut,
+	protected static String getFilename(final String shortcut,
 			final String extension) {
 		return shortcut + "-fop." + extension; //$NON-NLS-1$
 	}
 
-	private static Table getTableToBeExported(
+	protected static Table getTableToBeExported(
 			final Map<TableType, Table> tables, final ExportType exportType) {
 		switch (exportType) {
 		case INVENTORY_RECORDS:
@@ -151,7 +153,7 @@ public class FopPdfExportBuilder implements TableExport {
 		}
 	}
 
-	private FopService fopService;
+	protected FopService fopService;
 
 	private String templateDir = "./data/export/pdf/"; //$NON-NLS-1$
 
@@ -165,6 +167,7 @@ public class FopPdfExportBuilder implements TableExport {
 			throws FileExportException {
 		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
 		final Table table = getTableToBeExported(tables, exportType);
+		final List<String> pageBreakRowsIndex = getPageBreakRowsIndex(table);
 		Assert.isNotNull(table);
 		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
 				Paths.get(outputDir), exportType,
@@ -178,21 +181,33 @@ public class FopPdfExportBuilder implements TableExport {
 						tableDocumentText);
 			}
 			createTablePdf(tableDocumentText, outputPath, shortcut, tableType,
-					PdfAMode.PDF_A_3a, overwriteHandling);
+					PdfAMode.PDF_A_3a, overwriteHandling, pageBreakRowsIndex);
 		} catch (final ParserConfigurationException | TransformerException
 				| IOException | SAXException e) {
 			throw new FileExportException(outputPath, e);
 		}
 	}
 
-	private void createTablePdf(final String tableDocumentText,
+	protected void createTablePdf(final String tableDocumentText,
 			final Path outputPath, final String shortcut,
 			final TableType tableType, final PdfAMode pdfAMode,
-			final OverwriteHandling overwriteHandling) throws IOException,
+			final OverwriteHandling overwriteHandling,
+			final List<String> pageBreakRowsIndex) throws IOException,
 			SAXException, TransformerException, ParserConfigurationException {
 		final TransformTable transformTable = new TransformTable(shortcut,
 				translationTableType(tableType));
-		final Document xslDoc = transformTable.transform();
+		final Document xslDoc = pageBreakRowsIndex.isEmpty()
+				? transformTable.transform()
+				: transformTable.transform(pageBreakRowsIndex);
+		createTablePdf(xslDoc, tableDocumentText, outputPath, shortcut,
+				pdfAMode, overwriteHandling);
+	}
+
+	private void createTablePdf(final Document xslDoc,
+			final String tableDocumentText, final Path outputPath,
+			final String shortcut, final PdfAMode pdfAMode,
+			final OverwriteHandling overwriteHandling)
+			throws IOException, SAXException, TransformerException {
 		if (xslDoc != null) {
 			if (ToolboxConfiguration.isDevelopmentMode()) {
 				final Transformer documentToString = newTransformerFactory()
@@ -216,7 +231,16 @@ public class FopPdfExportBuilder implements TableExport {
 		} else {
 			logger.error("Cant export table: " + shortcut); //$NON-NLS-1$
 		}
+	}
 
+	/**
+	 * @param table
+	 *            the export table
+	 * @return the index of row, which the export should break page
+	 */
+	@SuppressWarnings("static-method")
+	protected List<String> getPageBreakRowsIndex(final Table table) {
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -318,7 +342,7 @@ public class FopPdfExportBuilder implements TableExport {
 
 	// IMPROVE: This translation should replace by EnumTranslationService in 2.0
 	// version.
-	private static String translationTableType(final TableType tableType) {
+	protected static String translationTableType(final TableType tableType) {
 		if (tableType == null) {
 			return null;
 		}
@@ -331,4 +355,15 @@ public class FopPdfExportBuilder implements TableExport {
 			return null;
 		}
 	}
+
+	@Override
+	public String getTableShortcut() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public ExportFormat getExportFormat() {
+		return ExportFormat.PDF;
+	}
+
 }

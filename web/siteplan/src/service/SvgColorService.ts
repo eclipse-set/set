@@ -52,11 +52,6 @@ export default class SvgColorService {
   }
 
   private static shouldApplyColor (svg: Element, obj: ObjectColor) {
-    if (obj.id === 'label') {
-      this.applyColorByIds(svg, 'label', obj.color)
-      return false
-    }
-
     return svg.querySelector('#' + obj.id) !== null
   }
 

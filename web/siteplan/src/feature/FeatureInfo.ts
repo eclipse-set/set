@@ -7,10 +7,10 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 import { Rectangle } from '@/collision/CollisionExtension'
+import ModelError from '@/model/Error'
 import Feature from 'ol/Feature'
 import { Geometry, Polygon } from 'ol/geom'
 import FeatureMetadata, { ModelType } from './FeatureMetadata'
-import ModelError from '@/model/Error'
 
 export enum FeatureType {
   Signal,
@@ -261,11 +261,11 @@ export function createFeature (
 }
 
 export function getFeatureData (feature: Feature<Geometry>): ModelType {
-  return (feature.get('data') as FeatureMetadata).model
+  return (feature.get('data') as FeatureMetadata)?.model
 }
 
 export function getFeatureGUID (feature: Feature<Geometry>): ModelType {
-  return (feature.get('data') as FeatureMetadata).guid
+  return (feature.get('data') as FeatureMetadata)?.guid
 }
 
 export interface FlashFeatureData {

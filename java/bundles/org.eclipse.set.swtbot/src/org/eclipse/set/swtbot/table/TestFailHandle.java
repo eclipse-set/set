@@ -76,7 +76,7 @@ public class TestFailHandle implements TestWatcher {
 		};
 		final SWTBotNatTable nattableBot = SWTBotUtils
 				.waitForNattable(AbstractSWTBotTest.bot, 30000);
-		nattableBot.click(4, 5);
+		nattableBot.click(0, 1);
 		nattableBot.pressShortcut(SWT.MOD1, 'r');
 		AbstractSWTBotTest.bot.waitUntil(new DefaultCondition() {
 

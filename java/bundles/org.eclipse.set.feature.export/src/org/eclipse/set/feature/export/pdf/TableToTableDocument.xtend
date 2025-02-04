@@ -20,7 +20,6 @@ import org.eclipse.set.model.tablemodel.MultiColorCellContent
 import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 import org.eclipse.set.model.tablemodel.Table
-import org.eclipse.set.model.tablemodel.TableCell
 import org.eclipse.set.model.tablemodel.TableContent
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo

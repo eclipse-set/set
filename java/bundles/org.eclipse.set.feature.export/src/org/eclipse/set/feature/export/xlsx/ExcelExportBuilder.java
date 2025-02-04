@@ -244,4 +244,14 @@ public class ExcelExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling) throws Exception {
 		// do nothing
 	}
+
+	@Override
+	public ExportFormat getExportFormat() {
+		return ExportFormat.EXCEL;
+	}
+
+	@Override
+	public String getTableShortcut() {
+		throw new UnsupportedOperationException();
+	}
 }
