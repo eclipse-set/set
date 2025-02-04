@@ -109,7 +109,7 @@ public class GEOKanteCoordinate {
 			}
 
 			final double distanceToNextCoord = currentCoordinate
-					.distance(currentCoordinate);
+					.distance(nextCoordinate);
 			final double distanceToTargetCoord = currentCoordinate
 					.distance(coordinate);
 			if (isOnLine(coordinate, currentCoordinate, nextCoordinate)
@@ -117,17 +117,17 @@ public class GEOKanteCoordinate {
 				return Optional.of(distance
 						.add(BigDecimal.valueOf(distanceToTargetCoord)));
 			}
-			distance = distance.add(BigDecimal.valueOf(distanceToTargetCoord));
+			distance = distance.add(BigDecimal.valueOf(distanceToNextCoord));
 			currentCoordinate = nextCoordinate;
 		}
 		return Optional.empty();
 	}
 
 	private static boolean isOnLine(final Coordinate coordinate,
-			final Coordinate coordinateA, final Coordinate coordianteB) {
+			final Coordinate coordinateA, final Coordinate coordinateB) {
 		final GeometryFactory geometryFactory = new GeometryFactory();
 		final LineString line = geometryFactory.createLineString(
-				new Coordinate[] { coordinateA, coordianteB });
+				new Coordinate[] { coordinateA, coordinateB });
 		final Point point = geometryFactory.createPoint(coordinate);
 		return line.isWithinDistance(point, GEOMETRY_TOLERANCE);
 	}

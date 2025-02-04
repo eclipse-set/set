@@ -289,7 +289,6 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 
 	def List<GEOKanteCoordinate> getCoordinates(GEOKanteSegment segment,
 		GEOKanteMetadata geoKante) {
-		val test = positionService.transformCoordinate(4534036.177374728,5629101.783730606, ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_ER0)
 		val result = newArrayList
 
 		// A GEO_Kante of length zero may reside in different coordinate systems

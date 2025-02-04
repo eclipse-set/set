@@ -246,14 +246,14 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	def static dispatch BigDecimal getStreckeKmThroughtProjection(Coordinate coordinate, Strecke strecke) {
 		val projectionPointAndDistance = Services.geometryService.
 			getProjectionCoordinateOnStrecke(coordinate, strecke)
-		val nearstRoutePoint = strecke.streckenPunkte.map [
+		val nearestRoutePoint = strecke.streckenPunkte.map [
 			it -> streckePunktTopDistance
 		].minBy[(projectionPointAndDistance.second - it.value).abs]
 
-		val nearsRoutePointMeter = nearstRoutePoint.key.streckeMeter.wert
-		val distance = nearstRoutePoint.value -
+		val nearestRoutePointMeter = nearestRoutePoint.key.streckeMeter.wert
+		val distance = nearestRoutePoint.value -
 			projectionPointAndDistance.second
-		val projectionmeter = nearsRoutePointMeter - distance
-		return (projectionmeter / BigDecimal.valueOf(1000))
+		val projectionMeter = nearestRoutePointMeter - distance
+		return (projectionMeter / BigDecimal.valueOf(1000))
 	} 
 }

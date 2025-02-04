@@ -1635,7 +1635,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 					e)
 				return signal.punktObjektStrecke.findFirst [ pos |
 					pos.IDStrecke.value == route
-				]?.streckeKm.wert
+				]?.streckeKm?.wert
 			}
 		].filterNull.toList
 
