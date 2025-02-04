@@ -1579,7 +1579,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 	// IMPROVE: Make the thread in this function generic.
 	// It do same thing like fill function for Banking and Sidedistance
 	private def void fillStreckeKm(TableRow row, Signal signal,
-		List<Strecke> routeThroughtBereichObjekt) {
+		List<Strecke> routeThroughBereichObjekt) {
 		val threadName = '''«tableShortCut.toLowerCase»/StreckKm/«signal.cacheKey»'''
 		val containerType = signal.container.containerType
 		new Thread([
@@ -1594,9 +1594,9 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 						]
 					)
 				}
-				var streckeKms = signal.getStreckeKm(routeThroughtBereichObjekt)
+				var streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
 				while (streckeKms === null) {
-					streckeKms = signal.getStreckeKm(routeThroughtBereichObjekt)
+					streckeKms = signal.getStreckeKm(routeThroughBereichObjekt)
 					Thread.sleep(5000)
 				}
 				val changeProperties = new Pt1TableChangeProperties(
@@ -1627,7 +1627,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 		val result = routeThroughBereichObjekt.map [ route |
 			try {
-				return signal.singlePoint.getStreckeKmThroughtProjection(route).
+				return signal.singlePoint.getStreckeKmThroughProjection(route).
 					toTableDecimal
 			} catch (Exception e) {
 				LOGGER.error(

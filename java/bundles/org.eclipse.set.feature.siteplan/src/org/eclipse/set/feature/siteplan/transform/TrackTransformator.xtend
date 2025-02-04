@@ -300,10 +300,10 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 				val knotenA = gk.getIDGEOKnotenA().getValue();
 				val knotenB = gk.getIDGEOKnotenB().getValue();
 				return List.of(
-					new GEOKanteCoordinate(getCoordinate(knotenA),
-						geoKante, getCRS(knotenA)),
-					new GEOKanteCoordinate(getCoordinate(knotenB),
-						geoKante, getCRS(knotenB)));
+					new GEOKanteCoordinate(getCoordinate(knotenA), geoKante,
+						segment.bereichObjekte, getCRS(knotenA)),
+					new GEOKanteCoordinate(getCoordinate(knotenB), geoKante,
+						segment.bereichObjekte, getCRS(knotenB)));
 			} catch (NullPointerException e) {
 				throw new RuntimeException(e);
 			}
@@ -329,8 +329,8 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			} else {
 				if (result.empty) {
 					result.add(
-						new GEOKanteCoordinate(lastCoordinate,
-							geoKante, geoKante.geoKnoten.CRS))
+						new GEOKanteCoordinate(lastCoordinate, geoKante,
+							geoKante.geoKnoten.CRS))
 				}
 				result.add(
 					new GEOKanteCoordinate(coordinate, geoKante,

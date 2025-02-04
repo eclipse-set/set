@@ -230,11 +230,11 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	 * @param potk the Punkt_Objekt_Top_Kante
 	 * @param strecke the Strecke
 	 */
-	def static dispatch BigDecimal getStreckeKmThroughtProjection(
+	def static dispatch BigDecimal getStreckeKmThroughProjection(
 		Punkt_Objekt_TOP_Kante_AttributeGroup potk, Strecke strecke) {
 		val potkCoordinate = Services.pointObjectPositionService.
 			getCoordinate(potk)
-		return potkCoordinate.coordinate.getStreckeKmThroughtProjection(strecke)
+		return potkCoordinate.coordinate.getStreckeKmThroughProjection(strecke)
 	}
 	
 	/**
@@ -243,7 +243,7 @@ class PunktObjektTopKanteExtensions extends BasisObjektExtensions {
 	 * @param coordinate the coodinate
 	 * @param strecke the Strecke
 	 */
-	def static dispatch BigDecimal getStreckeKmThroughtProjection(Coordinate coordinate, Strecke strecke) {
+	def static dispatch BigDecimal getStreckeKmThroughProjection(Coordinate coordinate, Strecke strecke) {
 		val projectionPointAndDistance = Services.geometryService.
 			getProjectionCoordinateOnStrecke(coordinate, strecke)
 		val nearestRoutePoint = strecke.streckenPunkte.map [

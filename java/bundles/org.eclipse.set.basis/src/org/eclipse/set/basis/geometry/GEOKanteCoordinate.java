@@ -77,6 +77,27 @@ public class GEOKanteCoordinate {
 	 *            the coordinate
 	 * @param geoKante
 	 *            the {@link Bereich_Objekt}
+	 * @param bereichObjekt
+	 *            the {@link Bereich_Objekt}
+	 * @param crs
+	 *            the coordinate system
+	 */
+	public GEOKanteCoordinate(final Coordinate coordinate,
+			final GEOKanteMetadata geoKante,
+			final Set<Bereich_Objekt> bereichObjekt,
+			final ENUMGEOKoordinatensystem crs) {
+		this.position = new GeoPosition(coordinate, 0, 0);
+		this.geoKante = geoKante;
+		this.crs = crs;
+		this.topDistance = determineTopDistance(coordinate, geoKante);
+		this.bereichObjekt = bereichObjekt;
+	}
+
+	/**
+	 * @param coordinate
+	 *            the coordinate
+	 * @param geoKante
+	 *            the {@link Bereich_Objekt}
 	 * @param topDistance
 	 *            the topological distance
 	 * @param crs
@@ -143,8 +164,9 @@ public class GEOKanteCoordinate {
 		if (topDistance.isEmpty()) {
 			return Collections.emptySet();
 		}
-		bereichObjekt = geoKante.segments.stream().filter(
-				segment -> topDistance.get().compareTo(segment.getStart()) >= 0
+		bereichObjekt = geoKante.segments.stream()
+				.filter(segment -> topDistance.get()
+						.compareTo(segment.getStart()) >= 0
 						&& topDistance.get().compareTo(segment.getEnd()) <= 0)
 				.flatMap(segment -> segment.getBereichObjekte().stream())
 				.collect(Collectors.toSet());
