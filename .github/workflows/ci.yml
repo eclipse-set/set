@@ -297,7 +297,7 @@ jobs:
         with:
           name: table-csv-${{github.run_number}}
           path: ${{ github.workspace}}/java/bundles/org.eclipse.set.swtbot/target/classes/diff/**/*.csv
-          retention-days: 1
+          retention-days: 7
   
   table-diff-view:
     runs-on: ubuntu-latest
