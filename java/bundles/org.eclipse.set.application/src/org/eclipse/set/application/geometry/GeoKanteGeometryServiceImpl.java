@@ -236,7 +236,8 @@ public class GeoKanteGeometryServiceImpl
 	public GEOKanteCoordinate getCoordinateAt(final Punkt_Objekt punktObjekt,
 			final BigDecimal distance) {
 		final Punkt_Objekt_TOP_Kante_AttributeGroup singlePoint = punktObjekt
-				.getPunktObjektTOPKante().getFirst();
+				.getPunktObjektTOPKante()
+				.getFirst();
 		return getCoordinateAt(singlePoint, distance);
 	}
 
@@ -247,7 +248,8 @@ public class GeoKanteGeometryServiceImpl
 				|| singlePoint.getAbstand().getWert() == null) {
 			return null;
 		}
-		final BigDecimal pointDistance = singlePoint.getAbstand().getWert()
+		final BigDecimal pointDistance = singlePoint.getAbstand()
+				.getWert()
 				.add(distance);
 		final ENUMWirkrichtung direction = getNullableObject(singlePoint,
 				p -> p.getWirkrichtung().getWert()).orElse(null);
@@ -360,12 +362,14 @@ public class GeoKanteGeometryServiceImpl
 	public GEOKanteMetadata getGeoKanteMetaData(final GEO_Kante geoKante) {
 		final Basis_Objekt geoArt = geoKante.getIDGEOArt().getValue();
 		final List<GEOKanteMetadata> metaDatas = switch (geoArt) {
-		case final TOP_Kante topKante -> getTopKantenMetaData(topKante);
-		case final Strecke strecke -> getStreckeMetaData(strecke);
-		default -> throw new IllegalArgumentException();
+			case final TOP_Kante topKante -> getTopKantenMetaData(topKante);
+			case final Strecke strecke -> getStreckeMetaData(strecke);
+			default -> throw new IllegalArgumentException();
 		};
-		return metaDatas.stream().filter(md -> md.getGeoKante() == geoKante)
-				.findFirst().orElse(null);
+		return metaDatas.stream()
+				.filter(md -> md.getGeoKante() == geoKante)
+				.findFirst()
+				.orElse(null);
 	}
 
 	/**
@@ -386,8 +390,9 @@ public class GeoKanteGeometryServiceImpl
 		final String key = CacheUtils.getCacheKey(topEdge, start);
 
 		return geoKanteMetadas.computeIfAbsent(key, k -> {
-			final List<Bereich_Objekt> bereichObjekt = StreamSupport.stream(
-					getContainer(start).getBereichObjekt().spliterator(), false)
+			final List<Bereich_Objekt> bereichObjekt = StreamSupport
+					.stream(getContainer(start).getBereichObjekt()
+							.spliterator(), false)
 					.toList();
 			return getGeoKantenMetadata(topEdge, getGEOKnoten(start),
 					bereichObjekt);
@@ -415,28 +420,31 @@ public class GeoKanteGeometryServiceImpl
 					.getFirst();
 			final Coordinate projectionCoor = projectionCoorAndGeoKante
 					.getSecond();
-			// Determine topological distance from start of Top_Kante to the
+			// Determine topological distance from start of Top_Kante/Strecke to
+			// the
 			// projection
-			final BigDecimal projectionTopDistance = getCoordinateTopDistance(
+			final BigDecimal projectionDistance = getCoordinateTopDistance(
 					metadata, projectionCoor);
 			final GEOKanteSegment relevantSegments = metadata.getSegments()
 					.stream()
-					.filter(segment -> projectionTopDistance
+					.filter(segment -> projectionDistance
 							.compareTo(segment.getStart()) >= 0
-							&& projectionTopDistance
+							&& projectionDistance
 									.compareTo(segment.getEnd()) <= 0)
-					.findFirst().orElse(null);
+					.findFirst()
+					.orElse(null);
 			if (relevantSegments == null) {
 				throw new IllegalArgumentException();
 			}
 			return new Pair<>(
 					new GEOKanteCoordinate(projectionCoor, metadata,
 							getCRS(metadata.getGeoKnoten())),
-					projectionTopDistance);
+					projectionDistance);
 		} catch (final IllegalArgumentException | NullPointerException e) {
 			logger.error(
-					"Can\'t find projection of Coordinate: ({}, {}) on Kante {}", //$NON-NLS-1$
+					"Can\'t find projection of Coordinate: ({}, {}) on {} {}", //$NON-NLS-1$
 					Double.valueOf(coordinate.x), Double.valueOf(coordinate.y),
+					object.getClass().getName(),
 					object.getIdentitaet().getWert());
 			return null;
 		}
@@ -450,7 +458,6 @@ public class GeoKanteGeometryServiceImpl
 		final Queue<Coordinate> geoCoordinates = new ArrayDeque<>();
 		geoCoordinates
 				.addAll(Arrays.asList(metadata.getGeometry().getCoordinates()));
-		final GeometryFactory geometryFactory = new GeometryFactory();
 		// Run thought coordinates of Geo_Kante geometry
 		for (Coordinate currentCoordinate; (currentCoordinate = geoCoordinates
 				.poll()) != null;) {
@@ -463,10 +470,8 @@ public class GeoKanteGeometryServiceImpl
 						.distance(currentCoordinate);
 				final double distanceToTargetCoord = previousCoordinate
 						.distance(coordinate);
-				final boolean isOnLine = DistanceOp.isWithinDistance(
-						geometryFactory.createLineString(new Coordinate[] {
-								previousCoordinate, currentCoordinate }),
-						geometryFactory.createPoint(coordinate),
+				final boolean isOnLine = GEOKanteCoordinate.isOnLine(coordinate,
+						previousCoordinate, currentCoordinate,
 						GEO_LENGTH_DEVIATION_TOLERANCE_RELATIVE);
 				// When the target point lies between previous and
 				// current coordinate, return the distance to target
@@ -502,30 +507,33 @@ public class GeoKanteGeometryServiceImpl
 	 * 
 	 * @param coordinate
 	 *            the coordinate
-	 * @param topEdge
-	 *            the Top_Kante
+	 * @param geoArt
+	 *            the {@link TOP_Kante} or the {@link Strecke}
 	 * @return Pair<GEOKanteMetadata, Coordinate>
 	 */
 	private Pair<GEOKanteMetadata, Coordinate> getClosestProjection(
-			final Coordinate coordinate, final Basis_Objekt object) {
+			final Coordinate coordinate, final Basis_Objekt geoArt) {
 		final GeometryFactory geometryFactory = new GeometryFactory();
-		final List<GEOKanteMetadata> metadatas = switch (object) {
-		case final TOP_Kante topKante -> getTopKantenMetaData(topKante);
-		case final Strecke strecke -> getStreckeMetaData(strecke);
-		default -> throw new IllegalArgumentException();
+		final List<GEOKanteMetadata> metadatas = switch (geoArt) {
+			case final TOP_Kante topKante -> getTopKantenMetaData(topKante);
+			case final Strecke strecke -> getStreckeMetaData(strecke);
+			default -> throw new IllegalArgumentException();
 		};
 		// Find out the GEO_Kante closest to the coordinate
 		final Pair<GEOKanteMetadata, DistanceOp> metaDataWithDistance = metadatas
-				.stream().map(geoKante -> {
+				.stream()
+				.map(geoKante -> {
 					final LineString geometry = geoKante.getGeometry();
 					final DistanceOp distanceOp = new DistanceOp(geometry,
 							geometryFactory.createPoint(coordinate));
 					return new Pair<>(geoKante, distanceOp);
-				}).min((fisrt, second) -> {
+				})
+				.min((fisrt, second) -> {
 					final double firstDistance = fisrt.getSecond().distance();
 					final double seconDistance = second.getSecond().distance();
 					return Double.compare(firstDistance, seconDistance);
-				}).orElse(null);
+				})
+				.orElse(null);
 		if (metaDataWithDistance == null) {
 			return null;
 		}
@@ -539,10 +547,10 @@ public class GeoKanteGeometryServiceImpl
 	}
 
 	/**
-	 * Calculates the GEOKanteMetadata objects for a given TOP_Kante
+	 * Calculates the GEOKanteMetadata objects for a given TOP_Kante/Strecke
 	 * 
 	 * @param geoArt
-	 *            the TOP_Kante
+	 *            the {@link TOP_Kante} or the {@link Strecke}
 	 * @param topKnoten
 	 *            the TOP_Knoten to start from
 	 * @param bereichObjekte
@@ -574,19 +582,20 @@ public class GeoKanteGeometryServiceImpl
 			geoKante = geoKanten.get(0);
 			// Adjust the length of the GEO_Kante on the TOP_Kante
 			final BigDecimal geoKanteLength = geoKante.getGEOKanteAllg()
-					.getGEOLaenge().getWert()
+					.getGEOLaenge()
+					.getWert()
 					.multiply(BigDecimal.ONE.divide(distanceScalingFactor,
 							ToolboxConstants.ROUNDING_TO_PLACE,
 							RoundingMode.HALF_UP));
 			final LineString geometry = getGeometry(geoKante);
 			final GEOKanteMetadata metadata = switch (geoArt) {
-			case final TOP_Kante topKante -> new GEOKanteMetadata(geoKante,
-					distance, geoKanteLength, bereichObjekte, topKante,
-					geoKnoten, geometry);
-			case final Strecke streck -> new GEOKanteMetadata(geoKante,
-					distance, geoKnoten, geometry);
-			default -> throw new IllegalArgumentException(
-					"Unexpected value: " + geoArt); //$NON-NLS-1$
+				case final TOP_Kante topKante -> new GEOKanteMetadata(geoKante,
+						distance, geoKanteLength, bereichObjekte, topKante,
+						geoKnoten, geometry);
+				case final Strecke streck -> new GEOKanteMetadata(geoKante,
+						distance, geoKnoten, geometry);
+				default -> throw new IllegalArgumentException(
+						"Unexpected value: " + geoArt); //$NON-NLS-1$
 			};
 			geoKanteMetadata.add(metadata);
 
@@ -645,22 +654,24 @@ public class GeoKanteGeometryServiceImpl
 
 	private static List<GEO_Kante> getGeoKanten(final Basis_Objekt geoArt) {
 		return switch (geoArt) {
-		case final TOP_Kante topKante -> TopKanteExtensions
-				.getGeoKanten(topKante);
-		case final Strecke strecke -> StreckeExtensions.getGeoKanten(strecke);
-		default -> throw new IllegalArgumentException(
-				"Unexpected value: " + geoArt); //$NON-NLS-1$
+			case final TOP_Kante topKante -> TopKanteExtensions
+					.getGeoKanten(topKante);
+			case final Strecke strecke -> StreckeExtensions
+					.getGeoKanten(strecke);
+			default -> throw new IllegalArgumentException(
+					"Unexpected value: " + geoArt); //$NON-NLS-1$
 		};
 	}
 
 	private static BigDecimal getGeoArtLength(final Basis_Objekt geoArt) {
 		return switch (geoArt) {
-		case final TOP_Kante topKante -> topKante.getTOPKanteAllg()
-				.getTOPLaenge().getWert();
-		case final Strecke strecke -> StreckeExtensions
-				.getStreckeLength(strecke);
-		default -> throw new IllegalArgumentException(
-				"Unexpected value: " + geoArt); //$NON-NLS-1$
+			case final TOP_Kante topKante -> topKante.getTOPKanteAllg()
+					.getTOPLaenge()
+					.getWert();
+			case final Strecke strecke -> StreckeExtensions
+					.getStreckeLength(strecke);
+			default -> throw new IllegalArgumentException(
+					"Unexpected value: " + geoArt); //$NON-NLS-1$
 		};
 	}
 }

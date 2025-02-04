@@ -133,7 +133,8 @@ public class GEOKanteCoordinate {
 					.distance(nextCoordinate);
 			final double distanceToTargetCoord = currentCoordinate
 					.distance(coordinate);
-			if (isOnLine(coordinate, currentCoordinate, nextCoordinate)
+			if (isOnLine(coordinate, currentCoordinate, nextCoordinate,
+					GEOMETRY_TOLERANCE)
 					&& distanceToNextCoord >= distanceToTargetCoord) {
 				return Optional.of(distance
 						.add(BigDecimal.valueOf(distanceToTargetCoord)));
@@ -144,13 +145,25 @@ public class GEOKanteCoordinate {
 		return Optional.empty();
 	}
 
-	private static boolean isOnLine(final Coordinate coordinate,
-			final Coordinate coordinateA, final Coordinate coordinateB) {
+	/**
+	 * @param coordinate
+	 *            first coordinate
+	 * @param coordinateA
+	 *            second coordinate
+	 * @param coordinateB
+	 *            third coordinate
+	 * @param tolerance
+	 *            accept tolerance
+	 * @return true, if 3 point are linear
+	 */
+	public static boolean isOnLine(final Coordinate coordinate,
+			final Coordinate coordinateA, final Coordinate coordinateB,
+			final double tolerance) {
 		final GeometryFactory geometryFactory = new GeometryFactory();
 		final LineString line = geometryFactory.createLineString(
 				new Coordinate[] { coordinateA, coordinateB });
 		final Point point = geometryFactory.createPoint(coordinate);
-		return line.isWithinDistance(point, GEOMETRY_TOLERANCE);
+		return line.isWithinDistance(point, tolerance);
 	}
 
 	/**
