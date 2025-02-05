@@ -332,11 +332,11 @@ export default class ExportControl extends Control {
       this.map.getLayers().push(tileLayer)
       this.map.getView().setCenter(rotatedCenter)
 
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         this.map.once('rendercomplete', () => {
           const canvasLayers = document.querySelectorAll('.ol-layer canvas')
           canvasLayers.forEach(layer => this.drawTileLayer(layer as HTMLCanvasElement, canvas, x, y, viewsize))
-          resolve(null);
+          resolve(null)
         })
       })
       this.map.getLayers().pop()
