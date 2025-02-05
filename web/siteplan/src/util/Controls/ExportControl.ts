@@ -123,10 +123,7 @@ export default class ExportControl extends Control {
       visibleLayers,
       resolution ?? 1
     )
-    exportCanvases.map(cv => {
-      const w = cv.width
-      const h = cv.height
-    })
+
     store.commit('setSourceMap', currentSourceMap)
     visibleLayers.forEach(layer => layer.setVisible(true))
     this.map.getView().setRotation(originalRotation)
