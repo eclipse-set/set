@@ -301,7 +301,6 @@ export default class ExportControl extends Control {
     } : undefined
     const resolution = this.map.getView().getResolution() as number
     this.map.getView().setRotation(horizontalRotate ? horizontalRotate.rad : 0)
-    const sleep = (ms: number) => new Promise(res => setTimeout(res, ms))
     const canvas = document.createElement('canvas')
     const tileTotalSize = this.getTileTotalSize(tilesdata)
     canvas.width = tileTotalSize.width
