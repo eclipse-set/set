@@ -13,7 +13,7 @@ package org.eclipse.set.utils.export.xsl.siteplan;
 import java.util.List;
 
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.FoldingMark;
-import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageSize;
+import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageDIN;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionBody;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.SignificantInformation;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.TitleBoxRegion;
@@ -25,15 +25,16 @@ import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.TitleBoxRe
  */
 public class SiteplanXSLPage {
 
-	PageSize pageSize;
 	List<FoldingMark> foldingMarks;
 	TitleBoxRegion titleBoxRegion;
 	RegionBody regionBody;
 	SignificantInformation significantInformation;
 
+	PageDIN pageDIN;
+
 	/**
-	 * @param pageSize
-	 *            {@link PageSize}
+	 * @param pageDIN
+	 *            the page DIN
 	 * @param titleBoxRegion
 	 *            {@link TitleBoxRegion}
 	 * @param regionBody
@@ -43,11 +44,11 @@ public class SiteplanXSLPage {
 	 * @param significant
 	 *            {@link SignificantInformation}
 	 */
-	public SiteplanXSLPage(final PageSize pageSize,
+	public SiteplanXSLPage(final PageDIN pageDIN,
 			final TitleBoxRegion titleBoxRegion,
 			final List<FoldingMark> foldingMarks, final RegionBody regionBody,
 			final SignificantInformation significant) {
-		this.pageSize = pageSize;
+		this.pageDIN = pageDIN;
 		this.foldingMarks = foldingMarks;
 		this.titleBoxRegion = titleBoxRegion;
 		this.regionBody = regionBody;
@@ -55,10 +56,10 @@ public class SiteplanXSLPage {
 	}
 
 	/**
-	 * @return {@link PageSize}
+	 * @return {@link PageDIN}
 	 */
-	public PageSize getPageSize() {
-		return pageSize;
+	public PageDIN getPageDIN() {
+		return pageDIN;
 	}
 
 	/**

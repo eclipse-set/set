@@ -11,6 +11,7 @@
 package org.eclipse.set.feature.export.pdf;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.set.basis.ToolboxPaths.ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION;
 import static org.eclipse.set.utils.export.xsl.TransformTable.toStreamSource;
 
 import java.awt.image.BufferedImage;
@@ -32,8 +33,8 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.poi.UnsupportedFileFormatException;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.ToolboxPaths;
-import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
@@ -59,6 +60,8 @@ import org.xml.sax.SAXException;
  */
 @Component(immediate = true, service = TableExport.class)
 public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
+
+	private static final String SITEPLAN_EXPORT_NAME = "SI"; //$NON-NLS-1$
 
 	/**
 	 * @param fopService
@@ -117,41 +120,48 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 			final String outputDir, final ToolboxPaths toolboxPaths,
 			final TableType tableType,
 			final OverwriteHandling overwriteHandling) {
-		final Path outputPath = toolboxPaths.getTableExportPath("siteplan", //$NON-NLS-1$
-				Paths.get(outputDir), ExportType.PLANNING_RECORDS,
-				ExportPathExtension.TABLE_PDF_EXPORT_EXTENSION);
+
 		try {
 			final String imageDocumentText = createImageDocumentText(imagesData,
 					titleBox, freeFieldInfo);
 
 			if (ToolboxConfiguration.isDevelopmentMode()) {
 				exportTableDocument(
-						Paths.get(outputDir, getFilename("siteplan", "xml")), //$NON-NLS-1$ //$NON-NLS-2$
+						Paths.get(outputDir,
+								getFilename(SITEPLAN_EXPORT_NAME, "xml")), //$NON-NLS-1$
 						imageDocumentText);
 			}
 			final ByteArrayInputStream tableDocumentStream = new ByteArrayInputStream(
 					imageDocumentText.getBytes(UTF_8));
 			final StreamSource imageDocumentSource = new StreamSource(
 					tableDocumentStream);
-			final StreamSource xslStreamSource = getSiteplanXSLTemplate(
-					imagesData, tableType, outputPath);
-			fopService.fop(OutputFormat.PDF, xslStreamSource,
+			final Pair<String, StreamSource> xslStreamSource = getSiteplanXSLTemplate(
+					imagesData, tableType, outputDir);
+			final Path outputPath = toolboxPaths.getTableExportPath(
+					SITEPLAN_EXPORT_NAME + "_" + xslStreamSource.getFirst(), //$NON-NLS-1$
+					Paths.get(outputDir), ExportType.PLANNING_RECORDS,
+					TABLE_PDF_EXPORT_EXTENSION);
+			fopService.fop(OutputFormat.PDF, xslStreamSource.getSecond(),
 					imageDocumentSource, outputPath, PdfAMode.PDF_A_3a,
 					overwriteHandling, null);
 
 		} catch (final Exception e) {
-			throw new FileExportException(outputPath, e);
+			throw new FileExportException(
+					Path.of(outputDir, SITEPLAN_EXPORT_NAME), e);
 		}
 	}
 
-	private StreamSource getSiteplanXSLTemplate(
+	private Pair<String, StreamSource> getSiteplanXSLTemplate(
 			final List<BufferedImage> imagesData, final TableType tableType,
-			final Path outputPath) throws ParserConfigurationException,
+			final String outputDir) throws ParserConfigurationException,
 			SAXException, IOException, NullPointerException,
 			TransformerException, UnsupportedFileFormatException {
 		final SiteplanXSL siteplanXSL = new SiteplanXSL(imagesData,
 				translationTableType(tableType));
 		final Document xslDoc = siteplanXSL.getXSLDocument();
+		final String pageDIN = siteplanXSL.getPageStyle()
+				.getPageDIN()
+				.toString();
 		if (ToolboxConfiguration.isDevelopmentMode()) {
 			final Transformer documentToString = newTransformerFactory()
 					.newTransformer();
@@ -160,11 +170,12 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 			final StreamResult result = new StreamResult(writer);
 			documentToString.transform(source, result);
 			exportTableDocument(
-					Paths.get(outputPath.getParent().toString(),
-							getFilename("siteplan", "xsl")), //$NON-NLS-1$ //$NON-NLS-2$
+					Path.of(outputDir,
+							getFilename(SITEPLAN_EXPORT_NAME + "_" + pageDIN, //$NON-NLS-1$
+									"xsl")), //$NON-NLS-1$
 					writer.toString());
 		}
-		return toStreamSource(xslDoc);
+		return new Pair<>(pageDIN, toStreamSource(xslDoc));
 	}
 
 }

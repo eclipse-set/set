@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.utils.export.xsl.siteplan;
 
+import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageDIN.*;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionPosition.*;
 
 import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions;
@@ -31,7 +32,7 @@ public class SiteplanExportPage {
 	private static final SiteplanXSLPage SITEPLAN_PAGE_A0;
 
 	static {
-		SITEPLAN_PAGE_A3 = new SiteplanXSLPageBuilder().setPageSize(420, 297)
+		SITEPLAN_PAGE_A3 = new SiteplanXSLPageBuilder(A3)
 				.setRegionBody(205, 277)
 				.setFoldingMarks(BEFORE, 125, 105, 190)
 				.setFoldingMarks(AFTER, 125, 105, 190)
@@ -39,7 +40,7 @@ public class SiteplanExportPage {
 				.setSignificantInformation(205)
 				.build();
 
-		SITEPLAN_PAGE_A2 = new SiteplanXSLPageBuilder().setPageSize(594, 420)
+		SITEPLAN_PAGE_A2 = new SiteplanXSLPageBuilder(A2)
 				.setRegionBody(377, 400)
 				.setFoldingMarks(BEFORE, 210, 192, 192)
 				.setFoldingMarks(AFTER, 210, 192, 192)
@@ -49,7 +50,7 @@ public class SiteplanExportPage {
 				.setSignificantInformation(187)
 				.build();
 
-		SITEPLAN_PAGE_A1 = new SiteplanXSLPageBuilder().setPageSize(841, 594)
+		SITEPLAN_PAGE_A1 = new SiteplanXSLPageBuilder(A1)
 				.setRegionBody(626, 574)
 				.setFoldingMarks(BEFORE, 210, 190, 125.5, 125.5, 190)
 				.setFoldingMarks(AFTER, 210, 190, 125.5, 125.5, 190)
@@ -59,7 +60,7 @@ public class SiteplanExportPage {
 				.setSignificantInformation(246)
 				.build();
 
-		SITEPLAN_PAGE_A0 = new SiteplanXSLPageBuilder().setPageSize(1189, 841)
+		SITEPLAN_PAGE_A0 = new SiteplanXSLPageBuilder(A0)
 				.setRegionBody(974, 821)
 				.setFoldingMarks(BEFORE, 210, 190, 190, 109.5, 109.5, 190)
 				.setFoldingMarks(AFTER, 210, 190, 190, 109.5, 109.5, 190)

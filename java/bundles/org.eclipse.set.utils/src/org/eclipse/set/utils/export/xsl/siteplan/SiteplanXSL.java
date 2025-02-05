@@ -33,7 +33,7 @@ import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.XMLAttribute;
 import org.eclipse.set.utils.export.xsl.XSLConstant;
 import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.FoldingMark;
-import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageSize;
+import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageDIN;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionBody;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.SignificantInformation;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.TitleBoxRegion;
@@ -55,7 +55,15 @@ public class SiteplanXSL {
 
 	private Document doc;
 	private Node rootNode;
-	private SiteplanXSLPage pageStyle;
+	private final SiteplanXSLPage pageStyle;
+
+	/**
+	 * @return page style to export
+	 */
+	public SiteplanXSLPage getPageStyle() {
+		return pageStyle;
+	}
+
 	private final List<BufferedImage> images;
 	private final String modelState;
 
@@ -69,6 +77,7 @@ public class SiteplanXSL {
 			final String modelState) {
 		this.images = images;
 		this.modelState = modelState;
+		this.pageStyle = determinePageStyle();
 	}
 
 	/**
@@ -91,13 +100,12 @@ public class SiteplanXSL {
 			NullPointerException, UnsupportedOperationException {
 		doc = AbstractTransformTableHeader.parseTemplate(SITEPLAN_XSL_TEMPLATE);
 		rootNode = doc.getElementsByTagName(XSL_STYLESHEET).item(0);
-		pageStyle = getPageStyle();
 		if (pageStyle == null) {
 			throw new UnsupportedOperationException(
 					"Es gibt keine relevant Paper für diese Lageplan mit aktuell Layout, bitte ändern Sie die DPI or teilen Sie die Lageplan kleiner "); //$NON-NLS-1$
 		}
 
-		return this.setPageSize(pageStyle.getPageSize())
+		return this.setPageSize(pageStyle.getPageDIN())
 				.setRegionBodySize(pageStyle.getRegionBody())
 				.setFreeFeldHeight(pageStyle.getTitleBoxRegion())
 				.setSignificantSize(pageStyle.getSignificantInformation())
@@ -105,12 +113,12 @@ public class SiteplanXSL {
 				.setWatermarkContent().doc;
 	}
 
-	private SiteplanXSL setPageSize(final PageSize pageSize)
+	private SiteplanXSL setPageSize(final PageDIN pageDIN)
 			throws NullPointerException {
 		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_HEIGHT,
-				pageSize.height());
+				pageDIN.getPageHeight());
 		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_WIDTH,
-				pageSize.width());
+				pageDIN.getPageWidth());
 		return this;
 	}
 
@@ -150,15 +158,17 @@ public class SiteplanXSL {
 
 	private SiteplanXSL setFoldingMarkTemplates(final List<FoldingMark> marks)
 			throws NullPointerException {
-		final List<FoldingMark> topBottomMarks = marks.stream().filter(
-				mark -> mark.position() == BEFORE || mark.position() == AFTER)
+		final List<FoldingMark> topBottomMarks = marks.stream()
+				.filter(mark -> mark.position() == BEFORE
+						|| mark.position() == AFTER)
 				.toList();
 		if (!topBottomMarks.isEmpty()) {
 			createFoldingMarkTopBottomTemplate(topBottomMarks.getFirst());
 		}
 
-		final List<FoldingMark> sideMarks = marks.stream().filter(
-				mark -> mark.position() == START || mark.position() == END)
+		final List<FoldingMark> sideMarks = marks.stream()
+				.filter(mark -> mark.position() == START
+						|| mark.position() == END)
 				.toList();
 		if (!sideMarks.isEmpty()) {
 			createFoldingMarkSideTemplate(sideMarks.getFirst());
@@ -256,7 +266,7 @@ public class SiteplanXSL {
 		return foldingMarkTemplate;
 	}
 
-	private SiteplanXSLPage getPageStyle() {
+	private SiteplanXSLPage determinePageStyle() {
 		final Optional<Double> maxHeight = images.stream()
 				.map(image -> Double.valueOf(pxToMilimet(image.getHeight())))
 				.max(Double::compare);
@@ -266,9 +276,11 @@ public class SiteplanXSL {
 		if (maxWidth.isEmpty() || maxHeight.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		return avaiablePageSize.stream().filter(page -> page.regionBody
-				.width() >= maxWidth.get().intValue()
-				&& page.regionBody.height() >= maxHeight.get().intValue())
+		return avaiablePageSize.stream()
+				.filter(page -> page.regionBody.width() >= maxWidth.get()
+						.intValue()
+						&& page.regionBody.height() >= maxHeight.get()
+								.intValue())
 				.min((first, second) -> Double.compare(first.regionBody.width(),
 						second.regionBody.width()))
 				.orElse(null);

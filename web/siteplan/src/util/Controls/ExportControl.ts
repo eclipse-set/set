@@ -21,6 +21,7 @@ import { GeoJSONPolygon } from 'ol/format/GeoJSON'
 import { Geometry, MultiPolygon, Polygon } from 'ol/geom'
 import { Style } from 'ol/style'
 import { setMapScale } from '../MapScale'
+import EmptyMap from '../MapSources/EmptyMap'
 import { angle, pointRotate, toDeg, toRad } from '../Math'
 import NamedFeatureLayer from '../NamedFeatureLayer'
 import PlanProToolbox from '../PlanProToolbox'
@@ -69,11 +70,19 @@ export default class ExportControl extends Control {
     super({
       element
     })
+    this.map = map
 
     button.addEventListener('click', () => {
       this.onClick()
     }, false)
-    this.map = map
+
+    this.map.once('rendercomplete', () => {
+      const sheetCutFeatures = this.getSheetcutFeatures()
+      if (!sheetCutFeatures || sheetCutFeatures.length == 0) {
+        button.disabled = true
+        element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
+      }
+    })
   }
 
   private onClick () {
@@ -102,6 +111,8 @@ export default class ExportControl extends Control {
       const originalRotation = this.map.getView().getRotation()
       const originalZoomLvl = this.map.getView().getZoom()
       const originalViewCenter = this.map.getView().getCenter()
+      const currentSourceMap = store.state.selectedSourceMap
+      store.commit('setSourceMap', new EmptyMap().getIdentifier())
       const visibleLayers = store.state.featureLayers.filter(layer => layer.getVisible())
       visibleLayers.forEach(layer => layer.setVisible(false))
       setMapScale(this.map.getView(), 1000)
@@ -114,6 +125,7 @@ export default class ExportControl extends Control {
         resolution ?? 1
       )
 
+      store.commit('setSourceMap', currentSourceMap)
       visibleLayers.forEach(layer => layer.setVisible(true))
       this.map.getView().setRotation(originalRotation)
       this.map.getView().setZoom(originalZoomLvl ?? 10)

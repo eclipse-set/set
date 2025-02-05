@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.FoldingMark;
-import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageSize;
+import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageDIN;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionBody;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionPosition;
 import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.SignificantInformation;
@@ -30,20 +30,14 @@ import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.TitleBoxRe
  */
 @SuppressWarnings("javadoc")
 public class SiteplanXSLPageBuilder {
-	private PageSize builderPageSize;
+	private final PageDIN pageDIN;
 	private List<FoldingMark> builderFoldingMarks;
 	private TitleBoxRegion builderTilteBox;
 	private RegionBody builderRegionBody;
 	private SignificantInformation builderSignificant;
 
-	public SiteplanXSLPageBuilder setPageSize(final PageSize builderPageSize) {
-		this.builderPageSize = builderPageSize;
-		return this;
-	}
-
-	public SiteplanXSLPageBuilder setPageSize(final double width,
-			final double height) {
-		return this.setPageSize(new PageSize(width, height));
+	public SiteplanXSLPageBuilder(final PageDIN pageDIN) {
+		this.pageDIN = pageDIN;
 	}
 
 	public SiteplanXSLPageBuilder setFoldingMarks(
@@ -119,7 +113,7 @@ public class SiteplanXSLPageBuilder {
 	}
 
 	public SiteplanXSLPage build() {
-		return new SiteplanXSLPage(builderPageSize, builderTilteBox,
+		return new SiteplanXSLPage(pageDIN, builderTilteBox,
 				builderFoldingMarks, builderRegionBody, builderSignificant);
 	}
 }

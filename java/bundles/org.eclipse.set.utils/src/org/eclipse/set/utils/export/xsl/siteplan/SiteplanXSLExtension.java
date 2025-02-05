@@ -68,14 +68,58 @@ public class SiteplanXSLExtension {
 	}
 
 	/**
-	 * The export page size
-	 * 
-	 * @param width
-	 *            the page width
-	 * @param height
-	 *            the page height
+	 * Available page DIN to export
 	 */
-	public record PageSize(double width, double height) {
+	public enum PageDIN {
+		/**
+		 * DIN A3
+		 */
+		A3("A3", 420, 297), //$NON-NLS-1$
+		/**
+		 * DIN A2
+		 */
+		A2("A2", 594, 420), //$NON-NLS-1$
+		/**
+		 * DIN A1
+		 */
+		A1("A1", 841, 594), //$NON-NLS-1$
+		/**
+		 * DIN A0
+		 */
+		A0("A0", 1189, 841); //$NON-NLS-1$
+
+		private final double pageWidth;
+		private final double pageHeight;
+		private final String pageDIN;
+
+		private PageDIN(final String din, final double width,
+				final double height) {
+			this.pageHeight = height;
+			this.pageWidth = width;
+			this.pageDIN = din;
+		}
+
+		/**
+		 * @return the page width
+		 */
+		public double getPageWidth() {
+			return pageWidth;
+		}
+
+		/**
+		 * @return the page height
+		 */
+		public double getPageHeight() {
+			return pageHeight;
+		}
+
+		/**
+		 * @return the page DIN
+		 */
+		@Override
+		public String toString() {
+			return pageDIN;
+		}
 	}
 
 	/**
