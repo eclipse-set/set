@@ -9,6 +9,7 @@
 package org.eclipse.set.ppmodel.extensions
 
 import java.math.BigDecimal
+import java.util.List
 import org.eclipse.set.basis.geometry.GeoPosition
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
@@ -17,6 +18,7 @@ import org.eclipse.set.model.planpro.Geodaten.Strecke_Punkt
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StreckePunktExtensions.*
+import org.locationtech.jts.geom.Coordinate
 
 /**
  * Extensions for {@link Strecke}.
@@ -28,12 +30,12 @@ class StreckeExtensions extends BasisObjektExtensions {
 	 * @param Strecke the route to consider
 	 * @return all GEO_Kanten of the route
 	 */
-	def static Iterable<GEO_Kante> getGeoKanten(
+	def static List<GEO_Kante> getGeoKanten(
 		Strecke strecke
 	) {
 		return strecke.container.GEOKante.filter [ k |
 			k.IDGEOArt?.wert == strecke.identitaet.wert
-		]
+		].toList
 	}
 
 	/**
@@ -87,5 +89,11 @@ class StreckeExtensions extends BasisObjektExtensions {
 			return startEnd
 		else
 			return #[pointB, pointA]
+	}
+
+	def static BigDecimal getStreckeLength(Strecke strecke) {
+		return strecke.bereichObjektTeilbereich.map [
+			begrenzungB.wert - begrenzungA.wert
+		].reduce[p1, p2|p1 + p2]
 	}
 }

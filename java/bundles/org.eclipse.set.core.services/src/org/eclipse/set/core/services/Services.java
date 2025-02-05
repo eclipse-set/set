@@ -33,7 +33,7 @@ public class Services {
 	private static UserConfigurationService userConfigurationService;
 
 	private static TopologicalGraphService topGraphService;
-	private static PointObjectPositionService pointObjectService;
+	private static PointObjectPositionService pointObjectPositionService;
 
 	/**
 	 * @return the siteplan service
@@ -169,13 +169,19 @@ public class Services {
 		Services.topGraphService = topGraphService;
 	}
 
-	public static void setPointObjectService(
-			final PointObjectPositionService pointObjectPositionService) {
-		Services.pointObjectService = pointObjectPositionService;
-
+	/**
+	 * @return the {@link PointObjectPositionService}
+	 */
+	public static PointObjectPositionService getPointObjectPositionService() {
+		return pointObjectPositionService;
 	}
 
-	public static PointObjectPositionService getPointObjectService() {
-		return pointObjectService;
+	/**
+	 * @param pointObjectPositionService
+	 *            the {@link PointObjectPositionService}
+	 */
+	public static void setPointObjectPositionService(
+			final PointObjectPositionService pointObjectPositionService) {
+		Services.pointObjectPositionService = pointObjectPositionService;
 	}
 }
