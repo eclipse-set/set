@@ -10,6 +10,7 @@
 import { Label } from '@/model/Label'
 import { SiteplanColorValue } from '@/model/SiteplanModel'
 
+import { store } from '@/store'
 import Map from 'ol/Map'
 import { clampAngle } from './Math'
 
@@ -21,7 +22,7 @@ import { clampAngle } from './Math'
  * @param map the map
  */
 export function updateLabelOrientation (label: Label | null | undefined, labelRotation: number, map: Map): void {
-  if (label == null || label === undefined) {
+  if (label == null || label === undefined || store.state.loading) {
     return
   }
 

@@ -6,10 +6,10 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+import { DBRef } from '@/model/Position'
 import { store } from '@/store'
 import PlanProToolbox from '@/util/PlanProToolbox'
 import { ToolboxConfiguration } from './ToolboxConfiguration'
-import { DBRef } from '@/model/Position'
 
 export interface Interval {
   max: number

@@ -52,27 +52,27 @@
 </template>
 
 <script lang="ts">
+import SideInfoControl from '@/components/SideInfoControl.vue'
+import { store } from '@/store'
+import 'material-design-icons/iconfont/material-icons.css'
+import TileLayer from 'ol/layer/Tile'
+import VectorTileLayer from 'ol/layer/VectorTile'
 import OlMap from 'ol/Map'
-import { Vue, Options } from 'vue-class-component'
+import TileSource from 'ol/source/Tile'
+import { Options, Vue } from 'vue-class-component'
 import { MapSource, MapSourceType } from '../util/MapSource'
-import OpenRailwayMap from '../util/MapSources/OpenRailwayMap'
-import OpenStreetMap from '../util/MapSources/OpenStreetMap'
 import ArcGisSatellite from '../util/MapSources/ArcGisSatellite'
-import EmptyMap from '../util/MapSources/EmptyMap'
-import TopPlusOpen from '../util/MapSources/TopPlusOpen'
-import Sentinel2DE from '../util/MapSources/Sentinel2DE'
 import DigitalOrthophotosExtern from '../util/MapSources/DigitalOrthophotosExtern'
 import DigitalOrthophotosIntern from '../util/MapSources/DigitalOrthophotosIntern'
-import MapboxTop from '../util/MapSources/MapboxTop'
-import MapboxSat from '../util/MapSources/MapboxSat'
-import HereMapsTop from '../util/MapSources/HereMapsTop'
+import EmptyMap from '../util/MapSources/EmptyMap'
 import HereMapsSat from '../util/MapSources/HereMapsSat'
-import VectorTileLayer from 'ol/layer/VectorTile'
-import TileLayer from 'ol/layer/Tile'
-import TileSource from 'ol/source/Tile'
-import { store } from '@/store'
-import SideInfoControl from '@/components/SideInfoControl.vue'
-import 'material-design-icons/iconfont/material-icons.css'
+import HereMapsTop from '../util/MapSources/HereMapsTop'
+import MapboxSat from '../util/MapSources/MapboxSat'
+import MapboxTop from '../util/MapSources/MapboxTop'
+import OpenRailwayMap from '../util/MapSources/OpenRailwayMap'
+import OpenStreetMap from '../util/MapSources/OpenStreetMap'
+import Sentinel2DE from '../util/MapSources/Sentinel2DE'
+import TopPlusOpen from '../util/MapSources/TopPlusOpen'
 
 /**
  * Selector for a tile layer with multiple sources
@@ -121,6 +121,11 @@ export default class MapSourceSelection extends Vue {
     this.imageLayer.setZIndex(0)
     this.map.addLayer(this.vectorLayer)
     this.map.addLayer(this.imageLayer)
+    store.subscribe(m => {
+      if (m.type === 'setSourceMap') {
+        this.selected = m.payload
+      }
+    })
   }
 
   getDisplayName (option: MapSource): string {

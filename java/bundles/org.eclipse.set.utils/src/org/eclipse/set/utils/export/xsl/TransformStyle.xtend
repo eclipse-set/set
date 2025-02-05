@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.utils.table.transform
+package org.eclipse.set.utils.export.xsl
 
 import java.util.HashMap
 import java.util.Map
@@ -16,11 +16,11 @@ import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.ss.usermodel.VerticalAlignment
-import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
+import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection
 import org.w3c.dom.Element
 
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.*
 
 /**
  * Transform excel cell style to xsl style

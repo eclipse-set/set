@@ -10,6 +10,7 @@ package org.eclipse.set.feature.export.xlsx;
 
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
 
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -253,5 +254,15 @@ public class ExcelExportBuilder implements TableExport {
 	@Override
 	public String getTableShortcut() {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void exportSiteplanPdf(final List<BufferedImage> imagesData,
+			final Titlebox titleBox, final FreeFieldInfo freeFieldInfo,
+			final String outputDir, final ToolboxPaths toolboxPaths,
+			final TableType tableType,
+			final OverwriteHandling overwriteHandling) {
+		// do nothing
+
 	}
 }

@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.export.pdf
 
 import java.util.List
+import java.awt.image.BufferedImage;
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
@@ -40,6 +41,10 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
+import java.io.ByteArrayOutputStream
+import javax.imageio.ImageIO
+import java.util.Base64
+import java.io.IOException
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -69,6 +74,18 @@ class TableToTableDocument {
 	 */
 	static def TableToTableDocument createTransformation() throws ParserConfigurationException {
 		return new TableToTableDocument
+	}
+
+	def Document transformToDocument(List<BufferedImage> imagesData,
+		Titlebox titleBox, FreeFieldInfo freeFieldInfo) {
+		tablename = "siteplan export"
+		logger.debug("transform siteplan to document")
+		val rootNode = doc.createElement("Siteplan")
+		imagesData.forEach[rootNode.appendChild(transform)]
+		rootNode.appendChild(titleBox.transform)
+		rootNode.appendChild(freeFieldInfo.transform)
+		doc.appendChild(rootNode)
+		return doc
 	}
 
 	/**
@@ -118,6 +135,23 @@ class TableToTableDocument {
 			rowsElement.appendChild(createTestRowElement("3", content))
 		}
 		return
+	}
+
+	private def Element create doc.createElement("Image") transform(
+		BufferedImage imageData) {
+		try {
+			val type = doc.createAttribute("type")
+			type.value = "image/png"
+			val byteArrayOutputStream = new ByteArrayOutputStream
+			ImageIO.write(imageData, "png", byteArrayOutputStream)
+			val imageBytes = byteArrayOutputStream.toByteArray
+			attributeNode = type
+			textContent ='''data:image/png;base64,«Base64.encoder.encodeToString(imageBytes)»>'''
+			return
+		} catch (IOException e) {
+			logger.error("Transform imageData to String error", e)
+		}
+
 	}
 
 	private def Element createTestRowElement(Element rowsElement,
@@ -411,8 +445,9 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
-			intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn
+			? checkOutput
+			: checkOutput.intersperseWithZeroSpacesSC
 		return element
 	}
 

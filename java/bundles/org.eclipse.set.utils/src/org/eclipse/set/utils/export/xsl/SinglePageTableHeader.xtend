@@ -6,8 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.utils.table.transform
-
+package org.eclipse.set.utils.export.xsl
 import java.io.IOException
 import java.util.LinkedHashSet
 import java.util.Optional
@@ -19,9 +18,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.w3c.dom.Element
 import org.xml.sax.SAXException
 
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttrValue.FOOTNOTES
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_SELECT
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttrValue.FOOTNOTES
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_SELECT
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*
 
 import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
 

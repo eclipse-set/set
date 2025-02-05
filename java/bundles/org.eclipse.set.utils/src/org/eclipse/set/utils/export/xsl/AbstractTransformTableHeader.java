@@ -7,17 +7,17 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.utils.table.transform;
+package org.eclipse.set.utils.export.xsl;
 
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.*;
-import static org.eclipse.set.utils.table.transform.TransformStyle.setBorderStyle;
-import static org.eclipse.set.utils.table.transform.TransformStyle.transformCellStyle;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttrValue.*;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_MATCH;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.ATTR_SELECT;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.TABLE_HEADER_STYLE;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*;
+import static org.eclipse.set.utils.export.xsl.TransformStyle.setBorderStyle;
+import static org.eclipse.set.utils.export.xsl.TransformStyle.transformCellStyle;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttrValue.*;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.*;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_MATCH;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_SELECT;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.TABLE_HEADER_STYLE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -40,7 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection;
+import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -175,9 +175,12 @@ public abstract class AbstractTransformTableHeader {
 		if (sumWidth < maxPaperWidth - OFFSET) {
 			final float remainingWidth = maxPaperWidth - sumWidth - OFFSET;
 			final float lastColumnWith = Float.parseFloat(cols.getLast()
-					.getAttribute(COLUMN_WIDTH).replace("cm", ""));
-			cols.getLast().setAttribute(COLUMN_WIDTH,
-					Double.toString(lastColumnWith + remainingWidth) + "cm");
+					.getAttribute(COLUMN_WIDTH)
+					.replace("cm", ""));
+			cols.getLast()
+					.setAttribute(COLUMN_WIDTH,
+							Double.toString(lastColumnWith + remainingWidth)
+									+ "cm");
 		}
 		return cols;
 	}

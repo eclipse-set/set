@@ -25,10 +25,10 @@ import org.eclipse.swt.widgets.Shell;
 public class SelectFolderDialogBrowserFunction extends BrowserFunction {
 	// Name of the Javascript function to call once the user has selected a
 	// folder
-	private static final String DIALOG_CALLBACK_FUNCTION = "window.planproSelectFolderDialogCallback"; //$NON-NLS-1$
-	DialogService dialogService;
-	Shell shell;
-	SiteplanBrowser webBrowser;
+	protected static final String DIALOG_CALLBACK_FUNCTION = "window.planproSelectFolderDialogCallback"; //$NON-NLS-1$
+	protected DialogService dialogService;
+	protected Shell shell;
+	protected SiteplanBrowser webBrowser;
 
 	/**
 	 * Constructor.
@@ -52,7 +52,7 @@ public class SelectFolderDialogBrowserFunction extends BrowserFunction {
 	}
 
 	@Override
-	public final Object function(final Object[] arguments) {
+	public Object function(final Object[] arguments) {
 		final Optional<String> optionalOutputDir = dialogService
 				.selectDirectory(shell,
 						ToolboxConfiguration.getDefaultPath().toString());
