@@ -13,7 +13,10 @@ package org.eclipse.set.utils.export.xsl.siteplan;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.PageDIN.*;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionPosition.*;
 
+import java.util.List;
+
 import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions;
+import org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.FoldingMark;
 
 /**
  * Contains site plan export page
@@ -45,7 +48,9 @@ public class SiteplanExportPage {
 				.setFoldingMarks(BEFORE, 210, 192, 192)
 				.setFoldingMarks(AFTER, 210, 192, 192)
 				.setFoldingMarks(START, 113, 287)
-				.setFoldingMarks(END, 113, 287)
+				.setFoldingMarks(new FoldingMark(END,
+						List.of(Double.valueOf(113), Double.valueOf(287)), 12,
+						FoldingMark.DEFAULT_MARK_WIDTH))
 				.setTitleBoxRegion(END, 190, 320)
 				.setSignificantInformation(187)
 				.build();

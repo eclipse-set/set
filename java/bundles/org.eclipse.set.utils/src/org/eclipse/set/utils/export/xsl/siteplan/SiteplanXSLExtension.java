@@ -137,9 +137,9 @@ public class SiteplanXSLExtension {
 	public record FoldingMark(RegionPosition position, List<Double> distances,
 			double extent, double markWidth) {
 
-		private static final double DEFAULT_EXTENT_TOP_BOTTOM_RIGHT = 10;
-		private static final double DEFAULT_EXTENT_LEFT = 20;
-		private static final double DEFAULT_MARK_WIDTH = 5;
+		public static final double DEFAULT_EXTENT_TOP_BOTTOM_RIGHT = 10;
+		public static final double DEFAULT_EXTENT_LEFT = 20;
+		public static final double DEFAULT_MARK_WIDTH = 5;
 
 		/**
 		 * @param position

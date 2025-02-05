@@ -106,39 +106,37 @@ export default class ExportControl extends Control {
 
   private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[]) {
     this.lockMapDuringExport(true)
-    const result: (HTMLCanvasElement | undefined)[] = []
-    if (sheetCutFeatures.length !== 0) {
-      const originalRotation = this.map.getView().getRotation()
-      const originalZoomLvl = this.map.getView().getZoom()
-      const originalViewCenter = this.map.getView().getCenter()
-      const currentSourceMap = store.state.selectedSourceMap
-      store.commit('setSourceMap', new EmptyMap().getIdentifier())
-      const visibleLayers = store.state.featureLayers.filter(layer => layer.getVisible())
-      visibleLayers.forEach(layer => layer.setVisible(false))
-      setMapScale(this.map.getView(), 1000)
-      this.map.getView().setRotation(0)
-      const resolution = this.map.getView().getResolution()
+    const result: HTMLCanvasElement[] = []
+    const originalRotation = this.map.getView().getRotation()
+    const originalZoomLvl = this.map.getView().getZoom()
+    const originalViewCenter = this.map.getView().getCenter()
+    const currentSourceMap = store.state.selectedSourceMap
+    store.commit('setSourceMap', new EmptyMap().getIdentifier())
+    const visibleLayers = store.state.featureLayers.filter(layer => layer.getVisible())
+    visibleLayers.forEach(layer => layer.setVisible(false))
+    setMapScale(this.map.getView(), 1000)
+    this.map.getView().setRotation(0)
+    const resolution = this.map.getView().getResolution()
 
-      const exportCanvases = await this.getSiteplanSheetcutExportCanvas(
-        sheetCutFeatures,
-        visibleLayers,
-        resolution ?? 1
-      )
+    const exportCanvases = await this.getSiteplanSheetcutExportCanvas(
+      sheetCutFeatures,
+      visibleLayers,
+      resolution ?? 1
+    )
+    exportCanvases.map(cv => {
+      const w = cv.width
+      const h = cv.height
+    })
+    store.commit('setSourceMap', currentSourceMap)
+    visibleLayers.forEach(layer => layer.setVisible(true))
+    this.map.getView().setRotation(originalRotation)
+    this.map.getView().setZoom(originalZoomLvl ?? 10)
+    this.map.getView().setCenter(originalViewCenter)
 
-      store.commit('setSourceMap', currentSourceMap)
-      visibleLayers.forEach(layer => layer.setVisible(true))
-      this.map.getView().setRotation(originalRotation)
-      this.map.getView().setZoom(originalZoomLvl ?? 10)
-      this.map.getView().setCenter(originalViewCenter)
-
-      result.push(...exportCanvases.filter(canvas => canvas !== null))
-    } else {
-      const currentCanvas = await this.getCurrentCanvas()
-      result.push(currentCanvas)
-    }
+    result.push(...exportCanvases.filter(canvas => canvas !== null))
 
     const link = document.createElement('a')
-    result.filter(c => c !== undefined).forEach((c, index) => {
+    result.forEach((c, index) => {
       link.setAttribute('download', 'siteplan' + (index == 0 ? '' : index))
       if (link) {
         link.href = c.toDataURL()
@@ -148,51 +146,17 @@ export default class ExportControl extends Control {
     this.lockMapDuringExport(false)
   }
 
-  private async getCurrentCanvas () {
-    const viewportSize = this.map.getSize()
-    if (!viewportSize) {
-      return
-    }
-
-    const canvas = document.createElement('canvas')
-    canvas.width = viewportSize[0]
-    canvas.height = viewportSize[1]
-
-    const context = canvas.getContext('2d')
-    if (context == null) {
-      return
-    }
-
-    context.fillStyle = 'white'
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    const canvasLayers = document.querySelectorAll('.ol-layer canvas')
-    canvasLayers.forEach(layer => {
-      const mapCanvas = layer as HTMLCanvasElement
-      if (mapCanvas.width < 0) {
-        return
-      }
-
-      const matrix = this.getMapTransformMatrix(mapCanvas)
-      context.transform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5])
-
-      context.drawImage(mapCanvas, 0, 0)
-      context.setTransform(1, 0, 0, 1, 0 ,0)
-    })
-    await new Promise(res => setTimeout(res, 2000))
-    return canvas
-  }
-
   private async getSiteplanSheetcutExportCanvas (
     sheetCutFeatures: Feature<Geometry>[],
     visibleLayers: NamedFeatureLayer[],
     resolution: number
   ) {
     const result: HTMLCanvasElement[] = []
-    for (const feature of sheetCutFeatures) {
-      const feautreData = getFeatureData(feature) as SheetCutFeatureData
-      const directionLineCoords = feautreData.directionLine.getCoordinates()
+    for (const sheetCutFeature of sheetCutFeatures) {
+      const featureData = getFeatureData(sheetCutFeature) as SheetCutFeatureData
+      const directionLineCoords = featureData.directionLine.getCoordinates()
       const directionLineAngle = angle(directionLineCoords[1], directionLineCoords[0])
-      const sheetCutGeometry = feature.getGeometry()
+      const sheetCutGeometry = sheetCutFeature.getGeometry()
       const anchor = directionLineCoords[1]
       if (!sheetCutGeometry) {
         return []
@@ -204,7 +168,7 @@ export default class ExportControl extends Control {
       const rotatedPolygon = sheetCutGeometry.clone()
       rotatedPolygon.rotate(rotation, anchor)
       const exportTilesData = this.getExportTilesData(
-        feature,
+        sheetCutFeature,
       rotatedPolygon as Polygon
       )
       const tileCanvas = await this.createTileCanvas(
@@ -353,7 +317,7 @@ export default class ExportControl extends Control {
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
     for (const tileData of tilesdata) {
-      const [tileMinX, tileMinY, tileMaxX, tileMaxY] = tileData.tileExtent
+      const [tileMinX,,, tileMaxY] = tileData.tileExtent
       const rotatedCenter = horizontalRotate
         ? pointRotate(tileData.center, toDeg(horizontalRotate.rad), horizontalRotate.anchor)
         : tileData.center

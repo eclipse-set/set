@@ -110,6 +110,7 @@ public class SiteplanXSL {
 				.setFreeFeldHeight(pageStyle.getTitleBoxRegion())
 				.setSignificantSize(pageStyle.getSignificantInformation())
 				.setFoldingMarkTemplates(pageStyle.getFoldingMarks())
+				.setFoldingMarkRightRegionWidth(pageStyle.getFoldingMarks())
 				.setWatermarkContent().doc;
 	}
 
@@ -264,6 +265,20 @@ public class SiteplanXSL {
 				templateName);
 		rootNode.appendChild(foldingMarkTemplate);
 		return foldingMarkTemplate;
+	}
+
+	private SiteplanXSL setFoldingMarkRightRegionWidth(
+			final List<FoldingMark> foldingMarks) {
+		final FoldingMark markRight = foldingMarks.stream()
+				.filter(mark -> mark.position() == END)
+				.findFirst()
+				.orElse(null);
+		if (markRight != null) {
+			setXSLElementValue(doc, XSL_VARIABLE,
+					SITEPLAN_FOLDING_MARK_RIGHT_WIDTH, markRight.extent());
+		}
+
+		return this;
 	}
 
 	private SiteplanXSLPage determinePageStyle() {

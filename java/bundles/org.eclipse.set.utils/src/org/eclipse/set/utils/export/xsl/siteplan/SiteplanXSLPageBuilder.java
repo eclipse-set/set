@@ -57,17 +57,22 @@ public class SiteplanXSLPageBuilder {
 
 	public SiteplanXSLPageBuilder setFoldingMarks(final RegionPosition position,
 			final double... distances) {
+		return setFoldingMarks(new FoldingMark(position, distances));
+	}
+
+	public SiteplanXSLPageBuilder setFoldingMarks(
+			final FoldingMark foldingMark) {
 		if (this.builderFoldingMarks == null) {
 			this.builderFoldingMarks = new ArrayList<>();
 		}
-
 		// Each region should have only one FoldingMark
 		if (this.builderFoldingMarks.stream()
-				.anyMatch(mark -> mark.position() == position)) {
+				.anyMatch(mark -> mark.position() == foldingMark.position())) {
 			throw new IllegalArgumentException("The FoldingMark for " //$NON-NLS-1$
-					+ position.getRegionName() + " is already added"); //$NON-NLS-1$
+					+ foldingMark.position().getRegionName()
+					+ " is already added"); //$NON-NLS-1$
 		}
-		this.builderFoldingMarks.add(new FoldingMark(position, distances));
+		this.builderFoldingMarks.add(foldingMark);
 		return this;
 	}
 

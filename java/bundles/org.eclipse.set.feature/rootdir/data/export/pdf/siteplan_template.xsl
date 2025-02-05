@@ -5,7 +5,10 @@ All rights reserved. This program and the accompanying materials
 are made available under the terms of the Eclipse Public License v2.0
 which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v20.html
---><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" exclude-result-prefixes="fo" version="2.0">
+-->
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:fo="http://www.w3.org/1999/XSL/Format"
+  xmlns:fox="http://xmlgraphics.apache.org/fop/extensions" exclude-result-prefixes="fo" version="2.0">
 
   <xsl:include href="data/export/pdf/common.xsl"/>
   <xsl:include href="data/export/pdf/titlebox.xsl"/>
@@ -17,6 +20,7 @@ http://www.eclipse.org/legal/epl-v20.html
   <xsl:variable name="siteplan-freefeld-height" />
   <xsl:variable name="significant-width" />
   <xsl:variable name="significant-height" />
+  <xsl:variable name="siteplan-folding-mark-right-width" />
 
   <xsl:variable name="region-body-height" />
   <xsl:variable name="region-body-width" />
@@ -70,8 +74,8 @@ http://www.eclipse.org/legal/epl-v20.html
       <fo:page-sequence master-reference="page-sequence-master">
         <fo:static-content flow-name="folding-mark-region-top">
           <fo:block-container height="100%" width="100%">
-          <xsl:call-template name="siteplan-folding-mark-top-bottom"/>
-        </fo:block-container>
+            <xsl:call-template name="siteplan-folding-mark-top-bottom"/>
+          </fo:block-container>
           <xsl:call-template name="WaterMark"/>
         </fo:static-content>
 
@@ -137,7 +141,7 @@ http://www.eclipse.org/legal/epl-v20.html
       <!-- IMPROVE: Schriftfeld ist etwas breiter als erwartet -->
       <fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm"/>
       <!-- Folding markcolumn-->
-      <fo:table-column column-width="10mm"/>
+      <fo:table-column column-width="{$folding-mark-right-width}"/>
       <fo:table-body>
         <fo:table-row height="{$siteplan-freefeld-height}">
           <fo:table-cell>
@@ -148,46 +152,46 @@ http://www.eclipse.org/legal/epl-v20.html
           </fo:table-cell>
         </fo:table-row>
         <fo:table-row>
-            <fo:table-cell padding-top="5mm">
-              <fo:table table-layout="fixed" width="100%">
-                <fo:table-column column-width="100%"/>
-                <fo:table-body>
-                  <fo:table-row max-height="75mm">
-                    <fo:table-cell>
-                      <xsl:apply-templates select="//TitleBox">
-                        <xsl:with-param name="pagePostfix" select="$pagePostfix"/>
-                      </xsl:apply-templates>
-                    </fo:table-cell>
-                  </fo:table-row>
-                </fo:table-body>
-              </fo:table>
-            </fo:table-cell>
+          <fo:table-cell padding-top="5mm">
+            <fo:table table-layout="fixed" width="100%">
+              <fo:table-column column-width="100%"/>
+              <fo:table-body>
+                <fo:table-row max-height="75mm">
+                  <fo:table-cell>
+                    <xsl:apply-templates select="//TitleBox">
+                      <xsl:with-param name="pagePostfix" select="$pagePostfix"/>
+                    </xsl:apply-templates>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:table-cell>
         </fo:table-row>
       </fo:table-body>
     </fo:table>
     <fo:block-container absolute-position="absolute" bottom="0mm" display-align="after" height="{$significant-height}" overflow="hidden" right="195mm" width="{$significant-width}">
-        <fo:block>
-          <xsl:choose>
-            <xsl:when test="/Siteplan/Freefield/SignificantInformation">
-              <xsl:apply-templates select="/Siteplan/Freefield/SignificantInformation"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <fo:block/>
-            </xsl:otherwise>
-          </xsl:choose>
-        </fo:block>
-      </fo:block-container>
-    </xsl:template>
+      <fo:block>
+        <xsl:choose>
+          <xsl:when test="/Siteplan/Freefield/SignificantInformation">
+            <xsl:apply-templates select="/Siteplan/Freefield/SignificantInformation"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <fo:block/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </fo:block>
+    </fo:block-container>
+  </xsl:template>
 
 
-    <xsl:template name="siteplan-folding-mark-top-bottom">
-      <!-- Generate by Siteplan Export Process -->
-      <fo:block color="white">.</fo:block>
-    </xsl:template>
+  <xsl:template name="siteplan-folding-mark-top-bottom">
+    <!-- Generate by Siteplan Export Process -->
+    <fo:block color="white">.</fo:block>
+  </xsl:template>
 
-    <xsl:template name="siteplan-folding-mark-side">
-      <!-- Generate by Siteplan Export Process -->
-      <fo:block color="white">.</fo:block>
-    </xsl:template>
+  <xsl:template name="siteplan-folding-mark-side">
+    <!-- Generate by Siteplan Export Process -->
+    <fo:block color="white">.</fo:block>
+  </xsl:template>
 
-  </xsl:stylesheet>
+</xsl:stylesheet>

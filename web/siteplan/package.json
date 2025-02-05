@@ -20,15 +20,15 @@
     "vue": "^3.5.13",
     "vue-class-component": "^8.0.0-1",
     "vue-router": "^4.5.0",
-    "vuex": "^4.1.0"
-  },
-  "devDependencies": {
-    "@stylistic/eslint-plugin": "2.13.0",
+    "vuex": "^4.1.0",
     "@turf/boolean-disjoint": "^7.2.0",
     "@turf/boolean-within": "^7.2.0",
     "@turf/difference": "^7.2.0",
     "@turf/helpers": "^7.2.0",
-    "@turf/intersect": "^7.2.0",
+    "@turf/intersect": "^7.2.0"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "2.13.0",
     "@types/geojson": "^7946.0.15",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
