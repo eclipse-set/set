@@ -114,7 +114,6 @@ export default class FeatureService extends Vue {
   unsubscribe: SubscribeOptions | undefined
   map: Map = store.state.map
   model: SiteplanModel | null = null
-  developmentOptions = false
   svgService: SvgService = new SvgService(axios)
   listFeature: ILageplanFeature[] = []
   inLODView = false
@@ -122,7 +121,6 @@ export default class FeatureService extends Vue {
 
   mounted (): void {
     this.createLayers()
-    this.developmentOptions = Configuration.developmentMode()
     this.loadModel()
     store.subscribe((m, s) => {
       if (m.type === 'setSheetCutCRS') {
@@ -211,60 +209,52 @@ export default class FeatureService extends Vue {
     featureClass: ILageplanFeature
   ): Feature<Geometry>[] {
     try {
-      // Temporary demo: Only show red/yellow in development mode
-      if (Configuration.developmentMode()) {
-        // eslint-disable-next-line default-case
-        switch (store.state.sessionState) {
-          case TableType.INITIAL:
-            return [
-              model.commonState,
-              model.initialState,
-              model.changedInitialState
-            ]
-              .map(state => featureClass.getFeatures(state))
-              .flat()
-              .map(feature => featureClass.setFeatureColor(feature))
-          case TableType.FINAL:
-            return [
-              model.commonState,
-              model.finalState,
-              model.changedFinalState
-            ]
-              .map(state => featureClass.getFeatures(state))
-              .flat()
-              .map(feature => featureClass.setFeatureColor(feature))
-          case TableType.DIFF:{
-            const compareState = featureClass.compareChangedState(
-              model.changedInitialState,
-              model.changedFinalState
-            )
-            return [
-              featureClass
-                .getFeatures(model.commonState)
-                .map(feature => featureClass.setFeatureColor(feature)),
-              compareState,
-              featureClass
-                .getFeatures(model.finalState)
-                .map(feature =>
-                  featureClass.setFeatureColor(
-                    feature,
-                    SiteplanColorValue.COLOR_ADDED
-                  )),
-              featureClass
-                .getFeatures(model.initialState)
-                .map(feature =>
-                  featureClass.setFeatureColor(
-                    feature,
-                    SiteplanColorValue.COLOR_REMOVED
-                  ))
-            ].flat()
-          }
+      // eslint-disable-next-line default-case
+      switch (store.state.sessionState) {
+        case TableType.INITIAL:
+          return [
+            model.commonState,
+            model.initialState,
+            model.changedInitialState
+          ]
+            .map(state => featureClass.getFeatures(state))
+            .flat()
+            .map(feature => featureClass.setFeatureColor(feature))
+        case TableType.FINAL:
+          return [
+            model.commonState,
+            model.finalState,
+            model.changedFinalState
+          ]
+            .map(state => featureClass.getFeatures(state))
+            .flat()
+            .map(feature => featureClass.setFeatureColor(feature))
+        case TableType.DIFF:{
+          const compareState = featureClass.compareChangedState(
+            model.changedInitialState,
+            model.changedFinalState
+          )
+          return [
+            featureClass
+              .getFeatures(model.commonState)
+              .map(feature => featureClass.setFeatureColor(feature)),
+            compareState,
+            featureClass
+              .getFeatures(model.finalState)
+              .map(feature =>
+                featureClass.setFeatureColor(
+                  feature,
+                  SiteplanColorValue.COLOR_ADDED
+                )),
+            featureClass
+              .getFeatures(model.initialState)
+              .map(feature =>
+                featureClass.setFeatureColor(
+                  feature,
+                  SiteplanColorValue.COLOR_REMOVED
+                ))
+          ].flat()
         }
-      } else {
-        return [model.commonState, model.finalState, model.changedInitialState]
-          .map(state => featureClass.getFeatures(state))
-          .flat()
-          .map(feature => featureClass.setFeatureColor(feature))
       }
     } catch (e) {
       console.error(e)

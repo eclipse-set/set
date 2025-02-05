@@ -11,11 +11,12 @@ package org.eclipse.set.utils.table
 import java.util.Collection
 import java.util.Comparator
 import java.util.List
+import org.eclipse.set.basis.constants.ToolboxConstants
+import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.MultiColorContent
 import org.eclipse.set.model.tablemodel.TableRow
 import org.eclipse.set.ppmodel.extensions.utils.Case
-import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.utils.ToolboxConfiguration
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -45,7 +46,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		typeof(AbstractTableModelTransformator))
 
 	protected val static String ITERABLE_FILLING_SEPARATOR = String.format("%n")
-
+	
 	val static boolean DEVELOPMENT_MODE = ToolboxConfiguration.developmentMode
 
 	val static String BLANK = ""
@@ -296,7 +297,8 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		(S)=>Iterable<String> sequence,
 		Comparator<String> comparator
 	) {
-		row.fillIterable(column, object, sequence, comparator, [it])
+		row.fillIterable(column, object, sequence, comparator ?: ToolboxConstants.
+						LST_OBJECT_NAME_COMPARATOR, [it])
 	}
 
 	def <S, T> void fillMultiColorIterable(
@@ -377,7 +379,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		row.fillIterableWithSeparatorConditional(column, object, [true],
 			sequence, comparator, elementFilling, [], separator)
 	}
-
+	
 	/**
 	 * Fill a row with a sequence of string values depending on a condition and handle exceptions.
 	 * 

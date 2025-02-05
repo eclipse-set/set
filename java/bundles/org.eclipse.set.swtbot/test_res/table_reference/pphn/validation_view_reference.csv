@@ -1,6 +1,6 @@
 Validierungsmeldungen
 Datei: validation_view_current.csv
-Validierung: 2024-11-26 14:34:29
+Validierung: 2024-12-18 08:53:18
 Werkzeugkofferversion: ${application-version}
 
 "Lfd. Nr.";"Schweregrad";"Problemart";"Zeilennummer";"Objektart";"Attribut/-gruppe";"Bereich";"Zustand";"Meldung"

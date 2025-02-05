@@ -99,14 +99,14 @@ public class SsldColumns {
 	public static final String Manuell = "P";
 
 	/**
-	 * Ssld.Aufloesung.Zielgleisabschnitt.Bezeichnung
+	 * Ssld.Aufloesung.Aufloeseabschnitt.Bezeichnung
 	 */
-	public static final String Zielgleisabschnitt_Bezeichnung = "Q";
+	public static final String Aufloeseabschnitt_Bezeichnung = "Q";
 
 	/**
-	 * Ssld.Aufloesung.Zielgleisabschnitt.Laenge
+	 * Ssld.Aufloesung.Aufloeseabschnitt.Laenge
 	 */
-	public static final String Zielgleisabschnitt_Laenge = "R";
+	public static final String Aufloeseabschnitt_Laenge = "R";
 
 	/**
 	 * Ssld.Aufloesung.Verzoegerung

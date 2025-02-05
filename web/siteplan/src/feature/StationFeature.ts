@@ -31,7 +31,8 @@ export default class StationFeature extends LageplanFeature<Station> {
   }
 
   getFeatures (model: SiteplanState): Feature<Geometry>[] {
-    return this.getObjectsModel(model).map(element => this.createStationFeature(element))
+    return this.getObjectsModel(model).filter(element => element.label?.text)
+      .map(element => this.createStationFeature(element))
   }
 
   private createStationFeature (station: Station): Feature<Geometry> {
@@ -49,9 +50,8 @@ export default class StationFeature extends LageplanFeature<Station> {
       FeatureType.Station,
       station,
       new Point(position),
-      station.label.text
+      station.label?.text
     )
-
     feature.setStyle((_, resolution) => {
       const baseResolution = this.map.getView().getResolutionForZoom(this.svgService.getBaseZoomLevel())
       const scale = baseResolution / resolution

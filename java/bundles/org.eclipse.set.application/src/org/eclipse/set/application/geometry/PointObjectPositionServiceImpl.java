@@ -15,6 +15,7 @@ import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableOb
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GEOKanteCoordinate;
 import org.eclipse.set.basis.geometry.GEOKanteMetadata;
 import org.eclipse.set.basis.geometry.GEOKanteSegment;
@@ -25,6 +26,7 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
+import org.eclipse.set.model.planpro.Geodaten.Strecke;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 import org.eclipse.set.model.planpro.Gleis.ENUMGleisart;
@@ -51,7 +53,7 @@ public class PointObjectPositionServiceImpl
 	 * Default constructor
 	 */
 	public PointObjectPositionServiceImpl() {
-		Services.setPointObjectService(this);
+		Services.setPointObjectPositionService(this);
 	}
 
 	/*
@@ -140,8 +142,7 @@ public class PointObjectPositionServiceImpl
 				&& singlePoint.getSeitlicherAbstand().getWert() != null) {
 			return singlePoint.getSeitlicherAbstand().getWert();
 		}
-		final BigDecimal distance = singlePoint.getSeitlicherAbstand()
-				.getWert();
+		final BigDecimal distance = singlePoint.getAbstand().getWert();
 		// Determine the track type
 		final GEOKanteSegment segment = geoKante.getContainingSegment(distance);
 		final List<ENUMGleisart> trackType = segment.getBereichObjekte()
@@ -164,5 +165,13 @@ public class PointObjectPositionServiceImpl
 			return BigDecimal.valueOf(-lateralDistance);
 		}
 		return BigDecimal.valueOf(lateralDistance);
+	}
+
+	@Override
+	public Pair<GEOKanteCoordinate, BigDecimal> getProjectionOnStreck(
+			final Punkt_Objekt punktObjekt, final Strecke strecke) {
+		final GEOKanteCoordinate coordinate = getCoordinate(punktObjekt);
+		return geometryService.getProjectionCoordinateOnStrecke(
+				coordinate.getCoordinate(), strecke);
 	}
 }

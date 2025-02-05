@@ -46,4 +46,9 @@ public class SskzColumns {
 	 * Sskz.Blattnummer
 	 */
 	public static final String Blattnummer = "F";
+
+	/**
+	 * Sskz.Bemerkung
+	 */
+	public static final String Bemerkung = "G";
 }

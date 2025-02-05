@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.export.compileservice;
+package org.eclipse.set.feature.table.compile;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -14,11 +14,11 @@ import java.util.Set;
 
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
-import org.eclipse.set.feature.table.TableService;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.PlanProSchnittstelleExtensions;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableDiffService;
+import org.eclipse.set.services.table.TableService;
 
 import jakarta.inject.Inject;
 

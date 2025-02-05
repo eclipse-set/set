@@ -264,12 +264,15 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>10.21.0</version>
+								<version>10.21.2</version>
 							</dependency>
 						</dependencies>
 						<configuration>
-							<configLocation>../../../releng/eclipse/CheckstyleMaven.xml</configLocation>
+							<configLocation>../../../releng/eclipse/checkstyle.xml</configLocation>
 							<suppressionsLocation>../../../releng/eclipse/suppressions.xml</suppressionsLocation>
+							<propertyExpansion>
+								config_loc=releng/eclipse
+							</propertyExpansion>
 							<consoleOutput>true</consoleOutput>
 							<linkXRef>false</linkXRef>
 							<includes>**\/*.java, **\/*.MF, **\/.xml, **\/.properties</includes>

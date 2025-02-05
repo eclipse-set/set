@@ -90,24 +90,32 @@ export default class SignalFeature extends LageplanFeature<SignalMount> {
   }
 
   setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
-    if (color) {
+    if (!color && !partID) {
+      this.resetFeatureColor(feature)
+    } else if (partID) {
       super.setFeatureColor(feature, color, partID)
     } else {
       Object.values(SignalPart).forEach(part => {
-        this.setFeatureRegionColor(feature, part)
+        this.setFeatureRegionColor(feature, part, color)
       })
     }
 
     return feature
   }
 
-  protected setFeatureRegionColor (feature: Feature<Geometry>, objectPart?: string | undefined): Feature<Geometry> {
+  protected setFeatureRegionColor (
+    feature: Feature<Geometry>,
+    objectPart?: string | undefined,
+    color?: number[]
+  ): Feature<Geometry> {
     const signalModel = getFeatureData(feature) as SignalMount
     // IMPROVE: Because at the moment Signal Additive doesn't have GUID,
     // you can't set region color for this.
     switch (objectPart) {
+      case SignalPart.Label:
+      case SignalPart.RouteMarker:
       case SignalPart.Mast: {
-        this.setObjectColor(signalModel, objectPart, this.getRegionColor(feature))
+        this.setObjectColor(signalModel, objectPart, color ?? this.getRegionColor(feature))
         break
       }
       case SignalPart.Schirm: {
@@ -115,11 +123,11 @@ export default class SignalFeature extends LageplanFeature<SignalMount> {
           this.setObjectColor(
             signalModel,
             objectPart,
-            this.getRegionColor(feature, signalModel.attachedSignals[0].guid)
+            color ?? this.getRegionColor(feature, signalModel.attachedSignals[0].guid)
           )
         } else {
           signalModel.attachedSignals.forEach(signal => {
-            const regionColor = this.getRegionColor(feature, signal.guid)
+            const regionColor = color ?? this.getRegionColor(feature, signal.guid)
             this.setObjectColor(signalModel, `${objectPart}_${signal.guid}`, regionColor)
           })
         }

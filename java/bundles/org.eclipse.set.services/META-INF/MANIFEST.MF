@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.eclipse.set.services;singleton:=true
 Bundle-Version: 2.4.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.10.0",
- org.eclipse.e4.core.di;bundle-version="1.4.0"
+ org.eclipse.e4.core.di;bundle-version="1.4.0",
+ org.eclipse.set.model.planpro
 Bundle-Vendor: Eclipse Signalling Engineering Toolbox
 Import-Package: com.google.common.cache;version="15.0.0",
  com.google.common.collect;version="15.0.0",
@@ -32,6 +33,9 @@ Import-Package: com.google.common.cache;version="15.0.0",
  org.eclipse.set.model.titlebox,
  org.eclipse.set.model.validationreport,
  org.eclipse.set.ppmodel.extensions.container,
+ org.eclipse.set.ppmodel.extensions.utils,
+ org.eclipse.set.utils,
+ org.eclipse.set.utils.table,
  org.eclipse.swt.widgets,
  org.osgi.service.event;version="1.4.0",
  org.slf4j;version="1.7.2"

@@ -13,7 +13,6 @@ import jakarta.inject.Inject;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.e4.ui.model.application.MApplication;
-
 import org.eclipse.set.feature.table.messages.internal.MessagesContextFunction;
 
 /**

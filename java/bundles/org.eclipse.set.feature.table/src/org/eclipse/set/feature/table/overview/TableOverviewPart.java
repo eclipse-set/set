@@ -30,12 +30,11 @@ import org.eclipse.set.basis.constants.Events;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
-import org.eclipse.set.feature.table.TableService;
-import org.eclipse.set.feature.table.TableService.TableInfo;
 import org.eclipse.set.feature.table.messages.Messages;
-import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.services.table.TableService;
+import org.eclipse.set.services.table.TableService.TableInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
@@ -89,12 +88,6 @@ public class TableOverviewPart extends BasePart {
 
 	@Inject
 	private TableMenuService tableMenuService;
-
-	// IMPROVE:
-	// Workaround for table services not being registered in TableService
-	// when no table part has been opened yet
-	@Inject
-	MessagesWrapper wrapper;
 
 	private Label completenessHint;
 	private Text missingTablesText;

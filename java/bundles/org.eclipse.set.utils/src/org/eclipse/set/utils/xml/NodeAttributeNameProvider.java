@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
  */
 public class NodeAttributeNameProvider {
 	private static final String TEXT_NODE = "#text"; //$NON-NLS-1$
+	private static final String DOCUMENT_NODE = "#document"; //$NON-NLS-1$
 	private static final String CONTAINER_NODE = "Container"; //$NON-NLS-1$
 
 	private static final String IDENTITY_ATTRIBUTE_NAME = "Identitaet"; //$NON-NLS-1$
@@ -30,9 +31,11 @@ public class NodeAttributeNameProvider {
 	 * @return The closest XML attribute name (or null)
 	 */
 	public String getAttributeName(final Node node) {
-		// When the parent node is container node, then the node isn't
+		// When the parent node is container node or root node, then the node
+		// isn't
 		// attribute/group node
-		if (node == null
+		if (node == null || node.getParentNode() == null
+				|| node.getParentNode().getNodeName().equals(DOCUMENT_NODE)
 				|| node.getParentNode().getNodeName().equals(CONTAINER_NODE)) {
 			return null;
 		}

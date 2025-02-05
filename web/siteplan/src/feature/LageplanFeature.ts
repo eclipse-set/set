@@ -22,7 +22,8 @@ import { Position } from '../model/Position'
 import { isPlanningObject, SiteplanColorValue, SiteplanState } from '../model/SiteplanModel'
 import SvgService from '../service/SvgService'
 import {
-  createFeature, getFeatureBoundArea,
+  createFeature,
+  getFeatureBoundArea,
   getFeatureBounds,
   getFeatureData,
   getFeatureGUID,
@@ -319,6 +320,12 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
     return final
   }
 
+  resetFeatureColor (feature: Feature<Geometry>): Feature<Geometry> {
+    const object = getFeatureData(feature) as SiteplanObject
+    object.objectColors = []
+    return feature
+  }
+
   // Default implementation
   setFeatureColor (feature: Feature<Geometry>, color?: number[], partID?: string): Feature<Geometry> {
     this.setObjectColor(
@@ -355,6 +362,12 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
     const objColor = { id, color }
     if (!object.objectColors) {
       object.objectColors = [objColor]
+      return
+    }
+
+    const existingObjectColor = object.objectColors.find(objectColor => objectColor.id === id)
+    if (existingObjectColor) {
+      existingObjectColor.color = color
     } else {
       object.objectColors.push(objColor)
     }

@@ -92,6 +92,9 @@ class SignalExtensions extends PunktObjektExtensions {
 	 * @returns boolean
 	 */
 	def static boolean isStartOfAnyTrainRoute(Signal signal) {
+		if (signal === null) {
+			return false
+		}
 		return signal.container.fstrZugRangier.exists [
 			fstrFahrweg?.start === signal && fstrZug !== null
 		]
@@ -501,19 +504,5 @@ class SignalExtensions extends PunktObjektExtensions {
 		return signal.container.FMAKomponente.filter [ fmaKomponent |
 			fmaAnlages.exists[fmaKomponent.belongsTo(it)]
 		].toList
-	}
-
-	def static List<Pair<Strecke, String>> getRouteAndKm(Signal signal) {
-		val result = [ Punkt_Objekt_Strecke_AttributeGroup point |
-			return point?.IDStrecke?.value -> point?.streckeKm?.wert
-		]
-		val pointRoutes = signal.punktObjektStrecke
-		val decisivePoint = pointRoutes.filter[kmMassgebend?.wert !== null].
-			toList
-		if (decisivePoint.isNullOrEmpty) {
-			return pointRoutes.map[result.apply(it)]
-		}
-
-		return decisivePoint.map[result.apply(it)]
 	}
 }

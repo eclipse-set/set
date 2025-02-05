@@ -40,6 +40,11 @@ public class ComparatorBuilder {
 		 * Sort string content with numeric comparator.
 		 */
 		NUMERIC,
+
+		/**
+		 * Sort empty content at last.
+		 */
+		EMPTY_LAST
 	}
 
 	private final TableRowGroupComparator tableRowGroupComparator;
@@ -94,6 +99,9 @@ public class ComparatorBuilder {
 			break;
 		case NUMERIC:
 			cellComparator = new NumericCellComparator(direction);
+			break;
+		case EMPTY_LAST:
+			cellComparator = new EmptyLastCellComparator(direction);
 			break;
 		default:
 			throw new IllegalArgumentException(cellComparatorType.toString());

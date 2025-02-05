@@ -29,10 +29,9 @@ import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.feature.export.Messages;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxModel;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxModelContentProvider;
-import org.eclipse.set.feature.table.TableService;
-import org.eclipse.set.feature.table.messages.MessagesWrapper;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
+import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -96,9 +95,6 @@ public abstract class DocumentExportPart extends BasePart {
 	org.eclipse.set.utils.Messages utilMessages;
 
 	CheckboxTableViewer viewer;
-
-	@Inject
-	MessagesWrapper wrapper;
 
 	/**
 	 * Constructor

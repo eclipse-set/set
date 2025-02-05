@@ -13,7 +13,7 @@ maven/mavencentral/com.google.guava/listenablefuture/9999.0-empty-to-avoid-confl
 maven/mavencentral/com.google.inject.extensions/guice-assistedinject/7.0.0, Apache-2.0, approved, #9169
 maven/mavencentral/com.google.inject/guice/7.0.0, Apache-2.0, approved, #9095
 maven/mavencentral/com.google.j2objc/j2objc-annotations/3.0.0, Apache-2.0, approved, #13676
-maven/mavencentral/com.ibm.icu/icu4j/74.1, , approved, #15283
+maven/mavencentral/com.ibm.icu/icu4j/74.1, Unicode-TOU AND ICU AND BSD-3-Clause AND BSD-2-Clause AND GPL-3.0-or-later WITH Autoconf-exception-2.0 AND NAIST-2003 AND NTP AND LicenseRef-Public-Domain, approved, #18267
 maven/mavencentral/com.jcraft/jsch/0.1.55, BSD-3-Clause, approved, CQ19435
 maven/mavencentral/com.sun.mail/javax.mail/1.6.2, CDDL-1.0 AND Apache-2.0, approved, CQ18739
 maven/mavencentral/commons-io/commons-io/2.15.0, Apache-2.0, approved, #11244
@@ -133,7 +133,7 @@ maven/mavencentral/org.objenesis/objenesis/3.3, Apache-2.0, approved, clearlydef
 maven/mavencentral/org.opentest4j/opentest4j/1.3.0, Apache-2.0, approved, #9713
 maven/mavencentral/org.osgi/org.osgi.namespace.extender/1.0.1, Apache-1.1 AND Apache-2.0, approved, #17638
 maven/mavencentral/org.osgi/org.osgi.namespace.implementation/1.0.0, Apache-1.1 AND Apache-2.0, approved, #17650
-maven/mavencentral/org.osgi/org.osgi.service.cm/1.6.1, Apache-2.0, approved, #15501
+maven/mavencentral/org.osgi/org.osgi.service.cm/1.6.1, Apache-2.0, approved, #18262
 maven/mavencentral/org.osgi/org.osgi.service.component/1.5.1, Apache-2.0, approved, #5389
 maven/mavencentral/org.osgi/org.osgi.service.coordinator/1.0.2, Apache-1.1 AND Apache-2.0, approved, #17662
 maven/mavencentral/org.osgi/org.osgi.service.device/1.1.1, Apache-2.0, approved, #15335
@@ -146,7 +146,7 @@ maven/mavencentral/org.osgi/org.osgi.service.provisioning/1.2.0, Apache-1.1 AND 
 maven/mavencentral/org.osgi/org.osgi.service.upnp/1.2.1, Apache-2.0, approved, #15268
 maven/mavencentral/org.osgi/org.osgi.service.useradmin/1.1.1, Apache-2.0, approved, #15323
 maven/mavencentral/org.osgi/org.osgi.service.wireadmin/1.0.2, Apache-2.0, approved, #15398
-maven/mavencentral/org.osgi/org.osgi.util.function/1.2.0, Apache-2.0, approved, #15222
+maven/mavencentral/org.osgi/org.osgi.util.function/1.2.0, Apache-2.0, approved, #18701
 maven/mavencentral/org.osgi/org.osgi.util.measurement/1.0.2, Apache-2.0, approved, #17679
 maven/mavencentral/org.osgi/org.osgi.util.position/1.0.1, Apache-1.1 AND Apache-2.0, approved, #17683
 maven/mavencentral/org.osgi/org.osgi.util.promise/1.3.0, Apache-2.0, approved, #5266
@@ -226,7 +226,7 @@ npm/npmjs/-/color-rgba/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/color-space/2.0.1, MIT AND Unlicense, approved, clearlydefined
 npm/npmjs/-/colorette/2.0.19, MIT, approved, clearlydefined
 npm/npmjs/-/combined-stream/1.0.8, MIT, approved, clearlydefined
-npm/npmjs/-/commander/10.0.1, MIT, approved, #8062
+npm/npmjs/-/commander/12.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/commander/2.20.3, MIT, approved, clearlydefined
 npm/npmjs/-/commander/8.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/compressible/2.0.18, MIT, approved, clearlydefined
@@ -249,9 +249,9 @@ npm/npmjs/-/css-what/6.1.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/csscolorparser/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/cssesc/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/csstype/3.1.3, MIT, approved, #11847
-npm/npmjs/-/data-view-buffer/1.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/data-view-byte-length/1.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/data-view-byte-offset/1.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/data-view-buffer/1.0.1, MIT, approved, #18374
+npm/npmjs/-/data-view-byte-length/1.0.1, MIT, approved, #18392
+npm/npmjs/-/data-view-byte-offset/1.0.0, MIT, approved, #18407
 npm/npmjs/-/debug/2.6.9, MIT, approved, clearlydefined
 npm/npmjs/-/debug/3.2.7, MIT, approved, clearlydefined
 npm/npmjs/-/debug/4.3.4, MIT, approved, clearlydefined
@@ -277,7 +277,7 @@ npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dompurify/2.5.6, Apache-2.0 OR MPL-2.0, approved, #14657
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
-npm/npmjs/-/dotenv-cli/7.4.4, MIT, approved, #17506
+npm/npmjs/-/dotenv-cli/8.0.0, MIT, approved, #18236
 npm/npmjs/-/dotenv-expand/10.0.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dotenv/16.4.5, BSD-2-Clause, approved, #12890
 npm/npmjs/-/earcut/3.0.0, ISC, approved, clearlydefined
@@ -290,16 +290,16 @@ npm/npmjs/-/encodeurl/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/enhanced-resolve/5.17.1, MIT, approved, clearlydefined
 npm/npmjs/-/entities/2.2.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/entities/4.5.0, BSD-2-Clause, approved, #7910
-npm/npmjs/-/envinfo/7.10.0, MIT, approved, #9207
-npm/npmjs/-/es-abstract/1.23.3, MIT, approved, clearlydefined
+npm/npmjs/-/envinfo/7.14.0, MIT, approved, #16253
+npm/npmjs/-/es-abstract/1.23.3, MIT, approved, #18406
 npm/npmjs/-/es-define-property/1.0.0, MIT, approved, #13222
 npm/npmjs/-/es-errors/1.3.0, MIT, approved, #13162
 npm/npmjs/-/es-module-lexer/1.3.0, MIT, approved, #8964
-npm/npmjs/-/es-object-atoms/1.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/es-object-atoms/1.0.0, MIT, approved, #18690
 npm/npmjs/-/es-set-tostringtag/2.0.3, MIT, approved, #6218
 npm/npmjs/-/es-shim-unscopables/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/es-to-primitive/1.2.1, MIT, approved, clearlydefined
-npm/npmjs/-/esbuild/0.24.0, MIT, approved, clearlydefined
+npm/npmjs/-/esbuild/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18253
 npm/npmjs/-/escalade/3.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/escape-html/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/escape-string-regexp/4.0.0, MIT, approved, clearlydefined
@@ -318,10 +318,10 @@ npm/npmjs/-/eslint-scope/7.2.2, BSD-2-Clause, approved, #9916
 npm/npmjs/-/eslint-scope/8.2.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-utils/2.1.0, MIT, approved, #15320
 npm/npmjs/-/eslint-visitor-keys/1.3.0, Apache-2.0, approved, #2501
-npm/npmjs/-/eslint-visitor-keys/3.4.0, Apache-2.0, approved, #15276
-npm/npmjs/-/eslint-visitor-keys/3.4.3, Apache-2.0, approved, #15274
+npm/npmjs/-/eslint-visitor-keys/3.4.0, Apache-2.0, approved, #18265
+npm/npmjs/-/eslint-visitor-keys/3.4.3, Apache-2.0, approved, #18264
 npm/npmjs/-/eslint-visitor-keys/4.2.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #17084
-npm/npmjs/-/eslint/9.15.0, MIT, approved, #17423
+npm/npmjs/-/eslint/9.18.0, BSD-3-Clause AND MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0-UK, approved, #18553
 npm/npmjs/-/espree/10.3.0, BSD-2-Clause AND MIT AND Apache-2.0 AND (BSD-2-Clause AND BSD-3-Clause AND MIT) AND BSD-3-Clause AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #17087
 npm/npmjs/-/espree/9.6.1, BSD-2-Clause AND BSD-3-Clause AND MIT AND BSD-2-Clause AND BSD-3-Clause AND MIT AND (BSD-2-Clause AND MIT) AND (BSD-3-Clause AND LGPL-2.0-or-later AND MIT) AND LGPL-2.1-or-later, approved, #15293
 npm/npmjs/-/esquery/1.5.0, BSD-3-Clause, approved, #7469
@@ -353,6 +353,7 @@ npm/npmjs/-/finalhandler/1.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/find-up/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/find-up/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/flat-cache/4.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/flat/5.0.2, BSD-3-Clause, approved, clearlydefined
 npm/npmjs/-/flatted/3.3.1, ISC AND (ISC AND MIT), approved, #13460
 npm/npmjs/-/flatted/3.3.2, ISC AND (ISC AND MIT), approved, #13460
 npm/npmjs/-/follow-redirects/1.15.6, MIT, approved, #10782
@@ -406,7 +407,7 @@ npm/npmjs/-/iconv-lite/0.4.24, MIT, approved, clearlydefined
 npm/npmjs/-/icss-utils/5.1.0, ISC, approved, clearlydefined
 npm/npmjs/-/ignore/5.3.0, MIT, approved, #11665
 npm/npmjs/-/ignore/5.3.1, MIT, approved, #11665
-npm/npmjs/-/import-fresh/3.3.0, MIT, approved, clearlydefined
+npm/npmjs/-/import-fresh/3.3.0, MIT, approved, #19299
 npm/npmjs/-/import-local/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/imurmurhash/0.1.4, MIT, approved, clearlydefined
 npm/npmjs/-/inherits/2.0.3, ISC, approved, clearlydefined
@@ -423,7 +424,7 @@ npm/npmjs/-/is-builtin-module/3.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/is-callable/1.2.7, MIT, approved, clearlydefined
 npm/npmjs/-/is-core-module/2.13.0, MIT, approved, #9885
 npm/npmjs/-/is-core-module/2.15.1, MIT, approved, clearlydefined
-npm/npmjs/-/is-data-view/1.0.1, MIT, approved, clearlydefined
+npm/npmjs/-/is-data-view/1.0.1, MIT, approved, #18375
 npm/npmjs/-/is-date-object/1.0.5, MIT, approved, clearlydefined
 npm/npmjs/-/is-docker/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/is-extglob/2.1.1, MIT, approved, clearlydefined
@@ -492,12 +493,13 @@ npm/npmjs/-/minimatch/3.1.2, ISC, approved, clearlydefined
 npm/npmjs/-/minimatch/9.0.5, ISC, approved, #9190
 npm/npmjs/-/minimist/1.2.6, MIT, approved, #5886
 npm/npmjs/-/minimist/1.2.8, MIT, approved, #5886
-npm/npmjs/-/monaco-editor/0.52.0, , approved, #16243
+npm/npmjs/-/monaco-editor/0.52.2, , approved, #16243
 npm/npmjs/-/ms/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/ms/2.1.2, MIT, approved, #5895
 npm/npmjs/-/ms/2.1.3, MIT, approved, #5895
 npm/npmjs/-/multicast-dns/7.2.5, MIT, approved, clearlydefined
 npm/npmjs/-/nanoid/3.3.7, MIT, approved, #7571
+npm/npmjs/-/nanoid/3.3.8, MIT, approved, #7571
 npm/npmjs/-/natural-compare/1.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/negotiator/0.6.3, MIT, approved, clearlydefined
 npm/npmjs/-/neo-async/2.6.2, MIT, approved, clearlydefined
@@ -512,9 +514,9 @@ npm/npmjs/-/object-keys/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/object.assign/4.1.5, MIT, approved, #15306
 npm/npmjs/-/object.fromentries/2.0.8, MIT, approved, #4600
 npm/npmjs/-/object.groupby/1.0.3, MIT, approved, #10360
-npm/npmjs/-/object.values/1.2.0, MIT, approved, clearlydefined
+npm/npmjs/-/object.values/1.2.0, MIT, approved, #18366
 npm/npmjs/-/obuf/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/ol-mapbox-style/12.3.5, BSD-2-Clause AND BSD-3-Clause AND MIT, approved, #14196
+npm/npmjs/-/ol-mapbox-style/12.4.0, BSD-2-Clause AND ODbL-1.0, approved, #17946
 npm/npmjs/-/ol/10.3.1, BSD-2-Clause AND MIT AND Apache-2.0 AND CC-BY-NC-SA-4.0 AND CC-BY-SA-2.0 AND LGPL-2.1-only AND ODbL-1.0 AND CC-BY-3.0 AND LicenseRef-Permission-Notice, approved, #17589
 npm/npmjs/-/on-finished/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/on-headers/1.0.2, MIT, approved, clearlydefined
@@ -538,7 +540,7 @@ npm/npmjs/-/path-parse/1.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/path-to-regexp/0.1.12, MIT, approved, clearlydefined
 npm/npmjs/-/path-type/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/pbf/4.0.1, MIT AND BSD-3-Clause, approved, #15821
-npm/npmjs/-/pdfjs-dist/4.9.155, Apache-2.0 AND BSD-3-Clause AND MPL-2.0 AND OFL-1.1, approved, #17602
+npm/npmjs/-/pdfjs-dist/4.10.38, Apache-2.0 AND MPL-2.0 AND BSD-3-Clause AND OFL-1.1, approved, 
 npm/npmjs/-/performance-now/2.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/picocolors/1.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
@@ -598,7 +600,7 @@ npm/npmjs/-/rollup/4.24.2, MIT AND (ISC AND MIT), approved, #16917
 npm/npmjs/-/run-applescript/7.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/run-parallel/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/rw/1.3.3, BSD-3-Clause, approved, clearlydefined
-npm/npmjs/-/safe-array-concat/1.1.2, MIT, approved, clearlydefined
+npm/npmjs/-/safe-array-concat/1.1.2, MIT, approved, #18359
 npm/npmjs/-/safe-buffer/5.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/safe-buffer/5.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/safe-regex-test/1.0.3, MIT, approved, clearlydefined
@@ -606,12 +608,14 @@ npm/npmjs/-/safer-buffer/2.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/schema-utils/3.1.1, MIT, approved, #7963
 npm/npmjs/-/schema-utils/3.3.0, MIT, approved, #8952
 npm/npmjs/-/schema-utils/4.2.0, MIT, approved, #8986
+npm/npmjs/-/schema-utils/4.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/select-hose/2.0.0, MIT, approved, #145
 npm/npmjs/-/selfsigned/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.6.0, ISC, approved, #14659
 npm/npmjs/-/semver/7.6.2, ISC, approved, #14659
 npm/npmjs/-/semver/7.6.3, ISC, approved, #14659
+npm/npmjs/-/semver/7.7.1, ISC, approved, #19251
 npm/npmjs/-/send/0.19.0, MIT, approved, clearlydefined
 npm/npmjs/-/serialize-javascript/6.0.2, BSD-3-Clause, approved, #12680
 npm/npmjs/-/serve-index/1.9.1, MIT, approved, clearlydefined
@@ -657,8 +661,9 @@ npm/npmjs/-/svg-pathdata/6.0.3, MIT AND 0BSD, approved, #15345
 npm/npmjs/-/sweepline-intersections/1.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/tapable/2.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/terser-webpack-plugin/5.3.10, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
-npm/npmjs/-/terser/5.26.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #15402
+npm/npmjs/-/terser-webpack-plugin/5.3.11, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser/5.27.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #12904
+npm/npmjs/-/terser/5.37.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #18263
 npm/npmjs/-/text-segmentation/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/thingies/1.21.0, MIT AND Unlicense, approved, clearlydefined
 npm/npmjs/-/thunky/1.1.0, MIT, approved, clearlydefined
@@ -666,8 +671,8 @@ npm/npmjs/-/tinyqueue/2.0.3, ISC, approved, clearlydefined
 npm/npmjs/-/to-regex-range/5.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/toidentifier/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/tree-dump/1.0.2, Apache-2.0, approved, clearlydefined
-npm/npmjs/-/ts-api-utils/1.3.0, MIT, approved, clearlydefined
-npm/npmjs/-/ts-loader/9.5.1, MIT AND ISC, approved, #15408
+npm/npmjs/-/ts-api-utils/2.0.1, MIT, approved, #18339
+npm/npmjs/-/ts-loader/9.5.2, MIT AND ISC, approved, #15408
 npm/npmjs/-/tsconfig-paths/3.15.0, MIT, approved, #12111
 npm/npmjs/-/tslib/2.4.0, 0BSD, approved, #4336
 npm/npmjs/-/tslib/2.8.1, 0BSD, approved, clearlydefined
@@ -679,6 +684,7 @@ npm/npmjs/-/typed-array-byte-length/1.0.1, MIT, approved, #9659
 npm/npmjs/-/typed-array-byte-offset/1.0.2, MIT, approved, #9407
 npm/npmjs/-/typed-array-length/1.0.6, MIT, approved, #6246
 npm/npmjs/-/typescript/5.7.2, Apache-2.0 AND MIT, approved, #17432
+npm/npmjs/-/typescript/5.7.3, Apache-2.0 AND MIT, approved, #17432
 npm/npmjs/-/unbox-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/unicorn-magic/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/unpipe/1.0.0, MIT, approved, clearlydefined
@@ -690,7 +696,7 @@ npm/npmjs/-/utils-merge/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/utrie/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #15399
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/vite/6.0.3, MIT AND ISC AND Apache-2.0 AND BSD-2-Clause AND CC0-1.0, approved, #17581
+npm/npmjs/-/vite/6.0.11, MIT AND ISC AND Apache-2.0 AND BSD-2-Clause AND CC0-1.0, approved, #17581
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/9.4.3, MIT, approved, #15333
 npm/npmjs/-/vue-router/4.5.0, MIT, approved, #17508
@@ -699,10 +705,10 @@ npm/npmjs/-/vuex/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/wbuf/1.7.3, MIT, approved, clearlydefined
 npm/npmjs/-/web-worker/1.3.0, Apache-2.0, approved, clearlydefined
-npm/npmjs/-/webpack-cli/5.1.4, MIT, approved, clearlydefined
+npm/npmjs/-/webpack-cli/6.0.1, MIT, approved, #18200
 npm/npmjs/-/webpack-dev-middleware/7.4.2, MIT, approved, clearlydefined
 npm/npmjs/-/webpack-dev-server/5.2.0, MIT, approved, #17829
-npm/npmjs/-/webpack-merge/5.8.0, MIT, approved, #15298
+npm/npmjs/-/webpack-merge/6.0.1, MIT, approved, #17983
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/webpack/5.97.1, MIT, approved, #17762
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
@@ -710,7 +716,7 @@ npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/which-boxed-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/which-typed-array/1.1.15, MIT, approved, #4864
 npm/npmjs/-/which/2.0.2, ISC, approved, clearlydefined
-npm/npmjs/-/wildcard/2.0.0, MIT, approved, #8274
+npm/npmjs/-/wildcard/2.0.1, MIT, approved, #8274
 npm/npmjs/-/ws/8.18.0, MIT, approved, clearlydefined
 npm/npmjs/-/xml-name-validator/4.0.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/xml-utils/1.10.1, CC0-1.0, approved, clearlydefined
@@ -723,52 +729,57 @@ npm/npmjs/@babel/helper-validator-identifier/7.25.9, MIT, approved, clearlydefin
 npm/npmjs/@babel/parser/7.26.2, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #16882
 npm/npmjs/@babel/runtime/7.25.6, MIT, approved, clearlydefined
 npm/npmjs/@babel/types/7.26.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #17734
-npm/npmjs/@discoveryjs/json-ext/0.5.7, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/aix-ppc64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/android-arm/0.24.0, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #17582
-npm/npmjs/@esbuild/android-arm64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/android-x64/0.24.0, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #17580
-npm/npmjs/@esbuild/darwin-arm64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/darwin-x64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/freebsd-arm64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/freebsd-x64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-arm/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-arm64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-ia32/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-loong64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-mips64el/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-ppc64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-riscv64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-s390x/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/linux-x64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/netbsd-x64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/openbsd-arm64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/openbsd-x64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/sunos-x64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/win32-arm64/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/win32-ia32/0.24.0, MIT, approved, clearlydefined
-npm/npmjs/@esbuild/win32-x64/0.24.0, MIT, approved, clearlydefined
+npm/npmjs/@discoveryjs/json-ext/0.6.3, MIT, approved, #17984
+npm/npmjs/@esbuild/aix-ppc64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18304
+npm/npmjs/@esbuild/android-arm/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #17582
+npm/npmjs/@esbuild/android-arm64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18317
+npm/npmjs/@esbuild/android-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #17580
+npm/npmjs/@esbuild/darwin-arm64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18278
+npm/npmjs/@esbuild/darwin-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18667
+npm/npmjs/@esbuild/freebsd-arm64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18666
+npm/npmjs/@esbuild/freebsd-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18670
+npm/npmjs/@esbuild/linux-arm/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18327
+npm/npmjs/@esbuild/linux-arm64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18273
+npm/npmjs/@esbuild/linux-ia32/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18269
+npm/npmjs/@esbuild/linux-loong64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18338
+npm/npmjs/@esbuild/linux-mips64el/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18279
+npm/npmjs/@esbuild/linux-ppc64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18254
+npm/npmjs/@esbuild/linux-riscv64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18671
+npm/npmjs/@esbuild/linux-s390x/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18314
+npm/npmjs/@esbuild/linux-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18672
+npm/npmjs/@esbuild/netbsd-arm64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18248
+npm/npmjs/@esbuild/netbsd-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18277
+npm/npmjs/@esbuild/openbsd-arm64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18322
+npm/npmjs/@esbuild/openbsd-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18282
+npm/npmjs/@esbuild/sunos-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18668
+npm/npmjs/@esbuild/win32-arm64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18669
+npm/npmjs/@esbuild/win32-ia32/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18313
+npm/npmjs/@esbuild/win32-x64/0.24.2, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #18275
 npm/npmjs/@eslint-community/eslint-utils/4.4.0, MIT, approved, #15285
 npm/npmjs/@eslint-community/regexpp/4.12.1, MIT, approved, clearlydefined
 npm/npmjs/@eslint/config-array/0.19.0, Apache-2.0 AND MIT, approved, #17422
-npm/npmjs/@eslint/core/0.9.0, Apache-2.0, approved, clearlydefined
+npm/npmjs/@eslint/core/0.10.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@eslint/eslintrc/3.2.0, MIT, approved, clearlydefined
-npm/npmjs/@eslint/js/9.15.0, MIT, approved, clearlydefined
+npm/npmjs/@eslint/js/9.18.0, BSD-3-Clause AND MIT AND ISC AND OFL-1.1 AND CC-BY-SA-2.0-UK, approved, #18552
 npm/npmjs/@eslint/object-schema/2.1.4, Apache-2.0, approved, clearlydefined
-npm/npmjs/@eslint/plugin-kit/0.2.3, Apache-2.0, approved, clearlydefined
+npm/npmjs/@eslint/plugin-kit/0.2.5, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanfs/core/0.19.1, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanfs/node/0.16.6, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/module-importer/1.0.1, Apache-2.0, approved, clearlydefined
 npm/npmjs/@humanwhocodes/retry/0.3.1, Apache-2.0 AND ISC, approved, #15956
 npm/npmjs/@humanwhocodes/retry/0.4.1, Apache-2.0 AND ISC, approved, #17085
 npm/npmjs/@jridgewell/gen-mapping/0.3.3, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/gen-mapping/0.3.8, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/resolve-uri/3.1.1, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/resolve-uri/3.1.2, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/set-array/1.1.2, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/set-array/1.2.1, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/source-map/0.3.5, MIT, approved, #9304
+npm/npmjs/@jridgewell/source-map/0.3.6, MIT, approved, #9304
 npm/npmjs/@jridgewell/sourcemap-codec/1.4.15, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/sourcemap-codec/1.5.0, MIT, approved, clearlydefined
-npm/npmjs/@jridgewell/trace-mapping/0.3.20, MIT, approved, #9904
 npm/npmjs/@jridgewell/trace-mapping/0.3.22, MIT, approved, #9904
+npm/npmjs/@jridgewell/trace-mapping/0.3.25, MIT, approved, #9904
 npm/npmjs/@jsonjoy.com/base64/1.1.2, Apache-2.0, approved, clearlydefined
 npm/npmjs/@jsonjoy.com/json-pack/1.1.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/@jsonjoy.com/util/1.3.0, Apache-2.0, approved, clearlydefined
@@ -812,17 +823,17 @@ npm/npmjs/@rollup/rollup-win32-ia32-msvc/4.24.2, MIT AND (ISC AND MIT), approved
 npm/npmjs/@rollup/rollup-win32-x64-msvc/4.24.2, MIT AND (ISC AND MIT), approved, #16902
 npm/npmjs/@rtsao/scc/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/@sindresorhus/merge-streams/1.0.0, MIT, approved, clearlydefined
-npm/npmjs/@stylistic/eslint-plugin/2.12.1, MIT, approved, #17834
-npm/npmjs/@turf/bbox/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/boolean-disjoint/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/boolean-point-in-polygon/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/boolean-point-on-line/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/boolean-within/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/helpers/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/invariant/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/line-intersect/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/meta/7.1.0, MIT, approved, clearlydefined
-npm/npmjs/@turf/polygon-to-line/7.1.0, MIT, approved, clearlydefined
+npm/npmjs/@stylistic/eslint-plugin/2.13.0, MIT, approved, #18665
+npm/npmjs/@turf/bbox/7.2.0, MIT AND BSD-2-Clause, approved, #18343
+npm/npmjs/@turf/boolean-disjoint/7.2.0, MIT AND BSD-2-Clause, approved, #18342
+npm/npmjs/@turf/boolean-point-in-polygon/7.2.0, MIT AND BSD-2-Clause, approved, #18347
+npm/npmjs/@turf/boolean-point-on-line/7.2.0, MIT AND BSD-2-Clause, approved, #18341
+npm/npmjs/@turf/boolean-within/7.2.0, MIT AND BSD-2-Clause, approved, #18344
+npm/npmjs/@turf/helpers/7.2.0, MIT AND BSD-2-Clause, approved, #18346
+npm/npmjs/@turf/invariant/7.2.0, MIT AND BSD-2-Clause, approved, #18348
+npm/npmjs/@turf/line-intersect/7.2.0, MIT AND BSD-2-Clause, approved, #18340
+npm/npmjs/@turf/meta/7.2.0, MIT AND BSD-2-Clause, approved, #18349
+npm/npmjs/@turf/polygon-to-line/7.2.0, MIT AND BSD-2-Clause, approved, #18345
 npm/npmjs/@types/body-parser/1.19.2, MIT, approved, #10831
 npm/npmjs/@types/bonjour/3.5.13, MIT, approved, clearlydefined
 npm/npmjs/@types/connect-history-api-fallback/1.5.4, MIT, approved, #8395
@@ -832,7 +843,7 @@ npm/npmjs/@types/eslint/9.6.1, MIT, approved, #15963
 npm/npmjs/@types/estree/1.0.6, MIT, approved, #8266
 npm/npmjs/@types/express-serve-static-core/4.17.43, MIT, approved, #6020
 npm/npmjs/@types/express/4.17.21, MIT, approved, #5760
-npm/npmjs/@types/geojson/7946.0.14, MIT, approved, #11480
+npm/npmjs/@types/geojson/7946.0.15, MIT, approved, #11480
 npm/npmjs/@types/html-minifier-terser/6.1.0, MIT, approved, clearlydefined
 npm/npmjs/@types/http-errors/2.0.4, MIT, approved, #10815
 npm/npmjs/@types/http-proxy/1.17.9, MIT, approved, #8414
@@ -854,14 +865,14 @@ npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
-npm/npmjs/@typescript-eslint/eslint-plugin/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17787
-npm/npmjs/@typescript-eslint/parser/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17786
-npm/npmjs/@typescript-eslint/scope-manager/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17782
-npm/npmjs/@typescript-eslint/type-utils/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17783
-npm/npmjs/@typescript-eslint/types/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17785
-npm/npmjs/@typescript-eslint/typescript-estree/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17781
-npm/npmjs/@typescript-eslint/utils/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17780
-npm/npmjs/@typescript-eslint/visitor-keys/8.18.0, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #17784
+npm/npmjs/@typescript-eslint/eslint-plugin/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/utils/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/visitor-keys/8.23.0, MIT, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.2.1, MIT, approved, #17260
 npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
 npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
@@ -888,9 +899,9 @@ npm/npmjs/@webassemblyjs/wasm-gen/1.14.1, MIT, approved, clearlydefined
 npm/npmjs/@webassemblyjs/wasm-opt/1.14.1, MIT, approved, clearlydefined
 npm/npmjs/@webassemblyjs/wasm-parser/1.14.1, MIT, approved, clearlydefined
 npm/npmjs/@webassemblyjs/wast-printer/1.14.1, MIT, approved, clearlydefined
-npm/npmjs/@webpack-cli/configtest/2.1.1, MIT, approved, clearlydefined
-npm/npmjs/@webpack-cli/info/2.0.2, MIT, approved, clearlydefined
-npm/npmjs/@webpack-cli/serve/2.0.5, MIT, approved, clearlydefined
+npm/npmjs/@webpack-cli/configtest/3.0.1, Apache-2.0 AND MIT, approved, #18199
+npm/npmjs/@webpack-cli/info/3.0.1, Apache-2.0 AND MIT, approved, #18201
+npm/npmjs/@webpack-cli/serve/3.0.1, Apache-2.0 AND MIT, approved, #18202
 npm/npmjs/@xtuc/ieee754/1.2.0, BSD-3-Clause, approved, #123
 npm/npmjs/@xtuc/long/4.2.2, Apache-2.0, approved, clearlydefined
 p2/orbit/p2.eclipse.feature/org.eclipse.babel.nls_eclipse_de/4.26.0.v20230220105658, EPL-1.0, approved, technology.babel
@@ -1022,7 +1033,7 @@ p2/orbit/p2.eclipse.feature/org.eclipse.jdt.bcoview.feature/1.2.200.v20231106-15
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.jeview.feature/1.1.200.v20231104-1354, EPL-2.0, approved, eclipse.jdt
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt.source/3.19.300.v20231201-0110, EPL-2.0, approved, eclipse.equinox
 p2/orbit/p2.eclipse.feature/org.eclipse.jdt/3.19.300.v20231201-0110, EPL-2.0, approved, eclipse.equinox
-p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.5.v20241023-1957, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.feature/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.6.v20250130-0529, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.core.source.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula
 p2/orbit/p2.eclipse.feature/org.eclipse.nebula.widgets.nattable.extension.e4.feature/2.2.0.202306301103, EPL-2.0, approved, technology.nebula.nattable
@@ -1066,8 +1077,8 @@ p2/orbit/p2.eclipse.feature/org.eclipse.swtbot.nebula.stepbar.source/4.1.0.20230
 p2/orbit/p2.eclipse.feature/org.eclipse.swtbot.nebula.stepbar/4.1.0.202306071420, EPL-2.0, approved, technology.swtbot
 p2/orbit/p2.eclipse.feature/org.eclipse.swtbot.source/4.1.0.202306071420, EPL-2.0, approved, technology.swtbot
 p2/orbit/p2.eclipse.feature/org.eclipse.swtbot/4.1.0.202306071420, EPL-2.0, approved, technology.swtbot
-p2/orbit/p2.eclipse.feature/org.eclipse.xtend.lib/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.feature/org.eclipse.xtend.sdk/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.feature/org.eclipse.xtend.lib/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.feature/org.eclipse.xtend.sdk/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
 p2/orbit/p2.eclipse.feature/org.eclipse.xtext.xbase.lib/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
 p2/orbit/p2.eclipse.plugin/ca.odell.glazedlists.source/1.11.0.v20190926-1838, MPL-2.0 AND Apache-2.0, approved, CQ20816
 p2/orbit/p2.eclipse.plugin/ca.odell.glazedlists/1.11.0.v20190926-1838, MPL-2.0 AND Apache-2.0, approved, CQ20816
@@ -1291,37 +1302,63 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench/1.15.200.v20231030-2045, 
 p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench3.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench3.source/0.17.200.v20231025-0632, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.e4.ui.workbench3/0.17.200.v20231025-0632, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ant.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ant.source/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ant/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.cheatsheets.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.cheatsheets/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore.source/2.36.0.v20231002-1035, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore.ui.source/2.36.0.v20230916-0705, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore.ui/2.36.0.v20230916-0705, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore.xtext.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore.xtext.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ecore/2.36.0.v20231002-1035, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.source/2.23.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ui.source/2.24.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen.ui/2.24.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.codegen/2.23.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.source/2.29.0.v20230916-0637, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.ui.source/2.22.0.v20231002-1020, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common.ui/2.22.0.v20231002-1020, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.common/2.29.0.v20230916-0637, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.converter.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.converter.source/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.converter/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.edit.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.edit.source/1.8.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.edit/1.8.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding.source/1.7.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.databinding/1.7.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.doc.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.doc/2.31.0.v20230828-0744, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change.edit.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change.edit.source/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change.edit/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change.source/2.15.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.change/2.15.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.edit.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.edit.source/2.14.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.edit/2.14.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.editor.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.editor.source/2.18.0.v20230224-1122, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.editor/2.18.0.v20230224-1122, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.source/2.35.0.v20230829-0934, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xcore.edit.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xcore.exporter.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xcore.importer.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xcore.lib.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xcore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xcore.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xmi.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xmi.source/2.36.0.v20231002-1156, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore.xmi/2.36.0.v20231002-1156, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecore/2.35.0.v20230829-0934, EPL-2.0, approved, modeling.emf.emf
@@ -1504,40 +1541,69 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.view.viewproxy.model/1.27.0.20221
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.view.workspace.migrator.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.view.workspace.migrator/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.ecp.workspace.core/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.source/2.20.0.v20231107-0612, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.ui.source/2.23.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit.ui/2.23.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.edit/2.20.0.v20231107-0612, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.example.installer/1.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.exporter.html.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.exporter.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.exporter.source/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.exporter/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.gwt.common.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.gwt.ecore.change.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.gwt.ecore.edit.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.gwt.ecore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.gwt.edit.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.gwt.edit.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.gwt.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.ecore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.ecore.source/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.ecore/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.java.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.java.source/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.java/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.rose.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.rose.source/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.rose/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer.source/2.13.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.importer/2.13.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore.editor.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore.editor.source/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore.editor/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore.source/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2ecore.editor.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2ecore.editor.source/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2ecore.editor/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2ecore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2ecore.source/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2ecore/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2xml.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2xml.source/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2xml.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2xml.ui.source/2.13.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2xml.ui/2.13.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ecore2xml/2.12.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.source/2.13.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ui.source/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping.ui/2.11.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.mapping/2.13.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.oda.ecore.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.oda.ecore.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.oda.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
+p2/orbit/p2.eclipse.plugin/org.eclipse.emf.releng.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf.source/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emf/2.9.0.v20230211-1150, EPL-2.0, approved, modeling.emf.emf
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfcloud.emfjson-jackson/2.2.0, EPL-2.0 OR MIT, approved, ecd.emfcloud
+p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.coffee.wizards.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
+p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.coffee.wizards/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.common.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.common.validation.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.common.validation/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
@@ -1586,6 +1652,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.editor.genmodel.source/1.27.0.20
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.editor.genmodel/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.editor.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.editor/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
+p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.example.common.wizards.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
+p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.example.common.wizards/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.ide.builder.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.ide.builder/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
 p2/orbit/p2.eclipse.plugin/org.eclipse.emfforms.ide.preferences.source/1.27.0.20221202-1633, EPL-2.0, approved, modeling.ecp
@@ -1918,8 +1986,8 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.core/1.5.200.v20231106-1240, EPL-2.0
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui.source/1.5.200.v20231106-1240, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.jsch.ui/1.5.200.v20231106-1240, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.5.v20241023-1957, EPL-2.0, approved, technology.justj
-p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.5.v20241023-1957, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped.win32.x86_64/21.0.6.v20250130-0529, EPL-2.0, approved, technology.justj
+p2/orbit/p2.eclipse.plugin/org.eclipse.justj.openjdk.hotspot.jre.full.stripped/21.0.6.v20250130-0529, EPL-2.0, approved, technology.justj
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring.source/3.14.200.v20231106-1218, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ltk.core.refactoring/3.14.200.v20231106-1218, EPL-2.0, approved, eclipse.platform
@@ -2245,8 +2313,9 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.tips.core.nl_de/4.26.0.v20230220105658, E
 p2/orbit/p2.eclipse.plugin/org.eclipse.tips.ide.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.tips.json.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.tips.ui.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy.source/1.2.200.v20231108-1957, EPL-2.0, approved, eclipse.pde
-p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy/1.2.200.v20231108-1957, EPL-2.0, approved, eclipse.pde
+p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy.source/1.2.200.v20231108-1957, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy/1.2.200.v20231108-1957, EPL-2.0, approved, tools.cdt
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.browser.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.browser.source/3.8.100.v20230727-0604, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.browser/3.8.100.v20230727-0604, EPL-2.0, approved, eclipse.platform
@@ -2345,22 +2414,22 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.update.configurator/3.5.200.v20231102-093
 p2/orbit/p2.eclipse.plugin/org.eclipse.urischeme.nl_de/4.26.0.v20230220105658, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.urischeme.source/1.3.100.v20230727-0604, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.urischeme/1.3.100.v20230727-0604, EPL-2.0, approved, eclipse.platform
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.core.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.core/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.doc/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.examples/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide.common.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide.common/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib.macro.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib.macro/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.m2e.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.m2e/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.standalone.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
-p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.standalone/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.core.source/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.core/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.doc/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.examples/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide.common.source/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide.common/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide.source/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.ide/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib.macro.source/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib.macro/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib.source/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.lib/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.m2e.source/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.m2e/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.standalone.source/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
+p2/orbit/p2.eclipse.plugin/org.eclipse.xtend.standalone/2.35.0.v20240528-1523, EPL-1.0, approved, modeling.m2t.xpand
 p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.junit4.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
 p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.junit4/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext
 p2/orbit/p2.eclipse.plugin/org.eclipse.xtext.testing.source/2.35.0.v20240528-1523, EPL-2.0, approved, modeling.tmf.xtext

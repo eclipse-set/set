@@ -73,22 +73,26 @@ public class GEOKanteGeometryExtensions {
 	 * @return line string geometry
 	 */
 	public static LineString defineEdgeGeometry(final GEO_Kante edge) {
+		final Coordinate[] coordinates = getCoordinates(edge);
+		// When the start and end node of this edge have same coordinates
+		if (coordinates[0].x == coordinates[1].x
+				&& coordinates[0].y == coordinates[1].y) {
+			return geomeryFactory.createLineString(coordinates);
+		}
 		final ENUMGEOForm geoForm = edge.getGEOKanteAllg().getGEOForm()
 				.getWert();
-		switch (geoForm) {
-		case ENUMGEO_FORM_GERADE, ENUMGEO_FORM_SONSTIGE, ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON, ENUMGEO_FORM_KM_SPRUNG:
-			return getGeometryFactory().createLineString(getCoordinates(edge));
-		case ENUMGEO_FORM_BOGEN:
-			return arc(edge);
-		case ENUMGEO_FORM_KLOTHOIDE:
-			return clothoid(edge);
-		case ENUMGEO_FORM_BLOSSKURVE, ENUMGEO_FORM_BLOSS_EINFACH_GESCHWUNGEN:
-			return blosscurve(edge);
-		default: {
+		return switch (geoForm) {
+		case ENUMGEO_FORM_GERADE, ENUMGEO_FORM_SONSTIGE, ENUMGEO_FORM_RICHTGERADE_KNICK_AM_ENDE_200_GON, ENUMGEO_FORM_KM_SPRUNG -> getGeometryFactory()
+				.createLineString(coordinates);
+		case ENUMGEO_FORM_BOGEN -> arc(edge);
+		case ENUMGEO_FORM_KLOTHOIDE -> clothoid(edge);
+		case ENUMGEO_FORM_BLOSSKURVE, ENUMGEO_FORM_BLOSS_EINFACH_GESCHWUNGEN -> blosscurve(
+				edge);
+		default -> {
 			logger.warn("Form {} not supported.", geoForm.getName()); //$NON-NLS-1$
-			return getGeometryFactory().createLineString(getCoordinates(edge));
+			yield getGeometryFactory().createLineString(coordinates);
 		}
-		}
+		};
 	}
 
 	private static LineString arc(final GEO_Kante edge) {
