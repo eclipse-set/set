@@ -141,7 +141,7 @@ http://www.eclipse.org/legal/epl-v20.html
       <!-- IMPROVE: Schriftfeld ist etwas breiter als erwartet -->
       <fo:table-column column-width="{180 + $WB + $WB + $WB + $WB}mm"/>
       <!-- Folding markcolumn-->
-      <fo:table-column column-width="{$folding-mark-right-width}"/>
+      <fo:table-column column-width="{$siteplan-folding-mark-right-width}"/>
       <fo:table-body>
         <fo:table-row height="{$siteplan-freefeld-height}">
           <fo:table-cell>
