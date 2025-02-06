@@ -17,6 +17,7 @@ import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLNodeName.*;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanExportPage.*;
+import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.FoldingMark.DEFAULT_EXTENT_TOP_BOTTOM_RIGHT;
 import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.RegionPosition.*;
 
 import java.awt.image.BufferedImage;
@@ -276,6 +277,10 @@ public class SiteplanXSL {
 		if (markRight != null) {
 			setXSLElementValue(doc, XSL_VARIABLE,
 					SITEPLAN_FOLDING_MARK_RIGHT_WIDTH, markRight.extent());
+		} else {
+			setXSLElementValue(doc, XSL_VARIABLE,
+					SITEPLAN_FOLDING_MARK_RIGHT_WIDTH,
+					DEFAULT_EXTENT_TOP_BOTTOM_RIGHT);
 		}
 
 		return this;
