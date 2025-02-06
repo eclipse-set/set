@@ -43,6 +43,17 @@ export function transformPointWithAngle (origin: number[], angle: number) {
   return [x, y]
 }
 
+export function pointRotate (origin: number[], angle: number, anchor?: number[]) {
+  const anchorPoint = anchor ?? [0, 0]
+  const deltaX = origin[0] - anchorPoint[0]
+  const deltaY = origin[1] - anchorPoint[1]
+  const sin = Math.sin(toRad(angle))
+  const cos = Math.cos(toRad(angle))
+  const x = anchorPoint[0] + deltaX * cos - deltaY * sin
+  const y = anchorPoint[1] + deltaX * sin + deltaY * cos
+  return [x, y]
+}
+
 /**
  * @param a first point
  * @param b second point

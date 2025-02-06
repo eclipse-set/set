@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.export.exportservice;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
@@ -126,6 +127,23 @@ public class ExportServiceImpl implements ExportService {
 		for (final TableExport builder : builders) {
 			try {
 				builder.exportTitleboxPdf(titlebox, pdfPath, overwriteHandling);
+			} catch (final Exception e) {
+				errorHandler.accept(e);
+			}
+		}
+	}
+
+	@Override
+	public void exportSiteplanPdf(final List<BufferedImage> imagesData,
+			final Titlebox titleBox, final FreeFieldInfo freeFieldInfo,
+			final String outputDir, final ToolboxPaths toolboxPaths,
+			final TableType tableType,
+			final OverwriteHandling overwriteHandling,
+			final Consumer<Exception> errorHandler) {
+		for (final TableExport builder : builders) {
+			try {
+				builder.exportSiteplanPdf(imagesData, titleBox, freeFieldInfo,
+						outputDir, toolboxPaths, tableType, overwriteHandling);
 			} catch (final Exception e) {
 				errorHandler.accept(e);
 			}

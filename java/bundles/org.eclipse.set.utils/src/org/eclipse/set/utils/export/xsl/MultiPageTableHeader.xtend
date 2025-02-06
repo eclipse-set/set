@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.utils.table.transform
+package org.eclipse.set.utils.export.xsl
 
 import java.io.IOException
 import java.util.LinkedHashSet
@@ -15,17 +15,17 @@ import java.util.Set
 import javax.xml.parsers.ParserConfigurationException
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.xssf.usermodel.XSSFSheet
-import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
+import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection
 import org.w3c.dom.Element
 import org.xml.sax.SAXException
 
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.*
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.WIDE_BORDER_STYLE
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.WIDE_BORDER_STYLE
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*
 
 import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
-import static extension org.eclipse.set.utils.table.transform.TransformStyle.setBorderStyle
+import static extension org.eclipse.set.utils.export.xsl.TransformStyle.setBorderStyle
 
 class MultiPageTableHeader extends AbstractTransformTableHeader {
 	static val MULTIPAGE_LAYOUT_TEMPLATE_PATH = "data/export/pdf/multipage_layout.xsl"

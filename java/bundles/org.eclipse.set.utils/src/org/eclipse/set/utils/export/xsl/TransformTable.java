@@ -6,14 +6,15 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.utils.table.transform;
+package org.eclipse.set.utils.export.xsl;
 
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getColumnWidthInCm;
 import static org.eclipse.set.utils.excel.ExcelWorkbookExtension.getHeaderLastColumnIndex;
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLFoAttributeName.*;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.BODY_ROW_CELL_STYLE;
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.*;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLNodeName.WATER_MARK_TEMPLATE_NAME;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.BODY_ROW_CELL_STYLE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -50,7 +51,6 @@ import org.xml.sax.SAXException;
  */
 public class TransformTable {
 	private static final String EXCEL_TEMPLATE_PATH = "data/export/excel"; //$NON-NLS-1$
-	private static final String WATER_MARK_TEMPLATE_NAME = "water-mark-content"; //$NON-NLS-1$
 	private static final float A3_PAPER_WIDTH = 42f;
 	String shortcut;
 	String tableTyle;
@@ -185,7 +185,8 @@ public class TransformTable {
 		return Paths
 				.get(String.format("%s/%s_vorlage.xlsx", EXCEL_TEMPLATE_PATH, //$NON-NLS-1$
 						shortcut))
-				.toAbsolutePath().toFile();
+				.toAbsolutePath()
+				.toFile();
 	}
 
 	/**

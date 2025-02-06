@@ -1,6 +1,6 @@
-import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import {defineConfig} from 'vite'
 
 export default defineConfig(({_, mode}) => ({
   plugins: [vue()],
@@ -15,6 +15,6 @@ export default defineConfig(({_, mode}) => ({
   },
   build: {
     sourcemap: mode === 'development' ? true : 'inline',
-    minify: mode === 'development' ? false : 'esbuild'
+    minify: mode === 'development' ? false : 'esbuild',
   }
 }))

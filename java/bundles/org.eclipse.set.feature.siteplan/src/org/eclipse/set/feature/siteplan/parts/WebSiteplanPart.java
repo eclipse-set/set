@@ -26,14 +26,16 @@ import org.eclipse.set.feature.plazmodel.check.CRSValid;
 import org.eclipse.set.feature.siteplan.Messages;
 import org.eclipse.set.feature.siteplan.SiteplanBrowser;
 import org.eclipse.set.feature.siteplan.SiteplanConstants;
+import org.eclipse.set.feature.siteplan.browserfunctions.ExportSiteplanBrowserFunction;
 import org.eclipse.set.feature.siteplan.browserfunctions.GetSessionStateBrowserFunction;
+import org.eclipse.set.feature.siteplan.browserfunctions.JumpToSiteplanElementBrowserFunction;
 import org.eclipse.set.feature.siteplan.browserfunctions.JumpToSourceLineBrowserFunction;
 import org.eclipse.set.feature.siteplan.browserfunctions.LayoutChangeCRSBrowserFunction;
 import org.eclipse.set.feature.siteplan.browserfunctions.SelectFolderDialogBrowserFunction;
-import org.eclipse.set.feature.siteplan.browserfunctions.JumpToSiteplanElementBrowserFunction;
 import org.eclipse.set.feature.siteplan.browserfunctions.SiteplanLoadingStateBrowserFunction;
 import org.eclipse.set.feature.siteplan.browserfunctions.TableSelectRowBrowserFunction;
 import org.eclipse.set.model.plazmodel.PlazError;
+import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.events.FunctionalToolboxEventHandler;
 import org.eclipse.set.utils.events.JumpToSiteplanEvent;
@@ -74,6 +76,9 @@ public class WebSiteplanPart extends BasePart {
 
 	@Inject
 	SiteplanService siteplanService;
+
+	@Inject
+	ExportService exportService;
 
 	ToolboxEventHandler<JumpToSiteplanEvent> selectRowEvent;
 
@@ -164,5 +169,9 @@ public class WebSiteplanPart extends BasePart {
 				webBrowser, "planproSiteplanLoadingState", getBroker())); //$NON-NLS-1$
 		signalSelectBrowserFunction = new JumpToSiteplanElementBrowserFunction(
 				siteplanService, webBrowser);
+		webBrowser.registerJSFunction(new ExportSiteplanBrowserFunction(
+				webBrowser, "planproSiteplanExport", getModelSession(), //$NON-NLS-1$
+				exportService, getToolboxShell(), getDialogService(),
+				messages));
 	}
 }

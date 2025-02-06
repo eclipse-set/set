@@ -8,7 +8,9 @@
  */
 package org.eclipse.set.services.export;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -88,6 +90,23 @@ public interface ExportService {
 	 *            the error handler
 	 */
 	void exportTitleboxPdf(Titlebox titlebox, Path pdfPath,
+			OverwriteHandling overwriteHandling,
+			Consumer<Exception> errorHandler);
+
+	/**
+	 * 
+	 * @param imagesData
+	 * @param titleBox
+	 * @param freeFieldInfo
+	 * @param outputDir
+	 * @param toolboxPaths
+	 * @param tableType
+	 * @param overwriteHandling
+	 * @param errorHandler
+	 */
+	void exportSiteplanPdf(List<BufferedImage> imagesData, Titlebox titleBox,
+			FreeFieldInfo freeFieldInfo, String outputDir,
+			ToolboxPaths toolboxPaths, TableType tableType,
 			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);
 }

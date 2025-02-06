@@ -8,7 +8,9 @@
  */
 package org.eclipse.set.services.export;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.set.basis.FreeFieldInfo;
@@ -113,4 +115,18 @@ public interface TableExport {
 	 * @return export format of this service
 	 */
 	ExportFormat getExportFormat();
+
+	/**
+	 * @param imagesData
+	 * @param titleBox
+	 * @param freeFieldInfo
+	 * @param outputDir
+	 * @param toolboxPaths
+	 * @param tableType
+	 * @param overwriteHandling
+	 */
+	void exportSiteplanPdf(List<BufferedImage> imagesData, Titlebox titleBox,
+			FreeFieldInfo freeFieldInfo, String outputDir,
+			ToolboxPaths toolboxPaths, TableType tableType,
+			OverwriteHandling overwriteHandling);
 }

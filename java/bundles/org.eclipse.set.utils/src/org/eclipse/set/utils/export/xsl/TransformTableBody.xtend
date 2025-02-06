@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.utils.table.transform
+package org.eclipse.set.utils.export.xsl
 
 import java.util.Optional
 import java.util.Set
@@ -18,12 +18,12 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLStyleSets.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.*
 
-import static extension org.eclipse.set.utils.table.transform.TransformStyle.*
-import static org.eclipse.set.utils.table.transform.XSLConstant.XSLTag.*
-import static org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.*
-import org.eclipse.set.utils.table.transform.XSLConstant.TableAttribute.BorderDirection
+import static extension org.eclipse.set.utils.export.xsl.TransformStyle.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*
+import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.*
+import org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.BorderDirection
 import static extension org.eclipse.set.utils.excel.ExcelWorkbookExtension.*
 
 /**
