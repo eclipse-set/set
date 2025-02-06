@@ -22,13 +22,14 @@ import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.Reg
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.eclipse.set.utils.ToolboxConfiguration;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.utils.export.xsl.AbstractTransformTableHeader;
 import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.XMLAttribute;
 import org.eclipse.set.utils.export.xsl.XSLConstant;
@@ -307,6 +308,8 @@ public class SiteplanXSL {
 	}
 
 	private static double pxToMilimet(final double px) {
-		return px * 25.4 / ToolboxConfiguration.getExportDPI();
+		return BigDecimal.valueOf(px * 25.4)
+				.divide(ToolboxConstants.DEFAULT_OPENLAYER_DPI)
+				.doubleValue();
 	}
 }

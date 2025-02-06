@@ -35,8 +35,6 @@ import org.eclipse.set.utils.ToolboxConfiguration;
  *            the DOP20 url
  * @param lodScale
  *            default LOD scale
- * @param exportDPI
- *            default export dpi
  * @param trackWidth
  *            default track width
  * @param trackWidthInterval
@@ -52,7 +50,7 @@ import org.eclipse.set.utils.ToolboxConfiguration;
  */
 public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 		String hereClientID, String hereApiKey, String mapboxApiKey,
-		String dop20ApiKey, String dop20InternUrl, int lodScale, int exportDPI,
+		String dop20ApiKey, String dop20InternUrl, int lodScale,
 		String trackWidth, String trackWidthInterval, int baseZoomLevel,
 		boolean defaultCollisionsEnabled, String defaultSheetCutCRS,
 		String planproModelType) {
@@ -69,7 +67,6 @@ public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 				ToolboxConfiguration.getDop20ApiKey(),
 				ToolboxConfiguration.getDop20InternUrl(),
 				ToolboxConfiguration.getLodScale(),
-				ToolboxConfiguration.getExportDPI(),
 				ToolboxConfiguration.getTrackWidth(),
 				ToolboxConfiguration.getTrackWidthIntervall(),
 				ToolboxConfiguration.getBaseZoomLevel(),

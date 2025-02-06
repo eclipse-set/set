@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.basis.constants;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.eclipse.set.basis.MixedStringComparator;
@@ -300,6 +301,13 @@ public final class ToolboxConstants {
 	 * The id of the web developer help part
 	 */
 	public static String WEB_DEVELOPER_HELP_PART_ID = "org.eclipse.set.application.ppt.nosessionpart.WebDeveloperHelpPart";
+
+	/**
+	 * The default dpi setting of openlayers
+	 */
+	public static final BigDecimal DEFAULT_OPENLAYER_DPI = BigDecimal
+			.valueOf(25.4)
+			.divide(BigDecimal.valueOf(0.28));
 
 	static {
 		DEFAULT_HOME_DIR = "./";
