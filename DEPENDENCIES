@@ -904,6 +904,7 @@ npm/npmjs/@rollup/rollup-win32-x64-msvc/4.34.3, MIT, approved, clearlydefined
 npm/npmjs/@rtsao/scc/1.1.0, MIT, approved, clearlydefined
 npm/npmjs/@sindresorhus/merge-streams/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/@stylistic/eslint-plugin/2.13.0, MIT, approved, #18665
+npm/npmjs/@stylistic/eslint-plugin/3.0.1, MIT, approved, #19249
 npm/npmjs/@turf/bbox/7.2.0, MIT AND BSD-2-Clause, approved, #18343
 npm/npmjs/@turf/boolean-disjoint/7.2.0, MIT AND BSD-2-Clause, approved, #18342
 npm/npmjs/@turf/boolean-point-in-polygon/7.2.0, MIT AND BSD-2-Clause, approved, #18347
