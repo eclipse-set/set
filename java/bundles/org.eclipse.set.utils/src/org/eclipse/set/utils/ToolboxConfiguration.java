@@ -150,10 +150,8 @@ public class ToolboxConfiguration {
 	 */
 	public static boolean isDebugMode() {
 		// Check if, Java Debug Wire Protocol(jdwp) is running
-		return ManagementFactory.getRuntimeMXBean()
-				.getInputArguments()
-				.toString()
-				.indexOf("jdwp") > -1; //$NON-NLS-1$
+		return ManagementFactory.getRuntimeMXBean().getInputArguments()
+				.toString().indexOf("jdwp") > -1; //$NON-NLS-1$
 	}
 
 	private static final String MAP_SOURCES_DEFAULT = "BKG_TOPPLUS|BKG_SENT"; //$NON-NLS-1$
@@ -163,6 +161,7 @@ public class ToolboxConfiguration {
 	private static final String DOP20_API_KEY_DEFAULT = ""; //$NON-NLS-1$
 	private static final String DOP20_INTERN_URL_DEFAULT = "https://sg.geodatenzentrum.de/wms_dop"; //$NON-NLS-1$
 	private static final String LOD_SCALE_DEFAULT = "10000"; //$NON-NLS-1$
+	private static final String EXPORT_DPI_DEFAULT = "300"; //$NON-NLS-1$
 	private static final String TRACK_WIDTH = "3|1.5|0.75|1"; //$NON-NLS-1$
 	private static final String TRACK_WIDTH_INTERVALL = "1,10|0.5,8|0.25,3|0.5,3"; //$NON-NLS-1$
 	private static final String BASE_ZOOM_LEVEL = "20"; //$NON-NLS-1$
@@ -227,6 +226,14 @@ public class ToolboxConfiguration {
 	}
 
 	/**
+	 * @return the PDF export DPI
+	 */
+	public static int getExportDPI() {
+		return Integer.parseInt(System.getProperty(ToolboxProperties.EXPORT_DPI,
+				EXPORT_DPI_DEFAULT));
+	}
+
+	/**
 	 * @return the default track width
 	 */
 	public static String getTrackWidth() {
@@ -253,10 +260,8 @@ public class ToolboxConfiguration {
 	 * @return whether collisions should be enabled by default
 	 */
 	public static boolean getDefaultCollisionsEnabled() {
-		return System
-				.getProperty(ToolboxProperties.DEFAULT_COLLISIONS_ENABLED,
-						DEFAULT_COLLISIONS_ENABLED)
-				.equals("true"); //$NON-NLS-1$
+		return System.getProperty(ToolboxProperties.DEFAULT_COLLISIONS_ENABLED,
+				DEFAULT_COLLISIONS_ENABLED).equals("true"); //$NON-NLS-1$
 	}
 
 	/**
