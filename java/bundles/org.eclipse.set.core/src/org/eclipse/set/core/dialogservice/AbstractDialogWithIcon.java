@@ -81,7 +81,8 @@ public abstract class AbstractDialogWithIcon extends MessageDialog {
 		if (message != null) {
 			messageLabel = new Label(composite, getMessageLabelStyle());
 			messageLabel.setText(message);
-			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BEGINNING)
+			GridDataFactory.fillDefaults()
+					.align(SWT.FILL, SWT.BEGINNING)
 					.grab(true, false)
 					.hint(convertHorizontalDLUsToPixels(
 							IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH),

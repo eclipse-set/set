@@ -46,7 +46,8 @@ public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 			throws IOException {
 		try (final Stream<Path> listFiles = Files.list(Paths.get(TMP_PATH))) {
 			assertFalse(listFiles.anyMatch(ele -> {
-				return ele.getFileName().toString()
+				return ele.getFileName()
+						.toString()
 						.equals(ToolboxFileRole.SESSION.toDirectoryName());
 			}));
 		}
@@ -72,23 +73,31 @@ public abstract class AbstractToolboxFileTest extends AbstractToolboxTest {
 		if (testee == null) {
 			return;
 		}
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xml",
-				new PlanProResourceFactoryImpl());
-		testee.getEditingDomain().getResourceSet().getPackageRegistry()
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
+				.put("xml", new PlanProResourceFactoryImpl());
+		testee.getEditingDomain()
+				.getResourceSet()
+				.getPackageRegistry()
 				.put(PlanProPackage.eNS_URI, PlanProPackage.eINSTANCE);
-		testee.getEditingDomain().getResourceSet().getPackageRegistry().put(
-				Signalbegriffe_Ril_301Package.eNS_URI,
-				Signalbegriffe_Ril_301Package.eINSTANCE);
-		testee.getEditingDomain().getResourceSet().getPackageRegistry().put(
-				LayoutinformationenPackage.eNS_URI,
-				LayoutinformationenPackage.eINSTANCE);
+		testee.getEditingDomain()
+				.getResourceSet()
+				.getPackageRegistry()
+				.put(Signalbegriffe_Ril_301Package.eNS_URI,
+						Signalbegriffe_Ril_301Package.eINSTANCE);
+		testee.getEditingDomain()
+				.getResourceSet()
+				.getPackageRegistry()
+				.put(LayoutinformationenPackage.eNS_URI,
+						LayoutinformationenPackage.eINSTANCE);
 	}
 
 	protected void thenExpectContentsExists(final boolean exists) {
 		assertNotNull(testee.getPlanProResource());
 		assertTrue(
 				testee.getPlanProResource().getContents().isEmpty() != exists);
-		assertTrue(testee.getEditingDomain().getResourceSet().getResources()
+		assertTrue(testee.getEditingDomain()
+				.getResourceSet()
+				.getResources()
 				.isEmpty() != exists);
 	}
 

@@ -11,16 +11,17 @@ package org.eclipse.set.model.zipmanifest;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Content</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>Content</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.zipmanifest.Content#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.set.model.zipmanifest.Content#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.Content#getName
+ * <em>Name</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.Content#getType
+ * <em>Type</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.zipmanifest.ZipmanifestPackage#getContent()
@@ -29,13 +30,14 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Content extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Name</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear, there really
+	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.set.model.zipmanifest.ZipmanifestPackage#getContent_Name()
@@ -45,23 +47,26 @@ public interface Content extends EObject {
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.zipmanifest.Content#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.zipmanifest.Content#getName <em>Name</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
 	 */
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Type</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear, there really
+	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Type</em>' attribute.
 	 * @see #setType(String)
 	 * @see org.eclipse.set.model.zipmanifest.ZipmanifestPackage#getContent_Type()
@@ -71,10 +76,12 @@ public interface Content extends EObject {
 	String getType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.zipmanifest.Content#getType <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.zipmanifest.Content#getType <em>Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Type</em>' attribute.
 	 * @see #getType()
 	 * @generated
 	 */

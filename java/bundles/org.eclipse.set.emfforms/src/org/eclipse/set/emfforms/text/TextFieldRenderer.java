@@ -69,7 +69,9 @@ public class TextFieldRenderer extends TextControlSWTRenderer {
 	protected Control createSWTControl(final Composite parent) {
 		final Composite main = (Composite) super.createSWTControl(parent);
 		final GridDataFactory gdf = GridDataFactory.fillDefaults()
-				.align(SWT.FILL, SWT.CENTER).grab(true, true).span(1, 1);
+				.align(SWT.FILL, SWT.CENTER)
+				.grab(true, true)
+				.span(1, 1);
 		gdf.hint(50, 100);
 		gdf.applyTo(main.getChildren()[0]);
 		return main;

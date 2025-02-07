@@ -29,25 +29,28 @@ import org.eclipse.set.model.tablemodel.TableRow;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Table Row</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Table
+ * Row</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getCells <em>Cells</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getRowIndex <em>Row Index</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getFootnotes <em>Footnotes</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getCells
+ * <em>Cells</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getRowIndex
+ * <em>Row Index</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl#getFootnotes
+ * <em>Footnotes</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TableRowImpl extends MinimalEObjectImpl.Container implements TableRow {
+public class TableRowImpl extends MinimalEObjectImpl.Container
+		implements TableRow {
 	/**
-	 * The cached value of the '{@link #getCells() <em>Cells</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getCells() <em>Cells</em>}' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getCells()
 	 * @generated
 	 * @ordered
@@ -55,9 +58,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	protected EList<TableCell> cells;
 
 	/**
-	 * The default value of the '{@link #getRowIndex() <em>Row Index</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getRowIndex() <em>Row Index</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRowIndex()
 	 * @generated
 	 * @ordered
@@ -65,9 +68,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	protected static final int ROW_INDEX_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getRowIndex() <em>Row Index</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getRowIndex() <em>Row Index</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRowIndex()
 	 * @generated
 	 * @ordered
@@ -75,9 +78,9 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	protected int rowIndex = ROW_INDEX_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFootnotes() <em>Footnotes</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFootnotes()
 	 * @generated
 	 * @ordered
@@ -85,8 +88,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	protected FootnoteContainer footnotes;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TableRowImpl() {
@@ -94,8 +97,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -104,21 +107,22 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<TableCell> getCells() {
 		if (cells == null) {
-			cells = new EObjectContainmentEList<TableCell>(TableCell.class, this, TablemodelPackage.TABLE_ROW__CELLS);
+			cells = new EObjectContainmentEList<TableCell>(TableCell.class,
+					this, TablemodelPackage.TABLE_ROW__CELLS);
 		}
 		return cells;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -127,23 +131,29 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetFootnotes(FootnoteContainer newFootnotes, NotificationChain msgs) {
+	public NotificationChain basicSetFootnotes(FootnoteContainer newFootnotes,
+			NotificationChain msgs) {
 		FootnoteContainer oldFootnotes = footnotes;
 		footnotes = newFootnotes;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_ROW__FOOTNOTES, oldFootnotes, newFootnotes);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, TablemodelPackage.TABLE_ROW__FOOTNOTES,
+					oldFootnotes, newFootnotes);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -151,19 +161,27 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 		if (newFootnotes != footnotes) {
 			NotificationChain msgs = null;
 			if (footnotes != null)
-				msgs = ((InternalEObject)footnotes).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TablemodelPackage.TABLE_ROW__FOOTNOTES, null, msgs);
+				msgs = ((InternalEObject) footnotes).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- TablemodelPackage.TABLE_ROW__FOOTNOTES,
+						null, msgs);
 			if (newFootnotes != null)
-				msgs = ((InternalEObject)newFootnotes).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TablemodelPackage.TABLE_ROW__FOOTNOTES, null, msgs);
+				msgs = ((InternalEObject) newFootnotes).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- TablemodelPackage.TABLE_ROW__FOOTNOTES,
+						null, msgs);
 			msgs = basicSetFootnotes(newFootnotes, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_ROW__FOOTNOTES, newFootnotes, newFootnotes));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.TABLE_ROW__FOOTNOTES, newFootnotes,
+					newFootnotes));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -172,8 +190,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -181,19 +199,23 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 		int oldRowIndex = rowIndex;
 		rowIndex = newRowIndex;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_ROW__ROW_INDEX, oldRowIndex, rowIndex));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.TABLE_ROW__ROW_INDEX, oldRowIndex,
+					rowIndex));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.TABLE_ROW__CELLS:
-				return ((InternalEList<?>)getCells()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getCells()).basicRemove(otherEnd,
+						msgs);
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
 				return basicSetFootnotes(null, msgs);
 		}
@@ -201,8 +223,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -219,8 +241,8 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -229,21 +251,21 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 		switch (featureID) {
 			case TablemodelPackage.TABLE_ROW__CELLS:
 				getCells().clear();
-				getCells().addAll((Collection<? extends TableCell>)newValue);
+				getCells().addAll((Collection<? extends TableCell>) newValue);
 				return;
 			case TablemodelPackage.TABLE_ROW__ROW_INDEX:
-				setRowIndex((Integer)newValue);
+				setRowIndex((Integer) newValue);
 				return;
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
-				setFootnotes((FootnoteContainer)newValue);
+				setFootnotes((FootnoteContainer) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -256,15 +278,15 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 				setRowIndex(ROW_INDEX_EDEFAULT);
 				return;
 			case TablemodelPackage.TABLE_ROW__FOOTNOTES:
-				setFootnotes((FootnoteContainer)null);
+				setFootnotes((FootnoteContainer) null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -281,13 +303,14 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (rowIndex: ");
@@ -296,4 +319,4 @@ public class TableRowImpl extends MinimalEObjectImpl.Container implements TableR
 		return result.toString();
 	}
 
-} //TableRowImpl
+} // TableRowImpl

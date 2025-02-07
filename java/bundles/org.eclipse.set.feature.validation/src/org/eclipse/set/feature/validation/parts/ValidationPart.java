@@ -151,17 +151,22 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				final Composite composite = new Composite(innerParent,
 						SWT.NONE);
 
-				GridLayoutFactory.swtDefaults().numColumns(3)
+				GridLayoutFactory.swtDefaults()
+						.numColumns(3)
 						.applyTo(composite);
-				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
-						.grab(true, false).applyTo(composite);
+				GridDataFactory.swtDefaults()
+						.align(SWT.FILL, SWT.FILL)
+						.grab(true, false)
+						.applyTo(composite);
 
 				final Control natTable = tableView.create(innerParent,
 						validationReport);
 				// create the open view button
 				final Button showTableButton = new Button(composite, SWT.PUSH);
-				GridDataFactory.swtDefaults().align(SWT.LEFT, SWT.FILL)
-						.grab(false, false).applyTo(showTableButton);
+				GridDataFactory.swtDefaults()
+						.align(SWT.LEFT, SWT.FILL)
+						.grab(false, false)
+						.applyTo(showTableButton);
 
 				showTableButton.setText(messages.ShowValidationTableMsg);
 				showTableButton.addListener(SWT.Selection,
@@ -175,8 +180,10 @@ public class ValidationPart extends AbstractEmfFormsPart {
 								messages.ValidationTable_CollapseAllGroup);
 
 				exportValidationButton = new Button(composite, SWT.PUSH);
-				GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.FILL)
-						.grab(true, false).applyTo(exportValidationButton);
+				GridDataFactory.swtDefaults()
+						.align(SWT.RIGHT, SWT.FILL)
+						.grab(true, false)
+						.applyTo(exportValidationButton);
 				exportValidationButton.setText(messages.ExportValidationMsg);
 				exportValidationButton.addListener(SWT.Selection,
 						event -> tableView.exportCsv());
@@ -191,8 +198,10 @@ public class ValidationPart extends AbstractEmfFormsPart {
 				exportValidationButton.setLayoutData(
 						new GridData(SWT.RIGHT, SWT.TOP, true, true));
 
-				GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL)
-						.grab(true, true).hint(SWT.DEFAULT, 600)
+				GridDataFactory.swtDefaults()
+						.align(SWT.FILL, SWT.FILL)
+						.grab(true, true)
+						.hint(SWT.DEFAULT, 600)
 						.applyTo(natTable);
 				return natTable;
 			};
@@ -202,7 +211,8 @@ public class ValidationPart extends AbstractEmfFormsPart {
 			final ScrolledComposite viewComposite = new ScrolledComposite(
 					parent, SWT.V_SCROLL);
 			viewComposite.setLayout(new GridLayout());
-			GridDataFactory.fillDefaults().grab(true, true)
+			GridDataFactory.fillDefaults()
+					.grab(true, true)
 					.applyTo(viewComposite);
 
 			createEmfFormsPart(viewComposite, validationReport,
@@ -246,8 +256,10 @@ public class ValidationPart extends AbstractEmfFormsPart {
 		problems.clear();
 
 		// Add problems
-		validationReport.getProblems().stream().filter(
-				problem -> problem.getSeverity() != ValidationSeverity.SUCCESS)
+		validationReport.getProblems()
+				.stream()
+				.filter(problem -> problem
+						.getSeverity() != ValidationSeverity.SUCCESS)
 				.forEach(problem -> problems
 						.add(new ProblemMessage(problem.getMessage(),
 								problem.getType(), problem.getLineNumber(), 3,

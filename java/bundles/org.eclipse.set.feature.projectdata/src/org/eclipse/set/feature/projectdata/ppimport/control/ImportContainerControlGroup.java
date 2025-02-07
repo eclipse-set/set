@@ -115,24 +115,24 @@ public class ImportContainerControlGroup extends AbstractImportGroup {
 
 	private String getOptionLabel(final ImportTarget target) {
 		switch (target) {
-		case INITIAL:
-			return serviceProvider.messages.PlanProImportPart_importInitial;
-		case FINAL:
-			return serviceProvider.messages.PlanProImportPart_importFinal;
-		default:
-			throw new IllegalArgumentException();
+			case INITIAL:
+				return serviceProvider.messages.PlanProImportPart_importInitial;
+			case FINAL:
+				return serviceProvider.messages.PlanProImportPart_importFinal;
+			default:
+				throw new IllegalArgumentException();
 
 		}
 	}
 
 	private ImportComboFileField getComboField(final ImportTarget target) {
 		switch (target) {
-		case INITIAL:
-			return importInitial.getComboField();
-		case FINAL:
-			return importFinal.getComboField();
-		default:
-			throw new IllegalArgumentException();
+			case INITIAL:
+				return importInitial.getComboField();
+			case FINAL:
+				return importFinal.getComboField();
+			default:
+				throw new IllegalArgumentException();
 
 		}
 	}
@@ -162,7 +162,8 @@ public class ImportContainerControlGroup extends AbstractImportGroup {
 	@Override
 	public void updateImportButton() {
 		final List<ImportModelControl> enableImport = Stream
-				.of(importInitial, importFinal).filter(i -> i.isEnabled())
+				.of(importInitial, importFinal)
+				.filter(i -> i.isEnabled())
 				.toList();
 		importButton.setEnabled(!enableImport.isEmpty()
 				&& enableImport.stream().allMatch(i -> i.isValid()));

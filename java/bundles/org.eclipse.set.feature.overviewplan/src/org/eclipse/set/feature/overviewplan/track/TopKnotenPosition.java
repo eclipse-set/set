@@ -52,8 +52,10 @@ public class TopKnotenPosition {
 	 */
 	public Map<TOP_Knoten, Double> findAllTOPNodeHorizontalCoor() {
 		final List<TOP_Knoten> allTopNodes = trackService.getTracksCache()
-				.stream().flatMap(track -> track.getTopNodes().stream())
-				.distinct().toList();
+				.stream()
+				.flatMap(track -> track.getTopNodes().stream())
+				.distinct()
+				.toList();
 		if (!topNodeHorizontalCoor.isEmpty()
 				&& topNodeHorizontalCoor.keySet().containsAll(allTopNodes)) {
 			return topNodeHorizontalCoor;
@@ -125,7 +127,8 @@ public class TopKnotenPosition {
 		pos.setX(topNodeHorizontalCoor.get(node).doubleValue());
 		if (isConnectNode(node, track)) {
 			final List<OverviewplanTrack> connect = trackService
-					.getTracksCache().stream()
+					.getTracksCache()
+					.stream()
 					.filter(connectTrack -> connectTrack.getTopNodes()
 							.contains(node) && track != connectTrack)
 					.toList();
@@ -141,8 +144,10 @@ public class TopKnotenPosition {
 	// another track
 	private static boolean isConnectNode(final TOP_Knoten node,
 			final OverviewplanTrack track) {
-		final List<TOPKanteMetaData> edges = track.getTopEdges().stream()
-				.filter(edge -> edge.getTopNodes().contains(node)).toList();
+		final List<TOPKanteMetaData> edges = track.getTopEdges()
+				.stream()
+				.filter(edge -> edge.getTopNodes().contains(node))
+				.toList();
 		if (edges.size() > 1) {
 			return false;
 		}

@@ -201,14 +201,14 @@ public final class ToolboxTableView extends BasePart {
 
 	private ExportType getExportType() {
 		switch (tableType) {
-		case FINAL:
-			return ExportType.INVENTORY_RECORDS;
-		case DIFF:
-			return ExportType.PLANNING_RECORDS;
-		case SINGLE:
-			return ExportType.PLANNING_RECORDS;
-		default:
-			throw new IllegalArgumentException(tableType.toString());
+			case FINAL:
+				return ExportType.INVENTORY_RECORDS;
+			case DIFF:
+				return ExportType.PLANNING_RECORDS;
+			case SINGLE:
+				return ExportType.PLANNING_RECORDS;
+			default:
+				throw new IllegalArgumentException(tableType.toString());
 		}
 	}
 
@@ -281,8 +281,9 @@ public final class ToolboxTableView extends BasePart {
 			}
 		};
 		ToolboxEvents.subscribe(getBroker(), TableDataChangeEvent.class,
-				tableDataChangeHandler, TableDataChangeEvent
-						.getTopic(getTableShortcut()).toLowerCase());
+				tableDataChangeHandler,
+				TableDataChangeEvent.getTopic(getTableShortcut())
+						.toLowerCase());
 
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
@@ -375,18 +376,18 @@ public final class ToolboxTableView extends BasePart {
 			lines.add(text);
 
 			switch (footnote.type) {
-			case NEW_FOOTNOTE:
-				styles.add(new StyleRange(startOffset, text.length(),
-						new Color(255, 0, 0), null));
-				break;
-			case OLD_FOOTNOTE:
-				styles.add(new StyleRange(startOffset, text.length(), null,
-						new Color(255, 255, 0)));
+				case NEW_FOOTNOTE:
+					styles.add(new StyleRange(startOffset, text.length(),
+							new Color(255, 0, 0), null));
+					break;
+				case OLD_FOOTNOTE:
+					styles.add(new StyleRange(startOffset, text.length(), null,
+							new Color(255, 255, 0)));
 
-				break;
-			case COMMON_FOOTNOTE:
-			default:
-				break;
+					break;
+				case COMMON_FOOTNOTE:
+				default:
+					break;
 			}
 			startOffset += text.length() + 1;
 
@@ -410,11 +411,14 @@ public final class ToolboxTableView extends BasePart {
 		// initialize table type
 		tableType = getModelSession().getTableType();
 		if (tableType == null) {
-			tableType = getModelSession().getNature().getDefaultContainer()
+			tableType = getModelSession().getNature()
+					.getDefaultContainer()
 					.getTableTypeForTables();
 		}
-		controlAreaIds = getModelSession().getSelectedControlAreas().stream()
-				.map(Pair::getSecond).collect(Collectors.toSet());
+		controlAreaIds = getModelSession().getSelectedControlAreas()
+				.stream()
+				.map(Pair::getSecond)
+				.collect(Collectors.toSet());
 
 		tableService.updateTable(this, Collections.emptyList(),
 				() -> updateModel(getToolboxPart(), getModelSession()),
@@ -427,7 +431,8 @@ public final class ToolboxTableView extends BasePart {
 		}
 
 		final ColumnDescriptor rootColumnDescriptor = table
-				.getColumndescriptors().get(0);
+				.getColumndescriptors()
+				.get(0);
 
 		if (logger.isDebugEnabled()) {
 			// PLANPRO-1916: create time-expensive debug text only in this case
@@ -497,7 +502,9 @@ public final class ToolboxTableView extends BasePart {
 		final GridLayer gridLayer = new GridLayer(bodyLayerStack, headerLayer,
 				rowHeaderLayer, cornerLayer);
 		natTable = new NatTable(parent, gridLayer, false);
-		GridDataFactory.fillDefaults().grab(true, true).minSize(-1, 500)
+		GridDataFactory.fillDefaults()
+				.grab(true, true)
+				.minSize(-1, 500)
 				.applyTo(natTable);
 
 		addMenuItems();
@@ -518,7 +525,9 @@ public final class ToolboxTableView extends BasePart {
 		tableFooting.setBackground(GRAY_BACKGROUND);
 		updateFootnotes();
 		tableFooting.setEditable(false);
-		GridDataFactory.fillDefaults().grab(true, false).minSize(-1, 500)
+		GridDataFactory.fillDefaults()
+				.grab(true, false)
+				.minSize(-1, 500)
 				.applyTo(tableFooting);
 
 		// export action
@@ -537,11 +546,13 @@ public final class ToolboxTableView extends BasePart {
 		// update buttons
 		final CommandStackListener commandStackListener = event -> sync
 				.syncExec(this::updateButtons);
-		getModelSession().getEditingDomain().getCommandStack()
+		getModelSession().getEditingDomain()
+				.getCommandStack()
 				.addCommandStackListener(commandStackListener);
 
 		natTable.addDisposeListener(
-				event -> getModelSession().getEditingDomain().getCommandStack()
+				event -> getModelSession().getEditingDomain()
+						.getCommandStack()
 						.removeCommandStackListener(commandStackListener));
 
 		natTable.addPaintListener(e -> {
@@ -557,7 +568,8 @@ public final class ToolboxTableView extends BasePart {
 
 	private boolean existsColumnGroup(final ColumnDescriptor columnDescriptor) {
 		if (ColumnDescriptorExtensions.isRoot(columnDescriptor)) {
-			return columnDescriptor.getChildren().stream()
+			return columnDescriptor.getChildren()
+					.stream()
 					.anyMatch(this::existsColumnGroup);
 		}
 
@@ -745,11 +757,13 @@ public final class ToolboxTableView extends BasePart {
 			@Override
 			public String getObjectGuid() {
 				final Collection<ILayerCell> selectedCells = bodyLayerStack
-						.getSelectionLayer().getSelectedCells();
+						.getSelectionLayer()
+						.getSelectedCells();
 				if (selectedCells.isEmpty()) {
 					return null;
 				}
-				final int rowPosition = selectedCells.iterator().next()
+				final int rowPosition = selectedCells.iterator()
+						.next()
 						.getRowPosition();
 				final List<TableRow> tableRows = TableExtensions
 						.getTableRows(table);
@@ -764,11 +778,13 @@ public final class ToolboxTableView extends BasePart {
 			@Override
 			public TableRow getRow() {
 				final Collection<ILayerCell> selectedCells = bodyLayerStack
-						.getSelectionLayer().getSelectedCells();
+						.getSelectionLayer()
+						.getSelectedCells();
 				if (selectedCells.isEmpty()) {
 					return null;
 				}
-				final int rowPosition = selectedCells.iterator().next()
+				final int rowPosition = selectedCells.iterator()
+						.next()
 						.getRowPosition();
 				final List<TableRow> tableRows = TableExtensions
 						.getTableRows(table);

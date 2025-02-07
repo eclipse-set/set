@@ -40,12 +40,12 @@ public class ReportSavedSessionDialog extends MessageDialog {
 		final Outcome outcome = session
 				.getValidationsOutcome(ValidationResult::getOutcome);
 		switch (outcome) {
-		case VALID, NOT_SUPPORTED:
-			return MessageDialog.INFORMATION;
-		case INVALID:
-			return MessageDialog.WARNING;
-		default:
-			throw new IllegalArgumentException(outcome.toString());
+			case VALID, NOT_SUPPORTED:
+				return MessageDialog.INFORMATION;
+			case INVALID:
+				return MessageDialog.WARNING;
+			default:
+				throw new IllegalArgumentException(outcome.toString());
 		}
 	}
 
@@ -80,30 +80,30 @@ public class ReportSavedSessionDialog extends MessageDialog {
 				.getValidationsOutcome(ValidationResult::getOutcome);
 		final Path location = session.getToolboxFile().getPath();
 		switch (outcome) {
-		case VALID, NOT_SUPPORTED:
-			return String.format(
-					messages.DialogService_ReportSavedSessionValidPattern,
-					location.toString());
-		case INVALID:
-			return String.format(
-					messages.DialogService_ReportSavedSessionInvalidPattern,
-					location.toString());
-		default:
-			throw new IllegalArgumentException(outcome.toString());
+			case VALID, NOT_SUPPORTED:
+				return String.format(
+						messages.DialogService_ReportSavedSessionValidPattern,
+						location.toString());
+			case INVALID:
+				return String.format(
+						messages.DialogService_ReportSavedSessionInvalidPattern,
+						location.toString());
+			default:
+				throw new IllegalArgumentException(outcome.toString());
 		}
 	}
 
 	private static String getSaveFixMessage(final IModelSession session,
 			final Messages messages) {
 		switch (session.getSaveFixResult()) {
-		case GLOBAL:
-			return "\n\n" + messages.DialogService_DefaultsFilledGlobal; //$NON-NLS-1$
-		case OBJEKTMANAGEMENT:
-			return "\n\n" //$NON-NLS-1$
-					+ messages.DialogService_DefaultsFilledObjektmanagement;
-		case NONE:
-		default:
-			return ""; //$NON-NLS-1$
+			case GLOBAL:
+				return "\n\n" + messages.DialogService_DefaultsFilledGlobal; //$NON-NLS-1$
+			case OBJEKTMANAGEMENT:
+				return "\n\n" //$NON-NLS-1$
+						+ messages.DialogService_DefaultsFilledObjektmanagement;
+			case NONE:
+			default:
+				return ""; //$NON-NLS-1$
 		}
 	}
 

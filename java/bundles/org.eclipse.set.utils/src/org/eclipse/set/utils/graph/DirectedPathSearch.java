@@ -239,8 +239,12 @@ public class DirectedPathSearch {
 
 		final BigDecimal firstEdgeLength = firstEdge.edge().getWeight();
 		return new TopPath(
-				path.getEdgeList().stream().map(e -> e.edge()).distinct()
-						.map(Edge::edge).toList(),
+				path.getEdgeList()
+						.stream()
+						.map(e -> e.edge())
+						.distinct()
+						.map(Edge::edge)
+						.toList(),
 				getDirectedPathWeight(path), firstEdgeLength);
 	}
 
@@ -251,7 +255,8 @@ public class DirectedPathSearch {
 
 	private static BigDecimal getDirectedPathWeight(
 			final List<DirectedTOPEdge<Edge>> path) {
-		return path.stream().map(edge -> edge.edge().getWeight())
+		return path.stream()
+				.map(edge -> edge.edge().getWeight())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
@@ -275,7 +280,8 @@ public class DirectedPathSearch {
 		final Node source = directedGraph.getEdgeSource(edges.getFirst());
 		final Node target = directedGraph.getEdgeTarget(edges.getLast());
 		final double weight = edges.stream()
-				.mapToDouble(directedGraph::getEdgeWeight).sum();
+				.mapToDouble(directedGraph::getEdgeWeight)
+				.sum();
 		return new GraphWalk<>(directedGraph, source, target, edges, weight);
 	}
 }

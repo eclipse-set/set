@@ -91,8 +91,9 @@ public class BasisAttributeEnumeratorRenderer
 		final EClassifier type = basisAttributeSetting.getWertFeature()
 				.getEType();
 		try {
-			final Method getMethod = type.getInstanceClass().getMethod("get", //$NON-NLS-1$
-					String.class);
+			final Method getMethod = type.getInstanceClass()
+					.getMethod("get", //$NON-NLS-1$
+							String.class);
 			return Optional
 					.of((Enumerator) getMethod.invoke(null, representation));
 		} catch (final Exception e) {

@@ -35,8 +35,10 @@ public class DatenpunktExtensions extends BasisObjektExtensions {
 		final List<TOP_Kante> dpTopEdges = PunktObjektExtensions
 				.getTopKanten(dp);
 		return Streams.stream(getContainer(dp).getETCSKante())
-				.filter(etcsEdge -> etcsEdge.getIDTOPKante().stream()
-						.filter(Objects::nonNull).map(edge -> edge.getValue())
+				.filter(etcsEdge -> etcsEdge.getIDTOPKante()
+						.stream()
+						.filter(Objects::nonNull)
+						.map(edge -> edge.getValue())
 						.filter(Objects::nonNull)
 						.anyMatch(dpTopEdges::contains))
 				.collect(Collectors.toSet());

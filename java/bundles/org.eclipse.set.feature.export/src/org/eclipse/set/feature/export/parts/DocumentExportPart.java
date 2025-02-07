@@ -164,7 +164,8 @@ public abstract class DocumentExportPart extends BasePart {
 			viewer.setCheckedElements(input.getChecked());
 			validateExportButton();
 		});
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP)
+		GridDataFactory.fillDefaults()
+				.align(SWT.FILL, SWT.TOP)
 				.applyTo(buttonBar);
 		viewer.addCheckStateListener(event -> {
 			final CheckboxModelElement element = (CheckboxModelElement) event
@@ -190,8 +191,10 @@ public abstract class DocumentExportPart extends BasePart {
 			validateExportButton();
 		});
 
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL)
-				.grab(true, true).applyTo(viewer.getTable());
+		GridDataFactory.fillDefaults()
+				.align(SWT.FILL, SWT.FILL)
+				.grab(true, true)
+				.applyTo(viewer.getTable());
 	}
 
 	private void createExportSection(final Composite parent) {

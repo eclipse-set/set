@@ -157,20 +157,22 @@ public class ControlAreaSelectionControl {
 		comboViewer.getCombo().removeAll();
 		final List<ControlAreaValue> values = new LinkedList<>();
 		switch (type) {
-		case FINAL:
-			values.addAll(getComboValues(getSession(), ContainerType.FINAL));
-			break;
-		case INITIAL:
-			values.addAll(getComboValues(getSession(), ContainerType.INITIAL));
-			break;
-		case SINGLE:
-			setSinglePlanControlAreaCombo();
-			return;
-		case DIFF:
-			values.addAll(getDiffComboValues());
-			break;
-		default:
-			break;
+			case FINAL:
+				values.addAll(
+						getComboValues(getSession(), ContainerType.FINAL));
+				break;
+			case INITIAL:
+				values.addAll(
+						getComboValues(getSession(), ContainerType.INITIAL));
+				break;
+			case SINGLE:
+				setSinglePlanControlAreaCombo();
+				return;
+			case DIFF:
+				values.addAll(getDiffComboValues());
+				break;
+			default:
+				break;
 		}
 		if (values.isEmpty()) {
 			setEmtpyControlAreaCombo();
@@ -195,7 +197,8 @@ public class ControlAreaSelectionControl {
 								.equals(oldAreaValue.areaName());
 					}
 					return false;
-				}).findFirst();
+				})
+				.findFirst();
 		if (!oldSelectionValue
 				.equals(messages.ControlAreaCombo_All_Objects_Value)
 				&& oldValue.isPresent()) {

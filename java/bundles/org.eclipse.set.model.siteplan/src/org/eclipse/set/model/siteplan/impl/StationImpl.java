@@ -29,24 +29,25 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 import org.eclipse.set.model.siteplan.Station;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Station</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Station</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.StationImpl#getPlatforms <em>Platforms</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.StationImpl#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.StationImpl#getPlatforms
+ * <em>Platforms</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.StationImpl#getLabel
+ * <em>Label</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class StationImpl extends SiteplanObjectImpl implements Station {
 	/**
-	 * The cached value of the '{@link #getPlatforms() <em>Platforms</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPlatforms() <em>Platforms</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPlatforms()
 	 * @generated
 	 * @ordered
@@ -54,9 +55,9 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 	protected EList<Platform> platforms;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -64,8 +65,8 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 	protected Label label;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected StationImpl() {
@@ -73,8 +74,8 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -83,21 +84,22 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Platform> getPlatforms() {
 		if (platforms == null) {
-			platforms = new EObjectContainmentEList<Platform>(Platform.class, this, SiteplanPackage.STATION__PLATFORMS);
+			platforms = new EObjectContainmentEList<Platform>(Platform.class,
+					this, SiteplanPackage.STATION__PLATFORMS);
 		}
 		return platforms;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -106,23 +108,29 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
+	public NotificationChain basicSetLabel(Label newLabel,
+			NotificationChain msgs) {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.STATION__LABEL, oldLabel, newLabel);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, SiteplanPackage.STATION__LABEL, oldLabel,
+					newLabel);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,26 +138,33 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.STATION__LABEL, null, msgs);
+				msgs = ((InternalEObject) label).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - SiteplanPackage.STATION__LABEL,
+						null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.STATION__LABEL, null, msgs);
+				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - SiteplanPackage.STATION__LABEL,
+						null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.STATION__LABEL, newLabel, newLabel));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.STATION__LABEL, newLabel, newLabel));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.STATION__PLATFORMS:
-				return ((InternalEList<?>)getPlatforms()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getPlatforms()).basicRemove(otherEnd,
+						msgs);
 			case SiteplanPackage.STATION__LABEL:
 				return basicSetLabel(null, msgs);
 		}
@@ -157,8 +172,8 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -173,8 +188,8 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -183,18 +198,19 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 		switch (featureID) {
 			case SiteplanPackage.STATION__PLATFORMS:
 				getPlatforms().clear();
-				getPlatforms().addAll((Collection<? extends Platform>)newValue);
+				getPlatforms()
+						.addAll((Collection<? extends Platform>) newValue);
 				return;
 			case SiteplanPackage.STATION__LABEL:
-				setLabel((Label)newValue);
+				setLabel((Label) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -204,15 +220,15 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 				getPlatforms().clear();
 				return;
 			case SiteplanPackage.STATION__LABEL:
-				setLabel((Label)null);
+				setLabel((Label) null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -226,4 +242,4 @@ public class StationImpl extends SiteplanObjectImpl implements Station {
 		return super.eIsSet(featureID);
 	}
 
-} //StationImpl
+} // StationImpl

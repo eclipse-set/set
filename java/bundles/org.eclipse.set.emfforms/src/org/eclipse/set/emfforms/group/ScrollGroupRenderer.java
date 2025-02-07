@@ -41,7 +41,8 @@ public class ScrollGroupRenderer extends ContainerSWTRenderer<VGroup> {
 		final ScrolledComposite scrolledComposite = new ScrolledComposite(
 				parent, SWT.V_SCROLL);
 		scrolledComposite.setExpandHorizontal(true);
-		GridDataFactory.fillDefaults().grab(true, true)
+		GridDataFactory.fillDefaults()
+				.grab(true, true)
 				.applyTo(scrolledComposite);
 		final Composite content = createContent.apply(scrolledComposite);
 		GridLayoutFactory.fillDefaults().applyTo(content);

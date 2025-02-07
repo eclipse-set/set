@@ -49,15 +49,15 @@ public class DomainModelTypeRendererService<S, T extends AbstractSWTRenderer<VCo
 	 * Describes for which multiplicity the renderer is applicable for.
 	 */
 	public static enum Multiplicity {
-			/**
-			 * The renderer is applicable for lists of elements (0..*)
-			 */
-			MANY,
+		/**
+		 * The renderer is applicable for lists of elements (0..*)
+		 */
+		MANY,
 
-			/**
-			 * The renderer is applicable for individual elements (0..1)
-			 */
-			ZERO_OR_ONE
+		/**
+		 * The renderer is applicable for individual elements (0..1)
+		 */
+		ZERO_OR_ONE
 	}
 
 	private static final Logger logger = LoggerFactory
@@ -127,7 +127,8 @@ public class DomainModelTypeRendererService<S, T extends AbstractSWTRenderer<VCo
 		}
 		final EClassifier type = domainModelEReference.getEType();
 		if (!additionalTypeTest.map(t -> Boolean.valueOf(t.test(type)))
-				.orElse(Boolean.TRUE).booleanValue()) {
+				.orElse(Boolean.TRUE)
+				.booleanValue()) {
 			return null;
 		}
 		final String instanceTypeName = type.getInstanceTypeName();
@@ -233,7 +234,8 @@ public class DomainModelTypeRendererService<S, T extends AbstractSWTRenderer<VCo
 								.isAssignableFrom(type.get().getInstanceClass())
 						&& additionalTypeTest
 								.map(t -> Boolean.valueOf(t.test(type.get())))
-								.orElse(Boolean.TRUE).booleanValue();
+								.orElse(Boolean.TRUE)
+								.booleanValue();
 			} catch (final IllegalArgumentException e) {
 				return false;
 			}

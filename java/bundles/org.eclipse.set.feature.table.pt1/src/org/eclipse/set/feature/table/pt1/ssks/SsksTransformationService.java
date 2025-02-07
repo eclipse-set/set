@@ -92,8 +92,9 @@ public final class SsksTransformationService extends
 		if (messages.ToolboxTableNameSsksShort.toLowerCase().equals(property)
 				|| event.getTopic().equals(Events.CLOSE_SESSION)) {
 			Thread.getAllStackTraces().keySet().forEach(thread -> {
-				if (thread.getName().startsWith(
-						messages.ToolboxTableNameSsksShort.toLowerCase())) {
+				if (thread.getName()
+						.startsWith(messages.ToolboxTableNameSsksShort
+								.toLowerCase())) {
 					thread.interrupt();
 				}
 			});
@@ -106,6 +107,7 @@ public final class SsksTransformationService extends
 		return TableRowGroupComparator.builder()
 				.sort("B", EMPTY_LAST, ASC)
 				.sort("D", EMPTY_LAST, ASC)
-				.sort("A", LEXICOGRAPHICAL, ASC).build();
+				.sort("A", LEXICOGRAPHICAL, ASC)
+				.build();
 	}
 }

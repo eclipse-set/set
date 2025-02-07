@@ -73,8 +73,10 @@ public class AusgabeFachdatenExtensions {
 					"Single state plan not exist subwork"); //$NON-NLS-1$
 		}
 		if (planungGruppe.isEmpty()) {
-			return Optional.of(schnittstelle.getLSTPlanung().getFachdaten()
-					.getAusgabeFachdaten().getFirst());
+			return Optional.of(schnittstelle.getLSTPlanung()
+					.getFachdaten()
+					.getAusgabeFachdaten()
+					.getFirst());
 		}
 		final Optional<Planung_Einzel> lstPlanungEinzel = Optional
 				.ofNullable(planungGruppe.get().getLSTPlanungEinzel());
@@ -102,11 +104,14 @@ public class AusgabeFachdatenExtensions {
 			throw new UnsupportedOperationException(
 					"Single state plan not exist subwork"); //$NON-NLS-1$
 		}
-		return schnittstelle.getLSTPlanung().getFachdaten()
-				.getAusgabeFachdaten().stream()
+		return schnittstelle.getLSTPlanung()
+				.getFachdaten()
+				.getAusgabeFachdaten()
+				.stream()
 				.filter(subwork -> subwork.getUntergewerkArt() != null
 						&& subwork.getUntergewerkArt().getWert() != null)
-				.filter(subwork -> subwork.getUntergewerkArt().getWert()
+				.filter(subwork -> subwork.getUntergewerkArt()
+						.getWert()
 						.equals(subworkType))
 				.findFirst();
 	}

@@ -20,35 +20,36 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.set.model.tablemodel.format.*;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
+ * end-user-doc -->
+ * 
  * @generated
  */
-public class TableformatFactoryImpl extends EFactoryImpl implements TableformatFactory {
+public class TableformatFactoryImpl extends EFactoryImpl
+		implements TableformatFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static TableformatFactory init() {
 		try {
-			TableformatFactory theTableformatFactory = (TableformatFactory)EPackage.Registry.INSTANCE.getEFactory(TableformatPackage.eNS_URI);
+			TableformatFactory theTableformatFactory = (TableformatFactory) EPackage.Registry.INSTANCE
+					.getEFactory(TableformatPackage.eNS_URI);
 			if (theTableformatFactory != null) {
 				return theTableformatFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new TableformatFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TableformatFactoryImpl() {
@@ -56,22 +57,24 @@ public class TableformatFactoryImpl extends EFactoryImpl implements TableformatF
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case TableformatPackage.CELL_FORMAT: return createCellFormat();
+			case TableformatPackage.CELL_FORMAT:
+				return createCellFormat();
 			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '"
+						+ eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -80,13 +83,14 @@ public class TableformatFactoryImpl extends EFactoryImpl implements TableformatF
 			case TableformatPackage.TEXT_ALIGNMENT:
 				return createTextAlignmentFromString(eDataType, initialValue);
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '"
+						+ eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -95,13 +99,14 @@ public class TableformatFactoryImpl extends EFactoryImpl implements TableformatF
 			case TableformatPackage.TEXT_ALIGNMENT:
 				return convertTextAlignmentToString(eDataType, instanceValue);
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '"
+						+ eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,38 +116,43 @@ public class TableformatFactoryImpl extends EFactoryImpl implements TableformatF
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public TextAlignment createTextAlignmentFromString(EDataType eDataType, String initialValue) {
+	public TextAlignment createTextAlignmentFromString(EDataType eDataType,
+			String initialValue) {
 		TextAlignment result = TextAlignment.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName()
+					+ "'");
 		return result;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public String convertTextAlignmentToString(EDataType eDataType, Object instanceValue) {
+	public String convertTextAlignmentToString(EDataType eDataType,
+			Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public TableformatPackage getTableformatPackage() {
-		return (TableformatPackage)getEPackage();
+		return (TableformatPackage) getEPackage();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */
@@ -151,4 +161,4 @@ public class TableformatFactoryImpl extends EFactoryImpl implements TableformatF
 		return TableformatPackage.eINSTANCE;
 	}
 
-} //TableformatFactoryImpl
+} // TableformatFactoryImpl

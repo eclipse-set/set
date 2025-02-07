@@ -54,12 +54,14 @@ public class MultiCRSCheck extends AbstractPlazContainerCheck
 				.stream(container.getGEOPunkt().spliterator(), false)
 				.map(gp -> {
 					try {
-						return gp.getGEOPunktAllg().getGEOKoordinatensystem()
+						return gp.getGEOPunktAllg()
+								.getGEOKoordinatensystem()
 								.getWert();
 					} catch (final NullPointerException e) {
 						return null;
 					}
-				}).collect(Collectors.toSet());
+				})
+				.collect(Collectors.toSet());
 		if (crsList.size() > 1) {
 			final PlazError error = PlazFactory.eINSTANCE.createPlazError();
 			error.setMessage(getGeneralErrMsg());

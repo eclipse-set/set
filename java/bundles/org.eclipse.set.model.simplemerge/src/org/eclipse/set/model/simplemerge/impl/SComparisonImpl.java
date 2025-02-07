@@ -27,23 +27,24 @@ import org.eclipse.set.model.simplemerge.SMatch;
 import org.eclipse.set.model.simplemerge.SimplemergePackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>SComparison</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>SComparison</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.simplemerge.impl.SComparisonImpl#getMatches <em>Matches</em>}</li>
+ * <li>{@link org.eclipse.set.model.simplemerge.impl.SComparisonImpl#getMatches
+ * <em>Matches</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class SComparisonImpl extends MinimalEObjectImpl.Container implements SComparison {
+public class SComparisonImpl extends MinimalEObjectImpl.Container
+		implements SComparison {
 	/**
-	 * The cached value of the '{@link #getMatches() <em>Matches</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMatches() <em>Matches</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMatches()
 	 * @generated
 	 * @ordered
@@ -51,8 +52,8 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container implements SCo
 	protected EList<SMatch> matches;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SComparisonImpl() {
@@ -60,8 +61,8 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container implements SCo
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -70,35 +71,38 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container implements SCo
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<SMatch> getMatches() {
 		if (matches == null) {
-			matches = new EObjectContainmentEList<SMatch>(SMatch.class, this, SimplemergePackage.SCOMPARISON__MATCHES);
+			matches = new EObjectContainmentEList<SMatch>(SMatch.class, this,
+					SimplemergePackage.SCOMPARISON__MATCHES);
 		}
 		return matches;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SimplemergePackage.SCOMPARISON__MATCHES:
-				return ((InternalEList<?>)getMatches()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getMatches()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,8 +115,8 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container implements SCo
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -121,15 +125,15 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container implements SCo
 		switch (featureID) {
 			case SimplemergePackage.SCOMPARISON__MATCHES:
 				getMatches().clear();
-				getMatches().addAll((Collection<? extends SMatch>)newValue);
+				getMatches().addAll((Collection<? extends SMatch>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -143,8 +147,8 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container implements SCo
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -156,4 +160,4 @@ public class SComparisonImpl extends MinimalEObjectImpl.Container implements SCo
 		return super.eIsSet(featureID);
 	}
 
-} //SComparisonImpl
+} // SComparisonImpl

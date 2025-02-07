@@ -18,25 +18,29 @@ import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Compare Footnote Container</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Compare
+ * Footnote Container</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl#getOldFootnotes <em>Old Footnotes</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl#getNewFootnotes <em>New Footnotes</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl#getUnchangedFootnotes <em>Unchanged Footnotes</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl#getOldFootnotes
+ * <em>Old Footnotes</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl#getNewFootnotes
+ * <em>New Footnotes</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl#getUnchangedFootnotes
+ * <em>Unchanged Footnotes</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implements CompareFootnoteContainer {
+public class CompareFootnoteContainerImpl extends FootnoteContainerImpl
+		implements CompareFootnoteContainer {
 	/**
-	 * The cached value of the '{@link #getOldFootnotes() <em>Old Footnotes</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getOldFootnotes() <em>Old
+	 * Footnotes</em>}' reference list. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getOldFootnotes()
 	 * @generated
 	 * @ordered
@@ -44,9 +48,10 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	protected EList<Bearbeitungsvermerk> oldFootnotes;
 
 	/**
-	 * The cached value of the '{@link #getNewFootnotes() <em>New Footnotes</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getNewFootnotes() <em>New
+	 * Footnotes</em>}' reference list. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getNewFootnotes()
 	 * @generated
 	 * @ordered
@@ -54,9 +59,10 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	protected EList<Bearbeitungsvermerk> newFootnotes;
 
 	/**
-	 * The cached value of the '{@link #getUnchangedFootnotes() <em>Unchanged Footnotes</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getUnchangedFootnotes() <em>Unchanged
+	 * Footnotes</em>}' reference list. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getUnchangedFootnotes()
 	 * @generated
 	 * @ordered
@@ -64,8 +70,8 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	protected EList<Bearbeitungsvermerk> unchangedFootnotes;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected CompareFootnoteContainerImpl() {
@@ -73,8 +79,8 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -83,47 +89,53 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Bearbeitungsvermerk> getOldFootnotes() {
 		if (oldFootnotes == null) {
-			oldFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES);
+			oldFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(
+					Bearbeitungsvermerk.class, this,
+					TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES);
 		}
 		return oldFootnotes;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Bearbeitungsvermerk> getNewFootnotes() {
 		if (newFootnotes == null) {
-			newFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES);
+			newFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(
+					Bearbeitungsvermerk.class, this,
+					TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES);
 		}
 		return newFootnotes;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Bearbeitungsvermerk> getUnchangedFootnotes() {
 		if (unchangedFootnotes == null) {
-			unchangedFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(Bearbeitungsvermerk.class, this, TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES);
+			unchangedFootnotes = new EObjectResolvingEList<Bearbeitungsvermerk>(
+					Bearbeitungsvermerk.class, this,
+					TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES);
 		}
 		return unchangedFootnotes;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -140,8 +152,8 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -150,23 +162,26 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 		switch (featureID) {
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES:
 				getOldFootnotes().clear();
-				getOldFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
+				getOldFootnotes().addAll(
+						(Collection<? extends Bearbeitungsvermerk>) newValue);
 				return;
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES:
 				getNewFootnotes().clear();
-				getNewFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
+				getNewFootnotes().addAll(
+						(Collection<? extends Bearbeitungsvermerk>) newValue);
 				return;
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES:
 				getUnchangedFootnotes().clear();
-				getUnchangedFootnotes().addAll((Collection<? extends Bearbeitungsvermerk>)newValue);
+				getUnchangedFootnotes().addAll(
+						(Collection<? extends Bearbeitungsvermerk>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -186,8 +201,8 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -198,9 +213,10 @@ public class CompareFootnoteContainerImpl extends FootnoteContainerImpl implemen
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES:
 				return newFootnotes != null && !newFootnotes.isEmpty();
 			case TablemodelPackage.COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES:
-				return unchangedFootnotes != null && !unchangedFootnotes.isEmpty();
+				return unchangedFootnotes != null
+						&& !unchangedFootnotes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //CompareFootnoteContainerImpl
+} // CompareFootnoteContainerImpl

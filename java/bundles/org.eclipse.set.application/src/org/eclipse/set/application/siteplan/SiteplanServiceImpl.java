@@ -46,24 +46,24 @@ public class SiteplanServiceImpl implements SiteplanService, EventHandler {
 	@Override
 	public void handleEvent(final Event event) {
 		switch (event.getTopic()) {
-		case Events.MODEL_CHANGED: {
-			siteplanElements = new HashSet<>();
-			isNotFirstTimeOpenSiteplan = false;
-			Services.setSiteplanService(this);
-			break;
-		}
-		case Events.SITEPLAN_OPENING: {
-			if (event.getProperty(
-					IEventBroker.DATA) instanceof final Boolean isLoading) {
-				isSiteplanLoading = isLoading.booleanValue();
+			case Events.MODEL_CHANGED: {
+				siteplanElements = new HashSet<>();
+				isNotFirstTimeOpenSiteplan = false;
+				Services.setSiteplanService(this);
+				break;
 			}
-			break;
-		}
-		case Events.SITEPLAN_OPEN_FIRST_TIME:
-			isNotFirstTimeOpenSiteplan = true;
-			break;
-		default:
-			break;
+			case Events.SITEPLAN_OPENING: {
+				if (event.getProperty(
+						IEventBroker.DATA) instanceof final Boolean isLoading) {
+					isSiteplanLoading = isLoading.booleanValue();
+				}
+				break;
+			}
+			case Events.SITEPLAN_OPEN_FIRST_TIME:
+				isNotFirstTimeOpenSiteplan = true;
+				break;
+			default:
+				break;
 		}
 
 	}
@@ -80,9 +80,9 @@ public class SiteplanServiceImpl implements SiteplanService, EventHandler {
 		}
 
 		return switch (object) {
-		case final Schloss schloss -> getSiteplanSspElement(schloss);
-		default -> findSiteplanElementWithGuid(
-				object.getIdentitaet().getWert());
+			case final Schloss schloss -> getSiteplanSspElement(schloss);
+			default -> findSiteplanElementWithGuid(
+					object.getIdentitaet().getWert());
 		};
 	}
 
@@ -92,7 +92,8 @@ public class SiteplanServiceImpl implements SiteplanService, EventHandler {
 			return true;
 		}
 		final Set<String> guids = siteplanElements.stream()
-				.map(ele -> ele.getGuid()).filter(Objects::nonNull)
+				.map(ele -> ele.getGuid())
+				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 		return guids.contains(guid);
 	}
@@ -118,7 +119,8 @@ public class SiteplanServiceImpl implements SiteplanService, EventHandler {
 	private Optional<SiteplanObject> findSiteplanElementWithGuid(
 			final String guid) {
 		return siteplanElements.stream()
-				.filter(ele -> ele.getGuid().equals(guid)).findFirst();
+				.filter(ele -> ele.getGuid().equals(guid))
+				.findFirst();
 	}
 
 	@Override

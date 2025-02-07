@@ -94,19 +94,19 @@ public class OverwriteHandling {
 			return true;
 		}
 		switch (method) {
-		case NO_OVERWRITE:
-			// overwriting is not permitted
-			return false;
-		case OVERWRITE:
-			// test if the file is writable
-			PathExtensions.checkCanWrite(path);
-			// overwriting is permitted
-			return true;
-		case ASK_USER:
-			return askUser(path);
+			case NO_OVERWRITE:
+				// overwriting is not permitted
+				return false;
+			case OVERWRITE:
+				// test if the file is writable
+				PathExtensions.checkCanWrite(path);
+				// overwriting is permitted
+				return true;
+			case ASK_USER:
+				return askUser(path);
 
-		default:
-			throw new IllegalArgumentException(method.toString());
+			default:
+				throw new IllegalArgumentException(method.toString());
 		}
 	}
 

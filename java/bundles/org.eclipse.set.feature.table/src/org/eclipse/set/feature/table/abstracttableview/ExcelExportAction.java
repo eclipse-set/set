@@ -16,18 +16,19 @@ import org.eclipse.nebula.widgets.nattable.ui.action.IKeyAction;
 import org.eclipse.swt.events.KeyEvent;
 
 /**
- * Excel export key action implementation 
+ * Excel export key action implementation
  *
  * @author Schneider
  */
 public class ExcelExportAction implements IKeyAction {
 
-    @Override
-    public void run(NatTable natTable, KeyEvent event) {
-    	natTable.getConfigRegistry().registerConfigAttribute(ExportConfigAttributes.EXPORTER,
-                new ExcelExporter());
-        natTable.doCommand(new ExportCommand(natTable.getConfigRegistry(),
-                natTable.getShell()));
-    }
+	@Override
+	public void run(NatTable natTable, KeyEvent event) {
+		natTable.getConfigRegistry()
+				.registerConfigAttribute(ExportConfigAttributes.EXPORTER,
+						new ExcelExporter());
+		natTable.doCommand(new ExportCommand(natTable.getConfigRegistry(),
+				natTable.getShell()));
+	}
 
 }

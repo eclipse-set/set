@@ -39,16 +39,20 @@ public class CyclePath {
 	 * @return the edges, which same direction with first edges
 	 */
 	public List<TOPKanteMetaData> getSameDirectionEdge() {
-		return edges.stream().filter(edge -> edge.inTopDirection())
-				.map(edge -> edge.edge()).toList();
+		return edges.stream()
+				.filter(edge -> edge.inTopDirection())
+				.map(edge -> edge.edge())
+				.toList();
 	}
 
 	/**
 	 * @return the edges, which oposite direction with first edges
 	 */
 	public List<TOPKanteMetaData> getOpositeDirectionEdge() {
-		return edges.stream().filter(edge -> !edge.inTopDirection())
-				.map(edge -> edge.edge()).toList();
+		return edges.stream()
+				.filter(edge -> !edge.inTopDirection())
+				.map(edge -> edge.edge())
+				.toList();
 	}
 
 	/**
@@ -58,7 +62,8 @@ public class CyclePath {
 	 */
 	@SuppressWarnings("boxing")
 	public static int getPathLength(final List<TOPKanteMetaData> edges) {
-		return edges.stream().map(edge -> edge.getLength()).reduce(0,
-				Integer::sum);
+		return edges.stream()
+				.map(edge -> edge.getLength())
+				.reduce(0, Integer::sum);
 	}
 }

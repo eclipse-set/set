@@ -47,6 +47,7 @@ public class ProjectDataChanged extends DataEvent {
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this)
-				.add("notification", getNotification()).toString();
+				.add("notification", getNotification())
+				.toString();
 	}
 }

@@ -15,58 +15,57 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 /**
- * <!-- begin-user-doc -->
- * The <b>Package</b> for the model.
- * It contains accessors for the meta objects to represent
+ * <!-- begin-user-doc --> The <b>Package</b> for the model. It contains
+ * accessors for the meta objects to represent
  * <ul>
- *   <li>each class,</li>
- *   <li>each feature of each class,</li>
- *   <li>each operation of each class,</li>
- *   <li>each enum,</li>
- *   <li>and each data type</li>
+ * <li>each class,</li>
+ * <li>each feature of each class,</li>
+ * <li>each operation of each class,</li>
+ * <li>each enum,</li>
+ * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.tablemodel.TablemodelFactory
  * @model kind="package"
  * @generated
  */
 public interface TablemodelPackage extends EPackage {
 	/**
-	 * The package name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNAME = "tablemodel";
 
 	/**
-	 * The package namespace URI.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNS_URI = "tag:scheidt-bachmann-st.de,2016-10-11:planpro/tm";
 
 	/**
-	 * The package namespace name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	String eNS_PREFIX = "tm";
 
 	/**
-	 * The singleton instance of the package.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The singleton instance of the package. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	TablemodelPackage eINSTANCE = org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl.init();
+	TablemodelPackage eINSTANCE = org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl
+			.init();
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.TableImpl <em>Table</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.TableImpl <em>Table</em>}'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.TableImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTable()
 	 * @generated
@@ -74,45 +73,47 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Columndescriptors</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Columndescriptors</b></em>' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE__COLUMNDESCRIPTORS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Tablecontent</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Tablecontent</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE__TABLECONTENT = 1;
 
 	/**
-	 * The number of structural features of the '<em>Table</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Table</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_FEATURE_COUNT = 2;
 
 	/**
-	 * The number of operations of the '<em>Table</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Table</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl <em>Column Descriptor</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl
+	 * <em>Column Descriptor</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnDescriptor()
 	 * @generated
@@ -120,72 +121,72 @@ public interface TablemodelPackage extends EPackage {
 	int COLUMN_DESCRIPTOR = 1;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Width</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__WIDTH = 0;
 
 	/**
-	 * The feature id for the '<em><b>Width Mode</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Width Mode</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__WIDTH_MODE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Children</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Children</b></em>' reference list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__CHILDREN = 2;
 
 	/**
-	 * The feature id for the '<em><b>Label</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Label</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__LABEL = 3;
 
 	/**
-	 * The feature id for the '<em><b>Greyed</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Greyed</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__GREYED = 4;
 
 	/**
-	 * The feature id for the '<em><b>Unit</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Unit</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__UNIT = 5;
 
 	/**
-	 * The feature id for the '<em><b>Parent</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Parent</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__PARENT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Height</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Height</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -193,44 +194,45 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Merge Common Values</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES = 8;
 
 	/**
-	 * The feature id for the '<em><b>Column Position</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Column Position</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR__COLUMN_POSITION = 9;
 
 	/**
-	 * The number of structural features of the '<em>Column Descriptor</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Column Descriptor</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR_FEATURE_COUNT = 10;
 
 	/**
-	 * The number of operations of the '<em>Column Descriptor</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Column Descriptor</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COLUMN_DESCRIPTOR_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.TableContentImpl <em>Table Content</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.TableContentImpl <em>Table
+	 * Content</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.TableContentImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTableContent()
 	 * @generated
@@ -238,9 +240,9 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE_CONTENT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Rowgroups</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Rowgroups</b></em>' containment reference
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -248,26 +250,27 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The number of structural features of the '<em>Table Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_CONTENT_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of operations of the '<em>Table Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Table Content</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_CONTENT_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl <em>Row Group</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl <em>Row
+	 * Group</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.RowGroupImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowGroup()
 	 * @generated
@@ -276,17 +279,17 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Rows</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int ROW_GROUP__ROWS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Leading Object</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Leading Object</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -294,35 +297,36 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Leading Object Index</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int ROW_GROUP__LEADING_OBJECT_INDEX = 2;
 
 	/**
-	 * The number of structural features of the '<em>Row Group</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Row Group</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int ROW_GROUP_FEATURE_COUNT = 3;
 
 	/**
-	 * The number of operations of the '<em>Row Group</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Row Group</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int ROW_GROUP_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl <em>Table Row</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl <em>Table
+	 * Row</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.TableRowImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTableRow()
 	 * @generated
@@ -330,18 +334,18 @@ public interface TablemodelPackage extends EPackage {
 	int TABLE_ROW = 4;
 
 	/**
-	 * The feature id for the '<em><b>Cells</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Cells</b></em>' containment reference
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_ROW__CELLS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Row Index</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Row Index</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -349,35 +353,36 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Footnotes</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_ROW__FOOTNOTES = 2;
 
 	/**
-	 * The number of structural features of the '<em>Table Row</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Table Row</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_ROW_FEATURE_COUNT = 3;
 
 	/**
-	 * The number of operations of the '<em>Table Row</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Table Row</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_ROW_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl <em>Table Cell</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl <em>Table
+	 * Cell</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.TableCellImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTableCell()
 	 * @generated
@@ -386,26 +391,26 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Content</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_CELL__CONTENT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Columndescriptor</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Columndescriptor</b></em>' reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_CELL__COLUMNDESCRIPTOR = 1;
 
 	/**
-	 * The feature id for the '<em><b>Cellannotation</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Cellannotation</b></em>' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -413,26 +418,27 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The number of structural features of the '<em>Table Cell</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_CELL_FEATURE_COUNT = 3;
 
 	/**
-	 * The number of operations of the '<em>Table Cell</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Table Cell</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int TABLE_CELL_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.CellContentImpl <em>Cell Content</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CellContentImpl <em>Cell
+	 * Content</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.CellContentImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCellContent()
 	 * @generated
@@ -440,9 +446,9 @@ public interface TablemodelPackage extends EPackage {
 	int CELL_CONTENT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Separator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Separator</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -450,26 +456,28 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The number of structural features of the '<em>Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CELL_CONTENT_FEATURE_COUNT = 1;
 
 	/**
-	 * The number of operations of the '<em>Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Cell Content</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CELL_CONTENT_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.StringCellContentImpl <em>String Cell Content</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.StringCellContentImpl
+	 * <em>String Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.StringCellContentImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getStringCellContent()
 	 * @generated
@@ -477,27 +485,27 @@ public interface TablemodelPackage extends EPackage {
 	int STRING_CELL_CONTENT = 7;
 
 	/**
-	 * The feature id for the '<em><b>Separator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Separator</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int STRING_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Value</b></em>' attribute list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int STRING_CELL_CONTENT__VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>String Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>String Cell Content</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -505,17 +513,19 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The number of operations of the '<em>String Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int STRING_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl <em>Compare Cell Content</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
+	 * <em>Compare Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareCellContent()
 	 * @generated
@@ -523,36 +533,36 @@ public interface TablemodelPackage extends EPackage {
 	int COMPARE_CELL_CONTENT = 8;
 
 	/**
-	 * The feature id for the '<em><b>Separator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Separator</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COMPARE_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
 
 	/**
-	 * The feature id for the '<em><b>Old Value</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Old Value</b></em>' attribute list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COMPARE_CELL_CONTENT__OLD_VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>New Value</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>New Value</b></em>' attribute list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COMPARE_CELL_CONTENT__NEW_VALUE = CELL_CONTENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Compare Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Compare Cell Content</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -560,17 +570,18 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The number of operations of the '<em>Compare Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int COMPARE_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl <em>Cell Annotation</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl <em>Cell
+	 * Annotation</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCellAnnotation()
 	 * @generated
@@ -578,27 +589,29 @@ public interface TablemodelPackage extends EPackage {
 	int CELL_ANNOTATION = 9;
 
 	/**
-	 * The number of structural features of the '<em>Cell Annotation</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Cell Annotation</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CELL_ANNOTATION_FEATURE_COUNT = 0;
 
 	/**
-	 * The number of operations of the '<em>Cell Annotation</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Cell Annotation</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int CELL_ANNOTATION_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl <em>Multi Color Cell Content</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl
+	 * <em>Multi Color Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorCellContent()
 	 * @generated
@@ -606,45 +619,48 @@ public interface TablemodelPackage extends EPackage {
 	int MULTI_COLOR_CELL_CONTENT = 10;
 
 	/**
-	 * The feature id for the '<em><b>Separator</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Separator</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int MULTI_COLOR_CELL_CONTENT__SEPARATOR = CELL_CONTENT__SEPARATOR;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Value</b></em>' containment reference
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int MULTI_COLOR_CELL_CONTENT__VALUE = CELL_CONTENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Multi Color Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Multi Color Cell
+	 * Content</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int MULTI_COLOR_CELL_CONTENT_FEATURE_COUNT = CELL_CONTENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of operations of the '<em>Multi Color Cell Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Multi Color Cell Content</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_COLOR_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT + 0;
+	int MULTI_COLOR_CELL_CONTENT_OPERATION_COUNT = CELL_CONTENT_OPERATION_COUNT
+			+ 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl <em>Multi Color Content</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl
+	 * <em>Multi Color Content</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorContent()
 	 * @generated
@@ -653,26 +669,26 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Multi Color Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE = 0;
 
 	/**
-	 * The feature id for the '<em><b>String Format</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>String Format</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int MULTI_COLOR_CONTENT__STRING_FORMAT = 1;
 
 	/**
-	 * The number of structural features of the '<em>Multi Color Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Multi Color Content</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -680,17 +696,19 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The number of operations of the '<em>Multi Color Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int MULTI_COLOR_CONTENT_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl <em>Footnote Container</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl
+	 * <em>Footnote Container</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnoteContainer()
 	 * @generated
@@ -698,27 +716,29 @@ public interface TablemodelPackage extends EPackage {
 	int FOOTNOTE_CONTAINER = 12;
 
 	/**
-	 * The number of structural features of the '<em>Footnote Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Footnote Container</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int FOOTNOTE_CONTAINER_FEATURE_COUNT = 0;
 
 	/**
-	 * The number of operations of the '<em>Footnote Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Footnote Container</em>' class. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	int FOOTNOTE_CONTAINER_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl <em>Compare Footnote Container</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl
+	 * <em>Compare Footnote Container</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareFootnoteContainer()
 	 * @generated
@@ -727,53 +747,60 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Old Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 0;
+	int COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 0;
 
 	/**
 	 * The feature id for the '<em><b>New Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 1;
+	int COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 1;
 
 	/**
-	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Unchanged Footnotes</b></em>' reference
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 2;
+	int COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 2;
 
 	/**
-	 * The number of structural features of the '<em>Compare Footnote Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Compare Footnote
+	 * Container</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT + 3;
+	int COMPARE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 3;
 
 	/**
-	 * The number of operations of the '<em>Compare Footnote Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Compare Footnote Container</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPARE_FOOTNOTE_CONTAINER_OPERATION_COUNT = FOOTNOTE_CONTAINER_OPERATION_COUNT + 0;
+	int COMPARE_FOOTNOTE_CONTAINER_OPERATION_COUNT = FOOTNOTE_CONTAINER_OPERATION_COUNT
+			+ 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl <em>Simple Footnote Container</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl
+	 * <em>Simple Footnote Container</em>}' class. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getSimpleFootnoteContainer()
 	 * @generated
@@ -781,58 +808,62 @@ public interface TablemodelPackage extends EPackage {
 	int SIMPLE_FOOTNOTE_CONTAINER = 14;
 
 	/**
-	 * The feature id for the '<em><b>Footnotes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Footnotes</b></em>' reference list. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT + 0;
+	int SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 0;
 
 	/**
-	 * The number of structural features of the '<em>Simple Footnote Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of structural features of the '<em>Simple Footnote
+	 * Container</em>' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int SIMPLE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT + 1;
+	int SIMPLE_FOOTNOTE_CONTAINER_FEATURE_COUNT = FOOTNOTE_CONTAINER_FEATURE_COUNT
+			+ 1;
 
 	/**
-	 * The number of operations of the '<em>Simple Footnote Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The number of operations of the '<em>Simple Footnote Container</em>'
+	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int SIMPLE_FOOTNOTE_CONTAINER_OPERATION_COUNT = FOOTNOTE_CONTAINER_OPERATION_COUNT + 0;
+	int SIMPLE_FOOTNOTE_CONTAINER_OPERATION_COUNT = FOOTNOTE_CONTAINER_OPERATION_COUNT
+			+ 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
+	 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 	 * @generated
 	 */
 	int COLUMN_WIDTH_MODE = 15;
 
-
 	/**
-	 * The meta object id for the '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge Mode</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The meta object id for the
+	 * '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge
+	 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
 	 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 	 * @generated
 	 */
 	int ROW_MERGE_MODE = 16;
 
-
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.Table <em>Table</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.Table <em>Table</em>}'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Table</em>'.
 	 * @see org.eclipse.set.model.tablemodel.Table
 	 * @generated
@@ -840,10 +871,13 @@ public interface TablemodelPackage extends EPackage {
 	EClass getTable();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.Table#getColumndescriptors <em>Columndescriptors</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Columndescriptors</em>'.
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.set.model.tablemodel.Table#getColumndescriptors
+	 * <em>Columndescriptors</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the containment reference list
+	 *         '<em>Columndescriptors</em>'.
 	 * @see org.eclipse.set.model.tablemodel.Table#getColumndescriptors()
 	 * @see #getTable()
 	 * @generated
@@ -851,10 +885,12 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTable_Columndescriptors();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.tablemodel.Table#getTablecontent <em>Tablecontent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Tablecontent</em>'.
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.Table#getTablecontent
+	 * <em>Tablecontent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference
+	 *         '<em>Tablecontent</em>'.
 	 * @see org.eclipse.set.model.tablemodel.Table#getTablecontent()
 	 * @see #getTable()
 	 * @generated
@@ -862,9 +898,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTable_Tablecontent();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor <em>Column Descriptor</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor <em>Column
+	 * Descriptor</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Column Descriptor</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor
 	 * @generated
@@ -872,9 +909,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getColumnDescriptor();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth <em>Width</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth
+	 * <em>Width</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Width</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidth()
 	 * @see #getColumnDescriptor()
@@ -883,9 +921,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_Width();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode <em>Width Mode</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode
+	 * <em>Width Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Width Mode</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getWidthMode()
 	 * @see #getColumnDescriptor()
@@ -894,9 +933,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_WidthMode();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren <em>Children</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the reference list
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren
+	 * <em>Children</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference list '<em>Children</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getChildren()
 	 * @see #getColumnDescriptor()
@@ -905,9 +945,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getColumnDescriptor_Children();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel <em>Label</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel
+	 * <em>Label</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Label</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getLabel()
 	 * @see #getColumnDescriptor()
@@ -916,9 +957,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_Label();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed <em>Greyed</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed
+	 * <em>Greyed</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Greyed</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#isGreyed()
 	 * @see #getColumnDescriptor()
@@ -927,9 +969,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_Greyed();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit <em>Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit
+	 * <em>Unit</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Unit</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#isUnit()
 	 * @see #getColumnDescriptor()
@@ -938,9 +981,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_Unit();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent <em>Parent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent
+	 * <em>Parent</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference '<em>Parent</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getParent()
 	 * @see #getColumnDescriptor()
@@ -949,9 +993,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getColumnDescriptor_Parent();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight <em>Height</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight
+	 * <em>Height</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Height</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getHeight()
 	 * @see #getColumnDescriptor()
@@ -960,9 +1005,11 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_Height();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues <em>Merge Common Values</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues
+	 * <em>Merge Common Values</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @return the meta object for the attribute '<em>Merge Common Values</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getMergeCommonValues()
 	 * @see #getColumnDescriptor()
@@ -971,9 +1018,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_MergeCommonValues();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition <em>Column Position</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition
+	 * <em>Column Position</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Column Position</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnDescriptor#getColumnPosition()
 	 * @see #getColumnDescriptor()
@@ -982,9 +1030,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getColumnDescriptor_ColumnPosition();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.TableContent <em>Table Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.TableContent <em>Table
+	 * Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Table Content</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableContent
 	 * @generated
@@ -992,10 +1041,12 @@ public interface TablemodelPackage extends EPackage {
 	EClass getTableContent();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.TableContent#getRowgroups <em>Rowgroups</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Rowgroups</em>'.
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.set.model.tablemodel.TableContent#getRowgroups
+	 * <em>Rowgroups</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference list
+	 *         '<em>Rowgroups</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableContent#getRowgroups()
 	 * @see #getTableContent()
 	 * @generated
@@ -1003,9 +1054,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableContent_Rowgroups();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.RowGroup <em>Row Group</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.RowGroup <em>Row Group</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Row Group</em>'.
 	 * @see org.eclipse.set.model.tablemodel.RowGroup
 	 * @generated
@@ -1013,10 +1065,12 @@ public interface TablemodelPackage extends EPackage {
 	EClass getRowGroup();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.RowGroup#getRows <em>Rows</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Rows</em>'.
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.set.model.tablemodel.RowGroup#getRows
+	 * <em>Rows</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference list
+	 *         '<em>Rows</em>'.
 	 * @see org.eclipse.set.model.tablemodel.RowGroup#getRows()
 	 * @see #getRowGroup()
 	 * @generated
@@ -1024,9 +1078,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getRowGroup_Rows();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.set.model.tablemodel.RowGroup#getLeadingObject <em>Leading Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.RowGroup#getLeadingObject
+	 * <em>Leading Object</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference '<em>Leading Object</em>'.
 	 * @see org.eclipse.set.model.tablemodel.RowGroup#getLeadingObject()
 	 * @see #getRowGroup()
@@ -1035,10 +1090,13 @@ public interface TablemodelPackage extends EPackage {
 	EReference getRowGroup_LeadingObject();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.RowGroup#getLeadingObjectIndex <em>Leading Object Index</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Leading Object Index</em>'.
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.RowGroup#getLeadingObjectIndex
+	 * <em>Leading Object Index</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return the meta object for the attribute '<em>Leading Object
+	 *         Index</em>'.
 	 * @see org.eclipse.set.model.tablemodel.RowGroup#getLeadingObjectIndex()
 	 * @see #getRowGroup()
 	 * @generated
@@ -1046,9 +1104,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getRowGroup_LeadingObjectIndex();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.TableRow <em>Table Row</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.TableRow <em>Table Row</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Table Row</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableRow
 	 * @generated
@@ -1056,10 +1115,12 @@ public interface TablemodelPackage extends EPackage {
 	EClass getTableRow();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.TableRow#getCells <em>Cells</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Cells</em>'.
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getCells
+	 * <em>Cells</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference list
+	 *         '<em>Cells</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableRow#getCells()
 	 * @see #getTableRow()
 	 * @generated
@@ -1067,10 +1128,12 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableRow_Cells();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes <em>Footnotes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Footnotes</em>'.
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getFootnotes
+	 * <em>Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference
+	 *         '<em>Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableRow#getFootnotes()
 	 * @see #getTableRow()
 	 * @generated
@@ -1078,9 +1141,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableRow_Footnotes();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row Index</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.TableRow#getRowIndex <em>Row
+	 * Index</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Row Index</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableRow#getRowIndex()
 	 * @see #getTableRow()
@@ -1089,9 +1153,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getTableRow_RowIndex();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.TableCell <em>Table Cell</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.TableCell <em>Table Cell</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Table Cell</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableCell
 	 * @generated
@@ -1099,9 +1164,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getTableCell();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.set.model.tablemodel.TableCell#getContent <em>Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the containment reference
+	 * '{@link org.eclipse.set.model.tablemodel.TableCell#getContent
+	 * <em>Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the containment reference '<em>Content</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableCell#getContent()
 	 * @see #getTableCell()
@@ -1110,9 +1176,11 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableCell_Content();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.set.model.tablemodel.TableCell#getColumndescriptor <em>Columndescriptor</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the reference
+	 * '{@link org.eclipse.set.model.tablemodel.TableCell#getColumndescriptor
+	 * <em>Columndescriptor</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @return the meta object for the reference '<em>Columndescriptor</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableCell#getColumndescriptor()
 	 * @see #getTableCell()
@@ -1121,10 +1189,12 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableCell_Columndescriptor();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.TableCell#getCellannotation <em>Cellannotation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Cellannotation</em>'.
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.set.model.tablemodel.TableCell#getCellannotation
+	 * <em>Cellannotation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference list
+	 *         '<em>Cellannotation</em>'.
 	 * @see org.eclipse.set.model.tablemodel.TableCell#getCellannotation()
 	 * @see #getTableCell()
 	 * @generated
@@ -1132,9 +1202,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getTableCell_Cellannotation();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.CellContent <em>Cell Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.CellContent <em>Cell
+	 * Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Cell Content</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CellContent
 	 * @generated
@@ -1142,9 +1213,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCellContent();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator <em>Separator</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.CellContent#getSeparator
+	 * <em>Separator</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>Separator</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CellContent#getSeparator()
 	 * @see #getCellContent()
@@ -1153,9 +1225,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getCellContent_Separator();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.StringCellContent <em>String Cell Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.StringCellContent <em>String
+	 * Cell Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>String Cell Content</em>'.
 	 * @see org.eclipse.set.model.tablemodel.StringCellContent
 	 * @generated
@@ -1163,9 +1236,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getStringCellContent();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.StringCellContent#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute list
+	 * '{@link org.eclipse.set.model.tablemodel.StringCellContent#getValue
+	 * <em>Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute list '<em>Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.StringCellContent#getValue()
 	 * @see #getStringCellContent()
@@ -1174,9 +1248,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getStringCellContent_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.CompareCellContent <em>Compare Cell Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent <em>Compare
+	 * Cell Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Compare Cell Content</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareCellContent
 	 * @generated
@@ -1184,9 +1259,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCompareCellContent();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue <em>Old Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute list
+	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue
+	 * <em>Old Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute list '<em>Old Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getOldValue()
 	 * @see #getCompareCellContent()
@@ -1195,9 +1271,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getCompareCellContent_OldValue();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue <em>New Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute list
+	 * '{@link org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue
+	 * <em>New Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute list '<em>New Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareCellContent#getNewValue()
 	 * @see #getCompareCellContent()
@@ -1206,9 +1283,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getCompareCellContent_NewValue();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.CellAnnotation <em>Cell Annotation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.CellAnnotation <em>Cell
+	 * Annotation</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Cell Annotation</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CellAnnotation
 	 * @generated
@@ -1216,9 +1294,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCellAnnotation();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent <em>Multi Color Cell Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent <em>Multi
+	 * Color Cell Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Multi Color Cell Content</em>'.
 	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent
 	 * @generated
@@ -1226,10 +1305,12 @@ public interface TablemodelPackage extends EPackage {
 	EClass getMultiColorCellContent();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Value</em>'.
+	 * Returns the meta object for the containment reference list
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue
+	 * <em>Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the containment reference list
+	 *         '<em>Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue()
 	 * @see #getMultiColorCellContent()
 	 * @generated
@@ -1237,9 +1318,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getMultiColorCellContent_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.MultiColorContent <em>Multi Color Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorContent <em>Multi
+	 * Color Content</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Multi Color Content</em>'.
 	 * @see org.eclipse.set.model.tablemodel.MultiColorContent
 	 * @generated
@@ -1247,9 +1329,11 @@ public interface TablemodelPackage extends EPackage {
 	EClass getMultiColorContent();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.MultiColorContent#getMultiColorValue <em>Multi Color Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorContent#getMultiColorValue
+	 * <em>Multi Color Value</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @return the meta object for the attribute '<em>Multi Color Value</em>'.
 	 * @see org.eclipse.set.model.tablemodel.MultiColorContent#getMultiColorValue()
 	 * @see #getMultiColorContent()
@@ -1258,9 +1342,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getMultiColorContent_MultiColorValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.set.model.tablemodel.MultiColorContent#getStringFormat <em>String Format</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorContent#getStringFormat
+	 * <em>String Format</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the attribute '<em>String Format</em>'.
 	 * @see org.eclipse.set.model.tablemodel.MultiColorContent#getStringFormat()
 	 * @see #getMultiColorContent()
@@ -1269,9 +1354,10 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getMultiColorContent_StringFormat();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.FootnoteContainer <em>Footnote Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.FootnoteContainer <em>Footnote
+	 * Container</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Footnote Container</em>'.
 	 * @see org.eclipse.set.model.tablemodel.FootnoteContainer
 	 * @generated
@@ -1279,9 +1365,11 @@ public interface TablemodelPackage extends EPackage {
 	EClass getFootnoteContainer();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer <em>Compare Footnote Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer
+	 * <em>Compare Footnote Container</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Compare Footnote Container</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer
 	 * @generated
@@ -1289,9 +1377,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getCompareFootnoteContainer();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes <em>Old Footnotes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the reference list
+	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes
+	 * <em>Old Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference list '<em>Old Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getOldFootnotes()
 	 * @see #getCompareFootnoteContainer()
@@ -1300,9 +1389,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getCompareFootnoteContainer_OldFootnotes();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes <em>New Footnotes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the reference list
+	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes
+	 * <em>New Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference list '<em>New Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getNewFootnotes()
 	 * @see #getCompareFootnoteContainer()
@@ -1311,10 +1401,13 @@ public interface TablemodelPackage extends EPackage {
 	EReference getCompareFootnoteContainer_NewFootnotes();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes <em>Unchanged Footnotes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Unchanged Footnotes</em>'.
+	 * Returns the meta object for the reference list
+	 * '{@link org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes
+	 * <em>Unchanged Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @return the meta object for the reference list '<em>Unchanged
+	 *         Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.CompareFootnoteContainer#getUnchangedFootnotes()
 	 * @see #getCompareFootnoteContainer()
 	 * @generated
@@ -1322,9 +1415,11 @@ public interface TablemodelPackage extends EPackage {
 	EReference getCompareFootnoteContainer_UnchangedFootnotes();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer <em>Simple Footnote Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for class
+	 * '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
+	 * <em>Simple Footnote Container</em>}'. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @return the meta object for class '<em>Simple Footnote Container</em>'.
 	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer
 	 * @generated
@@ -1332,9 +1427,10 @@ public interface TablemodelPackage extends EPackage {
 	EClass getSimpleFootnoteContainer();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes <em>Footnotes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for the reference list
+	 * '{@link org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes
+	 * <em>Footnotes</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for the reference list '<em>Footnotes</em>'.
 	 * @see org.eclipse.set.model.tablemodel.SimpleFootnoteContainer#getFootnotes()
 	 * @see #getSimpleFootnoteContainer()
@@ -1343,9 +1439,10 @@ public interface TablemodelPackage extends EPackage {
 	EReference getSimpleFootnoteContainer_Footnotes();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for enum
+	 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width
+	 * Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for enum '<em>Column Width Mode</em>'.
 	 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
 	 * @generated
@@ -1353,9 +1450,10 @@ public interface TablemodelPackage extends EPackage {
 	EEnum getColumnWidthMode();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge Mode</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the meta object for enum
+	 * '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge
+	 * Mode</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the meta object for enum '<em>Row Merge Mode</em>'.
 	 * @see org.eclipse.set.model.tablemodel.RowMergeMode
 	 * @generated
@@ -1363,32 +1461,34 @@ public interface TablemodelPackage extends EPackage {
 	EEnum getRowMergeMode();
 
 	/**
-	 * Returns the factory that creates the instances of the model.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the factory that creates the instances of the model. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
 	TablemodelFactory getTablemodelFactory();
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * Defines literals for the meta objects that represent
+	 * <!-- begin-user-doc --> Defines literals for the meta objects that
+	 * represent
 	 * <ul>
-	 *   <li>each class,</li>
-	 *   <li>each feature of each class,</li>
-	 *   <li>each operation of each class,</li>
-	 *   <li>each enum,</li>
-	 *   <li>and each data type</li>
+	 * <li>each class,</li>
+	 * <li>each feature of each class,</li>
+	 * <li>each operation of each class,</li>
+	 * <li>each enum,</li>
+	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.TableImpl <em>Table</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.TableImpl
+		 * <em>Table</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.TableImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTable()
 		 * @generated
@@ -1396,25 +1496,30 @@ public interface TablemodelPackage extends EPackage {
 		EClass TABLE = eINSTANCE.getTable();
 
 		/**
-		 * The meta object literal for the '<em><b>Columndescriptors</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Columndescriptors</b></em>'
+		 * containment reference list feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference TABLE__COLUMNDESCRIPTORS = eINSTANCE.getTable_Columndescriptors();
+		EReference TABLE__COLUMNDESCRIPTORS = eINSTANCE
+				.getTable_Columndescriptors();
 
 		/**
-		 * The meta object literal for the '<em><b>Tablecontent</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Tablecontent</b></em>'
+		 * containment reference feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference TABLE__TABLECONTENT = eINSTANCE.getTable_Tablecontent();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl <em>Column Descriptor</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl
+		 * <em>Column Descriptor</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.ColumnDescriptorImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnDescriptor()
 		 * @generated
@@ -1422,89 +1527,101 @@ public interface TablemodelPackage extends EPackage {
 		EClass COLUMN_DESCRIPTOR = eINSTANCE.getColumnDescriptor();
 
 		/**
-		 * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Width</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__WIDTH = eINSTANCE.getColumnDescriptor_Width();
+		EAttribute COLUMN_DESCRIPTOR__WIDTH = eINSTANCE
+				.getColumnDescriptor_Width();
 
 		/**
-		 * The meta object literal for the '<em><b>Width Mode</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Width Mode</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__WIDTH_MODE = eINSTANCE.getColumnDescriptor_WidthMode();
+		EAttribute COLUMN_DESCRIPTOR__WIDTH_MODE = eINSTANCE
+				.getColumnDescriptor_WidthMode();
 
 		/**
-		 * The meta object literal for the '<em><b>Children</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Children</b></em>' reference
+		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference COLUMN_DESCRIPTOR__CHILDREN = eINSTANCE.getColumnDescriptor_Children();
+		EReference COLUMN_DESCRIPTOR__CHILDREN = eINSTANCE
+				.getColumnDescriptor_Children();
 
 		/**
-		 * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Label</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__LABEL = eINSTANCE.getColumnDescriptor_Label();
+		EAttribute COLUMN_DESCRIPTOR__LABEL = eINSTANCE
+				.getColumnDescriptor_Label();
 
 		/**
-		 * The meta object literal for the '<em><b>Greyed</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Greyed</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__GREYED = eINSTANCE.getColumnDescriptor_Greyed();
+		EAttribute COLUMN_DESCRIPTOR__GREYED = eINSTANCE
+				.getColumnDescriptor_Greyed();
 
 		/**
-		 * The meta object literal for the '<em><b>Unit</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Unit</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__UNIT = eINSTANCE.getColumnDescriptor_Unit();
+		EAttribute COLUMN_DESCRIPTOR__UNIT = eINSTANCE
+				.getColumnDescriptor_Unit();
 
 		/**
-		 * The meta object literal for the '<em><b>Parent</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Parent</b></em>' reference
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference COLUMN_DESCRIPTOR__PARENT = eINSTANCE.getColumnDescriptor_Parent();
+		EReference COLUMN_DESCRIPTOR__PARENT = eINSTANCE
+				.getColumnDescriptor_Parent();
 
 		/**
-		 * The meta object literal for the '<em><b>Height</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Height</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__HEIGHT = eINSTANCE.getColumnDescriptor_Height();
+		EAttribute COLUMN_DESCRIPTOR__HEIGHT = eINSTANCE
+				.getColumnDescriptor_Height();
 
 		/**
-		 * The meta object literal for the '<em><b>Merge Common Values</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Merge Common Values</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES = eINSTANCE.getColumnDescriptor_MergeCommonValues();
+		EAttribute COLUMN_DESCRIPTOR__MERGE_COMMON_VALUES = eINSTANCE
+				.getColumnDescriptor_MergeCommonValues();
 
 		/**
-		 * The meta object literal for the '<em><b>Column Position</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Column Position</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COLUMN_DESCRIPTOR__COLUMN_POSITION = eINSTANCE.getColumnDescriptor_ColumnPosition();
+		EAttribute COLUMN_DESCRIPTOR__COLUMN_POSITION = eINSTANCE
+				.getColumnDescriptor_ColumnPosition();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.TableContentImpl <em>Table Content</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.TableContentImpl
+		 * <em>Table Content</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.TableContentImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTableContent()
 		 * @generated
@@ -1512,17 +1629,20 @@ public interface TablemodelPackage extends EPackage {
 		EClass TABLE_CONTENT = eINSTANCE.getTableContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Rowgroups</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Rowgroups</b></em>'
+		 * containment reference list feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference TABLE_CONTENT__ROWGROUPS = eINSTANCE.getTableContent_Rowgroups();
+		EReference TABLE_CONTENT__ROWGROUPS = eINSTANCE
+				.getTableContent_Rowgroups();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl <em>Row Group</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.RowGroupImpl <em>Row
+		 * Group</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.RowGroupImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowGroup()
 		 * @generated
@@ -1530,33 +1650,37 @@ public interface TablemodelPackage extends EPackage {
 		EClass ROW_GROUP = eINSTANCE.getRowGroup();
 
 		/**
-		 * The meta object literal for the '<em><b>Rows</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Rows</b></em>' containment
+		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference ROW_GROUP__ROWS = eINSTANCE.getRowGroup_Rows();
 
 		/**
-		 * The meta object literal for the '<em><b>Leading Object</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Leading Object</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference ROW_GROUP__LEADING_OBJECT = eINSTANCE.getRowGroup_LeadingObject();
+		EReference ROW_GROUP__LEADING_OBJECT = eINSTANCE
+				.getRowGroup_LeadingObject();
 
 		/**
-		 * The meta object literal for the '<em><b>Leading Object Index</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Leading Object
+		 * Index</b></em>' attribute feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute ROW_GROUP__LEADING_OBJECT_INDEX = eINSTANCE.getRowGroup_LeadingObjectIndex();
+		EAttribute ROW_GROUP__LEADING_OBJECT_INDEX = eINSTANCE
+				.getRowGroup_LeadingObjectIndex();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl <em>Table Row</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.TableRowImpl <em>Table
+		 * Row</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.TableRowImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTableRow()
 		 * @generated
@@ -1564,33 +1688,35 @@ public interface TablemodelPackage extends EPackage {
 		EClass TABLE_ROW = eINSTANCE.getTableRow();
 
 		/**
-		 * The meta object literal for the '<em><b>Cells</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Cells</b></em>' containment
+		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference TABLE_ROW__CELLS = eINSTANCE.getTableRow_Cells();
 
 		/**
-		 * The meta object literal for the '<em><b>Footnotes</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Footnotes</b></em>'
+		 * containment reference feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference TABLE_ROW__FOOTNOTES = eINSTANCE.getTableRow_Footnotes();
 
 		/**
-		 * The meta object literal for the '<em><b>Row Index</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Row Index</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EAttribute TABLE_ROW__ROW_INDEX = eINSTANCE.getTableRow_RowIndex();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl <em>Table Cell</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl <em>Table
+		 * Cell</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.TableCellImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getTableCell()
 		 * @generated
@@ -1598,33 +1724,38 @@ public interface TablemodelPackage extends EPackage {
 		EClass TABLE_CELL = eINSTANCE.getTableCell();
 
 		/**
-		 * The meta object literal for the '<em><b>Content</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Content</b></em>' containment
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
 		EReference TABLE_CELL__CONTENT = eINSTANCE.getTableCell_Content();
 
 		/**
-		 * The meta object literal for the '<em><b>Columndescriptor</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Columndescriptor</b></em>'
+		 * reference feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference TABLE_CELL__COLUMNDESCRIPTOR = eINSTANCE.getTableCell_Columndescriptor();
+		EReference TABLE_CELL__COLUMNDESCRIPTOR = eINSTANCE
+				.getTableCell_Columndescriptor();
 
 		/**
-		 * The meta object literal for the '<em><b>Cellannotation</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Cellannotation</b></em>'
+		 * containment reference list feature. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference TABLE_CELL__CELLANNOTATION = eINSTANCE.getTableCell_Cellannotation();
+		EReference TABLE_CELL__CELLANNOTATION = eINSTANCE
+				.getTableCell_Cellannotation();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.CellContentImpl <em>Cell Content</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CellContentImpl
+		 * <em>Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.CellContentImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCellContent()
 		 * @generated
@@ -1632,17 +1763,20 @@ public interface TablemodelPackage extends EPackage {
 		EClass CELL_CONTENT = eINSTANCE.getCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Separator</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Separator</b></em>' attribute
+		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute CELL_CONTENT__SEPARATOR = eINSTANCE.getCellContent_Separator();
+		EAttribute CELL_CONTENT__SEPARATOR = eINSTANCE
+				.getCellContent_Separator();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.StringCellContentImpl <em>String Cell Content</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.StringCellContentImpl
+		 * <em>String Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.StringCellContentImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getStringCellContent()
 		 * @generated
@@ -1650,17 +1784,20 @@ public interface TablemodelPackage extends EPackage {
 		EClass STRING_CELL_CONTENT = eINSTANCE.getStringCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute
+		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute STRING_CELL_CONTENT__VALUE = eINSTANCE.getStringCellContent_Value();
+		EAttribute STRING_CELL_CONTENT__VALUE = eINSTANCE
+				.getStringCellContent_Value();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl <em>Compare Cell Content</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
+		 * <em>Compare Cell Content</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.CompareCellContentImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareCellContent()
 		 * @generated
@@ -1668,25 +1805,29 @@ public interface TablemodelPackage extends EPackage {
 		EClass COMPARE_CELL_CONTENT = eINSTANCE.getCompareCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Old Value</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Old Value</b></em>' attribute
+		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COMPARE_CELL_CONTENT__OLD_VALUE = eINSTANCE.getCompareCellContent_OldValue();
+		EAttribute COMPARE_CELL_CONTENT__OLD_VALUE = eINSTANCE
+				.getCompareCellContent_OldValue();
 
 		/**
-		 * The meta object literal for the '<em><b>New Value</b></em>' attribute list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>New Value</b></em>' attribute
+		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute COMPARE_CELL_CONTENT__NEW_VALUE = eINSTANCE.getCompareCellContent_NewValue();
+		EAttribute COMPARE_CELL_CONTENT__NEW_VALUE = eINSTANCE
+				.getCompareCellContent_NewValue();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl <em>Cell Annotation</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl
+		 * <em>Cell Annotation</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.CellAnnotationImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCellAnnotation()
 		 * @generated
@@ -1694,9 +1835,11 @@ public interface TablemodelPackage extends EPackage {
 		EClass CELL_ANNOTATION = eINSTANCE.getCellAnnotation();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl <em>Multi Color Cell Content</em>}' class.
-		 * <!-- begin-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl
+		 * <em>Multi Color Cell Content</em>}' class. <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.MultiColorCellContentImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorCellContent()
 		 * @generated
@@ -1704,17 +1847,20 @@ public interface TablemodelPackage extends EPackage {
 		EClass MULTI_COLOR_CELL_CONTENT = eINSTANCE.getMultiColorCellContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Value</b></em>' containment
+		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference MULTI_COLOR_CELL_CONTENT__VALUE = eINSTANCE.getMultiColorCellContent_Value();
+		EReference MULTI_COLOR_CELL_CONTENT__VALUE = eINSTANCE
+				.getMultiColorCellContent_Value();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl <em>Multi Color Content</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl
+		 * <em>Multi Color Content</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getMultiColorContent()
 		 * @generated
@@ -1722,25 +1868,29 @@ public interface TablemodelPackage extends EPackage {
 		EClass MULTI_COLOR_CONTENT = eINSTANCE.getMultiColorContent();
 
 		/**
-		 * The meta object literal for the '<em><b>Multi Color Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Multi Color Value</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE = eINSTANCE.getMultiColorContent_MultiColorValue();
+		EAttribute MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE = eINSTANCE
+				.getMultiColorContent_MultiColorValue();
 
 		/**
-		 * The meta object literal for the '<em><b>String Format</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>String Format</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EAttribute MULTI_COLOR_CONTENT__STRING_FORMAT = eINSTANCE.getMultiColorContent_StringFormat();
+		EAttribute MULTI_COLOR_CONTENT__STRING_FORMAT = eINSTANCE
+				.getMultiColorContent_StringFormat();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl <em>Footnote Container</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl
+		 * <em>Footnote Container</em>}' class. <!-- begin-user-doc --> <!--
+		 * end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.FootnoteContainerImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getFootnoteContainer()
 		 * @generated
@@ -1748,61 +1898,72 @@ public interface TablemodelPackage extends EPackage {
 		EClass FOOTNOTE_CONTAINER = eINSTANCE.getFootnoteContainer();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl <em>Compare Footnote Container</em>}' class.
-		 * <!-- begin-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl
+		 * <em>Compare Footnote Container</em>}' class. <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.CompareFootnoteContainerImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getCompareFootnoteContainer()
 		 * @generated
 		 */
-		EClass COMPARE_FOOTNOTE_CONTAINER = eINSTANCE.getCompareFootnoteContainer();
+		EClass COMPARE_FOOTNOTE_CONTAINER = eINSTANCE
+				.getCompareFootnoteContainer();
 
 		/**
-		 * The meta object literal for the '<em><b>Old Footnotes</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Old Footnotes</b></em>'
+		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_OldFootnotes();
+		EReference COMPARE_FOOTNOTE_CONTAINER__OLD_FOOTNOTES = eINSTANCE
+				.getCompareFootnoteContainer_OldFootnotes();
 
 		/**
-		 * The meta object literal for the '<em><b>New Footnotes</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>New Footnotes</b></em>'
+		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_NewFootnotes();
+		EReference COMPARE_FOOTNOTE_CONTAINER__NEW_FOOTNOTES = eINSTANCE
+				.getCompareFootnoteContainer_NewFootnotes();
 
 		/**
-		 * The meta object literal for the '<em><b>Unchanged Footnotes</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Unchanged Footnotes</b></em>'
+		 * reference list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = eINSTANCE.getCompareFootnoteContainer_UnchangedFootnotes();
+		EReference COMPARE_FOOTNOTE_CONTAINER__UNCHANGED_FOOTNOTES = eINSTANCE
+				.getCompareFootnoteContainer_UnchangedFootnotes();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl <em>Simple Footnote Container</em>}' class.
-		 * <!-- begin-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl
+		 * <em>Simple Footnote Container</em>}' class. <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.impl.SimpleFootnoteContainerImpl
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getSimpleFootnoteContainer()
 		 * @generated
 		 */
-		EClass SIMPLE_FOOTNOTE_CONTAINER = eINSTANCE.getSimpleFootnoteContainer();
+		EClass SIMPLE_FOOTNOTE_CONTAINER = eINSTANCE
+				.getSimpleFootnoteContainer();
 
 		/**
-		 * The meta object literal for the '<em><b>Footnotes</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the '<em><b>Footnotes</b></em>' reference
+		 * list feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @generated
 		 */
-		EReference SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = eINSTANCE.getSimpleFootnoteContainer_Footnotes();
+		EReference SIMPLE_FOOTNOTE_CONTAINER__FOOTNOTES = eINSTANCE
+				.getSimpleFootnoteContainer_Footnotes();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column Width Mode</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.ColumnWidthMode <em>Column
+		 * Width Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.ColumnWidthMode
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getColumnWidthMode()
 		 * @generated
@@ -1810,9 +1971,10 @@ public interface TablemodelPackage extends EPackage {
 		EEnum COLUMN_WIDTH_MODE = eINSTANCE.getColumnWidthMode();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge Mode</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+		 * The meta object literal for the
+		 * '{@link org.eclipse.set.model.tablemodel.RowMergeMode <em>Row Merge
+		 * Mode</em>}' enum. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
 		 * @see org.eclipse.set.model.tablemodel.RowMergeMode
 		 * @see org.eclipse.set.model.tablemodel.impl.TablemodelPackageImpl#getRowMergeMode()
 		 * @generated
@@ -1821,4 +1983,4 @@ public interface TablemodelPackage extends EPackage {
 
 	}
 
-} //TablemodelPackage
+} // TablemodelPackage

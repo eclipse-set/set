@@ -74,7 +74,8 @@ public class TableDataTest extends AbstractTableTest {
 	}
 
 	protected void thenPtTableColumnHeaderEqualReferenceCSV() {
-		final int rowCount = layers.gridLayer().getColumnHeaderLayer()
+		final int rowCount = layers.gridLayer()
+				.getColumnHeaderLayer()
 				.getRowCount();
 		assertDoesNotThrow(() -> compareValue(
 				layers.gridLayer().getColumnHeaderLayer(), 0, rowCount));

@@ -8,17 +8,16 @@
  */
 package org.eclipse.set.model.siteplan;
 
-
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Track Close</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Track
+ * Close</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType <em>Track Close Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType
+ * <em>Track Close Type</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackClose()
@@ -28,9 +27,10 @@ package org.eclipse.set.model.siteplan;
 public interface TrackClose extends PositionedObject {
 	/**
 	 * Returns the value of the '<em><b>Track Close Type</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.eclipse.set.model.siteplan.TrackCloseType}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The literals are from the enumeration
+	 * {@link org.eclipse.set.model.siteplan.TrackCloseType}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Track Close Type</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.TrackCloseType
 	 * @see #setTrackCloseType(TrackCloseType)
@@ -41,10 +41,13 @@ public interface TrackClose extends PositionedObject {
 	TrackCloseType getTrackCloseType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType <em>Track Close Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Track Close Type</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType
+	 * <em>Track Close Type</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Track Close Type</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.TrackCloseType
 	 * @see #getTrackCloseType()
 	 * @generated

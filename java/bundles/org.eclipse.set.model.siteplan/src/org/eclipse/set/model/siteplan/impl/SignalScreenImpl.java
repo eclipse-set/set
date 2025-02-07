@@ -19,25 +19,28 @@ import org.eclipse.set.model.siteplan.SignalScreen;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Signal Screen</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Signal
+ * Screen</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalScreenImpl#getScreen <em>Screen</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalScreenImpl#isSwitched <em>Switched</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalScreenImpl#getFrameType <em>Frame Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SignalScreenImpl#getScreen
+ * <em>Screen</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SignalScreenImpl#isSwitched
+ * <em>Switched</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SignalScreenImpl#getFrameType
+ * <em>Frame Type</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class SignalScreenImpl extends MinimalEObjectImpl.Container implements SignalScreen {
+public class SignalScreenImpl extends MinimalEObjectImpl.Container
+		implements SignalScreen {
 	/**
-	 * The default value of the '{@link #getScreen() <em>Screen</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getScreen() <em>Screen</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScreen()
 	 * @generated
 	 * @ordered
@@ -46,8 +49,8 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 
 	/**
 	 * The cached value of the '{@link #getScreen() <em>Screen</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getScreen()
 	 * @generated
 	 * @ordered
@@ -55,9 +58,9 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	protected String screen = SCREEN_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isSwitched() <em>Switched</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isSwitched() <em>Switched</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isSwitched()
 	 * @generated
 	 * @ordered
@@ -65,9 +68,9 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	protected static final boolean SWITCHED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isSwitched() <em>Switched</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isSwitched() <em>Switched</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isSwitched()
 	 * @generated
 	 * @ordered
@@ -75,9 +78,9 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	protected boolean switched = SWITCHED_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getFrameType() <em>Frame Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getFrameType() <em>Frame Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFrameType()
 	 * @generated
 	 * @ordered
@@ -85,9 +88,9 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	protected static final String FRAME_TYPE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getFrameType() <em>Frame Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getFrameType() <em>Frame Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getFrameType()
 	 * @generated
 	 * @ordered
@@ -95,8 +98,8 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	protected String frameType = FRAME_TYPE_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SignalScreenImpl() {
@@ -104,8 +107,8 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -114,8 +117,8 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -124,8 +127,8 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -133,12 +136,13 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 		String oldScreen = screen;
 		screen = newScreen;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL_SCREEN__SCREEN, oldScreen, screen));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.SIGNAL_SCREEN__SCREEN, oldScreen, screen));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,8 +151,8 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -156,12 +160,14 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 		boolean oldSwitched = switched;
 		switched = newSwitched;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL_SCREEN__SWITCHED, oldSwitched, switched));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.SIGNAL_SCREEN__SWITCHED, oldSwitched,
+					switched));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -170,8 +176,8 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -179,12 +185,14 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 		String oldFrameType = frameType;
 		frameType = newFrameType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL_SCREEN__FRAME_TYPE, oldFrameType, frameType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.SIGNAL_SCREEN__FRAME_TYPE, oldFrameType,
+					frameType));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -201,29 +209,29 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.SIGNAL_SCREEN__SCREEN:
-				setScreen((String)newValue);
+				setScreen((String) newValue);
 				return;
 			case SiteplanPackage.SIGNAL_SCREEN__SWITCHED:
-				setSwitched((Boolean)newValue);
+				setSwitched((Boolean) newValue);
 				return;
 			case SiteplanPackage.SIGNAL_SCREEN__FRAME_TYPE:
-				setFrameType((String)newValue);
+				setFrameType((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -243,31 +251,34 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.SIGNAL_SCREEN__SCREEN:
-				return SCREEN_EDEFAULT == null ? screen != null : !SCREEN_EDEFAULT.equals(screen);
+				return SCREEN_EDEFAULT == null ? screen != null
+						: !SCREEN_EDEFAULT.equals(screen);
 			case SiteplanPackage.SIGNAL_SCREEN__SWITCHED:
 				return switched != SWITCHED_EDEFAULT;
 			case SiteplanPackage.SIGNAL_SCREEN__FRAME_TYPE:
-				return FRAME_TYPE_EDEFAULT == null ? frameType != null : !FRAME_TYPE_EDEFAULT.equals(frameType);
+				return FRAME_TYPE_EDEFAULT == null ? frameType != null
+						: !FRAME_TYPE_EDEFAULT.equals(frameType);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (screen: ");
@@ -280,4 +291,4 @@ public class SignalScreenImpl extends MinimalEObjectImpl.Container implements Si
 		return result.toString();
 	}
 
-} //SignalScreenImpl
+} // SignalScreenImpl

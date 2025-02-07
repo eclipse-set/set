@@ -45,16 +45,23 @@ public class TopObjectIterator {
 	public static <T extends Punkt_Objekt> Stream<T> getEdgeObjects(
 			final TOP_Kante edge, final boolean followTopDirection,
 			final Class<T> classType) {
-		Comparator<Punkt_Objekt> comp = Comparator.comparing(po -> po
-				.getPunktObjektTOPKante().get(0).getAbstand().getWert());
+		Comparator<Punkt_Objekt> comp = Comparator
+				.comparing(po -> po.getPunktObjektTOPKante()
+						.get(0)
+						.getAbstand()
+						.getWert());
 		if (!followTopDirection) {
 			comp = comp.reversed();
 		}
 		return StreamSupport
 				.stream(BasisAttributExtensions.getContainer(edge)
-						.get(classType).spliterator(), false)
-				.filter(c -> c.getPunktObjektTOPKante().get(0).getIDTOPKante()
-						.getValue().equals(edge))
+						.get(classType)
+						.spliterator(), false)
+				.filter(c -> c.getPunktObjektTOPKante()
+						.get(0)
+						.getIDTOPKante()
+						.getValue()
+						.equals(edge))
 				.sorted(comp);
 	}
 
@@ -78,22 +85,33 @@ public class TopObjectIterator {
 	public static <T extends Punkt_Objekt> Stream<T> getEdgeObjectsFromPoint(
 			final TOP_Kante edge, final boolean followTopDirection,
 			final BigDecimal startAt, final Class<T> classType) {
-		Comparator<Punkt_Objekt> comp = Comparator.comparing(po -> po
-				.getPunktObjektTOPKante().get(0).getAbstand().getWert());
+		Comparator<Punkt_Objekt> comp = Comparator
+				.comparing(po -> po.getPunktObjektTOPKante()
+						.get(0)
+						.getAbstand()
+						.getWert());
 		final int startAtDirection = followTopDirection ? 1 : -1;
 		if (!followTopDirection) {
 			comp = comp.reversed();
 		}
 		return StreamSupport
 				.stream(BasisAttributExtensions.getContainer(edge)
-						.get(classType).spliterator(), false)
-				.filter(c -> c.getPunktObjektTOPKante().get(0).getIDTOPKante()
-						.getValue().equals(edge))
+						.get(classType)
+						.spliterator(), false)
+				.filter(c -> c.getPunktObjektTOPKante()
+						.get(0)
+						.getIDTOPKante()
+						.getValue()
+						.equals(edge))
 				.filter(c -> {
-					final int value = c.getPunktObjektTOPKante().get(0)
-							.getAbstand().getWert().compareTo(startAt);
+					final int value = c.getPunktObjektTOPKante()
+							.get(0)
+							.getAbstand()
+							.getWert()
+							.compareTo(startAt);
 					return value == 0 || value == startAtDirection;
-				}).sorted(comp);
+				})
+				.sorted(comp);
 	}
 
 	/**
@@ -154,7 +172,8 @@ public class TopObjectIterator {
 
 		return getPathObjects(path, classType).filter(c -> {
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk = c
-					.getPunktObjektTOPKante().get(0);
+					.getPunktObjektTOPKante()
+					.get(0);
 			final TOP_Kante tk = potk.getIDTOPKante().getValue();
 			if (tk == firstEdge
 					&& potk.getAbstand().getWert().compareTo(startLimit) < 0) {

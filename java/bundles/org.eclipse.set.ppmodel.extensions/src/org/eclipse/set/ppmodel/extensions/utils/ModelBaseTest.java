@@ -60,11 +60,11 @@ public class ModelBaseTest {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
 				.put(EXTENSION, new PlanProResourceFactoryImpl());
 		final ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getPackageRegistry().put(PlanProPackage.eNS_URI,
-				PlanProPackage.eINSTANCE);
-		resourceSet.getPackageRegistry().put(
-				Signalbegriffe_Ril_301Package.eNS_URI,
-				Signalbegriffe_Ril_301Package.eINSTANCE);
+		resourceSet.getPackageRegistry()
+				.put(PlanProPackage.eNS_URI, PlanProPackage.eINSTANCE);
+		resourceSet.getPackageRegistry()
+				.put(Signalbegriffe_Ril_301Package.eNS_URI,
+						Signalbegriffe_Ril_301Package.eINSTANCE);
 
 		final Resource resource = resourceSet
 				.getResource(URI.createFileURI(filename), true);

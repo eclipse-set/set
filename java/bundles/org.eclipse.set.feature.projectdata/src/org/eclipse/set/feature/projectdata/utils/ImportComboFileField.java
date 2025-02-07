@@ -178,9 +178,10 @@ public class ImportComboFileField extends FileField {
 	public boolean isNotSelected(final TableComboViewer combo) {
 		// When the model to import missing subwork type or this is a single
 		// state model
-		if (subworkCombo.getItems().length == 1
-				&& subworkCombo.getComboValues().getValue(0).getName()
-						.equals(SubworkComboSelection.NOT_SET_SUBWORK)) {
+		if (subworkCombo.getItems().length == 1 && subworkCombo.getComboValues()
+				.getValue(0)
+				.getName()
+				.equals(SubworkComboSelection.NOT_SET_SUBWORK)) {
 			return false;
 		}
 		return subworkCombo.getSelectionValues().isEmpty();

@@ -43,8 +43,8 @@ public class BedienZentraleExtensions extends BasisObjektExtensions {
 								.getValue()).orElse(null) == center
 						|| getNullableObject(estw,
 								r -> getBedienBezirkZentral(r)
-										.getIDBedienZentrale().getValue())
-												.orElse(null) == center)
+										.getIDBedienZentrale()
+										.getValue()).orElse(null) == center)
 				.anyMatch(estw -> ESTW_ZentraleinheitExtensions
 						.isBelongToControlArea(estw, area));
 
