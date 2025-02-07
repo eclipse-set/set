@@ -45,6 +45,7 @@ import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
 import java.util.Base64
 import java.io.IOException
+import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
 
 /**
  * Transformation from {@link Table} to TableDocument {@link Document}.
@@ -77,11 +78,11 @@ class TableToTableDocument {
 	}
 
 	def Document transformToDocument(List<BufferedImage> imagesData,
-		Titlebox titleBox, FreeFieldInfo freeFieldInfo) {
+		Titlebox titleBox, FreeFieldInfo freeFieldInfo, double ppm) {
 		tablename = "siteplan export"
 		logger.debug("transform siteplan to document")
 		val rootNode = doc.createElement("Siteplan")
-		imagesData.forEach[rootNode.appendChild(transform)]
+		imagesData.forEach[rootNode.appendChild(transform(ppm))]
 		rootNode.appendChild(titleBox.transform)
 		rootNode.appendChild(freeFieldInfo.transform)
 		doc.appendChild(rootNode)
@@ -138,22 +139,32 @@ class TableToTableDocument {
 	}
 
 	private def Element create doc.createElement("Image") transform(
-		BufferedImage imageData) {
+		BufferedImage imageData, double ppm) {
 		try {
+			val widthElement = doc.createElement("Width")
+			widthElement.textContent = imageData.width.pxToMilimeter(ppm).toString + "mm"
+			appendChild(widthElement)
+
+			val heightElement = doc.createElement("Height")
+			heightElement.textContent = imageData.height.pxToMilimeter(ppm).toString + "mm"
+			appendChild(heightElement)
+						
+			val byteElement = doc.createElement("Byte")
 			val type = doc.createAttribute("type")
 			type.value = "image/png"
 			val byteArrayOutputStream = new ByteArrayOutputStream
 			ImageIO.write(imageData, "png", byteArrayOutputStream)
 			val imageBytes = byteArrayOutputStream.toByteArray
-			attributeNode = type
-			textContent ='''data:image/png;base64,«Base64.encoder.encodeToString(imageBytes)»>'''
+			byteElement.attributeNode = type
+			byteElement.textContent ='''data:image/png;base64,«Base64.encoder.encodeToString(imageBytes)»>'''
+			
+			appendChild(byteElement)
 			return
 		} catch (IOException e) {
 			logger.error("Transform imageData to String error", e)
 		}
-
 	}
-
+	
 	private def Element createTestRowElement(Element rowsElement,
 		String groupNumber, TableContent content) {
 		val rowElement = doc.createElement("Row")

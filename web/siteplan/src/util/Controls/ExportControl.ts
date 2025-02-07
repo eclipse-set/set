@@ -19,7 +19,10 @@ import { Control } from 'ol/control'
 import { getBottomLeft, getBottomRight, getCenter, getHeight, getTopLeft, getTopRight, getWidth } from 'ol/extent'
 import { GeoJSONPolygon } from 'ol/format/GeoJSON'
 import { Geometry, MultiPolygon, Polygon } from 'ol/geom'
+import { transform } from 'ol/proj'
+import { getDistance } from 'ol/sphere'
 import { Style } from 'ol/style'
+import Configuration from '../Configuration'
 import { setMapScale } from '../MapScale'
 import EmptyMap from '../MapSources/EmptyMap'
 import { angle, pointRotate, toDeg, toRad } from '../Math'
@@ -48,6 +51,10 @@ interface RotateData {
  */
 export default class ExportControl extends Control {
   private static readonly OUTSIDE_POLYGON_FEATURE = 'outsidepolygon'
+  /**
+   * the export to image should have high resolution than pdf to avoid blurred symbols.
+   */
+  private static readonly EXPORT_IMAGE_LOD_SCALE = Configuration.getExportScaleValue() / 2
   private map: Map
 
   /**
@@ -85,18 +92,50 @@ export default class ExportControl extends Control {
     })
   }
 
-  private onClick () {
+  private async onClick () {
     const sheetCutFeatures = this.getSheetcutFeatures()
     if (PlanProToolbox.inPPT()) {
-      PlanProToolbox.exportSiteplan((folder: string | null) => {
-        if (folder === null)
-          return
+      const ppm = await this.getPixelProMeterAtScale(Configuration.getExportScaleValue())
+      // Convert ppm by image scale to ppm by export scale
+      const targetPpm = ppm !== undefined
+        ? ppm * Configuration.getExportScaleValue() / ExportControl.EXPORT_IMAGE_LOD_SCALE
+        : undefined
+      PlanProToolbox.exportSiteplan(
+        (folder: string | null) => {
+          if (folder === null)
+            return
 
-        this.exportSiteplan(sheetCutFeatures ?? [])
-      }, sheetCutFeatures?.length?.toString() ?? '0')
+          this.exportSiteplan(sheetCutFeatures ?? [])
+        },
+        sheetCutFeatures?.length?.toString() ?? '0',
+        targetPpm?.toString() ?? ''
+      )
     } else {
       this.exportSiteplan(sheetCutFeatures ?? [])
     }
+  }
+
+  private async getPixelProMeterAtScale (scale: number) : Promise<number | undefined>{
+    const view = this.map.getView()
+    const currentResolution = view.getResolution() ?? 1
+    setMapScale(view, scale)
+    return await new Promise(resolve => {
+      this.map.once('rendercomplete', () => {
+        const viewportSize = this.map.getSize()
+        if (!viewportSize) {
+          view.setResolution(currentResolution)
+          resolve(undefined)
+          return
+        }
+
+        const viewportExtent = view.calculateExtent(viewportSize)
+        const topLeftSphereCoord = transform(getTopLeft(viewportExtent), 'EPSG:3857', 'EPSG:4326')
+        const topRightSphereCoord = transform(getTopRight(viewportExtent), 'EPSG:3857', 'EPSG:4326')
+        const distanceInMeter = getDistance(topLeftSphereCoord, topRightSphereCoord)
+        view.setResolution(currentResolution)
+        resolve(viewportSize[0] / distanceInMeter)
+      })
+    })
   }
 
   private getSheetcutFeatures (): Feature<Geometry>[] | undefined {
@@ -114,7 +153,7 @@ export default class ExportControl extends Control {
     store.commit('setSourceMap', new EmptyMap().getIdentifier())
     const visibleLayers = store.state.featureLayers.filter(layer => layer.getVisible())
     visibleLayers.forEach(layer => layer.setVisible(false))
-    setMapScale(this.map.getView(), 1000)
+    setMapScale(this.map.getView(), ExportControl.EXPORT_IMAGE_LOD_SCALE)
     this.map.getView().setRotation(0)
     const resolution = this.map.getView().getResolution()
 

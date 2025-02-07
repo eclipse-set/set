@@ -75,12 +75,12 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 
 	private static String createImageDocumentText(
 			final List<BufferedImage> imagesData, final Titlebox titleBox,
-			final FreeFieldInfo freeFieldInfo)
+			final FreeFieldInfo freeFieldInfo, final double ppm)
 			throws ParserConfigurationException, TransformerException {
 		final TableToTableDocument tableToXmlFo = TableToTableDocument
 				.createTransformation();
 		final Document document = tableToXmlFo.transformToDocument(imagesData,
-				titleBox, freeFieldInfo);
+				titleBox, freeFieldInfo, ppm);
 		final Transformer documentToString = newTransformerFactory()
 				.newTransformer();
 		final DOMSource source = new DOMSource(document);
@@ -117,13 +117,13 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 	@Override
 	public void exportSiteplanPdf(final List<BufferedImage> imagesData,
 			final Titlebox titleBox, final FreeFieldInfo freeFieldInfo,
-			final String outputDir, final ToolboxPaths toolboxPaths,
-			final TableType tableType,
+			final double ppm, final String outputDir,
+			final ToolboxPaths toolboxPaths, final TableType tableType,
 			final OverwriteHandling overwriteHandling) {
 
 		try {
 			final String imageDocumentText = createImageDocumentText(imagesData,
-					titleBox, freeFieldInfo);
+					titleBox, freeFieldInfo, ppm);
 
 			if (ToolboxConfiguration.isDevelopmentMode()) {
 				exportTableDocument(
@@ -136,7 +136,7 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 			final StreamSource imageDocumentSource = new StreamSource(
 					tableDocumentStream);
 			final Pair<String, StreamSource> xslStreamSource = getSiteplanXSLTemplate(
-					imagesData, tableType, outputDir);
+					imagesData, ppm, tableType, outputDir);
 			final Path outputPath = toolboxPaths.getTableExportPath(
 					SITEPLAN_EXPORT_NAME + "_" + xslStreamSource.getFirst(), //$NON-NLS-1$
 					Paths.get(outputDir), ExportType.PLANNING_RECORDS,
@@ -152,11 +152,12 @@ public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 	}
 
 	private Pair<String, StreamSource> getSiteplanXSLTemplate(
-			final List<BufferedImage> imagesData, final TableType tableType,
-			final String outputDir) throws ParserConfigurationException,
-			SAXException, IOException, NullPointerException,
-			TransformerException, UnsupportedFileFormatException {
-		final SiteplanXSL siteplanXSL = new SiteplanXSL(imagesData,
+			final List<BufferedImage> imagesData, final double ppm,
+			final TableType tableType, final String outputDir)
+			throws ParserConfigurationException, SAXException, IOException,
+			NullPointerException, TransformerException,
+			UnsupportedFileFormatException {
+		final SiteplanXSL siteplanXSL = new SiteplanXSL(imagesData, ppm,
 				translationTableType(tableType));
 		final Document xslDoc = siteplanXSL.getXSLDocument();
 		final String pageDIN = siteplanXSL.getPageStyle()

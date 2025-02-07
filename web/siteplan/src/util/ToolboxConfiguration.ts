@@ -19,7 +19,7 @@ export interface ToolboxConfiguration {
   dop20InternUrl: string
   developmentMode: boolean
   lodScale: number
-  exportDPI: number
+  exportScale: number
   trackWidth: string
   trackWidthInterval: string
   baseZoomLevel: number

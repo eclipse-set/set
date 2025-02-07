@@ -23,6 +23,7 @@ import static org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSLExtension.Reg
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -30,6 +31,7 @@ import java.util.stream.IntStream;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.set.basis.constants.ToolboxConstants;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.export.xsl.AbstractTransformTableHeader;
 import org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.XMLAttribute;
 import org.eclipse.set.utils.export.xsl.XSLConstant;
@@ -68,17 +70,22 @@ public class SiteplanXSL {
 
 	private final List<BufferedImage> images;
 	private final String modelState;
+	private final double ppm;
 
 	/**
 	 * @param images
 	 *            the sheet cut images
+	 * @param ppm
+	 *            pixel per physical meter in Openlayer at scale
+	 *            {@link ToolboxConfiguration#getSiteplanExportScale()}
 	 * @param modelState
 	 *            the table state (initial/final/diff)
 	 */
-	public SiteplanXSL(final List<BufferedImage> images,
+	public SiteplanXSL(final List<BufferedImage> images, final double ppm,
 			final String modelState) {
 		this.images = images;
 		this.modelState = modelState;
+		this.ppm = ppm;
 		this.pageStyle = determinePageStyle();
 	}
 
@@ -104,7 +111,7 @@ public class SiteplanXSL {
 		rootNode = doc.getElementsByTagName(XSL_STYLESHEET).item(0);
 		if (pageStyle == null) {
 			throw new UnsupportedOperationException(
-					"Es gibt keine relevant Paper für diese Lageplan mit aktuell Layout, bitte ändern Sie die DPI or teilen Sie die Lageplan kleiner "); //$NON-NLS-1$
+					"Es gibt keine relevant Paper für diese Lageplan mit aktuell Layout, bitte ändern Sie die DPI or scale value"); //$NON-NLS-1$
 		}
 
 		return this.setPageSize(pageStyle.getPageDIN())
@@ -288,28 +295,55 @@ public class SiteplanXSL {
 	}
 
 	private SiteplanXSLPage determinePageStyle() {
-		final Optional<Double> maxHeight = images.stream()
-				.map(image -> Double.valueOf(pxToMilimet(image.getHeight())))
-				.max(Double::compare);
-		final Optional<Double> maxWidth = images.stream()
-				.map(image -> Double.valueOf(pxToMilimet(image.getWidth())))
-				.max(Double::compare);
-		if (maxWidth.isEmpty() || maxHeight.isEmpty()) {
+		final Optional<Integer> maxHeightPx = images.stream()
+				.map(image -> Integer.valueOf(image.getHeight()))
+				.max(Integer::compare);
+
+		final Optional<Integer> maxWidthPx = images.stream()
+				.map(image -> Integer.valueOf(image.getWidth()))
+				.max(Integer::compare);
+		if (maxWidthPx.isEmpty() || maxHeightPx.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
+		final double maxHeightMillimet = pxToMilimeter(
+				maxHeightPx.get().intValue(), ppm);
+		final double maxWidthMillimet = pxToMilimeter(
+				maxWidthPx.get().intValue(), ppm);
 		return avaiablePageSize.stream()
-				.filter(page -> page.regionBody.width() >= maxWidth.get()
-						.intValue()
-						&& page.regionBody.height() >= maxHeight.get()
-								.intValue())
+				.filter(page -> page.regionBody.width() >= maxWidthMillimet
+						&& page.regionBody.height() >= maxHeightMillimet)
 				.min((first, second) -> Double.compare(first.regionBody.width(),
 						second.regionBody.width()))
 				.orElse(null);
 	}
 
-	private static double pxToMilimet(final double px) {
-		return BigDecimal.valueOf(px * 25.4)
-				.divide(ToolboxConstants.DEFAULT_OPENLAYER_DPI)
+	/**
+	 * Transform pixel to millimeter
+	 * 
+	 * @param px
+	 *            the pixel value
+	 * @param ppm
+	 *            pixel per physical meter in Openlayer at scale
+	 *            {@link ToolboxConfiguration#getSiteplanExportScale()}
+	 * @return the millimeter value with scale
+	 *         {@link ToolboxConfiguration#getSiteplanExportScale()}
+	 */
+	public static double pxToMilimeter(final double px, final double ppm) {
+		if (ppm <= 0) {
+			return px * 25.4 / ToolboxConfiguration.getExportDPI();
+		}
+
+		final BigDecimal pixelProMillimeter = BigDecimal.valueOf(ppm)
+				.divide(BigDecimal.valueOf(1000),
+						ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.FLOOR);
+		final BigDecimal toMillimeter = BigDecimal.valueOf(px)
+				.divide(pixelProMillimeter, ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.FLOOR);
+		// Scale to given value
+		return toMillimeter
+				.divide(BigDecimal
+						.valueOf(ToolboxConfiguration.getSiteplanExportScale()),
+						ToolboxConstants.ROUNDING_TO_PLACE, RoundingMode.FLOOR)
 				.doubleValue();
 	}
 }

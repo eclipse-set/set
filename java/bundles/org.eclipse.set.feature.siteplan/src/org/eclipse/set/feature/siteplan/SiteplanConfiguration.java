@@ -47,13 +47,15 @@ import org.eclipse.set.utils.ToolboxConfiguration;
  *            default sheecut cut crs
  * @param planproModelType
  *            the type of planpro model
+ * @param exportScale
+ *            the scale value for export
  */
 public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 		String hereClientID, String hereApiKey, String mapboxApiKey,
 		String dop20ApiKey, String dop20InternUrl, int lodScale,
 		String trackWidth, String trackWidthInterval, int baseZoomLevel,
 		boolean defaultCollisionsEnabled, String defaultSheetCutCRS,
-		String planproModelType) {
+		String planproModelType, int exportScale) {
 	/**
 	 * @param planproModelType
 	 *            the type of planpro model
@@ -74,6 +76,7 @@ public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 				LayoutTransformator.selectedCRS == null
 						? ToolboxConfiguration.getDefaultSheetCutCRS()
 						: LayoutTransformator.selectedCRS.getLiteral(),
-				planproModelType);
+				planproModelType,
+				ToolboxConfiguration.getSiteplanExportScale());
 	}
 }

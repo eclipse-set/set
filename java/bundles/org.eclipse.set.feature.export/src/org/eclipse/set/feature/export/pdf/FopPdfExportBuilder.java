@@ -288,8 +288,8 @@ public class FopPdfExportBuilder implements TableExport {
 	@Override
 	public void exportSiteplanPdf(final List<BufferedImage> imagesData,
 			final Titlebox titleBox, final FreeFieldInfo freeFieldInfo,
-			final String outputDir, final ToolboxPaths toolboxPaths,
-			final TableType tableType,
+			final double ppm, final String outputDir,
+			final ToolboxPaths toolboxPaths, final TableType tableType,
 			final OverwriteHandling overwriteHandling) {
 		// do nothing
 	}
