@@ -38,4 +38,8 @@ export default class NamedFeatureLayer extends VectorLayer<VectorSource<Feature<
     return super.getSource()?.getFeatures()
       .filter(c => getFeatureType(c) === featureType)
   }
+
+  public clean () {
+    super.getSource()?.clear()
+  }
 }

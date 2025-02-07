@@ -50,6 +50,7 @@ import TrackSwitchFeature from '@/feature/TrackSwitchFeature'
 import UnknownObjectFeature from '@/feature/UnknownObjectFeature'
 import { store, TableType } from '@/store'
 import '@/util/ArrayExtensions'
+import MeasureControl from '@/util/Controls/MeasureControl'
 import FeatureClickInteraction from '@/util/FeatureClickInteraction'
 import { getResolutionForScale } from '@/util/MapScale'
 import PlanProToolbox from '@/util/PlanProToolbox'
@@ -377,6 +378,7 @@ export default class FeatureService extends Vue {
       const centerControl = new CenterMainRouteControl(view, model)
       this.map.addControl(centerControl)
 
+      this.map.addControl(new MeasureControl(this.map))
       // If a center position is available, apply it. Otherwise zoom to fit
       if (this.model.centerPosition === undefined) {
         nextTick(() => {
