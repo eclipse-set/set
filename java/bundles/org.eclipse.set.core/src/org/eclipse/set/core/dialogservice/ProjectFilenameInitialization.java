@@ -94,12 +94,18 @@ final class ProjectFilenameInitialization
 		final ProjectInitializationData data = new ProjectInitializationData();
 		data.setFuehrendeOertlichkeit(
 				formModel.getFuehrendeOertlichkeit().getWert());
-		data.setBauzustand(formModel.getLSTPlanungEinzel().getPlanungEAllg()
-				.getBauzustandKurzbezeichnung().getWert());
-		data.setLfdNummer(formModel.getLSTPlanungEinzel().getPlanungEAllg()
-				.getLaufendeNummerAusgabe().getWert());
-		data.setIndex(formModel.getLSTPlanungEinzel().getPlanungEAllg()
-				.getIndexAusgabe().getWert());
+		data.setBauzustand(formModel.getLSTPlanungEinzel()
+				.getPlanungEAllg()
+				.getBauzustandKurzbezeichnung()
+				.getWert());
+		data.setLfdNummer(formModel.getLSTPlanungEinzel()
+				.getPlanungEAllg()
+				.getLaufendeNummerAusgabe()
+				.getWert());
+		data.setIndex(formModel.getLSTPlanungEinzel()
+				.getPlanungEAllg()
+				.getIndexAusgabe()
+				.getWert());
 		data.setDirectory(folderField.getText().getText());
 		return data;
 	}
@@ -127,9 +133,13 @@ final class ProjectFilenameInitialization
 		planungEAllg.setIndexAusgabe(indexAusgabe);
 		planungEinzel.setPlanungEAllg(planungEAllg);
 		formModel.setLSTPlanungEinzel(planungEinzel);
-		formModel.getLSTPlanungEinzel().getPlanungEAllg()
-				.getLaufendeNummerAusgabe().setWert("00"); //$NON-NLS-1$
-		formModel.getLSTPlanungEinzel().getPlanungEAllg().getIndexAusgabe()
+		formModel.getLSTPlanungEinzel()
+				.getPlanungEAllg()
+				.getLaufendeNummerAusgabe()
+				.setWert("00"); //$NON-NLS-1$
+		formModel.getLSTPlanungEinzel()
+				.getPlanungEAllg()
+				.getIndexAusgabe()
 				.setWert("00"); //$NON-NLS-1$
 	}
 
@@ -199,7 +209,8 @@ final class ProjectFilenameInitialization
 
 		// Validation
 		final ValidationService validationService = formView
-				.getViewModelContext().getService(ValidationService.class);
+				.getViewModelContext()
+				.getService(ValidationService.class);
 		validationService
 				.registerValidationListener(new ViewValidationListener() {
 					@Override

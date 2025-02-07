@@ -108,7 +108,8 @@ public class DocumentActionsPart implements ActionProvider {
 			.getLogger(DocumentActionsPart.class);
 
 	private static final Comparator<? super PartDescription> PART_DESCRIPTION_COMPARATOR = //
-			Comparator.comparing(PartDescription::getOrderPriority).reversed()
+			Comparator.comparing(PartDescription::getOrderPriority)
+					.reversed()
 					.thenComparing(PartDescription::getToolboxViewName);
 
 	private static void highlightButton(
@@ -340,8 +341,9 @@ public class DocumentActionsPart implements ActionProvider {
 					true);
 			button.getButton().setLayoutData(layoutData);
 
-			button.getButton().addListener(SWT.Selection,
-					event -> toolboxPartService.showPart(view.getId()));
+			button.getButton()
+					.addListener(SWT.Selection,
+							event -> toolboxPartService.showPart(view.getId()));
 
 			viewButtons.add(new ViewButton(button.getButton(), view));
 
@@ -353,9 +355,12 @@ public class DocumentActionsPart implements ActionProvider {
 	}
 
 	private boolean isExclusiveEditorOpen() {
-		return viewButtons.stream().map(ViewButton::getView)
+		return viewButtons.stream()
+				.map(ViewButton::getView)
 				.filter(PartDescription::isExclusiveEditor)
-				.filter(toolboxPartService::isOpen).findAny().isPresent();
+				.filter(toolboxPartService::isOpen)
+				.findAny()
+				.isPresent();
 	}
 
 	private static boolean showDevelopmentItems() {
@@ -398,17 +403,20 @@ public class DocumentActionsPart implements ActionProvider {
 	}
 
 	protected void highlightButtons() {
-		final Set<String> openParts = toolboxPartService.getOpenParts().stream()
+		final Set<String> openParts = toolboxPartService.getOpenParts()
+				.stream()
 				.map(MApplicationElement::getElementId)
 				.collect(Collectors.toSet());
-		idToButton.entrySet().stream()
+		idToButton.entrySet()
+				.stream()
 				.forEach(entry -> highlightButton(entry, openParts));
 		checkEnableViewButtons(
 				application.getContext().get(IModelSession.class));
 	}
 
 	void createExpandItems() {
-		toolboxPartService.getViewGroups().stream()
+		toolboxPartService.getViewGroups()
+				.stream()
 				.filter(g -> !g.isInvisible())
 				.filter(g -> showDevelopmentItems() || !g.isDevelopment())
 				.sorted(Comparator.comparingInt(ToolboxViewGroup::orderPriority)

@@ -31,25 +31,28 @@ import org.eclipse.set.model.tablemodel.TableCell;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Table Cell</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Table
+ * Cell</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl#getContent <em>Content</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl#getColumndescriptor <em>Columndescriptor</em>}</li>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl#getCellannotation <em>Cellannotation</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl#getContent
+ * <em>Content</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl#getColumndescriptor
+ * <em>Columndescriptor</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableCellImpl#getCellannotation
+ * <em>Cellannotation</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TableCellImpl extends MinimalEObjectImpl.Container implements TableCell {
+public class TableCellImpl extends MinimalEObjectImpl.Container
+		implements TableCell {
 	/**
-	 * The cached value of the '{@link #getContent() <em>Content</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getContent() <em>Content</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getContent()
 	 * @generated
 	 * @ordered
@@ -57,9 +60,10 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	protected CellContent content;
 
 	/**
-	 * The cached value of the '{@link #getColumndescriptor() <em>Columndescriptor</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getColumndescriptor()
+	 * <em>Columndescriptor</em>}' reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getColumndescriptor()
 	 * @generated
 	 * @ordered
@@ -67,9 +71,10 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	protected ColumnDescriptor columndescriptor;
 
 	/**
-	 * The cached value of the '{@link #getCellannotation() <em>Cellannotation</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getCellannotation()
+	 * <em>Cellannotation</em>}' containment reference list. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #getCellannotation()
 	 * @generated
 	 * @ordered
@@ -77,8 +82,8 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	protected EList<CellAnnotation> cellannotation;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TableCellImpl() {
@@ -86,8 +91,8 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -96,8 +101,8 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -106,23 +111,29 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetContent(CellContent newContent, NotificationChain msgs) {
+	public NotificationChain basicSetContent(CellContent newContent,
+			NotificationChain msgs) {
 		CellContent oldContent = content;
 		content = newContent;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_CELL__CONTENT, oldContent, newContent);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, TablemodelPackage.TABLE_CELL__CONTENT,
+					oldContent, newContent);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,37 +141,48 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 		if (newContent != content) {
 			NotificationChain msgs = null;
 			if (content != null)
-				msgs = ((InternalEObject)content).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TablemodelPackage.TABLE_CELL__CONTENT, null, msgs);
+				msgs = ((InternalEObject) content).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- TablemodelPackage.TABLE_CELL__CONTENT,
+						null, msgs);
 			if (newContent != null)
-				msgs = ((InternalEObject)newContent).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TablemodelPackage.TABLE_CELL__CONTENT, null, msgs);
+				msgs = ((InternalEObject) newContent).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- TablemodelPackage.TABLE_CELL__CONTENT,
+						null, msgs);
 			msgs = basicSetContent(newContent, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_CELL__CONTENT, newContent, newContent));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.TABLE_CELL__CONTENT, newContent,
+					newContent));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public ColumnDescriptor getColumndescriptor() {
 		if (columndescriptor != null && columndescriptor.eIsProxy()) {
-			InternalEObject oldColumndescriptor = (InternalEObject)columndescriptor;
-			columndescriptor = (ColumnDescriptor)eResolveProxy(oldColumndescriptor);
+			InternalEObject oldColumndescriptor = (InternalEObject) columndescriptor;
+			columndescriptor = (ColumnDescriptor) eResolveProxy(
+					oldColumndescriptor);
 			if (columndescriptor != oldColumndescriptor) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TablemodelPackage.TABLE_CELL__COLUMNDESCRIPTOR, oldColumndescriptor, columndescriptor));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							TablemodelPackage.TABLE_CELL__COLUMNDESCRIPTOR,
+							oldColumndescriptor, columndescriptor));
 			}
 		}
 		return columndescriptor;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ColumnDescriptor basicGetColumndescriptor() {
@@ -168,8 +190,8 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -177,41 +199,47 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 		ColumnDescriptor oldColumndescriptor = columndescriptor;
 		columndescriptor = newColumndescriptor;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TablemodelPackage.TABLE_CELL__COLUMNDESCRIPTOR, oldColumndescriptor, columndescriptor));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					TablemodelPackage.TABLE_CELL__COLUMNDESCRIPTOR,
+					oldColumndescriptor, columndescriptor));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<CellAnnotation> getCellannotation() {
 		if (cellannotation == null) {
-			cellannotation = new EObjectContainmentEList<CellAnnotation>(CellAnnotation.class, this, TablemodelPackage.TABLE_CELL__CELLANNOTATION);
+			cellannotation = new EObjectContainmentEList<CellAnnotation>(
+					CellAnnotation.class, this,
+					TablemodelPackage.TABLE_CELL__CELLANNOTATION);
 		}
 		return cellannotation;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.TABLE_CELL__CONTENT:
 				return basicSetContent(null, msgs);
 			case TablemodelPackage.TABLE_CELL__CELLANNOTATION:
-				return ((InternalEList<?>)getCellannotation()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getCellannotation())
+						.basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -220,7 +248,8 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 			case TablemodelPackage.TABLE_CELL__CONTENT:
 				return getContent();
 			case TablemodelPackage.TABLE_CELL__COLUMNDESCRIPTOR:
-				if (resolve) return getColumndescriptor();
+				if (resolve)
+					return getColumndescriptor();
 				return basicGetColumndescriptor();
 			case TablemodelPackage.TABLE_CELL__CELLANNOTATION:
 				return getCellannotation();
@@ -229,8 +258,8 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -238,32 +267,33 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TablemodelPackage.TABLE_CELL__CONTENT:
-				setContent((CellContent)newValue);
+				setContent((CellContent) newValue);
 				return;
 			case TablemodelPackage.TABLE_CELL__COLUMNDESCRIPTOR:
-				setColumndescriptor((ColumnDescriptor)newValue);
+				setColumndescriptor((ColumnDescriptor) newValue);
 				return;
 			case TablemodelPackage.TABLE_CELL__CELLANNOTATION:
 				getCellannotation().clear();
-				getCellannotation().addAll((Collection<? extends CellAnnotation>)newValue);
+				getCellannotation().addAll(
+						(Collection<? extends CellAnnotation>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case TablemodelPackage.TABLE_CELL__CONTENT:
-				setContent((CellContent)null);
+				setContent((CellContent) null);
 				return;
 			case TablemodelPackage.TABLE_CELL__COLUMNDESCRIPTOR:
-				setColumndescriptor((ColumnDescriptor)null);
+				setColumndescriptor((ColumnDescriptor) null);
 				return;
 			case TablemodelPackage.TABLE_CELL__CELLANNOTATION:
 				getCellannotation().clear();
@@ -273,8 +303,8 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -290,4 +320,4 @@ public class TableCellImpl extends MinimalEObjectImpl.Container implements Table
 		return super.eIsSet(featureID);
 	}
 
-} //TableCellImpl
+} // TableCellImpl

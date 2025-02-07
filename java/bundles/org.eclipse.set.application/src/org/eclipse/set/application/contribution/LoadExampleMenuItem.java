@@ -26,7 +26,8 @@ public class LoadExampleMenuItem extends OpenPlanProHandler {
 	@Override
 	protected Path chooseFile(final Shell shell) {
 		final ExampleFile example = (ExampleFile) getMenuItem()
-				.getTransientData().get(ExampleService.EXAMPLE_FILE_KEY);
+				.getTransientData()
+				.get(ExampleService.EXAMPLE_FILE_KEY);
 		return example.getPath();
 	}
 }

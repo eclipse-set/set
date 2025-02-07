@@ -24,26 +24,29 @@ import org.eclipse.set.model.siteplan.PositionedObject;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>FMA Component</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>FMA
+ * Component</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getLabel <em>Label</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#isRightSide <em>Right Side</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getPosition
+ * <em>Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getLabel
+ * <em>Label</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#getType
+ * <em>Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.FMAComponentImpl#isRightSide
+ * <em>Right Side</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -51,9 +54,9 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	protected Position position;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -62,8 +65,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -72,8 +75,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -81,9 +84,9 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	protected FMAComponentType type = TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isRightSide() <em>Right Side</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #isRightSide() <em>Right Side</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isRightSide()
 	 * @generated
 	 * @ordered
@@ -91,9 +94,9 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	protected static final boolean RIGHT_SIDE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isRightSide() <em>Right Side</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #isRightSide() <em>Right Side</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isRightSide()
 	 * @generated
 	 * @ordered
@@ -101,8 +104,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	protected boolean rightSide = RIGHT_SIDE_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected FMAComponentImpl() {
@@ -110,8 +113,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -120,8 +123,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,23 +133,29 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetLabel(Label newLabel, NotificationChain msgs) {
+	public NotificationChain basicSetLabel(Label newLabel,
+			NotificationChain msgs) {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.FMA_COMPONENT__LABEL, oldLabel, newLabel);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, SiteplanPackage.FMA_COMPONENT__LABEL,
+					oldLabel, newLabel);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -154,19 +163,26 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.FMA_COMPONENT__LABEL, null, msgs);
+				msgs = ((InternalEObject) label).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.FMA_COMPONENT__LABEL,
+						null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.FMA_COMPONENT__LABEL, null, msgs);
+				msgs = ((InternalEObject) newLabel).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.FMA_COMPONENT__LABEL,
+						null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.FMA_COMPONENT__LABEL, newLabel, newLabel));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.FMA_COMPONENT__LABEL, newLabel, newLabel));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -175,8 +191,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -184,12 +200,13 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		FMAComponentType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.FMA_COMPONENT__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.FMA_COMPONENT__TYPE, oldType, type));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -198,8 +215,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -207,12 +224,14 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		boolean oldRightSide = rightSide;
 		rightSide = newRightSide;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.FMA_COMPONENT__RIGHT_SIDE, oldRightSide, rightSide));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.FMA_COMPONENT__RIGHT_SIDE, oldRightSide,
+					rightSide));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -221,23 +240,29 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetPosition(Position newPosition, NotificationChain msgs) {
+	public NotificationChain basicSetPosition(Position newPosition,
+			NotificationChain msgs) {
 		Position oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.FMA_COMPONENT__POSITION, oldPosition, newPosition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, SiteplanPackage.FMA_COMPONENT__POSITION,
+					oldPosition, newPosition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -245,23 +270,32 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.FMA_COMPONENT__POSITION, null, msgs);
+				msgs = ((InternalEObject) position).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.FMA_COMPONENT__POSITION,
+						null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.FMA_COMPONENT__POSITION, null, msgs);
+				msgs = ((InternalEObject) newPosition).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.FMA_COMPONENT__POSITION,
+						null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.FMA_COMPONENT__POSITION, newPosition, newPosition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.FMA_COMPONENT__POSITION, newPosition,
+					newPosition));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.FMA_COMPONENT__POSITION:
 				return basicSetPosition(null, msgs);
@@ -272,8 +306,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -292,42 +326,42 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.FMA_COMPONENT__POSITION:
-				setPosition((Position)newValue);
+				setPosition((Position) newValue);
 				return;
 			case SiteplanPackage.FMA_COMPONENT__LABEL:
-				setLabel((Label)newValue);
+				setLabel((Label) newValue);
 				return;
 			case SiteplanPackage.FMA_COMPONENT__TYPE:
-				setType((FMAComponentType)newValue);
+				setType((FMAComponentType) newValue);
 				return;
 			case SiteplanPackage.FMA_COMPONENT__RIGHT_SIDE:
-				setRightSide((Boolean)newValue);
+				setRightSide((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.FMA_COMPONENT__POSITION:
-				setPosition((Position)null);
+				setPosition((Position) null);
 				return;
 			case SiteplanPackage.FMA_COMPONENT__LABEL:
-				setLabel((Label)null);
+				setLabel((Label) null);
 				return;
 			case SiteplanPackage.FMA_COMPONENT__TYPE:
 				setType(TYPE_EDEFAULT);
@@ -340,8 +374,8 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -360,45 +394,52 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID,
+			Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (derivedFeatureID) {
-				case SiteplanPackage.FMA_COMPONENT__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
-				default: return -1;
+				case SiteplanPackage.FMA_COMPONENT__POSITION:
+					return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default:
+					return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID,
+			Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (baseFeatureID) {
-				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.FMA_COMPONENT__POSITION;
-				default: return -1;
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION:
+					return SiteplanPackage.FMA_COMPONENT__POSITION;
+				default:
+					return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: ");
@@ -409,4 +450,4 @@ public class FMAComponentImpl extends RouteObjectImpl implements FMAComponent {
 		return result.toString();
 	}
 
-} //FMAComponentImpl
+} // FMAComponentImpl

@@ -28,24 +28,25 @@ import org.eclipse.set.model.siteplan.PZBGU;
 import org.eclipse.set.model.siteplan.SiteplanPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>PZBGU</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>PZBGU</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBGUImpl#getPzbs <em>Pzbs</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.PZBGUImpl#getLength <em>Length</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.PZBGUImpl#getPzbs
+ * <em>Pzbs</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.PZBGUImpl#getLength
+ * <em>Length</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	/**
-	 * The cached value of the '{@link #getPzbs() <em>Pzbs</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPzbs() <em>Pzbs</em>}' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPzbs()
 	 * @generated
 	 * @ordered
@@ -53,9 +54,9 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	protected EList<PZB> pzbs;
 
 	/**
-	 * The default value of the '{@link #getLength() <em>Length</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getLength() <em>Length</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLength()
 	 * @generated
 	 * @ordered
@@ -64,8 +65,8 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 
 	/**
 	 * The cached value of the '{@link #getLength() <em>Length</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLength()
 	 * @generated
 	 * @ordered
@@ -73,8 +74,8 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	protected int length = LENGTH_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected PZBGUImpl() {
@@ -82,8 +83,8 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -92,21 +93,22 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<PZB> getPzbs() {
 		if (pzbs == null) {
-			pzbs = new EObjectContainmentEList<PZB>(PZB.class, this, SiteplanPackage.PZBGU__PZBS);
+			pzbs = new EObjectContainmentEList<PZB>(PZB.class, this,
+					SiteplanPackage.PZBGU__PZBS);
 		}
 		return pzbs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -115,8 +117,8 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -124,26 +126,29 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 		int oldLength = length;
 		length = newLength;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.PZBGU__LENGTH, oldLength, length));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.PZBGU__LENGTH, oldLength, length));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.PZBGU__PZBS:
-				return ((InternalEList<?>)getPzbs()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getPzbs()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -158,8 +163,8 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -168,18 +173,18 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 		switch (featureID) {
 			case SiteplanPackage.PZBGU__PZBS:
 				getPzbs().clear();
-				getPzbs().addAll((Collection<? extends PZB>)newValue);
+				getPzbs().addAll((Collection<? extends PZB>) newValue);
 				return;
 			case SiteplanPackage.PZBGU__LENGTH:
-				setLength((Integer)newValue);
+				setLength((Integer) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -196,8 +201,8 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -212,13 +217,14 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (length: ");
@@ -227,4 +233,4 @@ public class PZBGUImpl extends SiteplanObjectImpl implements PZBGU {
 		return result.toString();
 	}
 
-} //PZBGUImpl
+} // PZBGUImpl

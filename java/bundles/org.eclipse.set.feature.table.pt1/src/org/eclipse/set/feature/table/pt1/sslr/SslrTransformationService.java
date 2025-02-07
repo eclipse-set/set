@@ -48,9 +48,11 @@ public class SslrTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sort("B", MIXED_STRING, ASC) //$NON-NLS-1$
+		return TableRowGroupComparator.builder()
+				.sort("B", MIXED_STRING, ASC) //$NON-NLS-1$
 				.sort("C", MIXED_STRING, ASC) //$NON-NLS-1$
-				.sort("D", MIXED_STRING, ASC).build(); //$NON-NLS-1$
+				.sort("D", MIXED_STRING, ASC) //$NON-NLS-1$
+				.build();
 	}
 
 	@Override

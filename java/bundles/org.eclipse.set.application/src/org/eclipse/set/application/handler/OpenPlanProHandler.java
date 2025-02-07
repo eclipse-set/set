@@ -96,34 +96,36 @@ public class OpenPlanProHandler extends AbstractOpenHandler {
 			return null;
 		}
 		switch (modelSession.getFileValidateState()) {
-		case INVALID: {
-			// Invalid file
-			if (!getDialogService().loadInvalidModel(shell, path.toString())) {
-				modelSession.close();
-				return null;
+			case INVALID: {
+				// Invalid file
+				if (!getDialogService().loadInvalidModel(shell,
+						path.toString())) {
+					modelSession.close();
+					return null;
+				}
+				break;
 			}
-			break;
-		}
-		case INCOMPLETE: {
-			// Invalid, but only due to custom validations
-			// as a result, consider this an incomplete file
+			case INCOMPLETE: {
+				// Invalid, but only due to custom validations
+				// as a result, consider this an incomplete file
 
-			// Skip user questioning in development mode
-			if (ToolboxConfiguration.isDevelopmentMode()) {
-				logger.info("user dialog for loading of invalid file skipped" //$NON-NLS-1$
-						+ " due to development mode being enabled"); //$NON-NLS-1$
-				return modelSession;
-			}
+				// Skip user questioning in development mode
+				if (ToolboxConfiguration.isDevelopmentMode()) {
+					logger.info(
+							"user dialog for loading of invalid file skipped" //$NON-NLS-1$
+									+ " due to development mode being enabled"); //$NON-NLS-1$
+					return modelSession;
+				}
 
-			if (!getDialogService().loadIncompleteModel(shell,
-					path.toString())) {
-				modelSession.close();
-				return null;
+				if (!getDialogService().loadIncompleteModel(shell,
+						path.toString())) {
+					modelSession.close();
+					return null;
+				}
+				break;
 			}
-			break;
-		}
-		default:
-			break;
+			default:
+				break;
 
 		}
 		return modelSession;

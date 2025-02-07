@@ -60,7 +60,8 @@ public final class SskaTransformationService
 	public Comparator<RowGroup> getRowGroupComparator() {
 		return TableRowGroupComparator.builder()
 				.sort(ESTW_Zentraleinheit.class, Aussenelementansteuerung.class)
-				.sort("A", LEXICOGRAPHICAL, ASC).build(); //$NON-NLS-1$
+				.sort("A", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.build();
 	}
 
 	@Override

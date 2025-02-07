@@ -249,7 +249,8 @@ public class PlanProTableThemeConfiguration
 			final int rowIndex = bodyLayer.getRowIndexByPosition(rowPosition);
 
 			final String dataValue = bodyDataProvider
-					.getDataValue(columnIndex, rowIndex).toString();
+					.getDataValue(columnIndex, rowIndex)
+					.toString();
 			if (CellContentExtensions.isErrorText(dataValue)) {
 				configLabels.addLabel(EXCEPTION_LABEL);
 			}
@@ -337,18 +338,19 @@ public class PlanProTableThemeConfiguration
 			if (width != null) {
 				switch (ColumnDescriptorExtensions.getColumnWidthMode(heading,
 						column)) {
-				case WIDTH_CM:
-					dataLayer.setColumnPercentageSizing(column, false);
-					dataLayer.setColumnWidthByPosition(column,
-							toPixel(width.floatValue()));
-					break;
-				case WIDTH_PERCENT:
-					dataLayer.setColumnPercentageSizing(column, true);
-					dataLayer.setColumnWidthPercentageByPosition(column,
-							(int) width.floatValue());
-					break;
-				default:
-					throw new IllegalArgumentException("Invalid width mode"); //$NON-NLS-1$
+					case WIDTH_CM:
+						dataLayer.setColumnPercentageSizing(column, false);
+						dataLayer.setColumnWidthByPosition(column,
+								toPixel(width.floatValue()));
+						break;
+					case WIDTH_PERCENT:
+						dataLayer.setColumnPercentageSizing(column, true);
+						dataLayer.setColumnWidthPercentageByPosition(column,
+								(int) width.floatValue());
+						break;
+					default:
+						throw new IllegalArgumentException(
+								"Invalid width mode"); //$NON-NLS-1$
 				}
 			}
 

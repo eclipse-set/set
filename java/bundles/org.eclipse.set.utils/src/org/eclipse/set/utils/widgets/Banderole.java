@@ -75,7 +75,8 @@ public class Banderole {
 
 		// heading composite
 		headingComposite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(2)
+		GridLayoutFactory.fillDefaults()
+				.numColumns(2)
 				.applyTo(headingComposite);
 
 		// label
@@ -107,7 +108,9 @@ public class Banderole {
 		exportButtonComposite = new Composite(actionPanel, SWT.NONE);
 		GridLayoutFactory.fillDefaults().applyTo(exportButtonComposite);
 		exportButton = new Button(exportButtonComposite, SWT.NONE);
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.FILL).grab(true, false)
+		GridDataFactory.swtDefaults()
+				.align(SWT.END, SWT.FILL)
+				.grab(true, false)
 				.applyTo(exportButton);
 
 		// the empty panel is the default top control

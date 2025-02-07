@@ -27,23 +27,24 @@ import org.eclipse.set.model.zipmanifest.MediaList;
 import org.eclipse.set.model.zipmanifest.ZipmanifestPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Media List</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Media
+ * List</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.zipmanifest.impl.MediaListImpl#getMedia <em>Media</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.impl.MediaListImpl#getMedia
+ * <em>Media</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class MediaListImpl extends MinimalEObjectImpl.Container implements MediaList {
+public class MediaListImpl extends MinimalEObjectImpl.Container
+		implements MediaList {
 	/**
-	 * The cached value of the '{@link #getMedia() <em>Media</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMedia() <em>Media</em>}' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMedia()
 	 * @generated
 	 * @ordered
@@ -51,8 +52,8 @@ public class MediaListImpl extends MinimalEObjectImpl.Container implements Media
 	protected EList<Media> media;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected MediaListImpl() {
@@ -60,8 +61,8 @@ public class MediaListImpl extends MinimalEObjectImpl.Container implements Media
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -70,35 +71,38 @@ public class MediaListImpl extends MinimalEObjectImpl.Container implements Media
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Media> getMedia() {
 		if (media == null) {
-			media = new EObjectContainmentEList<Media>(Media.class, this, ZipmanifestPackage.MEDIA_LIST__MEDIA);
+			media = new EObjectContainmentEList<Media>(Media.class, this,
+					ZipmanifestPackage.MEDIA_LIST__MEDIA);
 		}
 		return media;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ZipmanifestPackage.MEDIA_LIST__MEDIA:
-				return ((InternalEList<?>)getMedia()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getMedia()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,8 +115,8 @@ public class MediaListImpl extends MinimalEObjectImpl.Container implements Media
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -121,15 +125,15 @@ public class MediaListImpl extends MinimalEObjectImpl.Container implements Media
 		switch (featureID) {
 			case ZipmanifestPackage.MEDIA_LIST__MEDIA:
 				getMedia().clear();
-				getMedia().addAll((Collection<? extends Media>)newValue);
+				getMedia().addAll((Collection<? extends Media>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -143,8 +147,8 @@ public class MediaListImpl extends MinimalEObjectImpl.Container implements Media
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -156,4 +160,4 @@ public class MediaListImpl extends MinimalEObjectImpl.Container implements Media
 		return super.eIsSet(featureID);
 	}
 
-} //MediaListImpl
+} // MediaListImpl

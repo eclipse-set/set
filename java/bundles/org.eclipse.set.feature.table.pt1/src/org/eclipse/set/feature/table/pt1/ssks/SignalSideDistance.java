@@ -142,7 +142,8 @@ public class SignalSideDistance {
 		final Set<Punkt_Objekt_TOP_Kante_AttributeGroup> potks = signalBefestigung
 				.stream()
 				.flatMap(befestigung -> PunktObjektExtensions
-						.getSinglePoints(befestigung).stream()
+						.getSinglePoints(befestigung)
+						.stream()
 						.filter(Objects::nonNull))
 				.collect(Collectors.toSet());
 		potks.forEach(potk -> {
@@ -154,7 +155,8 @@ public class SignalSideDistance {
 						"The Seitlicher_Abstand isn't exists"); //$NON-NLS-1$
 			}
 			final ENUMWirkrichtung direction = getSinglePoint(signal)
-					.getWirkrichtung().getWert();
+					.getWirkrichtung()
+					.getWert();
 			final long distanceFromPoint = MAX_DISTANCE_TO_NEIGHBOR
 					- Math.abs(sideDistance);
 			final int perpendicularRotation = getPerpendicularRotation(
@@ -194,13 +196,15 @@ public class SignalSideDistance {
 						final ENUMBefestigungArt befestigungArt = getNullableObject(
 								befestigung,
 								e -> e.getSignalBefestigungAllg()
-										.getBefestigungArt().getWert())
-												.orElse(null);
+										.getBefestigungArt()
+										.getWert()).orElse(null);
 						return befestigungArt != null
 								&& (befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
 										|| befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
 										|| befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE);
-					}).findFirst().orElse(null);
+					})
+					.findFirst()
+					.orElse(null);
 		}).filter(Objects::nonNull).toList();
 	}
 
@@ -208,15 +212,15 @@ public class SignalSideDistance {
 			final ENUMWirkrichtung direction) throws IllegalArgumentException {
 		final boolean isPositiveSideDistance = sideDistance >= 0;
 		switch (direction) {
-		case ENUM_WIRKRICHTUNG_IN:
-			return isPositiveSideDistance ? 90 : -90;
-		case ENUM_WIRKRICHTUNG_GEGEN:
-			return isPositiveSideDistance ? -90 : 90;
-		default: {
-			throw new IllegalArgumentException(
-					"The Signal_Befestigung have Illegal Wirkrichtung: " //$NON-NLS-1$
-							+ direction);
-		}
+			case ENUM_WIRKRICHTUNG_IN:
+				return isPositiveSideDistance ? 90 : -90;
+			case ENUM_WIRKRICHTUNG_GEGEN:
+				return isPositiveSideDistance ? -90 : 90;
+			default: {
+				throw new IllegalArgumentException(
+						"The Signal_Befestigung have Illegal Wirkrichtung: " //$NON-NLS-1$
+								+ direction);
+			}
 		}
 	}
 
@@ -256,7 +260,8 @@ public class SignalSideDistance {
 				.filter(geoKante -> GeoKanteExtensions
 						.topKante(geoKante) != potk.getIDTOPKante().getValue())
 				.map(GEOKanteGeometryExtensions::getGeometry)
-				.filter(Objects::nonNull).toList();
+				.filter(Objects::nonNull)
+				.toList();
 		return getOpposideDistance(relevantGeometries, perpendicularLine,
 				position);
 
@@ -274,7 +279,8 @@ public class SignalSideDistance {
 				.map(point -> Double.valueOf(point.getCoordinate()
 						.distance(position.getCoordinate())))
 				.toList();
-		return distances.stream().min(Double::compare)
+		return distances.stream()
+				.min(Double::compare)
 				.orElse(Double.valueOf(0));
 	}
 
@@ -284,30 +290,30 @@ public class SignalSideDistance {
 		final boolean isPositiveSideDistance = sideDistance >= 0;
 		final long positiveSideDistance = Math.abs(sideDistance);
 		switch (direction) {
-		case ENUM_WIRKRICHTUNG_IN: {
-			if (isPositiveSideDistance) {
-				sideDistancesLeft.add(new SideDistance(positiveSideDistance,
-						distanceBetweenTracks));
-			} else {
-				sideDistancesRight.add(new SideDistance(positiveSideDistance,
-						distanceBetweenTracks));
+			case ENUM_WIRKRICHTUNG_IN: {
+				if (isPositiveSideDistance) {
+					sideDistancesLeft.add(new SideDistance(positiveSideDistance,
+							distanceBetweenTracks));
+				} else {
+					sideDistancesRight.add(new SideDistance(
+							positiveSideDistance, distanceBetweenTracks));
+				}
+				break;
 			}
-			break;
-		}
-		case ENUM_WIRKRICHTUNG_GEGEN: {
-			if (!isPositiveSideDistance) {
-				sideDistancesLeft.add(new SideDistance(positiveSideDistance,
-						distanceBetweenTracks));
-			} else {
-				sideDistancesRight.add(new SideDistance(positiveSideDistance,
-						distanceBetweenTracks));
+			case ENUM_WIRKRICHTUNG_GEGEN: {
+				if (!isPositiveSideDistance) {
+					sideDistancesLeft.add(new SideDistance(positiveSideDistance,
+							distanceBetweenTracks));
+				} else {
+					sideDistancesRight.add(new SideDistance(
+							positiveSideDistance, distanceBetweenTracks));
+				}
+				break;
 			}
-			break;
-		}
-		default:
-			throw new IllegalArgumentException(
-					"The Signal_Befestigung have Illegal Wirkrichtung: " //$NON-NLS-1$
-							+ direction);
+			default:
+				throw new IllegalArgumentException(
+						"The Signal_Befestigung have Illegal Wirkrichtung: " //$NON-NLS-1$
+								+ direction);
 		}
 	}
 }

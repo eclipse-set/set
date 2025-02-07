@@ -61,10 +61,12 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 		List.of(SsksColumns.Fiktives_Signal, SsksColumns.Reales_Signal)
 				.forEach(columnPosition -> {
 					final ColumnDescriptor col = TableExtensions
-							.getColumns(table).stream()
+							.getColumns(table)
+							.stream()
 							.filter(column -> column.getColumnPosition()
 									.equals(columnPosition))
-							.findFirst().orElse(null);
+							.findFirst()
+							.orElse(null);
 					final Optional<Integer> lastRowIndex = getLastRowIndex(
 							table, col);
 					if (lastRowIndex.isPresent()) {
@@ -79,7 +81,8 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 		final List<Entry<Integer, TableRow>> signalEntries = getSignalEntries(
 				table, column);
 		final Optional<Entry<Integer, TableRow>> collect = signalEntries
-				.stream().collect(Collectors
+				.stream()
+				.collect(Collectors
 						.maxBy(Comparator.comparingInt(Map.Entry::getKey)));
 		if (collect.isPresent()) {
 			return Optional.of(collect.get().getKey());
@@ -97,12 +100,15 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 				.collect(Collectors.toMap(
 						e -> Integer.valueOf(tableRows.indexOf(e) + 1),
 						Function.identity()))
-				.entrySet().parallelStream().filter(entry -> {
+				.entrySet()
+				.parallelStream()
+				.filter(entry -> {
 					final TableRow row = entry.getValue();
 					final String cellValue = TableRowExtensions
 							.getPlainStringValue(row, column);
 					return !cellValue.isEmpty() && !cellValue.isBlank();
-				}).toList();
+				})
+				.toList();
 
 	}
 

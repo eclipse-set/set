@@ -15,15 +15,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.set.model.validationreport.ValidationProblem;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Report</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>Report</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.plazmodel.PlazReport#getEntries <em>Entries</em>}</li>
+ * <li>{@link org.eclipse.set.model.plazmodel.PlazReport#getEntries
+ * <em>Entries</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.plazmodel.PlazPackage#getPlazReport()
@@ -32,10 +32,11 @@ import org.eclipse.set.model.validationreport.ValidationProblem;
  */
 public interface PlazReport extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Entries</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.validationreport.ValidationProblem}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Entries</b></em>' containment reference
+	 * list. The list contents are of type
+	 * {@link org.eclipse.set.model.validationreport.ValidationProblem}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Entries</em>' containment reference list.
 	 * @see org.eclipse.set.model.plazmodel.PlazPackage#getPlazReport_Entries()
 	 * @model containment="true"

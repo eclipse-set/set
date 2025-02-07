@@ -84,8 +84,9 @@ public final class SszaTransformationService
 				Bezugspunkt_Standort_km, DP_Standort_rel_Lage_zu_BP);
 
 		cols.stream()
-				.filter(col -> notMergeColumns.stream().anyMatch(
-						ele -> Objects.equals(ele, col.getColumnPosition())))
+				.filter(col -> notMergeColumns.stream()
+						.anyMatch(ele -> Objects.equals(ele,
+								col.getColumnPosition())))
 				.forEach(
 						col -> col.setMergeCommonValues(RowMergeMode.DISABLED));
 		return cd;

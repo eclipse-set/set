@@ -129,8 +129,10 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	private static List<Punkt_Objekt> getRelevantPOs(
 			final MultiContainer_AttributeGroup container) {
-		return Streams.stream(container.getPunktObjekts()).parallel()
-				.filter(po -> po.getPunktObjektTOPKante().stream()
+		return Streams.stream(container.getPunktObjekts())
+				.parallel()
+				.filter(po -> po.getPunktObjektTOPKante()
+						.stream()
 						.anyMatch(potk -> getNullableObject(potk,
 								ele -> ele.getSeitlicherAbstand().getWert())
 										.isPresent())
@@ -165,14 +167,20 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	private static GEO_Punkt getSameCRSGEOPunkt(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
 			final ENUMGEOKoordinatensystem crs) {
-		return potk.getIDGEOPunktBerechnet().stream().map(e -> e.getValue())
-				.filter(Objects::nonNull).filter(gp -> {
+		return potk.getIDGEOPunktBerechnet()
+				.stream()
+				.map(e -> e.getValue())
+				.filter(Objects::nonNull)
+				.filter(gp -> {
 					final ENUMGEOKoordinatensystem geoPunktCRS = getNullableObject(
-							gp, e -> e.getGEOPunktAllg()
-									.getGEOKoordinatensystem().getWert())
-											.orElse(null);
+							gp,
+							e -> e.getGEOPunktAllg()
+									.getGEOKoordinatensystem()
+									.getWert()).orElse(null);
 					return geoPunktCRS != null && geoPunktCRS.equals(crs);
-				}).findFirst().orElse(null);
+				})
+				.findFirst()
+				.orElse(null);
 	}
 
 	private PlazError creatErrorReport(final GEO_Punkt gp) {
@@ -193,8 +201,10 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
 			final GEO_Punkt gp, final double diff) {
 		final ID_GEO_Punkt_ohne_Proxy_TypeClass errorObject = potk
-				.getIDGEOPunktBerechnet().stream()
-				.filter(idgp -> idgp.getValue().equals(gp)).findFirst()
+				.getIDGEOPunktBerechnet()
+				.stream()
+				.filter(idgp -> idgp.getValue().equals(gp))
+				.findFirst()
 				.orElse(null);
 		if (errorObject == null) {
 			throw new IllegalArgumentException(String.format(
@@ -254,7 +264,9 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 	public static boolean isNotDistinctCoordinateSystem(
 			final Punkt_Objekt_TOP_Kante_AttributeGroup potk) {
 		final List<GEO_Punkt> givenGeoPunkts = potk.getIDGEOPunktBerechnet()
-				.stream().map(gp -> gp.getValue()).filter(Objects::nonNull)
+				.stream()
+				.map(gp -> gp.getValue())
+				.filter(Objects::nonNull)
 				.toList();
 		if (givenGeoPunkts.isEmpty()) {
 			return false;
@@ -263,7 +275,8 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 				.notDistinctBy(givenGeoPunkts,
 						gp -> EObjectExtensions.getNullableObject(gp,
 								e -> e.getGEOPunktAllg()
-										.getGEOKoordinatensystem().getWert()));
+										.getGEOKoordinatensystem()
+										.getWert()));
 		return notDistinctBy.iterator().hasNext();
 	}
 }

@@ -545,14 +545,16 @@ public class ModelSession implements IModelSession {
 			final Function<ValidationResult, Outcome> outcome) {
 		return ValidationOutcome.getValidationsOutcome(Stream
 				.of(schnittstelleValidationResult, layoutinfoValidationResult)
-				.filter(Objects::nonNull).toList(), outcome);
+				.filter(Objects::nonNull)
+				.toList(), outcome);
 	}
 
 	@Override
 	public FileValidateState getFileValidateState() {
 		return ValidationOutcome.getFileValidateState(Stream
 				.of(schnittstelleValidationResult, layoutinfoValidationResult)
-				.filter(Objects::nonNull).toList());
+				.filter(Objects::nonNull)
+				.toList());
 	}
 
 	@Override
@@ -784,8 +786,9 @@ public class ModelSession implements IModelSession {
 			// refresh validation
 			refreshValidation();
 		} catch (final IOException e) {
-			Display.getDefault().syncExec(
-					() -> serviceProvider.dialogService.error(shell, e));
+			Display.getDefault()
+					.syncExec(() -> serviceProvider.dialogService.error(shell,
+							e));
 			return false;
 		}
 		return true;

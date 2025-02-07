@@ -63,8 +63,11 @@ class DigraphsTest {
 		}
 
 		TestEdge expectedEdge(final String edge) {
-			return digraph.getEdges().stream().map(TestEdge.class::cast)
-					.filter(e -> e.isEdge(edge)).findFirst()
+			return digraph.getEdges()
+					.stream()
+					.map(TestEdge.class::cast)
+					.filter(e -> e.isEdge(edge))
+					.findFirst()
 					.orElseThrow(() -> new NoSuchElementException(edge));
 		}
 	}
@@ -87,24 +90,28 @@ class DigraphsTest {
 		return Stream.of( //
 				new TestGetPathsDigraphPP() //
 						.edge("AB", 1, 2, 3, 4) //
-						.start(1).end(3) //
+						.start(1)
+						.end(3) //
 						.expected("AB"), //
 				new TestGetPathsDigraphPP() //
 						.edge("AB", 1, 2, 3, 4) //
 						.edge("BC", 5, 6, 7) //
-						.start(2).end(6) //
+						.start(2)
+						.end(6) //
 						.expected("AB", "BC"), //
 				new TestGetPathsDigraphPP() //
 						.edge("AB", 1, 2, 3, 4) //
 						.edge("BC", 5, 6, 7) //
-						.start(6).end(2), //
+						.start(6)
+						.end(2), //
 				new TestGetPathsDigraphPP() //
 						.edge("AB", 1, 2, 3, 4) //
 						.edge("BC", 5, 6, 7) //
 						.edge("CD", 8, 9, 10) //
 						.edge("BX", 11, 12) //
 						.edge("XC", 13, 14) //
-						.start(2).end(9) //
+						.start(2)
+						.end(9) //
 						.expected("AB", "BC", "CD") //
 						.expected("AB", "BX", "XC", "CD"), //
 				new TestGetPathsDigraphPP() //
@@ -112,7 +119,8 @@ class DigraphsTest {
 						.edge("BC", 5, 6, 7) //
 						.edge("CD", 8, 9, 10) //
 						.edge("BX", 11, 12) //
-						.start(2).end(9) //
+						.start(2)
+						.end(9) //
 						.expected("AB", "BC", "CD") //
 		);
 	}

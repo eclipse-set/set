@@ -16,16 +16,16 @@ import org.eclipse.set.model.tablemodel.CellAnnotation;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Cell Annotation</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Cell
+ * Annotation</b></em>'. <!-- end-user-doc -->
  *
  * @generated
  */
-public class CellAnnotationImpl extends MinimalEObjectImpl.Container implements CellAnnotation {
+public class CellAnnotationImpl extends MinimalEObjectImpl.Container
+		implements CellAnnotation {
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected CellAnnotationImpl() {
@@ -33,8 +33,8 @@ public class CellAnnotationImpl extends MinimalEObjectImpl.Container implements 
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -42,4 +42,4 @@ public class CellAnnotationImpl extends MinimalEObjectImpl.Container implements 
 		return TablemodelPackage.Literals.CELL_ANNOTATION;
 	}
 
-} //CellAnnotationImpl
+} // CellAnnotationImpl

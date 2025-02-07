@@ -46,8 +46,8 @@ public class AddAttachmentData<T> extends AbstractCommand {
 	@Override
 	public void execute() {
 		try {
-			mediaInfo.getToolboxFile().createMedia(mediaInfo.getGuid(),
-					mediaInfo.getData());
+			mediaInfo.getToolboxFile()
+					.createMedia(mediaInfo.getGuid(), mediaInfo.getData());
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}

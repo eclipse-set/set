@@ -57,8 +57,9 @@ public abstract class AnnotatedViewModelRendererService<VELEMENT extends VElemen
 	@Override
 	public double isApplicable(final VElement vElement,
 			final ViewModelContext viewModelContext) {
-		if (Boolean.TRUE.toString().equalsIgnoreCase(Annotations
-				.getViewModelValue(vElement, type.getSimpleName()))) {
+		if (Boolean.TRUE.toString()
+				.equalsIgnoreCase(Annotations.getViewModelValue(vElement,
+						type.getSimpleName()))) {
 			return priority;
 		}
 		return NOT_APPLICABLE;

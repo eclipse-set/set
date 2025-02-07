@@ -79,14 +79,16 @@ public class ViewRenderer extends SimpleControlSWTControlSWTRenderer {
 		for (final VContainedElement vContainedElement : view.getChildren()) {
 			if (vContainedElement instanceof VControl) {
 				final VDomainModelReference domainModelReference = VControl.class
-						.cast(vContainedElement).getDomainModelReference();
+						.cast(vContainedElement)
+						.getDomainModelReference();
 				if (!(domainModelReference instanceof VFeaturePathDomainModelReference)) {
 					return;
 				}
 				final VFeaturePathDomainModelReference featurepathdomainModelReference = (VFeaturePathDomainModelReference) domainModelReference;
-				final boolean contains = controls
-						.contains(featurepathdomainModelReference
-								.getDomainModelEFeature().getName().toString());
+				final boolean contains = controls.contains(
+						featurepathdomainModelReference.getDomainModelEFeature()
+								.getName()
+								.toString());
 				if (contains) {
 					vContainedElement.setReadonly(true);
 				}
@@ -162,7 +164,8 @@ public class ViewRenderer extends SimpleControlSWTControlSWTRenderer {
 			LOGGER.debug("Value of feature {} not present, creating...", //$NON-NLS-1$
 					feature.getName());
 			final EClass eClass = (EClass) feature.getEType();
-			domainElement = eClass.getEPackage().getEFactoryInstance()
+			domainElement = eClass.getEPackage()
+					.getEFactoryInstance()
 					.create(eClass);
 			final EObject eParent = typedSetting.getEObject();
 			eParent.eSet(feature, domainElement);

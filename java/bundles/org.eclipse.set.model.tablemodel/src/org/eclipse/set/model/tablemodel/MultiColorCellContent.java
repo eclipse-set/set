@@ -10,17 +10,16 @@ package org.eclipse.set.model.tablemodel;
 
 import org.eclipse.emf.common.util.EList;
 
-
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Multi Color Cell Content</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Multi
+ * Color Cell Content</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.MultiColorCellContent#getValue
+ * <em>Value</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getMultiColorCellContent()
@@ -29,10 +28,11 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface MultiColorCellContent extends CellContent {
 	/**
-	 * Returns the value of the '<em><b>Value</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.tablemodel.MultiColorContent}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Value</b></em>' containment reference
+	 * list. The list contents are of type
+	 * {@link org.eclipse.set.model.tablemodel.MultiColorContent}. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Value</em>' containment reference list.
 	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getMultiColorCellContent_Value()
 	 * @model containment="true"

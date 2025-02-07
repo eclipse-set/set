@@ -139,7 +139,8 @@ public class SourceWebTextViewPart extends BasePart {
 			final Response response) throws JsonProcessingException {
 		// Get the list of validation problems
 		final Iterable<Object> problems = cacheService
-				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE).values();
+				.getCache(ToolboxConstants.CacheId.PROBLEM_MESSAGE)
+				.values();
 		final List<ProblemMessage> problemMessages = new ArrayList<>();
 		problems.forEach(problemContainer -> problemMessages
 				.addAll((List<ProblemMessage>) problemContainer));
@@ -196,29 +197,30 @@ public class SourceWebTextViewPart extends BasePart {
 	private void jumpToGUID(final String guid) {
 		TableType tableType = getModelSession().getTableType();
 		if (tableType == null) {
-			tableType = getModelSession().getNature().getDefaultContainer()
+			tableType = getModelSession().getNature()
+					.getDefaultContainer()
 					.getTableTypeForTables();
 		}
 		String tableState = "";
 		switch (tableType) {
-		case INITIAL: {
-			tableState = "initial";
-			break;
-		}
-		case FINAL: {
-			tableState = "final";
-			break;
-		}
-		case DIFF: {
-			tableState = "diff";
-			break;
-		}
-		case SINGLE: {
-			tableState = "single";
-			break;
-		}
-		default:
-			break;
+			case INITIAL: {
+				tableState = "initial";
+				break;
+			}
+			case FINAL: {
+				tableState = "final";
+				break;
+			}
+			case DIFF: {
+				tableState = "diff";
+				break;
+			}
+			case SINGLE: {
+				tableState = "single";
+				break;
+			}
+			default:
+				break;
 		}
 
 		final String js = String.format("""

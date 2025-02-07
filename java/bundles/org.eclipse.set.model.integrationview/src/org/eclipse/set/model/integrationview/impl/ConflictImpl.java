@@ -29,28 +29,34 @@ import org.eclipse.set.model.integrationview.Details;
 import org.eclipse.set.model.integrationview.IntegrationviewPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Conflict</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Conflict</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getId <em>Id</em>}</li>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getContainer <em>Container</em>}</li>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getVersion <em>Version</em>}</li>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getResolution <em>Resolution</em>}</li>
- *   <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getDetails <em>Details</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getId
+ * <em>Id</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getName
+ * <em>Name</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getContainer
+ * <em>Container</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getVersion
+ * <em>Version</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getResolution
+ * <em>Resolution</em>}</li>
+ * <li>{@link org.eclipse.set.model.integrationview.impl.ConflictImpl#getDetails
+ * <em>Details</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ConflictImpl extends MinimalEObjectImpl.Container implements Conflict {
+public class ConflictImpl extends MinimalEObjectImpl.Container
+		implements Conflict {
 	/**
-	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getId()
 	 * @generated
 	 * @ordered
@@ -58,9 +64,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected static final int ID_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getId()
 	 * @generated
 	 * @ordered
@@ -69,8 +75,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -79,8 +85,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -88,9 +94,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getContainer() <em>Container</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getContainer() <em>Container</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getContainer()
 	 * @generated
 	 * @ordered
@@ -98,9 +104,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected static final String CONTAINER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getContainer() <em>Container</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getContainer() <em>Container</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getContainer()
 	 * @generated
 	 * @ordered
@@ -108,9 +114,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected String container = CONTAINER_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getVersion() <em>Version</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -118,9 +124,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected static final String VERSION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getVersion() <em>Version</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getVersion()
 	 * @generated
 	 * @ordered
@@ -128,9 +134,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected String version = VERSION_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getResolution() <em>Resolution</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getResolution() <em>Resolution</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getResolution()
 	 * @generated
 	 * @ordered
@@ -138,9 +144,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected static final String RESOLUTION_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getResolution() <em>Resolution</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getResolution() <em>Resolution</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getResolution()
 	 * @generated
 	 * @ordered
@@ -148,9 +154,9 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected String resolution = RESOLUTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDetails() <em>Details</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getDetails() <em>Details</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDetails()
 	 * @generated
 	 * @ordered
@@ -158,8 +164,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	protected EList<Details> details;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ConflictImpl() {
@@ -167,8 +173,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -177,8 +183,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -187,8 +193,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -196,12 +202,13 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 		int oldId = id;
 		id = newId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.CONFLICT__ID, oldId, id));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.CONFLICT__ID, oldId, id));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -210,8 +217,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -219,12 +226,13 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.CONFLICT__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.CONFLICT__NAME, oldName, name));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -233,8 +241,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -242,12 +250,14 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 		String oldContainer = container;
 		container = newContainer;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.CONFLICT__CONTAINER, oldContainer, container));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.CONFLICT__CONTAINER, oldContainer,
+					container));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -256,8 +266,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -265,12 +275,14 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 		String oldVersion = version;
 		version = newVersion;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.CONFLICT__VERSION, oldVersion, version));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.CONFLICT__VERSION, oldVersion,
+					version));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -279,8 +291,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -288,39 +300,44 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 		String oldResolution = resolution;
 		resolution = newResolution;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IntegrationviewPackage.CONFLICT__RESOLUTION, oldResolution, resolution));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					IntegrationviewPackage.CONFLICT__RESOLUTION, oldResolution,
+					resolution));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Details> getDetails() {
 		if (details == null) {
-			details = new EObjectContainmentEList<Details>(Details.class, this, IntegrationviewPackage.CONFLICT__DETAILS);
+			details = new EObjectContainmentEList<Details>(Details.class, this,
+					IntegrationviewPackage.CONFLICT__DETAILS);
 		}
 		return details;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case IntegrationviewPackage.CONFLICT__DETAILS:
-				return ((InternalEList<?>)getDetails()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getDetails()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -343,8 +360,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -352,31 +369,31 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case IntegrationviewPackage.CONFLICT__ID:
-				setId((Integer)newValue);
+				setId((Integer) newValue);
 				return;
 			case IntegrationviewPackage.CONFLICT__NAME:
-				setName((String)newValue);
+				setName((String) newValue);
 				return;
 			case IntegrationviewPackage.CONFLICT__CONTAINER:
-				setContainer((String)newValue);
+				setContainer((String) newValue);
 				return;
 			case IntegrationviewPackage.CONFLICT__VERSION:
-				setVersion((String)newValue);
+				setVersion((String) newValue);
 				return;
 			case IntegrationviewPackage.CONFLICT__RESOLUTION:
-				setResolution((String)newValue);
+				setResolution((String) newValue);
 				return;
 			case IntegrationviewPackage.CONFLICT__DETAILS:
 				getDetails().clear();
-				getDetails().addAll((Collection<? extends Details>)newValue);
+				getDetails().addAll((Collection<? extends Details>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -405,8 +422,8 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -415,13 +432,17 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 			case IntegrationviewPackage.CONFLICT__ID:
 				return id != ID_EDEFAULT;
 			case IntegrationviewPackage.CONFLICT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null
+						: !NAME_EDEFAULT.equals(name);
 			case IntegrationviewPackage.CONFLICT__CONTAINER:
-				return CONTAINER_EDEFAULT == null ? container != null : !CONTAINER_EDEFAULT.equals(container);
+				return CONTAINER_EDEFAULT == null ? container != null
+						: !CONTAINER_EDEFAULT.equals(container);
 			case IntegrationviewPackage.CONFLICT__VERSION:
-				return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+				return VERSION_EDEFAULT == null ? version != null
+						: !VERSION_EDEFAULT.equals(version);
 			case IntegrationviewPackage.CONFLICT__RESOLUTION:
-				return RESOLUTION_EDEFAULT == null ? resolution != null : !RESOLUTION_EDEFAULT.equals(resolution);
+				return RESOLUTION_EDEFAULT == null ? resolution != null
+						: !RESOLUTION_EDEFAULT.equals(resolution);
 			case IntegrationviewPackage.CONFLICT__DETAILS:
 				return details != null && !details.isEmpty();
 		}
@@ -429,13 +450,14 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
@@ -452,4 +474,4 @@ public class ConflictImpl extends MinimalEObjectImpl.Container implements Confli
 		return result.toString();
 	}
 
-} //ConflictImpl
+} // ConflictImpl

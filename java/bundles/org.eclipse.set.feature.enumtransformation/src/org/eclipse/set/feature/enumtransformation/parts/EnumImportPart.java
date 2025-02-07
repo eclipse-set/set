@@ -95,8 +95,10 @@ public class EnumImportPart extends BasePart {
 
 	private List<ToolboxFileFilter> createFileFilter() {
 		final ToolboxFileFilter xls = ToolboxFileFilterBuilder
-				.forName(messages.EnumImportPart_FileFilterName).add(XLS)
-				.filterNameWithFilterList(true).create();
+				.forName(messages.EnumImportPart_FileFilterName)
+				.add(XLS)
+				.filterNameWithFilterList(true)
+				.create();
 		return Lists.newArrayList(xls);
 	}
 
@@ -132,7 +134,8 @@ public class EnumImportPart extends BasePart {
 		fileField = new FileField(parent, createFileFilter(),
 				getDialogService());
 		fileField.getButton().setText(messages.EnumImportPart_ImportButtonText);
-		GridDataFactory.fillDefaults().grab(true, false)
+		GridDataFactory.fillDefaults()
+				.grab(true, false)
 				.applyTo(fileField.getComposite());
 		fileField.addPathListener(this::pathSelected);
 

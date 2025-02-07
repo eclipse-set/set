@@ -127,7 +127,8 @@ public class AttachmentPart extends BasePart {
 		final ScrolledComposite scrolledComposite = new ScrolledComposite(
 				parent, SWT.V_SCROLL);
 		scrolledComposite.setLayout(new GridLayout());
-		GridDataFactory.fillDefaults().grab(true, true)
+		GridDataFactory.fillDefaults()
+				.grab(true, true)
 				.applyTo(scrolledComposite);
 		scrolledComposite.setExpandVertical(true);
 		scrolledComposite.setExpandHorizontal(true);
@@ -177,7 +178,8 @@ public class AttachmentPart extends BasePart {
 					GridData.BEGINNING, true, false, 2, 1);
 			initialHeader.setLayoutData(domainHeaderGridData);
 			final String containerInitialName = translationService
-					.translate(ContainerType.INITIAL).getPresentation();
+					.translate(ContainerType.INITIAL)
+					.getPresentation();
 			initialHeader.setText(String.format(HEADING_PATTERN,
 					messages.AttachmentPart_AttachmentsInDomain,
 					containerInitialName));
@@ -186,10 +188,14 @@ public class AttachmentPart extends BasePart {
 
 			// final container
 			final Label finalHeader = new Label(parent, SWT.NONE);
-			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING)
-					.grab(true, false).span(2, 1).applyTo(finalHeader);
+			GridDataFactory.swtDefaults()
+					.align(SWT.BEGINNING, SWT.BEGINNING)
+					.grab(true, false)
+					.span(2, 1)
+					.applyTo(finalHeader);
 			final String containerFinalName = translationService
-					.translate(ContainerType.FINAL).getPresentation();
+					.translate(ContainerType.FINAL)
+					.getPresentation();
 			finalHeader.setText(String.format(HEADING_PATTERN,
 					messages.AttachmentPart_AttachmentsInDomain,
 					containerFinalName));
@@ -198,10 +204,14 @@ public class AttachmentPart extends BasePart {
 		} else {
 			// single container
 			final Label singleHeader = new Label(parent, SWT.NONE);
-			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING)
-					.grab(true, false).span(2, 1).applyTo(singleHeader);
+			GridDataFactory.swtDefaults()
+					.align(SWT.BEGINNING, SWT.BEGINNING)
+					.grab(true, false)
+					.span(2, 1)
+					.applyTo(singleHeader);
 			final String containerSingleName = translationService
-					.translate(ContainerType.SINGLE).getPresentation();
+					.translate(ContainerType.SINGLE)
+					.getPresentation();
 			singleHeader.setText(String.format(HEADING_PATTERN,
 					messages.AttachmentPart_AttachmentsInDomain,
 					containerSingleName));

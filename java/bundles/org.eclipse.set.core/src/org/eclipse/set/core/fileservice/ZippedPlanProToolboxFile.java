@@ -56,7 +56,8 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 	private static void deleteDir(final Path directory) throws IOException {
 		if (Files.exists(directory)) {
 			try (Stream<Path> files = Files.walk(directory)) {
-				files.sorted(Comparator.reverseOrder()).map(Path::toFile)
+				files.sorted(Comparator.reverseOrder())
+						.map(Path::toFile)
 						.forEach(File::delete);
 			}
 		}
@@ -312,7 +313,8 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 			unzip();
 			loadResource(getModelPath(), editingDomain);
 			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
-					.getContents().getFirst();
+					.getContents()
+					.getFirst();
 			ToolboxIDResolver
 					.resolveIDReferences(doc.getPlanProSchnittstelle());
 		} else {
@@ -325,7 +327,8 @@ public class ZippedPlanProToolboxFile extends AbstractToolboxFile {
 		if (Files.exists(getLayoutPath())) {
 			loadResource(getLayoutPath(), editingDomain);
 			final org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot doc = (org.eclipse.set.model.planpro.Layoutinformationen.DocumentRoot) getLayoutResource()
-					.getContents().getFirst();
+					.getContents()
+					.getFirst();
 			ToolboxIDResolver.resolveIDReferences(doc.getPlanProLayoutinfo());
 		}
 	}

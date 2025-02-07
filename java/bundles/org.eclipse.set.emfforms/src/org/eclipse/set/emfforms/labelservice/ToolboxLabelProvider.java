@@ -24,6 +24,7 @@ import org.eclipse.set.core.services.viewmodel.ToolboxViewModelService;
 import org.eclipse.set.utils.VDomainModelReferenceExtensions;
 import org.eclipse.set.utils.emfforms.Annotations;
 import org.osgi.service.component.annotations.Component;
+
 /**
  * Provides specialist descriptions for rendered PlanPro model elements.
  * 

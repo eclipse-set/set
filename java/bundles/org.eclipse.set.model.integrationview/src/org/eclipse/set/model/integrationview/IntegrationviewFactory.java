@@ -11,65 +11,65 @@ package org.eclipse.set.model.integrationview;
 import org.eclipse.emf.ecore.EFactory;
 
 /**
- * <!-- begin-user-doc -->
- * The <b>Factory</b> for the model.
- * It provides a create method for each non-abstract class of the model.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a
+ * create method for each non-abstract class of the model. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.integrationview.IntegrationviewPackage
  * @generated
  */
 public interface IntegrationviewFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The singleton instance of the factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	IntegrationviewFactory eINSTANCE = org.eclipse.set.model.integrationview.impl.IntegrationviewFactoryImpl.init();
+	IntegrationviewFactory eINSTANCE = org.eclipse.set.model.integrationview.impl.IntegrationviewFactoryImpl
+			.init();
 
 	/**
-	 * Returns a new object of class '<em>Integration View</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns a new object of class '<em>Integration View</em>'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return a new object of class '<em>Integration View</em>'.
 	 * @generated
 	 */
 	IntegrationView createIntegrationView();
 
 	/**
-	 * Returns a new object of class '<em>Object Quantity</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns a new object of class '<em>Object Quantity</em>'. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return a new object of class '<em>Object Quantity</em>'.
 	 * @generated
 	 */
 	ObjectQuantity createObjectQuantity();
 
 	/**
-	 * Returns a new object of class '<em>Conflict</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns a new object of class '<em>Conflict</em>'. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @return a new object of class '<em>Conflict</em>'.
 	 * @generated
 	 */
 	Conflict createConflict();
 
 	/**
-	 * Returns a new object of class '<em>Details</em>'.
-	 * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Details</em>'. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return a new object of class '<em>Details</em>'.
 	 * @generated
 	 */
 	Details createDetails();
 
 	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
+	 * Returns the package supported by this factory. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
 	IntegrationviewPackage getIntegrationviewPackage();
 
-} //IntegrationviewFactory
+} // IntegrationviewFactory

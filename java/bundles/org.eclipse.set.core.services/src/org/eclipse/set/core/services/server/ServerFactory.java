@@ -30,12 +30,13 @@ public interface ServerFactory<T> {
 	/**
 	 * @param configuration
 	 *            the configuration
-	 * @param tempPath 
-	 *			list of paths
+	 * @param tempPath
+	 *            list of paths
 	 * 
 	 * @return a handle to the new server
 	 */
-	Handle createServer(ServerConfiguration configuration, List<String> tempPath);
+	Handle createServer(ServerConfiguration configuration,
+			List<String> tempPath);
 
 	/**
 	 * @param handle

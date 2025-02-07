@@ -77,10 +77,12 @@ public class SiteplanModelExportPart extends BasePart {
 	private Listener selectionListerner(
 			final ToolboxFileFilterBuilder fileFilter, final Path outPath,
 			final Consumer<Path> writeJsonConsumer) {
-		return event -> getDialogService().saveFileDialog(getToolboxShell(),
-				List.of(fileFilter.add("json") //$NON-NLS-1$
-						.create()),
-				outPath).ifPresent(path -> {
+		return event -> getDialogService()
+				.saveFileDialog(getToolboxShell(),
+						List.of(fileFilter.add("json") //$NON-NLS-1$
+								.create()),
+						outPath)
+				.ifPresent(path -> {
 					writeJsonConsumer.accept(path);
 					getDialogService().openDirectoryAfterExport(
 							getToolboxShell(), path.getParent());

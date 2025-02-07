@@ -150,7 +150,8 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 			generateMD5CheckSum();
 			loadResource(getModelPath(), editingDomain);
 			final DocumentRoot doc = (org.eclipse.set.model.planpro.PlanPro.DocumentRoot) getPlanProResource()
-					.getContents().getFirst();
+					.getContents()
+					.getFirst();
 			ToolboxIDResolver
 					.resolveIDReferences(doc.getPlanProSchnittstelle());
 		} else {
@@ -166,9 +167,10 @@ public class PlainToolboxFile extends AbstractToolboxFile {
 			editingDomain.getCommandStack().flush();
 			loadable = true;
 		} else {
-			throw new IllegalStateException(Optional
-					.ofNullable(resource.getURI())
-					.map(u -> "Illegal uri " + u.toString()).orElse("no uri")); //$NON-NLS-1$ //$NON-NLS-2$
+			throw new IllegalStateException(
+					Optional.ofNullable(resource.getURI())
+							.map(u -> "Illegal uri " + u.toString()) //$NON-NLS-1$
+							.orElse("no uri")); //$NON-NLS-1$
 		}
 	}
 

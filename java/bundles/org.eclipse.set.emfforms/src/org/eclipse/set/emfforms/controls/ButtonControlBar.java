@@ -54,7 +54,8 @@ public class ButtonControlBar extends ECPAbstractCustomControlSWT {
 
 		// create the control
 		final Composite composite = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(buttonActionKeys.size() + 1)
+		GridLayoutFactory.fillDefaults()
+				.numColumns(buttonActionKeys.size() + 1)
 				.applyTo(composite);
 
 		// create the buttons

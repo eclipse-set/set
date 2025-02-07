@@ -22,33 +22,44 @@ import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.model.validationreport.ValidationreportPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Validation Problem</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Validation Problem</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getId <em>Id</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getSeverity <em>Severity</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getSeverityText <em>Severity Text</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getLineNumber <em>Line Number</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getMessage <em>Message</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectArt <em>Object Art</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getAttributeName <em>Attribute Name</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectScope <em>Object Scope</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectState <em>Object State</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getGeneralMsg <em>General Msg</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getId
+ * <em>Id</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getType
+ * <em>Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getSeverity
+ * <em>Severity</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getSeverityText
+ * <em>Severity Text</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getLineNumber
+ * <em>Line Number</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getMessage
+ * <em>Message</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectArt
+ * <em>Object Art</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getAttributeName
+ * <em>Attribute Name</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectScope
+ * <em>Object Scope</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getObjectState
+ * <em>Object State</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.impl.ValidationProblemImpl#getGeneralMsg
+ * <em>General Msg</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ValidationProblemImpl extends MinimalEObjectImpl.Container implements ValidationProblem {
+public class ValidationProblemImpl extends MinimalEObjectImpl.Container
+		implements ValidationProblem {
 	/**
-	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getId()
 	 * @generated
 	 * @ordered
@@ -56,9 +67,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final int ID_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getId()
 	 * @generated
 	 * @ordered
@@ -67,8 +78,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -77,8 +88,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -86,9 +97,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected String type = TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getSeverity() <em>Severity</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeverity()
 	 * @generated
 	 * @ordered
@@ -96,9 +107,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final ValidationSeverity SEVERITY_EDEFAULT = ValidationSeverity.ERROR;
 
 	/**
-	 * The cached value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeverity() <em>Severity</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeverity()
 	 * @generated
 	 * @ordered
@@ -106,9 +117,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected ValidationSeverity severity = SEVERITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSeverityText() <em>Severity Text</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getSeverityText() <em>Severity
+	 * Text</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeverityText()
 	 * @generated
 	 * @ordered
@@ -116,9 +127,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final String SEVERITY_TEXT_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getSeverityText() <em>Severity Text</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeverityText() <em>Severity
+	 * Text</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeverityText()
 	 * @generated
 	 * @ordered
@@ -126,9 +137,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected String severityText = SEVERITY_TEXT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getLineNumber() <em>Line Number</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getLineNumber() <em>Line Number</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLineNumber()
 	 * @generated
 	 * @ordered
@@ -136,9 +147,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final int LINE_NUMBER_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getLineNumber() <em>Line Number</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLineNumber() <em>Line Number</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLineNumber()
 	 * @generated
 	 * @ordered
@@ -146,9 +157,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected int lineNumber = LINE_NUMBER_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getMessage() <em>Message</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMessage()
 	 * @generated
 	 * @ordered
@@ -156,9 +167,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final String MESSAGE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMessage() <em>Message</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMessage()
 	 * @generated
 	 * @ordered
@@ -166,9 +177,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected String message = MESSAGE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getObjectArt() <em>Object Art</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getObjectArt() <em>Object Art</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectArt()
 	 * @generated
 	 * @ordered
@@ -176,9 +187,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final String OBJECT_ART_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getObjectArt() <em>Object Art</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getObjectArt() <em>Object Art</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectArt()
 	 * @generated
 	 * @ordered
@@ -186,9 +197,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected String objectArt = OBJECT_ART_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAttributeName() <em>Attribute Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getAttributeName() <em>Attribute
+	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAttributeName()
 	 * @generated
 	 * @ordered
@@ -196,9 +207,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final String ATTRIBUTE_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getAttributeName() <em>Attribute Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAttributeName() <em>Attribute
+	 * Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAttributeName()
 	 * @generated
 	 * @ordered
@@ -206,9 +217,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected String attributeName = ATTRIBUTE_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getObjectScope() <em>Object Scope</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getObjectScope() <em>Object
+	 * Scope</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectScope()
 	 * @generated
 	 * @ordered
@@ -216,9 +227,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final ObjectScope OBJECT_SCOPE_EDEFAULT = ObjectScope.UNKNOWN;
 
 	/**
-	 * The cached value of the '{@link #getObjectScope() <em>Object Scope</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getObjectScope() <em>Object Scope</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectScope()
 	 * @generated
 	 * @ordered
@@ -226,9 +237,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected ObjectScope objectScope = OBJECT_SCOPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getObjectState() <em>Object State</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getObjectState() <em>Object
+	 * State</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectState()
 	 * @generated
 	 * @ordered
@@ -236,9 +247,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final ObjectState OBJECT_STATE_EDEFAULT = ObjectState.NONE;
 
 	/**
-	 * The cached value of the '{@link #getObjectState() <em>Object State</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getObjectState() <em>Object State</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectState()
 	 * @generated
 	 * @ordered
@@ -246,9 +257,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected ObjectState objectState = OBJECT_STATE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getGeneralMsg() <em>General Msg</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getGeneralMsg() <em>General Msg</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGeneralMsg()
 	 * @generated
 	 * @ordered
@@ -256,9 +267,9 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected static final String GENERAL_MSG_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getGeneralMsg() <em>General Msg</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getGeneralMsg() <em>General Msg</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGeneralMsg()
 	 * @generated
 	 * @ordered
@@ -266,8 +277,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	protected String generalMsg = GENERAL_MSG_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ValidationProblemImpl() {
@@ -275,8 +286,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -285,8 +296,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -295,8 +306,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -304,12 +315,13 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		int oldId = id;
 		id = newId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__ID, oldId, id));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__ID, oldId, id));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -318,8 +330,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -327,12 +339,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		String oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__TYPE, oldType,
+					type));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -341,8 +355,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -350,12 +364,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		ValidationSeverity oldSeverity = severity;
 		severity = newSeverity == null ? SEVERITY_EDEFAULT : newSeverity;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY, oldSeverity, severity));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY,
+					oldSeverity, severity));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -364,8 +380,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -373,12 +389,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		String oldSeverityText = severityText;
 		severityText = newSeverityText;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY_TEXT, oldSeverityText, severityText));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY_TEXT,
+					oldSeverityText, severityText));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -387,8 +405,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -396,12 +414,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		int oldLineNumber = lineNumber;
 		lineNumber = newLineNumber;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__LINE_NUMBER, oldLineNumber, lineNumber));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__LINE_NUMBER,
+					oldLineNumber, lineNumber));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -410,8 +430,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -419,12 +439,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		String oldMessage = message;
 		message = newMessage;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__MESSAGE, oldMessage, message));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__MESSAGE,
+					oldMessage, message));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -433,8 +455,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -442,12 +464,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		String oldObjectArt = objectArt;
 		objectArt = newObjectArt;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART, oldObjectArt, objectArt));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART,
+					oldObjectArt, objectArt));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -456,8 +480,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -465,12 +489,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		String oldAttributeName = attributeName;
 		attributeName = newAttributeName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME, oldAttributeName, attributeName));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME,
+					oldAttributeName, attributeName));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -479,21 +505,24 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void setObjectScope(ObjectScope newObjectScope) {
 		ObjectScope oldObjectScope = objectScope;
-		objectScope = newObjectScope == null ? OBJECT_SCOPE_EDEFAULT : newObjectScope;
+		objectScope = newObjectScope == null ? OBJECT_SCOPE_EDEFAULT
+				: newObjectScope;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE, oldObjectScope, objectScope));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE,
+					oldObjectScope, objectScope));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -502,21 +531,24 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void setObjectState(ObjectState newObjectState) {
 		ObjectState oldObjectState = objectState;
-		objectState = newObjectState == null ? OBJECT_STATE_EDEFAULT : newObjectState;
+		objectState = newObjectState == null ? OBJECT_STATE_EDEFAULT
+				: newObjectState;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE, oldObjectState, objectState));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE,
+					oldObjectState, objectState));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -525,8 +557,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -534,12 +566,14 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		String oldGeneralMsg = generalMsg;
 		generalMsg = newGeneralMsg;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG, oldGeneralMsg, generalMsg));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG,
+					oldGeneralMsg, generalMsg));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -572,53 +606,53 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ValidationreportPackage.VALIDATION_PROBLEM__ID:
-				setId((Integer)newValue);
+				setId((Integer) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__TYPE:
-				setType((String)newValue);
+				setType((String) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY:
-				setSeverity((ValidationSeverity)newValue);
+				setSeverity((ValidationSeverity) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY_TEXT:
-				setSeverityText((String)newValue);
+				setSeverityText((String) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__LINE_NUMBER:
-				setLineNumber((Integer)newValue);
+				setLineNumber((Integer) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__MESSAGE:
-				setMessage((String)newValue);
+				setMessage((String) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
-				setObjectArt((String)newValue);
+				setObjectArt((String) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
-				setAttributeName((String)newValue);
+				setAttributeName((String) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
-				setObjectScope((ObjectScope)newValue);
+				setObjectScope((ObjectScope) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
-				setObjectState((ObjectState)newValue);
+				setObjectState((ObjectState) newValue);
 				return;
 			case ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG:
-				setGeneralMsg((String)newValue);
+				setGeneralMsg((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -662,8 +696,8 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("null")
@@ -673,37 +707,44 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 			case ValidationreportPackage.VALIDATION_PROBLEM__ID:
 				return id != ID_EDEFAULT;
 			case ValidationreportPackage.VALIDATION_PROBLEM__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+				return TYPE_EDEFAULT == null ? type != null
+						: !TYPE_EDEFAULT.equals(type);
 			case ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY:
 				return severity != SEVERITY_EDEFAULT;
 			case ValidationreportPackage.VALIDATION_PROBLEM__SEVERITY_TEXT:
-				return SEVERITY_TEXT_EDEFAULT == null ? severityText != null : !SEVERITY_TEXT_EDEFAULT.equals(severityText);
+				return SEVERITY_TEXT_EDEFAULT == null ? severityText != null
+						: !SEVERITY_TEXT_EDEFAULT.equals(severityText);
 			case ValidationreportPackage.VALIDATION_PROBLEM__LINE_NUMBER:
 				return lineNumber != LINE_NUMBER_EDEFAULT;
 			case ValidationreportPackage.VALIDATION_PROBLEM__MESSAGE:
-				return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
+				return MESSAGE_EDEFAULT == null ? message != null
+						: !MESSAGE_EDEFAULT.equals(message);
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_ART:
-				return OBJECT_ART_EDEFAULT == null ? objectArt != null : !OBJECT_ART_EDEFAULT.equals(objectArt);
+				return OBJECT_ART_EDEFAULT == null ? objectArt != null
+						: !OBJECT_ART_EDEFAULT.equals(objectArt);
 			case ValidationreportPackage.VALIDATION_PROBLEM__ATTRIBUTE_NAME:
-				return ATTRIBUTE_NAME_EDEFAULT == null ? attributeName != null : !ATTRIBUTE_NAME_EDEFAULT.equals(attributeName);
+				return ATTRIBUTE_NAME_EDEFAULT == null ? attributeName != null
+						: !ATTRIBUTE_NAME_EDEFAULT.equals(attributeName);
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_SCOPE:
 				return objectScope != OBJECT_SCOPE_EDEFAULT;
 			case ValidationreportPackage.VALIDATION_PROBLEM__OBJECT_STATE:
 				return objectState != OBJECT_STATE_EDEFAULT;
 			case ValidationreportPackage.VALIDATION_PROBLEM__GENERAL_MSG:
-				return GENERAL_MSG_EDEFAULT == null ? generalMsg != null : !GENERAL_MSG_EDEFAULT.equals(generalMsg);
+				return GENERAL_MSG_EDEFAULT == null ? generalMsg != null
+						: !GENERAL_MSG_EDEFAULT.equals(generalMsg);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
@@ -732,4 +773,4 @@ public class ValidationProblemImpl extends MinimalEObjectImpl.Container implemen
 		return result.toString();
 	}
 
-} //ValidationProblemImpl
+} // ValidationProblemImpl

@@ -13,24 +13,33 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Validation Report</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>Validation Report</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getModelLoaded <em>Model Loaded</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getValid <em>Valid</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getXsdValid <em>Xsd Valid</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getEmfValid <em>Emf Valid</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getProblems <em>Problems</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSupportedVersion <em>Supported Version</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getToolboxVersion <em>Toolbox Version</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkCount <em>Subwork Count</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkTypes <em>Subwork Types</em>}</li>
- *   <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getFileInfo <em>File Info</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getModelLoaded
+ * <em>Model Loaded</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getValid
+ * <em>Valid</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getXsdValid
+ * <em>Xsd Valid</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getEmfValid
+ * <em>Emf Valid</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getProblems
+ * <em>Problems</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSupportedVersion
+ * <em>Supported Version</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getToolboxVersion
+ * <em>Toolbox Version</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkCount
+ * <em>Subwork Count</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkTypes
+ * <em>Subwork Types</em>}</li>
+ * <li>{@link org.eclipse.set.model.validationreport.ValidationReport#getFileInfo
+ * <em>File Info</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport()
@@ -39,13 +48,14 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ValidationReport extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Model Loaded</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Model Loaded</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Model Loaded</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Model Loaded</em>' attribute.
 	 * @see #setModelLoaded(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_ModelLoaded()
@@ -55,19 +65,22 @@ public interface ValidationReport extends EObject {
 	String getModelLoaded();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getModelLoaded <em>Model Loaded</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Model Loaded</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getModelLoaded
+	 * <em>Model Loaded</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Model Loaded</em>' attribute.
 	 * @see #getModelLoaded()
 	 * @generated
 	 */
 	void setModelLoaded(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Valid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Valid</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Valid</em>' attribute.
 	 * @see #setValid(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_Valid()
@@ -77,23 +90,26 @@ public interface ValidationReport extends EObject {
 	String getValid();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getValid <em>Valid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Valid</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getValid
+	 * <em>Valid</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Valid</em>' attribute.
 	 * @see #getValid()
 	 * @generated
 	 */
 	void setValid(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Xsd Valid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Xsd Valid</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Xsd Valid</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Xsd Valid</em>' attribute isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Xsd Valid</em>' attribute.
 	 * @see #setXsdValid(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_XsdValid()
@@ -103,23 +119,27 @@ public interface ValidationReport extends EObject {
 	String getXsdValid();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getXsdValid <em>Xsd Valid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Xsd Valid</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getXsdValid
+	 * <em>Xsd Valid</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Xsd Valid</em>' attribute.
 	 * @see #getXsdValid()
 	 * @generated
 	 */
 	void setXsdValid(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Emf Valid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Emf Valid</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Emf Valid</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Emf Valid</em>' attribute isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Emf Valid</em>' attribute.
 	 * @see #setEmfValid(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_EmfValid()
@@ -129,24 +149,29 @@ public interface ValidationReport extends EObject {
 	String getEmfValid();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getEmfValid <em>Emf Valid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Emf Valid</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getEmfValid
+	 * <em>Emf Valid</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Emf Valid</em>' attribute.
 	 * @see #getEmfValid()
 	 * @generated
 	 */
 	void setEmfValid(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Problems</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.validationreport.ValidationProblem}.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Problems</b></em>' containment reference
+	 * list. The list contents are of type
+	 * {@link org.eclipse.set.model.validationreport.ValidationProblem}. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Problems</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Problems</em>' containment reference list
+	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Problems</em>' containment reference list.
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_Problems()
 	 * @model containment="true"
@@ -155,14 +180,16 @@ public interface ValidationReport extends EObject {
 	EList<ValidationProblem> getProblems();
 
 	/**
-	 * Returns the value of the '<em><b>Supported Version</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Supported Version</b></em>' containment
+	 * reference. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Supported Version</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Supported Version</em>' containment reference
+	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Supported Version</em>' containment reference.
+	 * 
+	 * @return the value of the '<em>Supported Version</em>' containment
+	 *         reference.
 	 * @see #setSupportedVersion(VersionInfo)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_SupportedVersion()
 	 * @model containment="true" required="true"
@@ -171,10 +198,14 @@ public interface ValidationReport extends EObject {
 	VersionInfo getSupportedVersion();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getSupportedVersion <em>Supported Version</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Supported Version</em>' containment reference.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getSupportedVersion
+	 * <em>Supported Version</em>}' containment reference. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Supported Version</em>' containment
+	 *            reference.
 	 * @see #getSupportedVersion()
 	 * @generated
 	 */
@@ -182,8 +213,8 @@ public interface ValidationReport extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Toolbox Version</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Toolbox Version</em>' attribute.
 	 * @see #setToolboxVersion(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_ToolboxVersion()
@@ -193,19 +224,22 @@ public interface ValidationReport extends EObject {
 	String getToolboxVersion();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getToolboxVersion <em>Toolbox Version</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Toolbox Version</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getToolboxVersion
+	 * <em>Toolbox Version</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Toolbox Version</em>' attribute.
 	 * @see #getToolboxVersion()
 	 * @generated
 	 */
 	void setToolboxVersion(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Subwork Count</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Subwork Count</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Subwork Count</em>' attribute.
 	 * @see #setSubworkCount(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_SubworkCount()
@@ -215,19 +249,22 @@ public interface ValidationReport extends EObject {
 	String getSubworkCount();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkCount <em>Subwork Count</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Subwork Count</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkCount
+	 * <em>Subwork Count</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Subwork Count</em>' attribute.
 	 * @see #getSubworkCount()
 	 * @generated
 	 */
 	void setSubworkCount(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Subwork Types</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Subwork Types</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Subwork Types</em>' attribute.
 	 * @see #setSubworkTypes(String)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_SubworkTypes()
@@ -237,19 +274,22 @@ public interface ValidationReport extends EObject {
 	String getSubworkTypes();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkTypes <em>Subwork Types</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Subwork Types</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getSubworkTypes
+	 * <em>Subwork Types</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Subwork Types</em>' attribute.
 	 * @see #getSubworkTypes()
 	 * @generated
 	 */
 	void setSubworkTypes(String value);
 
 	/**
-	 * Returns the value of the '<em><b>File Info</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>File Info</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>File Info</em>' containment reference.
 	 * @see #setFileInfo(FileInfo)
 	 * @see org.eclipse.set.model.validationreport.ValidationreportPackage#getValidationReport_FileInfo()
@@ -259,10 +299,14 @@ public interface ValidationReport extends EObject {
 	FileInfo getFileInfo();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.validationreport.ValidationReport#getFileInfo <em>File Info</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>File Info</em>' containment reference.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.validationreport.ValidationReport#getFileInfo
+	 * <em>File Info</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>File Info</em>' containment
+	 *            reference.
 	 * @see #getFileInfo()
 	 * @generated
 	 */

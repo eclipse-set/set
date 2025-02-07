@@ -178,30 +178,40 @@ public class BankServiceImpl implements BankService, EventHandler {
 			return null;
 		}
 		final BigDecimal bankingLineLength = bankingLine
-				.getUeberhoehungslinieAllg().getUeberhoehungslinieLaenge()
+				.getUeberhoehungslinieAllg()
+				.getUeberhoehungslinieLaenge()
 				.getWert();
 
 		// If both Ueberhoehungen are on the same TOP_Kante, consider the path
 		// the relevant one if lengths match
-		final TOP_Kante beginEdge = begin.getPunktObjektTOPKante().get(0)
-				.getIDTOPKante().getValue();
-		if (beginEdge.equals(end.getPunktObjektTOPKante().get(0).getIDTOPKante()
+		final TOP_Kante beginEdge = begin.getPunktObjektTOPKante()
+				.get(0)
+				.getIDTOPKante()
+				.getValue();
+		if (beginEdge.equals(end.getPunktObjektTOPKante()
+				.get(0)
+				.getIDTOPKante()
 				.getValue())) {
-			final BigDecimal distanceA = begin.getPunktObjektTOPKante().get(0)
-					.getAbstand().getWert();
-			final BigDecimal distanceB = end.getPunktObjektTOPKante().get(0)
-					.getAbstand().getWert();
+			final BigDecimal distanceA = begin.getPunktObjektTOPKante()
+					.get(0)
+					.getAbstand()
+					.getWert();
+			final BigDecimal distanceB = end.getPunktObjektTOPKante()
+					.get(0)
+					.getAbstand()
+					.getWert();
 
 			final BigDecimal topLengthDifference = distanceA.subtract(distanceB)
-					.abs().subtract(bankingLineLength).abs();
+					.abs()
+					.subtract(bankingLineLength)
+					.abs();
 
 			if (topLengthDifference.doubleValue() <= ToolboxConfiguration
 					.getBankLineTopOffsetLimit()) {
-				return new BankingInformation(bankingLine,
-						new TopPath(
-								List.of(beginEdge), beginEdge.getTOPKanteAllg()
-										.getTOPLaenge().getWert(),
-								BigDecimal.ZERO));
+				return new BankingInformation(bankingLine, new TopPath(
+						List.of(beginEdge),
+						beginEdge.getTOPKanteAllg().getTOPLaenge().getWert(),
+						BigDecimal.ZERO));
 			}
 		}
 
@@ -212,7 +222,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 				+ ToolboxConfiguration.getBankLineTopOffsetLimit() + 1);
 
 		final Predicate<TopPath> predicate = t -> {
-			final BigDecimal diff = t.length().subtract(bankingLineLength)
+			final BigDecimal diff = t.length()
+					.subtract(bankingLineLength)
 					.abs();
 			return diff.doubleValue() < ToolboxConfiguration
 					.getBankLineTopOffsetLimit();
@@ -231,7 +242,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 			final TopPoint point) {
 		final Set<BankingInformation> bankingLines = topEdgeBanking
 				.get(point.edge());
-		return bankingLines.stream().filter(line -> line.isOnBankingLine(point))
+		return bankingLines.stream()
+				.filter(line -> line.isOnBankingLine(point))
 				.toList();
 	}
 
@@ -240,7 +252,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 		// If we have a banking line for this edge, use the line
 		if (topEdgeBanking.containsKey(point.edge())) {
 			final List<BigDecimal> lineBankings = findRelevantLineBankings(
-					point).stream().map(line -> findBankingValue(point, line))
+					point).stream()
+							.map(line -> findBankingValue(point, line))
 							.toList();
 			if (!lineBankings.isEmpty()) {
 				return lineBankings;
@@ -266,26 +279,40 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 		if (!left.isPresent() || !right.isPresent()) {
 			if (left.isPresent()) {
-				return List.of(left.get().getUeberhoehungAllg()
-						.getUeberhoehungHoehe().getWert());
+				return List.of(left.get()
+						.getUeberhoehungAllg()
+						.getUeberhoehungHoehe()
+						.getWert());
 			}
 			if (right.isPresent()) {
-				return List.of(right.get().getUeberhoehungAllg()
-						.getUeberhoehungHoehe().getWert());
+				return List.of(right.get()
+						.getUeberhoehungAllg()
+						.getUeberhoehungHoehe()
+						.getWert());
 			}
 			return List.of();
 		}
 
 		// If banking points were found, linearly interpolate
-		final BigDecimal ueLeft = left.get().getUeberhoehungAllg()
-				.getUeberhoehungHoehe().getWert();
-		final BigDecimal ueRight = right.get().getUeberhoehungAllg()
-				.getUeberhoehungHoehe().getWert();
+		final BigDecimal ueLeft = left.get()
+				.getUeberhoehungAllg()
+				.getUeberhoehungHoehe()
+				.getWert();
+		final BigDecimal ueRight = right.get()
+				.getUeberhoehungAllg()
+				.getUeberhoehungHoehe()
+				.getWert();
 
-		final BigDecimal leftPosition = left.get().getPunktObjektTOPKante()
-				.get(0).getAbstand().getWert();
-		final BigDecimal rightPosition = right.get().getPunktObjektTOPKante()
-				.get(0).getAbstand().getWert();
+		final BigDecimal leftPosition = left.get()
+				.getPunktObjektTOPKante()
+				.get(0)
+				.getAbstand()
+				.getWert();
+		final BigDecimal rightPosition = right.get()
+				.getPunktObjektTOPKante()
+				.get(0)
+				.getAbstand()
+				.getWert();
 
 		final BigDecimal length = leftPosition.subtract(rightPosition).abs();
 
@@ -301,15 +328,23 @@ public class BankServiceImpl implements BankService, EventHandler {
 			final BankingInformation bankInfo) {
 
 		final Ueberhoehungslinie bankingLine = bankInfo.line();
-		final BigDecimal pointDistance = bankInfo.path().getDistance(point)
+		final BigDecimal pointDistance = bankInfo.path()
+				.getDistance(point)
 				.orElseThrow();
 
-		final BigDecimal ueLeft = bankingLine.getIDUeberhoehungA().getValue()
-				.getUeberhoehungAllg().getUeberhoehungHoehe().getWert();
-		final BigDecimal ueRight = bankingLine.getIDUeberhoehungB().getValue()
-				.getUeberhoehungAllg().getUeberhoehungHoehe().getWert();
+		final BigDecimal ueLeft = bankingLine.getIDUeberhoehungA()
+				.getValue()
+				.getUeberhoehungAllg()
+				.getUeberhoehungHoehe()
+				.getWert();
+		final BigDecimal ueRight = bankingLine.getIDUeberhoehungB()
+				.getValue()
+				.getUeberhoehungAllg()
+				.getUeberhoehungHoehe()
+				.getWert();
 		final BigDecimal length = bankingLine.getUeberhoehungslinieAllg()
-				.getUeberhoehungslinieLaenge().getWert();
+				.getUeberhoehungslinieLaenge()
+				.getWert();
 
 		final BigDecimal leftPosition = bankInfo.path()
 				.getDistance(new TopPoint(
@@ -342,17 +377,18 @@ public class BankServiceImpl implements BankService, EventHandler {
 		final BigDecimal h_end = right;
 		final BigDecimal h_between = h_end.subtract(h_start);
 		switch (bankingLine.getUeberhoehungslinieAllg()
-				.getUeberhoehungslinieForm().getWert()) {
-		case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_BLOSS:
-			return bankingOfRampeBloss(h_between, distanceFromLeft, length)
-					.add(h_start);
-		case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_S:
-			return bankingOfRampeS(h_between, distanceFromLeft,
-					distanceFromRight, length).add(h_start);
+				.getUeberhoehungslinieForm()
+				.getWert()) {
+			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_BLOSS:
+				return bankingOfRampeBloss(h_between, distanceFromLeft, length)
+						.add(h_start);
+			case ENUM_UEBERHOEHUNGSLINIE_FORM_RAMPE_S:
+				return bankingOfRampeS(h_between, distanceFromLeft,
+						distanceFromRight, length).add(h_start);
 
-		default:
-			return bankingDefault(h_between, distanceFromLeft, length)
-					.add(h_start);
+			default:
+				return bankingDefault(h_between, distanceFromLeft, length)
+						.add(h_start);
 		}
 	}
 
@@ -392,10 +428,12 @@ public class BankServiceImpl implements BankService, EventHandler {
 		if (distanceFromLeft
 				.compareTo(length.divide(BigDecimal.valueOf(2))) < 1) {
 			return h_between.multiply(BigDecimal.valueOf(2))
-					.multiply(distanceFromLeft.pow(2)).divide(length.pow(2));
+					.multiply(distanceFromLeft.pow(2))
+					.divide(length.pow(2));
 		}
 		return h_between.add(h_between.multiply(BigDecimal.valueOf(2))
-				.multiply(distanceFromRight.pow(2)).divide(length.pow(2))
+				.multiply(distanceFromRight.pow(2))
+				.divide(length.pow(2))
 				.negate());
 	}
 
@@ -406,8 +444,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 	 */
 	private static BigDecimal bankingDefault(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
-		return h_between.multiply(distanceFromLeft).divide(length,
-				RoundingMode.HALF_EVEN);
+		return h_between.multiply(distanceFromLeft)
+				.divide(length, RoundingMode.HALF_EVEN);
 	}
 
 	@Override

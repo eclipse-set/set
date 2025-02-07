@@ -138,8 +138,10 @@ public class CustomTableDiffService implements TableDiffService {
 		final List<Bearbeitungsvermerk> newFootnotes = getFootnotes(match);
 
 		for (final Bearbeitungsvermerk footnote : oldFootnotes) {
-			if (newFootnotes.stream().anyMatch(c -> c.getIdentitaet().getWert()
-					.equals(footnote.getIdentitaet().getWert()))) {
+			if (newFootnotes.stream()
+					.anyMatch(c -> c.getIdentitaet()
+							.getWert()
+							.equals(footnote.getIdentitaet().getWert()))) {
 				diffFootnotes.getUnchangedFootnotes().add(footnote);
 			} else {
 				diffFootnotes.getOldFootnotes().add(footnote);
@@ -147,8 +149,10 @@ public class CustomTableDiffService implements TableDiffService {
 		}
 
 		for (final Bearbeitungsvermerk footnote : newFootnotes) {
-			if (oldFootnotes.stream().anyMatch(c -> c.getIdentitaet().getWert()
-					.equals(footnote.getIdentitaet().getWert()))) {
+			if (oldFootnotes.stream()
+					.anyMatch(c -> c.getIdentitaet()
+							.getWert()
+							.equals(footnote.getIdentitaet().getWert()))) {
 				// do nothing (already added by for loop above)
 			} else {
 				diffFootnotes.getNewFootnotes().add(footnote);

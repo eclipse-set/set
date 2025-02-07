@@ -69,8 +69,10 @@ public class SplashScreenServiceImpl implements SplashScreenService {
 	@Override
 	public void show(final ImageDescriptor descriptor) {
 		final Shell shell = new Shell(SWT.NO_TRIM);
-		shell.setLayout(GridLayoutFactory.swtDefaults().margins(0, 0)
-				.spacing(0, 0).create());
+		shell.setLayout(GridLayoutFactory.swtDefaults()
+				.margins(0, 0)
+				.spacing(0, 0)
+				.create());
 		if (stopSplash) {
 			eventBroker.subscribe(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE,
 					new EventHandler() {

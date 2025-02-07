@@ -27,8 +27,10 @@ public class ImplementationLoader {
 		final String name = type.getName();
 		Object result = null;
 		try {
-			result = type.getClassLoader().loadClass(name + "Impl") //$NON-NLS-1$
-					.getDeclaredConstructor().newInstance();
+			result = type.getClassLoader()
+					.loadClass(name + "Impl") //$NON-NLS-1$
+					.getDeclaredConstructor()
+					.newInstance();
 		} catch (final Throwable throwable) {
 			final String txt = "Could not load implementat ion for {0} "; //$NON-NLS-1$
 			final String msg = MessageFormat.format(txt, new Object[] { name });

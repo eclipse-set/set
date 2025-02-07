@@ -175,18 +175,25 @@ public class GEOKanteMetadata {
 
 		// Filter Bereich_Objekte to only include those that are relevant to the
 		// GEO_Kante
-		final List<Bereich_Objekt> relevantBOs = bereichObjekt.stream().filter(
-				bo -> bo.getBereichObjektTeilbereich().stream().anyMatch(tb -> {
-					// Only consider Bereich_Objekte which are on the same
-					// TOP_Kante
-					final boolean isSameTOPKante = tb.getIDTOPKante() != null
-							&& tb.getIDTOPKante().getValue() == topKante;
-					final boolean existBothOfBound = tb.getBegrenzungA() != null
-							&& tb.getBegrenzungA().getWert() != null
-							&& tb.getBegrenzungB() != null
-							&& tb.getBegrenzungB().getWert() != null;
-					return isSameTOPKante && existBothOfBound;
-				})).toList();
+		final List<Bereich_Objekt> relevantBOs = bereichObjekt.stream()
+				.filter(bo -> bo.getBereichObjektTeilbereich()
+						.stream()
+						.anyMatch(tb -> {
+							// Only consider Bereich_Objekte which are on the
+							// same
+							// TOP_Kante
+							final boolean isSameTOPKante = tb
+									.getIDTOPKante() != null
+									&& tb.getIDTOPKante()
+											.getValue() == topKante;
+							final boolean existBothOfBound = tb
+									.getBegrenzungA() != null
+									&& tb.getBegrenzungA().getWert() != null
+									&& tb.getBegrenzungB() != null
+									&& tb.getBegrenzungB().getWert() != null;
+							return isSameTOPKante && existBothOfBound;
+						}))
+				.toList();
 
 		// Split the GEO_Kante into segments according to the BOs found
 		relevantBOs.forEach(bo -> {
@@ -299,6 +306,7 @@ public class GEOKanteMetadata {
 		return segments.stream()
 				.filter(segment -> segment.getStart().compareTo(distance) <= 0
 						&& segment.getEnd().compareTo(distance) >= 0)
-				.findFirst().orElse(null);
+				.findFirst()
+				.orElse(null);
 	}
 }

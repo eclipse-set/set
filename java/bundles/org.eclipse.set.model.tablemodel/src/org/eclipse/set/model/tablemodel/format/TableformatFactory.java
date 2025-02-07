@@ -11,38 +11,38 @@ package org.eclipse.set.model.tablemodel.format;
 import org.eclipse.emf.ecore.EFactory;
 
 /**
- * <!-- begin-user-doc -->
- * The <b>Factory</b> for the model.
- * It provides a create method for each non-abstract class of the model.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a
+ * create method for each non-abstract class of the model. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.tablemodel.format.TableformatPackage
  * @generated
  */
 public interface TableformatFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The singleton instance of the factory. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	TableformatFactory eINSTANCE = org.eclipse.set.model.tablemodel.format.impl.TableformatFactoryImpl.init();
+	TableformatFactory eINSTANCE = org.eclipse.set.model.tablemodel.format.impl.TableformatFactoryImpl
+			.init();
 
 	/**
-	 * Returns a new object of class '<em>Cell Format</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns a new object of class '<em>Cell Format</em>'. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
+	 * 
 	 * @return a new object of class '<em>Cell Format</em>'.
 	 * @generated
 	 */
 	CellFormat createCellFormat();
 
 	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
+	 * Returns the package supported by this factory. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
 	TableformatPackage getTableformatPackage();
 
-} //TableformatFactory
+} // TableformatFactory

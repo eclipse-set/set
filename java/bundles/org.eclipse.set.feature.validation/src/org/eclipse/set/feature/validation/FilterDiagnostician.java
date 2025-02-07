@@ -73,7 +73,8 @@ public class FilterDiagnostician extends Diagnostician {
 		final DiagnosticCollector filter = new DiagnosticCollector();
 		final boolean result = eValidator.validate(eClass, eObject, filter,
 				context);
-		filter.getDiagnostics().stream()
+		filter.getDiagnostics()
+				.stream()
 				.filter(diagnostic -> filters.stream()
 						.allMatch(c -> c.test(diagnostic)))
 				.forEach(diagnostics::add);

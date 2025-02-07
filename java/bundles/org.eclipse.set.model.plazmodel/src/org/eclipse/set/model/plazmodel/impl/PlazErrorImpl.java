@@ -22,26 +22,30 @@ import org.eclipse.set.model.plazmodel.PlazPackage;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Error</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Error</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getMessage <em>Message</em>}</li>
- *   <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getSeverity <em>Severity</em>}</li>
- *   <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getObject <em>Object</em>}</li>
+ * <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getType
+ * <em>Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getMessage
+ * <em>Message</em>}</li>
+ * <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getSeverity
+ * <em>Severity</em>}</li>
+ * <li>{@link org.eclipse.set.model.plazmodel.impl.PlazErrorImpl#getObject
+ * <em>Object</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazError {
+public class PlazErrorImpl extends MinimalEObjectImpl.Container
+		implements PlazError {
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -50,8 +54,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -59,9 +63,9 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	protected String type = TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getMessage() <em>Message</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMessage()
 	 * @generated
 	 * @ordered
@@ -69,9 +73,9 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	protected static final String MESSAGE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMessage() <em>Message</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMessage()
 	 * @generated
 	 * @ordered
@@ -79,9 +83,9 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	protected String message = MESSAGE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The default value of the '{@link #getSeverity() <em>Severity</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeverity()
 	 * @generated
 	 * @ordered
@@ -89,9 +93,9 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	protected static final ValidationSeverity SEVERITY_EDEFAULT = ValidationSeverity.ERROR;
 
 	/**
-	 * The cached value of the '{@link #getSeverity() <em>Severity</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSeverity() <em>Severity</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSeverity()
 	 * @generated
 	 * @ordered
@@ -100,8 +104,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 
 	/**
 	 * The cached value of the '{@link #getObject() <em>Object</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObject()
 	 * @generated
 	 * @ordered
@@ -109,8 +113,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	protected EObject object;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected PlazErrorImpl() {
@@ -118,8 +122,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -128,8 +132,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -138,8 +142,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,12 +151,13 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 		String oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PlazPackage.PLAZ_ERROR__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					PlazPackage.PLAZ_ERROR__TYPE, oldType, type));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -161,8 +166,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -170,12 +175,13 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 		String oldMessage = message;
 		message = newMessage;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PlazPackage.PLAZ_ERROR__MESSAGE, oldMessage, message));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					PlazPackage.PLAZ_ERROR__MESSAGE, oldMessage, message));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -184,8 +190,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -193,30 +199,32 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 		ValidationSeverity oldSeverity = severity;
 		severity = newSeverity == null ? SEVERITY_EDEFAULT : newSeverity;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PlazPackage.PLAZ_ERROR__SEVERITY, oldSeverity, severity));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					PlazPackage.PLAZ_ERROR__SEVERITY, oldSeverity, severity));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject getObject() {
 		if (object != null && object.eIsProxy()) {
-			InternalEObject oldObject = (InternalEObject)object;
+			InternalEObject oldObject = (InternalEObject) object;
 			object = eResolveProxy(oldObject);
 			if (object != oldObject) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PlazPackage.PLAZ_ERROR__OBJECT, oldObject, object));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
+							PlazPackage.PLAZ_ERROR__OBJECT, oldObject, object));
 			}
 		}
 		return object;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public EObject basicGetObject() {
@@ -224,8 +232,8 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -233,12 +241,13 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 		EObject oldObject = object;
 		object = newObject;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PlazPackage.PLAZ_ERROR__OBJECT, oldObject, object));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					PlazPackage.PLAZ_ERROR__OBJECT, oldObject, object));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -251,39 +260,40 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 			case PlazPackage.PLAZ_ERROR__SEVERITY:
 				return getSeverity();
 			case PlazPackage.PLAZ_ERROR__OBJECT:
-				if (resolve) return getObject();
+				if (resolve)
+					return getObject();
 				return basicGetObject();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PlazPackage.PLAZ_ERROR__TYPE:
-				setType((String)newValue);
+				setType((String) newValue);
 				return;
 			case PlazPackage.PLAZ_ERROR__MESSAGE:
-				setMessage((String)newValue);
+				setMessage((String) newValue);
 				return;
 			case PlazPackage.PLAZ_ERROR__SEVERITY:
-				setSeverity((ValidationSeverity)newValue);
+				setSeverity((ValidationSeverity) newValue);
 				return;
 			case PlazPackage.PLAZ_ERROR__OBJECT:
-				setObject((EObject)newValue);
+				setObject((EObject) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -299,24 +309,26 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 				setSeverity(SEVERITY_EDEFAULT);
 				return;
 			case PlazPackage.PLAZ_ERROR__OBJECT:
-				setObject((EObject)null);
+				setObject((EObject) null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case PlazPackage.PLAZ_ERROR__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+				return TYPE_EDEFAULT == null ? type != null
+						: !TYPE_EDEFAULT.equals(type);
 			case PlazPackage.PLAZ_ERROR__MESSAGE:
-				return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
+				return MESSAGE_EDEFAULT == null ? message != null
+						: !MESSAGE_EDEFAULT.equals(message);
 			case PlazPackage.PLAZ_ERROR__SEVERITY:
 				return severity != SEVERITY_EDEFAULT;
 			case PlazPackage.PLAZ_ERROR__OBJECT:
@@ -326,13 +338,14 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: ");
@@ -345,4 +358,4 @@ public class PlazErrorImpl extends MinimalEObjectImpl.Container implements PlazE
 		return result.toString();
 	}
 
-} //PlazErrorImpl
+} // PlazErrorImpl

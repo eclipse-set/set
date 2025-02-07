@@ -108,7 +108,8 @@ public class ImportLayoutControl extends AbstractImportControl {
 					LayoutinformationenPackage.eINSTANCE
 							.getDocumentRoot_PlanProLayoutinfo(),
 					layoutToImport);
-			modelSession.getEditingDomain().getCommandStack()
+			modelSession.getEditingDomain()
+					.getCommandStack()
 					.execute(importCommand);
 			modelSession.save(shell);
 			serviceProvider.dialogService.reportImported(shell);
@@ -137,8 +138,9 @@ public class ImportLayoutControl extends AbstractImportControl {
 				serviceProvider.dialogService);
 		fileField.getComposite()
 				.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		fileField.getButton().setText(
-				serviceProvider.messages.PlanProImportPart_fileFieldButtonText);
+		fileField.getButton()
+				.setText(
+						serviceProvider.messages.PlanProImportPart_fileFieldButtonText);
 		fileField.setPathValidation(path -> validatePath(path, t -> {
 			if (t.layoutInfo() == null) {
 				serviceProvider.dialogService.openInformation(shell,
@@ -182,8 +184,9 @@ public class ImportLayoutControl extends AbstractImportControl {
 				.add(new AdapterFactoryEditingDomain.EditingDomainProvider(
 						editingDomain));
 		layoutResource.getContents().add(documentRoot);
-		modelSession.getToolboxFile().setResourcePath(layoutResource,
-				modelSession.getToolboxFile().getLayoutPath());
+		modelSession.getToolboxFile()
+				.setResourcePath(layoutResource,
+						modelSession.getToolboxFile().getLayoutPath());
 	}
 
 }

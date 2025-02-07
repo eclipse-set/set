@@ -60,8 +60,10 @@ public final class SslbTransformationService
 
 	@Override
 	public Comparator<RowGroup> getRowGroupComparator() {
-		return TableRowGroupComparator.builder().sort("F", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
-				.sort("I", LEXICOGRAPHICAL, ASC).build(); //$NON-NLS-1$
+		return TableRowGroupComparator.builder()
+				.sort("F", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.sort("I", LEXICOGRAPHICAL, ASC) //$NON-NLS-1$
+				.build();
 	}
 
 	@Override

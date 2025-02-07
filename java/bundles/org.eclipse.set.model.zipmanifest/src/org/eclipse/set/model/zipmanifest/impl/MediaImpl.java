@@ -19,15 +19,16 @@ import org.eclipse.set.model.zipmanifest.Media;
 import org.eclipse.set.model.zipmanifest.ZipmanifestPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Media</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Media</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.zipmanifest.impl.MediaImpl#getGuid <em>Guid</em>}</li>
- *   <li>{@link org.eclipse.set.model.zipmanifest.impl.MediaImpl#getType <em>Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.impl.MediaImpl#getGuid
+ * <em>Guid</em>}</li>
+ * <li>{@link org.eclipse.set.model.zipmanifest.impl.MediaImpl#getType
+ * <em>Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -35,8 +36,8 @@ import org.eclipse.set.model.zipmanifest.ZipmanifestPackage;
 public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	/**
 	 * The default value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -45,8 +46,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 
 	/**
 	 * The cached value of the '{@link #getGuid() <em>Guid</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getGuid()
 	 * @generated
 	 * @ordered
@@ -55,8 +56,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -65,8 +66,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -74,8 +75,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	protected String type = TYPE_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected MediaImpl() {
@@ -83,8 +84,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -93,8 +94,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -103,8 +104,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -112,12 +113,13 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 		String oldGuid = guid;
 		guid = newGuid;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ZipmanifestPackage.MEDIA__GUID, oldGuid, guid));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ZipmanifestPackage.MEDIA__GUID, oldGuid, guid));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -126,8 +128,8 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -135,12 +137,13 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 		String oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ZipmanifestPackage.MEDIA__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					ZipmanifestPackage.MEDIA__TYPE, oldType, type));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -155,26 +158,26 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ZipmanifestPackage.MEDIA__GUID:
-				setGuid((String)newValue);
+				setGuid((String) newValue);
 				return;
 			case ZipmanifestPackage.MEDIA__TYPE:
-				setType((String)newValue);
+				setType((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -191,29 +194,32 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case ZipmanifestPackage.MEDIA__GUID:
-				return GUID_EDEFAULT == null ? guid != null : !GUID_EDEFAULT.equals(guid);
+				return GUID_EDEFAULT == null ? guid != null
+						: !GUID_EDEFAULT.equals(guid);
 			case ZipmanifestPackage.MEDIA__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+				return TYPE_EDEFAULT == null ? type != null
+						: !TYPE_EDEFAULT.equals(type);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (guid: ");
@@ -224,4 +230,4 @@ public class MediaImpl extends MinimalEObjectImpl.Container implements Media {
 		return result.toString();
 	}
 
-} //MediaImpl
+} // MediaImpl

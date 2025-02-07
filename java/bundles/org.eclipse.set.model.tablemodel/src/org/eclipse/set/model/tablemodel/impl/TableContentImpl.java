@@ -27,23 +27,24 @@ import org.eclipse.set.model.tablemodel.TableContent;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Table Content</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Table
+ * Content</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.tablemodel.impl.TableContentImpl#getRowgroups <em>Rowgroups</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.TableContentImpl#getRowgroups
+ * <em>Rowgroups</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class TableContentImpl extends MinimalEObjectImpl.Container implements TableContent {
+public class TableContentImpl extends MinimalEObjectImpl.Container
+		implements TableContent {
 	/**
-	 * The cached value of the '{@link #getRowgroups() <em>Rowgroups</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getRowgroups() <em>Rowgroups</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRowgroups()
 	 * @generated
 	 * @ordered
@@ -51,8 +52,8 @@ public class TableContentImpl extends MinimalEObjectImpl.Container implements Ta
 	protected EList<RowGroup> rowgroups;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TableContentImpl() {
@@ -60,8 +61,8 @@ public class TableContentImpl extends MinimalEObjectImpl.Container implements Ta
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -70,35 +71,38 @@ public class TableContentImpl extends MinimalEObjectImpl.Container implements Ta
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<RowGroup> getRowgroups() {
 		if (rowgroups == null) {
-			rowgroups = new EObjectContainmentEList<RowGroup>(RowGroup.class, this, TablemodelPackage.TABLE_CONTENT__ROWGROUPS);
+			rowgroups = new EObjectContainmentEList<RowGroup>(RowGroup.class,
+					this, TablemodelPackage.TABLE_CONTENT__ROWGROUPS);
 		}
 		return rowgroups;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TablemodelPackage.TABLE_CONTENT__ROWGROUPS:
-				return ((InternalEList<?>)getRowgroups()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getRowgroups()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -111,8 +115,8 @@ public class TableContentImpl extends MinimalEObjectImpl.Container implements Ta
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -121,15 +125,16 @@ public class TableContentImpl extends MinimalEObjectImpl.Container implements Ta
 		switch (featureID) {
 			case TablemodelPackage.TABLE_CONTENT__ROWGROUPS:
 				getRowgroups().clear();
-				getRowgroups().addAll((Collection<? extends RowGroup>)newValue);
+				getRowgroups()
+						.addAll((Collection<? extends RowGroup>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -143,8 +148,8 @@ public class TableContentImpl extends MinimalEObjectImpl.Container implements Ta
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -156,4 +161,4 @@ public class TableContentImpl extends MinimalEObjectImpl.Container implements Ta
 		return super.eIsSet(featureID);
 	}
 
-} //TableContentImpl
+} // TableContentImpl

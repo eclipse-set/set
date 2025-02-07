@@ -16,16 +16,16 @@ import org.eclipse.set.model.tablemodel.FootnoteContainer;
 import org.eclipse.set.model.tablemodel.TablemodelPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Footnote Container</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Footnote Container</b></em>'. <!-- end-user-doc -->
  *
  * @generated
  */
-public abstract class FootnoteContainerImpl extends MinimalEObjectImpl.Container implements FootnoteContainer {
+public abstract class FootnoteContainerImpl extends MinimalEObjectImpl.Container
+		implements FootnoteContainer {
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected FootnoteContainerImpl() {
@@ -33,8 +33,8 @@ public abstract class FootnoteContainerImpl extends MinimalEObjectImpl.Container
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -42,4 +42,4 @@ public abstract class FootnoteContainerImpl extends MinimalEObjectImpl.Container
 		return TablemodelPackage.Literals.FOOTNOTE_CONTAINER;
 	}
 
-} //FootnoteContainerImpl
+} // FootnoteContainerImpl
