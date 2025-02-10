@@ -18,9 +18,11 @@ import { Geometry, LineString } from 'ol/geom'
 import { Draw } from 'ol/interaction'
 import { DrawEvent } from 'ol/interaction/Draw'
 import { unByKey } from 'ol/Observable'
+import VectorSource from 'ol/source/Vector'
 import { getLength } from 'ol/sphere'
 import { Fill, Stroke, Style } from 'ol/style'
 import CircleStyle from 'ol/style/Circle'
+import { toRaw } from 'vue'
 import NamedFeatureLayer from '../NamedFeatureLayer'
 
 export default class MeasureControl extends Control {
@@ -28,7 +30,7 @@ export default class MeasureControl extends Control {
   public static MEASURE_OVERLAY_ID = 'measure-tooltip'
   private map: Map
   private view: View
-  private drawLineInteraction: Draw | undefined
+  private drawLineInteraction: Draw
   private sketch: Feature<Geometry> | undefined | null
   private measureTooltipElement: HTMLElement | undefined | null
   private measureTooltip!: Overlay
@@ -68,18 +70,6 @@ export default class MeasureControl extends Control {
     this.view.set(MeasureControl.MEASURE_CONTROL_KEY, this)
     this.drawLineInteraction = this.getDrawMeasureLineInteraction()
 
-    map.once('rendercomplete', () => {
-      if (!this.drawLineInteraction) {
-        button.disabled = true
-        element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
-      } else {
-        this.map.addInteraction(this.drawLineInteraction)
-        if (!store.state.measureEnable) {
-          this.drawLineInteraction.setActive(false)
-        }
-      }
-    })
-
     button.addEventListener('click', () => {
       if (store.state.measureEnable ) {
         this.onDeactiveMeasure()
@@ -92,15 +82,17 @@ export default class MeasureControl extends Control {
   }
 
   getDrawMeasureLineInteraction () {
-    const vectorSource = this.vectorLayer.getSource()
+    let vectorSource = this.vectorLayer.getSource()
     if (!vectorSource) {
-      return
+      vectorSource = new VectorSource()
+      this.vectorLayer.setSource(vectorSource)
     }
 
     const drawInteraction = new Draw({
       source: vectorSource,
       type: 'LineString',
       style: feature => {
+        console.log('TEST')
         const geometryType = feature.getGeometry()?.getType()
         if (geometryType == 'LineString' || geometryType === 'Point') {
           return this.lineStyle
@@ -198,14 +190,18 @@ export default class MeasureControl extends Control {
 
     this.map.addLayer(this.vectorLayer)
     this.map.getTargetElement().style.cursor = 'crosshair'
-    this.drawLineInteraction.setActive(true)
+    this.map.addInteraction(this.drawLineInteraction)
     this.craeteMeasureTooltip()
   }
 
   onDeactiveMeasure () {
     this.map.getTargetElement().style.cursor = 'auto'
-    this.map.removeInteraction(this.drawLineInteraction as Draw)
-    this.drawLineInteraction?.setActive(false)
+    this.map.getInteractions().forEach(interaction => {
+      if (toRaw(interaction) === this.drawLineInteraction) {
+        this.map.removeInteraction(interaction)
+        return
+      }
+    })
     this.sketch = undefined
     this.measureTooltipElement = null
 

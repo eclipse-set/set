@@ -11,3 +11,10 @@ Die Kartenansicht kann frei gedreht werden, indem ähnlich zum Verschieben der K
 
 *Ansicht zurücksetzen* + 
 Durch einen Klick auf das image:img/ZoomToFit.png[Gesamtbereich darstellen,25,25] Symbol, kann die Ansicht des Lageplans zurückgesetzt werden, sodass alle Objekte der aktuellen Planung dargestellt werden.
+
+*Messwerkzeug* + 
+Durch einen Klick auf das image:img/MeasureTool.png[Messwerkzeug,25,25] Symbol wird die Messwerkzeug aktiviert, mit dem kann man die Distanz in Metern messen kann.
+
+* Um die Messung zu starten, klicke auf einen beliebigen Punkt auf der Karte.
+* Um die Messung zu beenden. doppelklicke auf den Endpunkt.
+* Zum Deaktivieren des Wrkzeugs klicke erneut auf das Symbol.
