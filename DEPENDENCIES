@@ -570,7 +570,7 @@ npm/npmjs/-/object.values/1.2.0, MIT, approved, #18366
 npm/npmjs/-/object.values/1.2.1, MIT, approved, #18366
 npm/npmjs/-/obuf/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/ol-mapbox-style/12.4.1, BSD-2-Clause AND ODbL-1.0, approved, #17946
-npm/npmjs/-/ol/10.4.0, BSD-2-Clause AND (BSD-2-Clause AND LicenseRef-scancode-free-unknown) AND MIT AND Apache-2.0 AND (LicenseRef-scancode-proprietary-license AND ODbL-1.0) AND ODbL-1.0 AND CC-BY-4.0 AND LicenseRef-scancode-proprietary-license AND OGC-1.0 AND (CC-BY-SA-2.0 AND CC-BY-SA-3.0) AND (BSD-2-Clause AND CC-BY-3.0 AND MIT) AND LicenseRef-scancode-softsurfer AND (CC-BY-SA-4.0 AND LicenseRef-scancode-proprietary-license AND OGC-1.0), restricted, #19302
+npm/npmjs/-/ol/10.4.0, BSD-2-Clause AND Apache-2.0 AND MIT AND CC-BY-3.0 AND CC-BY-SA-2.0, approved, #19302
 npm/npmjs/-/on-finished/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/on-headers/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/open/10.0.3, MIT, approved, clearlydefined
@@ -743,7 +743,7 @@ npm/npmjs/-/tsconfig-paths/3.15.0, MIT, approved, #12111
 npm/npmjs/-/tslib/2.4.0, 0BSD, approved, #4336
 npm/npmjs/-/tslib/2.8.1, 0BSD, approved, clearlydefined
 npm/npmjs/-/type-check/0.4.0, MIT, approved, clearlydefined
-npm/npmjs/-/type-fest/0.20.2, MIT OR (CC0-1.0 AND MIT), approved, clearlydefined
+npm/npmjs/-/type-fest/0.20.2, CC0-1.0 AND MIT, approved, clearlydefined
 npm/npmjs/-/type-is/1.6.18, MIT, approved, clearlydefined
 npm/npmjs/-/typed-array-buffer/1.0.2, MIT, approved, #9658
 npm/npmjs/-/typed-array-buffer/1.0.3, MIT, approved, #9658
