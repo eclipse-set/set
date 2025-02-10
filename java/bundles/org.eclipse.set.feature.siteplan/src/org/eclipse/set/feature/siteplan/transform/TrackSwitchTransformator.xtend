@@ -81,7 +81,7 @@ class TrackSwitchTransformator extends BaseTransformator<W_Kr_Anlage> {
 		)
 
 		val elements = trackswitch.WKrGspElemente
-
+		
 		// Find the legs of the first element		
 		val firstElement = elements.head
 		val components = firstElement.WKrGspKomponenten

@@ -23,7 +23,6 @@ import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Basisobjekte.Bereich_Objekt_Teilbereich_AttributeGroup
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm
-import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Form_TypeClass
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Art
@@ -50,6 +49,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
@@ -125,7 +125,11 @@ class TrackTransformator extends BaseTransformator<TOP_Kante> {
 			continuousCrossingLeg == topKante
 		]
 		return !trackSwitchComponents.filter [
-			it.getWKrGspElement.WKrGspKomponenten.size == 2
+			val gspElement = getWKrGspElement
+			val gspAnlage = gspElement.WKrAnlage
+			gspElement.WKrGspKomponenten.size == 2 ||
+				gspAnlage.WKrGspElemente.size == 2
+
 		].empty
 	}
 
