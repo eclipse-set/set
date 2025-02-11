@@ -378,9 +378,7 @@ export default class FeatureService extends Vue {
       const centerControl = new CenterMainRouteControl(view, model)
       this.map.addControl(centerControl)
 
-      if (Configuration.developmentMode()) {
-        this.map.addControl(new MeasureControl(this.map))
-      }
+      this.map.addControl(new MeasureControl(this.map))
 
       // If a center position is available, apply it. Otherwise zoom to fit
       if (this.model.centerPosition === undefined) {
