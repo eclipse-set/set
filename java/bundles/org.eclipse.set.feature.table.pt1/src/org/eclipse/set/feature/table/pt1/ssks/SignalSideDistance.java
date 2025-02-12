@@ -174,7 +174,7 @@ public class SignalSideDistance {
 			try {
 				opposideDistance = getOpposideDistance(potk, position,
 						signalRotation + perpendicularRotation,
-						distanceFromPoint / 1000);
+						distanceFromPoint / 1000.0f);
 			} catch (final Exception e) {
 				throw new RuntimeException(e);
 			}

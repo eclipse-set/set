@@ -208,10 +208,11 @@ public class BankServiceImpl implements BankService, EventHandler {
 
 			if (topLengthDifference.doubleValue() <= ToolboxConfiguration
 					.getBankLineTopOffsetLimit()) {
+				final BigDecimal pathLength = beginEdge.getTOPKanteAllg()
+						.getTOPLaenge()
+						.getWert();
 				return new BankingInformation(bankingLine, new TopPath(
-						List.of(beginEdge),
-						beginEdge.getTOPKanteAllg().getTOPLaenge().getWert(),
-						BigDecimal.ZERO));
+						List.of(beginEdge), pathLength, pathLength));
 			}
 		}
 
