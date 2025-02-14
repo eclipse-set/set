@@ -12,6 +12,7 @@ package org.eclipse.set.feature.table.export;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
@@ -32,7 +33,7 @@ public class TableCheckboxTreeModel extends CheckboxTreeModel {
 		this.tableService = tableService;
 	}
 
-	public void addElement(final TableInfo info, final String status) {
+	public CheckBoxTreeElement addElement(final TableInfo info) {
 		final Pt1TableCategory category = info.category();
 		CheckBoxTreeElement parent = Arrays.stream(getParentElements())
 				.filter(ele -> ele.getId().equals(category.getId()))
@@ -48,7 +49,14 @@ public class TableCheckboxTreeModel extends CheckboxTreeModel {
 		final CheckBoxTreeElement newElement = new CheckBoxTreeElement(
 				nameInfo.getShortName().toLowerCase(),
 				nameInfo.getFullDisplayName());
-		newElement.setStatus(status);
 		addElement(parent, newElement);
+		return newElement;
+	}
+
+	public Optional<CheckBoxTreeElement> getElement(final TableInfo info) {
+		final TableNameInfo tableNameInfo = tableService
+				.getTableNameInfo(info.shortcut());
+		return getElement(info.category().getId(),
+				tableNameInfo.getShortName().toLowerCase());
 	}
 }

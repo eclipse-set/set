@@ -10,6 +10,7 @@ package org.eclipse.set.feature.table.export;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
+import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
 import org.eclipse.set.feature.export.parts.DocumentExportPart;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
@@ -41,6 +43,7 @@ import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -52,6 +55,7 @@ import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +73,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 	protected static final Logger logger = LoggerFactory
 			.getLogger(DocumentExportPart.class);
+	protected static final String EMPTY_TABLE = "leer"; //$NON-NLS-1$
 	@Inject
 	@Translation
 	protected Messages messages;
@@ -82,6 +87,9 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 	@Inject
 	TableService tableService;
+
+	@Inject
+	TableCompileService compileService;
 
 	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 
@@ -117,27 +125,39 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 				selectionControlAreaHandler);
 	}
 
+	@Override
+	public CheckboxTreeModel getTreeDataModel() {
+		if (getTreeDataModel() instanceof final TableCheckboxTreeModel tableTreeModel) {
+			return tableTreeModel;
+		}
+		throw new IllegalArgumentException();
+	}
+
 	protected void updateTreeElemenst(final Set<String> areaIds) {
 		final Set<TableInfo> avaibleTables = new HashSet<>(
 				tableService.getAvailableTables());
 		final TableType tableType = getModelSession().getTableType();
+		final TableCheckboxTreeModel treeDataModel = (TableCheckboxTreeModel) getTreeDataModel();
 		try {
 			getDialogService().showProgress(getToolboxShell(), monitor -> {
-				pt1Tables = tableService.transformTables(monitor,
-						getModelSession(), avaibleTables, tableType, areaIds);
+				logger.debug("Start update tree elements"); //$NON-NLS-1$
+				final Map<TableInfo, Table> pt1Tables = tableService
+						.transformTables(monitor, getModelSession(),
+								avaibleTables, tableType, areaIds);
 				Display.getDefault().asyncExec(() -> {
 					pt1Tables.forEach((tableInfo, table) -> {
 						CheckBoxTreeElement element = treeDataModel
-								.getElement(tableInfo);
+								.getElement(tableInfo)
+								.orElse(null);
 						if (element == null) {
-							element = treeDataModel.addElement(tableInfo, null);
+							element = treeDataModel.addElement(tableInfo);
 						}
 						if (TableExtensions.isTableEmpty(table)) {
 							element.setStatus(EMPTY_TABLE);
 						} else {
 							element.setStatus(null);
 						}
-						viewer.update(element, null);
+						getViewer().update(element, null);
 					});
 				});
 
@@ -154,7 +174,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	}
 
 	@Override
-	protected List<CheckBoxTreeElement> createCheckBoxTreeElements() {
+	protected CheckboxTreeModel createTreeModelData() {
 		final List<CheckBoxTreeElement> elements = new ArrayList<>();
 		final Collection<TableInfo> availableTables = tableService
 				.getAvailableTables();
@@ -183,7 +203,20 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					.createAdditionalCheckboxModelElements(elements);
 		}
 
-		return elements;
+		return new TableCheckboxTreeModel(elements, tableService);
+	}
+
+	@Override
+	protected void createSelectButtonGroup(final Composite parent) {
+		super.createSelectButtonGroup(parent);
+		// Create select all without empty table button
+		createSelectButton(getButtonBar(), messages.selectNotEmpty,
+				getTreeDataModel(), model -> {
+					Arrays.stream(model.getAllElements())
+							.filter(ele -> ele.getStatus() != null
+									&& ele.getStatus().equals(EMPTY_TABLE))
+							.forEach(ele -> ele.deselect());
+				});
 	}
 
 	private Path getAttachmentPath(final String guid) {
@@ -224,7 +257,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					.create();
 			final FreeFieldInfo freeFieldInfo = planProToFreeField
 					.transform(modelSession);
-			exportService.exportPdf(tables, getExportType(), titlebox,
+			getExportService().exportPdf(tables, getExportType(), titlebox,
 					freeFieldInfo, id, getSelectedDirectory().toString(),
 					modelSession.getToolboxPaths(), modelSession.getTableType(),
 					overwriteHandling, new ExceptionHandler(getToolboxShell(),
@@ -241,7 +274,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 	@Override
 	protected String getTaskMessage() {
-		return messages.exportTable_message;
+		return messages.TableExportPart_TaskMsg;
 	}
 
 	@Override

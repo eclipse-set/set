@@ -22,24 +22,42 @@ public class CheckboxTreeModel {
 
 	private final List<CheckBoxTreeElement> elements;
 
+	/**
+	 * 
+	 * @param elements
+	 */
 	public CheckboxTreeModel(final List<CheckBoxTreeElement> elements) {
 		this.elements = elements;
 	}
 
+	/**
+	 * 
+	 */
 	public void deselectAll() {
 		elements.forEach(ele -> ele.deselect());
 	}
 
+	/**
+	 * 
+	 */
 	public void selectAll() {
 		elements.forEach(ele -> ele.select());
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public CheckBoxTreeElement[] getParentElements() {
 		return Arrays.stream(getAllElements())
 				.filter(ele -> ele.isParent())
 				.toArray(CheckBoxTreeElement[]::new);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public CheckBoxTreeElement[] getAllElements() {
 		final List<CheckBoxTreeElement> parentElements = elements.stream()
 				.toList();
@@ -52,28 +70,61 @@ public class CheckboxTreeModel {
 				.toArray(CheckBoxTreeElement[]::new);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public CheckBoxTreeElement[] getChecked() {
 		return Arrays.stream(getAllElements())
 				.filter(ele -> ele.isChecked())
 				.toArray(CheckBoxTreeElement[]::new);
 	}
 
+	/**
+	 * 
+	 * @param elementId
+	 * @return
+	 */
 	public Optional<CheckBoxTreeElement> getElement(final String elementId) {
 		return Arrays.stream(getAllElements())
 				.filter(ele -> ele.getId().equals(elementId))
 				.findFirst();
 	}
 
+	/**
+	 * 
+	 * @param parentId
+	 * @param element
+	 * @return
+	 */
+	public Optional<CheckBoxTreeElement> getElement(final String parentId,
+			final String element) {
+		return Arrays.stream(getParentElements())
+				.filter(parent -> parent.getId().equals(parentId))
+				.flatMap(ele -> ele.getChildElements().stream())
+				.filter(ele -> ele.getId().equals(element))
+				.findFirst();
+	}
+
+	/**
+	 * 
+	 * @param element
+	 */
 	public void addElement(final CheckBoxTreeElement element) {
 		final Optional<CheckBoxTreeElement> findElement = getElement(
 				element.getId());
 		if (findElement.isPresent()) {
 			throw new IllegalArgumentException(String.format(
-					"Element with i: %s already exists ", element.getId()));
+					"Element with i: %s already exists ", element.getId())); //$NON-NLS-1$
 		}
 		addElement(null, element);
 	}
 
+	/**
+	 * 
+	 * @param parent
+	 * @param newElement
+	 */
 	public void addElement(final CheckBoxTreeElement parent,
 			final CheckBoxTreeElement newElement) {
 		if (parent == null) {
@@ -84,51 +135,9 @@ public class CheckboxTreeModel {
 				.stream()
 				.anyMatch(ele -> ele.getId().equals(newElement.getId()))) {
 			throw new IllegalArgumentException(String.format(
-					"Element with i: %s already exists in group: %s",
+					"Element with i: %s already exists in group: %s", //$NON-NLS-1$
 					newElement.getId(), parent.getId()));
 		}
 		parent.addChild(newElement);
 	}
-	//
-	// public CheckBoxTreeElement addElement(final TableInfo tableInfo,
-	// final String status) {
-	// final Pt1TableCategory category = tableInfo.category();
-	// CheckBoxTreeElement parentElement = elements.stream()
-	// .filter(ele -> ele.getId().equals(category.getId()))
-	// .findFirst()
-	// .orElse(null);
-	// if (parentElement == null) {
-	// parentElement = new CheckBoxTreeElement(category.getId(),
-	// category.toString());
-	// elements.add(parentElement);
-	// }
-	//
-	// final TableNameInfo tableNameInfo = tableService
-	// .getTableNameInfo(tableInfo.shortcut());
-	// return new CheckBoxTreeElement(parentElement,
-	// tableNameInfo.getShortName().toLowerCase(),
-	// tableNameInfo.getFullDisplayName(), status);
-	// }
-	//
-	// public CheckBoxTreeElement getElement(final TableInfo tableInfo) {
-	// final TableNameInfo tableNameInfo = tableService
-	// .getTableNameInfo(tableInfo.shortcut());
-	// final CheckBoxTreeElement parent = elements.stream()
-	// .filter(ele -> ele.getId().equals(tableInfo.category().getId()))
-	// .findFirst()
-	// .orElse(null);
-	// if (parent != null) {
-	// return parent.getChildElements()
-	// .stream()
-	// .filter(ele -> ele.getId()
-	// .equals(tableNameInfo.getShortName().toLowerCase()))
-	// .findFirst()
-	// .orElse(null);
-	// }
-	// return elements.stream()
-	// .filter(ele -> ele.getId()
-	// .equals(tableNameInfo.getShortName().toLowerCase()))
-	// .findFirst()
-	// .orElse(null);
-	// }
 }

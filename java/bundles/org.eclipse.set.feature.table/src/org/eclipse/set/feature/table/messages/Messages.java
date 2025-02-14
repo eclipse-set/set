@@ -122,4 +122,41 @@ public class Messages {
 	 */
 	public String ToolboxTableView_ExportTable;
 
+	/**
+	 * Tabellenexport
+	 */
+	public String TableExportPart_TaskMsg;
+
+	/**
+	 * Ausgabe des Zielzustands der Planung.
+	 */
+	public String exportInventoryDescription;
+
+	/**
+	 * Bestandsunterlagen erstellen
+	 */
+	public String exportInventoryRecords;
+
+	/**
+	 * Ausgabe des rot/gelb Vergleichs der Planung.
+	 */
+	public String exportPlanningDescription;
+
+	public String exportStateDescription;
+
+	/** Export des Dokumentensatz durchführen */
+	public String export_button;
+
+	public String selectNotEmpty;
+
+	/**
+	 * Bestandsdokumente erstellen
+	 */
+	public String ExportInventoryDescriptionService_ViewName;
+
+	/**
+	 * Dokumentensatz erstellen
+	 */
+	public String ExportPlanningRecordsDescriptionService_ViewName;
+
 }

@@ -32,7 +32,6 @@ import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
 import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeModelProvider;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
 import org.eclipse.set.services.export.ExportService;
-import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
@@ -63,7 +62,6 @@ import jakarta.inject.Inject;
 public abstract class DocumentExportPart extends BasePart {
 
 	private static final int SECTION_FONT_HEIGHT = 16;
-	protected static final String EMPTY_TABLE = "leer"; //$NON-NLS-1$
 
 	static final Logger logger = LoggerFactory
 			.getLogger(DocumentExportPart.class);
@@ -80,9 +78,6 @@ public abstract class DocumentExportPart extends BasePart {
 	Button checkOverrideButton;
 
 	@Inject
-	TableCompileService compileService;
-
-	@Inject
 	ExportService exportService;
 
 	@Inject
@@ -95,7 +90,8 @@ public abstract class DocumentExportPart extends BasePart {
 
 	CheckboxTreeViewer viewer;
 
-	protected CheckboxTreeModel treeDataModel;
+	private CheckboxTreeModel treeDataModel;
+	private Composite buttonBar;
 
 	/**
 	 * Constructor
@@ -109,6 +105,22 @@ public abstract class DocumentExportPart extends BasePart {
 	 */
 	public Button getExportButton() {
 		return exportButton;
+	}
+
+	protected CheckboxTreeViewer getViewer() {
+		return viewer;
+	}
+
+	protected Composite getButtonBar() {
+		return buttonBar;
+	}
+
+	protected ExportService getExportService() {
+		return exportService;
+	}
+
+	public CheckboxTreeModel getTreeDataModel() {
+		return treeDataModel;
 	}
 
 	private void createExportListSection(final Composite parent) {
@@ -182,7 +194,7 @@ public abstract class DocumentExportPart extends BasePart {
 	}
 
 	protected void createSelectButtonGroup(final Composite parent) {
-		final Composite buttonBar = new Composite(parent, SWT.BOTTOM);
+		buttonBar = new Composite(parent, SWT.BOTTOM);
 		final FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
 		fillLayout.spacing = 2;
 
@@ -190,15 +202,6 @@ public abstract class DocumentExportPart extends BasePart {
 		// Create select all button
 		createSelectButton(buttonBar, messages.selectAll, treeDataModel,
 				CheckboxTreeModel::selectAll);
-
-		// Create select all without empty table button
-		// createSelectButton(buttonBar, messages.selectNotEmpty, treeDataModel,
-		// model -> {
-		// Arrays.stream(model.getChildElements())
-		// .filter(ele -> ele.getStatus() != null
-		// && ele.getStatus().equals(EMPTY_TABLE))
-		// .forEach(ele -> ele.deselect());
-		// });
 
 		// Create deselected all button
 		createSelectButton(buttonBar, messages.selectNone, treeDataModel,
@@ -208,7 +211,7 @@ public abstract class DocumentExportPart extends BasePart {
 				.applyTo(buttonBar);
 	}
 
-	private Button createSelectButton(final Composite parent,
+	protected Button createSelectButton(final Composite parent,
 			final String buttonText, final CheckboxTreeModel treeModel,
 			final Consumer<CheckboxTreeModel> modelAction) {
 		final Button button = new Button(parent, SWT.PUSH);
