@@ -114,6 +114,11 @@ public class Messages {
 	public String selectAll;
 
 	/**
+	 * Ohne leer tabelle auswählen
+	 */
+	public String selectNotEmpty;
+
+	/**
 	 * Auswahl aufheben
 	 */
 	public String selectNone;
@@ -137,4 +142,9 @@ public class Messages {
 	 * Fehler beim Dokumentenexport
 	 */
 	public String titleDocExportError;
+
+	/**
+	 * Laden Tabellen...
+	 */
+	public String DoucmentExport_LoadTables;
 }

@@ -29,7 +29,7 @@ public interface AdditionalExportService {
 	 *            the list to add additional elements to
 	 */
 	public void createAdditionalCheckboxModelElements(
-			List<CheckboxModelElement> elements);
+			List<? extends CheckboxModelElement> elements);
 
 	/**
 	 * Create an additional export.

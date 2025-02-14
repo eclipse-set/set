@@ -41,8 +41,8 @@ public class CheckboxModelContentProvider
 	@Override
 	public void inputChanged(final Viewer viewer, final Object oldInput,
 			final Object newInput) {
-		if (newInput instanceof CheckboxModel) {
-			checkboxes = ((CheckboxModel) newInput).getElements();
+		if (newInput instanceof final CheckboxModel checkboxModel) {
+			checkboxes = checkboxModel.getElements();
 		} else {
 			checkboxes = new CheckboxModelElement[0];
 		}

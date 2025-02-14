@@ -10,7 +10,7 @@ package org.eclipse.set.feature.export.parts;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,17 +28,19 @@ import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.core.services.part.ToolboxPartService;
+import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
-import org.eclipse.set.services.table.TableService.TableInfo;
+import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
 import org.eclipse.set.utils.events.ProjectDataChanged;
 import org.eclipse.set.utils.exception.ExceptionHandler;
+import org.eclipse.set.utils.table.TableInfo;
 
 import jakarta.inject.Inject;
 
@@ -65,28 +67,35 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	}
 
 	@Override
-	protected CheckboxModelElement[] createCheckboxModelElements() {
-		final List<String> shortCuts = new ArrayList<>(
-				tableService.getAvailableTables()
-						.stream()
-						.map(TableInfo::shortcut)
-						.toList());
-		Collections.sort(shortCuts);
-
-		final List<CheckboxModelElement> elements = new ArrayList<>(
-				shortCuts.stream()
-						.map(tableService::getTableNameInfo)
-						.map(info -> new CheckboxModelElement(
-								info.getShortName().toLowerCase(),
-								info.getFullDisplayName()))
-						.toList());
+	protected List<CheckBoxTreeElement> createCheckBoxTreeElements() {
+		final List<CheckBoxTreeElement> elements = new ArrayList<>();
+		final Collection<TableInfo> availableTables = tableService
+				.getAvailableTables();
+		availableTables.forEach(tableInfo -> {
+			final TableNameInfo nameInfo = tableService
+					.getTableNameInfo(tableInfo.shortcut());
+			CheckBoxTreeElement parentElement = elements.stream()
+					.filter(ele -> ele.getId()
+							.equals(tableInfo.category().getId()))
+					.findFirst()
+					.orElse(null);
+			if (parentElement == null) {
+				parentElement = new CheckBoxTreeElement(null,
+						tableInfo.category().getId(),
+						tableInfo.category().toString());
+				elements.add(parentElement);
+			}
+			new CheckBoxTreeElement(parentElement,
+					nameInfo.getShortName().toLowerCase(),
+					nameInfo.getFullDisplayName());
+		});
 
 		if (additionalExportService != null) {
 			additionalExportService
 					.createAdditionalCheckboxModelElements(elements);
 		}
 
-		return elements.toArray(new CheckboxModelElement[0]);
+		return elements;
 	}
 
 	private Path getAttachmentPath(final String guid) {

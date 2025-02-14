@@ -11,6 +11,16 @@ package org.eclipse.set.feature.export.parts;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -18,17 +28,21 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.FontDescriptor;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.extensions.Exceptions;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.feature.export.Messages;
-import org.eclipse.set.feature.export.checkboxmodel.CheckboxModel;
-import org.eclipse.set.feature.export.checkboxmodel.CheckboxModelContentProvider;
+import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
+import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeModelProvider;
+import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
+import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
 import org.eclipse.set.services.table.TableService;
@@ -36,6 +50,7 @@ import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
+import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FillLayout;
@@ -43,6 +58,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -52,6 +68,7 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 /**
@@ -62,6 +79,7 @@ import jakarta.inject.Inject;
 public abstract class DocumentExportPart extends BasePart {
 
 	private static final int SECTION_FONT_HEIGHT = 16;
+	protected static final String EMPTY_TABLE = "leer"; //$NON-NLS-1$
 
 	static final Logger logger = LoggerFactory
 			.getLogger(DocumentExportPart.class);
@@ -94,7 +112,48 @@ public abstract class DocumentExportPart extends BasePart {
 	@Translation
 	org.eclipse.set.utils.Messages utilMessages;
 
-	CheckboxTableViewer viewer;
+	CheckboxTreeViewer viewer;
+
+	Map<TableInfo, Table> pt1Tables = new HashMap<>();
+
+	List<CheckBoxTreeElement> treeElements = Collections
+			.synchronizedList(new ArrayList<>());
+	private CheckboxTreeModel treeDataModel;
+
+	@PostConstruct
+	private void postContrucst() {
+		final Set<TableInfo> avaibleTables = new HashSet<>(
+				tableService.getAvailableTables());
+		final Set<String> areaIds = getModelSession().getSelectedControlAreas()
+				.stream()
+				.map(Pair::getSecond)
+				.collect(Collectors.toSet());
+		try {
+			getDialogService().showProgress(getToolboxShell(), monitor -> {
+				pt1Tables = tableService.transformTables(monitor,
+						getModelSession(), avaibleTables, areaIds);
+				Display.getDefault().asyncExec(() -> {
+					pt1Tables.forEach((tableInfo, table) -> {
+						if (TableExtensions.isTableEmpty(table)) {
+							final CheckBoxTreeElement element = treeDataModel
+									.getElement(tableInfo);
+							if (element == null) {
+								treeDataModel.addElement(tableInfo,
+										EMPTY_TABLE);
+							} else {
+								element.setStatus(EMPTY_TABLE);
+								viewer.update(element, null);
+							}
+						}
+					});
+				});
+
+			});
+		} catch (final Exception e) {
+			getDialogService().error(getToolboxShell(), e);
+		}
+
+	}
 
 	/**
 	 * Constructor
@@ -126,75 +185,98 @@ public abstract class DocumentExportPart extends BasePart {
 		layoutDataSectionLabel.horizontalSpan = 2;
 		sectionLabel.setLayoutData(layoutDataSectionLabel);
 
-		viewer = CheckboxTableViewer.newCheckList(section,
+		viewer = new CheckboxTreeViewer(section,
 				SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+
 		viewer.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(final Object element) {
 				final CheckboxModelElement ele = (CheckboxModelElement) element;
-				return ele.getName();
+				return ele.toString();
 			}
 		});
-		viewer.setContentProvider(new CheckboxModelContentProvider());
-
-		final CheckboxModelElement[] elements = createCheckboxModelElements();
-		final CheckboxModel input = new CheckboxModel(elements);
-		viewer.setInput(input);
-		input.selectAll();
-		viewer.setCheckedElements(input.getChecked());
-
+		viewer.setContentProvider(new CheckBoxTreeModelProvider(viewer));
+		treeDataModel = new CheckboxTreeModel(createCheckBoxTreeElements(),
+				tableService);
+		// viewer.setChildCount(input, treeElements.size());
+		viewer.setInput(treeDataModel);
+		treeDataModel.selectAll();
+		viewer.setCheckedElements(treeDataModel.getChecked());
+		viewer.expandAll();
 		final Composite buttonBar = new Composite(section, SWT.BOTTOM);
 		final FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
 		fillLayout.spacing = 2;
 
 		buttonBar.setLayout(fillLayout);
 
-		final Button selectAllButton = new Button(buttonBar, SWT.PUSH);
-		selectAllButton.setText(messages.selectAll);
-		selectAllButton.addListener(SWT.Selection, event -> {
-			input.selectAll();
-			viewer.setCheckedElements(input.getChecked());
-			validateExportButton();
-		});
+		// Create select all button
+		createSelectButton(buttonBar, messages.selectAll, treeDataModel,
+				CheckboxTreeModel::selectAll);
 
-		final Button selectNoneButton = new Button(buttonBar, SWT.PUSH);
-		selectNoneButton.setText(messages.selectNone);
-		selectNoneButton.addListener(SWT.Selection, event -> {
-			input.deselectAll();
-			viewer.setCheckedElements(input.getChecked());
-			validateExportButton();
-		});
+		// Create select all without empty table button
+		createSelectButton(buttonBar, messages.selectNotEmpty, treeDataModel,
+				model -> {
+					Arrays.stream(model.getChildElements())
+							.filter(ele -> ele.getStatus() != null
+									&& ele.getStatus().equals(EMPTY_TABLE))
+							.forEach(ele -> ele.deselect());
+				});
+
+		// Create deselected all button
+		createSelectButton(buttonBar, messages.selectNone, treeDataModel,
+				CheckboxTreeModel::deselectAll);
+
 		GridDataFactory.fillDefaults()
 				.align(SWT.FILL, SWT.TOP)
 				.applyTo(buttonBar);
 		viewer.addCheckStateListener(event -> {
-			final CheckboxModelElement element = (CheckboxModelElement) event
-					.getElement();
-			if (event.getChecked()) {
-				element.select();
-			} else {
-				element.deselect();
-			}
-			viewer.update(element, null);
-			validateExportButton();
-		});
+			if (event
+					.getElement() instanceof final CheckBoxTreeElement treeElement) {
+				if (event.getChecked()) {
+					treeElement.select();
+				} else {
+					treeElement.deselect();
+				}
+				if (treeElement.isParent()) {
+					treeElement.getChildElements()
+							.forEach(ele -> viewer.setChecked(ele,
+									ele.isChecked()));
+				} else {
+					final boolean isAllChildsSameStatus = treeElement
+							.getParent()
+							.getChildElements()
+							.stream()
+							.allMatch(ele -> ele.isChecked() == event
+									.getChecked());
+					if (isAllChildsSameStatus) {
+						viewer.setChecked(treeElement.getParent(),
+								event.getChecked());
+					}
 
-		viewer.addCheckStateListener(event -> {
-			final CheckboxModelElement element = (CheckboxModelElement) event
-					.getElement();
-			if (event.getChecked()) {
-				element.select();
-			} else {
-				element.deselect();
+				}
+
+				validateExportButton();
 			}
-			viewer.update(element, null);
-			validateExportButton();
+
 		});
 
 		GridDataFactory.fillDefaults()
 				.align(SWT.FILL, SWT.FILL)
 				.grab(true, true)
-				.applyTo(viewer.getTable());
+				.applyTo(viewer.getTree());
+	}
+
+	private Button createSelectButton(final Composite parent,
+			final String buttonText, final CheckboxTreeModel treeModel,
+			final Consumer<CheckboxTreeModel> modelAction) {
+		final Button button = new Button(parent, SWT.PUSH);
+		button.setText(buttonText);
+		button.addListener(SWT.Selection, event -> {
+			modelAction.accept(treeModel);
+			viewer.setCheckedElements(treeModel.getChecked());
+			validateExportButton();
+		});
+		return button;
 	}
 
 	private void createExportSection(final Composite parent) {
@@ -303,7 +385,7 @@ public abstract class DocumentExportPart extends BasePart {
 		}
 	}
 
-	protected abstract CheckboxModelElement[] createCheckboxModelElements();
+	protected abstract List<CheckBoxTreeElement> createCheckBoxTreeElements();
 
 	@Override
 	protected void createView(final Composite parent) {
