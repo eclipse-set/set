@@ -454,4 +454,8 @@ class TableExtensions {
 		}
 		return getFootnoteInfo(object as Table, fn)
 	}
+	
+	static def boolean isTableEmpty(Table table) {
+		return table.tableRows.nullOrEmpty
+	}
 }

@@ -121,4 +121,48 @@ public class Messages {
 	 * Export der Einzeltabelle
 	 */
 	public String ToolboxTableView_ExportTable;
+
+	/**
+	 * Tabellenexport
+	 */
+	public String TableExportPart_TaskMsg;
+
+	/**
+	 * Ausgabe des Zielzustands der Planung.
+	 */
+	public String TableExportPart_ExportInventoryDescription;
+
+	/**
+	 * Bestandsunterlagen erstellen
+	 */
+	public String TableExportPart_ExportInventoryRecords;
+
+	/**
+	 * Ausgabe des rot/gelb Vergleichs der Planung.
+	 */
+	public String TableExportPart_ExportPlanningDescription;
+
+	/**
+	 * Ausgabe des Einzelzustands der PlanPro-Datei.
+	 */
+	public String TableExportPart_ExportStateDescription;
+
+	/** Export des Dokumentensatz durchführen */
+	public String TableExportPart_ExportButton;
+
+	/**
+	 * Leere Tabellen abwählen
+	 */
+	public String TableExportPart_FilterEmptyButton;
+
+	/**
+	 * Bestandsdokumente erstellen
+	 */
+	public String TableExportPart_ExportInventoryDescriptionService_ViewName;
+
+	/**
+	 * Dokumentensatz erstellen
+	 */
+	public String TableExportPart_ExportPlanningRecordsDescriptionService_ViewName;
+
 }

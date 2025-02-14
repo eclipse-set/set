@@ -18,7 +18,7 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.services.table.TableService;
-import org.eclipse.set.services.table.TableService.TableInfo;
+import org.eclipse.set.utils.table.TableInfo;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
