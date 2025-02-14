@@ -20,6 +20,9 @@ public class CheckBoxTreeModelProvider implements ITreeContentProvider {
 
 	CheckboxTreeViewer viewer;
 
+	/**
+	 * @param viewer
+	 */
 	public CheckBoxTreeModelProvider(final CheckboxTreeViewer viewer) {
 		this.viewer = viewer;
 	}
@@ -55,36 +58,4 @@ public class CheckBoxTreeModelProvider implements ITreeContentProvider {
 		}
 		return false;
 	}
-
-	// @Override
-	// public void updateElement(final Object parent, final int index) {
-	// if (parent instanceof final CheckBoxTreeElement treeElement) {
-	// if (treeElement.isParent()) {
-	// if (treeElement.getChildElements().size() > index) {
-	// viewer.replace(treeElement, index,
-	// treeElement.getChildElements().get(index));
-	// }
-	// viewer.setChildCount(treeElement, treeElement.getChildElements().size());
-	// } else {
-	// viewer.setHasChildren(treeElement, false);
-	// viewer.setChildCount(treeElement, 0);
-	// }
-	//
-	// }
-	//
-	// }
-	//
-	// @Override
-	// public void updateChildCount(final Object element,
-	// final int currentChildCount) {
-	// if (element instanceof final CheckBoxTreeElement treeElement
-	// && treeElement.isParent()) {
-	// viewer.setChildCount(treeElement,
-	// treeElement.getChildElements().size());
-	// } else {
-	// viewer.setChildCount(element, 0);
-	// }
-	//
-	// }
-
 }

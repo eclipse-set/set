@@ -10,13 +10,10 @@
  */
 package org.eclipse.set.feature.export.checkboxmodel;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
-import org.eclipse.set.services.table.TableService;
-import org.eclipse.set.utils.table.TableInfo;
-import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
+import java.util.Optional;
 
 /**
  * 
@@ -24,12 +21,9 @@ import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 public class CheckboxTreeModel {
 
 	private final List<CheckBoxTreeElement> elements;
-	private final TableService tableService;
 
-	public CheckboxTreeModel(final List<CheckBoxTreeElement> elements,
-			final TableService tableService) {
+	public CheckboxTreeModel(final List<CheckBoxTreeElement> elements) {
 		this.elements = elements;
-		this.tableService = tableService;
 	}
 
 	public void deselectAll() {
@@ -40,79 +34,101 @@ public class CheckboxTreeModel {
 		elements.forEach(ele -> ele.select());
 	}
 
-	public CheckBoxTreeElement[] getChildElements() {
-		return elements.stream()
-				.filter(ele -> ele.isParent())
-				.flatMap(ele -> ele.getChildElements().stream())
-				.toArray(CheckBoxTreeElement[]::new);
-	}
-
 	public CheckBoxTreeElement[] getParentElements() {
-		return elements.stream()
+		return Arrays.stream(getAllElements())
 				.filter(ele -> ele.isParent())
 				.toArray(CheckBoxTreeElement[]::new);
 	}
 
 	public CheckBoxTreeElement[] getAllElements() {
-		return elements.toArray(new CheckBoxTreeElement[elements.size()]);
+		final List<CheckBoxTreeElement> parentElements = elements.stream()
+				.toList();
+		final List<CheckBoxTreeElement> childElements = elements.stream()
+				.flatMap(ele -> ele.getChildElements().stream())
+				.toList();
+		return List.of(parentElements, childElements)
+				.stream()
+				.flatMap(Collection::stream)
+				.toArray(CheckBoxTreeElement[]::new);
 	}
 
 	public CheckBoxTreeElement[] getChecked() {
-		final List<CheckBoxTreeElement> checkedParents = elements.stream()
-				.filter(ele -> ele.isChecked())
-				.toList();
-		final List<CheckBoxTreeElement> checkedChilds = elements.stream()
-				.flatMap(ele -> ele.getChildElements().stream())
-				.filter(ele -> ele.isChecked())
-				.toList();
-		return List.of(checkedParents, checkedChilds)
-				.stream()
-				.flatMap(Collection::stream)
+		return Arrays.stream(getAllElements())
 				.filter(ele -> ele.isChecked())
 				.toArray(CheckBoxTreeElement[]::new);
 	}
 
+	public Optional<CheckBoxTreeElement> getElement(final String elementId) {
+		return Arrays.stream(getAllElements())
+				.filter(ele -> ele.getId().equals(elementId))
+				.findFirst();
+	}
+
 	public void addElement(final CheckBoxTreeElement element) {
-		elements.add(element);
+		final Optional<CheckBoxTreeElement> findElement = getElement(
+				element.getId());
+		if (findElement.isPresent()) {
+			throw new IllegalArgumentException(String.format(
+					"Element with i: %s already exists ", element.getId()));
+		}
+		addElement(null, element);
 	}
 
-	public void addElement(final TableInfo tableInfo, final String status) {
-		final Pt1TableCategory category = tableInfo.category();
-		CheckBoxTreeElement parentElement = elements.stream()
-				.filter(ele -> ele.getId().equals(category.getId()))
-				.findFirst()
-				.orElse(null);
-		if (parentElement == null) {
-			parentElement = new CheckBoxTreeElement(null, category.getId(),
-					category.toString());
-			elements.add(parentElement);
+	public void addElement(final CheckBoxTreeElement parent,
+			final CheckBoxTreeElement newElement) {
+		if (parent == null) {
+			elements.add(newElement);
+			return;
 		}
-		final TableNameInfo tableNameInfo = tableService
-				.getTableNameInfo(tableInfo.shortcut());
-		elements.add(new CheckBoxTreeElement(parentElement,
-				tableNameInfo.getShortName().toLowerCase(),
-				tableNameInfo.getFullDisplayName()));
-	}
-
-	public CheckBoxTreeElement getElement(final TableInfo tableInfo) {
-		final TableNameInfo tableNameInfo = tableService
-				.getTableNameInfo(tableInfo.shortcut());
-		final CheckBoxTreeElement parent = elements.stream()
-				.filter(ele -> ele.getId().equals(tableInfo.category().getId()))
-				.findFirst()
-				.orElse(null);
-		if (parent != null) {
-			return parent.getChildElements()
-					.stream()
-					.filter(ele -> ele.getId()
-							.equals(tableNameInfo.getShortName().toLowerCase()))
-					.findFirst()
-					.orElse(null);
+		if (parent.getChildElements()
+				.stream()
+				.anyMatch(ele -> ele.getId().equals(newElement.getId()))) {
+			throw new IllegalArgumentException(String.format(
+					"Element with i: %s already exists in group: %s",
+					newElement.getId(), parent.getId()));
 		}
-		return elements.stream()
-				.filter(ele -> ele.getId()
-						.equals(tableNameInfo.getShortName().toLowerCase()))
-				.findFirst()
-				.orElse(null);
+		parent.addChild(newElement);
 	}
+	//
+	// public CheckBoxTreeElement addElement(final TableInfo tableInfo,
+	// final String status) {
+	// final Pt1TableCategory category = tableInfo.category();
+	// CheckBoxTreeElement parentElement = elements.stream()
+	// .filter(ele -> ele.getId().equals(category.getId()))
+	// .findFirst()
+	// .orElse(null);
+	// if (parentElement == null) {
+	// parentElement = new CheckBoxTreeElement(category.getId(),
+	// category.toString());
+	// elements.add(parentElement);
+	// }
+	//
+	// final TableNameInfo tableNameInfo = tableService
+	// .getTableNameInfo(tableInfo.shortcut());
+	// return new CheckBoxTreeElement(parentElement,
+	// tableNameInfo.getShortName().toLowerCase(),
+	// tableNameInfo.getFullDisplayName(), status);
+	// }
+	//
+	// public CheckBoxTreeElement getElement(final TableInfo tableInfo) {
+	// final TableNameInfo tableNameInfo = tableService
+	// .getTableNameInfo(tableInfo.shortcut());
+	// final CheckBoxTreeElement parent = elements.stream()
+	// .filter(ele -> ele.getId().equals(tableInfo.category().getId()))
+	// .findFirst()
+	// .orElse(null);
+	// if (parent != null) {
+	// return parent.getChildElements()
+	// .stream()
+	// .filter(ele -> ele.getId()
+	// .equals(tableNameInfo.getShortName().toLowerCase()))
+	// .findFirst()
+	// .orElse(null);
+	// }
+	// return elements.stream()
+	// .filter(ele -> ele.getId()
+	// .equals(tableNameInfo.getShortName().toLowerCase()))
+	// .findFirst()
+	// .orElse(null);
+	// }
 }

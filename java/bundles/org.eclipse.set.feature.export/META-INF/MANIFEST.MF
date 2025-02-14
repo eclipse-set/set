@@ -104,6 +104,7 @@ Import-Package: jakarta.annotation,
  org.eclipse.set.utils.viewgroups,
  org.eclipse.set.utils.widgets,
  org.osgi.service.component.annotations;version="1.2.0",
+ org.osgi.service.event,
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.eclipse.set.feature.export.descriptions.ExportInventoryDescriptionService.xml,

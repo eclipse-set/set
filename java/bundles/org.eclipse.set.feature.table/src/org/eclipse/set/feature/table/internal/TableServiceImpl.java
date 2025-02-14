@@ -594,15 +594,12 @@ public final class TableServiceImpl implements TableService {
 	@Override
 	public Map<TableInfo, Table> transformTables(final IProgressMonitor monitor,
 			final IModelSession modelSession,
-			final Set<TableInfo> tablesToTransfrom,
+			final Set<TableInfo> tablesToTransfrom, final TableType tableType,
 			final Set<String> controlAreaIds) {
 		final Map<TableInfo, Table> result = new HashMap<>();
 		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
 				tablesToTransfrom.size());
 
-		final TableType tableType = modelSession.isSingleState()
-				? TableType.SINGLE
-				: TableType.DIFF;
 		for (final TableInfo tableInfo : tablesToTransfrom) {
 			final String shortcut = tableInfo.shortcut();
 			final TableNameInfo nameInfo = getTableNameInfo(shortcut);

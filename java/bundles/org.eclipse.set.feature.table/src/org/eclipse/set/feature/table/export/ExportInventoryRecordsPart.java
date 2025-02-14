@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.export.parts;
+package org.eclipse.set.feature.table.export;
 
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.model.titlebox.Titlebox;

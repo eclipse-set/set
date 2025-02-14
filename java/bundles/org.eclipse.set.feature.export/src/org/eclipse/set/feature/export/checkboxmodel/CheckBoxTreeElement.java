@@ -26,21 +26,16 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 	List<CheckBoxTreeElement> childs;
 
 	/**
-	 * @param parent
-	 *            the parent element
 	 * @param id
 	 *            the unique id for this element
 	 * @param name
 	 *            the name of this element
 	 */
-	public CheckBoxTreeElement(final CheckBoxTreeElement parent,
-			final String id, final String name) {
-		this(parent, id, name, null);
+	public CheckBoxTreeElement(final String id, final String name) {
+		this(id, name, null);
 	}
 
 	/**
-	 * @param parent
-	 *            the parent element
 	 * @param id
 	 *            the unique id for this element
 	 * @param name
@@ -48,14 +43,10 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 	 * @param status
 	 *            the supplement information of this element
 	 */
-	public CheckBoxTreeElement(final CheckBoxTreeElement parent,
-			final String id, final String name, final String status) {
+	public CheckBoxTreeElement(final String id, final String name,
+			final String status) {
 		super(id, name, status);
-		this.parent = parent;
 		this.childs = new ArrayList<>();
-		if (parent != null) {
-			parent.addChild(this);
-		}
 	}
 
 	/**
@@ -73,7 +64,7 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 	}
 
 	/**
-	 * @return the childs element
+	 * @return the children element
 	 */
 	public List<CheckBoxTreeElement> getChildElements() {
 		return childs;
@@ -85,7 +76,8 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 	 * @param child
 	 *            the child element
 	 */
-	private void addChild(final CheckBoxTreeElement child) {
+	public void addChild(final CheckBoxTreeElement child) {
+		child.parent = this;
 		this.childs.add(child);
 	}
 

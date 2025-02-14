@@ -11,16 +11,7 @@ package org.eclipse.set.feature.export.parts;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.services.nls.Translation;
@@ -32,7 +23,6 @@ import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
-import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.extensions.Exceptions;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
@@ -41,16 +31,12 @@ import org.eclipse.set.feature.export.Messages;
 import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
 import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeModelProvider;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
-import org.eclipse.set.model.tablemodel.Table;
-import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.services.export.ExportService;
 import org.eclipse.set.services.export.TableCompileService;
-import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
-import org.eclipse.set.utils.table.TableInfo;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FillLayout;
@@ -58,7 +44,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -68,7 +53,6 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
 /**
@@ -106,54 +90,12 @@ public abstract class DocumentExportPart extends BasePart {
 	Messages messages;
 
 	@Inject
-	TableService tableService;
-
-	@Inject
 	@Translation
 	org.eclipse.set.utils.Messages utilMessages;
 
 	CheckboxTreeViewer viewer;
 
-	Map<TableInfo, Table> pt1Tables = new HashMap<>();
-
-	List<CheckBoxTreeElement> treeElements = Collections
-			.synchronizedList(new ArrayList<>());
-	private CheckboxTreeModel treeDataModel;
-
-	@PostConstruct
-	private void postContrucst() {
-		final Set<TableInfo> avaibleTables = new HashSet<>(
-				tableService.getAvailableTables());
-		final Set<String> areaIds = getModelSession().getSelectedControlAreas()
-				.stream()
-				.map(Pair::getSecond)
-				.collect(Collectors.toSet());
-		try {
-			getDialogService().showProgress(getToolboxShell(), monitor -> {
-				pt1Tables = tableService.transformTables(monitor,
-						getModelSession(), avaibleTables, areaIds);
-				Display.getDefault().asyncExec(() -> {
-					pt1Tables.forEach((tableInfo, table) -> {
-						if (TableExtensions.isTableEmpty(table)) {
-							final CheckBoxTreeElement element = treeDataModel
-									.getElement(tableInfo);
-							if (element == null) {
-								treeDataModel.addElement(tableInfo,
-										EMPTY_TABLE);
-							} else {
-								element.setStatus(EMPTY_TABLE);
-								viewer.update(element, null);
-							}
-						}
-					});
-				});
-
-			});
-		} catch (final Exception e) {
-			getDialogService().error(getToolboxShell(), e);
-		}
-
-	}
+	protected CheckboxTreeModel treeDataModel;
 
 	/**
 	 * Constructor
@@ -184,7 +126,7 @@ public abstract class DocumentExportPart extends BasePart {
 		final GridData layoutDataSectionLabel = new GridData();
 		layoutDataSectionLabel.horizontalSpan = 2;
 		sectionLabel.setLayoutData(layoutDataSectionLabel);
-
+		createSelectButtonGroup(section);
 		viewer = new CheckboxTreeViewer(section,
 				SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
 
@@ -196,39 +138,12 @@ public abstract class DocumentExportPart extends BasePart {
 			}
 		});
 		viewer.setContentProvider(new CheckBoxTreeModelProvider(viewer));
-		treeDataModel = new CheckboxTreeModel(createCheckBoxTreeElements(),
-				tableService);
-		// viewer.setChildCount(input, treeElements.size());
+		treeDataModel = createTreeModelData();
 		viewer.setInput(treeDataModel);
 		treeDataModel.selectAll();
 		viewer.setCheckedElements(treeDataModel.getChecked());
 		viewer.expandAll();
-		final Composite buttonBar = new Composite(section, SWT.BOTTOM);
-		final FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
-		fillLayout.spacing = 2;
 
-		buttonBar.setLayout(fillLayout);
-
-		// Create select all button
-		createSelectButton(buttonBar, messages.selectAll, treeDataModel,
-				CheckboxTreeModel::selectAll);
-
-		// Create select all without empty table button
-		createSelectButton(buttonBar, messages.selectNotEmpty, treeDataModel,
-				model -> {
-					Arrays.stream(model.getChildElements())
-							.filter(ele -> ele.getStatus() != null
-									&& ele.getStatus().equals(EMPTY_TABLE))
-							.forEach(ele -> ele.deselect());
-				});
-
-		// Create deselected all button
-		createSelectButton(buttonBar, messages.selectNone, treeDataModel,
-				CheckboxTreeModel::deselectAll);
-
-		GridDataFactory.fillDefaults()
-				.align(SWT.FILL, SWT.TOP)
-				.applyTo(buttonBar);
 		viewer.addCheckStateListener(event -> {
 			if (event
 					.getElement() instanceof final CheckBoxTreeElement treeElement) {
@@ -264,6 +179,33 @@ public abstract class DocumentExportPart extends BasePart {
 				.align(SWT.FILL, SWT.FILL)
 				.grab(true, true)
 				.applyTo(viewer.getTree());
+	}
+
+	protected void createSelectButtonGroup(final Composite parent) {
+		final Composite buttonBar = new Composite(parent, SWT.BOTTOM);
+		final FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
+		fillLayout.spacing = 2;
+
+		buttonBar.setLayout(fillLayout);
+		// Create select all button
+		createSelectButton(buttonBar, messages.selectAll, treeDataModel,
+				CheckboxTreeModel::selectAll);
+
+		// Create select all without empty table button
+		// createSelectButton(buttonBar, messages.selectNotEmpty, treeDataModel,
+		// model -> {
+		// Arrays.stream(model.getChildElements())
+		// .filter(ele -> ele.getStatus() != null
+		// && ele.getStatus().equals(EMPTY_TABLE))
+		// .forEach(ele -> ele.deselect());
+		// });
+
+		// Create deselected all button
+		createSelectButton(buttonBar, messages.selectNone, treeDataModel,
+				CheckboxTreeModel::deselectAll);
+		GridDataFactory.fillDefaults()
+				.align(SWT.FILL, SWT.TOP)
+				.applyTo(buttonBar);
 	}
 
 	private Button createSelectButton(final Composite parent,
@@ -385,7 +327,7 @@ public abstract class DocumentExportPart extends BasePart {
 		}
 	}
 
-	protected abstract List<CheckBoxTreeElement> createCheckBoxTreeElements();
+	protected abstract CheckboxTreeModel createTreeModelData();
 
 	@Override
 	protected void createView(final Composite parent) {

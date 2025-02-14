@@ -125,13 +125,15 @@ public interface TableService {
 	 *            the {@link IModelSession}
 	 * @param tablesToTransfrom
 	 *            the list of tables need transform
+	 * @param tableType
+	 *            the table type
 	 * @param controlAreaIds
 	 *            the list of {@link Stell_Bereich} and the belonging container
 	 * @return the tables
 	 */
 	Map<TableInfo, Table> transformTables(IProgressMonitor monitor,
 			IModelSession modelSession, Set<TableInfo> tablesToTransfrom,
-			Set<String> controlAreaIds);
+			TableType tableType, Set<String> controlAreaIds);
 
 	/**
 	 * @param part

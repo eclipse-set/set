@@ -6,17 +6,20 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.export.parts;
+package org.eclipse.set.feature.table.export;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.core.services.nls.Translation;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.IModelSession;
@@ -29,19 +32,32 @@ import org.eclipse.set.core.services.export.AdditionalExportService;
 import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
+import org.eclipse.set.feature.export.parts.DocumentExportPart;
+import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.model.tablemodel.Table;
+import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
+import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.ContainerDataChanged;
+import org.eclipse.set.utils.events.DefaultToolboxEventHandler;
 import org.eclipse.set.utils.events.ProjectDataChanged;
+import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent;
+import org.eclipse.set.utils.events.ToolboxEventHandler;
+import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.swt.widgets.Display;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 
 /**
@@ -51,12 +67,23 @@ import jakarta.inject.Inject;
  */
 public abstract class PlanProExportPart extends DocumentExportPart {
 
+	protected static final Logger logger = LoggerFactory
+			.getLogger(DocumentExportPart.class);
+	@Inject
+	@Translation
+	protected Messages messages;
+
 	@Inject
 	@Optional
 	private AdditionalExportService additionalExportService;
 
 	@Inject
 	ToolboxPartService toolboxPartService;
+
+	@Inject
+	TableService tableService;
+
+	private ToolboxEventHandler<SelectedControlAreaChangedEvent> selectionControlAreaHandler;
 
 	/**
 	 * creates the part.
@@ -66,11 +93,72 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		super();
 	}
 
+	@PostConstruct
+	private void postConstruct() {
+		final Set<String> currentAreaIds = getModelSession()
+				.getSelectedControlAreas()
+				.stream()
+				.map(Pair::getSecond)
+				.collect(Collectors.toSet());
+		updateTreeElemenst(currentAreaIds);
+		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
+			@Override
+			public void accept(final SelectedControlAreaChangedEvent t) {
+				final Set<String> areaIds = t.getControlAreas()
+						.stream()
+						.map(area -> area.areaId())
+						.collect(Collectors.toSet());
+				updateTreeElemenst(areaIds);
+			}
+		};
+
+		ToolboxEvents.subscribe(getBroker(),
+				SelectedControlAreaChangedEvent.class,
+				selectionControlAreaHandler);
+	}
+
+	protected void updateTreeElemenst(final Set<String> areaIds) {
+		final Set<TableInfo> avaibleTables = new HashSet<>(
+				tableService.getAvailableTables());
+		final TableType tableType = getModelSession().getTableType();
+		try {
+			getDialogService().showProgress(getToolboxShell(), monitor -> {
+				pt1Tables = tableService.transformTables(monitor,
+						getModelSession(), avaibleTables, tableType, areaIds);
+				Display.getDefault().asyncExec(() -> {
+					pt1Tables.forEach((tableInfo, table) -> {
+						CheckBoxTreeElement element = treeDataModel
+								.getElement(tableInfo);
+						if (element == null) {
+							element = treeDataModel.addElement(tableInfo, null);
+						}
+						if (TableExtensions.isTableEmpty(table)) {
+							element.setStatus(EMPTY_TABLE);
+						} else {
+							element.setStatus(null);
+						}
+						viewer.update(element, null);
+					});
+				});
+
+			});
+		} catch (final Exception e) {
+			getDialogService().error(getToolboxShell(), e);
+		}
+	}
+
+	@PreDestroy
+	private void preDestroy() {
+		logger.trace("preDestroy"); //$NON-NLS-1$ LOG
+		ToolboxEvents.unsubscribe(getBroker(), selectionControlAreaHandler);
+	}
+
 	@Override
 	protected List<CheckBoxTreeElement> createCheckBoxTreeElements() {
 		final List<CheckBoxTreeElement> elements = new ArrayList<>();
 		final Collection<TableInfo> availableTables = tableService
 				.getAvailableTables();
+
 		availableTables.forEach(tableInfo -> {
 			final TableNameInfo nameInfo = tableService
 					.getTableNameInfo(tableInfo.shortcut());
@@ -80,14 +168,14 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					.findFirst()
 					.orElse(null);
 			if (parentElement == null) {
-				parentElement = new CheckBoxTreeElement(null,
+				parentElement = new CheckBoxTreeElement(
 						tableInfo.category().getId(),
 						tableInfo.category().toString());
 				elements.add(parentElement);
 			}
-			new CheckBoxTreeElement(parentElement,
+			parentElement.addChild(new CheckBoxTreeElement(
 					nameInfo.getShortName().toLowerCase(),
-					nameInfo.getFullDisplayName());
+					nameInfo.getFullDisplayName()));
 		});
 
 		if (additionalExportService != null) {
@@ -179,4 +267,5 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			final List<Notification> notifications) {
 		setOutdated(false);
 	}
+
 }
