@@ -370,15 +370,21 @@ public abstract class DocumentExportPart extends BasePart {
 		scrolledComposite.setExpandVertical(true);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setAlwaysShowScrollBars(false);
+
 		isSessionDirty = getModelSession().isDirty();
 		final Composite content = new Composite(scrolledComposite, SWT.NONE);
 		content.setLayout(new GridLayout(1, false));
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(content);
+		scrolledComposite.setContent(content);
 		createExportListSection(content);
 		createExportSection(content);
 		exportButton = new Button(content, SWT.PUSH);
 		exportButton.setText(getExportButtonText());
 		exportButton.addListener(SWT.Selection,
 				event -> startExport(parent.getShell(), getModelSession()));
+
+		scrolledComposite
+				.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		validateExportButton();
 		setOutdated(getModelSession().isDirty());
 	}

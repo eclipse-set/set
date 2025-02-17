@@ -141,7 +141,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		if (!(getTreeDataModel() instanceof TableCheckboxTreeModel)) {
 			throw new IllegalArgumentException();
 		}
-		final TableCheckboxTreeModel treeDataModel = getTreeDataModel();
+		final TableCheckboxTreeModel treeDataModel = (TableCheckboxTreeModel) getTreeDataModel();
 		try {
 			getDialogService().showProgress(getToolboxShell(), monitor -> {
 				logger.debug("Start update tree elements"); //$NON-NLS-1$
