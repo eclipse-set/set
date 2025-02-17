@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.constants.ExportType;
+import org.eclipse.set.basis.export.CheckBoxTreeElement;
 
 /**
  * Interface for additional exports.
@@ -29,7 +30,7 @@ public interface AdditionalExportService {
 	 *            the list to add additional elements to
 	 */
 	public void createAdditionalCheckboxModelElements(
-			List<? extends CheckboxModelElement> elements);
+			List<? extends CheckBoxTreeElement> elements);
 
 	/**
 	 * Create an additional export.

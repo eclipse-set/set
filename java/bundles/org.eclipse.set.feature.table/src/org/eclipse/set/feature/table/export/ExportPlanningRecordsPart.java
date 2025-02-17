@@ -10,6 +10,7 @@ package org.eclipse.set.feature.table.export;
 
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.PlanProFileNature;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.titlebox.Titlebox;
 
 /**
@@ -22,14 +23,14 @@ public class ExportPlanningRecordsPart extends PlanProExportPart {
 	@Override
 	protected String getDescription() {
 		if (getModelSession().getNature() == PlanProFileNature.PLANNING) {
-			return messages.exportPlanningDescription;
+			return messages.TableExportPart_ExportPlanningDescription;
 		}
-		return messages.exportStateDescription;
+		return messages.TableExportPart_ExportStateDescription;
 	}
 
 	@Override
 	protected String getExportButtonText() {
-		return messages.export_button;
+		return messages.TableExportPart_ExportButton;
 	}
 
 	@Override
@@ -41,5 +42,10 @@ public class ExportPlanningRecordsPart extends PlanProExportPart {
 	protected void updateTitlebox(final Titlebox titlebox) {
 		// No update required, as the title box is not marked
 		// for planning records
+	}
+
+	@Override
+	public TableType getTableType() {
+		return TableType.DIFF;
 	}
 }

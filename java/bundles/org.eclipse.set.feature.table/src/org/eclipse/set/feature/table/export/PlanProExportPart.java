@@ -28,11 +28,11 @@ import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.basis.export.CheckBoxTreeElement;
+import org.eclipse.set.basis.export.CheckboxModelElement;
 import org.eclipse.set.basis.guid.Guid;
 import org.eclipse.set.core.services.export.AdditionalExportService;
-import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.core.services.part.ToolboxPartService;
-import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
 import org.eclipse.set.feature.export.parts.DocumentExportPart;
 import org.eclipse.set.feature.table.messages.Messages;
@@ -72,7 +72,7 @@ import jakarta.inject.Inject;
 public abstract class PlanProExportPart extends DocumentExportPart {
 
 	protected static final Logger logger = LoggerFactory
-			.getLogger(DocumentExportPart.class);
+			.getLogger(PlanProExportPart.class);
 	protected static final String EMPTY_TABLE = "leer"; //$NON-NLS-1$
 	@Inject
 	@Translation
@@ -127,7 +127,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 	@Override
 	public CheckboxTreeModel getTreeDataModel() {
-		if (getTreeDataModel() instanceof final TableCheckboxTreeModel tableTreeModel) {
+		if (super.getTreeDataModel() instanceof final TableCheckboxTreeModel tableTreeModel) {
 			return tableTreeModel;
 		}
 		throw new IllegalArgumentException();
@@ -136,8 +136,12 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	protected void updateTreeElemenst(final Set<String> areaIds) {
 		final Set<TableInfo> avaibleTables = new HashSet<>(
 				tableService.getAvailableTables());
-		final TableType tableType = getModelSession().getTableType();
-		final TableCheckboxTreeModel treeDataModel = (TableCheckboxTreeModel) getTreeDataModel();
+		final TableType tableType = getTableType();
+
+		if (!(getTreeDataModel() instanceof TableCheckboxTreeModel)) {
+			throw new IllegalArgumentException();
+		}
+		final TableCheckboxTreeModel treeDataModel = getTreeDataModel();
 		try {
 			getDialogService().showProgress(getToolboxShell(), monitor -> {
 				logger.debug("Start update tree elements"); //$NON-NLS-1$
@@ -154,10 +158,18 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						}
 						if (TableExtensions.isTableEmpty(table)) {
 							element.setStatus(EMPTY_TABLE);
+							// By default not select the empty table
+							element.deselect();
 						} else {
 							element.setStatus(null);
+							element.select();
 						}
+						// getViewer().setChecked(element, element.isChecked());
 						getViewer().update(element, null);
+						// if (element.getParent() != null) {
+						// getViewer().setChecked(element.getParent(),
+						// element.getParent().isChecked());
+						// }
 					});
 				});
 
@@ -210,8 +222,9 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	protected void createSelectButtonGroup(final Composite parent) {
 		super.createSelectButtonGroup(parent);
 		// Create select all without empty table button
-		createSelectButton(getButtonBar(), messages.selectNotEmpty,
-				getTreeDataModel(), model -> {
+		createSelectButton(getButtonBar(),
+				messages.TableExportPart_FilterEmptyButton, getTreeDataModel(),
+				model -> {
 					Arrays.stream(model.getAllElements())
 							.filter(ele -> ele.getStatus() != null
 									&& ele.getStatus().equals(EMPTY_TABLE))

@@ -50,7 +50,7 @@ public class ExportInventoryDescriptionService
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.export.ExportInventoryRecordsPart", //$NON-NLS-1$
 				// toolboxViewName
-				injectionHelper.messages.ExportInventoryDescriptionService_ViewName,
+				injectionHelper.messages.TableExportPart_ExportInventoryDescriptionService_ViewName,
 				// toolboxViewToolTip
 				"", //$NON-NLS-1$
 				// toolboxViewType

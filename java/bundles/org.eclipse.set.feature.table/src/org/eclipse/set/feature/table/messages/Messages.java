@@ -130,33 +130,39 @@ public class Messages {
 	/**
 	 * Ausgabe des Zielzustands der Planung.
 	 */
-	public String exportInventoryDescription;
+	public String TableExportPart_ExportInventoryDescription;
 
 	/**
 	 * Bestandsunterlagen erstellen
 	 */
-	public String exportInventoryRecords;
+	public String TableExportPart_ExportInventoryRecords;
 
 	/**
 	 * Ausgabe des rot/gelb Vergleichs der Planung.
 	 */
-	public String exportPlanningDescription;
+	public String TableExportPart_ExportPlanningDescription;
 
-	public String exportStateDescription;
+	/**
+	 * Ausgabe des Einzelzustands der PlanPro-Datei.
+	 */
+	public String TableExportPart_ExportStateDescription;
 
 	/** Export des Dokumentensatz durchführen */
-	public String export_button;
+	public String TableExportPart_ExportButton;
 
-	public String selectNotEmpty;
+	/**
+	 * Ohne leer Tabellen
+	 */
+	public String TableExportPart_FilterEmptyButton;
 
 	/**
 	 * Bestandsdokumente erstellen
 	 */
-	public String ExportInventoryDescriptionService_ViewName;
+	public String TableExportPart_ExportInventoryDescriptionService_ViewName;
 
 	/**
 	 * Dokumentensatz erstellen
 	 */
-	public String ExportPlanningRecordsDescriptionService_ViewName;
+	public String TableExportPart_ExportPlanningRecordsDescriptionService_ViewName;
 
 }

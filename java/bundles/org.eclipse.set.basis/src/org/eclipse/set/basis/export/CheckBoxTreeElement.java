@@ -8,12 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
-package org.eclipse.set.feature.export.checkboxmodel;
+package org.eclipse.set.basis.export;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.eclipse.set.core.services.export.CheckboxModelElement;
 
 /**
  * Check box element for tree structure
@@ -96,7 +94,7 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 		super.deselect();
 		if (isParent()) {
 			childs.forEach(ele -> ele.deselect());
-		} else if (parent != null && parent.isAllChildSameState(false)) {
+		} else if (parent != null && parent.selected) {
 			parent.selected = false;
 		}
 	}

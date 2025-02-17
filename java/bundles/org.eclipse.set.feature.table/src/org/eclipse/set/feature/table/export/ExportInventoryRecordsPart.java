@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.export;
 
 import org.eclipse.set.basis.constants.ExportType;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.model.titlebox.extensions.TitleboxExtensions;
 
@@ -21,12 +22,12 @@ public class ExportInventoryRecordsPart extends PlanProExportPart {
 
 	@Override
 	protected String getDescription() {
-		return messages.exportInventoryDescription;
+		return messages.TableExportPart_ExportInventoryDescription;
 	}
 
 	@Override
 	protected String getExportButtonText() {
-		return messages.exportInventoryRecords;
+		return messages.TableExportPart_ExportInventoryRecords;
 	}
 
 	@Override
@@ -38,5 +39,10 @@ public class ExportInventoryRecordsPart extends PlanProExportPart {
 	protected void updateTitlebox(final Titlebox titlebox) {
 		TitleboxExtensions.set(titlebox, TitleboxExtensions.DOC_TYPE_ADDRESS,
 				TitleboxExtensions.INVENTORY_RECORDS_DOC_TYPE_SHOTCUT);
+	}
+
+	@Override
+	public TableType getTableType() {
+		return TableType.FINAL;
 	}
 }

@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.core.services.export;
+package org.eclipse.set.basis.export;
 
 /**
  * Model element for a checkbox.
@@ -69,6 +69,10 @@ public class CheckboxModelElement {
 		return name;
 	}
 
+	/**
+	 * @param status
+	 *            the element status
+	 */
 	public void setStatus(final String status) {
 		this.status = status;
 	}

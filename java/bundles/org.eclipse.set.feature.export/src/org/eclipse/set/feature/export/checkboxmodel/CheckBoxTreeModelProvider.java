@@ -12,19 +12,21 @@ package org.eclipse.set.feature.export.checkboxmodel;
 
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.set.basis.export.CheckBoxTreeElement;
 
 /**
+ * The data provider for the {@link CheckboxTreeViewer} with the data model
+ * {@link CheckboxTreeModel}
  * 
+ * @author Truong
  */
 public class CheckBoxTreeModelProvider implements ITreeContentProvider {
 
-	CheckboxTreeViewer viewer;
-
 	/**
-	 * @param viewer
+	 * The constructor
 	 */
-	public CheckBoxTreeModelProvider(final CheckboxTreeViewer viewer) {
-		this.viewer = viewer;
+	public CheckBoxTreeModelProvider() {
+		super();
 	}
 
 	@Override
@@ -32,9 +34,9 @@ public class CheckBoxTreeModelProvider implements ITreeContentProvider {
 		if (inputElement instanceof final CheckBoxTreeElement treeElement) {
 			return treeElement.getChildElements().toArray();
 		} else if (inputElement instanceof final CheckboxTreeModel treeModel) {
-			return treeModel.getAllElements();
+			return treeModel.getParentElements();
 		}
-		return null;
+		return new Object[0];
 
 	}
 

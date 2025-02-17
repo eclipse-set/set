@@ -20,15 +20,18 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.export.CheckBoxTreeElement;
+import org.eclipse.set.basis.export.CheckboxModelElement;
 import org.eclipse.set.basis.extensions.Exceptions;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
-import org.eclipse.set.core.services.export.CheckboxModelElement;
 import org.eclipse.set.feature.export.Messages;
-import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeElement;
 import org.eclipse.set.feature.export.checkboxmodel.CheckBoxTreeModelProvider;
 import org.eclipse.set.feature.export.checkboxmodel.CheckboxTreeModel;
 import org.eclipse.set.services.export.ExportService;
@@ -37,16 +40,15 @@ import org.eclipse.set.utils.SaveAndRefreshAction;
 import org.eclipse.set.utils.SelectableAction;
 import org.eclipse.set.utils.events.SessionDirtyChanged;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
@@ -119,6 +121,9 @@ public abstract class DocumentExportPart extends BasePart {
 		return exportService;
 	}
 
+	/**
+	 * @return {@link CheckboxTreeModel}
+	 */
 	public CheckboxTreeModel getTreeDataModel() {
 		return treeDataModel;
 	}
@@ -138,10 +143,9 @@ public abstract class DocumentExportPart extends BasePart {
 		final GridData layoutDataSectionLabel = new GridData();
 		layoutDataSectionLabel.horizontalSpan = 2;
 		sectionLabel.setLayoutData(layoutDataSectionLabel);
-		createSelectButtonGroup(section);
 		viewer = new CheckboxTreeViewer(section,
 				SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
-
+		viewer.setComparator(new ViewerComparator());
 		viewer.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(final Object element) {
@@ -149,14 +153,24 @@ public abstract class DocumentExportPart extends BasePart {
 				return ele.toString();
 			}
 		});
-		viewer.setContentProvider(new CheckBoxTreeModelProvider(viewer));
+		viewer.setContentProvider(new CheckBoxTreeModelProvider());
 		treeDataModel = createTreeModelData();
 		viewer.setInput(treeDataModel);
 		treeDataModel.selectAll();
 		viewer.setCheckedElements(treeDataModel.getChecked());
 		viewer.expandAll();
+		createSelectButtonGroup(section);
+		viewer.setCheckStateProvider(checkStateProvider());
+		viewer.addCheckStateListener(checkStateListerner());
 
-		viewer.addCheckStateListener(event -> {
+		GridDataFactory.fillDefaults()
+				.align(SWT.FILL, SWT.FILL)
+				.grab(true, true)
+				.applyTo(viewer.getTree());
+	}
+
+	protected ICheckStateListener checkStateListerner() {
+		return event -> {
 			if (event
 					.getElement() instanceof final CheckBoxTreeElement treeElement) {
 				if (event.getChecked()) {
@@ -164,33 +178,49 @@ public abstract class DocumentExportPart extends BasePart {
 				} else {
 					treeElement.deselect();
 				}
-				if (treeElement.isParent()) {
-					treeElement.getChildElements()
-							.forEach(ele -> viewer.setChecked(ele,
-									ele.isChecked()));
-				} else {
-					final boolean isAllChildsSameStatus = treeElement
-							.getParent()
-							.getChildElements()
-							.stream()
-							.allMatch(ele -> ele.isChecked() == event
-									.getChecked());
-					if (isAllChildsSameStatus) {
-						viewer.setChecked(treeElement.getParent(),
-								event.getChecked());
-					}
 
-				}
-
+				viewer.update(treeElement, null);
 				validateExportButton();
 			}
+		};
+	}
 
-		});
+	protected ICheckStateProvider checkStateProvider() {
+		return new ICheckStateProvider() {
 
-		GridDataFactory.fillDefaults()
-				.align(SWT.FILL, SWT.FILL)
-				.grab(true, true)
-				.applyTo(viewer.getTree());
+			@Override
+			public boolean isGrayed(final Object element) {
+				return false;
+			}
+
+			@Override
+			public boolean isChecked(final Object element) {
+				if (element instanceof final CheckBoxTreeElement treeElement) {
+					if (treeElement.isParent()) {
+						viewer.setSubtreeChecked(treeElement,
+								treeElement.isChecked());
+					} else {
+						final boolean isAllChildsSameStatus = treeElement
+								.getParent()
+								.getChildElements()
+								.stream()
+								.allMatch(ele -> ele.isChecked() == treeElement
+										.isChecked());
+						final boolean isParentChecked = viewer
+								.getChecked(treeElement.getParent());
+						if (isAllChildsSameStatus
+								&& isParentChecked != treeElement.isChecked()
+								|| !isAllChildsSameStatus && isParentChecked) {
+							viewer.setChecked(treeElement.getParent(),
+									treeElement.getParent().isChecked());
+						}
+
+					}
+					return treeElement.isChecked();
+				}
+				return false;
+			}
+		};
 	}
 
 	protected void createSelectButtonGroup(final Composite parent) {
@@ -243,11 +273,8 @@ public abstract class DocumentExportPart extends BasePart {
 		directoryPath.setEditable(false);
 		final Button buttonSelectDir = new Button(section, SWT.PUSH);
 		buttonSelectDir.setText(messages.chose_directory_button);
-		buttonSelectDir.addListener(SWT.Selection, new Listener() {
-
-			@Override
-			public void handleEvent(final Event event) {
-				getDialogService()
+		buttonSelectDir.addListener(SWT.Selection,
+				event -> getDialogService()
 						.selectDirectory(parent.getShell(),
 								getSelectedDirectory().toString())
 						.ifPresent(selectedName -> {
@@ -259,9 +286,7 @@ public abstract class DocumentExportPart extends BasePart {
 							directoryPath
 									.setText(getSelectedDirectory().toString());
 							userConfigService.setLastExportPath(selectedDir);
-						});
-			}
-		});
+						}));
 
 		// check override
 		checkOverrideButton = new Button(section, SWT.CHECK);
@@ -336,11 +361,18 @@ public abstract class DocumentExportPart extends BasePart {
 	protected void createView(final Composite parent) {
 		selectedDir = userConfigService.getLastExportPath();
 		parent.setLayout(new FillLayout());
-		final Composite content = new Composite(parent, SWT.NONE);
-		content.setLayout(new GridLayout(1, false));
-
+		final ScrolledComposite scrolledComposite = new ScrolledComposite(
+				parent, SWT.V_SCROLL);
+		scrolledComposite.setLayout(new GridLayout());
+		GridDataFactory.fillDefaults()
+				.grab(true, true)
+				.applyTo(scrolledComposite);
+		scrolledComposite.setExpandVertical(true);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setAlwaysShowScrollBars(false);
 		isSessionDirty = getModelSession().isDirty();
-
+		final Composite content = new Composite(scrolledComposite, SWT.NONE);
+		content.setLayout(new GridLayout(1, false));
 		createExportListSection(content);
 		createExportSection(content);
 		exportButton = new Button(content, SWT.PUSH);

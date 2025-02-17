@@ -51,7 +51,7 @@ public class ExportPlanningRecordsDescriptionService
 				// contributionURI
 				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.export.ExportPlanningRecordsPart", //$NON-NLS-1$
 				// toolboxViewName
-				injectionHelper.messages.ExportPlanningRecordsDescriptionService_ViewName,
+				injectionHelper.messages.TableExportPart_ExportPlanningRecordsDescriptionService_ViewName,
 				// toolboxViewToolTip
 				"", //$NON-NLS-1$
 				// toolboxViewType
