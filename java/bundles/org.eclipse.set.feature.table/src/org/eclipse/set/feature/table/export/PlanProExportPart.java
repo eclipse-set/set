@@ -80,7 +80,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 
 	@Inject
 	@Optional
-	private AdditionalExportService additionalExportService;
+	private AdditionalExportService<CheckBoxTreeElement> additionalExportService;
 
 	@Inject
 	ToolboxPartService toolboxPartService;
