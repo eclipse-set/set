@@ -7,10 +7,14 @@
     "serve": "vite --port 8080",
     "build": "vite build --mode development",
     "build-prod": "vite build --mode production",
-    "lint": "eslint src",
-    "eclipse-dev": "dotenv -- ./eclipse-dev-build.sh"
+    "lint": "eslint src"
   },
   "dependencies": {
+    "@turf/boolean-disjoint": "^7.2.0",
+    "@turf/boolean-within": "^7.2.0",
+    "@turf/difference": "^7.2.0",
+    "@turf/helpers": "^7.2.0",
+    "@turf/intersect": "^7.2.0",
     "axios": "^1.7.9",
     "geojson": "^0.5.0",
     "jspdf": "^2.5.2",
@@ -20,12 +24,7 @@
     "vue": "^3.5.13",
     "vue-class-component": "^8.0.0-1",
     "vue-router": "^4.5.0",
-    "vuex": "^4.1.0",
-    "@turf/boolean-disjoint": "^7.2.0",
-    "@turf/boolean-within": "^7.2.0",
-    "@turf/difference": "^7.2.0",
-    "@turf/helpers": "^7.2.0",
-    "@turf/intersect": "^7.2.0"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "3.1.0",
@@ -33,7 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
     "@vitejs/plugin-vue": "^5.2.1",
-    "dotenv-cli": "^8.0.0",
+    "dotenv": "^16.4.7",
     "eslint": "^9.20.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-node": "^11.1.0",

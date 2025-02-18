@@ -78,11 +78,17 @@ export default class TrackSwitchFeature extends LageplanFeature<TrackSwitch> {
         y: coor.y
       }
     })
-    sideLegCoorClone.reverse()
+
+    // By EKW the side leg start from cross point,
+    // also end of the main leg
+    if (!tswitch.design?.startsWith('EKW')) {
+      sideLegCoorClone.reverse()
+    }
+
     sideLegCoorClone.forEach(coor => coordinates.push([coor.x, coor.y]))
 
     // DKW and KR haven't the legs same TOP_Kante
-    if (tswitch.design?.startsWith('DKW') || tswitch.design?.startsWith('KR')) {
+    if (tswitch.design?.startsWith('DKW') || tswitch.design?.startsWith('KR') || tswitch.design?.startsWith('EKW')) {
       coordinates.push([component.mainLeg.coordinates[0].x, component.mainLeg.coordinates[0].y])
     }
 

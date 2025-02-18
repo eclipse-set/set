@@ -29,8 +29,10 @@ import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.TopKnotenExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.WKrAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Helper class defining a leg of a track switch
@@ -183,16 +185,34 @@ class TrackSwitchLeg {
 							metadata.rightCrossing.crossingTriangle.mainLeg) -
 							length
 				} else {
-					length = topKante?.TOPKanteAllg?.TOPLaenge.wert / BigDecimal.valueOf(2)	
+					length = topKante?.TOPKanteAllg?.TOPLaenge.wert /
+						BigDecimal.valueOf(2)
 				}
 			}
 			case ENUMW_KR_ART_EKW: {
-				val crossingLeg = component.crossingLeg
-				topKante = legIndex === 0 ? crossingLeg : component.topKanten.
-					findFirst [
-						it.identitaet.wert !== crossingLeg.identitaet.wert
+				if (legIndex === 0) {
+					topKante = component.crossingLeg
+					length = component.getEKWLegLength(metadata)
+					// The crossing leg should start at cross point between the switches
+					start = length
+				} else {
+					val currentGspElement = component.WKrGspElement
+					val gspAnlage = currentGspElement.WKrAnlage
+					val anotherGspElement = gspAnlage.WKrGspElemente.findFirst [
+						it !== currentGspElement
 					]
-				length = component.getEKWLegLength(metadata)
+					val anotherGspComponent = anotherGspElement?.
+						WKrGspKomponenten.firstOrNull
+					if (anotherGspComponent === null) {
+						throw new IllegalArgumentException(
+							gspAnlage.identitaet.wert)
+					}
+					topKnoten = anotherGspComponent.topKnoten
+					length = anotherGspComponent.getEKWLegLength(metadata)
+					topKante = anotherGspComponent.crossingLeg
+
+				}
+
 			}
 			default: {
 				topKante = topKnoten.getTrackSwitchLegs.get(legIndex)
@@ -214,19 +234,18 @@ class TrackSwitchLeg {
 		}
 	}
 
-	// The leg of EKW should have the length total of the track switch or
-	// the length of the TOP_Kante, which straight leg run through
+	// The leg of a EKW switch is only to cross point between to switch 
 	private def BigDecimal getEKWLegLength(W_Kr_Gsp_Komponente component,
 		TrackSwitchMetadata metadata) {
 		if (metadata !== null) {
-			return BigDecimal.valueOf(
-				metadata.rightCrossing.crossing.mainLeg) +
-				BigDecimal.valueOf(metadata.leftCrossing.crossing.mainLeg)
-			
+			return BigDecimal.valueOf(metadata.rightCrossing.crossing.mainLeg)
+
 		}
-		val crossingLeg  = component.crossingLeg
-		val straightLeg = component.topKanten.findFirst[it !== crossingLeg]
-		return straightLeg?.TOPKanteAllg?.TOPLaenge?.wert
+		val crossingLeg = component.crossingLeg
+		val straightEdge = component.topKanten.findFirst[it !== crossingLeg]
+		return (straightEdge?.TOPKanteAllg?.TOPLaenge?.wert ?: BigDecimal.ZERO).
+			divide(BigDecimal.TWO, ToolboxConstants.ROUNDING_TO_PLACE,
+				RoundingMode.DOWN)
 	}
 
 	protected static def TOP_Kante getCrossingLeg(
