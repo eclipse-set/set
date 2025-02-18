@@ -19,7 +19,7 @@ Other operating systems or processor architectures may work, but are generally n
 - [hugo](https://gohugo.io/) (v0.101.0+)
 
 # Eclipse IDE Requirement Plugins
-The plugins can install over Eclipse -> Help -> Installed New Software
+The requirement plugins can install through Eclipse IDE (Help -> Installed New Software) or bash file _releng/eclipse/install_eclipse_plugin.sh_ (Need set environtment variable `ECLIPSE_HOME`).
 
 ||Plugin Name| Install URL|
 |------|------|------|
@@ -27,32 +27,27 @@ The plugins can install over Eclipse -> Help -> Installed New Software
 2|Eclipse RPC Target Components | https://download.eclipse.org/eclipse/updates/4.32
 3|Eclipse Plugin Developments | https://download.eclipse.org/eclipse/updates/4.32
 4|Equinox Target Components | https://download.eclipse.org/eclipse/updates/4.32
-5|Xtext Complete SDK | https://download.eclipse.org/releases/2024-12
-6|EMF - Eclipse Modeling Framwork SDK | https://download.eclipse.org/releases/2024-12
-7|M2E PDE Integration | https://download.eclipse.org/releases/2024-12
-8|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
-9|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-12
+5|Xtext Complete SDK | https://download.eclipse.org/releases/2024-06
+6|EMF - Eclipse Modeling Framework SDK | https://download.eclipse.org/releases/2024-06
+7|Ecore Tools | https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/
+8|M2E PDE Integration | https://download.eclipse.org/releases/2024-06
+9|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
+10|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-06
 
 # Development build
 
 This is the recommended way to build and debug for development. 
 
 1. Clone this repository or download a source archive.
-2. Copy the `data` and `examples` directory from `java/bundles/org.eclipse.set.feature/rootdir` to Eclipse directory
-3. Create a new workspace in the Eclipse IDE
-4. Import projects from `java/` via File -> Import -> Existing Projects into Workspace
-5. Import the Checkstyle configuration from `releng/eclipse/checkstyle.xml` via Window -> Preferences -> Checkstyle
-6. Import the Java formatter configuration from `releng/eclipse/java-formatter.xml` via Window -> Preferences -> Java -> Code Style -> Formatter
-7. Set the target platform in `org.eclipse.set.releng.target`
-8. Launch the product in `org.eclipse.set.releng.set.product`
-9. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a recent Github Actions build of the same branch for compatibility). 
-
-If you want to work on the embedded web components (e.g. the textviewer or the pdf viewer), you need to: 
-
-1. Browse to the appropriate subfolder in `web/`
-2. Install npm dependencies via `npm install`
-3. Build via `npm run build`
-4. Copy the contents of the resulting `build`-directory to the unpacked Eclipse SET build (in the matching `web/` subdirectory). 
+2. Set environment variable `ECLIPSE_HOME`
+3. Run javascript file `releng/eclipse/development_prepare.js` for complie and copy web package to Eclipse IDE directory.
+4. Create a new workspace in the Eclipse IDE
+5. Import projects from `java/` via File -> Import -> Existing Projects into Workspace
+6. Import the Checkstyle configuration from `releng/eclipse/checkstyle.xml` via Window -> Preferences -> Checkstyle
+7. Import the Java formatter configuration from `releng/eclipse/java-formatter.xml` via Window -> Preferences -> Java -> Code Style -> Formatter
+8. Set the target platform in `org.eclipse.set.releng.target`
+9. Synchronize and launch the product in `org.eclipse.set.releng.set.product`
+10. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a recent Github Actions build of the same branch for compatibility).  
 
 # Production build
 
