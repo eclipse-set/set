@@ -193,23 +193,26 @@ class TrackSwitchLeg {
 				if (legIndex === 0) {
 					topKante = component.crossingLeg
 					length = component.getEKWLegLength(metadata)
+					// The crossing leg should start at cross point between the switches
+					start = length
 				} else {
 					val currentGspElement = component.WKrGspElement
-					val gspAnlage = currentGspElement.WKrAnlage 
-					val anotherGspElement = gspAnlage.WKrGspElemente.findFirst[it !== currentGspElement]
-					val anotherGspComponent = anotherGspElement?.WKrGspKomponenten.firstOrNull
+					val gspAnlage = currentGspElement.WKrAnlage
+					val anotherGspElement = gspAnlage.WKrGspElemente.findFirst [
+						it !== currentGspElement
+					]
+					val anotherGspComponent = anotherGspElement?.
+						WKrGspKomponenten.firstOrNull
 					if (anotherGspComponent === null) {
-						throw new IllegalArgumentException(gspAnlage.identitaet.wert)
+						throw new IllegalArgumentException(
+							gspAnlage.identitaet.wert)
 					}
 					topKnoten = anotherGspComponent.topKnoten
-					length= anotherGspComponent.getEKWLegLength(metadata)
-					// The second leg should start at cross point of the switch
-					start = length
+					length = anotherGspComponent.getEKWLegLength(metadata)
 					topKante = anotherGspComponent.crossingLeg
-					
+
 				}
-				
-				
+
 			}
 			default: {
 				topKante = topKnoten.getTrackSwitchLegs.get(legIndex)
@@ -230,7 +233,7 @@ class TrackSwitchLeg {
 			length = DEFAULT_TRACKSWITCH_LEG_LENGTH
 		}
 	}
-	
+
 	// The leg of a EKW switch is only to cross point between to switch 
 	private def BigDecimal getEKWLegLength(W_Kr_Gsp_Komponente component,
 		TrackSwitchMetadata metadata) {

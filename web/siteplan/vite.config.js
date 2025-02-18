@@ -1,11 +1,7 @@
 import vue from '@vitejs/plugin-vue'
-import dotenv from 'dotenv'
 import path from 'path'
 import {defineConfig} from 'vite'
 
-dotenv.config({
-  path: './config.env'
-})
 export default defineConfig(({_, mode}) => ({
   plugins: [vue()],
   resolve: {
