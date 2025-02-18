@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante;
+import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten;
 
 /**
  * Helper class to represent a path of edges on the topological graph Not a Java
@@ -65,11 +66,30 @@ public class TopPath {
 	private TopPoint determineStartNode() {
 		try {
 			final TOP_Kante firstEdge = edges.getFirst();
+			final BigDecimal edgeLength = firstEdge.getTOPKanteAllg()
+					.getTOPLaenge()
+					.getWert();
+			// When the first edge length is ZERO, then should the start node
+			// lie at TOP_Knoten_A or TOP_Knoten_B
+			if (firstEdgeLength.compareTo(BigDecimal.ZERO) == 0) {
+				if (edges.size() == 1) {
+					if (length.compareTo(firstEdgeLength) != 0) {
+						throw new IllegalArgumentException();
+					}
+
+					return new TopPoint(firstEdge,
+							edgeLength.subtract(firstEdgeLength));
+				}
+				final TOP_Knoten connectTopKnoten = getConnectTopKnoten(
+						firstEdge, edges.get(1));
+				final BigDecimal distance = firstEdge.getIDTOPKnotenA()
+						.getValue() == connectTopKnoten ? BigDecimal.ZERO
+								: edgeLength;
+				return new TopPoint(firstEdge, distance);
+			}
+
 			return new TopPoint(firstEdge,
-					firstEdge.getTOPKanteAllg()
-							.getTOPLaenge()
-							.getWert()
-							.subtract(firstEdgeLength));
+					edgeLength.subtract(firstEdgeLength));
 		} catch (final Exception e) {
 			throw new IllegalArgumentException(
 					"Can\'t find start node of TopPath"); //$NON-NLS-1$
@@ -78,15 +98,48 @@ public class TopPath {
 
 	private BigDecimal determintFirstEdgeLength() {
 		try {
-			return edges.getFirst()
-					.getTOPKanteAllg()
+			final TOP_Kante firstEdge = edges.getFirst();
+			final BigDecimal edgeLength = firstEdge.getTOPKanteAllg()
 					.getTOPLaenge()
-					.getWert()
-					.subtract(startNode.distance());
+					.getWert();
+			if (edges.size() == 1) {
+				return length;
+			}
+			final TOP_Knoten connectTopKnoten = getConnectTopKnoten(firstEdge,
+					edges.get(1));
+			final BigDecimal connectTopKnotenDistance = connectTopKnoten == firstEdge
+					.getIDTOPKnotenA()
+					.getValue() ? BigDecimal.ZERO : edgeLength;
+			// When the start node lie at TOP_Knoten_A or TOP_Knoten_B, then the
+			// first edge length is ZERO
+			if (startNode.distance().compareTo(connectTopKnotenDistance) == 0) {
+				return BigDecimal.ZERO;
+			}
+			return edgeLength.subtract(startNode.distance());
 		} catch (final Exception e) {
 			throw new IllegalArgumentException(
 					"Can\'t find first edge length of TopPath"); //$NON-NLS-1$
 		}
+	}
+
+	private static TOP_Knoten getConnectTopKnoten(final TOP_Kante firstEdge,
+			final TOP_Kante secondEdge) {
+		final String firstEdgeTopNodeA = firstEdge.getIDTOPKnotenA().getWert();
+		if (firstEdgeTopNodeA.equals(secondEdge.getIDTOPKnotenA().getWert())
+				|| firstEdgeTopNodeA
+						.equals(secondEdge.getIDTOPKnotenB().getWert())) {
+			return firstEdge.getIDTOPKnotenA().getValue();
+		}
+		final String firstEdgeTopNodeB = firstEdge.getIDTOPKnotenB().getWert();
+		if (firstEdgeTopNodeB.equals(secondEdge.getIDTOPKnotenA().getWert())
+				|| firstEdgeTopNodeB
+						.equals(secondEdge.getIDTOPKnotenB().getWert())) {
+			return firstEdge.getIDTOPKnotenB().getValue();
+		}
+		throw new IllegalArgumentException(String.format(
+				"TOP_Kante %s und TOP_Kante %s sind nicht nacheinander liegen", //$NON-NLS-1$
+				firstEdge.getIdentitaet().getWert(),
+				secondEdge.getIdentitaet().getWert()));
 	}
 
 	/**
