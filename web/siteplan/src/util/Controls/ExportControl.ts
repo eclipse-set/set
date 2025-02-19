@@ -51,9 +51,6 @@ interface RotateData {
  */
 export default class ExportControl extends Control {
   private static readonly OUTSIDE_POLYGON_FEATURE = 'outsidepolygon'
-  /**
-   * the export to image should have high resolution than pdf to avoid blurred symbols.
-   */
   private map: Map
 
   /**
@@ -93,24 +90,26 @@ export default class ExportControl extends Control {
 
   private async onClick () {
     const sheetCutFeatures = this.getSheetcutFeatures()
+    // the export to image should have high resolution than pdf to avoid blurred symbols.
+    const exportImageScale = Configuration.getExportScaleValue() / 2
     if (PlanProToolbox.inPPT()) {
       const ppm = await this.getPixelProMeterAtScale(Configuration.getExportScaleValue())
       // Convert ppm by image scale to ppm by export scale
       const targetPpm = ppm !== undefined
-        ? ppm * 2
+        ? ppm * Configuration.getExportScaleValue() / exportImageScale
         : undefined
       PlanProToolbox.exportSiteplan(
         (folder: string | null) => {
           if (folder === null)
             return
 
-          this.exportSiteplan(sheetCutFeatures ?? [])
+          this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
         },
         sheetCutFeatures?.length?.toString() ?? '0',
         targetPpm?.toString() ?? ''
       )
     } else {
-      this.exportSiteplan(sheetCutFeatures ?? [])
+      this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
     }
   }
 
@@ -142,7 +141,7 @@ export default class ExportControl extends Control {
     return layoutInfoLayer?.getFeaturesByType(FeatureType.SheetCut)
   }
 
-  private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[]) {
+  private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[], scale: number) {
     this.lockMapDuringExport(true)
     const result: HTMLCanvasElement[] = []
     const originalRotation = this.map.getView().getRotation()
@@ -152,7 +151,7 @@ export default class ExportControl extends Control {
     store.commit('setSourceMap', new EmptyMap().getIdentifier())
     const visibleLayers = store.state.featureLayers.filter(layer => layer.getVisible())
     visibleLayers.forEach(layer => layer.setVisible(false))
-    setMapScale(this.map.getView(), ExportControl.EXPORT_IMAGE_LOD_SCALE)
+    setMapScale(this.map.getView(), scale)
     this.map.getView().setRotation(0)
     const resolution = this.map.getView().getResolution()
 
