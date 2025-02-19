@@ -33,11 +33,11 @@ async function compileWebPackages() {
   await doCommand(`cd ../../web/about && hugo -d ${eclipseHome}/web/about`)
   // Textviewer
   console.log("****Compile Textviewer****")
-  await doCommand(`cd ../../web/textviewer && npm run build`)
+  await doCommand(`cd ../../web/textviewer && npm ci && npm run build`)
 
   // Siteplan
   console.log("****Compile Siteplan****")
-  await doCommand(`cd ../../web/siteplan && npm run build`)
+  await doCommand(`cd ../../web/siteplan && npm ci && npm run build`)
 
   // Pdfjs
   console.log("****Compile Pdfjs****")
@@ -67,7 +67,7 @@ async function compilePdfJs(fileUrl, outputPath) {
       resolve(null)
     })
   })
-  await doCommand(`cd ../../web/pdf && tar -xf pdfjs.zip && npm run build`)
+  await doCommand(`cd ../../web/pdf && npm ci && tar -xf pdfjs.zip && npm run build`)
 }
 
 async function doCommand(command) {
