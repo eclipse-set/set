@@ -150,8 +150,10 @@ public class ToolboxConfiguration {
 	 */
 	public static boolean isDebugMode() {
 		// Check if, Java Debug Wire Protocol(jdwp) is running
-		return ManagementFactory.getRuntimeMXBean().getInputArguments()
-				.toString().indexOf("jdwp") > -1; //$NON-NLS-1$
+		return ManagementFactory.getRuntimeMXBean()
+				.getInputArguments()
+				.toString()
+				.indexOf("jdwp") > -1; //$NON-NLS-1$
 	}
 
 	private static final String MAP_SOURCES_DEFAULT = "BKG_TOPPLUS|BKG_SENT"; //$NON-NLS-1$
@@ -260,8 +262,10 @@ public class ToolboxConfiguration {
 	 * @return whether collisions should be enabled by default
 	 */
 	public static boolean getDefaultCollisionsEnabled() {
-		return System.getProperty(ToolboxProperties.DEFAULT_COLLISIONS_ENABLED,
-				DEFAULT_COLLISIONS_ENABLED).equals("true"); //$NON-NLS-1$
+		return System
+				.getProperty(ToolboxProperties.DEFAULT_COLLISIONS_ENABLED,
+						DEFAULT_COLLISIONS_ENABLED)
+				.equals("true"); //$NON-NLS-1$
 	}
 
 	/**

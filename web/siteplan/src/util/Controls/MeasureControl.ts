@@ -72,9 +72,9 @@ export default class MeasureControl extends Control {
 
     button.addEventListener('click', () => {
       if (store.state.measureEnable ) {
-        this.onDeactiveMeasure()
+        this.deactiveMeasure()
       } else {
-        this.onActiveMeasure()
+        this.activeMeasure()
       }
 
       store.commit('setMeasureEnable', !store.state.measureEnable)
@@ -142,7 +142,7 @@ export default class MeasureControl extends Control {
     this.measureTooltip?.setOffset([0, -7])
     this.sketch = null
     this.measureTooltipElement = null
-    this.craeteMeasureTooltip()
+    this.createMeasureTooltip()
     unByKey(this.listerner)
   }
 
@@ -151,7 +151,7 @@ export default class MeasureControl extends Control {
     return `${Math.round(length * 100) / 100} m`
   }
 
-  craeteMeasureTooltip () {
+  createMeasureTooltip () {
     if (this.measureTooltipElement){
       this.measureTooltipElement.remove()
     }
@@ -183,7 +183,7 @@ export default class MeasureControl extends Control {
     return layer
   }
 
-  onActiveMeasure () {
+  activeMeasure () {
     if (!this.drawLineInteraction) {
       return
     }
@@ -191,10 +191,10 @@ export default class MeasureControl extends Control {
     this.map.addLayer(this.vectorLayer)
     this.map.getTargetElement().style.cursor = 'crosshair'
     this.map.addInteraction(this.drawLineInteraction)
-    this.craeteMeasureTooltip()
+    this.createMeasureTooltip()
   }
 
-  onDeactiveMeasure () {
+  deactiveMeasure () {
     this.map.getTargetElement().style.cursor = 'auto'
     this.map.getInteractions().forEach(interaction => {
       if (toRaw(interaction) === this.drawLineInteraction) {
