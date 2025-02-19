@@ -16,5 +16,6 @@ Durch einen Klick auf das image:img/ZoomToFit.png[Gesamtbereich darstellen,25,25
 Durch einen Klick auf das image:img/MeasureTool.png[Messwerkzeug,25,25] Symbol wird das Messwerkzeug aktiviert. Damit kann man die Distanz in Metern zwischen 2 beliebigen Punkten messen.
 
 * Um die Messung zu starten, klicke auf einen beliebigen Punkt auf der Karte.
+* Klicke auf beliebige weitere Punkte in der Karte um Wegpunkte hinzuzufügen, z.B. um über Eck zu messen.
 * Um die Messung zu beenden. doppelklicke auf den gewünschten Endpunkt.
 * Zum Deaktivieren des Werkzeugs klicke erneut auf das Symbol.
