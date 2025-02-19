@@ -81,9 +81,9 @@ import 'material-design-icons/iconfont/material-icons.css'
  * Layer (de-)selection control
  * @author Peters
  */
-import { Options, Vue } from 'vue-class-component'
-import NamedFeatureLayer from '@/util/NamedFeatureLayer'
 import { FeatureLayerType } from '@/feature/FeatureInfo'
+import NamedFeatureLayer from '@/util/NamedFeatureLayer'
+import { Options, Vue } from 'vue-class-component'
 
 @Options({
   components: {
@@ -110,6 +110,7 @@ export default class LayerControl extends Vue {
     // Do not allow to disable/edit the Layer for highlighting features
     const layers = this.featureLayers.filter(
       layer => layer.getLayerType() !== FeatureLayerType.Flash
+        && layer.getLayerType() !== FeatureLayerType.Measure
     )
     const sorted = layers.sort((a, b) => a.getZIndex() - b.getZIndex())
     return sorted

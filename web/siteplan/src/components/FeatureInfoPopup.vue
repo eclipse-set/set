@@ -26,6 +26,7 @@
 import MenuPopup from '@/components/popup/MenuPopup.vue'
 import { FeatureType, getFeatureData, getFeatureType } from '@/feature/FeatureInfo'
 import { LeftRight } from '@/model/SiteplanModel'
+import { store } from '@/store'
 import { getFeatureGUIDs } from '@/util/FeatureExtensions'
 import NamedFeatureLayer from '@/util/NamedFeatureLayer'
 import { compare } from '@/util/ObjectExtension'
@@ -87,7 +88,11 @@ export default class FeatureInfoPopup extends Vue {
     })
     this.map.addInteraction(select)
     select.on('select', this.onFeatureSelect)
-
+    store.subscribe(m => {
+      if (m.type === 'setMeasureEnable') {
+        select.setActive(!m.payload)
+      }
+    })
     // Add info window overlay
     const element = document.getElementById('featureInfoPopup')
     if (element === null) {
