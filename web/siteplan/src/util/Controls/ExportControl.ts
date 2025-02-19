@@ -54,7 +54,6 @@ export default class ExportControl extends Control {
   /**
    * the export to image should have high resolution than pdf to avoid blurred symbols.
    */
-  private static readonly EXPORT_IMAGE_LOD_SCALE = Configuration.getExportScaleValue() / 2
   private map: Map
 
   /**
@@ -98,7 +97,7 @@ export default class ExportControl extends Control {
       const ppm = await this.getPixelProMeterAtScale(Configuration.getExportScaleValue())
       // Convert ppm by image scale to ppm by export scale
       const targetPpm = ppm !== undefined
-        ? ppm * Configuration.getExportScaleValue() / ExportControl.EXPORT_IMAGE_LOD_SCALE
+        ? ppm * 2
         : undefined
       PlanProToolbox.exportSiteplan(
         (folder: string | null) => {
