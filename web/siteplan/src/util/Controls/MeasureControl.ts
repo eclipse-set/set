@@ -148,7 +148,7 @@ export default class MeasureControl extends Control {
 
   formatLength (line: LineString): string {
     const length = getLength(line)
-    return Math.round(length * 100) / 100 + ' ' + 'm'
+    return `${Math.round(length * 100) / 100} m`
   }
 
   craeteMeasureTooltip () {
