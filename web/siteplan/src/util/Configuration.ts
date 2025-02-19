@@ -64,8 +64,8 @@ export default abstract class Configuration {
     return 1000
   }
 
-  public static getExportDPI (): number {
-    return Configuration.getToolboxConfiguration().exportDPI
+  public static getExportScaleValue (): number{
+    return Configuration.getToolboxConfiguration().exportScale
   }
 
   public static getTrackWidth (): TrackWidth {

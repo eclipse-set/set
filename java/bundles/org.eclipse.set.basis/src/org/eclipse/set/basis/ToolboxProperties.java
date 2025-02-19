@@ -170,4 +170,9 @@ public interface ToolboxProperties {
 	 * Property key for indicating, the table show only planing elment or not
 	 */
 	public static final String TABLE_ONLY_PLANING_ELEMENT = "toolbox.table.only.planing.element";
+
+	/**
+	 * Property key for siteplan scale at export
+	 */
+	public static final String EXPORT_SITEPLAN_SCALE = "toolbox.siteplan.export.scale";
 }
