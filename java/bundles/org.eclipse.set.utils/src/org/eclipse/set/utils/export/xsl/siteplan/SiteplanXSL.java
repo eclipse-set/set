@@ -111,7 +111,7 @@ public class SiteplanXSL {
 		rootNode = doc.getElementsByTagName(XSL_STYLESHEET).item(0);
 		if (pageStyle == null) {
 			throw new UnsupportedOperationException(
-					"Es gibt keine relevant Paper für diese Lageplan mit aktuell Layout, bitte ändern Sie die DPI or scale value"); //$NON-NLS-1$
+					"Es gibt kein passendes Papierformat für diesen Lageplan im aktuellen Layout. Bitte DPI-Zahl or Skalierungsfaktor ändern"); //$NON-NLS-1$
 		}
 
 		return this.setPageSize(pageStyle.getPageDIN())
