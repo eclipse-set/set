@@ -65,8 +65,12 @@ public interface PlazModelService {
 				.comparingInt(
 						(ToIntFunction<ValidationProblem>) t -> severityOrder
 								.indexOf(t.getSeverity()))
-				.thenComparing(t -> t.getType())
-				.thenComparingInt(t -> t.getLineNumber());
+				.thenComparing(ValidationProblem::getType)
+				.thenComparingInt(ValidationProblem::getLineNumber)
+				.thenComparing(ValidationProblem::getObjectArt)
+				.thenComparing(ValidationProblem::getAttributeName)
+				.thenComparing(ValidationProblem::getObjectState)
+				.thenComparing(ValidationProblem::getMessage);
 		problems.sort(comparator);
 	}
 
