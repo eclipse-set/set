@@ -8,6 +8,8 @@
  */
 package org.eclipse.set.feature.plazmodel.service;
 
+import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.ToIntFunction;
@@ -65,8 +67,18 @@ public interface PlazModelService {
 				.comparingInt(
 						(ToIntFunction<ValidationProblem>) t -> severityOrder
 								.indexOf(t.getSeverity()))
-				.thenComparing(t -> t.getType())
-				.thenComparingInt(t -> t.getLineNumber());
+				.thenComparing(ValidationProblem::getType)
+				.thenComparingInt(ValidationProblem::getLineNumber)
+				.thenComparing(t -> getNullableObject(t,
+						ValidationProblem::getObjectArt).orElse("")) //$NON-NLS-1$
+				.thenComparing(t -> getNullableObject(t,
+						ValidationProblem::getAttributeName).orElse("")) //$NON-NLS-1$
+				.thenComparing(t -> getNullableObject(t,
+						problem -> problem.getObjectState().getLiteral())
+								.orElse("")) //$NON-NLS-1$
+				.thenComparing(
+						t -> getNullableObject(t, ValidationProblem::getMessage)
+								.orElse("")); //$NON-NLS-1$
 		problems.sort(comparator);
 	}
 
