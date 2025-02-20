@@ -27,12 +27,14 @@ The requirement plugins can install through Eclipse IDE (Help -> Installed New S
 2|Eclipse RPC Target Components | https://download.eclipse.org/eclipse/updates/4.32
 3|Eclipse Plugin Developments | https://download.eclipse.org/eclipse/updates/4.32
 4|Equinox Target Components | https://download.eclipse.org/eclipse/updates/4.32
-5|Xtext Complete SDK | https://download.eclipse.org/releases/2024-06
-6|EMF - Eclipse Modeling Framework SDK | https://download.eclipse.org/releases/2024-06
-7|Ecore Tools | https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/
-8|M2E PDE Integration | https://download.eclipse.org/releases/2024-06
-9|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
-10|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-06
+5|Eclipse e4 Tools Developer Resources | https://download.eclipse.org/eclipse/updates/4.32
+6|Xtext Complete SDK | https://download.eclipse.org/releases/2024-06
+7|EMF - Eclipse Modeling Framework SDK | https://download.eclipse.org/releases/2024-06
+8|EMF Forms SDK | http://download.eclipse.org/ecp/releases/releases_127
+9|Ecore Tools | https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/
+10|M2E PDE Integration | https://download.eclipse.org/releases/2024-06
+11|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
+12|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-06
 
 # Maven Settings
 The SET project required SET-Browser (eclipse-set/browser), SET-Model (eclipse-set/model) to run. // TODO
