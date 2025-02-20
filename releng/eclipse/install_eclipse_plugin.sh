@@ -17,7 +17,8 @@ ECLIPSE_EXEC="$ECLIPSE_HOME/eclipse"
 UPDATE_SITES="https://download.eclipse.org/eclipse/updates/4.32,
   https://download.eclipse.org/releases/2024-06,
   https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/,
-  https://checkstyle.org/eclipse-cs-update-site"
+  https://checkstyle.org/eclipse-cs-update-site,
+  http://download.eclipse.org/ecp/releases/releases_127"
 PLUGINS="org.eclipse.platform.feature.group,
   org.eclipse.rcp.feature.group,
   org.eclipse.pde.feature.group,
