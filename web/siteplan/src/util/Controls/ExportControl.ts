@@ -223,6 +223,11 @@ export default class ExportControl extends Control {
       }
 
       result.push(exportCanvas)
+      await new Promise(resolve => {
+        setTimeout(() => {
+          resolve(null)
+        }, 2000)
+      })
     }
     return result
   }
