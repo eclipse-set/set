@@ -164,13 +164,9 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 							element.setStatus(null);
 							element.select();
 						}
-						// getViewer().setChecked(element, element.isChecked());
 						getViewer().update(element, null);
-						// if (element.getParent() != null) {
-						// getViewer().setChecked(element.getParent(),
-						// element.getParent().isChecked());
-						// }
 					});
+					validateExportButton();
 				});
 
 			});
@@ -224,12 +220,10 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		// Create select all without empty table button
 		createSelectButton(getButtonBar(),
 				messages.TableExportPart_FilterEmptyButton, getTreeDataModel(),
-				model -> {
-					Arrays.stream(model.getAllElements())
-							.filter(ele -> ele.getStatus() != null
-									&& ele.getStatus().equals(EMPTY_TABLE))
-							.forEach(ele -> ele.deselect());
-				});
+				model -> Arrays.stream(model.getAllElements())
+						.filter(ele -> ele.getStatus() != null
+								&& ele.getStatus().equals(EMPTY_TABLE))
+						.forEach(ele -> ele.deselect()));
 	}
 
 	private Path getAttachmentPath(final String guid) {
