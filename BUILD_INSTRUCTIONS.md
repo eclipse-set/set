@@ -34,6 +34,41 @@ The requirement plugins can install through Eclipse IDE (Help -> Installed New S
 9|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
 10|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-06
 
+# Maven Settings
+The SET project required SET-Browser (eclipse-set/browser), SET-Model (eclipse-set/model) to run. // TODO
+
+
+Add this maven server configuration to maven setting. The env.GITHUB_ACTOR and env.GITHUB_TOKEN can change your Github user and token or set it as environtment variable.
+```
+  <servers>
+    <server>
+      <id>set-github-browser</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>set-github</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>set-github-model</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>set-github-toolboxmodel</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+    <server>
+      <id>set-github-build</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+  </servers>
+```
+
 # Development build
 
 This is the recommended way to build and debug for development. 
@@ -45,9 +80,10 @@ This is the recommended way to build and debug for development.
 5. Import projects from `java/` via File -> Import -> Existing Projects into Workspace
 6. Import the Checkstyle configuration from `releng/eclipse/checkstyle.xml` via Window -> Preferences -> Checkstyle
 7. Import the Java formatter configuration from `releng/eclipse/java-formatter.xml` via Window -> Preferences -> Java -> Code Style -> Formatter
-8. Set the target platform in `org.eclipse.set.releng.target` by opening the file `org.eclipse.set.releng.target.target` and click on `Set as Target Platform` or `Reload Target Platform` in the top right corner
-9. Synchronize and launch the product in `org.eclipse.set.releng.set.product`
-10. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a recent Github Actions build of the same branch for compatibility).  
+8. Set maven setting file to the setting, which contain above server setting `Window -> Preferences -> Maven -> User Settings`
+9. Set the target platform in `org.eclipse.set.releng.target` by opening the file `org.eclipse.set.releng.target.target` and click on `Set as Target Platform` or `Reload Target Platform` in the top right corner
+10. Synchronize and launch the product in `org.eclipse.set.releng.set.product`
+11. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a recent Github Actions build of the same branch for compatibility).  
 
 # Production build
 
