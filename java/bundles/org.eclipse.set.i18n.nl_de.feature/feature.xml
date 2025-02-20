@@ -78,7 +78,6 @@
       <import plugin="org.eclipse.emf.ecp.view.categorization.swt" version="1.17.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecp.view.core.swt" version="1.17.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecp.view.table.ui.swt" version="1.10.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.set.model.integrationview.edit" version="0.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.set.model.planpro.edit" version="0.0.0"/>
       <import plugin="org.eclipse.set.model.validationreport.edit" version="0.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.ecp.common.ui"/>
@@ -601,14 +600,6 @@
 
    <plugin
          id="org.eclipse.set.i18n.ecp.table.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.set.i18n.integrationview.nl_de"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -18,7 +18,7 @@ export default defineConfig(({_, mode}) => ({
   build: {
     sourcemap: mode === 'development' ? true : 'inline',
     minify: mode === 'development' ? false : 'esbuild',
-    outDir: mode === 'development' ? `${process.env.ECLIPSE_ROOT}/web/siteplan` : "dist",
+    outDir: mode === 'development' ? `${process.env.ECLIPSE_HOME}/web/siteplan` : "dist",
     emptyOutDir: true
   }
 }))
