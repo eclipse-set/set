@@ -29,7 +29,8 @@ PLUGINS="org.eclipse.platform.feature.group,
   org.eclipse.m2e.pde.feature.feature.group,
   net.sf.eclipsecs.feature.group,
   org.eclipse.swtbot.eclipse.feature.group,
-  org.eclipse.e4.core.tools.feature.source.feature.group"
+  org.eclipse.e4.core.tools.feature.source.feature.group,
+  org.eclipse.emf.ecp.emfforms.sdk.feature.feature.group"
 
 "$ECLIPSE_EXEC" \
   -nosplash \
