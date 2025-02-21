@@ -292,7 +292,11 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(An_Zeit_Hupe),
 			einrichtung,
-			[bedienEinrichtOertlichAllg?.hupeAnschaltzeit?.wert?.toTableInteger]
+			[
+				val zeit = bedienEinrichtOertlichAllg?.hupeAnschaltzeit?.wert?.
+					toTableInteger
+				return zeit == "0" ? Boolean.FALSE.translate : zeit
+			]
 		)
 
 		// R: Bemerkung
