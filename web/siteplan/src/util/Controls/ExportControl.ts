@@ -114,6 +114,11 @@ export default class ExportControl extends Control {
   }
 
   private async getPixelProMeterAtScale (scale: number) : Promise<number | undefined>{
+    const storagePpm = store.state.pixelperMeter.get(scale)
+    if (storagePpm) {
+      return storagePpm
+    }
+
     const view = this.map.getView()
     const currentResolution = view.getResolution() ?? 1
     setMapScale(view, scale)
@@ -131,7 +136,12 @@ export default class ExportControl extends Control {
         const topRightSphereCoord = transform(getTopRight(viewportExtent), 'EPSG:3857', 'EPSG:4326')
         const distanceInMeter = getDistance(topLeftSphereCoord, topRightSphereCoord)
         view.setResolution(currentResolution)
-        resolve(viewportSize[0] / distanceInMeter)
+        const cuurentPpm = viewportSize[0] / distanceInMeter
+        store.commit('setPixelPerMeter', {
+          scaleValue: scale,
+          ppm: cuurentPpm
+        })
+        resolve(cuurentPpm)
       })
     })
   }
@@ -223,11 +233,6 @@ export default class ExportControl extends Control {
       }
 
       result.push(exportCanvas)
-      await new Promise(resolve => {
-        setTimeout(() => {
-          resolve(null)
-        }, 2000)
-      })
     }
     return result
   }
