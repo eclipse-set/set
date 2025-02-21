@@ -21,7 +21,6 @@ import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.GEO_Punkt
-import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.locationtech.jts.geom.Coordinate
 import org.slf4j.Logger
