@@ -755,7 +755,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		<fo:table-cell margin="0" padding="0" height="{5+5+10-3*$titlebox-WB}mm" column-number="1" number-columns-spanned="2" number-rows-spanned="3" border-style="solid" border-width="0px">
 			<fo:block-container height="7mm">
 				<fo:block margin-top="-0.5mm">
-					<fo:external-graphic src="{@logo}" content-height="7mm" />
+					<fo:external-graphic src="{@logo}" height="7mm" width="33mm" content-height="scale-down-to-fit" content-width="scale-down-to-fit" />
 				</fo:block>
 			</fo:block-container>
 			<fo:block-container margin-left="2pt" text-align="left" height="12mm">
