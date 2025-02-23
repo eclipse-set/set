@@ -13,7 +13,13 @@ if [ -z "$ECLIPSE_HOME" ]; then
   echo "Error: ECLIPSE_HOME not found"
   exit 1
 fi
+
 ECLIPSE_EXEC="$ECLIPSE_HOME/eclipse"
+if [ ! -f "$ECLIPSE_EXEC" ]; then
+  echo "Error: No eclipse executable found in $ECLIPSE_HOME"
+  exit 1
+fi
+
 UPDATE_SITES="https://download.eclipse.org/eclipse/updates/4.32,
   https://download.eclipse.org/releases/2024-06,
   https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/,
@@ -37,7 +43,8 @@ PLUGINS="org.eclipse.platform.feature.group,
   -nosplash \
   -application org.eclipse.equinox.p2.director \
   -repository "$UPDATE_SITES" \
-  -installIU "$PLUGINS"
+  -installIU "$PLUGINS" \
+  | grep -v 'DEBUG' # hide DEBUG log statements
 
 if [ $? -eq 0 ]; then
   echo "Install Plugins success"
