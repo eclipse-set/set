@@ -479,17 +479,17 @@ public class Messages extends AbstractMessageService {
 	public String Ssli_Heading;
 
 	/**
-	 * Ssln (Nahbedientabelle)
+	 * Ssln (Nahbedienungstabelle)
 	 */
 	public String SslnDescriptionService_ViewName;
 
 	/**
-	 * Nahbedientabelle
+	 * Nahbedienungstabelle
 	 */
 	public String SslnDescriptionService_ViewTooltip;
 
 	/**
-	 * Nahbedientabelle
+	 * Nahbedienungstabelle
 	 */
 	public String ToolboxTableNameSslnLong;
 
