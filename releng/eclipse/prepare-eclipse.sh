@@ -47,7 +47,6 @@ if [ ! -d "$ECLIPSE_HOME" ]; then
     mkdir ./tmp-eclipse-download
     curl -o ./tmp-eclipse-download/eclipse.zip https://archive.eclipse.org/technology/epp/downloads/release/2024-06/R/eclipse-java-2024-06-R-win32-x86_64.zip
     unzip ./tmp-eclipse-download/eclipse.zip -d ./tmp-eclipse-download
-    sleep 5s
     mkdir -p $ECLIPSE_HOME
     mv ./tmp-eclipse-download/eclipse/* $ECLIPSE_HOME
     rm -R ./tmp-eclipse-download

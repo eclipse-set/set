@@ -63,7 +63,8 @@ This will use an existing eclipse or will download it for you to the provide ECL
 Under Windows:
 
 ```cmd
-set ECLIPSE_HOME=C:/planpro/eclipse && releng/eclipse/prepare-eclipse.sh
+set ECLIPSE_HOME=C:/planpro/eclipse
+releng/eclipse/prepare-eclipse.sh
 ```
 
 Under linux:
