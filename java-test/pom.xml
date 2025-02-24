@@ -142,12 +142,6 @@
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
-          <artifactId>org.eclipse.set.i18n.integrationview.nl_de</artifactId>
-          <version>${set-version}</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.i18n.model.nl_de</artifactId>
           <version>${set-version}</version>
           <type>jar</type>
@@ -160,18 +154,6 @@
         </dependency>
         <dependency>
           <groupId>org.eclipse.set</groupId>
-          <artifactId>org.eclipse.set.model.integrationview.edit</artifactId>
-          <version>${set-version}</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.set</groupId>
-          <artifactId>org.eclipse.set.model.integrationview</artifactId>
-          <version>${set-version}</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.plazmodel</artifactId>
           <version>${set-version}</version>
           <type>jar</type>
@@ -179,24 +161,6 @@
         <dependency>
           <groupId>org.eclipse.set</groupId>
           <artifactId>org.eclipse.set.model.plazmodel.edit</artifactId>
-          <version>${set-version}</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.set</groupId>
-          <artifactId>org.eclipse.set.model.simplemerge.edit</artifactId>
-          <version>${set-version}</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.set</groupId>
-          <artifactId>org.eclipse.set.model.simplemerge.extensions</artifactId>
-          <version>${set-version}</version>
-          <type>jar</type>
-        </dependency>
-        <dependency>
-          <groupId>org.eclipse.set</groupId>
-          <artifactId>org.eclipse.set.model.simplemerge</artifactId>
           <version>${set-version}</version>
           <type>jar</type>
         </dependency>
@@ -498,9 +462,8 @@
             <configuration>
               <configLocation>../../releng/eclipse/checkstyle.xml</configLocation>
               <suppressionsLocation>../../releng/eclipse/suppressions.xml</suppressionsLocation>
-              <propertyExpansion>
-								config_loc=../../../releng/eclipse
-							</propertyExpansion>
+              <propertyExpansion> config_loc=../../../releng/eclipse
+              </propertyExpansion>
               <consoleOutput>true</consoleOutput>
               <linkXRef>false</linkXRef>
               <includes>**\/*.java, **\/*.MF, **\/.xml, **\/.properties</includes>

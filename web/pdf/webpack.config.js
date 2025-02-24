@@ -5,7 +5,8 @@ const existsSync = require("fs").existsSync;
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const StreamZip = require("node-stream-zip");
-
+const dotenv = require("dotenv")
+dotenv.config()
 class ExtractPDFJSPlugin {
   async extractPdfJS() {
     if (!existsSync("pdfjs.zip")) return;
@@ -23,8 +24,8 @@ class ExtractPDFJSPlugin {
   }
 }
 
-module.exports = {
-  mode: "production",
+module.exports = (env, argv) =>({
+  mode: argv.mode,
   context: __dirname,
   // Disable performance hints (this is a locally served web application)
   performance: {
@@ -41,7 +42,7 @@ module.exports = {
     "pdf.worker": "pdfjs-dist/build/pdf.worker.mjs",
   },
   output: {
-    path: path.join(__dirname, "dist"),
+    path: argv.mode == "development" ? `${process.env.ECLIPSE_HOME}/web/pdf` : path.join(__dirname, "dist"),
     filename: "[name].js",
   },
   plugins: [
@@ -80,4 +81,4 @@ module.exports = {
       ],
     }),
   ],
-};
+});

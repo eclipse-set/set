@@ -51,6 +51,7 @@ dist/
 web/about/public
 web/news/public
 .vscode/settings.json
+.hugo_build.lock
 
 # Generated siteplan model
 siteplan*.json
