@@ -563,24 +563,28 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					WKrGspKomponenten.map [
-						entgleisungsschuh.auswurfrichtung.wert.literal
+						entgleisungsschuh.auswurfrichtung.wert.translate
 					].toSet
 				],
 				null,
 				[
-					WKrGspKomponenten.map [
-						val seitlicheLage = singlePoint.seitlicheLage.wert
-						val wirkrichtung = singlePoint.wirkrichtung.wert
+					WKrGspKomponenten.flatMap[singlePoints].map [
+						if (seitlicheLage?.wert === null ||
+							wirkrichtung?.wert === null ||
+							wirkrichtung?.wert ===
+								ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
+							return ""
+						}
 						// Equivalent compare:
 						// Lateral position RECHTS + direction IN -> R
 						// Lateral position RECHTS + direction GEGEN -> L
 						// Lateral position LINKS + direction IN -> L
 						// Lateral position LINKS + direction GEGEN -> R
-						return (seitlicheLage === ENUM_LINKS_RECHTS_LINKS) ===
-							(wirkrichtung ===
+						return (seitlicheLage.wert ===
+							ENUM_LINKS_RECHTS_LINKS) === (wirkrichtung.wert ===
 								ENUMWirkrichtung.
 									ENUM_WIRKRICHTUNG_IN) ? "L" : "R"
-					].join(",")
+					].filter[!nullOrEmpty].join(",")
 				],
 				", "
 			)
