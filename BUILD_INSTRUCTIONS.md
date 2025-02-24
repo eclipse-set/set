@@ -18,29 +18,13 @@ Other operating systems or processor architectures may work, but are generally n
 - Eclipse IDE (2024-06)
 - [hugo](https://gohugo.io/) (v0.101.0+)
 
-# Eclipse IDE Requirement Plugins
-The requirement plugins can install through Eclipse IDE (Help -> Installed New Software) or bash file _releng/eclipse/install_eclipse_plugin.sh_ (Need set environtment variable `ECLIPSE_HOME`).
+## Maven Settings
 
-||Plugin Name| Install URL|
-|------|------|------|
-1|Eclipse Platform | https://download.eclipse.org/eclipse/updates/4.32
-2|Eclipse RPC Target Components | https://download.eclipse.org/eclipse/updates/4.32
-3|Eclipse Plugin Developments | https://download.eclipse.org/eclipse/updates/4.32
-4|Equinox Target Components | https://download.eclipse.org/eclipse/updates/4.32
-5|Eclipse e4 Tools Developer Resources | https://download.eclipse.org/eclipse/updates/4.32
-6|Xtext Complete SDK | https://download.eclipse.org/releases/2024-06
-7|EMF - Eclipse Modeling Framework SDK | https://download.eclipse.org/releases/2024-06
-8|EMF Forms SDK | http://download.eclipse.org/ecp/releases/releases_127
-9|Ecore Tools | https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/
-10|M2E PDE Integration | https://download.eclipse.org/releases/2024-06
-11|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
-12|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-06
-
-# Maven Settings
 The SET project required SET-Browser (eclipse-set/browser), SET-Model (eclipse-set/model) to run. // TODO
 
 
-Add this maven server configuration to maven setting. The env.GITHUB_ACTOR and env.GITHUB_TOKEN can change your Github user and token or set it as environtment variable.
+Add this maven server configuration to maven setting. The env.GITHUB_ACTOR and env.GITHUB_TOKEN can change your Github user and token or set it as environment variable.
+
 ```
   <servers>
     <server>
@@ -71,7 +55,43 @@ Add this maven server configuration to maven setting. The env.GITHUB_ACTOR and e
   </servers>
 ```
 
-# Development build
+## Development setup
+
+To setup the complete development environment you can simply use the bash file _releng/eclipse/prepare_eclipse.sh_.
+This will use an existing eclipse or will download it for you to the provide ECLIPSE_HOME directory.
+
+Under Windows:
+
+```cmd
+set ECLIPSE_HOME=C:/planpro/eclipse && releng/eclipse/prepare-eclipse.sh
+```
+
+Under linux:
+
+```bash
+ECLIPSE_HOME=~/planpro/eclipse releng/eclipse/prepare-eclipse.sh
+```
+
+## Eclipse IDE Requirement Plugins
+
+The requirement plugins can install through Eclipse IDE (Help -> Installed New Software) or bash file _releng/eclipse/install_eclipse_plugin.sh_ (Need set environment variable `ECLIPSE_HOME`).
+
+||Plugin Name| Install URL|
+|------|------|------|
+1|Eclipse Platform | https://download.eclipse.org/eclipse/updates/4.32
+2|Eclipse RPC Target Components | https://download.eclipse.org/eclipse/updates/4.32
+3|Eclipse Plugin Developments | https://download.eclipse.org/eclipse/updates/4.32
+4|Equinox Target Components | https://download.eclipse.org/eclipse/updates/4.32
+5|Eclipse e4 Tools Developer Resources | https://download.eclipse.org/eclipse/updates/4.32
+6|Xtext Complete SDK | https://download.eclipse.org/releases/2024-06
+7|EMF - Eclipse Modeling Framework SDK | https://download.eclipse.org/releases/2024-06
+8|EMF Forms SDK | http://download.eclipse.org/ecp/releases/releases_127
+9|Ecore Tools | https://download.eclipse.org/ecoretools/updates/releases/3.5.1/2023-06/
+10|M2E PDE Integration | https://download.eclipse.org/releases/2024-06
+11|Checkstyle | https://checkstyle.org/eclipse-cs-update-site
+12|SWTBot for Eclipse Testing | https://download.eclipse.org/releases/2024-06
+
+## Development build
 
 This is the recommended way to build and debug for development. 
 
@@ -87,7 +107,7 @@ This is the recommended way to build and debug for development.
 10. Synchronize and launch the product in `org.eclipse.set.releng.set.product`
 11. Adapt the working directory in the launch configuration to a local directory, which contains an unpacked copy of a full Eclipse SET build (use a recent Github Actions build of the same branch for compatibility).  
 
-# Production build
+## Production build
 
 This is the recommended way if you want a production-style build. This is also what we have implemented on the Jenkins instance.
 If you want to develop SET, this is not recommended as the subcomponents are relatively stable and are easy to aquire from our download site.
