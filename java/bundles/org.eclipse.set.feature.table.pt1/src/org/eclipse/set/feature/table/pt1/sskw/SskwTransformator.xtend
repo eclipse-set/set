@@ -50,6 +50,7 @@ import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExten
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -88,8 +89,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		val weichen = container.WKrGspElement.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea)
+		val weichen = container.WKrGspElement.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea)
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {
@@ -107,7 +108,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (logger.debugEnabled) {
 				logger.debug(element.bezeichnung.bezeichnungTabelle.wert)
 			}
-			
+
 			// B: Sskw.Weiche_Kreuzung_Gelissperre_Sonderanlage.Art
 			fillConditional(
 				instance,
@@ -116,7 +117,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				[IDWKrAnlage !== null],
 				[WKrAnlage?.WKrAnlageAllg?.WKrArt?.wert.translate]
 			)
-			
+
 			// C: Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Form
 			fillConditional(
 				instance,
@@ -511,7 +512,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				entgleisungsschuh !== null
 			]
 			val exEntgleisungsschuh = !entgleisungsschuhe.empty
-			
+
 			// S: Sskw.Gleissperre.Antriebe
 			fillMultiColor(
 				instance,
@@ -551,17 +552,36 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// U: Sskw.Gleissperre.Auswurfrichtung
-			fillIterableWithConditional(
+			fillIterableWithSeparatorConditional(
 				instance,
 				cols.getColumn(Gleissperre_Auswurfrichtung),
 				element,
-				[exEntgleisungsschuh],
+				[
+					exEntgleisungsschuh && WKrGspKomponenten.exists [
+						entgleisungsschuh?.auswurfrichtung?.wert !== null
+					]
+				],
 				[
 					WKrGspKomponenten.map [
 						entgleisungsschuh.auswurfrichtung.wert.literal
 					].toSet
 				],
 				null,
+				[
+					WKrGspKomponenten.map [
+						val seitlicheLage = singlePoint.seitlicheLage.wert
+						val wirkrichtung = singlePoint.wirkrichtung.wert
+						// Equivalent compare:
+						// Lateral position RECHTS + direction IN -> R
+						// Lateral position RECHTS + direction GEGEN -> L
+						// Lateral position LINKS + direction IN -> L
+						// Lateral position LINKS + direction GEGEN -> R
+						return (seitlicheLage === ENUM_LINKS_RECHTS_LINKS) ===
+							(wirkrichtung ===
+								ENUMWirkrichtung.
+									ENUM_WIRKRICHTUNG_IN) ? "L" : "R"
+					].join(",")
+				],
 				", "
 			)
 
