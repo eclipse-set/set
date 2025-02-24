@@ -733,40 +733,40 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def String getVorsignalBezeichnung(Fstr_Zug_Rangier fstrZugRangier,
 		Signal vorsignal) {
+		if (vorsignal === null) {
+			return ""
+		}
 		val fstrSignalisierung = fstrZugRangier.fstrSignalisierung.toList
 		val existsZl = fstrSignalisierung.map [
 			IDSignalSignalbegriff.value
 		].exists [
 			hasSignalbegriffID(ZlO) || hasSignalbegriffID(ZlU) &&
-				signalRahmen.signal !== vorsignal
+				signalRahmen.signal === vorsignal
 		]
-		val signalBegriffZs2 = org.eclipse.set.model.planpro.
-			Signalbegriffe_Ril_301.Zs2
-		val signalBegriffZs3 = org.eclipse.set.model.planpro.
-			Signalbegriffe_Ril_301.Zs3
-		val test = fstrSignalisierung.filter [
-			IDSignalSignalbegriffZiel !== null &&(
-			hasSignalbegriffID(IDSignalSignalbegriffZiel.value,
-				signalBegriffZs2) ||
-				hasSignalbegriffID(IDSignalSignalbegriffZiel.value,
-					signalBegriffZs3))
+		val signalBegriffZs2v = org.eclipse.set.model.planpro.
+			Signalbegriffe_Ril_301.Zs2v
+		val signalBegriffZs3v = org.eclipse.set.model.planpro.
+			Signalbegriffe_Ril_301.Zs3v
+		val zs2vSymbols = #[]
+		val zs3vSymbols = #[]
+		fstrSignalisierung.filter [
+			IDSignalSignalbegriffZiel?.value !== null &&
+				IDSignalSignalbegriff?.value !== null &&
+				signalSignalbegriff?.signalRahmen.signal === vorsignal
 		].filter [
-			hasSignalbegriffID(IDSignalSignalbegriff.value, signalBegriffZs2) ||
-				hasSignalbegriffID(IDSignalSignalbegriff.value,
-					signalBegriffZs3)
-		].map[signalSignalbegriff.signalRahmen.signal].filter[it !== vorsignal].toList
-		val zusatZs2 = test.filter[hasSignalbegriffID(signalBegriffZs2)].map[bezeichnung.be]
-		val test1 = test.filter[signalRahmen.signal !== vorsignal].map [
-			val symbol = signalbegriffID.symbol
-			if (hasSignalbegriffID(signalBegriffZs2)) {
-				return '''«symbol»/Zs2'''
+			hasSignalbegriffID(IDSignalSignalbegriffZiel.value,
+				signalBegriffZs2v) ||
+				hasSignalbegriffID(IDSignalSignalbegriffZiel.value,
+					signalBegriffZs3v)
+		].map[IDSignalSignalbegriff.value].forEach [
+			if (hasSignalbegriffID(signalBegriffZs2v)) {
+				zs2vSymbols.add(signalbegriffID.symbol)
+			} else if (hasSignalbegriffID(signalBegriffZs3v)) {
+				zs3vSymbols.add(signalbegriffID.symbol)
 			}
-			if (hasSignalbegriffID(signalBegriffZs3)) {
-				return '''«symbol»/Zs3'''
-			}
-			
-		].toList
-
-		return ""
+		]
+		val additionInfo = #[zs2vSymbols.join(","), zs3vSymbols.join(","),
+			existsZl ? "Zl" : ""].filter[!nullOrEmpty].join("/")
+		return '''«vorsignal.bezeichnung.bezeichnungTabelle.wert»«IF !additionInfo.nullOrEmpty» («additionInfo»)«ENDIF»'''
 	}
 }
