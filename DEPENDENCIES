@@ -287,8 +287,6 @@ npm/npmjs/-/domhandler/4.3.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dompurify/2.5.8, Apache-2.0 OR MPL-2.0, approved, #14657
 npm/npmjs/-/domutils/2.8.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dot-case/3.0.4, MIT, approved, clearlydefined
-npm/npmjs/-/dotenv-cli/8.0.0, MIT, approved, #18236
-npm/npmjs/-/dotenv-expand/10.0.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/dotenv/16.4.7, BSD-2-Clause, approved, #12890
 npm/npmjs/-/dunder-proto/1.0.1, MIT, approved, #17824
 npm/npmjs/-/earcut/3.0.1, ISC, approved, clearlydefined
@@ -945,14 +943,14 @@ npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
-npm/npmjs/@typescript-eslint/eslint-plugin/8.23.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/parser/8.23.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/scope-manager/8.23.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/type-utils/8.23.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/types/8.23.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/typescript-estree/8.23.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/utils/8.23.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/visitor-keys/8.23.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/eslint-plugin/8.24.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/8.24.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/8.24.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/8.24.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/8.24.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/8.24.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/utils/8.24.1, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause, approved, #19479
+npm/npmjs/@typescript-eslint/visitor-keys/8.24.1, MIT, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.2.1, MIT, approved, #17260
 npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
 npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
