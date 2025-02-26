@@ -720,10 +720,9 @@ npm/npmjs/-/supports-preserve-symlinks-flag/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/svg-pathdata/6.0.3, MIT AND 0BSD, approved, #15345
 npm/npmjs/-/sweepline-intersections/1.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/tapable/2.2.1, MIT, approved, clearlydefined
-npm/npmjs/-/terser-webpack-plugin/5.3.10, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser-webpack-plugin/5.3.11, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
-npm/npmjs/-/terser/5.27.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #12904
 npm/npmjs/-/terser/5.37.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #18263
+npm/npmjs/-/terser/5.39.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #19471
 npm/npmjs/-/text-segmentation/1.0.3, MIT, approved, clearlydefined
 npm/npmjs/-/thingies/1.21.0, MIT AND Unlicense, approved, clearlydefined
 npm/npmjs/-/thunky/1.1.0, MIT, approved, clearlydefined
@@ -777,6 +776,7 @@ npm/npmjs/-/webpack-dev-server/5.2.0, MIT, approved, #17829
 npm/npmjs/-/webpack-merge/6.0.1, MIT, approved, #17983
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/webpack/5.97.1, MIT, approved, #17762
+npm/npmjs/-/webpack/5.98.0, MIT, approved, clearlydefined
 npm/npmjs/-/websocket-driver/0.7.4, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/websocket-extensions/0.1.4, Apache-2.0, approved, CQ23021
 npm/npmjs/-/which-boxed-primitive/1.0.2, MIT, approved, clearlydefined
@@ -850,7 +850,6 @@ npm/npmjs/@jridgewell/source-map/0.3.5, MIT, approved, #9304
 npm/npmjs/@jridgewell/source-map/0.3.6, MIT, approved, #9304
 npm/npmjs/@jridgewell/sourcemap-codec/1.4.15, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/sourcemap-codec/1.5.0, MIT, approved, clearlydefined
-npm/npmjs/@jridgewell/trace-mapping/0.3.22, MIT, approved, #9904
 npm/npmjs/@jridgewell/trace-mapping/0.3.25, MIT, approved, #9904
 npm/npmjs/@jsonjoy.com/base64/1.1.2, Apache-2.0, approved, clearlydefined
 npm/npmjs/@jsonjoy.com/json-pack/1.1.0, Apache-2.0, approved, clearlydefined
