@@ -47,6 +47,7 @@ import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensi
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
@@ -552,7 +553,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// U: Sskw.Gleissperre.Auswurfrichtung
-			fillIterableWithSeparatorConditional(
+			fillConditional(
 				instance,
 				cols.getColumn(Gleissperre_Auswurfrichtung),
 				element,
@@ -562,31 +563,33 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				],
 				[
-					WKrGspKomponenten.map [
-						entgleisungsschuh.auswurfrichtung.wert.translate
-					].toSet
+					WKrGspKomponenten.findFirst [
+						entgleisungsschuh?.auswurfrichtung?.wert !== null
+					]?.entgleisungsschuh.auswurfrichtung.wert.translate
+
 				],
-				null,
 				[
-					WKrGspKomponenten.flatMap[singlePoints].map [
-						if (seitlicheLage?.wert === null ||
-							wirkrichtung?.wert === null ||
-							wirkrichtung?.wert ===
-								ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
-							return ""
-						}
-						// Equivalent compare:
-						// Lateral position RECHTS + direction IN -> R
-						// Lateral position RECHTS + direction GEGEN -> L
-						// Lateral position LINKS + direction IN -> L
-						// Lateral position LINKS + direction GEGEN -> R
-						return (seitlicheLage.wert ===
-							ENUM_LINKS_RECHTS_LINKS) === (wirkrichtung.wert ===
-								ENUMWirkrichtung.
-									ENUM_WIRKRICHTUNG_IN) ? "L" : "R"
-					].filter[!nullOrEmpty].join(",")
-				],
-				", "
+					val potk = WKrGspKomponenten.flatMap[singlePoints].filter [
+						it !== null && seitlicheLage?.wert !== null &&
+							wirkrichtung?.wert !== null
+					].firstOrNull
+
+					if (potk.wirkrichtung.wert ===
+						ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
+						throw new IllegalArgumentException(
+							"Illegal Wirkrichtung: beide")
+					}
+					// Equivalent compare:
+					// Lateral position RECHTS + direction IN -> R
+					// Lateral position RECHTS + direction GEGEN -> L
+					// Lateral position LINKS + direction IN -> L
+					// Lateral position LINKS + direction GEGEN -> R
+					return (potk.seitlicheLage.wert ===
+						ENUM_LINKS_RECHTS_LINKS) ===
+						(potk.wirkrichtung.wert === ENUMWirkrichtung.
+							ENUM_WIRKRICHTUNG_IN) ? "L" : "R"
+
+				]
 			)
 
 			// V: Sskw.Gleissperre.Schutzschiene
