@@ -53,12 +53,12 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 
 	@Override
 	public String getDescription() {
-		return "Alle Geo_Kanten haben unterschiedliche Anfangs- und Endkoordinaten.";
+		return "Alle Geo-Kanten haben unterschiedliche Anfangs- und End-Koordinaten.";
 	}
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die Geo_Kante {GUID} hat gleiche Anfangs- und EndKoordinaten.";
+		return "Die Geo-Kante {GUID} hat gleiche Anfangs- und End-Koordinaten.";
 	}
 
 	@Override
