@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.table.pt1.sslz
 
-import java.math.BigInteger
 import java.util.Collection
 import java.util.Collections
 import java.util.List
@@ -17,13 +16,9 @@ import org.eclipse.set.basis.MixedStringComparator
 import org.eclipse.set.basis.Wrapper
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.extensions.Utils
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
-import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Fahrweg
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
@@ -40,6 +35,10 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs6
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.extensions.Utils
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -60,8 +59,8 @@ import static extension org.eclipse.set.ppmodel.extensions.SchaltmittelZuordnung
 import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -666,11 +665,12 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
 		val ziel = fstrZugRangier?.IDFstrFahrweg?.value?.IDZiel?.value as Signal
-		
-		val fahrwegeAbZiel = ziel.container.contents.filter(Fstr_Zug_Rangier).filter [
-			fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
-				IDFstrFahrweg?.value?.IDStart?.value == ziel
-		]
+
+		val fahrwegeAbZiel = ziel.container.contents.filter(Fstr_Zug_Rangier).
+			filter [
+				fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B &&
+					IDFstrFahrweg?.value?.IDStart?.value == ziel
+			]
 
 		val blockSignale = fahrwegeAbZiel.map [
 			(IDFstrFahrweg?.value?.IDZiel?.value as Signal)?.bezeichnung?.
@@ -683,10 +683,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def String fahrwegNummer(
 		Fstr_Zug_Rangier fstrZugRangier
 	) {
-		if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.intValue >
-			1) {
-			return (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert -
-				BigInteger.ONE).toString
+		if (fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
+			intValue != 0) {
+			return fstrZugRangier?.fstrZugRangierAllg?.fstrReihenfolge?.wert.
+				toString
 		}
 		return EMPTY_FILLING
 	}
