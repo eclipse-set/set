@@ -558,17 +558,15 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Gleissperre_Auswurfrichtung),
 				element,
 				[
-					exEntgleisungsschuh && WKrGspKomponenten.exists [
-						entgleisungsschuh?.auswurfrichtung?.wert !== null
-					]
+					exEntgleisungsschuh
 				],
 				[
-					WKrGspKomponenten.findFirst [
-						entgleisungsschuh?.auswurfrichtung?.wert !== null
-					]?.entgleisungsschuh.auswurfrichtung.wert.translate
-
-				],
-				[
+					val auswurfrichtung = WKrGspKomponenten.map [
+						entgleisungsschuh?.auswurfrichtung?.wert
+					].filterNull.toList
+					if (!auswurfrichtung.nullOrEmpty) {
+						return auswurfrichtung.first.translate
+					}
 					val potk = WKrGspKomponenten.flatMap[singlePoints].filter [
 						it !== null && seitlicheLage?.wert !== null &&
 							wirkrichtung?.wert !== null
@@ -587,7 +585,6 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						ENUM_LINKS_RECHTS_LINKS) ===
 						(potk.wirkrichtung.wert === ENUMWirkrichtung.
 							ENUM_WIRKRICHTUNG_IN) ? "L" : "R"
-
 				]
 			)
 
