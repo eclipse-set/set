@@ -574,10 +574,9 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 							wirkrichtung?.wert !== null
 					].firstOrNull
 
-					if (potk.wirkrichtung.wert ===
+					if (potk === null || potk.wirkrichtung.wert ===
 						ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
-						throw new IllegalArgumentException(
-							"Illegal Wirkrichtung: beide")
+						throw new IllegalArgumentException('''The W_Kr_Gsp_Element: «identitaet.wert» hat keine gültige Auswrufrichtung''')
 					}
 					// Equivalent compare:
 					// Lateral position RECHTS + direction IN -> R
