@@ -19,6 +19,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
@@ -28,12 +29,14 @@ import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hp0
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Kl
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.ZlO
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.ZlU
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs13
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs2
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs2v
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs6
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.extensions.Utils
@@ -107,6 +110,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (isZ) {
 				val instance = factory.newTableRow(fstrZugRangier)
 
+				// A: Sslz.Grundsatzangaben.Bezeichnung
 				fill(
 					instance,
 					cols.getColumn(Grundsatzangaben_Bezeichnung),
@@ -114,10 +118,12 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					[getZugFstrBezeichnung([isZ(it)])]
 				)
 
+				// B: Sslz.Grundsatzangaben.Fahrweg.Start
 				fill(instance, cols.getColumn(Start), fstrZugRangier, [
 					fahrwegStart
 				])
 
+				// C: Sslz.Grundsatzangaben.Fahrweg.Ziel
 				fillConditional(instance, cols.getColumn(Ziel),
 					fstrZugRangier, [
 						val zielSignal = IDFstrFahrweg?.value.IDZiel?.value
@@ -129,6 +135,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						] === null
 					], [fahrwegZiel], [fahrwegZielBlock])
 
+				// D: Sslz.Grundsatzangaben.Fahrweg.Nummer
 				fill(
 					instance,
 					cols.getColumn(Nummer),
@@ -136,6 +143,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					[fahrwegNummer]
 				)
 
+				// E: Sslz.Grundsatzangaben.Fahrweg.Entscheidungsweiche
 				fillIterable(
 					instance,
 					cols.getColumn(Entscheidungsweiche),
@@ -145,6 +153,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					[it]
 				)
 
+				// F: Sslz.Grundsatzangaben.Durchrutschweg.Bezeichnung
 				fill(instance, cols.getColumn(Durchrutschweg_Bezeichnung),
 					fstrZugRangier, [
 						val bezeichnung = fstrZugRangier?.fstrDWeg?.
@@ -162,6 +171,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 							return bezeichnung
 					])
 
+				// G: Sslz.Grundsatzangaben.Art
 				fillSwitch(
 					instance,
 					cols.getColumn(Art),
@@ -181,12 +191,14 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					)
 				)
 
+				// H: Sslz.Einstellung.Autom_Einstellung
 				fill(instance, cols.getColumn(Autom_Einstellung),
 					fstrZugRangier, [
 						fstrZugRangier?.fstrZug?.automatischeEinstellung?.wert?.
 							translate ?: ""
 					])
 
+				// I: Sslz.Einstellung.F_Bedienung
 				fill(
 					instance,
 					cols.getColumn(F_Bedienung),
@@ -197,6 +209,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
+				// J: Sslz.Abhaengigkeiten.Inselgleis
 				fillIterable(
 					instance,
 					cols.getColumn(Inselgleis),
@@ -206,6 +219,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					MIXED_STRING_COMPARATOR
 				)
 
+				// K: Sslz.Abhaengigkeiten.Ueberwachte_Ssp
 				fillIterable(
 					instance,
 					cols.getColumn(Ueberwachte_Ssp),
@@ -224,6 +238,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						debug('''IDBUEEinschaltung=«fstrZugRangier.fstrZug?.IDBUEEinschaltung»''')
 				}
 
+				// L: Sslz.Abhaengigkeiten.Abhaengiger_BUe
 				fillIterable(
 					instance,
 					cols.getColumn(Abhaengiger_BUe),
@@ -243,6 +258,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					MIXED_STRING_COMPARATOR
 				)
 
+				// M: Sslz.Abhaengigkeiten.Nichthaltfallabschnitt
 				fillIterable(
 					instance,
 					cols.getColumn(Nichthaltfallabschnitt),
@@ -256,6 +272,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					MIXED_STRING_COMPARATOR
 				)
 
+				// N: Sslz.Abhaengigkeiten.Zweites_Haltfallkrit
 				fill(
 					instance,
 					cols.getColumn(Zweites_Haltfallkrit),
@@ -267,6 +284,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
+				// O: Sslz.Abhaengigkeiten.Anrueckverschluss
 				val schaltmittel = new Wrapper<Set<Basis_Objekt>>
 				val gleisabschnitte = new Wrapper<Set<Gleis_Abschnitt>>
 				val zugeinwirkungen = new Wrapper<Set<String>>
@@ -308,24 +326,29 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					)
 				)
 
+				// P: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Hg
 				fill(instance, cols.getColumn(Hg), fstrZugRangier, [
 					fstrZugRangier?.fstrFahrweg?.fstrVHg?.wert?.toString
 				])
 
+				// Q: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Fahrweg
 				fillConditional(instance, cols.getColumn(Fahrweg),
 					fstrZugRangier, [
 						fstrZugRangier.geschwindigkeit == Integer.MAX_VALUE
 					], [""], [Integer.toString(fstrZugRangier.geschwindigkeit)])
 
+				// R: Sslz.Signalisierung.Geschwindigkeit_Startsignal.DWeg
 				fill(instance, cols.getColumn(DWeg), fstrZugRangier, [
 					fstrZugRangier?.fstrDWeg?.fstrDWegSpezifisch?.DWegV?.wert?.
 						toString
 				])
 
+				// S: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Besonders
 				fill(instance, cols.getColumn(Besonders), fstrZugRangier, [
 					fstrZugRangier?.fstrZugRangierAllg?.fstrV?.wert?.toString
 				])
 
+				// T: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Zs3
 				fillSwitch(
 					instance,
 					cols.getColumn(Geschwindigkeit_Startsignal_Zs3),
@@ -408,6 +431,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					)
 				)
 
+				// U: Sslz.Signalisierung.Geschwindigkeit_Startsignal.Aufwertung_Mwtfstr
 				fill(
 					instance,
 					cols.getColumn(Aufwertung_Mwtfstr),
@@ -418,6 +442,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
+				// V: Sslz.Signalisierung.Sonstiges_Startsignal.Zusatzlicht
 				fillConditional(
 					instance,
 					cols.getColumn(Zusatzlicht),
@@ -433,48 +458,43 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					["x"]
 				)
 
+				// W: Sslz.Signalisierung.Sonstiges_Startsignal.Zs3v
 				fillIterable(
 					instance,
 					cols.getColumn(Zs3v),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(typeof(Zs3v))
-						].map[signalbegriffID.symbol]
+						fstrSignalisierung.
+							getFstrSignalisierungSymbol(typeof(Zs3v))
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
 
+				// X: Sslz.Signalisierung.Sonstiges_Startsignal.Zs2
 				fillIterable(
 					instance,
 					cols.getColumn(Zs2),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(typeof(Zs2))
-						].map[signalbegriffID.symbol]
+						fstrSignalisierung.
+							getFstrSignalisierungSymbol(typeof(Zs2))
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
 
+				// Y: Sslz.Signalisierung.Sonstiges_Startsignal.Zs2v*
 				fillIterable(
 					instance,
 					cols.getColumn(Zs2v),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(typeof(Zs2v))
-						].map[signalbegriffID.symbol]
+						fstrSignalisierung.
+							getFstrSignalisierungSymbol(typeof(Zs2v))
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
 
+				// Z: Sslz.Signalisierung.Sonstiges_Startsignal.Zs6
 				fillConditional(
 					instance,
 					cols.getColumn(Sonstiges_Startsignal_Zs6),
@@ -489,6 +509,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					["x"]
 				)
 
+				// AA: Sslz.Signalisierung.Sonstiges_Startsignal.Zs13
 				fillConditional(
 					instance,
 					cols.getColumn(Zs13),
@@ -503,6 +524,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					["x"]
 				)
 
+				// AB: Sslz.Signalisierung.Im_Fahrweg.Zs3
 				fillIterable(
 					instance,
 					cols.getColumn(Im_Fahrweg_Zs3),
@@ -541,7 +563,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 						logger.error(e.message)
 					}
 				}
-
+				// AC: Sslz.Signalisierung.Im_Fahrweg.Zs6
 				fill(
 					instance,
 					cols.getColumn(Im_Fahrweg_Zs6),
@@ -557,37 +579,35 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					]
 				)
 
+				// AD: Sslz.Signalisierung.Im_Fahrweg.Kennlicht
 				fillIterable(
 					instance,
 					cols.getColumn(Kennlicht),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(
-								typeof(Kl)
-							)
-						].map [
-							signalRahmen.signal?.bezeichnung?.
-								bezeichnungTabelle?.wert
-						]
+						fstrSignalisierung.getSignalberiffsWithType(typeof(Kl)).
+							map [
+								signalRahmen.signal?.bezeichnung?.
+									bezeichnungTabelle?.wert
+							]
 					],
 					MIXED_STRING_COMPARATOR
 				)
 
+				// AE: Sslz.Signalisierung.Im_Fahrweg.Vorsignalisierung
 				fillIterable(
 					instance,
 					cols.getColumn(Vorsignalisierung),
 					fstrZugRangier,
 					[
-						vorsignalisierung.map [
-							bezeichnung?.bezeichnungTabelle?.wert
+						vorsignalisierung.map [ vorsignal |
+							getVorsignalBezeichnung(vorsignal)
 						]
 					],
 					MIXED_STRING_COMPARATOR
 				)
 
+				// AF: Sslz.Bemerkung
 				fillSwitch(
 					instance,
 					cols.getColumn(Bemerkung),
@@ -696,6 +716,44 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		return zielSignal.container.contents.filter(Fstr_Zug_Rangier).findFirst [
 			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B
+		]
+	}
+
+	private def String getVorsignalBezeichnung(Fstr_Zug_Rangier fstrZugRangier,
+		Signal vorsignal) {
+		if (vorsignal === null) {
+			return ""
+		}
+		val fstrSignalisierung = fstrZugRangier.fstrSignalisierung.toList
+		val existsZl = fstrSignalisierung.map [
+			IDSignalSignalbegriff.value
+		].exists [
+			hasSignalbegriffID(ZlO) || hasSignalbegriffID(ZlU) &&
+				signalRahmen.signal === vorsignal
+		]
+
+		val relevantFstrSignalisierung = fstrSignalisierung.filter [
+			signalSignalbegriffZiel !== null && signalSignalbegriff !== null &&
+				signalSignalbegriff.signalRahmen?.signal === vorsignal
+		].filter [
+			signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs2v)) ||
+				signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs3v))
+		].toList
+		
+		val zs2vSymbols = relevantFstrSignalisierung.
+			getFstrSignalisierungSymbol(typeof(Zs2v))
+		val zs3vSymbols = relevantFstrSignalisierung.
+			getFstrSignalisierungSymbol(typeof(Zs3v))
+
+		val additionInfo = #[zs2vSymbols.join(","), zs3vSymbols.join(","),
+			existsZl ? "Zl" : ""].filter[!nullOrEmpty].join("/")
+		return '''«vorsignal.bezeichnung.bezeichnungTabelle.wert»«IF !additionInfo.nullOrEmpty» («additionInfo»)«ENDIF»'''
+	}
+
+	private def <T extends Signalbegriff_ID_TypeClass> List<String> getFstrSignalisierungSymbol(
+		List<Fstr_Signalisierung> fstrSignalisierung, Class<T> type) {
+		return fstrSignalisierung.getSignalberiffsWithType(type).map [
+			signalbegriffID.symbol
 		]
 	}
 }

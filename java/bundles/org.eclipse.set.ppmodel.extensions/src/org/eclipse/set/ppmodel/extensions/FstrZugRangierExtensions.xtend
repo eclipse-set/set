@@ -314,6 +314,12 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 		Fstr_Zug_Rangier fstrZugRangier,
 		DirectedEdgePoint<TOP_Kante, TOP_Knoten, Punkt_Objekt_TOP_Kante_AttributeGroup> edgePoint) {
 
+		// test the correct type of the point
+		val punktObjekt = edgePoint.point.punktObjekt
+		if (!(punktObjekt instanceof Signal)) {
+			return false
+		}
+
 		// has the point the same Wirkrichtung than the Fahrstraße?
 		if (!edgePoint.edge.contains(edgePoint.point)) {
 			return false
@@ -323,11 +329,6 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return false
 		}
 
-		// test the correct type of the point
-		val punktObjekt = edgePoint.point.punktObjekt
-		if (!(punktObjekt instanceof Signal)) {
-			return false
-		}
 		val signal = punktObjekt as Signal
 		val signalArt = signal.signalReal?.signalRealAktivSchirm?.signalArt?.
 			wert
@@ -459,6 +460,7 @@ class FstrZugRangierExtensions extends BasisObjektExtensions {
 			return false
 		}
 		// TODO: 2. Condition for target signal isn't clearly 
-		return startSignal !== null && startSignal.isBelongToControlArea(controlArea)
+		return startSignal !== null &&
+			startSignal.isBelongToControlArea(controlArea)
 	}
 }
