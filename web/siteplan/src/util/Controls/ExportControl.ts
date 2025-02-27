@@ -114,7 +114,7 @@ export default class ExportControl extends Control {
   }
 
   private async getPixelProMeterAtScale (scale: number) : Promise<number | undefined>{
-    const storagePpm = store.state.pixelperMeter.get(scale)
+    const storagePpm = store.state.pixelPerMeter.get(scale)
     if (storagePpm) {
       return storagePpm
     }
@@ -136,12 +136,12 @@ export default class ExportControl extends Control {
         const topRightSphereCoord = transform(getTopRight(viewportExtent), 'EPSG:3857', 'EPSG:4326')
         const distanceInMeter = getDistance(topLeftSphereCoord, topRightSphereCoord)
         view.setResolution(currentResolution)
-        const cuurentPpm = viewportSize[0] / distanceInMeter
+        const currentPpm = viewportSize[0] / distanceInMeter
         store.commit('setPixelPerMeter', {
           scaleValue: scale,
-          ppm: cuurentPpm
+          ppm: currentPpm
         })
-        resolve(cuurentPpm)
+        resolve(currentPpm)
       })
     })
   }
