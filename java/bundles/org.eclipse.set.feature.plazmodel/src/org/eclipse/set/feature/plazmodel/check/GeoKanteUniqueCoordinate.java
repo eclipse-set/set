@@ -61,6 +61,12 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		return "Die Geo-Kante {GUID} hat gleiche Anfangs- und End-Koordinaten.";
 	}
 
+	private static String getGEOKanteGUID(final GEO_Kante geoKante) {
+		return getNullableObject(geoKante,
+				kante -> kante.getIdentitaet().getWert())
+						.orElse("(ohne Identität)");
+	}
+
 	@Override
 	protected List<PlazError> run(
 			final MultiContainer_AttributeGroup container) {
@@ -77,20 +83,37 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		}).forEach(geoKante -> {
 			final GEO_Knoten geoKnotenA = getGeoKnotenA(geoKante);
 			final GEO_Knoten geoKnotenB = getGeoKnotenB(geoKante);
-			final List<GEO_Punkt> geoPunkteA = getGeoPunkte(geoKnotenA);
-			final List<GEO_Punkt> geoPunkteB = getGeoPunkte(geoKnotenB);
-			geoPunkteA.addAll(geoPunkteB);
-			final Map<ENUMGEOKoordinatensystem, List<GEO_Punkt>> geoPunktGroupByCRS = geoPunkteA
-					.stream()
-					.collect(Collectors
-							.groupingBy(geoPunkt -> geoPunkt.getGEOPunktAllg()
-									.getGEOKoordinatensystem()
-									.getWert()));
-			geoPunktGroupByCRS.forEach((crs, geoPunkte) -> {
-				if (!isUniqueCoordinatens(geoPunkte)) {
-					errors.add(createError(geoKante));
-				}
-			});
+			if (geoKnotenA == null || geoKnotenB == null) {
+				final PlazError error = createError(geoKante);
+				error.setMessage(
+						String.format("Die GEO_Kante %s fehlt GEO_Knoten",
+								getGEOKanteGUID(geoKante)));
+				errors.add(error);
+				return;
+			}
+			try {
+				final List<GEO_Punkt> geoPunkteA = getGeoPunkte(geoKnotenA);
+				final List<GEO_Punkt> geoPunkteB = getGeoPunkte(geoKnotenB);
+				geoPunkteA.addAll(geoPunkteB);
+				final Map<ENUMGEOKoordinatensystem, List<GEO_Punkt>> geoPunktGroupByCRS = geoPunkteA
+						.stream()
+						.collect(Collectors.groupingBy(
+								geoPunkt -> geoPunkt.getGEOPunktAllg()
+										.getGEOKoordinatensystem()
+										.getWert()));
+				geoPunktGroupByCRS.forEach((crs, geoPunkte) -> {
+					if (!isUniqueCoordinatens(geoPunkte)) {
+						errors.add(createError(geoKante));
+					}
+				});
+			} catch (final NullPointerException e) {
+				final PlazError error = createError(geoKante);
+				error.setMessage(String.format(
+						"Die GEO_Punkte der GEO_Knoten von GEO_Kante %s haben ungültige Koordinaten oder ein ungültiges Koordinatensystem.",
+						getGEOKanteGUID(geoKante)));
+				errors.add(error);
+			}
+
 		});
 
 		return errors;
@@ -115,10 +138,8 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		plazError.setSeverity(ValidationSeverity.ERROR);
 		plazError.setObject(geoKante);
 		plazError.setType(checkType());
-		plazError.setMessage(transformErrorMsg(Map.of("GUID",
-				getNullableObject(geoKante,
-						kante -> kante.getIdentitaet().getWert())
-								.orElse("(ohne Identität)"))));
+		plazError.setMessage(
+				transformErrorMsg(Map.of("GUID", getGEOKanteGUID(geoKante))));
 		return plazError;
 	}
 
