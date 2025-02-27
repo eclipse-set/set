@@ -17,6 +17,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
@@ -47,15 +48,12 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
-import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
