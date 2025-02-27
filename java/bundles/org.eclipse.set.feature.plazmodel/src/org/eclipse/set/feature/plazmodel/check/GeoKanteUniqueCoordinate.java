@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm;
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOKoordinatensystem;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Kante;
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten;
@@ -77,9 +78,13 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		geoKanten.stream().filter(geoKante -> {
 			final Optional<BigDecimal> kanteLength = getNullableObject(geoKante,
 					kante -> kante.getGEOKanteAllg().getGEOLaenge().getWert());
-			// The GEO_Kante with length equal 0 isn't considered
-			return kanteLength.isEmpty()
-					|| kanteLength.get().compareTo(BigDecimal.ZERO) > 0;
+			// The GEO_Kante have length equal 0 or KM_Sprung GEO_Form isn't
+			// considered
+			return !(kanteLength.isEmpty()
+					|| kanteLength.get().compareTo(BigDecimal.ZERO) == 0
+					|| geoKante.getGEOKanteAllg()
+							.getGEOForm()
+							.getWert() == ENUMGEOForm.ENUMGEO_FORM_KM_SPRUNG);
 		}).forEach(geoKante -> {
 			final GEO_Knoten geoKnotenA = getGeoKnotenA(geoKante);
 			final GEO_Knoten geoKnotenB = getGeoKnotenB(geoKante);
