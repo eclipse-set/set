@@ -10,6 +10,7 @@
  */
 package org.eclipse.set.feature.table.pt1.ssks;
 
+import static org.eclipse.set.model.planpro.Signale.ENUMBefestigungArt.*;
 import static org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.getContainer;
 import static org.eclipse.set.ppmodel.extensions.EObjectExtensions.getNullableObject;
 import static org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.getSinglePoint;
@@ -47,7 +48,7 @@ import com.google.common.collect.Streams;
 public class SignalSideDistance {
 
 	/**
-	 * 
+	 * Helper class for determine side distance
 	 */
 	public static class SideDistance {
 		long distanceToMainTrack;
@@ -91,6 +92,16 @@ public class SignalSideDistance {
 		}
 	}
 
+	private final List<ENUMBefestigungArt> relevantMastType = List.of(
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_HOCH,
+			ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_SONSTIGE_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_HOCH,
+			ENUM_BEFESTIGUNG_ART_SONDERANORDNUNG_MAST_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_PFOSTEN_HOCH,
+			ENUM_BEFESTIGUNG_ART_PFOSTEN_NIEDRIG,
+			ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE);
 	final Signal signal;
 	private final Set<SideDistance> sideDistancesRight = new HashSet<>();
 
@@ -138,7 +149,7 @@ public class SignalSideDistance {
 	@SuppressWarnings("boxing")
 	private void getSideDistance() throws IllegalArgumentException,
 			NullPointerException, RuntimeException {
-		final List<Signal_Befestigung> signalBefestigung = getSignalBefestigung();
+		final Set<Signal_Befestigung> signalBefestigung = getSignalBefestigung();
 		final Set<Punkt_Objekt_TOP_Kante_AttributeGroup> potks = signalBefestigung
 				.stream()
 				.flatMap(befestigung -> PunktObjektExtensions
@@ -187,7 +198,7 @@ public class SignalSideDistance {
 
 	}
 
-	private List<Signal_Befestigung> getSignalBefestigung() {
+	private Set<Signal_Befestigung> getSignalBefestigung() {
 		return signalRahmen(signal).stream().map(rahmen -> {
 			final Iterator<Signal_Befestigung> signalBefestigungIterator = SignalRahmenExtensions
 					.getSignalBefestigungIterator(rahmen);
@@ -199,13 +210,11 @@ public class SignalSideDistance {
 										.getBefestigungArt()
 										.getWert()).orElse(null);
 						return befestigungArt != null
-								&& (befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_HOCH
-										|| befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_REGELANORDNUNG_MAST_NIEDRIG
-										|| befestigungArt == ENUMBefestigungArt.ENUM_BEFESTIGUNG_ART_ARBEITSBUEHNE);
+								&& relevantMastType.contains(befestigungArt);
 					})
 					.findFirst()
 					.orElse(null);
-		}).filter(Objects::nonNull).toList();
+		}).filter(Objects::nonNull).collect(Collectors.toSet());
 	}
 
 	private static int getPerpendicularRotation(final long sideDistance,
