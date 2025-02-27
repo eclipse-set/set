@@ -19,6 +19,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Abhaengigkeit
+import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Gleis.ENUMGleisart
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
@@ -28,12 +29,14 @@ import org.eclipse.set.model.planpro.Ortung.Zugeinwirkung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Hp0
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Kl
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.ZlO
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.ZlU
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs13
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs2
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs2v
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs6
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.model.planpro.Signale.Signal
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.extensions.Utils
@@ -61,7 +64,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtension
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
-import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.ZlU
 
 /**
  * Table transformation for a Zugstraßentabelle (SSLZ).
@@ -462,11 +464,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Zs3v),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(typeof(Zs3v))
-						].map[signalbegriffID.symbol]
+						fstrSignalisierung.
+							getFstrSignalisierungSymbol(typeof(Zs3v))
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
@@ -477,11 +476,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Zs2),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(typeof(Zs2))
-						].map[signalbegriffID.symbol]
+						fstrSignalisierung.
+							getFstrSignalisierungSymbol(typeof(Zs2))
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
@@ -492,11 +488,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Zs2v),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(typeof(Zs2v))
-						].map[signalbegriffID.symbol]
+						fstrSignalisierung.
+							getFstrSignalisierungSymbol(typeof(Zs2v))
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
@@ -592,16 +585,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Kennlicht),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.map [
-							signalSignalbegriff
-						].filter [
-							hasSignalbegriffID(
-								typeof(Kl)
-							)
-						].map [
-							signalRahmen.signal?.bezeichnung?.
-								bezeichnungTabelle?.wert
-						]
+						fstrSignalisierung.getSignalberiffsWithType(typeof(Kl)).
+							map [
+								signalRahmen.signal?.bezeichnung?.
+									bezeichnungTabelle?.wert
+							]
 					],
 					MIXED_STRING_COMPARATOR
 				)
@@ -743,30 +731,29 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			hasSignalbegriffID(ZlO) || hasSignalbegriffID(ZlU) &&
 				signalRahmen.signal === vorsignal
 		]
-		val signalBegriffZs2v = org.eclipse.set.model.planpro.
-			Signalbegriffe_Ril_301.Zs2v
-		val signalBegriffZs3v = org.eclipse.set.model.planpro.
-			Signalbegriffe_Ril_301.Zs3v
-		val zs2vSymbols = #[]
-		val zs3vSymbols = #[]
-		fstrSignalisierung.filter [
-			IDSignalSignalbegriffZiel?.value !== null &&
-				IDSignalSignalbegriff?.value !== null &&
-				signalSignalbegriff?.signalRahmen.signal === vorsignal
+
+		val relevantFstrSignalisierung = fstrSignalisierung.filter [
+			signalSignalbegriffZiel !== null && signalSignalbegriff !== null &&
+				signalSignalbegriff.signalRahmen?.signal === vorsignal
 		].filter [
-			hasSignalbegriffID(IDSignalSignalbegriffZiel.value,
-				signalBegriffZs2v) ||
-				hasSignalbegriffID(IDSignalSignalbegriffZiel.value,
-					signalBegriffZs3v)
-		].map[IDSignalSignalbegriff.value].forEach [
-			if (hasSignalbegriffID(signalBegriffZs2v)) {
-				zs2vSymbols.add(signalbegriffID.symbol)
-			} else if (hasSignalbegriffID(signalBegriffZs3v)) {
-				zs3vSymbols.add(signalbegriffID.symbol)
-			}
-		]
+			signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs2v)) ||
+				signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs3v))
+		].toList
+		
+		val zs2vSymbols = relevantFstrSignalisierung.
+			getFstrSignalisierungSymbol(typeof(Zs2v))
+		val zs3vSymbols = relevantFstrSignalisierung.
+			getFstrSignalisierungSymbol(typeof(Zs3v))
+
 		val additionInfo = #[zs2vSymbols.join(","), zs3vSymbols.join(","),
 			existsZl ? "Zl" : ""].filter[!nullOrEmpty].join("/")
 		return '''«vorsignal.bezeichnung.bezeichnungTabelle.wert»«IF !additionInfo.nullOrEmpty» («additionInfo»)«ENDIF»'''
+	}
+
+	private def <T extends Signalbegriff_ID_TypeClass> List<String> getFstrSignalisierungSymbol(
+		List<Fstr_Signalisierung> fstrSignalisierung, Class<T> type) {
+		return fstrSignalisierung.getSignalberiffsWithType(type).map [
+			signalbegriffID.symbol
+		]
 	}
 }
