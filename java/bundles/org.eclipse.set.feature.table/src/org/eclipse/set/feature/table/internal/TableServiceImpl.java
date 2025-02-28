@@ -47,7 +47,6 @@ import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
 import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.threads.Threads;
-import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -67,7 +66,6 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
-import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableTransformationService;
 import org.eclipse.swt.widgets.Display;
@@ -123,8 +121,7 @@ public final class TableServiceImpl implements TableService {
 	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
 
 	private CacheService getCache() {
-		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
-				: cacheService;
+		return cacheService;
 	}
 
 	/**
@@ -499,6 +496,7 @@ public final class TableServiceImpl implements TableService {
 					Thread.sleep(2000);
 				} catch (final InterruptedException e) {
 					Thread.currentThread().interrupt();
+					return;
 				}
 			}
 			storageFunc.run();
