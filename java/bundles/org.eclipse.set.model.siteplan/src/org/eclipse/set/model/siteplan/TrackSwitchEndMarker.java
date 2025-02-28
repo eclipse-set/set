@@ -18,10 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegACoordinate
- * <em>Leg ACoordinate</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegBCoordinate
- * <em>Leg BCoordinate</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegACoordinate <em>Leg ACoordinate</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegBCoordinate <em>Leg BCoordinate</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitchEndMarker()
@@ -30,11 +28,9 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface TrackSwitchEndMarker extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Leg ACoordinate</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Leg ACoordinate</em>' containment
-	 *         reference.
+	 * Returns the value of the '<em><b>Leg ACoordinate</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Leg ACoordinate</em>' containment reference.
 	 * @see #setLegACoordinate(Coordinate)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitchEndMarker_LegACoordinate()
 	 * @model containment="true" required="true"
@@ -43,25 +39,19 @@ public interface TrackSwitchEndMarker extends EObject {
 	Coordinate getLegACoordinate();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegACoordinate
-	 * <em>Leg ACoordinate</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegACoordinate <em>Leg ACoordinate</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Leg ACoordinate</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Leg ACoordinate</em>' containment reference.
 	 * @see #getLegACoordinate()
 	 * @generated
 	 */
 	void setLegACoordinate(Coordinate value);
 
 	/**
-	 * Returns the value of the '<em><b>Leg BCoordinate</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Leg BCoordinate</em>' containment
-	 *         reference.
+	 * Returns the value of the '<em><b>Leg BCoordinate</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Leg BCoordinate</em>' containment reference.
 	 * @see #setLegBCoordinate(Coordinate)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitchEndMarker_LegBCoordinate()
 	 * @model containment="true" required="true"
@@ -70,14 +60,10 @@ public interface TrackSwitchEndMarker extends EObject {
 	Coordinate getLegBCoordinate();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegBCoordinate
-	 * <em>Leg BCoordinate</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackSwitchEndMarker#getLegBCoordinate <em>Leg BCoordinate</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Leg BCoordinate</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Leg BCoordinate</em>' containment reference.
 	 * @see #getLegBCoordinate()
 	 * @generated
 	 */

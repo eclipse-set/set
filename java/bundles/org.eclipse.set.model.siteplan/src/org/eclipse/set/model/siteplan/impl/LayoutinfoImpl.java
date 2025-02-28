@@ -34,10 +34,8 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LayoutinfoImpl#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LayoutinfoImpl#getSheetsCut
- * <em>Sheets Cut</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LayoutinfoImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LayoutinfoImpl#getSheetsCut <em>Sheets Cut</em>}</li>
  * </ul>
  *
  * @generated
@@ -46,7 +44,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 	/**
 	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -56,7 +53,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -64,9 +60,8 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 	protected String label = LABEL_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getSheetsCut() <em>Sheets Cut</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSheetsCut() <em>Sheets Cut</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSheetsCut()
 	 * @generated
 	 * @ordered
@@ -75,7 +70,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected LayoutinfoImpl() {
@@ -84,7 +78,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -94,7 +87,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -104,7 +96,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -112,27 +103,23 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 		String oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.LAYOUTINFO__LABEL, oldLabel, label));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.LAYOUTINFO__LABEL, oldLabel, label));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<SheetCut> getSheetsCut() {
 		if (sheetsCut == null) {
-			sheetsCut = new EObjectContainmentEList<SheetCut>(SheetCut.class,
-					this, SiteplanPackage.LAYOUTINFO__SHEETS_CUT);
+			sheetsCut = new EObjectContainmentEList<SheetCut>(SheetCut.class, this, SiteplanPackage.LAYOUTINFO__SHEETS_CUT);
 		}
 		return sheetsCut;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -140,15 +127,13 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.LAYOUTINFO__SHEETS_CUT:
-				return ((InternalEList<?>) getSheetsCut()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getSheetsCut()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -164,7 +149,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -172,12 +156,11 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.LAYOUTINFO__LABEL:
-				setLabel((String) newValue);
+				setLabel((String)newValue);
 				return;
 			case SiteplanPackage.LAYOUTINFO__SHEETS_CUT:
 				getSheetsCut().clear();
-				getSheetsCut()
-						.addAll((Collection<? extends SheetCut>) newValue);
+				getSheetsCut().addAll((Collection<? extends SheetCut>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,7 +168,6 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -203,15 +185,13 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.LAYOUTINFO__LABEL:
-				return LABEL_EDEFAULT == null ? label != null
-						: !LABEL_EDEFAULT.equals(label);
+				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
 			case SiteplanPackage.LAYOUTINFO__SHEETS_CUT:
 				return sheetsCut != null && !sheetsCut.isEmpty();
 		}
@@ -220,13 +200,11 @@ public class LayoutinfoImpl extends SiteplanObjectImpl implements Layoutinfo {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (label: ");

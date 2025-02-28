@@ -28,10 +28,8 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.ContinuousTrackSegmentImpl#getStart
- * <em>Start</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.ContinuousTrackSegmentImpl#getEnd
- * <em>End</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.ContinuousTrackSegmentImpl#getStart <em>Start</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.ContinuousTrackSegmentImpl#getEnd <em>End</em>}</li>
  * </ul>
  *
  * @generated
@@ -39,9 +37,8 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 		implements ContinuousTrackSegment {
 	/**
-	 * The cached value of the '{@link #getStart() <em>Start</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getStart() <em>Start</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getStart()
 	 * @generated
 	 * @ordered
@@ -49,9 +46,8 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 	protected Coordinate start;
 
 	/**
-	 * The cached value of the '{@link #getEnd() <em>End</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getEnd() <em>End</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getEnd()
 	 * @generated
 	 * @ordered
@@ -60,7 +56,6 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ContinuousTrackSegmentImpl() {
@@ -69,7 +64,6 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -79,7 +73,6 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -89,7 +82,6 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetStart(Coordinate newStart,
@@ -97,21 +89,14 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 		Coordinate oldStart = start;
 		start = newStart;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START, oldStart,
-					newStart);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START, oldStart, newStart);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -119,27 +104,18 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 		if (newStart != start) {
 			NotificationChain msgs = null;
 			if (start != null)
-				msgs = ((InternalEObject) start).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START,
-						null, msgs);
+				msgs = ((InternalEObject)start).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START, null, msgs);
 			if (newStart != null)
-				msgs = ((InternalEObject) newStart).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START,
-						null, msgs);
+				msgs = ((InternalEObject)newStart).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START, null, msgs);
 			msgs = basicSetStart(newStart, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START, newStart,
-					newStart));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START, newStart, newStart));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -149,7 +125,6 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetEnd(Coordinate newEnd,
@@ -157,21 +132,14 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 		Coordinate oldEnd = end;
 		end = newEnd;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END, oldEnd,
-					newEnd);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END, oldEnd, newEnd);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -179,27 +147,18 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 		if (newEnd != end) {
 			NotificationChain msgs = null;
 			if (end != null)
-				msgs = ((InternalEObject) end).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END,
-						null, msgs);
+				msgs = ((InternalEObject)end).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END, null, msgs);
 			if (newEnd != null)
-				msgs = ((InternalEObject) newEnd).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END,
-						null, msgs);
+				msgs = ((InternalEObject)newEnd).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END, null, msgs);
 			msgs = basicSetEnd(newEnd, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END, newEnd,
-					newEnd));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END, newEnd, newEnd));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -216,7 +175,6 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -232,17 +190,16 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START:
-				setStart((Coordinate) newValue);
+				setStart((Coordinate)newValue);
 				return;
 			case SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END:
-				setEnd((Coordinate) newValue);
+				setEnd((Coordinate)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -250,17 +207,16 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__START:
-				setStart((Coordinate) null);
+				setStart((Coordinate)null);
 				return;
 			case SiteplanPackage.CONTINUOUS_TRACK_SEGMENT__END:
-				setEnd((Coordinate) null);
+				setEnd((Coordinate)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -268,7 +224,6 @@ public class ContinuousTrackSegmentImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

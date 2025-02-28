@@ -28,10 +28,8 @@ import org.eclipse.set.model.siteplan.TrackDesignation;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackDesignationImpl#getName
- * <em>Name</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackDesignationImpl#getPosition
- * <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackDesignationImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackDesignationImpl#getPosition <em>Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -41,7 +39,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -51,7 +48,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -59,9 +55,8 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -70,7 +65,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TrackDesignationImpl() {
@@ -79,7 +73,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -89,7 +82,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -99,7 +91,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -107,13 +98,11 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_DESIGNATION__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_DESIGNATION__NAME, oldName, name));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -123,7 +112,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetPosition(Coordinate newPosition,
@@ -131,21 +119,14 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 		Coordinate oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.TRACK_DESIGNATION__POSITION, oldPosition,
-					newPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_DESIGNATION__POSITION, oldPosition, newPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -153,27 +134,18 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject) position).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_DESIGNATION__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_DESIGNATION__POSITION, null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject) newPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.TRACK_DESIGNATION__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.TRACK_DESIGNATION__POSITION, null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_DESIGNATION__POSITION, newPosition,
-					newPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_DESIGNATION__POSITION, newPosition, newPosition));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -188,7 +160,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -204,17 +175,16 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_DESIGNATION__NAME:
-				setName((String) newValue);
+				setName((String)newValue);
 				return;
 			case SiteplanPackage.TRACK_DESIGNATION__POSITION:
-				setPosition((Coordinate) newValue);
+				setPosition((Coordinate)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -222,7 +192,6 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -232,7 +201,7 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 				setName(NAME_EDEFAULT);
 				return;
 			case SiteplanPackage.TRACK_DESIGNATION__POSITION:
-				setPosition((Coordinate) null);
+				setPosition((Coordinate)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -240,15 +209,13 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_DESIGNATION__NAME:
-				return NAME_EDEFAULT == null ? name != null
-						: !NAME_EDEFAULT.equals(name);
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case SiteplanPackage.TRACK_DESIGNATION__POSITION:
 				return position != null;
 		}
@@ -257,13 +224,11 @@ public class TrackDesignationImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");

@@ -130,7 +130,8 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		if (signalInfo.baseMount !== null) {
 			// As a Signal_Befestigung does not specify a direction, 
 			// use the direction of the first signal
-			point = pointObjectPositionService.getCoordinate(signalInfo.baseMount)
+			point = pointObjectPositionService.getCoordinate(
+				signalInfo.baseMount)
 		}
 
 		val signalMount = SiteplanFactory.eINSTANCE.createSignalMount()
@@ -170,7 +171,7 @@ class SignalTransformator extends BaseTransformator<Signal> {
 		val coordinate = pointObjectPositionService.getCoordinate(ppsignal);
 		mountPosition = positionService.transformPosition(coordinate);
 		mountPosition.rotation = coordinate.effectiveRotation
-		
+
 		screen += ppsignal.signalScreen.filter [
 			!SITEPLAN_HIDDEN_SCREENS.contains(screen)
 		]
@@ -294,7 +295,10 @@ class SignalTransformator extends BaseTransformator<Signal> {
 			case ENUM_SIGNAL_ART_SPERRSIGNAL:
 				return SignalRole.LOCK
 			case ENUM_SIGNAL_ART_ANDERE:
-				return SignalRole.NONE
+				return SignalRole.SONSTIGE
+			default:
+				return signal.signalReal?.signalRealAktivSchirm !== null &&
+					art === null ? return SignalRole.NONE : SignalRole.SONSTIGE
 		}
 	}
 

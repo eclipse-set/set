@@ -18,10 +18,8 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.SignalMount#getAttachedSignals
- * <em>Attached Signals</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.SignalMount#getMountType <em>Mount
- * Type</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SignalMount#getAttachedSignals <em>Attached Signals</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SignalMount#getMountType <em>Mount Type</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSignalMount()
@@ -30,13 +28,11 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface SignalMount extends PositionedObject, RouteObject {
 	/**
-	 * Returns the value of the '<em><b>Attached Signals</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.Signal}. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Attached Signals</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Signal}.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Attached Signals</em>' containment
-	 *         reference list.
+	 * @return the value of the '<em>Attached Signals</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSignalMount_AttachedSignals()
 	 * @model containment="true"
 	 * @generated
@@ -59,12 +55,9 @@ public interface SignalMount extends PositionedObject, RouteObject {
 	SignalMountType getMountType();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.SignalMount#getMountType <em>Mount
-	 * Type</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Mount Type</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.SignalMount#getMountType <em>Mount Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Mount Type</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.SignalMountType
 	 * @see #getMountType()
 	 * @generated

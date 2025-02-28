@@ -18,10 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.RouteLocation#getKm
- * <em>Km</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.RouteLocation#getRoute
- * <em>Route</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.RouteLocation#getKm <em>Km</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.RouteLocation#getRoute <em>Route</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getRouteLocation()
@@ -42,12 +40,9 @@ public interface RouteLocation extends EObject {
 	String getKm();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.RouteLocation#getKm <em>Km</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Km</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.RouteLocation#getKm <em>Km</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Km</em>' attribute.
 	 * @see #getKm()
 	 * @generated
 	 */
@@ -66,12 +61,9 @@ public interface RouteLocation extends EObject {
 	String getRoute();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.RouteLocation#getRoute
-	 * <em>Route</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Route</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.RouteLocation#getRoute <em>Route</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Route</em>' attribute.
 	 * @see #getRoute()
 	 * @generated
 	 */

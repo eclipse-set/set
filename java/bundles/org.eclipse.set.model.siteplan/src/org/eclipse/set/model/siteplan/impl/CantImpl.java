@@ -27,23 +27,18 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getPointA <em>Point
- * A</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getPointB <em>Point
- * B</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getForm
- * <em>Form</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getLength
- * <em>Length</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getPointA <em>Point A</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getPointB <em>Point B</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getForm <em>Form</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.CantImpl#getLength <em>Length</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CantImpl extends SiteplanObjectImpl implements Cant {
 	/**
-	 * The cached value of the '{@link #getPointA() <em>Point A</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPointA() <em>Point A</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPointA()
 	 * @generated
 	 * @ordered
@@ -51,9 +46,8 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	protected CantPoint pointA;
 
 	/**
-	 * The cached value of the '{@link #getPointB() <em>Point B</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPointB() <em>Point B</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPointB()
 	 * @generated
 	 * @ordered
@@ -63,7 +57,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	/**
 	 * The default value of the '{@link #getForm() <em>Form</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getForm()
 	 * @generated
 	 * @ordered
@@ -73,7 +66,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	/**
 	 * The cached value of the '{@link #getForm() <em>Form</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getForm()
 	 * @generated
 	 * @ordered
@@ -81,9 +73,8 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	protected String form = FORM_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getLength() <em>Length</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getLength() <em>Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLength()
 	 * @generated
 	 * @ordered
@@ -93,7 +84,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 	/**
 	 * The cached value of the '{@link #getLength() <em>Length</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getLength()
 	 * @generated
 	 * @ordered
@@ -102,7 +92,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected CantImpl() {
@@ -111,7 +100,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -121,7 +109,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -131,7 +118,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetPointA(CantPoint newPointA,
@@ -139,20 +125,14 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 		CantPoint oldPointA = pointA;
 		pointA = newPointA;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.CANT__POINT_A, oldPointA,
-					newPointA);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__POINT_A, oldPointA, newPointA);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -160,24 +140,18 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 		if (newPointA != pointA) {
 			NotificationChain msgs = null;
 			if (pointA != null)
-				msgs = ((InternalEObject) pointA).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_A,
-						null, msgs);
+				msgs = ((InternalEObject)pointA).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_A, null, msgs);
 			if (newPointA != null)
-				msgs = ((InternalEObject) newPointA).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_A,
-						null, msgs);
+				msgs = ((InternalEObject)newPointA).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_A, null, msgs);
 			msgs = basicSetPointA(newPointA, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.CANT__POINT_A, newPointA, newPointA));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__POINT_A, newPointA, newPointA));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -187,7 +161,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetPointB(CantPoint newPointB,
@@ -195,20 +168,14 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 		CantPoint oldPointB = pointB;
 		pointB = newPointB;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.CANT__POINT_B, oldPointB,
-					newPointB);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__POINT_B, oldPointB, newPointB);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -216,24 +183,18 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 		if (newPointB != pointB) {
 			NotificationChain msgs = null;
 			if (pointB != null)
-				msgs = ((InternalEObject) pointB).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_B,
-						null, msgs);
+				msgs = ((InternalEObject)pointB).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_B, null, msgs);
 			if (newPointB != null)
-				msgs = ((InternalEObject) newPointB).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_B,
-						null, msgs);
+				msgs = ((InternalEObject)newPointB).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.CANT__POINT_B, null, msgs);
 			msgs = basicSetPointB(newPointB, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.CANT__POINT_B, newPointB, newPointB));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__POINT_B, newPointB, newPointB));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -243,7 +204,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -251,13 +211,11 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 		String oldForm = form;
 		form = newForm;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.CANT__FORM, oldForm, form));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__FORM, oldForm, form));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -267,7 +225,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -275,13 +232,11 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 		double oldLength = length;
 		length = newLength;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.CANT__LENGTH, oldLength, length));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT__LENGTH, oldLength, length));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -298,7 +253,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -318,23 +272,22 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.CANT__POINT_A:
-				setPointA((CantPoint) newValue);
+				setPointA((CantPoint)newValue);
 				return;
 			case SiteplanPackage.CANT__POINT_B:
-				setPointB((CantPoint) newValue);
+				setPointB((CantPoint)newValue);
 				return;
 			case SiteplanPackage.CANT__FORM:
-				setForm((String) newValue);
+				setForm((String)newValue);
 				return;
 			case SiteplanPackage.CANT__LENGTH:
-				setLength((Double) newValue);
+				setLength((Double)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -342,17 +295,16 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.CANT__POINT_A:
-				setPointA((CantPoint) null);
+				setPointA((CantPoint)null);
 				return;
 			case SiteplanPackage.CANT__POINT_B:
-				setPointB((CantPoint) null);
+				setPointB((CantPoint)null);
 				return;
 			case SiteplanPackage.CANT__FORM:
 				setForm(FORM_EDEFAULT);
@@ -366,7 +318,6 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -377,8 +328,7 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 			case SiteplanPackage.CANT__POINT_B:
 				return pointB != null;
 			case SiteplanPackage.CANT__FORM:
-				return FORM_EDEFAULT == null ? form != null
-						: !FORM_EDEFAULT.equals(form);
+				return FORM_EDEFAULT == null ? form != null : !FORM_EDEFAULT.equals(form);
 			case SiteplanPackage.CANT__LENGTH:
 				return length != LENGTH_EDEFAULT;
 		}
@@ -387,13 +337,11 @@ public class CantImpl extends SiteplanObjectImpl implements Cant {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (form: ");

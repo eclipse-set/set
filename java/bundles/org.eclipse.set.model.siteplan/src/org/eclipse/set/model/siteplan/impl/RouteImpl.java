@@ -32,19 +32,16 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteImpl#getSections
- * <em>Sections</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteImpl#getMarkers
- * <em>Markers</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteImpl#getSections <em>Sections</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteImpl#getMarkers <em>Markers</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class RouteImpl extends SiteplanObjectImpl implements Route {
 	/**
-	 * The cached value of the '{@link #getSections() <em>Sections</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSections() <em>Sections</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSections()
 	 * @generated
 	 * @ordered
@@ -52,9 +49,8 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 	protected EList<RouteSection> sections;
 
 	/**
-	 * The cached value of the '{@link #getMarkers() <em>Markers</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getMarkers() <em>Markers</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getMarkers()
 	 * @generated
 	 * @ordered
@@ -63,7 +59,6 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected RouteImpl() {
@@ -72,7 +67,6 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -82,35 +76,30 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<RouteSection> getSections() {
 		if (sections == null) {
-			sections = new EObjectContainmentEList<RouteSection>(
-					RouteSection.class, this, SiteplanPackage.ROUTE__SECTIONS);
+			sections = new EObjectContainmentEList<RouteSection>(RouteSection.class, this, SiteplanPackage.ROUTE__SECTIONS);
 		}
 		return sections;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<KMMarker> getMarkers() {
 		if (markers == null) {
-			markers = new EObjectContainmentEList<KMMarker>(KMMarker.class,
-					this, SiteplanPackage.ROUTE__MARKERS);
+			markers = new EObjectContainmentEList<KMMarker>(KMMarker.class, this, SiteplanPackage.ROUTE__MARKERS);
 		}
 		return markers;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -118,18 +107,15 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE__SECTIONS:
-				return ((InternalEList<?>) getSections()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getSections()).basicRemove(otherEnd, msgs);
 			case SiteplanPackage.ROUTE__MARKERS:
-				return ((InternalEList<?>) getMarkers()).basicRemove(otherEnd,
-						msgs);
+				return ((InternalEList<?>)getMarkers()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -145,7 +131,6 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -154,12 +139,11 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE__SECTIONS:
 				getSections().clear();
-				getSections()
-						.addAll((Collection<? extends RouteSection>) newValue);
+				getSections().addAll((Collection<? extends RouteSection>)newValue);
 				return;
 			case SiteplanPackage.ROUTE__MARKERS:
 				getMarkers().clear();
-				getMarkers().addAll((Collection<? extends KMMarker>) newValue);
+				getMarkers().addAll((Collection<? extends KMMarker>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -167,7 +151,6 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -185,7 +168,6 @@ public class RouteImpl extends SiteplanObjectImpl implements Route {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

@@ -19,7 +19,8 @@ export enum SignalRole
     MultiSection = 'MultiSection',
     None = 'None',
     TrainCover = 'TrainCover',
-    Lock = 'Lock'
+    Lock = 'Lock',
+    Sonstige = 'Sonstige'
 }
 
 export enum SignalSystem

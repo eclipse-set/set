@@ -16,13 +16,10 @@ package org.eclipse.set.model.siteplan;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.Cant#getPointA <em>Point
- * A</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Cant#getPointB <em>Point
- * B</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Cant#getForm <em>Form</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Cant#getLength
- * <em>Length</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Cant#getPointA <em>Point A</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Cant#getPointB <em>Point B</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Cant#getForm <em>Form</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Cant#getLength <em>Length</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCant()
@@ -33,7 +30,6 @@ public interface Cant extends SiteplanObject {
 	/**
 	 * Returns the value of the '<em><b>Point A</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Point A</em>' containment reference.
 	 * @see #setPointA(CantPoint)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCant_PointA()
@@ -43,12 +39,9 @@ public interface Cant extends SiteplanObject {
 	CantPoint getPointA();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Cant#getPointA <em>Point A</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Point A</em>' containment reference.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Cant#getPointA <em>Point A</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Point A</em>' containment reference.
 	 * @see #getPointA()
 	 * @generated
 	 */
@@ -57,7 +50,6 @@ public interface Cant extends SiteplanObject {
 	/**
 	 * Returns the value of the '<em><b>Point B</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Point B</em>' containment reference.
 	 * @see #setPointB(CantPoint)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCant_PointB()
@@ -67,12 +59,9 @@ public interface Cant extends SiteplanObject {
 	CantPoint getPointB();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Cant#getPointB <em>Point B</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Point B</em>' containment reference.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Cant#getPointB <em>Point B</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Point B</em>' containment reference.
 	 * @see #getPointB()
 	 * @generated
 	 */
@@ -91,11 +80,9 @@ public interface Cant extends SiteplanObject {
 	String getForm();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Cant#getForm
-	 * <em>Form</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Form</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Cant#getForm <em>Form</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Form</em>' attribute.
 	 * @see #getForm()
 	 * @generated
 	 */
@@ -114,12 +101,9 @@ public interface Cant extends SiteplanObject {
 	double getLength();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Cant#getLength <em>Length</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Length</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Cant#getLength <em>Length</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Length</em>' attribute.
 	 * @see #getLength()
 	 * @generated
 	 */

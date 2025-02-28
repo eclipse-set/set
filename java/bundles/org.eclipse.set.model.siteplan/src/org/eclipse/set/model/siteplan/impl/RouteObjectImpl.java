@@ -30,18 +30,16 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.RouteObjectImpl#getRouteLocations
- * <em>Route Locations</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.RouteObjectImpl#getRouteLocations <em>Route Locations</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 	/**
-	 * The cached value of the '{@link #getRouteLocations() <em>Route
-	 * Locations</em>}' containment reference list. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getRouteLocations() <em>Route Locations</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #getRouteLocations()
 	 * @generated
 	 * @ordered
@@ -50,7 +48,6 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected RouteObjectImpl() {
@@ -59,7 +56,6 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -69,22 +65,18 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<RouteLocation> getRouteLocations() {
 		if (routeLocations == null) {
-			routeLocations = new EObjectContainmentEList<RouteLocation>(
-					RouteLocation.class, this,
-					SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS);
+			routeLocations = new EObjectContainmentEList<RouteLocation>(RouteLocation.class, this, SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS);
 		}
 		return routeLocations;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -92,15 +84,13 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS:
-				return ((InternalEList<?>) getRouteLocations())
-						.basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getRouteLocations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -114,7 +104,6 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -123,8 +112,7 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 		switch (featureID) {
 			case SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS:
 				getRouteLocations().clear();
-				getRouteLocations()
-						.addAll((Collection<? extends RouteLocation>) newValue);
+				getRouteLocations().addAll((Collection<? extends RouteLocation>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -132,7 +120,6 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -147,7 +134,6 @@ public class RouteObjectImpl extends SiteplanObjectImpl implements RouteObject {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

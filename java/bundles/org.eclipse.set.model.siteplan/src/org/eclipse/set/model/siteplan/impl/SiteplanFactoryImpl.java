@@ -81,34 +81,33 @@ import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class SiteplanFactoryImpl extends EFactoryImpl
 		implements SiteplanFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public static SiteplanFactory init() {
 		try {
-			SiteplanFactory theSiteplanFactory = (SiteplanFactory) EPackage.Registry.INSTANCE
-					.getEFactory(SiteplanPackage.eNS_URI);
+			SiteplanFactory theSiteplanFactory = (SiteplanFactory)EPackage.Registry.INSTANCE.getEFactory(SiteplanPackage.eNS_URI);
 			if (theSiteplanFactory != null) {
 				return theSiteplanFactory;
 			}
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new SiteplanFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SiteplanFactoryImpl() {
@@ -117,103 +116,59 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case SiteplanPackage.SITEPLAN:
-				return createSiteplan();
-			case SiteplanPackage.SITEPLAN_STATE:
-				return createSiteplanState();
-			case SiteplanPackage.SITEPLAN_OBJECT:
-				return createSiteplanObject();
-			case SiteplanPackage.POSITIONED_OBJECT:
-				return createPositionedObject();
-			case SiteplanPackage.COORDINATE:
-				return createCoordinate();
-			case SiteplanPackage.POSITION:
-				return createPosition();
-			case SiteplanPackage.ROUTE_OBJECT:
-				return createRouteObject();
-			case SiteplanPackage.ROUTE_LOCATION:
-				return createRouteLocation();
-			case SiteplanPackage.SIGNAL_MOUNT:
-				return createSignalMount();
-			case SiteplanPackage.SIGNAL:
-				return createSignal();
-			case SiteplanPackage.SIGNAL_SCREEN:
-				return createSignalScreen();
-			case SiteplanPackage.LABEL:
-				return createLabel();
-			case SiteplanPackage.TRACK_SWITCH:
-				return createTrackSwitch();
-			case SiteplanPackage.TRACK_SWITCH_COMPONENT:
-				return createTrackSwitchComponent();
-			case SiteplanPackage.CONTINUOUS_TRACK_SEGMENT:
-				return createContinuousTrackSegment();
-			case SiteplanPackage.TRACK:
-				return createTrack();
-			case SiteplanPackage.TRACK_SECTION:
-				return createTrackSection();
-			case SiteplanPackage.TRACK_SEGMENT:
-				return createTrackSegment();
-			case SiteplanPackage.FMA_COMPONENT:
-				return createFMAComponent();
-			case SiteplanPackage.ROUTE:
-				return createRoute();
-			case SiteplanPackage.ROUTE_SECTION:
-				return createRouteSection();
-			case SiteplanPackage.KM_MARKER:
-				return createKMMarker();
-			case SiteplanPackage.TRACK_SWITCH_END_MARKER:
-				return createTrackSwitchEndMarker();
-			case SiteplanPackage.ERROR:
-				return createError();
-			case SiteplanPackage.PZB:
-				return createPZB();
-			case SiteplanPackage.PZBGU:
-				return createPZBGU();
-			case SiteplanPackage.TRACK_DESIGNATION:
-				return createTrackDesignation();
-			case SiteplanPackage.TRACK_SWITCH_LEG:
-				return createTrackSwitchLeg();
-			case SiteplanPackage.STATION:
-				return createStation();
-			case SiteplanPackage.PLATFORM:
-				return createPlatform();
-			case SiteplanPackage.TRACK_LOCK:
-				return createTrackLock();
-			case SiteplanPackage.TRACK_LOCK_COMPONENT:
-				return createTrackLockComponent();
-			case SiteplanPackage.OBJECT_MANAGEMENT:
-				return createObjectManagement();
-			case SiteplanPackage.TRACK_CLOSE:
-				return createTrackClose();
-			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL:
-				return createExternalElementControl();
-			case SiteplanPackage.LOCK_KEY:
-				return createLockKey();
-			case SiteplanPackage.LAYOUTINFO:
-				return createLayoutinfo();
-			case SiteplanPackage.SHEET_CUT:
-				return createSheetCut();
-			case SiteplanPackage.CANT:
-				return createCant();
-			case SiteplanPackage.CANT_POINT:
-				return createCantPoint();
-			case SiteplanPackage.UNKNOWN_POSITIONED_OBJECT:
-				return createUnknownPositionedObject();
+			case SiteplanPackage.SITEPLAN: return createSiteplan();
+			case SiteplanPackage.SITEPLAN_STATE: return createSiteplanState();
+			case SiteplanPackage.SITEPLAN_OBJECT: return createSiteplanObject();
+			case SiteplanPackage.POSITIONED_OBJECT: return createPositionedObject();
+			case SiteplanPackage.COORDINATE: return createCoordinate();
+			case SiteplanPackage.POSITION: return createPosition();
+			case SiteplanPackage.ROUTE_OBJECT: return createRouteObject();
+			case SiteplanPackage.ROUTE_LOCATION: return createRouteLocation();
+			case SiteplanPackage.SIGNAL_MOUNT: return createSignalMount();
+			case SiteplanPackage.SIGNAL: return createSignal();
+			case SiteplanPackage.SIGNAL_SCREEN: return createSignalScreen();
+			case SiteplanPackage.LABEL: return createLabel();
+			case SiteplanPackage.TRACK_SWITCH: return createTrackSwitch();
+			case SiteplanPackage.TRACK_SWITCH_COMPONENT: return createTrackSwitchComponent();
+			case SiteplanPackage.CONTINUOUS_TRACK_SEGMENT: return createContinuousTrackSegment();
+			case SiteplanPackage.TRACK: return createTrack();
+			case SiteplanPackage.TRACK_SECTION: return createTrackSection();
+			case SiteplanPackage.TRACK_SEGMENT: return createTrackSegment();
+			case SiteplanPackage.FMA_COMPONENT: return createFMAComponent();
+			case SiteplanPackage.ROUTE: return createRoute();
+			case SiteplanPackage.ROUTE_SECTION: return createRouteSection();
+			case SiteplanPackage.KM_MARKER: return createKMMarker();
+			case SiteplanPackage.TRACK_SWITCH_END_MARKER: return createTrackSwitchEndMarker();
+			case SiteplanPackage.ERROR: return createError();
+			case SiteplanPackage.PZB: return createPZB();
+			case SiteplanPackage.PZBGU: return createPZBGU();
+			case SiteplanPackage.TRACK_DESIGNATION: return createTrackDesignation();
+			case SiteplanPackage.TRACK_SWITCH_LEG: return createTrackSwitchLeg();
+			case SiteplanPackage.STATION: return createStation();
+			case SiteplanPackage.PLATFORM: return createPlatform();
+			case SiteplanPackage.TRACK_LOCK: return createTrackLock();
+			case SiteplanPackage.TRACK_LOCK_COMPONENT: return createTrackLockComponent();
+			case SiteplanPackage.OBJECT_MANAGEMENT: return createObjectManagement();
+			case SiteplanPackage.TRACK_CLOSE: return createTrackClose();
+			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL: return createExternalElementControl();
+			case SiteplanPackage.LOCK_KEY: return createLockKey();
+			case SiteplanPackage.LAYOUTINFO: return createLayoutinfo();
+			case SiteplanPackage.SHEET_CUT: return createSheetCut();
+			case SiteplanPackage.CANT: return createCant();
+			case SiteplanPackage.CANT_POINT: return createCantPoint();
+			case SiteplanPackage.UNKNOWN_POSITIONED_OBJECT: return createUnknownPositionedObject();
 			default:
-				throw new IllegalArgumentException("The class '"
-						+ eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -228,15 +183,13 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 			case SiteplanPackage.MOUNT_DIRECTION:
 				return createMountDirectionFromString(eDataType, initialValue);
 			case SiteplanPackage.TURNOUT_OPERATING_MODE:
-				return createTurnoutOperatingModeFromString(eDataType,
-						initialValue);
+				return createTurnoutOperatingModeFromString(eDataType, initialValue);
 			case SiteplanPackage.TRACK_SHAPE:
 				return createTrackShapeFromString(eDataType, initialValue);
 			case SiteplanPackage.TRACK_TYPE:
 				return createTrackTypeFromString(eDataType, initialValue);
 			case SiteplanPackage.FMA_COMPONENT_TYPE:
-				return createFMAComponentTypeFromString(eDataType,
-						initialValue);
+				return createFMAComponentTypeFromString(eDataType, initialValue);
 			case SiteplanPackage.PZB_TYPE:
 				return createPZBTypeFromString(eDataType, initialValue);
 			case SiteplanPackage.PZB_ELEMENT:
@@ -244,8 +197,7 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 			case SiteplanPackage.PZB_EFFECTIVITY:
 				return createPZBEffectivityFromString(eDataType, initialValue);
 			case SiteplanPackage.TRACK_LOCK_LOCATION:
-				return createTrackLockLocationFromString(eDataType,
-						initialValue);
+				return createTrackLockLocationFromString(eDataType, initialValue);
 			case SiteplanPackage.LEFT_RIGHT:
 				return createLeftRightFromString(eDataType, initialValue);
 			case SiteplanPackage.DIRECTION:
@@ -253,22 +205,18 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 			case SiteplanPackage.TRACK_CLOSE_TYPE:
 				return createTrackCloseTypeFromString(eDataType, initialValue);
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL_ART:
-				return createExternalElementControlArtFromString(eDataType,
-						initialValue);
+				return createExternalElementControlArtFromString(eDataType, initialValue);
 			case SiteplanPackage.CONTROL_STATION_TYPE:
-				return createControlStationTypeFromString(eDataType,
-						initialValue);
+				return createControlStationTypeFromString(eDataType, initialValue);
 			case SiteplanPackage.LOCK_KEY_TYPE:
 				return createLockKeyTypeFromString(eDataType, initialValue);
 			default:
-				throw new IllegalArgumentException("The datatype '"
-						+ eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -283,15 +231,13 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 			case SiteplanPackage.MOUNT_DIRECTION:
 				return convertMountDirectionToString(eDataType, instanceValue);
 			case SiteplanPackage.TURNOUT_OPERATING_MODE:
-				return convertTurnoutOperatingModeToString(eDataType,
-						instanceValue);
+				return convertTurnoutOperatingModeToString(eDataType, instanceValue);
 			case SiteplanPackage.TRACK_SHAPE:
 				return convertTrackShapeToString(eDataType, instanceValue);
 			case SiteplanPackage.TRACK_TYPE:
 				return convertTrackTypeToString(eDataType, instanceValue);
 			case SiteplanPackage.FMA_COMPONENT_TYPE:
-				return convertFMAComponentTypeToString(eDataType,
-						instanceValue);
+				return convertFMAComponentTypeToString(eDataType, instanceValue);
 			case SiteplanPackage.PZB_TYPE:
 				return convertPZBTypeToString(eDataType, instanceValue);
 			case SiteplanPackage.PZB_ELEMENT:
@@ -299,8 +245,7 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 			case SiteplanPackage.PZB_EFFECTIVITY:
 				return convertPZBEffectivityToString(eDataType, instanceValue);
 			case SiteplanPackage.TRACK_LOCK_LOCATION:
-				return convertTrackLockLocationToString(eDataType,
-						instanceValue);
+				return convertTrackLockLocationToString(eDataType, instanceValue);
 			case SiteplanPackage.LEFT_RIGHT:
 				return convertLeftRightToString(eDataType, instanceValue);
 			case SiteplanPackage.DIRECTION:
@@ -308,22 +253,18 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 			case SiteplanPackage.TRACK_CLOSE_TYPE:
 				return convertTrackCloseTypeToString(eDataType, instanceValue);
 			case SiteplanPackage.EXTERNAL_ELEMENT_CONTROL_ART:
-				return convertExternalElementControlArtToString(eDataType,
-						instanceValue);
+				return convertExternalElementControlArtToString(eDataType, instanceValue);
 			case SiteplanPackage.CONTROL_STATION_TYPE:
-				return convertControlStationTypeToString(eDataType,
-						instanceValue);
+				return convertControlStationTypeToString(eDataType, instanceValue);
 			case SiteplanPackage.LOCK_KEY_TYPE:
 				return convertLockKeyTypeToString(eDataType, instanceValue);
 			default:
-				throw new IllegalArgumentException("The datatype '"
-						+ eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -334,7 +275,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -345,7 +285,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -356,7 +295,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -367,7 +305,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -378,7 +315,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -389,7 +325,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -400,7 +335,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -411,7 +345,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -422,7 +355,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -433,7 +365,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -444,7 +375,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -455,7 +385,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -466,7 +395,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -477,7 +405,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -488,7 +415,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -499,7 +425,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -510,7 +435,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -521,7 +445,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -532,7 +455,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -543,7 +465,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -554,7 +475,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -565,7 +485,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -576,7 +495,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -587,7 +505,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -598,7 +515,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -609,7 +525,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -620,7 +535,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -631,7 +545,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -642,7 +555,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -653,7 +565,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -664,7 +575,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -675,7 +585,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -686,7 +595,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -697,7 +605,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -708,7 +615,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -719,7 +625,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -730,7 +635,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -741,7 +645,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -752,7 +655,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -763,7 +665,6 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -774,22 +675,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SignalMountType createSignalMountTypeFromString(EDataType eDataType,
 			String initialValue) {
 		SignalMountType result = SignalMountType.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertSignalMountTypeToString(EDataType eDataType,
@@ -799,22 +695,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SignalRole createSignalRoleFromString(EDataType eDataType,
 			String initialValue) {
 		SignalRole result = SignalRole.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertSignalRoleToString(EDataType eDataType,
@@ -824,22 +715,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SignalSystem createSignalSystemFromString(EDataType eDataType,
 			String initialValue) {
 		SignalSystem result = SignalSystem.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertSignalSystemToString(EDataType eDataType,
@@ -849,22 +735,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public MountDirection createMountDirectionFromString(EDataType eDataType,
 			String initialValue) {
 		MountDirection result = MountDirection.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertMountDirectionToString(EDataType eDataType,
@@ -874,22 +755,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TurnoutOperatingMode createTurnoutOperatingModeFromString(
 			EDataType eDataType, String initialValue) {
 		TurnoutOperatingMode result = TurnoutOperatingMode.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertTurnoutOperatingModeToString(EDataType eDataType,
@@ -899,22 +775,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TrackShape createTrackShapeFromString(EDataType eDataType,
 			String initialValue) {
 		TrackShape result = TrackShape.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertTrackShapeToString(EDataType eDataType,
@@ -924,22 +795,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TrackType createTrackTypeFromString(EDataType eDataType,
 			String initialValue) {
 		TrackType result = TrackType.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertTrackTypeToString(EDataType eDataType,
@@ -949,22 +815,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public FMAComponentType createFMAComponentTypeFromString(
 			EDataType eDataType, String initialValue) {
 		FMAComponentType result = FMAComponentType.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertFMAComponentTypeToString(EDataType eDataType,
@@ -974,22 +835,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public PZBType createPZBTypeFromString(EDataType eDataType,
 			String initialValue) {
 		PZBType result = PZBType.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertPZBTypeToString(EDataType eDataType,
@@ -999,22 +855,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public PZBElement createPZBElementFromString(EDataType eDataType,
 			String initialValue) {
 		PZBElement result = PZBElement.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertPZBElementToString(EDataType eDataType,
@@ -1024,22 +875,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public PZBEffectivity createPZBEffectivityFromString(EDataType eDataType,
 			String initialValue) {
 		PZBEffectivity result = PZBEffectivity.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertPZBEffectivityToString(EDataType eDataType,
@@ -1049,22 +895,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TrackLockLocation createTrackLockLocationFromString(
 			EDataType eDataType, String initialValue) {
 		TrackLockLocation result = TrackLockLocation.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertTrackLockLocationToString(EDataType eDataType,
@@ -1074,22 +915,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LeftRight createLeftRightFromString(EDataType eDataType,
 			String initialValue) {
 		LeftRight result = LeftRight.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertLeftRightToString(EDataType eDataType,
@@ -1099,22 +935,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Direction createDirectionFromString(EDataType eDataType,
 			String initialValue) {
 		Direction result = Direction.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertDirectionToString(EDataType eDataType,
@@ -1124,22 +955,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TrackCloseType createTrackCloseTypeFromString(EDataType eDataType,
 			String initialValue) {
 		TrackCloseType result = TrackCloseType.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertTrackCloseTypeToString(EDataType eDataType,
@@ -1149,23 +975,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ExternalElementControlArt createExternalElementControlArtFromString(
 			EDataType eDataType, String initialValue) {
-		ExternalElementControlArt result = ExternalElementControlArt
-				.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		ExternalElementControlArt result = ExternalElementControlArt.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertExternalElementControlArtToString(EDataType eDataType,
@@ -1175,22 +995,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ControlStationType createControlStationTypeFromString(
 			EDataType eDataType, String initialValue) {
 		ControlStationType result = ControlStationType.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertControlStationTypeToString(EDataType eDataType,
@@ -1200,22 +1015,17 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public LockKeyType createLockKeyTypeFromString(EDataType eDataType,
 			String initialValue) {
 		LockKeyType result = LockKeyType.get(initialValue);
-		if (result == null)
-			throw new IllegalArgumentException("The value '" + initialValue
-					+ "' is not a valid enumerator of '" + eDataType.getName()
-					+ "'");
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertLockKeyTypeToString(EDataType eDataType,
@@ -1225,17 +1035,15 @@ public class SiteplanFactoryImpl extends EFactoryImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public SiteplanPackage getSiteplanPackage() {
-		return (SiteplanPackage) getEPackage();
+		return (SiteplanPackage)getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

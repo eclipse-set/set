@@ -36,10 +36,8 @@ import org.eclipse.set.model.siteplan.TrackSwitchLeg;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchLegImpl#getConnection
- * <em>Connection</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchLegImpl#getCoordinates
- * <em>Coordinates</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchLegImpl#getConnection <em>Connection</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchLegImpl#getCoordinates <em>Coordinates</em>}</li>
  * </ul>
  *
  * @generated
@@ -47,9 +45,8 @@ import org.eclipse.set.model.siteplan.TrackSwitchLeg;
 public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 		implements TrackSwitchLeg {
 	/**
-	 * The default value of the '{@link #getConnection() <em>Connection</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getConnection() <em>Connection</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getConnection()
 	 * @generated
 	 * @ordered
@@ -57,9 +54,8 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 	protected static final LeftRight CONNECTION_EDEFAULT = LeftRight.LEFT;
 
 	/**
-	 * The cached value of the '{@link #getConnection() <em>Connection</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getConnection() <em>Connection</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getConnection()
 	 * @generated
 	 * @ordered
@@ -67,9 +63,8 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 	protected LeftRight connection = CONNECTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getCoordinates() <em>Coordinates</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getCoordinates() <em>Coordinates</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCoordinates()
 	 * @generated
 	 * @ordered
@@ -78,7 +73,6 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected TrackSwitchLegImpl() {
@@ -87,7 +81,6 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -97,7 +90,6 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -107,38 +99,30 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void setConnection(LeftRight newConnection) {
 		LeftRight oldConnection = connection;
-		connection = newConnection == null ? CONNECTION_EDEFAULT
-				: newConnection;
+		connection = newConnection == null ? CONNECTION_EDEFAULT : newConnection;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.TRACK_SWITCH_LEG__CONNECTION, oldConnection,
-					connection));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH_LEG__CONNECTION, oldConnection, connection));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Coordinate> getCoordinates() {
 		if (coordinates == null) {
-			coordinates = new EObjectContainmentEList<Coordinate>(
-					Coordinate.class, this,
-					SiteplanPackage.TRACK_SWITCH_LEG__COORDINATES);
+			coordinates = new EObjectContainmentEList<Coordinate>(Coordinate.class, this, SiteplanPackage.TRACK_SWITCH_LEG__COORDINATES);
 		}
 		return coordinates;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -146,15 +130,13 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_LEG__COORDINATES:
-				return ((InternalEList<?>) getCoordinates())
-						.basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getCoordinates()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -170,7 +152,6 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -178,12 +159,11 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH_LEG__CONNECTION:
-				setConnection((LeftRight) newValue);
+				setConnection((LeftRight)newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH_LEG__COORDINATES:
 				getCoordinates().clear();
-				getCoordinates()
-						.addAll((Collection<? extends Coordinate>) newValue);
+				getCoordinates().addAll((Collection<? extends Coordinate>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -191,7 +171,6 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -209,7 +188,6 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -225,13 +203,11 @@ public class TrackSwitchLegImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (connection: ");

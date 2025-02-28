@@ -18,16 +18,15 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Turnout Operating Mode</b></em>', and utility methods for working
  * with them. <!-- end-user-doc -->
- * 
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTurnoutOperatingMode()
  * @model
  * @generated
  */
 public enum TurnoutOperatingMode implements Enumerator {
 	/**
-	 * The '<em><b>Undefined</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Undefined</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #UNDEFINED_VALUE
 	 * @generated
 	 * @ordered
@@ -35,9 +34,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	UNDEFINED(0, "Undefined", "Undefined"),
 
 	/**
-	 * The '<em><b>Electric Remote</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Electric Remote</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #ELECTRIC_REMOTE_VALUE
 	 * @generated
 	 * @ordered
@@ -45,9 +44,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	ELECTRIC_REMOTE(1, "ElectricRemote", "ElectricRemote"),
 
 	/**
-	 * The '<em><b>Electric Local</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Electric Local</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #ELECTRIC_LOCAL_VALUE
 	 * @generated
 	 * @ordered
@@ -75,9 +74,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	MECHANICAL_LOCAL(4, "MechanicalLocal", "MechanicalLocal"),
 
 	/**
-	 * The '<em><b>Non Operational</b></em>' literal object. <!-- begin-user-doc
+	 * The '<em><b>Non Operational</b></em>' literal object.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #NON_OPERATIONAL_VALUE
 	 * @generated
 	 * @ordered
@@ -85,9 +84,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	NON_OPERATIONAL(5, "NonOperational", "NonOperational"),
 
 	/**
-	 * The '<em><b>Trailable</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Trailable</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TRAILABLE_VALUE
 	 * @generated
 	 * @ordered
@@ -95,9 +94,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	TRAILABLE(6, "Trailable", "Trailable"),
 
 	/**
-	 * The '<em><b>Other</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Other</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #OTHER_VALUE
 	 * @generated
 	 * @ordered
@@ -105,9 +104,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	OTHER(7, "Other", "Other"),
 
 	/**
-	 * The '<em><b>Dead Left</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Dead Left</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DEAD_LEFT_VALUE
 	 * @generated
 	 * @ordered
@@ -115,9 +114,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	DEAD_LEFT(8, "DeadLeft", "DeadLeft"),
 
 	/**
-	 * The '<em><b>Dead Right</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Dead Right</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DEAD_RIGHT_VALUE
 	 * @generated
 	 * @ordered
@@ -125,9 +124,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	DEAD_RIGHT(9, "DeadRight", "DeadRight");
 
 	/**
-	 * The '<em><b>Undefined</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Undefined</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #UNDEFINED
 	 * @model name="Undefined"
 	 * @generated
@@ -136,9 +135,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int UNDEFINED_VALUE = 0;
 
 	/**
-	 * The '<em><b>Electric Remote</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Electric Remote</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #ELECTRIC_REMOTE
 	 * @model name="ElectricRemote"
 	 * @generated
@@ -147,9 +146,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int ELECTRIC_REMOTE_VALUE = 1;
 
 	/**
-	 * The '<em><b>Electric Local</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Electric Local</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #ELECTRIC_LOCAL
 	 * @model name="ElectricLocal"
 	 * @generated
@@ -169,9 +168,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int MECHANICAL_REMOTE_VALUE = 3;
 
 	/**
-	 * The '<em><b>Mechanical Local</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Mechanical Local</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #MECHANICAL_LOCAL
 	 * @model name="MechanicalLocal"
 	 * @generated
@@ -180,9 +179,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int MECHANICAL_LOCAL_VALUE = 4;
 
 	/**
-	 * The '<em><b>Non Operational</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Non Operational</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #NON_OPERATIONAL
 	 * @model name="NonOperational"
 	 * @generated
@@ -191,9 +190,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int NON_OPERATIONAL_VALUE = 5;
 
 	/**
-	 * The '<em><b>Trailable</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Trailable</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #TRAILABLE
 	 * @model name="Trailable"
 	 * @generated
@@ -202,9 +201,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int TRAILABLE_VALUE = 6;
 
 	/**
-	 * The '<em><b>Other</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Other</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #OTHER
 	 * @model name="Other"
 	 * @generated
@@ -213,9 +212,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int OTHER_VALUE = 7;
 
 	/**
-	 * The '<em><b>Dead Left</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Dead Left</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DEAD_LEFT
 	 * @model name="DeadLeft"
 	 * @generated
@@ -224,9 +223,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	public static final int DEAD_LEFT_VALUE = 8;
 
 	/**
-	 * The '<em><b>Dead Right</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Dead Right</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #DEAD_RIGHT
 	 * @model name="DeadRight"
 	 * @generated
@@ -237,29 +236,32 @@ public enum TurnoutOperatingMode implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Turnout Operating Mode</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final TurnoutOperatingMode[] VALUES_ARRAY = new TurnoutOperatingMode[] {
-			UNDEFINED, ELECTRIC_REMOTE, ELECTRIC_LOCAL, MECHANICAL_REMOTE,
-			MECHANICAL_LOCAL, NON_OPERATIONAL, TRAILABLE, OTHER, DEAD_LEFT,
-			DEAD_RIGHT, };
+			UNDEFINED,
+			ELECTRIC_REMOTE,
+			ELECTRIC_LOCAL,
+			MECHANICAL_REMOTE,
+			MECHANICAL_LOCAL,
+			NON_OPERATIONAL,
+			TRAILABLE,
+			OTHER,
+			DEAD_LEFT,
+			DEAD_RIGHT,
+		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Turnout Operating
-	 * Mode</b></em>' enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Turnout Operating Mode</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<TurnoutOperatingMode> VALUES = Collections
-			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<TurnoutOperatingMode> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Turnout Operating Mode</b></em>' literal with the
-	 * specified literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param literal
-	 *            the literal.
+	 * Returns the '<em><b>Turnout Operating Mode</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -274,11 +276,9 @@ public enum TurnoutOperatingMode implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Turnout Operating Mode</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param name
-	 *            the name.
+	 * Returns the '<em><b>Turnout Operating Mode</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param name the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -293,65 +293,50 @@ public enum TurnoutOperatingMode implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Turnout Operating Mode</b></em>' literal with the
-	 * specified integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the integer value.
+	 * Returns the '<em><b>Turnout Operating Mode</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static TurnoutOperatingMode get(int value) {
 		switch (value) {
-			case UNDEFINED_VALUE:
-				return UNDEFINED;
-			case ELECTRIC_REMOTE_VALUE:
-				return ELECTRIC_REMOTE;
-			case ELECTRIC_LOCAL_VALUE:
-				return ELECTRIC_LOCAL;
-			case MECHANICAL_REMOTE_VALUE:
-				return MECHANICAL_REMOTE;
-			case MECHANICAL_LOCAL_VALUE:
-				return MECHANICAL_LOCAL;
-			case NON_OPERATIONAL_VALUE:
-				return NON_OPERATIONAL;
-			case TRAILABLE_VALUE:
-				return TRAILABLE;
-			case OTHER_VALUE:
-				return OTHER;
-			case DEAD_LEFT_VALUE:
-				return DEAD_LEFT;
-			case DEAD_RIGHT_VALUE:
-				return DEAD_RIGHT;
+			case UNDEFINED_VALUE: return UNDEFINED;
+			case ELECTRIC_REMOTE_VALUE: return ELECTRIC_REMOTE;
+			case ELECTRIC_LOCAL_VALUE: return ELECTRIC_LOCAL;
+			case MECHANICAL_REMOTE_VALUE: return MECHANICAL_REMOTE;
+			case MECHANICAL_LOCAL_VALUE: return MECHANICAL_LOCAL;
+			case NON_OPERATIONAL_VALUE: return NON_OPERATIONAL;
+			case TRAILABLE_VALUE: return TRAILABLE;
+			case OTHER_VALUE: return OTHER;
+			case DEAD_LEFT_VALUE: return DEAD_LEFT;
+			case DEAD_RIGHT_VALUE: return DEAD_RIGHT;
 		}
 		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private TurnoutOperatingMode(int value, String name, String literal) {
@@ -362,38 +347,34 @@ public enum TurnoutOperatingMode implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-		return value;
+	  return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-		return name;
+	  return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-		return literal;
+	  return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

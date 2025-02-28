@@ -20,22 +20,14 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getInitialState
- * <em>Initial State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getChangedInitialState
- * <em>Changed Initial State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getCommonState <em>Common
- * State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getChangedFinalState
- * <em>Changed Final State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getFinalState <em>Final
- * State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getCenterPosition
- * <em>Center Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getObjectManagement
- * <em>Object Management</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Siteplan#getLayoutInfo <em>Layout
- * Info</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getInitialState <em>Initial State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getChangedInitialState <em>Changed Initial State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getCommonState <em>Common State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getChangedFinalState <em>Changed Final State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getFinalState <em>Final State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getCenterPosition <em>Center Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getObjectManagement <em>Object Management</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Siteplan#getLayoutInfo <em>Layout Info</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan()
@@ -44,9 +36,8 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Siteplan extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Initial State</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Initial State</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Initial State</em>' containment reference.
 	 * @see #setInitialState(SiteplanState)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan_InitialState()
@@ -56,25 +47,19 @@ public interface Siteplan extends EObject {
 	SiteplanState getInitialState();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Siteplan#getInitialState
-	 * <em>Initial State</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Siteplan#getInitialState <em>Initial State</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Initial State</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Initial State</em>' containment reference.
 	 * @see #getInitialState()
 	 * @generated
 	 */
 	void setInitialState(SiteplanState value);
 
 	/**
-	 * Returns the value of the '<em><b>Changed Initial State</b></em>'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Changed Initial State</em>' containment
-	 *         reference.
+	 * Returns the value of the '<em><b>Changed Initial State</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Changed Initial State</em>' containment reference.
 	 * @see #setChangedInitialState(SiteplanState)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan_ChangedInitialState()
 	 * @model containment="true"
@@ -97,9 +82,8 @@ public interface Siteplan extends EObject {
 	void setChangedInitialState(SiteplanState value);
 
 	/**
-	 * Returns the value of the '<em><b>Common State</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Common State</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Common State</em>' containment reference.
 	 * @see #setCommonState(SiteplanState)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan_CommonState()
@@ -109,25 +93,19 @@ public interface Siteplan extends EObject {
 	SiteplanState getCommonState();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Siteplan#getCommonState <em>Common
-	 * State</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Siteplan#getCommonState <em>Common State</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Common State</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Common State</em>' containment reference.
 	 * @see #getCommonState()
 	 * @generated
 	 */
 	void setCommonState(SiteplanState value);
 
 	/**
-	 * Returns the value of the '<em><b>Changed Final State</b></em>'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Changed Final State</em>' containment
-	 *         reference.
+	 * Returns the value of the '<em><b>Changed Final State</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Changed Final State</em>' containment reference.
 	 * @see #setChangedFinalState(SiteplanState)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan_ChangedFinalState()
 	 * @model containment="true"
@@ -136,23 +114,18 @@ public interface Siteplan extends EObject {
 	SiteplanState getChangedFinalState();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Siteplan#getChangedFinalState
-	 * <em>Changed Final State</em>}' containment reference. <!-- begin-user-doc
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Siteplan#getChangedFinalState <em>Changed Final State</em>}' containment reference.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Changed Final State</em>'
-	 *            containment reference.
+	 * @param value the new value of the '<em>Changed Final State</em>' containment reference.
 	 * @see #getChangedFinalState()
 	 * @generated
 	 */
 	void setChangedFinalState(SiteplanState value);
 
 	/**
-	 * Returns the value of the '<em><b>Final State</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Final State</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Final State</em>' containment reference.
 	 * @see #setFinalState(SiteplanState)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan_FinalState()
@@ -162,25 +135,19 @@ public interface Siteplan extends EObject {
 	SiteplanState getFinalState();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Siteplan#getFinalState <em>Final
-	 * State</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Siteplan#getFinalState <em>Final State</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Final State</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Final State</em>' containment reference.
 	 * @see #getFinalState()
 	 * @generated
 	 */
 	void setFinalState(SiteplanState value);
 
 	/**
-	 * Returns the value of the '<em><b>Center Position</b></em>' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Center Position</em>' containment
-	 *         reference.
+	 * Returns the value of the '<em><b>Center Position</b></em>' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @return the value of the '<em>Center Position</em>' containment reference.
 	 * @see #setCenterPosition(Position)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan_CenterPosition()
 	 * @model containment="true"
@@ -189,14 +156,10 @@ public interface Siteplan extends EObject {
 	Position getCenterPosition();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Siteplan#getCenterPosition
-	 * <em>Center Position</em>}' containment reference. <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Siteplan#getCenterPosition <em>Center Position</em>}' containment reference.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Center Position</em>' containment
-	 *            reference.
+	 * @param value the new value of the '<em>Center Position</em>' containment reference.
 	 * @see #getCenterPosition()
 	 * @generated
 	 */
@@ -217,13 +180,11 @@ public interface Siteplan extends EObject {
 	EList<ObjectManagement> getObjectManagement();
 
 	/**
-	 * Returns the value of the '<em><b>Layout Info</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.Layoutinfo}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Layout Info</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Layoutinfo}.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Layout Info</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Layout Info</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplan_LayoutInfo()
 	 * @model containment="true"
 	 * @generated

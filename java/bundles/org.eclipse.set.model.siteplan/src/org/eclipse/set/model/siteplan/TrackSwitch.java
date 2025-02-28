@@ -18,12 +18,9 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getDesign
- * <em>Design</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getComponents
- * <em>Components</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getContinuousSegments
- * <em>Continuous Segments</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getDesign <em>Design</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getComponents <em>Components</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackSwitch#getContinuousSegments <em>Continuous Segments</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackSwitch()
