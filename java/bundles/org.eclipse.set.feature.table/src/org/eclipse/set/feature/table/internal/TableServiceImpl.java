@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BooleanSupplier;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -240,13 +241,8 @@ public final class TableServiceImpl implements TableService {
 								.getIfPresent(cacheKey.getValue()))
 						.filter(Objects::nonNull)
 						.toList();
-				if (!tableErrors.isEmpty() || Thread.getAllStackTraces()
-						.keySet()
-						.stream()
-						.anyMatch(thread -> thread.getName()
-								.toLowerCase()
-								.startsWith(
-										tableInfo.shortcut().toLowerCase()))) {
+				if (!tableErrors.isEmpty() || !TableService
+						.isTransformComplete(tableInfo.shortcut())) {
 					map.put(tableInfo.shortcut(),
 							tableErrors.stream()
 									.flatMap(List::stream)
@@ -304,7 +300,7 @@ public final class TableServiceImpl implements TableService {
 
 	private Object loadTransform(final String elementId,
 			final TableType tableType, final IModelSession modelSession,
-			final String controlAreaId, final String cacheKey) {
+			final String controlAreaId) {
 		final String shortCut = extractShortcut(elementId);
 		final PlanPro2TableTransformationService modelService = getModelService(
 				shortCut);
@@ -328,9 +324,6 @@ public final class TableServiceImpl implements TableService {
 						TablemodelFactory.eINSTANCE.createTableContent());
 				modelService.buildHeading(transformedTable);
 			}
-
-			saveTableError(shortCut, tableType, modelService.getTableErrors(),
-					cacheKey);
 		}
 		if (Thread.currentThread().isInterrupted()
 				|| transformedTable == null) {
@@ -449,16 +442,9 @@ public final class TableServiceImpl implements TableService {
 
 			if (table == null) {
 				table = (Table) loadTransform(shortCut, tableType, modelSession,
-						areaId, areaCacheKey);
-				// Not storage table, when table isn't complete transform
-				if (Thread.getAllStackTraces()
-						.keySet()
-						.stream()
-						.noneMatch(thread -> thread.getName()
-								.toLowerCase()
-								.startsWith(shortCut))) {
-					cache.set(areaCacheKey, table);
-				}
+						areaId);
+				saveTableToCache(resultTable, cache, shortCut, tableType,
+						areaCacheKey);
 			}
 			if (resultTable == null) {
 				resultTable = EcoreUtil.copy(table);
@@ -476,6 +462,49 @@ public final class TableServiceImpl implements TableService {
 		}
 
 		return resultTable;
+	}
+
+	private void saveTableToCache(final Table table, final Cache cache,
+			final String shortCut, final TableType tableType,
+			final String areaCacheKey) {
+		final String threadName = String.format("%s/saveCache/%s", shortCut, //$NON-NLS-1$
+				areaCacheKey);
+		final PlanPro2TableTransformationService modelService = getModelService(
+				shortCut);
+		// It will create a separate transformation for each table state, which
+		// means each table state will have its own list of table errors.
+		final Collection<TableError> errors = modelService.getTableErrors();
+		final Thread storageCacheThread = new Thread(() -> {
+			final Runnable storageFunc = () -> {
+				if (table != null) {
+					cache.set(areaCacheKey, table);
+				}
+				saveTableError(shortCut, tableType, errors, areaCacheKey);
+			};
+
+			final BooleanSupplier isTableTransformComplete = () -> Thread
+					.getAllStackTraces()
+					.keySet()
+					.stream()
+					.map(t -> t.getName().toLowerCase())
+					.filter(name -> !name.equalsIgnoreCase(threadName))
+					.noneMatch(name -> name.startsWith(shortCut.toLowerCase()));
+
+			if (isTableTransformComplete.getAsBoolean()) {
+				storageFunc.run();
+				return;
+			}
+			while (!isTableTransformComplete.getAsBoolean()) {
+				try {
+					Thread.sleep(2000);
+				} catch (final InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}
+			storageFunc.run();
+		}, threadName);
+		storageCacheThread.start();
+
 	}
 
 	@Override
