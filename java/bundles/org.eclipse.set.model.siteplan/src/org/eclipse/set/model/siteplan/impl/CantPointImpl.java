@@ -24,17 +24,15 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.CantPointImpl#getHeight
- * <em>Height</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.CantPointImpl#getHeight <em>Height</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 	/**
-	 * The default value of the '{@link #getHeight() <em>Height</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -44,7 +42,6 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 	/**
 	 * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -53,7 +50,6 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected CantPointImpl() {
@@ -62,7 +58,6 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -72,7 +67,6 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -82,7 +76,6 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -90,13 +83,11 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 		double oldHeight = height;
 		height = newHeight;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.CANT_POINT__HEIGHT, oldHeight, height));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.CANT_POINT__HEIGHT, oldHeight, height));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -110,14 +101,13 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.CANT_POINT__HEIGHT:
-				setHeight((Double) newValue);
+				setHeight((Double)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -125,7 +115,6 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -140,7 +129,6 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -154,13 +142,11 @@ public class CantPointImpl extends PositionedObjectImpl implements CantPoint {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (height: ");

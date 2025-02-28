@@ -18,12 +18,9 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.SheetCut#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.SheetCut#getPolygonDirection
- * <em>Polygon Direction</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.SheetCut#getPolygon
- * <em>Polygon</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SheetCut#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SheetCut#getPolygonDirection <em>Polygon Direction</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SheetCut#getPolygon <em>Polygon</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSheetCut()
@@ -44,25 +41,20 @@ public interface SheetCut extends SiteplanObject {
 	String getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.SheetCut#getLabel <em>Label</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Label</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.SheetCut#getLabel <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' attribute.
 	 * @see #getLabel()
 	 * @generated
 	 */
 	void setLabel(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Polygon Direction</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.Coordinate}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Polygon Direction</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Coordinate}.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Polygon Direction</em>' containment
-	 *         reference list.
+	 * @return the value of the '<em>Polygon Direction</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSheetCut_PolygonDirection()
 	 * @model containment="true" upper="2"
 	 * @generated
@@ -70,11 +62,10 @@ public interface SheetCut extends SiteplanObject {
 	EList<Coordinate> getPolygonDirection();
 
 	/**
-	 * Returns the value of the '<em><b>Polygon</b></em>' containment reference
-	 * list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.Coordinate}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Polygon</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Coordinate}.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Polygon</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSheetCut_Polygon()
 	 * @model containment="true"

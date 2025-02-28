@@ -9,7 +9,7 @@
 
 import { FeatureType } from '@/feature/FeatureInfo'
 import { Label } from '@/model/Label'
-import { MountDirection } from '@/model/Signal'
+import { MountDirection, SignalRole } from '@/model/Signal'
 import { SignalMount, SignalMountType } from '@/model/SignalMount'
 import { ISvgElement, MAX_BRIDGE_DIRECTION_OFFSET, SvgBridgeSignal, ZusatzSignal } from '@/model/SvgElement'
 import { distance } from '@/util/Math'
@@ -90,7 +90,8 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
     const signal = signalMount.attachedSignals[0]
 
     const forcedErrorSignalScreens = ['LfPf']
-    if (signal.screen.find(s => forcedErrorSignalScreens.find(e => e === s.screen))) {
+    if (signal.screen.find(s => forcedErrorSignalScreens.find(e => e === s.screen))
+      || signal.role === SignalRole.None) {
       return false
     }
 
@@ -101,7 +102,9 @@ export default class SvgDrawSignal extends AbstractDrawSVG {
     const bridgeParts: SignalBridgePart[] = []
     signalMount.attachedSignals.forEach(signal => {
       for (const catalog of this.catalogService.getSignalSVGCatalog()) {
-        const screen = catalog.getSignalScreen(signal)
+        const screen = signal.role === SignalRole.None
+          ? SvgDraw.getErrorSVG()
+          : catalog.getSignalScreen(signal)
         if (screen !== null) {
           const offset = distance(
             [signalMount.position.x, signalMount.position.y],

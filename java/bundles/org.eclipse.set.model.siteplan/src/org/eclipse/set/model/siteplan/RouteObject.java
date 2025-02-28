@@ -18,8 +18,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.RouteObject#getRouteLocations
- * <em>Route Locations</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.RouteObject#getRouteLocations <em>Route Locations</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getRouteObject()
@@ -28,13 +27,11 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface RouteObject extends SiteplanObject {
 	/**
-	 * Returns the value of the '<em><b>Route Locations</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.RouteLocation}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Route Locations</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.RouteLocation}.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Route Locations</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Route Locations</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getRouteObject_RouteLocations()
 	 * @model containment="true"
 	 * @generated

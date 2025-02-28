@@ -18,8 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.SiteplanObject#getGuid
- * <em>Guid</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.SiteplanObject#getGuid <em>Guid</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSiteplanObject()
@@ -40,12 +39,9 @@ public interface SiteplanObject extends EObject {
 	String getGuid();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.SiteplanObject#getGuid
-	 * <em>Guid</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Guid</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.SiteplanObject#getGuid <em>Guid</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Guid</em>' attribute.
 	 * @see #getGuid()
 	 * @generated
 	 */

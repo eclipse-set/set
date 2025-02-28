@@ -18,10 +18,8 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.Layoutinfo#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Layoutinfo#getSheetsCut <em>Sheets
- * Cut</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Layoutinfo#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Layoutinfo#getSheetsCut <em>Sheets Cut</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getLayoutinfo()
@@ -42,25 +40,20 @@ public interface Layoutinfo extends SiteplanObject {
 	String getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Layoutinfo#getLabel
-	 * <em>Label</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Label</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Layoutinfo#getLabel <em>Label</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label</em>' attribute.
 	 * @see #getLabel()
 	 * @generated
 	 */
 	void setLabel(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Sheets Cut</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.set.model.siteplan.SheetCut}. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Sheets Cut</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.set.model.siteplan.SheetCut}.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Sheets Cut</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Sheets Cut</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getLayoutinfo_SheetsCut()
 	 * @model containment="true"
 	 * @generated
