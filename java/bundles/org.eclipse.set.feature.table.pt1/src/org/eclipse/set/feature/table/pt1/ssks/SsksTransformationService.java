@@ -9,8 +9,8 @@
 package org.eclipse.set.feature.table.pt1.ssks;
 
 import static org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum.ASC;
-import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.EMPTY_LAST;
+import static org.eclipse.set.utils.table.sorting.ComparatorBuilder.CellComparatorType.LEXICOGRAPHICAL;
 
 import java.util.Comparator;
 
@@ -93,6 +93,7 @@ public final class SsksTransformationService extends
 				|| event.getTopic().equals(Events.CLOSE_SESSION)) {
 			Thread.getAllStackTraces().keySet().forEach(thread -> {
 				if (thread.getName()
+						.toLowerCase()
 						.startsWith(messages.ToolboxTableNameSsksShort
 								.toLowerCase())) {
 					thread.interrupt();

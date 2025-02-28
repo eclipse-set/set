@@ -144,4 +144,17 @@ public interface TableService {
 	 * @return position of fixed columns
 	 */
 	Set<Integer> getFixedColumns(final String elementID);
+
+	/**
+	 * @param shortcut
+	 *            the table shortcut
+	 * @return true if the table completely transform
+	 */
+	public static boolean isTransformComplete(final String shortcut) {
+		return Thread.getAllStackTraces()
+				.keySet()
+				.stream()
+				.map(t -> t.getName().toLowerCase())
+				.noneMatch(name -> name.startsWith(shortcut.toLowerCase()));
+	}
 }

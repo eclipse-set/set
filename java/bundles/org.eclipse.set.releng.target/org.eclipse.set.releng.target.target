@@ -429,5 +429,14 @@ Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
 		</location>
+		<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="Apache PdfBox" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.pdfbox</groupId>
+					<artifactId>pdfbox</artifactId>
+					<version>3.0.4</version>
+				</dependency>
+			</dependencies>
+		</location>
 	</locations>
 </target>

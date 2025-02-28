@@ -8,8 +8,8 @@
  */
 package org.eclipse.set.application.cacheservice;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.set.basis.cache.Cache;
 import org.eclipse.set.basis.constants.Events;
@@ -39,7 +39,7 @@ public class CacheServiceImpl implements CacheService, EventHandler {
 		Services.setNoCacheService(new NoCacheService());
 	}
 
-	private final Map<String, Cache> caches = new HashMap<>();
+	private final Map<String, Cache> caches = new ConcurrentHashMap<>();
 
 	@Override
 	public Cache getCache(final String cacheId) {
