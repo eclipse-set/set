@@ -168,7 +168,7 @@ export const store = createStore<State>({
     },
     setLoading (state, payload: boolean) {
       state.loading = payload
-      if (PlanProToolbox.inPPT()) {
+      if (PlanProToolbox.inPPT() && state.planproModelType === PlanProModelType.SITEPLAN) {
         PlanProToolbox.setSiteplanLoadingState(payload)
       }
     },
