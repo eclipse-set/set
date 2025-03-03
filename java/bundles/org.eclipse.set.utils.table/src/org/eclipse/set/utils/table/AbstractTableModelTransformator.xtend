@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory
 import static extension com.google.common.base.Throwables.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import java.util.Collections
 
 /**
  * Provides common functions for table transformations.
@@ -51,7 +52,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 
 	val static String BLANK = ""
 
-	val List<TableError> tableErrors = newArrayList
+	protected val List<TableError> tableErrors = Collections.synchronizedList(newArrayList)
 
 	/**
 	 * Errors that occurred during transformation

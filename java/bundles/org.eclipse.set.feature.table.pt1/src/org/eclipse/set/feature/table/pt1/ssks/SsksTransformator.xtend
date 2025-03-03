@@ -928,10 +928,11 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				toString
 			])
 		} catch (Exception e) {
-			val errorMsg = e.createErrorMsg(row)
+			val errorMsg = createErrorMsg(e, row)
+			val guid = row.group.leadingObject?.identitaet?.wert
+			val leadingObject = getLeadingObjectIdentifier(row, guid)
 			tableErrors.add(
-				new TableError(row.group.leadingObject?.identitaet?.wert,
-					signal.identitaet.wert, "", errorMsg, row))
+				new TableError(guid, leadingObject, "", errorMsg, row))
 			leftValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
 			rightValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
 		}
