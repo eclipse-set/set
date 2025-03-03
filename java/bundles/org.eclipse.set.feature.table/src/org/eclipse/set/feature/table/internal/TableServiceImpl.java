@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BooleanSupplier;
 import java.util.stream.StreamSupport;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,6 +46,7 @@ import org.eclipse.set.basis.graph.AbstractDirectedEdgePath;
 import org.eclipse.set.basis.graph.Digraphs;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.threads.Threads;
+import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
@@ -66,6 +66,7 @@ import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableDiffService;
 import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
+import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
 import org.eclipse.set.utils.table.TableTransformationService;
 import org.eclipse.swt.widgets.Display;
@@ -121,7 +122,8 @@ public final class TableServiceImpl implements TableService {
 	private static final String IGNORED_PLANNING_AREA_CACHE_KEY = "ignoredPlanningArea";//$NON-NLS-1$
 
 	private CacheService getCache() {
-		return cacheService;
+		return ToolboxConfiguration.isDebugMode() ? Services.getNoCacheService()
+				: cacheService;
 	}
 
 	/**
@@ -239,7 +241,7 @@ public final class TableServiceImpl implements TableService {
 						.filter(Objects::nonNull)
 						.toList();
 				if (!tableErrors.isEmpty() || !TableService
-						.isTransformComplete(tableInfo.shortcut())) {
+						.isTransformComplete(tableInfo.shortcut(), null)) {
 					map.put(tableInfo.shortcut(),
 							tableErrors.stream()
 									.flatMap(List::stream)
@@ -479,19 +481,13 @@ public final class TableServiceImpl implements TableService {
 				saveTableError(shortCut, tableType, errors, areaCacheKey);
 			};
 
-			final BooleanSupplier isTableTransformComplete = () -> Thread
-					.getAllStackTraces()
-					.keySet()
-					.stream()
-					.map(t -> t.getName().toLowerCase())
-					.filter(name -> !name.equalsIgnoreCase(threadName))
-					.noneMatch(name -> name.startsWith(shortCut.toLowerCase()));
-
-			if (isTableTransformComplete.getAsBoolean()) {
+			if (TableService.isTransformComplete(shortCut,
+					s -> !s.equalsIgnoreCase(threadName))) {
 				storageFunc.run();
 				return;
 			}
-			while (!isTableTransformComplete.getAsBoolean()) {
+			while (!TableService.isTransformComplete(shortCut,
+					s -> !s.equalsIgnoreCase(threadName))) {
 				try {
 					Thread.sleep(2000);
 				} catch (final InterruptedException e) {

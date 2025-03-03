@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
@@ -146,15 +147,23 @@ public interface TableService {
 	Set<Integer> getFixedColumns(final String elementID);
 
 	/**
+	 * Check the running threads, if exists thread name start with table short
+	 * cut
+	 * 
 	 * @param shortcut
 	 *            the table shortcut
+	 * @param supplementCondition
+	 *            the additional condition for thread name
 	 * @return true if the table completely transform
 	 */
-	public static boolean isTransformComplete(final String shortcut) {
+	public static boolean isTransformComplete(final String shortcut,
+			final Predicate<String> supplementCondition) {
 		return Thread.getAllStackTraces()
 				.keySet()
 				.stream()
 				.map(t -> t.getName().toLowerCase())
+				.filter(t -> supplementCondition == null
+						|| supplementCondition.test(t))
 				.noneMatch(name -> name.startsWith(shortcut.toLowerCase()));
 	}
 }
