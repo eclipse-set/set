@@ -9,7 +9,7 @@
 import { isGeometryIntersection } from '@/collision/CollisionExtension'
 import { FeatureLayerType, FeatureType, getFeatureData } from '@/feature/FeatureInfo'
 import { SheetCutFeatureData } from '@/feature/LayoutInfoFeature'
-import { store } from '@/store'
+import { PlanProModelType, store } from '@/store'
 import turfDifference from '@turf/difference'
 import * as turf from '@turf/helpers'
 import turfIntersect from '@turf/intersect'
@@ -81,7 +81,8 @@ export default class ExportControl extends Control {
 
     this.map.once('rendercomplete', () => {
       const sheetCutFeatures = this.getSheetcutFeatures()
-      if (!sheetCutFeatures || sheetCutFeatures.length == 0) {
+      if (!sheetCutFeatures || sheetCutFeatures.length == 0
+          || store.state.planproModelType !== PlanProModelType.SITEPLAN) {
         button.disabled = true
         element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
       }
