@@ -30,23 +30,18 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#getPosition
- * <em>Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#getLabel
- * <em>Label</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#getType
- * <em>Type</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#isLocked
- * <em>Locked</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.LockKeyImpl#isLocked <em>Locked</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -54,9 +49,8 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 	protected Position position;
 
 	/**
-	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -66,7 +60,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -76,7 +69,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -86,7 +78,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 	/**
 	 * The default value of the '{@link #isLocked() <em>Locked</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #isLocked()
 	 * @generated
 	 * @ordered
@@ -96,7 +87,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 	/**
 	 * The cached value of the '{@link #isLocked() <em>Locked</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #isLocked()
 	 * @generated
 	 * @ordered
@@ -105,7 +95,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected LockKeyImpl() {
@@ -114,7 +103,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -124,7 +112,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -134,7 +121,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetPosition(Position newPosition,
@@ -142,20 +128,14 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 		Position oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.LOCK_KEY__POSITION,
-					oldPosition, newPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.LOCK_KEY__POSITION, oldPosition, newPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -163,27 +143,18 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject) position).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.LOCK_KEY__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.LOCK_KEY__POSITION, null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject) newPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.LOCK_KEY__POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.LOCK_KEY__POSITION, null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.LOCK_KEY__POSITION, newPosition,
-					newPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.LOCK_KEY__POSITION, newPosition, newPosition));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -193,7 +164,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetLabel(Label newLabel,
@@ -201,20 +171,14 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 		Label oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.LOCK_KEY__LABEL, oldLabel,
-					newLabel);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.LOCK_KEY__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -222,28 +186,18 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 		if (newLabel != label) {
 			NotificationChain msgs = null;
 			if (label != null)
-				msgs = ((InternalEObject) label)
-						.eInverseRemove(this,
-								EOPPOSITE_FEATURE_BASE
-										- SiteplanPackage.LOCK_KEY__LABEL,
-								null, msgs);
+				msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.LOCK_KEY__LABEL, null, msgs);
 			if (newLabel != null)
-				msgs = ((InternalEObject) newLabel)
-						.eInverseAdd(this,
-								EOPPOSITE_FEATURE_BASE
-										- SiteplanPackage.LOCK_KEY__LABEL,
-								null, msgs);
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.LOCK_KEY__LABEL, null, msgs);
 			msgs = basicSetLabel(newLabel, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.LOCK_KEY__LABEL, newLabel, newLabel));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.LOCK_KEY__LABEL, newLabel, newLabel));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -253,7 +207,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -261,13 +214,11 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 		LockKeyType oldType = type;
 		type = newType == null ? TYPE_EDEFAULT : newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.LOCK_KEY__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.LOCK_KEY__TYPE, oldType, type));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -277,7 +228,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -285,13 +235,11 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 		boolean oldLocked = locked;
 		locked = newLocked;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.LOCK_KEY__LOCKED, oldLocked, locked));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.LOCK_KEY__LOCKED, oldLocked, locked));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -308,7 +256,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -328,23 +275,22 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.LOCK_KEY__POSITION:
-				setPosition((Position) newValue);
+				setPosition((Position)newValue);
 				return;
 			case SiteplanPackage.LOCK_KEY__LABEL:
-				setLabel((Label) newValue);
+				setLabel((Label)newValue);
 				return;
 			case SiteplanPackage.LOCK_KEY__TYPE:
-				setType((LockKeyType) newValue);
+				setType((LockKeyType)newValue);
 				return;
 			case SiteplanPackage.LOCK_KEY__LOCKED:
-				setLocked((Boolean) newValue);
+				setLocked((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -352,17 +298,16 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.LOCK_KEY__POSITION:
-				setPosition((Position) null);
+				setPosition((Position)null);
 				return;
 			case SiteplanPackage.LOCK_KEY__LABEL:
-				setLabel((Label) null);
+				setLabel((Label)null);
 				return;
 			case SiteplanPackage.LOCK_KEY__TYPE:
 				setType(TYPE_EDEFAULT);
@@ -376,7 +321,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -396,7 +340,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -404,10 +347,8 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 			Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (derivedFeatureID) {
-				case SiteplanPackage.LOCK_KEY__POSITION:
-					return SiteplanPackage.POSITIONED_OBJECT__POSITION;
-				default:
-					return -1;
+				case SiteplanPackage.LOCK_KEY__POSITION: return SiteplanPackage.POSITIONED_OBJECT__POSITION;
+				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -415,7 +356,6 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -423,10 +363,8 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 			Class<?> baseClass) {
 		if (baseClass == PositionedObject.class) {
 			switch (baseFeatureID) {
-				case SiteplanPackage.POSITIONED_OBJECT__POSITION:
-					return SiteplanPackage.LOCK_KEY__POSITION;
-				default:
-					return -1;
+				case SiteplanPackage.POSITIONED_OBJECT__POSITION: return SiteplanPackage.LOCK_KEY__POSITION;
+				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
@@ -434,13 +372,11 @@ public class LockKeyImpl extends RouteObjectImpl implements LockKey {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: ");

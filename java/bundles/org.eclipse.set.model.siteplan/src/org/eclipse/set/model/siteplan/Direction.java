@@ -18,16 +18,15 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Direction</b></em>', and utility methods for working with them. <!--
  * end-user-doc -->
- * 
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getDirection()
  * @model
  * @generated
  */
 public enum Direction implements Enumerator {
 	/**
-	 * The '<em><b>FORWARD</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>FORWARD</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #FORWARD_VALUE
 	 * @generated
 	 * @ordered
@@ -35,9 +34,9 @@ public enum Direction implements Enumerator {
 	FORWARD(0, "FORWARD", "FORWARD"),
 
 	/**
-	 * The '<em><b>OPPOSITE</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>OPPOSITE</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #OPPOSITE_VALUE
 	 * @generated
 	 * @ordered
@@ -45,9 +44,9 @@ public enum Direction implements Enumerator {
 	OPPOSITE(1, "OPPOSITE", "OPPOSITE");
 
 	/**
-	 * The '<em><b>FORWARD</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>FORWARD</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #FORWARD
 	 * @model
 	 * @generated
@@ -56,9 +55,9 @@ public enum Direction implements Enumerator {
 	public static final int FORWARD_VALUE = 0;
 
 	/**
-	 * The '<em><b>OPPOSITE</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>OPPOSITE</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #OPPOSITE
 	 * @model
 	 * @generated
@@ -72,24 +71,22 @@ public enum Direction implements Enumerator {
 	 * 
 	 * @generated
 	 */
-	private static final Direction[] VALUES_ARRAY = new Direction[] { FORWARD,
-			OPPOSITE, };
+	private static final Direction[] VALUES_ARRAY = new Direction[] {
+			FORWARD,
+			OPPOSITE,
+		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Direction</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Direction</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<Direction> VALUES = Collections
-			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<Direction> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param literal
-	 *            the literal.
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -106,9 +103,7 @@ public enum Direction implements Enumerator {
 	/**
 	 * Returns the '<em><b>Direction</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param name
-	 *            the name.
+	 * @param name the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -123,49 +118,42 @@ public enum Direction implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Direction</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the integer value.
+	 * Returns the '<em><b>Direction</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static Direction get(int value) {
 		switch (value) {
-			case FORWARD_VALUE:
-				return FORWARD;
-			case OPPOSITE_VALUE:
-				return OPPOSITE;
+			case FORWARD_VALUE: return FORWARD;
+			case OPPOSITE_VALUE: return OPPOSITE;
 		}
 		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private Direction(int value, String name, String literal) {
@@ -176,38 +164,34 @@ public enum Direction implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-		return value;
+	  return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-		return name;
+	  return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-		return literal;
+	  return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

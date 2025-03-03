@@ -33,6 +33,7 @@
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/None"/>
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/TrainCover"/>
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/Lock"/>
+      <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalRole/Sonstige"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="siteplan.ecore#//SignalSystem">
       <genEnumLiterals ecoreEnumLiteral="siteplan.ecore#//SignalSystem/HL"/>

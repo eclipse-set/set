@@ -18,9 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.Label#getText <em>Text</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.Label#isOrientationInverted
- * <em>Orientation Inverted</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Label#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.Label#isOrientationInverted <em>Orientation Inverted</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getLabel()
@@ -41,21 +40,17 @@ public interface Label extends EObject {
 	String getText();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Label#getText <em>Text</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Text</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Label#getText <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Text</em>' attribute.
 	 * @see #getText()
 	 * @generated
 	 */
 	void setText(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Orientation Inverted</b></em>'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the value of the '<em><b>Orientation Inverted</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the value of the '<em>Orientation Inverted</em>' attribute.
 	 * @see #setOrientationInverted(boolean)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getLabel_OrientationInverted()
@@ -65,14 +60,10 @@ public interface Label extends EObject {
 	boolean isOrientationInverted();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.Label#isOrientationInverted
-	 * <em>Orientation Inverted</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Label#isOrientationInverted <em>Orientation Inverted</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Orientation Inverted</em>'
-	 *            attribute.
+	 * @param value the new value of the '<em>Orientation Inverted</em>' attribute.
 	 * @see #isOrientationInverted()
 	 * @generated
 	 */

@@ -24,17 +24,15 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.PositionImpl#getRotation
- * <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.PositionImpl#getRotation <em>Rotation</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class PositionImpl extends CoordinateImpl implements Position {
 	/**
-	 * The default value of the '{@link #getRotation() <em>Rotation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -42,9 +40,8 @@ public class PositionImpl extends CoordinateImpl implements Position {
 	protected static final double ROTATION_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -53,7 +50,6 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected PositionImpl() {
@@ -62,7 +58,6 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -72,7 +67,6 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -82,7 +76,6 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -90,13 +83,11 @@ public class PositionImpl extends CoordinateImpl implements Position {
 		double oldRotation = rotation;
 		rotation = newRotation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.POSITION__ROTATION, oldRotation, rotation));
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.POSITION__ROTATION, oldRotation, rotation));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -110,14 +101,13 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.POSITION__ROTATION:
-				setRotation((Double) newValue);
+				setRotation((Double)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -125,7 +115,6 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -140,7 +129,6 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -154,13 +142,11 @@ public class PositionImpl extends CoordinateImpl implements Position {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (rotation: ");

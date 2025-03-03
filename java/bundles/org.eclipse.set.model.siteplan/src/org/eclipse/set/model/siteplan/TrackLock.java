@@ -18,14 +18,10 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.TrackLock#getComponents
- * <em>Components</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackLock#getPreferredLocation
- * <em>Preferred Location</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackLock#getOperatingMode
- * <em>Operating Mode</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.TrackLock#getLabel
- * <em>Label</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackLock#getComponents <em>Components</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackLock#getPreferredLocation <em>Preferred Location</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackLock#getOperatingMode <em>Operating Mode</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.TrackLock#getLabel <em>Label</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackLock()
@@ -63,13 +59,10 @@ public interface TrackLock extends SiteplanObject {
 	TrackLockLocation getPreferredLocation();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackLock#getPreferredLocation
-	 * <em>Preferred Location</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackLock#getPreferredLocation <em>Preferred Location</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Preferred Location</em>' attribute.
+	 * @param value the new value of the '<em>Preferred Location</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.TrackLockLocation
 	 * @see #getPreferredLocation()
 	 * @generated
@@ -92,13 +85,10 @@ public interface TrackLock extends SiteplanObject {
 	TurnoutOperatingMode getOperatingMode();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackLock#getOperatingMode
-	 * <em>Operating Mode</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackLock#getOperatingMode <em>Operating Mode</em>}' attribute.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Operating Mode</em>' attribute.
+	 * @param value the new value of the '<em>Operating Mode</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.TurnoutOperatingMode
 	 * @see #getOperatingMode()
 	 * @generated
@@ -108,7 +98,6 @@ public interface TrackLock extends SiteplanObject {
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackLock_Label()
@@ -118,13 +107,10 @@ public interface TrackLock extends SiteplanObject {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the
-	 * '{@link org.eclipse.set.model.siteplan.TrackLock#getLabel
-	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackLock#getLabel <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Label</em>' containment reference.
+	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
 	 */

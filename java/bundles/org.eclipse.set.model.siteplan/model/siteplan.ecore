@@ -127,6 +127,7 @@
     <eLiterals name="None" value="3"/>
     <eLiterals name="TrainCover" value="4" literal="TrainCover"/>
     <eLiterals name="Lock" value="5" literal="Lock"/>
+    <eLiterals name="Sonstige" value="6" literal="Sonstige"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SignalSystem">
     <eLiterals name="HL" literal="HL"/>
