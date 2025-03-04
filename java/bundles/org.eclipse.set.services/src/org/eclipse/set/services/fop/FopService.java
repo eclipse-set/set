@@ -16,6 +16,7 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.xmlgraphics.io.ResourceResolver;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.xml.sax.SAXException;
 
 /**
@@ -113,12 +114,14 @@ public interface FopService {
 	 *             if an I/O exception occurs
 	 * @throws TransformerException
 	 *             if an transformer exception occurs
+	 * @throws UserAbortion
+	 *             if user abortion
 	 */
 	void fop(OutputFormat outputFormat, Source stylesheet, Source xmlData,
 			Path outputPath, PdfAMode pdfAMode,
 			OverwriteHandling overwriteHandling,
-			ResourceResolver resourceResolver)
-			throws SAXException, IOException, TransformerException;
+			ResourceResolver resourceResolver) throws SAXException, IOException,
+			TransformerException, UserAbortion;
 
 	/**
 	 * @return the base directory for data files

@@ -61,6 +61,26 @@
                 <fo:block id="start-indent">
                     <xsl:apply-templates />
                 </fo:block>
+            </fo:flow>
+        </fo:page-sequence>
+        <fo:page-sequence force-page-count="no-force" master-reference="page-sequence-master-b">
+            <fo:static-content flow-name="folding-mark-region">
+                <xsl:call-template name="FoldingMarksTop"/>
+                <xsl:call-template name="WaterMark"/>
+            </fo:static-content>
+            <fo:static-content flow-name="title-box-region">
+                <xsl:call-template name="TitleboxRegion">
+                    <xsl:with-param name="pagePostfix" select="'+'"/>
+                </xsl:call-template>
+                <xsl:call-template name="FoldingMarksBottom"/>
+            </fo:static-content>
+            <fo:static-content flow-name="title-box-region-last">
+                <xsl:call-template name="TitleboxRegion">
+                    <xsl:with-param name="pagePostfix" select="'-'"/>
+                </xsl:call-template>
+                <xsl:call-template name="FoldingMarksBottom"/>
+            </fo:static-content>
+            <fo:flow flow-name="xsl-region-body">
                 <!-- Fill footnotes -->
                 <xsl:apply-templates select="Table/Footnotes" />
             </fo:flow>
