@@ -20,6 +20,7 @@ import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -210,6 +214,60 @@ public class FopPdfExportBuilder implements TableExport {
 				: transformTable.transform(pageBreakRowsIndex);
 		createTablePdf(xslDoc, tableDocumentText, outputPath, shortcut,
 				pdfAMode, overwriteHandling);
+		// Resort pages of PDF
+		if (transformTable.isMultiPageLayout()) {
+			reSortPdfPage(outputPath);
+		}
+	}
+
+	/**
+	 * Sort multipage layout PDF again, because the page sequence by FOP export
+	 * isn't rational.
+	 * 
+	 * @param outputPath
+	 *            the pdf file, which result of FOP export
+	 * @throws IOException
+	 *             the {@link IOException}
+	 */
+	private static int reSortPdfPage(final Path outputPath) throws IOException {
+		try (PDDocument pdf = PDDocument.load(outputPath.toFile())) {
+			final int pageCount = pdf.getPages().getCount();
+			final List<PDPage> newSort = new LinkedList<>();
+			final List<PDPage> footnotePages = new LinkedList<>();
+			for (int i = pageCount, j = 0; i >= 0; i--) {
+				final PDPage page = pdf.getPage(i - 1);
+				final PDFTextStripper pdfTextStripper = new PDFTextStripper();
+				pdfTextStripper.setStartPage(i);
+				pdfTextStripper.setEndPage(i);
+				final String text = pdfTextStripper.getText(pdf);
+				if (text.contains("Footnote")) {
+					footnotePages.addFirst(page);
+					j++;
+				} else if (pageCount - i - j > (pageCount - j) / 2) {
+					final PDPage aPage = pdf.getPage(pageCount - i - j);
+					newSort.add(aPage);
+					newSort.add(page);
+				} else {
+
+					break;
+				}
+			}
+			footnotePages.forEach(pdf::removePage);
+			// pageCount = pdf.getPages().getCount();
+			// if (pageCount % 2 != 0) {
+			// return 0;
+			// }
+			// for (int i = 0; i < pageCount / 2; i++) {
+			// newSort.add(pdf.getPage(i));
+			// newSort.add(pdf.getPage(pageCount / 2 + i));
+
+			// }
+			newSort.forEach(pdf::removePage);
+			newSort.forEach(pdf::addPage);
+			footnotePages.forEach(pdf::addPage);
+			pdf.save(outputPath.toFile());
+			return pageCount;
+		}
 	}
 
 	private void createTablePdf(final Document xslDoc,
@@ -240,6 +298,12 @@ public class FopPdfExportBuilder implements TableExport {
 		} else {
 			logger.error("Cant export table: " + shortcut); //$NON-NLS-1$
 		}
+	}
+
+	private void createFootNodesPdf(final Transformer xslTransformer,
+			final Path outputPath, final String tableDoucmentText,
+			final PdfAMode pdfAMode) {
+
 	}
 
 	/**
