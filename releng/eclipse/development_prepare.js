@@ -4,6 +4,9 @@ const https = require('https')
 const fs = require('fs')
 const pdfjsVersion = require("../../web/pdf/package.json").dependencies["pdfjs-dist"].substring(1)
 const eclipseHome = process.env.ECLIPSE_HOME
+fs.writeFileSync('.env', `ECLIPSE_HOME=${eclipseHome}`);
+const envFileSymlinkCommand = 'ln ../../releng/eclipse/.env .env';
+
 // Build and copy web package to EclipseDirectory
 copyResourceDirectory()
 compileWebPackages()
@@ -33,11 +36,11 @@ async function compileWebPackages() {
   await doCommand(`cd ../../web/about && hugo -d ${eclipseHome}/web/about`)
   // Textviewer
   console.log("****Compile Textviewer****")
-  await doCommand(`cd ../../web/textviewer && echo "ECLIPSE_HOME=${eclipseHome}" > .env && npm ci && npm run build`)
+  await doCommand(`cd ../../web/textviewer && ${envFileSymlinkCommand} && npm ci && npm run build`)
 
   // Siteplan
   console.log("****Compile Siteplan****")
-  await doCommand(`cd ../../web/siteplan && echo "ECLIPSE_HOME=${eclipseHome}" > .env && npm ci && npm run build`)
+  await doCommand(`cd ../../web/siteplan && ${envFileSymlinkCommand} && npm ci && npm run build`)
 
   // Pdfjs
   console.log("****Compile Pdfjs****")
@@ -67,7 +70,7 @@ async function compilePdfJs(fileUrl, outputPath) {
       resolve(null)
     })
   })
-  await doCommand(`cd ../../web/pdf && echo "ECLIPSE_HOME=${eclipseHome}" > .env && npm ci && npm run build`)
+  await doCommand(`cd ../../web/pdf && ${envFileSymlinkCommand} && npm ci && npm run build`)
 }
 
 async function doCommand(command) {
