@@ -12,7 +12,7 @@ async function copyResourceDirectory() {
   console.log("****Compile Textviewer****")
   const copyFunc = (src, dest) => {
     console.log(`Copy ${src} to ${dest}`)
-    fs.cpSync(src, dest, {recursive: true, force: true})
+    fs.cpSync(src, dest, { recursive: true, force: true })
   }
   const featureBundlePath = "../../java/bundles/org.eclipse.set.feature/rootdir"
   copyFunc(featureBundlePath, eclipseHome)
@@ -67,7 +67,7 @@ async function compilePdfJs(fileUrl, outputPath) {
       resolve(null)
     })
   })
-  await doCommand(`cd ../../web/pdf && echo "ECLIPSE_HOME=${eclipseHome}" > .env && npm ci && tar -xf pdfjs.zip && npm run build`)
+  await doCommand(`cd ../../web/pdf && echo "ECLIPSE_HOME=${eclipseHome}" > .env && npm ci && npm run build`)
 }
 
 async function doCommand(command) {
