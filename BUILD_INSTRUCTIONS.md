@@ -20,10 +20,11 @@ Other operating systems or processor architectures may work, but are generally n
 
 ## Maven Settings
 
-The SET project required SET-Browser (eclipse-set/browser), SET-Model (eclipse-set/model) to run. // TODO
-
-
-Add this maven server configuration to maven setting. The env.GITHUB_ACTOR and env.GITHUB_TOKEN can change your Github user and token or set it as environment variable.
+The SET project depends on severak modules including SET-Browser (eclipse-set/browser), SET-Model (eclipse-set/model) and others. 
+These modules are available from the Github Maven repository.
+To access them you need to authenticate at Github with your Github account.
+Simply add the following servers config to your maven user profile.
+The env.GITHUB_ACTOR and env.GITHUB_TOKEN can be replaced inline by your Github user name and personal access token or set them as system environment variable.
 
 ```
   <servers>
