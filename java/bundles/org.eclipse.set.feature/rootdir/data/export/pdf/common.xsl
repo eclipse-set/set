@@ -252,6 +252,9 @@ http://www.eclipse.org/legal/epl-v20.html
 				<xsl:text>: </xsl:text>
 				<xsl:value-of select="." />
 			</fo:inline>
+			<fo:inline color="white">
+				<xsl:text> Footnote</xsl:text>
+			</fo:inline>
 		</fo:block>
 	</xsl:template>
 
