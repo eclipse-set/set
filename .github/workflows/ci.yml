@@ -65,7 +65,7 @@ jobs:
       - name: Build
         run: |
           npm ci
-          npm run build
+          npm run build-prod
         working-directory: web/textviewer
       - name: Store artifact
         uses: actions/upload-artifact@v4
@@ -82,7 +82,7 @@ jobs:
         run: |
           wget --no-verbose -O pdfjs.zip https://github.com/mozilla/pdf.js/releases/download/v$(node getVersion.js)/pdfjs-$(node getVersion.js)-dist.zip
           npm ci
-          npm run build
+          npm run build-prod
         working-directory: web/pdf
       - name: Store artifact
         uses: actions/upload-artifact@v4
