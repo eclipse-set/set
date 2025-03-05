@@ -10,7 +10,7 @@
 
 	<properties>
 		<tycho-version>4.0.5</tycho-version>
-		<deploy-plugin-version>3.1.3</deploy-plugin-version>
+		<deploy-plugin-version>3.1.4</deploy-plugin-version>
 		<assembly.version>2.4</assembly.version>
 		<replacer.version>1.4.1</replacer.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -204,7 +204,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-clean-plugin</artifactId>
-						<version>3.4.0</version>
+						<version>3.4.1</version>
 						<configuration>
 							<filesets>
 								<fileset>
@@ -258,7 +258,7 @@
 							<dependency>
 								<groupId>com.puppycrawl.tools</groupId>
 								<artifactId>checkstyle</artifactId>
-								<version>10.21.2</version>
+								<version>10.21.3</version>
 							</dependency>
 						</dependencies>
 						<configuration>

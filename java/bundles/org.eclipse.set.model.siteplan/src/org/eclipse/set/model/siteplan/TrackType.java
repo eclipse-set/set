@@ -18,16 +18,15 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Track Type</b></em>', and utility methods for working with them. <!--
  * end-user-doc -->
- * 
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackType()
  * @model
  * @generated
  */
 public enum TrackType implements Enumerator {
 	/**
-	 * The '<em><b>None</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>None</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #NONE_VALUE
 	 * @generated
 	 * @ordered
@@ -35,9 +34,9 @@ public enum TrackType implements Enumerator {
 	NONE(0, "None", "None"),
 
 	/**
-	 * The '<em><b>Main Track</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Main Track</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MAIN_TRACK_VALUE
 	 * @generated
 	 * @ordered
@@ -45,9 +44,9 @@ public enum TrackType implements Enumerator {
 	MAIN_TRACK(2, "MainTrack", "MainTrack"),
 
 	/**
-	 * The '<em><b>Side Track</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Side Track</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SIDE_TRACK_VALUE
 	 * @generated
 	 * @ordered
@@ -65,9 +64,9 @@ public enum TrackType implements Enumerator {
 	CONNECTING_TRACK(5, "ConnectingTrack", "ConnectingTrack"),
 
 	/**
-	 * The '<em><b>Route Track</b></em>' literal object. <!-- begin-user-doc -->
+	 * The '<em><b>Route Track</b></em>' literal object.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #ROUTE_TRACK_VALUE
 	 * @generated
 	 * @ordered
@@ -75,9 +74,9 @@ public enum TrackType implements Enumerator {
 	ROUTE_TRACK(3, "RouteTrack", "RouteTrack"),
 
 	/**
-	 * The '<em><b>Other</b></em>' literal object. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Other</b></em>' literal object.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #OTHER_VALUE
 	 * @generated
 	 * @ordered
@@ -95,9 +94,9 @@ public enum TrackType implements Enumerator {
 	PASSING_MAIN_TRACK(1, "PassingMainTrack", "PassingMainTrack");
 
 	/**
-	 * The '<em><b>None</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>None</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #NONE
 	 * @model name="None"
 	 * @generated
@@ -106,9 +105,9 @@ public enum TrackType implements Enumerator {
 	public static final int NONE_VALUE = 0;
 
 	/**
-	 * The '<em><b>Main Track</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Main Track</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #MAIN_TRACK
 	 * @model name="MainTrack"
 	 * @generated
@@ -117,9 +116,9 @@ public enum TrackType implements Enumerator {
 	public static final int MAIN_TRACK_VALUE = 2;
 
 	/**
-	 * The '<em><b>Side Track</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Side Track</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #SIDE_TRACK
 	 * @model name="SideTrack"
 	 * @generated
@@ -128,9 +127,9 @@ public enum TrackType implements Enumerator {
 	public static final int SIDE_TRACK_VALUE = 4;
 
 	/**
-	 * The '<em><b>Connecting Track</b></em>' literal value. <!-- begin-user-doc
+	 * The '<em><b>Connecting Track</b></em>' literal value.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see #CONNECTING_TRACK
 	 * @model name="ConnectingTrack"
 	 * @generated
@@ -139,9 +138,9 @@ public enum TrackType implements Enumerator {
 	public static final int CONNECTING_TRACK_VALUE = 5;
 
 	/**
-	 * The '<em><b>Route Track</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Route Track</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #ROUTE_TRACK
 	 * @model name="RouteTrack"
 	 * @generated
@@ -150,9 +149,9 @@ public enum TrackType implements Enumerator {
 	public static final int ROUTE_TRACK_VALUE = 3;
 
 	/**
-	 * The '<em><b>Other</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * The '<em><b>Other</b></em>' literal value.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #OTHER
 	 * @model name="Other"
 	 * @generated
@@ -177,25 +176,27 @@ public enum TrackType implements Enumerator {
 	 * 
 	 * @generated
 	 */
-	private static final TrackType[] VALUES_ARRAY = new TrackType[] { NONE,
-			MAIN_TRACK, SIDE_TRACK, CONNECTING_TRACK, ROUTE_TRACK, OTHER,
-			PASSING_MAIN_TRACK, };
+	private static final TrackType[] VALUES_ARRAY = new TrackType[] {
+			NONE,
+			MAIN_TRACK,
+			SIDE_TRACK,
+			CONNECTING_TRACK,
+			ROUTE_TRACK,
+			OTHER,
+			PASSING_MAIN_TRACK,
+		};
 
 	/**
-	 * A public read-only list of all the '<em><b>Track Type</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Track Type</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<TrackType> VALUES = Collections
-			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<TrackType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Track Type</b></em>' literal with the specified
-	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param literal
-	 *            the literal.
+	 * Returns the '<em><b>Track Type</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param literal the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -212,9 +213,7 @@ public enum TrackType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Track Type</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param name
-	 *            the name.
+	 * @param name the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -229,59 +228,47 @@ public enum TrackType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Track Type</b></em>' literal with the specified
-	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the integer value.
+	 * Returns the '<em><b>Track Type</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static TrackType get(int value) {
 		switch (value) {
-			case NONE_VALUE:
-				return NONE;
-			case MAIN_TRACK_VALUE:
-				return MAIN_TRACK;
-			case SIDE_TRACK_VALUE:
-				return SIDE_TRACK;
-			case CONNECTING_TRACK_VALUE:
-				return CONNECTING_TRACK;
-			case ROUTE_TRACK_VALUE:
-				return ROUTE_TRACK;
-			case OTHER_VALUE:
-				return OTHER;
-			case PASSING_MAIN_TRACK_VALUE:
-				return PASSING_MAIN_TRACK;
+			case NONE_VALUE: return NONE;
+			case MAIN_TRACK_VALUE: return MAIN_TRACK;
+			case SIDE_TRACK_VALUE: return SIDE_TRACK;
+			case CONNECTING_TRACK_VALUE: return CONNECTING_TRACK;
+			case ROUTE_TRACK_VALUE: return ROUTE_TRACK;
+			case OTHER_VALUE: return OTHER;
+			case PASSING_MAIN_TRACK_VALUE: return PASSING_MAIN_TRACK;
 		}
 		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private TrackType(int value, String name, String literal) {
@@ -292,38 +279,34 @@ public enum TrackType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-		return value;
+	  return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-		return name;
+	  return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-		return literal;
+	  return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

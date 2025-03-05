@@ -83,14 +83,15 @@ public class ExportSiteplanBrowserFunction
 						ToolboxConfiguration.getDefaultPath().toString());
 		final String key = (String) arguments[0];
 		final int sheetcutCount = Integer.parseInt((String) arguments[1]);
-
+		// The pixel pro physical meter in Openlayer
+		final double ppm = Double.parseDouble((String) arguments[2]);
 		optionalOutputDir.ifPresentOrElse(outputDir -> {
 			// User selected a folder
 			webBrowser.executeJavascript(String.format("%s('%s', '%s');", //$NON-NLS-1$
 					DIALOG_CALLBACK_FUNCTION, key,
 					outputDir.replace("\\", "\\\\"))); //$NON-NLS-1$ //$NON-NLS-2$
 			webBrowser.setBeforeDownloadFunc(url -> sheetcutImageHandle(url,
-					sheetcutCount, Path.of(outputDir)));
+					sheetcutCount, Path.of(outputDir), ppm));
 		}, () -> // User did not select a folder
 		webBrowser.executeJavascript(String.format("%s('%s', null);", //$NON-NLS-1$
 				DIALOG_CALLBACK_FUNCTION, key)));
@@ -98,7 +99,7 @@ public class ExportSiteplanBrowserFunction
 	}
 
 	private void sheetcutImageHandle(final String url, final int sheetcutcount,
-			final Path outDir) {
+			final Path outDir, final double ppm) {
 		final String base64Data = url.split(",")[1]; //$NON-NLS-1$
 		final byte[] decode = Base64.getDecoder().decode(base64Data);
 		try (final ByteArrayInputStream inputstream = new ByteArrayInputStream(
@@ -113,7 +114,7 @@ public class ExportSiteplanBrowserFunction
 				dialogService.showProgressUISync(shell,
 						message.WebSiteplanPart_Export, () -> {
 							exportService.exportSiteplanPdf(exportImages,
-									createTitleBox(), freeFieldInfo,
+									createTitleBox(), freeFieldInfo, ppm,
 									outDir.toAbsolutePath().toString(),
 									modelSession.getToolboxPaths(),
 									modelSession.getTableType(),

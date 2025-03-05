@@ -112,11 +112,17 @@ http://www.eclipse.org/legal/epl-v20.html
 
         <fo:flow flow-name="xsl-region-body">
           <xsl:for-each select="/Siteplan/Image">
-            <fo:block-container display-align="center" height="{$region-body-height}" text-align="center" width="{$region-body-width}">
+            <fo:block-container display-align="center" height="{$region-body-height}" text-align="center" width="{$region-body-width}" overflow="hidden">
               <fo:block>
-                <fo:external-graphic content-height="{$region-body-height}" content-width="{$region-body-width}">
+                <xsl:variable name="image-width">
+                  <xsl:value-of select="current()/Width" />
+                </xsl:variable>
+                <xsl:variable name="image-height">
+                  <xsl:value-of select="current()/Height" />
+                </xsl:variable>
+                <fo:external-graphic content-width="{$image-width}" content-height="{$image-height}">
                   <xsl:attribute name="src">
-                    <xsl:value-of select="."/>
+                    <xsl:value-of select="current()/Byte"/>
                   </xsl:attribute>
                 </fo:external-graphic>
               </fo:block>

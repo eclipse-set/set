@@ -21,6 +21,7 @@ import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
+import org.eclipse.set.utils.ToolboxConfiguration;
 
 /**
  * Support for exporting tables.
@@ -94,18 +95,30 @@ public interface ExportService {
 			Consumer<Exception> errorHandler);
 
 	/**
+	 * Export the siteplan as an PDF at the given path
 	 * 
 	 * @param imagesData
+	 *            the siteplan as images
 	 * @param titleBox
+	 *            the {@link Titlebox}
 	 * @param freeFieldInfo
+	 *            the free field info
+	 * @param ppm
+	 *            pixel per physical meter in Openlayer at scale
+	 *            {@link ToolboxConfiguration#getSiteplanExportScale()}
 	 * @param outputDir
+	 *            the output path
 	 * @param toolboxPaths
+	 *            the {@link ToolboxPaths}
 	 * @param tableType
+	 *            the {@link TableType}
 	 * @param overwriteHandling
+	 *            what to do when overwriting files
 	 * @param errorHandler
+	 *            the error handler
 	 */
 	void exportSiteplanPdf(List<BufferedImage> imagesData, Titlebox titleBox,
-			FreeFieldInfo freeFieldInfo, String outputDir,
+			FreeFieldInfo freeFieldInfo, double ppm, String outputDir,
 			ToolboxPaths toolboxPaths, TableType tableType,
 			OverwriteHandling overwriteHandling,
 			Consumer<Exception> errorHandler);

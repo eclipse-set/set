@@ -111,11 +111,7 @@ export default class MapContainer extends Vue {
 
     this.map.addControl(rotateLeftControl)
     this.map.addControl(rotateRightControl)
-
-    // PLANPRO-5078: Development mode only
-    if (Configuration.developmentMode()) {
-      this.map.addControl(new ExportControl(this.map))
-    }
+    this.map.addControl(new ExportControl(this.map))
 
     this.map.setTarget(this.$refs['map-root'])
     this.map.setView(view)

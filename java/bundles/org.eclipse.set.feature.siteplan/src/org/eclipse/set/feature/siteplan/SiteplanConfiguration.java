@@ -35,8 +35,6 @@ import org.eclipse.set.utils.ToolboxConfiguration;
  *            the DOP20 url
  * @param lodScale
  *            default LOD scale
- * @param exportDPI
- *            default export dpi
  * @param trackWidth
  *            default track width
  * @param trackWidthInterval
@@ -49,13 +47,15 @@ import org.eclipse.set.utils.ToolboxConfiguration;
  *            default sheecut cut crs
  * @param planproModelType
  *            the type of planpro model
+ * @param exportScale
+ *            the scale value for export
  */
 public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 		String hereClientID, String hereApiKey, String mapboxApiKey,
-		String dop20ApiKey, String dop20InternUrl, int lodScale, int exportDPI,
+		String dop20ApiKey, String dop20InternUrl, int lodScale,
 		String trackWidth, String trackWidthInterval, int baseZoomLevel,
 		boolean defaultCollisionsEnabled, String defaultSheetCutCRS,
-		String planproModelType) {
+		String planproModelType, int exportScale) {
 	/**
 	 * @param planproModelType
 	 *            the type of planpro model
@@ -69,7 +69,6 @@ public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 				ToolboxConfiguration.getDop20ApiKey(),
 				ToolboxConfiguration.getDop20InternUrl(),
 				ToolboxConfiguration.getLodScale(),
-				ToolboxConfiguration.getExportDPI(),
 				ToolboxConfiguration.getTrackWidth(),
 				ToolboxConfiguration.getTrackWidthIntervall(),
 				ToolboxConfiguration.getBaseZoomLevel(),
@@ -77,6 +76,7 @@ public record SiteplanConfiguration(boolean developmentMode, String mapSources,
 				LayoutTransformator.selectedCRS == null
 						? ToolboxConfiguration.getDefaultSheetCutCRS()
 						: LayoutTransformator.selectedCRS.getLiteral(),
-				planproModelType);
+				planproModelType,
+				ToolboxConfiguration.getSiteplanExportScale());
 	}
 }

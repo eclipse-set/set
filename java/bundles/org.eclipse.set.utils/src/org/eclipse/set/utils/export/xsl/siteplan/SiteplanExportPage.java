@@ -67,8 +67,8 @@ public class SiteplanExportPage {
 
 		SITEPLAN_PAGE_A0 = new SiteplanXSLPageBuilder(A0)
 				.setRegionBody(974, 821)
-				.setFoldingMarks(BEFORE, 210, 190, 190, 109.5, 109.5, 190)
-				.setFoldingMarks(AFTER, 210, 190, 190, 109.5, 109.5, 190)
+				.setFoldingMarks(BEFORE, 210, 190, 190, 190, 109.5, 109.5, 190)
+				.setFoldingMarks(AFTER, 210, 190, 190, 190, 109.5, 109.5, 190)
 				.setFoldingMarks(START, 237, 297, 287)
 				.setFoldingMarks(END, 237, 297, 287)
 				.setTitleBoxRegion(END, 190, 741)

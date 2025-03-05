@@ -6,19 +6,19 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
+import { setMapScale } from '@/util/MapScale'
+import { Attribution, Rotate, Zoom } from 'ol/control'
+import { createEmpty, Extent } from 'ol/extent'
+import OlMap from 'ol/Map'
 import { InjectionKey } from 'vue'
 import { createStore, Store } from 'vuex'
-import OlMap from 'ol/Map'
-import SiteplanModel from './model/SiteplanModel'
-import EmptyMap from './util/MapSources/EmptyMap'
-import { setMapScale } from '@/util/MapScale'
-import NamedFeatureLayer from './util/NamedFeatureLayer'
-import { Attribution, Rotate, Zoom } from 'ol/control'
-import { ToolboxConfiguration } from './util/ToolboxConfiguration'
-import Configuration, { TrackWidth } from './util/Configuration'
-import { createEmpty, Extent } from 'ol/extent'
 import { DBRef } from './model/Position'
+import SiteplanModel from './model/SiteplanModel'
+import Configuration, { TrackWidth } from './util/Configuration'
+import EmptyMap from './util/MapSources/EmptyMap'
+import NamedFeatureLayer from './util/NamedFeatureLayer'
 import PlanProToolbox from './util/PlanProToolbox'
+import { ToolboxConfiguration } from './util/ToolboxConfiguration'
 
 export interface IError {
   iserror: boolean
@@ -67,6 +67,8 @@ export interface State {
   sheetCutCRS: DBRef
   isSheetCutAvaiable: boolean
   visibleCants: { [key: string]: true, }
+  measureEnable: boolean
+  pixelPerMeter: Map<number, number>
 }
 
 export const state: InjectionKey<Store<State>> = Symbol('PlanProState')
@@ -116,7 +118,9 @@ export const store = createStore<State>({
     sheetCutCRS: DBRef.DR0,
     isSheetCutAvaiable: false,
     visibleCants: {},
-    planproModelType: PlanProModelType.SITEPLAN
+    planproModelType: PlanProModelType.SITEPLAN,
+    measureEnable: false,
+    pixelPerMeter: new Map()
   },
   mutations: {
     setpptConfiguration (state, payload: ToolboxConfiguration) {
@@ -164,7 +168,7 @@ export const store = createStore<State>({
     },
     setLoading (state, payload: boolean) {
       state.loading = payload
-      if (PlanProToolbox.inPPT()) {
+      if (PlanProToolbox.inPPT() && state.planproModelType === PlanProModelType.SITEPLAN) {
         PlanProToolbox.setSiteplanLoadingState(payload)
       }
     },
@@ -231,6 +235,15 @@ export const store = createStore<State>({
     },
     setPlanProModelType (state, type: PlanProModelType) {
       state.planproModelType = type
+    },
+    setMeasureEnable (state, value: boolean) {
+      state.measureEnable = value
+    },
+    setPixelPerMeter (state, payload: {
+      scaleValue: number
+      ppm: number
+    }) {
+      state.pixelPerMeter.set(payload.scaleValue, payload.ppm)
     }
   }
 })

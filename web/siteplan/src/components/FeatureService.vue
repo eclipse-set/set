@@ -50,6 +50,7 @@ import TrackSwitchFeature from '@/feature/TrackSwitchFeature'
 import UnknownObjectFeature from '@/feature/UnknownObjectFeature'
 import { store, TableType } from '@/store'
 import '@/util/ArrayExtensions'
+import MeasureControl from '@/util/Controls/MeasureControl'
 import FeatureClickInteraction from '@/util/FeatureClickInteraction'
 import { getResolutionForScale } from '@/util/MapScale'
 import PlanProToolbox from '@/util/PlanProToolbox'
@@ -294,9 +295,13 @@ export default class FeatureService extends Vue {
     const baseIndex = 2
     this.featureLayers = Object.values(FeatureLayerType)
       .filter(x => isNaN(Number(x)))
-      .filter(layerType => Configuration.developmentMode() || layerType !== FeatureLayerType.SheetCut)
       .map((key, index) => new NamedFeatureLayer(baseIndex + index, index))
-    this.featureLayers.forEach(layer => this.map.addLayer(layer))
+    this.featureLayers.forEach(layer => {
+      this.map.addLayer(layer)
+      if (layer.getLayerType() === FeatureLayerType.SheetCut && !Configuration.developmentMode()) {
+        layer.setVisible(false)
+      }
+    })
     store.state.featureLayers = this.featureLayers
     store.commit('setFeatureLayers', this.featureLayers)
   }
@@ -321,10 +326,7 @@ export default class FeatureService extends Vue {
     this.listFeature.push(new TrackCloseFeature(this.map))
     this.listFeature.push(new ExternalElementControlFeature(this.map))
     this.listFeature.push(new LockKeyFeature(this.map))
-    if (Configuration.developmentMode()) {
-      this.listFeature.push(new LayoutInfoFeature(this.map))
-    }
-
+    this.listFeature.push(new LayoutInfoFeature(this.map))
     this.listFeature.push(new CantFeature(this.map))
     this.listFeature.push(new CantLineFeature(this.map))
     this.listFeature.push(new UnknownObjectFeature(this.map))
@@ -376,6 +378,8 @@ export default class FeatureService extends Vue {
 
       const centerControl = new CenterMainRouteControl(view, model)
       this.map.addControl(centerControl)
+
+      this.map.addControl(new MeasureControl(this.map))
 
       // If a center position is available, apply it. Otherwise zoom to fit
       if (this.model.centerPosition === undefined) {

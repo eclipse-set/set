@@ -170,6 +170,7 @@ public class ToolboxConfiguration {
 	private static final String DEFAULT_COLLISIONS_ENABLED = "true"; //$NON-NLS-1$
 	private static final String DEFAULT_SHEETCUT_CRS = "DR0"; //$NON-NLS-1$
 	private static final String BANK_LINE_TOP_PATH_OFFSET_LIMIT = "0.2"; //$NON-NLS-1$
+	private static final String EXPORT_SITEPLAN_SCALE_DEFAULT = "1000"; //$NON-NLS-1$
 
 	/**
 	 * @return a string describing the map sources
@@ -233,6 +234,15 @@ public class ToolboxConfiguration {
 	public static int getExportDPI() {
 		return Integer.parseInt(System.getProperty(ToolboxProperties.EXPORT_DPI,
 				EXPORT_DPI_DEFAULT));
+	}
+
+	/**
+	 * @return the siteplan export scale value
+	 */
+	public static int getSiteplanExportScale() {
+		return Integer.parseInt(
+				System.getProperty(ToolboxProperties.EXPORT_SITEPLAN_SCALE,
+						EXPORT_SITEPLAN_SCALE_DEFAULT));
 	}
 
 	/**

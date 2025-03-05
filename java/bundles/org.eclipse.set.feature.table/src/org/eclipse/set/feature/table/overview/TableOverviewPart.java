@@ -223,6 +223,15 @@ public class TableOverviewPart extends BasePart {
 
 			tableService.transformToTable(table, tableType, getModelSession(),
 					controlAreaIds);
+			while (!TableService.isTransformComplete(
+					info.getShortName().toLowerCase(), null)) {
+				try {
+					Thread.sleep(2000);
+				} catch (final InterruptedException e) {
+					Thread.interrupted();
+				}
+			}
+
 			monitor.worked(1);
 		}
 	}

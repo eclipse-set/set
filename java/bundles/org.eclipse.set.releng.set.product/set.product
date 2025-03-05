@@ -94,6 +94,7 @@
       <property name="toolbox.bank_line_offset_limit" value="0.1" />
       <property name="toolbox.siteplan.default_collisions_enabled" value="false" />
       <property name="toolbox.siteplan.export_dpi" value="300" />
+      <property name="toolbox.siteplan.export.scale" value="1000" />
    </configurations>
 
    <preferencesInfo>

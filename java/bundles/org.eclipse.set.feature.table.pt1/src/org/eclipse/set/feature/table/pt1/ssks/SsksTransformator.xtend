@@ -128,6 +128,7 @@ import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 import static extension org.eclipse.set.utils.math.BigDecimalExtensions.*
 import static extension org.eclipse.set.utils.math.DoubleExtensions.*
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 
 /**
  * Table transformation for a Signaltabelle (Ssks).
@@ -245,8 +246,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							null
 						)
 
-						val routeThroughBereichObjekt = signal.singlePoint.
-							streckenThroughBereichObjekt
+						val streckAndKm = getStreckeAndKm(signal)
 
 						// E: Ssks.Standortmerkmale.Standort.Strecke
 						fillIterableWithConditional(
@@ -255,43 +255,27 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[isHauptbefestigung],
 							[
-
-								val kmMassgebend = punktObjektStrecke.filter [
-									kmMassgebend?.wert === true
-								]
-								if (!kmMassgebend.isNullOrEmpty) {
-									return kmMassgebend.map [
-										IDStrecke?.value?.bezeichnung?.
-											bezeichnungStrecke?.wert
-									].filterNull
-
-								}
-								if (!routeThroughBereichObjekt.isNullOrEmpty) {
-									return routeThroughBereichObjekt.map [
-										bezeichnung?.bezeichnungStrecke?.wert
-									].filterNull
-								}
-
-								return punktObjektStrecke.map [
-									IDStrecke?.value?.bezeichnung?.
-										bezeichnungStrecke?.wert
-								]
-
+								streckAndKm.map[key]
 							],
 							MIXED_STRING_COMPARATOR,
 							ITERABLE_FILLING_SEPARATOR
 						)
-
+						
 						// F: Ssks.Standortmerkmale.Standort.km
-						if (isFindGeometryComplete) {
+						if (isFindGeometryComplete ||
+							streckAndKm.flatMap[value].exists[!nullOrEmpty]) {
 							fillIterable(
 								row,
 								cols.getColumn(Km),
 								signal,
-								[getStreckeKm(routeThroughBereichObjekt)],
+								[
+									streckAndKm.flatMap[value]
+								],
 								null
 							)
 						} else {
+													val routeThroughBereichObjekt = signal.singlePoint.
+							streckenThroughBereichObjekt
 							row.fillStreckeKm(signal, routeThroughBereichObjekt)
 						}
 
@@ -944,10 +928,11 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				toString
 			])
 		} catch (Exception e) {
-			val errorMsg = e.createErrorMsg(row)
+			val errorMsg = createErrorMsg(e, row)
+			val guid = row.group.leadingObject?.identitaet?.wert
+			val leadingObject = getLeadingObjectIdentifier(row, guid)
 			tableErrors.add(
-				new TableError(row.group.leadingObject?.identitaet?.wert,
-					signal.identitaet.wert, "", errorMsg, row))
+				new TableError(guid, leadingObject, "", errorMsg, row))
 			leftValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
 			rightValues = List.of('''«ERROR_PREFIX»«errorMsg»''')
 		}
@@ -1611,6 +1596,44 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			}
 
 		], threadName).start
+	}
+
+	private def List<Pair<String, List<String>>> getStreckeAndKm(
+		Signal signal) {
+		if (signal.punktObjektStrecke.nullOrEmpty) {
+			return #[]
+		}
+
+		val getStreckeFunc = [ Punkt_Objekt_Strecke_AttributeGroup pos |
+			pos.IDStrecke?.value?.bezeichnung?.bezeichnungStrecke?.wert ?: ""
+		]
+		if (signal.punktObjektStrecke.size === 1) {
+			return #[getStreckeFunc.apply(signal.punktObjektStrecke.first) ->
+				#[signal.punktObjektStrecke.first.streckeKm.wert]]
+		}
+
+		val kmMassgebends = signal.punktObjektStrecke.filter [
+			kmMassgebend?.wert === true
+		]
+		if (!kmMassgebends.nullOrEmpty) {
+			return kmMassgebends.map [
+				getStreckeFunc.apply(it) -> #[streckeKm.wert]
+			].toList
+		}
+
+		val routeThroughBereichObjekt = signal.singlePoint.
+			streckenThroughBereichObjekt
+
+		if (!isFindGeometryComplete) {
+			return routeThroughBereichObjekt.map [
+				bezeichnung?.bezeichnungStrecke?.wert ?: "" -> #[]
+			]
+		}
+		return routeThroughBereichObjekt.map [ route |
+			route.bezeichnung?.bezeichnungStrecke?.wert ?: "" ->
+				signal.getStreckeKm(#[route])
+		].toList
+
 	}
 
 	private def List<String> getStreckeKm(Signal signal,

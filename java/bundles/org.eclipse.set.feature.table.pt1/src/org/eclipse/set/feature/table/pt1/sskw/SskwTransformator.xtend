@@ -15,21 +15,25 @@ import java.util.Set
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import org.eclipse.set.model.tablemodel.MultiColorContent
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.tablemodel.TablemodelFactory
-import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
-import org.eclipse.set.ppmodel.extensions.utils.Case
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.BasisTypen.ENUMLinksRechts
+import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung
+import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
+import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMElektrischerAntriebLage
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMElementLage
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Zungenpaar_AttributeGroup
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.MultiColorContent
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.TablemodelFactory
+import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
+import org.eclipse.set.ppmodel.extensions.utils.Case
 import org.eclipse.set.utils.table.TMFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -44,12 +48,12 @@ import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensio
 import static extension org.eclipse.set.ppmodel.extensions.FmaAnlageExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.FstrZugRangierExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GleisAbschnittExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
-import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
-import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
+import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -88,8 +92,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		val weichen = container.WKrGspElement.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea)
+		val weichen = container.WKrGspElement.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea)
 
 		for (element : weichen) {
 			if (Thread.currentThread.interrupted) {
@@ -107,7 +111,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (logger.debugEnabled) {
 				logger.debug(element.bezeichnung.bezeichnungTabelle.wert)
 			}
-			
+
 			// B: Sskw.Weiche_Kreuzung_Gelissperre_Sonderanlage.Art
 			fillConditional(
 				instance,
@@ -116,7 +120,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				[IDWKrAnlage !== null],
 				[WKrAnlage?.WKrAnlageAllg?.WKrArt?.wert.translate]
 			)
-			
+
 			// C: Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Form
 			fillConditional(
 				instance,
@@ -511,7 +515,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				entgleisungsschuh !== null
 			]
 			val exEntgleisungsschuh = !entgleisungsschuhe.empty
-			
+
 			// S: Sskw.Gleissperre.Antriebe
 			fillMultiColor(
 				instance,
@@ -551,18 +555,39 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			)
 
 			// U: Sskw.Gleissperre.Auswurfrichtung
-			fillIterableWithConditional(
+			fillConditional(
 				instance,
 				cols.getColumn(Gleissperre_Auswurfrichtung),
 				element,
-				[exEntgleisungsschuh],
 				[
-					WKrGspKomponenten.map [
-						entgleisungsschuh.auswurfrichtung.wert.literal
-					].toSet
+					exEntgleisungsschuh
 				],
-				null,
-				", "
+				[
+					val auswurfrichtung = WKrGspKomponenten.map [
+						entgleisungsschuh?.auswurfrichtung?.wert
+					].filterNull.toList
+					if (!auswurfrichtung.nullOrEmpty) {
+						return auswurfrichtung.first.translate
+					}
+					val potk = WKrGspKomponenten.flatMap[singlePoints].filter [
+						it !== null && seitlicheLage?.wert !== null &&
+							wirkrichtung?.wert !== null
+					].firstOrNull
+
+					if (potk === null || potk.wirkrichtung.wert ===
+						ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE) {
+						throw new IllegalArgumentException('''The W_Kr_Gsp_Element: «identitaet.wert» hat keine gültige Auswurfrichtung''')
+					}
+					// Equivalent compare:
+					// Lateral position RECHTS + direction IN -> R
+					// Lateral position RECHTS + direction GEGEN -> L
+					// Lateral position LINKS + direction IN -> L
+					// Lateral position LINKS + direction GEGEN -> R
+					return (potk.seitlicheLage.wert ===
+						ENUM_LINKS_RECHTS_LINKS) ===
+						(potk.wirkrichtung.wert === ENUMWirkrichtung.
+							ENUM_WIRKRICHTUNG_IN) ? "L" : "R"
+				]
 			)
 
 			// V: Sskw.Gleissperre.Schutzschiene

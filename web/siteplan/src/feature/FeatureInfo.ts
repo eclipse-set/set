@@ -58,6 +58,7 @@ export enum FeatureLayerType
     Cant,
     Unknown,
     Flash,
+    Measure
 }
 
 export function getFeatureLayerByType (type: FeatureType): FeatureLayerType {
@@ -127,6 +128,7 @@ export function getFeatureLayerDisplayName (type: FeatureLayerType) : string {
     case FeatureLayerType.SheetCut: return 'Blattschnitte'
     case FeatureLayerType.Cant: return 'Überhöhungen'
     case FeatureLayerType.Unknown: return 'Weitere Objekte'
+    case FeatureLayerType.Measure: return 'Messen'
     default: throw new Error('Missing name for layer type: ' + type)
   }
 }

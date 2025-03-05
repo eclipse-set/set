@@ -8,8 +8,12 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Signalisierung
+import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
+
+import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 
 /**
  * This class extends {@link Fstr_Signalisierung}.
@@ -41,5 +45,19 @@ class FstrSignalisierungExtensions extends BasisObjektExtensions {
 	def static Signal_Signalbegriff getSignalSignalbegriffZiel(
 		Fstr_Signalisierung sig) {
 		return sig.IDSignalSignalbegriffZiel?.value
+	}
+
+	def static <T extends Signalbegriff_ID_TypeClass> Signal_Signalbegriff getSignalbegriffWithType(
+		Fstr_Signalisierung sig, Class<T> type) {
+		val signalBegriff = sig.signalSignalbegriff
+		if (signalBegriff.hasSignalbegriffID(type)) {
+			return signalBegriff
+		}
+		return null
+	}
+
+	def static <T extends Signalbegriff_ID_TypeClass> List<Signal_Signalbegriff> getSignalberiffsWithType(
+		List<Fstr_Signalisierung> sigs, Class<T> type) {
+		return sigs.map[getSignalbegriffWithType(type)].filterNull.toList
 	}
 }

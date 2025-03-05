@@ -9,7 +9,7 @@
 import { isGeometryIntersection } from '@/collision/CollisionExtension'
 import { FeatureLayerType, FeatureType, getFeatureData } from '@/feature/FeatureInfo'
 import { SheetCutFeatureData } from '@/feature/LayoutInfoFeature'
-import { store } from '@/store'
+import { PlanProModelType, store } from '@/store'
 import turfDifference from '@turf/difference'
 import * as turf from '@turf/helpers'
 import turfIntersect from '@turf/intersect'
@@ -19,7 +19,10 @@ import { Control } from 'ol/control'
 import { getBottomLeft, getBottomRight, getCenter, getHeight, getTopLeft, getTopRight, getWidth } from 'ol/extent'
 import { GeoJSONPolygon } from 'ol/format/GeoJSON'
 import { Geometry, MultiPolygon, Polygon } from 'ol/geom'
+import { transform } from 'ol/proj'
+import { getDistance } from 'ol/sphere'
 import { Style } from 'ol/style'
+import Configuration from '../Configuration'
 import { setMapScale } from '../MapScale'
 import EmptyMap from '../MapSources/EmptyMap'
 import { angle, pointRotate, toDeg, toRad } from '../Math'
@@ -78,25 +81,70 @@ export default class ExportControl extends Control {
 
     this.map.once('rendercomplete', () => {
       const sheetCutFeatures = this.getSheetcutFeatures()
-      if (!sheetCutFeatures || sheetCutFeatures.length == 0) {
+      if (!sheetCutFeatures || sheetCutFeatures.length == 0
+          || store.state.planproModelType !== PlanProModelType.SITEPLAN) {
         button.disabled = true
         element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
       }
     })
   }
 
-  private onClick () {
+  private async onClick () {
     const sheetCutFeatures = this.getSheetcutFeatures()
+    // the export to image should have high resolution than pdf to avoid blurred symbols.
+    const exportImageScale = Configuration.getExportScaleValue() / 2
     if (PlanProToolbox.inPPT()) {
-      PlanProToolbox.exportSiteplan((folder: string | null) => {
-        if (folder === null)
-          return
+      const ppm = await this.getPixelProMeterAtScale(Configuration.getExportScaleValue())
+      // Convert ppm by image scale to ppm by export scale
+      const targetPpm = ppm !== undefined
+        ? ppm * Configuration.getExportScaleValue() / exportImageScale
+        : undefined
+      PlanProToolbox.exportSiteplan(
+        (folder: string | null) => {
+          if (folder === null)
+            return
 
-        this.exportSiteplan(sheetCutFeatures ?? [])
-      }, sheetCutFeatures?.length?.toString() ?? '0')
+          this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
+        },
+        sheetCutFeatures?.length?.toString() ?? '0',
+        targetPpm?.toString() ?? ''
+      )
     } else {
-      this.exportSiteplan(sheetCutFeatures ?? [])
+      this.exportSiteplan(sheetCutFeatures ?? [], exportImageScale)
     }
+  }
+
+  private async getPixelProMeterAtScale (scale: number) : Promise<number | undefined>{
+    const storagePpm = store.state.pixelPerMeter.get(scale)
+    if (storagePpm) {
+      return storagePpm
+    }
+
+    const view = this.map.getView()
+    const currentResolution = view.getResolution() ?? 1
+    setMapScale(view, scale)
+    return await new Promise(resolve => {
+      this.map.once('rendercomplete', () => {
+        const viewportSize = this.map.getSize()
+        if (!viewportSize) {
+          view.setResolution(currentResolution)
+          resolve(undefined)
+          return
+        }
+
+        const viewportExtent = view.calculateExtent(viewportSize)
+        const topLeftSphereCoord = transform(getTopLeft(viewportExtent), 'EPSG:3857', 'EPSG:4326')
+        const topRightSphereCoord = transform(getTopRight(viewportExtent), 'EPSG:3857', 'EPSG:4326')
+        const distanceInMeter = getDistance(topLeftSphereCoord, topRightSphereCoord)
+        view.setResolution(currentResolution)
+        const currentPpm = viewportSize[0] / distanceInMeter
+        store.commit('setPixelPerMeter', {
+          scaleValue: scale,
+          ppm: currentPpm
+        })
+        resolve(currentPpm)
+      })
+    })
   }
 
   private getSheetcutFeatures (): Feature<Geometry>[] | undefined {
@@ -104,7 +152,7 @@ export default class ExportControl extends Control {
     return layoutInfoLayer?.getFeaturesByType(FeatureType.SheetCut)
   }
 
-  private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[]) {
+  private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[], scale: number) {
     this.lockMapDuringExport(true)
     const result: HTMLCanvasElement[] = []
     const originalRotation = this.map.getView().getRotation()
@@ -114,7 +162,7 @@ export default class ExportControl extends Control {
     store.commit('setSourceMap', new EmptyMap().getIdentifier())
     const visibleLayers = store.state.featureLayers.filter(layer => layer.getVisible())
     visibleLayers.forEach(layer => layer.setVisible(false))
-    setMapScale(this.map.getView(), 1000)
+    setMapScale(this.map.getView(), scale)
     this.map.getView().setRotation(0)
     const resolution = this.map.getView().getResolution()
 

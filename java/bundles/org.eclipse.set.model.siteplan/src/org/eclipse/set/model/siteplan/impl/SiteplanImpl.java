@@ -38,22 +38,14 @@ import org.eclipse.set.model.siteplan.SiteplanState;
  * The following features are implemented:
  * </p>
  * <ul>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getInitialState
- * <em>Initial State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getChangedInitialState
- * <em>Changed Initial State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getCommonState
- * <em>Common State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getChangedFinalState
- * <em>Changed Final State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getFinalState
- * <em>Final State</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getCenterPosition
- * <em>Center Position</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getObjectManagement
- * <em>Object Management</em>}</li>
- * <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getLayoutInfo
- * <em>Layout Info</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getInitialState <em>Initial State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getChangedInitialState <em>Changed Initial State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getCommonState <em>Common State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getChangedFinalState <em>Changed Final State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getFinalState <em>Final State</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getCenterPosition <em>Center Position</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getObjectManagement <em>Object Management</em>}</li>
+ *   <li>{@link org.eclipse.set.model.siteplan.impl.SiteplanImpl#getLayoutInfo <em>Layout Info</em>}</li>
  * </ul>
  *
  * @generated
@@ -61,10 +53,9 @@ import org.eclipse.set.model.siteplan.SiteplanState;
 public class SiteplanImpl extends MinimalEObjectImpl.Container
 		implements Siteplan {
 	/**
-	 * The cached value of the '{@link #getInitialState() <em>Initial
-	 * State</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getInitialState() <em>Initial State</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #getInitialState()
 	 * @generated
 	 * @ordered
@@ -72,10 +63,9 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	protected SiteplanState initialState;
 
 	/**
-	 * The cached value of the '{@link #getChangedInitialState() <em>Changed
-	 * Initial State</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getChangedInitialState() <em>Changed Initial State</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #getChangedInitialState()
 	 * @generated
 	 * @ordered
@@ -83,9 +73,8 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	protected SiteplanState changedInitialState;
 
 	/**
-	 * The cached value of the '{@link #getCommonState() <em>Common State</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getCommonState() <em>Common State</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getCommonState()
 	 * @generated
 	 * @ordered
@@ -93,10 +82,9 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	protected SiteplanState commonState;
 
 	/**
-	 * The cached value of the '{@link #getChangedFinalState() <em>Changed Final
-	 * State</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getChangedFinalState() <em>Changed Final State</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #getChangedFinalState()
 	 * @generated
 	 * @ordered
@@ -104,9 +92,8 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	protected SiteplanState changedFinalState;
 
 	/**
-	 * The cached value of the '{@link #getFinalState() <em>Final State</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFinalState() <em>Final State</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFinalState()
 	 * @generated
 	 * @ordered
@@ -114,10 +101,9 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	protected SiteplanState finalState;
 
 	/**
-	 * The cached value of the '{@link #getCenterPosition() <em>Center
-	 * Position</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getCenterPosition() <em>Center Position</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see #getCenterPosition()
 	 * @generated
 	 * @ordered
@@ -125,10 +111,9 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	protected Position centerPosition;
 
 	/**
-	 * The cached value of the '{@link #getObjectManagement() <em>Object
-	 * Management</em>}' containment reference list. <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getObjectManagement() <em>Object Management</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #getObjectManagement()
 	 * @generated
 	 * @ordered
@@ -136,9 +121,8 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	protected EList<ObjectManagement> objectManagement;
 
 	/**
-	 * The cached value of the '{@link #getLayoutInfo() <em>Layout Info</em>}'
-	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getLayoutInfo() <em>Layout Info</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getLayoutInfo()
 	 * @generated
 	 * @ordered
@@ -147,7 +131,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected SiteplanImpl() {
@@ -156,7 +139,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -166,7 +148,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -176,7 +157,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetInitialState(SiteplanState newInitialState,
@@ -184,20 +164,14 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		SiteplanState oldInitialState = initialState;
 		initialState = newInitialState;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.SITEPLAN__INITIAL_STATE,
-					oldInitialState, newInitialState);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__INITIAL_STATE, oldInitialState, newInitialState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -205,27 +179,18 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		if (newInitialState != initialState) {
 			NotificationChain msgs = null;
 			if (initialState != null)
-				msgs = ((InternalEObject) initialState).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__INITIAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)initialState).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__INITIAL_STATE, null, msgs);
 			if (newInitialState != null)
-				msgs = ((InternalEObject) newInitialState).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__INITIAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)newInitialState).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__INITIAL_STATE, null, msgs);
 			msgs = basicSetInitialState(newInitialState, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SITEPLAN__INITIAL_STATE, newInitialState,
-					newInitialState));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__INITIAL_STATE, newInitialState, newInitialState));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -235,7 +200,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetChangedInitialState(
@@ -243,21 +207,14 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		SiteplanState oldChangedInitialState = changedInitialState;
 		changedInitialState = newChangedInitialState;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE,
-					oldChangedInitialState, newChangedInitialState);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE, oldChangedInitialState, newChangedInitialState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -265,29 +222,18 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		if (newChangedInitialState != changedInitialState) {
 			NotificationChain msgs = null;
 			if (changedInitialState != null)
-				msgs = ((InternalEObject) changedInitialState).eInverseRemove(
-						this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)changedInitialState).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE, null, msgs);
 			if (newChangedInitialState != null)
-				msgs = ((InternalEObject) newChangedInitialState).eInverseAdd(
-						this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)newChangedInitialState).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE, null, msgs);
 			msgs = basicSetChangedInitialState(newChangedInitialState, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE,
-					newChangedInitialState, newChangedInitialState));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE, newChangedInitialState, newChangedInitialState));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -297,7 +243,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetCommonState(SiteplanState newCommonState,
@@ -305,20 +250,14 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		SiteplanState oldCommonState = commonState;
 		commonState = newCommonState;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.SITEPLAN__COMMON_STATE,
-					oldCommonState, newCommonState);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__COMMON_STATE, oldCommonState, newCommonState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -326,27 +265,18 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		if (newCommonState != commonState) {
 			NotificationChain msgs = null;
 			if (commonState != null)
-				msgs = ((InternalEObject) commonState).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__COMMON_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)commonState).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__COMMON_STATE, null, msgs);
 			if (newCommonState != null)
-				msgs = ((InternalEObject) newCommonState).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__COMMON_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)newCommonState).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__COMMON_STATE, null, msgs);
 			msgs = basicSetCommonState(newCommonState, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SITEPLAN__COMMON_STATE, newCommonState,
-					newCommonState));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__COMMON_STATE, newCommonState, newCommonState));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -356,7 +286,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetChangedFinalState(
@@ -364,21 +293,14 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		SiteplanState oldChangedFinalState = changedFinalState;
 		changedFinalState = newChangedFinalState;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET,
-					SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE,
-					oldChangedFinalState, newChangedFinalState);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE, oldChangedFinalState, newChangedFinalState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -386,29 +308,18 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		if (newChangedFinalState != changedFinalState) {
 			NotificationChain msgs = null;
 			if (changedFinalState != null)
-				msgs = ((InternalEObject) changedFinalState).eInverseRemove(
-						this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)changedFinalState).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE, null, msgs);
 			if (newChangedFinalState != null)
-				msgs = ((InternalEObject) newChangedFinalState).eInverseAdd(
-						this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)newChangedFinalState).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE, null, msgs);
 			msgs = basicSetChangedFinalState(newChangedFinalState, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE,
-					newChangedFinalState, newChangedFinalState));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE, newChangedFinalState, newChangedFinalState));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -418,7 +329,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFinalState(SiteplanState newFinalState,
@@ -426,20 +336,14 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		SiteplanState oldFinalState = finalState;
 		finalState = newFinalState;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.SITEPLAN__FINAL_STATE,
-					oldFinalState, newFinalState);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__FINAL_STATE, oldFinalState, newFinalState);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -447,27 +351,18 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		if (newFinalState != finalState) {
 			NotificationChain msgs = null;
 			if (finalState != null)
-				msgs = ((InternalEObject) finalState).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__FINAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)finalState).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__FINAL_STATE, null, msgs);
 			if (newFinalState != null)
-				msgs = ((InternalEObject) newFinalState).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__FINAL_STATE,
-						null, msgs);
+				msgs = ((InternalEObject)newFinalState).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__FINAL_STATE, null, msgs);
 			msgs = basicSetFinalState(newFinalState, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SITEPLAN__FINAL_STATE, newFinalState,
-					newFinalState));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__FINAL_STATE, newFinalState, newFinalState));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -477,7 +372,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetCenterPosition(Position newCenterPosition,
@@ -485,20 +379,14 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		Position oldCenterPosition = centerPosition;
 		centerPosition = newCenterPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this,
-					Notification.SET, SiteplanPackage.SITEPLAN__CENTER_POSITION,
-					oldCenterPosition, newCenterPosition);
-			if (msgs == null)
-				msgs = notification;
-			else
-				msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__CENTER_POSITION, oldCenterPosition, newCenterPosition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -506,57 +394,42 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 		if (newCenterPosition != centerPosition) {
 			NotificationChain msgs = null;
 			if (centerPosition != null)
-				msgs = ((InternalEObject) centerPosition).eInverseRemove(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__CENTER_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)centerPosition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__CENTER_POSITION, null, msgs);
 			if (newCenterPosition != null)
-				msgs = ((InternalEObject) newCenterPosition).eInverseAdd(this,
-						EOPPOSITE_FEATURE_BASE
-								- SiteplanPackage.SITEPLAN__CENTER_POSITION,
-						null, msgs);
+				msgs = ((InternalEObject)newCenterPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.SITEPLAN__CENTER_POSITION, null, msgs);
 			msgs = basicSetCenterPosition(newCenterPosition, msgs);
-			if (msgs != null)
-				msgs.dispatch();
-		} else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					SiteplanPackage.SITEPLAN__CENTER_POSITION,
-					newCenterPosition, newCenterPosition));
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SITEPLAN__CENTER_POSITION, newCenterPosition, newCenterPosition));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<ObjectManagement> getObjectManagement() {
 		if (objectManagement == null) {
-			objectManagement = new EObjectContainmentEList<ObjectManagement>(
-					ObjectManagement.class, this,
-					SiteplanPackage.SITEPLAN__OBJECT_MANAGEMENT);
+			objectManagement = new EObjectContainmentEList<ObjectManagement>(ObjectManagement.class, this, SiteplanPackage.SITEPLAN__OBJECT_MANAGEMENT);
 		}
 		return objectManagement;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Layoutinfo> getLayoutInfo() {
 		if (layoutInfo == null) {
-			layoutInfo = new EObjectContainmentEList<Layoutinfo>(
-					Layoutinfo.class, this,
-					SiteplanPackage.SITEPLAN__LAYOUT_INFO);
+			layoutInfo = new EObjectContainmentEList<Layoutinfo>(Layoutinfo.class, this, SiteplanPackage.SITEPLAN__LAYOUT_INFO);
 		}
 		return layoutInfo;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -576,18 +449,15 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 			case SiteplanPackage.SITEPLAN__CENTER_POSITION:
 				return basicSetCenterPosition(null, msgs);
 			case SiteplanPackage.SITEPLAN__OBJECT_MANAGEMENT:
-				return ((InternalEList<?>) getObjectManagement())
-						.basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getObjectManagement()).basicRemove(otherEnd, msgs);
 			case SiteplanPackage.SITEPLAN__LAYOUT_INFO:
-				return ((InternalEList<?>) getLayoutInfo())
-						.basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>)getLayoutInfo()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -615,7 +485,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -623,32 +492,30 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.SITEPLAN__INITIAL_STATE:
-				setInitialState((SiteplanState) newValue);
+				setInitialState((SiteplanState)newValue);
 				return;
 			case SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE:
-				setChangedInitialState((SiteplanState) newValue);
+				setChangedInitialState((SiteplanState)newValue);
 				return;
 			case SiteplanPackage.SITEPLAN__COMMON_STATE:
-				setCommonState((SiteplanState) newValue);
+				setCommonState((SiteplanState)newValue);
 				return;
 			case SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE:
-				setChangedFinalState((SiteplanState) newValue);
+				setChangedFinalState((SiteplanState)newValue);
 				return;
 			case SiteplanPackage.SITEPLAN__FINAL_STATE:
-				setFinalState((SiteplanState) newValue);
+				setFinalState((SiteplanState)newValue);
 				return;
 			case SiteplanPackage.SITEPLAN__CENTER_POSITION:
-				setCenterPosition((Position) newValue);
+				setCenterPosition((Position)newValue);
 				return;
 			case SiteplanPackage.SITEPLAN__OBJECT_MANAGEMENT:
 				getObjectManagement().clear();
-				getObjectManagement().addAll(
-						(Collection<? extends ObjectManagement>) newValue);
+				getObjectManagement().addAll((Collection<? extends ObjectManagement>)newValue);
 				return;
 			case SiteplanPackage.SITEPLAN__LAYOUT_INFO:
 				getLayoutInfo().clear();
-				getLayoutInfo()
-						.addAll((Collection<? extends Layoutinfo>) newValue);
+				getLayoutInfo().addAll((Collection<? extends Layoutinfo>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -656,29 +523,28 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.SITEPLAN__INITIAL_STATE:
-				setInitialState((SiteplanState) null);
+				setInitialState((SiteplanState)null);
 				return;
 			case SiteplanPackage.SITEPLAN__CHANGED_INITIAL_STATE:
-				setChangedInitialState((SiteplanState) null);
+				setChangedInitialState((SiteplanState)null);
 				return;
 			case SiteplanPackage.SITEPLAN__COMMON_STATE:
-				setCommonState((SiteplanState) null);
+				setCommonState((SiteplanState)null);
 				return;
 			case SiteplanPackage.SITEPLAN__CHANGED_FINAL_STATE:
-				setChangedFinalState((SiteplanState) null);
+				setChangedFinalState((SiteplanState)null);
 				return;
 			case SiteplanPackage.SITEPLAN__FINAL_STATE:
-				setFinalState((SiteplanState) null);
+				setFinalState((SiteplanState)null);
 				return;
 			case SiteplanPackage.SITEPLAN__CENTER_POSITION:
-				setCenterPosition((Position) null);
+				setCenterPosition((Position)null);
 				return;
 			case SiteplanPackage.SITEPLAN__OBJECT_MANAGEMENT:
 				getObjectManagement().clear();
@@ -692,7 +558,6 @@ public class SiteplanImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override

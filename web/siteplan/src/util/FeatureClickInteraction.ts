@@ -1,8 +1,9 @@
 
-import { Interaction } from 'ol/interaction'
+import { store } from '@/store'
+import { MapBrowserEvent } from 'ol'
 import Feature from 'ol/Feature'
 import Geometry from 'ol/geom/Geometry'
-import { MapBrowserEvent } from 'ol'
+import { Interaction } from 'ol/interaction'
 import { getFeatureGUIDs } from './FeatureExtensions'
 import PlanProToolbox from './PlanProToolbox'
 
@@ -38,6 +39,10 @@ export default class FeatureClickInteraction extends Interaction {
   }
 
   handleFeatureClick (feature: Feature<Geometry>): void {
+    if (store.state.measureEnable) {
+      return
+    }
+
     const guids = getFeatureGUIDs(feature)
     if (guids.length === 0) return
 
