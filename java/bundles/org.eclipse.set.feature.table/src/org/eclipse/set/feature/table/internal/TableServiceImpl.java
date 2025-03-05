@@ -48,6 +48,7 @@ import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.threads.Threads;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.cache.CacheService;
+import org.eclipse.set.core.services.dialog.DialogService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.PlanPro2TableTransformationService;
 import org.eclipse.set.feature.table.messages.Messages;
@@ -68,6 +69,8 @@ import org.eclipse.set.services.table.TableService;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.table.TableError;
+import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableTransformationService;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.xtext.xbase.lib.Pair;
@@ -114,6 +117,9 @@ public final class TableServiceImpl implements TableService {
 
 	@Inject
 	ToolboxPartService partService;
+
+	@Inject
+	DialogService dialogService;
 
 	private final Map<TableInfo, PlanPro2TableTransformationService> modelServiceMap = new ConcurrentHashMap<>();
 	private static final Queue<Pair<BasePart, Runnable>> transformTableThreads = new LinkedList<>();
@@ -227,7 +233,7 @@ public final class TableServiceImpl implements TableService {
 	@SuppressWarnings("unchecked")
 	public Map<String, Collection<TableError>> getTableErrors(
 			final IModelSession modelSession, final Set<String> controlAreaIds,
-			final String tableCategory) {
+			final Pt1TableCategory tableCategory) {
 		final HashMap<String, Collection<TableError>> map = new HashMap<>();
 		final Cache cache = getCache()
 				.getCache(ToolboxConstants.CacheId.TABLE_ERRORS);
@@ -503,7 +509,7 @@ public final class TableServiceImpl implements TableService {
 
 	@Override
 	public void updateTable(final BasePart tablePart,
-			final List<String> tableCategories,
+			final List<Pt1TableCategory> tableCategories,
 			final Runnable updateTableHandler, final Runnable clearInstance) {
 		// Find which table categories should be update
 		final List<String> tablePrefixes = List
@@ -511,7 +517,9 @@ public final class TableServiceImpl implements TableService {
 						ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX)
 				.stream()
 				.filter(prefix -> tableCategories.isEmpty()
-						|| tableCategories.stream().anyMatch(prefix::contains))
+						|| tableCategories.stream()
+								.map(Pt1TableCategory::getId)
+								.anyMatch(prefix::contains))
 				.toList();
 		// Get already open table parts
 		final List<MPart> openTableParts = partService.getOpenParts()
@@ -604,5 +612,27 @@ public final class TableServiceImpl implements TableService {
 				() -> new EdgeToPointsCacheProxy(getCache()));
 		Digraphs.setEdgeToSubPathCacheSupplier(() -> getCache()
 				.getCache(ToolboxConstants.CacheId.DIRECTED_EDGE_TO_SUBPATH));
+	}
+
+	@Override
+	public Map<TableInfo, Table> transformTables(final IProgressMonitor monitor,
+			final IModelSession modelSession,
+			final Set<TableInfo> tablesToTransfrom, final TableType tableType,
+			final Set<String> controlAreaIds) {
+		final Map<TableInfo, Table> result = new HashMap<>();
+		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
+				tablesToTransfrom.size());
+
+		for (final TableInfo tableInfo : tablesToTransfrom) {
+			final String shortcut = tableInfo.shortcut();
+			final TableNameInfo nameInfo = getTableNameInfo(shortcut);
+			monitor.subTask(nameInfo.getFullDisplayName());
+			final Table table = transformToTable(shortcut, tableType,
+					modelSession, controlAreaIds);
+			result.put(tableInfo, table);
+			monitor.worked(1);
+		}
+		monitor.done();
+		return result;
 	}
 }
