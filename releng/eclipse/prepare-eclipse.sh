@@ -22,7 +22,7 @@ fi
 askForInstall=""
 if [ ! -d "$ECLIPSE_HOME" ]; then
   askForInstall="Your eclipse home is not existing."
-elif [ ! $(ls -A "$ECLIPSE_HOME" 2>/dev/null) ]; then
+elif [ ! "$(ls -A "$ECLIPSE_HOME" 2>/dev/null)" ]; then
   askForInstall="Your eclipse home is empty."
 elif [ ! -f "$ECLIPSE_HOME/eclipse" ]; then
   echo "Error: Your eclipse home is existing but does not contain eclipse. Please provide another eclipse home"
