@@ -42,7 +42,7 @@ if [ ! -z "$askForInstall" ]; then
     echo "Downloading eclipse for Linux..."
     mkdir ./tmp-eclipse-download
     curl -o ./tmp-eclipse-download/eclipse.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2024-06/R/eclipse-java-2024-06-R-linux-gtk-x86_64.tar.gz
-    tar --quiet -xzf ./tmp-eclipse-download/eclipse.tar.gz --directory ./tmp-eclipse-download --warning=no-unknown-keyword
+    tar -xzf ./tmp-eclipse-download/eclipse.tar.gz --directory ./tmp-eclipse-download --warning=no-unknown-keyword
     sleep 5s
     mkdir -p $ECLIPSE_HOME
     mv ./tmp-eclipse-download/eclipse/* $ECLIPSE_HOME
