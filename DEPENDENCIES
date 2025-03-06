@@ -889,7 +889,6 @@ npm/npmjs/@rollup/rollup-win32-arm64-msvc/4.34.3, MIT AND (0BSD AND ISC AND MIT)
 npm/npmjs/@rollup/rollup-win32-ia32-msvc/4.34.3, MIT AND (0BSD AND ISC AND MIT), approved, #19445
 npm/npmjs/@rollup/rollup-win32-x64-msvc/4.34.3, MIT AND (0BSD AND ISC AND MIT), approved, #19454
 npm/npmjs/@rtsao/scc/1.1.0, MIT, approved, clearlydefined
-npm/npmjs/@stylistic/eslint-plugin/4.1.0, MIT, approved, #19550
 npm/npmjs/@stylistic/eslint-plugin/4.2.0, MIT, approved, #19859
 npm/npmjs/@turf/bbox/7.2.0, MIT AND BSD-2-Clause, approved, #18343
 npm/npmjs/@turf/boolean-disjoint/7.2.0, MIT AND BSD-2-Clause, approved, #18342
