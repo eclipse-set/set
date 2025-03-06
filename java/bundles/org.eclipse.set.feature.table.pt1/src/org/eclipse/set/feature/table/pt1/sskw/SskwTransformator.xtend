@@ -662,14 +662,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val elektrischerAntriebAnzahl = element.WKrGspKomponenten.map [
 			kreuzung?.elektrischerAntriebAnzahl?.wert
 		].filterNull.map[intValue]
-		if (herzstueckAntriebe.exists[it > 0]) {
-			fill(
-				row,
-				cols.getColumn(Herzstueck_Antriebe),
-				element,
-				[herzstueckAntriebe.fold(0, [s, a|s + a]).toString]
-			)
-		} else if (elektrischerAntriebAnzahl.exists[it > 0]) {
+		val fillFunc = [ (W_Kr_Gsp_Komponente)=>BigInteger actuatorCount, (W_Kr_Gsp_Komponente)=>ENUMElektrischerAntriebLage actuatorPosition |
 			fillMultiColorIterable(
 				row,
 				cols.getColumn(Herzstueck_Antriebe),
@@ -677,12 +670,19 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				[
 					transformMultiColorContent(
 						WKrGspKomponenten,
-						[kreuzung?.elektrischerAntriebAnzahl?.wert],
-						[kreuzung?.elektrischerAntriebLage?.wert]
+						actuatorCount,
+						actuatorPosition
 					)
 				],
 				"+"
 			)
+		]
+		if (herzstueckAntriebe.exists[it > 0]) {
+			fillFunc.apply([zungenpaar?.herzstueckAntriebe?.wert], [null])
+		} else if (elektrischerAntriebAnzahl.exists[it > 0]) {
+			fillFunc.apply([kreuzung?.elektrischerAntriebAnzahl?.wert], [
+				kreuzung?.elektrischerAntriebLage?.wert
+			])
 		} else {
 			fill(
 				row,
@@ -792,14 +792,13 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				createMultiColorContent
 			val actuator = actuatorNumberSelector.apply(it)
 			val noOfActuators = actuator !== null ? actuator.intValue : 0
-			val position = it.getPosition(actuatorNumberSelector,
-				actuatorPositionSelector)
+			val position = it.getPosition(actuator, actuatorPositionSelector)
 			if (austauschAntriebe?.wert === true) {
 				multiColorContent.multiColorValue = noOfActuators.toString
-				multiColorContent.stringFormat = '''%s«IF noOfActuators >0» («position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''%s«IF noOfActuators > 0 && position !== null» («position»)«ENDIF»'''
 			} else {
 				multiColorContent.multiColorValue = null
-				multiColorContent.stringFormat = '''«noOfActuators»«IF noOfActuators > 0» («position»)«ENDIF»'''
+				multiColorContent.stringFormat = '''«noOfActuators»«IF noOfActuators > 0 && position !== null» («position»)«ENDIF»'''
 			}
 
 			return multiColorContent
@@ -808,10 +807,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def String getPosition(
 		W_Kr_Gsp_Komponente component,
-		(W_Kr_Gsp_Komponente)=>BigInteger actuatorNumberSelector,
+		BigInteger actuator,
 		(W_Kr_Gsp_Komponente)=>ENUMElektrischerAntriebLage actuatorPositionSelector
 	) {
-		if (actuatorNumberSelector.apply(component) != BigInteger.ZERO) {
+		if (actuator != BigInteger.ZERO) {
 			return actuatorPositionSelector.apply(component).translate ?:
 				"keine Lage"
 		} else {
