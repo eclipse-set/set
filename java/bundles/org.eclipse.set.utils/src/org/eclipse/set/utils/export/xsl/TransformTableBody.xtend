@@ -125,7 +125,7 @@ class TransformTableBody {
 		return result.toSet
 	}
 
-	def Set<Element> pageBreakColumnCellStyle(int[] pageBreakAt) {
+	def Set<Element> pageBreakColumnCellStyle(Set<Integer> pageBreakAt) {
 		val groupStyles = groupCellByStyle(pageBreakAt)
 		val pageBreakColumns = groupStyles.flatMap [
 			it.map [ cell |
