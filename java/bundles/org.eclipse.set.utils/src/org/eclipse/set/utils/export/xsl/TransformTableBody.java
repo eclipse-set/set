@@ -17,10 +17,11 @@ import static org.eclipse.set.utils.export.xsl.XMLDocumentExtensions.createXMLEl
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.NUMBER_ROWS_SPANNED;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.TableAttribute.XSL_USE_ATTRIBUTE_SETS;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLFoAttributeName.ATTR_SELECT;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.DEFAULT_CELL_STYLE;
+import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLStyleSets.LAST_ROW_CELL_STYLE;
 import static org.eclipse.set.utils.export.xsl.XSLConstant.XSLTag.*;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class TransformTableBody {
 	 * Constructor
 	 * 
 	 * @param doc
-	 *            the xsl document
+	 *            the XSL document
 	 * @param sheet
 	 *            the table excel sheet
 	 */
@@ -66,7 +67,7 @@ public class TransformTableBody {
 	}
 
 	/**
-	 * @return default style from excel sheet
+	 * @return the XSL style template for the cells
 	 */
 	public Set<Element> getDefaultStyles() {
 		return getDefaultStyles(groupCellByStyle(Collections.emptySet()));
@@ -74,13 +75,16 @@ public class TransformTableBody {
 
 	/**
 	 * @param styleGroup
-	 *            the style group
-	 * @return style of the group
+	 *            the group of cells, which have same style template
+	 * @return the XSL style template for the cells
 	 */
 	public Set<Element> getDefaultStyles(final Set<Set<Cell>> styleGroup) {
 		return styleGroup.stream()
-				.flatMap(cells -> Set.of(rowStyle(cells), lastRowStyle(cells))
-						.stream())
+				.flatMap(
+						cells -> Set
+								.of(rowStyleTemplate(cells),
+										lastRowStyleTemplate(cells))
+								.stream())
 				.collect(Collectors.toSet());
 	}
 
@@ -171,13 +175,18 @@ public class TransformTableBody {
 		if (first.getAlignment() != second.getAlignment()) {
 			return false;
 		}
-		final HashMap<BorderDirection, String> firstBorderStyle = transformBorderStyle(
+		final Map<BorderDirection, String> firstBorderStyle = transformBorderStyle(
 				first);
-		final HashMap<BorderDirection, String> secondBorderStyle = transformBorderStyle(
+		final Map<BorderDirection, String> secondBorderStyle = transformBorderStyle(
 				second);
 		return firstBorderStyle.equals(secondBorderStyle);
 	}
 
+	/**
+	 * @param pageBreakAt
+	 *            the columns index, where page break;
+	 * @return XSL style templates at page break columns
+	 */
 	@SuppressWarnings("boxing")
 	public Set<Element> pageBreakColumnCellStyle(
 			final Set<Integer> pageBreakAt) {
@@ -194,7 +203,8 @@ public class TransformTableBody {
 				.collect(Collectors.toSet());
 
 		final Set<Element> pageBreakColumnsStyle = Stream
-				.of(rowStyle(pageBreakColumns), lastRowStyle(pageBreakColumns))
+				.of(rowStyleTemplate(pageBreakColumns),
+						lastRowStyleTemplate(pageBreakColumns))
 				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 
@@ -222,7 +232,8 @@ public class TransformTableBody {
 				.flatMap(group -> {
 					group.removeIf(cell -> pageBreakAt
 							.contains(cell.getColumnIndex()));
-					return Stream.of(rowStyle(group), lastRowStyle(group));
+					return Stream.of(rowStyleTemplate(group),
+							lastRowStyleTemplate(group));
 				})
 				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
@@ -230,12 +241,53 @@ public class TransformTableBody {
 		return pageBreakColumnsStyle;
 	}
 
-	private static Element rowStyle(final Set<Cell> exclusionColumns) {
-		return null;
+	private Element rowStyleTemplate(final Set<Cell> exclusionColumns) {
+		if (exclusionColumns.isEmpty()) {
+			return null;
+		}
+
+		final String expression = String.format(
+				"Cell[contains(' %s ', concat(' ', @column-number, ' '))]", //$NON-NLS-1$
+				String.join(" ", exclusionColumns.stream() //$NON-NLS-1$
+						.map(col -> String.valueOf(col.getColumnIndex()))
+						.toList()));
+		final Element template = createXMLElementWithAttr(doc, XSL_TEMPLATE,
+				XSLConstant.XSLFoAttributeName.ATTR_MATCH, expression);
+		final Element tableCell = createCellStyleElement(DEFAULT_CELL_STYLE,
+				(Cell) exclusionColumns.toArray()[0]);
+		template.appendChild(tableCell);
+		return template;
 	}
 
-	private static Element lastRowStyle(final Set<Cell> exclusionColumns) {
-		return null;
+	private Element lastRowStyleTemplate(final Set<Cell> exclusionColumns) {
+		if (exclusionColumns.isEmpty()) {
+			return null;
+		}
+		final String expression = String.format(
+				"Cell[contains(' %s ', concat(' ', @column-number, ' '))" //$NON-NLS-1$
+						+ " and ../@group-number = count(/Table/Rows/Row)]", //$NON-NLS-1$
+				String.join(" ", exclusionColumns.stream() //$NON-NLS-1$
+						.map(col -> String.valueOf(col.getColumnIndex()))
+						.toList()));
+		final Element template = createXMLElementWithAttr(doc, XSL_TEMPLATE,
+				XSLConstant.XSLFoAttributeName.ATTR_MATCH, expression);
+
+		final Element tableCell = createCellStyleElement(LAST_ROW_CELL_STYLE,
+				(Cell) exclusionColumns.toArray()[0]);
+		template.appendChild(tableCell);
+		return template;
+	}
+
+	private Element createCellStyleElement(final String styleSets,
+			final Cell cell) {
+		final Element tableCell = createXMLElementWithAttr(doc, FO_TABLE_CELL,
+				new XMLAttribute(XSL_USE_ATTRIBUTE_SETS, styleSets),
+				new XMLAttribute(NUMBER_ROWS_SPANNED,
+						String.format("{@%s}", NUMBER_ROWS_SPANNED))); //$NON-NLS-1$
+		TransformStyle.transformCellStyle(tableCell, Optional.of(cell));
+
+		tableCell.appendChild(doc.createElement(XSL_APPLY_TEMPLATE));
+		return tableCell;
 	}
 
 }
