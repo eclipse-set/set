@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require('path')
 const Copy = require('copy-webpack-plugin')
-
-module.exports = {
-  mode: 'development',
+const dotenv = require('dotenv')
+dotenv.config()
+module.exports = (env, argv) => ({
+  mode: argv.mode,
   entry: './src/index.ts',
   resolve: {
     extensions: ['.ts', '.js']
   },
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'dist')
+    path: argv.mode == 'development' ? `${process.env.ECLIPSE_HOME}/web/textviewer` : path.resolve(__dirname, 'dist')
   },
-  externals: { 'monaco-editor': 'monaco' },
+  externals: {'monaco-editor': 'monaco'},
   module: {
     rules: [
       {
@@ -33,17 +35,17 @@ module.exports = {
     new Copy({
       patterns: [
         './src/index.html',
-        { from: './node_modules/monaco-editor/min/vs/basic-languages/xml', to: 'monaco/vs/basic-languages/xml' },
-        { from: './node_modules/monaco-editor/min/vs/editor', to: 'monaco/vs/editor' },
-        { from: './node_modules/monaco-editor/min/vs/base', to: 'monaco/vs/base' },
-        { from: './node_modules/monaco-editor/min/vs/loader.js', to: 'monaco/vs/loader.js' },
+        {from: './node_modules/monaco-editor/min/vs/basic-languages/xml', to: 'monaco/vs/basic-languages/xml'},
+        {from: './node_modules/monaco-editor/min/vs/editor', to: 'monaco/vs/editor'},
+        {from: './node_modules/monaco-editor/min/vs/base', to: 'monaco/vs/base'},
+        {from: './node_modules/monaco-editor/min/vs/loader.js', to: 'monaco/vs/loader.js'},
         {
           from: './node_modules/monaco-editor/min/vs/*.js',
-          to ({ context, absoluteFilename }) {
+          to({context, absoluteFilename}) {
             return 'monaco/vs/[name][ext]'
           }
         }
       ]
     })
   ]
-}
+})

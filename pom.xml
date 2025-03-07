@@ -65,15 +65,9 @@
 		<module>java/bundles/org.eclipse.set.i18n.ecp.categorization.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.core.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.ecp.table.nl_de</module>
-		<module>java/bundles/org.eclipse.set.i18n.integrationview.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.model.nl_de</module>
 		<module>java/bundles/org.eclipse.set.i18n.validationreport.nl_de</module>
 
-		<module>java/bundles/org.eclipse.set.model.integrationview.edit</module>
-		<module>java/bundles/org.eclipse.set.model.integrationview</module>
-		<module>java/bundles/org.eclipse.set.model.simplemerge.edit</module>
-		<module>java/bundles/org.eclipse.set.model.simplemerge.extensions</module>
-		<module>java/bundles/org.eclipse.set.model.simplemerge</module>
 		<module>java/bundles/org.eclipse.set.model.tablemodel.extensions.test</module>
 		<module>java/bundles/org.eclipse.set.model.tablemodel.extensions</module>
 		<module>java/bundles/org.eclipse.set.model.tablemodel</module>
@@ -270,8 +264,7 @@
 						<configuration>
 							<configLocation>../../../releng/eclipse/checkstyle.xml</configLocation>
 							<suppressionsLocation>../../../releng/eclipse/suppressions.xml</suppressionsLocation>
-							<propertyExpansion>
-								config_loc=releng/eclipse
+							<propertyExpansion> config_loc=releng/eclipse
 							</propertyExpansion>
 							<consoleOutput>true</consoleOutput>
 							<linkXRef>false</linkXRef>
