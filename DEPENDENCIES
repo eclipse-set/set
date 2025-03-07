@@ -77,15 +77,11 @@ maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecore.nl_de/2.4.0-SNAPSH
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.categorization.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.core.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.ecp.table.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.integrationview.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.model.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.nl_de.feature/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.i18n.validationreport.nl_de/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview.edit/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.integrationview/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel.edit/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.plazmodel/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
-maven/mavencentral/org.eclipse.set/org.eclipse.set.model.simplemerge/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.siteplan/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.tablemodel.extensions/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
 maven/mavencentral/org.eclipse.set/org.eclipse.set.model.tablemodel/2.4.0-SNAPSHOT, EPL-2.0, approved, technology.set
@@ -248,7 +244,6 @@ npm/npmjs/-/cookie/0.7.1, MIT, approved, clearlydefined
 npm/npmjs/-/copy-webpack-plugin/13.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/core-js/3.40.0, MIT, approved, clearlydefined
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
-npm/npmjs/-/cross-spawn/7.0.3, MIT, approved, #17146
 npm/npmjs/-/cross-spawn/7.0.6, MIT, approved, #17146
 npm/npmjs/-/css-line-break/2.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/css-loader/7.1.2, MIT AND Apache-2.0, approved, #14252
@@ -509,7 +504,6 @@ npm/npmjs/-/launch-editor/2.6.1, MIT, approved, #10975
 npm/npmjs/-/lerc/3.0.0, Apache-2.0, approved, clearlydefined
 npm/npmjs/-/levn/0.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/loader-runner/4.3.0, MIT, approved, clearlydefined
-npm/npmjs/-/loader-utils/2.0.3, MIT, approved, #4986
 npm/npmjs/-/loader-utils/2.0.4, MIT, approved, #4986
 npm/npmjs/-/locate-path/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/locate-path/6.0.0, MIT, approved, clearlydefined
@@ -2225,16 +2219,10 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.core.nl_de.source/2.4.0, EPL
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.core.nl_de/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.table.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.ecp.table.nl_de/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.integrationview.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.integrationview.nl_de/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.model.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.model.nl_de/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.validationreport.nl_de.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.i18n.validationreport.nl_de/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit.source/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.edit/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview.source/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.integrationview/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.edit/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro.editor/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.planpro/2.4.0, EPL-2.0, approved, technology.set
@@ -2242,12 +2230,6 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit.source/2.4.0, EP
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.edit/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.plazmodel/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.edit.source/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.edit/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.extensions.source/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.extensions/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge.source/2.4.0, EPL-2.0, approved, technology.set
-p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.simplemerge/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.siteplan.source/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.siteplan/2.4.0, EPL-2.0, approved, technology.set
 p2/orbit/p2.eclipse.plugin/org.eclipse.set.model.tablemodel.extensions.source/2.4.0, EPL-2.0, approved, technology.set
