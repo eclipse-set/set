@@ -101,6 +101,7 @@ import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.exception.ExceptionHandler;
 import org.eclipse.set.utils.table.BodyLayerStack;
 import org.eclipse.set.utils.table.Pt1TableChangeProperties;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.TableModelInstanceBodyDataProvider;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
@@ -300,7 +301,7 @@ public final class ToolboxTableView extends BasePart {
 					tableType = t.getTableType();
 					updateTableView(t.getControlAreas().isEmpty()
 							? Collections.emptyList()
-							: List.of(ToolboxConstants.ESTW_CATEGORY));
+							: List.of(Pt1TableCategory.ESTW));
 				}
 			}
 		};
@@ -353,7 +354,7 @@ public final class ToolboxTableView extends BasePart {
 				controlAreaIds);
 	}
 
-	private void updateTableView(final List<String> tableCategories) {
+	private void updateTableView(final List<Pt1TableCategory> tableCategories) {
 		tableService.updateTable(this, tableCategories, () -> {
 			updateModel(getToolboxPart(), getModelSession());
 			natTable.doCommand(new RowHeightResetCommand());

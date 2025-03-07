@@ -7,27 +7,28 @@
  * http://www.eclipse.org/legal/epl-v20.html
  */
 
-package org.eclipse.set.feature.export.descriptions;
-
-import jakarta.inject.Inject;
+package org.eclipse.set.feature.table.export;
 
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.services.nls.Translation;
+import org.eclipse.set.basis.constants.PlanProFileNature;
 import org.eclipse.set.basis.part.PartDescription;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
 import org.eclipse.set.core.services.part.PartDescriptionService;
-import org.eclipse.set.feature.export.Messages;
+import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 import org.osgi.service.component.annotations.Component;
 
+import jakarta.inject.Inject;
+
 /**
- * Part description for exporting inventory records.
+ * Part description for exporting planning records.
  * 
  * @author Schaefer
  */
 @Component
-public class ExportInventoryDescriptionService
+public class ExportPlanningRecordsDescriptionService
 		implements PartDescriptionService {
 	private static class InjectionHelper {
 
@@ -48,15 +49,15 @@ public class ExportInventoryDescriptionService
 				// ID
 				this.getClass().getName(),
 				// contributionURI
-				"bundleclass://org.eclipse.set.feature.export/org.eclipse.set.feature.export.parts.ExportInventoryRecordsPart", //$NON-NLS-1$
+				"bundleclass://org.eclipse.set.feature.table/org.eclipse.set.feature.table.export.ExportPlanningRecordsPart", //$NON-NLS-1$
 				// toolboxViewName
-				injectionHelper.messages.ExportInventoryDescriptionService_ViewName,
+				injectionHelper.messages.TableExportPart_ExportPlanningRecordsDescriptionService_ViewName,
 				// toolboxViewToolTip
 				"", //$NON-NLS-1$
 				// toolboxViewType
 				getToolboxViewGroup(),
 				// defaultForNature
-				null,
+				PlanProFileNature.INFORMATION_STATE,
 				// toolboxViewNeedsLoadedModel
 				true,
 				// toolboxViewNeedsXsdValidation
@@ -64,7 +65,7 @@ public class ExportInventoryDescriptionService
 				// toolboxViewNeedsEmfValidation
 				false,
 				// toolboxViewProcessState
-				false,
+				true,
 				// toolboxViewProcessPlanning
 				true,
 				// toolboxViewProcessIntegration

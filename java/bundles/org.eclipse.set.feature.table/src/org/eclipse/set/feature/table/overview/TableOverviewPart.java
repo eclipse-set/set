@@ -34,7 +34,6 @@ import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableService;
-import org.eclipse.set.services.table.TableService.TableInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
@@ -45,6 +44,8 @@ import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaV
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.TableError;
+import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -240,9 +241,9 @@ public class TableOverviewPart extends BasePart {
 		final Collection<String> tablesWithErrors = getTablesContainingErrors();
 		for (final String shortCut : tablesWithErrors) {
 			final String tablePartIdPrefix = switch (getTableCategory()) {
-				case ESTW_CATEGORY -> ESTW_TABLE_PART_ID_PREFIX;
-				case ETCS_CATEGORY -> ETCS_TABLE_PART_ID_PREFIX;
-				case ESTW_SUPPLEMENT_CATEGORY -> ESTW_SUPPLEMENT_PART_ID_PREFIX;
+				case ESTW -> ESTW_TABLE_PART_ID_PREFIX;
+				case ETCS -> ETCS_TABLE_PART_ID_PREFIX;
+				case ESTW_SUPPLEMENT -> ESTW_SUPPLEMENT_PART_ID_PREFIX;
 				default -> throw new IllegalArgumentException(
 						"Unexpected value: " + getTableCategory()); //$NON-NLS-1$
 			};
@@ -256,14 +257,14 @@ public class TableOverviewPart extends BasePart {
 				getTableCategory());
 	}
 
-	private String getTableCategory() {
+	private Pt1TableCategory getTableCategory() {
 		final String elementId = getToolboxPart().getElementId();
 		if (elementId.startsWith(ESTW_TABLE_PART_ID_PREFIX)) {
-			return ESTW_CATEGORY;
+			return Pt1TableCategory.ESTW;
 		} else if (elementId.startsWith(ETCS_TABLE_PART_ID_PREFIX)) {
-			return ETCS_CATEGORY;
+			return Pt1TableCategory.ETCS;
 		} else if (elementId.startsWith(ESTW_SUPPLEMENT_PART_ID_PREFIX)) {
-			return ESTW_SUPPLEMENT_CATEGORY;
+			return Pt1TableCategory.ESTW_SUPPLEMENT;
 		}
 		throw new IllegalArgumentException();
 	}
