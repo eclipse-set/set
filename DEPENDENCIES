@@ -188,6 +188,7 @@ npm/npmjs/-/asynckit/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/atob/2.1.2, (Apache-2.0 AND MIT) AND CC-BY-3.0, approved, #15389
 npm/npmjs/-/available-typed-arrays/1.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/axios/1.8.1, MIT, approved, #19551
+npm/npmjs/-/axios/1.8.2, MIT, approved, #19551
 npm/npmjs/-/balanced-match/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/base64-arraybuffer/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/batch/0.6.1, MIT, approved, clearlydefined
@@ -710,7 +711,7 @@ npm/npmjs/-/svg-pathdata/6.0.3, MIT AND 0BSD, approved, #15345
 npm/npmjs/-/sweepline-intersections/1.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/tapable/2.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/terser-webpack-plugin/5.3.11, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
-npm/npmjs/-/terser-webpack-plugin/5.3.12, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
+npm/npmjs/-/terser-webpack-plugin/5.3.14, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #7461
 npm/npmjs/-/terser/5.37.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #18263
 npm/npmjs/-/terser/5.39.0, BSD-2-Clause AND (BSD-2-Clause AND BSD-3-Clause) AND ISC, approved, #19471
 npm/npmjs/-/text-segmentation/1.0.3, MIT, approved, clearlydefined
