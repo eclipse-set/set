@@ -105,11 +105,11 @@ async function doCommand(command) {
   await new Promise(resolve => {
     exec(`cd ${projectRoot} && ${command}`, (error, stderr, stdout) => {
       if (error) {
-        console.error(`Error executing command: ${error.message}`);
+        console.error(`Error executing command: ${error.message}`)
       } else if (stderr) {
-        console.error(`Error output: ${stderr}`);
+        console.error(`Error output: ${stderr}`)
       } else {
-        console.log(`Command Output: ${stdout}`);
+        console.log(`Command Output: ${stdout}`)
       }
 
       console.log("****End****")
