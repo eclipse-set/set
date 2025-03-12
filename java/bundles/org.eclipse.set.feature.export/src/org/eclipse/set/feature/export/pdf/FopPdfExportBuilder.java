@@ -82,9 +82,8 @@ public class FopPdfExportBuilder implements TableExport {
 
 	@Reference
 	EnumTranslationService enumTranslationService;
-	protected static final String FOOTNOTE_MARK = "Footnote"; //$NON-NLS-1$
-	protected static final String PAGE_NUMBER_PATTERN = "^PageNumber_\\d+(a|b)*(\\+|-)$"; //$NON-NLS-1$
-	private static final String FOOTNOTE_PAGE_NUMBER_PATTERN = "^PageNumber_\\d+(\\+|-)$"; //$NON-NLS-1$
+	protected static final String PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[ab]*[\\+|-]$"; //$NON-NLS-1$
+	private static final String FOOTNOTE_PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[\\+|-]$"; //$NON-NLS-1$
 	protected static final Logger logger = LoggerFactory
 			.getLogger(FopPdfExportBuilder.class);
 
@@ -265,39 +264,7 @@ public class FopPdfExportBuilder implements TableExport {
 				tablePages.add(pdf.getPage(i));
 				tablePages.add(pdf.getPage(i + tablePageCount));
 			}
-			// final IntFunction<String> getPageTextFunc = pageIndex -> {
-			// // When table page isn't empty, that mean all footnote page are
-			// // already add to list
-			// if (!tablePages.isEmpty()) {
-			// return ""; //$NON-NLS-1$
-			// }
-			// try {
-			// final PDFTextStripper pdfTextStripper = new PDFTextStripper();
-			// pdfTextStripper.setStartPage(pageIndex);
-			// pdfTextStripper.setEndPage(pageIndex);
-			//
-			// return pdfTextStripper.getText(pdf);
-			// } catch (final IOException e) {
-			// return ""; //$NON-NLS-1$
-			// }
-			// };
-			// for (int i = pageCount,
-			// j = 0; i >= 0; i--, j = footnotePages.size()) {
-			// // Find Footnote page
-			// final PDPage page = pdf.getPage(i - 1);
-			// final String pageText = getPageTextFunc.apply(i);
-			// if (pageText.contains(FOOTNOTE_MARK)) {
-			// footnotePages.addFirst(page);
-			// } else if ((pageCount - j) / 2 < i) {
-			// // Determine A page of table
-			// final int aPageIndex = i - (pageCount - j) / 2 - 1;
-			// final PDPage aPage = pdf.getPage(aPageIndex);
-			// tablePages.addFirst(page);
-			// tablePages.addFirst(aPage);
-			// } else {
-			// break;
-			// }
-			// }
+
 			footnotePages.forEach(pdf::removePage);
 
 			tablePages.forEach(newPdf::addPage);
