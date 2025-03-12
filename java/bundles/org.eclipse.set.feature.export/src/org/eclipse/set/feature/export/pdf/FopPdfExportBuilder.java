@@ -19,11 +19,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.IntFunction;
+import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -82,6 +83,8 @@ public class FopPdfExportBuilder implements TableExport {
 	@Reference
 	EnumTranslationService enumTranslationService;
 	protected static final String FOOTNOTE_MARK = "Footnote"; //$NON-NLS-1$
+	protected static final String PAGE_NUMBER_PATTERN = "^PageNumber_\\d+(a|b)*(\\+|-)$"; //$NON-NLS-1$
+	private static final String FOOTNOTE_PAGE_NUMBER_PATTERN = "^PageNumber_\\d+(\\+|-)$"; //$NON-NLS-1$
 	protected static final Logger logger = LoggerFactory
 			.getLogger(FopPdfExportBuilder.class);
 
@@ -244,39 +247,57 @@ public class FopPdfExportBuilder implements TableExport {
 			final int pageCount = pdf.getPages().getCount();
 			final List<PDPage> tablePages = new LinkedList<>();
 			final List<PDPage> footnotePages = new LinkedList<>();
-			final IntFunction<String> getPageTextFunc = pageIndex -> {
-				// When table page isn't empty, that mean all footnote page are
-				// already add to list
-				if (!tablePages.isEmpty()) {
-					return ""; //$NON-NLS-1$
-				}
-				try {
-					final PDFTextStripper pdfTextStripper = new PDFTextStripper();
-					pdfTextStripper.setStartPage(pageIndex);
-					pdfTextStripper.setEndPage(pageIndex);
-
-					return pdfTextStripper.getText(pdf);
-				} catch (final IOException e) {
-					return ""; //$NON-NLS-1$
-				}
-			};
-			for (int i = pageCount,
-					j = 0; i >= 0; i--, j = footnotePages.size()) {
-				// Find Footnote page
+			for (int i = pageCount; i >= 0; i--) {
 				final PDPage page = pdf.getPage(i - 1);
-				final String pageText = getPageTextFunc.apply(i);
-				if (pageText.contains(FOOTNOTE_MARK)) {
+				if (isFootnotePage(pdf, i)) {
 					footnotePages.addFirst(page);
-				} else if ((pageCount - j) / 2 < i) {
-					// Determine A page of table
-					final int aPageIndex = i - (pageCount - j) / 2 - 1;
-					final PDPage aPage = pdf.getPage(aPageIndex);
-					tablePages.addFirst(page);
-					tablePages.addFirst(aPage);
 				} else {
+					// when we found the first page from the end not being a
+					// footnote page, that mean
+					// we found the end of the table pages
 					break;
 				}
 			}
+			final int tablePageCount = (pageCount - footnotePages.size()) / 2;
+
+			for (int i = 0; i < tablePageCount; i++) {
+				// collect table pages in proper order
+				tablePages.add(pdf.getPage(i));
+				tablePages.add(pdf.getPage(i + tablePageCount));
+			}
+			// final IntFunction<String> getPageTextFunc = pageIndex -> {
+			// // When table page isn't empty, that mean all footnote page are
+			// // already add to list
+			// if (!tablePages.isEmpty()) {
+			// return ""; //$NON-NLS-1$
+			// }
+			// try {
+			// final PDFTextStripper pdfTextStripper = new PDFTextStripper();
+			// pdfTextStripper.setStartPage(pageIndex);
+			// pdfTextStripper.setEndPage(pageIndex);
+			//
+			// return pdfTextStripper.getText(pdf);
+			// } catch (final IOException e) {
+			// return ""; //$NON-NLS-1$
+			// }
+			// };
+			// for (int i = pageCount,
+			// j = 0; i >= 0; i--, j = footnotePages.size()) {
+			// // Find Footnote page
+			// final PDPage page = pdf.getPage(i - 1);
+			// final String pageText = getPageTextFunc.apply(i);
+			// if (pageText.contains(FOOTNOTE_MARK)) {
+			// footnotePages.addFirst(page);
+			// } else if ((pageCount - j) / 2 < i) {
+			// // Determine A page of table
+			// final int aPageIndex = i - (pageCount - j) / 2 - 1;
+			// final PDPage aPage = pdf.getPage(aPageIndex);
+			// tablePages.addFirst(page);
+			// tablePages.addFirst(aPage);
+			// } else {
+			// break;
+			// }
+			// }
 			footnotePages.forEach(pdf::removePage);
 
 			tablePages.forEach(newPdf::addPage);
@@ -293,6 +314,34 @@ public class FopPdfExportBuilder implements TableExport {
 			}
 
 			newPdf.save(outputPath.toFile());
+		}
+	}
+
+	private static boolean isFootnotePage(final PDDocument pdf,
+			final int pageIndex) {
+		try {
+			final PDFTextStripper pdfTextStripper = new PDFTextStripper();
+			pdfTextStripper.setStartPage(pageIndex);
+			pdfTextStripper.setEndPage(pageIndex);
+			final String pageText = pdfTextStripper.getText(pdf);
+			final Pattern pageNumberPattern = Pattern
+					.compile(PAGE_NUMBER_PATTERN);
+			final Pattern footnodePageNumberPattern = Pattern
+					.compile(FOOTNOTE_PAGE_NUMBER_PATTERN);
+			final String pageNumber = Arrays.stream(pageText.split(" |\\r?\\n")) //$NON-NLS-1$
+					.parallel()
+					.filter(text -> pageNumberPattern.matcher(text).find())
+					.findFirst()
+					.orElse(""); //$NON-NLS-1$
+			if (pageNumber.isBlank() || pageNumber.isEmpty()) {
+				throw new IllegalArgumentException(
+						"Can't find page number in pdf page"); //$NON-NLS-1$
+			}
+			return footnodePageNumberPattern.matcher(pageNumber).find();
+		} catch (final IOException e) {
+			return false;
+		} catch (final IllegalArgumentException e) {
+			throw new RuntimeException(e);
 		}
 	}
 

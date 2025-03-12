@@ -672,6 +672,16 @@ http://www.eclipse.org/legal/epl-v20.html
 												<fo:page-number />
 												<xsl:value-of select="$pagePostfix" />
 											</fo:block>
+											<!-- Invisible page number to find out, which page is footnote page in multilayout page -->
+											<fo:block-container position="absolute" left="0mm" top="0.5mm">
+												<fo:block font-size="5pt" color="white">
+													<fo:inline>
+														<xsl:text>PageNumber_</xsl:text>
+													</fo:inline>
+													<fo:page-number />
+													<xsl:value-of select="$pagePostfix" />
+												</fo:block>
+											</fo:block-container>
 										</fo:table-cell>
 									</fo:table-row>
 								</fo:table-body>
@@ -755,7 +765,7 @@ http://www.eclipse.org/legal/epl-v20.html
 		<fo:table-cell margin="0" padding="0" height="{5+5+10-3*$titlebox-WB}mm" column-number="1" number-columns-spanned="2" number-rows-spanned="3" border-style="solid" border-width="0px">
 			<fo:block-container height="7mm">
 				<fo:block margin-top="-0.5mm">
-					<fo:external-graphic src="{@logo}" height="7mm" width="33mm" content-height="scale-down-to-fit" content-width="scale-down-to-fit" />
+					<fo:external-graphic src="{@logo}" content-height="7mm" />
 				</fo:block>
 			</fo:block-container>
 			<fo:block-container margin-left="2pt" text-align="left" height="12mm">
