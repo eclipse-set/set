@@ -630,6 +630,15 @@ public final class TableServiceImpl implements TableService {
 			monitor.subTask(nameInfo.getFullDisplayName());
 			final Table table = transformToTable(shortcut, tableType,
 					modelSession, controlAreaIds);
+			while (!TableService.isTransformComplete(
+					nameInfo.getShortName().toLowerCase(), null)) {
+				try {
+					Thread.sleep(2000);
+				} catch (final InterruptedException e) {
+					Thread.interrupted();
+				}
+			}
+
 			result.put(tableInfo, table);
 			monitor.worked(1);
 		}
