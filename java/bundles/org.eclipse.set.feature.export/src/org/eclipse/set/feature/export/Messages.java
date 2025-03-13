@@ -81,11 +81,6 @@ public class Messages {
 	public String selectAll;
 
 	/**
-	 * Ohne leer tabelle auswählen
-	 */
-	public String selectNotEmpty;
-
-	/**
 	 * Auswahl aufheben
 	 */
 	public String selectNone;
@@ -104,14 +99,4 @@ public class Messages {
 	 * Erstelle Schriftfeld
 	 */
 	public String TitleBoxPdfPart_LoadTitlebox;
-
-	/**
-	 * Fehler beim Dokumentenexport
-	 */
-	public String titleDocExportError;
-
-	/**
-	 * Laden Tabellen...
-	 */
-	public String DoucmentExport_LoadTables;
 }

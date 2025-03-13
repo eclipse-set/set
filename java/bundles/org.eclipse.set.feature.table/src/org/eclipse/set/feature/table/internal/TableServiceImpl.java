@@ -514,7 +514,8 @@ public final class TableServiceImpl implements TableService {
 		// Find which table categories should be update
 		final List<String> tablePrefixes = List
 				.of(ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX,
-						ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX)
+						ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX,
+						ToolboxConstants.ESTW_SUPPLEMENT_PART_ID_PREFIX)
 				.stream()
 				.filter(prefix -> tableCategories.isEmpty()
 						|| tableCategories.stream()

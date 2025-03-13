@@ -10,7 +10,9 @@
  */
 package org.eclipse.set.utils.table;
 
-import org.eclipse.set.basis.constants.ToolboxConstants;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
 /**
@@ -27,15 +29,22 @@ public record TableInfo(Pt1TableCategory category, String shortcut) {
 		/**
 		 * ESTW table
 		 */
-		ESTW(ToolboxConstants.ESTW_CATEGORY),
+		ESTW("estw"), //$NON-NLS-1$
 		/**
 		 * ETCS table
 		 */
-		ETCS(ToolboxConstants.ETCS_CATEGORY),
+		ETCS("etcs"), //$NON-NLS-1$
 		/**
 		 * ESTW supplement table
 		 */
-		ESTW_SUPPLEMENT(ToolboxConstants.ESTW_SUPPLEMENT_CATEGORY);
+		ESTW_SUPPLEMENT("supplement-estw"); //$NON-NLS-1$
+
+		private static final Map<String, Pt1TableCategory> categories = new HashMap<>();
+		static {
+			for (final Pt1TableCategory category : values()) {
+				categories.put(category.getId(), category);
+			}
+		}
 
 		private final String id;
 
@@ -59,6 +68,18 @@ public record TableInfo(Pt1TableCategory category, String shortcut) {
 						.text();
 			};
 		}
+
+		/**
+		 * Get Pt1Category enumerator from category id
+		 * 
+		 * @param categoryId
+		 *            the category id
+		 * @return the category enumerator
+		 */
+		public static Pt1TableCategory getCategoryEnum(
+				final String categoryId) {
+			return categories.get(categoryId);
+		}
 	}
 
 	/**
@@ -68,11 +89,6 @@ public record TableInfo(Pt1TableCategory category, String shortcut) {
 	 *            the table shortcut
 	 */
 	public TableInfo(final String categoryId, final String shortcut) {
-		this(switch (categoryId) {
-			case ToolboxConstants.ESTW_CATEGORY -> Pt1TableCategory.ESTW;
-			case ToolboxConstants.ETCS_CATEGORY -> Pt1TableCategory.ETCS;
-			case ToolboxConstants.ESTW_SUPPLEMENT_CATEGORY -> Pt1TableCategory.ESTW_SUPPLEMENT;
-			default -> null;
-		}, shortcut);
+		this(Pt1TableCategory.getCategoryEnum(categoryId), shortcut);
 	}
 }
