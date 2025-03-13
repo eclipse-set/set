@@ -108,7 +108,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 				.stream()
 				.map(Pair::getSecond)
 				.collect(Collectors.toSet());
-		updateTreeElemenst(currentAreaIds);
+		updateTreeElements(currentAreaIds);
 		selectionControlAreaHandler = new DefaultToolboxEventHandler<>() {
 			@Override
 			public void accept(final SelectedControlAreaChangedEvent t) {
@@ -116,7 +116,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 						.stream()
 						.map(area -> area.areaId())
 						.collect(Collectors.toSet());
-				updateTreeElemenst(areaIds);
+				updateTreeElements(areaIds);
 			}
 		};
 
@@ -133,7 +133,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 		throw new IllegalArgumentException();
 	}
 
-	protected void updateTreeElemenst(final Set<String> areaIds) {
+	protected void updateTreeElements(final Set<String> areaIds) {
 		final Set<TableInfo> avaibleTables = new HashSet<>(
 				tableService.getAvailableTables());
 		final TableType tableType = getTableType();
