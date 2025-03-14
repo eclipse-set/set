@@ -33,9 +33,6 @@ public class Messages {
 	 */
 	public String DocumentExportPart_checkOverrideLabel;
 
-	/** Export des Dokumentensatz durchführen */
-	public String export_button;
-
 	/** Exporteinstellungen */
 	public String export_settings;
 
@@ -49,39 +46,9 @@ public class Messages {
 	public String exportErrorTitle;
 
 	/**
-	 * Ausgabe des Zielzustands der Planung.
-	 */
-	public String exportInventoryDescription;
-
-	/**
-	 * Bestandsdokumente erstellen
-	 */
-	public String ExportInventoryDescriptionService_ViewName;
-
-	/**
-	 * Bestandsunterlagen erstellen
-	 */
-	public String exportInventoryRecords;
-
-	/**
-	 * Ausgabe des rot/gelb Vergleichs der Planung.
-	 */
-	public String exportPlanningDescription;
-
-	/**
-	 * Dokumentensatz erstellen
-	 */
-	public String ExportPlanningRecordsDescriptionService_ViewName;
-
-	/**
 	 * Ausgabe des Einzelzustands der PlanPro-Datei.
 	 */
 	public String exportStateDescription;
-
-	/**
-	 * Tabellenexport
-	 */
-	public String exportTable_message;
 
 	/** Bitte ein Verzeichnis... */
 	public String file_choser_message;
@@ -132,9 +99,4 @@ public class Messages {
 	 * Erstelle Schriftfeld
 	 */
 	public String TitleBoxPdfPart_LoadTitlebox;
-
-	/**
-	 * Fehler beim Dokumentenexport
-	 */
-	public String titleDocExportError;
 }

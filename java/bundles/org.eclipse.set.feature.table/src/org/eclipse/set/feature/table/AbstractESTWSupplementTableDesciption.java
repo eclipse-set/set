@@ -10,8 +10,8 @@
  */
 package org.eclipse.set.feature.table;
 
-import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.viewgroups.ToolboxViewGroup;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.viewgroups.SetViewGroups;
 
 /**
@@ -27,6 +27,6 @@ public abstract class AbstractESTWSupplementTableDesciption
 
 	@Override
 	protected String getTableIdPrefix() {
-		return ToolboxConstants.ESTW_SUPPLEMENT_CATEGORY;
+		return Pt1TableCategory.ESTW_SUPPLEMENT.getId();
 	}
 }

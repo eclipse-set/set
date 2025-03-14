@@ -26,6 +26,7 @@ import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.JumpToTableEvent;
 import org.eclipse.set.utils.events.ToolboxEvents;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration;
 import org.eclipse.set.utils.table.menu.TableBodyMenuConfiguration.TableBodyMenuItem;
 import org.eclipse.set.utils.table.menu.TableMenuService;
@@ -142,7 +143,7 @@ public class TableMenuServiceImpl implements TableMenuService {
 						}
 						String tableIdPrefix = ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX;
 						if (jumpEvent.getTableCategory()
-								.equals(ToolboxConstants.ETCS_CATEGORY)) {
+								.equals(Pt1TableCategory.ETCS.getId())) {
 							tableIdPrefix = ToolboxConstants.ETCS_TABLE_PART_ID_PREFIX;
 						}
 						toolboxPartService.showPart(tableIdPrefix + "." //$NON-NLS-1$

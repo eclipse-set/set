@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.part.PartDescription;
@@ -22,6 +23,8 @@ import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.table.TableError;
+import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 
 /**
  * service for managing model services.
@@ -29,16 +32,6 @@ import org.eclipse.set.utils.table.TableError;
  * @author rumpf
  */
 public interface TableService {
-	/**
-	 * @param category
-	 *            the table area (ESTW or ETCS)
-	 * @param shortcut
-	 *            the table shortcut
-	 */
-	public record TableInfo(String category, String shortcut) {
-
-	}
-
 	/**
 	 * Extract the shortcut from an configuration element.
 	 * 
@@ -88,7 +81,7 @@ public interface TableService {
 	 */
 	Map<String, Collection<TableError>> getTableErrors(
 			IModelSession modelSession, Set<String> controlAreaIds,
-			String tableCategory);
+			Pt1TableCategory tableCategory);
 
 	/**
 	 * Transform the selected container to a string with CSV format.
@@ -125,6 +118,25 @@ public interface TableService {
 			final IModelSession modelSession, Set<String> controlAreaIds);
 
 	/**
+	 * Transform the selected container and control area to tables model.
+	 * 
+	 * @param monitor
+	 *            the {@link IProgressMonitor}
+	 * @param modelSession
+	 *            the {@link IModelSession}
+	 * @param tablesToTransfrom
+	 *            the list of tables need transform
+	 * @param tableType
+	 *            the table type
+	 * @param controlAreaIds
+	 *            the list of {@link Stell_Bereich} and the belonging container
+	 * @return the tables
+	 */
+	Map<TableInfo, Table> transformTables(IProgressMonitor monitor,
+			IModelSession modelSession, Set<TableInfo> tablesToTransfrom,
+			TableType tableType, Set<String> controlAreaIds);
+
+	/**
 	 * @param part
 	 *            the table part
 	 * @param tableCategories
@@ -135,7 +147,7 @@ public interface TableService {
 	 * @param clearInstance
 	 *            the clear table instance handler
 	 */
-	void updateTable(BasePart part, List<String> tableCategories,
+	void updateTable(BasePart part, List<Pt1TableCategory> tableCategories,
 			Runnable updateTableHandler, Runnable clearInstance);
 
 	/**
