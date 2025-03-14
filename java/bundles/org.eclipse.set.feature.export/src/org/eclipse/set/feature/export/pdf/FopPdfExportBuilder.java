@@ -19,9 +19,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,6 +36,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.common.PDMetadata;
+import org.apache.pdfbox.pdmodel.graphics.color.PDOutputIntent;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.set.basis.FreeFieldInfo;
 import org.eclipse.set.basis.OverwriteHandling;
@@ -41,6 +49,7 @@ import org.eclipse.set.basis.ToolboxPaths.ExportPathExtension;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
+import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.basis.extensions.PathExtensions;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.tablemodel.Table;
@@ -73,7 +82,8 @@ public class FopPdfExportBuilder implements TableExport {
 
 	@Reference
 	EnumTranslationService enumTranslationService;
-
+	protected static final String PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[ab]*[\\+|-]$"; //$NON-NLS-1$
+	private static final String FOOTNOTE_PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[\\+|-]$"; //$NON-NLS-1$
 	protected static final Logger logger = LoggerFactory
 			.getLogger(FopPdfExportBuilder.class);
 
@@ -194,6 +204,8 @@ public class FopPdfExportBuilder implements TableExport {
 		} catch (final ParserConfigurationException | TransformerException
 				| IOException | SAXException e) {
 			throw new FileExportException(outputPath, e);
+		} catch (final UserAbortion e) {
+			// do nothing
 		}
 	}
 
@@ -201,8 +213,9 @@ public class FopPdfExportBuilder implements TableExport {
 			final Path outputPath, final String shortcut,
 			final TableType tableType, final PdfAMode pdfAMode,
 			final OverwriteHandling overwriteHandling,
-			final List<String> pageBreakRowsIndex) throws IOException,
-			SAXException, TransformerException, ParserConfigurationException {
+			final List<String> pageBreakRowsIndex)
+			throws IOException, SAXException, TransformerException,
+			ParserConfigurationException, UserAbortion {
 		final TransformTable transformTable = new TransformTable(shortcut,
 				translationTableType(tableType));
 		final Document xslDoc = pageBreakRowsIndex.isEmpty()
@@ -210,13 +223,100 @@ public class FopPdfExportBuilder implements TableExport {
 				: transformTable.transform(pageBreakRowsIndex);
 		createTablePdf(xslDoc, tableDocumentText, outputPath, shortcut,
 				pdfAMode, overwriteHandling);
+		// Resort pages of PDF
+		if (transformTable.isMultiPageLayout()) {
+			reSortPdfPage(outputPath);
+		}
+	}
+
+	/**
+	 * Sort multipage layout PDF again, because the page sequence by FOP export
+	 * isn't rational.
+	 * 
+	 * @param outputPath
+	 *            the pdf file, which result of FOP export
+	 * @throws IOException
+	 *             the {@link IOException}
+	 */
+	private static void reSortPdfPage(final Path outputPath)
+			throws IOException {
+		try (PDDocument pdf = PDDocument.load(outputPath.toFile());
+				PDDocument newPdf = new PDDocument()) {
+
+			final int pageCount = pdf.getPages().getCount();
+			final List<PDPage> tablePages = new LinkedList<>();
+			final List<PDPage> footnotePages = new LinkedList<>();
+			for (int i = pageCount; i >= 0; i--) {
+				final PDPage page = pdf.getPage(i - 1);
+				if (isFootnotePage(pdf, i)) {
+					footnotePages.addFirst(page);
+				} else {
+					// when we found the first page from the end not being a
+					// footnote page, that mean
+					// we found the end of the table pages
+					break;
+				}
+			}
+			final int tablePageCount = (pageCount - footnotePages.size()) / 2;
+
+			for (int i = 0; i < tablePageCount; i++) {
+				// collect table pages in proper order
+				tablePages.add(pdf.getPage(i));
+				tablePages.add(pdf.getPage(i + tablePageCount));
+			}
+
+			footnotePages.forEach(pdf::removePage);
+
+			tablePages.forEach(newPdf::addPage);
+			footnotePages.forEach(newPdf::addPage);
+			// Copy metadata
+			final PDMetadata metadata = pdf.getDocumentCatalog().getMetadata();
+			if (metadata != null) {
+				newPdf.getDocumentCatalog().setMetadata(metadata);
+			}
+			final List<PDOutputIntent> outputIntents = pdf.getDocumentCatalog()
+					.getOutputIntents();
+			if (outputIntents != null && !outputIntents.isEmpty()) {
+				newPdf.getDocumentCatalog().setOutputIntents(outputIntents);
+			}
+
+			newPdf.save(outputPath.toFile());
+		}
+	}
+
+	private static boolean isFootnotePage(final PDDocument pdf,
+			final int pageIndex) {
+		try {
+			final PDFTextStripper pdfTextStripper = new PDFTextStripper();
+			pdfTextStripper.setStartPage(pageIndex);
+			pdfTextStripper.setEndPage(pageIndex);
+			final String pageText = pdfTextStripper.getText(pdf);
+			final Pattern pageNumberPattern = Pattern
+					.compile(PAGE_NUMBER_PATTERN);
+			final Pattern footnodePageNumberPattern = Pattern
+					.compile(FOOTNOTE_PAGE_NUMBER_PATTERN);
+			final String pageNumber = Arrays.stream(pageText.split(" |\\r?\\n")) //$NON-NLS-1$
+					.parallel()
+					.filter(text -> pageNumberPattern.matcher(text).find())
+					.findFirst()
+					.orElse(""); //$NON-NLS-1$
+			if (pageNumber.isBlank() || pageNumber.isEmpty()) {
+				throw new IllegalArgumentException(
+						"Can't find page number in pdf page"); //$NON-NLS-1$
+			}
+			return footnodePageNumberPattern.matcher(pageNumber).find();
+		} catch (final IOException e) {
+			return false;
+		} catch (final IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private void createTablePdf(final Document xslDoc,
 			final String tableDocumentText, final Path outputPath,
 			final String shortcut, final PdfAMode pdfAMode,
-			final OverwriteHandling overwriteHandling)
-			throws IOException, SAXException, TransformerException {
+			final OverwriteHandling overwriteHandling) throws IOException,
+			SAXException, TransformerException, UserAbortion {
 		if (xslDoc != null) {
 			if (ToolboxConfiguration.isDevelopmentMode()) {
 				final Transformer documentToString = newTransformerFactory()
@@ -256,14 +356,20 @@ public class FopPdfExportBuilder implements TableExport {
 	public void exportTitleboxImage(final Titlebox titlebox,
 			final Path imagePath, final OverwriteHandling overwriteHandling)
 			throws Exception {
-		final String tableDocumentText = createTitleboxDocumentText(titlebox);
-		if (ToolboxConfiguration.isDevelopmentMode()) {
-			exportTableDocument(
-					Paths.get(imagePath.getParent().toString(),
-							TITLEBOX_SHORTCUT, "xml"), //$NON-NLS-1$
-					tableDocumentText);
+		try {
+			final String tableDocumentText = createTitleboxDocumentText(
+					titlebox);
+			if (ToolboxConfiguration.isDevelopmentMode()) {
+				exportTableDocument(
+						Paths.get(imagePath.getParent().toString(),
+								TITLEBOX_SHORTCUT, "xml"), //$NON-NLS-1$
+						tableDocumentText);
+			}
+			createImageFile(tableDocumentText, imagePath, overwriteHandling);
+		} catch (final UserAbortion e) {
+			// do nothing
 		}
-		createImageFile(tableDocumentText, imagePath, overwriteHandling);
+
 	}
 
 	@Override
@@ -282,6 +388,8 @@ public class FopPdfExportBuilder implements TableExport {
 					PdfAMode.NONE, overwriteHandling);
 		} catch (final ParserConfigurationException | TransformerException e) {
 			throw new RuntimeException(e);
+		} catch (final UserAbortion e) {
+			// do nothing
 		}
 	}
 
@@ -320,7 +428,8 @@ public class FopPdfExportBuilder implements TableExport {
 
 	private void createImageFile(final String tableDocumentText,
 			final Path imagePath, final OverwriteHandling overwriteHandling)
-			throws SAXException, IOException, TransformerException {
+			throws SAXException, IOException, TransformerException,
+			UserAbortion {
 		final File xsltFile = getTemplateFilename(TITLEBOX_SHORTCUT).toFile();
 		if (xsltFile.canRead()) {
 			final StreamSource xslt = new StreamSource(xsltFile);
@@ -338,7 +447,8 @@ public class FopPdfExportBuilder implements TableExport {
 	private void createPdf(final String tableDocumentText,
 			final Path outputPath, final String shortcut,
 			final PdfAMode pdfAMode, final OverwriteHandling overwriteHandling)
-			throws IOException, SAXException, TransformerException {
+			throws IOException, SAXException, TransformerException,
+			UserAbortion {
 		final File xsltFile = getTemplateFilename(shortcut).toFile();
 		PathExtensions.checkCanRead(xsltFile.toPath());
 		if (xsltFile.canRead()) {
