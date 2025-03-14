@@ -20,8 +20,8 @@ export default [
     ignores: ['**/*.js']
   }, ...compat.extends(
     'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-essential',
-    'plugin:vue/vue3-recommended'
+    'plugin:vue/essential',
+    'plugin:vue/strongly-recommended'
   ), {
     plugins: {
       '@stylistic': stylistic,
