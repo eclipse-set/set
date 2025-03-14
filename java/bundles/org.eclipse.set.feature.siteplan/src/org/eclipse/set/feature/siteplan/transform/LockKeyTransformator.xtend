@@ -18,7 +18,7 @@ import org.eclipse.set.model.siteplan.SiteplanPackage
 import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.Reference
 
-import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.transformPunktObjektStrecke
+import static extension org.eclipse.set.feature.siteplan.transform.TransformUtils.*
 
 /**
  * Transform PlanPro lockkeys to Siteplan lockkeys
@@ -36,8 +36,7 @@ class LockKeyTransformator extends BaseTransformator<Schluesselsperre> {
 	override transform(Schluesselsperre lockkey) {
 		val result = SiteplanFactory.eINSTANCE.createLockKey
 		result.guid = lockkey.identitaet?.wert
-		result.label = SiteplanFactory.eINSTANCE.createLabel()
-		result.label.text = lockkey.bezeichnung?.bezeichnungLageplanKurz?.wert
+		result.label = lockkey.bezeichnung?.label
 		result.locked = transformLockStatus(lockkey)
 		result.type = transformLockKeyType(lockkey)
 		val coor = pointObjectPositionService.getCoordinate(

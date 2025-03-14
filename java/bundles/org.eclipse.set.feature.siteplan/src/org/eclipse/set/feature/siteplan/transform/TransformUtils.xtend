@@ -38,7 +38,7 @@ class TransformUtils {
 	 * @return a siteplan label or null if no Bezeichnung_Element_AttributeGroup was given
 	 */
 	static def Label getLabel(Bezeichnung_Element_AttributeGroup labelelement) {
-		val labeltext = labelelement?.bezeichnungLageplanKurz?.wert
+		val labeltext = labelelement?.bezeichnungLageplanLang?.wert
 		if (labeltext === null)
 			return null
 		val label = SiteplanFactory.eINSTANCE.createLabel()
