@@ -7,7 +7,7 @@ html {
   text-align: left;
 }
 /* Reduce margins between list elements */
-ul, ol:first-child {
+div>ul, div>ol:first-child {
     margin-top: 1.3em;
 }
 ol, ul {
