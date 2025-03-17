@@ -277,21 +277,6 @@ public final class ToolboxConstants {
 	public static final String ESTW_SUPPLEMENT_PART_ID_PREFIX = "org.eclipse.set.feature.table.supplement-estw";
 
 	/**
-	 * The ESTW category
-	 */
-	public static final String ESTW_CATEGORY = "estw"; //$NON-NLS-1$
-
-	/**
-	 * The ETCS category
-	 */
-	public static final String ETCS_CATEGORY = "etcs"; //$NON-NLS-1$
-
-	/**
-	 * The ESTW Supplement category
-	 */
-	public static final String ESTW_SUPPLEMENT_CATEGORY = "supplement-estw";
-
-	/**
 	 * Rounding result of BigDecimal.divide to place after comma
 	 */
 	public static final int ROUNDING_TO_PLACE = 5;
