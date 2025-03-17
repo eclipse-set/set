@@ -64,7 +64,7 @@ public class PositionServiceImpl implements PositionService {
 						CRS_ERO_PARAMETER));
 		crsReferences.put(
 				ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_FR0,
-				crsFactory.createFromParameters("EPSG:31468",
+				crsFactory.createFromParameters("EPSG:31465",
 						CRS_FRO_PARAMETER));
 	}
 

@@ -78,6 +78,7 @@ public class ExportSiteplanBrowserFunction
 
 	@Override
 	public Object function(final Object[] arguments) {
+		exportImages.clear();
 		final Optional<String> optionalOutputDir = dialogService
 				.selectDirectory(shell,
 						ToolboxConfiguration.getDefaultPath().toString());

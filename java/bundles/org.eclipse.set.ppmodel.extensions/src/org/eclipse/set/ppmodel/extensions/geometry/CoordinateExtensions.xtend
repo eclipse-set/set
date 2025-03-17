@@ -14,9 +14,6 @@ import org.locationtech.proj4j.CRSFactory
 import org.locationtech.proj4j.CoordinateReferenceSystem
 import org.locationtech.proj4j.CoordinateTransformFactory
 import org.locationtech.proj4j.ProjCoordinate
-import org.locationtech.jts.geom.LineString
-import org.locationtech.jts.geom.Point
-import org.locationtech.jts.geom.GeometryFactory
 
 /**
  * Extensions for Geotools Coordinates

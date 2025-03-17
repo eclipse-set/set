@@ -34,7 +34,7 @@ class LayoutTransformator {
 		new Pair("DR0", ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_DR0),
 		new Pair("CR0", ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_CR0),
 		new Pair("FR0", ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_FR0),
-		new Pair("ERO", ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_ER0)
+		new Pair("ER0", ENUMGEOKoordinatensystem.ENUMGEO_KOORDINATENSYSTEM_ER0)
 	)
 
 	new(PlanPro_Layoutinfo layoutInfo, PositionService positionService) {
