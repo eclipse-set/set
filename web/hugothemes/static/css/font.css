@@ -7,8 +7,12 @@ html {
   text-align: left;
 }
 /* Reduce margins between list elements */
-div>ul, div>ol:first-child {
+ul, ol:first-child {
     margin-top: 1.3em;
+}
+/* but nested lists should not have margin */
+li ul, li ol:first-child {
+    margin-top: 0;
 }
 ol, ul {
   margin-top: 1.3em;
