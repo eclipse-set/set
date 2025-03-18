@@ -77,29 +77,28 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
     svgFunction?: ((object: T) => ISvgElement),
     objectPart?: string[]
   ): Feature<Geometry>[] {
-    const modelCompareProps = [
+    // When position of object is different, then return initail and final features
+    const diffPosition = this.compareChangeModel(initial, final, [
       {
         prop: 'position'
       }
-    ]
-    if (compareValue) {
-      compareValue.forEach(x => {
-        if (x.prop !== 'position') {
-          modelCompareProps.push(x)
-        }
-      })
+    ])
+
+    if (diffPosition) {
+      return [this.getFeatures(initial), this.getFeatures(final)].flat()
     }
 
-    const diffModel = this.compareChangeModel(initial, final, modelCompareProps)
-
+    const diffModel = this.compareChangeModel(initial, final, compareValue ?? [])
     let diffSvg = false
     if (svgFunction) {
       diffSvg = this.compareChangedSvg(initial, final, svgFunction, objectPart)
     }
 
-    return diffModel || diffSvg
-      ? this.createCompareFeatures(initial, final)
-      : this.getFeatures(final)
+    if (diffModel || diffSvg) {
+      return this.createCompareFeatures(initial, final)
+    }
+
+    return this.getFeatures(final)
   }
 
   /**
@@ -226,6 +225,10 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
       partID?: string
     }[]
   ): boolean {
+    if (compareObjects.length === 0) {
+      return false
+    }
+
     const initialObjects = this.getObjectsModel(initial)
     const finalObjects = this.getObjectsModel(final)
     let isDiff = false
@@ -268,7 +271,7 @@ export default abstract class LageplanFeature<T extends SiteplanObject> implemen
     return initialFeatures.map(initialFeature => {
       const finalFeature = finalFeatures.find(x => getFeatureGUID(x) === getFeatureGUID(initialFeature))
       if (!finalFeature) {
-        return null
+        return initialFeature
       }
 
       return this.mergeFeatures(initialFeature, finalFeature)
