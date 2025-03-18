@@ -162,8 +162,7 @@ public class SignalSideDistance {
 					p.getSeitlicherAbstand().getWert().doubleValue() * 1000))
 							.orElse(null);
 			if (sideDistance == null) {
-				throw new NullPointerException(
-						"The Seitlicher_Abstand isn't exists"); //$NON-NLS-1$
+				return;
 			}
 			final ENUMWirkrichtung direction = getSinglePoint(signal)
 					.getWirkrichtung()
