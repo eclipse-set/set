@@ -31,6 +31,7 @@ import org.apache.fop.configuration.ConfigurationException;
 import org.apache.xmlgraphics.io.Resource;
 import org.apache.xmlgraphics.io.ResourceResolver;
 import org.eclipse.set.basis.OverwriteHandling;
+import org.eclipse.set.basis.exceptions.UserAbortion;
 import org.eclipse.set.core.services.font.FontService;
 import org.eclipse.set.services.fop.FopService;
 import org.osgi.service.component.annotations.Activate;
@@ -115,11 +116,11 @@ public class FopServiceImpl implements FopService {
 	public void fop(final OutputFormat outputFormat, final Source stylesheet,
 			final Source xmlData, final Path outputPath,
 			final PdfAMode pdfAMode, final OverwriteHandling overwriteHandling,
-			final ResourceResolver userResourceResolver)
-			throws FOPException, IOException, TransformerException {
+			final ResourceResolver userResourceResolver) throws FOPException,
+			IOException, TransformerException, UserAbortion {
 		// check overwrite
 		if (!overwriteHandling.test(outputPath)) {
-			return;
+			throw new UserAbortion();
 		}
 
 		try (final FileOutputStream outputStream = new FileOutputStream(

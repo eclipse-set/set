@@ -54,6 +54,7 @@ public class TransformTable {
 	private static final float A3_PAPER_WIDTH = 42f;
 	String shortcut;
 	String tableTyle;
+	private AbstractTransformTableHeader transformHeader;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(TransformTable.class);
@@ -91,10 +92,9 @@ public class TransformTable {
 		}
 		final float contentWidth = getContentWidth(tableSheet);
 
-		final AbstractTransformTableHeader transformHeader = needToBreakPage(
-				tableSheet, contentWidth)
-						? new MultiPageTableHeader(tableSheet, contentWidth)
-						: new SinglePageTableHeader(tableSheet, contentWidth);
+		transformHeader = needToBreakPage(tableSheet, contentWidth)
+				? new MultiPageTableHeader(tableSheet, contentWidth)
+				: new SinglePageTableHeader(tableSheet, contentWidth);
 		final Document xslDoc = transformHeader.transform();
 		if (tableTyle != null) {
 			setWaterMarkContent(xslDoc);
@@ -222,5 +222,12 @@ public class TransformTable {
 		}
 
 		return sumWidth > maxContentWidth;
+	}
+
+	/**
+	 * @return true, if it is the multi page layotu
+	 */
+	public boolean isMultiPageLayout() {
+		return transformHeader instanceof MultiPageTableHeader;
 	}
 }
