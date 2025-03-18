@@ -6,40 +6,43 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v20.html
  */
-package org.eclipse.set.feature.export.parts;
+package org.eclipse.set.feature.table.export;
 
 import org.eclipse.set.basis.constants.ExportType;
-import org.eclipse.set.basis.constants.PlanProFileNature;
+import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.model.titlebox.Titlebox;
+import org.eclipse.set.model.titlebox.extensions.TitleboxExtensions;
 
 /**
- * Part for exporting planning records (Dokumentensatz erstellen).
+ * Part for exporting inventory records (Bestandsunterlagen erstellen).
  * 
  * @author Schaefer
  */
-public class ExportPlanningRecordsPart extends PlanProExportPart {
+public class ExportInventoryRecordsPart extends PlanProExportPart {
 
 	@Override
 	protected String getDescription() {
-		if (getModelSession().getNature() == PlanProFileNature.PLANNING) {
-			return messages.exportPlanningDescription;
-		}
-		return messages.exportStateDescription;
+		return messages.TableExportPart_ExportInventoryDescription;
 	}
 
 	@Override
 	protected String getExportButtonText() {
-		return messages.export_button;
+		return messages.TableExportPart_ExportInventoryRecords;
 	}
 
 	@Override
 	protected ExportType getExportType() {
-		return ExportType.PLANNING_RECORDS;
+		return ExportType.INVENTORY_RECORDS;
 	}
 
 	@Override
 	protected void updateTitlebox(final Titlebox titlebox) {
-		// No update required, as the title box is not marked
-		// for planning records
+		TitleboxExtensions.set(titlebox, TitleboxExtensions.DOC_TYPE_ADDRESS,
+				TitleboxExtensions.INVENTORY_RECORDS_DOC_TYPE_SHOTCUT);
+	}
+
+	@Override
+	public TableType getTableType() {
+		return TableType.FINAL;
 	}
 }

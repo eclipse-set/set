@@ -16,20 +16,22 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.set.basis.IModelSession;
 import org.eclipse.set.basis.OverwriteHandling;
 import org.eclipse.set.basis.constants.ExportType;
+import org.eclipse.set.basis.export.CheckboxModelElement;
 
 /**
  * Interface for additional exports.
  * 
  * @author Schaefer
+ * @param <T>
+ *            the check box element type
  */
-public interface AdditionalExportService {
+public interface AdditionalExportService<T extends CheckboxModelElement> {
 
 	/**
 	 * @param elements
 	 *            the list to add additional elements to
 	 */
-	public void createAdditionalCheckboxModelElements(
-			List<CheckboxModelElement> elements);
+	public void createAdditionalCheckboxModelElements(List<T> elements);
 
 	/**
 	 * Create an additional export.

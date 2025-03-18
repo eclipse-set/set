@@ -32,9 +32,7 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.core.services.part.ToolboxPartService;
 import org.eclipse.set.feature.table.messages.Messages;
 import org.eclipse.set.model.planpro.PlanPro.Container_AttributeGroup;
-import org.eclipse.set.ppmodel.extensions.utils.TableNameInfo;
 import org.eclipse.set.services.table.TableService;
-import org.eclipse.set.services.table.TableService.TableInfo;
 import org.eclipse.set.utils.BasePart;
 import org.eclipse.set.utils.ToolboxConfiguration;
 import org.eclipse.set.utils.events.ContainerDataChanged;
@@ -45,6 +43,8 @@ import org.eclipse.set.utils.events.SelectedControlAreaChangedEvent.ControlAreaV
 import org.eclipse.set.utils.events.ToolboxEventHandler;
 import org.eclipse.set.utils.events.ToolboxEvents;
 import org.eclipse.set.utils.table.TableError;
+import org.eclipse.set.utils.table.TableInfo;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -210,39 +210,24 @@ public class TableOverviewPart extends BasePart {
 	}
 
 	private void calculateAllMissingTables(final IProgressMonitor monitor) {
-		final Collection<String> missingTables = getMissingTables();
+		final Collection<TableInfo> missingTables = getMissingTables();
 		monitor.beginTask(messages.TableOverviewPart_CalculateMissingTask,
 				missingTables.size());
 		final TableType tableType = getModelSession().isSingleState()
 				? TableType.SINGLE
 				: TableType.DIFF;
 
-		for (final String table : missingTables) {
-			final TableNameInfo info = tableService.getTableNameInfo(table);
-			monitor.subTask(info.getFullDisplayName());
-
-			tableService.transformToTable(table, tableType, getModelSession(),
-					controlAreaIds);
-			while (!TableService.isTransformComplete(
-					info.getShortName().toLowerCase(), null)) {
-				try {
-					Thread.sleep(2000);
-				} catch (final InterruptedException e) {
-					Thread.interrupted();
-				}
-			}
-
-			monitor.worked(1);
-		}
+		tableService.transformTables(monitor, getModelSession(),
+				new HashSet<>(missingTables), tableType, controlAreaIds);
 	}
 
 	private void openAllTablesWithErrors() {
 		final Collection<String> tablesWithErrors = getTablesContainingErrors();
 		for (final String shortCut : tablesWithErrors) {
 			final String tablePartIdPrefix = switch (getTableCategory()) {
-				case ESTW_CATEGORY -> ESTW_TABLE_PART_ID_PREFIX;
-				case ETCS_CATEGORY -> ETCS_TABLE_PART_ID_PREFIX;
-				case ESTW_SUPPLEMENT_CATEGORY -> ESTW_SUPPLEMENT_PART_ID_PREFIX;
+				case ESTW -> ESTW_TABLE_PART_ID_PREFIX;
+				case ETCS -> ETCS_TABLE_PART_ID_PREFIX;
+				case ESTW_SUPPLEMENT -> ESTW_SUPPLEMENT_PART_ID_PREFIX;
 				default -> throw new IllegalArgumentException(
 						"Unexpected value: " + getTableCategory()); //$NON-NLS-1$
 			};
@@ -256,20 +241,22 @@ public class TableOverviewPart extends BasePart {
 				getTableCategory());
 	}
 
-	private String getTableCategory() {
+	private Pt1TableCategory getTableCategory() {
 		final String elementId = getToolboxPart().getElementId();
 		if (elementId.startsWith(ESTW_TABLE_PART_ID_PREFIX)) {
-			return ESTW_CATEGORY;
+			return Pt1TableCategory.ESTW;
 		} else if (elementId.startsWith(ETCS_TABLE_PART_ID_PREFIX)) {
-			return ETCS_CATEGORY;
+			return Pt1TableCategory.ETCS;
 		} else if (elementId.startsWith(ESTW_SUPPLEMENT_PART_ID_PREFIX)) {
-			return ESTW_SUPPLEMENT_CATEGORY;
+			return Pt1TableCategory.ESTW_SUPPLEMENT;
 		}
 		throw new IllegalArgumentException();
 	}
 
 	private void update() {
-		final Collection<String> missingTables = getMissingTables();
+		final Collection<String> missingTables = getMissingTables().stream()
+				.map(TableInfo::shortcut)
+				.toList();
 
 		if (!ToolboxConfiguration.isDebugMode()) {
 			missingTablesText.setText(tableList2DisplayString(missingTables));
@@ -290,21 +277,21 @@ public class TableOverviewPart extends BasePart {
 		tableErrorTableView.updateView(allErrors);
 	}
 
-	private Collection<String> getMissingTables() {
+	private Collection<TableInfo> getMissingTables() {
 		final Map<String, Collection<TableError>> computedErrors = getTableErrors();
-		final Collection<String> allTableInfos = tableService
+		final Collection<TableInfo> allTableInfos = tableService
 				.getAvailableTables()
 				.stream()
 				.filter(table -> table.category().equals(getTableCategory()))
-				.map(TableInfo::shortcut)
 				.toList();
 
-		final ArrayList<String> missingTables = new ArrayList<>();
+		final ArrayList<TableInfo> missingTables = new ArrayList<>();
 		missingTables.addAll(allTableInfos);
 		if (!ToolboxConfiguration.isDebugMode()) {
 			// in debug mode we want to be able to recompute the errors
 			// that's why we mark all as missing
-			missingTables.removeAll(computedErrors.keySet());
+			missingTables.removeIf(
+					info -> computedErrors.keySet().contains(info.shortcut()));
 		}
 		return missingTables;
 	}

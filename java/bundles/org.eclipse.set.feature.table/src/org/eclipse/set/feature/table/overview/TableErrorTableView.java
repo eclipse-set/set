@@ -27,6 +27,7 @@ import org.eclipse.set.utils.events.JumpToSiteplanEvent;
 import org.eclipse.set.utils.events.JumpToSourceLineEvent;
 import org.eclipse.set.utils.events.JumpToTableEvent;
 import org.eclipse.set.utils.table.TableError;
+import org.eclipse.set.utils.table.TableInfo.Pt1TableCategory;
 import org.eclipse.set.utils.table.menu.TableMenuService;
 import org.eclipse.set.utils.table.sorting.AbstractSortByColumnTables;
 import org.eclipse.set.utils.xml.XMLNodeFinder;
@@ -151,9 +152,9 @@ public class TableErrorTableView extends AbstractSortByColumnTables {
 						.getElementId()
 						.startsWith(
 								ToolboxConstants.ESTW_TABLE_PART_ID_PREFIX)) {
-					return ToolboxConstants.ESTW_CATEGORY;
+					return Pt1TableCategory.ESTW.getId();
 				}
-				return ToolboxConstants.ETCS_CATEGORY;
+				return Pt1TableCategory.ETCS.getId();
 			}
 		};
 	}
