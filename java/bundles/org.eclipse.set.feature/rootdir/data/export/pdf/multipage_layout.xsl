@@ -52,8 +52,18 @@
                 <xsl:call-template name="FoldingMarksBottom"/>
             </fo:static-content>
             <fo:static-content flow-name="title-box-region-last">
+                <xsl:variable name="tablePagePostfix">
+                    <xsl:choose>
+                        <xsl:when test="Table/Footnotes and normalize-space(Table/Footnotes) != ''">
+                            <xsl:value-of select="'b+'" />
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="'b-'" />
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
                 <xsl:call-template name="TitleboxRegion">
-                    <xsl:with-param name="pagePostfix" select="'b-'"/>
+                    <xsl:with-param name="pagePostfix" select="$tablePagePostfix" />
                 </xsl:call-template>
                 <xsl:call-template name="FoldingMarksBottom"/>
             </fo:static-content>
@@ -63,27 +73,29 @@
                 </fo:block>
             </fo:flow>
         </fo:page-sequence>
-        <fo:page-sequence force-page-count="no-force" master-reference="page-sequence-master-b">
-            <fo:static-content flow-name="folding-mark-region">
-                <xsl:call-template name="FoldingMarksTop"/>
-                <xsl:call-template name="WaterMark"/>
-            </fo:static-content>
-            <fo:static-content flow-name="title-box-region">
-                <xsl:call-template name="TitleboxRegion">
-                    <xsl:with-param name="pagePostfix" select="'+'"/>
-                </xsl:call-template>
-                <xsl:call-template name="FoldingMarksBottom"/>
-            </fo:static-content>
-            <fo:static-content flow-name="title-box-region-last">
-                <xsl:call-template name="TitleboxRegion">
-                    <xsl:with-param name="pagePostfix" select="'-'"/>
-                </xsl:call-template>
-                <xsl:call-template name="FoldingMarksBottom"/>
-            </fo:static-content>
-            <fo:flow flow-name="xsl-region-body">
-                <!-- Fill footnotes -->
-                <xsl:apply-templates select="Table/Footnotes" />
-            </fo:flow>
-        </fo:page-sequence>
+        <xsl:if test="Table/Footnotes and normalize-space(Table/Footnotes) != ''">
+            <fo:page-sequence force-page-count="no-force" master-reference="page-sequence-master-b">
+                <fo:static-content flow-name="folding-mark-region">
+                    <xsl:call-template name="FoldingMarksTop"/>
+                    <xsl:call-template name="WaterMark"/>
+                </fo:static-content>
+                <fo:static-content flow-name="title-box-region">
+                    <xsl:call-template name="TitleboxRegion">
+                        <xsl:with-param name="pagePostfix" select="'+'"/>
+                    </xsl:call-template>
+                    <xsl:call-template name="FoldingMarksBottom"/>
+                </fo:static-content>
+                <fo:static-content flow-name="title-box-region-last">
+                    <xsl:call-template name="TitleboxRegion">
+                        <xsl:with-param name="pagePostfix" select="'-'"/>
+                    </xsl:call-template>
+                    <xsl:call-template name="FoldingMarksBottom"/>
+                </fo:static-content>
+                <fo:flow flow-name="xsl-region-body">
+                    <!-- Fill footnotes -->
+                    <xsl:apply-templates select="Table/Footnotes" />
+                </fo:flow>
+            </fo:page-sequence>
+        </xsl:if>
     </fo:root>
 </xsl:template>
