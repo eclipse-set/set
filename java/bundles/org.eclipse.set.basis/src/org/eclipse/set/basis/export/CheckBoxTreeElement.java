@@ -81,36 +81,35 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 
 	@Override
 	public void select() {
-		if (this.selected) {
-			return;
-		}
-
 		this.selected = true;
 		if (isParent()) {
 			childs.forEach(ele -> ele.select());
-		} else if (parent != null && parent.isAllChildSameState(true)) {
-			parent.select();
+		}
+		selectParent();
+	}
+
+	private void selectParent() {
+		CheckBoxTreeElement element = parent;
+		while (element != null && element.isAllChildSameState(true)) {
+			element.selected = true;
+			element = element.parent;
 		}
 	}
 
 	@Override
 	public void deselect() {
-		if (!this.selected) {
-			return;
-		}
-
 		this.selected = false;
 		if (isParent()) {
 			childs.forEach(ele -> ele.deselect());
-		} else if (parent != null && parent.selected) {
-			deselectParent();
 		}
+		deselectParent();
 	}
 
 	private void deselectParent() {
-		if (parent != null && parent.selected) {
-			parent.selected = false;
-			parent.deselectParent();
+		CheckBoxTreeElement element = parent;
+		while (element != null && element.selected) {
+			element.selected = false;
+			element = element.parent;
 		}
 	}
 
