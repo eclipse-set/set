@@ -188,13 +188,14 @@ export default class ExportControl extends Control {
     let index = 0
     for (const c of result) {
       link.setAttribute('download', `siteplan_sheetcut_${c.sheetCutName ?? index}`)
-        console.log(`siteplan_sheetcut_${c.sheetCutName ?? index}`)
-        if (link) {
-          link.href = c.canvas.toDataURL()
-          link.click()
-        }
-        index++
-        await new Promise(resolve => setTimeout(resolve, 500) )
+      console.log(`siteplan_sheetcut_${c.sheetCutName ?? index}`)
+      if (link) {
+        link.href = c.canvas.toDataURL()
+        link.click()
+      }
+
+      index++
+      await new Promise(resolve => setTimeout(resolve, 500) )
     }
     this.lockMapDuringExport(false)
   }
