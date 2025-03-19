@@ -4,8 +4,9 @@
     copyrightText="Copyright (c) 2023 DB Netz AG and others.&#xD;&#xA;&#xD;&#xA;All rights reserved. This program and the accompanying materials&#xD;&#xA;are made available under the terms of the Eclipse Public License v2.0&#xD;&#xA;which accompanies this distribution, and is available at&#xD;&#xA;http://www.eclipse.org/legal/epl-v20.html"
     modelDirectory="/org.eclipse.set.model.plazmodel/src" editDirectory="/org.eclipse.set.model.plazmodel.edit/src"
     modelPluginID="org.eclipse.set.model.plazmodel" modelName="Plaz" editPluginClass="org.eclipse.set.model.plazmodel.provider.PlazEditPlugin"
-    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="17.0" copyrightFields="false" usedGenPackages="../../org.eclipse.set.model.validationreport/model/validationreport.genmodel#//validationreport"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    commentFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="17.0"
+    copyrightFields="false" usedGenPackages="../../org.eclipse.set.model.validationreport/model/validationreport.genmodel#//validationreport"
     operationReflection="true" importOrganizing="true">
   <editorDirectory xsi:nil="true"/>
   <foreignModel>plaz.ecore</foreignModel>
