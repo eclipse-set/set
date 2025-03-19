@@ -88,7 +88,7 @@ export default class ExportControl extends Control {
       if (sheetCutFeatures && sheetCutFeatures.length > 0
           && store.state.planproModelType === PlanProModelType.SITEPLAN) {
         button.disabled = false
-        element.removeAttribute('style')
+        element.setAttribute('style', 'pointer-events:auto;')
       }
     })
   }
