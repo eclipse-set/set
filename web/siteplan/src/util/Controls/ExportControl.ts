@@ -37,6 +37,10 @@ interface ExportTileData {
   outsidePolygonFeature: Feature<Geometry>[]
 }
 
+interface ExportCanvasData {
+  canvas: HTMLCanvasElement
+  sheetCutName: string | undefined
+}
 interface RotateData {
   rad: number
   anchor: number[]
@@ -64,12 +68,12 @@ export default class ExportControl extends Control {
     button.innerHTML = 'Export'
     button.className = 'print-control-button'
     button.title = 'Export'
-
+    button.disabled = true
     // Create container
     const element = document.createElement('div')
     element.className = 'print-control-container ol-unselectable ol-control'
     element.appendChild(button)
-
+    element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
     super({
       element
     })
@@ -81,10 +85,10 @@ export default class ExportControl extends Control {
 
     this.map.once('rendercomplete', () => {
       const sheetCutFeatures = this.getSheetcutFeatures()
-      if (!sheetCutFeatures || sheetCutFeatures.length == 0
-          || store.state.planproModelType !== PlanProModelType.SITEPLAN) {
-        button.disabled = true
-        element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
+      if (sheetCutFeatures && sheetCutFeatures.length > 0
+          && store.state.planproModelType === PlanProModelType.SITEPLAN) {
+        button.disabled = false
+        element.setAttribute('style', 'pointer-events:auto;')
       }
     })
   }
@@ -154,7 +158,7 @@ export default class ExportControl extends Control {
 
   private async exportSiteplan (sheetCutFeatures: Feature<Geometry>[], scale: number) {
     this.lockMapDuringExport(true)
-    const result: HTMLCanvasElement[] = []
+    const result: ExportCanvasData[] = []
     const originalRotation = this.map.getView().getRotation()
     const originalZoomLvl = this.map.getView().getZoom()
     const originalViewCenter = this.map.getView().getCenter()
@@ -181,13 +185,18 @@ export default class ExportControl extends Control {
     result.push(...exportCanvases.filter(canvas => canvas !== null))
 
     const link = document.createElement('a')
-    result.forEach((c, index) => {
-      link.setAttribute('download', 'siteplan' + (index == 0 ? '' : index))
+    let index = 0
+    for (const c of result) {
+      link.setAttribute('download', `siteplan_sheetcut_${c.sheetCutName ?? index}`)
+      console.log(`siteplan_sheetcut_${c.sheetCutName ?? index}`)
       if (link) {
-        link.href = c.toDataURL()
+        link.href = c.canvas.toDataURL()
         link.click()
       }
-    })
+
+      index++
+      await new Promise(resolve => setTimeout(resolve, 500) )
+    }
     this.lockMapDuringExport(false)
   }
 
@@ -195,8 +204,8 @@ export default class ExportControl extends Control {
     sheetCutFeatures: Feature<Geometry>[],
     visibleLayers: NamedFeatureLayer[],
     resolution: number
-  ) {
-    const result: HTMLCanvasElement[] = []
+  ) : Promise<ExportCanvasData[]> {
+    const result: ExportCanvasData[] = []
     for (const sheetCutFeature of sheetCutFeatures) {
       const featureData = getFeatureData(sheetCutFeature) as SheetCutFeatureData
       const directionLineCoords = featureData.directionLine.getCoordinates()
@@ -233,7 +242,10 @@ export default class ExportControl extends Control {
         return []
       }
 
-      result.push(exportCanvas)
+      result.push({
+        canvas: exportCanvas,
+        sheetCutName: featureData.sheetIndex ?? undefined
+      })
     }
     return result
   }
