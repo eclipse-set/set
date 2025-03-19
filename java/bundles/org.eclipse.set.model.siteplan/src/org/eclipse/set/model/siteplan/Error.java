@@ -20,9 +20,12 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.Error#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.Error#getRelevantGUIDs <em>Relevant GUI Ds</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.Error#getMessage <em>Message</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Error#getPosition
+ * <em>Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Error#getRelevantGUIDs <em>Relevant
+ * GUI Ds</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Error#getMessage
+ * <em>Message</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getError()
@@ -31,8 +34,9 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Error extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Position</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Position</em>' containment reference.
 	 * @see #setPosition(Coordinate)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getError_Position()
@@ -42,10 +46,14 @@ public interface Error extends EObject {
 	Coordinate getPosition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Error#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.Error#getPosition
+	 * <em>Position</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Position</em>' containment
+	 *            reference.
 	 * @see #getPosition()
 	 * @generated
 	 */

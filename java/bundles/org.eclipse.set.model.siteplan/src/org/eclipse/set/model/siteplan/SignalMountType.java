@@ -18,15 +18,16 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Signal Mount Type</b></em>', and utility methods for working with
  * them. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSignalMountType()
  * @model
  * @generated
  */
 public enum SignalMountType implements Enumerator {
 	/**
-	 * The '<em><b>Mast</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!--
+	 * The '<em><b>Mast</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #MAST_VALUE
 	 * @generated
 	 * @ordered
@@ -34,9 +35,9 @@ public enum SignalMountType implements Enumerator {
 	MAST(0, "Mast", "Mast"),
 
 	/**
-	 * The '<em><b>Mehrere Masten</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Mehrere Masten</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #MEHRERE_MASTEN_VALUE
 	 * @generated
 	 * @ordered
@@ -44,9 +45,9 @@ public enum SignalMountType implements Enumerator {
 	MEHRERE_MASTEN(1, "MehrereMasten", "MehrereMasten"),
 
 	/**
-	 * The '<em><b>Pfosten</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+	 * The '<em><b>Pfosten</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #PFOSTEN_VALUE
 	 * @generated
 	 * @ordered
@@ -54,9 +55,9 @@ public enum SignalMountType implements Enumerator {
 	PFOSTEN(2, "Pfosten", "Pfosten"),
 
 	/**
-	 * The '<em><b>Schienenfuss</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Schienenfuss</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #SCHIENENFUSS_VALUE
 	 * @generated
 	 * @ordered
@@ -64,9 +65,9 @@ public enum SignalMountType implements Enumerator {
 	SCHIENENFUSS(3, "Schienenfuss", "Schienenfuss"),
 
 	/**
-	 * The '<em><b>Gleisabschluss</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Gleisabschluss</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #GLEISABSCHLUSS_VALUE
 	 * @generated
 	 * @ordered
@@ -74,9 +75,9 @@ public enum SignalMountType implements Enumerator {
 	GLEISABSCHLUSS(4, "Gleisabschluss", "Gleisabschluss"),
 
 	/**
-	 * The '<em><b>Mast Niedrig</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Mast Niedrig</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #MAST_NIEDRIG_VALUE
 	 * @generated
 	 * @ordered
@@ -84,9 +85,9 @@ public enum SignalMountType implements Enumerator {
 	MAST_NIEDRIG(5, "MastNiedrig", "MastNiedrig"),
 
 	/**
-	 * The '<em><b>Pfosten Niedrig</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Pfosten Niedrig</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #PFOSTEN_NIEDRIG_VALUE
 	 * @generated
 	 * @ordered
@@ -134,9 +135,9 @@ public enum SignalMountType implements Enumerator {
 	SIGNALAUSLEGER_MITTE(10, "SignalauslegerMitte", "SignalauslegerMitte"),
 
 	/**
-	 * The '<em><b>Signalbruecke</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Signalbruecke</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #SIGNALBRUECKE_VALUE
 	 * @generated
 	 * @ordered
@@ -154,9 +155,9 @@ public enum SignalMountType implements Enumerator {
 	SONDERKONSTRUKTION(12, "Sonderkonstruktion", "Sonderkonstruktion");
 
 	/**
-	 * The '<em><b>Mast</b></em>' literal value.
-	 * <!-- begin-user-doc --> <!--
+	 * The '<em><b>Mast</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #MAST
 	 * @model name="Mast"
 	 * @generated
@@ -165,9 +166,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int MAST_VALUE = 0;
 
 	/**
-	 * The '<em><b>Mehrere Masten</b></em>' literal value.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Mehrere Masten</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #MEHRERE_MASTEN
 	 * @model name="MehrereMasten"
 	 * @generated
@@ -176,9 +177,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int MEHRERE_MASTEN_VALUE = 1;
 
 	/**
-	 * The '<em><b>Pfosten</b></em>' literal value.
-	 * <!-- begin-user-doc --> <!--
+	 * The '<em><b>Pfosten</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #PFOSTEN
 	 * @model name="Pfosten"
 	 * @generated
@@ -187,9 +188,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int PFOSTEN_VALUE = 2;
 
 	/**
-	 * The '<em><b>Schienenfuss</b></em>' literal value.
-	 * <!-- begin-user-doc -->
+	 * The '<em><b>Schienenfuss</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #SCHIENENFUSS
 	 * @model name="Schienenfuss"
 	 * @generated
@@ -198,9 +199,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int SCHIENENFUSS_VALUE = 3;
 
 	/**
-	 * The '<em><b>Gleisabschluss</b></em>' literal value.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Gleisabschluss</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #GLEISABSCHLUSS
 	 * @model name="Gleisabschluss"
 	 * @generated
@@ -209,9 +210,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int GLEISABSCHLUSS_VALUE = 4;
 
 	/**
-	 * The '<em><b>Mast Niedrig</b></em>' literal value.
-	 * <!-- begin-user-doc -->
+	 * The '<em><b>Mast Niedrig</b></em>' literal value. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #MAST_NIEDRIG
 	 * @model name="MastNiedrig"
 	 * @generated
@@ -220,9 +221,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int MAST_NIEDRIG_VALUE = 5;
 
 	/**
-	 * The '<em><b>Pfosten Niedrig</b></em>' literal value.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Pfosten Niedrig</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #PFOSTEN_NIEDRIG
 	 * @model name="PfostenNiedrig"
 	 * @generated
@@ -242,9 +243,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int DECKENKONSTRUKTION_VALUE = 7;
 
 	/**
-	 * The '<em><b>Wandkonstruktion</b></em>' literal value.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Wandkonstruktion</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #WANDKONSTRUKTION
 	 * @model name="Wandkonstruktion"
 	 * @generated
@@ -275,9 +276,9 @@ public enum SignalMountType implements Enumerator {
 	public static final int SIGNALAUSLEGER_MITTE_VALUE = 10;
 
 	/**
-	 * The '<em><b>Signalbruecke</b></em>' literal value.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Signalbruecke</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #SIGNALBRUECKE
 	 * @model name="Signalbruecke"
 	 * @generated
@@ -303,32 +304,26 @@ public enum SignalMountType implements Enumerator {
 	 * @generated
 	 */
 	private static final SignalMountType[] VALUES_ARRAY = new SignalMountType[] {
-			MAST,
-			MEHRERE_MASTEN,
-			PFOSTEN,
-			SCHIENENFUSS,
-			GLEISABSCHLUSS,
-			MAST_NIEDRIG,
-			PFOSTEN_NIEDRIG,
-			DECKENKONSTRUKTION,
-			WANDKONSTRUKTION,
-			SIGNALAUSLEGER_LINKS,
-			SIGNALAUSLEGER_MITTE,
-			SIGNALBRUECKE,
-			SONDERKONSTRUKTION,
-		};
+			MAST, MEHRERE_MASTEN, PFOSTEN, SCHIENENFUSS, GLEISABSCHLUSS,
+			MAST_NIEDRIG, PFOSTEN_NIEDRIG, DECKENKONSTRUKTION, WANDKONSTRUKTION,
+			SIGNALAUSLEGER_LINKS, SIGNALAUSLEGER_MITTE, SIGNALBRUECKE,
+			SONDERKONSTRUKTION, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Signal Mount Type</b></em>' enumerators.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * A public read-only list of all the '<em><b>Signal Mount Type</b></em>'
+	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static final List<SignalMountType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<SignalMountType> VALUES = Collections
+			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Signal Mount Type</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param literal the literal.
+	 * Returns the '<em><b>Signal Mount Type</b></em>' literal with the
+	 * specified literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param literal
+	 *            the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -343,9 +338,11 @@ public enum SignalMountType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Signal Mount Type</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param name the name.
+	 * Returns the '<em><b>Signal Mount Type</b></em>' literal with the
+	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param name
+	 *            the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -360,53 +357,71 @@ public enum SignalMountType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Signal Mount Type</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the integer value.
+	 * Returns the '<em><b>Signal Mount Type</b></em>' literal with the
+	 * specified integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static SignalMountType get(int value) {
 		switch (value) {
-			case MAST_VALUE: return MAST;
-			case MEHRERE_MASTEN_VALUE: return MEHRERE_MASTEN;
-			case PFOSTEN_VALUE: return PFOSTEN;
-			case SCHIENENFUSS_VALUE: return SCHIENENFUSS;
-			case GLEISABSCHLUSS_VALUE: return GLEISABSCHLUSS;
-			case MAST_NIEDRIG_VALUE: return MAST_NIEDRIG;
-			case PFOSTEN_NIEDRIG_VALUE: return PFOSTEN_NIEDRIG;
-			case DECKENKONSTRUKTION_VALUE: return DECKENKONSTRUKTION;
-			case WANDKONSTRUKTION_VALUE: return WANDKONSTRUKTION;
-			case SIGNALAUSLEGER_LINKS_VALUE: return SIGNALAUSLEGER_LINKS;
-			case SIGNALAUSLEGER_MITTE_VALUE: return SIGNALAUSLEGER_MITTE;
-			case SIGNALBRUECKE_VALUE: return SIGNALBRUECKE;
-			case SONDERKONSTRUKTION_VALUE: return SONDERKONSTRUKTION;
+			case MAST_VALUE:
+				return MAST;
+			case MEHRERE_MASTEN_VALUE:
+				return MEHRERE_MASTEN;
+			case PFOSTEN_VALUE:
+				return PFOSTEN;
+			case SCHIENENFUSS_VALUE:
+				return SCHIENENFUSS;
+			case GLEISABSCHLUSS_VALUE:
+				return GLEISABSCHLUSS;
+			case MAST_NIEDRIG_VALUE:
+				return MAST_NIEDRIG;
+			case PFOSTEN_NIEDRIG_VALUE:
+				return PFOSTEN_NIEDRIG;
+			case DECKENKONSTRUKTION_VALUE:
+				return DECKENKONSTRUKTION;
+			case WANDKONSTRUKTION_VALUE:
+				return WANDKONSTRUKTION;
+			case SIGNALAUSLEGER_LINKS_VALUE:
+				return SIGNALAUSLEGER_LINKS;
+			case SIGNALAUSLEGER_MITTE_VALUE:
+				return SIGNALAUSLEGER_MITTE;
+			case SIGNALBRUECKE_VALUE:
+				return SIGNALBRUECKE;
+			case SONDERKONSTRUKTION_VALUE:
+				return SONDERKONSTRUKTION;
 		}
 		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private SignalMountType(int value, String name, String literal) {
@@ -417,34 +432,38 @@ public enum SignalMountType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-	  return value;
+		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-	  return name;
+		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-	  return literal;
+		return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string
+	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override

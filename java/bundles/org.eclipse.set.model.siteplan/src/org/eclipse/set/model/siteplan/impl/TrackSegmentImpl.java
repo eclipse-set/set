@@ -32,8 +32,10 @@ import org.eclipse.set.model.siteplan.TrackType;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSegmentImpl#getType <em>Type</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSegmentImpl#getPositions <em>Positions</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSegmentImpl#getType
+ * <em>Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSegmentImpl#getPositions
+ * <em>Positions</em>}</li>
  * </ul>
  *
  * @generated
@@ -41,8 +43,9 @@ import org.eclipse.set.model.siteplan.TrackType;
 public class TrackSegmentImpl extends SiteplanObjectImpl
 		implements TrackSegment {
 	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute
+	 * list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getType()
 	 * @generated
 	 * @ordered
@@ -50,8 +53,9 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 	protected EList<TrackType> type;
 
 	/**
-	 * The cached value of the '{@link #getPositions() <em>Positions</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPositions() <em>Positions</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPositions()
 	 * @generated
 	 * @ordered
@@ -60,6 +64,7 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TrackSegmentImpl() {
@@ -68,6 +73,7 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -77,30 +83,36 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<TrackType> getType() {
 		if (type == null) {
-			type = new EDataTypeUniqueEList<TrackType>(TrackType.class, this, SiteplanPackage.TRACK_SEGMENT__TYPE);
+			type = new EDataTypeUniqueEList<TrackType>(TrackType.class, this,
+					SiteplanPackage.TRACK_SEGMENT__TYPE);
 		}
 		return type;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Coordinate> getPositions() {
 		if (positions == null) {
-			positions = new EObjectContainmentEList<Coordinate>(Coordinate.class, this, SiteplanPackage.TRACK_SEGMENT__POSITIONS);
+			positions = new EObjectContainmentEList<Coordinate>(
+					Coordinate.class, this,
+					SiteplanPackage.TRACK_SEGMENT__POSITIONS);
 		}
 		return positions;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -108,13 +120,15 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SEGMENT__POSITIONS:
-				return ((InternalEList<?>)getPositions()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getPositions()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,6 +144,7 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -138,11 +153,12 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SEGMENT__TYPE:
 				getType().clear();
-				getType().addAll((Collection<? extends TrackType>)newValue);
+				getType().addAll((Collection<? extends TrackType>) newValue);
 				return;
 			case SiteplanPackage.TRACK_SEGMENT__POSITIONS:
 				getPositions().clear();
-				getPositions().addAll((Collection<? extends Coordinate>)newValue);
+				getPositions()
+						.addAll((Collection<? extends Coordinate>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -150,6 +166,7 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -167,6 +184,7 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -182,11 +200,13 @@ public class TrackSegmentImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (type: ");

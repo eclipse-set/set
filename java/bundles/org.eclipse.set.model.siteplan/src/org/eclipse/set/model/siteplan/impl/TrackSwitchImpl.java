@@ -35,17 +35,21 @@ import org.eclipse.set.model.siteplan.TrackSwitchComponent;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getDesign <em>Design</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getComponents <em>Components</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getContinuousSegments <em>Continuous Segments</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getDesign
+ * <em>Design</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getComponents
+ * <em>Components</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackSwitchImpl#getContinuousSegments
+ * <em>Continuous Segments</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 	/**
-	 * The default value of the '{@link #getDesign() <em>Design</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getDesign() <em>Design</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDesign()
 	 * @generated
 	 * @ordered
@@ -55,6 +59,7 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 	/**
 	 * The cached value of the '{@link #getDesign() <em>Design</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDesign()
 	 * @generated
 	 * @ordered
@@ -62,8 +67,9 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 	protected String design = DESIGN_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getComponents() <em>Components</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getComponents() <em>Components</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getComponents()
 	 * @generated
 	 * @ordered
@@ -71,9 +77,10 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 	protected EList<TrackSwitchComponent> components;
 
 	/**
-	 * The cached value of the '{@link #getContinuousSegments() <em>Continuous Segments</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getContinuousSegments() <em>Continuous
+	 * Segments</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #getContinuousSegments()
 	 * @generated
 	 * @ordered
@@ -82,6 +89,7 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TrackSwitchImpl() {
@@ -90,6 +98,7 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -99,6 +108,7 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -108,6 +118,7 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -115,35 +126,43 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 		String oldDesign = design;
 		design = newDesign;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.TRACK_SWITCH__DESIGN, oldDesign, design));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.TRACK_SWITCH__DESIGN, oldDesign, design));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<TrackSwitchComponent> getComponents() {
 		if (components == null) {
-			components = new EObjectContainmentEList<TrackSwitchComponent>(TrackSwitchComponent.class, this, SiteplanPackage.TRACK_SWITCH__COMPONENTS);
+			components = new EObjectContainmentEList<TrackSwitchComponent>(
+					TrackSwitchComponent.class, this,
+					SiteplanPackage.TRACK_SWITCH__COMPONENTS);
 		}
 		return components;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<ContinuousTrackSegment> getContinuousSegments() {
 		if (continuousSegments == null) {
-			continuousSegments = new EObjectContainmentEList<ContinuousTrackSegment>(ContinuousTrackSegment.class, this, SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS);
+			continuousSegments = new EObjectContainmentEList<ContinuousTrackSegment>(
+					ContinuousTrackSegment.class, this,
+					SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS);
 		}
 		return continuousSegments;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -151,15 +170,18 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH__COMPONENTS:
-				return ((InternalEList<?>)getComponents()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getComponents())
+						.basicRemove(otherEnd, msgs);
 			case SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS:
-				return ((InternalEList<?>)getContinuousSegments()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getContinuousSegments())
+						.basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -177,6 +199,7 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -184,15 +207,17 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH__DESIGN:
-				setDesign((String)newValue);
+				setDesign((String) newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH__COMPONENTS:
 				getComponents().clear();
-				getComponents().addAll((Collection<? extends TrackSwitchComponent>)newValue);
+				getComponents().addAll(
+						(Collection<? extends TrackSwitchComponent>) newValue);
 				return;
 			case SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS:
 				getContinuousSegments().clear();
-				getContinuousSegments().addAll((Collection<? extends ContinuousTrackSegment>)newValue);
+				getContinuousSegments().addAll(
+						(Collection<? extends ContinuousTrackSegment>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -200,6 +225,7 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -220,28 +246,33 @@ public class TrackSwitchImpl extends SiteplanObjectImpl implements TrackSwitch {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK_SWITCH__DESIGN:
-				return DESIGN_EDEFAULT == null ? design != null : !DESIGN_EDEFAULT.equals(design);
+				return DESIGN_EDEFAULT == null ? design != null
+						: !DESIGN_EDEFAULT.equals(design);
 			case SiteplanPackage.TRACK_SWITCH__COMPONENTS:
 				return components != null && !components.isEmpty();
 			case SiteplanPackage.TRACK_SWITCH__CONTINUOUS_SEGMENTS:
-				return continuousSegments != null && !continuousSegments.isEmpty();
+				return continuousSegments != null
+						&& !continuousSegments.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (design: ");

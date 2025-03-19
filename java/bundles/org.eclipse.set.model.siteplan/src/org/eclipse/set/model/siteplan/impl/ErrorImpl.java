@@ -33,9 +33,12 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.ErrorImpl#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.ErrorImpl#getRelevantGUIDs <em>Relevant GUI Ds</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.ErrorImpl#getMessage <em>Message</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.ErrorImpl#getPosition
+ * <em>Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.ErrorImpl#getRelevantGUIDs
+ * <em>Relevant GUI Ds</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.ErrorImpl#getMessage
+ * <em>Message</em>}</li>
  * </ul>
  *
  * @generated
@@ -43,8 +46,9 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 public class ErrorImpl extends MinimalEObjectImpl.Container
 		implements org.eclipse.set.model.siteplan.Error {
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -52,8 +56,9 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 	protected Coordinate position;
 
 	/**
-	 * The cached value of the '{@link #getRelevantGUIDs() <em>Relevant GUI Ds</em>}' attribute list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getRelevantGUIDs() <em>Relevant GUI
+	 * Ds</em>}' attribute list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getRelevantGUIDs()
 	 * @generated
 	 * @ordered
@@ -61,8 +66,9 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 	protected EList<String> relevantGUIDs;
 
 	/**
-	 * The default value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getMessage() <em>Message</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMessage()
 	 * @generated
 	 * @ordered
@@ -70,8 +76,9 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 	protected static final String MESSAGE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getMessage() <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMessage() <em>Message</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMessage()
 	 * @generated
 	 * @ordered
@@ -80,6 +87,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected ErrorImpl() {
@@ -88,6 +96,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -97,6 +106,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -106,6 +116,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetPosition(Coordinate newPosition,
@@ -113,14 +124,20 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 		Coordinate oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.ERROR__POSITION, oldPosition, newPosition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, SiteplanPackage.ERROR__POSITION,
+					oldPosition, newPosition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -128,30 +145,42 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.ERROR__POSITION, null, msgs);
+				msgs = ((InternalEObject) position)
+						.eInverseRemove(this,
+								EOPPOSITE_FEATURE_BASE
+										- SiteplanPackage.ERROR__POSITION,
+								null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.ERROR__POSITION, null, msgs);
+				msgs = ((InternalEObject) newPosition)
+						.eInverseAdd(this,
+								EOPPOSITE_FEATURE_BASE
+										- SiteplanPackage.ERROR__POSITION,
+								null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.ERROR__POSITION, newPosition, newPosition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.ERROR__POSITION, newPosition, newPosition));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<String> getRelevantGUIDs() {
 		if (relevantGUIDs == null) {
-			relevantGUIDs = new EDataTypeUniqueEList<String>(String.class, this, SiteplanPackage.ERROR__RELEVANT_GUI_DS);
+			relevantGUIDs = new EDataTypeUniqueEList<String>(String.class, this,
+					SiteplanPackage.ERROR__RELEVANT_GUI_DS);
 		}
 		return relevantGUIDs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -161,6 +190,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -168,11 +198,13 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 		String oldMessage = message;
 		message = newMessage;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.ERROR__MESSAGE, oldMessage, message));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.ERROR__MESSAGE, oldMessage, message));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -187,6 +219,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -204,6 +237,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -211,14 +245,15 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.ERROR__POSITION:
-				setPosition((Coordinate)newValue);
+				setPosition((Coordinate) newValue);
 				return;
 			case SiteplanPackage.ERROR__RELEVANT_GUI_DS:
 				getRelevantGUIDs().clear();
-				getRelevantGUIDs().addAll((Collection<? extends String>)newValue);
+				getRelevantGUIDs()
+						.addAll((Collection<? extends String>) newValue);
 				return;
 			case SiteplanPackage.ERROR__MESSAGE:
-				setMessage((String)newValue);
+				setMessage((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -226,13 +261,14 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.ERROR__POSITION:
-				setPosition((Coordinate)null);
+				setPosition((Coordinate) null);
 				return;
 			case SiteplanPackage.ERROR__RELEVANT_GUI_DS:
 				getRelevantGUIDs().clear();
@@ -246,6 +282,7 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -256,18 +293,21 @@ public class ErrorImpl extends MinimalEObjectImpl.Container
 			case SiteplanPackage.ERROR__RELEVANT_GUI_DS:
 				return relevantGUIDs != null && !relevantGUIDs.isEmpty();
 			case SiteplanPackage.ERROR__MESSAGE:
-				return MESSAGE_EDEFAULT == null ? message != null : !MESSAGE_EDEFAULT.equals(message);
+				return MESSAGE_EDEFAULT == null ? message != null
+						: !MESSAGE_EDEFAULT.equals(message);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (relevantGUIDs: ");

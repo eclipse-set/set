@@ -18,9 +18,12 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.SignalScreen#getScreen <em>Screen</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.SignalScreen#isSwitched <em>Switched</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.SignalScreen#getFrameType <em>Frame Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.SignalScreen#getScreen
+ * <em>Screen</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.SignalScreen#isSwitched
+ * <em>Switched</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.SignalScreen#getFrameType <em>Frame
+ * Type</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getSignalScreen()
@@ -91,10 +94,13 @@ public interface SignalScreen extends EObject {
 	String getFrameType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.SignalScreen#getFrameType <em>Frame Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.SignalScreen#getFrameType
+	 * <em>Frame Type</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Frame Type</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Frame Type</em>' attribute.
 	 * @see #getFrameType()
 	 * @generated
 	 */

@@ -16,7 +16,8 @@ package org.eclipse.set.model.siteplan;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.CantPoint#getHeight <em>Height</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.CantPoint#getHeight
+ * <em>Height</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getCantPoint()

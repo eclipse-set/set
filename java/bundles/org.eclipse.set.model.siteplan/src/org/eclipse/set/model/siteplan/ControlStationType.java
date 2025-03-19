@@ -18,15 +18,16 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration
  * '<em><b>Control Station Type</b></em>', and utility methods for working with
  * them. <!-- end-user-doc -->
+ * 
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getControlStationType()
  * @model
  * @generated
  */
 public enum ControlStationType implements Enumerator {
 	/**
-	 * The '<em><b>Default Control</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Default Control</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #DEFAULT_CONTROL_VALUE
 	 * @generated
 	 * @ordered
@@ -66,9 +67,9 @@ public enum ControlStationType implements Enumerator {
 			"DefaultControlDispose"),
 
 	/**
-	 * The '<em><b>Other</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!--
+	 * The '<em><b>Other</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #OTHER_VALUE
 	 * @generated
 	 * @ordered
@@ -76,9 +77,9 @@ public enum ControlStationType implements Enumerator {
 	OTHER(4, "Other", "Other"),
 
 	/**
-	 * The '<em><b>Without Control</b></em>' literal object.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Without Control</b></em>' literal object. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #WITHOUT_CONTROL_VALUE
 	 * @generated
 	 * @ordered
@@ -96,9 +97,9 @@ public enum ControlStationType implements Enumerator {
 	ONLY_REMOTE_CONTROL(6, "OnlyRemoteControl", "OnlyRemoteControl");
 
 	/**
-	 * The '<em><b>Default Control</b></em>' literal value.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Default Control</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #DEFAULT_CONTROL
 	 * @model name="DefaultControl"
 	 * @generated
@@ -140,9 +141,9 @@ public enum ControlStationType implements Enumerator {
 	public static final int DEFAULT_CONTROL_DISPOSE_VALUE = 3;
 
 	/**
-	 * The '<em><b>Other</b></em>' literal value.
-	 * <!-- begin-user-doc --> <!--
+	 * The '<em><b>Other</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #OTHER
 	 * @model name="Other"
 	 * @generated
@@ -151,9 +152,9 @@ public enum ControlStationType implements Enumerator {
 	public static final int OTHER_VALUE = 4;
 
 	/**
-	 * The '<em><b>Without Control</b></em>' literal value.
-	 * <!-- begin-user-doc
+	 * The '<em><b>Without Control</b></em>' literal value. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #WITHOUT_CONTROL
 	 * @model name="WithoutControl"
 	 * @generated
@@ -175,29 +176,29 @@ public enum ControlStationType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Control Station Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private static final ControlStationType[] VALUES_ARRAY = new ControlStationType[] {
-			DEFAULT_CONTROL,
-			EMERGENCY_CONTROL,
-			EMERGENCY_CONTROL_DISPOSE,
-			DEFAULT_CONTROL_DISPOSE,
-			OTHER,
-			WITHOUT_CONTROL,
-			ONLY_REMOTE_CONTROL,
-		};
+			DEFAULT_CONTROL, EMERGENCY_CONTROL, EMERGENCY_CONTROL_DISPOSE,
+			DEFAULT_CONTROL_DISPOSE, OTHER, WITHOUT_CONTROL,
+			ONLY_REMOTE_CONTROL, };
 
 	/**
-	 * A public read-only list of all the '<em><b>Control Station Type</b></em>' enumerators.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * A public read-only list of all the '<em><b>Control Station Type</b></em>'
+	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static final List<ControlStationType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<ControlStationType> VALUES = Collections
+			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Control Station Type</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param literal the literal.
+	 * Returns the '<em><b>Control Station Type</b></em>' literal with the
+	 * specified literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param literal
+	 *            the literal.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -212,9 +213,11 @@ public enum ControlStationType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Control Station Type</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param name the name.
+	 * Returns the '<em><b>Control Station Type</b></em>' literal with the
+	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param name
+	 *            the name.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
@@ -229,47 +232,59 @@ public enum ControlStationType implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Control Station Type</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the integer value.
+	 * Returns the '<em><b>Control Station Type</b></em>' literal with the
+	 * specified integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the integer value.
 	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ControlStationType get(int value) {
 		switch (value) {
-			case DEFAULT_CONTROL_VALUE: return DEFAULT_CONTROL;
-			case EMERGENCY_CONTROL_VALUE: return EMERGENCY_CONTROL;
-			case EMERGENCY_CONTROL_DISPOSE_VALUE: return EMERGENCY_CONTROL_DISPOSE;
-			case DEFAULT_CONTROL_DISPOSE_VALUE: return DEFAULT_CONTROL_DISPOSE;
-			case OTHER_VALUE: return OTHER;
-			case WITHOUT_CONTROL_VALUE: return WITHOUT_CONTROL;
-			case ONLY_REMOTE_CONTROL_VALUE: return ONLY_REMOTE_CONTROL;
+			case DEFAULT_CONTROL_VALUE:
+				return DEFAULT_CONTROL;
+			case EMERGENCY_CONTROL_VALUE:
+				return EMERGENCY_CONTROL;
+			case EMERGENCY_CONTROL_DISPOSE_VALUE:
+				return EMERGENCY_CONTROL_DISPOSE;
+			case DEFAULT_CONTROL_DISPOSE_VALUE:
+				return DEFAULT_CONTROL_DISPOSE;
+			case OTHER_VALUE:
+				return OTHER;
+			case WITHOUT_CONTROL_VALUE:
+				return WITHOUT_CONTROL;
+			case ONLY_REMOTE_CONTROL_VALUE:
+				return ONLY_REMOTE_CONTROL;
 		}
 		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private ControlStationType(int value, String name, String literal) {
@@ -280,34 +295,38 @@ public enum ControlStationType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public int getValue() {
-	  return value;
+		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getName() {
-	  return name;
+		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String getLiteral() {
-	  return literal;
+		return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string
+	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
