@@ -68,12 +68,12 @@ export default class ExportControl extends Control {
     button.innerHTML = 'Export'
     button.className = 'print-control-button'
     button.title = 'Export'
-
+    button.disabled = true
     // Create container
     const element = document.createElement('div')
     element.className = 'print-control-container ol-unselectable ol-control'
     element.appendChild(button)
-
+    element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
     super({
       element
     })
@@ -85,10 +85,10 @@ export default class ExportControl extends Control {
 
     this.map.once('rendercomplete', () => {
       const sheetCutFeatures = this.getSheetcutFeatures()
-      if (!sheetCutFeatures || sheetCutFeatures.length == 0
-          || store.state.planproModelType !== PlanProModelType.SITEPLAN) {
-        button.disabled = true
-        element.setAttribute('style', 'pointer-events:none; opacity: 0.5;')
+      if (sheetCutFeatures && sheetCutFeatures.length > 0
+          && store.state.planproModelType === PlanProModelType.SITEPLAN) {
+        button.disabled = false
+        element.removeAttribute('style')
       }
     })
   }
