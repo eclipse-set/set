@@ -1439,4 +1439,16 @@ http://www.eclipse.org/legal/epl-v20.html
          id="org.eclipse.nebula.widgets.tablecombo"
          version="0.0.0"/>
 
+   <plugin
+         id="org.apache.pdfbox"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.pdfbox.fontbox"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.commons-logging"
+         version="0.0.0"/>
+
 </feature>
