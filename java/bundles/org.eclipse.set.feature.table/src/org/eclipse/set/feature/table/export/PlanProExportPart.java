@@ -241,6 +241,10 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 			final OverwriteHandling overwriteHandling,
 			final IProgressMonitor monitor) {
 		final String id = element.getId();
+		// Skip table category element
+		if (TableInfo.Pt1TableCategory.getCategoryEnum(id) != null) {
+			return;
+		}
 
 		if (additionalExportService != null
 				&& additionalExportService.isAdditionalExportId(id)) {
