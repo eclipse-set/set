@@ -482,6 +482,9 @@ public class ModelSession implements IModelSession {
 
 	@Override
 	public TableType getTableType() {
+		if (tableType == null) {
+			return getNature().getDefaultContainer().getTableTypeForTables();
+		}
 		return tableType;
 	}
 

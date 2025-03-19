@@ -136,8 +136,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 	protected void updateTreeElements(final Set<String> areaIds) {
 		final Set<TableInfo> avaibleTables = new HashSet<>(
 				tableService.getAvailableTables());
-		final TableType tableType = getTableType();
-
+		final TableType tableType = getModelSession().getTableType();
 		if (!(getTreeDataModel() instanceof TableCheckboxTreeModel)) {
 			throw new IllegalArgumentException();
 		}

@@ -98,11 +98,19 @@ public class CheckBoxTreeElement extends CheckboxModelElement {
 		if (!this.selected) {
 			return;
 		}
+
 		this.selected = false;
 		if (isParent()) {
 			childs.forEach(ele -> ele.deselect());
 		} else if (parent != null && parent.selected) {
-			parent.deselect();
+			deselectParent();
+		}
+	}
+
+	private void deselectParent() {
+		if (parent != null && parent.selected) {
+			parent.selected = false;
+			parent.deselectParent();
 		}
 	}
 

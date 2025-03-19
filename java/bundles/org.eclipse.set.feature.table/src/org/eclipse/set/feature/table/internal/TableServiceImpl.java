@@ -448,7 +448,7 @@ public final class TableServiceImpl implements TableService {
 			if (table == null) {
 				table = (Table) loadTransform(shortCut, tableType, modelSession,
 						areaId);
-				saveTableToCache(resultTable, cache, shortCut, tableType,
+				saveTableToCache(table, containerId, shortCut, tableType,
 						areaCacheKey);
 			}
 			if (resultTable == null) {
@@ -469,7 +469,7 @@ public final class TableServiceImpl implements TableService {
 		return resultTable;
 	}
 
-	private void saveTableToCache(final Table table, final Cache cache,
+	private void saveTableToCache(final Table table, final String containerId,
 			final String shortCut, final TableType tableType,
 			final String areaCacheKey) {
 		final String threadName = String.format("%s/saveCache/%s", shortCut, //$NON-NLS-1$
@@ -481,6 +481,9 @@ public final class TableServiceImpl implements TableService {
 		final Collection<TableError> errors = modelService.getTableErrors();
 		final Thread storageCacheThread = new Thread(() -> {
 			final Runnable storageFunc = () -> {
+				final Cache cache = getCache().getCache(
+						ToolboxConstants.SHORTCUT_TO_TABLE_CACHE_ID,
+						containerId);
 				if (table != null) {
 					cache.set(areaCacheKey, table);
 				}
