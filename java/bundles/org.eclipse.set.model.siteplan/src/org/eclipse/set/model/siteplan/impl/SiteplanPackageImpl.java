@@ -78,360 +78,420 @@ import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!--
  * end-user-doc -->
+ * 
  * @generated
  */
 public class SiteplanPackageImpl extends EPackageImpl
 		implements SiteplanPackage {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass siteplanEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass siteplanStateEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass siteplanObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass positionedObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass coordinateEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass positionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass routeObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass routeLocationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass signalMountEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass signalEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass signalScreenEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass labelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackSwitchEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackSwitchComponentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass continuousTrackSegmentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackSectionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackSegmentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass fmaComponentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass routeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass routeSectionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass kmMarkerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackSwitchEndMarkerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass errorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass pzbEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass pzbguEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackDesignationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackSwitchLegEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass stationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass platformEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackLockEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackLockComponentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass objectManagementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass trackCloseEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass externalElementControlEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass lockKeyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass layoutinfoEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass sheetCutEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass cantEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass cantPointEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EClass unknownPositionedObjectEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum signalMountTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum signalRoleEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum signalSystemEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum mountDirectionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum turnoutOperatingModeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum trackShapeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum trackTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum fmaComponentTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum pzbTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum pzbElementEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum pzbEffectivityEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum trackLockLocationEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum leftRightEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum directionEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum trackCloseTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum externalElementControlArtEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum controlStationTypeEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private EEnum lockKeyTypeEEnum = null;
@@ -457,6 +517,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
@@ -477,11 +538,16 @@ public class SiteplanPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	public static SiteplanPackage init() {
-		if (isInited) return (SiteplanPackage)EPackage.Registry.INSTANCE.getEPackage(SiteplanPackage.eNS_URI);
+		if (isInited)
+			return (SiteplanPackage) EPackage.Registry.INSTANCE
+					.getEPackage(SiteplanPackage.eNS_URI);
 
 		// Obtain or create and register package
-		Object registeredSiteplanPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
-		SiteplanPackageImpl theSiteplanPackage = registeredSiteplanPackage instanceof SiteplanPackageImpl ? (SiteplanPackageImpl)registeredSiteplanPackage : new SiteplanPackageImpl();
+		Object registeredSiteplanPackage = EPackage.Registry.INSTANCE
+				.get(eNS_URI);
+		SiteplanPackageImpl theSiteplanPackage = registeredSiteplanPackage instanceof SiteplanPackageImpl
+				? (SiteplanPackageImpl) registeredSiteplanPackage
+				: new SiteplanPackageImpl();
 
 		isInited = true;
 
@@ -495,12 +561,14 @@ public class SiteplanPackageImpl extends EPackageImpl
 		theSiteplanPackage.freeze();
 
 		// Update the registry and return the package
-		EPackage.Registry.INSTANCE.put(SiteplanPackage.eNS_URI, theSiteplanPackage);
+		EPackage.Registry.INSTANCE.put(SiteplanPackage.eNS_URI,
+				theSiteplanPackage);
 		return theSiteplanPackage;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -510,78 +578,87 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_InitialState() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(0);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_ChangedInitialState() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(1);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_CommonState() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(2);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_ChangedFinalState() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(3);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_FinalState() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(4);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_CenterPosition() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(5);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_ObjectManagement() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(6);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplan_LayoutInfo() {
-		return (EReference)siteplanEClass.getEStructuralFeatures().get(7);
+		return (EReference) siteplanEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -591,150 +668,173 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Signals() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(0);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_TrackSwitches() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(1);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_TrackSwitchEndMarkers() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(2);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Tracks() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(3);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_FmaComponents() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(4);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Pzb() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(5);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_PzbGU() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(6);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Routes() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(7);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Stations() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(8);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_TrackLock() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(9);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Errors() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(10);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures()
+				.get(10);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_TrackClosures() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(11);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures()
+				.get(11);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_ExternalElementControls() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(12);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures()
+				.get(12);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Lockkeys() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(13);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures()
+				.get(13);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_Cants() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(14);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures()
+				.get(14);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSiteplanState_UnknownObjects() {
-		return (EReference)siteplanStateEClass.getEStructuralFeatures().get(15);
+		return (EReference) siteplanStateEClass.getEStructuralFeatures()
+				.get(15);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -744,15 +844,18 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSiteplanObject_Guid() {
-		return (EAttribute)siteplanObjectEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) siteplanObjectEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -762,15 +865,18 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getPositionedObject_Position() {
-		return (EReference)positionedObjectEClass.getEStructuralFeatures().get(0);
+		return (EReference) positionedObjectEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -780,24 +886,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getCoordinate_X() {
-		return (EAttribute)coordinateEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) coordinateEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getCoordinate_Y() {
-		return (EAttribute)coordinateEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) coordinateEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -807,15 +916,17 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getPosition_Rotation() {
-		return (EAttribute)positionEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) positionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -825,15 +936,17 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getRouteObject_RouteLocations() {
-		return (EReference)routeObjectEClass.getEStructuralFeatures().get(0);
+		return (EReference) routeObjectEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -843,24 +956,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getRouteLocation_Km() {
-		return (EAttribute)routeLocationEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) routeLocationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getRouteLocation_Route() {
-		return (EAttribute)routeLocationEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) routeLocationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -870,24 +986,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSignalMount_AttachedSignals() {
-		return (EReference)signalMountEClass.getEStructuralFeatures().get(0);
+		return (EReference) signalMountEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignalMount_MountType() {
-		return (EAttribute)signalMountEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) signalMountEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -897,69 +1016,77 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignal_Role() {
-		return (EAttribute)signalEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) signalEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignal_System() {
-		return (EAttribute)signalEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) signalEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSignal_Screen() {
-		return (EReference)signalEClass.getEStructuralFeatures().get(2);
+		return (EReference) signalEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSignal_Label() {
-		return (EReference)signalEClass.getEStructuralFeatures().get(3);
+		return (EReference) signalEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignal_LateralDistance() {
-		return (EAttribute)signalEClass.getEStructuralFeatures().get(4);
+		return (EAttribute) signalEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignal_SignalDirection() {
-		return (EAttribute)signalEClass.getEStructuralFeatures().get(5);
+		return (EAttribute) signalEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSignal_MountPosition() {
-		return (EReference)signalEClass.getEStructuralFeatures().get(6);
+		return (EReference) signalEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -969,33 +1096,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignalScreen_Screen() {
-		return (EAttribute)signalScreenEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) signalScreenEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignalScreen_Switched() {
-		return (EAttribute)signalScreenEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) signalScreenEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSignalScreen_FrameType() {
-		return (EAttribute)signalScreenEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) signalScreenEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1005,24 +1136,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getLabel_Text() {
-		return (EAttribute)labelEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) labelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getLabel_OrientationInverted() {
-		return (EAttribute)labelEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) labelEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1032,33 +1166,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSwitch_Design() {
-		return (EAttribute)trackSwitchEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackSwitchEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitch_Components() {
-		return (EReference)trackSwitchEClass.getEStructuralFeatures().get(1);
+		return (EReference) trackSwitchEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitch_ContinuousSegments() {
-		return (EReference)trackSwitchEClass.getEStructuralFeatures().get(2);
+		return (EReference) trackSwitchEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1068,78 +1206,95 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSwitchComponent_PreferredLocation() {
-		return (EAttribute)trackSwitchComponentEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSwitchComponent_PointDetectorCount() {
-		return (EAttribute)trackSwitchComponentEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_Start() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(2);
+		return (EReference) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_LabelPosition() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(3);
+		return (EReference) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_Label() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(4);
+		return (EReference) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(4);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSwitchComponent_OperatingMode() {
-		return (EAttribute)trackSwitchComponentEClass.getEStructuralFeatures().get(5);
+		return (EAttribute) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(5);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_MainLeg() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(6);
+		return (EReference) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(6);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchComponent_SideLeg() {
-		return (EReference)trackSwitchComponentEClass.getEStructuralFeatures().get(7);
+		return (EReference) trackSwitchComponentEClass.getEStructuralFeatures()
+				.get(7);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1149,24 +1304,31 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getContinuousTrackSegment_Start() {
-		return (EReference)continuousTrackSegmentEClass.getEStructuralFeatures().get(0);
+		return (EReference) continuousTrackSegmentEClass
+				.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getContinuousTrackSegment_End() {
-		return (EReference)continuousTrackSegmentEClass.getEStructuralFeatures().get(1);
+		return (EReference) continuousTrackSegmentEClass
+				.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1176,24 +1338,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrack_Sections() {
-		return (EReference)trackEClass.getEStructuralFeatures().get(0);
+		return (EReference) trackEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrack_Designations() {
-		return (EReference)trackEClass.getEStructuralFeatures().get(1);
+		return (EReference) trackEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1203,33 +1368,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSection_Shape() {
-		return (EAttribute)trackSectionEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackSectionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSection_Segments() {
-		return (EReference)trackSectionEClass.getEStructuralFeatures().get(1);
+		return (EReference) trackSectionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSection_Color() {
-		return (EAttribute)trackSectionEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) trackSectionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1239,24 +1408,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSegment_Type() {
-		return (EAttribute)trackSegmentEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackSegmentEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSegment_Positions() {
-		return (EReference)trackSegmentEClass.getEStructuralFeatures().get(1);
+		return (EReference) trackSegmentEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1266,33 +1438,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getFMAComponent_Label() {
-		return (EReference)fmaComponentEClass.getEStructuralFeatures().get(0);
+		return (EReference) fmaComponentEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getFMAComponent_Type() {
-		return (EAttribute)fmaComponentEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) fmaComponentEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getFMAComponent_RightSide() {
-		return (EAttribute)fmaComponentEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) fmaComponentEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1302,24 +1478,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getRoute_Sections() {
-		return (EReference)routeEClass.getEStructuralFeatures().get(0);
+		return (EReference) routeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getRoute_Markers() {
-		return (EReference)routeEClass.getEStructuralFeatures().get(1);
+		return (EReference) routeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1329,33 +1508,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getRouteSection_Guid() {
-		return (EAttribute)routeSectionEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) routeSectionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getRouteSection_Shape() {
-		return (EAttribute)routeSectionEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) routeSectionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getRouteSection_Positions() {
-		return (EReference)routeSectionEClass.getEStructuralFeatures().get(2);
+		return (EReference) routeSectionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1365,24 +1548,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getKMMarker_Position() {
-		return (EReference)kmMarkerEClass.getEStructuralFeatures().get(0);
+		return (EReference) kmMarkerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getKMMarker_Value() {
-		return (EAttribute)kmMarkerEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) kmMarkerEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1392,24 +1578,29 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchEndMarker_LegACoordinate() {
-		return (EReference)trackSwitchEndMarkerEClass.getEStructuralFeatures().get(0);
+		return (EReference) trackSwitchEndMarkerEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchEndMarker_LegBCoordinate() {
-		return (EReference)trackSwitchEndMarkerEClass.getEStructuralFeatures().get(1);
+		return (EReference) trackSwitchEndMarkerEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1419,33 +1610,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getError_Position() {
-		return (EReference)errorEClass.getEStructuralFeatures().get(0);
+		return (EReference) errorEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getError_RelevantGUIDs() {
-		return (EAttribute)errorEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) errorEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getError_Message() {
-		return (EAttribute)errorEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) errorEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1455,42 +1650,47 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getPZB_Type() {
-		return (EAttribute)pzbEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) pzbEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getPZB_Element() {
-		return (EAttribute)pzbEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) pzbEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getPZB_RightSide() {
-		return (EAttribute)pzbEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) pzbEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getPZB_Effectivity() {
-		return (EAttribute)pzbEClass.getEStructuralFeatures().get(3);
+		return (EAttribute) pzbEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1500,24 +1700,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getPZBGU_Pzbs() {
-		return (EReference)pzbguEClass.getEStructuralFeatures().get(0);
+		return (EReference) pzbguEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getPZBGU_Length() {
-		return (EAttribute)pzbguEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) pzbguEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1527,24 +1730,29 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackDesignation_Name() {
-		return (EAttribute)trackDesignationEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackDesignationEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackDesignation_Position() {
-		return (EReference)trackDesignationEClass.getEStructuralFeatures().get(1);
+		return (EReference) trackDesignationEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1554,24 +1762,29 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackSwitchLeg_Connection() {
-		return (EAttribute)trackSwitchLegEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackSwitchLegEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackSwitchLeg_Coordinates() {
-		return (EReference)trackSwitchLegEClass.getEStructuralFeatures().get(1);
+		return (EReference) trackSwitchLegEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1581,24 +1794,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getStation_Platforms() {
-		return (EReference)stationEClass.getEStructuralFeatures().get(0);
+		return (EReference) stationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getStation_Label() {
-		return (EReference)stationEClass.getEStructuralFeatures().get(1);
+		return (EReference) stationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1608,42 +1824,47 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getPlatform_Guid() {
-		return (EAttribute)platformEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) platformEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getPlatform_Label() {
-		return (EReference)platformEClass.getEStructuralFeatures().get(1);
+		return (EReference) platformEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getPlatform_LabelPosition() {
-		return (EReference)platformEClass.getEStructuralFeatures().get(2);
+		return (EReference) platformEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getPlatform_Points() {
-		return (EReference)platformEClass.getEStructuralFeatures().get(3);
+		return (EReference) platformEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1653,42 +1874,47 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackLock_Components() {
-		return (EReference)trackLockEClass.getEStructuralFeatures().get(0);
+		return (EReference) trackLockEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackLock_PreferredLocation() {
-		return (EAttribute)trackLockEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) trackLockEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackLock_OperatingMode() {
-		return (EAttribute)trackLockEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) trackLockEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getTrackLock_Label() {
-		return (EReference)trackLockEClass.getEStructuralFeatures().get(3);
+		return (EReference) trackLockEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1698,24 +1924,29 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackLockComponent_TrackLockSignal() {
-		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackLockComponentEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackLockComponent_EjectionDirection() {
-		return (EAttribute)trackLockComponentEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) trackLockComponentEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1725,24 +1956,29 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getObjectManagement_PlanningObjectIDs() {
-		return (EAttribute)objectManagementEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) objectManagementEClass.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getObjectManagement_PlanningGroupID() {
-		return (EAttribute)objectManagementEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) objectManagementEClass.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1752,15 +1988,17 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getTrackClose_TrackCloseType() {
-		return (EAttribute)trackCloseEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) trackCloseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1770,42 +2008,55 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getExternalElementControl_ControlArt() {
-		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) externalElementControlEClass
+				.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getExternalElementControl_ElementType() {
-		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) externalElementControlEClass
+				.getEStructuralFeatures()
+				.get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getExternalElementControl_ControlStation() {
-		return (EAttribute)externalElementControlEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) externalElementControlEClass
+				.getEStructuralFeatures()
+				.get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getExternalElementControl_Label() {
-		return (EReference)externalElementControlEClass.getEStructuralFeatures().get(3);
+		return (EReference) externalElementControlEClass
+				.getEStructuralFeatures()
+				.get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1815,33 +2066,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getLockKey_Label() {
-		return (EReference)lockKeyEClass.getEStructuralFeatures().get(0);
+		return (EReference) lockKeyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getLockKey_Type() {
-		return (EAttribute)lockKeyEClass.getEStructuralFeatures().get(1);
+		return (EAttribute) lockKeyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getLockKey_Locked() {
-		return (EAttribute)lockKeyEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) lockKeyEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1851,24 +2106,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getLayoutinfo_Label() {
-		return (EAttribute)layoutinfoEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) layoutinfoEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getLayoutinfo_SheetsCut() {
-		return (EReference)layoutinfoEClass.getEStructuralFeatures().get(1);
+		return (EReference) layoutinfoEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1878,33 +2136,37 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getSheetCut_Label() {
-		return (EAttribute)sheetCutEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) sheetCutEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSheetCut_PolygonDirection() {
-		return (EReference)sheetCutEClass.getEStructuralFeatures().get(1);
+		return (EReference) sheetCutEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getSheetCut_Polygon() {
-		return (EReference)sheetCutEClass.getEStructuralFeatures().get(2);
+		return (EReference) sheetCutEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1914,42 +2176,47 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getCant_PointA() {
-		return (EReference)cantEClass.getEStructuralFeatures().get(0);
+		return (EReference) cantEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EReference getCant_PointB() {
-		return (EReference)cantEClass.getEStructuralFeatures().get(1);
+		return (EReference) cantEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getCant_Form() {
-		return (EAttribute)cantEClass.getEStructuralFeatures().get(2);
+		return (EAttribute) cantEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getCant_Length() {
-		return (EAttribute)cantEClass.getEStructuralFeatures().get(3);
+		return (EAttribute) cantEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1959,15 +2226,17 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getCantPoint_Height() {
-		return (EAttribute)cantPointEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) cantPointEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1977,15 +2246,19 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EAttribute getUnknownPositionedObject_ObjectType() {
-		return (EAttribute)unknownPositionedObjectEClass.getEStructuralFeatures().get(0);
+		return (EAttribute) unknownPositionedObjectEClass
+				.getEStructuralFeatures()
+				.get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -1995,6 +2268,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2004,6 +2278,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2013,6 +2288,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2022,6 +2298,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2031,6 +2308,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2040,6 +2318,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2049,6 +2328,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2058,6 +2338,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2067,6 +2348,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2076,6 +2358,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2085,6 +2368,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2094,6 +2378,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2103,6 +2388,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2112,6 +2398,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2121,6 +2408,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2130,6 +2418,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2139,6 +2428,7 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -2148,28 +2438,31 @@ public class SiteplanPackageImpl extends EPackageImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public SiteplanFactory getSiteplanFactory() {
-		return (SiteplanFactory)getEFactoryInstance();
+		return (SiteplanFactory) getEFactoryInstance();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package.  This method is
-	 * guarded to have no affect on any invocation but its first.
-	 * <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package. This method is guarded to
+	 * have no affect on any invocation but its first. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) return;
+		if (isCreated)
+			return;
 		isCreated = true;
 
 		// Create classes and their features
@@ -2186,7 +2479,8 @@ public class SiteplanPackageImpl extends EPackageImpl
 		siteplanStateEClass = createEClass(SITEPLAN_STATE);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__SIGNALS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__TRACK_SWITCHES);
-		createEReference(siteplanStateEClass, SITEPLAN_STATE__TRACK_SWITCH_END_MARKERS);
+		createEReference(siteplanStateEClass,
+				SITEPLAN_STATE__TRACK_SWITCH_END_MARKERS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__TRACKS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__FMA_COMPONENTS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__PZB);
@@ -2196,7 +2490,8 @@ public class SiteplanPackageImpl extends EPackageImpl
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__TRACK_LOCK);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__ERRORS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__TRACK_CLOSURES);
-		createEReference(siteplanStateEClass, SITEPLAN_STATE__EXTERNAL_ELEMENT_CONTROLS);
+		createEReference(siteplanStateEClass,
+				SITEPLAN_STATE__EXTERNAL_ELEMENT_CONTROLS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__LOCKKEYS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__CANTS);
 		createEReference(siteplanStateEClass, SITEPLAN_STATE__UNKNOWN_OBJECTS);
@@ -2249,18 +2544,28 @@ public class SiteplanPackageImpl extends EPackageImpl
 		createEReference(trackSwitchEClass, TRACK_SWITCH__CONTINUOUS_SEGMENTS);
 
 		trackSwitchComponentEClass = createEClass(TRACK_SWITCH_COMPONENT);
-		createEAttribute(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION);
-		createEAttribute(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT);
-		createEReference(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__START);
-		createEReference(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__LABEL_POSITION);
-		createEReference(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__LABEL);
-		createEAttribute(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__OPERATING_MODE);
-		createEReference(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__MAIN_LEG);
-		createEReference(trackSwitchComponentEClass, TRACK_SWITCH_COMPONENT__SIDE_LEG);
+		createEAttribute(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__PREFERRED_LOCATION);
+		createEAttribute(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__POINT_DETECTOR_COUNT);
+		createEReference(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__START);
+		createEReference(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__LABEL_POSITION);
+		createEReference(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__LABEL);
+		createEAttribute(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__OPERATING_MODE);
+		createEReference(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__MAIN_LEG);
+		createEReference(trackSwitchComponentEClass,
+				TRACK_SWITCH_COMPONENT__SIDE_LEG);
 
 		continuousTrackSegmentEClass = createEClass(CONTINUOUS_TRACK_SEGMENT);
-		createEReference(continuousTrackSegmentEClass, CONTINUOUS_TRACK_SEGMENT__START);
-		createEReference(continuousTrackSegmentEClass, CONTINUOUS_TRACK_SEGMENT__END);
+		createEReference(continuousTrackSegmentEClass,
+				CONTINUOUS_TRACK_SEGMENT__START);
+		createEReference(continuousTrackSegmentEClass,
+				CONTINUOUS_TRACK_SEGMENT__END);
 
 		trackEClass = createEClass(TRACK);
 		createEReference(trackEClass, TRACK__SECTIONS);
@@ -2294,8 +2599,10 @@ public class SiteplanPackageImpl extends EPackageImpl
 		createEAttribute(kmMarkerEClass, KM_MARKER__VALUE);
 
 		trackSwitchEndMarkerEClass = createEClass(TRACK_SWITCH_END_MARKER);
-		createEReference(trackSwitchEndMarkerEClass, TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE);
-		createEReference(trackSwitchEndMarkerEClass, TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE);
+		createEReference(trackSwitchEndMarkerEClass,
+				TRACK_SWITCH_END_MARKER__LEG_ACOORDINATE);
+		createEReference(trackSwitchEndMarkerEClass,
+				TRACK_SWITCH_END_MARKER__LEG_BCOORDINATE);
 
 		errorEClass = createEClass(ERROR);
 		createEReference(errorEClass, ERROR__POSITION);
@@ -2337,21 +2644,29 @@ public class SiteplanPackageImpl extends EPackageImpl
 		createEReference(trackLockEClass, TRACK_LOCK__LABEL);
 
 		trackLockComponentEClass = createEClass(TRACK_LOCK_COMPONENT);
-		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL);
-		createEAttribute(trackLockComponentEClass, TRACK_LOCK_COMPONENT__EJECTION_DIRECTION);
+		createEAttribute(trackLockComponentEClass,
+				TRACK_LOCK_COMPONENT__TRACK_LOCK_SIGNAL);
+		createEAttribute(trackLockComponentEClass,
+				TRACK_LOCK_COMPONENT__EJECTION_DIRECTION);
 
 		objectManagementEClass = createEClass(OBJECT_MANAGEMENT);
-		createEAttribute(objectManagementEClass, OBJECT_MANAGEMENT__PLANNING_OBJECT_IDS);
-		createEAttribute(objectManagementEClass, OBJECT_MANAGEMENT__PLANNING_GROUP_ID);
+		createEAttribute(objectManagementEClass,
+				OBJECT_MANAGEMENT__PLANNING_OBJECT_IDS);
+		createEAttribute(objectManagementEClass,
+				OBJECT_MANAGEMENT__PLANNING_GROUP_ID);
 
 		trackCloseEClass = createEClass(TRACK_CLOSE);
 		createEAttribute(trackCloseEClass, TRACK_CLOSE__TRACK_CLOSE_TYPE);
 
 		externalElementControlEClass = createEClass(EXTERNAL_ELEMENT_CONTROL);
-		createEAttribute(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__CONTROL_ART);
-		createEAttribute(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE);
-		createEAttribute(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION);
-		createEReference(externalElementControlEClass, EXTERNAL_ELEMENT_CONTROL__LABEL);
+		createEAttribute(externalElementControlEClass,
+				EXTERNAL_ELEMENT_CONTROL__CONTROL_ART);
+		createEAttribute(externalElementControlEClass,
+				EXTERNAL_ELEMENT_CONTROL__ELEMENT_TYPE);
+		createEAttribute(externalElementControlEClass,
+				EXTERNAL_ELEMENT_CONTROL__CONTROL_STATION);
+		createEReference(externalElementControlEClass,
+				EXTERNAL_ELEMENT_CONTROL__LABEL);
 
 		lockKeyEClass = createEClass(LOCK_KEY);
 		createEReference(lockKeyEClass, LOCK_KEY__LABEL);
@@ -2377,7 +2692,8 @@ public class SiteplanPackageImpl extends EPackageImpl
 		createEAttribute(cantPointEClass, CANT_POINT__HEIGHT);
 
 		unknownPositionedObjectEClass = createEClass(UNKNOWN_POSITIONED_OBJECT);
-		createEAttribute(unknownPositionedObjectEClass, UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE);
+		createEAttribute(unknownPositionedObjectEClass,
+				UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE);
 
 		// Create enums
 		signalMountTypeEEnum = createEEnum(SIGNAL_MOUNT_TYPE);
@@ -2395,13 +2711,15 @@ public class SiteplanPackageImpl extends EPackageImpl
 		leftRightEEnum = createEEnum(LEFT_RIGHT);
 		directionEEnum = createEEnum(DIRECTION);
 		trackCloseTypeEEnum = createEEnum(TRACK_CLOSE_TYPE);
-		externalElementControlArtEEnum = createEEnum(EXTERNAL_ELEMENT_CONTROL_ART);
+		externalElementControlArtEEnum = createEEnum(
+				EXTERNAL_ELEMENT_CONTROL_ART);
 		controlStationTypeEEnum = createEEnum(CONTROL_STATION_TYPE);
 		lockKeyTypeEEnum = createEEnum(LOCK_KEY_TYPE);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
@@ -2414,7 +2732,8 @@ public class SiteplanPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) return;
+		if (isInitialized)
+			return;
 		isInitialized = true;
 
 		// Initialize package
@@ -2446,227 +2765,693 @@ public class SiteplanPackageImpl extends EPackageImpl
 		pzbguEClass.getESuperTypes().add(this.getSiteplanObject());
 		stationEClass.getESuperTypes().add(this.getSiteplanObject());
 		trackLockEClass.getESuperTypes().add(this.getSiteplanObject());
-		trackLockComponentEClass.getESuperTypes().add(this.getPositionedObject());
+		trackLockComponentEClass.getESuperTypes()
+				.add(this.getPositionedObject());
 		trackCloseEClass.getESuperTypes().add(this.getPositionedObject());
-		externalElementControlEClass.getESuperTypes().add(this.getRouteObject());
-		externalElementControlEClass.getESuperTypes().add(this.getPositionedObject());
+		externalElementControlEClass.getESuperTypes()
+				.add(this.getRouteObject());
+		externalElementControlEClass.getESuperTypes()
+				.add(this.getPositionedObject());
 		lockKeyEClass.getESuperTypes().add(this.getRouteObject());
 		lockKeyEClass.getESuperTypes().add(this.getPositionedObject());
 		layoutinfoEClass.getESuperTypes().add(this.getSiteplanObject());
 		sheetCutEClass.getESuperTypes().add(this.getSiteplanObject());
 		cantEClass.getESuperTypes().add(this.getSiteplanObject());
 		cantPointEClass.getESuperTypes().add(this.getPositionedObject());
-		unknownPositionedObjectEClass.getESuperTypes().add(this.getPositionedObject());
+		unknownPositionedObjectEClass.getESuperTypes()
+				.add(this.getPositionedObject());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(siteplanEClass, Siteplan.class, "Siteplan", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSiteplan_InitialState(), this.getSiteplanState(), null, "initialState", null, 0, 1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplan_ChangedInitialState(), this.getSiteplanState(), null, "changedInitialState", null, 0, 1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplan_CommonState(), this.getSiteplanState(), null, "commonState", null, 0, 1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplan_ChangedFinalState(), this.getSiteplanState(), null, "changedFinalState", null, 0, 1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplan_FinalState(), this.getSiteplanState(), null, "finalState", null, 0, 1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplan_CenterPosition(), this.getPosition(), null, "centerPosition", null, 0, 1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplan_ObjectManagement(), this.getObjectManagement(), null, "objectManagement", null, 0, -1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplan_LayoutInfo(), this.getLayoutinfo(), null, "layoutInfo", null, 0, -1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(siteplanEClass, Siteplan.class, "Siteplan", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSiteplan_InitialState(), this.getSiteplanState(),
+				null, "initialState", null, 0, 1, Siteplan.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplan_ChangedInitialState(),
+				this.getSiteplanState(), null, "changedInitialState", null, 0,
+				1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplan_CommonState(), this.getSiteplanState(), null,
+				"commonState", null, 0, 1, Siteplan.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplan_ChangedFinalState(), this.getSiteplanState(),
+				null, "changedFinalState", null, 0, 1, Siteplan.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSiteplan_FinalState(), this.getSiteplanState(), null,
+				"finalState", null, 0, 1, Siteplan.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplan_CenterPosition(), this.getPosition(), null,
+				"centerPosition", null, 0, 1, Siteplan.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplan_ObjectManagement(),
+				this.getObjectManagement(), null, "objectManagement", null, 0,
+				-1, Siteplan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplan_LayoutInfo(), this.getLayoutinfo(), null,
+				"layoutInfo", null, 0, -1, Siteplan.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(siteplanStateEClass, SiteplanState.class, "SiteplanState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSiteplanState_Signals(), this.getSignalMount(), null, "signals", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_TrackSwitches(), this.getTrackSwitch(), null, "trackSwitches", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_TrackSwitchEndMarkers(), this.getTrackSwitchEndMarker(), null, "trackSwitchEndMarkers", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_Tracks(), this.getTrack(), null, "tracks", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_FmaComponents(), this.getFMAComponent(), null, "fmaComponents", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_Pzb(), this.getPZB(), null, "pzb", null, 1, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_PzbGU(), this.getPZBGU(), null, "pzbGU", null, 1, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_Routes(), this.getRoute(), null, "routes", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_Stations(), this.getStation(), null, "stations", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_TrackLock(), this.getTrackLock(), null, "trackLock", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_Errors(), this.getError(), null, "errors", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_TrackClosures(), this.getTrackClose(), null, "trackClosures", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_ExternalElementControls(), this.getExternalElementControl(), null, "externalElementControls", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_Lockkeys(), this.getLockKey(), null, "lockkeys", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_Cants(), this.getCant(), null, "cants", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSiteplanState_UnknownObjects(), this.getUnknownPositionedObject(), null, "unknownObjects", null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(siteplanStateEClass, SiteplanState.class, "SiteplanState",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSiteplanState_Signals(), this.getSignalMount(), null,
+				"signals", null, 0, -1, SiteplanState.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_TrackSwitches(), this.getTrackSwitch(),
+				null, "trackSwitches", null, 0, -1, SiteplanState.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSiteplanState_TrackSwitchEndMarkers(),
+				this.getTrackSwitchEndMarker(), null, "trackSwitchEndMarkers",
+				null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_Tracks(), this.getTrack(), null,
+				"tracks", null, 0, -1, SiteplanState.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_FmaComponents(), this.getFMAComponent(),
+				null, "fmaComponents", null, 0, -1, SiteplanState.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSiteplanState_Pzb(), this.getPZB(), null, "pzb", null,
+				1, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_PzbGU(), this.getPZBGU(), null, "pzbGU",
+				null, 1, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_Routes(), this.getRoute(), null,
+				"routes", null, 0, -1, SiteplanState.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_Stations(), this.getStation(), null,
+				"stations", null, 0, -1, SiteplanState.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_TrackLock(), this.getTrackLock(), null,
+				"trackLock", null, 0, -1, SiteplanState.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_Errors(), this.getError(), null,
+				"errors", null, 0, -1, SiteplanState.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_TrackClosures(), this.getTrackClose(),
+				null, "trackClosures", null, 0, -1, SiteplanState.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSiteplanState_ExternalElementControls(),
+				this.getExternalElementControl(), null,
+				"externalElementControls", null, 0, -1, SiteplanState.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSiteplanState_Lockkeys(), this.getLockKey(), null,
+				"lockkeys", null, 0, -1, SiteplanState.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_Cants(), this.getCant(), null, "cants",
+				null, 0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSiteplanState_UnknownObjects(),
+				this.getUnknownPositionedObject(), null, "unknownObjects", null,
+				0, -1, SiteplanState.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(siteplanObjectEClass, SiteplanObject.class, "SiteplanObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSiteplanObject_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, SiteplanObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(siteplanObjectEClass, SiteplanObject.class, "SiteplanObject",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSiteplanObject_Guid(), ecorePackage.getEString(),
+				"guid", null, 0, 1, SiteplanObject.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(positionedObjectEClass, PositionedObject.class, "PositionedObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPositionedObject_Position(), this.getPosition(), null, "position", null, 0, 1, PositionedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(positionedObjectEClass, PositionedObject.class,
+				"PositionedObject", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPositionedObject_Position(), this.getPosition(), null,
+				"position", null, 0, 1, PositionedObject.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(coordinateEClass, Coordinate.class, "Coordinate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCoordinate_X(), ecorePackage.getEDouble(), "x", "0", 0, 1, Coordinate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCoordinate_Y(), ecorePackage.getEDouble(), "y", "0", 0, 1, Coordinate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(coordinateEClass, Coordinate.class, "Coordinate",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCoordinate_X(), ecorePackage.getEDouble(), "x", "0",
+				0, 1, Coordinate.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getCoordinate_Y(), ecorePackage.getEDouble(), "y", "0",
+				0, 1, Coordinate.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(positionEClass, Position.class, "Position", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPosition_Rotation(), ecorePackage.getEDouble(), "rotation", "0", 0, 1, Position.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(positionEClass, Position.class, "Position", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPosition_Rotation(), ecorePackage.getEDouble(),
+				"rotation", "0", 0, 1, Position.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(routeObjectEClass, RouteObject.class, "RouteObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRouteObject_RouteLocations(), this.getRouteLocation(), null, "routeLocations", null, 0, -1, RouteObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(routeObjectEClass, RouteObject.class, "RouteObject",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRouteObject_RouteLocations(), this.getRouteLocation(),
+				null, "routeLocations", null, 0, -1, RouteObject.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(routeLocationEClass, RouteLocation.class, "RouteLocation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRouteLocation_Km(), ecorePackage.getEString(), "km", null, 0, 1, RouteLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRouteLocation_Route(), ecorePackage.getEString(), "route", null, 0, 1, RouteLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(routeLocationEClass, RouteLocation.class, "RouteLocation",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRouteLocation_Km(), ecorePackage.getEString(), "km",
+				null, 0, 1, RouteLocation.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getRouteLocation_Route(), ecorePackage.getEString(),
+				"route", null, 0, 1, RouteLocation.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(signalMountEClass, SignalMount.class, "SignalMount", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSignalMount_AttachedSignals(), this.getSignal(), null, "attachedSignals", null, 0, -1, SignalMount.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSignalMount_MountType(), this.getSignalMountType(), "mountType", null, 0, 1, SignalMount.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(signalMountEClass, SignalMount.class, "SignalMount",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSignalMount_AttachedSignals(), this.getSignal(), null,
+				"attachedSignals", null, 0, -1, SignalMount.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getSignalMount_MountType(), this.getSignalMountType(),
+				"mountType", null, 0, 1, SignalMount.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(signalEClass, Signal.class, "Signal", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSignal_Role(), this.getSignalRole(), "role", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSignal_System(), this.getSignalSystem(), "system", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSignal_Screen(), this.getSignalScreen(), null, "screen", null, 0, -1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSignal_Label(), this.getLabel(), null, "label", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSignal_LateralDistance(), ecorePackage.getEBigDecimal(), "lateralDistance", null, 0, -1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSignal_SignalDirection(), this.getDirection(), "signalDirection", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSignal_MountPosition(), this.getPosition(), null, "mountPosition", null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(signalEClass, Signal.class, "Signal", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSignal_Role(), this.getSignalRole(), "role", null, 0,
+				1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSignal_System(), this.getSignalSystem(), "system",
+				null, 0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSignal_Screen(), this.getSignalScreen(), null,
+				"screen", null, 0, -1, Signal.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSignal_Label(), this.getLabel(), null, "label", null,
+				0, 1, Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSignal_LateralDistance(),
+				ecorePackage.getEBigDecimal(), "lateralDistance", null, 0, -1,
+				Signal.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSignal_SignalDirection(), this.getDirection(),
+				"signalDirection", null, 0, 1, Signal.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getSignal_MountPosition(), this.getPosition(), null,
+				"mountPosition", null, 0, 1, Signal.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(signalScreenEClass, SignalScreen.class, "SignalScreen", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSignalScreen_Screen(), ecorePackage.getEString(), "screen", null, 0, 1, SignalScreen.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSignalScreen_Switched(), ecorePackage.getEBoolean(), "switched", null, 0, 1, SignalScreen.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSignalScreen_FrameType(), ecorePackage.getEString(), "frameType", null, 0, 1, SignalScreen.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(signalScreenEClass, SignalScreen.class, "SignalScreen",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSignalScreen_Screen(), ecorePackage.getEString(),
+				"screen", null, 0, 1, SignalScreen.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSignalScreen_Switched(), ecorePackage.getEBoolean(),
+				"switched", null, 0, 1, SignalScreen.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSignalScreen_FrameType(), ecorePackage.getEString(),
+				"frameType", null, 0, 1, SignalScreen.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(labelEClass, Label.class, "Label", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLabel_Text(), ecorePackage.getEString(), "text", null, 0, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLabel_OrientationInverted(), ecorePackage.getEBoolean(), "orientationInverted", null, 0, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(labelEClass, Label.class, "Label", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLabel_Text(), ecorePackage.getEString(), "text", null,
+				0, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLabel_OrientationInverted(),
+				ecorePackage.getEBoolean(), "orientationInverted", null, 0, 1,
+				Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(trackSwitchEClass, TrackSwitch.class, "TrackSwitch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackSwitch_Design(), ecorePackage.getEString(), "design", null, 0, 1, TrackSwitch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitch_Components(), this.getTrackSwitchComponent(), null, "components", null, 0, 2, TrackSwitch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitch_ContinuousSegments(), this.getContinuousTrackSegment(), null, "continuousSegments", null, 0, 2, TrackSwitch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackSwitchEClass, TrackSwitch.class, "TrackSwitch",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackSwitch_Design(), ecorePackage.getEString(),
+				"design", null, 0, 1, TrackSwitch.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackSwitch_Components(),
+				this.getTrackSwitchComponent(), null, "components", null, 0, 2,
+				TrackSwitch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackSwitch_ContinuousSegments(),
+				this.getContinuousTrackSegment(), null, "continuousSegments",
+				null, 0, 2, TrackSwitch.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(trackSwitchComponentEClass, TrackSwitchComponent.class, "TrackSwitchComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackSwitchComponent_PreferredLocation(), this.getLeftRight(), "preferredLocation", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackSwitchComponent_PointDetectorCount(), ecorePackage.getEInt(), "pointDetectorCount", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitchComponent_Start(), this.getPosition(), null, "start", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitchComponent_LabelPosition(), this.getPosition(), null, "labelPosition", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitchComponent_Label(), this.getLabel(), null, "label", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackSwitchComponent_OperatingMode(), this.getTurnoutOperatingMode(), "operatingMode", "Undefined", 1, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitchComponent_MainLeg(), this.getTrackSwitchLeg(), null, "mainLeg", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitchComponent_SideLeg(), this.getTrackSwitchLeg(), null, "sideLeg", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackSwitchComponentEClass, TrackSwitchComponent.class,
+				"TrackSwitchComponent", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackSwitchComponent_PreferredLocation(),
+				this.getLeftRight(), "preferredLocation", null, 0, 1,
+				TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getTrackSwitchComponent_PointDetectorCount(),
+				ecorePackage.getEInt(), "pointDetectorCount", null, 0, 1,
+				TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getTrackSwitchComponent_Start(), this.getPosition(),
+				null, "start", null, 0, 1, TrackSwitchComponent.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getTrackSwitchComponent_LabelPosition(),
+				this.getPosition(), null, "labelPosition", null, 0, 1,
+				TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackSwitchComponent_Label(), this.getLabel(), null,
+				"label", null, 0, 1, TrackSwitchComponent.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrackSwitchComponent_OperatingMode(),
+				this.getTurnoutOperatingMode(), "operatingMode", "Undefined", 1,
+				1, TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getTrackSwitchComponent_MainLeg(),
+				this.getTrackSwitchLeg(), null, "mainLeg", null, 0, 1,
+				TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackSwitchComponent_SideLeg(),
+				this.getTrackSwitchLeg(), null, "sideLeg", null, 0, 1,
+				TrackSwitchComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(continuousTrackSegmentEClass, ContinuousTrackSegment.class, "ContinuousTrackSegment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getContinuousTrackSegment_Start(), this.getCoordinate(), null, "start", null, 0, 1, ContinuousTrackSegment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getContinuousTrackSegment_End(), this.getCoordinate(), null, "end", null, 0, 1, ContinuousTrackSegment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(continuousTrackSegmentEClass, ContinuousTrackSegment.class,
+				"ContinuousTrackSegment", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getContinuousTrackSegment_Start(), this.getCoordinate(),
+				null, "start", null, 0, 1, ContinuousTrackSegment.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getContinuousTrackSegment_End(), this.getCoordinate(),
+				null, "end", null, 0, 1, ContinuousTrackSegment.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(trackEClass, Track.class, "Track", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTrack_Sections(), this.getTrackSection(), null, "sections", null, 0, -1, Track.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrack_Designations(), this.getTrackDesignation(), null, "designations", null, 0, -1, Track.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackEClass, Track.class, "Track", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTrack_Sections(), this.getTrackSection(), null,
+				"sections", null, 0, -1, Track.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrack_Designations(), this.getTrackDesignation(),
+				null, "designations", null, 0, -1, Track.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(trackSectionEClass, TrackSection.class, "TrackSection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackSection_Shape(), this.getTrackShape(), "shape", null, 0, 1, TrackSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSection_Segments(), this.getTrackSegment(), null, "segments", null, 0, -1, TrackSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackSection_Color(), ecorePackage.getEString(), "color", null, 0, 1, TrackSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackSectionEClass, TrackSection.class, "TrackSection",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackSection_Shape(), this.getTrackShape(), "shape",
+				null, 0, 1, TrackSection.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getTrackSection_Segments(), this.getTrackSegment(), null,
+				"segments", null, 0, -1, TrackSection.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrackSection_Color(), ecorePackage.getEString(),
+				"color", null, 0, 1, TrackSection.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(trackSegmentEClass, TrackSegment.class, "TrackSegment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackSegment_Type(), this.getTrackType(), "type", null, 0, -1, TrackSegment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSegment_Positions(), this.getCoordinate(), null, "positions", null, 0, -1, TrackSegment.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackSegmentEClass, TrackSegment.class, "TrackSegment",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackSegment_Type(), this.getTrackType(), "type",
+				null, 0, -1, TrackSegment.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getTrackSegment_Positions(), this.getCoordinate(), null,
+				"positions", null, 0, -1, TrackSegment.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(fmaComponentEClass, FMAComponent.class, "FMAComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFMAComponent_Label(), this.getLabel(), null, "label", null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFMAComponent_Type(), this.getFMAComponentType(), "type", null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFMAComponent_RightSide(), ecorePackage.getEBoolean(), "rightSide", null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(fmaComponentEClass, FMAComponent.class, "FMAComponent",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFMAComponent_Label(), this.getLabel(), null, "label",
+				null, 0, 1, FMAComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFMAComponent_Type(), this.getFMAComponentType(),
+				"type", null, 0, 1, FMAComponent.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getFMAComponent_RightSide(), ecorePackage.getEBoolean(),
+				"rightSide", null, 0, 1, FMAComponent.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(routeEClass, Route.class, "Route", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRoute_Sections(), this.getRouteSection(), null, "sections", null, 0, -1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRoute_Markers(), this.getKMMarker(), null, "markers", null, 0, -1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(routeEClass, Route.class, "Route", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRoute_Sections(), this.getRouteSection(), null,
+				"sections", null, 0, -1, Route.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRoute_Markers(), this.getKMMarker(), null, "markers",
+				null, 0, -1, Route.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(routeSectionEClass, RouteSection.class, "RouteSection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRouteSection_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, RouteSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRouteSection_Shape(), this.getTrackShape(), "shape", null, 0, 1, RouteSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRouteSection_Positions(), this.getCoordinate(), null, "positions", null, 0, -1, RouteSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(routeSectionEClass, RouteSection.class, "RouteSection",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRouteSection_Guid(), ecorePackage.getEString(),
+				"guid", null, 0, 1, RouteSection.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRouteSection_Shape(), this.getTrackShape(), "shape",
+				null, 0, 1, RouteSection.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getRouteSection_Positions(), this.getCoordinate(), null,
+				"positions", null, 0, -1, RouteSection.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(kmMarkerEClass, KMMarker.class, "KMMarker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getKMMarker_Position(), this.getPosition(), null, "position", null, 0, 1, KMMarker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getKMMarker_Value(), ecorePackage.getEInt(), "value", null, 0, 1, KMMarker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(kmMarkerEClass, KMMarker.class, "KMMarker", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getKMMarker_Position(), this.getPosition(), null,
+				"position", null, 0, 1, KMMarker.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getKMMarker_Value(), ecorePackage.getEInt(), "value",
+				null, 0, 1, KMMarker.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(trackSwitchEndMarkerEClass, TrackSwitchEndMarker.class, "TrackSwitchEndMarker", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTrackSwitchEndMarker_LegACoordinate(), this.getCoordinate(), null, "legACoordinate", null, 1, 1, TrackSwitchEndMarker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitchEndMarker_LegBCoordinate(), this.getCoordinate(), null, "legBCoordinate", null, 1, 1, TrackSwitchEndMarker.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackSwitchEndMarkerEClass, TrackSwitchEndMarker.class,
+				"TrackSwitchEndMarker", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTrackSwitchEndMarker_LegACoordinate(),
+				this.getCoordinate(), null, "legACoordinate", null, 1, 1,
+				TrackSwitchEndMarker.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackSwitchEndMarker_LegBCoordinate(),
+				this.getCoordinate(), null, "legBCoordinate", null, 1, 1,
+				TrackSwitchEndMarker.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(errorEClass, org.eclipse.set.model.siteplan.Error.class, "Error", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getError_Position(), this.getCoordinate(), null, "position", null, 0, 1, org.eclipse.set.model.siteplan.Error.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getError_RelevantGUIDs(), ecorePackage.getEString(), "relevantGUIDs", null, 0, -1, org.eclipse.set.model.siteplan.Error.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getError_Message(), ecorePackage.getEString(), "message", null, 0, 1, org.eclipse.set.model.siteplan.Error.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(errorEClass, org.eclipse.set.model.siteplan.Error.class,
+				"Error", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getError_Position(), this.getCoordinate(), null,
+				"position", null, 0, 1,
+				org.eclipse.set.model.siteplan.Error.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getError_RelevantGUIDs(), ecorePackage.getEString(),
+				"relevantGUIDs", null, 0, -1,
+				org.eclipse.set.model.siteplan.Error.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getError_Message(), ecorePackage.getEString(), "message",
+				null, 0, 1, org.eclipse.set.model.siteplan.Error.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(pzbEClass, org.eclipse.set.model.siteplan.PZB.class, "PZB", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPZB_Type(), this.getPZBType(), "type", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPZB_Element(), this.getPZBElement(), "element", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPZB_RightSide(), ecorePackage.getEBoolean(), "rightSide", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPZB_Effectivity(), this.getPZBEffectivity(), "effectivity", null, 0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(pzbEClass, org.eclipse.set.model.siteplan.PZB.class, "PZB",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPZB_Type(), this.getPZBType(), "type", null, 0, 1,
+				org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPZB_Element(), this.getPZBElement(), "element", null,
+				0, 1, org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPZB_RightSide(), ecorePackage.getEBoolean(),
+				"rightSide", null, 0, 1,
+				org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPZB_Effectivity(), this.getPZBEffectivity(),
+				"effectivity", null, 0, 1,
+				org.eclipse.set.model.siteplan.PZB.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(pzbguEClass, org.eclipse.set.model.siteplan.PZBGU.class, "PZBGU", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPZBGU_Pzbs(), this.getPZB(), null, "pzbs", null, 0, -1, org.eclipse.set.model.siteplan.PZBGU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPZBGU_Length(), ecorePackage.getEInt(), "length", null, 0, 1, org.eclipse.set.model.siteplan.PZBGU.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(pzbguEClass, org.eclipse.set.model.siteplan.PZBGU.class,
+				"PZBGU", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPZBGU_Pzbs(), this.getPZB(), null, "pzbs", null, 0,
+				-1, org.eclipse.set.model.siteplan.PZBGU.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPZBGU_Length(), ecorePackage.getEInt(), "length",
+				null, 0, 1, org.eclipse.set.model.siteplan.PZBGU.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(trackDesignationEClass, TrackDesignation.class, "TrackDesignation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackDesignation_Name(), ecorePackage.getEString(), "name", null, 0, 1, TrackDesignation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackDesignation_Position(), this.getCoordinate(), null, "position", null, 0, 1, TrackDesignation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackDesignationEClass, TrackDesignation.class,
+				"TrackDesignation", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackDesignation_Name(), ecorePackage.getEString(),
+				"name", null, 0, 1, TrackDesignation.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackDesignation_Position(), this.getCoordinate(),
+				null, "position", null, 0, 1, TrackDesignation.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(trackSwitchLegEClass, TrackSwitchLeg.class, "TrackSwitchLeg", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackSwitchLeg_Connection(), this.getLeftRight(), "connection", null, 0, 1, TrackSwitchLeg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackSwitchLeg_Coordinates(), this.getCoordinate(), null, "coordinates", null, 0, -1, TrackSwitchLeg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackSwitchLegEClass, TrackSwitchLeg.class, "TrackSwitchLeg",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackSwitchLeg_Connection(), this.getLeftRight(),
+				"connection", null, 0, 1, TrackSwitchLeg.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackSwitchLeg_Coordinates(), this.getCoordinate(),
+				null, "coordinates", null, 0, -1, TrackSwitchLeg.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(stationEClass, Station.class, "Station", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getStation_Platforms(), this.getPlatform(), null, "platforms", null, 0, -1, Station.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStation_Label(), this.getLabel(), null, "label", null, 1, 1, Station.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(stationEClass, Station.class, "Station", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStation_Platforms(), this.getPlatform(), null,
+				"platforms", null, 0, -1, Station.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStation_Label(), this.getLabel(), null, "label", null,
+				1, 1, Station.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(platformEClass, Platform.class, "Platform", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPlatform_Guid(), ecorePackage.getEString(), "guid", null, 0, 1, Platform.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPlatform_Label(), this.getLabel(), null, "label", null, 1, 1, Platform.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPlatform_LabelPosition(), this.getPosition(), null, "labelPosition", null, 1, 1, Platform.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPlatform_Points(), this.getCoordinate(), null, "points", null, 0, -1, Platform.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(platformEClass, Platform.class, "Platform", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPlatform_Guid(), ecorePackage.getEString(), "guid",
+				null, 0, 1, Platform.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getPlatform_Label(), this.getLabel(), null, "label",
+				null, 1, 1, Platform.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPlatform_LabelPosition(), this.getPosition(), null,
+				"labelPosition", null, 1, 1, Platform.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPlatform_Points(), this.getCoordinate(), null,
+				"points", null, 0, -1, Platform.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(trackLockEClass, TrackLock.class, "TrackLock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTrackLock_Components(), this.getTrackLockComponent(), null, "components", null, 1, 2, TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackLock_PreferredLocation(), this.getTrackLockLocation(), "preferredLocation", null, 0, 1, TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackLock_OperatingMode(), this.getTurnoutOperatingMode(), "operatingMode", null, 0, 1, TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTrackLock_Label(), this.getLabel(), null, "label", null, 0, 1, TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackLockEClass, TrackLock.class, "TrackLock", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTrackLock_Components(), this.getTrackLockComponent(),
+				null, "components", null, 1, 2, TrackLock.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrackLock_PreferredLocation(),
+				this.getTrackLockLocation(), "preferredLocation", null, 0, 1,
+				TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTrackLock_OperatingMode(),
+				this.getTurnoutOperatingMode(), "operatingMode", null, 0, 1,
+				TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTrackLock_Label(), this.getLabel(), null, "label",
+				null, 0, 1, TrackLock.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(trackLockComponentEClass, TrackLockComponent.class, "TrackLockComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackLockComponent_TrackLockSignal(), ecorePackage.getEString(), "trackLockSignal", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getTrackLockComponent_EjectionDirection(), this.getLeftRight(), "ejectionDirection", null, 0, 1, TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackLockComponentEClass, TrackLockComponent.class,
+				"TrackLockComponent", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackLockComponent_TrackLockSignal(),
+				ecorePackage.getEString(), "trackLockSignal", null, 0, 1,
+				TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getTrackLockComponent_EjectionDirection(),
+				this.getLeftRight(), "ejectionDirection", null, 0, 1,
+				TrackLockComponent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(objectManagementEClass, ObjectManagement.class, "ObjectManagement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getObjectManagement_PlanningObjectIDs(), ecorePackage.getEString(), "planningObjectIDs", null, 0, -1, ObjectManagement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getObjectManagement_PlanningGroupID(), ecorePackage.getEString(), "planningGroupID", null, 0, 1, ObjectManagement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(objectManagementEClass, ObjectManagement.class,
+				"ObjectManagement", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getObjectManagement_PlanningObjectIDs(),
+				ecorePackage.getEString(), "planningObjectIDs", null, 0, -1,
+				ObjectManagement.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getObjectManagement_PlanningGroupID(),
+				ecorePackage.getEString(), "planningGroupID", null, 0, 1,
+				ObjectManagement.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(trackCloseEClass, TrackClose.class, "TrackClose", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrackClose_TrackCloseType(), this.getTrackCloseType(), "trackCloseType", null, 0, 1, TrackClose.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(trackCloseEClass, TrackClose.class, "TrackClose",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrackClose_TrackCloseType(), this.getTrackCloseType(),
+				"trackCloseType", null, 0, 1, TrackClose.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(externalElementControlEClass, ExternalElementControl.class, "ExternalElementControl", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExternalElementControl_ControlArt(), this.getExternalElementControlArt(), "controlArt", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExternalElementControl_ElementType(), this.getExternalElementControlArt(), "elementType", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExternalElementControl_ControlStation(), this.getControlStationType(), "controlStation", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExternalElementControl_Label(), this.getLabel(), null, "label", null, 0, 1, ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(externalElementControlEClass, ExternalElementControl.class,
+				"ExternalElementControl", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getExternalElementControl_ControlArt(),
+				this.getExternalElementControlArt(), "controlArt", null, 0, 1,
+				ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getExternalElementControl_ElementType(),
+				this.getExternalElementControlArt(), "elementType", null, 0, 1,
+				ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getExternalElementControl_ControlStation(),
+				this.getControlStationType(), "controlStation", null, 0, 1,
+				ExternalElementControl.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getExternalElementControl_Label(), this.getLabel(), null,
+				"label", null, 0, 1, ExternalElementControl.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(lockKeyEClass, LockKey.class, "LockKey", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLockKey_Label(), this.getLabel(), null, "label", null, 0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLockKey_Type(), this.getLockKeyType(), "type", null, 0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLockKey_Locked(), ecorePackage.getEBoolean(), "locked", null, 0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(lockKeyEClass, LockKey.class, "LockKey", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLockKey_Label(), this.getLabel(), null, "label", null,
+				0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLockKey_Type(), this.getLockKeyType(), "type", null,
+				0, 1, LockKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLockKey_Locked(), ecorePackage.getEBoolean(),
+				"locked", null, 0, 1, LockKey.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(layoutinfoEClass, Layoutinfo.class, "Layoutinfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLayoutinfo_Label(), ecorePackage.getEString(), "label", null, 0, 1, Layoutinfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLayoutinfo_SheetsCut(), this.getSheetCut(), null, "sheetsCut", null, 0, -1, Layoutinfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(layoutinfoEClass, Layoutinfo.class, "Layoutinfo",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLayoutinfo_Label(), ecorePackage.getEString(),
+				"label", null, 0, 1, Layoutinfo.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getLayoutinfo_SheetsCut(), this.getSheetCut(), null,
+				"sheetsCut", null, 0, -1, Layoutinfo.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(sheetCutEClass, SheetCut.class, "SheetCut", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSheetCut_Label(), ecorePackage.getEString(), "label", null, 0, 1, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSheetCut_PolygonDirection(), this.getCoordinate(), null, "polygonDirection", null, 0, 2, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSheetCut_Polygon(), this.getCoordinate(), null, "polygon", null, 0, -1, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(sheetCutEClass, SheetCut.class, "SheetCut", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSheetCut_Label(), ecorePackage.getEString(), "label",
+				null, 0, 1, SheetCut.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSheetCut_PolygonDirection(), this.getCoordinate(),
+				null, "polygonDirection", null, 0, 2, SheetCut.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getSheetCut_Polygon(), this.getCoordinate(), null,
+				"polygon", null, 0, -1, SheetCut.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(cantEClass, Cant.class, "Cant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCant_PointA(), this.getCantPoint(), null, "pointA", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCant_PointB(), this.getCantPoint(), null, "pointB", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCant_Form(), ecorePackage.getEString(), "form", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCant_Length(), ecorePackage.getEDouble(), "length", null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(cantEClass, Cant.class, "Cant", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCant_PointA(), this.getCantPoint(), null, "pointA",
+				null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCant_PointB(), this.getCantPoint(), null, "pointB",
+				null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCant_Form(), ecorePackage.getEString(), "form", null,
+				0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCant_Length(), ecorePackage.getEDouble(), "length",
+				null, 0, 1, Cant.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
-		initEClass(cantPointEClass, CantPoint.class, "CantPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getCantPoint_Height(), ecorePackage.getEDouble(), "height", null, 0, 1, CantPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(cantPointEClass, CantPoint.class, "CantPoint", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCantPoint_Height(), ecorePackage.getEDouble(),
+				"height", null, 0, 1, CantPoint.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
 
-		initEClass(unknownPositionedObjectEClass, UnknownPositionedObject.class, "UnknownPositionedObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUnknownPositionedObject_ObjectType(), ecorePackage.getEString(), "objectType", null, 0, 1, UnknownPositionedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(unknownPositionedObjectEClass, UnknownPositionedObject.class,
+				"UnknownPositionedObject", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUnknownPositionedObject_ObjectType(),
+				ecorePackage.getEString(), "objectType", null, 0, 1,
+				UnknownPositionedObject.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(signalMountTypeEEnum, SignalMountType.class, "SignalMountType");
+		initEEnum(signalMountTypeEEnum, SignalMountType.class,
+				"SignalMountType");
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.MAST);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.MEHRERE_MASTEN);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.PFOSTEN);
@@ -2674,12 +3459,16 @@ public class SiteplanPackageImpl extends EPackageImpl
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.GLEISABSCHLUSS);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.MAST_NIEDRIG);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.PFOSTEN_NIEDRIG);
-		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.DECKENKONSTRUKTION);
+		addEEnumLiteral(signalMountTypeEEnum,
+				SignalMountType.DECKENKONSTRUKTION);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.WANDKONSTRUKTION);
-		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.SIGNALAUSLEGER_LINKS);
-		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.SIGNALAUSLEGER_MITTE);
+		addEEnumLiteral(signalMountTypeEEnum,
+				SignalMountType.SIGNALAUSLEGER_LINKS);
+		addEEnumLiteral(signalMountTypeEEnum,
+				SignalMountType.SIGNALAUSLEGER_MITTE);
 		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.SIGNALBRUECKE);
-		addEEnumLiteral(signalMountTypeEEnum, SignalMountType.SONDERKONSTRUKTION);
+		addEEnumLiteral(signalMountTypeEEnum,
+				SignalMountType.SONDERKONSTRUKTION);
 
 		initEEnum(signalRoleEEnum, SignalRole.class, "SignalRole");
 		addEEnumLiteral(signalRoleEEnum, SignalRole.MULTI_SECTION);
@@ -2702,17 +3491,27 @@ public class SiteplanPackageImpl extends EPackageImpl
 		addEEnumLiteral(mountDirectionEEnum, MountDirection.UP);
 		addEEnumLiteral(mountDirectionEEnum, MountDirection.DOWN);
 
-		initEEnum(turnoutOperatingModeEEnum, TurnoutOperatingMode.class, "TurnoutOperatingMode");
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.UNDEFINED);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.ELECTRIC_REMOTE);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.ELECTRIC_LOCAL);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.MECHANICAL_REMOTE);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.MECHANICAL_LOCAL);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.NON_OPERATIONAL);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.TRAILABLE);
+		initEEnum(turnoutOperatingModeEEnum, TurnoutOperatingMode.class,
+				"TurnoutOperatingMode");
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.UNDEFINED);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.ELECTRIC_REMOTE);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.ELECTRIC_LOCAL);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.MECHANICAL_REMOTE);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.MECHANICAL_LOCAL);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.NON_OPERATIONAL);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.TRAILABLE);
 		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.OTHER);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.DEAD_LEFT);
-		addEEnumLiteral(turnoutOperatingModeEEnum, TurnoutOperatingMode.DEAD_RIGHT);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.DEAD_LEFT);
+		addEEnumLiteral(turnoutOperatingModeEEnum,
+				TurnoutOperatingMode.DEAD_RIGHT);
 
 		initEEnum(trackShapeEEnum, TrackShape.class, "TrackShape");
 		addEEnumLiteral(trackShapeEEnum, TrackShape.STRAIGHT);
@@ -2721,7 +3520,8 @@ public class SiteplanPackageImpl extends EPackageImpl
 		addEEnumLiteral(trackShapeEEnum, TrackShape.BLOSSCURVE);
 		addEEnumLiteral(trackShapeEEnum, TrackShape.BLOSS_CURVED_SIMPLE);
 		addEEnumLiteral(trackShapeEEnum, TrackShape.OTHER);
-		addEEnumLiteral(trackShapeEEnum, TrackShape.DIRECTIONAL_STRAIGHT_KINK_END);
+		addEEnumLiteral(trackShapeEEnum,
+				TrackShape.DIRECTIONAL_STRAIGHT_KINK_END);
 		addEEnumLiteral(trackShapeEEnum, TrackShape.KM_JUMP);
 		addEEnumLiteral(trackShapeEEnum, TrackShape.TRANSITION_CURVE_SFORM);
 		addEEnumLiteral(trackShapeEEnum, TrackShape.SFORM_SIMPLE_CURVED);
@@ -2736,7 +3536,8 @@ public class SiteplanPackageImpl extends EPackageImpl
 		addEEnumLiteral(trackTypeEEnum, TrackType.OTHER);
 		addEEnumLiteral(trackTypeEEnum, TrackType.PASSING_MAIN_TRACK);
 
-		initEEnum(fmaComponentTypeEEnum, FMAComponentType.class, "FMAComponentType");
+		initEEnum(fmaComponentTypeEEnum, FMAComponentType.class,
+				"FMAComponentType");
 		addEEnumLiteral(fmaComponentTypeEEnum, FMAComponentType.NONE);
 		addEEnumLiteral(fmaComponentTypeEEnum, FMAComponentType.AXLE);
 		addEEnumLiteral(fmaComponentTypeEEnum, FMAComponentType.NFDC_CIRCUIT);
@@ -2760,7 +3561,8 @@ public class SiteplanPackageImpl extends EPackageImpl
 		addEEnumLiteral(pzbEffectivityEEnum, PZBEffectivity.ROUTE);
 		addEEnumLiteral(pzbEffectivityEEnum, PZBEffectivity.ALWAYS);
 
-		initEEnum(trackLockLocationEEnum, TrackLockLocation.class, "TrackLockLocation");
+		initEEnum(trackLockLocationEEnum, TrackLockLocation.class,
+				"TrackLockLocation");
 		addEEnumLiteral(trackLockLocationEEnum, TrackLockLocation.BESIDE_TRACK);
 		addEEnumLiteral(trackLockLocationEEnum, TrackLockLocation.ON_TRACK);
 
@@ -2773,34 +3575,52 @@ public class SiteplanPackageImpl extends EPackageImpl
 		addEEnumLiteral(directionEEnum, Direction.OPPOSITE);
 
 		initEEnum(trackCloseTypeEEnum, TrackCloseType.class, "TrackCloseType");
-		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.FRICTION_BUFFER_STOP);
+		addEEnumLiteral(trackCloseTypeEEnum,
+				TrackCloseType.FRICTION_BUFFER_STOP);
 		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.FIXED_BUFFER_STOP);
 		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.HEAD_RAMP);
 		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.THRESHOLD_CROSS);
 		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.TURN_TABLE);
 		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.SLIDING_STAGE);
 		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.FERRY_DOCK);
-		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.INFRASTRUCTURE_BORDER);
+		addEEnumLiteral(trackCloseTypeEEnum,
+				TrackCloseType.INFRASTRUCTURE_BORDER);
 		addEEnumLiteral(trackCloseTypeEEnum, TrackCloseType.OTHER);
 
-		initEEnum(externalElementControlArtEEnum, ExternalElementControlArt.class, "ExternalElementControlArt");
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.FE_AK);
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.GFK);
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.GLEISFREIMELDE_INNENANLAGE);
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.ESTW_A);
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.OBJEKTCONTROLLER);
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.RELAISSTELLWERK);
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.SONSTIGE);
-		addEEnumLiteral(externalElementControlArtEEnum, ExternalElementControlArt.VIRTUELLE_AUSSENELEMENTANSTEUERUNG);
+		initEEnum(externalElementControlArtEEnum,
+				ExternalElementControlArt.class, "ExternalElementControlArt");
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.FE_AK);
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.GFK);
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.GLEISFREIMELDE_INNENANLAGE);
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.ESTW_A);
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.OBJEKTCONTROLLER);
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.RELAISSTELLWERK);
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.SONSTIGE);
+		addEEnumLiteral(externalElementControlArtEEnum,
+				ExternalElementControlArt.VIRTUELLE_AUSSENELEMENTANSTEUERUNG);
 
-		initEEnum(controlStationTypeEEnum, ControlStationType.class, "ControlStationType");
-		addEEnumLiteral(controlStationTypeEEnum, ControlStationType.DEFAULT_CONTROL);
-		addEEnumLiteral(controlStationTypeEEnum, ControlStationType.EMERGENCY_CONTROL);
-		addEEnumLiteral(controlStationTypeEEnum, ControlStationType.EMERGENCY_CONTROL_DISPOSE);
-		addEEnumLiteral(controlStationTypeEEnum, ControlStationType.DEFAULT_CONTROL_DISPOSE);
+		initEEnum(controlStationTypeEEnum, ControlStationType.class,
+				"ControlStationType");
+		addEEnumLiteral(controlStationTypeEEnum,
+				ControlStationType.DEFAULT_CONTROL);
+		addEEnumLiteral(controlStationTypeEEnum,
+				ControlStationType.EMERGENCY_CONTROL);
+		addEEnumLiteral(controlStationTypeEEnum,
+				ControlStationType.EMERGENCY_CONTROL_DISPOSE);
+		addEEnumLiteral(controlStationTypeEEnum,
+				ControlStationType.DEFAULT_CONTROL_DISPOSE);
 		addEEnumLiteral(controlStationTypeEEnum, ControlStationType.OTHER);
-		addEEnumLiteral(controlStationTypeEEnum, ControlStationType.WITHOUT_CONTROL);
-		addEEnumLiteral(controlStationTypeEEnum, ControlStationType.ONLY_REMOTE_CONTROL);
+		addEEnumLiteral(controlStationTypeEEnum,
+				ControlStationType.WITHOUT_CONTROL);
+		addEEnumLiteral(controlStationTypeEEnum,
+				ControlStationType.ONLY_REMOTE_CONTROL);
 
 		initEEnum(lockKeyTypeEEnum, LockKeyType.class, "LockKeyType");
 		addEEnumLiteral(lockKeyTypeEEnum, LockKeyType.INSIDE);

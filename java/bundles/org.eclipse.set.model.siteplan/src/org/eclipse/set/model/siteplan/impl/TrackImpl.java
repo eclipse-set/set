@@ -32,16 +32,19 @@ import org.eclipse.set.model.siteplan.TrackSection;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackImpl#getSections <em>Sections</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.TrackImpl#getDesignations <em>Designations</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackImpl#getSections
+ * <em>Sections</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.TrackImpl#getDesignations
+ * <em>Designations</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TrackImpl extends SiteplanObjectImpl implements Track {
 	/**
-	 * The cached value of the '{@link #getSections() <em>Sections</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getSections() <em>Sections</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getSections()
 	 * @generated
 	 * @ordered
@@ -49,9 +52,10 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 	protected EList<TrackSection> sections;
 
 	/**
-	 * The cached value of the '{@link #getDesignations() <em>Designations</em>}' containment reference list.
-	 * <!-- begin-user-doc
+	 * The cached value of the '{@link #getDesignations()
+	 * <em>Designations</em>}' containment reference list. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDesignations()
 	 * @generated
 	 * @ordered
@@ -60,6 +64,7 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected TrackImpl() {
@@ -68,6 +73,7 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -77,30 +83,36 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<TrackSection> getSections() {
 		if (sections == null) {
-			sections = new EObjectContainmentEList<TrackSection>(TrackSection.class, this, SiteplanPackage.TRACK__SECTIONS);
+			sections = new EObjectContainmentEList<TrackSection>(
+					TrackSection.class, this, SiteplanPackage.TRACK__SECTIONS);
 		}
 		return sections;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<TrackDesignation> getDesignations() {
 		if (designations == null) {
-			designations = new EObjectContainmentEList<TrackDesignation>(TrackDesignation.class, this, SiteplanPackage.TRACK__DESIGNATIONS);
+			designations = new EObjectContainmentEList<TrackDesignation>(
+					TrackDesignation.class, this,
+					SiteplanPackage.TRACK__DESIGNATIONS);
 		}
 		return designations;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -108,15 +120,18 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.TRACK__SECTIONS:
-				return ((InternalEList<?>)getSections()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getSections()).basicRemove(otherEnd,
+						msgs);
 			case SiteplanPackage.TRACK__DESIGNATIONS:
-				return ((InternalEList<?>)getDesignations()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getDesignations())
+						.basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -132,6 +147,7 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -140,11 +156,13 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 		switch (featureID) {
 			case SiteplanPackage.TRACK__SECTIONS:
 				getSections().clear();
-				getSections().addAll((Collection<? extends TrackSection>)newValue);
+				getSections()
+						.addAll((Collection<? extends TrackSection>) newValue);
 				return;
 			case SiteplanPackage.TRACK__DESIGNATIONS:
 				getDesignations().clear();
-				getDesignations().addAll((Collection<? extends TrackDesignation>)newValue);
+				getDesignations().addAll(
+						(Collection<? extends TrackDesignation>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -152,6 +170,7 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -169,6 +188,7 @@ public class TrackImpl extends SiteplanObjectImpl implements Track {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override

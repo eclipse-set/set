@@ -16,7 +16,8 @@ package org.eclipse.set.model.siteplan;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType <em>Track Close Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType
+ * <em>Track Close Type</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getTrackClose()
@@ -40,10 +41,13 @@ public interface TrackClose extends PositionedObject {
 	TrackCloseType getTrackCloseType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType <em>Track Close Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.TrackClose#getTrackCloseType
+	 * <em>Track Close Type</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Track Close Type</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Track Close Type</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.TrackCloseType
 	 * @see #getTrackCloseType()
 	 * @generated

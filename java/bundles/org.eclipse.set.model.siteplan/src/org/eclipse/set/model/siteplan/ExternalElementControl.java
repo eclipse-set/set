@@ -16,10 +16,14 @@ package org.eclipse.set.model.siteplan;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlArt <em>Control Art</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getElementType <em>Element Type</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlStation <em>Control Station</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlArt
+ * <em>Control Art</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getElementType
+ * <em>Element Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlStation
+ * <em>Control Station</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.ExternalElementControl#getLabel
+ * <em>Label</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getExternalElementControl()
@@ -43,10 +47,13 @@ public interface ExternalElementControl extends RouteObject, PositionedObject {
 	ExternalElementControlArt getControlArt();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlArt <em>Control Art</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlArt
+	 * <em>Control Art</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Control Art</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Control Art</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.ExternalElementControlArt
 	 * @see #getControlArt()
 	 * @generated
@@ -69,10 +76,13 @@ public interface ExternalElementControl extends RouteObject, PositionedObject {
 	ExternalElementControlArt getElementType();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getElementType <em>Element Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getElementType
+	 * <em>Element Type</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Element Type</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Element Type</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.ExternalElementControlArt
 	 * @see #getElementType()
 	 * @generated
@@ -95,10 +105,13 @@ public interface ExternalElementControl extends RouteObject, PositionedObject {
 	ControlStationType getControlStation();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlStation <em>Control Station</em>}' attribute.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getControlStation
+	 * <em>Control Station</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Control Station</em>' attribute.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Control Station</em>' attribute.
 	 * @see org.eclipse.set.model.siteplan.ControlStationType
 	 * @see #getControlStation()
 	 * @generated
@@ -108,6 +121,7 @@ public interface ExternalElementControl extends RouteObject, PositionedObject {
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getExternalElementControl_Label()
@@ -117,10 +131,13 @@ public interface ExternalElementControl extends RouteObject, PositionedObject {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getLabel <em>Label</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.ExternalElementControl#getLabel
+	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Label</em>' containment reference.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
 	 */

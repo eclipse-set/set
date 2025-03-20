@@ -16,8 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: eclipse-set/build/.github/actions/setup-java@main
+
       - name: Get eclipse
-        run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2023-12/R/eclipse-dsl-2023-12-R-linux-gtk-x86_64.tar.gz
+        run: mkdir ./tmp && wget -O ./tmp/eclipse.tar.gz https://archive.eclipse.org/technology/epp/downloads/release/2024-06/R/eclipse-java-2024-06-R-linux-gtk-x86_64.tar.gz
 
       - name: Unzip eclipse
         run: tar -xf ./tmp/eclipse.tar.gz -C ./tmp

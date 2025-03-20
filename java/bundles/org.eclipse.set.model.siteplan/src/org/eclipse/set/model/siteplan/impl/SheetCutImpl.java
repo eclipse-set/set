@@ -34,9 +34,12 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SheetCutImpl#getLabel <em>Label</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SheetCutImpl#getPolygonDirection <em>Polygon Direction</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SheetCutImpl#getPolygon <em>Polygon</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SheetCutImpl#getLabel
+ * <em>Label</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SheetCutImpl#getPolygonDirection
+ * <em>Polygon Direction</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SheetCutImpl#getPolygon
+ * <em>Polygon</em>}</li>
  * </ul>
  *
  * @generated
@@ -45,6 +48,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 	/**
 	 * The default value of the '{@link #getLabel() <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -54,6 +58,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 	/**
 	 * The cached value of the '{@link #getLabel() <em>Label</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLabel()
 	 * @generated
 	 * @ordered
@@ -61,9 +66,10 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 	protected String label = LABEL_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getPolygonDirection() <em>Polygon Direction</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getPolygonDirection() <em>Polygon
+	 * Direction</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #getPolygonDirection()
 	 * @generated
 	 * @ordered
@@ -71,8 +77,9 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 	protected EList<Coordinate> polygonDirection;
 
 	/**
-	 * The cached value of the '{@link #getPolygon() <em>Polygon</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPolygon() <em>Polygon</em>}'
+	 * containment reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPolygon()
 	 * @generated
 	 * @ordered
@@ -81,6 +88,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SheetCutImpl() {
@@ -89,6 +97,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -98,6 +107,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -107,6 +117,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -114,35 +125,42 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 		String oldLabel = label;
 		label = newLabel;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SHEET_CUT__LABEL, oldLabel, label));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.SHEET_CUT__LABEL, oldLabel, label));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Coordinate> getPolygonDirection() {
 		if (polygonDirection == null) {
-			polygonDirection = new EObjectContainmentEList<Coordinate>(Coordinate.class, this, SiteplanPackage.SHEET_CUT__POLYGON_DIRECTION);
+			polygonDirection = new EObjectContainmentEList<Coordinate>(
+					Coordinate.class, this,
+					SiteplanPackage.SHEET_CUT__POLYGON_DIRECTION);
 		}
 		return polygonDirection;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Coordinate> getPolygon() {
 		if (polygon == null) {
-			polygon = new EObjectContainmentEList<Coordinate>(Coordinate.class, this, SiteplanPackage.SHEET_CUT__POLYGON);
+			polygon = new EObjectContainmentEList<Coordinate>(Coordinate.class,
+					this, SiteplanPackage.SHEET_CUT__POLYGON);
 		}
 		return polygon;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -150,15 +168,18 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.SHEET_CUT__POLYGON_DIRECTION:
-				return ((InternalEList<?>)getPolygonDirection()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getPolygonDirection())
+						.basicRemove(otherEnd, msgs);
 			case SiteplanPackage.SHEET_CUT__POLYGON:
-				return ((InternalEList<?>)getPolygon()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getPolygon()).basicRemove(otherEnd,
+						msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -176,6 +197,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -183,15 +205,17 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.SHEET_CUT__LABEL:
-				setLabel((String)newValue);
+				setLabel((String) newValue);
 				return;
 			case SiteplanPackage.SHEET_CUT__POLYGON_DIRECTION:
 				getPolygonDirection().clear();
-				getPolygonDirection().addAll((Collection<? extends Coordinate>)newValue);
+				getPolygonDirection()
+						.addAll((Collection<? extends Coordinate>) newValue);
 				return;
 			case SiteplanPackage.SHEET_CUT__POLYGON:
 				getPolygon().clear();
-				getPolygon().addAll((Collection<? extends Coordinate>)newValue);
+				getPolygon()
+						.addAll((Collection<? extends Coordinate>) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -199,6 +223,7 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -219,13 +244,15 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.SHEET_CUT__LABEL:
-				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
+				return LABEL_EDEFAULT == null ? label != null
+						: !LABEL_EDEFAULT.equals(label);
 			case SiteplanPackage.SHEET_CUT__POLYGON_DIRECTION:
 				return polygonDirection != null && !polygonDirection.isEmpty();
 			case SiteplanPackage.SHEET_CUT__POLYGON:
@@ -236,11 +263,13 @@ public class SheetCutImpl extends SiteplanObjectImpl implements SheetCut {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (label: ");

@@ -27,7 +27,8 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.PositionedObjectImpl#getPosition <em>Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.PositionedObjectImpl#getPosition
+ * <em>Position</em>}</li>
  * </ul>
  *
  * @generated
@@ -35,8 +36,9 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 public class PositionedObjectImpl extends SiteplanObjectImpl
 		implements PositionedObject {
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -45,6 +47,7 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected PositionedObjectImpl() {
@@ -53,6 +56,7 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -62,6 +66,7 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -71,6 +76,7 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetPosition(Position newPosition,
@@ -78,14 +84,21 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 		Position oldPosition = position;
 		position = newPosition;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SiteplanPackage.POSITIONED_OBJECT__POSITION, oldPosition, newPosition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET,
+					SiteplanPackage.POSITIONED_OBJECT__POSITION, oldPosition,
+					newPosition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -93,18 +106,27 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 		if (newPosition != position) {
 			NotificationChain msgs = null;
 			if (position != null)
-				msgs = ((InternalEObject)position).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.POSITIONED_OBJECT__POSITION, null, msgs);
+				msgs = ((InternalEObject) position).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.POSITIONED_OBJECT__POSITION,
+						null, msgs);
 			if (newPosition != null)
-				msgs = ((InternalEObject)newPosition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SiteplanPackage.POSITIONED_OBJECT__POSITION, null, msgs);
+				msgs = ((InternalEObject) newPosition).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE
+								- SiteplanPackage.POSITIONED_OBJECT__POSITION,
+						null, msgs);
 			msgs = basicSetPosition(newPosition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.POSITIONED_OBJECT__POSITION, newPosition, newPosition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.POSITIONED_OBJECT__POSITION, newPosition,
+					newPosition));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -119,6 +141,7 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -132,13 +155,14 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.POSITIONED_OBJECT__POSITION:
-				setPosition((Position)newValue);
+				setPosition((Position) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -146,13 +170,14 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.POSITIONED_OBJECT__POSITION:
-				setPosition((Position)null);
+				setPosition((Position) null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -160,6 +185,7 @@ public class PositionedObjectImpl extends SiteplanObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override

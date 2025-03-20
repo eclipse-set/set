@@ -36,9 +36,12 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalMountImpl#getRouteLocations <em>Route Locations</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalMountImpl#getAttachedSignals <em>Attached Signals</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.SignalMountImpl#getMountType <em>Mount Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SignalMountImpl#getRouteLocations
+ * <em>Route Locations</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SignalMountImpl#getAttachedSignals
+ * <em>Attached Signals</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.SignalMountImpl#getMountType
+ * <em>Mount Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -46,9 +49,10 @@ import org.eclipse.set.model.siteplan.SiteplanPackage;
 public class SignalMountImpl extends PositionedObjectImpl
 		implements SignalMount {
 	/**
-	 * The cached value of the '{@link #getRouteLocations() <em>Route Locations</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getRouteLocations() <em>Route
+	 * Locations</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #getRouteLocations()
 	 * @generated
 	 * @ordered
@@ -56,9 +60,10 @@ public class SignalMountImpl extends PositionedObjectImpl
 	protected EList<RouteLocation> routeLocations;
 
 	/**
-	 * The cached value of the '{@link #getAttachedSignals() <em>Attached Signals</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!--
+	 * The cached value of the '{@link #getAttachedSignals() <em>Attached
+	 * Signals</em>}' containment reference list. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @see #getAttachedSignals()
 	 * @generated
 	 * @ordered
@@ -66,8 +71,9 @@ public class SignalMountImpl extends PositionedObjectImpl
 	protected EList<Signal> attachedSignals;
 
 	/**
-	 * The default value of the '{@link #getMountType() <em>Mount Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getMountType() <em>Mount Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMountType()
 	 * @generated
 	 * @ordered
@@ -75,8 +81,9 @@ public class SignalMountImpl extends PositionedObjectImpl
 	protected static final SignalMountType MOUNT_TYPE_EDEFAULT = SignalMountType.MAST;
 
 	/**
-	 * The cached value of the '{@link #getMountType() <em>Mount Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMountType() <em>Mount Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMountType()
 	 * @generated
 	 * @ordered
@@ -85,6 +92,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected SignalMountImpl() {
@@ -93,6 +101,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -102,30 +111,36 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<RouteLocation> getRouteLocations() {
 		if (routeLocations == null) {
-			routeLocations = new EObjectContainmentEList<RouteLocation>(RouteLocation.class, this, SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS);
+			routeLocations = new EObjectContainmentEList<RouteLocation>(
+					RouteLocation.class, this,
+					SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS);
 		}
 		return routeLocations;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EList<Signal> getAttachedSignals() {
 		if (attachedSignals == null) {
-			attachedSignals = new EObjectContainmentEList<Signal>(Signal.class, this, SiteplanPackage.SIGNAL_MOUNT__ATTACHED_SIGNALS);
+			attachedSignals = new EObjectContainmentEList<Signal>(Signal.class,
+					this, SiteplanPackage.SIGNAL_MOUNT__ATTACHED_SIGNALS);
 		}
 		return attachedSignals;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -135,6 +150,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -142,11 +158,14 @@ public class SignalMountImpl extends PositionedObjectImpl
 		SignalMountType oldMountType = mountType;
 		mountType = newMountType == null ? MOUNT_TYPE_EDEFAULT : newMountType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.SIGNAL_MOUNT__MOUNT_TYPE, oldMountType, mountType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.SIGNAL_MOUNT__MOUNT_TYPE, oldMountType,
+					mountType));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -154,15 +173,18 @@ public class SignalMountImpl extends PositionedObjectImpl
 			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS:
-				return ((InternalEList<?>)getRouteLocations()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getRouteLocations())
+						.basicRemove(otherEnd, msgs);
 			case SiteplanPackage.SIGNAL_MOUNT__ATTACHED_SIGNALS:
-				return ((InternalEList<?>)getAttachedSignals()).basicRemove(otherEnd, msgs);
+				return ((InternalEList<?>) getAttachedSignals())
+						.basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -180,6 +202,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -188,14 +211,16 @@ public class SignalMountImpl extends PositionedObjectImpl
 		switch (featureID) {
 			case SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS:
 				getRouteLocations().clear();
-				getRouteLocations().addAll((Collection<? extends RouteLocation>)newValue);
+				getRouteLocations()
+						.addAll((Collection<? extends RouteLocation>) newValue);
 				return;
 			case SiteplanPackage.SIGNAL_MOUNT__ATTACHED_SIGNALS:
 				getAttachedSignals().clear();
-				getAttachedSignals().addAll((Collection<? extends Signal>)newValue);
+				getAttachedSignals()
+						.addAll((Collection<? extends Signal>) newValue);
 				return;
 			case SiteplanPackage.SIGNAL_MOUNT__MOUNT_TYPE:
-				setMountType((SignalMountType)newValue);
+				setMountType((SignalMountType) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -203,6 +228,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -223,6 +249,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -240,6 +267,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -247,8 +275,10 @@ public class SignalMountImpl extends PositionedObjectImpl
 			Class<?> baseClass) {
 		if (baseClass == RouteObject.class) {
 			switch (derivedFeatureID) {
-				case SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS: return SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS;
-				default: return -1;
+				case SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS:
+					return SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS;
+				default:
+					return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
@@ -256,6 +286,7 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -263,8 +294,10 @@ public class SignalMountImpl extends PositionedObjectImpl
 			Class<?> baseClass) {
 		if (baseClass == RouteObject.class) {
 			switch (baseFeatureID) {
-				case SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS: return SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS;
-				default: return -1;
+				case SiteplanPackage.ROUTE_OBJECT__ROUTE_LOCATIONS:
+					return SiteplanPackage.SIGNAL_MOUNT__ROUTE_LOCATIONS;
+				default:
+					return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
@@ -272,11 +305,13 @@ public class SignalMountImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (mountType: ");

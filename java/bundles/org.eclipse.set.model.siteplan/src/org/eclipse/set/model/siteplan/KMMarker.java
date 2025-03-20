@@ -18,8 +18,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.KMMarker#getPosition <em>Position</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.KMMarker#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.KMMarker#getPosition
+ * <em>Position</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.KMMarker#getValue
+ * <em>Value</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getKMMarker()
@@ -28,8 +30,9 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface KMMarker extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Position</b></em>' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the value of the '<em><b>Position</b></em>' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Position</em>' containment reference.
 	 * @see #setPosition(Position)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getKMMarker_Position()
@@ -39,10 +42,14 @@ public interface KMMarker extends EObject {
 	Position getPosition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.KMMarker#getPosition <em>Position</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!--
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.KMMarker#getPosition
+	 * <em>Position</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * @param value the new value of the '<em>Position</em>' containment reference.
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Position</em>' containment
+	 *            reference.
 	 * @see #getPosition()
 	 * @generated
 	 */
@@ -61,9 +68,12 @@ public interface KMMarker extends EObject {
 	int getValue();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.KMMarker#getValue <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Value</em>' attribute.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.KMMarker#getValue <em>Value</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 * @generated
 	 */

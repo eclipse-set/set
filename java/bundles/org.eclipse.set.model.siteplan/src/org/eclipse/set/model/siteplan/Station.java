@@ -18,8 +18,10 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.Station#getPlatforms <em>Platforms</em>}</li>
- *   <li>{@link org.eclipse.set.model.siteplan.Station#getLabel <em>Label</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Station#getPlatforms
+ * <em>Platforms</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Station#getLabel
+ * <em>Label</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getStation()
@@ -28,10 +30,11 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface Station extends SiteplanObject {
 	/**
-	 * Returns the value of the '<em><b>Platforms</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.set.model.siteplan.Platform}.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Platforms</b></em>' containment
+	 * reference list. The list contents are of type
+	 * {@link org.eclipse.set.model.siteplan.Platform}. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Platforms</em>' containment reference list.
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getStation_Platforms()
 	 * @model containment="true"
@@ -42,6 +45,7 @@ public interface Station extends SiteplanObject {
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getStation_Label()
@@ -51,9 +55,12 @@ public interface Station extends SiteplanObject {
 	Label getLabel();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.set.model.siteplan.Station#getLabel <em>Label</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label</em>' containment reference.
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.siteplan.Station#getLabel <em>Label</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
 	 */

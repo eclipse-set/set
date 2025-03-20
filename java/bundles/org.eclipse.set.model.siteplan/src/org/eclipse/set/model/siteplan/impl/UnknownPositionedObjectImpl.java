@@ -24,7 +24,8 @@ import org.eclipse.set.model.siteplan.UnknownPositionedObject;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl#getObjectType <em>Object Type</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.impl.UnknownPositionedObjectImpl#getObjectType
+ * <em>Object Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -32,8 +33,9 @@ import org.eclipse.set.model.siteplan.UnknownPositionedObject;
 public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 		implements UnknownPositionedObject {
 	/**
-	 * The default value of the '{@link #getObjectType() <em>Object Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getObjectType() <em>Object Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectType()
 	 * @generated
 	 * @ordered
@@ -41,8 +43,9 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 	protected static final String OBJECT_TYPE_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getObjectType() <em>Object Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getObjectType() <em>Object Type</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getObjectType()
 	 * @generated
 	 * @ordered
@@ -51,6 +54,7 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected UnknownPositionedObjectImpl() {
@@ -59,6 +63,7 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -68,6 +73,7 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -77,6 +83,7 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -84,11 +91,14 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 		String oldObjectType = objectType;
 		objectType = newObjectType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SiteplanPackage.UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE, oldObjectType, objectType));
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					SiteplanPackage.UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE,
+					oldObjectType, objectType));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -102,13 +112,14 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case SiteplanPackage.UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE:
-				setObjectType((String)newValue);
+				setObjectType((String) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -116,6 +127,7 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -130,24 +142,28 @@ public class UnknownPositionedObjectImpl extends PositionedObjectImpl
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case SiteplanPackage.UNKNOWN_POSITIONED_OBJECT__OBJECT_TYPE:
-				return OBJECT_TYPE_EDEFAULT == null ? objectType != null : !OBJECT_TYPE_EDEFAULT.equals(objectType);
+				return OBJECT_TYPE_EDEFAULT == null ? objectType != null
+						: !OBJECT_TYPE_EDEFAULT.equals(objectType);
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+		if (eIsProxy())
+			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (objectType: ");

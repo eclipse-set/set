@@ -16,7 +16,8 @@ package org.eclipse.set.model.siteplan;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.eclipse.set.model.siteplan.Position#getRotation <em>Rotation</em>}</li>
+ * <li>{@link org.eclipse.set.model.siteplan.Position#getRotation
+ * <em>Rotation</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPosition()
@@ -25,10 +26,10 @@ package org.eclipse.set.model.siteplan;
  */
 public interface Position extends Coordinate {
 	/**
-	 * Returns the value of the '<em><b>Rotation</b></em>' attribute.
-	 * The default value is <code>"0"</code>.
-	 * <!-- begin-user-doc --> <!--
+	 * Returns the value of the '<em><b>Rotation</b></em>' attribute. The
+	 * default value is <code>"0"</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Rotation</em>' attribute.
 	 * @see #setRotation(double)
 	 * @see org.eclipse.set.model.siteplan.SiteplanPackage#getPosition_Rotation()
