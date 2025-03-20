@@ -411,11 +411,6 @@ public final class ToolboxTableView extends BasePart {
 
 		// initialize table type
 		tableType = getModelSession().getTableType();
-		if (tableType == null) {
-			tableType = getModelSession().getNature()
-					.getDefaultContainer()
-					.getTableTypeForTables();
-		}
 		controlAreaIds = getModelSession().getSelectedControlAreas()
 				.stream()
 				.map(Pair::getSecond)
