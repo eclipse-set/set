@@ -571,7 +571,7 @@ npm/npmjs/-/path-key/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-parse/1.0.7, MIT, approved, clearlydefined
 npm/npmjs/-/path-to-regexp/0.1.12, MIT, approved, clearlydefined
 npm/npmjs/-/pbf/4.0.1, MIT AND BSD-3-Clause, approved, #15821
-npm/npmjs/-/pdfjs-dist/4.10.38, Apache-2.0 AND MPL-2.0 AND BSD-3-Clause AND OFL-1.1, approved, 
+npm/npmjs/-/pdfjs-dist/5.0.375, Apache-2.0 AND MPL-2.0 AND BSD-3-Clause AND BSD-2-Clause AND OFL-1.1 AND MIT AND CC0-1.0, approved, #20133
 npm/npmjs/-/picocolors/1.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/picomatch/4.0.2, MIT, approved, #13338
@@ -830,17 +830,17 @@ npm/npmjs/@leichtgewicht/ip-codec/2.0.4, MIT, approved, clearlydefined
 npm/npmjs/@mapbox/jsonlint-lines-primitives/2.0.2, MIT, approved, clearlydefined
 npm/npmjs/@mapbox/unitbezier/0.0.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/@maplibre/maplibre-gl-style-spec/23.1.0, BSD-3-Clause AND MIT AND ISC AND BSD-3-Clause, approved, #19305
-npm/npmjs/@napi-rs/canvas-android-arm64/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17601
-npm/npmjs/@napi-rs/canvas-darwin-arm64/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17600
-npm/npmjs/@napi-rs/canvas-darwin-x64/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17591
-npm/npmjs/@napi-rs/canvas-linux-arm-gnueabihf/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17593
-npm/npmjs/@napi-rs/canvas-linux-arm64-gnu/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17598
-npm/npmjs/@napi-rs/canvas-linux-arm64-musl/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17592
-npm/npmjs/@napi-rs/canvas-linux-riscv64-gnu/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17595
-npm/npmjs/@napi-rs/canvas-linux-x64-gnu/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17599
-npm/npmjs/@napi-rs/canvas-linux-x64-musl/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17596
-npm/npmjs/@napi-rs/canvas-win32-x64-msvc/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17597
-npm/npmjs/@napi-rs/canvas/0.1.65, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17594
+npm/npmjs/@napi-rs/canvas-android-arm64/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17601
+npm/npmjs/@napi-rs/canvas-darwin-arm64/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17600
+npm/npmjs/@napi-rs/canvas-darwin-x64/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17591
+npm/npmjs/@napi-rs/canvas-linux-arm-gnueabihf/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17593
+npm/npmjs/@napi-rs/canvas-linux-arm64-gnu/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17598
+npm/npmjs/@napi-rs/canvas-linux-arm64-musl/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17592
+npm/npmjs/@napi-rs/canvas-linux-riscv64-gnu/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17595
+npm/npmjs/@napi-rs/canvas-linux-x64-gnu/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17599
+npm/npmjs/@napi-rs/canvas-linux-x64-musl/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17596
+npm/npmjs/@napi-rs/canvas-win32-x64-msvc/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17597
+npm/npmjs/@napi-rs/canvas/0.1.68, MIT AND CC-BY-3.0 AND (BSD-2-Clause AND ISC AND MIT) AND OFL-1.1, approved, #17594
 npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.stat/2.0.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.walk/1.2.8, MIT, approved, clearlydefined
