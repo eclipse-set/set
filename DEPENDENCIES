@@ -923,7 +923,7 @@ npm/npmjs/@typescript-eslint/utils/8.26.1, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/utils/8.27.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/8.26.1, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/8.27.0, MIT, approved, clearlydefined
-npm/npmjs/@vitejs/plugin-vue/5.2.2, MIT, approved, #17260
+npm/npmjs/@vitejs/plugin-vue/5.2.3, MIT, approved, #17260
 npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
 npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
 npm/npmjs/@vue/compiler-sfc/3.5.13, MIT AND ISC, approved, #16077
