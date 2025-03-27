@@ -41,7 +41,7 @@ public class UniqueTopKanteBereichObject extends AbstractPlazContainerCheck
 
 	@Override
 	public String checkType() {
-		return "Mehrfache TOP_Kante"; //$NON-NLS-1$
+		return "Mehrfache Teilbereiche"; //$NON-NLS-1$
 	}
 
 	@Override
