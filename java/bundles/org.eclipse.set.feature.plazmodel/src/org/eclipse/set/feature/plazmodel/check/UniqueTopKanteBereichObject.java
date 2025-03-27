@@ -46,7 +46,7 @@ public class UniqueTopKanteBereichObject extends AbstractPlazContainerCheck
 
 	@Override
 	public String getDescription() {
-		return "Jede Top_Kante, die Bereichsobjekt defniert, sind einzigartig"; //$NON-NLS-1$
+		return "Alle Bereichsobjekte haben eindeutige TOP-Kanten definiert."; //$NON-NLS-1$
 	}
 
 	@Override
