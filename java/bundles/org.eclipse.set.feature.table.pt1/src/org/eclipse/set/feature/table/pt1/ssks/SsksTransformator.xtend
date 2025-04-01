@@ -297,13 +297,11 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[
 								val s = it
-								val mountpoints = gruppe.map [
-									s.getMountPoint(it)
-								]
-								val topEdges = mountpoints.map[topKante].toSet
-								topEdges.map [
-									gleisLichtraum?.lichtraumprofil?.wert?.
-										translate
+								val lichtraeume = s.topKanten.map [
+									gleisLichtraum
+								].flatten
+								lichtraeume.map [
+									lichtraumprofil?.wert?.translate
 								]
 							],
 							null

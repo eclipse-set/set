@@ -295,22 +295,13 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	/**
 	 * @param topKante this TOP Kante
 	 * 
-	 * @return the Gleis Lichtraum of this TOP Kante (or <code>null</code> if
-	 * no Gleis Lichtraum is available for this TOP Kante)
+	 * @return the Gleis Lichträume of this TOP Kante
 	 */
-	def static Gleis_Lichtraum getGleisLichtraum(TOP_Kante topKante) {
+	def static List<Gleis_Lichtraum> getGleisLichtraum(TOP_Kante topKante) {
 		val lichtraeume = topKante.container.gleisLichtraum.filter [ l |
 			l.bereichObjektTeilbereich.map[it.topKante].contains(topKante)
 		]
-		if (lichtraeume.empty) {
-			return null
-		}
-		if (lichtraeume.size !== 1) {
-			throw new IllegalArgumentException(
-				'''Unexpected number of Gleis Lichträume for Top-Kante: topKante=«topKante.identitaet.wert» size=«lichtraeume.size»'''
-			)
-		}
-		return lichtraeume.get(0)
+		return lichtraeume.toList
 	}
 
 	/**
@@ -479,10 +470,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		val d1 = topKante.getAbstand(singlePoint1)
 		val d2 = topKante.getAbstand(tb)
 
-		val distanceA = d2.key.max(d1) -
-			d2.key.min(d1)
-		val distanceB = d2.value.max(d1) -
-			d2.value.min(d1)
+		val distanceA = d2.key.max(d1) - d2.key.min(d1)
+		val distanceB = d2.value.max(d1) - d2.value.min(d1)
 
 		return distanceA -> distanceB
 	}
@@ -497,8 +486,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 	 * @throws IllegalArgumentException if the Punkt Objekte are not
 	 * unambiguously connected to this TOP-Kante
 	 */
-	def static BigDecimal getAbstand(TOP_Kante topKante, Punkt_Objekt punktObjekt1,
-		Punkt_Objekt punktObjekt2) {
+	def static BigDecimal getAbstand(TOP_Kante topKante,
+		Punkt_Objekt punktObjekt1, Punkt_Objekt punktObjekt2) {
 		return topKante.getAbstand(
 			punktObjekt1.singlePoints.filter[topKante.isConnectedTo(it)].toSet.
 				unique,
@@ -585,9 +574,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		if (geoKante === null) {
 			throw new IllegalArgumentException
 		}
-		val nextKnoten = geoKante.IDGEOKnotenA.value === startKnoten
-				? geoKante.IDGEOKnotenB.value
-				: geoKante.IDGEOKnotenA.value
+		val nextKnoten = geoKante.IDGEOKnotenA.value === startKnoten ? geoKante.
+				IDGEOKnotenB.value : geoKante.IDGEOKnotenA.value
 		val remainingGeoKanten = geoKanten.filter[it !== geoKante].toList
 		return getAbstand(remainingGeoKanten, nextKnoten, targetKnoten,
 			distance +
@@ -824,7 +812,8 @@ class TopKanteExtensions extends BasisObjektExtensions {
 		}
 
 		// these are the GEO edges starting at the start GEO node
-		val startEdges = start.getGeoKantenOnParentKante(directedTopEdge.element)
+		val startEdges = start.
+			getGeoKantenOnParentKante(directedTopEdge.element)
 
 		// we do not want to go backwards and remove all previously found edges
 		startEdges.removeAll(result.map[element])
