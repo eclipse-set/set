@@ -296,8 +296,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Lichtraumprofil),
 							signal,
 							[
-								val s = it
-								val lichtraeume = s.topKanten.map [
+								val lichtraeume = it.topKanten.map [
 									gleisLichtraum
 								].flatten
 								lichtraeume.map [
