@@ -744,7 +744,7 @@ npm/npmjs/-/wbuf/1.7.3, MIT, approved, clearlydefined
 npm/npmjs/-/web-worker/1.5.0, Apache-2.0, approved, #19303
 npm/npmjs/-/webpack-cli/6.0.1, MIT, approved, #18200
 npm/npmjs/-/webpack-dev-middleware/7.4.2, MIT, approved, clearlydefined
-npm/npmjs/-/webpack-dev-server/5.2.0, MIT, approved, #17829
+npm/npmjs/-/webpack-dev-server/5.2.1, MIT, approved, #17829
 npm/npmjs/-/webpack-merge/6.0.1, MIT, approved, #17983
 npm/npmjs/-/webpack-sources/3.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/webpack/5.97.1, MIT, approved, #17762
