@@ -214,8 +214,8 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(massgebende_Neigung),
 				dweg,
 				[
-					fstrDWegAllg.massgebendeNeigung.wert.setScale(1,
-						RoundingMode.FLOOR).toString
+					fstrDWegAllg.massgebendeNeigung?.wert?.setScale(1,
+						RoundingMode.FLOOR)?.toString
 				]
 			)
 
