@@ -733,7 +733,7 @@ npm/npmjs/-/utila/0.4.0, MIT, approved, clearlydefined
 npm/npmjs/-/utils-merge/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/uuid/8.3.2, MIT AND (BSD-3-Clause AND MIT), approved, #15399
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/-/vite/6.2.3, MIT AND ISC AND Apache-2.0 AND BSD-2-Clause AND CC0-1.0, approved, #19548
+npm/npmjs/-/vite/6.2.4, MIT AND ISC AND Apache-2.0 AND BSD-2-Clause AND CC0-1.0, approved, #19548
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/10.1.1, MIT, approved, #19935
 npm/npmjs/-/vue-router/4.5.0, MIT, approved, #17508
@@ -907,14 +907,14 @@ npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
-npm/npmjs/@typescript-eslint/eslint-plugin/8.28.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/parser/8.28.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/scope-manager/8.28.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/type-utils/8.28.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/types/8.28.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/typescript-estree/8.28.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/utils/8.28.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/visitor-keys/8.28.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/eslint-plugin/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/utils/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/visitor-keys/8.29.0, MIT, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.2.3, MIT, approved, #17260
 npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
 npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
