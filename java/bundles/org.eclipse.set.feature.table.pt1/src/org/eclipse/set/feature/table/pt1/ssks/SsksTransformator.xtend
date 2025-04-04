@@ -301,7 +301,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								].flatten
 								lichtraeume.map [
 									lichtraumprofil?.wert?.translate
-								]
+								].toSet.toList.sort
 							],
 							null
 						)
