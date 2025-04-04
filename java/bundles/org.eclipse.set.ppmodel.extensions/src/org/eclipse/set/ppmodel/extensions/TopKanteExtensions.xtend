@@ -34,7 +34,6 @@ import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 import org.eclipse.set.model.planpro.Geodaten.GEO_Knoten
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Geodaten.TOP_Knoten
-import org.eclipse.set.model.planpro.Gleis.Gleis_Lichtraum
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.ppmodel.extensions.utils.Distance
 import org.slf4j.Logger
@@ -42,7 +41,6 @@ import org.slf4j.LoggerFactory
 
 import static org.eclipse.set.model.planpro.Geodaten.ENUMTOPAnschluss.*
 
-import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.ContainerExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
@@ -290,18 +288,6 @@ class TopKanteExtensions extends BasisObjektExtensions {
 				'''Ambiguous connection for «topKante.identitaet.wert» and «otherTopKante.identitaet.wert»'''
 			)
 		}
-	}
-
-	/**
-	 * @param topKante this TOP Kante
-	 * 
-	 * @return the Gleis Lichträume of this TOP Kante
-	 */
-	def static List<Gleis_Lichtraum> getGleisLichtraum(TOP_Kante topKante) {
-		val lichtraeume = topKante.container.gleisLichtraum.filter [ l |
-			l.bereichObjektTeilbereich.map[it.topKante].contains(topKante)
-		]
-		return lichtraeume.toList
 	}
 
 	/**
