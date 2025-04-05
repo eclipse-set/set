@@ -113,6 +113,7 @@ import static org.eclipse.set.ppmodel.extensions.geometry.GEOKanteGeometryExtens
 
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.BasisAttributExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.BereichObjektExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.GeoPunktExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.PunktObjektExtensions.*
@@ -121,7 +122,6 @@ import static extension org.eclipse.set.ppmodel.extensions.SignalExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalRahmenExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.SignalbegriffExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.StellelementExtensions.*
-import static extension org.eclipse.set.ppmodel.extensions.TopKanteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UnterbringungExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.CacheUtils.*
@@ -297,14 +297,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[
 								val s = it
-								val mountpoints = gruppe.map [
-									s.getMountPoint(it)
-								]
-								val topEdges = mountpoints.map[topKante].toSet
-								topEdges.map [
-									gleisLichtraum?.lichtraumprofil?.wert?.
-										translate
-								]
+								val lichtraeume = it.container.gleisLichtraum.filter [ contains(s) ]
+								lichtraeume.map [
+									lichtraumprofil?.wert?.translate
+								].toSet.toList.sort
 							],
 							null
 						)
