@@ -11,6 +11,7 @@ package org.eclipse.set.core.services.configurationservice;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,6 +42,11 @@ public interface UserConfigurationService {
 	 * @return the last file open path if set
 	 */
 	Optional<Path> getLastFileOpenPath();
+
+	/**
+	 * @return give last five opened file
+	 */
+	List<Path> getLastOpenFiles();
 
 	/**
 	 * @param path

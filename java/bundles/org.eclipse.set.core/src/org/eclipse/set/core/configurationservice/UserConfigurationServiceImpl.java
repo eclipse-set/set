@@ -17,6 +17,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -59,6 +61,8 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 		public Path lastFileOpenPath;
 
 		public Path lastFileExportPath;
+
+		public List<Path> lastOpenFiles;
 
 		/**
 		 * Any unknown properties must be stored and preserverd, as new versions
@@ -157,6 +161,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	@Override
 	public void setLastFileOpenPath(final Path path) {
 		configuration.lastFileOpenPath = path;
+		getLastOpenFiles().add(path);
 		saveConfiguration();
 	}
 
@@ -182,6 +187,15 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 			return ToolboxConfiguration.getDefaultPath();
 		}
 		return configuration.lastFileExportPath;
+	}
+
+	@Override
+	public List<Path> getLastOpenFiles() {
+		if (configuration.lastOpenFiles == null) {
+			configuration.lastOpenFiles = new LinkedList<>();
+			saveConfiguration();
+		}
+		return configuration.lastOpenFiles;
 	}
 
 }
