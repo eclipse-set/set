@@ -161,7 +161,7 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	@Override
 	public void setLastFileOpenPath(final Path path) {
 		configuration.lastFileOpenPath = path;
-		getLastOpenFiles().add(path);
+		getLastOpenFiles().addFirst(path);
 		saveConfiguration();
 	}
 
@@ -194,6 +194,10 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 		if (configuration.lastOpenFiles == null) {
 			configuration.lastOpenFiles = new LinkedList<>();
 			saveConfiguration();
+		}
+
+		if (configuration.lastOpenFiles.size() > 5) {
+			configuration.lastOpenFiles.removeLast();
 		}
 		return configuration.lastOpenFiles;
 	}
