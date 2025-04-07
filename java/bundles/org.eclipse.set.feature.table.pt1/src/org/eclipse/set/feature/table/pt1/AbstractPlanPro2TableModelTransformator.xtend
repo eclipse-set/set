@@ -61,7 +61,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		if (enumerator === null) {
 			return null
 		}
-		return enumTranslationService.translate(enumerator).alternative
+		return enumTranslationService.translate(owner, enumerator).alternative
 	}
 
 	/**

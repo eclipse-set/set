@@ -62,7 +62,7 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 			final Enumerator enumerator) {
 		final EnumTranslation translate = translate(enumerator);
 
-		if (!translate.getAlternative().equals("sonstiges")) { //$NON-NLS-1$
+		if (!translate.getAlternative().equals("sonstige")) { //$NON-NLS-1$
 			return translate;
 		}
 		final String notes = owner.getIDBearbeitungsvermerk()
@@ -91,7 +91,7 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 
 			@Override
 			public String getKeyBasis() {
-				return "sonstiges"; //$NON-NLS-1$
+				return "sonstige"; //$NON-NLS-1$
 			}
 
 			@Override
