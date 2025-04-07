@@ -57,7 +57,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	 * 
 	 * @return the translation or <code>null</code>, if the enumerator is <code>null</code>
 	 */
-	def String translate(Enumerator enumerator) {
+	def String translateEnum(Basis_Objekt owner, Enumerator enumerator) {
 		if (enumerator === null) {
 			return null
 		}

@@ -73,7 +73,10 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				row,
 				cols.getColumn(Art),
 				ein,
-				[translate(ein?.zugeinwirkungAllg?.zugeinwirkungArt.wert) ?: ""]
+				[
+					translateEnum(
+						ein?.zugeinwirkungAllg?.zugeinwirkungArt.wert) ?: ""
+				]
 			)
 
 			// C: Sskg.Grundsatzangaben.Typ
@@ -170,7 +173,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				ein,
 				[
 					ein?.schaltMittelZuordnung.map [
-						schaltmittelFunktion?.wert?.translate ?: ""
+						translateEnum(schaltmittelFunktion?.wert) ?: ""
 					]
 				],
 				null
@@ -181,9 +184,9 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 			instances.add(row);
 		}
 
-		for (FMA_Komponente fma : container.FMAKomponente
-			.filter [isPlanningObject]
-			.filterObjectsInControlArea(controlArea)) {
+		for (FMA_Komponente fma : container.FMAKomponente.filter [
+			isPlanningObject
+		].filterObjectsInControlArea(controlArea)) {
 			if (fma.FMAKomponenteAchszaehlpunkt !== null) {
 				val TableRow row = factory.newTableRow(fma);
 				// A: Sskg.Grundsatzangaben.Bezeichnung
@@ -255,8 +258,8 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Schienenprofil),
 					fma,
 					[
-						fma?.FMAKomponenteAchszaehlpunkt?.
-							FMAKomponenteSchienenprofil?.wert?.translate ?: ""
+						translateEnum(FMAKomponenteAchszaehlpunkt?.
+							FMAKomponenteSchienenprofil?.wert) ?: ""
 					]
 				)
 
@@ -313,8 +316,9 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Funktion),
 					fma,
 					[
-						fma?.schaltmittelZuordnung?.schaltmittelFunktion?.wert?.
-							translate ?: ""
+						translateEnum(
+							schaltmittelZuordnung?.schaltmittelFunktion?.
+								wert) ?: ""
 					]
 				)
 

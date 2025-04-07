@@ -118,7 +118,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Art),
 				element,
 				[IDWKrAnlage !== null],
-				[WKrAnlage?.WKrAnlageAllg?.WKrArt?.wert.translate]
+				[translateEnum(WKrAnlage?.WKrAnlageAllg?.WKrArt?.wert)]
 			)
 
 			// C: Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Form
@@ -233,11 +233,15 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[weicheElement?.weicheVorzugslage?.wert !== null],
-					[weicheElement.weicheVorzugslage.wert.translate]
+					[translateEnum(weicheElement?.weicheVorzugslage?.wert) ?: ""]
 				),
 				new Case<W_Kr_Gsp_Element>(
 					[gleissperreElement?.gleissperreVorzugslage?.wert !== null],
-					[gleissperreElement.gleissperreVorzugslage.wert.translate]
+					[
+						translateEnum(
+							gleissperreElement?.gleissperreVorzugslage?.wert) ?:
+							""
+					]
 				)
 			)
 
@@ -285,7 +289,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weiche_Weichensignal),
 				element,
-				[weichensignal.map[translate].toSet],
+				[
+					weichensignal.map [ weicheSignalEnum |
+						translateEnum(weicheSignalEnum)
+					].toSet
+				],
 				null
 			)
 
@@ -548,7 +556,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[
 					WKrGspKomponenten.map[entgleisungsschuh].filterNull.map [
-						gleissperrensignal?.wert?.translate ?: "o"
+						element.translateEnum(gleissperrensignal?.wert) ?: "o"
 					].toSet
 				],
 				null
@@ -567,7 +575,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 						entgleisungsschuh?.auswurfrichtung?.wert
 					].filterNull.toList
 					if (!auswurfrichtung.nullOrEmpty) {
-						return auswurfrichtung.first.translate
+						return translateEnum(auswurfrichtung.first)
 					}
 					val potk = WKrGspKomponenten.flatMap[singlePoints].filter [
 						it !== null && seitlicheLage?.wert !== null &&
@@ -631,7 +639,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[
 					wKrGspKomponenten.map [
-						besonderesFahrwegelement?.wert?.translate
+						translateEnum(besonderesFahrwegelement?.wert)
 					].filterNull
 				],
 				null
@@ -811,8 +819,8 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		(W_Kr_Gsp_Komponente)=>ENUMElektrischerAntriebLage actuatorPositionSelector
 	) {
 		if (actuator != BigInteger.ZERO) {
-			return actuatorPositionSelector.apply(component).translate ?:
-				"keine Lage"
+			return component.translateEnum(
+				actuatorPositionSelector.apply(component)) ?: "keine Lage"
 		} else {
 			return null
 		}

@@ -60,7 +60,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		elementList.addAll(estwzentraleinheitList);
 		elementList.addAll(aussenelementansteuerungList);
 		// Basis_Objekt
-		for (element : elementList.filter[isPlanningObject].filterObjectsInControlArea(controlArea)) {
+		for (element : elementList.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea)) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -95,7 +96,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Unterbringung_Art),
 				element,
-				[unterbringung.art.translate ?: ""]
+				[translateEnum(unterbringung.art) ?: ""]
 			)
 
 			// E: Sska.Grundsatzangaben.Unterbringung.Ort
@@ -132,7 +133,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Unterbringung_Tueranschlag),
 				element,
-				[unterbringung.tueranschlag.translate ?: ""]
+				[translateEnum(unterbringung.tueranschlag) ?: ""]
 			)
 
 			// I: Sska.Verknüpfungen.Information.primaer
@@ -262,8 +263,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getElementArt(
 		Aussenelementansteuerung element) {
-		return element?.AEAAllg?.aussenelementansteuerungArt?.wert?.translate ?:
-			"";
+		return element.translateEnum(
+			element?.AEAAllg?.aussenelementansteuerungArt?.wert) ?: "";
 	}
 
 	private def dispatch String getElementArt(ESTW_Zentraleinheit element) {
@@ -350,8 +351,9 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			val energiePrimaer = element.elementEnergiePrimaer
 			return energiePrimaer.bezeichner
 		} else {
-			return element?.AEAEnergieversorgung?.energieversorgungArt?.wert?.
-				translate ?: "";
+			return element.translateEnum(
+				element?.AEAEnergieversorgung?.energieversorgungArt?.wert) ?:
+				"";
 		}
 	}
 
@@ -360,8 +362,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (element.ESTWZEEnergieversorgung?.IDEnergiePrimaer !== null) {
 			return element.elementEnergiePrimaer.bezeichner
 		}
-		return element?.ESTWZEEnergieversorgung?.energieversorgungArt?.wert?.
-			translate ?: ""
+		return element.translateEnum(
+			element?.ESTWZEEnergieversorgung?.energieversorgungArt?.wert) ?: ""
 	}
 
 	private def dispatch String getElementVerknuepfungenEnergieSekundaer(
@@ -375,8 +377,9 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			val energieSekundaer = element.elementEnergieSekundaer
 			return energieSekundaer.bezeichner
 		}
-		return element?.AEAEnergieversorgung?.energieversorgungArtErsatz?.wert?.
-			translate ?: "";
+		return element.translateEnum(
+			element?.AEAEnergieversorgung?.energieversorgungArtErsatz?.wert) ?:
+			"";
 	}
 
 	private def dispatch String getElementVerknuepfungenEnergieSekundaer(
@@ -384,8 +387,9 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (element?.ESTWZEEnergieversorgung?.IDEnergieSekundaer !== null) {
 			return element.elementEnergieSekundaer.bezeichner
 		}
-		return element?.ESTWZEEnergieversorgung?.energieversorgungArtErsatz?.
-			wert?.translate ?: ""
+		return element.translateEnum(
+			element?.ESTWZEEnergieversorgung?.energieversorgungArtErsatz?.
+				wert) ?: ""
 	}
 
 	private def dispatch String getElementVerknuepfungenBedienungLokal(
@@ -553,7 +557,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def String ipAdressangabenGFKKategorie(
 		Aussenelementansteuerung ansteuerung
 	) {
-		return ansteuerung?.AEAGFKIPAdressblock?.GFKKategorie?.wert?.translate
+		return ansteuerung.translateEnum(
+			ansteuerung?.AEAGFKIPAdressblock?.GFKKategorie?.wert)
 	}
 
 	private dispatch def String ipAdressangabenGFKKategorie(
@@ -571,8 +576,8 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def String ipAdressangabenRegionalbereich(
 		Aussenelementansteuerung ansteuerung
 	) {
-		return ansteuerung?.AEAGFKIPAdressblock?.regionalbereich?.wert?.
-			translate
+		return ansteuerung.translateEnum(
+			ansteuerung?.AEAGFKIPAdressblock?.regionalbereich?.wert)
 	}
 
 	private dispatch def String ipAdressangabenRegionalbereich(

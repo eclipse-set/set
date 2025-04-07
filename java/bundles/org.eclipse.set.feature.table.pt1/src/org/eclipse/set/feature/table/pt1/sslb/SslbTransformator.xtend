@@ -51,7 +51,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory = null
 	val TopologicalGraphService topGraph
 	// Minimum overlap distance between free reporting section and track route in meter
-	static final BigDecimal MIN_OVERLAP_DISTANCE = BigDecimal.valueOf(10) 
+	static final BigDecimal MIN_OVERLAP_DISTANCE = BigDecimal.valueOf(10)
+
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService) {
@@ -145,8 +146,9 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val isElementA = blockElement === blockAnlage?.IDBlockElementA?.value
 		val isElementB = blockElement === blockAnlage?.IDBlockElementB?.value
-		val otherBlockElement = isElementA ? blockAnlage?.IDBlockElementB?.
-				value : blockAnlage?.IDBlockElementA?.value
+		val otherBlockElement = isElementA
+				? blockAnlage?.IDBlockElementB?.value
+				: blockAnlage?.IDBlockElementA?.value
 
 		val row = it
 		// A: Sslb.Strecke.Nummer
@@ -201,8 +203,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Betriebsfuehrung),
 			blockElement,
 			[
-				blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.wert?.
-					translate
+				translateEnum(
+					blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.wert)
 			]
 		)
 
@@ -220,7 +222,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Start),
 			blockElement,
-			[blockElement?.blockElementAllg?.blockBauform?.wert?.translate]
+			[translateEnum(blockElement?.blockElementAllg?.blockBauform?.wert)]
 		)
 
 		// H: Sslb.Grundsatzangaben.von.Streckenfreimeldung
@@ -270,7 +272,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Ziel),
 			otherBlockElement,
-			[blockElementAllg?.blockBauform?.wert?.translate]
+			[translateEnum(blockElementAllg?.blockBauform?.wert)]
 		)
 
 		// K: Sslb.Grundsatzangaben.Blockschaltung
@@ -278,7 +280,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Blockschaltung),
 			blockAnlage,
 			[
-				blockAnlageAllg?.schaltung?.wert?.translate
+				translateEnum(blockAnlageAllg?.schaltung?.wert)
 			]
 		)
 

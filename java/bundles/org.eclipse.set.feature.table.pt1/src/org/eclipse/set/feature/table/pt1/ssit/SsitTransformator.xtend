@@ -97,8 +97,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Bauart),
 			einrichtung,
 			[
-				bedienEinrichtOertlichAllg?.bedienEinrichtBauart?.wert?.
-					translate ?: ""
+				translateEnum(
+					bedienEinrichtOertlichAllg?.bedienEinrichtBauart?.wert) ?:
+					""
 			]
 		)
 
@@ -107,8 +108,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Befestigung_Art),
 			einrichtung,
 			[
-				unterbringung?.unterbringungAllg?.unterbringungBefestigung?.
-					wert?.translate ?: ""
+				translateEnum(
+					unterbringung?.unterbringungAllg?.unterbringungBefestigung?.
+						wert) ?: ""
 			]
 		)
 
@@ -146,8 +148,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Melder),
 			einrichtung,
 			[
-				lBedienAnzeigeElementAllg.map[melder?.wert?.translate].toSet.
-					filterNull
+				lBedienAnzeigeElementAllg.map [ bedienAnzeigeAllg |
+					translateEnum(bedienAnzeigeAllg.melder?.wert)
+				].toSet.filterNull
 			],
 			null,
 			[it]
@@ -158,8 +161,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Schalter),
 			einrichtung,
 			[
-				lBedienAnzeigeElementAllg.map[schalter?.wert?.translate].toSet.
-					filterNull
+				lBedienAnzeigeElementAllg.map [ bedienAnzeigeAllg |
+					translateEnum(bedienAnzeigeAllg.schalter?.wert)
+				].toSet.filterNull
 			],
 			null,
 			[it]
@@ -170,8 +174,9 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Taste),
 			einrichtung,
 			[
-				lBedienAnzeigeElementAllg.map[taste?.wert?.translate].toSet.
-					filterNull
+				lBedienAnzeigeElementAllg.map [ bedienAnzeigeAllg |
+					translateEnum(bedienAnzeigeAllg.taste?.wert)
+				].toSet.filterNull
 			],
 			null,
 			[it]

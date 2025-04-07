@@ -123,7 +123,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Art),
 			fstrZugRangier,
 			[
-				fstrRangier?.fstrRangierArt?.wert?.translate?.substring(0, 1)
+				translateEnum(fstrRangier?.fstrRangierArt?.wert)?.substring(0, 1)
 			]
 		)
 
@@ -131,7 +131,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Autom_Einstellung),
 			fstrZugRangier,
-			[fstrZug?.automatischeEinstellung?.wert?.translate]
+			[translateEnum(fstrZug?.automatischeEinstellung?.wert)]
 		)
 
 		// H: Sslr.Einstellung.F_Bedienung
@@ -229,8 +229,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrFahrweg?.abhaengigkeiten.map [
 					val ssp = schluesselsperre?.bezeichnung?.
 						bezeichnungTabelle?.wert
-					val aufloesungZielgleis = fstrAbhaengigkeitSsp?.
-						aufloesungSspZielgleis?.wert?.translate
+					val aufloesungZielgleis = translateEnum(fstrAbhaengigkeitSsp?.
+						aufloesungSspZielgleis?.wert)
 					'''«ssp» («aufloesungZielgleis»)'''
 				]
 			],
@@ -275,7 +275,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.map [
 					bedienAnzeigeElement
 				]?.filterNull ?: Collections.emptyList
-				'''«FOR bae : bedAnzeigeElemente.map[comment[translate]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
+				'''«FOR bae : bedAnzeigeElemente.map[comment[p1, p2| p1.translateEnum(p2)]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
 					toString.trim
 			]
 		)
@@ -300,11 +300,11 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			new Case<Fstr_Zug_Rangier>(
 				[
 					!bedAnzeigeElemente.empty && !bedAnzeigeElemente.map [
-						comment[translate]
+						comment[p1, p2| p1.translateEnum(p2)]
 					].filterNull.empty
 				],
 				[
-					'''«FOR bae : bedAnzeigeElemente.map[comment[translate]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
+					'''«FOR bae : bedAnzeigeElemente.map[comment[p1, p2| p1.translateEnum(p2)]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
 						toString.trim
 				]
 			),

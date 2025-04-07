@@ -194,8 +194,9 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				// H: Sslz.Einstellung.Autom_Einstellung
 				fill(instance, cols.getColumn(Autom_Einstellung),
 					fstrZugRangier, [
-						fstrZugRangier?.fstrZug?.automatischeEinstellung?.wert?.
-							translate ?: ""
+						translateEnum(
+							fstrZugRangier?.fstrZug?.automatischeEinstellung?.
+								wert) ?: ""
 					])
 
 				// I: Sslz.Einstellung.F_Bedienung
@@ -626,7 +627,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								bedienAnzeigeElement
 							]?.filterNull ?: Collections.emptyList
 
-						'''«FOR bae : bedAnzeigeElemente»«bae.comment[translate]»«bae» «ENDFOR»'''.
+						'''«FOR bae : bedAnzeigeElemente»«bae.comment[p1,p2 | p1.translateEnum(p2)]»«bae» «ENDFOR»'''.
 							toString.trim
 					]),
 					new Case<Fstr_Zug_Rangier>([
@@ -739,7 +740,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs2v)) ||
 				signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs3v))
 		].toList
-		
+
 		val zs2vSymbols = relevantFstrSignalisierung.
 			getFstrSignalisierungSymbol(typeof(Zs2v))
 		val zs3vSymbols = relevantFstrSignalisierung.

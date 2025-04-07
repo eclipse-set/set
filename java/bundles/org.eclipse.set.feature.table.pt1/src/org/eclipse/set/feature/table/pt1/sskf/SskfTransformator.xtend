@@ -86,7 +86,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Unterbringung_Art),
 				fmaAnlage,
-				[FMAAnlageAllg?.FMAArt?.wert?.translate ?: ""]
+				[translateEnum(FMAAnlageAllg?.FMAArt?.wert) ?: ""]
 			)
 
 			// E: Grundsatzangaben.Typ			
@@ -303,7 +303,7 @@ class SskfTransformator extends AbstractPlanPro2TableModelTransformator {
 				fmaAnlage,
 				[
 					schaltmittelZuordnungen.map [
-						schaltmittelFunktion.wert.translate
+						translateEnum(schaltmittelFunktion.wert)
 					]
 				],
 				null

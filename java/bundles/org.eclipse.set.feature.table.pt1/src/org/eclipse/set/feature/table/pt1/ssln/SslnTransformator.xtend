@@ -64,8 +64,8 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
-		container.NBZone.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea).forEach [ it |
+		container.NBZone.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).forEach [ it |
 				if (Thread.currentThread.interrupted) {
 					return
 				}
@@ -84,7 +84,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Art),
 			nbZone,
-			[nb?.NBArt?.wert?.translate]
+			[translateEnum(nb?.NBArt?.wert)]
 		)
 
 		// C: Ssln.Unterstellungsverhaeltnis.untergeordnet
@@ -107,7 +107,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Aufloesung_Grenze),
 			nbZone,
-			[NBZoneAllg?.NBVerhaeltnisBesonders?.wert?.translate]
+			[translateEnum(NBZoneAllg?.NBVerhaeltnisBesonders?.wert)]
 		)
 
 		// F: Ssln.Grenze.Bez_Grenze
@@ -133,7 +133,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 
 				nBZoneElemente.filterMultipleNbElements.map [
-					'''«(nbElement as W_Kr_Gsp_Komponente)?.WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («NBZoneElementAllg?.NBRueckgabevoraussetzung?.wert?.translate»)'''
+					'''«(nbElement as W_Kr_Gsp_Komponente)?.WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («translateEnum(NBZoneElementAllg?.NBRueckgabevoraussetzung?.wert)»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
@@ -149,7 +149,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 					!first?.NBZoneElementAllg?.freieStellbarkeit?.wert &&
 						second instanceof W_Kr_Gsp_Komponente
 				].map [
-					'''«(second as W_Kr_Gsp_Komponente).WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.WGspLage?.wert?.translate ?: "-"»)'''
+					'''«(second as W_Kr_Gsp_Komponente).WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («first?.translateEnum(first?.NBZoneElementAllg?.WGspLage?.wert) ?: "-"»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
@@ -165,7 +165,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 					first?.NBZoneElementAllg?.freieStellbarkeit?.wert &&
 						second instanceof Signal
 				].map [
-					'''«(second as Signal)?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.NBRueckgabevoraussetzung?.wert?.translate»)'''
+					'''«(second as Signal)?.bezeichnung?.bezeichnungTabelle?.wert» («first?.translateEnum(first?.NBZoneElementAllg?.NBRueckgabevoraussetzung?.wert)»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,

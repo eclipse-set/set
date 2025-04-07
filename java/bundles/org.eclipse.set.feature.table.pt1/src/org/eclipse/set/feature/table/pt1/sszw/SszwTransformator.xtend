@@ -101,7 +101,7 @@ class SszwTransformator extends AbstractPlanPro2TableModelTransformator {
 			row,
 			cols.getColumn(Art),
 			refWKrAnlage,
-			[WKrAnlageArt.translate ?: ""]
+			[translateEnum(WKrAnlageArt) ?: ""]
 		)
 
 		// C: Sszw.W_Kr.Form

@@ -76,10 +76,10 @@ class BedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 * @return the comment
 	 */
 	def static String comment(Bedien_Anzeige_Element bedAnzeigeElement,
-		(Enumerator)=>String translation) {
-		val taste = translation.apply(
+		(Basis_Objekt, Enumerator)=>String translation) {
+		val taste = translation.apply(bedAnzeigeElement,
 			bedAnzeigeElement?.bedienAnzeigeElementAllg?.taste?.wert)
-		val schalter = translation.apply(
+		val schalter = translation.apply(bedAnzeigeElement,
 			bedAnzeigeElement?.bedienAnzeigeElementAllg?.schalter?.wert)
 		if (taste !== null || schalter !== null) {
 			val tasteSchalter = '''«taste ?: ""»«schalter ?: ""»'''

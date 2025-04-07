@@ -127,7 +127,7 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(IP_Regionalbereich),
 			standort,
-			[TSOIPAdressblock?.regionalbereich?.wert?.translate]
+			[translateEnum(TSOIPAdressblock?.regionalbereich?.wert)]
 		)
 
 		// I: Sskt.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
@@ -162,7 +162,7 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(IP_Teilsystem_Art),
 			standort,
-			[ts?.TSOTeilsystemArt?.wert?.translate]
+			[translateEnum(ts?.TSOTeilsystemArt?.wert)]
 		)
 
 		// N: Sskt.IP_Adressangaben.Teilsystem.TS_Blau
@@ -218,7 +218,7 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(IP_Regionalbereich),
 			standort,
-			[BSOIPAdressblock?.regionalbereich?.wert?.translate]
+			[translateEnum(BSOIPAdressblock?.regionalbereich?.wert)]
 		)
 
 		// I: Sskt.IP_Adressangaben.Adressblock_Blau.IPv4_Blau
@@ -253,7 +253,7 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(IP_Teilsystem_Art),
 			standort,
-			[bs?.BSOTeilsystemArt?.wert?.translate]
+			[translateEnum(bs?.BSOTeilsystemArt?.wert)]
 		)
 
 		// N: Sskt.IP_Adressangaben.Teilsystem.TS_Blau
@@ -286,7 +286,10 @@ class SsktTransformator extends AbstractPlanPro2TableModelTransformator {
 			row,
 			cols.getColumn(Unterbringung_Art),
 			standort,
-			[unterbringung?.unterbringungAllg?.unterbringungArt?.wert?.translate]
+			[
+				translateEnum(
+					unterbringung?.unterbringungAllg?.unterbringungArt?.wert)
+			]
 		)
 
 		// E: Sskt.Grundsatzangaben.Unterbringung.Ort
