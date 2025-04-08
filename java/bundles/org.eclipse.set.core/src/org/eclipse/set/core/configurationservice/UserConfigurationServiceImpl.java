@@ -161,10 +161,16 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	@Override
 	public void setLastFileOpenPath(final Path path) {
 		configuration.lastFileOpenPath = path;
-		List<Path> lastOpenFiles = getLastOpenFiles();
-		if (lastOpenFiles.contains(path)) {
+		final List<Path> lastOpenFiles = getLastOpenFiles();
+		final Optional<Path> alreadyOpenPath = lastOpenFiles.stream()
+				.filter(p -> p.toAbsolutePath()
+						.toString()
+						.equalsIgnoreCase(path.toAbsolutePath().toString()))
+				.findFirst();
+
+		if (alreadyOpenPath.isPresent()) {
 			// remove path if already inside open files to avoid duplicates
-			lastOpenFiles.remove(path);
+			lastOpenFiles.remove(alreadyOpenPath.get());
 		}
 		lastOpenFiles.addFirst(path);
 		saveConfiguration();
