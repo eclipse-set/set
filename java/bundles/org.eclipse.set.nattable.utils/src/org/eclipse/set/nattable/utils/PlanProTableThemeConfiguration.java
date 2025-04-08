@@ -313,6 +313,8 @@ public class PlanProTableThemeConfiguration
 	private void registerHeaderStyle(final IConfigRegistry configRegistry) {
 		configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE,
 				fatHeaderStyle, DisplayMode.NORMAL, GridRegion.COLUMN_HEADER);
+		configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE,
+				fatHeaderStyle, DisplayMode.SELECT, GridRegion.COLUMN_HEADER);
 	}
 
 	private void registerWarningPainter(final IConfigRegistry configRegistry) {
