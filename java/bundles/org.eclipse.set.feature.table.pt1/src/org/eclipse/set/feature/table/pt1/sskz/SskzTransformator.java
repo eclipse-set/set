@@ -26,13 +26,13 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
+import org.eclipse.set.core.services.graph.BankService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Tueranschlag_TypeClass;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung_Befestigung_TypeClass;
+import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
 import org.eclipse.set.model.planpro.PZB.PZB_Art_TypeClass;
@@ -59,6 +59,8 @@ import com.google.common.collect.Streams;
  * @author Truong
  */
 public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
+
+	private final BankService bankService;
 
 	private record OperationalIdentifierFieldElement(
 			Class<? extends Ur_Objekt> clazz,
@@ -99,8 +101,10 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 	 *            {@link EnumTranslationService}
 	 */
 	public SskzTransformator(final Set<ColumnDescriptor> cols,
+			final BankService bankService,
 			final EnumTranslationService enumTranslationService) {
 		super(cols, enumTranslationService);
+		this.bankService = bankService;
 	}
 
 	@Override
@@ -175,6 +179,18 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 										.getUnterbringungBefestigung())
 												.orElse(null);
 						return translateEnum(befestigung);
+					});
+
+			// F: Sskz.Ueberhoehung
+			fillConditional(row, getColumn(cols, Ueberhoehung), control, (
+					final Aussenelementansteuerung element) -> getNullableObject(
+							element,
+							e -> e.getIDUnterbringung()
+									.getValue()
+									.getPunktObjektTOPKante()).isPresent(),
+					(final Aussenelementansteuerung element) -> {
+
+						return null;
 					});
 
 			// F: Sskz.Blattnummer
@@ -345,5 +361,13 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				.filter(ele -> getControlFromFieldELement(ele)
 						.contains(control))
 				.toList();
+	}
+
+	private String getUeberhoehung(final Aussenelementansteuerung control) {
+		final Punkt_Objekt_TOP_Kante_AttributeGroup potk = control
+				.getIDUnterbringung()
+				.getValue()
+				.getPunktObjektTOPKante();
+
 	}
 }
