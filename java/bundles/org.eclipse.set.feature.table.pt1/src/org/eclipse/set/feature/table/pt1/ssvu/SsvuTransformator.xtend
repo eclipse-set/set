@@ -148,8 +148,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String createVerwendung(Uebertragungsweg uebertragungsweg) {
-		return uebertragungsweg.translateEnum(
-			uebertragungsweg?.uebertragungswegArt?.wert)
+		return uebertragungsweg?.uebertragungswegArt?.translateEnum
 	}
 
 	private def String create createNetzart(uebertragungsweg) transformToNetzart(
@@ -159,8 +158,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String createNetzart(Uebertragungsweg uebertragungsweg) {
-		return uebertragungsweg.translateEnum(
-			uebertragungsweg?.uebertragungswegTechnik?.netzArt?.wert)
+		return uebertragungsweg?.uebertragungswegTechnik?.netzArt?.translateEnum
 	}
 
 	private def String create createTechnikart(uebertragungsweg) transformToTechnikart(
@@ -170,8 +168,8 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String createTechnikart(Uebertragungsweg uebertragungsweg) {
-		return uebertragungsweg.translateEnum(
-			uebertragungsweg?.uebertragungswegTechnik?.technikArt?.wert)
+		return uebertragungsweg?.uebertragungswegTechnik?.technikArt?.
+			translateEnum
 	}
 
 	private def String create createSchnitstelle(uebertragungsweg) transformToSchnitstelle(
@@ -181,8 +179,8 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String createSchnitstelle(Uebertragungsweg uebertragungsweg) {
-		return uebertragungsweg.translateEnum(
-			uebertragungsweg?.uebertragungswegTechnik?.mediumArt?.wert)
+		return uebertragungsweg?.uebertragungswegTechnik?.mediumArt?.
+			translateEnum
 	}
 
 	private def String create createBandbreite(uebertragungsweg) transformToBandbreite(
@@ -192,8 +190,8 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String createBandbreite(Uebertragungsweg uebertragungsweg) {
-		return uebertragungsweg.translateEnum(
-			uebertragungsweg?.uebertragungswegTechnik?.bandbreite?.wert)
+		return uebertragungsweg?.uebertragungswegTechnik?.bandbreite?.
+			translateEnum
 	}
 
 	private def String create createBemerkung(uebertragungsweg, row) transformToBemerkung(

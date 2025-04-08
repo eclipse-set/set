@@ -146,9 +146,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 
 		val isElementA = blockElement === blockAnlage?.IDBlockElementA?.value
 		val isElementB = blockElement === blockAnlage?.IDBlockElementB?.value
-		val otherBlockElement = isElementA
-				? blockAnlage?.IDBlockElementB?.value
-				: blockAnlage?.IDBlockElementA?.value
+		val otherBlockElement = isElementA ? blockAnlage?.IDBlockElementB?.
+				value : blockAnlage?.IDBlockElementA?.value
 
 		val row = it
 		// A: Sslb.Strecke.Nummer
@@ -203,8 +202,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Betriebsfuehrung),
 			blockElement,
 			[
-				translateEnum(
-					blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.wert)
+				blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.translateEnum
 			]
 		)
 
@@ -222,7 +220,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Start),
 			blockElement,
-			[translateEnum(blockElement?.blockElementAllg?.blockBauform?.wert)]
+			[blockElement?.blockElementAllg?.blockBauform?.translateEnum]
 		)
 
 		// H: Sslb.Grundsatzangaben.von.Streckenfreimeldung
@@ -272,7 +270,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Ziel),
 			otherBlockElement,
-			[translateEnum(blockElementAllg?.blockBauform?.wert)]
+			[blockElementAllg?.blockBauform?.translateEnum]
 		)
 
 		// K: Sslb.Grundsatzangaben.Blockschaltung
@@ -280,7 +278,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Blockschaltung),
 			blockAnlage,
 			[
-				translateEnum(blockAnlageAllg?.schaltung?.wert)
+				blockAnlageAllg?.schaltung?.translateEnum
 			]
 		)
 

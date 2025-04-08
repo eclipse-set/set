@@ -135,9 +135,8 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Weiche_Gleissperre_Lage),
 			flaZwieSchutz,
 			[
-				translateEnum(
-					flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp?.
-						flaWLage?.wert)
+				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp?.
+						flaWLage?.translateEnum
 			]
 		)
 

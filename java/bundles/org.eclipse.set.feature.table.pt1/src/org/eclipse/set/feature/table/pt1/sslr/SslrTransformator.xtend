@@ -59,8 +59,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def Table create factory.table transform(
 		MultiContainer_AttributeGroup container, Stell_Bereich controlArea) {
-		container.fstrZugRangier.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea).filter[isR].forEach [ it |
+		container.fstrZugRangier.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).filter[isR].forEach [ it |
 				if (Thread.currentThread.interrupted) {
 					return
 				}
@@ -123,7 +123,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Art),
 			fstrZugRangier,
 			[
-				translateEnum(fstrRangier?.fstrRangierArt?.wert)?.substring(0, 1)
+				fstrRangier?.fstrRangierArt?.translateEnum?.substring(0, 1)
 			]
 		)
 
@@ -131,7 +131,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Autom_Einstellung),
 			fstrZugRangier,
-			[translateEnum(fstrZug?.automatischeEinstellung?.wert)]
+			[fstrZug?.automatischeEinstellung?.translateEnum]
 		)
 
 		// H: Sslr.Einstellung.F_Bedienung
@@ -229,8 +229,8 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				fstrFahrweg?.abhaengigkeiten.map [
 					val ssp = schluesselsperre?.bezeichnung?.
 						bezeichnungTabelle?.wert
-					val aufloesungZielgleis = translateEnum(fstrAbhaengigkeitSsp?.
-						aufloesungSspZielgleis?.wert)
+					val aufloesungZielgleis = fstrAbhaengigkeitSsp?.
+						aufloesungSspZielgleis?.translateEnum
 					'''«ssp» («aufloesungZielgleis»)'''
 				]
 			],
@@ -275,7 +275,7 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 				val bedAnzeigeElemente = fstrFahrweg?.abhaengigkeiten?.map [
 					bedienAnzeigeElement
 				]?.filterNull ?: Collections.emptyList
-				'''«FOR bae : bedAnzeigeElemente.map[comment[p1, p2| p1.translateEnum(p2)]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
+				'''«FOR bae : bedAnzeigeElemente.map[comment[translateEnum]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
 					toString.trim
 			]
 		)
@@ -300,11 +300,11 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 			new Case<Fstr_Zug_Rangier>(
 				[
 					!bedAnzeigeElemente.empty && !bedAnzeigeElemente.map [
-						comment[p1, p2| p1.translateEnum(p2)]
+						comment[translateEnum]
 					].filterNull.empty
 				],
 				[
-					'''«FOR bae : bedAnzeigeElemente.map[comment[p1, p2| p1.translateEnum(p2)]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
+					'''«FOR bae : bedAnzeigeElemente.map[comment[translateEnum]].filterNull SEPARATOR ", "»«bae»«ENDFOR»'''.
 						toString.trim
 				]
 			),

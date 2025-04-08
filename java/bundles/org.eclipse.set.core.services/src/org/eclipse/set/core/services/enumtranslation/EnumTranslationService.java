@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.set.basis.Translateable;
 import org.eclipse.set.basis.exceptions.NoEnumTranslationFound;
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
 
 /**
@@ -71,5 +72,6 @@ public interface EnumTranslationService {
 	 *            the enum
 	 * @return the translation
 	 */
-	EnumTranslation translate(Basis_Objekt owner, Enumerator obj);
+	EnumTranslation translate(BasisAttribut_AttributeGroup owner,
+			Enumerator obj);
 }

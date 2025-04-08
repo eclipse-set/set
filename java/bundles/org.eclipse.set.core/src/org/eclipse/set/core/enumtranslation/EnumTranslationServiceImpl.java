@@ -19,7 +19,7 @@ import org.eclipse.set.basis.exceptions.NoEnumTranslationFound;
 import org.eclipse.set.core.Messages;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslation;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt;
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup;
 import org.eclipse.set.utils.enums.EnumTranslationUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -58,7 +58,7 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 	}
 
 	@Override
-	public EnumTranslation translate(final Basis_Objekt owner,
+	public EnumTranslation translate(final BasisAttribut_AttributeGroup owner,
 			final Enumerator enumerator) {
 		final EnumTranslation translate = translate(enumerator);
 
@@ -69,7 +69,7 @@ public class EnumTranslationServiceImpl implements EnumTranslationService {
 				.stream()
 				.map(note -> Optional.ofNullable(note.getValue()
 						.getBearbeitungsvermerkAllg()
-						.getKommentar()
+						.getKurztext()
 						.getWert()))
 				.filter(Optional::isPresent)
 				.map(Optional::get)

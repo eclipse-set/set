@@ -8,13 +8,13 @@
  */
 package org.eclipse.set.ppmodel.extensions
 
+import java.util.List
 import org.eclipse.set.model.planpro.Bahnuebergang.BUE_Bedien_Anzeige_Element
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Anzeige_Element
 import org.eclipse.set.model.planpro.Bedienung.Bedien_Einrichtung_Oertlich
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Bedien_Anzeige_Element
-import java.util.List
-import org.eclipse.emf.common.util.Enumerator
 
 /**
  * Extensions for {@link Bedien_Anzeige_Element}.
@@ -76,11 +76,11 @@ class BedienAnzeigeElementExtensions extends BasisObjektExtensions {
 	 * @return the comment
 	 */
 	def static String comment(Bedien_Anzeige_Element bedAnzeigeElement,
-		(Basis_Objekt, Enumerator)=>String translation) {
-		val taste = translation.apply(bedAnzeigeElement,
-			bedAnzeigeElement?.bedienAnzeigeElementAllg?.taste?.wert)
-		val schalter = translation.apply(bedAnzeigeElement,
-			bedAnzeigeElement?.bedienAnzeigeElementAllg?.schalter?.wert)
+		(BasisAttribut_AttributeGroup)=>String translation) {
+		val taste = translation.apply(
+			bedAnzeigeElement?.bedienAnzeigeElementAllg?.taste)
+		val schalter = translation.apply(
+			bedAnzeigeElement?.bedienAnzeigeElementAllg?.schalter)
 		if (taste !== null || schalter !== null) {
 			val tasteSchalter = '''«taste ?: ""»«schalter ?: ""»'''
 			val bezeichner = bedAnzeigeElement?.bezeichnung?.

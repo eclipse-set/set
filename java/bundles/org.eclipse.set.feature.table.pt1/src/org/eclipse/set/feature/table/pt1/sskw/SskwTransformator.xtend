@@ -22,8 +22,8 @@ import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Abschnitt
 import org.eclipse.set.model.planpro.Regelzeichnung.Regelzeichnung
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3
-import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMElektrischerAntriebLage
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.ENUMElementLage
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Elektrischer_Antrieb_Lage_TypeClass
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.Kreuzung_AttributeGroup
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Komponente
@@ -118,7 +118,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Art),
 				element,
 				[IDWKrAnlage !== null],
-				[translateEnum(WKrAnlage?.WKrAnlageAllg?.WKrArt?.wert)]
+				[WKrAnlage?.WKrAnlageAllg?.WKrArt?.translateEnum]
 			)
 
 			// C: Sskw.Weiche_Kreuzung_Gleissperre_Sonderanlage.Form
@@ -233,14 +233,13 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				new Case<W_Kr_Gsp_Element>(
 					[weicheElement?.weicheVorzugslage?.wert !== null],
-					[translateEnum(weicheElement?.weicheVorzugslage?.wert) ?: ""]
+					[weicheElement?.weicheVorzugslage?.translateEnum ?: ""]
 				),
 				new Case<W_Kr_Gsp_Element>(
 					[gleissperreElement?.gleissperreVorzugslage?.wert !== null],
 					[
-						translateEnum(
-							gleissperreElement?.gleissperreVorzugslage?.wert) ?:
-							""
+						gleissperreElement?.gleissperreVorzugslage?.
+							translateEnum ?: ""
 					]
 				)
 			)
@@ -275,7 +274,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					transformMultiColorContent(
 						elementKomponenten,
 						[zungenpaar?.elektrischerAntriebAnzahl?.wert],
-						[zungenpaar?.elektrischerAntriebLage?.wert]
+						[zungenpaar?.elektrischerAntriebLage]
 					)
 				],
 				"+"
@@ -283,16 +282,14 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 
 			// L: Sskw.Weiche.Weichensignal
 			val weichensignal = elementKomponenten.map [
-				zungenpaar?.weichensignal?.wert
+				zungenpaar?.weichensignal
 			].filterNull
 			fillIterable(
 				instance,
 				cols.getColumn(Weiche_Weichensignal),
 				element,
 				[
-					weichensignal.map [ weicheSignalEnum |
-						translateEnum(weicheSignalEnum)
-					].toSet
+					weichensignal.map[translateEnum].toSet
 				],
 				null
 			)
@@ -556,7 +553,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[
 					WKrGspKomponenten.map[entgleisungsschuh].filterNull.map [
-						element.translateEnum(gleissperrensignal?.wert) ?: "o"
+						gleissperrensignal?.translateEnum ?: "o"
 					].toSet
 				],
 				null
@@ -572,10 +569,10 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					val auswurfrichtung = WKrGspKomponenten.map [
-						entgleisungsschuh?.auswurfrichtung?.wert
+						entgleisungsschuh?.auswurfrichtung
 					].filterNull.toList
 					if (!auswurfrichtung.nullOrEmpty) {
-						return translateEnum(auswurfrichtung.first)
+						return auswurfrichtung.first.translateEnum
 					}
 					val potk = WKrGspKomponenten.flatMap[singlePoints].filter [
 						it !== null && seitlicheLage?.wert !== null &&
@@ -639,7 +636,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[
 					wKrGspKomponenten.map [
-						translateEnum(besonderesFahrwegelement?.wert)
+						besonderesFahrwegelement?.translateEnum
 					].filterNull
 				],
 				null
@@ -670,7 +667,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		val elektrischerAntriebAnzahl = element.WKrGspKomponenten.map [
 			kreuzung?.elektrischerAntriebAnzahl?.wert
 		].filterNull.map[intValue]
-		val fillFunc = [ (W_Kr_Gsp_Komponente)=>BigInteger actuatorCount, (W_Kr_Gsp_Komponente)=>ENUMElektrischerAntriebLage actuatorPosition |
+		val fillFunc = [ (W_Kr_Gsp_Komponente)=>BigInteger actuatorCount, (W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPosition |
 			fillMultiColorIterable(
 				row,
 				cols.getColumn(Herzstueck_Antriebe),
@@ -689,7 +686,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 			fillFunc.apply([zungenpaar?.herzstueckAntriebe?.wert], [null])
 		} else if (elektrischerAntriebAnzahl.exists[it > 0]) {
 			fillFunc.apply([kreuzung?.elektrischerAntriebAnzahl?.wert], [
-				kreuzung?.elektrischerAntriebLage?.wert
+				kreuzung?.elektrischerAntriebLage
 			])
 		} else {
 			fill(
@@ -793,7 +790,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def List<MultiColorContent> transformMultiColorContent(
 		Iterable<W_Kr_Gsp_Komponente> components,
 		(W_Kr_Gsp_Komponente)=>BigInteger actuatorNumberSelector,
-		(W_Kr_Gsp_Komponente)=>ENUMElektrischerAntriebLage actuatorPositionSelector
+		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector
 	) {
 		return components.map [
 			val multiColorContent = TablemodelFactory.eINSTANCE.
@@ -816,11 +813,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 	private def String getPosition(
 		W_Kr_Gsp_Komponente component,
 		BigInteger actuator,
-		(W_Kr_Gsp_Komponente)=>ENUMElektrischerAntriebLage actuatorPositionSelector
+		(W_Kr_Gsp_Komponente)=>Elektrischer_Antrieb_Lage_TypeClass actuatorPositionSelector
 	) {
 		if (actuator != BigInteger.ZERO) {
-			return component.translateEnum(
-				actuatorPositionSelector.apply(component)) ?: "keine Lage"
+			return actuatorPositionSelector.apply(component)?.translateEnum ?:
+				"keine Lage"
 		} else {
 			return null
 		}

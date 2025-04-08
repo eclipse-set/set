@@ -115,8 +115,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Schluessel_Bartform),
 				schloss,
 				[
-					translateEnum(
-						schluesel?.schluesselAllg?.schluesselBartform?.wert)
+					schluesel?.schluesselAllg?.schluesselBartform?.translateEnum
 				]
 			)
 
@@ -126,8 +125,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Schluessel_Gruppe),
 				schloss,
 				[
-					translateEnum(
-						schluesel?.schluesselAllg?.schluesselGruppe?.wert)
+					schluesel?.schluesselAllg?.schluesselGruppe?.translateEnum
 				]
 			)
 
@@ -182,15 +180,15 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				schloss,
 				new Case<Schloss>(
 					[schlossBUE !== null],
-					[translateEnum(schlossBUE.BUELage?.wert) ?: ""]
+					[schlossBUE.BUELage?.translateEnum ?: ""]
 				),
 				new Case<Schloss>(
 					[schlossGsp !== null],
-					[translateEnum(schlossGsp.gspLage?.wert) ?: ""]
+					[schlossGsp.gspLage?.translateEnum ?: ""]
 				),
 				new Case<Schloss>(
 					[schlossW !== null],
-					[translateEnum(schlossW.WLage?.wert) ?: ""]
+					[schlossW.WLage?.translateEnum ?: ""]
 				)
 			)
 
@@ -199,7 +197,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Verschl_Element_Anbaulage),
 				schloss,
-				[translateEnum(schlossW?.WAnbaulage?.wert) ?: ""]
+				[schlossW?.WAnbaulage?.translateEnum ?: ""]
 			)
 
 			// L: Ssko.W_Gsp_Bue.Verschl_Element.Ort
@@ -207,7 +205,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Verschl_Element_Ort),
 				schloss,
-				[translateEnum(schlossW?.verschlussOrt?.wert) ?: ""]
+				[schlossW?.verschlussOrt?.translateEnum ?: ""]
 			)
 
 			// M: Ssko.W_Gsp_Bue.Schlossart
@@ -215,7 +213,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Schlossart),
 				schloss,
-				[translateEnum(schlossW?.schlossArt?.wert) ?: ""]
+				[schlossW?.schlossArt?.translateEnum ?: ""]
 			)
 
 			// N: Ssko.Sk_Ssp.Bezeichnung
@@ -249,17 +247,15 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				new Case<Schloss>(
 					[schlossSk !== null],
 					[
-						translateEnum(
-							schlossKombination?.unterbringung?.
-								unterbringungAllg?.unterbringungArt?.wert)
+						schlossKombination?.unterbringung?.unterbringungAllg?.
+							unterbringungArt?.translateEnum
 					]
 				),
 				new Case<Schloss>(
 					[schlossSsp !== null],
 					[
-						translateEnum(
-							schluesselsperre?.unterbringung?.unterbringungAllg?.
-								unterbringungArt?.wert)
+						schluesselsperre?.unterbringung?.unterbringungAllg?.
+							unterbringungArt?.translateEnum
 					]
 				)
 			)
@@ -348,7 +344,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						'''
 							«sonderanlage?.bezeichnung?.bezeichnungTabelle?.wert»
-							(«translateEnum(schlossSonderanlage?.sonderanlageLage.wert) ?: ""»)
+							(«schlossSonderanlage?.sonderanlageLage?.translateEnum ?: ""»)
 						'''
 					]
 				),
@@ -360,7 +356,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						'''
 							«schlossSonderanlage?.beschreibungSonderanlage?.wert»
-							(«translateEnum(schlossSonderanlage?.sonderanlageLage.wert) ?: ""»)
+							(«schlossSonderanlage?.sonderanlageLage?.translateEnum ?: ""»)
 						'''
 					]
 				)

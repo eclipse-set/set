@@ -83,7 +83,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weiche_Gleissperre_Lage),
 				flaSchutz,
-				[translateEnum(flaSchutzWGsp?.flaWLage?.wert) ?: ""]
+				[flaSchutzWGsp?.flaWLage?.translateEnum ?: ""]
 			)
 
 			// E: Sslf.Unmittelbarer_Flankenschutz.Weiche_Gleissperre.Zwieschutz

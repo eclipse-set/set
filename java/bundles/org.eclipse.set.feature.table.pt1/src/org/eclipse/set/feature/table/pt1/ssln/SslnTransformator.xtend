@@ -84,7 +84,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Art),
 			nbZone,
-			[translateEnum(nb?.NBArt?.wert)]
+			[nb?.NBArt?.translateEnum]
 		)
 
 		// C: Ssln.Unterstellungsverhaeltnis.untergeordnet
@@ -107,7 +107,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Aufloesung_Grenze),
 			nbZone,
-			[translateEnum(NBZoneAllg?.NBVerhaeltnisBesonders?.wert)]
+			[NBZoneAllg?.NBVerhaeltnisBesonders?.translateEnum]
 		)
 
 		// F: Ssln.Grenze.Bez_Grenze
@@ -133,7 +133,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 
 				nBZoneElemente.filterMultipleNbElements.map [
-					'''«(nbElement as W_Kr_Gsp_Komponente)?.WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («translateEnum(NBZoneElementAllg?.NBRueckgabevoraussetzung?.wert)»)'''
+					'''«(nbElement as W_Kr_Gsp_Komponente)?.WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («NBZoneElementAllg?.NBRueckgabevoraussetzung?.translateEnum»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
@@ -149,7 +149,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 					!first?.NBZoneElementAllg?.freieStellbarkeit?.wert &&
 						second instanceof W_Kr_Gsp_Komponente
 				].map [
-					'''«(second as W_Kr_Gsp_Komponente).WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («first?.translateEnum(first?.NBZoneElementAllg?.WGspLage?.wert) ?: "-"»)'''
+					'''«(second as W_Kr_Gsp_Komponente).WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.WGspLage?.translateEnum ?: "-"»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
@@ -165,7 +165,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 					first?.NBZoneElementAllg?.freieStellbarkeit?.wert &&
 						second instanceof Signal
 				].map [
-					'''«(second as Signal)?.bezeichnung?.bezeichnungTabelle?.wert» («first?.translateEnum(first?.NBZoneElementAllg?.NBRueckgabevoraussetzung?.wert)»)'''
+					'''«(second as Signal)?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.NBRueckgabevoraussetzung?.translateEnum»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,

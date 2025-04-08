@@ -29,13 +29,13 @@ import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Aussenelementansteuerung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMAussenelementansteuerungArt;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMTueranschlag;
-import org.eclipse.set.model.planpro.Ansteuerung_Element.ENUMUnterbringungBefestigung;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich;
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Tueranschlag_TypeClass;
+import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung_Befestigung_TypeClass;
 import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente;
-import org.eclipse.set.model.planpro.PZB.ENUMPZBArt;
+import org.eclipse.set.model.planpro.PZB.PZB_Art_TypeClass;
 import org.eclipse.set.model.planpro.PZB.PZB_Element;
 import org.eclipse.set.model.planpro.Schluesselabhaengigkeiten.Schluesselsperre;
 import org.eclipse.set.model.planpro.Signale.Signal;
@@ -155,27 +155,26 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 			// D: Sskz.Tueranschlag
 			fill(row, getColumn(cols, Tueranschlag), control,
 					(final Aussenelementansteuerung element) -> {
-						final ENUMTueranschlag enumTueranschlag = getNullableObject(
+						final Tueranschlag_TypeClass enumTueranschlag = getNullableObject(
 								element,
 								e -> e.getIDUnterbringung()
 										.getValue()
 										.getUnterbringungAllg()
-										.getTueranschlag()
-										.getWert()).orElse(null);
-						return translateEnum(element, enumTueranschlag);
+										.getTueranschlag()).orElse(null);
+						return translateEnum(enumTueranschlag);
 					});
 
 			// E: Sskz.Montage
 			fill(row, getColumn(cols, Montage), control,
 					(final Aussenelementansteuerung element) -> {
-						final ENUMUnterbringungBefestigung befestigung = getNullableObject(
+						final Unterbringung_Befestigung_TypeClass befestigung = getNullableObject(
 								element,
 								e -> e.getIDUnterbringung()
 										.getValue()
 										.getUnterbringungAllg()
-										.getUnterbringungBefestigung()
-										.getWert()).orElse(null);
-						return translateEnum(element, befestigung);
+										.getUnterbringungBefestigung())
+												.orElse(null);
+						return translateEnum(befestigung);
 					});
 
 			// F: Sskz.Blattnummer
@@ -277,8 +276,8 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	@SuppressWarnings("nls")
 	private String getPzbDesignation(final PZB_Element pzb) {
-		final ENUMPZBArt pzbArt = getNullableObject(pzb,
-				ele -> ele.getPZBArt().getWert()).orElse(null);
+		final PZB_Art_TypeClass pzbArt = getNullableObject(pzb,
+				ele -> ele.getPZBArt()).orElse(null);
 		if (pzbArt == null) {
 			return "";
 		}
@@ -297,7 +296,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				})
 				.toList();
 		if (pzb.getPZBElementGM() != null) {
-			return String.format("%s (%s)", translateEnum(pzb, pzbArt),
+			return String.format("%s (%s)", translateEnum(pzbArt),
 					String.join(",", pzbElementBezugspunkt));
 		}
 
@@ -307,8 +306,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					gue -> gue.getPruefgeschwindigkeit().getWert())
 							.orElse(null);
 			if (speedCheck != null) {
-				final String[] pzbArtEnum = translateEnum(pzb, pzbArt)
-						.split("/");
+				final String[] pzbArtEnum = translateEnum(pzbArt).split("/");
 				final List<String> shortPzbArt = Stream.of(pzbArtEnum)
 						.map(ele -> {
 							try {

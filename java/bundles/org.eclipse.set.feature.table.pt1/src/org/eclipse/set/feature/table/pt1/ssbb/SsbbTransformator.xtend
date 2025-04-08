@@ -130,8 +130,8 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Bauart),
 			einrichtung,
 			[
-				
-					translateEnum(bedienEinrichtOertlichAllg?.bedienEinrichtBauart?.wert) ?: ""
+				bedienEinrichtOertlichAllg?.bedienEinrichtBauart.
+					translateEnum ?: ""
 			]
 		)
 
@@ -141,8 +141,8 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Befestigung_Art),
 			einrichtung,
 			[
-				translateEnum(unterbringung?.unterbringungAllg?.unterbringungBefestigung?.
-					wert) ?: ""
+				unterbringung?.unterbringungAllg?.unterbringungBefestigung.
+					translateEnum ?: ""
 			]
 		)
 

@@ -117,7 +117,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Wirkfrequenz),
 			pzb,
-			[translateEnum(PZBArt?.wert)]
+			[PZBArt?.translateEnum]
 		)
 
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
@@ -219,7 +219,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 					switch (pzbZuordnungBp.wirksamkeit?.wert) {
 						case ENUM_WIRKSAMKEIT_SCHALTBAR_VON_SIGNAL,
 						case ENUM_WIRKSAMKEIT_SONSTIGE: {
-							translateEnum(pzbZuordnungBp.wirksamkeit?.wert)
+							pzbZuordnungBp.wirksamkeit?.translateEnum
 						}
 						case ENUM_WIRKSAMKEIT_STAENDIG_WIRKSAM: {
 							// IMPROVE: Special case due to model limitatations. A future model should introduce 
@@ -260,8 +260,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				],
 				[
 					PZBElementZuordnungFstr.map [ pzbZuordnung |
-						val wirksamKeit = translateEnum(
-							pzbZuordnung.wirksamkeitFstr?.wert)
+						val wirksamKeit = pzbZuordnung.wirksamkeitFstr?.
+							translateEnum
 						val fstrZugRangier = pzbZuordnung.IDFstrZugRangier?.
 							value?.fstrZugRangierBezeichnung
 						return '''«wirksamKeit» «fstrZugRangier»'''
@@ -507,7 +507,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pzb.translateEnum(messfehler?.wert)]
+				[messfehler?.translateEnum]
 			)
 
 			// U: Sskp.Gue.Messstrecke
@@ -527,7 +527,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pzb.translateEnum(GUEAnordnung?.wert)]
+				[GUEAnordnung?.translateEnum]
 			)
 
 			// W: Sskp.Gue.GUE_Bauart
@@ -537,7 +537,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pzb.translateEnum(GUEBauart?.wert)]
+				[GUEBauart?.translateEnum]
 			)
 
 			// X: SSkp.Gue.Montageort_Schaltkastens
@@ -546,8 +546,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Montageort_Schaltkastens),
 				pzb,
 				[
-					translateEnum(IDUnterbringung?.value?.unterbringungAllg?.
-						unterbringungBefestigung?.wert) ?: ""
+					IDUnterbringung?.value?.unterbringungAllg?.
+						unterbringungBefestigung?.translateEnum ?: ""
 				]
 			)
 
@@ -558,7 +558,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[pzb.translateEnum(GUEEnergieversorgung?.wert)]
+				[GUEEnergieversorgung?.translateEnum]
 			)
 		} else {
 			for (var i = 15; i < 23; i++) {
@@ -589,8 +589,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 	static dispatch def String fillBezugsElement(Signal object) {
 		return object.signalReal.signalFunktion.wert ===
 			ENUMSignalFunktion.ENUM_SIGNAL_FUNKTION_BUE_UEBERWACHUNGSSIGNAL
-			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»'''
-			: object?.bezeichnung?.bezeichnungTabelle?.wert
+			? '''BÜ-K «object?.bezeichnung?.bezeichnungTabelle?.wert»''' : object?.
+			bezeichnung?.bezeichnungTabelle?.wert
 	}
 
 	private dispatch def String getDistanceSignalTrackSwitch(TopGraph topGraph,
@@ -606,9 +606,8 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				getPointsDistance(pzb, signal).min)
 			val directionSign = topGraph.
 					isInWirkrichtungOfSignal(signal, pzb) ? "+" : "-"
-			return distance == 0
-				? distance.toString
-				: '''«directionSign»«distance.toString»'''
+			return distance == 0 ? distance.
+				toString : '''«directionSign»«distance.toString»'''
 		}
 
 		val bueSpezifischesSignal = signal.container.BUESpezifischesSignal.

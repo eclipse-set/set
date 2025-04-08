@@ -483,7 +483,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				row,
 				cols.getColumn(Ausstieg_ETCS_Sperre),
 				etcsSignal,
-				[translateEnum(ETCSSignalAllg?.ausstiegETCSSperre?.wert)]
+				[ETCSSignalAllg?.ausstiegETCSSperre?.translateEnum]
 			)
 
 			// Y: Sszs.Sonstige_Funktionen.d_Haltfall
@@ -697,9 +697,8 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 			if (distances.compareTo(BigDecimal.ZERO) == 0) {
 				return fma -> 0.0
 			}
-			return topGraph.isInWirkrichtungOfSignal(signal, fma)
-				? fma -> distances.doubleValue
-				: fma -> -distances.doubleValue
+			return topGraph.isInWirkrichtungOfSignal(signal, fma) ? fma ->
+				distances.doubleValue : fma -> -distances.doubleValue
 		].filterNull
 		if (distanceToSignal.empty) {
 			return Optional.empty

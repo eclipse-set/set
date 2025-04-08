@@ -74,8 +74,8 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				cols.getColumn(Art),
 				ein,
 				[
-					translateEnum(
-						ein?.zugeinwirkungAllg?.zugeinwirkungArt.wert) ?: ""
+					ein?.zugeinwirkungAllg?.zugeinwirkungArt?.translateEnum ?:
+						""
 				]
 			)
 
@@ -173,7 +173,7 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 				ein,
 				[
 					ein?.schaltMittelZuordnung.map [
-						translateEnum(schaltmittelFunktion?.wert) ?: ""
+						schaltmittelFunktion?.translateEnum ?: ""
 					]
 				],
 				null
@@ -258,8 +258,8 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Schienenprofil),
 					fma,
 					[
-						translateEnum(FMAKomponenteAchszaehlpunkt?.
-							FMAKomponenteSchienenprofil?.wert) ?: ""
+						FMAKomponenteAchszaehlpunkt?.
+							FMAKomponenteSchienenprofil?.translateEnum ?: ""
 					]
 				)
 
@@ -316,9 +316,8 @@ class SskgTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Funktion),
 					fma,
 					[
-						translateEnum(
-							schaltmittelZuordnung?.schaltmittelFunktion?.
-								wert) ?: ""
+						schaltmittelZuordnung?.schaltmittelFunktion?.
+							translateEnum ?: ""
 					]
 				)
 
