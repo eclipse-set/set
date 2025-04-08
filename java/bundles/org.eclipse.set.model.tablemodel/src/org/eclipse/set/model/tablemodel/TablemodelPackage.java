@@ -686,13 +686,22 @@ public interface TablemodelPackage extends EPackage {
 	int MULTI_COLOR_CONTENT__STRING_FORMAT = 1;
 
 	/**
+	 * The feature id for the '<em><b>To Be Render</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_COLOR_CONTENT__TO_BE_RENDER = 2;
+
+	/**
 	 * The number of structural features of the '<em>Multi Color Content</em>'
 	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_COLOR_CONTENT_FEATURE_COUNT = 2;
+	int MULTI_COLOR_CONTENT_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Multi Color Content</em>' class.
@@ -1354,6 +1363,18 @@ public interface TablemodelPackage extends EPackage {
 	EAttribute getMultiColorContent_StringFormat();
 
 	/**
+	 * Returns the meta object for the attribute
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorContent#isToBeRender
+	 * <em>To Be Render</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the meta object for the attribute '<em>To Be Render</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorContent#isToBeRender()
+	 * @see #getMultiColorContent()
+	 * @generated
+	 */
+	EAttribute getMultiColorContent_ToBeRender();
+
+	/**
 	 * Returns the meta object for class
 	 * '{@link org.eclipse.set.model.tablemodel.FootnoteContainer <em>Footnote
 	 * Container</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1884,6 +1905,15 @@ public interface TablemodelPackage extends EPackage {
 		 */
 		EAttribute MULTI_COLOR_CONTENT__STRING_FORMAT = eINSTANCE
 				.getMultiColorContent_StringFormat();
+
+		/**
+		 * The meta object literal for the '<em><b>To Be Render</b></em>'
+		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * 
+		 * @generated
+		 */
+		EAttribute MULTI_COLOR_CONTENT__TO_BE_RENDER = eINSTANCE
+				.getMultiColorContent_ToBeRender();
 
 		/**
 		 * The meta object literal for the

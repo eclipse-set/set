@@ -84,7 +84,7 @@ class CellContentExtensions {
 	static def dispatch String getRichTextValue(MultiColorCellContent content) {
 		return '''<p style="text-align:«content.textAlign»">«content.multiColorFormat»</p>'''
 	}
-
+	
 	/**
 	 * Returns a formatted string representation intended for rendering as
 	 * rich text. This method should only be called in the context of rendering
@@ -190,7 +190,7 @@ class CellContentExtensions {
 		StringCellContent content) {
 		return content.value
 	}
-
+	
 	/**
 	 * @param text the text
 	 * 
@@ -331,7 +331,7 @@ class CellContentExtensions {
 			}
 		}
 	}
-
+	
 	private static def String getMultiColorFormat(
 		MultiColorCellContent content) {
 		if (content.value.isEmpty) {
@@ -346,6 +346,10 @@ class CellContentExtensions {
 			return Strings.isNullOrEmpty(content.stringFormat)
 				? ""
 				: content.stringFormat.htmlString
+		}
+		
+		if (!content.isToBeRender) {
+			return '''<span>«String.format(content.stringFormat, content.multiColorValue)»</span>'''
 		}
 
 		val value = '''<span style="background-color:rgb(255,255, 0)">«content

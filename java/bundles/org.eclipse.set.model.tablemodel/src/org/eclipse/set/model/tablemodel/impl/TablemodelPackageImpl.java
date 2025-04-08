@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.set.model.planpro.ATO.ATOPackage;
 import org.eclipse.set.model.tablemodel.CellAnnotation;
 import org.eclipse.set.model.tablemodel.CellContent;
@@ -273,6 +274,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 		ZuglenkungPackage.eINSTANCE.eClass();
 		ZugnummernmeldeanlagePackage.eINSTANCE.eClass();
 		Signalbegriffe_StrukturPackage.eINSTANCE.eClass();
+		XMLTypePackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theTablemodelPackage.createPackageContents();
@@ -721,6 +723,17 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
+	public EAttribute getMultiColorContent_ToBeRender() {
+		return (EAttribute) multiColorContentEClass.getEStructuralFeatures()
+				.get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
 	public EClass getFootnoteContainer() {
 		return footnoteContainerEClass;
 	}
@@ -902,6 +915,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 				MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE);
 		createEAttribute(multiColorContentEClass,
 				MULTI_COLOR_CONTENT__STRING_FORMAT);
+		createEAttribute(multiColorContentEClass,
+				MULTI_COLOR_CONTENT__TO_BE_RENDER);
 
 		footnoteContainerEClass = createEClass(FOOTNOTE_CONTAINER);
 
@@ -950,6 +965,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 		// Obtain other dependent packages
 		BasisobjektePackage theBasisobjektePackage = (BasisobjektePackage) EPackage.Registry.INSTANCE
 				.getEPackage(BasisobjektePackage.eNS_URI);
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage) EPackage.Registry.INSTANCE
+				.getEPackage(XMLTypePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -1133,6 +1150,11 @@ public class TablemodelPackageImpl extends EPackageImpl
 				IS_ORDERED);
 		initEAttribute(getMultiColorContent_StringFormat(),
 				ecorePackage.getEString(), "stringFormat", null, 0, 1,
+				MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getMultiColorContent_ToBeRender(),
+				theXMLTypePackage.getBoolean(), "toBeRender", null, 0, 1,
 				MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);

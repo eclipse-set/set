@@ -8,6 +8,7 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,8 @@ import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
+import org.eclipse.set.model.tablemodel.MultiColorCellContent;
+import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -111,6 +114,15 @@ public class CustomTableDiffService implements TableDiffService {
 			compareContent.getNewValue().addAll(newValue);
 			compareContent.setSeparator(oldCell.getContent().getSeparator());
 			oldCell.setContent(compareContent);
+		} else if (oldCell
+				.getContent() instanceof final MultiColorCellContent content) {
+			final MultiColorCellContent newCellContent = TablemodelFactory.eINSTANCE
+					.createMultiColorCellContent();
+			final List<MultiColorContent> contents = new ArrayList<>(
+					content.getValue());
+			contents.forEach(ele -> ele.setToBeRender(true));
+			newCellContent.getValue().addAll(contents);
+			oldCell.setContent(newCellContent);
 		}
 	}
 
