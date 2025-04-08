@@ -156,6 +156,8 @@ public class PlanProTableThemeConfiguration
 		greyedOutStyleForegroundColor = createColor(
 				ToolboxProperties.GREYED_OUT_STYLE_FOREGROUND,
 				GUIHelper.COLOR_DARK_GRAY);
+		this.defaultSelectionBgColor = GUIHelper.getColor(173, 216, 230);
+		this.defaultSelectionFgColor = GUIHelper.COLOR_BLACK;
 
 		// initialize layers and providers
 		this.headerLayer = headerLayer;
