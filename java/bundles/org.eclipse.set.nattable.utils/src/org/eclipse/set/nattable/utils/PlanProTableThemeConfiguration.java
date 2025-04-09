@@ -156,6 +156,8 @@ public class PlanProTableThemeConfiguration
 		greyedOutStyleForegroundColor = createColor(
 				ToolboxProperties.GREYED_OUT_STYLE_FOREGROUND,
 				GUIHelper.COLOR_DARK_GRAY);
+		this.defaultSelectionBgColor = GUIHelper.getColor(173, 216, 230);
+		this.defaultSelectionFgColor = GUIHelper.COLOR_BLACK;
 
 		// initialize layers and providers
 		this.headerLayer = headerLayer;
@@ -311,6 +313,8 @@ public class PlanProTableThemeConfiguration
 	private void registerHeaderStyle(final IConfigRegistry configRegistry) {
 		configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE,
 				fatHeaderStyle, DisplayMode.NORMAL, GridRegion.COLUMN_HEADER);
+		configRegistry.registerConfigAttribute(CellConfigAttributes.CELL_STYLE,
+				fatHeaderStyle, DisplayMode.SELECT, GridRegion.COLUMN_HEADER);
 	}
 
 	private void registerWarningPainter(final IConfigRegistry configRegistry) {
