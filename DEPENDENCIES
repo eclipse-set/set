@@ -718,7 +718,7 @@ npm/npmjs/-/typed-array-byte-offset/1.0.4, MIT, approved, #9407
 npm/npmjs/-/typed-array-length/1.0.6, MIT, approved, #6246
 npm/npmjs/-/typed-array-length/1.0.7, MIT, approved, #6246
 npm/npmjs/-/typescript/5.7.2, Apache-2.0 AND MIT, approved, #17432
-npm/npmjs/-/typescript/5.8.2, Apache-2.0 AND ISC AND (Apache-2.0 AND ISC AND MIT) AND ODbL-1.0 AND MIT, approved, #19825
+npm/npmjs/-/typescript/5.8.3, Apache-2.0 AND ISC AND (Apache-2.0 AND ISC AND MIT) AND ODbL-1.0 AND MIT, approved, #19825
 npm/npmjs/-/unbox-primitive/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/unbox-primitive/1.1.0, MIT, approved, #18378
 npm/npmjs/-/unpipe/1.0.0, MIT, approved, clearlydefined
