@@ -10,15 +10,14 @@ package org.eclipse.set.application.contribution;
 
 import java.util.List;
 
-import jakarta.inject.Inject;
-
 import org.eclipse.e4.ui.di.AboutToShow;
 import org.eclipse.e4.ui.model.application.ui.menu.MDirectMenuItem;
 import org.eclipse.e4.ui.model.application.ui.menu.MMenuElement;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
-
 import org.eclipse.set.basis.ExampleFile;
 import org.eclipse.set.core.services.example.ExampleService;
+
+import jakarta.inject.Inject;
 
 /**
  * Provides menu entries for example files.
@@ -30,7 +29,7 @@ public class LoadExampleContribution {
 	private static final String CONTRIBUTION_CLASS = "bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.LoadExampleMenuItem"; //$NON-NLS-1$
 	private static final String CONTRIBUTOR_PLUGIN = "platform:/plugin/org.eclipse.set.application"; //$NON-NLS-1$
 
-	private static void addExample(final ExampleFile exampleFile,
+	protected void addExample(final ExampleFile exampleFile,
 			final EModelService modelService, final List<MMenuElement> items) {
 		final MDirectMenuItem directMenuItem = modelService
 				.createModelElement(MDirectMenuItem.class);
@@ -38,7 +37,7 @@ public class LoadExampleContribution {
 		directMenuItem.getTransientData()
 				.put(ExampleService.EXAMPLE_FILE_KEY, exampleFile);
 		directMenuItem.setContributorURI(CONTRIBUTOR_PLUGIN);
-		directMenuItem.setContributionURI(CONTRIBUTION_CLASS);
+		directMenuItem.setContributionURI(getItemContributionClass());
 		items.add(directMenuItem);
 	}
 
@@ -46,11 +45,16 @@ public class LoadExampleContribution {
 	private ExampleService exampleService;
 
 	@AboutToShow
-	private void aboutToShow2(final List<MMenuElement> items,
+	protected void aboutToShow2(final List<MMenuElement> items,
 			final EModelService modelService) {
 		final List<ExampleFile> exampleFiles = exampleService.getExampleFiles();
 		for (final ExampleFile exampleFile : exampleFiles) {
 			addExample(exampleFile, modelService, items);
 		}
+	}
+
+	@SuppressWarnings("static-method")
+	protected String getItemContributionClass() {
+		return CONTRIBUTION_CLASS;
 	}
 }

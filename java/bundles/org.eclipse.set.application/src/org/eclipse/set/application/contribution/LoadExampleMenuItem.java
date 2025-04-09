@@ -10,11 +10,10 @@ package org.eclipse.set.application.contribution;
 
 import java.nio.file.Path;
 
-import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.set.application.handler.OpenPlanProHandler;
 import org.eclipse.set.basis.ExampleFile;
 import org.eclipse.set.core.services.example.ExampleService;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * This contribution to an menu item can load an example file.
