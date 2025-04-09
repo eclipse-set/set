@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.EObject;
  * <em>Multi Color Value</em>}</li>
  * <li>{@link org.eclipse.set.model.tablemodel.MultiColorContent#getStringFormat
  * <em>String Format</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.MultiColorContent#isDisableMultiColor
+ * <em>Disable Multi Color</em>}</li>
  * </ul>
  *
  * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getMultiColorContent()
@@ -78,5 +80,30 @@ public interface MultiColorContent extends EObject {
 	 * @generated
 	 */
 	void setStringFormat(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Disable Multi Color</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @return the value of the '<em>Disable Multi Color</em>' attribute.
+	 * @see #setDisableMultiColor(boolean)
+	 * @see org.eclipse.set.model.tablemodel.TablemodelPackage#getMultiColorContent_DisableMultiColor()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @generated
+	 */
+	boolean isDisableMultiColor();
+
+	/**
+	 * Sets the value of the
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorContent#isDisableMultiColor
+	 * <em>Disable Multi Color</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @param value
+	 *            the new value of the '<em>Disable Multi Color</em>' attribute.
+	 * @see #isDisableMultiColor()
+	 * @generated
+	 */
+	void setDisableMultiColor(boolean value);
 
 } // MultiColorContent

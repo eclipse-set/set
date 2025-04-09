@@ -54,6 +54,8 @@ import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspElementExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.IterableExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
+import org.eclipse.set.basis.constants.ContainerType
 
 /**
  * Table transformation for a Weichentabelle (SSKW).
@@ -788,8 +790,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 		(W_Kr_Gsp_Komponente)=>ENUMElektrischerAntriebLage actuatorPositionSelector
 	) {
 		return components.map [
+
 			val multiColorContent = TablemodelFactory.eINSTANCE.
 				createMultiColorContent
+				// Only rendered multicolor by DIFF state
+				multiColorContent.disableMultiColor = false
 			val actuator = actuatorNumberSelector.apply(it)
 			val noOfActuators = actuator !== null ? actuator.intValue : 0
 			val position = it.getPosition(actuator, actuatorPositionSelector)

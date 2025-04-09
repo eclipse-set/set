@@ -179,6 +179,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="MultiColorContent">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="multiColorValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringFormat" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="disableMultiColor" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RowMergeMode">
     <eLiterals name="DEFAULT" literal="DEFAULT"/>

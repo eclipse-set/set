@@ -69,6 +69,7 @@
     <genClasses ecoreClass="tablemodel.ecore#//MultiColorContent">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorContent/multiColorValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorContent/stringFormat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tablemodel.ecore#//MultiColorContent/disableMultiColor"/>
     </genClasses>
     <genClasses image="false" ecoreClass="tablemodel.ecore#//FootnoteContainer"/>
     <genClasses ecoreClass="tablemodel.ecore#//CompareFootnoteContainer">
