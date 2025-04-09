@@ -723,7 +723,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 	 * @generated
 	 */
 	@Override
-	public EAttribute getMultiColorContent_ToBeRender() {
+	public EAttribute getMultiColorContent_DisableMultiColor() {
 		return (EAttribute) multiColorContentEClass.getEStructuralFeatures()
 				.get(2);
 	}
@@ -916,7 +916,7 @@ public class TablemodelPackageImpl extends EPackageImpl
 		createEAttribute(multiColorContentEClass,
 				MULTI_COLOR_CONTENT__STRING_FORMAT);
 		createEAttribute(multiColorContentEClass,
-				MULTI_COLOR_CONTENT__TO_BE_RENDER);
+				MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR);
 
 		footnoteContainerEClass = createEClass(FOOTNOTE_CONTAINER);
 
@@ -1153,8 +1153,8 @@ public class TablemodelPackageImpl extends EPackageImpl
 				MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-		initEAttribute(getMultiColorContent_ToBeRender(),
-				theXMLTypePackage.getBoolean(), "toBeRender", null, 0, 1,
+		initEAttribute(getMultiColorContent_DisableMultiColor(),
+				theXMLTypePackage.getBoolean(), "disableMultiColor", null, 0, 1,
 				MultiColorContent.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);

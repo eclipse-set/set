@@ -63,7 +63,7 @@ public class MultiColorContentItemProvider extends ItemProviderAdapter
 
 			addMultiColorValuePropertyDescriptor(object);
 			addStringFormatPropertyDescriptor(object);
-			addToBeRenderPropertyDescriptor(object);
+			addDisableMultiColorPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -109,21 +109,21 @@ public class MultiColorContentItemProvider extends ItemProviderAdapter
 	}
 
 	/**
-	 * This adds a property descriptor for the To Be Render feature. <!--
+	 * This adds a property descriptor for the Disable Multi Color feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 */
-	protected void addToBeRenderPropertyDescriptor(Object object) {
+	protected void addDisableMultiColorPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add(createItemPropertyDescriptor(
 				((ComposeableAdapterFactory) adapterFactory)
 						.getRootAdapterFactory(),
 				getResourceLocator(),
-				getString("_UI_MultiColorContent_toBeRender_feature"),
+				getString("_UI_MultiColorContent_disableMultiColor_feature"),
 				getString("_UI_PropertyDescriptor_description",
-						"_UI_MultiColorContent_toBeRender_feature",
+						"_UI_MultiColorContent_disableMultiColor_feature",
 						"_UI_MultiColorContent_type"),
-				TablemodelPackage.Literals.MULTI_COLOR_CONTENT__TO_BE_RENDER,
+				TablemodelPackage.Literals.MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR,
 				true, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
 				null, null));
 	}
@@ -169,7 +169,7 @@ public class MultiColorContentItemProvider extends ItemProviderAdapter
 		switch (notification.getFeatureID(MultiColorContent.class)) {
 			case TablemodelPackage.MULTI_COLOR_CONTENT__MULTI_COLOR_VALUE:
 			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
-			case TablemodelPackage.MULTI_COLOR_CONTENT__TO_BE_RENDER:
+			case TablemodelPackage.MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR:
 				fireNotifyChanged(new ViewerNotification(notification,
 						notification.getNotifier(), false, true));
 				return;

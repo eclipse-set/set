@@ -120,7 +120,7 @@ public class CustomTableDiffService implements TableDiffService {
 					.createMultiColorCellContent();
 			final List<MultiColorContent> contents = new ArrayList<>(
 					content.getValue());
-			contents.forEach(ele -> ele.setToBeRender(true));
+			contents.forEach(ele -> ele.setDisableMultiColor(true));
 			newCellContent.getValue().addAll(contents);
 			oldCell.setContent(newCellContent);
 		}

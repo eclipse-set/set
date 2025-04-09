@@ -29,8 +29,8 @@ import org.eclipse.set.model.tablemodel.TablemodelPackage;
  * <em>Multi Color Value</em>}</li>
  * <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl#getStringFormat
  * <em>String Format</em>}</li>
- * <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl#isToBeRender
- * <em>To Be Render</em>}</li>
+ * <li>{@link org.eclipse.set.model.tablemodel.impl.MultiColorContentImpl#isDisableMultiColor
+ * <em>Disable Multi Color</em>}</li>
  * </ul>
  *
  * @generated
@@ -78,24 +78,24 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 	protected String stringFormat = STRING_FORMAT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isToBeRender() <em>To Be Render</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isDisableMultiColor() <em>Disable Multi
+	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see #isToBeRender()
+	 * @see #isDisableMultiColor()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean TO_BE_RENDER_EDEFAULT = false;
+	protected static final boolean DISABLE_MULTI_COLOR_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isToBeRender() <em>To Be Render</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isDisableMultiColor() <em>Disable Multi
+	 * Color</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see #isToBeRender()
+	 * @see #isDisableMultiColor()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean toBeRender = TO_BE_RENDER_EDEFAULT;
+	protected boolean disableMultiColor = DISABLE_MULTI_COLOR_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -172,8 +172,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public boolean isToBeRender() {
-		return toBeRender;
+	public boolean isDisableMultiColor() {
+		return disableMultiColor;
 	}
 
 	/**
@@ -182,13 +182,13 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 	 * @generated
 	 */
 	@Override
-	public void setToBeRender(boolean newToBeRender) {
-		boolean oldToBeRender = toBeRender;
-		toBeRender = newToBeRender;
+	public void setDisableMultiColor(boolean newDisableMultiColor) {
+		boolean oldDisableMultiColor = disableMultiColor;
+		disableMultiColor = newDisableMultiColor;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET,
-					TablemodelPackage.MULTI_COLOR_CONTENT__TO_BE_RENDER,
-					oldToBeRender, toBeRender));
+					TablemodelPackage.MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR,
+					oldDisableMultiColor, disableMultiColor));
 	}
 
 	/**
@@ -203,8 +203,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 				return getMultiColorValue();
 			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
 				return getStringFormat();
-			case TablemodelPackage.MULTI_COLOR_CONTENT__TO_BE_RENDER:
-				return isToBeRender();
+			case TablemodelPackage.MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR:
+				return isDisableMultiColor();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -223,8 +223,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
 				setStringFormat((String) newValue);
 				return;
-			case TablemodelPackage.MULTI_COLOR_CONTENT__TO_BE_RENDER:
-				setToBeRender((Boolean) newValue);
+			case TablemodelPackage.MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR:
+				setDisableMultiColor((Boolean) newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -244,8 +244,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
 				setStringFormat(STRING_FORMAT_EDEFAULT);
 				return;
-			case TablemodelPackage.MULTI_COLOR_CONTENT__TO_BE_RENDER:
-				setToBeRender(TO_BE_RENDER_EDEFAULT);
+			case TablemodelPackage.MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR:
+				setDisableMultiColor(DISABLE_MULTI_COLOR_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -266,8 +266,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 			case TablemodelPackage.MULTI_COLOR_CONTENT__STRING_FORMAT:
 				return STRING_FORMAT_EDEFAULT == null ? stringFormat != null
 						: !STRING_FORMAT_EDEFAULT.equals(stringFormat);
-			case TablemodelPackage.MULTI_COLOR_CONTENT__TO_BE_RENDER:
-				return toBeRender != TO_BE_RENDER_EDEFAULT;
+			case TablemodelPackage.MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR:
+				return disableMultiColor != DISABLE_MULTI_COLOR_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -287,8 +287,8 @@ public class MultiColorContentImpl extends MinimalEObjectImpl.Container
 		result.append(multiColorValue);
 		result.append(", stringFormat: ");
 		result.append(stringFormat);
-		result.append(", toBeRender: ");
-		result.append(toBeRender);
+		result.append(", disableMultiColor: ");
+		result.append(disableMultiColor);
 		result.append(')');
 		return result.toString();
 	}

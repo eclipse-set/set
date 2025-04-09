@@ -686,13 +686,13 @@ public interface TablemodelPackage extends EPackage {
 	int MULTI_COLOR_CONTENT__STRING_FORMAT = 1;
 
 	/**
-	 * The feature id for the '<em><b>To Be Render</b></em>' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * The feature id for the '<em><b>Disable Multi Color</b></em>' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int MULTI_COLOR_CONTENT__TO_BE_RENDER = 2;
+	int MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR = 2;
 
 	/**
 	 * The number of structural features of the '<em>Multi Color Content</em>'
@@ -1364,15 +1364,16 @@ public interface TablemodelPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute
-	 * '{@link org.eclipse.set.model.tablemodel.MultiColorContent#isToBeRender
-	 * <em>To Be Render</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * '{@link org.eclipse.set.model.tablemodel.MultiColorContent#isDisableMultiColor
+	 * <em>Disable Multi Color</em>}'. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
 	 * 
-	 * @return the meta object for the attribute '<em>To Be Render</em>'.
-	 * @see org.eclipse.set.model.tablemodel.MultiColorContent#isToBeRender()
+	 * @return the meta object for the attribute '<em>Disable Multi Color</em>'.
+	 * @see org.eclipse.set.model.tablemodel.MultiColorContent#isDisableMultiColor()
 	 * @see #getMultiColorContent()
 	 * @generated
 	 */
-	EAttribute getMultiColorContent_ToBeRender();
+	EAttribute getMultiColorContent_DisableMultiColor();
 
 	/**
 	 * Returns the meta object for class
@@ -1907,13 +1908,13 @@ public interface TablemodelPackage extends EPackage {
 				.getMultiColorContent_StringFormat();
 
 		/**
-		 * The meta object literal for the '<em><b>To Be Render</b></em>'
+		 * The meta object literal for the '<em><b>Disable Multi Color</b></em>'
 		 * attribute feature. <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * 
 		 * @generated
 		 */
-		EAttribute MULTI_COLOR_CONTENT__TO_BE_RENDER = eINSTANCE
-				.getMultiColorContent_ToBeRender();
+		EAttribute MULTI_COLOR_CONTENT__DISABLE_MULTI_COLOR = eINSTANCE
+				.getMultiColorContent_DisableMultiColor();
 
 		/**
 		 * The meta object literal for the
