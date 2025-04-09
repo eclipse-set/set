@@ -9,17 +9,19 @@
 package org.eclipse.set.feature.table.pt1
 
 import java.util.Comparator
+import java.util.Set
 import org.eclipse.emf.common.util.Enumerator
 import org.eclipse.set.basis.constants.ToolboxConstants
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService
+import org.eclipse.set.model.planpro.BasisTypen.BasisAttribut_AttributeGroup
+import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
+import org.eclipse.set.model.tablemodel.ColumnDescriptor
+import org.eclipse.set.model.tablemodel.TableRow
+import org.eclipse.set.model.tablemodel.TablemodelFactory
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
 import org.eclipse.set.utils.table.AbstractTableModelTransformator
-import org.eclipse.set.model.tablemodel.ColumnDescriptor
-import java.util.Set
 import org.eclipse.set.utils.table.TMFactory
-import org.eclipse.set.model.tablemodel.TableRow
-import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
-import org.eclipse.set.model.tablemodel.TablemodelFactory
+
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 
 abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableModelTransformator<MultiContainer_AttributeGroup> {
@@ -44,7 +46,9 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		footnoteTransformation.transform(object, row)
 
 		// Ensure a cell exists for the last column to fill footnotes into
-		val column = this.cols.filter[columnPosition !== null].sortBy[columnPosition].last
+		val column = this.cols.filter[columnPosition !== null].sortBy [
+			columnPosition
+		].last
 		val cell = row.getCell(column)
 		if (cell.content === null)
 			cell.content = TablemodelFactory.eINSTANCE.createStringCellContent
@@ -57,11 +61,31 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	 * 
 	 * @return the translation or <code>null</code>, if the enumerator is <code>null</code>
 	 */
-	def String translate(Enumerator enumerator) {
-		if (enumerator === null) {
-			return null
+	def String translateEnum(BasisAttribut_AttributeGroup owner) {
+		try {
+			if (owner === null) {
+				return null
+			}
+			val wertField = owner.class.declaredFields.findFirst [
+				it.name === "wert"
+			]
+			if (wertField === null) {
+				throw new NullPointerException
+			}
+			wertField.accessible = true
+			if (!(wertField.get(owner) instanceof Enumerator)) {
+				throw new IllegalArgumentException
+			}
+			if (wertField.get(owner) === null) {
+				return null
+			}
+
+			return enumTranslationService.translate(owner,
+				wertField.get(owner) as Enumerator).alternative
+		} catch (Exception e) {
+			throw new RuntimeException(e)
 		}
-		return enumTranslationService.translate(enumerator).alternative
+
 	}
 
 	/**
@@ -87,7 +111,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 		}
 		return column;
 	}
-	
+
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory) {
 		return transformTableContent(container, factory, null)

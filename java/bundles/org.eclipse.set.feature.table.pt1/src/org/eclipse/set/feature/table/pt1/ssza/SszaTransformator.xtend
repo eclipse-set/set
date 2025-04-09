@@ -4,7 +4,7 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  * 
  */
@@ -162,7 +162,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				BUE_Einschaltung,
 				[
 					schaltmittelZuordnung.map [
-						'''«schaltmittelFunktion?.wert.translate» «getSwitchName(IDSchalter?.value)»'''
+						'''«schaltmittelFunktion?.translateEnum» «getSwitchName(IDSchalter?.value)»'''
 					]
 				]
 			),
@@ -181,7 +181,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezugspunktCase(
 				PZB_Element,
 				[
-					'''GM «PZBArt?.wert?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
+					'''GM «PZBArt?.translateEnum» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
 				]
 			),
 			bezugspunktCase(
@@ -552,6 +552,6 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			geoKantemetadata, nearestPoint.distance, BigDecimal.ZERO,
 			ENUMWirkrichtung.ENUM_WIRKRICHTUNG_BEIDE)
 		return pointCoordinate.coordinate.
-			getStreckeKmThroughProjection(strecke).toTableDecimal	
+			getStreckeKmThroughProjection(strecke).toTableDecimal
 	}
 }

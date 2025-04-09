@@ -51,7 +51,8 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 	var TMFactory factory = null
 	val TopologicalGraphService topGraph
 	// Minimum overlap distance between free reporting section and track route in meter
-	static final BigDecimal MIN_OVERLAP_DISTANCE = BigDecimal.valueOf(10) 
+	static final BigDecimal MIN_OVERLAP_DISTANCE = BigDecimal.valueOf(10)
+
 	new(Set<ColumnDescriptor> cols,
 		EnumTranslationService enumTranslationService,
 		TopologicalGraphService topGraphService) {
@@ -201,8 +202,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Betriebsfuehrung),
 			blockElement,
 			[
-				blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.wert?.
-					translate
+				blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.translateEnum
 			]
 		)
 
@@ -220,7 +220,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Start),
 			blockElement,
-			[blockElement?.blockElementAllg?.blockBauform?.wert?.translate]
+			[blockElement?.blockElementAllg?.blockBauform?.translateEnum]
 		)
 
 		// H: Sslb.Grundsatzangaben.von.Streckenfreimeldung
@@ -270,7 +270,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Ziel),
 			otherBlockElement,
-			[blockElementAllg?.blockBauform?.wert?.translate]
+			[blockElementAllg?.blockBauform?.translateEnum]
 		)
 
 		// K: Sslb.Grundsatzangaben.Blockschaltung
@@ -278,7 +278,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Blockschaltung),
 			blockAnlage,
 			[
-				blockAnlageAllg?.schaltung?.wert?.translate
+				blockAnlageAllg?.schaltung?.translateEnum
 			]
 		)
 

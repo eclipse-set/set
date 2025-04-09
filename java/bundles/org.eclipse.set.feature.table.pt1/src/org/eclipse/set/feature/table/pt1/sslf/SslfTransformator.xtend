@@ -46,11 +46,9 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 		TMFactory factory,
 		Stell_Bereich controlArea
 	) {
-		val flaSchutzList = container.flaSchutz
-			.filter[isPlanningObject]
-			.filterObjectsInControlArea(controlArea)
-			.filter[generalbedingung]
-			.sortBy[wLageNbGrenze]
+		val flaSchutzList = container.flaSchutz.filter[isPlanningObject].
+			filterObjectsInControlArea(controlArea).filter[generalbedingung].
+			sortBy[wLageNbGrenze]
 
 		for (flaSchutz : flaSchutzList) {
 			if (Thread.currentThread.interrupted) {
@@ -85,7 +83,7 @@ class SslfTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Weiche_Gleissperre_Lage),
 				flaSchutz,
-				[flaSchutzWGsp?.flaWLage?.wert?.translate ?: ""]
+				[flaSchutzWGsp?.flaWLage?.translateEnum ?: ""]
 			)
 
 			// E: Sslf.Unmittelbarer_Flankenschutz.Weiche_Gleissperre.Zwieschutz

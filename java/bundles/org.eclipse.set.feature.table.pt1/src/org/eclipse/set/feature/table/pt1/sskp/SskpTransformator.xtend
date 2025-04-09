@@ -117,7 +117,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			instance,
 			cols.getColumn(Wirkfrequenz),
 			pzb,
-			[PZBArt?.wert?.translate]
+			[PZBArt?.translateEnum]
 		)
 
 		val isPZB2000 = pzb.PZBArt?.wert === ENUMPZBArt.ENUMPZB_ART_2000_HZ ||
@@ -215,11 +215,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Wirksamkeit),
 			pzb,
 			[
-				PZBElementZuordnungBP.map [
-					switch (wirksamkeit?.wert) {
+				PZBElementZuordnungBP.map [ pzbZuordnungBp |
+					switch (pzbZuordnungBp.wirksamkeit?.wert) {
 						case ENUM_WIRKSAMKEIT_SCHALTBAR_VON_SIGNAL,
 						case ENUM_WIRKSAMKEIT_SONSTIGE: {
-							wirksamkeit?.wert?.translate
+							pzbZuordnungBp.wirksamkeit?.translateEnum
 						}
 						case ENUM_WIRKSAMKEIT_STAENDIG_WIRKSAM: {
 							// IMPROVE: Special case due to model limitatations. A future model should introduce 
@@ -259,10 +259,11 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 						])
 				],
 				[
-					PZBElementZuordnungFstr.map [
-						val wirksamKeit = wirksamkeitFstr?.wert?.translate
-						val fstrZugRangier = IDFstrZugRangier?.value?.
-							fstrZugRangierBezeichnung
+					PZBElementZuordnungFstr.map [ pzbZuordnung |
+						val wirksamKeit = pzbZuordnung.wirksamkeitFstr?.
+							translateEnum
+						val fstrZugRangier = pzbZuordnung.IDFstrZugRangier?.
+							value?.fstrZugRangierBezeichnung
 						return '''«wirksamKeit» «fstrZugRangier»'''
 					]
 				],
@@ -506,7 +507,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[messfehler?.wert.translate]
+				[messfehler?.translateEnum]
 			)
 
 			// U: Sskp.Gue.Messstrecke
@@ -526,7 +527,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[GUEAnordnung?.wert.translate]
+				[GUEAnordnung?.translateEnum]
 			)
 
 			// W: Sskp.Gue.GUE_Bauart
@@ -536,7 +537,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[GUEBauart?.wert.translate]
+				[GUEBauart?.translateEnum]
 			)
 
 			// X: SSkp.Gue.Montageort_Schaltkastens
@@ -546,7 +547,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[
 					IDUnterbringung?.value?.unterbringungAllg?.
-						unterbringungBefestigung?.wert.translate
+						unterbringungBefestigung?.translateEnum ?: ""
 				]
 			)
 
@@ -557,7 +558,7 @@ class SskpTransformator extends AbstractPlanPro2TableModelTransformator {
 				pzb,
 				[pzbGUEs],
 				null,
-				[GUEEnergieversorgung?.wert.translate]
+				[GUEEnergieversorgung?.translateEnum]
 			)
 		} else {
 			for (var i = 15; i < 23; i++) {

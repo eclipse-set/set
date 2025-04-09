@@ -49,9 +49,10 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	override transformTableContent(MultiContainer_AttributeGroup container,
 		TMFactory factory, Stell_Bereich controlArea) {
-		for (Schloss schloss : container.getObjectInControlArea(controlArea).filter [
-			isPlanningObject
-		]) {
+		for (Schloss schloss : container.getObjectInControlArea(controlArea).
+			filter [
+				isPlanningObject
+			]) {
 			if (Thread.currentThread.interrupted) {
 				return null
 			}
@@ -113,7 +114,9 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Schluessel_Bartform),
 				schloss,
-				[schluesel?.schluesselAllg?.schluesselBartform?.wert?.translate]
+				[
+					schluesel?.schluesselAllg?.schluesselBartform?.translateEnum
+				]
 			)
 
 			// F: Ssko.Schluessel.Gruppe
@@ -121,7 +124,9 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Schluessel_Gruppe),
 				schloss,
-				[schluesel?.schluesselAllg?.schluesselGruppe?.wert?.translate]
+				[
+					schluesel?.schluesselAllg?.schluesselGruppe?.translateEnum
+				]
 			)
 
 			// G: Ssko.Fahrweg.Bezeichnung.Zug
@@ -175,15 +180,15 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				schloss,
 				new Case<Schloss>(
 					[schlossBUE !== null],
-					[schlossBUE.BUELage?.wert?.translate ?: ""]
+					[schlossBUE.BUELage?.translateEnum ?: ""]
 				),
 				new Case<Schloss>(
 					[schlossGsp !== null],
-					[schlossGsp.gspLage?.wert?.translate ?: ""]
+					[schlossGsp.gspLage?.translateEnum ?: ""]
 				),
 				new Case<Schloss>(
 					[schlossW !== null],
-					[schlossW.WLage?.wert?.translate ?: ""]
+					[schlossW.WLage?.translateEnum ?: ""]
 				)
 			)
 
@@ -192,7 +197,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Verschl_Element_Anbaulage),
 				schloss,
-				[schlossW?.WAnbaulage?.wert?.translate ?: ""]
+				[schlossW?.WAnbaulage?.translateEnum ?: ""]
 			)
 
 			// L: Ssko.W_Gsp_Bue.Verschl_Element.Ort
@@ -200,7 +205,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Verschl_Element_Ort),
 				schloss,
-				[schlossW?.verschlussOrt?.wert?.translate ?: ""]
+				[schlossW?.verschlussOrt?.translateEnum ?: ""]
 			)
 
 			// M: Ssko.W_Gsp_Bue.Schlossart
@@ -208,7 +213,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 				instance,
 				cols.getColumn(Schlossart),
 				schloss,
-				[schloss?.schlossW?.schlossArt?.wert?.translate ?: ""]
+				[schlossW?.schlossArt?.translateEnum ?: ""]
 			)
 
 			// N: Ssko.Sk_Ssp.Bezeichnung
@@ -243,14 +248,14 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 					[schlossSk !== null],
 					[
 						schlossKombination?.unterbringung?.unterbringungAllg?.
-							unterbringungArt?.wert?.translate
+							unterbringungArt?.translateEnum
 					]
 				),
 				new Case<Schloss>(
 					[schlossSsp !== null],
 					[
 						schluesselsperre?.unterbringung?.unterbringungAllg?.
-							unterbringungArt?.wert?.translate
+							unterbringungArt?.translateEnum
 					]
 				)
 			)
@@ -339,7 +344,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						'''
 							«sonderanlage?.bezeichnung?.bezeichnungTabelle?.wert»
-							(«schlossSonderanlage?.sonderanlageLage.wert.translate»)
+							(«schlossSonderanlage?.sonderanlageLage?.translateEnum ?: ""»)
 						'''
 					]
 				),
@@ -351,7 +356,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 					[
 						'''
 							«schlossSonderanlage?.beschreibungSonderanlage?.wert»
-							(«schlossSonderanlage?.sonderanlageLage.wert.translate»)
+							(«schlossSonderanlage?.sonderanlageLage?.translateEnum ?: ""»)
 						'''
 					]
 				)
@@ -409,7 +414,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 			ssp.exists[it === schloss.schlossSsp.IDSchluesselsperre.value]
 		].map[schluesel].filterNull
 		result.addAll(schluessels.flatMap[schloesser])
-		
+
 		// 2.Condition
 		result.filter[schlossSk?.hauptschloss.wert].flatMap [ schloss |
 			schloss.schlossSk.IDSchlosskombination?.value.schloesser.filter [

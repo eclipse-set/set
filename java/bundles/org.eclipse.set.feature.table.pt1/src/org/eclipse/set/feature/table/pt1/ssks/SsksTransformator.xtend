@@ -214,8 +214,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							new Case<Signal>(
 								[isHauptbefestigung],
 								[
-									signal?.signalReal?.signalRealAktivSchirm?.
-										signalArt?.wert?.translate
+									signalReal?.signalRealAktivSchirm?.
+										signalArt?.translateEnum
 								]
 							)
 						)
@@ -227,8 +227,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[isHauptbefestigung],
 							[
-								signal?.signalReal?.funktionOhneSignal?.wert?.
-									translate
+								signalReal?.funktionOhneSignal?.translateEnum
 							]
 						)
 
@@ -238,10 +237,9 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Fiktives_Signal),
 							signal,
 							[
-								signal?.signalFiktiv?.fiktivesSignalFunktion?.
-									map [
-										wert?.translate
-									] ?: Collections.emptyList
+								signalFiktiv?.fiktivesSignalFunktion?.map [ fiktivSignalFunktion |
+									fiktivSignalFunktion?.translateEnum
+								] ?: Collections.emptyList
 							],
 							null
 						)
@@ -260,7 +258,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							MIXED_STRING_COMPARATOR,
 							ITERABLE_FILLING_SEPARATOR
 						)
-						
+
 						// F: Ssks.Standortmerkmale.Standort.km
 						if (isFindGeometryComplete ||
 							streckAndKm.flatMap[value].exists[!nullOrEmpty]) {
@@ -274,8 +272,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								null
 							)
 						} else {
-													val routeThroughBereichObjekt = signal.singlePoint.
-							streckenThroughBereichObjekt
+							val routeThroughBereichObjekt = signal.singlePoint.
+								streckenThroughBereichObjekt
 							row.fillStreckeKm(signal, routeThroughBereichObjekt)
 						}
 
@@ -285,8 +283,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Sonstige_Zulaessige_Anordnung),
 							signal,
 							[
-								signal?.signalReal?.signalRealAktiv?.
-									sonstigeZulaessigeAnordnung?.wert?.translate
+								signalReal?.signalRealAktiv?.
+									sonstigeZulaessigeAnordnung?.translateEnum
 							]
 						)
 
@@ -297,9 +295,10 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[
 								val s = it
-								val lichtraeume = it.container.gleisLichtraum.filter [ contains(s) ]
+								val lichtraeume = it.container.gleisLichtraum.
+									filter[contains(s)]
 								lichtraeume.map [
-									lichtraumprofil?.wert?.translate
+									lichtraumprofil?.translateEnum
 								].toSet.toList.sort
 							],
 							null
@@ -487,7 +486,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[isHauptbefestigung],
 							[
 								signalReal?.signalRealAktivSchirm?.
-									streuscheibeArt?.wert?.translate
+									streuscheibeArt?.translateEnum ?: ""
 							]
 						)
 
@@ -499,8 +498,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[isHauptbefestigung],
 							[
 								signalReal?.signalRealAktivSchirm?.
-									streuscheibeBetriebsstellung?.wert?.
-									translate
+									streuscheibeBetriebsstellung?.
+									translateEnum ?: ""
 							]
 						)
 
@@ -516,8 +515,8 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 									].filterNull
 								val fundament = map[
 									fundament?.signalBefestigungAllg?.
-										fundamentArt?.wert
-								].filterNull.map[translate].filterNull
+										fundamentArt
+								].filterNull.map[translateEnum].filterNull
 								return (regelzeichnung + fundament).toSet
 							],
 							null,
@@ -983,8 +982,8 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			case ENUM_BEFESTIGUNG_ART_SONSTIGE:
 				return befestigung.fillBearbeitungsvermerke
 			default:
-				return befestigung.signalBefestigungAllg.befestigungArt.wert.
-					translate
+				return befestigung?.signalBefestigungAllg?.befestigungArt?.
+					translateEnum
 		}
 	}
 
@@ -1466,8 +1465,10 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 		val bemerkungen = new LinkedList
 		bemerkungen.addAll(
 			signalRahmen.map[signalbegriffe].flatten.map [
-				signalSignalbegriffAllg?.beleuchtet?.wert
-			].filterNull.filter[it != ENUM_BELEUCHTET_NEIN].toSet.map[translate]
+				signalSignalbegriffAllg?.beleuchtet
+			].filterNull.filter[wert != ENUM_BELEUCHTET_NEIN].toSet.map [
+				translateEnum
+			]
 		)
 
 		bemerkungen.addAll(
