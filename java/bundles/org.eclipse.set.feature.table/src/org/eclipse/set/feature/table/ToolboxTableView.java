@@ -60,7 +60,6 @@ import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.constants.ToolboxViewState;
 import org.eclipse.set.basis.extensions.MApplicationElementExtensions;
 import org.eclipse.set.basis.guid.Guid;
-import org.eclipse.set.basis.tables.Tables;
 import org.eclipse.set.core.services.Services;
 import org.eclipse.set.core.services.configurationservice.UserConfigurationService;
 import org.eclipse.set.feature.table.abstracttableview.ColumnGroup4HeaderLayer;
@@ -474,11 +473,13 @@ public final class ToolboxTableView extends BasePart {
 				columnHeaderDataLayer, bodyLayerStack,
 				bodyLayerStack.getSelectionLayer());
 		final boolean anyMatch = existsColumnGroup(rootColumnDescriptor);
+		// IMPROVE: The table header level should be determined automatically,
+		// and the corresponding header layers should be created accordingly. At
+		// present, only tables with 1, 2, or 4 levels are supported.
 		final ILayer headerLayer = anyMatch
 				? createGroupHeaderLayer(columnHeaderLayer,
 						rootColumnDescriptor)
 				: createHeaderLayer(columnHeaderLayer, rootColumnDescriptor);
-		// row header stack
 		final IDataProvider rowHeaderDataProvider = new DefaultRowHeaderDataProvider(
 				bodyDataProvider);
 		final DataLayer rowHeaderDataLayer = new DataLayer(
@@ -582,21 +583,34 @@ public final class ToolboxTableView extends BasePart {
 
 	private ILayer createHeaderLayer(final ColumnHeaderLayer columnHeaderLayer,
 			final ColumnDescriptor rootColumnDescriptor) {
-		// final boolean existUnitRow = ColumnDescriptorExtensions
-		// .getLeaves(rootColumnDescriptor)
-		// .stream()
-		// .anyMatch(ColumnDescriptor::isUnit);
+		final boolean existUnitRow = ColumnDescriptorExtensions
+				.getLeaves(rootColumnDescriptor)
+				.stream()
+				.anyMatch(ColumnDescriptor::isUnit);
 		final ColumnGroupModel columnGroupModel = new ColumnGroupModel();
 		final ColumnGroupHeaderLayer columnGroupHeaderLayer = new ColumnGroupHeaderLayer(
 				columnHeaderLayer, bodyLayerStack.getSelectionLayer(),
 				columnGroupModel);
-		final List<ColumnDescriptor> columns = ColumnDescriptorExtensions
-				.getColumns(rootColumnDescriptor);
-		for (int i = 0; i < columns.size(); i++) {
-			final String columnIdentifier = Tables.getColumnIdentifier(i);
-			columnGroupHeaderLayer.addColumnsIndexesToGroup(columnIdentifier,
-					i);
+		if (existUnitRow) {
+			NatTableColumnGroupHelper.addGroups(rootColumnDescriptor,
+					columnGroupHeaderLayer);
+			columnGroupHeaderLayer
+					.setRowHeight(toPixel((float) ColumnDescriptorExtensions
+							.getGroupRowHeight(rootColumnDescriptor)));
+			final ColumnGroupModel columnGroupGroupModel = new ColumnGroupModel();
+			final ColumnGroupGroupHeaderLayer columnGroupGroupHeaderLayer = new ColumnGroupGroupHeaderLayer(
+					columnGroupHeaderLayer, columnGroupGroupModel);
+			NatTableColumnGroupHelper.addColumnNumbers(rootColumnDescriptor,
+					columnGroupGroupHeaderLayer);
+			columnGroupGroupHeaderLayer
+					.setRowHeight(toPixel((float) ColumnDescriptorExtensions
+							.getGroupGroupRowHeight(rootColumnDescriptor)));
+			return columnGroupGroupHeaderLayer;
 		}
+
+		NatTableColumnGroupHelper.addColumnNumbers(rootColumnDescriptor,
+				columnGroupHeaderLayer);
+
 		columnGroupHeaderLayer
 				.setRowHeight(toPixel((float) ColumnDescriptorExtensions
 						.getGroupRowHeight(rootColumnDescriptor)));

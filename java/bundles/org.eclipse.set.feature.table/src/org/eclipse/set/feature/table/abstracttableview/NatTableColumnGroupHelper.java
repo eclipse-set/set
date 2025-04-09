@@ -9,9 +9,11 @@
 package org.eclipse.set.feature.table.abstracttableview;
 
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
+import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.basis.tables.Tables;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
@@ -54,16 +56,41 @@ public final class NatTableColumnGroupHelper {
 	 * 
 	 * @param header
 	 *            the header
-	 * @param columnGroup4HeaderLayer
-	 *            the header layer
+	 * @param columnGroupHeaderLayer
+	 *            the column group header layer
 	 */
 	public static void addColumnNumbers(final ColumnDescriptor header,
-			final ColumnGroup4HeaderLayer columnGroup4HeaderLayer) {
+			final ILayer columnGroupHeaderLayer) {
+		BiConsumer<String, Integer> addColumnToGroupFunc = (label, index) -> {
+			// do nothing
+		};
+		switch (columnGroupHeaderLayer) {
+			case final ColumnGroupHeaderLayer groupLayer: {
+				addColumnToGroupFunc = groupLayer::addColumnsIndexesToGroup;
+				break;
+			}
+			case final ColumnGroupGroupHeaderLayer groupgroupLayer: {
+				addColumnToGroupFunc = groupgroupLayer::addColumnsIndexesToGroup;
+				break;
+			}
+
+			case final ColumnGroupGroupGroupHeaderLayer groupgroupLayer: {
+				addColumnToGroupFunc = groupgroupLayer::addColumnsIndexesToGroup;
+				break;
+			}
+			case final ColumnGroup4HeaderLayer group4Layer: {
+				addColumnToGroupFunc = group4Layer::addColumnsIndexesToGroup;
+				break;
+			}
+			default:
+				throw new UnsupportedOperationException();
+		}
+
 		final int noOfcolumns = ColumnDescriptorExtensions.getColumns(header)
 				.size();
 		for (int i = 0; i < noOfcolumns; i++) {
 			final String label = Tables.getColumnIdentifier(i);
-			columnGroup4HeaderLayer.addColumnsIndexesToGroup(label, i);
+			addColumnToGroupFunc.accept(label, Integer.valueOf(i));
 		}
 	}
 
