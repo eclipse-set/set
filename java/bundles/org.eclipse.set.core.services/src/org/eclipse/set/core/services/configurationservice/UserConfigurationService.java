@@ -59,4 +59,10 @@ public interface UserConfigurationService {
 	 */
 	Path getLastExportPath();
 
+	/**
+	 * @param path
+	 *            the last open path
+	 */
+	void addPathToOpenRecent(Path path);
+
 }

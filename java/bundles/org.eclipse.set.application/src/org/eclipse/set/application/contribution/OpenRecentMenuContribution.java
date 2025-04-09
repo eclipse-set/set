@@ -27,6 +27,7 @@ import jakarta.inject.Inject;
 public class OpenRecentMenuContribution extends LoadExampleContribution {
 	@Inject
 	UserConfigurationService userConfigService;
+	private static final String CONTRIBUTION_CLASS = "bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.OpenRecentMenuItem"; //$NON-NLS-1$
 
 	@Override
 	@AboutToShow
@@ -39,5 +40,10 @@ public class OpenRecentMenuContribution extends LoadExampleContribution {
 				.forEach(file -> {
 					addExample(file, modelService, items);
 				});
+	}
+
+	@Override
+	protected String getItemContributionClass() {
+		return CONTRIBUTION_CLASS;
 	}
 }

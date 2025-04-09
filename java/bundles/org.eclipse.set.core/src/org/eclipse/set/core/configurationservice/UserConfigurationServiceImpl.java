@@ -161,6 +161,11 @@ public class UserConfigurationServiceImpl implements UserConfigurationService {
 	@Override
 	public void setLastFileOpenPath(final Path path) {
 		configuration.lastFileOpenPath = path;
+		addPathToOpenRecent(path);
+	}
+
+	@Override
+	public void addPathToOpenRecent(final Path path) {
 		final List<Path> lastOpenFiles = getLastOpenFiles();
 		final Optional<Path> alreadyOpenPath = lastOpenFiles.stream()
 				.filter(p -> p.toAbsolutePath()
