@@ -29,7 +29,7 @@ public class LoadExampleContribution {
 	private static final String CONTRIBUTION_CLASS = "bundleclass://org.eclipse.set.application/org.eclipse.set.application.contribution.LoadExampleMenuItem"; //$NON-NLS-1$
 	private static final String CONTRIBUTOR_PLUGIN = "platform:/plugin/org.eclipse.set.application"; //$NON-NLS-1$
 
-	protected void addExample(final ExampleFile exampleFile,
+	protected static void addExample(final ExampleFile exampleFile,
 			final EModelService modelService, final List<MMenuElement> items) {
 		final MDirectMenuItem directMenuItem = modelService
 				.createModelElement(MDirectMenuItem.class);
@@ -37,7 +37,7 @@ public class LoadExampleContribution {
 		directMenuItem.getTransientData()
 				.put(ExampleService.EXAMPLE_FILE_KEY, exampleFile);
 		directMenuItem.setContributorURI(CONTRIBUTOR_PLUGIN);
-		directMenuItem.setContributionURI(getContributionClass());
+		directMenuItem.setContributionURI(CONTRIBUTION_CLASS);
 		items.add(directMenuItem);
 	}
 
@@ -51,9 +51,5 @@ public class LoadExampleContribution {
 		for (final ExampleFile exampleFile : exampleFiles) {
 			addExample(exampleFile, modelService, items);
 		}
-	}
-
-	protected String getContributionClass() {
-		return CONTRIBUTION_CLASS;
 	}
 }
