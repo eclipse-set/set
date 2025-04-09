@@ -582,6 +582,10 @@ public final class ToolboxTableView extends BasePart {
 
 	private ILayer createHeaderLayer(final ColumnHeaderLayer columnHeaderLayer,
 			final ColumnDescriptor rootColumnDescriptor) {
+		// final boolean existUnitRow = ColumnDescriptorExtensions
+		// .getLeaves(rootColumnDescriptor)
+		// .stream()
+		// .anyMatch(ColumnDescriptor::isUnit);
 		final ColumnGroupModel columnGroupModel = new ColumnGroupModel();
 		final ColumnGroupHeaderLayer columnGroupHeaderLayer = new ColumnGroupHeaderLayer(
 				columnHeaderLayer, bodyLayerStack.getSelectionLayer(),
