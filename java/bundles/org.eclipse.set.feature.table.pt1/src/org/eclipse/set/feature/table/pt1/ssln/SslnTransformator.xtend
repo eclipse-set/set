@@ -16,6 +16,7 @@ import org.eclipse.set.feature.table.pt1.AbstractPlanPro2TableModelTransformator
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Basisobjekte.Basis_Objekt
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
+import org.eclipse.set.model.planpro.Nahbedienung.ENUMNBGrenzeArt
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Element
 import org.eclipse.set.model.planpro.Nahbedienung.NB_Zone_Grenze
@@ -115,7 +116,9 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Bez_Grenze),
 			nbZone,
 			[
-				NBZoneGrenzen.map [
+				NBZoneGrenzen.filter [
+					NBGrenzeArt?.wert === ENUMNBGrenzeArt.ENUMNB_GRENZE_ART_ESTW_BEREICH || NBGrenzeArt?.wert === ENUMNBGrenzeArt.ENUMNB_GRENZE_ART_NB_ZONE
+				].map [
 					markanterPunkt?.markanteStelle?.toBezeichnungGrenze(it)
 				].filterNull
 			],
