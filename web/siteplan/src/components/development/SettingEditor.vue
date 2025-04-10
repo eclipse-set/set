@@ -15,67 +15,80 @@
       <h4>Einstellungen</h4>
       <div class="model-summary-control-content">
         <ul>
+          <div v-if="isDevelopmentMode()">
+            <li>
+              Hauptgleise
+              <input
+                v-model.number="mainTrackWidth"
+                type="number"
+                :max="getMaxValue('Main')"
+                :min="getMinValue('Main')"
+              >
+            </li>
+            <li>
+              Nebengleise
+              <input
+                v-model.number="sideTrackWidth"
+                type="number"
+                :max="getMaxValue('Side')"
+                :min="getMinValue('Side')"
+              >
+            </li>
+            <li>
+              Sonstige
+              <input
+                v-model.number="otherTrackWidth"
+                type="number"
+                :max="getMaxValue('Other')"
+                :min="getMinValue('Other')"
+              >
+            </li>
+            <li>
+              Gleis Abdeckungsbreite
+              <input
+                v-model.number="trackOutlineWidth"
+                type="number"
+                :max="getMaxValue('Outline')"
+                :min="getMinValue('Outline')"
+              >
+            </li>
+            <li>
+              Skalierungsfaktor für Überdeckungen
+              <input
+                v-model.number="boundingBoxScale"
+                type="number"
+                :min="1"
+              >
+            </li>
+            <li>
+              Zustand
+              <select v-model="viewState">
+                <option value="initial">
+                  Start
+                </option>
+                <option value="final">
+                  Ziel
+                </option>
+                <option value="diff">
+                  Start/Ziel
+                </option>
+              </select>
+            </li>
+            <li>
+              <input
+                id="checkbox-collision"
+                v-model="collisionEnabled"
+                type="checkbox"
+              >
+              <label for="checkbox-collision">Kollisionsvermeidung aktiv</label>
+            </li>
+          </div>
           <li>
-            Hauptgleise
-            <input
-              v-model.number="mainTrackWidth"
-              type="number"
-              :max="getMaxValue('Main')"
-              :min="getMinValue('Main')"
+            Koordinatenreferenzsystem für Blattschnitte: <br>
+            <select
+              v-model="sheetCutCRS"
+              :disabled="!isSheetCutAvaiable()"
             >
-          </li>
-          <li>
-            Nebengleise
-            <input
-              v-model.number="sideTrackWidth"
-              type="number"
-              :max="getMaxValue('Side')"
-              :min="getMinValue('Side')"
-            >
-          </li>
-          <li>
-            Sonstige
-            <input
-              v-model.number="otherTrackWidth"
-              type="number"
-              :max="getMaxValue('Other')"
-              :min="getMinValue('Other')"
-            >
-          </li>
-          <li>
-            Gleis Abdeckungsbreite
-            <input
-              v-model.number="trackOutlineWidth"
-              type="number"
-              :max="getMaxValue('Outline')"
-              :min="getMinValue('Outline')"
-            >
-          </li>
-          <li>
-            Skalierungsfaktor für Überdeckungen
-            <input
-              v-model.number="boundingBoxScale"
-              type="number"
-              :min="1"
-            >
-          </li>
-          <li>
-            Zustand
-            <select v-model="viewState">
-              <option value="initial">
-                Start
-              </option>
-              <option value="final">
-                Ziel
-              </option>
-              <option value="diff">
-                Start/Ziel
-              </option>
-            </select>
-          </li>
-          <li v-if="isSheetCutAvaiable()">
-            Koordinatenreferenzsystem für Blattschnitte
-            <select v-model="sheetCutCRS">
               <option
                 v-for="sys in getCRSList()"
                 :key="sys"
@@ -83,14 +96,6 @@
                 {{ sys }}
               </option>
             </select>
-          </li>
-          <li>
-            <input
-              id="checkbox-collision"
-              v-model="collisionEnabled"
-              type="checkbox"
-            >
-            <label for="checkbox-collision">Kollisionsvermeidung aktiv</label>
           </li>
         </ul>
       </div>
@@ -222,6 +227,10 @@ export default class ModelSummaryControl extends Vue {
 
   isSheetCutAvaiable () {
     return store.state.isSheetCutAvaiable
+  }
+
+  isDevelopmentMode () {
+    return Configuration.developmentMode()
   }
 }
 </script>

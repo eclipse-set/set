@@ -16,7 +16,7 @@
         <MapSourceSelection v-if="isSiteplan()" />
         <LayerControl v-if="isDevelopmentMode && isSiteplan()" />
         <ModelSummaryControl v-if="isDevelopmentMode" />
-        <SettingEditor v-if="isDevelopmentMode && isSiteplan()" />
+        <SettingEditor v-if="isSiteplan()" />
       </div>
     </div>
     <div
