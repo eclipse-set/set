@@ -17,14 +17,6 @@
         <ul>
           <div v-if="isDevelopmentMode()">
             <li>
-              <input
-                id="checkbox-development"
-                v-model="isDevelopmentMode"
-                type="checkbox"
-              >
-              <label for="checkbox-development">Entwicklermodus aktiv</label>
-            </li>
-            <li>
               Hauptgleise
               <input
                 v-model.number="mainTrackWidth"
