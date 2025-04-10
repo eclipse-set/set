@@ -15,6 +15,7 @@ import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGrou
 import org.osgi.service.component.annotations.Component
 
 import static extension org.eclipse.set.ppmodel.extensions.GeoKnotenExtensions.*
+import org.eclipse.set.model.planpro.Geodaten.GEO_Kante
 
 /**
  * Validates that all GEO_Kanten have a valid coordinate reference system.
@@ -37,19 +38,7 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 
 	override protected run(MultiContainer_AttributeGroup container) {
 		val geoKantenWithMeridianSprung = container.GEOKante.filter [
-			val crsA = IDGEOKnotenA?.value?.geoPunkte?.map [
-				GEOPunktAllg?.GEOKoordinatensystem?.wert
-			]?.toSet
-			val crsB = IDGEOKnotenB?.value?.geoPunkte?.map [
-				GEOPunktAllg?.GEOKoordinatensystem?.wert
-			]?.toSet
-			if (crsA === null || crsB === null)
-				return false
-			return crsA.exists [ a |
-				crsB.exists [ b |
-					a != b
-				]
-			]
+			isMeridianGEOKante
 		]
 		if (geoKantenWithMeridianSprung.size === 0) {
 			return #[]
@@ -57,15 +46,34 @@ class MeridianBetweenGEOKante extends AbstractPlazContainerCheck implements Plaz
 		val errList = <PlazError>newArrayList
 		geoKantenWithMeridianSprung.forEach [
 			val err = PlazFactory.eINSTANCE.createPlazError
-			if (GEOKanteAllg?.GEOLaenge?.wert.doubleValue !== 0.0) {
-				err.message = transformErrorMsg(
-					Map.of("GUID", identitaet?.wert ?: "[Keine GUID]"))
-				err.type = checkType
-				err.object = it
-				errList.add(err)
-			}
+			err.message = transformErrorMsg(
+				Map.of("GUID", identitaet?.wert ?: "[Keine GUID]"))
+			err.type = checkType
+			err.object = it
+			errList.add(err)
+
 		]
 		return errList
+	}
+
+	static def boolean isMeridianGEOKante(GEO_Kante edge) {
+		if (edge.GEOKanteAllg?.GEOLaenge?.wert.doubleValue === 0.0) {
+			return false;
+		}
+
+		val crsA = edge.IDGEOKnotenA?.value?.geoPunkte?.map [
+			GEOPunktAllg?.GEOKoordinatensystem?.wert
+		]?.toSet
+		val crsB = edge.IDGEOKnotenB?.value?.geoPunkte?.map [
+			GEOPunktAllg?.GEOKoordinatensystem?.wert
+		]?.toSet
+		if (crsA === null || crsB === null)
+			return false
+		return crsA.exists [ a |
+			crsB.exists [ b |
+				a != b
+			]
+		]
 	}
 
 	override getGeneralErrMsg() {

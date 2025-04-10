@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.set.model.planpro.Geodaten.ENUMGEOForm;
@@ -32,6 +32,7 @@ import org.eclipse.set.model.plazmodel.PlazError;
 import org.eclipse.set.model.plazmodel.PlazFactory;
 import org.eclipse.set.model.validationreport.ValidationSeverity;
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup;
+import org.locationtech.jts.geom.Coordinate;
 import org.osgi.service.component.annotations.Component;
 
 import com.google.common.collect.Streams;
@@ -46,6 +47,7 @@ import com.google.common.collect.Streams;
 @Component
 public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		implements PlazCheck {
+	private static double TOLERANT = 0.001;
 
 	@Override
 	public String checkType() {
@@ -82,6 +84,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 			// considered
 			return !(kanteLength.isEmpty()
 					|| kanteLength.get().compareTo(BigDecimal.ZERO) == 0
+					|| MeridianBetweenGEOKante.isMeridianGEOKante(geoKante)
 					|| geoKante.getGEOKanteAllg()
 							.getGEOForm()
 							.getWert() == ENUMGEOForm.ENUMGEO_FORM_KM_SPRUNG);
@@ -129,13 +132,23 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		if (geoPunkte.size() == 1) {
 			return true;
 		}
-		final Set<BigDecimal> xValues = geoPunkte.stream()
-				.map(geoPunkt -> geoPunkt.getGEOPunktAllg().getGKX().getWert())
-				.collect(Collectors.toSet());
-		final Set<BigDecimal> yValues = geoPunkte.stream()
-				.map(geoPunkt -> geoPunkt.getGEOPunktAllg().getGKY().getWert())
-				.collect(Collectors.toSet());
-		return xValues.size() > 1 && yValues.size() > 1;
+		double maxDistance = 0.0;
+		final Function<GEO_Punkt, Coordinate> createCoordFunc = geoPunkt -> new Coordinate(
+				geoPunkt.getGEOPunktAllg().getGKX().getWert().doubleValue(),
+				geoPunkt.getGEOPunktAllg().getGKY().getWert().doubleValue());
+		for (int i = 0; i < geoPunkte.size(); i++) {
+			for (int j = i + 1; j < geoPunkte.size(); j++) {
+				final Coordinate coord1 = createCoordFunc
+						.apply(geoPunkte.get(i));
+				final Coordinate coord2 = createCoordFunc
+						.apply(geoPunkte.get(j));
+				final double distance = coord1.distance(coord2);
+				if (distance > maxDistance) {
+					maxDistance = distance;
+				}
+			}
+		}
+		return maxDistance < TOLERANT;
 	}
 
 	private PlazError createError(final GEO_Kante geoKante) {
