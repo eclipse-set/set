@@ -903,14 +903,14 @@ npm/npmjs/@types/serve-index/1.9.4, MIT, approved, #10976
 npm/npmjs/@types/serve-static/1.15.5, MIT, approved, #9188
 npm/npmjs/@types/sockjs/0.3.36, MIT, approved, #10984
 npm/npmjs/@types/ws/8.5.10, MIT, approved, #6016
-npm/npmjs/@typescript-eslint/eslint-plugin/8.29.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/parser/8.29.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/scope-manager/8.29.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/type-utils/8.29.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/types/8.29.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/typescript-estree/8.29.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/utils/8.29.0, MIT, approved, clearlydefined
-npm/npmjs/@typescript-eslint/visitor-keys/8.29.0, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/eslint-plugin/8.29.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/parser/8.29.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/scope-manager/8.29.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/type-utils/8.29.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/types/8.29.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/typescript-estree/8.29.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/utils/8.29.1, MIT, approved, clearlydefined
+npm/npmjs/@typescript-eslint/visitor-keys/8.29.1, MIT, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.2.3, MIT, approved, #17260
 npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
 npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
