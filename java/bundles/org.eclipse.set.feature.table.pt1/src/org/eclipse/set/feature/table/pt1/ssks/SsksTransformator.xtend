@@ -289,22 +289,22 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 						)
 
 						// H: Ssks.Standortmerkmale.Lichtraumprofil
-						if (signal.signalReal !== null) {
-							fillIterable(
-								row,
-								cols.getColumn(Lichtraumprofil),
-								signal,
-								[
-									val s = it
-									val lichtraeume = it.container.gleisLichtraum.
-										filter[contains(s)]
-									lichtraeume.map [
-										lichtraumprofil?.translateEnum
-									].toSet.toList.sort
-								],
-								null
-							)
-						}
+						fillIterableWithConditional(
+							row,
+							cols.getColumn(Lichtraumprofil),
+							signal,
+							[ signalReal !== null ],
+							[
+								val s = it
+								val lichtraeume = it.container.gleisLichtraum.
+									filter[contains(s)]
+								lichtraeume.map [
+									lichtraumprofil?.translateEnum
+								].toSet.toList.sort
+							],
+							null,
+							ITERABLE_FILLING_SEPARATOR
+						)
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
 						if (signal.signalReal !== null) {
