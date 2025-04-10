@@ -27,8 +27,6 @@ import org.osgi.service.component.annotations.ReferenceCardinality
 import org.osgi.service.component.annotations.ReferencePolicy
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.eclipse.set.utils.ToolboxConfiguration
-import org.eclipse.set.feature.plazmodel.check.GeoCoordinateValid
 
 @Component
 class PlazModelServiceImpl implements PlazModelService {
@@ -62,9 +60,6 @@ class PlazModelServiceImpl implements PlazModelService {
 
 		val errors = <PlazCheck, List<PlazError>>newHashMap
 		plazChecks.forEach [
-			if (!ToolboxConfiguration.isDevelopmentMode && it instanceof GeoCoordinateValid) {
-				return
-			}
 			errors.put(it, it.run(modelSession))
 		]
 		val entries = <ValidationProblem>newLinkedList

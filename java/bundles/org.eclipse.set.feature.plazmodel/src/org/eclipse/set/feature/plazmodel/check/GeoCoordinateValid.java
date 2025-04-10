@@ -213,17 +213,17 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 					po.getIdentitaet().getWert()));
 		}
 		return createGeoCoordinateError(errorObject,
-				"Die Koordinaten des referenzierten GEO_Punkt: {GEO_PUNKT_ID} weichen {DIFF} cm von der topologisch definierten Position ab.",
-				Map.of("GEO_PUNKT_ID", errorObject.getWert(), "GUID",
-						po.getIdentitaet().getWert(), "DIFF",
-						new DecimalFormat("0.00").format(diff * 100)));
+				"Die Koordinaten des referenzierten GEO_Punkt: {GEO_PUNKT_ID} weichen mehr als {TOLERANT} cm von der topologisch definierten Position ab. (Differenz: {DIFF} cm)",
+				Map.of("GEO_PUNKT_ID", errorObject.getWert(), "TOLERANT",
+						new DecimalFormat("0.00").format(TOLERANT * 100),
+						"DIFF", new DecimalFormat("0.00").format(diff * 100)));
 	}
 
 	private PlazError createGeoCoordinateError(final EObject object,
 			final String message, final Map<String, String> data) {
 		final PlazError plazError = PlazFactory.eINSTANCE.createPlazError();
 		plazError.setObject(object);
-		plazError.setSeverity(ValidationSeverity.ERROR);
+		plazError.setSeverity(ValidationSeverity.WARNING);
 		plazError.setType(checkType());
 		plazError
 				.setMessage(StringSubstitutor.replace(message, data, "{", "}"));
@@ -232,7 +232,7 @@ public class GeoCoordinateValid extends AbstractPlazContainerCheck
 
 	@Override
 	public String checkType() {
-		return "Koordinate";
+		return "Verortungsvergleich";
 	}
 
 	@Override
