@@ -13,7 +13,6 @@ import java.util.function.BiConsumer;
 
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
-import org.eclipse.nebula.widgets.nattable.layer.ILayer;
 import org.eclipse.set.basis.tables.Tables;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.extensions.ColumnDescriptorExtensions;
@@ -56,36 +55,55 @@ public final class NatTableColumnGroupHelper {
 	 * 
 	 * @param header
 	 *            the header
-	 * @param columnGroupHeaderLayer
-	 *            the column group header layer
+	 * @param groupLayer
+	 *            the header group layer
 	 */
 	public static void addColumnNumbers(final ColumnDescriptor header,
-			final ILayer columnGroupHeaderLayer) {
-		BiConsumer<String, Integer> addColumnToGroupFunc = (label, index) -> {
-			// do nothing
-		};
-		switch (columnGroupHeaderLayer) {
-			case final ColumnGroupHeaderLayer groupLayer: {
-				addColumnToGroupFunc = groupLayer::addColumnsIndexesToGroup;
-				break;
-			}
-			case final ColumnGroupGroupHeaderLayer groupgroupLayer: {
-				addColumnToGroupFunc = groupgroupLayer::addColumnsIndexesToGroup;
-				break;
-			}
+			final ColumnGroupHeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
 
-			case final ColumnGroupGroupGroupHeaderLayer groupgroupLayer: {
-				addColumnToGroupFunc = groupgroupLayer::addColumnsIndexesToGroup;
-				break;
-			}
-			case final ColumnGroup4HeaderLayer group4Layer: {
-				addColumnToGroupFunc = group4Layer::addColumnsIndexesToGroup;
-				break;
-			}
-			default:
-				throw new UnsupportedOperationException();
-		}
+	/**
+	 * adds column numbers
+	 * 
+	 * @param header
+	 *            the header
+	 * @param groupLayer
+	 *            the header group layer
+	 */
+	public static void addColumnNumbers(final ColumnDescriptor header,
+			final ColumnGroupGroupHeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
 
+	/**
+	 * adds column numbers
+	 * 
+	 * @param header
+	 *            the header
+	 * @param groupLayer
+	 *            the header group layer
+	 */
+	public static void addColumnNumbers(final ColumnDescriptor header,
+			final ColumnGroupGroupGroupHeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
+
+	/**
+	 * adds column numbers
+	 * 
+	 * @param header
+	 *            the header
+	 * @param groupLayer
+	 *            the header group layer
+	 */
+	public static void addColumnNumbers(final ColumnDescriptor header,
+			final ColumnGroup4HeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
+
+	private static void addColumnNumbers(final ColumnDescriptor header,
+			final BiConsumer<String, Integer> addColumnToGroupFunc) {
 		final int noOfcolumns = ColumnDescriptorExtensions.getColumns(header)
 				.size();
 		for (int i = 0; i < noOfcolumns; i++) {
