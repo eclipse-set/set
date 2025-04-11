@@ -43,12 +43,22 @@ public class SskzColumns {
 	public static final String Montage = "E";
 
 	/**
+	 * Sskz.Ueberhoehung
+	 */
+	public static final String Ueberhoehung = "F";
+
+	/**
+	 * Sskz.Abstand_FEAx_Gleismitte
+	 */
+	public static final String Abstand_FEAx_Gleismitte = "G";
+
+	/**
 	 * Sskz.Blattnummer
 	 */
-	public static final String Blattnummer = "F";
+	public static final String Blattnummer = "H";
 
 	/**
 	 * Sskz.Bemerkung
 	 */
-	public static final String Bemerkung = "G";
+	public static final String Bemerkung = "I";
 }

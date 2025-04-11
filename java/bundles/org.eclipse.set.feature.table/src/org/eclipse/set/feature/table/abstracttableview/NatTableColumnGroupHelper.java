@@ -9,6 +9,7 @@
 package org.eclipse.set.feature.table.abstracttableview;
 
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupGroupHeaderLayer;
 import org.eclipse.nebula.widgets.nattable.group.ColumnGroupHeaderLayer;
@@ -54,16 +55,60 @@ public final class NatTableColumnGroupHelper {
 	 * 
 	 * @param header
 	 *            the header
-	 * @param columnGroup4HeaderLayer
-	 *            the header layer
+	 * @param groupLayer
+	 *            the header group layer
 	 */
 	public static void addColumnNumbers(final ColumnDescriptor header,
-			final ColumnGroup4HeaderLayer columnGroup4HeaderLayer) {
+			final ColumnGroupHeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
+
+	/**
+	 * adds column numbers
+	 * 
+	 * @param header
+	 *            the header
+	 * @param groupLayer
+	 *            the header group layer
+	 */
+	public static void addColumnNumbers(final ColumnDescriptor header,
+			final ColumnGroupGroupHeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
+
+	/**
+	 * adds column numbers
+	 * 
+	 * @param header
+	 *            the header
+	 * @param groupLayer
+	 *            the header group layer
+	 */
+	public static void addColumnNumbers(final ColumnDescriptor header,
+			final ColumnGroupGroupGroupHeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
+
+	/**
+	 * adds column numbers
+	 * 
+	 * @param header
+	 *            the header
+	 * @param groupLayer
+	 *            the header group layer
+	 */
+	public static void addColumnNumbers(final ColumnDescriptor header,
+			final ColumnGroup4HeaderLayer groupLayer) {
+		addColumnNumbers(header, groupLayer::addColumnsIndexesToGroup);
+	}
+
+	private static void addColumnNumbers(final ColumnDescriptor header,
+			final BiConsumer<String, Integer> addColumnToGroupFunc) {
 		final int noOfcolumns = ColumnDescriptorExtensions.getColumns(header)
 				.size();
 		for (int i = 0; i < noOfcolumns; i++) {
 			final String label = Tables.getColumnIdentifier(i);
-			columnGroup4HeaderLayer.addColumnsIndexesToGroup(label, i);
+			addColumnToGroupFunc.accept(label, Integer.valueOf(i));
 		}
 	}
 

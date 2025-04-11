@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.basis.Pair;
 import org.eclipse.set.basis.geometry.GeoPosition;
 import org.eclipse.set.model.planpro.BasisTypen.ENUMWirkrichtung;
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup;
@@ -159,43 +160,67 @@ public class SignalSideDistance {
 						.filter(Objects::nonNull))
 				.collect(Collectors.toSet());
 		potks.forEach(potk -> {
-			final Long sideDistance = getNullableObject(potk, p -> Math.round(
-					p.getSeitlicherAbstand().getWert().doubleValue() * 1000))
-							.orElse(null);
-			if (sideDistance == null) {
-				return;
-			}
 			final ENUMWirkrichtung direction = getSinglePoint(signal)
 					.getWirkrichtung()
 					.getWert();
-			final long distanceFromPoint = MAX_DISTANCE_TO_NEIGHBOR
-					- Math.abs(sideDistance);
-			final int perpendicularRotation = getPerpendicularRotation(
-					sideDistance, direction);
-			if (distanceFromPoint <= 0) {
-				setSideDistances(sideDistance, direction, 0);
+			final double signalRotation = PunktObjektExtensions
+					.rotation(signal);
+			final Pair<Long, Long> result = getSideDistance(potk, direction,
+					signalRotation);
+			if (result == null) {
 				return;
 			}
 
-			double opposideDistance = 0.0;
-			final GeoPosition position = PunktObjektTopKanteExtensions
-					.getCoordinate(potk);
-			final double signalRotation = PunktObjektExtensions
-					.rotation(signal);
-			try {
-				opposideDistance = getOpposideDistance(potk, position,
-						signalRotation + perpendicularRotation,
-						distanceFromPoint / 1000.0f);
-			} catch (final Exception e) {
-				throw new RuntimeException(e);
-			}
-			final long distanceBetweenTrack = opposideDistance > 0
-					? Math.abs(sideDistance)
-							+ Math.round(opposideDistance * 1000)
-					: 0;
-			setSideDistances(sideDistance, direction, distanceBetweenTrack);
+			setSideDistances(result.getFirst(), direction, result.getSecond());
 		});
+	}
 
+	/**
+	 * Get the side distance of element and the distance between two track,
+	 * which the element lie between
+	 * 
+	 * @param potk
+	 *            the Punkt_Objekt_Top_Kante of the owner element
+	 * @param direction
+	 *            the direction of the owner element
+	 * @param rotation
+	 *            the rotation of the owner element
+	 * @return <SideDistance, DistanceBetweenTrack>
+	 */
+	@SuppressWarnings("boxing")
+	public static Pair<Long, Long> getSideDistance(
+			final Punkt_Objekt_TOP_Kante_AttributeGroup potk,
+			final ENUMWirkrichtung direction, final double rotation) {
+		final Long sideDistance = getNullableObject(potk, p -> Math
+				.round(p.getSeitlicherAbstand().getWert().doubleValue() * 1000))
+						.orElse(null);
+		if (sideDistance == null) {
+			return null;
+		}
+
+		final long distanceFromPoint = MAX_DISTANCE_TO_NEIGHBOR
+				- Math.abs(sideDistance);
+		final int perpendicularRotation = getPerpendicularRotation(sideDistance,
+				direction);
+
+		if (distanceFromPoint <= 0) {
+			return new Pair<>(sideDistance, (long) 0);
+		}
+
+		double opposideDistance = 0.0;
+		final GeoPosition position = PunktObjektTopKanteExtensions
+				.getCoordinate(potk);
+		try {
+			opposideDistance = getOpposideDistance(potk, position,
+					rotation + perpendicularRotation,
+					distanceFromPoint / 1000.0f);
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
+		final long distanceBetweenTrack = opposideDistance > 0
+				? Math.abs(sideDistance) + Math.round(opposideDistance * 1000)
+				: 0;
+		return new Pair<>(sideDistance, distanceBetweenTrack);
 	}
 
 	private Set<Signal_Befestigung> getSignalBefestigung() {
@@ -227,7 +252,7 @@ public class SignalSideDistance {
 				return isPositiveSideDistance ? -90 : 90;
 			default: {
 				throw new IllegalArgumentException(
-						"The Signal_Befestigung have Illegal Wirkrichtung: " //$NON-NLS-1$
+						"The Punkt_Objekt have Illegal Wirkrichtung: " //$NON-NLS-1$
 								+ direction);
 			}
 		}
