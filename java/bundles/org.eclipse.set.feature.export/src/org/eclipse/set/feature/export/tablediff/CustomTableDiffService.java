@@ -8,7 +8,6 @@
  */
 package org.eclipse.set.feature.export.tablediff;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +20,6 @@ import org.eclipse.set.model.tablemodel.ColumnDescriptor;
 import org.eclipse.set.model.tablemodel.CompareCellContent;
 import org.eclipse.set.model.tablemodel.CompareFootnoteContainer;
 import org.eclipse.set.model.tablemodel.MultiColorCellContent;
-import org.eclipse.set.model.tablemodel.MultiColorContent;
 import org.eclipse.set.model.tablemodel.RowGroup;
 import org.eclipse.set.model.tablemodel.SimpleFootnoteContainer;
 import org.eclipse.set.model.tablemodel.StringCellContent;
@@ -107,23 +105,77 @@ public class CustomTableDiffService implements TableDiffService {
 					.getIterableStringValue(match.getCells().get(i)));
 		}
 
-		if (!oldValue.equals(newValue)) {
-			final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
-					.createCompareCellContent();
-			compareContent.getOldValue().addAll(oldValue);
-			compareContent.getNewValue().addAll(newValue);
-			compareContent.setSeparator(oldCell.getContent().getSeparator());
-			oldCell.setContent(compareContent);
-		} else if (oldCell
-				.getContent() instanceof final MultiColorCellContent content) {
-			final MultiColorCellContent newCellContent = TablemodelFactory.eINSTANCE
-					.createMultiColorCellContent();
-			final List<MultiColorContent> contents = new ArrayList<>(
-					content.getValue());
-			contents.forEach(ele -> ele.setDisableMultiColor(true));
-			newCellContent.getValue().addAll(contents);
-			oldCell.setContent(newCellContent);
+		if (oldCell.getContent() instanceof MultiColorCellContent
+				&& match != null) {
+			createMultiColorDiffCotent(oldCell, match.getCells().get(i));
+			return;
 		}
+
+		if (!oldValue.equals(newValue)) {
+			oldCell.setContent(createCompareCellContent(oldValue, newValue,
+					oldCell.getContent().getSeparator()));
+		}
+	}
+
+	// IMPROVE: this function isn't completely.
+	private static void createMultiColorDiffCotent(final TableCell oldCell,
+			final TableCell newCell) {
+		if (newCell
+				.getContent() instanceof final MultiColorCellContent newCellContent) {
+			final MultiColorCellContent clone = EcoreUtil.copy(newCellContent);
+			clone.getValue().forEach(e -> e.setDisableMultiColor(false));
+			oldCell.setContent(clone);
+		}
+		// if (oldCell
+		// .getContent() instanceof final MultiColorCellContent oldCellContent
+		// && newCell
+		// .getContent() instanceof final MultiColorCellContent newCellContent)
+		// {
+		// final BiFunction<MultiColorCellContent, Function<MultiColorContent,
+		// String>, Set<String>> getIterableStr = (
+		// cellContent, getValueFunc) -> cellContent.getValue()
+		// .stream()
+		// .map(getValueFunc::apply)
+		// .collect(Collectors.toSet());
+		//
+		// final Set<String> oldMultiColorValueStr = getIterableStr.apply(
+		// oldCellContent, MultiColorContent::getMultiColorValue);
+		// final Set<String> newMultiColorValueStr = getIterableStr.apply(
+		// newCellContent, MultiColorContent::getMultiColorValue);
+		// final Set<String> oldStringformatValueStr = getIterableStr
+		// .apply(oldCellContent, MultiColorContent::getStringFormat);
+		// final Set<String> newStringformatValueStr = getIterableStr
+		// .apply(newCellContent, MultiColorContent::getStringFormat);
+		// // Fall multicolor value of both is empty, but stringformat is
+		// // difference, then replace OldContent with CompareCellContent
+		// if (oldMultiColorValueStr.isEmpty()
+		// && newMultiColorValueStr.isEmpty()
+		// && !oldStringformatValueStr
+		// .equals(newStringformatValueStr)) {
+		// oldCell.setContent(createCompareCellContent(
+		// oldStringformatValueStr, newStringformatValueStr,
+		// oldCellContent.getSeparator()));
+		// // Fall multicolor
+		// } else if (!oldMultiColorValueStr.isEmpty()
+		// && !newMultiColorValueStr.isEmpty()
+		// && !oldMultiColorValueStr.equals(newMultiColorValueStr)) {
+		// final MultiColorCellContent clone = EcoreUtil
+		// .copy(newCellContent);
+		// clone.getValue().forEach(e -> e.setDisableMultiColor(false));
+		// oldCell.setContent(clone);
+		// }
+		// }
+	}
+
+	private static CompareCellContent createCompareCellContent(
+			final Set<String> oldValue, final Set<String> newValue,
+			final String separator) {
+		final CompareCellContent compareContent = TablemodelFactory.eINSTANCE
+				.createCompareCellContent();
+		compareContent.getOldValue().addAll(oldValue);
+		compareContent.getNewValue().addAll(newValue);
+		compareContent.setSeparator(separator);
+		return compareContent;
 	}
 
 	private static Table expandNewRowGroups(final Table oldTable,

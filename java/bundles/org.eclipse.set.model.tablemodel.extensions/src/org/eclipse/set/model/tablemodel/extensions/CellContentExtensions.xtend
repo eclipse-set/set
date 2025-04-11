@@ -348,7 +348,7 @@ class CellContentExtensions {
 				: content.stringFormat.htmlString
 		}
 		
-		if (!content.isDisableMultiColor) {
+		if (content.isDisableMultiColor) {
 			return '''<span>«String.format(content.stringFormat, content.multiColorValue)»</span>'''
 		}
 
