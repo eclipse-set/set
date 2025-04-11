@@ -71,6 +71,25 @@ public class XMLDocumentExtensions {
 	 *            the Document
 	 * @param tag
 	 *            the element tag
+	 * @param attrName
+	 *            the name of attribute
+	 * @param attrValue
+	 *            the value of attribute
+	 * @return the element
+	 */
+	public static Element createXMLElementWithAttr(final Document doc,
+			final String tag, final String attrName, final String attrValue) {
+		return createXMLElementWithAttr(doc, tag,
+				new XMLAttribute(attrName, attrValue));
+	}
+
+	/**
+	 * Create xml elemnt with some attribute
+	 * 
+	 * @param doc
+	 *            the Document
+	 * @param tag
+	 *            the element tag
 	 * @param attributes
 	 *            the list of {@link XMLAttribute}
 	 * @return the element
