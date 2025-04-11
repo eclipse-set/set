@@ -273,6 +273,9 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					refillTrackMitteDistance(row, container, control,
 							changeProperties);
 				});
+				final TableDataChangeEvent updateValuesEvent = new TableDataChangeEvent(
+						tableShortcut.toLowerCase(), changeProperties);
+				TableDataChangeEvent.sendEvent(eventAdmin, updateValuesEvent);
 			}
 		}, String.format("%s/%s/s", tableShortcut.toLowerCase(), //$NON-NLS-1$
 				ToolboxConstants.CacheId.GEOKANTE_GEOMETRY,
@@ -281,6 +284,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	}
 
+	@SuppressWarnings("boxing")
 	private void refillTrackMitteDistance(final TableRow row,
 			final MultiContainer_AttributeGroup container,
 			final Aussenelementansteuerung control,
@@ -298,7 +302,8 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 						.longValue() > 0 ? String.format("(%d)", //$NON-NLS-1$
 								sideDistance.getSecond()) : ""; //$NON-NLS-1$
 				fillValue = String.format("%s%s", //$NON-NLS-1$
-						sideDistance.getFirst(), trackDistance.isEmpty() ? "" //$NON-NLS-1$
+						Math.abs(sideDistance.getFirst()),
+						trackDistance.isEmpty() ? "" //$NON-NLS-1$
 								: " " + trackDistance); //$NON-NLS-1$
 			}
 
