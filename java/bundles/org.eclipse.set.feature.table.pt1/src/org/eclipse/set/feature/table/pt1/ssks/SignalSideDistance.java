@@ -204,7 +204,6 @@ public class SignalSideDistance {
 				direction);
 
 		if (distanceFromPoint <= 0) {
-			// setSideDistances(sideDistance, direction, 0);
 			return new Pair<>(sideDistance, (long) 0);
 		}
 
