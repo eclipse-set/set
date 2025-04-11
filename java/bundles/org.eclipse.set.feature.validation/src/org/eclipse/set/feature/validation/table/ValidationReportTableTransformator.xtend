@@ -76,4 +76,9 @@ class ValidationReportTableTransformator extends AbstractValidationProblemTransf
 	override getMessagesColumn() {
 		return columns.Message
 	}
+	
+	override getTableShortcut() {
+		return "validation"
+		}
+	
 }

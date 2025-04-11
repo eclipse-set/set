@@ -24,7 +24,13 @@ import org.slf4j.LoggerFactory
 import static extension com.google.common.base.Throwables.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.utils.Debug.*
+import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
+import static extension org.eclipse.set.ppmodel.extensions.MultiContainer_AttributeGroupExtensions.*
 import java.util.Collections
+import org.eclipse.set.model.planpro.Basisobjekte.Ur_Objekt
+import org.osgi.service.event.EventAdmin
+import org.eclipse.set.utils.events.TableDataChangeEvent
+import org.eclipse.set.model.tablemodel.extensions.CellContentExtensions
 
 /**
  * Provides common functions for table transformations.
@@ -37,7 +43,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	 * constant for non-filled content.
 	 */
 	static final String NOT_FILLED = "n.b.";
-	
+
 	/**
 	 * constant prefix for cells that show errors 
 	 */
@@ -47,12 +53,13 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		typeof(AbstractTableModelTransformator))
 
 	protected val static String ITERABLE_FILLING_SEPARATOR = String.format("%n")
-	
+
 	val static boolean DEVELOPMENT_MODE = ToolboxConfiguration.developmentMode
 
 	val static String BLANK = ""
 
-	protected val List<TableError> tableErrors = Collections.synchronizedList(newArrayList)
+	protected val List<TableError> tableErrors = Collections.
+		synchronizedList(newArrayList)
 
 	/**
 	 * Errors that occurred during transformation
@@ -100,6 +107,8 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		}
 		return NOT_FILLED;
 	}
+	
+	abstract def String getTableShortcut();
 
 	def <T> void fill(
 		TableRow row,
@@ -108,9 +117,9 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		(T)=>String filling
 	) {
 		try {
-			if(object === null) {
+			if (object === null) {
 				row.set(column, BLANK)
-				return	
+				return
 			}
 			var text = filling.apply(object)
 			if (text !== null) {
@@ -298,8 +307,8 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		(S)=>Iterable<String> sequence,
 		Comparator<String> comparator
 	) {
-		row.fillIterable(column, object, sequence, comparator ?: ToolboxConstants.
-						LST_OBJECT_NAME_COMPARATOR, [it])
+		row.fillIterable(column, object, sequence,
+			comparator ?: ToolboxConstants.LST_OBJECT_NAME_COMPARATOR, [it])
 	}
 
 	def <S, T> void fillMultiColorIterable(
@@ -380,7 +389,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		row.fillIterableWithSeparatorConditional(column, object, [true],
 			sequence, comparator, elementFilling, [], separator)
 	}
-	
+
 	/**
 	 * Fill a row with a sequence of string values depending on a condition and handle exceptions.
 	 * 
@@ -471,6 +480,64 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 			handleFillingException(e, row, column)
 		}
 	}
+	
+	def <S extends Ur_Objekt, T> void fillSingleCellAfterProcess(
+		TableRow row,
+		ColumnDescriptor column,
+		S object,
+		() => Boolean isProcessCompletely,
+		(S) => String sequence,
+		String threadName,
+		EventAdmin eventAdmin
+	) {
+		
+	}
+
+	def <S extends Ur_Objekt, T> void fillIterableAfterProcess(
+		TableRow row,
+		ColumnDescriptor column,
+		S object,
+		()=>Boolean isProcessCompletely,
+		(S)=>List<T> sequence,
+		(T)=>String elementFilling,
+		String tableShortcut,
+		String threadName,
+		EventAdmin eventAdmin,
+		Comparator<T> comparator,
+		String separator
+	) {
+		try {
+			if (isProcessCompletely.apply()) {
+				fillIterable(row, column, object, sequence, comparator,
+					elementFilling, separator)
+				return
+			} else {
+				fill(row, column,
+					object, [CellContentExtensions.HOURGLASS_ICON])
+			}
+			val containertype = object.container.containerType
+			new Thread([
+				try {
+					while (!isProcessCompletely.apply()) {
+						Thread.sleep(5000)
+					}
+					val result = sequence.apply(object).filterNull.sortWith(
+						comparator).map(elementFilling).filterNull.toList
+					val changeProperties = new Pt1TableChangeProperties(
+						containertype, row, column, result, separator)
+					val updateValuesEvent = new TableDataChangeEvent(
+						tableShortcut.toLowerCase, changeProperties)
+					TableDataChangeEvent.sendEvent(eventAdmin,
+						updateValuesEvent)
+				} catch (InterruptedException exc) {
+					throw new RuntimeException("auto-generated try/catch", exc)
+				}
+			],threadName).start
+
+		} catch (Exception e) {
+			handleFillingException(e, row, column)
+		}
+	}
 
 	def static String fillRegelzeichnung(Regelzeichnung regelzeichnung) {
 		val bild = regelzeichnung?.regelzeichnungAllg?.bild
@@ -525,7 +592,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	) {
 		return '''«FOR element : sequence.sortWith(comparator) SEPARATOR separator»«element»«ENDFOR»'''
 	}
-	
+
 	/**
 	 * @params row the table row for which the leading object shall be delivered
 	 * @returns the leading object identifier of the given row which is either the value of the first cell
@@ -533,7 +600,8 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 	 */
 	def String getLeadingObjectIdentifier(TableRow row, String guid) {
 		var firstCellValue = row.getPlainStringValue(0)
-		if (firstCellValue === null || firstCellValue.startsWith(ERROR_PREFIX)) {
+		if (firstCellValue === null ||
+			firstCellValue.startsWith(ERROR_PREFIX)) {
 			return guid
 		}
 		return firstCellValue
@@ -547,15 +615,13 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		var guid = row.group.leadingObject?.identitaet?.wert
 		var leadingObject = getLeadingObjectIdentifier(row, guid)
 		var errorMsg = e.createErrorMsg(row)
-		
-		tableErrors.add(
-			new TableError(guid, leadingObject, "",
-				errorMsg, row))
+
+		tableErrors.add(new TableError(guid, leadingObject, "", errorMsg, row))
 		row.set(column, '''«ERROR_PREFIX»«errorMsg»''')
 		logger.
 			error('''«e.class.simpleName» in column "«column.debugString»" for leading object "«leadingObject»" («guid»). «e.message»«System.lineSeparator»«e.stackTraceAsString»''')
 	}
-	
+
 	def String createErrorMsg(
 		Exception e,
 		TableRow row
@@ -564,7 +630,7 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		var leadingObject = getLeadingObjectIdentifier(row, guid)
 		return e.createErrorMsg(leadingObject)
 	}
-	
+
 	def String createErrorMsg(
 		Exception e,
 		String leadingObjectGuid
@@ -572,7 +638,6 @@ abstract class AbstractTableModelTransformator<T> implements TableModelTransform
 		var errorMsg = '''«e.class.simpleName»: "«e.message»" for leading object "«leadingObjectGuid»"'''
 		return errorMsg
 	}
-	
 
 	/**
 	 * Evaluates the given function with the given value for use in sorting.

@@ -293,7 +293,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							row,
 							cols.getColumn(Lichtraumprofil),
 							signal,
-							[ signalReal !== null ],
+							[signalReal !== null],
 							[
 								val s = it
 								val lichtraeume = it.container.gleisLichtraum.
@@ -308,24 +308,42 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 
 						// I: Ssks.Standortmerkmale.Ueberhoehung
 						if (signal.signalReal !== null) {
-							if (bankingService.isFindBankingComplete) {
-								fillIterable(
-									row,
-									cols.getColumn(Ueberhoehung),
-									signal,
-									[
-										bankingService.findBankValue(
-											new TopPoint(signal)).map [
-											multiply(new BigDecimal(1000)).
-												toTableInteger ?: ""
-										]
-									],
-									null
-								)
-							} else {
-								// Fill Banking through thread, when find process not complete
-								row.fillUeberhoehung(signal)
-							}
+							fillIterableAfterProcess(
+								row,
+								cols.getColumn(Ueberhoehung),
+								signal,
+								[bankingService.isFindBankingComplete],
+								[bankingService.findBankValue(new TopPoint(it))],
+								[
+
+									multiply(new BigDecimal(1000)).
+										toTableInteger ?: ""
+
+								],
+								tableShortCut,
+								'''«tableShortCut.toLowerCase»/Banking/«signal.cacheKey»''',
+								eventAdmin,
+								null,
+								ITERABLE_FILLING_SEPARATOR
+							)
+//							if (bankingService.isFindBankingComplete) {
+//								fillIterable(
+//									row,
+//									cols.getColumn(Ueberhoehung),
+//									signal,
+//									[
+//										bankingService.findBankValue(
+//											new TopPoint(signal)).map [
+//											multiply(new BigDecimal(1000)).
+//												toTableInteger ?: ""
+//										]
+//									],
+//									null
+//								)
+//							} else {
+//								// Fill Banking through thread, when find process not complete
+//								row.fillUeberhoehung(signal)
+//							}
 						}
 
 						// J: Ssks.Standortmerkmale.Abstand_Mastmitte.links

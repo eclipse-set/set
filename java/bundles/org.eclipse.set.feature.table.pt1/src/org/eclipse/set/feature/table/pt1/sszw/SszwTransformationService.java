@@ -49,7 +49,12 @@ public final class SszwTransformationService
 
 	@Override
 	public AbstractPlanPro2TableModelTransformator createTransformator() {
-		return new SszwTransformator(cols, enumTranslationService);
+		return new SszwTransformator(cols, enumTranslationService) {
+			@Override
+			public String getTableShortcut() {
+				return messages.ToolboxTableNameSszwShort.toLowerCase();
+			}
+		};
 	}
 
 	@Override
