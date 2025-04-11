@@ -158,6 +158,9 @@ public class PlanProTableThemeConfiguration
 				GUIHelper.COLOR_DARK_GRAY);
 		this.defaultSelectionBgColor = GUIHelper.getColor(173, 216, 230);
 		this.defaultSelectionFgColor = GUIHelper.COLOR_BLACK;
+		this.selectionAnchorSelectionBgColor = GUIHelper.getColor(173, 216,
+				230);
+		this.selectionAnchorSelectionFgColor = GUIHelper.COLOR_BLACK;
 
 		// initialize layers and providers
 		this.headerLayer = headerLayer;
