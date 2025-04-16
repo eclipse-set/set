@@ -37,6 +37,8 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.eclipse.set.basis.constants.TableType;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -53,8 +55,9 @@ public class TransformTable {
 	private static final String EXCEL_TEMPLATE_PATH = "data/export/excel"; //$NON-NLS-1$
 	private static final float A3_PAPER_WIDTH = 42f;
 	String shortcut;
-	String tableTyle;
+	TableType tableType;
 	private AbstractTransformTableHeader transformHeader;
+	private final EnumTranslationService enumTranslation;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(TransformTable.class);
@@ -64,10 +67,14 @@ public class TransformTable {
 	 *            the shortcut of table
 	 * @param tableType
 	 *            the type of table
+	 * @param enumTranslation
+	 *            the {@link EnumTranslationService}
 	 */
-	public TransformTable(final String tableShortcut, final String tableType) {
+	public TransformTable(final String tableShortcut, final TableType tableType,
+			final EnumTranslationService enumTranslation) {
 		this.shortcut = tableShortcut;
-		this.tableTyle = tableType;
+		this.tableType = tableType;
+		this.enumTranslation = enumTranslation;
 	}
 
 	/**
@@ -96,7 +103,7 @@ public class TransformTable {
 				? new MultiPageTableHeader(tableSheet, contentWidth)
 				: new SinglePageTableHeader(tableSheet, contentWidth);
 		final Document xslDoc = transformHeader.transform();
-		if (tableTyle != null) {
+		if (tableType != null && tableType != TableType.DIFF) {
 			setWaterMarkContent(xslDoc);
 		}
 
@@ -154,7 +161,14 @@ public class TransformTable {
 				.findNodebyTagName(xslDoc, XSL_VARIABLE, ATTR_NAME,
 						WATER_MARK_TEMPLATE_NAME);
 		if (waterMarkVariable.isPresent()) {
-			waterMarkVariable.get().setTextContent(tableTyle);
+			try {
+				waterMarkVariable.get()
+						.setTextContent(enumTranslation.translate(tableType)
+								.getPresentation());
+			} catch (final NullPointerException e) {
+				waterMarkVariable.get().setTextContent(""); //$NON-NLS-1$
+			}
+
 		}
 	}
 
