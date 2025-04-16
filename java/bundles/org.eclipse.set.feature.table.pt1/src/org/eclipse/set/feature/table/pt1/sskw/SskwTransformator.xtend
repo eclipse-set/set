@@ -534,10 +534,11 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 					}
 					val multiColorContent = TablemodelFactory.eINSTANCE.
 						createMultiColorContent
+					multiColorContent.disableMultiColor = true
 					val gleissperreAntrieb = gleissperreAntrieb
 					if (entgleisungsschuhe.exists [
 						austauschAntriebe?.wert === true
-					]) {
+					] && it.container.containerType == ContainerType.FINAL) {
 						multiColorContent.multiColorValue = gleissperreAntrieb
 						multiColorContent.stringFormat = "%s"
 					} else {

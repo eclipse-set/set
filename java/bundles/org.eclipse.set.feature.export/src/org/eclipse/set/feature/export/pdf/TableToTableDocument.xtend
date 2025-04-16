@@ -8,8 +8,12 @@
  */
 package org.eclipse.set.feature.export.pdf
 
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.util.Base64
 import java.util.List
-import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 import org.eclipse.set.basis.FreeFieldInfo
@@ -41,10 +45,6 @@ import static extension org.eclipse.set.model.tablemodel.extensions.TableContent
 import static extension org.eclipse.set.model.tablemodel.extensions.TableExtensions.*
 import static extension org.eclipse.set.model.tablemodel.extensions.TableRowExtensions.*
 import static extension org.eclipse.set.utils.StringExtensions.*
-import java.io.ByteArrayOutputStream
-import javax.imageio.ImageIO
-import java.util.Base64
-import java.io.IOException
 import static extension org.eclipse.set.utils.export.xsl.siteplan.SiteplanXSL.pxToMilimeter
 
 /**
@@ -142,13 +142,15 @@ class TableToTableDocument {
 		BufferedImage imageData, double ppm) {
 		try {
 			val widthElement = doc.createElement("Width")
-			widthElement.textContent = imageData.width.pxToMilimeter(ppm).toString + "mm"
+			widthElement.textContent = imageData.width.pxToMilimeter(ppm).
+				toString + "mm"
 			appendChild(widthElement)
 
 			val heightElement = doc.createElement("Height")
-			heightElement.textContent = imageData.height.pxToMilimeter(ppm).toString + "mm"
+			heightElement.textContent = imageData.height.pxToMilimeter(ppm).
+				toString + "mm"
 			appendChild(heightElement)
-						
+
 			val byteElement = doc.createElement("Byte")
 			val type = doc.createAttribute("type")
 			type.value = "image/png"
@@ -156,15 +158,15 @@ class TableToTableDocument {
 			ImageIO.write(imageData, "png", byteArrayOutputStream)
 			val imageBytes = byteArrayOutputStream.toByteArray
 			byteElement.attributeNode = type
-			byteElement.textContent ='''data:image/png;base64,«Base64.encoder.encodeToString(imageBytes)»>'''
-			
+			byteElement.textContent = '''data:image/png;base64,«Base64.encoder.encodeToString(imageBytes)»>'''
+
 			appendChild(byteElement)
 			return
 		} catch (IOException e) {
 			logger.error("Transform imageData to String error", e)
 		}
 	}
-	
+
 	private def Element createTestRowElement(Element rowsElement,
 		String groupNumber, TableContent content) {
 		val rowElement = doc.createElement("Row")
@@ -415,8 +417,9 @@ class TableToTableDocument {
 		int columnNumber, boolean isRemarkColumn) {
 		val columndWidth = content.tableCell.columndescriptor.columnWidth
 		val maxChar = columndWidth.maxCharInCell
-		if (content.multiColorValue === null) {
-			val cellValue = content.stringFormat.
+		if (content.multiColorValue === null || content.disableMultiColor) {
+			val cellValue = String.format(content.stringFormat,
+				content.multiColorValue ?: "").
 				intersperseWithZeroSpacesLength(maxChar)
 			return cellValue.createContentElement("SimpleValue", columnNumber,
 				isRemarkColumn)
@@ -456,9 +459,8 @@ class TableToTableDocument {
 	private def Element addContentToElement(String content, Element element,
 		int columnNumber, boolean isRemarkColumn) {
 		val checkOutput = content.checkForTestOutput(columnNumber)
-		element.textContent = isRemarkColumn
-			? checkOutput
-			: checkOutput.intersperseWithZeroSpacesSC
+		element.textContent = isRemarkColumn ? checkOutput : checkOutput.
+			intersperseWithZeroSpacesSC
 		return element
 	}
 

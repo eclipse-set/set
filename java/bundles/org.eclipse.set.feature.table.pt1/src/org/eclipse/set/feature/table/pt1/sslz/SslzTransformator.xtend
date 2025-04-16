@@ -194,7 +194,8 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				// H: Sslz.Einstellung.Autom_Einstellung
 				fill(instance, cols.getColumn(Autom_Einstellung),
 					fstrZugRangier, [
-						fstrZugRangier?.fstrZug?.automatischeEinstellung?.translateEnum ?: ""
+						fstrZugRangier?.fstrZug?.automatischeEinstellung?.
+							translateEnum ?: ""
 					])
 
 				// I: Sslz.Einstellung.F_Bedienung
@@ -723,6 +724,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (vorsignal === null) {
 			return ""
 		}
+
+		if (fstrZugRangier.identitaet.wert ==
+			"01F3E891-5BDF-4F8F-8F43-EA54A4A0A03D") {
+			println("TEST")
+		}
 		val fstrSignalisierung = fstrZugRangier.fstrSignalisierung.toList
 		val existsZl = fstrSignalisierung.map [
 			IDSignalSignalbegriff.value
@@ -735,8 +741,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			signalSignalbegriffZiel !== null && signalSignalbegriff !== null &&
 				signalSignalbegriff.signalRahmen?.signal === vorsignal
 		].filter [
-			signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs2v)) ||
-				signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs3v))
+			(signalSignalbegriff.hasSignalbegriffID(typeof(Zs2v)) ||
+				signalSignalbegriff.hasSignalbegriffID(typeof(Zs3v))) &&
+				(signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs2)) ||
+					signalSignalbegriffZiel.hasSignalbegriffID(typeof(Zs3)))
 		].toList
 
 		val zs2vSymbols = relevantFstrSignalisierung.

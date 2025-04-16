@@ -217,7 +217,7 @@ public class FopPdfExportBuilder implements TableExport {
 			throws IOException, SAXException, TransformerException,
 			ParserConfigurationException, UserAbortion {
 		final TransformTable transformTable = new TransformTable(shortcut,
-				translationTableType(tableType));
+				tableType, enumTranslationService);
 		final Document xslDoc = pageBreakRowsIndex.isEmpty()
 				? transformTable.transform()
 				: transformTable.transform(pageBreakRowsIndex);
