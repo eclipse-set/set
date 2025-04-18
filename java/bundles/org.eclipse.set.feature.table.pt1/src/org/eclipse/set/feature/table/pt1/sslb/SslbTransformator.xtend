@@ -202,7 +202,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Betriebsfuehrung),
 			blockElement,
 			[
-				blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.translateEnum
+				blockStrecke?.blockStreckeAllg?.betriebsfuehrung?.translate
 			]
 		)
 
@@ -220,7 +220,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Start),
 			blockElement,
-			[blockElement?.blockElementAllg?.blockBauform?.translateEnum]
+			[blockElement?.blockElementAllg?.blockBauform?.translate]
 		)
 
 		// H: Sslb.Grundsatzangaben.von.Streckenfreimeldung
@@ -270,7 +270,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Bauform_Ziel),
 			otherBlockElement,
-			[blockElementAllg?.blockBauform?.translateEnum]
+			[blockElementAllg?.blockBauform?.translate]
 		)
 
 		// K: Sslb.Grundsatzangaben.Blockschaltung
@@ -278,7 +278,7 @@ class SslbTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Blockschaltung),
 			blockAnlage,
 			[
-				blockAnlageAllg?.schaltung?.translateEnum
+				blockAnlageAllg?.schaltung?.translate
 			]
 		)
 

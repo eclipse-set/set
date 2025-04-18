@@ -483,7 +483,7 @@ class SszsTransformator extends AbstractPlanPro2TableModelTransformator {
 				row,
 				cols.getColumn(Ausstieg_ETCS_Sperre),
 				etcsSignal,
-				[ETCSSignalAllg?.ausstiegETCSSperre?.translateEnum]
+				[ETCSSignalAllg?.ausstiegETCSSperre?.translate]
 			)
 
 			// Y: Sszs.Sonstige_Funktionen.d_Haltfall

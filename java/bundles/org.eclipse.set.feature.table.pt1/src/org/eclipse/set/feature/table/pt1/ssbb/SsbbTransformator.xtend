@@ -131,7 +131,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				bedienEinrichtOertlichAllg?.bedienEinrichtBauart.
-					translateEnum ?: ""
+					translate ?: ""
 			]
 		)
 
@@ -142,7 +142,7 @@ class SsbbTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				unterbringung?.unterbringungAllg?.unterbringungBefestigung.
-					translateEnum ?: ""
+					translate ?: ""
 			]
 		)
 

@@ -215,7 +215,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								[isHauptbefestigung],
 								[
 									signalReal?.signalRealAktivSchirm?.
-										signalArt?.translateEnum
+										signalArt?.translate
 								]
 							)
 						)
@@ -227,7 +227,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[isHauptbefestigung],
 							[
-								signalReal?.funktionOhneSignal?.translateEnum
+								signalReal?.funktionOhneSignal?.translate
 							]
 						)
 
@@ -238,7 +238,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[
 								signalFiktiv?.fiktivesSignalFunktion?.map [ fiktivSignalFunktion |
-									fiktivSignalFunktion?.translateEnum
+									fiktivSignalFunktion?.translate
 								] ?: Collections.emptyList
 							],
 							null
@@ -284,7 +284,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							signal,
 							[
 								signalReal?.signalRealAktiv?.
-									sonstigeZulaessigeAnordnung?.translateEnum
+									sonstigeZulaessigeAnordnung?.translate
 							]
 						)
 
@@ -299,7 +299,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								val lichtraeume = it.container.gleisLichtraum.
 									filter[contains(s)]
 								lichtraeume.map [
-									lichtraumprofil?.translateEnum
+									lichtraumprofil?.translate
 								].toSet.toList.sort
 							],
 							null,
@@ -488,7 +488,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[isHauptbefestigung],
 							[
 								signalReal?.signalRealAktivSchirm?.
-									streuscheibeArt?.translateEnum ?: ""
+									streuscheibeArt?.translate ?: ""
 							]
 						)
 
@@ -501,7 +501,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							[
 								signalReal?.signalRealAktivSchirm?.
 									streuscheibeBetriebsstellung?.
-									translateEnum ?: ""
+									translate ?: ""
 							]
 						)
 
@@ -518,7 +518,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 								val fundament = map[
 									fundament?.signalBefestigungAllg?.
 										fundamentArt
-								].filterNull.map[translateEnum].filterNull
+								].filterNull.map[translate].filterNull
 								return (regelzeichnung + fundament).toSet
 							],
 							null,
@@ -985,7 +985,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 				return befestigung.fillBearbeitungsvermerke
 			default:
 				return befestigung?.signalBefestigungAllg?.befestigungArt?.
-					translateEnum
+					translate
 		}
 	}
 
@@ -1469,7 +1469,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 			signalRahmen.map[signalbegriffe].flatten.map [
 				signalSignalbegriffAllg?.beleuchtet
 			].filterNull.filter[wert != ENUM_BELEUCHTET_NEIN].toSet.map [
-				translateEnum
+				translate
 			]
 		)
 

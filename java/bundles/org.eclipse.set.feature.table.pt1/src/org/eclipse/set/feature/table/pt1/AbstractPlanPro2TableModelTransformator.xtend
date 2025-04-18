@@ -61,7 +61,7 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	 * 
 	 * @return the translation or <code>null</code>, if the enumerator is <code>null</code>
 	 */
-	def String translateEnum(BasisAttribut_AttributeGroup owner) {
+	def String translate(BasisAttribut_AttributeGroup owner) {
 		try {
 			if (owner === null) {
 				return null
@@ -73,8 +73,8 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 				throw new NullPointerException
 			}
 			wertField.accessible = true
-			if (!(wertField.get(owner) instanceof Enumerator)) {
-				throw new IllegalArgumentException
+			if (wertField.get(owner) instanceof Boolean) {
+				return translate(wertField.get(owner) as Boolean)
 			}
 			if (wertField.get(owner) === null) {
 				return null
