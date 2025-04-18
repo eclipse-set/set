@@ -98,7 +98,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				bedienEinrichtOertlichAllg?.bedienEinrichtBauart?.
-					translateEnum ?: ""
+					translate ?: ""
 			]
 		)
 
@@ -108,7 +108,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				unterbringung?.unterbringungAllg?.unterbringungBefestigung?.
-					translateEnum ?: ""
+					translate ?: ""
 			]
 		)
 
@@ -147,7 +147,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				lBedienAnzeigeElementAllg.map [ bedienAnzeigeAllg |
-					bedienAnzeigeAllg.melder?.translateEnum
+					bedienAnzeigeAllg.melder?.translate
 				].toSet.filterNull
 			],
 			null,
@@ -160,7 +160,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				lBedienAnzeigeElementAllg.map [ bedienAnzeigeAllg |
-					bedienAnzeigeAllg.schalter?.translateEnum
+					bedienAnzeigeAllg.schalter?.translate
 				].toSet.filterNull
 			],
 			null,
@@ -173,7 +173,7 @@ class SsitTransformator extends AbstractPlanPro2TableModelTransformator {
 			einrichtung,
 			[
 				lBedienAnzeigeElementAllg.map [ bedienAnzeigeAllg |
-					bedienAnzeigeAllg.taste?.translateEnum
+					bedienAnzeigeAllg.taste?.translate
 				].toSet.filterNull
 			],
 			null,

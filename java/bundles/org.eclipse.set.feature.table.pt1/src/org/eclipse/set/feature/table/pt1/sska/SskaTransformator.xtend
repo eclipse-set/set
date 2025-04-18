@@ -98,7 +98,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[
 					unterbringung?.unterbringungAllg?.unterbringungArt?.
-						translateEnum ?: ""
+						translate ?: ""
 				]
 			)
 
@@ -138,7 +138,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[
 					unterbringung?.unterbringungAllg?.tueranschlag?.
-						translateEnum ?: ""
+						translate ?: ""
 				]
 			)
 
@@ -269,7 +269,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def dispatch String getElementArt(
 		Aussenelementansteuerung element) {
-		return element?.AEAAllg?.aussenelementansteuerungArt?.translateEnum ?:
+		return element?.AEAAllg?.aussenelementansteuerungArt?.translate ?:
 			"";
 	}
 
@@ -358,7 +358,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			return energiePrimaer.bezeichner
 		} else {
 			return element?.AEAEnergieversorgung?.energieversorgungArt.
-				translateEnum ?: "";
+				translate ?: "";
 		}
 	}
 
@@ -368,7 +368,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			return element.elementEnergiePrimaer.bezeichner
 		}
 		return element?.ESTWZEEnergieversorgung?.energieversorgungArt.
-			translateEnum ?: ""
+			translate ?: ""
 	}
 
 	private def dispatch String getElementVerknuepfungenEnergieSekundaer(
@@ -383,7 +383,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			return energieSekundaer.bezeichner
 		}
 		return element?.AEAEnergieversorgung?.energieversorgungArtErsatz.
-			translateEnum ?: "";
+			translate ?: "";
 	}
 
 	private def dispatch String getElementVerknuepfungenEnergieSekundaer(
@@ -392,7 +392,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 			return element.elementEnergieSekundaer.bezeichner
 		}
 		return element?.ESTWZEEnergieversorgung?.energieversorgungArtErsatz.
-			translateEnum ?: ""
+			translate ?: ""
 	}
 
 	private def dispatch String getElementVerknuepfungenBedienungLokal(
@@ -560,7 +560,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def String ipAdressangabenGFKKategorie(
 		Aussenelementansteuerung ansteuerung
 	) {
-		return ansteuerung?.AEAGFKIPAdressblock?.GFKKategorie?.translateEnum
+		return ansteuerung?.AEAGFKIPAdressblock?.GFKKategorie?.translate
 	}
 
 	private dispatch def String ipAdressangabenGFKKategorie(
@@ -578,7 +578,7 @@ class SskaTransformator extends AbstractPlanPro2TableModelTransformator {
 	private dispatch def String ipAdressangabenRegionalbereich(
 		Aussenelementansteuerung ansteuerung
 	) {
-		return ansteuerung?.AEAGFKIPAdressblock?.regionalbereich?.translateEnum
+		return ansteuerung?.AEAGFKIPAdressblock?.regionalbereich?.translate
 	}
 
 	private dispatch def String ipAdressangabenRegionalbereich(

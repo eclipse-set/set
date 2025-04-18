@@ -148,7 +148,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String createVerwendung(Uebertragungsweg uebertragungsweg) {
-		return uebertragungsweg?.uebertragungswegArt?.translateEnum
+		return uebertragungsweg?.uebertragungswegArt?.translate
 	}
 
 	private def String create createNetzart(uebertragungsweg) transformToNetzart(
@@ -158,7 +158,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 	}
 
 	private def String createNetzart(Uebertragungsweg uebertragungsweg) {
-		return uebertragungsweg?.uebertragungswegTechnik?.netzArt?.translateEnum
+		return uebertragungsweg?.uebertragungswegTechnik?.netzArt?.translate
 	}
 
 	private def String create createTechnikart(uebertragungsweg) transformToTechnikart(
@@ -169,7 +169,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def String createTechnikart(Uebertragungsweg uebertragungsweg) {
 		return uebertragungsweg?.uebertragungswegTechnik?.technikArt?.
-			translateEnum
+			translate
 	}
 
 	private def String create createSchnitstelle(uebertragungsweg) transformToSchnitstelle(
@@ -180,7 +180,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def String createSchnitstelle(Uebertragungsweg uebertragungsweg) {
 		return uebertragungsweg?.uebertragungswegTechnik?.mediumArt?.
-			translateEnum
+			translate
 	}
 
 	private def String create createBandbreite(uebertragungsweg) transformToBandbreite(
@@ -191,7 +191,7 @@ class SsvuTransformator extends AbstractPlanPro2TableModelTransformator {
 
 	private def String createBandbreite(Uebertragungsweg uebertragungsweg) {
 		return uebertragungsweg?.uebertragungswegTechnik?.bandbreite?.
-			translateEnum
+			translate
 	}
 
 	private def String create createBemerkung(uebertragungsweg, row) transformToBemerkung(

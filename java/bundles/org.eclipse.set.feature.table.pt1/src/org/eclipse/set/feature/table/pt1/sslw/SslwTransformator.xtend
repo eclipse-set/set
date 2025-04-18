@@ -136,7 +136,7 @@ class SslwTransformator extends AbstractPlanPro2TableModelTransformator {
 			flaZwieSchutz,
 			[
 				flaZwieschutzElement?.IDFlaSchutz(isLeft)?.flaSchutzWGsp?.
-						flaWLage?.translateEnum
+						flaWLage?.translate
 			]
 		)
 
