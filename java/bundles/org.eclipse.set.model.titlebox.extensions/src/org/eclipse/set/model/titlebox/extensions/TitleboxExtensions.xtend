@@ -20,7 +20,7 @@ class TitleboxExtensions {
 	/**
 	 * Address for document type aka Dokumentenart (Feld 9)
 	 */
-	public static final int DOC_TYPE_ADDRESS = 81
+	public static final int DOC_TYPE_ADDRESS = 86
 
 	/**
 	 * Shortcut for document type of inventory records.

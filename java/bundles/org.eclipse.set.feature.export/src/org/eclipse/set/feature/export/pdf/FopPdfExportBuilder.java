@@ -185,7 +185,8 @@ public class FopPdfExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
-		final Table table = getTableToBeExported(tables, exportType);
+		final Table table = tables.get(tableType);
+
 		final List<String> pageBreakRowsIndex = getPageBreakRowsIndex(table);
 		Assert.isNotNull(table);
 		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,

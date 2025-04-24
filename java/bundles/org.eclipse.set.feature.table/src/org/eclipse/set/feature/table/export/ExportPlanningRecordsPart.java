@@ -46,6 +46,6 @@ public class ExportPlanningRecordsPart extends PlanProExportPart {
 
 	@Override
 	public TableType getTableType() {
-		return TableType.DIFF;
+		return getModelSession().getTableType();
 	}
 }
