@@ -404,8 +404,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 	 */
 	private static BigDecimal bankingOfRampeBloss(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
-		if (distanceFromLeft
-				.compareTo(length.divide(BigDecimal.valueOf(2))) > 0) {
+		if (distanceFromLeft.compareTo(length.divide(BigDecimal.valueOf(2),
+				ToolboxConstants.ROUNDING_TO_PLACE,
+				RoundingMode.HALF_UP)) > 0) {
 			return bankingDefault(h_between, distanceFromLeft, length);
 		}
 		final BigDecimal a = h_between.multiply(BigDecimal.valueOf(3))
@@ -427,8 +428,9 @@ public class BankServiceImpl implements BankService, EventHandler {
 	private static BigDecimal bankingOfRampeS(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft,
 			final BigDecimal distanceFromRight, final BigDecimal length) {
-		if (distanceFromLeft
-				.compareTo(length.divide(BigDecimal.valueOf(2))) < 1) {
+		if (distanceFromLeft.compareTo(length.divide(BigDecimal.valueOf(2),
+				ToolboxConstants.ROUNDING_TO_PLACE,
+				RoundingMode.HALF_UP)) < 1) {
 			return h_between.multiply(BigDecimal.valueOf(2))
 					.multiply(distanceFromLeft.pow(2))
 					.divide(length.pow(2), ToolboxConstants.ROUNDING_TO_PLACE,
@@ -436,7 +438,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 		}
 		return h_between.add(h_between.multiply(BigDecimal.valueOf(2))
 				.multiply(distanceFromRight.pow(2))
-				.divide(length.pow(2))
+				.divide(length.pow(2), ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_UP)
 				.negate());
 	}
 
