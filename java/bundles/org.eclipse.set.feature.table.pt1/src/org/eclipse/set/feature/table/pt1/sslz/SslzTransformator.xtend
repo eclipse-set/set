@@ -38,6 +38,7 @@ import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs3v
 import org.eclipse.set.model.planpro.Signalbegriffe_Ril_301.Zs6
 import org.eclipse.set.model.planpro.Signalbegriffe_Struktur.Signalbegriff_ID_TypeClass
 import org.eclipse.set.model.planpro.Signale.Signal
+import org.eclipse.set.model.planpro.Signale.Signal_Signalbegriff
 import org.eclipse.set.model.tablemodel.ColumnDescriptor
 import org.eclipse.set.model.tablemodel.extensions.Utils
 import org.eclipse.set.ppmodel.extensions.container.MultiContainer_AttributeGroup
@@ -464,8 +465,11 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Zs3v),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.
-							getFstrSignalisierungSymbol(typeof(Zs3v))
+
+						getRelevantSignalSignalBegriff(fstrFahrweg.start,
+							typeof(Zs3v)).map [
+							signalbegriffID.symbol
+						]
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
@@ -488,8 +492,10 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					cols.getColumn(Zs2v),
 					fstrZugRangier,
 					[
-						fstrSignalisierung.
-							getFstrSignalisierungSymbol(typeof(Zs2v))
+						getRelevantSignalSignalBegriff(fstrFahrweg.start,
+							typeof(Zs2v)).map [
+							signalbegriffID.symbol
+						]
 					],
 					SIGNALBEGRIFF_COMPARATOR
 				)
@@ -717,6 +723,23 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			IDFstrFahrweg?.value?.IDStart?.value == zielSignal &&
 				fstrZug?.fstrZugArt?.wert === ENUM_FSTR_ZUG_ART_B
 		]
+
+	}
+
+	private def List<Signal_Signalbegriff> getRelevantSignalSignalBegriff(
+		Fstr_Zug_Rangier fstrZugRangier, Signal startSignal,
+		Class<? extends Signalbegriff_ID_TypeClass> signalBegriff) {
+		if (startSignal === null) {
+			return #[]
+		}
+		val relevantSignalBegriff = startSignal.signalRahmen.flatMap [
+			signalbegriffe
+		].filter[hasSignalbegriffID(signalBegriff)].toList
+		val fstrSignalisierung = fstrZugRangier.fstrSignalisierung.toList
+
+		return fstrSignalisierung.map[IDSignalSignalbegriff.value].filter [ s |
+			relevantSignalBegriff.exists[it === s]
+		].toList
 	}
 
 	private def String getVorsignalBezeichnung(Fstr_Zug_Rangier fstrZugRangier,
@@ -725,10 +748,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 			return ""
 		}
 
-		if (fstrZugRangier.identitaet.wert ==
-			"01F3E891-5BDF-4F8F-8F43-EA54A4A0A03D") {
-			println("TEST")
-		}
 		val fstrSignalisierung = fstrZugRangier.fstrSignalisierung.toList
 		val existsZl = fstrSignalisierung.map [
 			IDSignalSignalbegriff.value
