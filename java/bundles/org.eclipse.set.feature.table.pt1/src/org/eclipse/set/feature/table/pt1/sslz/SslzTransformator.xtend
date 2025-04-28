@@ -196,7 +196,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 				fill(instance, cols.getColumn(Autom_Einstellung),
 					fstrZugRangier, [
 						fstrZugRangier?.fstrZug?.automatischeEinstellung?.
-							translateEnum ?: ""
+							translate ?: ""
 					])
 
 				// I: Sslz.Einstellung.F_Bedienung
@@ -632,7 +632,7 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 								bedienAnzeigeElement
 							]?.filterNull ?: Collections.emptyList
 
-						'''«FOR bae : bedAnzeigeElemente»«bae.comment[translateEnum]»«bae» «ENDFOR»'''.
+						'''«FOR bae : bedAnzeigeElemente»«bae.comment[translate]»«bae» «ENDFOR»'''.
 							toString.trim
 					]),
 					new Case<Fstr_Zug_Rangier>([
