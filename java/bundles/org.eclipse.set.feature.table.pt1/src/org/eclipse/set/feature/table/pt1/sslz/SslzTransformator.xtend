@@ -724,11 +724,6 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 		if (vorsignal === null) {
 			return ""
 		}
-
-		if (fstrZugRangier.identitaet.wert ==
-			"01F3E891-5BDF-4F8F-8F43-EA54A4A0A03D") {
-			println("TEST")
-		}
 		val fstrSignalisierung = fstrZugRangier.fstrSignalisierung.toList
 		val existsZl = fstrSignalisierung.map [
 			IDSignalSignalbegriff.value
