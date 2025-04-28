@@ -411,10 +411,12 @@ public class BankServiceImpl implements BankService, EventHandler {
 		}
 		final BigDecimal a = h_between.multiply(BigDecimal.valueOf(3))
 				.multiply(distanceFromLeft.pow(2))
-				.divide(length.pow(2), RoundingMode.HALF_EVEN);
+				.divide(length.pow(2), ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_EVEN);
 		final BigDecimal b = h_between.multiply(BigDecimal.valueOf(2))
 				.multiply(distanceFromLeft.pow(3))
-				.divide(length.pow(3), RoundingMode.HALF_EVEN);
+				.divide(length.pow(3), ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_EVEN);
 		return a.add(b.negate());
 	}
 
@@ -451,7 +453,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 	private static BigDecimal bankingDefault(final BigDecimal h_between,
 			final BigDecimal distanceFromLeft, final BigDecimal length) {
 		return h_between.multiply(distanceFromLeft)
-				.divide(length, RoundingMode.HALF_EVEN);
+				.divide(length, ToolboxConstants.ROUNDING_TO_PLACE,
+						RoundingMode.HALF_EVEN);
 	}
 
 	@Override
