@@ -25,6 +25,7 @@ import java.util.function.Predicate;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.set.basis.constants.ContainerType;
 import org.eclipse.set.basis.constants.Events;
+import org.eclipse.set.basis.constants.ToolboxConstants;
 import org.eclipse.set.basis.graph.TopPath;
 import org.eclipse.set.basis.graph.TopPoint;
 import org.eclipse.set.core.services.graph.BankService;
@@ -430,7 +431,8 @@ public class BankServiceImpl implements BankService, EventHandler {
 				.compareTo(length.divide(BigDecimal.valueOf(2))) < 1) {
 			return h_between.multiply(BigDecimal.valueOf(2))
 					.multiply(distanceFromLeft.pow(2))
-					.divide(length.pow(2));
+					.divide(length.pow(2), ToolboxConstants.ROUNDING_TO_PLACE,
+							RoundingMode.HALF_UP);
 		}
 		return h_between.add(h_between.multiply(BigDecimal.valueOf(2))
 				.multiply(distanceFromRight.pow(2))
