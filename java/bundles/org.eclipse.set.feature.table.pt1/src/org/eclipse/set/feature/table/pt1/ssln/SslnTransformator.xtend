@@ -42,6 +42,7 @@ import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 /**
  * Table transformation for a Nahbedienungstabelle (SSLN).
@@ -85,7 +86,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Art),
 			nbZone,
-			[nb?.NBArt?.translateEnum]
+			[nb?.NBArt?.translate]
 		)
 
 		// C: Ssln.Unterstellungsverhaeltnis.untergeordnet
@@ -108,7 +109,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 		fill(
 			cols.getColumn(Aufloesung_Grenze),
 			nbZone,
-			[NBZoneAllg?.NBVerhaeltnisBesonders?.translateEnum]
+			[NBZoneAllg?.NBVerhaeltnisBesonders?.translate]
 		)
 
 		// F: Ssln.Grenze.Bez_Grenze
@@ -136,7 +137,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 				]
 
 				nBZoneElemente.filterMultipleNbElements.map [
-					'''«(nbElement as W_Kr_Gsp_Komponente)?.WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («NBZoneElementAllg?.NBRueckgabevoraussetzung?.translateEnum»)'''
+					'''«(nbElement as W_Kr_Gsp_Komponente)?.WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («NBZoneElementAllg?.NBRueckgabevoraussetzung?.translate»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
@@ -148,11 +149,20 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Weiche_Gs_verschlossen),
 			nbZone,
 			[
-				NBZoneElemente.map[new Pair(it, nbElement)].filter [
-					!first?.NBZoneElementAllg?.freieStellbarkeit?.wert &&
-						second instanceof W_Kr_Gsp_Komponente
-				].map [
-					'''«(second as W_Kr_Gsp_Komponente).WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.WGspLage?.translateEnum ?: "-"»)'''
+				val zoneElements = NBZoneElemente.filter[!NBZoneElementAllg?.freieStellbarkeit?.wert]
+				val wKrGspElements = zoneElements.map[ 
+					val zonenElement = nbElement;
+					if (zonenElement instanceof W_Kr_Gsp_Komponente) {
+						return new Pair(it, zonenElement.WKrGspElement)
+					}
+					if (zonenElement instanceof W_Kr_Gsp_Element) {
+						return new Pair(it, zonenElement)
+					}
+					return null
+				].filterNull
+				
+				return wKrGspElements.map [
+					'''«second.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.WGspLage?.translate ?: "-"»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
@@ -168,7 +178,7 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 					first?.NBZoneElementAllg?.freieStellbarkeit?.wert &&
 						second instanceof Signal
 				].map [
-					'''«(second as Signal)?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.NBRueckgabevoraussetzung?.translateEnum»)'''
+					'''«(second as Signal)?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.NBRueckgabevoraussetzung?.translate»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,

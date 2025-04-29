@@ -55,13 +55,15 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 	}
 
 	/**
-	 * Translates the enum via the enum translation service.
+	 * Translates the value of the field "wert" of the provided basis attribute.
 	 * 
-	 * @param enumerator the enumerator
+	 * @param owner the basis attribute owner
 	 * 
-	 * @return the translation or <code>null</code>, if the enumerator is <code>null</code>
+	 * @return the translation or <code>null</code>, if the owner is <code>null</code> 
+	 * or the owner has no field "wert" or the value of "wert" is neither of type Boolean 
+	 * nor of type Enumerator
 	 */
-	def String translateEnum(BasisAttribut_AttributeGroup owner) {
+	def String translate(BasisAttribut_AttributeGroup owner) {
 		try {
 			if (owner === null) {
 				return null
@@ -70,18 +72,17 @@ abstract class AbstractPlanPro2TableModelTransformator extends AbstractTableMode
 				it.name === "wert"
 			]
 			if (wertField === null) {
-				throw new NullPointerException
-			}
-			wertField.accessible = true
-			if (!(wertField.get(owner) instanceof Enumerator)) {
-				throw new IllegalArgumentException
-			}
-			if (wertField.get(owner) === null) {
 				return null
 			}
-
-			return enumTranslationService.translate(owner,
-				wertField.get(owner) as Enumerator).alternative
+			wertField.accessible = true
+			val wert = wertField.get(owner);
+			if (wert instanceof Boolean) {
+				return translate(wert);
+			}
+			if (wert instanceof Enumerator) {
+				return enumTranslationService.translate(owner, wert).alternative
+			}
+			return null;
 		} catch (Exception e) {
 			throw new RuntimeException(e)
 		}

@@ -162,7 +162,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 				BUE_Einschaltung,
 				[
 					schaltmittelZuordnung.map [
-						'''«schaltmittelFunktion?.translateEnum» «getSwitchName(IDSchalter?.value)»'''
+						'''«schaltmittelFunktion?.translate» «getSwitchName(IDSchalter?.value)»'''
 					]
 				]
 			),
@@ -181,7 +181,7 @@ class SszaTransformator extends AbstractPlanPro2TableModelTransformator {
 			bezugspunktCase(
 				PZB_Element,
 				[
-					'''GM «PZBArt?.translateEnum» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
+					'''GM «PZBArt?.translate» «IDPZBElementZuordnung?.value?.PZBElementZuordnungBP?.map[fillBezugsElement(IDPZBElementBezugspunkt?.value)].join»'''
 				]
 			),
 			bezugspunktCase(

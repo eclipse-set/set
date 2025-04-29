@@ -203,7 +203,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 										.getValue()
 										.getUnterbringungAllg()
 										.getTueranschlag()).orElse(null);
-						return translateEnum(enumTueranschlag);
+						return translate(enumTueranschlag);
 					});
 
 			// E: Sskz.Montage
@@ -216,7 +216,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 										.getUnterbringungAllg()
 										.getUnterbringungBefestigung())
 												.orElse(null);
-						return translateEnum(befestigung);
+						return translate(befestigung);
 					});
 
 			if (getNullableObject(control,
@@ -467,7 +467,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 				})
 				.toList();
 		if (pzb.getPZBElementGM() != null) {
-			return String.format("%s (%s)", translateEnum(pzbArt),
+			return String.format("%s (%s)", translate(pzbArt),
 					String.join(",", pzbElementBezugspunkt));
 		}
 
@@ -477,7 +477,7 @@ public class SskzTransformator extends AbstractPlanPro2TableModelTransformator {
 					gue -> gue.getPruefgeschwindigkeit().getWert())
 							.orElse(null);
 			if (speedCheck != null) {
-				final String[] pzbArtEnum = translateEnum(pzbArt).split("/");
+				final String[] pzbArtEnum = translate(pzbArt).split("/");
 				final List<String> shortPzbArt = Stream.of(pzbArtEnum)
 						.map(ele -> {
 							try {
