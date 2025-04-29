@@ -220,7 +220,6 @@ public final class ToolboxTableView extends BasePart {
 				getModelSession().getPlanProSchnittstelle(),
 				tableService.getTableNameInfo(shortcut),
 				this::getAttachmentPath);
-		// updateTitlebox(titlebox);
 		return titlebox;
 	}
 
