@@ -42,6 +42,7 @@ import static extension org.eclipse.set.ppmodel.extensions.NbZoneExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.NbZoneGrenzeExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.UrObjectExtensions.*
 import static extension org.eclipse.set.ppmodel.extensions.WKrGspKomponenteExtensions.*
+import org.eclipse.set.model.planpro.Weichen_und_Gleissperren.W_Kr_Gsp_Element
 
 /**
  * Table transformation for a Nahbedienungstabelle (SSLN).
@@ -148,11 +149,20 @@ class SslnTransformator extends AbstractPlanPro2TableModelTransformator {
 			cols.getColumn(Weiche_Gs_verschlossen),
 			nbZone,
 			[
-				NBZoneElemente.map[new Pair(it, nbElement)].filter [
-					!first?.NBZoneElementAllg?.freieStellbarkeit?.wert &&
-						second instanceof W_Kr_Gsp_Komponente
-				].map [
-					'''«(second as W_Kr_Gsp_Komponente).WKrGspElement?.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.WGspLage?.translate ?: "-"»)'''
+				val zoneElements = NBZoneElemente.filter[!NBZoneElementAllg?.freieStellbarkeit?.wert]
+				val wKrGspElements = zoneElements.map[ 
+					val zonenElement = nbElement;
+					if (zonenElement instanceof W_Kr_Gsp_Komponente) {
+						return new Pair(it, zonenElement.WKrGspElement)
+					}
+					if (zonenElement instanceof W_Kr_Gsp_Element) {
+						return new Pair(it, zonenElement)
+					}
+					return null
+				].filterNull
+				
+				return wKrGspElements.map [
+					'''«second.bezeichnung?.bezeichnungTabelle?.wert» («first?.NBZoneElementAllg?.WGspLage?.translate ?: "-"»)'''
 				]
 			],
 			MIXED_STRING_COMPARATOR,
