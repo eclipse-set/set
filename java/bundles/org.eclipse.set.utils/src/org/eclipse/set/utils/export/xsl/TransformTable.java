@@ -166,7 +166,7 @@ public class TransformTable {
 						.setTextContent(enumTranslation.translate(tableType)
 								.getPresentation());
 			} catch (final NullPointerException e) {
-				waterMarkVariable.get().setTextContent("NullPointerException"); //$NON-NLS-1$
+				waterMarkVariable.get().setTextContent(""); //$NON-NLS-1$
 			}
 
 		}
