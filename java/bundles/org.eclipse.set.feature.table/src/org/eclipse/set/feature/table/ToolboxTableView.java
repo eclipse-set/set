@@ -198,19 +198,6 @@ public final class ToolboxTableView extends BasePart {
 		return tableType;
 	}
 
-	// private ExportType getExportType() {
-	// switch (tableType) {
-	// case FINAL, INITIAL:
-	// return ExportType.PLANNING_RECORDS;
-	// case DIFF:
-	// return ExportType.PLANNING_RECORDS;
-	// case SINGLE:
-	// return ExportType.PLANNING_RECORDS;
-	// default:
-	// throw new IllegalArgumentException(tableType.toString());
-	// }
-	// }
-
 	private FreeFieldInfo getFreeFieldInfo() {
 		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
 				.create();
