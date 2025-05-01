@@ -200,8 +200,9 @@ public class FopPdfExportBuilder implements TableExport {
 						Paths.get(outputDir, getFilename(shortcut, "xml")), //$NON-NLS-1$
 						tableDocumentText);
 			}
-			createTablePdf(tableDocumentText, outputPath, shortcut, tableType,
-					PdfAMode.PDF_A_3a, overwriteHandling, pageBreakRowsIndex);
+			createTablePdf(tableDocumentText, outputPath, exportType, shortcut,
+					tableType, PdfAMode.PDF_A_3a, overwriteHandling,
+					pageBreakRowsIndex);
 		} catch (final ParserConfigurationException | TransformerException
 				| IOException | SAXException e) {
 			throw new FileExportException(outputPath, e);
@@ -211,14 +212,14 @@ public class FopPdfExportBuilder implements TableExport {
 	}
 
 	protected void createTablePdf(final String tableDocumentText,
-			final Path outputPath, final String shortcut,
-			final TableType tableType, final PdfAMode pdfAMode,
-			final OverwriteHandling overwriteHandling,
+			final Path outputPath, final ExportType exportType,
+			final String shortcut, final TableType tableType,
+			final PdfAMode pdfAMode, final OverwriteHandling overwriteHandling,
 			final List<String> pageBreakRowsIndex)
 			throws IOException, SAXException, TransformerException,
 			ParserConfigurationException, UserAbortion {
-		final TransformTable transformTable = new TransformTable(shortcut,
-				tableType, enumTranslationService);
+		final TransformTable transformTable = new TransformTable(exportType,
+				shortcut, tableType, enumTranslationService);
 		final Document xslDoc = pageBreakRowsIndex.isEmpty()
 				? transformTable.transform()
 				: transformTable.transform(pageBreakRowsIndex);
