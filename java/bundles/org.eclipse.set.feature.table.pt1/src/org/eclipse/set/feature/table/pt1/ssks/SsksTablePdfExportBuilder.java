@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.feature.export.pdf.FopPdfExportBuilder;
 import org.eclipse.set.feature.table.pt1.messages.Messages;
 import org.eclipse.set.model.tablemodel.ColumnDescriptor;
@@ -44,6 +45,17 @@ public class SsksTablePdfExportBuilder extends FopPdfExportBuilder {
 
 	@Reference
 	private Messages messages;
+
+	/**
+	 * @param enumTranslationService
+	 *            the ENUM Translation Service
+	 */
+	@Override
+	@Reference(cardinality = ReferenceCardinality.MANDATORY, policy = ReferencePolicy.STATIC, unbind = "-")
+	public void setEnumTranslationService(
+			final EnumTranslationService enumTranslationService) {
+		this.enumTranslationService = enumTranslationService;
+	}
 
 	/**
 	 * @param fopService

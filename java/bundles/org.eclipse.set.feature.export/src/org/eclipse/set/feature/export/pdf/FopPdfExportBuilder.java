@@ -80,8 +80,6 @@ import org.xml.sax.SAXException;
 @Component(immediate = true)
 public class FopPdfExportBuilder implements TableExport {
 
-	@Reference
-	EnumTranslationService enumTranslationService;
 	protected static final String PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[ab]*[\\+|-]$"; //$NON-NLS-1$
 	private static final String FOOTNOTE_PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[\\+|-]$"; //$NON-NLS-1$
 	protected static final Logger logger = LoggerFactory
@@ -172,6 +170,7 @@ public class FopPdfExportBuilder implements TableExport {
 		}
 	}
 
+	protected EnumTranslationService enumTranslationService;
 	protected FopService fopService;
 
 	private String templateDir = "./data/export/pdf/"; //$NON-NLS-1$
@@ -409,6 +408,16 @@ public class FopPdfExportBuilder implements TableExport {
 	 */
 	public String getTemplateDir() {
 		return templateDir;
+	}
+
+	/**
+	 * @param enumTranslationService
+	 *            the ENUM Translation Service
+	 */
+	@Reference(cardinality = ReferenceCardinality.MANDATORY, policy = ReferencePolicy.STATIC, unbind = "-")
+	public void setEnumTranslationService(
+			final EnumTranslationService enumTranslationService) {
+		this.enumTranslationService = enumTranslationService;
 	}
 
 	/**
