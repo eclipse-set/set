@@ -61,7 +61,8 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die Geo-Kante {GUID} hat gleiche Anfangs- und End-Koordinaten.";
+		return "Die Geo-Kante {GUID} hat nahezu gleiche Anfangs- und End-Koordinaten (Abstand kleiner "
+				+ TOLERANT + ").";
 	}
 
 	private static String getGEOKanteGUID(final GEO_Kante geoKante) {
