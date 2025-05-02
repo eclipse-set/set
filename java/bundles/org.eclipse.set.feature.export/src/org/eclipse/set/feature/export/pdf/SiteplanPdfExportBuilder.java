@@ -38,6 +38,7 @@ import org.eclipse.set.basis.ToolboxPaths;
 import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.basis.exceptions.FileExportException;
+import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.eclipse.set.model.tablemodel.Table;
 import org.eclipse.set.model.titlebox.Titlebox;
 import org.eclipse.set.services.export.TableExport;
@@ -62,6 +63,17 @@ import org.xml.sax.SAXException;
 public class SiteplanPdfExportBuilder extends FopPdfExportBuilder {
 
 	private static final String SITEPLAN_EXPORT_NAME = "SI"; //$NON-NLS-1$
+
+	/**
+	 * @param enumTranslationService
+	 *            the ENUM Translation Service
+	 */
+	@Override
+	@Reference(cardinality = ReferenceCardinality.MANDATORY, policy = ReferencePolicy.STATIC, unbind = "-")
+	public void setEnumTranslationService(
+			final EnumTranslationService enumTranslationService) {
+		this.enumTranslationService = enumTranslationService;
+	}
 
 	/**
 	 * @param fopService

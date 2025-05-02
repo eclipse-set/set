@@ -269,7 +269,7 @@ public abstract class PlanProExportPart extends DocumentExportPart {
 					.transform(modelSession);
 			getExportService().exportPdf(tables, getExportType(), titlebox,
 					freeFieldInfo, id, getSelectedDirectory().toString(),
-					modelSession.getToolboxPaths(), modelSession.getTableType(),
+					modelSession.getToolboxPaths(), getTableType(),
 					overwriteHandling, new ExceptionHandler(getToolboxShell(),
 							getDialogService()));
 		}

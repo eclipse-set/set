@@ -37,6 +37,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.eclipse.set.basis.constants.ExportType;
 import org.eclipse.set.basis.constants.TableType;
 import org.eclipse.set.core.services.enumtranslation.EnumTranslationService;
 import org.slf4j.Logger;
@@ -54,6 +55,7 @@ import org.xml.sax.SAXException;
 public class TransformTable {
 	private static final String EXCEL_TEMPLATE_PATH = "data/export/excel"; //$NON-NLS-1$
 	private static final float A3_PAPER_WIDTH = 42f;
+	ExportType exportType;
 	String shortcut;
 	TableType tableType;
 	private AbstractTransformTableHeader transformHeader;
@@ -63,6 +65,8 @@ public class TransformTable {
 			.getLogger(TransformTable.class);
 
 	/**
+	 * @param exportType
+	 *            the type of export
 	 * @param tableShortcut
 	 *            the shortcut of table
 	 * @param tableType
@@ -70,8 +74,10 @@ public class TransformTable {
 	 * @param enumTranslation
 	 *            the {@link EnumTranslationService}
 	 */
-	public TransformTable(final String tableShortcut, final TableType tableType,
+	public TransformTable(final ExportType exportType,
+			final String tableShortcut, final TableType tableType,
 			final EnumTranslationService enumTranslation) {
+		this.exportType = exportType;
 		this.shortcut = tableShortcut;
 		this.tableType = tableType;
 		this.enumTranslation = enumTranslation;
@@ -103,7 +109,8 @@ public class TransformTable {
 				? new MultiPageTableHeader(tableSheet, contentWidth)
 				: new SinglePageTableHeader(tableSheet, contentWidth);
 		final Document xslDoc = transformHeader.transform();
-		if (tableType != null && tableType != TableType.DIFF) {
+		if (tableType != null && tableType != TableType.DIFF
+				&& exportType != ExportType.INVENTORY_RECORDS) {
 			setWaterMarkContent(xslDoc);
 		}
 

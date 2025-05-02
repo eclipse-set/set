@@ -21,7 +21,8 @@ public enum ExportType {
 	INVENTORY_RECORDS,
 
 	/**
-	 * Dokumentensatz für Planung (Start/Ziel Differenz)
+	 * Dokumentensatz für Einzelzustands der PlanPro-Datei
+	 * (Start/Ziel/Differenz)
 	 */
 	PLANNING_RECORDS
 }

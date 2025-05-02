@@ -48,6 +48,7 @@ public class TableCompileServiceImpl implements TableCompileService {
 					TableType.FINAL, modelSession, controlAreaIds);
 			final Table diff = diffService.createDiffTable(start, ziel);
 
+			result.put(TableType.INITIAL, start);
 			result.put(TableType.DIFF, diff);
 			result.put(TableType.FINAL, ziel);
 		} else {

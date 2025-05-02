@@ -79,7 +79,6 @@ import org.eclipse.set.model.tablemodel.extensions.TableExtensions;
 import org.eclipse.set.model.tablemodel.extensions.TableExtensions.FootnoteInfo;
 import org.eclipse.set.model.tablemodel.extensions.TableRowExtensions;
 import org.eclipse.set.model.titlebox.Titlebox;
-import org.eclipse.set.model.titlebox.extensions.TitleboxExtensions;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToFreeFieldTransformation;
 import org.eclipse.set.ppmodel.extensions.utils.PlanProToTitleboxTransformation;
 import org.eclipse.set.services.export.ExportService;
@@ -199,19 +198,6 @@ public final class ToolboxTableView extends BasePart {
 		return tableType;
 	}
 
-	private ExportType getExportType() {
-		switch (tableType) {
-			case FINAL:
-				return ExportType.INVENTORY_RECORDS;
-			case DIFF:
-				return ExportType.PLANNING_RECORDS;
-			case SINGLE:
-				return ExportType.PLANNING_RECORDS;
-			default:
-				throw new IllegalArgumentException(tableType.toString());
-		}
-	}
-
 	private FreeFieldInfo getFreeFieldInfo() {
 		final PlanProToFreeFieldTransformation planProToFreeField = PlanProToFreeFieldTransformation
 				.create();
@@ -234,7 +220,6 @@ public final class ToolboxTableView extends BasePart {
 				getModelSession().getPlanProSchnittstelle(),
 				tableService.getTableNameInfo(shortcut),
 				this::getAttachmentPath);
-		updateTitlebox(titlebox);
 		return titlebox;
 	}
 
@@ -395,14 +380,6 @@ public final class ToolboxTableView extends BasePart {
 
 		tableFooting.setText(StringUtils.join(lines, "\n")); //$NON-NLS-1$
 		tableFooting.setStyleRanges(styles.toArray(new StyleRange[0]));
-	}
-
-	private void updateTitlebox(final Titlebox titlebox) {
-		if (getExportType() == ExportType.INVENTORY_RECORDS) {
-			TitleboxExtensions.set(titlebox,
-					TitleboxExtensions.DOC_TYPE_ADDRESS,
-					TitleboxExtensions.INVENTORY_RECORDS_DOC_TYPE_SHOTCUT);
-		}
 	}
 
 	@Override
@@ -706,7 +683,8 @@ public final class ToolboxTableView extends BasePart {
 					monitor -> optionalOutputDir.ifPresent(outputDir -> {
 						monitor.beginTask(messages.ToolboxTableView_ExportTable,
 								IProgressMonitor.UNKNOWN);
-						exportService.exportPdf(tables, getExportType(),
+						exportService.exportPdf(tables,
+								ExportType.PLANNING_RECORDS,
 								getTitlebox(shortcut), getFreeFieldInfo(),
 								shortcut, outputDir,
 								getModelSession().getToolboxPaths(),
@@ -732,8 +710,7 @@ public final class ToolboxTableView extends BasePart {
 	}
 
 	void updateButtons() {
-		getBanderole().setEnableExport(getTableType() != TableType.INITIAL
-				&& !getModelSession().isDirty());
+		getBanderole().setEnableExport(!getModelSession().isDirty());
 	}
 
 	void updateModel(final MPart part, final IModelSession modelSession) {
