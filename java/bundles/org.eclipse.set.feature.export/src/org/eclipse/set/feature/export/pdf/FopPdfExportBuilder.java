@@ -80,8 +80,6 @@ import org.xml.sax.SAXException;
 @Component(immediate = true)
 public class FopPdfExportBuilder implements TableExport {
 
-	@Reference
-	EnumTranslationService enumTranslationService;
 	protected static final String PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[ab]*[\\+|-]$"; //$NON-NLS-1$
 	private static final String FOOTNOTE_PAGE_NUMBER_PATTERN = "^PageNumber_\\d+[\\+|-]$"; //$NON-NLS-1$
 	protected static final Logger logger = LoggerFactory
@@ -172,6 +170,7 @@ public class FopPdfExportBuilder implements TableExport {
 		}
 	}
 
+	protected EnumTranslationService enumTranslationService;
 	protected FopService fopService;
 
 	private String templateDir = "./data/export/pdf/"; //$NON-NLS-1$
@@ -185,7 +184,8 @@ public class FopPdfExportBuilder implements TableExport {
 			final OverwriteHandling overwriteHandling)
 			throws FileExportException {
 		logger.info("Exporting {}", shortcut); //$NON-NLS-1$
-		final Table table = getTableToBeExported(tables, exportType);
+		final Table table = tables.get(tableType);
+
 		final List<String> pageBreakRowsIndex = getPageBreakRowsIndex(table);
 		Assert.isNotNull(table);
 		final Path outputPath = toolboxPaths.getTableExportPath(shortcut,
@@ -199,8 +199,9 @@ public class FopPdfExportBuilder implements TableExport {
 						Paths.get(outputDir, getFilename(shortcut, "xml")), //$NON-NLS-1$
 						tableDocumentText);
 			}
-			createTablePdf(tableDocumentText, outputPath, shortcut, tableType,
-					PdfAMode.PDF_A_3a, overwriteHandling, pageBreakRowsIndex);
+			createTablePdf(tableDocumentText, outputPath, exportType, shortcut,
+					tableType, PdfAMode.PDF_A_3a, overwriteHandling,
+					pageBreakRowsIndex);
 		} catch (final ParserConfigurationException | TransformerException
 				| IOException | SAXException e) {
 			throw new FileExportException(outputPath, e);
@@ -210,14 +211,14 @@ public class FopPdfExportBuilder implements TableExport {
 	}
 
 	protected void createTablePdf(final String tableDocumentText,
-			final Path outputPath, final String shortcut,
-			final TableType tableType, final PdfAMode pdfAMode,
-			final OverwriteHandling overwriteHandling,
+			final Path outputPath, final ExportType exportType,
+			final String shortcut, final TableType tableType,
+			final PdfAMode pdfAMode, final OverwriteHandling overwriteHandling,
 			final List<String> pageBreakRowsIndex)
 			throws IOException, SAXException, TransformerException,
 			ParserConfigurationException, UserAbortion {
-		final TransformTable transformTable = new TransformTable(shortcut,
-				tableType, enumTranslationService);
+		final TransformTable transformTable = new TransformTable(exportType,
+				shortcut, tableType, enumTranslationService);
 		final Document xslDoc = pageBreakRowsIndex.isEmpty()
 				? transformTable.transform()
 				: transformTable.transform(pageBreakRowsIndex);
@@ -407,6 +408,16 @@ public class FopPdfExportBuilder implements TableExport {
 	 */
 	public String getTemplateDir() {
 		return templateDir;
+	}
+
+	/**
+	 * @param enumTranslationService
+	 *            the ENUM Translation Service
+	 */
+	@Reference(cardinality = ReferenceCardinality.MANDATORY, policy = ReferencePolicy.STATIC, unbind = "-")
+	public void setEnumTranslationService(
+			final EnumTranslationService enumTranslationService) {
+		this.enumTranslationService = enumTranslationService;
 	}
 
 	/**
