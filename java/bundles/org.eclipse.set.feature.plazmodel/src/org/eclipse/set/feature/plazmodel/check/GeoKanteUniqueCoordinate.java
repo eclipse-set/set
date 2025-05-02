@@ -109,7 +109,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 										.getGEOKoordinatensystem()
 										.getWert()));
 				geoPunktGroupByCRS.forEach((crs, geoPunkte) -> {
-					if (!isUniqueCoordinatens(geoPunkte)) {
+					if (haveEqualCoordinates(geoPunkte)) {
 						errors.add(createError(geoKante));
 					}
 				});
@@ -126,7 +126,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		return errors;
 	}
 
-	private static boolean isUniqueCoordinatens(
+	private static boolean haveEqualCoordinates(
 			final List<GEO_Punkt> geoPunkte) {
 		if (geoPunkte.size() == 1) {
 			return true;
