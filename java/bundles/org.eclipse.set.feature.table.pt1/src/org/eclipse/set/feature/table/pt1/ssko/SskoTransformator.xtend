@@ -386,7 +386,7 @@ class SskoTransformator extends AbstractPlanPro2TableModelTransformator {
 			fstrAbhaengigkeitSsp?.IDSchluesselsperre?.value === schluesselsperre
 		].flatMap [
 			val fahrweg = it.fstrFahrweg
-			c.fstrZugRangier.filter[IDFstrFahrweg === fahrweg]
+			c.fstrZugRangier.filter[IDFstrFahrweg?.value === fahrweg]
 		].toSet
 	}
 

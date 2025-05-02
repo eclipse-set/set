@@ -231,7 +231,10 @@ class SslrTransformator extends AbstractPlanPro2TableModelTransformator {
 						bezeichnungTabelle?.wert
 					val aufloesungZielgleis = fstrAbhaengigkeitSsp?.
 						aufloesungSspZielgleis?.translate
-					'''«ssp» («aufloesungZielgleis»)'''
+
+					aufloesungZielgleis !== null &&
+						!aufloesungZielgleis.isEmpty()
+						? '''«ssp» («aufloesungZielgleis»)''' : ssp
 				]
 			],
 			MIXED_STRING_COMPARATOR
