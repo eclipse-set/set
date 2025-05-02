@@ -61,7 +61,8 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 
 	@Override
 	public String getGeneralErrMsg() {
-		return "Die Geo-Kante {GUID} hat gleiche Anfangs- und End-Koordinaten.";
+		return "Die Geo-Kante {GUID} hat nahezu gleiche Anfangs- und End-Koordinaten (Abstand kleiner "
+				+ TOLERANT + ").";
 	}
 
 	private static String getGEOKanteGUID(final GEO_Kante geoKante) {
@@ -109,7 +110,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 										.getGEOKoordinatensystem()
 										.getWert()));
 				geoPunktGroupByCRS.forEach((crs, geoPunkte) -> {
-					if (!isUniqueCoordinatens(geoPunkte)) {
+					if (haveEqualCoordinates(geoPunkte)) {
 						errors.add(createError(geoKante));
 					}
 				});
@@ -126,7 +127,7 @@ public class GeoKanteUniqueCoordinate extends AbstractPlazContainerCheck
 		return errors;
 	}
 
-	private static boolean isUniqueCoordinatens(
+	private static boolean haveEqualCoordinates(
 			final List<GEO_Punkt> geoPunkte) {
 		if (geoPunkte.size() == 1) {
 			return true;
