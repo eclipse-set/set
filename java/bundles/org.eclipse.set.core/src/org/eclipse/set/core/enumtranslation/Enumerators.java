@@ -1,10 +1,12 @@
 /**
- * Copyright (c) 2024 DB Netz AG and others.
+ * Copyright (c) 2025 DB InfraGO AG and others
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v20.html
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  */
 package org.eclipse.set.core.enumtranslation;
 
@@ -19,12 +21,11 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(service = Enumerators.class)
 public class Enumerators extends AbstractMessageService {
-	@SuppressWarnings("nls")
 	@Activate
 	private void setupLocalization()
 			throws IllegalArgumentException, IllegalAccessException {
 		super.setupLocalization(
-				"platform:/plugin/org.eclipse.set.core/translation/Enumerators");
+				"platform:/plugin/org.eclipse.set.core/translation/Enumerators"); //$NON-NLS-1$
 	}
 
 	/**
@@ -23171,6 +23172,81 @@ public class Enumerators extends AbstractMessageService {
 	 * Spitze
 	 */
 	public String ENUMW_Anschluss_Spitze_Alternative;
+
+	/**
+	 * abgelegt
+	 */
+	public String ENUMW_Gsp_Lage_abgelegt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMW_Gsp_Lage_abgelegt_Sorting;
+
+	/**
+	 * ab
+	 */
+	public String ENUMW_Gsp_Lage_abgelegt_Alternative;
+
+	/**
+	 * aufgelegt
+	 */
+	public String ENUMW_Gsp_Lage_aufgelegt_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMW_Gsp_Lage_aufgelegt_Sorting;
+
+	/**
+	 * auf
+	 */
+	public String ENUMW_Gsp_Lage_aufgelegt_Alternative;
+
+	/**
+	 * links
+	 */
+	public String ENUMW_Gsp_Lage_links_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMW_Gsp_Lage_links_Sorting;
+
+	/**
+	 * L
+	 */
+	public String ENUMW_Gsp_Lage_links_Alternative;
+
+	/**
+	 * rechts
+	 */
+	public String ENUMW_Gsp_Lage_rechts_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMW_Gsp_Lage_rechts_Sorting;
+
+	/**
+	 * R
+	 */
+	public String ENUMW_Gsp_Lage_rechts_Alternative;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMW_Gsp_Lage_sonstige_Presentation;
+
+	/**
+	 * null
+	 */
+	public String ENUMW_Gsp_Lage_sonstige_Sorting;
+
+	/**
+	 * sonstige
+	 */
+	public String ENUMW_Gsp_Lage_sonstige_Alternative;
 
 	/**
 	 * ABW
