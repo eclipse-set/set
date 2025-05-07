@@ -64,24 +64,24 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		CompareCellContent c2
 	) {
 
-		val newResult = c1.newValue.compareCompareCellContent(c2.newValue)
+		val newResult = c1.newValue.compareDispatch(c2.newValue)
 
 		if (newResult != 0) {
 			return newResult
 		}
 
-		val oldResult = c1.oldValue.compareCompareCellContent(c2.oldValue)
+		val oldResult = c1.oldValue.compareDispatch(c2.oldValue)
 		if (oldResult != 0) {
 			return oldResult
 		}
-		val mix1 = c1.newValue.compareCompareCellContent(c2.oldValue)
+		val mix1 = c1.newValue.compareDispatch(c2.oldValue)
 		if (mix1 != 0) {
 			return mix1
 		}
-		return c1.oldValue.compareCompareCellContent(c2.newValue)
+		return c1.oldValue.compareDispatch(c2.newValue)
 	}
 
-	private def int compareCompareCellContent(List<String> value1,
+	private def dispatch compareDispatch(List<String> value1,
 		List<String> value2) {
 		if (value1.join.isNullOrEmpty || value2.join.isNullOrEmpty) {
 			return 0
