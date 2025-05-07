@@ -9,7 +9,7 @@ on:
       - 'release/**'
       - 'main'
 
-
+run-name: Qualtity - ${{github.event_name == 'push' && github.event.head_commit.message || github.event_name == 'pull_request' && github.event.pull_request.title || 'Unknow name'}}
 jobs:
   java-formatting:
     runs-on: ubuntu-latest
