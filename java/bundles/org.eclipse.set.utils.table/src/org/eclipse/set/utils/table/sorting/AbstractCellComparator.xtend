@@ -9,6 +9,7 @@
 package org.eclipse.set.utils.table.sorting
 
 import java.util.Comparator
+import java.util.List
 import org.eclipse.nebula.widgets.nattable.sort.SortDirectionEnum
 import org.eclipse.set.model.tablemodel.CellContent
 import org.eclipse.set.model.tablemodel.CompareCellContent
@@ -62,12 +63,30 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		CompareCellContent c1,
 		CompareCellContent c2
 	) {
-		val newResult = c1.newValue.compareCell(c2.newValue);
+
+		val newResult = c1.newValue.compareDispatch(c2.newValue)
 
 		if (newResult != 0) {
 			return newResult
 		}
-		return c1.oldValue.compareCell(c2.oldValue)
+
+		val oldResult = c1.oldValue.compareDispatch(c2.oldValue)
+		if (oldResult != 0) {
+			return oldResult
+		}
+		val mix1 = c1.newValue.compareDispatch(c2.oldValue)
+		if (mix1 != 0) {
+			return mix1
+		}
+		return c1.oldValue.compareDispatch(c2.newValue)
+	}
+
+	private def dispatch compareDispatch(List<String> value1,
+		List<String> value2) {
+		if (value1.join.isNullOrEmpty || value2.join.isNullOrEmpty) {
+			return 0
+		}
+		return value1.compareCell(value2)
 	}
 
 	private def dispatch int compareDispatch(
@@ -114,7 +133,7 @@ package abstract class AbstractCellComparator implements Comparator<TableCell> {
 		val first = result.get(0)
 		// Either entirely numeric or at most 1 character text
 		if (result.length == 1) {
-			return isInteger(first) ? result.get(0) -> "" :  "" -> result.get(0)
+			return isInteger(first) ? result.get(0) -> "" : "" -> result.get(0)
 		}
 		// Length: 2 - Either entirely text or mixed
 		val second = result.get(1)
