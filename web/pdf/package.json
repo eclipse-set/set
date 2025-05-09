@@ -9,7 +9,7 @@
   },
   "license": "EPL-2.0",
   "dependencies": {
-    "pdfjs-dist": "^5.2.133"
+    "pdfjs-dist": "^4.10.38"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^13.0.0",
