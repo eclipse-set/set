@@ -16,7 +16,6 @@ http://www.eclipse.org/legal/epl-v20.html
 
 
   <!-- The Variables will be set value by Java-->
-  <xsl:variable name="water-mark-content"/>
   <xsl:variable name="siteplan-freefeld-height" />
   <xsl:variable name="significant-width" />
   <xsl:variable name="significant-height" />
@@ -24,6 +23,9 @@ http://www.eclipse.org/legal/epl-v20.html
 
   <xsl:variable name="region-body-height" />
   <xsl:variable name="region-body-width" />
+
+  <xsl:variable name="pagePosition" />
+  <xsl:variable name="pagePostFix" />
 
   <xsl:attribute-set name="page-master-style">
     <!-- Page layout -->
@@ -56,28 +58,19 @@ http://www.eclipse.org/legal/epl-v20.html
           <fo:region-start region-name="folding-mark-region-left" xsl:use-attribute-sets="siteplan-folding-mark-region-attribute"/>
           <fo:region-end region-name="title-box-region" xsl:use-attribute-sets="siteplan-title-box-region-style"/>
         </fo:simple-page-master>
-        <fo:simple-page-master master-name="table-master-last" xsl:use-attribute-sets="page-master-style">
-          <fo:region-body xsl:use-attribute-sets="siteplan-region-style"/>
-          <fo:region-before region-name="folding-mark-region-top" xsl:use-attribute-sets="siteplan-folding-mark-region-attribute"/>
-          <fo:region-after region-name="folding-mark-region-bottom" xsl:use-attribute-sets="siteplan-folding-mark-region-attribute"/>
-          <fo:region-start region-name="folding-mark-region-left" xsl:use-attribute-sets="siteplan-folding-mark-region-attribute"/>
-          <fo:region-end region-name="title-box-region-last" xsl:use-attribute-sets="siteplan-title-box-region-style"/>
-        </fo:simple-page-master>
         <fo:page-sequence-master master-name="page-sequence-master">
           <fo:repeatable-page-master-alternatives>
-            <fo:conditional-page-master-reference master-reference="table-master-last" page-position="last"/>
             <fo:conditional-page-master-reference master-reference="table-master"/>
           </fo:repeatable-page-master-alternatives>
         </fo:page-sequence-master>
       </fo:layout-master-set>
 
-      <fo:page-sequence master-reference="page-sequence-master">
+      <fo:page-sequence master-reference="page-sequence-master" initial-page-number="{$pagePosition}">
         <fo:static-content flow-name="folding-mark-region-top">
           <xsl:call-template name="CutMark" />
           <fo:block-container height="100%" width="100%">
             <xsl:call-template name="siteplan-folding-mark-top-bottom"/>
           </fo:block-container>
-          <xsl:call-template name="WaterMark"/>
         </fo:static-content>
 
 
@@ -85,17 +78,7 @@ http://www.eclipse.org/legal/epl-v20.html
           <fo:block-container height="100%" width="100%">
             <fo:block>
               <xsl:call-template name="SiteplanTitleboxRegion">
-                <xsl:with-param name="pagePostfix" select="'+'"/>
-              </xsl:call-template>
-            </fo:block>
-          </fo:block-container>
-        </fo:static-content>
-
-        <fo:static-content flow-name="title-box-region-last">
-          <fo:block-container height="100%" width="100%">
-            <fo:block>
-              <xsl:call-template name="SiteplanTitleboxRegion">
-                <xsl:with-param name="pagePostfix" select="'-'"/>
+                <xsl:with-param name="pagePostfix" select="$pagePostFix"/>
               </xsl:call-template>
             </fo:block>
           </fo:block-container>
