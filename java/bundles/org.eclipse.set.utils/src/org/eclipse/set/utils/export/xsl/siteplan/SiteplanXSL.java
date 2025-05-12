@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -68,25 +67,32 @@ public class SiteplanXSL {
 		return pageStyle;
 	}
 
-	private final List<BufferedImage> images;
-	private final String modelState;
+	private final BufferedImage image;
 	private final double ppm;
+	private final int pagePosition;
+	private final String pagePostfix;
 
 	/**
-	 * @param images
-	 *            the sheet cut images
+	 * @param image
+	 *            the sheet cut image
 	 * @param ppm
 	 *            pixel per physical meter in Openlayer at scale
 	 *            {@link ToolboxConfiguration#getSiteplanExportScale()}
 	 * @param modelState
 	 *            the table state (initial/final/diff)
+	 * @param pageIndex
+	 *            the page index
+	 * @param pagePostfix
+	 *            the page indes postfix (+/-)
 	 */
-	public SiteplanXSL(final List<BufferedImage> images, final double ppm,
-			final String modelState) {
-		this.images = images;
-		this.modelState = modelState;
+	public SiteplanXSL(final BufferedImage image, final double ppm,
+			final String modelState, final int pageIndex,
+			final String pagePostfix) {
+		this.image = image;
 		this.ppm = ppm;
 		this.pageStyle = determinePageStyle();
+		this.pagePosition = pageIndex;
+		this.pagePostfix = pagePostfix;
 	}
 
 	/**
@@ -114,21 +120,25 @@ public class SiteplanXSL {
 					"Es gibt kein passendes Papierformat für diesen Lageplan im aktuellen Layout. Bitte DPI-Zahl or Skalierungsfaktor ändern"); //$NON-NLS-1$
 		}
 
-		return this.setPageSize(pageStyle.getPageDIN())
+		return this
+				.setPageSize(pageStyle.getPageDIN(), pageStyle.getRegionBody())
 				.setRegionBodySize(pageStyle.getRegionBody())
 				.setFreeFeldHeight(pageStyle.getTitleBoxRegion())
 				.setSignificantSize(pageStyle.getSignificantInformation())
 				.setFoldingMarkTemplates(pageStyle.getFoldingMarks())
 				.setFoldingMarkRightRegionWidth(pageStyle.getFoldingMarks())
-				.setWatermarkContent().doc;
+				.setPagePosition().doc;
 	}
 
-	private SiteplanXSL setPageSize(final PageDIN pageDIN)
-			throws NullPointerException {
+	private SiteplanXSL setPageSize(final PageDIN pageDIN,
+			final RegionBody regionBody) throws NullPointerException {
+		final double imageWidthMilimet = pxToMilimeter(image.getWidth(), ppm);
+		final double pageWidth = pageDIN.getPageWidth()
+				+ (regionBody.width() > imageWidthMilimet ? 0
+						: imageWidthMilimet - regionBody.width());
 		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_HEIGHT,
 				pageDIN.getPageHeight());
-		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_WIDTH,
-				pageDIN.getPageWidth());
+		setXSLElementValue(doc, XSL_ATTRIBUTE, ATTR_PAGE_WIDTH, pageWidth);
 		return this;
 	}
 
@@ -137,7 +147,7 @@ public class SiteplanXSL {
 		setXSLElementValue(doc, XSL_VARIABLE, REGION_BODY_HEIGHT,
 				regionBody.height());
 		setXSLElementValue(doc, XSL_VARIABLE, REGION_BODY_WIDTH,
-				regionBody.width());
+				pxToMilimeter(image.getWidth(), ppm));
 		return this;
 	}
 
@@ -155,14 +165,6 @@ public class SiteplanXSL {
 			throws NullPointerException {
 		setXSLElementValue(doc, XSL_VARIABLE, SITEPLAN_FREEFELD_HEIGHT,
 				titleBox.freefeldSize());
-		return this;
-	}
-
-	private SiteplanXSL setWatermarkContent() {
-		if (modelState != null) {
-			setXSLElementValue(doc, XSL_VARIABLE, WATER_MARK_TEMPLATE_NAME,
-					modelState);
-		}
 		return this;
 	}
 
@@ -294,26 +296,20 @@ public class SiteplanXSL {
 		return this;
 	}
 
-	private SiteplanXSLPage determinePageStyle() {
-		final Optional<Integer> maxHeightPx = images.stream()
-				.map(image -> Integer.valueOf(image.getHeight()))
-				.max(Integer::compare);
+	private SiteplanXSL setPagePosition() {
+		setXSLElementValue(doc, XSL_VARIABLE, SITEPLAN_PAGEPOSITION,
+				String.valueOf(pagePosition));
+		setXSLElementValue(doc, XSL_VARIABLE, SITEPLAN_PAGE_POSTFIX,
+				pagePostfix);
+		return this;
+	}
 
-		final Optional<Integer> maxWidthPx = images.stream()
-				.map(image -> Integer.valueOf(image.getWidth()))
-				.max(Integer::compare);
-		if (maxWidthPx.isEmpty() || maxHeightPx.isEmpty()) {
-			throw new IllegalArgumentException();
-		}
-		final double maxHeightMillimet = pxToMilimeter(
-				maxHeightPx.get().intValue(), ppm);
-		final double maxWidthMillimet = pxToMilimeter(
-				maxWidthPx.get().intValue(), ppm);
+	private SiteplanXSLPage determinePageStyle() {
+		final double imgHeightMillimet = pxToMilimeter(image.getHeight(), ppm);
 		return avaiablePageSize.stream()
-				.filter(page -> page.regionBody.width() >= maxWidthMillimet
-						&& page.regionBody.height() >= maxHeightMillimet)
-				.min((first, second) -> Double.compare(first.regionBody.width(),
-						second.regionBody.width()))
+				.filter(page -> page.regionBody.height() >= imgHeightMillimet)
+				.min((first, second) -> Double.compare(
+						first.regionBody.height(), second.regionBody.height()))
 				.orElse(null);
 	}
 

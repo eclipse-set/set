@@ -96,7 +96,7 @@ export default class ExportControl extends Control {
   private async onClick () {
     const sheetCutFeatures = this.getSheetcutFeatures()
     // the export to image should have high resolution than pdf to avoid blurred symbols.
-    const exportImageScale = Configuration.getExportScaleValue() / 2
+    const exportImageScale = Configuration.getExportScaleValue() / 4
     if (PlanProToolbox.inPPT()) {
       const ppm = await this.getPixelProMeterAtScale(Configuration.getExportScaleValue())
       // Convert ppm by image scale to ppm by export scale
@@ -372,6 +372,7 @@ export default class ExportControl extends Control {
 
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
+
     for (const tileData of tilesdata) {
       const [tileMinX,,, tileMaxY] = tileData.tileExtent
       const rotatedCenter = horizontalRotate
