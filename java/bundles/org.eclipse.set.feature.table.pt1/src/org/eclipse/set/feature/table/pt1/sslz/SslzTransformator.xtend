@@ -505,14 +505,18 @@ class SslzTransformator extends AbstractPlanPro2TableModelTransformator {
 					instance,
 					cols.getColumn(Sonstiges_Startsignal_Zs6),
 					fstrZugRangier,
-					[ r |
-						r.fstrFahrweg.start.signalbegriffe.exists [ b |
-							b.hasSignalbegriffID(typeof(Zs6)) &&
-								r.fstrSignalisierung.map[signalSignalbegriff].
-									contains(b)
+					[
+						fstrFahrweg.start.signalbegriffe.exists [
+							hasSignalbegriffID(typeof(Zs6))
 						]
 					],
-					["x"]
+					[
+						val zs6Begriffes = fstrFahrweg.start.signalbegriffe.
+							filter[hasSignalbegriffID(typeof(Zs6))]
+						fstrSignalisierung.map[signalSignalbegriff].exists [
+							zs6Begriffes.contains(it)
+						].translate
+					]
 				)
 
 				// AA: Sslz.Signalisierung.Sonstiges_Startsignal.Zs13
