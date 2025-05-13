@@ -557,38 +557,47 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 	) {
 		val tolerantBigDecimal = BigDecimal.valueOf(tolerant)
 		val teilBereichTopKante = teilbereich.IDTOPKante?.value
-		// The point should lie on the TOP_Kante of teilbereich 
-		// or the connect TOP_Kanten of this TOP_Kante
+		val sameTopKante = teilbereich.IDTOPKante?.wert ==
+			singlePoint.IDTOPKante?.wert
+
+		// The teilbereich have same TOP_Kante with the point
+		if (sameTopKante) {
+			val clone = EcoreUtil.copy(teilbereich)
+			if (teilbereich.begrenzungA.wert !== BigDecimal.ZERO) {
+				val tolerantLimitA = teilbereich.begrenzungA.wert -
+					tolerantBigDecimal
+				clone.begrenzungA.wert = tolerantLimitA <=
+					BigDecimal.ZERO ? BigDecimal.ZERO : tolerantLimitA
+			}
+
+			if (teilbereich.begrenzungB.wert !== teilBereichTopKante.laenge) {
+				val tolerantLimitB = teilbereich.begrenzungB.wert +
+					tolerantBigDecimal
+				clone.begrenzungB.wert = tolerantLimitB >=
+					teilBereichTopKante.laenge
+					? teilBereichTopKante.laenge
+					: tolerantLimitB
+			}
+
+			val isContains = clone.contains(singlePoint)
+			if (clone.begrenzungA.wert === BigDecimal.ZERO &&
+				clone.begrenzungB.wert === teilBereichTopKante.laenge &&
+				!isContains) {
+				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
+			}
+			return isContains
+		}
+		// The point should lie on the connect TOP_Kanten of this teilbereich TOP_Kante
 		if (teilBereichTopKante.adjacentTopKanten.forall [
 			it !== singlePoint.topKante
 		]) {
 			return false;
 		}
-		val isContains = teilbereich.contains(singlePoint)
-		// When the point lie within teibereich
-		if (isContains) {
-			return true;
-		}
-		val clone = EcoreUtil.copy(teilbereich)
 
 		val A = teilbereich.begrenzungA.wert
 		val B = teilbereich.begrenzungB.wert
 		val topKanteRange = Range.of(BigDecimal.ZERO,
 			teilBereichTopKante.laenge)
-		val sameTopKante = teilbereich.IDTOPKante?.wert ==
-			singlePoint.IDTOPKante?.wert
-		if (sameTopKante) {
-			if (A.compareTo(BigDecimal.ZERO) === 0 &&
-				B.compareTo(teilBereichTopKante.laenge) === 0) {
-				throw new IllegalArgumentException('''The TOP_Kante: «teilbereich.IDTOPKante.wert» should contain the Punkt_Objekt: «singlePoint.identitaet»''')
-			}
-
-			clone.begrenzungA.wert = topKanteRange.
-				isStartedBy(A) ? A : topKanteRange.fit(A - tolerantBigDecimal)
-			clone.begrenzungB.wert = topKanteRange.
-				isEndedBy(B) ? B : topKanteRange.fit(A + tolerantBigDecimal)
-			return clone.contains(singlePoint)
-		}
 
 		// When the point and the teilbereich not in same TopKante,
 		// then the teilbereich with tolerant muss out of topkante range
@@ -798,7 +807,7 @@ class BereichObjektExtensions extends BasisObjektExtensions {
 
 		val noOverlap1 = tb1.groupBy[topGUID].values.flatMap[removeOverlaps]
 		val noOverlap2 = tb2.groupBy[topGUID].values.flatMap[removeOverlaps]
-		
+
 		return noOverlap1.flatMap [ tb |
 			noOverlap2.map [
 				tb.getOverlappingLength(it)
