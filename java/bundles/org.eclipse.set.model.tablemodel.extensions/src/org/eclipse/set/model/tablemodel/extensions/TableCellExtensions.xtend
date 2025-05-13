@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017 DB Netz AG and others.
- *
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v2.0
  * which accompanies this distribution, and is available at
@@ -48,11 +48,17 @@ class TableCellExtensions {
 	 * @return the content as a string
 	 */
 	static def String getPlainStringValue(TableCell cell) {
-		return cell.content.plainStringValue
+		val plainString = cell.content.plainStringValue
+		if (plainString === null || plainString.trim.empty) {
+			return ""
+		}
+		return plainString
 	}
-	
+
 	static def Set<String> getIterableStringValue(TableCell cell) {
-		return cell.content.stringValueIterable.toSet
+		return cell.content.stringValueIterable.filter [
+			it !== null && !trim.empty
+		].toSet
 	}
 
 	/**
