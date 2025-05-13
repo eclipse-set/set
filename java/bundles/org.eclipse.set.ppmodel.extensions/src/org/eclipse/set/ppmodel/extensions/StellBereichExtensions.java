@@ -270,11 +270,11 @@ public class StellBereichExtensions {
 	 *            {@link Bereich_Objekt}
 	 * @param coverageDegree
 	 *            the degree of coverage in percent
-	 * @return true, if {@link Bereich_Objekt} overlaps control area with a
-	 *         given degree of coverage
+	 * @return true, if the control area coverage the {@link Bereich_Objekt}
+	 *         with a given degree
 	 */
 	public static boolean isOverlappingControlArea(final Stell_Bereich area,
-			final Bereich_Objekt bo, final int coverageDegree) {
+			final Bereich_Objekt bo, final double coverageDegree) {
 		if (bo == null || area == null) {
 			return false;
 		}
@@ -284,7 +284,8 @@ public class StellBereichExtensions {
 		}
 		final BigDecimal overlappingLength = BereichObjektExtensions
 				.getOverlappingLength(area, bo);
-		return BereichObjektExtensions.getLength(area)
+
+		return BereichObjektExtensions.getLength(bo)
 				.multiply(BigDecimal.valueOf(coverageDegree / 100))
 				.compareTo(overlappingLength) < 0;
 	}

@@ -18,11 +18,9 @@ import org.eclipse.set.model.planpro.Ansteuerung_Element.Stell_Bereich
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Stellelement
 import org.eclipse.set.model.planpro.Ansteuerung_Element.Unterbringung
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt
-import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_Strecke_AttributeGroup
 import org.eclipse.set.model.planpro.Basisobjekte.Punkt_Objekt_TOP_Kante_AttributeGroup
 import org.eclipse.set.model.planpro.Fahrstrasse.Fstr_Zug_Rangier
 import org.eclipse.set.model.planpro.Flankenschutz.Fla_Schutz
-import org.eclipse.set.model.planpro.Geodaten.Strecke
 import org.eclipse.set.model.planpro.Geodaten.TOP_Kante
 import org.eclipse.set.model.planpro.Gleis.Gleis_Bezeichnung
 import org.eclipse.set.model.planpro.Ortung.FMA_Komponente
@@ -458,6 +456,13 @@ class SignalExtensions extends PunktObjektExtensions {
 
 	def static boolean isBelongToControlArea(Signal signal,
 		Stell_Bereich controlArea) {
+		val stellElement = signal.stellelement
+		if (stellElement?.IDEnergie?.value ===
+			controlArea.IDAussenelementansteuerung.value ||
+			stellElement?.IDInformation?.value ===
+				controlArea.IDAussenelementansteuerung.value) {
+			return true
+		}
 		val existsFiktivesSignalFAPStart = signal.signalFiktiv !== null &&
 			signal.signalFiktiv.fiktivesSignalFunktion.exists [
 				wert === ENUMFiktivesSignalFunktion.
@@ -468,7 +473,7 @@ class SignalExtensions extends PunktObjektExtensions {
 				IDFstrFahrweg.value
 			].filterNull.filter[IDStart?.value === signal]
 			return fstrFahrwegs.map[IDZiel?.value].filterNull.filter(Signal).
-				exists[isBelongToControlArea(controlArea)]
+				exists[controlArea.contains(it)]
 
 		}
 
@@ -482,7 +487,7 @@ class SignalExtensions extends PunktObjektExtensions {
 				IDFstrFahrweg.value
 			].filterNull.filter[IDZiel?.value === signal]
 			return fstrFahrwegs.map[IDStart?.value].filterNull.filter(Signal).
-				exists[isBelongToControlArea(controlArea)]
+				exists[controlArea.contains(it)]
 		}
 
 		if (signal.signalReal !== null ||
