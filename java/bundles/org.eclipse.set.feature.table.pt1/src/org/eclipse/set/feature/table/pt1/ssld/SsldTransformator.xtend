@@ -289,7 +289,7 @@ class SsldTransformator extends AbstractPlanPro2TableModelTransformator {
 						ENUM_SIGNAL_FUNKTION_GRUPPENAUSFAHR_SIGNAL
 					}.contains(
 						fstrFahrweg?.start?.signalReal?.signalFunktion?.wert
-					) ? "o" : ""
+					) ? "□" : ""
 				]
 			)
 

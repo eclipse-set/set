@@ -208,7 +208,12 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							cols.getColumn(Reales_Signal),
 							signal,
 							new Case<Signal>(
-								[isHauptbefestigung && isETCSMarker],
+								[
+									isHauptbefestigung && (isETCSMarker ||
+										(signalReal?.signalRealAktiv !== null &&
+											signalReal?.signalFunktion.wert ===
+												ENUM_SIGNAL_FUNKTION_ALLEINSTEHENDES_ZUSATZSIGNAL))
+								],
 								["W"]
 							),
 							new Case<Signal>(
@@ -293,7 +298,7 @@ class SsksTransformator extends AbstractPlanPro2TableModelTransformator {
 							row,
 							cols.getColumn(Lichtraumprofil),
 							signal,
-							[ signalReal !== null ],
+							[signalReal !== null],
 							[
 								val s = it
 								val lichtraeume = it.container.gleisLichtraum.
@@ -1409,21 +1414,18 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 						ENUM_FIKTIVES_SIGNAL_FUNKTION_ZUG_START_ZIEL_NE_14)):
 				return "SB"
 			default:
-				return "o"
+				return "□"
 		}
 	}
 
 	private def String fillSonstigesDunkelschaltung(Signal signal) {
 		val dunkelschaltung = signal?.signalReal?.dunkelschaltung?.wert
-
-		switch (dunkelschaltung) {
-			case dunkelschaltung !== null && dunkelschaltung:
-				return translate(true)
-			case dunkelschaltung !== null && !dunkelschaltung:
-				return translate(false)
-			default:
-				return null
+		if (signal.signalReal.signalRealAktivSchirm === null ||
+			dunkelschaltung === null) {
+			return ""
 		}
+
+		return translate(dunkelschaltung)
 	}
 
 	private static def String fillSonstigesDurchfahrtErlaubt(Signal signal) {

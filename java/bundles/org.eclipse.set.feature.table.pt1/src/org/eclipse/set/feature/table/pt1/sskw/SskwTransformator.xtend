@@ -556,7 +556,7 @@ class SskwTransformator extends AbstractPlanPro2TableModelTransformator {
 				element,
 				[
 					WKrGspKomponenten.map[entgleisungsschuh].filterNull.map [
-						gleissperrensignal?.translate ?: "o"
+						gleissperrensignal?.translate ?: "□"
 					].toSet
 				],
 				null
