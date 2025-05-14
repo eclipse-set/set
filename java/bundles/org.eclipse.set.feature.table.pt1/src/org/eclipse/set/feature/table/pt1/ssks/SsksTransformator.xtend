@@ -1420,7 +1420,7 @@ class .simpleName»: «e.message» - failed to transform table contents''', e)
 
 	private def String fillSonstigesDunkelschaltung(Signal signal) {
 		val dunkelschaltung = signal?.signalReal?.dunkelschaltung?.wert
-		if (signal.signalReal.signalRealAktivSchirm === null ||
+		if (signal?.signalReal?.signalRealAktivSchirm === null ||
 			dunkelschaltung === null) {
 			return ""
 		}
