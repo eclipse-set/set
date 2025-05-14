@@ -20,10 +20,8 @@ http://www.eclipse.org/legal/epl-v20.html
   <xsl:variable name="significant-width" />
   <xsl:variable name="significant-height" />
   <xsl:variable name="siteplan-folding-mark-right-width" />
-
   <xsl:variable name="region-body-height" />
   <xsl:variable name="region-body-width" />
-
   <xsl:variable name="pagePosition" />
   <xsl:variable name="pagePostFix" />
 
@@ -58,6 +56,7 @@ http://www.eclipse.org/legal/epl-v20.html
           <fo:region-start region-name="folding-mark-region-left" xsl:use-attribute-sets="siteplan-folding-mark-region-attribute"/>
           <fo:region-end region-name="title-box-region" xsl:use-attribute-sets="siteplan-title-box-region-style"/>
         </fo:simple-page-master>
+
         <fo:page-sequence-master master-name="page-sequence-master">
           <fo:repeatable-page-master-alternatives>
             <fo:conditional-page-master-reference master-reference="table-master"/>
@@ -116,13 +115,6 @@ http://www.eclipse.org/legal/epl-v20.html
       </fo:page-sequence>
 
     </fo:root>
-  </xsl:template>
-  <xsl:template name="WaterMark">
-    <fo:block-container absolute-position="absolute" fox:transform="rotate(30)" top="-3.5cm" width="47cm">
-      <fo:block color="#f5f5f5" font-size="200pt" font-weight="bold" text-align="center">
-        <xsl:value-of select="$water-mark-content"/>
-      </fo:block>
-    </fo:block-container>
   </xsl:template>
 
   <xsl:template name="SiteplanTitleboxRegion">
