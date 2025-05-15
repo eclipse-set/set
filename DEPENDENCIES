@@ -763,7 +763,7 @@ npm/npmjs/-/vite/6.3.5, Apache-2.0 AND BSD-2-Clause AND CC0-1.0 AND ISC AND MIT 
 npm/npmjs/-/vue-class-component/8.0.0-rc.1, MIT, approved, clearlydefined
 npm/npmjs/-/vue-eslint-parser/10.1.1, MIT, approved, #19935
 npm/npmjs/-/vue-router/4.5.1, MIT, approved, #17508
-npm/npmjs/-/vue/3.5.13, MIT AND ISC, approved, #16083
+npm/npmjs/-/vue/3.5.14, MIT AND ISC, approved, #16083
 npm/npmjs/-/vuex/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/watchpack/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/wbuf/1.7.3, MIT, approved, clearlydefined
@@ -796,10 +796,10 @@ npm/npmjs/-/zod-to-json-schema/3.24.5, ISC, approved, #18389
 npm/npmjs/-/zod/3.24.4, MIT, approved, #18398
 npm/npmjs/-/zstddec/0.1.0, BSD-3-Clause AND MIT, approved, clearlydefined
 npm/npmjs/@aashutoshrathi/word-wrap/1.2.6, MIT, approved, #9212
-npm/npmjs/@babel/helper-string-parser/7.25.9, MIT, approved, clearlydefined
-npm/npmjs/@babel/helper-validator-identifier/7.25.9, MIT, approved, clearlydefined
-npm/npmjs/@babel/parser/7.26.7, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #16882
-npm/npmjs/@babel/types/7.26.7, MIT AND (BSD-2-Clause AND ISC AND MIT) AND BSD-2-Clause AND BSD-3-Clause, approved, #17734
+npm/npmjs/@babel/helper-string-parser/7.27.1, MIT, approved, clearlydefined
+npm/npmjs/@babel/helper-validator-identifier/7.27.1, MIT, approved, clearlydefined
+npm/npmjs/@babel/parser/7.27.2, MIT, approved, #21023
+npm/npmjs/@babel/types/7.27.1, MIT, approved, clearlydefined
 npm/npmjs/@discoveryjs/json-ext/0.6.3, MIT, approved, #17984
 npm/npmjs/@esbuild/aix-ppc64/0.25.0, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #19970
 npm/npmjs/@esbuild/android-arm/0.25.0, Apache-2.0 AND MIT AND BSD-3-Clause AND (BSD-2-Clause AND BSD-3-Clause), approved, #19547
@@ -954,16 +954,16 @@ npm/npmjs/@typescript-eslint/utils/8.32.1, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/8.32.0, MIT, approved, clearlydefined
 npm/npmjs/@typescript-eslint/visitor-keys/8.32.1, MIT, approved, clearlydefined
 npm/npmjs/@vitejs/plugin-vue/5.2.4, MIT, approved, #17260
-npm/npmjs/@vue/compiler-core/3.5.13, MIT AND ISC, approved, #16069
-npm/npmjs/@vue/compiler-dom/3.5.13, MIT AND ISC, approved, #16068
-npm/npmjs/@vue/compiler-sfc/3.5.13, MIT AND ISC, approved, #16077
-npm/npmjs/@vue/compiler-ssr/3.5.13, MIT AND ISC, approved, #16082
+npm/npmjs/@vue/compiler-core/3.5.14, MIT AND ISC, approved, #16069
+npm/npmjs/@vue/compiler-dom/3.5.14, MIT AND ISC, approved, #16068
+npm/npmjs/@vue/compiler-sfc/3.5.14, MIT AND ISC, approved, #16077
+npm/npmjs/@vue/compiler-ssr/3.5.14, MIT AND ISC, approved, #16082
 npm/npmjs/@vue/devtools-api/6.6.4, MIT AND Apache-2.0 AND MPL-2.0, approved, #13376
-npm/npmjs/@vue/reactivity/3.5.13, MIT AND ISC, approved, #16080
-npm/npmjs/@vue/runtime-core/3.5.13, MIT AND ISC, approved, #16084
-npm/npmjs/@vue/runtime-dom/3.5.13, MIT AND ISC, approved, #16085
-npm/npmjs/@vue/server-renderer/3.5.13, MIT AND ISC, approved, #16081
-npm/npmjs/@vue/shared/3.5.13, MIT AND ISC, approved, #16067
+npm/npmjs/@vue/reactivity/3.5.14, MIT AND ISC, approved, #16080
+npm/npmjs/@vue/runtime-core/3.5.14, MIT AND ISC, approved, #16084
+npm/npmjs/@vue/runtime-dom/3.5.14, MIT AND ISC, approved, #16085
+npm/npmjs/@vue/server-renderer/3.5.14, MIT AND ISC, approved, #16081
+npm/npmjs/@vue/shared/3.5.14, MIT AND ISC, approved, #16067
 npm/npmjs/@webassemblyjs/ast/1.14.1, MIT, approved, clearlydefined
 npm/npmjs/@webassemblyjs/floating-point-hex-parser/1.13.2, MIT, approved, clearlydefined
 npm/npmjs/@webassemblyjs/helper-api-error/1.13.2, MIT, approved, clearlydefined
