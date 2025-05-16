@@ -87,7 +87,7 @@ class PlanProToTitleboxTransformation {
 				"")
 
 		val lastPlanungPruefung = planungEinzel?.planungEHandlung?.
-			planungEPruefung?.lastOrNull
+			planungEQualitaetspruefung?.lastOrNull
 		it.set(88,
 			lastPlanungPruefung?.datum?.wert?.toString(DATE_FORMAT_LONG) ?: "")
 		it.set(89,
